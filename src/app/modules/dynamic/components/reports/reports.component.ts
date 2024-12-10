@@ -60,24 +60,32 @@ export class ReportsComponent implements OnInit {
 
   // organizationOnboardingDate: Date = new Date('2023-11-01');
 
+  // disableBeforeOnboarding = (current: Date): boolean => {
+  //   const onboardingMonth = new Date(
+  //     this.organizationOnboardingDate.getFullYear(),
+  //     this.organizationOnboardingDate.getMonth(),
+  //     1
+  //   );
+  //   const currentMonth = new Date(current.getFullYear(), current.getMonth(), 1);
+  //   const now = new Date();
+  //   const currentEndOfMonth = new Date(
+  //     current.getFullYear(),
+  //     current.getMonth() + 1,
+  //     0
+  //   );
+  //   return (
+  //     currentMonth < onboardingMonth ||
+  //     currentEndOfMonth > new Date(now.getFullYear(), now.getMonth() + 1, 0)
+  //   );
+  // };
+
   disableBeforeOnboarding = (current: Date): boolean => {
-    const onboardingMonth = new Date(
-      this.organizationOnboardingDate.getFullYear(),
-      this.organizationOnboardingDate.getMonth(),
-      1
-    );
-    const currentMonth = new Date(current.getFullYear(), current.getMonth(), 1);
+    const onboardingDate = this.organizationOnboardingDate;
     const now = new Date();
-    const currentEndOfMonth = new Date(
-      current.getFullYear(),
-      current.getMonth() + 1,
-      0
-    );
-    return (
-      currentMonth < onboardingMonth ||
-      currentEndOfMonth > new Date(now.getFullYear(), now.getMonth() + 1, 0)
-    );
+  
+    return current < onboardingDate || current > now;
   };
+  
 
   disableBeforeOnboardingForSalary = (current: Date): boolean => {
     const onboardingYear = this.organizationOnboardingDate.getFullYear();
@@ -98,41 +106,74 @@ export class ReportsComponent implements OnInit {
     );
   };
 
-  handleOkOfAttendanceSummary(): void {
-    if (this.selectedMonth) {
-      const startOfMonth = new Date(
-        this.selectedMonth.getFullYear(),
-        this.selectedMonth.getMonth(),
-        1
+  // handleOkOfAttendanceSummary(): void {
+  //   if (this.selectedMonth) {
+  //     const startOfMonth = new Date(
+  //       this.selectedMonth.getFullYear(),
+  //       this.selectedMonth.getMonth(),
+  //       1
+  //     );
+  //     const endOfMonth = new Date(
+  //       this.selectedMonth.getFullYear(),
+  //       this.selectedMonth.getMonth() + 1,
+  //       0
+  //     ); // Sets day as the last day of the month
+
+  //     this.startDate = startOfMonth;
+  //     this.endDate = endOfMonth;
+
+  //     // console.log('Start Date:', this.startDate);
+  //     // console.log('End Date:', this.endDate);
+
+  //     this.isModalVisible = false;
+  //     if (this.startDate && this.endDate) {
+  //       this.isLoading = true;
+  //       this.helperService.showToast(
+  //         "Please Wait! We're loading your Attendance Records.",
+  //         Key.TOAST_STATUS_SUCCESS
+  //       );
+  //       let formattedStartDate = this.formatDate(this.startDate);
+  //       let formattedEndDate = this.formatDate(this.endDate);
+  //       this.generateAttendanceSummary(formattedStartDate, formattedEndDate);
+
+  //       this.closeModal();
+  //     }
+  //     this.selectedMonth = '';
+  //   }
+  // }
+
+  selectedDateRange: Date[] = []; // To hold the selected date range
+// startDate: Date | null = null; // Start date
+// endDate: Date | null = null;  // End date
+
+handleOkOfAttendanceSummary(): void {
+  if (this.selectedDateRange && this.selectedDateRange.length === 2) {
+    const [startOfRange, endOfRange] = this.selectedDateRange;
+
+    this.startDate = new Date(startOfRange);
+    this.endDate = new Date(endOfRange);
+
+    this.isModalVisible = false;
+
+    if (this.startDate && this.endDate) {
+      this.isLoading = true;
+      this.helperService.showToast(
+        "Please Wait! We're loading your Attendance Records.",
+        Key.TOAST_STATUS_SUCCESS
       );
-      const endOfMonth = new Date(
-        this.selectedMonth.getFullYear(),
-        this.selectedMonth.getMonth() + 1,
-        0
-      ); // Sets day as the last day of the month
 
-      this.startDate = startOfMonth;
-      this.endDate = endOfMonth;
+      const formattedStartDate = this.formatDate(this.startDate);
+      const formattedEndDate = this.formatDate(this.endDate);
+      this.generateAttendanceSummary(formattedStartDate, formattedEndDate);
 
-      // console.log('Start Date:', this.startDate);
-      // console.log('End Date:', this.endDate);
-
-      this.isModalVisible = false;
-      if (this.startDate && this.endDate) {
-        this.isLoading = true;
-        this.helperService.showToast(
-          "Please Wait! We're loading your Attendance Records.",
-          Key.TOAST_STATUS_SUCCESS
-        );
-        let formattedStartDate = this.formatDate(this.startDate);
-        let formattedEndDate = this.formatDate(this.endDate);
-        this.generateAttendanceSummary(formattedStartDate, formattedEndDate);
-
-        this.closeModal();
-      }
-      this.selectedMonth = '';
+      this.closeModal();
     }
+
+    // Clear the selected range after processing
+    this.selectedDateRange = [];
   }
+}
+
 
   // handleOk(): void {
   //   this.isModalVisible = false;
@@ -272,40 +313,67 @@ export class ReportsComponent implements OnInit {
   isLoading2: boolean = false;
 
   handleOkOfAttendanceReport(): void {
-    if (this.selectedMonth) {
-      const startOfMonth = new Date(
-        this.selectedMonth.getFullYear(),
-        this.selectedMonth.getMonth(),
-        1
-      );
-      const endOfMonth = new Date(
-        this.selectedMonth.getFullYear(),
-        this.selectedMonth.getMonth() + 1,
-        0
-      ); // Sets day as the last day of the month
-
-      this.startDate = startOfMonth;
-      this.endDate = endOfMonth;
-
-      // console.log('Start Date:', this.startDate);
-      // console.log('End Date:', this.endDate);
-
-      // this.isModalVisible = false;
+    if (this.selectedDateRange && this.selectedDateRange.length === 2) {
+      const [startOfRange, endOfRange] = this.selectedDateRange;
+  
+      this.startDate = new Date(startOfRange);
+      this.endDate = new Date(endOfRange);
+  
       if (this.startDate && this.endDate) {
         this.isLoading2 = true;
         this.helperService.showToast(
           "Please Wait! We're loading your Attendance Records.",
           Key.TOAST_STATUS_SUCCESS
         );
-        let formattedStartDate = this.formatDate(this.startDate);
-        let formattedEndDate = this.formatDate(this.endDate);
+  
+        const formattedStartDate = this.formatDate(this.startDate);
+        const formattedEndDate = this.formatDate(this.endDate);
         this.generateAttendanceReport(formattedStartDate, formattedEndDate);
-
+  
         this.closeModal2();
       }
-      this.selectedMonth = '';
+  
+      // Clear the selected range after processing
+      this.selectedDateRange = [];
     }
   }
+  
+
+  // handleOkOfAttendanceReport(): void {
+  //   if (this.selectedMonth) {
+  //     const startOfMonth = new Date(
+  //       this.selectedMonth.getFullYear(),
+  //       this.selectedMonth.getMonth(),
+  //       1
+  //     );
+  //     const endOfMonth = new Date(
+  //       this.selectedMonth.getFullYear(),
+  //       this.selectedMonth.getMonth() + 1,
+  //       0
+  //     ); // Sets day as the last day of the month
+
+  //     this.startDate = startOfMonth;
+  //     this.endDate = endOfMonth;
+
+  //     // console.log('Start Date:', this.startDate);
+  //     // console.log('End Date:', this.endDate);
+
+  //     // this.isModalVisible = false;
+  //     if (this.startDate && this.endDate) {
+  //       this.isLoading2 = true;
+  //       this.helperService.showToast(
+  //         "Please Wait! We're loading your Attendance Records.",
+  //         Key.TOAST_STATUS_SUCCESS
+  //       );
+  //       let formattedStartDate = this.formatDate(this.startDate);
+  //       let formattedEndDate = this.formatDate(this.endDate);
+  //       this.generateAttendanceReport(formattedStartDate, formattedEndDate);
+
+  //       this.closeModal2();
+  //     }
+  //     this.selectedMonth = '';
+  //   }
+  // }
 
   generateAttendanceReport(startDate: string, endDate: string): void {
     this.dataService.generateAttendanceReport(startDate, endDate).subscribe({
@@ -392,4 +460,66 @@ export class ReportsComponent implements OnInit {
   closeModal3(): void {
     this.closeDateRangeModal3.nativeElement.click();
   }
+
+
+  dailyReportLog : string = '';
+  isLoading4: boolean = false;
+  selectedMonthOfDailyReport : any
+
+  downloadAttedanceReport() {
+    this.closeModal4();
+    let dateString:string | null  = this.datePipe.transform(this.selectedMonthOfDailyReport, 'yyyy-MM-dd');
+    this.isLoading4 = true;
+    if(dateString!==null) {
+    this.dataService
+      .getAtendanceDailyReport(
+        dateString
+      )
+      .subscribe(
+        (response) => {
+         this.dailyReportLog = response.message;
+         this.getFullReportLogs();
+         this.helperService.showToast(
+          'Daily Attendance Report Logs Fetched Successfully!',
+          Key.TOAST_STATUS_SUCCESS
+        );
+        //  const downloadLink = document.createElement('a');
+        //   downloadLink.href = response.message;
+        //   downloadLink.download = 'attendance.xlsx';
+        //   downloadLink.click();
+       
+          this.isLoading4 = false;
+        },
+        (error) => {
+          this.isLoading4 = false;
+          this.helperService.showToast(
+            'Error In Fetching Daily Attendance Report Logs!',
+            Key.TOAST_STATUS_SUCCESS
+          );
+        }
+      );
+    }
+  }
+
+  @ViewChild('closeDateRangeModal4') closeDateRangeModal4!: ElementRef;
+
+  closeModal4(): void {
+    this.closeDateRangeModal4.nativeElement.click();
+  }
+
+  disableBeforeOnboardingForDailyReport = (current: Date): boolean => {
+    const onboardingDate = this.organizationOnboardingDate;
+    const now = new Date();
+  
+    // Disable dates before the organization onboarding date
+    const isBeforeOnboarding = current < onboardingDate;
+  
+    // Disable dates after the current date
+    const isAfterCurrentDate = current > now;
+  
+    return isBeforeOnboarding || isAfterCurrentDate;
+  };
+  
+
+
 }

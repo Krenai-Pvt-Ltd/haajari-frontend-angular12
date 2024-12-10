@@ -37,7 +37,7 @@
 
 .request-dropdown {
     width: 130px !important;
-    height: 36px !important;
+    height: 38px !important;
     border-radius: 2px;
     border: 1px solid #DCDCE4 !important;
 }
@@ -226,6 +226,9 @@
     width: 50px;
     height: 50px;
     object-fit: cover;
+    background-color: #FFF;
+    padding: 5px;
+    border-radius: 5px;
  }
  .prev-btn{
     position: absolute;
@@ -360,3 +363,108 @@
      letter-spacing: 0.1px;
      min-width: 80px;
  }
+
+
+
+  /** Dot opacity start */
+
+  .dot-opacity-loader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .dot-opacity-loader span {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: white;
+    margin: 0 4px;
+    animation: dotOpacity 1.4s infinite ease-in-out both;
+  }
+  
+  .dot-opacity-loader span:nth-child(1) {
+    animation-delay: -0.32s;
+  }
+  
+  .dot-opacity-loader span:nth-child(2) {
+    animation-delay: -0.16s;
+  }
+  
+  @keyframes dotOpacity {
+    0%,
+    80%,
+    100% {
+      opacity: 0;
+    }
+    40% {
+      opacity: 1;
+    }
+  }
+  .text-optional {
+    color: grey;
+  }
+  
+  .dot-opacity-loader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 6px;
+  }
+  
+  .dot-opacity-loader span {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #6666f3;
+    margin: 0 4px;
+    animation: dotOpacity 1.4s infinite ease-in-out both;
+  }
+  
+  .dot-opacity-loader span:nth-child(1) {
+    animation-delay: -0.32s;
+  }
+  
+  .dot-opacity-loader span:nth-child(2) {
+    animation-delay: -0.16s;
+  }
+  
+  @keyframes dotOpacity {
+    0%,
+    80%,
+    100% {
+      opacity: 0;
+    }
+    40% {
+      opacity: 1;
+    }
+  }
+
+  .multiple-add-image{
+    width: 50px;
+    height: 50px;
+    background-color: #FFF;
+    border-radius: 5px;
+    font-size: 15px;
+    font-weight: 500;
+  }
+  .multiple-add-imagesvg{
+
+  }
+
+  .bill-image-remvo{
+    background-color: red;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    position: absolute;
+    right: -5px;
+    top: -7px;
+  }
+  .bill-image-remvo i{
+    color: #fff;
+    font-size: 14px;
+  }
+/** Dot opacity end */

@@ -132,6 +132,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   errorToggleTop: boolean = false;
   isMainPlaceholder: boolean = false;
   debounceTimer: any;
+  isResignationUser: number = 0
   getUsersByFiltersFunction(debounceTime: number = 300) {
     if (this.debounceTimer) {
       clearTimeout(this.debounceTimer);
@@ -146,8 +147,8 @@ export class EmployeeOnboardingDataComponent implements OnInit {
           'asc',
           'id',
           this.searchText,
-          this.searchCriteria
-
+          this.searchCriteria,
+          this.isResignationUser
         )
         .subscribe(
           (response: any) => {
@@ -168,6 +169,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
               // this.searchUserPlaceholderFlag=true;
             } else {
             }
+            // this.isResignationUser = 0;
 
             this.isUserShimer = false;
           },
@@ -177,6 +179,18 @@ export class EmployeeOnboardingDataComponent implements OnInit {
           }
         );
     }, debounceTime);
+  }
+
+  resignationRequest(){
+    this.users = [];
+    this.isResignationUser = 1
+    this.getUsersByFiltersFunction();
+  }
+
+  allEmployeeRequest(){
+    this.users = [];
+    this.isResignationUser = 0
+    this.getUsersByFiltersFunction();
   }
 
   text = '';
@@ -275,6 +289,10 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     this.getUsersByFiltersFunction();
   }
 
+  onOnboardingPageChange(page: number): void {
+    this.pageNumber = page;
+    this.getUsersByFiltersFunction();
+  }
   getPages(): number[] {
     const totalPages = Math.ceil(this.total / this.itemPerPage);
     return Array.from({ length: totalPages }, (_, index) => index + 1);

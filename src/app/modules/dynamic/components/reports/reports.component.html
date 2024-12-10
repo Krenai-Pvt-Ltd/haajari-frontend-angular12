@@ -58,19 +58,32 @@
                 </ng-template>
                 <div class="Attendance-report-deta">
                   <h5>Daily Attendance Report</h5>
-                  <div class="report-icon">
-                    <i class="bi bi-chevron-right"></i>
+                  <div
+                    class="report-icon"
+                    data-bs-toggle="modal"
+                    data-bs-target="#dateRangeModal4"
+                  >
+                    <i
+                      *ngIf="!isLoading4; else loadingTemplate4"
+                      class="bi bi-chevron-right"
+                    ></i>
                   </div>
+                  <!-- <div class="report-icon">
+                    <i class="bi bi-chevron-right"></i>
+                  </div> -->
                 </div>
-                <div class="Attendance-report-deta">
+                <ng-template #loadingTemplate4>
+                  <div class="loading-icon">Loading...</div>
+                </ng-template>
+                <!-- <div class="Attendance-report-deta">
                   <h5>Leave Balance</h5>
                   <div class="report-icon">
                     <i class="bi bi-chevron-right"></i>
                   </div>
-                </div>
+                </div> -->
               </div>
             </div>
-            <div class="employee-report-deta mt-4">
+            <!-- <div class="employee-report-deta mt-4">
               <h4 class="heading">Compliance Reports</h4>
               <div class="">
                 <div class="Attendance-report-deta">
@@ -92,8 +105,8 @@
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="employee-report-deta mt-4">
+            </div> -->
+            <!-- <div class="employee-report-deta mt-4">
               <h4 class="heading">Miscellaneous Reports</h4>
               <div class="">
                 <div class="Attendance-report-deta">
@@ -109,7 +122,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
           </div>
           <div class="col-md-5">
             <div class="report-download">
@@ -515,21 +528,27 @@
     aria-hidden="true"
     #dateRangeModal
   >
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="dateRangeModalLabel">
-            Select Month and Year
+            Select Date Range
           </h5>
         </div>
         <div class="modal-body">
           <!-- Month and Year Picker for Start Date -->
-          <nz-date-picker
+          <!-- <nz-date-picker
             nzMode="month"
             [(ngModel)]="selectedMonth"
             nzPlaceHolder="Select Month"
             [nzDisabledDate]="disableBeforeOnboarding"
-          ></nz-date-picker>
+          ></nz-date-picker> -->
+          <nz-range-picker
+          [(ngModel)]="selectedDateRange"
+          [nzPlaceHolder]="['Start Date', 'End Date']"
+          [nzDisabledDate]="disableBeforeOnboarding"
+        ></nz-range-picker>
+
         </div>
         <div class="modal-footer">
           <button
@@ -538,7 +557,7 @@
             data-bs-dismiss="modal"
             #dateRangeModalClose
           >
-            Close
+            Cancel
           </button>
           <button
             type="button"
@@ -561,21 +580,27 @@
     aria-hidden="true"
     #dateRangeModal2
   >
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="dateRangeModalLabel">
-            Select Month and Year
+            Select Date Range
           </h5>
         </div>
         <div class="modal-body">
           <!-- Month and Year Picker for Start Date -->
-          <nz-date-picker
+          <!-- <nz-date-picker
             nzMode="month"
             [(ngModel)]="selectedMonth"
             nzPlaceHolder="Select Month"
             [nzDisabledDate]="disableBeforeOnboarding"
-          ></nz-date-picker>
+          ></nz-date-picker> -->
+          <nz-range-picker
+          [(ngModel)]="selectedDateRange"
+          [nzPlaceHolder]="['Start Date', 'End Date']"
+          [nzDisabledDate]="disableBeforeOnboarding"
+        ></nz-range-picker>
+
         </div>
         <div class="modal-footer">
           <button
@@ -584,7 +609,7 @@
             data-bs-dismiss="modal"
             #closeDateRangeModal2
           >
-            Close
+          Cancel
           </button>
           <button
             type="button"
@@ -607,7 +632,7 @@
     aria-hidden="true"
     #dateRangeModal3
   >
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="dateRangeModalLabel">
@@ -630,7 +655,7 @@
             data-bs-dismiss="modal"
             #closeDateRangeModal3
           >
-            Close
+          Cancel
           </button>
           <button
             type="button"
@@ -664,3 +689,49 @@
     </div>
   </div> -->
 </div>
+
+<div
+    class="modal fade"
+    id="dateRangeModal4"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="dateRangeModalLabel"
+    aria-hidden="true"
+    #dateRangeModal4
+  >
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="dateRangeModalLabel">
+            Select Day
+          </h5>
+        </div>
+        <div class="modal-body">
+          <!-- Month and Year Picker for Start Date -->
+          <nz-date-picker
+            nzMode="date"
+            [(ngModel)]="selectedMonthOfDailyReport"
+            nzPlaceHolder="Select Day"
+            [nzDisabledDate]="disableBeforeOnboardingForDailyReport"
+          ></nz-date-picker>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+            #closeDateRangeModal4
+          >
+          Cancel
+          </button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            (click)="downloadAttedanceReport()"
+          >
+            Generate
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>

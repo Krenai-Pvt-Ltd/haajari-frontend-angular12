@@ -50,7 +50,7 @@
             'mt-1': adminRoleFlag
           }">
           <div class="d-flex align-items-center gap-3 mt-2" style="gap: 10px" *ngIf="
-              user!.employeeOnboardingStatus?.response == 'PENDING'
+              user!.employeeOnboardingStatus?.response == 'PENDING' || user!.employeeOnboardingStatus?.response=='REQUESTED'
             ">
             <button class="btn btn-soft-success btn-round" type="button" (click)="updateStatusUserByUuid('APPROVED')">
               <div *ngIf="!approvedToggle">
@@ -3359,7 +3359,13 @@
                         <table class="table mb-0">
                           <tr style="background-color: #f1f1f1">
                             <td>
-                              <p class="mb-0 persnaol"> Personal Information <img src="assets/images/edit-text.svg"
+                              <div class="mb-0 persnaol d-flex align-items-center justify-content-between"> 
+                                <p class="mb-0">Personal Information</p> 
+
+                                <div class="d-flex align-items-center gap-3">
+                                  <a class="text-primary p-0" *ngIf="allowEdit" (click)="routeToUserDetails('/employee-onboarding/employee-onboarding-form')">Complete your profile</a>
+                                  
+                                  <img src="assets/images/edit-text.svg"
                                   class="right-icon" style="width: 14px; margin-right: 8px" *ngIf="
                                     ROLE === 'ADMIN' ||
                                     (ROLE == 'MANAGER' && isManagerBoolean)
@@ -3368,23 +3374,9 @@
                                       '/employee-onboarding/employee-onboarding-form'
                                     )
                                   " />
-                                <!-- <i
-                                  class="bi bi-pencil-square right-icon"
-                                  *ngIf="
-                                    onboardingPreviewData.user
-                                      .employeeOnboardingStatus.response ===
-                                    'REJECTED'
-                                  "
-                                  (click)="
-                                    routeToUserDetails(
-                                      '/employee-onboarding/employee-onboarding-form'
-                                    )
-                                  "
-                                ></i> -->
-                              </p>
-                            </td>
-                            <td class="nav-item" *ngIf="allowEdit" (click)="routeToUserDetails('/employee-onboarding/employee-onboarding-form')">
-                              <a class="nav-link" data-bs-toggle="tab" href="/employee-onboarding/employee-onboarding-form" role="tab" aria-selected="false">Complete your profile</a>
+                                </div>
+                                
+                              </div>
                             </td>
                           </tr>
                         </table>
@@ -4003,6 +3995,11 @@
         
                             <button *ngIf="expenseTypeList.length > 0" class="btn btn-primary" (click)="getExpenseType()" data-bs-toggle="modal"
                                 data-bs-target="#createExpense">Create Expense</button>
+
+                                <div class="dropdown deshboard-date-filter">
+                                  <nz-date-picker nzMode="month" [nzSize]="size" nzFormat="MMM, yyyy" [(ngModel)]="expenseSelectedDate"
+                                    (ngModelChange)="onExpenseMonthChange($event)" ></nz-date-picker>
+                                </div>
         
                             <div class="row mt-3">
                                 <div class="table-responsive bg-white">
@@ -4010,8 +4007,11 @@
                                         <thead class="thead-light">
                                             <tr>
                                                 <th class="text-center" style="width: 10%">
-                                                    Date
+                                                    Created Date
                                                 </th>
+                                                <th class="text-center" style="width: 10%">
+                                                  Date
+                                              </th>
                                                 <th class="text-center" style="width: 10%">
                                                     Employee Name
                                                 </th>
@@ -4069,6 +4069,7 @@
         
                                             <ng-container *ngIf="expenseList.length > 0">
                                                 <tr *ngFor="let expense of expenseList; let i= index">
+                                                    <td class="text-center">{{expense.createdDate | date: 'dd MMM yyyy'}}</td>
                                                     <td class="text-center">{{expense.expenseDate}}</td>
                                                     <td class="text-center">{{expense.employeeName}}</td>
                                                     <td class="text-center">{{expense.amount}}</td>

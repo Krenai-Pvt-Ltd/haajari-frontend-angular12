@@ -123,7 +123,7 @@
                   class="d-flex align-items-center justify-content-between"
                   *ngIf="shiftCounts.rotationalShiftCount != 0"
                 >
-                  <small class="text-muted">Rotational Shifts</small>
+                  <small class="text-muted">Default Punchin</small>
                   <small class="text-muted">{{
                     shiftCounts.rotationalShiftCount || 0
                   }}</small>
@@ -2034,9 +2034,10 @@
                               border-color: #ced4da;
                               width: 100%;
                             "
+                            [disabled]="this.checkForShiftId!=0"
                           >
-                            <!-- {{ selectedShiftType?.name || "Select shift type" }} -->
-                            Day
+                            {{ selectedShiftType?.name || "Select shift type" }}
+                            <!-- Day -->
                             <i class="bi bi-chevron-down"></i>
                           </button>
                           <ul
@@ -2044,20 +2045,20 @@
                             aria-labelledby="dropdownMenuButton1"
                             style="width: 100%"
                           >
-                            <!-- <li *ngFor="let shiftType of shiftTypeList">
+                            <li *ngFor="let shiftType of shiftTypeList">
                               <a
                                 class="dropdown-item"
                                 (click)="selectShiftType(shiftType)"
                               >
                                 {{ shiftType.name }}
                               </a>
-                            </li> -->
-                            <li><a
+                            </li>
+                            <!-- <li><a
                               class="dropdown-item"
                               
                             >
                               Day
-                            </a></li>
+                            </a></li> -->
                           </ul>
                         </div>
                       </div>

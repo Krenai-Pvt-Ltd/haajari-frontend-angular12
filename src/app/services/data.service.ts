@@ -301,6 +301,9 @@ export class DataService {
       leaveData
     );
   }
+  getUserLeaveById(id: number): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/user-leave?id=${id}`);
+  }
   getLeave(): Observable<any> {
     return this.httpClient.get<Savel[]>(
       `${this.baseUrl}/organization-leave/get/all`
@@ -419,15 +422,21 @@ export class DataService {
     sort: string,
     sortBy: string,
     search: string,
-    searchBy: string
+    searchBy: string,
+    isResginationUser: number
   ): Observable<any> {
-    const params = new HttpParams()
+    var params = new HttpParams()
       .set('item_per_page', itemPerPage.toString())
       .set('page_number', pageNumber.toString())
       .set('sort_order', sort)
       .set('sort_by', sortBy)
       .set('search', search)
       .set('search_by', searchBy);
+
+      if(isResginationUser == 1){
+        params = params.set('is_resignation_user', 1)
+      }
+
     return this.httpClient.get<any>(
       `${this.baseUrl}/users/get/by-filters-for-employee-onboarding-data`,
       {
@@ -1402,6 +1411,10 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
   profileEditStatus(status: String, userId: string): Observable<any> {
     const params = new HttpParams().set('userId', userId);
     return this.httpClient.put<any>(`${this.baseUrl}/profile-edit-requests/status/${status}`, params);
+  }
+
+  getProfileEditRequestById(id: number): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/profile-edit-requests?id=${id}`);
   }
 
   getUserLeaveLog(userUuid: string): Observable<any> {
@@ -3643,6 +3656,9 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
   createAssetRequest(formData: any): Observable<any> {
     return this.httpClient.post<any>(`${this.baseUrl}/asset-requests/create`, formData);
   }
+  getAssetRequestById(id: number): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/asset-requests?id=${id}`);
+  }
   getAssetRequestsByUserUuid(
     uuid: string,
     page: number = 0,
@@ -3827,6 +3843,9 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.post<any>(url, attendanceTimeUpdateRequestDto, {});
   }
 
+  getAttendanceTimeUpdateRequestById(id: number): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}?id=${id}`);
+  }
 
   getAttendanceRequestLog(userUuid : string, pageNumber: number, itemPerPage: number): Observable<any>{
     const params = new HttpParams()
@@ -4300,15 +4319,66 @@ getHolidayForOrganization(date: string): Observable<any>{
     });
   }
 
-  getAllExpense(role: string, pageNumber: number, itemPerPage: number){
-    const params = new HttpParams()
+  checkExpenseTransactionId(transactionId: string){
+    const params = new HttpParams().set('id', transactionId);
+    return this.httpClient.get(`${this.baseUrl}/company-expense/transaction`, {params});
+  }
+
+  exportExpense(){
+    return this.httpClient.get<any>(`${this.baseUrl}/company-expense/export`);
+  }
+
+  // importExpense(){
+  //   return this.httpClient.get<any>(`${this.baseUrl}/company-expense/export`);
+  // }
+  importExpense(file: any, fileName: string) {
+    debugger;
+    const formdata: FormData = new FormData();
+    formdata.append('file', file);
+    formdata.append('fileName', fileName);
+    formdata.append('role', 'ADMIN');
+    return this.httpClient.post(`${this.baseUrl}/company-expense/import`, formdata,
+    );
+  }
+
+  getAllExpense(role: string, pageNumber: number, itemPerPage: number, startDate: any, endDate: any, statusIds: number[], userUuid: any){
+    var params = new HttpParams()
     .set('currentPage', pageNumber)
     .set('itemPerPage', itemPerPage)
     .set('sortBy', 'createdDate')
     .set('sortOrder', 'desc')
     .set('role', role)
 
+    // if((startDate != null && startDate != '') && (endDate != '' && endDate != '')){
+    if (startDate && endDate) {
+      params = params.set('startDate', startDate)
+      params = params.set('endDate', endDate)
+    }
+
+    if(statusIds.length > 0){
+      params = params.set("statusIds", statusIds.join(','));
+    }
+   
+    if(userUuid){
+      params = params.set("userUuid", userUuid);
+    }
+
     return this.httpClient.get<any>(`${this.baseUrl}/company-expense`, {params});
+  }
+
+
+  getAllExpenseCount(role: string, pageNumber: number, itemPerPage: number, startDate: any, endDate: any){
+    var params = new HttpParams()
+    .set('currentPage', pageNumber)
+    .set('itemPerPage', itemPerPage)
+    .set('role', role)
+
+    if (startDate && endDate) {
+      params = params.set('startDate', startDate)
+      params = params.set('endDate', endDate)
+    }
+
+    return this.httpClient.get<any>(`${this.baseUrl}/company-expense/count`, {params});
   }
 
 
@@ -4462,7 +4532,17 @@ getHolidayForOrganization(date: string): Observable<any>{
     const url = `${this.baseUrl}/asset-requests/export`;
     return this.httpClient.get(url, { responseType: 'blob' });
   }
-
+  getUsersWithUpcomingBirthdays(): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/users/birthdays`);
+  }
+  getRecentlyJoinedUsers(): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/users/recently-joined-users`);
+  }
+  getRecentlyWorkAnniversary(): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/users/work-anniversary`);
+  }
 }
+
+
 
 

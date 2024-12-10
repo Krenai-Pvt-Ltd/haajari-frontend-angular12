@@ -736,7 +736,7 @@ private formatDataForChart(data: any[]): any[] {
   }
   newStatus: string = 'Pending';
   selectedAsset: any;
-  statuses: string[] = ['Approved', 'Rejected'];
+  statuses: string[] = ['APPROVED', 'REJECTED'];
   openStatusChangeModal(asset: any, statusChangeModal: TemplateRef<any>) {
     this.selectedAsset = asset;
     this.modalService.open(statusChangeModal);

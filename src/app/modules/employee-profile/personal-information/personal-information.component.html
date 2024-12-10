@@ -81,7 +81,7 @@
             </div>
         </div>
 
-        <div class="profile-imfo-detail">
+        <div class="profile-imfo-detail"*ngIf="!profileLoding">
             <div *ngIf="routes.includes('/employee-onboarding-form')" class="row border-top pt-4 pb-3">
                   <div class="col-md-3">
                     <div class="profile-imfo-hedding">
@@ -90,7 +90,7 @@
 
                   </div>
                   <div class="col-md-9">
-                    <div class="row">
+                    <div class="row" >
                         <div class="col-md-3">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">Email Address</p>
@@ -135,9 +135,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-12">
-                          
-                        </div>
+                        
                     </div>
                   </div>
             </div>
@@ -214,7 +212,7 @@
 
                 </div>
                 <div class="col-md-9">
-                    <div *ngIf="academicEmployee" class="row">
+                    <div *ngIf="academicEmployee" class="row" >
                         <div class="col-md-4">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">Higher Qualification</p>
@@ -352,6 +350,8 @@
                             </div>
                         </div>
                     </div>
+
+                    
                 </div>
             </div>
             <div *ngIf="routes.includes('/emergency-contact')" class="row border-top pt-4 pb-3">
@@ -376,7 +376,7 @@
                     </div> -->
 
 
-                    <div class="row">
+                    <div class="row" >
                         <div *ngFor="let emergencyContact of emergencyContacts" class="col-md-12 ">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1"> Name</p>
@@ -395,6 +395,144 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="profile-imfo-detail" *ngIf="profileLoding">
+          <div  class="row border-top pt-4 pb-3">
+            <div class="col-md-3">
+              <div class="profile-imfo-hedding">
+                <h5>Personal Information</h5>
+              </div>
+        
+            </div>
+            <div class="col-md-9">
+              <div class="row" >
+                <div class="col-md-12">
+                  <ngx-shimmer-loading [width]="'90%'" [height]="'15px'"></ngx-shimmer-loading>
+                  <ngx-shimmer-loading [width]="'90%'" [height]="'15px'"></ngx-shimmer-loading>
+                  <ngx-shimmer-loading [width]="'80%'" [height]="'15px'"></ngx-shimmer-loading>
+                  <ngx-shimmer-loading [width]="'90%'" [height]="'15px'"></ngx-shimmer-loading>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div  class="row border-top pt-4 pb-3">
+            <div class="col-md-3">
+              <div class="profile-imfo-hedding">
+                <h5>Address Details</h5>
+              </div>
+        
+            </div>
+            <div class="col-md-9">
+        
+              <div class="row">
+                <div class="col-md-12 mb-3">
+                  <ngx-shimmer-loading [width]="'90%'" [height]="'15px'"></ngx-shimmer-loading>
+                  <ngx-shimmer-loading [width]="'90%'" [height]="'15px'"></ngx-shimmer-loading>
+                  <ngx-shimmer-loading [width]="'80%'" [height]="'15px'"></ngx-shimmer-loading>
+                </div>
+                <div class="col-md-12">
+                  <ngx-shimmer-loading [width]="'90%'" [height]="'15px'"></ngx-shimmer-loading>
+                  <ngx-shimmer-loading [width]="'90%'" [height]="'15px'"></ngx-shimmer-loading>
+                  <ngx-shimmer-loading [width]="'80%'" [height]="'15px'"></ngx-shimmer-loading>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row border-top pt-4 pb-3">
+            <div class="col-md-3">
+              <div class="profile-imfo-hedding">
+                <h5>Reference <span class="font-12">(optional)</span></h5>
+              </div>
+            </div>
+            <div class="col-md-9">
+        
+              <div class="row" >
+                <div class="col-md-12 mb-3">
+                  <ngx-shimmer-loading [width]="'45%'" [height]="'15px'"></ngx-shimmer-loading>
+                  <ngx-shimmer-loading [width]="'60%'" [height]="'15px'"></ngx-shimmer-loading>
+                  <ngx-shimmer-loading [width]="'70%'" [height]="'15px'"></ngx-shimmer-loading>
+                </div>
+                <div class="col-md-12">
+                  <ngx-shimmer-loading [width]="'45%'" [height]="'15px'"></ngx-shimmer-loading>
+                  <ngx-shimmer-loading [width]="'60%'" [height]="'15px'"></ngx-shimmer-loading>
+                  <ngx-shimmer-loading [width]="'70%'" [height]="'15px'"></ngx-shimmer-loading>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row border-top pt-4 pb-3">
+            <div class="col-md-3">
+              <div class="profile-imfo-hedding">
+                <h5>Academic Details</h5>
+              </div>
+        
+            </div>
+            <div class="col-md-9">
+        
+              <div class="row">
+                <div class="col-md-12">
+                  <ngx-shimmer-loading [width]="'90%'" [height]="'15px'"></ngx-shimmer-loading>
+                  <ngx-shimmer-loading [width]="'90%'" [height]="'15px'"></ngx-shimmer-loading>
+                  <ngx-shimmer-loading [width]="'80%'" [height]="'15px'"></ngx-shimmer-loading>
+                  <ngx-shimmer-loading [width]="'90%'" [height]="'15px'"></ngx-shimmer-loading>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row border-top pt-4 pb-3">
+            <div class="col-md-3">
+              <div class="profile-imfo-hedding">
+                <h5>Experience</h5>
+              </div>
+        
+            </div>
+            <div class="col-md-9">
+        
+              <div class="row">
+                <div class="col-md-12">
+                  <ngx-shimmer-loading [width]="'90%'" [height]="'15px'"></ngx-shimmer-loading>
+                  <ngx-shimmer-loading [width]="'90%'" [height]="'15px'"></ngx-shimmer-loading>
+                </div>
+              </div>
+        
+            </div>
+          </div>
+          <div class="row border-top pt-4 pb-3">
+            <div class="col-md-3">
+              <div class="profile-imfo-hedding">
+                <h5>Bank Details</h5>
+              </div>
+        
+            </div>
+            <div class="col-md-9">
+        
+              <div class="row">
+                <div class="col-md-12">
+                  <ngx-shimmer-loading [width]="'90%'" [height]="'15px'"></ngx-shimmer-loading>
+                  <ngx-shimmer-loading [width]="'90%'" [height]="'15px'"></ngx-shimmer-loading>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row border-top pt-4 pb-3">
+            <div class="col-md-3">
+              <div class="profile-imfo-hedding">
+                <h5>Emergency Contact</h5>
+              </div>
+        
+            </div>
+            <div class="col-md-9">
+             
+              <div class="row" >
+                <div class="col-md-12">
+                  <ngx-shimmer-loading [width]="'90%'" [height]="'15px'"></ngx-shimmer-loading>
+                  <ngx-shimmer-loading [width]="'90%'" [height]="'15px'"></ngx-shimmer-loading>
+                  <ngx-shimmer-loading [width]="'80%'" [height]="'15px'"></ngx-shimmer-loading>
+                  <ngx-shimmer-loading [width]="'90%'" [height]="'15px'"></ngx-shimmer-loading>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
     </div>
 </div>

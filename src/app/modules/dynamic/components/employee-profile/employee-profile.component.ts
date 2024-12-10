@@ -11,7 +11,6 @@ import { FormBuilder, FormGroup, FormGroupDirective, NgForm, Validators} from '@
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import { AttendanceCheckTimeResponse, AttendanceTimeUpdateRequestDto, UserDto } from 'src/app/models/user-dto.model';
 import { saveAs } from 'file-saver';
-import { HttpClient } from '@angular/common/http';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { AttendanceDetailsResponse } from 'src/app/models/attendance-detail-response';
 import { UserAddressDetailsRequest } from 'src/app/models/user-address-details-request';
@@ -90,7 +89,6 @@ export class EmployeeProfileComponent implements OnInit {
     private activateRoute: ActivatedRoute,
     public helperService: HelperService,
     private fb: FormBuilder,
-    private http: HttpClient,
     private firebaseStorage: AngularFireStorage,
     private router: Router,
     private roleService: RoleBasedAccessControlService,
@@ -603,6 +601,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
           this.events = [];
           this.totalPresent = 0;
           this.totalAbsent = 0;
+          console.log("🚀 ~ EmployeeProfileComponent ~ getUserAttendanceDataFromDate ~ attendances.length:", attendances.length)
 
           if (!attendances.length) {
             let currentDate = moment(sDate, 'YYYY-MM-DD');
@@ -702,6 +701,9 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
   }
 
   getStatusColor(status: any): string {
+      if (status.includes('Leave')|| status.includes('Duty')) {
+        return 'rgb(255, 255, 143)'; 
+      }
     switch (status) {
       case 'Present':
         return '#e0ffe0';
@@ -2114,8 +2116,11 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
 
   size: 'large' | 'small' | 'default' = 'small';
   selectedDate: Date = new Date();
-  startDate: string = '';
-  endDate: string = '';
+  // startDate: string = '';
+  // endDate: string = '';
+
+  startDate: any;
+  endDate: any;
 
   onMonthChange(month: any): void {
     // console.log(month);
@@ -3773,19 +3778,46 @@ closeAttendanceFunc() {
 
   expenseList: any[] = new Array();
   loading: boolean = false;
+  statusIds: number[] = new Array()
   databaseHelper: DatabaseHelper = new DatabaseHelper();
+  // expSelected:any;
    getExpenses() {
     debugger
     this.loading = true;
     this.expenseList = []
     // this.ROLE = await this.rbacService.getRole();
+   
+    if(this.expenseSelectedDate == null){
+      this.startDate = '';
+      this.endDate = '';
+    }
 
-    this.dataService.getAllExpense(this.ROLE, this.databaseHelper.currentPage, this.databaseHelper.itemPerPage).subscribe((res: any) => {
+    this.dataService.getAllExpense(this.ROLE, this.databaseHelper.currentPage, this.databaseHelper.itemPerPage, this.startDate, this.endDate, this.statusIds, this.userId).subscribe((res: any) => {
       if (res.status) {
         this.expenseList = res.object
         this.loading = false
+      }else{
+        this.expenseList = []
+        this.loading = false
       }
     })
+  }
+
+  expenseSelectedDate: Date | null = null;
+  onExpenseMonthChange(month: Date): void {
+    this.expenseSelectedDate = month;
+
+    if(this.expenseSelectedDate){
+        // Calculate the start of the month (first day of the month) and set time to start of the day
+      const startOfMonth = new Date(this.expenseSelectedDate.getFullYear(), this.expenseSelectedDate.getMonth(), 1);
+
+      // Calculate the end of the month (last day of the month) and set time to end of the day
+      const endOfMonth = new Date(this.expenseSelectedDate.getFullYear(), this.expenseSelectedDate.getMonth() + 1, 0);
+
+      this.startDate = startOfMonth.toDateString() + " 00:00:00"; // Date object
+      this.endDate = endOfMonth.toDateString() + " 23:59:59"; // Date object
+    }
+    this.getExpenses();
   }
 
 
@@ -3974,10 +4006,13 @@ closeAttendanceFunc() {
     this.closeApproveModal.nativeElement.click()
   }
 
+
+
   /** Company Expense end **/
 
   /** Create and view expense end */
 
 }
+
 
 
