@@ -17,6 +17,8 @@ import { HelperService } from 'src/app/services/helper.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
+import { map, catchError } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-create-expense',
@@ -40,6 +42,9 @@ export class CreateExpenseComponent implements OnInit {
     this.getExpenses();
     this.getAllCompanyExpensePolicy();
     this.switchTab('allExpense');
+
+    // this.check1()
+
   }
 
   selectedDate: Date = new Date();
@@ -1941,11 +1946,27 @@ saveFile() {
 
   this.validateRows(this.data.slice(1));
 
-  if(this.validateRowToggle){
+  // if(this.validateRowToggle){
+  //   this.updatePaginatedData();
+  // }else{
+  //   this.uploadUserFile(file, 'edited_file.xlsx');
+  // }
+
+setTimeout(() => {
+   if(this.validateRowToggle){
     this.updatePaginatedData();
   }else{
     this.uploadUserFile(file, 'edited_file.xlsx');
   }
+}, 300)
+// }, 200)
+
+// setTimeout(() =>{
+//   if(!this.validateRowToggle){
+//     this.uploadUserFile(file, 'edited_file.xlsx');
+//   }
+// },200)
+
 }
 
 importToggle: boolean = false;
@@ -2058,7 +2079,8 @@ onPageChange(page: number) {
 
   readonly constants = constant;
   validateRowToggle: boolean = false;
-  validateRows(rows: any[]): void {
+  //  validateRows(rows: any[]): void {
+  async validateRows(rows: any[]): Promise<void> {
     debugger;
     
     this.invalidRows = new Array(rows.length).fill(false); // Reset invalid rows
@@ -2075,8 +2097,7 @@ onPageChange(page: number) {
             this.validateRowToggle = true;
             this.invalidRows[i] = true;
             this.invalidCells[i][j] = true; // Mark the cell as invalid
-          } 
-          
+          }  
         }
 
         // Expense Amount should be greater than 0 and not be empty
@@ -2206,12 +2227,69 @@ onPageChange(page: number) {
             this.invalidCells[i][j] = true; // Mark "Lapse Amount" cell as invalid
           }
         }
+
+        
+         // Transaction Id validation (Asynchronous)
+      // if (this.fileColumnName[j] === 'Transaction Id') {
+      //   if (cellValue) {
+      //     this.existTransactionIdExcel(cellValue).then((exists: boolean) => {
+      //       if (exists) {
+      //         this.validateRowToggle = true;
+      //         this.invalidRows[i] = true;
+      //         this.invalidCells[i][j] = true;
+      //       }
+      //     });
+      //   }
+      // }
+
+      
+       // Validate 'Transaction Id' field
+       if (this.fileColumnName[j] === 'Transaction Id') {
+        const transactionIdIndex = this.fileColumnName.indexOf('Transaction Id');
+        const transactionId = transactionIdIndex !== -1 ? rows[i][transactionIdIndex]?.toString().trim() : null;
+        
+        // Await the transaction ID check
+        try {
+          const exists = await this.existTransactionIdExcel(transactionId);
+          console.log('Transaction ID exists: ', exists);
+
+          if (exists) {
+            this.validateRowToggle = true;
+            this.invalidRows[i] = true;
+            this.invalidCells[i][j] = true; // Mark the cell as invalid
+          }
+        } catch (error) {
+          console.error('Error checking transaction ID:', error);
+          // Handle any errors, you could mark this row as invalid if needed
+          this.invalidRows[i] = true;
+          this.invalidCells[i][j] = true; // Mark the cell as invalid
+        }
+      }
+      //end
+
       }
 
     }
   }
 
-
+  public existTransactionIdExcel(tranId: any): Promise<boolean> {
+    return new Promise<boolean>((resolve, reject) => {
+      this.dataService.checkExpenseTransactionId(tranId).subscribe(
+        (res: any) => {
+          if (res.status && res.object) {
+            resolve(true);  // Transaction ID exists
+          } else {
+            resolve(false);  // Transaction ID does not exist
+          }
+        },
+        (error) => {
+          console.error('Error checking transaction ID:', error);
+          reject(false);  // Reject the promise in case of an error
+        }
+      );
+    });
+  }
+  
 
 
 /** Set Excel data end */
