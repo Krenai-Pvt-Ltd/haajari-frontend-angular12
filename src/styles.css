@@ -716,3 +716,6 @@ actionMenuList .dropdown-item i {
 .placeholder-line .ant-select-selection-item  {
   line-height: 45px !important;
 }
+.pagition-box .pagination {
+  margin-bottom: 0px;
+}
