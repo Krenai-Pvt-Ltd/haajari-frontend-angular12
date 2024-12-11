@@ -206,7 +206,7 @@
               <tbody>
                 <tr *ngFor="let employee of employeeMonthWiseSalaryDataList">
                   <td>
-                    <img [src]=" employee.image ? employee.image : 'assets/images/broken-image-icon.jpg'" alt="" class="rounded-circle thumb-xs me-1"/>
+                    <img onerror="this.src='./assets/images/broken-image-icon.jpg';" [src]=" employee.image ? employee.image : 'assets/images/broken-image-icon.jpg'" alt="" class="rounded-circle thumb-xs me-1"/>
                     {{ employee.name }}
                   </td>
                   <td>{{ employee.email || 'N/A'}}</td>

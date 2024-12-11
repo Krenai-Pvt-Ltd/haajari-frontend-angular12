@@ -301,7 +301,7 @@
   display: flex;
   align-items: center;
   color: var(--tb-secondary-color);
-  right: 10px;
+  left: 15px;
 }
 .information-box {
   /* border: 1px solid #f1f1f1; */
@@ -700,7 +700,7 @@ tbody tr {
   margin: 0px;
   gap: 20px;
 }
-.eTjDuD {
+.description-main-box span {
   font-weight: 600;
   font-size: 0.875rem;
   line-height: 1.57143;
@@ -1015,15 +1015,78 @@ a.text-primary:hover {
   pointer-events: none;
 }
 
+/* new side tab for new modal */
 
-.spinner-border {
-  display: inline-block;
-  width: 22px;
-  height: 22px;
-  vertical-align: -0.125em;
-  border: 0.25em solid currentColor;
-  border-right-color: transparent;
-  border-radius: 50%;
-  -webkit-animation: 0.75s linear infinite spinner-border;
-  animation: 0.75s linear infinite spinner-border;
+.shift-time-modal {
+  height: 80vh;
 }
+
+.shift-time-menu{
+  background-color: #fbfbfb;
+  height: 100%;
+}
+
+.shift-time-modal .nav-pills .nav.nav-pills {
+  background-color: transparent;
+}
+.shift-time-modal .nav-link.active {
+  background: #f2f3ff !important;
+  color: #000 !important;
+  border-left: 5px solid var(--primary-background-color) !important;
+}
+.shift-time-modal .nav-pills .nav-link {
+  background: transparent;
+  padding: 15px 10px;
+  color: #6b7280;
+  border-left: 5px solid transparent;
+  font-size: 14px;
+  font-weight: 400;
+  text-align: left;
+  padding-left: 35px;
+}
+
+
+
+
+
+
+
+.nots-section {
+  background-color: rgba(236, 236, 236, 0.21) !important;
+  width: 100%;
+  height: 80px !important;
+  border: 1px solid #e9e9e9;
+}
+
+.input-zorro{
+  border-radius: 2px !important;
+  border: 1.021px solid #e9e9e9 !important;
+  background: rgba(236, 236, 236, 0.21) !important;
+  height: 45px !important;
+  font-size: 12px !important;
+  font-weight: 400 !important;
+}
+
+.leave-footer {
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  left: 0px;
+  border-radius: 0px;
+}
+.staff-selection-list{
+  max-height: 500px;
+  overflow: scroll;
+}
+.staff-selection-list::-webkit-scrollbar{
+  display: none;
+}
+.salary-setting{
+  border: 0px solid #f2f2f2;
+  height: 45px !important;
+  border-left: 0;
+  font-weight: 400 !important;
+  font-size: 14px !important;
+  color: #1f1f1f !important;
+}
+/* new side tab for new modal */

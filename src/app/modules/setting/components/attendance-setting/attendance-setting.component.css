@@ -1570,4 +1570,16 @@ font-size: 12px !important;
 .table tbody {
   border: 1px solid #f1f1f1;
 }
+.btn-icon-square-sm{
+  position: relative;
+  top: 30px;
+}
+.submitActionBtn {
+  background-color: var(--primary-background-color);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 2px;
+  min-width: 100px;
+}
 /* new side tab for new modal */
