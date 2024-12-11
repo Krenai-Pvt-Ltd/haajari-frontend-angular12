@@ -3,6 +3,9 @@ import { Key } from '../constant/key';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BulkAction } from '../models/bulkAction';
+import { BonusRequest } from '../models/bonus-request';
+import { BonusAndDeductionData } from '../models/bonus-and-deduction-data';
+import { EmployeeMonthWiseSalaryData } from '../models/employee-month-wise-salary-data';
 
 @Injectable({
   providedIn: 'root'
@@ -27,12 +30,12 @@ export class SalaryService {
 
 
   getAllTemplateComponents(): Observable<any> {
-    return this._http.get<any>(`${this._key.base_url}/salary/component`);
+    return this._http.get<any>(`${this._key.base_url}/salary/template/component`);
   }
 
 
   getAllSalaryTemplate(): Observable<any> {
-    return this._http.get<any>(`${this._key.base_url}/salary/template/component`
+    return this._http.get<any>(`${this._key.base_url}/salary/template/component/all`
     );
   }
 
@@ -49,8 +52,8 @@ export class SalaryService {
     return this._http.get<any>(`${this._key.base_url}/statutory`);
   }
 
-  getCurrentSalaryReport():Observable<any>{
-    return this._http.get<any>(`${this._key.base_url}/salary/download`);
+  exportCurrentSalaryReport():Observable<any>{
+    return this._http.get<any>(`${this._key.base_url}/salary/export`);
   }
 
   updateUserSalaryDetail(url:string, fileName:string,): Observable<any>{
@@ -77,6 +80,106 @@ export class SalaryService {
     const params = new HttpParams()
     .set('bulkId',bulkId)
     return this._http.get<any>(`${this._key.base_url}/salary/bulk-updated`,{params});
+  }
+
+
+  getStatutoryAttributeByStatutoryId(statutoryId: number): Observable<any> {
+    const params = new HttpParams()
+    .set('statutoryId', statutoryId);
+
+    return this._http.get<any>(`${this._key.base_url}/statutory/attribute`, {params});
+  }
+
+  getStatutoryByOrganizationId(): Observable<any> {
+    return this._http.get<any>(`${this._key.base_url}/statutory/employee/get/all`);
+  }
+
+  getAllTaxRegime(): Observable<any> {
+    return this._http.get<any>(`${this._key.base_url}/statutory/tax-regime/get/all`);
+  }
+
+
+  registerBonus(bonusRequest : BonusRequest, userUuid : string): Observable<any>{
+    const params = new HttpParams()
+    .set('user_uuid', userUuid);
+
+    return this._http.post<any>(`${this._key.base_url}/bonus`, bonusRequest, {params});
+  }
+
+
+  updateBonus(bonusRequest : BonusAndDeductionData): Observable<any>{
+   
+    return this._http.put<any>(`${this._key.base_url}/bonus`, bonusRequest);
+  }
+
+
+  deleteBonus(bonusId:number): Observable<any>{
+    const params = new HttpParams()
+    .set('bonus_id', bonusId);
+    return this._http.delete<any>(`${this._key.base_url}/bonus`,  {params});
+  }
+
+  getBonusAndDeductionLogs(
+    startDate: any,
+    endDate: any,
+    itemPerPage: number,
+    pageNumber: number,
+    search: string): Observable<any> {
+
+    const params = new HttpParams()
+    .set('start_date', startDate)
+    .set('end_date', endDate)
+    .set('item_per_page', itemPerPage)
+    .set('page_number', pageNumber)
+    .set('search', search)
+    return this._http.get<any>(`${this._key.base_url}/bonus-deduction`, {params});
+  }
+
+
+  getMonthWiseSalaryData(startDate: any,endDate: any,itemPerPage: number,pageNumber: number,search: string): Observable<any> {
+    const params = new HttpParams()
+      .set('start_date', startDate)
+      .set('end_date', endDate)
+      .set('item_per_page', itemPerPage)
+      .set('page_number', pageNumber)
+      .set('search', search)
+
+    return this._http.get<any>(`${this._key.base_url}/salary/month-wise/data`,{ params });
+  }
+
+
+  updateEmployeeData(empSalaryData: EmployeeMonthWiseSalaryData): Observable<any>{
+   
+    return this._http.put<any>(`${this._key.base_url}/salary/month-wise/data`, empSalaryData);
+  }
+
+
+  getMonthWiseSalarySlipData(startDate: any,endDate: any,itemPerPage: number,pageNumber: number,search: string): Observable<any> {
+
+    const params = new HttpParams()
+    .set('start_date', startDate)
+    .set('end_date', endDate)
+    .set('item_per_page', itemPerPage)
+    .set('page_number', pageNumber)
+    .set('search', search)
+
+    return this._http.get<any>(`${this._key.base_url}/salary/month-wise/slip`,{ params });
+  }
+
+
+  updateSalarySlipStatus(monthWiseIds:number[]): Observable<any>{
+    const params = new HttpParams()
+    .set('month_wise_ids', String(monthWiseIds));
+
+    return this._http.put<any>(`${this._key.base_url}/salary/month-wise/slip/on-hold`,{},{ params });
+  
+  }
+
+  shareSalaryPayslipVia(monthWiseIds:number[], shareVia:string ): Observable<any>{
+    const params = new HttpParams()
+    .set('month_wise_ids', String(monthWiseIds))
+    .set('share_via', shareVia);
+    return this._http.post<any>(`${this._key.base_url}/salary-slip/share`,{}, {params});
   }
 
 

@@ -22,7 +22,7 @@
             >
               <div class="row">
                 <div class="col-md-12">
-                  <div class="attendance-settin-list mb-3" *ngFor="let item of [].constructor(3)">
+                  <div class="attendance-settin-list mb-3" *ngFor="let item of [].constructor(2)">
                     <ngx-shimmer-loading
                       [width]="'100%'"
                       [height]="'60px'"
@@ -231,52 +231,7 @@
                         </div>
                       </div>
                       <div class="row mt-3">
-                        <div class="col-md-4">
-                          <div class="">
-                            <ngx-shimmer-loading
-                              [width]="'100%'"
-                              [height]="'30px'"
-                              style="border-radius: 50%"
-                            ></ngx-shimmer-loading>
-                          </div>
-                        </div>
-                        <div class="col-md-4">
-                          <div class="">
-                            <ngx-shimmer-loading
-                              [width]="'100%'"
-                              [height]="'30px'"
-                              style="border-radius: 50%"
-                            ></ngx-shimmer-loading>
-                          </div>
-                        </div>
-                        <div class="col-md-4">
-                          <div class="">
-                            <ngx-shimmer-loading
-                              [width]="'100%'"
-                              [height]="'30px'"
-                              style="border-radius: 50%"
-                            ></ngx-shimmer-loading>
-                          </div>
-                        </div>
-                        <div class="col-md-4">
-                          <div class="">
-                            <ngx-shimmer-loading
-                              [width]="'100%'"
-                              [height]="'30px'"
-                              style="border-radius: 50%"
-                            ></ngx-shimmer-loading>
-                          </div>
-                        </div>
-                        <div class="col-md-4">
-                          <div class="">
-                            <ngx-shimmer-loading
-                              [width]="'100%'"
-                              [height]="'30px'"
-                              style="border-radius: 50%"
-                            ></ngx-shimmer-loading>
-                          </div>
-                        </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4" *ngFor="let item of [].constructor(6)">
                           <div class="">
                             <ngx-shimmer-loading
                               [width]="'100%'"
@@ -531,8 +486,6 @@
                             <a
                               class="text-primary font-14 text-center"
                               data-bs-toggle="modal"
-                              data-bs-target="#shiftTime"
-                              data-bs-toggle="modal"
                               data-bs-target="#addsalarytemplate"
                             >
                               Create salary template
@@ -595,27 +548,36 @@
                     >
                     Update the data
                   </p> -->
-                  <p class="mb-0" (click)="getCurrentSalaryReport()">    
-                    <a class="text-primary" 
-                      >Download a excel file.</a>   
-                      Update the data
-                  </p>
+                  <div class="d-flex align-items-center gap-3" [ngClass]="{'disabled-lnk':downloading}">
+                    <p class="mb-0" (click)="getCurrentSalaryReport()">    
+                      <a class="text-primary" 
+                        >Download a excel file.</a>   
+                        Update the data
+                    </p>
+                    <div class="spinner-border text-primary" role="status" *ngIf="downloading">
+                      <span class="visually-hidden"></span>
+                    </div>
+                  </div>
 
-                  <p class="mb-0">
-                    <input
+                  <div class="d-flex align-items-center gap-3" [ngClass]="{'disabled-lnk':uploading}">
+                    <p class="mb-0">
+                      <input
                       id="fileSelect"
                       type="file"
                       name="img[]"
-                      accept=".xlsx"
+                      accept=".xlsx,.xls"
                       class="input"
                       (change)="selectFile($event)"
-                    />
-                  </p>
+                      />
+                      Drag file here to upload or,
+                      <a class="text-primary">choose file</a>
+                  
+                    </p>
+                    <div class="spinner-border text-primary" role="status" *ngIf="uploading">
+                      <span class="visually-hidden"></span>
+                    </div>
+                  </div>
 
-                  <p class="mb-0">
-                    Drag file here to upload or,
-                    <a class="text-primary">choose file</a>
-                  </p>
                 </div>
               </div>
             </div>
@@ -795,21 +757,7 @@
             >
               <div class="row">
                 <div class="col-md-12">
-                  <div class="attendance-settin-list mb-3">
-                    <ngx-shimmer-loading
-                      [width]="'100%'"
-                      [height]="'60px'"
-                      style="border-radius: 50%"
-                    ></ngx-shimmer-loading>
-                  </div>
-                  <div class="attendance-settin-list mb-3">
-                    <ngx-shimmer-loading
-                      [width]="'100%'"
-                      [height]="'60px'"
-                      style="border-radius: 50%"
-                    ></ngx-shimmer-loading>
-                  </div>
-                  <div class="attendance-settin-list mb-3">
+                  <div class="attendance-settin-list mb-3" *ngFor="let item of [].constructor(2)">
                     <ngx-shimmer-loading
                       [width]="'100%'"
                       [height]="'60px'"
@@ -844,7 +792,7 @@
                           [(ngModel)]="statutoryResponse.switchValue"
                           [ngModelOptions]="{ standalone: true }"
                           [nzControl]="true"
-                          (click)="clickSwitch(statutoryResponse)"
+                          (click)="toggleStatutory(statutoryResponse)"
                           [nzLoading]="statutoryResponse.loading"
                         ></nz-switch>
                       </div>
@@ -1310,9 +1258,12 @@
 </div>
 <!--end modal-->
 <!-- Modal with an *ngIf directive to conditionally render based on `switchValue` -->
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#statutoryPF" #statutoryPFButton>
+  Launch static backdrop modal
+</button>
 <div
-  *ngIf="switchValueForPF"
-  class="modal show d-block"
+  class="modal"
+  id="statutoryPF"
   tabindex="-1"
   role="dialog"
   aria-labelledby="exampleModalDefaultLabel"
@@ -1331,9 +1282,9 @@
         <button
           type="button"
           class="btn-close"
-          data-dismiss="modal"
+          data-bs-dismiss="modal"
           aria-label="Close"
-          (click)="getAllStatutoriesMethodCall()"
+         
         ></button>
       </div>
       <div class="modal-body employees-provident">
@@ -1543,16 +1494,17 @@
         <button
           type="button"
           class="btn btn-de-secondary"
-          data-dismiss="modal"
-          (click)="getAllStatutoriesMethodCall()"
+          data-bs-dismiss="modal"
+       
         >
           Cancel
         </button>
         <button
           type="button"
           class="btn btn-primary"
-          data-dismiss="modal"
-          (click)="enableOrDisableStatutoryMethodCall()"
+          data-bs-dismiss="modal"
+          [ngClass]="{'disabled-lnk':isUpdating}"
+          (click)="updateStatutory()"
         >
           Save
         </button>
@@ -1561,9 +1513,12 @@
   </div>
 </div>
 <!-- Modal with an *ngIf directive to conditionally render based on `switchValue` -->
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#statutoryESI" #statutoryESIButton>
+  Launch static backdrop modal
+</button>
 <div
-  *ngIf="switchValueForESI"
-  class="modal show d-block"
+  class="modal"
+  id="statutoryESI"
   tabindex="-1"
   role="dialog"
   aria-labelledby="exampleModalDefaultLabel"
@@ -1582,9 +1537,8 @@
         <button
           type="button"
           class="btn-close"
-          data-dismiss="modal"
+          data-bs-dismiss="modal"
           aria-label="Close"
-          (click)="getAllStatutoriesMethodCall()"
         ></button>
       </div>
       <div
@@ -1613,16 +1567,16 @@
         <button
           type="button"
           class="btn btn-de-secondary"
-          data-dismiss="modal"
-          (click)="getAllStatutoriesMethodCall()"
+          data-bs-dismiss="modal"
         >
           Cancel
         </button>
         <button
           type="button"
           class="btn btn-primary"
-          data-dismiss="modal"
-          (click)="enableOrDisableStatutoryMethodCall()"
+          data-bs-dismiss="modal"
+          [ngClass]="{'disabled-lnk':isUpdating}"
+          (click)="updateStatutory()"
         >
           Save
         </button>
@@ -1631,6 +1585,7 @@
   </div>
 </div>
 <!-- <div *ngIf="switchValueForProfessionalTax" class="modal show d-block" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" style="background: rgba(0,0,0,0.5);"><div class="modal-dialog modal-dialog-centered mx-auto modal-lg" role="document"><div class="modal-content"><div class="modal-header border-bottom" style="background-color: white;"><h6 class="modal-title m-0" id="exampleModalDefaultLabel" style="color: black; font-size: large;">Professional Tax (Read Professional Tax Policy)</h6><button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" (click)="switchValueForProfessionalTax = false"></button></div><div class="modal-body employees-provident"><div class="row"><div class="col-md-6"><div class="form-group mb-3"><label for="exampleInputEmail1" style="padding-bottom: 6px;">Pt Number</label><input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Pt Number"></div></div><div class="col-md-6"><div class="form-group mb-3"><label for="exampleInputEmail1" style="padding-bottom: 6px;">State</label><div class="dropdown" style="width: 100%;"><button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown">
+
                                     State <i class="bi bi-chevron-down" style="color: #444; font-size: 15px;"></i></button><ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu" style="width: 100%;"><li><a class="dropdown-item">
                                       Haryana
                                     </a></li><li><a class="dropdown-item">
@@ -1670,9 +1625,13 @@
                                     </a></li></ul></div></div></div><div class="tax-slabs"><h5>Tax Slabs Based On Gross Salary</h5></div><div class="col-md-4"><div class="form-group mb-3"><label for="exampleInputEmail1" style="padding-bottom: 6px;">START RANGE</label><input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="0"></div></div><div class="col-md-4"><div class="form-group mb-3"><label for="exampleInputEmail1" style="padding-bottom: 6px;">
                                 END RANGE</label><input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="max"></div></div><div class="col-md-4"><div class="form-group mb-3"><label for="exampleInputEmail1" style="padding-bottom: 6px;">
                                 MONTHLY TAX AMOUNT</label><input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="₹0"></div></div></div></div><div class="modal-footer"><button type="button" class="btn btn-de-secondary" data-dismiss="modal" (click)="switchValueForProfessionalTax = false">Cancel</button><button type="button" class="btn btn-primary" data-dismiss="modal" (click)="switchValueForProfessionalTax = false">Save</button></div></div></div></div> -->
+
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#statutoryPro" #statutoryProButton>
+  Launch static backdrop modal
+</button>                              
 <div
-  *ngIf="switchValueForProfessionalTax"
-  class="modal show d-block"
+  class="modal"
+  id="statutoryPro"
   tabindex="-1"
   role="dialog"
   aria-labelledby="exampleModalDefaultLabel"
@@ -1689,7 +1648,6 @@
           class="btn-close"
           data-bs-dismiss="modal"
           aria-label="Close"
-          (click)="getAllStatutoriesMethodCall()"
         ></button>
       </div>
       <div class="col-md-12">
@@ -1707,8 +1665,7 @@
         <button
           type="button"
           class="btn btn-de-secondary"
-          data-dismiss="modal"
-          (click)="getAllStatutoriesMethodCall()"
+          data-bs-dismiss="modal"
         >
           <i class="bi bi-x-circle"></i> Close
         </button>
@@ -1716,10 +1673,7 @@
     </div>
   </div>
 </div>
-<!-- 
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#examplefullpage">
-   Full Page Modal
-  </button> -->
+
 
 <div
   id="addsalarytemplate"
@@ -2323,6 +2277,9 @@
 
 
 <!-- SALARY CALCULATION MODE MODAL START -->
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#statutoryPro" #statutoryProButton>
+  Launch static backdrop modal
+</button>  
   <div class="modal fade" id="salaryMode" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
@@ -2338,10 +2295,39 @@
             <button type="button" class="proceed-button" (click)="updateSalaryCalculationMode(selectedSalaryModeId)">
               Proceed
           </button>
-        </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
   <!-- SALARY CALCULATION MODE MODAL END -->
+
+
+  <!-- MODE MODAL START -->
+  <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#statutoryOff" #statutoryOffButton>
+    Launch static backdrop modal
+  </button>  
+  <div class="modal fade" id="statutoryOff" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        
+        <div class="modal-body">
+          <div class="">
+            <span class="d-flex justify-content-center"><i class="bi bi-question-circle"></i></span>
+            <h2>Are you sure, you want to proceed?</h2>
+            <p class="d-flex justify-content-center">Note: By clicking on proceed, your changes will get reflected.</p>
+          </div>
+          <div class="d-flex justify-content-center" style="gap:25px">
+            <button type="button" class="cancel-button" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="proceed-button" data-bs-dismiss="modal"
+            [ngClass]="{'disabled-lnk':isUpdating}" (click)="updateStatutory()">
+              Proceed
+          </button>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODE MODAL END -->

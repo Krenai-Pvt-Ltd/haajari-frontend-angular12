@@ -1014,3 +1014,16 @@ a.text-primary:hover {
 .disabled-lnk{
   pointer-events: none;
 }
+
+
+.spinner-border {
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  vertical-align: -0.125em;
+  border: 0.25em solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  -webkit-animation: 0.75s linear infinite spinner-border;
+  animation: 0.75s linear infinite spinner-border;
+}
