@@ -591,13 +591,15 @@ button.btn.close-btn {
   width: 15px;
   top: -1px;
 }
-
+.table tbody{
+  border: 1px solid #f1f1f1;
+}
 .table td {
   font-weight: 500;
   vertical-align: middle;
   font-size: 12px;
   white-space: nowrap;
-  border: 1px solid #f1f1f1;
+  /* border: 1px solid #f1f1f1; */
 }
 .table-font-weight {
   font-weight: 400;
