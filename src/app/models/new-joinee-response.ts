@@ -4,6 +4,7 @@ export class NewJoineeResponse {
     uuid : string = '';
     name : string = '';
     email : string = '';
+    phone : string ='';
     joiningDate : string = '';
     salary : number = 0;
     payActionType : PayActionType = new PayActionType();
