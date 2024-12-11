@@ -1,4 +1,4 @@
-import { map } from 'rxjs/operators';
+
 import { ChangeDetectorRef, Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
@@ -14,7 +14,7 @@ import { RoleBasedAccessControlService } from 'src/app/services/role-based-acces
 import { differenceInMonths, format, parseISO } from 'date-fns';
 import { UserResignation } from 'src/app/models/UserResignation';
 import { LoggedInUser } from 'src/app/models/logged-in-user';
-import { Subject } from 'rxjs';
+import { Skills } from 'src/app/constant/Skills';
 
 @Component({
   selector: 'app-employee-profile-sidebar',
@@ -279,6 +279,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
 
   position: string='';
   positionFilteredOptions: string[] = [];
+  skillsFilteredOptions: string[] = [];
   onChange(value: string): void {
 
       this.positionFilteredOptions = this.jobTitles.filter((option) =>
@@ -286,6 +287,13 @@ export class EmployeeProfileSidebarComponent implements OnInit {
       );
 
   }
+  onSkillsChange(value: string): void {
+
+    this.skillsFilteredOptions = Skills.SKILLS.filter((option) =>
+      option.toLowerCase().includes(value.toLowerCase())
+    );
+
+}
   preventLeadingWhitespace(event: KeyboardEvent): void {
     const inputElement = event.target as HTMLInputElement;
 

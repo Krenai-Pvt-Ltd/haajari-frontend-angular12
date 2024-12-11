@@ -1320,8 +1320,17 @@
                   <div class="col-md-12 mb-3">
                       <div class="form-group position-relative">
                           <label for="assetName" class="mb-2">Skills</label>
-                              <input type="text" (keyup.enter)="addSkill()" class="form-control input-zorro " placeholder="Search Your Skills (Ex: Testing)" style="padding: 10px 70px 10px 40px;" [(ngModel)]="searchSkill" />
+                              <input type="text" (keyup.enter)="addSkill()"
+                               class="form-control input-zorro "
+                               placeholder="Search Your Skills (Ex: Testing)"
+                               style="padding: 10px 70px 10px 40px;"
+                               [(ngModel)]="searchSkill"
+                               (ngModelChange)="onSkillsChange($event)"
+                                [nzAutocomplete]="skillsAuto"
+
+                                (keydown)="preventLeadingWhitespace($event)"/>
                               <i class="bi bi-search search-icon"></i>
+                              <nz-autocomplete [nzDataSource]="skillsFilteredOptions" #skillsAuto></nz-autocomplete>
 
                               <button class="btn p-0 text-primary add-skill" (click)="addSkill()" ><i class="bi bi-plus font-18"></i> Add</button>
                       </div>
@@ -1339,7 +1348,7 @@
                   </div>
               </div>
           </div>
-          <div class="modal-footer d-flex align-items-center justify-content-between">
+          <div class="modal-footer d-flex align-items-center justify-content-end">
               <button  data-bs-dismiss="modal" aria-label="Close" class="btn submitActionBtn" (click)="saveSkills()" [disabled]="isSkillsLoading || checkSkillsArraysEqual()">
                 <span *ngIf="!isSkillsLoading">Save</span>
                 <span *ngIf="isSkillsLoading" class="dot-opacity-loader">
