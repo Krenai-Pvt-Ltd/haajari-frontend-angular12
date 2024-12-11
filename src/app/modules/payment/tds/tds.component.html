@@ -78,33 +78,7 @@
                 ></nz-date-picker>
               </div>
             </div>
-            <!-- <div style="width: 20%; position: relative">
-              <div class="dropdown" style="width: 100%">
-                <button
-                  type="button"
-                  id="dropdownMenuButton1"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                  class="btn btn-secondary dropdown-toggle new-deopdown"
-                >
-                  Select Search
-                  <i
-                    class="bi bi-chevron-down"
-                    style="color: #444; font-size: 15px"
-                  ></i>
-                </button>
-                <ul
-                  aria-labelledby="dropdownMenuButton1"
-                  class="dropdown-menu"
-                  style="width: 100%"
-                >
-                  <li><a class="dropdown-item">Reset All</a></li>
-                  <li><a class="dropdown-item">Approved</a></li>
-                  <li><a class="dropdown-item">Pending</a></li>
-                  <li><a class="dropdown-item">Rejected</a></li>
-                </ul>
-              </div>
-            </div> -->
+           
             <div class="" style="width: 80%">
               <form
                 role="search"
@@ -152,26 +126,7 @@
               </form>
             </div>
 
-            <!-- <div class="" style="width: 20%">
-              <div
-                class="d-flex justify-content-end align-items-center"
-                style="gap: 10px"
-              >
-                <div
-                  class="add-filtter d-flex align-items-center justify-content-end"
-                  style="gap: 10px"
-                >
-                  <a
-                    data-bs-toggle="modal"
-                    data-bs-target="#createteam"
-                    type="button"
-                  >
-                    <i class="bi bi-plus" style="font-size: 18px"></i> Create
-                    Team
-                  </a>
-                </div>
-              </div>
-            </div> -->
+           
           </div>
         </div>
       </div>
@@ -179,13 +134,13 @@
         <table class="table border-dashed mb-0">
           <thead>
             <tr>
-              <th>EMPLOYEE</th>
-              <th>EMAIL ID</th>
+              <th>Employee</th>
+              <th>Email Id</th>
               <th>EPF</th>
               <th>ESI</th>
               <th>TDS</th>
-              <th>STATUS</th>
-              <th>ACTIONS</th>
+              <th>Status</th>
+              <th>Action</th>
             </tr>
           </thead>
           <ng-container
@@ -269,15 +224,7 @@
               <tbody>
                 <tr *ngFor="let employee of employeeMonthWiseSalaryDataList">
                   <td>
-                    <img
-                      [src]="
-                        employee.image
-                          ? employee.image
-                          : 'assets/images/users/user-3.jpg'
-                      "
-                      alt=""
-                      class="rounded-circle thumb-xs me-1"
-                    />
+                    <img [src]=" employee.image ? employee.image : 'assets/images/broken-image-icon.jpg'" alt="" class="rounded-circle thumb-xs me-1"/>
                     {{ employee.name }}
                   </td>
                   <td>{{ employee.email }}</td>
