@@ -24,6 +24,8 @@ import { OvertimeRequestLogResponse } from 'src/app/models/overtime-request-log-
 import { OvertimeResponseDTO } from 'src/app/models/overtime-response-dto';
 import { AttendanceTimeUpdateResponse } from 'src/app/models/attendance-time-update-response';
 import { constant } from 'src/app/constant/constant';
+import * as XLSX from 'xlsx';
+import * as moment from 'moment';
 
 // import { ChosenDate, TimePeriod } from 'ngx-daterangepicker-material/daterangepicker.component';
 
@@ -47,6 +49,7 @@ export class TimetableComponent implements OnInit {
   ) {}
 
   async ngOnInit(): Promise<void> {
+    this.sampleFileUrl ="assets/samples/Hajiri_Employee_Attendance_Sheet.xlsx"
     window.scroll(0, 0);
     this.getOrganizationRegistrationDateMethodCall();
     this.inputDate = this.getCurrentDate();
@@ -1475,7 +1478,381 @@ approveOrReject(id:number, reqString: string) {
     return "Click 'View Location' , to view attendace location on map";
   }
 
+
+  // new 
+
+  @ViewChild('attendanceUploadModal') attendanceUploadModal!:ElementRef;
+  openAttendanceUploadModal(){
+    // console.log("================validate======",modal);
+        this.attendanceUploadModal.nativeElement.click();
+  }
   
+  
+  fileName: any;
+  currentFileUpload: any;
+  expectedColumns: string[] = ['Name*', 'Phone*', 'Email*', 'Date*', 'In-Time*', 'Out-Time*'];
+  correctColumnName: string[] = ['S. NO.*', 'Name*', 'Phone*', 'Email*', 'Date*', 'In-Time*', 'Out-Time*', 'Note'];
+  fileColumnName:string[] = [];
+  isExcel: string = '';
+  data: any[] = [];
+  dataWithoutHeader:any=[];
+  mismatches: string[] = [];
+  invalidRows: boolean[] = []; // Track invalid rows
+  invalidCells: boolean[][] = []; // Track invalid cells
+  isinvalid: boolean=false;
+  jsonData:any[]=[];
+  validateMap: Map<string, string[]> = new Map();
+  @ViewChild('attention') elementToScroll!: ElementRef;
+
+  selectFile(event: any) {
+    this.validateMap= new Map();
+    debugger
+    if (event.target.files && event.target.files.length > 0) {
+      const file = event.target.files[0];
+      this.currentFileUpload = file;
+      this.fileName = file.name;
+
+      if (!this.isExcelFile(file)) {
+        this.isExcel = 'Invalid file type. Please upload an Excel file.';
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = (e: ProgressEvent<FileReader>) => {
+        const arrayBuffer = e.target?.result as ArrayBuffer;
+        const binaryStr = this.arrayBufferToString(arrayBuffer);
+        const workbook = XLSX.read(binaryStr, { type: 'binary' });
+        const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+        this.jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
+        // Reset data and error tracking
+        this.data = [];
+        this.invalidRows = [];
+        this.invalidCells = [];
+        this.validateMap.clear;
+
+        const columnNames: string[] = this.jsonData[0] as string[];
+        debugger
+        if (this.validateColumns(columnNames)) {
+              this.data = this.jsonData.map((row: any[]) => {
+                // Ensure the 5th column is an array of strings, other columns are treated as strings
+                return row.map((cell: any, index: number) => {
+                  if( this.data.length==0){
+                    return cell ? cell.toString().trim() : '';
+                  }else{
+                 if (this.fileColumnName[index] === 'date*' && cell !== 'date*') {
+                    // Use regex to check if cell matches exact MM-DD-YYYY format (reject formats like MM/DD/YYYY)
+                    const isExactFormat = /^\d{2}-\d{2}-\d{4}$/.test(cell);
+                    if (cell.includes('/')) {
+                      return undefined;
+                    }
+                    cell=cell.replace(/\//g, '-');
+
+                    if (isExactFormat) {
+                        // Parse with strict format checking
+                        const formattedDate = moment(cell, 'MM-DD-YYYY', true);
+
+                        // Check if the date is valid and within the next year
+                        if (formattedDate.isValid()) {
+                            const oneYearFromNow = moment().add(1, 'year');
+
+                            // Ensure date is within the next year
+                            if (formattedDate.isBefore(oneYearFromNow)) {
+                                return formattedDate.format('MM-DD-YYYY');
+                            }
+                        }
+                    }
+                    // Return empty string if the format, validity, or date range check fails
+                    return "";
+                  }
+                   else {
+                    // Convert other cells to string and trim whitespace
+                    return cell ? cell.toString().trim() : '';
+                  }
+                }
+
+                });
+              }).filter((row: any[]) =>
+                        // Filter out empty rows
+                  row.some((cell: any) => cell !== '')
+                );
+
+
+
+
+          // Validate all rows and keep track of invalid entries- send daya for validatio after emoving heder row
+          this.validateRows(this.data.slice(1));
+          this.removeAllSingleEntries();
+          this.validateMap.forEach((values, key) => {
+            console.log(`Key: ${key}`);
+            this.mismatches.push(`Repeating values: "${key}" at row no. ${values}`);
+            if(this.elementToScroll){
+            this.elementToScroll!.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            console.log('Values:', values);
+            }
+          });
+          this.totalPage = Math.ceil(this.data.length / this.pageSize);
+
+          if(this.mismatches.length===0){
+            this.isinvalid=false;
+            this.uploadUserFile(file, this.fileName);
+          }else{
+            this.isinvalid=true;
+          }
+
+
+        } else {
+          console.error('Invalid column names');
+        }
+      };
+      reader.readAsArrayBuffer(file);
+    }
+  }
+
+  // firstUpload:boolean=true;
+  // areAllFalse(): boolean {
+  //   if(this.firstUpload===true){
+  //     this.firstUpload=false;
+  //     return false;
+  //   }
+  //   return this.invalidCells
+  //     .reduce((acc, row, rowIndex) => {
+  //       return acc.concat(row.filter((_, colIndex) => this.expectedColumns[colIndex] !== "LeaveNames"));
+  //     }, [])
+  //     .every(value => value === false);
+  // }
+
+  isExcelFile(file: File): boolean {
+    const allowedMimeTypes = [
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', // .xlsx
+      'application/vnd.ms-excel'
+    ];
+
+    const allowedExtensions = ['xlsx', 'xls'];
+
+    return allowedMimeTypes.includes(file.type) && allowedExtensions.includes(file.name.split('.').pop()?.toLowerCase() || '');
+  }
+
+  arrayBufferToString(buffer: ArrayBuffer): string {
+    const byteArray = new Uint8Array(buffer);
+    let binaryStr = '';
+    for (let i = 0; i < byteArray.length; i++) {
+      binaryStr += String.fromCharCode(byteArray[i]);
+    }
+    return binaryStr;
+  }
+
+  validateColumns(columnNames: string[]): boolean {
+    this.mismatches = []; // Reset mismatches
+
+    // Step 2: Normalize both expected and actual column names for comparison
+    const normalizedColumnNames = columnNames.map(col => col.trim().toLowerCase());
+    this.fileColumnName=normalizedColumnNames;
+    const normalizedExpectedColumns = this.expectedColumns.map(col => col.trim().toLowerCase());
+    const normalizedCorrectColumns = this.correctColumnName.map(col => col.trim().toLowerCase());
+
+    // Step 3: Check that every expected column is present in actual column names
+    for (const expectedColumn of normalizedExpectedColumns) {
+      if (!normalizedColumnNames.includes(expectedColumn)) {
+        console.error(`Missing column: "${expectedColumn}"`);
+        this.mismatches.push(`Missing column: "${expectedColumn}"`);
+      }
+    }
+
+    // Step 4: Check if there are extra or incorrect columns in actual column names
+    for (const actualColumn of normalizedColumnNames) {
+      if (!normalizedExpectedColumns.includes(actualColumn) && !normalizedCorrectColumns.includes(actualColumn)) {
+          console.error(`Unexpected or incorrect column: "${actualColumn}"`);
+          this.mismatches.push(`Unexpected or incorrect column: "${actualColumn}"`);
+      }
+  }
+
+    // Step 4: Log and return false if there are any mismatches
+    if (this.mismatches.length > 0) {
+      console.error('Column mismatches found:');
+      this.mismatches.forEach(mismatch => console.error(mismatch));
+      return false;
+    }
+
+    return true;
+  }
+  readonly constants = constant;
+  addToMap(key: string, value: string) {
+    if (this.validateMap.has(key)) {
+      console.log(key,value);
+      // If key exists, add the new value to the existing array
+      this.validateMap.get(key)?.push(value);
+    } else {
+      // If key does not exist, create a new array with the value
+      this.validateMap.set(key, [value]);
+    }
+  }
+  removeAllSingleEntries() {
+    for (const [key, valuesArray] of this.validateMap) {
+      if (valuesArray.length <= 1) {
+        this.validateMap.delete(key);
+      }
+    }
+  }
+
+  validateRows(rows: any[]): void {
+    console.log("🚀 ~ EmployeeOnboardingDataComponent ~ validateRows ~ rows:", rows)
+    this.invalidRows = new Array(rows.length).fill(false); // Reset invalid rows
+    this.invalidCells = Array.from({ length: rows.length }, () => new Array(this.expectedColumns.length).fill(false)); // Reset invalid cells
+
+    for (let i = 0; i < rows.length; i++) {
+      let rowIsValid = true;
+      for (let j = 0; j < this.fileColumnName.length; j++) {
+
+        const cellValue = rows[i][j];
+        if (!cellValue || cellValue === null || cellValue.toString().trim() === '') {
+          rowIsValid = false;
+          this.invalidRows[i] = true; // Mark the row as invalid
+          this.invalidCells[i][j] = true; // Mark the cell as invalid
+
+        }
+        if (this.fileColumnName[j] === 'email*' && cellValue) {
+          this.addToMap(cellValue.toString(),`${i+1}`);
+        }
+        if (this.fileColumnName[j] === 'phone*' && cellValue) {
+          const phoneNumber = cellValue.toString().trim();
+          this.addToMap(cellValue.toString(),`${i+1}`);
+          if (!/^\d{10}$/.test(phoneNumber)) {
+            rowIsValid = false;
+            this.invalidRows[i] = true; // Mark the row as invalid
+            this.invalidCells[i][j] = true; // Mark the cell as invalid
+          }
+        }
+
+      if (this.fileColumnName[j] === 'date*' && cellValue) {
+
+        // Replace slashes with hyphens
+        const normalizedCell = cellValue.toString().trim().replace(/\//g, '-');
+
+        // Check if the normalized cell matches the exact MM-DD-YYYY format
+        const isExactFormat = /^\d{2}-\d{2}-\d{4}$/.test(normalizedCell);
+
+        if (isExactFormat) {
+            // Parse with strict format checking
+            const formattedDate = moment(normalizedCell, 'MM-DD-YYYY', true);
+
+            // Check if the date is valid
+            if (formattedDate.isValid()) {
+                const oneYearFromNow = moment().add(1, 'year');
+
+                // Ensure the date is in the past or less than one year from today
+                if (formattedDate.isAfter(oneYearFromNow)) {
+                    this.data[i+1][j] = undefined;
+                    rowIsValid = false;
+                    this.invalidRows[i] = true; // Mark the row as invalid
+                    this.invalidCells[i][j] = true; // Mark the cell as invalid
+                }
+            } else {
+                // If the date is not valid
+                this.data[i+1][j] = undefined;
+                rowIsValid = false;
+                this.invalidRows[i] = true; // Mark the row as invalid
+                this.invalidCells[i][j] = true; // Mark the cell as invalid
+            }
+        } else {
+            // If the format is not exactly MM-DD-YYYY
+            this.data[i+1][j] = undefined;
+            rowIsValid = false;
+            this.invalidRows[i] = true; // Mark the row as invalid
+            this.invalidCells[i][j] = true; // Mark the cell as invalid
+          }
+        }
+
+
+
+        if (!this.expectedColumns.some(expectedColumn => expectedColumn.toLowerCase() === this.fileColumnName[j].toLowerCase())) {
+          this.invalidCells[i][j] = false;
+        }
+      }
+    }
+    debugger
+
+  }
+
+  importToggle: boolean = false;
+  isProgressToggle: boolean = false;
+  isErrorToggle: boolean = false;
+  errorMessage: string = '';
+  phoneNumberNotFoundArray: any = [];
+  emailNotFoundArray: any = [];
+  onboardUserList : any = [];
+  networkConnectionErrorPlaceholderModal: boolean = false;
+  sampleFileUrl: string = '';
+  pageSize: number = 10; 
+  totalPage: number = 0;
+
+  formatAsCommaSeparated(items: string[]): string {
+    return items.join(', ');
+  }
+
+
+  isShimmerModal: boolean = false;
+  attendanceUploadCountForUser: number = 0;
+  attendanceUploadFailedCountForUser: number = 0;
+  uploadUserFile(file: any, fileName: string) {
+    debugger;
+    this.importToggle = true;
+    this.isProgressToggle = true;
+    this.isErrorToggle = false;
+    this.errorMessage = '';
+    this.attendanceUploadCountForUser = 0;
+    // this.isShimmerModal = true;
+    console.log('File:', file);
+    this.dataService.createAttendanceEntry(file, fileName).subscribe(
+      (response: any) => {
+        if (response.status) {
+          this.importToggle = false;
+          this.isProgressToggle = false;
+          this.isShimmerModal = false;
+          this.attendanceUploadCountForUser = response.object1.length;
+          this.attendanceUploadFailedCountForUser = response.object2.length;
+          // this.getReport();
+          // this.getUser();
+          this.phoneNumberNotFoundArray = response.arrayOfString;
+          this.emailNotFoundArray = response.arrayOfString2;
+          this.networkConnectionErrorPlaceholderModal = false;
+        } else {
+          this.importToggle = true;
+          this.isErrorToggle = true;
+          this.isProgressToggle = false;
+          this.isShimmerModal = false;
+          this.errorMessage = response.message;
+          this.attendanceUploadCountForUser = 0;
+          this.attendanceUploadFailedCountForUser = 0;
+          this.networkConnectionErrorPlaceholderModal = false;
+        }
+      },
+      (error) => {
+        this.importToggle = true;
+        this.isErrorToggle = true;
+        this.isProgressToggle = false;
+        this.isShimmerModal = false;
+        this.errorMessage = error.error.message;
+        this.attendanceUploadCountForUser = 0;
+        this.attendanceUploadFailedCountForUser = 0;
+        // this.networkConnectionErrorPlaceholderModal = true;
+      }
+    );
+  }
+
+  resetModal() {
+    this.attendanceUploadCountForUser = 0;
+    this.attendanceUploadFailedCountForUser = 0;
+    this.isProgressToggle = false;
+    this.isShimmerModal = false;
+    this.networkConnectionErrorPlaceholderModal = false;
+    this.phoneNumberNotFoundArray = [];
+    this.emailNotFoundArray = [];
+
+  }
+
+
+
   
 
 }
