@@ -194,10 +194,12 @@ export class PayrollService {
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-  getPendingLeaves(page: number, size: number): Observable<any> {
+  getPendingLeaves(startDate : string, endDate : string, page: number, size: number): Observable<any> {
     const params = new HttpParams()
-    .set('page', page)
-    .set('size', size);
+    .set('start_date', startDate)
+    .set('end_date', endDate)
+    .set('current_page', page)
+    .set('items_per_page', size);
     return this._http.get<any>(`${this._key.base_url}/payroll/step/attendance/pending-leaves`,{ params });
   }
 

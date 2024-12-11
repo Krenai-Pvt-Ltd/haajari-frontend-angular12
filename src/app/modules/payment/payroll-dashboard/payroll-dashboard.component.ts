@@ -32,6 +32,7 @@ import { UserExitResponse } from 'src/app/models/user-exit-response';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { PayrollService } from 'src/app/services/payroll.service';
+import { Modal } from 'bootstrap';
 
 @Component({
   selector: 'app-payroll-dashboard',
@@ -194,8 +195,8 @@ export class PayrollDashboardComponent implements OnInit {
     this.CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE = this.LEAVES;
     this.resetCriteriaFilter();
     console.log("==========getPendingLeaves==========")
-    this.getPendingLeave(); ///ABHIJEET
-    this.getPayrollLeaveResponseMethodCall();
+    this.getUserPendingLeaves(); ///ABHIJEET
+    // this.getPayrollLeaveResponseMethodCall();
   }
 
   lopSummaryTab(){
@@ -1581,67 +1582,56 @@ extractPreviousMonthNameFromDate(dateString : string){
     this.lopAdjustmentRequest.lopDaysToBeAdjusted = count;
   }
 
-  getPendingLeave(){
-    // this.preRuleForShimmersAndErrorPlaceholdersForPayrollLeaveResponse();
-    this._payrollService.getPendingLeaves(1,10).subscribe((response) => {
-
-      console.log("===response===============",response);
-    }, (error) => {
-     
-    })
-  }
+  
 
   // Fetching user's leave for payroll
 
   payrollLeaveResponseList : PayrollLeaveResponse[] = [];
-  getPayrollLeaveResponseMethodCall(){
-    this.preRuleForShimmersAndErrorPlaceholdersForPayrollLeaveResponse();
-    this._payrollService.getPayrollLeaveResponse(
-      this.startDate,
-      this.endDate,
-      this.itemPerPage,
-      this.pageNumber,
-      this.search,
-      this.searchBy
-    ).subscribe((response) => {
-      if(this._helperService.isListOfObjectNullOrUndefined(response)){
-        this.dataNotFoundPlaceholderForPayrollLeaveResponse = true;
-      } else{
-        this.payrollLeaveResponseList = response.listOfObject;
-        this.total = response.totalItems;
-        this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
-      }
+  // getPayrollLeaveResponseMethodCall(){
+  //   this.preRuleForShimmersAndErrorPlaceholdersForPayrollLeaveResponse();
+  //   this._payrollService.getPayrollLeaveResponse(
+  //     this.startDate,
+  //     this.endDate,
+  //     this.itemPerPage,
+  //     this.pageNumber,
+  //     this.search,
+  //     this.searchBy
+  //   ).subscribe((response) => {
+  //     if(this._helperService.isListOfObjectNullOrUndefined(response)){
+  //       this.dataNotFoundPlaceholderForPayrollLeaveResponse = true;
+  //     } else{
+  //       this.payrollLeaveResponseList = response.listOfObject;
+  //       this.total = response.totalItems;
+  //       this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+  //     }
 
-      this.isShimmerForPayrollLeaveResponse = false;
-    }, (error) => {
-      this.networkConnectionErrorPlaceHolderForPayrollLeaveResponse = true;
-      this.isShimmerForPayrollLeaveResponse = false;
-    })
-  }
+  //     this.isShimmerForPayrollLeaveResponse = false;
+  //   }, (error) => {
+  //     this.networkConnectionErrorPlaceHolderForPayrollLeaveResponse = true;
+  //     this.isShimmerForPayrollLeaveResponse = false;
+  //   })
+  // }
 
   userUuid!: string
-  @ViewChild('leaveLogsModalButton') leaveLogsModalButton !: ElementRef;
+  // @ViewChild('leaveLogsModalButton') leaveLogsModalButton !: ElementRef;
   // /userLeaveLogs : UserInfoForPayrollReflection = new UserInfoForPayrollReflection();
-  userLeaveLogs : any;
-  getPayrollLeaveLogResponseMethodCall(userUuid : string){
-    this.userUuid = userUuid;
-    this._payrollService.getPayrollLeaveLogsResponse(
-      userUuid,
-      this.startDate,
-      this.endDate
-    ).subscribe((response) => {
-      this.userLeaveLogs = response.listOfObject;
-      // console.log(response.listOfObject);
+  // userLeaveLogs : any;
+  // getPayrollLeaveLogResponseMethodCall(userUuid : string){
+  //   this.userUuid = userUuid;
+  //   this._payrollService.getPayrollLeaveLogsResponse(
+  //     userUuid,
+  //     this.startDate,
+  //     this.endDate
+  //   ).subscribe((response) => {
+  //     this.userLeaveLogs = response.listOfObject;
+  //     // console.log(response.listOfObject);
       
-    }, (error) => {
+  //   }, (error) => {
       
-    })
-  }
+  //   })
+  // }
 
-  openLeaveLogsModal(userUuid : string){
-    this.getPayrollLeaveLogResponseMethodCall(userUuid);
-    this.leaveLogsModalButton.nativeElement.click();
-  }
+  
 
   selectedRole : Role = new Role();
   roles : Role[] = [];
@@ -2012,23 +2002,6 @@ extractPreviousMonthNameFromDate(dateString : string){
 
 
 
-  // updateEsiFinalAmount(esiDetailsResponse : EsiDetailsResponse) {
-  //   if (esiDetailsResponse.amountToBeAdjusted != null) {
-  //     esiDetailsResponse.finalAmount = esiDetailsResponse.amountToBeAdjusted;
-  //   } else {
-  //     esiDetailsResponse.finalAmount = esiDetailsResponse.amount;
-  //   }
-  // }
-
-  // updateTdsFinalAmount(tdsDetailsResponse : TdsDetailsResponse) {
-  //   if (tdsDetailsResponse.amountToBeAdjusted != null) {
-  //     tdsDetailsResponse.finalAmount = tdsDetailsResponse.amountToBeAdjusted;
-  //   } else {
-  //     tdsDetailsResponse.finalAmount = tdsDetailsResponse.amount;
-  //   }
-  // }
-
-
   registerEpfEsiTdsMethodCall(CURRENT_TAB_IN_EPF_ESI_TDS : number){
 
     if(CURRENT_TAB_IN_EPF_ESI_TDS == this.EPF){
@@ -2125,31 +2098,7 @@ extractPreviousMonthNameFromDate(dateString : string){
     })
   }
 
-  rejectionReason: string =''
-  approveOrDeny(requestId: number, requestedString: string) {
-    this.dataService
-      .approveOrRejectLeaveOfUser(requestId, requestedString, this.rejectionReason)
-      .subscribe({
-        next: (logs) => {
-        this.getPayrollLeaveLogResponseMethodCall(this.userUuid);
-          // this.leaveLogsModalButton.nativeElement.click();
-
-          // Show toast message
-          let message =
-            requestedString === 'approved'
-              ? 'Leave approved successfully!'
-              : 'Leave rejected successfully!';
-          this._helperService.showToast(message, Key.TOAST_STATUS_SUCCESS);
-        },
-        error: (error) => {
-          
-          this._helperService.showToast(
-            'Error processing leave request!',
-            Key.TOAST_STATUS_ERROR
-          );
-        },
-      });
-  }
+  
 
 
   RUN_PAYROLL_LOADER : boolean = false;
@@ -2196,14 +2145,21 @@ extractPreviousMonthNameFromDate(dateString : string){
   }
 
 
-  payrollLogs: any[] = [];
+  
+  
+
+  // ########################--Validation--##############################
+ 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+payrollLogs: any[] = [];
   isPayrollHistoryPlaceholder = true;
   dataNotFoundPlaceholderForPayrollHistory : boolean = false;
   networkConnectionErrorPlaceHolderForPayrollHistory : boolean = false;
   getPayrollLogs(): void {
     this.payrollLogs = [];
     this._payrollService.getGeneratedPayrollMonthlyLogs(this.startDate, this.endDate).subscribe(
-        (response: any) => {
+        (response) => {
 
           if(response.object== null || response.object.length==0){
             this.dataNotFoundPlaceholderForPayrollHistory = true;
@@ -2212,20 +2168,94 @@ extractPreviousMonthNameFromDate(dateString : string){
           }
           this.isPayrollHistoryPlaceholder = this.payrollLogs.length === 0;
         },
-        (error: any) => {
+        (error) => {
           this.isPayrollHistoryPlaceholder = true;
           this.networkConnectionErrorPlaceHolderForPayrollHistory = true;
         }
       );
   }
+
+
+  pendingLeavesList:any[]=[];
+  getUserPendingLeaves(){
+    this.preRuleForShimmersAndErrorPlaceholdersForPayrollLeaveResponse();
+    this._payrollService.getPendingLeaves(this.startDate,this.endDate,1,10).subscribe((response) => {
+      if(response.status){
+        this.pendingLeavesList = response.object;
+      } 
+      this.isShimmerForPayrollLeaveResponse = false;
+    }, (error) => {
+      this.networkConnectionErrorPlaceHolderForPayrollLeaveResponse = true;
+      this.isShimmerForPayrollLeaveResponse = false;
+     
+    })
+  }
+
+
+  approvedLoader:boolean = false;
+  rejecetdLoader:boolean=false;
+  rejectionToggle:boolean=false;
+  rejectionReason: string ='';
+  approveOrDenyLeave(leaveId: number, status: string) {
+    if(status == 'approved'){
+      this.approvedLoader = true;
+    }else{
+      this.rejecetdLoader = true;
+    }
+    this.dataService.approveOrRejectLeaveOfUser(leaveId, status, this.rejectionReason).subscribe(
+      (response) => {
+        if(response.status){
+          this.getUserPendingLeaves();
+        }else{
+
+        }
+        this.approvedLoader = false;
+        this.rejecetdLoader = false;
+      },(error) => {
+        this.approvedLoader = false;
+        this.rejecetdLoader = false;
+        this._helperService.showToast('Error processing!',Key.TOAST_STATUS_ERROR);
+      });
+  }
+
+
+  openLeaveLogsModal(leaveId : number, type:string ){
+   this.rejectionReason = '';
+   this.getPendingLeaveDetail(leaveId,type);
+   this.openSecondModal();
+  }
+
+
+  pendingLeaveDetail:any;
+  pendingLeaveDetailFetch : boolean =false;
+  getPendingLeaveDetail(leaveId: number, leaveType: string) {
+    this.pendingLeaveDetailFetch = true;
+    this.dataService.getRequestedUserLeaveByLeaveIdAndLeaveType(leaveId, leaveType).subscribe((response)  => {
+        if(response.status){    
+          this.pendingLeaveDetail = response.object;
+        }else{
+          this.pendingLeaveDetail = null;
+        }
+        this.pendingLeaveDetailFetch = false;
+      },(error)=>{
+        this.pendingLeaveDetailFetch = false;
+      });
+}
+
+  openSecondModal() {
+    const modal1 = document.getElementById('leaves');
+    const modal2 = document.getElementById('pendingLeaveModal');
+
+    if (modal1 && modal2) {
+      // Adjust z-index for the second modal
+      modal2.style.zIndex = (parseInt(window.getComputedStyle(modal1).zIndex) + 10).toString();
+
+      // Open the second modal
+      const modalInstance2 = new Modal(modal2);
+      modalInstance2.show();
+    }
+  }
   
-
-  // ########################--Validation--##############################
- 
-
-
-
-
 
 }
 
