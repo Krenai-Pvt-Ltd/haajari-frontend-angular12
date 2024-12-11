@@ -1,3 +1,4 @@
+import { map } from 'rxjs/operators';
 import { ChangeDetectorRef, Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
@@ -74,6 +75,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     this.getEmployeeProfileData();
     this.getUserAttendanceStatus();
     this.fetchUserPositions();
+    this.getSkills();
 
     this.ROLE = await this.roleService.getRole();
     this.UUID = await this.roleService.getUuid();
@@ -112,6 +114,70 @@ export class EmployeeProfileSidebarComponent implements OnInit {
          console.log(error);
     })
     console.log("employee profile", this.employeeProfileResponseData);
+  }
+
+  skills: string[] = [];
+
+  searchSkill: string = '';
+  addSkill(): void {
+    if (this.searchSkill && !this.skills.includes(this.searchSkill)) {
+      this.skills.push(this.searchSkill);
+      this.searchSkill = ''; // Clear input field after adding
+    }
+  }
+  checkSkillsArraysEqual(): boolean {
+    debugger
+    if (this.skills.length !== this.fetchedSkills.length) {
+      return false;
+    }
+
+    // Sort both arrays and compare each element
+    const sortedArr1 = [...this.skills].sort();
+    const sortedArr2 = [...this.fetchedSkills].sort();
+
+    return sortedArr1.every((value, index) => value === sortedArr2[index]);
+  }
+
+  removeSkill(skill: string): void {
+    const index = this.skills.indexOf(skill);
+    if (index !== -1) {
+      this.skills.splice(index, 1);
+    }
+  }
+
+
+  fetchedSkills: string[] = [];
+  isSkillsLoading: boolean=false;
+  viewLess: boolean=true;
+  @ViewChild('closeButton') closeButton!: ElementRef;
+  saveSkills(): void {
+    debugger
+    this.isSkillsLoading=true;
+    this.dataService.saveSkills(this.userId, this.skills).subscribe(
+      (response) => {
+        this.isSkillsLoading=false;
+        this.helperService.showToast(response.message,Key.TOAST_STATUS_SUCCESS);
+        this.getSkills();
+        this.closeButton.nativeElement.click();
+      },
+      error => {
+        this.isSkillsLoading=false;
+        console.error('Error saving skills', error);
+      }
+    );
+  }
+
+  // Fetch skills from backend
+  getSkills(): void {
+    this.dataService.getSkills(this.userId).subscribe(
+      (skills) => {
+        this.fetchedSkills = skills;
+        this.skills= JSON.parse(JSON.stringify(skills));;
+      },
+      error => {
+        console.error('Error fetching skills', error);
+      }
+    );
   }
 
   fetchUserPositions(): void {
@@ -160,14 +226,24 @@ export class EmployeeProfileSidebarComponent implements OnInit {
   }
 
   InOutLoader: boolean = false;
+  outLoader: boolean = false;
+  breakLoader: boolean = false;
   modalUrl: SafeResourceUrl | null = null;
   @ViewChild('urlModalTemplate', { static: true }) urlModalTemplate!: TemplateRef<any>;
 
   checkinCheckout(command: string) {
     this.InOutLoader = true;
+    if(command==='/out'){
+      this.outLoader=true;
+    }
+    if(command==='/break'){
+      this.breakLoader=true;
+    }
     this.dataService.checkinCheckoutInSlack(this.userId, command).subscribe(
       (data) => {
         this.InOutLoader = false;
+        this.outLoader=false;
+        this.breakLoader=false;
 
         // Check if data.message is a valid URL
         const urlPattern = /^(https?:\/\/[^\s/$.?#].[^\s]*)$/;
@@ -183,6 +259,8 @@ export class EmployeeProfileSidebarComponent implements OnInit {
       },
       (error) => {
         this.InOutLoader = false;
+        this.outLoader=false;
+        this.breakLoader=false;
         this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
       }
     );
@@ -293,23 +371,46 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     }
   }
 
-  duration: string = '0 year 0 months';
+  duration: string = '';
   setWithUsDuration() {
-    debugger
-    const dates = this.userPositionDTO.map(position => ({
-      start: parseISO(position.startDate),
-      end: position.endDate ? parseISO(position.endDate) : new Date()
-    }));
+    debugger;
 
-    const minDate = dates.reduce((min, date) => date.start < min ? date.start : min, dates[0].start);
-    const maxDate = dates.reduce((max, date) => date.end > max ? date.end : max, dates[0].end);
+    if (!this.userPositionDTO || this.userPositionDTO.length === 0) {
+      this.duration = '';
+      return;
+    }
 
-    const totalMonths = differenceInMonths(maxDate, minDate);
-    const years = Math.floor(totalMonths / 12);
-    const months = totalMonths % 12;
+    // Get the last element of the DTO
+    const lastElement = this.userPositionDTO[this.userPositionDTO.length - 1];
 
-    this.duration = `${years} years ${months} months`;
+    // If the last element's startDate is empty
+    if (!lastElement.startDate) {
+      const dates = this.userPositionDTO.map(position => ({
+        start: parseISO(position.startDate),
+        end: position.endDate ? parseISO(position.endDate) : new Date()
+      }));
+
+      const minDate = dates.reduce((min, date) => date.start < min ? date.start : min, dates[0].start);
+      const maxDate = dates.reduce((max, date) => date.end > max ? date.end : max, dates[0].end);
+
+      const totalMonths = differenceInMonths(maxDate, minDate);
+      const years = Math.floor(totalMonths / 12);
+      const months = totalMonths % 12;
+
+      this.duration = `${years} years ${months} months`;
+    } else {
+      // If the last element's startDate is available
+      const startDate = parseISO(lastElement.startDate);
+      const currentDate = new Date();
+
+      const totalMonths = differenceInMonths(currentDate, startDate);
+      const years = Math.floor(totalMonths / 12);
+      const months = totalMonths % 12;
+
+      this.duration = `${years} years ${months} months`;
+    }
   }
+
 
 
 

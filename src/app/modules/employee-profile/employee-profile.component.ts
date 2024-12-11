@@ -11,7 +11,9 @@ import { RoleBasedAccessControlService } from 'src/app/services/role-based-acces
 })
 export class EmployeeProfileComponent implements OnInit {
 
-  constructor(private roleService: RoleBasedAccessControlService, private dataService: DataService) { }
+  constructor(private roleService: RoleBasedAccessControlService, private dataService: DataService,
+    private activateRoute: ActivatedRoute,
+  ) { }
 
   ngOnInit(): void {
     this.getUuid();
@@ -25,12 +27,11 @@ export class EmployeeProfileComponent implements OnInit {
   public async getUuid(){
     this.UUID = await this.roleService.getUuid();
     this.currentUserUuid = await this.roleService.getUuid();
-    this.userId = await this.roleService.getUuid();
 
-    // if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
-    //   this.userId = this.activateRoute.snapshot.queryParamMap.get('userId');
-    // }
-    // this.currentUserUuid = this.rbacService.getUuid();
+    if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
+      this.userId = this.activateRoute.snapshot.queryParamMap.get('userId');
+    }
+
 
     this.getEmployeeProfileData();
   }
@@ -50,7 +51,7 @@ export class EmployeeProfileComponent implements OnInit {
         this.isEmployeeExit = true;
         this.resignationDate = this.employeeProfileResponseData.approvedDate;
       }
-      
+
       this.isLoading = false;
 
     }, (error) => {

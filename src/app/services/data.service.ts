@@ -4358,7 +4358,7 @@ getHolidayForOrganization(date: string): Observable<any>{
     if(statusIds.length > 0){
       params = params.set("statusIds", statusIds.join(','));
     }
-   
+
     if(userUuid){
       params = params.set("userUuid", userUuid);
     }
@@ -4540,6 +4540,19 @@ getHolidayForOrganization(date: string): Observable<any>{
   }
   getRecentlyWorkAnniversary(): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/users/work-anniversary`);
+  }
+
+  saveSkills(userUuid: string, skills: string[]): Observable<any> {
+    const body = skills;
+    return this.httpClient.post<void>(`${this.baseUrl}/skills/save-skills`, body, {
+      params: { userUuid }
+    });
+  }
+
+  getSkills(userUuid: string): Observable<string[]> {
+    return this.httpClient.get<string[]>(`${this.baseUrl}/skills/get-skills`, {
+      params: { userUuid }
+    });
   }
 }
 
