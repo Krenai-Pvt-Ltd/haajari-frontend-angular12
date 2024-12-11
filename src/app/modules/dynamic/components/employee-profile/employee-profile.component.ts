@@ -1,7 +1,7 @@
 import { DatePipe, Location } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
-import * as moment from 'moment';
+import moment from 'moment';
 import { AttendenceDto } from 'src/app/models/attendence-dto';
 import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -185,7 +185,7 @@ export class EmployeeProfileComponent implements OnInit {
     this.getStatutoryByOrganizationIdMethodCall();
     this.getSalaryConfigurationStepMethodCall();
     this.getSalaryTemplateComponentByUserUuidMethodCall();
-   
+
     // this.getEmployeeCompanyDocumentsMethodCall();
     // this.helperService.saveOrgSecondaryToDoStepBarData(0);
     this.ROLE = await this.roleService.getRole();
@@ -702,7 +702,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
 
   getStatusColor(status: any): string {
       if (status.includes('Leave')|| status.includes('Duty')) {
-        return 'rgb(255, 255, 143)'; 
+        return 'rgb(255, 255, 143)';
       }
     switch (status) {
       case 'Present':
@@ -1042,7 +1042,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
             this.helperService.showToast(data.message, Key.TOAST_STATUS_ERROR);
           }
 
-          
+
         },
         (error) => {
           this.submitLeaveLoader = false;
@@ -1924,7 +1924,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
   }
 
   //Fetching the PF contribution rates
-  pFContributionRateList: PFContributionRate[] = [];                       
+  pFContributionRateList: PFContributionRate[] = [];
   getPFContributionRateMethodCall() {
     this._salaryService.getPFContributionRate().subscribe(
       (response) => {
@@ -1940,7 +1940,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
   }
 
    //Fetching the ESI contribution rates
-  eSIContributionRateList: ESIContributionRate[] = [];                     
+  eSIContributionRateList: ESIContributionRate[] = [];
   getESIContributionRateMethodCall() {
     this._salaryService.getESIContributionRate().subscribe(
       (response) => {
@@ -3542,11 +3542,11 @@ closeAttendanceFunc() {
   validationError: string | null = null;
   selectTimeForOvertimeRequest(dates: Array<Date | null> | Date | Date[] | null): void {
     this.validationError = null; // Reset validation error message
-  
+
     if (Array.isArray(dates) && dates.length === 2) {
       const startTime = dates[0] ? new Date(dates[0]) : null;
       const endTime = dates[1] ? new Date(dates[1]) : null;
-  
+
       if (startTime && endTime) {
         // Check if end time is before start time
         if (endTime < startTime) {
@@ -3554,11 +3554,11 @@ closeAttendanceFunc() {
           this.overtimeRequestDTO.workingHour = null;
           return; // Exit early if the validation fails
         }
-  
+
         // Calculate the time difference
         const durationMs = endTime.getTime() - startTime.getTime();
         const durationInHours = durationMs / (1000 * 60 * 60); // Convert milliseconds to hours
-  
+
         // Check if the duration exceeds 23 hours 59 minutes
         if (durationInHours > 23.9833) { // 23.9833 hours is 23 hours 59 minutes
           this.validationError = 'The duration cannot exceed 23 hours, 59 minutes.';
@@ -3578,7 +3578,7 @@ closeAttendanceFunc() {
       this.overtimeRequestDTO.workingHour = '';
     }
   }
-  
+
 
 
   // // Disable inappropriate dates based on the start date
@@ -3591,7 +3591,7 @@ closeAttendanceFunc() {
   //   }
   //   return false; // No date is disabled if no start date is selected
   // };
-  
+
 
   overtimeRequestLoader : boolean = false;
   overtimeRequestDTO : OvertimeRequestDTO = new OvertimeRequestDTO();
@@ -3786,7 +3786,7 @@ closeAttendanceFunc() {
     this.loading = true;
     this.expenseList = []
     // this.ROLE = await this.rbacService.getRole();
-   
+
     if(this.expenseSelectedDate == null){
       this.startDate = '';
       this.endDate = '';
@@ -3885,7 +3885,7 @@ closeAttendanceFunc() {
   createExpense(form: NgForm) {
     debugger
     this.createToggle = true;
-   
+
     this.dataService.createExpense(this.expenseTypeReq).subscribe((res: any) => {
       if (res.status) {
         this.expenseTypeReq = new ExpenseType();
@@ -3921,7 +3921,7 @@ closeAttendanceFunc() {
     // setTimeout(() =>{
     //   this.fetchManagerNames()
     // })
-    
+
     // this.getManagerId(expense.managerId)
 
     this.expenseTypeReq.id = expense.id
@@ -3933,7 +3933,7 @@ closeAttendanceFunc() {
     this.expenseTypeReq.managerId = expense.managerId
     this.expenseTypeId = expense.expenseTypeId
     this.managerId = expense.managerId
-    
+
 
 
   }

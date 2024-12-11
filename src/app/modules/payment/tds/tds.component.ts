@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import * as moment from 'moment';
+import moment from 'moment';
 import { Key } from 'src/app/constant/key';
 import { EmployeeMonthWiseSalaryData } from 'src/app/models/employee-month-wise-salary-data';
 import { StartDateAndEndDate } from 'src/app/models/start-date-and-end-date';

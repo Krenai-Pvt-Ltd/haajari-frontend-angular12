@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { NgForm } from '@angular/forms';
-import * as moment from 'moment';
+import moment from 'moment';
 import { constant } from 'src/app/constant/constant';
 import { Key } from 'src/app/constant/key';
 import { ApproveReq } from 'src/app/models/ApproveReq';
@@ -274,7 +274,7 @@ export class CreateExpenseComponent implements OnInit {
     this.payCashDiv = false;
     this.rejectDiv = false;
     this.showTransactionDiv = false;
-    
+
     this.expensePaymentType = 'full'
     this.partialAmount = ''
     this.partiallyPayment = false;
@@ -438,7 +438,7 @@ export class CreateExpenseComponent implements OnInit {
 
     this.approveReq.isPartiallyPayment = type;
     if (this.approveReq.isPartiallyPayment == 0) {
-      this.approveReq.amount = 0; 
+      this.approveReq.amount = 0;
     }
 
     if (this.approveReq.isPartiallyPayment == 1) {
@@ -457,7 +457,7 @@ export class CreateExpenseComponent implements OnInit {
       if(res.status){
         this.exportUrl = res.object
         this.exportLoading = false;
-       
+
         if (this.exportUrl != null) {
           setTimeout(() => {
             this.expenseDownload.nativeElement.click();
@@ -521,16 +521,16 @@ export class CreateExpenseComponent implements OnInit {
 const selectedExpense = this.getDefaultExpenseType(expense);
 console.log('selectedExpense', selectedExpense);
 this.expenseTypeName = selectedExpense.name
-    
+
 
     // this.isExpenseTypeSelected = true;
-    // this.paymentType = ''; 
-    // this.flexibleAmount = null; 
+    // this.paymentType = '';
+    // this.flexibleAmount = null;
     this.isExpenseTypeSelected = true;
     if(!this.editIndexPolicyToggle){
        this.isExpenseTypeSelected = true;
-    this.paymentType = ''; 
-    this.flexibleAmount = null; 
+    this.paymentType = '';
+    this.flexibleAmount = null;
     }
 
     // console.log('typeId expenseTypeName: ',this.expenseTypeName)
@@ -1840,20 +1840,20 @@ selectFile(event: any) {
             } else {
               // Validate date format MM-DD-YYYY
               const isExactFormat = /^\d{2}-\d{2}-\d{4}$/.test(cell);
-              
+
               // Replace '/' with '-' if present
               if (typeof cell === 'string') {
                 cell = cell.replace(/\//g, '-');
               }
-      
+
               if (isExactFormat) {
                 // Parse the date strictly in MM-DD-YYYY format
                 const formattedDate = moment(cell, 'yyyy-MM-dd', true);
-      
+
                 // Check if the date is valid and within the next year
                 if (formattedDate.isValid()) {
                   const oneYearFromNow = moment().add(1, 'year');
-      
+
                   if (formattedDate.isBefore(oneYearFromNow)) {
                     return formattedDate.format('yyyy-MM-dd'); // Standard format
                   }
@@ -1877,12 +1877,12 @@ selectFile(event: any) {
           console.log('Values:', values);
           }
         });
-        // this.totalPage = Math.ceil(this.data.length / this.pageSize); 
+        // this.totalPage = Math.ceil(this.data.length / this.pageSize);
         this.totalPage = 10;
 
         // if(this.areAllFalse() && this.mismatches.length===0){
         //   this.isinvalid=false;
-        //   this.uploadUserFile(file, this.fileName); 
+        //   this.uploadUserFile(file, this.fileName);
         // }else{
         //   this.isinvalid=true;
         // }
@@ -1904,7 +1904,7 @@ paginatedData: any[] = [];
 updatePaginatedData() {
   // Calculate the start index for pagination
   let start = (this.currentPage - 1) * this.pageSize;
-  
+
   // Adjust start to consider data indexing
   start = start + 1;
 
@@ -2060,10 +2060,10 @@ onPageChange(page: number) {
   validateRowToggle: boolean = false;
   validateRows(rows: any[]): void {
     debugger;
-    
+
     this.invalidRows = new Array(rows.length).fill(false); // Reset invalid rows
     this.invalidCells = Array.from({ length: rows.length }, () => new Array(this.expectedColumns.length).fill(false)); // Reset invalid cells
-  
+
     for (let i = 0; i < rows.length; i++) {
       for (let j = 0; j < this.fileColumnName.length; j++) {
         const cellValue = rows[i][j];
@@ -2075,8 +2075,8 @@ onPageChange(page: number) {
             this.validateRowToggle = true;
             this.invalidRows[i] = true;
             this.invalidCells[i][j] = true; // Mark the cell as invalid
-          } 
-          
+          }
+
         }
 
         // Expense Amount should be greater than 0 and not be empty
@@ -2096,7 +2096,7 @@ onPageChange(page: number) {
             }
           }
         }
-        
+
       // Settled amount should be less from Expense amount'
       if (this.fileColumnName[j] === 'Settled Amount') {
         // Check if the field is empty or invalid
@@ -2125,7 +2125,7 @@ onPageChange(page: number) {
           }
         }
       }
-        
+
 
       // If you have enter here then the values accpet only 'Online', 'Cash' otherwise not
         if (this.fileColumnName[j] === 'Payment Method') {
@@ -2144,7 +2144,7 @@ onPageChange(page: number) {
           // Find the index of the 'Payment Method' column
           const paymentMethodIndex = this.fileColumnName.indexOf('Payment Method');
           const paymentMethod = paymentMethodIndex !== -1 ? rows[i][paymentMethodIndex]?.toString().trim() : null;
-        
+
           if (paymentMethod) {
             if (paymentMethod.toUpperCase() === 'CASH') {
 
@@ -2175,7 +2175,7 @@ onPageChange(page: number) {
         if (this.fileColumnName[j] === 'Lapse Remaining Amount') {
           // Valid values are 'YES' or 'NO'
           const validLapsePaymentAmount = ['YES', 'NO'];
-        
+
           // Convert cellValue to uppercase and check if it's in the valid set
           if (cellValue && !validLapsePaymentAmount.includes(cellValue.trim().toUpperCase())) {
             // If there's a value, it must be 'YES' or 'NO' (case insensitive)
@@ -2188,17 +2188,17 @@ onPageChange(page: number) {
             this.invalidCells[i][j] = false; // Allow empty field
           }
         }
-        
-        
+
+
         // If Settled Amount is less than from Expense amount then this function will call
         if (this.fileColumnName[j] === 'Lapse Remaining Amount') {
           const settledAmountIndex = this.fileColumnName.indexOf('Settled Amount');
           const amountIndex = this.fileColumnName.indexOf('Expense Amount');
-  
+
           const lapseAmount = cellValue ? parseFloat(cellValue) : null;
           const settledAmount = rows[i][settledAmountIndex] ? parseFloat(rows[i][settledAmountIndex]) : null;
           const amount = rows[i][amountIndex] ? parseFloat(rows[i][amountIndex]) : null;
-  
+
           // Check if "Settled Amount" is less than "Amount" and "Lapse Amount" is empty
           if (settledAmount != null && amount != null && settledAmount < amount && (lapseAmount == null || lapseAmount <= 0)) {
             this.validateRowToggle = true;

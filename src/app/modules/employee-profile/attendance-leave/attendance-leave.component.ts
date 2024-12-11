@@ -12,6 +12,8 @@ import { ExpenseType } from 'src/app/models/ExpenseType';
 import { EmployeeProfileAttendanceResponse, TotalEmployeeProfileAttendanceResponse } from 'src/app/models/employee-profile-attendance_response';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
+// import { Timeline } from 'vis-timeline'
+import { Timeline,DataSet } from 'vis-timeline/standalone';
 
 @Component({
   selector: 'app-attendance-leave',
@@ -36,11 +38,16 @@ modal: any;
       this.userId = this.activateRoute.snapshot.queryParamMap.get('userId');
     }
     // this.getFirstAndLastDateOfMonth(this.selectedDate);
-    this.calculateDateRange();
 
    }
 
   ngOnInit(): void {
+    this.getTimelineData();
+    this.getTimelineGroups();
+    this.getOptions();
+    this.timeline = new Timeline(this.timelineContainer?.nativeElement, this.data, this.options);
+    this.timeline.setGroups(this.groups);
+    this.timeline.setItems(this.data);
     this.userLeaveForm = this.fb.group({
       startDate: [null, Validators.required],
       endDate: [null, Validators.required],
@@ -61,9 +68,12 @@ modal: any;
     this.calculateDateRange();
     this.getEmployeeProfileAttendanceDetailsData();
     this.currentUserUuid = this.rbacService.getUuid();
+
+    this.calculateDateRange();
+
   }
   get canSubmit() {
-    return this.userLeaveForm.valid;
+    return this.userLeaveForm?.valid;
   }
 
   isHalfLeaveSelected: boolean = false;
@@ -468,7 +478,7 @@ dayShiftToggleFun(shift: string) {
     this.leaveApplyButton.nativeElement.click();
   }
 
-  //  attendance tab code 
+  //  attendance tab code
 
   size: 'large' | 'small' | 'default' = 'small';
   selectedDate: Date = new Date();
@@ -491,13 +501,13 @@ dayShiftToggleFun(shift: string) {
     this.calculateDateRange();
     this.getEmployeeProfileAttendanceDetailsData();
   }
-  
+
   updateThirtyDaysLabel(): void {
     const currentDate = new Date();
     const isCurrentMonth =
       this.selectedDate.getFullYear() === currentDate.getFullYear() &&
       this.selectedDate.getMonth() === currentDate.getMonth();
-  
+
     if (isCurrentMonth) {
       // this.thirtyDaysLabel = `${currentDate.getDate()} Days`;
       this.thirtyDaysLabel = `All`;
@@ -511,7 +521,7 @@ dayShiftToggleFun(shift: string) {
       this.thirtyDaysLabel = `All`;
     }
   }
-  
+
   updateWeekLabels(): void {
     const currentDate = new Date();
     const daysInMonth = new Date(
@@ -522,19 +532,19 @@ dayShiftToggleFun(shift: string) {
     const isCurrentMonth =
       this.selectedDate.getFullYear() === currentDate.getFullYear() &&
       this.selectedDate.getMonth() === currentDate.getMonth();
-  
+
     const lastDay = isCurrentMonth ? currentDate.getDate() : daysInMonth;
     const weeks = Math.ceil(lastDay / 7);
-  
+
     this.weekLabels = Array.from({ length: weeks }, (_, i) => `Week ${i + 1}`);
   }
-  
+
   calculateDateRange(): void {
     const currentDate = new Date();
     const isCurrentMonth =
       this.selectedDate.getFullYear() === currentDate.getFullYear() &&
       this.selectedDate.getMonth() === currentDate.getMonth();
-  
+
     if (this.selectedTab === '30 DAYS') {
       this.startDate = this.formatDateToYYYYMMDD(
         new Date(this.selectedDate.getFullYear(), this.selectedDate.getMonth(), 1)
@@ -552,7 +562,7 @@ dayShiftToggleFun(shift: string) {
     const currentDate = new Date();
     const startOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
     const lastDayOfMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0);
-  
+
     const weekStart = new Date(
       startOfMonth.getFullYear(),
       startOfMonth.getMonth(),
@@ -563,9 +573,9 @@ dayShiftToggleFun(shift: string) {
       weekStart.getMonth(),
       weekStart.getDate() + 6
     );
-  
+
     this.startDate = this.formatDateToYYYYMMDD(weekStart);
-  
+
     // Update end date logic
     if (weekEnd > lastDayOfMonth) {
       // If it's the last week of the month, adjust to the last day of the month
@@ -581,7 +591,7 @@ dayShiftToggleFun(shift: string) {
       this.endDate = this.formatDateToYYYYMMDD(weekEnd);
     }
   }
-  
+
   // setWeekRange(date: Date, weekNumber: number): void {
   //   const startOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
   //   const weekStart = new Date(
@@ -594,7 +604,7 @@ dayShiftToggleFun(shift: string) {
   //     weekStart.getMonth(),
   //     weekStart.getDate() + 6
   //   );
-  
+
   //   this.startDate = this.formatDateToYYYYMMDD(weekStart);
   //   this.endDate = this.formatDateToYYYYMMDD(
   //     weekEnd > new Date(date.getFullYear(), date.getMonth() + 1, 0)
@@ -602,14 +612,14 @@ dayShiftToggleFun(shift: string) {
   //       : weekEnd
   //     );
   // }
-  
+
   formatDateToYYYYMMDD(date: Date): string {
     const year = date.getFullYear();
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const day = date.getDate().toString().padStart(2, '0');
     return `${year}-${month}-${day}`;
   }
-  
+
   onTabChange(tab: string): void {
     this.selectedTab = tab;
     this.presentWeek = false;
@@ -619,7 +629,7 @@ dayShiftToggleFun(shift: string) {
     this.getEmployeeProfileAttendanceDetailsData();
   }
 
-  
+
 
   organizationRegistrationDate: string = '';
   getOrganizationRegistrationDateMethodCall() {
@@ -641,7 +651,7 @@ dayShiftToggleFun(shift: string) {
     debugger;
     this.isShimmer = true;
     this.attendanceDetails = [];
-    // this.totalAttendanceDetails = new TotalEmployeeProfileAttendanceResponse(); 
+    // this.totalAttendanceDetails = new TotalEmployeeProfileAttendanceResponse();
     this.dataService.getEmployeeProfileAttendanceDetails(this.userId, this.startDate, this.endDate).subscribe(
       (response) => {
        this.isShimmer = false;
@@ -669,10 +679,10 @@ dayShiftToggleFun(shift: string) {
 
     const isNegative = time.startsWith('-');
     const timeWithoutSign = isNegative ? time.substring(1) : time;
-    
+
     // Split the time string into hours, minutes, and seconds
     const [hours, minutes, seconds] = timeWithoutSign.split(':').map((part) => parseInt(part, 10));
-    
+
     // Build the result
     let result = '';
     if (hours !== 0) {
@@ -681,7 +691,7 @@ dayShiftToggleFun(shift: string) {
     if (minutes !== 0 || result === '') { // Include minutes even if they are zero when there's no hour part
       result += `${result ? ', ' : isNegative ? '-' : ''}${Math.abs(minutes)} min${Math.abs(minutes) !== 1 ? 's' : ''}`;
     }
-  
+
     return result;
   }
 
@@ -693,10 +703,10 @@ dayShiftToggleFun(shift: string) {
 
     const isNegative = time.startsWith('-');
     const timeWithoutSign = isNegative ? time.substring(1) : time;
-    
+
     // Split the time string into hours, minutes, and seconds
     const [hours, minutes, seconds] = timeWithoutSign.split(':').map((part) => parseInt(part, 10));
-    
+
     // Build the result
     let result = '';
     if (hours !== 0) {
@@ -705,13 +715,13 @@ dayShiftToggleFun(shift: string) {
     if (minutes !== 0 || result === '') { // Include minutes even if they are zero when there's no hour part
       result += `${result ? ', ' : isNegative ? '-' : ''}${Math.abs(minutes)} min${Math.abs(minutes) !== 1 ? 's' : ''}`;
     }
-  
+
     return result;
   }
 
   checkTimeNegative(time: string | null | undefined): boolean {
     if (!time) {
-      return false; 
+      return false;
     }
 
     return time.startsWith('-');
@@ -749,7 +759,7 @@ dayShiftToggleFun(shift: string) {
     // Enable the month if it's from January 2023 to the current month
     return false;
   };
-  
+
 // Navigate to the previous month
 goToPreviousMonth(): void {
   if (!this.isPreviousDisabled()) {
@@ -816,8 +826,128 @@ setDefaultWeekTab(): void {
 }
 
 
-  
-  
+
+
+
+
+timeline: Timeline | undefined;
+  options: {} | undefined;
+  data: any;
+  groups: any;
+
+  @ViewChild('timeline', { static: true }) timelineContainer: ElementRef | undefined;
+
+  getTimelineGroups() {
+    // Create groups based on dates for multiple days (represent rows)
+    this.groups = new DataSet([
+      { id: 1, content: '2024-12-11' }, // Group 1: Dec 11, 2024
+      { id: 2, content: '2024-12-12' }, // Group 2: Dec 12, 2024
+      { id: 3, content: '2024-12-13' }, // Group 3: Dec 13, 2024
+      { id: 4, content: '2024-12-14' }, // Group 4: Dec 14, 2024
+      { id: 5, content: '2024-12-15' }, // Group 5: Dec 15, 2024
+    ]);
+  }
+
+  getTimelineData() {
+    // Create a DataSet for the timeline items (check-ins, breaks, check-outs)
+    this.data = new DataSet();
+    let order = 1;
+
+    // Generate data for check-in, break, and check-out times for each day
+    for (let j = 0; j < 5; j++) {
+      let date = new Date();
+      date.setDate(date.getDate()); // Set date for each day
+      date.setHours(0, 0, 0, 0); // Set to midnight to remove time
+
+      // Generate check-in time (random between 8:00 AM - 9:00 AM)
+      let checkInStart = new Date(date);
+      checkInStart.setHours(8 + Math.floor(Math.random() * 2)); // Random hour between 8:00 AM - 9:00 AM
+      checkInStart.setMinutes(Math.floor(Math.random() * 60)); // Random minutes
+      let checkInEnd = new Date(checkInStart);
+      checkInEnd.setHours(checkInStart.getHours() + 1); // Check-in lasts 1 hour
+
+      // Generate break time (random between 12:00 PM - 2:00 PM)
+      let breakStart = new Date(date);
+      breakStart.setHours(12 + Math.floor(Math.random() * 2)); // Random hour between 12:00 PM - 2:00 PM
+      breakStart.setMinutes(Math.floor(Math.random() * 60)); // Random minutes
+      let breakEnd = new Date(breakStart);
+      breakEnd.setMinutes(breakStart.getMinutes() + 30); // Break lasts 30 minutes
+
+      // Generate check-out time (random between 5:00 PM - 6:00 PM)
+      let checkOutStart = new Date(date);
+      checkOutStart.setHours(17 + Math.floor(Math.random() * 2)); // Random hour between 5:00 PM - 6:00 PM
+      checkOutStart.setMinutes(Math.floor(Math.random() * 60)); // Random minutes
+      let checkOutEnd = new Date(checkOutStart);
+      checkOutEnd.setHours(checkOutStart.getHours() + 1); // Check-out lasts 1 hour
+
+      // Add check-in, break, and check-out items to the timeline
+      this.data.add({
+        id: order,
+        group: j + 1, // Group based on the date
+        start: checkInStart,
+        end: checkInEnd,
+        content: 'Check-in ' + order,
+        type: 'range',
+        className: 'check-in',
+      });
+
+      this.data.add({
+        id: order + 1,
+        group: j + 1, // Group based on the date
+        start: breakStart,
+        end: breakEnd,
+        content: 'Break ' + order,
+        type: 'range',
+        className: 'break-time',
+      });
+
+      this.data.add({
+        id: order + 2,
+        group: j + 1, // Group based on the date
+        start: checkOutStart,
+        end: checkOutEnd,
+        content: 'Check-out ' + order,
+        type: 'range',
+        className: 'check-out',
+      });
+
+      order += 3; // Increment by 3 for each day (1 check-in, 1 break, 1 check-out)
+    }
+  }
+
+  getOptions() {
+    let currentDate = new Date();
+    let startDate = new Date(currentDate);
+    startDate.setHours(0, 0, 0, 0); // Set the start time to 00:00
+
+    let endDate = new Date(currentDate);
+    endDate.setHours(23, 59, 59, 999); // Set the end time to 23:59:59
+
+    this.options = {
+      stack: false,
+      start: startDate, // Set the start to 00:00 of today
+      end: endDate, // Set the end to 23:59 of today
+      editable: false,
+      margin: {
+        item: 10, // Minimal margin between items
+        axis: 5,  // Minimal margin between items and the axis
+      },
+      orientation: 'top',
+      zoomable: false, // Disable zooming
+      min: startDate, // Minimum date for the timeline
+      max: endDate, // Maximum date for the timeline
+      showCurrentTime: true, // Show the current time marker
+      format: {
+        minorLabels: {
+          hour: 'HH:00',  // Show hours as 00:00, 01:00, etc.
+          minute: '', // Remove minute labels
+        },
+        majorLabels: {
+          day: 'DD/MM/YYYY', // Format the major date labels (optional)
+        },
+      },
+    };
+  }
 
 
 }

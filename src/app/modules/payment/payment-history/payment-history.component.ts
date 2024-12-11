@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import * as saveAs from 'file-saver';
-import * as moment from 'moment';
+import saveAs from 'file-saver';
+import moment from 'moment';
 import { Key } from 'src/app/constant/key';
 import { EmployeeMonthWiseSalaryData } from 'src/app/models/employee-month-wise-salary-data';
 import { OrganizationMonthWiseSalaryData } from 'src/app/models/organization-month-wise-salary-data';
@@ -121,7 +121,7 @@ export class PaymentHistoryComponent implements OnInit {
 
   sendPayslipPdf(channel: string, response?: EmployeeMonthWiseSalaryData[]) {
     let salaryResponses: EmployeeMonthWiseSalaryData[];
-  
+
     if (response) {
       // If response is provided, use it
       salaryResponses = response;
@@ -130,12 +130,12 @@ export class PaymentHistoryComponent implements OnInit {
       salaryResponses = this.selectedEmployeesData;
       // console.log(salaryResponses);
     }
-  
+
     if (salaryResponses.length === 0) {
       this.helperService.showToast("No employees selected", Key.TOAST_STATUS_ERROR);
       return;
     }
-  
+
     // Determine which service to use based on the selected channel
     if (channel === 'whatsapp') {
       this.dataService.sendPayslipViaWhatsapp(salaryResponses, this.payslipMonth).subscribe(
@@ -169,8 +169,8 @@ export class PaymentHistoryComponent implements OnInit {
       );
     }
   }
-  
-  
+
+
 
 
 setPayslipMonth(date: string) {
@@ -179,7 +179,7 @@ setPayslipMonth(date: string) {
     "January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"
   ];
-  
+
   const month = monthNames[parsedDate.getMonth()];
   const year = parsedDate.getFullYear();
 
@@ -339,7 +339,7 @@ this.getOrganizationMonthWiseSalaryDataMethodCall();
       this.selectedEmployeeIds.splice(index, 1);
     }
   }
-  
+
   unselectAllUsers() {
     this.selectedEmployeeIds = [];
     this.selectedEmployeesData = [];
@@ -355,10 +355,10 @@ this.getOrganizationMonthWiseSalaryDataMethodCall();
       this.isAllUsersSelected = false;
     }
   }
-  
+
   selectUser(employee: EmployeeMonthWiseSalaryData) {
     const index = this.selectedEmployeeIds.indexOf(employee.uuid);
-  
+
     if (index !== -1) {
       // If the user is already selected, deselect the user
       this.selectedEmployeeIds.splice(index, 1);
@@ -368,10 +368,10 @@ this.getOrganizationMonthWiseSalaryDataMethodCall();
       this.selectedEmployeeIds.push(employee.uuid);
       this.selectedEmployeesData.push(employee);
     }
-  
+
     this.isAllUsersSelected = this.selectedEmployeeIds.length === this.employeeMonthWiseSalaryDataList.length;
   }
-  
+
   getAllSalarySlipDataLogsMonthwiseMethodCall() {
     this.dataService.getAllSalarySlipDataLogsMonthwise(this.startDate, this.endDate).subscribe(
       (response: { listOfObject: EmployeeMonthWiseSalaryData[] }) => {
@@ -387,11 +387,11 @@ this.getOrganizationMonthWiseSalaryDataMethodCall();
     );
   }
 
-  
+
   updatePayActionTypeFoUsersMethodCall(payActionType: string){
     this.dataService.updatePayActionTypeFoUsers(payActionType, this.selectedEmployeeIds).subscribe(
       (response) => {
-        
+
         this.isAllUsersSelected = false;
         this.selectedEmployeeIds= [];
         this.getOrganizationMonthWiseSalaryDataMethodCall();
@@ -401,11 +401,11 @@ this.getOrganizationMonthWiseSalaryDataMethodCall();
       }
     );
   }
-  
+
   generateSalarySlipMethodCall(){
     this.dataService.generateSalarySlip(this.startDate, this.endDate,this.selectedEmployeeIds).subscribe(
       (response) => {
-        
+
         this.isAllUsersSelected = false;
         this.selectedEmployeeIds= [];
         this.helperService.showToast('Payslip generated Succesfully', Key.TOAST_STATUS_SUCCESS)
@@ -417,6 +417,6 @@ this.getOrganizationMonthWiseSalaryDataMethodCall();
     );
   }
 
-  
-  
+
+
 }

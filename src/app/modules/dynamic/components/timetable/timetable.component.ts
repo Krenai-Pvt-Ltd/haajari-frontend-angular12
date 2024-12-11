@@ -6,7 +6,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { DataService } from 'src/app/services/data.service';
-import * as dayjs from 'dayjs';
+import dayjs from 'dayjs';
 import { AttendenceDto } from 'src/app/models/attendence-dto';
 import { HelperService } from 'src/app/services/helper.service';
 import { AdditionalNotes } from 'src/app/models/additional-notes';
@@ -18,12 +18,12 @@ import { RoleBasedAccessControlService } from 'src/app/services/role-based-acces
 import { AttendanceDetailsCountResponse } from 'src/app/models/attendance-details-count-response';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
-import * as saveAs from 'file-saver';
 import { DatePipe } from '@angular/common';
 import { OvertimeRequestLogResponse } from 'src/app/models/overtime-request-log-response';
 import { OvertimeResponseDTO } from 'src/app/models/overtime-response-dto';
 import { AttendanceTimeUpdateResponse } from 'src/app/models/attendance-time-update-response';
 import { constant } from 'src/app/constant/constant';
+import saveAs from 'file-saver';
 
 // import { ChosenDate, TimePeriod } from 'ngx-daterangepicker-material/daterangepicker.component';
 
@@ -178,27 +178,27 @@ export class TimetableComponent implements OnInit {
   selectPreviousMonth() {
     const currentDate = new Date(this.selectedDate);
     currentDate.setMonth(currentDate.getMonth() - 1);
-  
+
     if (currentDate < new Date(this.organizationRegistrationDate)) {
       return;
     }
-  
+
     this.selectedDate = currentDate;
     this.onMonthChange(currentDate);
   }
-  
+
   selectNextMonth() {
     const currentDate = new Date(this.selectedDate);
     currentDate.setMonth(currentDate.getMonth() + 1);
-  
+
     if (currentDate >= new Date()) {
       return;
     }
-  
+
     this.selectedDate = currentDate;
     this.onMonthChange(currentDate);
   }
-  
+
 
   private formatDate(date: Date): string {
     const year = date.getFullYear();
@@ -331,7 +331,7 @@ export class TimetableComponent implements OnInit {
     } else {
       this.dateRangeInputValue = '';
     }
-  }  
+  }
 
   // formatDate(date: Date): string {
   //   const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short', day: 'numeric' };
@@ -672,7 +672,7 @@ export class TimetableComponent implements OnInit {
         (response) => {
           debugger;
           this.attendanceLogResponseList = response;
-          
+
           // console.log(response);
           if (
             response === undefined ||
@@ -718,7 +718,7 @@ export class TimetableComponent implements OnInit {
   lat: number = 0;
   lng: number = 0;
   zoom: number = 15;
-  
+
   openAddressModal(lat: string, long: string) {
     this.lat = +lat;
     this.lng = +long;
@@ -820,8 +820,8 @@ export class TimetableComponent implements OnInit {
     this.viewLogs(this.userUuidToViewLogs);
     this.viewlog.nativeElement.click();
   }
-  
-  
+
+
   // reOpenLogsModal(): void {
   //   const closeButtons = document.querySelectorAll('.btn-close');
   //   closeButtons.forEach(button => {
@@ -834,12 +834,12 @@ export class TimetableComponent implements OnInit {
   // }
 
 
-  
+
 
   dailyReportLog : string = '';
   rotateToggle: boolean = false;
   downloadAttedanceReport(date: Date) {
-    
+
     let dateString:string | null  = this.datePipe.transform(date, 'yyyy-MM-dd');
     this .rotateToggle = true;
     if(dateString!==null) {
@@ -869,7 +869,7 @@ export class TimetableComponent implements OnInit {
  showPlaceholder:boolean = false;
 
  getHolidayForOrganization(){
-   
+
     this.dataService.getHolidayForOrganization(this.helperService.formatDateToYYYYMMDD(this.selectedDate))
     .subscribe(
       (response) => {
@@ -878,11 +878,11 @@ export class TimetableComponent implements OnInit {
         // console.error("Response", response.object);
 
         if (this.checkHoliday == true) {
-          this.showPlaceholder = true; 
+          this.showPlaceholder = true;
         } else if (this.checkHoliday == false){
-          this.showPlaceholder = false; 
+          this.showPlaceholder = false;
         }
-        
+
       },
       (error) =>{
         console.error('Error details:', error);
@@ -912,7 +912,7 @@ getFullAttendanceRequestLogData() {
   this.isRequestLoader = true;
   // if (this.debounceTimer) {
   //   clearTimeout(this.debounceTimer);
-  // } 
+  // }
   // this.debounceTimer = setTimeout(() => {
   this.dataService.getFullAttendanceRequestLog(this.pageNumberFullAttendanceRequest, this.itemPerPageFullAttendanceRequest, this.fullAttendanceRequestSearchString).subscribe(response => {
     if(this.helperService.isObjectNullOrUndefined(response)){
@@ -961,8 +961,8 @@ loadMoreLogs(): void {
 
 onSearchChangeOfFullAttendanceLogs(searchValue: string): void {
   this.fullAttendanceRequestSearchString = searchValue;
-  this.pageNumberFullAttendanceRequest = 1; 
-  this.attendanceFullRequestLog = []; 
+  this.pageNumberFullAttendanceRequest = 1;
+  this.attendanceFullRequestLog = [];
   this.getFullAttendanceRequestLogData();
 }
 
@@ -1034,7 +1034,7 @@ getAttendanceRequestsDataCount(): void {
   debugger
   this.dataService.getAttendanceRequestCount(this.startDate, this.endDate).subscribe(
     (response: any) => {
-      this.attendanceRequestCount = response.object; 
+      this.attendanceRequestCount = response.object;
     },
     (error) => {
       console.log(error);
@@ -1111,8 +1111,8 @@ loadMoreAttendanceRequestLogs(): void {
 
 onSearchChange(searchValue: string): void {
   this.attendanceRequestSearchString = searchValue;
-  this.pageNumberAttendanceRequest = 1; 
-  this.attendanceRequests = []; 
+  this.pageNumberAttendanceRequest = 1;
+  this.attendanceRequests = [];
   this.getAttendanceRequestsData();
 }
 
@@ -1127,7 +1127,7 @@ clearSearchUsersOfRequestLogs() {
 
 clearAttendanceRequestLogs() {
   this.attendanceRequests = [];
-  this.pageNumberAttendanceRequest = 1; 
+  this.pageNumberAttendanceRequest = 1;
   this.attendanceRequestSearchString =  '';
   this.attendanceFullRequestLog = [];
   this.pageNumberFullAttendanceRequest = 1;
@@ -1160,8 +1160,8 @@ approveOrReject(id:number, reqString: string) {
 
   this.totalAttendanceRequestCount = 0;
   this.attendanceRequestSearchString = '';
-  this.pageNumberAttendanceRequest = 1; 
-  this.attendanceRequests = []; 
+  this.pageNumberAttendanceRequest = 1;
+  this.attendanceRequests = [];
   this.getAttendanceRequestsData();
   this.getAttendanceRequestsDataCount();
   this.pageNumberFullAttendanceRequest = 1;
@@ -1405,7 +1405,7 @@ approveOrReject(id:number, reqString: string) {
   //     },
   //   });
   // }
-  
+
   // selectedTeamName : string = '';
   // selectTeam(teamName: string) {
   //   this.pageNumber = 1;
@@ -1430,7 +1430,7 @@ approveOrReject(id:number, reqString: string) {
   //   this.searchBy = '';
   //   this.getOvertimeRequestLogResponseByOrganizationUuidAndStartDateAndEndDateMethodCall();
   // }
-  
+
 
 
   // ####################--Updation Request Tab code--######################
@@ -1448,7 +1448,7 @@ approveOrReject(id:number, reqString: string) {
   getAttendanceUpdateRequestActionResponseMethodCall(attendanceTimeUpdateResponse : AttendanceTimeUpdateResponse){
     this.attendanceUpdateRequestActionResponse = attendanceTimeUpdateResponse;
   }
-  
+
   attendanceUpdateRequestApproveLoader : boolean = false;
   attendanceUpdateRequestRejectLoader : boolean = false;
   geocoder = new google.maps.Geocoder();
@@ -1475,7 +1475,7 @@ approveOrReject(id:number, reqString: string) {
     return "Click 'View Location' , to view attendace location on map";
   }
 
-  
-  
+
+
 
 }

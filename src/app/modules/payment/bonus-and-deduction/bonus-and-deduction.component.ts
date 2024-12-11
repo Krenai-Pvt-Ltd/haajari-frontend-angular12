@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import * as moment from 'moment';
+import moment from 'moment';
 import { Key } from 'src/app/constant/key';
 import { BonusAndDeductionData } from 'src/app/models/bonus-and-deduction-data';
 import { EmployeeMonthWiseSalaryData } from 'src/app/models/employee-month-wise-salary-data';
@@ -117,7 +117,7 @@ bonusAndDeductionDataList: BonusAndDeductionData[] = [];
       new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0),
     );
     this.getBonusAndDeductionMethodCall();
-    
+
   }
 
   formatDateToYYYYMMDD(date: Date): string {
@@ -200,7 +200,7 @@ this.getBonusAndDeductionMethodCall();
     );
   }
 
-  
+
   selectedDate: Date = new Date();
   startDate: string = '';
   endDate: string = '';

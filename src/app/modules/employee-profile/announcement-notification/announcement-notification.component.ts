@@ -1,6 +1,6 @@
 import { constant } from 'src/app/constant/constant';
 import { DataService } from 'src/app/services/data.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { ActivatedRoute } from '@angular/router';
 import { Key } from 'src/app/constant/key';
@@ -31,7 +31,9 @@ export class AnnouncementNotificationComponent implements OnInit {
     private db: AngularFireDatabase,
     private activateRoute: ActivatedRoute,
     public rbacService: RoleBasedAccessControlService,
-    private dataService: DataService) { }
+    private dataService: DataService) {
+
+    }
 
   ngOnInit(): void {
     this.getUuids();
@@ -281,5 +283,6 @@ export class AnnouncementNotificationComponent implements OnInit {
     const timeAgo = formatDistanceToNow(new Date(date), { addSuffix: true });
     return timeAgo.replace(/^about\s/, '');
   }
+
 
 }
