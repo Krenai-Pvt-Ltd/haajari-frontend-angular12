@@ -303,14 +303,14 @@
 
                     Check-out</button> -->
 
-
+        <div *ngIf="userRoleFlag">
         <div *ngIf="employeeProfileResponseData?.resignationStatus != 43 && (status == 'out' || this.status== '' || this.status == null) " class="check-in">
             <div class="d-flex align-items-center gap-2 check-in-info p-2">
             <img src="assets/images/check-in-image.svg">
             <h5 class="mb-0">Time to Check In and <br> Start Your Shift</h5>
             </div>
-            <button class="btn check-in w-100" (click)="checkinCheckout('/in')">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="19" viewBox="0 0 18 19" fill="none">
+            <button class="btn check-in w-100" (click)="checkinCheckout('/in')" [disabled]="InOutLoader">
+                <svg *ngIf="!InOutLoader" xmlns="http://www.w3.org/2000/svg" width="18" height="19" viewBox="0 0 18 19" fill="none">
                     <path fill-rule="evenodd" clip-rule="evenodd"
                         d="M7.70105 1.41406C5.60524 1.41406 3.90625 3.11305 3.90625 5.20886C3.90625 7.30468 5.60524 9.00366 7.70105 9.00366C9.79686 9.00366 11.4958 7.30468 11.4958 5.20886C11.4958 3.11305 9.79686 1.41406 7.70105 1.41406ZM4.99048 5.20886C4.99048 3.71187 6.20406 2.49829 7.70105 2.49829C9.19804 2.49829 10.4116 3.71187 10.4116 5.20886C10.4116 6.70586 9.19804 7.91943 7.70105 7.91943C6.20406 7.91943 4.99048 6.70586 4.99048 5.20886Z"
                         fill="white" />
@@ -321,12 +321,18 @@
                         d="M5.94678 10.0859C3.32262 10.0859 1.19531 12.2132 1.19531 14.8374C1.19531 16.4049 2.46598 17.6755 4.03344 17.6755H6.3454C6.64481 17.6755 6.88751 17.4328 6.88751 17.1334C6.88751 16.834 6.64481 16.5913 6.3454 16.5913H4.03344C3.06479 16.5913 2.27954 15.8061 2.27954 14.8374C2.27954 12.812 3.92142 11.1702 5.94678 11.1702H9.45459C11.48 11.1702 13.1218 12.812 13.1218 14.8374C13.1218 15.8061 12.3366 16.5913 11.3679 16.5913H9.05597C8.75656 16.5913 8.51385 16.834 8.51385 17.1334C8.51385 17.4328 8.75656 17.6755 9.05597 17.6755H11.3679C12.9354 17.6755 14.2061 16.4049 14.2061 14.8374C14.2061 12.2132 12.0787 10.0859 9.45459 10.0859H5.94678Z"
                         fill="white" />
                 </svg>
-                Check-In</button>
+                <span *ngIf="!InOutLoader">Check-In</span>
+                <span *ngIf="InOutLoader" class="dot-opacity-loader">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </span>
+              </button>
         </div>
          <div class="d-flex align-items-center gap-2">
 
-                <button *ngIf="status == 'in' || status == 'back'" class="btn break-back w-90" (click)="checkinCheckout('/break')">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="none">
+                <button *ngIf="status == 'in' || status == 'back'" class="btn break-back w-90" (click)="checkinCheckout('/break')" [disabled]="InOutLoader">
+                        <svg *ngIf="!breakLoader" xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="none">
                             <mask id="mask0_5673_6985" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="19" height="19">
                                 <rect x="0.0463867" y="0.5" width="18" height="18" fill="#D9D9D9" />
                             </mask>
@@ -336,10 +342,15 @@
                                     fill="white" />
                             </g>
                         </svg>
-                    Break
+                        <span *ngIf="!breakLoader">Break</span>
+                    <span *ngIf="breakLoader" class="dot-opacity-loader">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </span>
                 </button>
-                <button *ngIf="status == 'in' || status == 'back'" class="btn check-out-btn w-90" (click)="checkinCheckout('/out')">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="none">
+                <button *ngIf="status == 'in' || status == 'back'" class="btn check-out-btn w-90" (click)="checkinCheckout('/out')" [disabled]="InOutLoader">
+                    <svg *ngIf="!outLoader" xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="none">
                         <g clip-path="url(#clip0_5673_6992)">
                             <path fill-rule="evenodd" clip-rule="evenodd"
                                 d="M10.8271 1.0625C13.0018 1.0625 14.7646 2.82538 14.7646 5C14.7646 7.17462 13.0018 8.9375 10.8271 8.9375C8.65252 8.9375 6.88965 7.17462 6.88965 5C6.88965 2.82538 8.65252 1.0625 10.8271 1.0625ZM13.6396 5C13.6396 3.44671 12.3804 2.1875 10.8271 2.1875C9.27386 2.1875 8.01465 3.44671 8.01465 5C8.01465 6.55329 9.27386 7.8125 10.8271 7.8125C12.3804 7.8125 13.6396 6.55329 13.6396 5Z"
@@ -357,7 +368,12 @@
                             </clipPath>
                         </defs>
                     </svg>
-                    Check-Out
+                    <span *ngIf="!outLoader">Check-Out</span>
+                  <span *ngIf="outLoader" class="dot-opacity-loader">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </span>
                 </button>
         </div>
          <div *ngIf="status == 'break'" class="break-back">
@@ -365,8 +381,8 @@
                 <img src="assets/images/back.svg">
                 <h5 class="mb-0">You are currently on <br> break. Please come back.</h5>
             </div>
-            <button class="btn back-btn w-100" (click)="checkinCheckout('/back')">
-                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
+            <button class="btn back-btn w-100" (click)="checkinCheckout('/back')" [disabled]="InOutLoader">
+                <svg *ngIf="!InOutLoader" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
                     <path
                         d="M7.30069 14.5C11.1604 14.5 14.3005 11.3598 14.3005 7.49997C14.3005 3.64023 11.1604 0.5 7.30069 0.5C3.44094 0.5 0.300781 3.64023 0.300781 7.49997C0.300781 11.3598 3.44094 14.5 7.30069 14.5ZM7.30069 1.45824C10.6321 1.45824 13.3423 4.16854 13.3423 7.49997C13.3423 10.8314 10.6321 13.5417 7.30069 13.5418C3.96932 13.5417 1.25909 10.8314 1.25909 7.4999C1.25909 4.1686 3.96932 1.45824 7.30069 1.45824Z"
                         fill="white" />
@@ -374,7 +390,14 @@
                         d="M6.36217 10.4996C6.54928 10.6867 6.85266 10.6866 7.03971 10.4996C7.22689 10.3124 7.22689 10.0091 7.03965 9.82195L5.19854 7.98091L10.53 7.98039C10.7946 7.98033 11.0091 7.76588 11.0091 7.50115C11.009 7.23654 10.7946 7.02215 10.53 7.02215L5.19829 7.02266L7.03984 5.18124C7.22695 4.99412 7.22695 4.69068 7.03984 4.50363C6.94625 4.41011 6.82366 4.36328 6.701 4.36328C6.57841 4.36328 6.45582 4.41011 6.36223 4.50357L3.70285 7.16289C3.61297 7.2527 3.5625 7.37453 3.5625 7.50166C3.56256 7.62878 3.61303 7.75054 3.70291 7.84056L6.36217 10.4996Z"
                         fill="white" />
                 </svg>
-                Back</button>
+                <span *ngIf="!InOutLoader">Back</span>
+                <span *ngIf="InOutLoader" class="dot-opacity-loader">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </span>
+                </button>
+        </div>
         </div>
         <!-- <div class="break-back ">
             <div class="d-flex align-items-center gap-2 check-out-info p-2">
@@ -406,28 +429,23 @@
 
        <div class="mb-2 mt-4 d-flex align-items-center justify-content-between slill-set">
             <h5 class="mb-0">Skill Set</h5>
-            <button class="btn p-0 text-primary font-13 " data-bs-toggle="modal" data-bs-target="#addSkills"> <i class="bi bi-plus"></i> Add Skills</button>
+            <button class="btn p-0 text-primary font-13 " data-bs-toggle="modal" data-bs-target="#addSkills">
+               <i class="bi bi-plus"></i> Add Skills</button>
         </div>
         <ul class="skill-set">
-            <li>User Research</li>
-            <li>Wireframing & Prototyping</li>
-            <li>Visual Design</li>
-            <li>Interaction Design</li>
-            <li>Information Architecture</li>
-            <span class="pointer" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">+5</span>
-            <div class="collapse " id="collapseExample">
-                <ul class="skill-set">
-                    <li>User Research</li>
-                    <li>Wireframing & Prototyping</li>
-                    <li>Visual Design</li>
-                    <li>Interaction Design</li>
-                    <li>Information Architecture</li>
-                </ul>
-                <button type="button" class="btn p-0 text-primary font-13 view-less" data-bs-toggle="collapse"
-                    data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">View Less <i
-                        class="bi bi-chevron-up"></i></button>
-            </div>
-        </ul>
+          <li *ngFor="let skill of fetchedSkills.slice(0, 5)">{{ skill }}</li>
+          <span (click)="viewLess=false" *ngIf="fetchedSkills.length>5 && viewLess" class="pointer" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            +{{fetchedSkills.length-5}}</span>
+          <div class="collapse " id="collapseExample">
+              <ul class="skill-set">
+                <li *ngFor="let skill of fetchedSkills.slice(5)">{{ skill }}</li>
+              </ul>
+              <button type="button" class="btn p-0 text-primary font-13 view-less" data-bs-toggle="collapse"
+                  data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" (click)="viewLess=true">View Less <i
+                      class="bi bi-chevron-up"></i></button>
+          </div>
+      </ul>
+
         <div class="d-flex align-content-center gap-3 mt-5" *ngIf="adminRoleFlag">
             <!-- (click)="openFormModal(formContent,'Promotion')" -->
             <!-- (click)="openFormModal(formContent,'Add Journey')" -->
@@ -436,8 +454,10 @@
           <button class="btn check-out-btn w-90" *ngIf="employeeProfileResponseData?.resignationStatus == null || (employeeProfileResponseData?.resignationStatus != 42 && employeeProfileResponseData?.resignationStatus != 43)"  data-bs-target="#upgradePosition" data-bs-toggle="modal" (click)="openFormModal('Journey')">Add Journey</button>
           <button class="btn check-out-btn w-90" *ngIf="employeeProfileResponseData?.isProbation" (click)="openConfirmationModal(confirmationModal)">Complete Probation</button>
         </div>
-        <h5 class="mb-3 mt-5">Journey With us</h5>
-        <div class="">
+        <h5 class="mb-3 mt-5" *ngIf="userPositionDTO?.length && userPositionDTO[userPositionDTO.length - 1]?.startDate">
+          Journey With Us
+        </h5>
+        <div *ngIf="userPositionDTO?.length && userPositionDTO[userPositionDTO.length - 1]?.startDate" class="">
           <div class="">
               <div class="d-flex align-items-center gap-2">
                   <span class="download-icon">
@@ -457,7 +477,8 @@
               </div>
 
               <div class="selery-logs mt-3">
-                  <div class="activity" *ngFor="let position of userPositionDTO">
+                <ng-container *ngFor="let position of userPositionDTO; let i = index">
+                  <div class="activity" *ngIf="i !== userPositionDTO.length - 1">
                       <div class="activity-info">
                           <div class="icon-info-activity active-logs">
                               <p class="mb-0"></p>
@@ -466,7 +487,7 @@
                               <div class="media align-items-center">
                                   <div class="media-body ms-2 align-self-center">
                                     <div class="d-flex">
-                                      <h5 class="mb-1 font-13">{{ position.position }}</h5>
+                                      <h5 class="mb-1 font-13">{{ position.position || 'NA'}}</h5>
                                       <div *ngIf="position.isProbation" class="probation-status">
                                         <span class=" bg-danger">Under Probation</span>
                                       </div>
@@ -477,6 +498,7 @@
                           </div>
                       </div>
                   </div>
+                  </ng-container>
               </div>
           </div>
       </div>
@@ -1272,74 +1294,74 @@
 </button>
 
 <!-- Modal -->
-<div class="modal fade" id="addSkills" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Add Skills</h5>
-                <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButton>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
-                            width="24" height="24">
-                            <rect width="24" height="24" fill="#D9D9D9" />
-                        </mask>
-                        <g mask="url(#mask0_5037_2014)">
-                            <path
-                                d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z"
-                                fill="black" />
-                        </g>
-                    </svg>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="skill-set-modal">
-                <div class="row">
-                    <div class="col-md-12 mb-3">
-                        <div class="form-group position-relative">
-                            <label for="assetName" class="mb-2">Skills</label>
-                                <input type="text" class="form-control input-zorro " placeholder="Search Your Skills (Ex: Testing)" style="padding: 10px 70px 10px 40px;" />
-                                <i class="bi bi-search search-icon"></i>
+<div class="modal" id="addSkills" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Add Skills</h5>
+                <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close"  id="closeButton" #closeButton>
 
-                                <button class="btn p-0 text-primary add-skill"><i class="bi bi-plus font-18"></i> Add</button>
-                        </div>
-                    </div>
-                    <div class="col-md-12 mt-3">
-                        <div>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                      <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                          width="24" height="24">
+                          <rect width="24" height="24" fill="#D9D9D9" />
+                      </mask>
+                      <g mask="url(#mask0_5037_2014)">
+                          <path
+                              d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z"
+                              fill="black" />
+                      </g>
+                  </svg>
+              </button>
+          </div>
+          <div class="modal-body">
+              <div class="skill-set-modal">
+              <div class="row">
+                  <div class="col-md-12 mb-3">
+                      <div class="form-group position-relative">
+                          <label for="assetName" class="mb-2">Skills</label>
+                              <input type="text" (keyup.enter)="addSkill()"
+                               class="form-control input-zorro "
+                               placeholder="Search Your Skills (Ex: Testing)"
+                               style="padding: 10px 70px 10px 40px;"
+                               [(ngModel)]="searchSkill"
+                               (ngModelChange)="onSkillsChange($event)"
+                                [nzAutocomplete]="skillsAuto"
 
-                            <!-- <div class="new-empty-file empty-file" style="margin-top: 10%;">
-                                <nz-empty nzNotFoundImage="assets/images/skill-set-empty.svg" [nzNotFoundContent]="contentTpl">
-                                    <ng-template #contentTpl>
-                                        <p class="mb-1 empty-detail font-16">
-                                            No data for now
-                                        </p>
-                                    </ng-template>
-                                </nz-empty>
-                            </div> -->
-                            <ul class="skill-set">
-                                <li>User Research <i class="bi bi-x"></i></li>
-                                <li>Wireframing & Prototyping <i class="bi bi-x"></i></li>
-                                <li>Visual Design <i class="bi bi-x"></i></li>
-                                <li>Interaction Design <i class="bi bi-x"></i></li>
-                                <li>Information Architecture <i class="bi bi-x"></i></li>
-                                <li>User Research <i class="bi bi-x"></i></li>
-                                <li>Wireframing & Prototyping</li>
-                                <li>Visual Design <i class="bi bi-x"></i></li>
-                                <li>Interaction Design <i class="bi bi-x"></i></li>
-                                <li>Information Architecture <i class="bi bi-x"></i></li>
-                            </ul>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer d-flex align-items-center justify-content-between">
-                <p class="mb-0 font-13">All the skills that you have add will be visible at your profile</p>
-                <button class="btn submitActionBtn">Save</button>
+                                (keydown)="preventLeadingWhitespace($event)"/>
+                              <i class="bi bi-search search-icon"></i>
+                              <nz-autocomplete [nzDataSource]="skillsFilteredOptions" #skillsAuto></nz-autocomplete>
 
-            </div>
-        </div>
-    </div>
+                              <button class="btn p-0 text-primary add-skill" (click)="addSkill()" ><i class="bi bi-plus font-18"></i> Add</button>
+                      </div>
+                  </div>
+                  <div class="col-md-12 mt-3">
+                      <div>
+                          <ul class="skill-set">
+                              <!-- Loop through the skills list dynamically -->
+                              <li *ngFor="let skill of skills">
+                                  {{ skill }} <i class="bi bi-x" (click)="removeSkill(skill)"></i>
+                              </li>
+                          </ul>
+                      </div>
+                  </div>
+                  </div>
+              </div>
+          </div>
+          <div class="modal-footer d-flex align-items-center justify-content-end">
+              <button  data-bs-dismiss="modal" aria-label="Close" class="btn submitActionBtn" (click)="saveSkills()" [disabled]="isSkillsLoading || checkSkillsArraysEqual()">
+                <span *ngIf="!isSkillsLoading">Save</span>
+                <span *ngIf="isSkillsLoading" class="dot-opacity-loader">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </span>
+              </button>
+          </div>
+      </div>
+  </div>
 </div>
+
 <!-- Modal Template -->
 <ng-template #urlModalTemplate let-modal>
   <div class="modal-header">

@@ -491,7 +491,7 @@
             </div>
         </div> -->
 
-        <div class="mt-3">
+        <div class="mt-3" *ngIf="mailList.length>0 || mailLoading">
 
             <div class="notification">
                 <div class="d-flex align-items-center gap-2">
@@ -588,6 +588,9 @@
             </div>
 
 
+        </div>
+        <div class="mt-3" *ngIf="(mailList.length==0 && !mailLoading)">
+            No data found
         </div>
     </div>
 </div>

@@ -9460,7 +9460,7 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
   background-color: #fff !important;
   border: 1px solid #f1f1f1 !important;
   border-radius: 2px !important;
-  height: 50px !important;
+  height: 45px !important;
   font-weight: 400 !important;
   font-size: 14px !important;
   line-height: 18px !important;

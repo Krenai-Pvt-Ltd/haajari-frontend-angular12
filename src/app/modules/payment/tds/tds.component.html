@@ -2,7 +2,7 @@
   <!-- Page Content-->
   <div class="page-content-tab">
     <div class="container-fluid">
-      <div class="row leave-management-settings p-3 mt-2 align-items-center" *ngIf="mainPlaceholderFlag">
+      <!-- <div class="row leave-management-settings p-3 mt-2 align-items-center" *ngIf="mainPlaceholderFlag">
         <div class="col-md-6">
           <div class="leave-management-detail pt-5 pb-5">
             <h3 class="mb-3">
@@ -14,7 +14,7 @@
               available discounts in one place.
             </p>
 
-            <!-- <button class="btn add-leave-btn mt-4 mb-2">Add New Members</button> -->
+          
 
             <hr />
             <span class="mb-0">
@@ -55,9 +55,9 @@
             <img src="assets/images/esi-epf-img.svg" style="width: 380px" />
           </div>
         </div>
-      </div>
+      </div> -->
 
-      <div *ngIf="!mainPlaceholderFlag">
+      <div >
       <div
         class="row mb-1 mt-3 align-items-center"
         style="padding-bottom: 15px"
@@ -74,37 +74,11 @@
                   [nzSize]="size"
                   [(ngModel)]="selectedDate"
                   (ngModelChange)="onMonthChange($event)"
-                  [nzDisabledDate]="disableMonths"
+                  [nzDisabledDate]="_helperService.disableMonths"
                 ></nz-date-picker>
               </div>
             </div>
-            <!-- <div style="width: 20%; position: relative">
-              <div class="dropdown" style="width: 100%">
-                <button
-                  type="button"
-                  id="dropdownMenuButton1"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                  class="btn btn-secondary dropdown-toggle new-deopdown"
-                >
-                  Select Search
-                  <i
-                    class="bi bi-chevron-down"
-                    style="color: #444; font-size: 15px"
-                  ></i>
-                </button>
-                <ul
-                  aria-labelledby="dropdownMenuButton1"
-                  class="dropdown-menu"
-                  style="width: 100%"
-                >
-                  <li><a class="dropdown-item">Reset All</a></li>
-                  <li><a class="dropdown-item">Approved</a></li>
-                  <li><a class="dropdown-item">Pending</a></li>
-                  <li><a class="dropdown-item">Rejected</a></li>
-                </ul>
-              </div>
-            </div> -->
+            
             <div class="" style="width: 80%">
               <form
                 role="search"
@@ -120,7 +94,7 @@
                     align-items: center;
                   "
                 >
-                  <!-- <i class="bi bi-search search-icon" style="position: initial; right: 20px;"></i> -->
+              
                   <input
                     type="text"
                     id="searchText"
@@ -152,26 +126,7 @@
               </form>
             </div>
 
-            <!-- <div class="" style="width: 20%">
-              <div
-                class="d-flex justify-content-end align-items-center"
-                style="gap: 10px"
-              >
-                <div
-                  class="add-filtter d-flex align-items-center justify-content-end"
-                  style="gap: 10px"
-                >
-                  <a
-                    data-bs-toggle="modal"
-                    data-bs-target="#createteam"
-                    type="button"
-                  >
-                    <i class="bi bi-plus" style="font-size: 18px"></i> Create
-                    Team
-                  </a>
-                </div>
-              </div>
-            </div> -->
+            
           </div>
         </div>
       </div>
@@ -180,12 +135,12 @@
           <thead>
             <tr>
               <th>EMPLOYEE</th>
-              <th>EMAIL ID</th>
+              <th>EMAIL</th>
+              <th>PHONE</th>
               <th>EPF</th>
               <th>ESI</th>
               <th>TDS</th>
               <th>STATUS</th>
-              <th>ACTIONS</th>
             </tr>
           </thead>
           <ng-container
@@ -207,12 +162,6 @@
                 </td>
                 <td class="text-center">
                   <ngx-shimmer-loading
-                    [width]="'%'"
-                    [height]="'10px'"
-                  ></ngx-shimmer-loading>
-                </td>
-                <td class="text-center">
-                  <ngx-shimmer-loading
                     [width]="'70%'"
                     [height]="'10px'"
                   ></ngx-shimmer-loading>
@@ -240,19 +189,7 @@
                     [width]="'70%'"
                     [height]="'10px'"
                   ></ngx-shimmer-loading>
-                </td>
-                <td class="text-center">
-                  <ngx-shimmer-loading
-                    [width]="'70%'"
-                    [height]="'10px'"
-                  ></ngx-shimmer-loading>
-                </td>
-                <td class="text-center">
-                  <ngx-shimmer-loading
-                    [width]="'70%'"
-                    [height]="'10px'"
-                  ></ngx-shimmer-loading>
-                </td>
+                </td>      
               </tr>
             </tbody>
           </ng-container>
@@ -269,18 +206,11 @@
               <tbody>
                 <tr *ngFor="let employee of employeeMonthWiseSalaryDataList">
                   <td>
-                    <img
-                      [src]="
-                        employee.image
-                          ? employee.image
-                          : 'assets/images/users/user-3.jpg'
-                      "
-                      alt=""
-                      class="rounded-circle thumb-xs me-1"
-                    />
+                    <img onerror="this.src='./assets/images/broken-image-icon.jpg';" [src]=" employee.image ? employee.image : 'assets/images/broken-image-icon.jpg'" alt="" class="rounded-circle thumb-xs me-1"/>
                     {{ employee.name }}
                   </td>
-                  <td>{{ employee.email }}</td>
+                  <td>{{ employee.email || 'N/A'}}</td>
+                  <td>{{ employee.phone || 'N/A'}}</td>
                   <td>
                     ₹{{
                       employee.epfAmount ? (employee.epfAmount | number) : "0"
@@ -307,7 +237,7 @@
                       {{ employee.payStatus.response }}
                     </span>
                   </td>
-                  <td>
+                  <!-- <td>
                     <div
                       class="btn-group"
                       role="group"
@@ -318,19 +248,14 @@
                         class="btn btn-light"
                         ngbTooltip="Edit"
                         placement="top"
+
+                        *ngIf="employee.payStatus.id == PENDING"
+                        (click)="openEpfModal(employee)"
                       >
                         <i class="ti ti-pencil"></i>
                       </button>
-                      <button
-                        type="button"
-                        class="btn btn-light"
-                        ngbTooltip="Delete"
-                        placement="top"
-                      >
-                        <i class="far fa-trash-alt"></i>
-                      </button>
                     </div>
-                  </td>
+                  </td> -->
                 </tr>
               </tbody>
             </ng-container>
@@ -381,7 +306,7 @@
     </div>
     <!-- Pagination -->
     <div
-      class="pagination pl-3 align-items-center justify-content-between"
+      class="pagination pl-3 mt-3 align-items-center justify-content-between"
       *ngIf="
         (total > itemPerPage - 1 ||
           (pageNumber === lastPageNumber && lastPageNumber !== 1)) &&
@@ -435,3 +360,49 @@
   </div>
   </div>
 </div>
+
+
+<!-- EPF Edit Modal Start -->
+<!-- <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#epfTdsEditModal" #epfTdsEditButton>
+  EPF Edit Modal
+</button>
+<div class="modal fade" id="epfTdsEditModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Update EPF, ESI & TDS</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form #tdsForm="ngForm" (ngSubmit)="updateEmployeeData()">
+        
+          <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" id="name" name="name" class="form-control" [(ngModel)]="employeeMonthWiseSalaryData.name" 
+              #name="ngModel" readonly>
+          </div>
+          <div class="mb-3">
+            <label for="amount" class="form-label">EPF</label>
+            <input type="number" id="epf" name="epf" class="form-control" [(ngModel)]="employeeMonthWiseSalaryData.epfAmount"
+               #epf="ngModel">
+          </div>
+          <div class="mb-3">
+            <label for="amount" class="form-label">ESI</label>
+            <input type="number" id="esi" name="esi" class="form-control" [(ngModel)]="employeeMonthWiseSalaryData.esiAmount"
+               #esi="ngModel">
+          </div>
+          <div class="mb-3">
+            <label for="amount" class="form-label">TDS</label>
+            <input type="number" id="tds" name="tds" class="form-control" [(ngModel)]="employeeMonthWiseSalaryData.tdsAmount"
+               #tds="ngModel">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div> -->
+<!-- EPF Edit Modal End -->
