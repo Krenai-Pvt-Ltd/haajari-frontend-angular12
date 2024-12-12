@@ -220,7 +220,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="searchbr-ui w-100" id="attendanceDataTopbar">
+                  <div class="searchbr-ui " style="width:70%;" id="attendanceDataTopbar">
                     <form
                       novalidate=""
                       role="search"
@@ -253,11 +253,11 @@
                       </div>
                     </form>
                   </div>
-                  <!-- <div> -->
-                    <button class="btn excel-upload-members mt-4 mb-2" type="button" data-bs-toggle="modal" data-bs-target="#sampleFileModal">
+                  <div class="d-flex align-items-center justify-content-end w-100" style="padding-right:10px;">
+                    <button class="btn p-0 text-primary fw-semibold" type="button" data-bs-toggle="modal" data-bs-target="#sampleFileModal">
                     <i class="bi bi-upload"></i> Upload Members
                   </button>
-                <!-- </div> -->
+                </div>
                   
                 </div>
                 <!-- <div class="col-md-3">
@@ -3691,28 +3691,28 @@
                 !networkConnectionErrorPlaceholderModal;
               else errorInOnboardUserListCondition
             ">
-            <div><h5>Attendance Upload : </h5> <strong>{{attendanceUploadCountForUser}}</strong> Users Attendance Uploaded Successfully.
-              <li class="mb-1" *ngIf="phoneNumberNotFoundArray.length > 0">
-                Phone Numbers:
-                {{ formatAsCommaSeparated(phoneNumberNotFoundArray) }} Not Found.
-              </li>
-              <li class="mb-1" *ngIf="emailNotFoundArray.length > 0">
-                Emails: {{ formatAsCommaSeparated(emailNotFoundArray) }} Not Found.
-              </li>
-              <li>
-              <a href="{{uploadedExcelLink}}" 
-                  class="button" 
-                  download="CreateAttendance_1733998263065.xlsx" *ngIf="uploadedExcelLink">
-                  Download Attendance Excel
+            <div>
+              <div class="d-flex align-items-start justify-content-between">
+              <h5>Attendance Upload : <span class="font-14"> {{attendanceUploadCountForUser}} Users Attendance Uploaded Successfully. </span></h5> 
+              <a href="{{uploadedExcelLink}}" class="text-primary font-13 fw-semibold" download="CreateAttendance_1733998263065.xlsx" *ngIf="uploadedExcelLink"><i class="bi bi-download"></i>   Download Attendance Excel
               </a>
-            </li>
-              <!-- <button *ngIf="uploadedExcelLink">{{uploadedExcelLink}}</button> -->
+            </div>
+
+             
+
+                  <p class="mb-1" *ngIf="phoneNumberNotFoundArray.length > 0">
+                
+                    <span class="fw-semibold"> 1. Phone Numbers: </span>  {{ formatAsCommaSeparated(phoneNumberNotFoundArray) }} Not Found.
+                  </p>
+                  <p class="mb-1" *ngIf="emailNotFoundArray.length > 0">
+                    <span class="fw-semibold"> 2. Emails: </span> {{ formatAsCommaSeparated(emailNotFoundArray) }} Not Found.
+                  </p>
           </div>
-            <div class="alert alert-light mb-0 mt-3" role="alert">
+            <div class="alert alert-light mb-0 mt-3 bg-soft-success" role="alert">
               <h4 class="alert-heading font-18">
                 Note:
               </h4>
-              <p>
+              <p class="mb-0">
                 Attendance for {{attendanceUploadCountForUser}} users has been uploaded successfully. 
                 Please close this modal and select the date range from attendance date selector to check attendance for the uploaded users.
               </p>

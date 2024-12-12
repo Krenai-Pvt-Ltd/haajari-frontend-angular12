@@ -1535,3 +1535,12 @@ span.leave-rejected {
   color: #fff;
   background-color: var(--primary-background-color);
 }
+.bi::before{
+  font-weight: 600 !important;
+}
+
+.alert-light p{
+  font-size: 14px;
+  font-weight: 300;
+  color: #878A9A;
+}
