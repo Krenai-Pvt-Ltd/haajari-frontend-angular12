@@ -73,9 +73,9 @@
               </ng-template>
             </div>
           </div>
-          <button class="btn excel-upload-members mt-4 mb-2" type="button" data-bs-toggle="modal" data-bs-target="#sampleFileModal">
+          <!-- <button class="btn excel-upload-members mt-4 mb-2" type="button" data-bs-toggle="modal" data-bs-target="#sampleFileModal">
             <i class="bi bi-upload"></i> Upload Members
-          </button>
+          </button> -->
           <!-- <div class="add-filtter d-flex align-items-center justify-content-end" style="gap: 10px">
             <a data-bs-toggle="modal" data-bs-target="#unprocessedLogsModal" class="d-flex align-items-center justify-content-start gap-2" *ngIf="((ROLE | async) === ADMIN) || (ROLE | async) === MANAGER" (click)="getAttendanceRequestsData()">Unprocessed Logs <i class="bi bi-list-ol"></i>    
               <span *ngIf="attendanceRequestCount > 0" class="badge bg-danger rounded-circle">
@@ -253,6 +253,12 @@
                       </div>
                     </form>
                   </div>
+                  <!-- <div> -->
+                    <button class="btn excel-upload-members mt-4 mb-2" type="button" data-bs-toggle="modal" data-bs-target="#sampleFileModal">
+                    <i class="bi bi-upload"></i> Upload Members
+                  </button>
+                <!-- </div> -->
+                  
                 </div>
                 <!-- <div class="col-md-3">
                 
@@ -3588,7 +3594,7 @@
             </div>
             <div class="card-body mt-3 p-0">
               <div class="alert alert-light mb-0 excel-uplode-file-box text-center" style="border: 2px dashed #dddd">
-                <input id="fileSelect" type="file" name="img[]" accept=".xlsx" class="input"
+                <input id="fileSelect" type="file" accept=".xlsx,application/vnd.ms-excel" name="img[]" class="input"
                   (change)="selectFile($event)" />
                 <img src="assets/images/excel.svg" style="width: 50px" class="pb-3" />
                 <p>
@@ -3617,7 +3623,13 @@
               <li class="mb-1" *ngIf="emailNotFoundArray.length > 0">
                 Emails: {{ formatAsCommaSeparated(emailNotFoundArray) }}
               </li>
-              <li class="mb-1" *ngIf="isErrorToggle">Error: {{ errorMessage }}</li>
+              <li class="mb-1" *ngIf="isErrorToggle">Error: {{ errorMessage }}
+                <a href="{{uploadedExcelLink}}" 
+                  class="button" 
+                  download="CreateAttendance_1733998263065.xlsx" *ngIf="uploadedExcelLink">
+                  Download Attendance Excel
+                </a>
+              </li>
 
 
             </ul>
@@ -3675,11 +3687,36 @@
         <ng-template #onboardUserListCondition>
           <ng-container *ngIf="
               !isShimmerModal &&
-              (attendanceUploadCountForUser != 0 || attendanceUploadFailedCountForUser!=0) &&
+              attendanceUploadCountForUser != 0 &&
                 !networkConnectionErrorPlaceholderModal;
               else errorInOnboardUserListCondition
             ">
-            <div>content required : <strong>{{attendanceUploadCountForUser}}</strong> Users Attendance Uploaded Successfully. || for <strong>{{attendanceUploadFailedCountForUser}}</strong> users attedance already found.</div>
+            <div><h5>Attendance Upload : </h5> <strong>{{attendanceUploadCountForUser}}</strong> Users Attendance Uploaded Successfully.
+              <li class="mb-1" *ngIf="phoneNumberNotFoundArray.length > 0">
+                Phone Numbers:
+                {{ formatAsCommaSeparated(phoneNumberNotFoundArray) }} Not Found.
+              </li>
+              <li class="mb-1" *ngIf="emailNotFoundArray.length > 0">
+                Emails: {{ formatAsCommaSeparated(emailNotFoundArray) }} Not Found.
+              </li>
+              <li>
+              <a href="{{uploadedExcelLink}}" 
+                  class="button" 
+                  download="CreateAttendance_1733998263065.xlsx" *ngIf="uploadedExcelLink">
+                  Download Attendance Excel
+              </a>
+            </li>
+              <!-- <button *ngIf="uploadedExcelLink">{{uploadedExcelLink}}</button> -->
+          </div>
+            <div class="alert alert-light mb-0 mt-3" role="alert">
+              <h4 class="alert-heading font-18">
+                Note:
+              </h4>
+              <p>
+                Attendance for {{attendanceUploadCountForUser}} users has been uploaded successfully. 
+                Please close this modal and select the date range from attendance date selector to check attendance for the uploaded users.
+              </p>
+            </div>
           </ng-container>
         </ng-template>
 
