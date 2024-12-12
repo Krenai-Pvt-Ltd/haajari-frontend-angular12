@@ -4541,6 +4541,16 @@ getHolidayForOrganization(date: string): Observable<any>{
   getRecentlyWorkAnniversary(): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/users/work-anniversary`);
   }
+
+  createAttendanceEntry(file: any, fileName: string) {
+    debugger;
+    const formdata: FormData = new FormData();
+    formdata.append('file', file);
+    formdata.append('fileName', fileName);
+    return this.httpClient.post(`${this.baseUrl}/whatsapp-user-onboarding/create/attendance`,
+      formdata,
+    );
+  }
 }
 
 
