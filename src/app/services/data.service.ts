@@ -4554,6 +4554,17 @@ getHolidayForOrganization(date: string): Observable<any>{
       params: { userUuid }
     });
   }
+  getUserAttendanceRequests(uuid: string, date: string, page: number, size: number): Observable<any> {
+    // Create the HTTP parameters
+    const params = new HttpParams()
+      .set('uuid', uuid)
+      .set('date', date)
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    // Make the HTTP GET request and return the observable
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/attendance-requests`, { params });
+  }
 }
 
 

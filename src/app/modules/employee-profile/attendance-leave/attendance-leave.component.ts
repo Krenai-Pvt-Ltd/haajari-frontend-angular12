@@ -13,7 +13,7 @@ import { EmployeeProfileAttendanceResponse, TotalEmployeeProfileAttendanceRespon
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 // import { Timeline } from 'vis-timeline'
-import { Timeline,DataSet } from 'vis-timeline/standalone';
+import { Timeline,DataSet, TimelineItem } from 'vis-timeline/standalone';
 
 @Component({
   selector: 'app-attendance-leave',
@@ -42,12 +42,6 @@ modal: any;
    }
 
   ngOnInit(): void {
-    this.getTimelineData();
-    this.getTimelineGroups();
-    this.getOptions();
-    this.timeline = new Timeline(this.timelineContainer?.nativeElement, this.data, this.options);
-    this.timeline.setGroups(this.groups);
-    this.timeline.setItems(this.data);
     this.userLeaveForm = this.fb.group({
       startDate: [null, Validators.required],
       endDate: [null, Validators.required],
@@ -55,6 +49,7 @@ modal: any;
       selectedUser: [null, Validators.required],
       note: [null, Validators.required],
     });
+    this.getAttendanceRequests();
     this.fetchManagerNames();
     this.getUserLeaveReq();
     this.loadLeaveLogs();
@@ -70,6 +65,8 @@ modal: any;
     this.currentUserUuid = this.rbacService.getUuid();
 
     this.calculateDateRange();
+    this.getAttendanceRequests();
+
 
   }
   get canSubmit() {
@@ -837,82 +834,99 @@ timeline: Timeline | undefined;
 
   @ViewChild('timeline', { static: true }) timelineContainer: ElementRef | undefined;
 
+  staticData = [
+    {
+        "groupId": 1,
+        "date": "04-12-2024",
+        "items": [
+            {
+                "id": 1,
+                "start": "2024-12-04 21:33:21.775",
+                "end": "2024-12-04 21:33:21.775",
+                "content": "Request Check-In",
+                "type": null,
+                "className": null
+            },
+            {
+                "id": 2,
+                "start": "2024-12-04 02:33:26.791",
+                "end": "2024-12-04 02:33:26.791",
+                "content": "Request Check-Out",
+                "type": null,
+                "className": null
+            }
+        ]
+    },
+    {
+        "groupId": 2,
+        "date": "01-12-2024",
+        "items": [
+            {
+                "id": 3,
+                "start": "2024-13-01 19:37:04.863",
+                "end": "2024-13-01 19:37:04.863",
+                "content": "Request Check-In",
+                "type": null,
+                "className": null
+            },
+            {
+                "id": 4,
+                "start": "2024-13-01 01:37:07.777",
+                "end": "2024-13-01 01:37:07.777",
+                "content": "Request Check-Out",
+                "type": null,
+                "className": null
+            }
+        ]
+    }
+];
+
+   page = 1;
+   requestSize = 10;
+  getAttendanceRequests(): void {
+    debugger;
+    this.dataService.getUserAttendanceRequests(this.userId, '2024-12-01', this.page, this.requestSize).subscribe(
+      (response) => {
+        this.staticData = response.content;
+        console.log('kkkkkkkk', response);
+        this.getTimelineData();
+        this.getTimelineGroups();
+        this.getOptions();
+        this.timeline = new Timeline(this.timelineContainer?.nativeElement, this.data, this.options);
+        this.timeline.setGroups(this.groups);
+        this.timeline.setItems(this.data);
+
+      },
+       (err) => {
+        console.error('kkkkkkkk', err);
+      }
+    );
+  }
+
+
   getTimelineGroups() {
-    // Create groups based on dates for multiple days (represent rows)
-    this.groups = new DataSet([
-      { id: 1, content: '2024-12-11' }, // Group 1: Dec 11, 2024
-      { id: 2, content: '2024-12-12' }, // Group 2: Dec 12, 2024
-      { id: 3, content: '2024-12-13' }, // Group 3: Dec 13, 2024
-      { id: 4, content: '2024-12-14' }, // Group 4: Dec 14, 2024
-      { id: 5, content: '2024-12-15' }, // Group 5: Dec 15, 2024
-    ]);
+    // Create groups dynamically from static data
+    this.groups = new DataSet(
+      this.staticData.map((group) => ({
+        id: group.groupId,
+        content: group.date,
+      }))
+    );
   }
 
   getTimelineData() {
-    // Create a DataSet for the timeline items (check-ins, breaks, check-outs)
-    this.data = new DataSet();
-    let order = 1;
+    // Combine all items from the static data into a single array
+    const allItems = this.staticData
+    .map((group) =>
+      group.items.map((item) => ({
+        ...item,
+        group: group.groupId,
+      }))
+    )
+    .reduce((acc, items) => acc.concat(items), []);
 
-    // Generate data for check-in, break, and check-out times for each day
-    for (let j = 0; j < 5; j++) {
-      let date = new Date();
-      date.setDate(date.getDate()); // Set date for each day
-      date.setHours(0, 0, 0, 0); // Set to midnight to remove time
 
-      // Generate check-in time (random between 8:00 AM - 9:00 AM)
-      let checkInStart = new Date(date);
-      checkInStart.setHours(8 + Math.floor(Math.random() * 2)); // Random hour between 8:00 AM - 9:00 AM
-      checkInStart.setMinutes(Math.floor(Math.random() * 60)); // Random minutes
-      let checkInEnd = new Date(checkInStart);
-      checkInEnd.setHours(checkInStart.getHours() + 1); // Check-in lasts 1 hour
-
-      // Generate break time (random between 12:00 PM - 2:00 PM)
-      let breakStart = new Date(date);
-      breakStart.setHours(12 + Math.floor(Math.random() * 2)); // Random hour between 12:00 PM - 2:00 PM
-      breakStart.setMinutes(Math.floor(Math.random() * 60)); // Random minutes
-      let breakEnd = new Date(breakStart);
-      breakEnd.setMinutes(breakStart.getMinutes() + 30); // Break lasts 30 minutes
-
-      // Generate check-out time (random between 5:00 PM - 6:00 PM)
-      let checkOutStart = new Date(date);
-      checkOutStart.setHours(17 + Math.floor(Math.random() * 2)); // Random hour between 5:00 PM - 6:00 PM
-      checkOutStart.setMinutes(Math.floor(Math.random() * 60)); // Random minutes
-      let checkOutEnd = new Date(checkOutStart);
-      checkOutEnd.setHours(checkOutStart.getHours() + 1); // Check-out lasts 1 hour
-
-      // Add check-in, break, and check-out items to the timeline
-      this.data.add({
-        id: order,
-        group: j + 1, // Group based on the date
-        start: checkInStart,
-        end: checkInEnd,
-        content: 'Check-in ' + order,
-        type: 'range',
-        className: 'check-in',
-      });
-
-      this.data.add({
-        id: order + 1,
-        group: j + 1, // Group based on the date
-        start: breakStart,
-        end: breakEnd,
-        content: 'Break ' + order,
-        type: 'range',
-        className: 'break-time',
-      });
-
-      this.data.add({
-        id: order + 2,
-        group: j + 1, // Group based on the date
-        start: checkOutStart,
-        end: checkOutEnd,
-        content: 'Check-out ' + order,
-        type: 'range',
-        className: 'check-out',
-      });
-
-      order += 3; // Increment by 3 for each day (1 check-in, 1 break, 1 check-out)
-    }
+    this.data = new DataSet(allItems);
   }
 
   getOptions() {
@@ -925,29 +939,49 @@ timeline: Timeline | undefined;
 
     this.options = {
       stack: false,
-      start: startDate, // Set the start to 00:00 of today
-      end: endDate, // Set the end to 23:59 of today
       editable: false,
       margin: {
-        item: 10, // Minimal margin between items
-        axis: 5,  // Minimal margin between items and the axis
+        item: 10,
+        axis: 5,
       },
       orientation: 'top',
-      zoomable: false, // Disable zooming
-      min: startDate, // Minimum date for the timeline
-      max: endDate, // Maximum date for the timeline
-      showCurrentTime: true, // Show the current time marker
+      zoomable: false,
+
+      showCurrentTime: false,
       format: {
         minorLabels: {
-          hour: 'HH:00',  // Show hours as 00:00, 01:00, etc.
-          minute: '', // Remove minute labels
+          hour: 'HH:00',
         },
         majorLabels: {
-          day: 'DD/MM/YYYY', // Format the major date labels (optional)
+          day: 'DD/MM/YYYY',
+        },
+      },
+      tooltip: {
+        followMouse: true,
+        overflowMethod: 'cap',
+        template: (item: TimelineItem) => {
+          const startTime = new Date(item.start).toLocaleTimeString([], {
+            hour: '2-digit',
+            minute: '2-digit',
+          });
+          const endTime = item.end
+            ? new Date(item.end).toLocaleTimeString([], {
+                hour: '2-digit',
+                minute: '2-digit',
+              })
+            : null;
+          return `
+            <div>
+              <strong>${item.content}</strong><br />
+              Start: ${startTime}<br />
+              ${endTime ? `End: ${endTime}` : ''}
+            </div>
+          `;
         },
       },
     };
   }
+
 
 
 }
