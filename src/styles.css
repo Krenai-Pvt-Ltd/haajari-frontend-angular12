@@ -712,9 +712,22 @@ actionMenuList .dropdown-item i {
 
 .placeholder-line .ant-select-selection-placeholder{
   line-height: 45px !important;
+  font-size: 0.875rem !important;
+  font-weight: 400 !important;
 }
 .placeholder-line .ant-select-selection-item  {
   line-height: 45px !important;
+  font-size: 0.875rem !important;
+  font-weight: 400 !important;
+}
+
+.placeholder-font .ant-select-selection-placeholder{
+  font-size: 0.875rem !important;
+  font-weight: 400 !important;
+}
+.placeholder-font .ant-select-selection-item  {
+  font-size: 0.875rem !important;
+  font-weight: 400 !important;
 }
 .pagition-box .pagination {
   margin-bottom: 0px;
