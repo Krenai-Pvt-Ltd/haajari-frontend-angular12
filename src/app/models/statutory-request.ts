@@ -1,4 +1,4 @@
-import { OrganizationStatutoryAttributeRequest } from "./organization-statutory-attribute-request";
+
 import { StatutoryAttributeRequest } from "./statutory-attribute-request";
 
 export class StatutoryRequest {

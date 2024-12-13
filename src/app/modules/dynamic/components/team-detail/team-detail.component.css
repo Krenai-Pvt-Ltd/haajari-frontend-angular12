@@ -118,12 +118,8 @@ span.members-names {
     text-transform: uppercase;
 }
 
-.Members-list-box{
-    margin-bottom: 15px;
-}
-.add-member{
-    cursor: pointer;
-}
+
+
 .user-item img{
     width: 30px;
     border-radius: 50%;
@@ -332,15 +328,9 @@ span.remove-icon:hover {
     color: #fff;
 }
 
-.Members-list-box {
-    padding: 5px;
-    border-radius: 6px;
-    cursor: pointer;
-}
+
 .Members-list-box:hover{
     background-color: #f8f8f8;
-    padding: 5px;
-    border-radius: 6px;
 }
 
 .manegir-dropdown{

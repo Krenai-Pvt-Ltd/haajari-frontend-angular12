@@ -1040,3 +1040,7 @@ nz-select.request-dropdown .ant-select-selector {
 .onboarding-date {
     border-right: 1px solid #f2f2f2 !important;
 }
+
+div[ngbTooltip] {
+    display: inline-block;
+  }

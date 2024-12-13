@@ -50,7 +50,8 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     private modalService: NgbModal,
     private _subscriptionService:SubscriptionPlanService,
   ) {}
-  users: EmployeeOnboardingDataDto[] = [];
+  // users: EmployeeOnboardingDataDto[] = [];
+  users: EmployeeOnboardingDataDto[] = new Array();
   filteredUsers: Users[] = [];
   itemPerPage: number = 12;
   pageNumber: number = 1;
@@ -104,6 +105,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   ngOnInit(): void {
     window.scroll(0, 0);
     this.sampleFileUrl ="assets/samples/HajiriBulkSheet.xlsx"
+    this.getUsersCountByStatus();
       // 'https://firebasestorage.googleapis.com/v0/b/haajiri.appspot.com/o/Hajiri%2FSample%2FEmployee_Details_Sample%2Femployee_details_sample.xlsx?alt=media';
     // this.isUserShimer=true;
     this.getEmployeesOnboardingStatus();
@@ -171,11 +173,17 @@ export class EmployeeOnboardingDataComponent implements OnInit {
             }
             // this.isResignationUser = 0;
 
+            if(this.isResignationUser == 1){
+              this.isMainPlaceholder = false;
+            }
+
             this.isUserShimer = false;
+            this.getUsersCountByStatus();
           },
           (error) => {
             this.isUserShimer = false;
             this.errorToggleTop = true;
+            this.users = []
           }
         );
     }, debounceTime);
@@ -184,6 +192,12 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   resignationRequest(){
     this.users = [];
     this.isResignationUser = 1
+
+    this.search = ''; // Clear the search box text
+    this.crossFlag = false;
+    this.searchText = ''
+    this.searchCriteria = ''
+
     this.getUsersByFiltersFunction();
   }
 
@@ -217,6 +231,10 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   selectedStatus: string | null = null;
 
   selectStatus(status: string) {
+    
+    this.users = [];
+    this.isResignationUser = 0
+
     if (status == 'ALL') {
       this.selectedStatus = 'All';
       this.searchUsers('any');
@@ -1879,4 +1897,21 @@ console.log(this.data);
     'Workplace Safety Officer',
   ];
 
+  resignationCount: number = 0;
+  editProfileCount: number = 0;
+  getUsersCountByStatus() {
+    this.dataService.getUsersCountByStatus().subscribe(
+      (response: any) => {
+        this.resignationCount = response.object.count1;
+        this.editProfileCount = response.object.count2;
+      },
+      (error) => {
+        console.error('Error fetching user count by status:', error);
+      }
+    );
+  }
+
+ 
+
+  
 }

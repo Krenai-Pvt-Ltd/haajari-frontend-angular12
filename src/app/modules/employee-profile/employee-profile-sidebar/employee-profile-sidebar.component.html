@@ -87,7 +87,7 @@
                         </g>
                     </svg>
                 </span>
-                <p class="mb-0">{{employeeProfileResponseData?.email || 'N/A'}}</p>
+                <p class="mb-0" style="text-transform: none;">{{employeeProfileResponseData?.email || 'N/A'}}</p>
             </div>
             <div class="d-flex align-items-center gap-2">
                 <span class="icon">
@@ -1188,7 +1188,7 @@
                     </div>
 
                     <div class="modal-footer d-flex align-items-center justify-content-end gap-2">
-                        <button class="btn cancel-btn" data-bs-dismiss="modal" aria-label="Close" #closeResignationButton>Cancel</button>
+                        <button type="button" class="btn cancel-btn" data-bs-dismiss="modal" aria-label="Close" (click)="clearFormData(resignationForm)" #closeResignationButton>Cancel</button>
 
                         <button *ngIf="!resignationToggle" type="submit" [disabled]="resignationForm.invalid || resignationToggle || isUploading" class="btn submitActionBtn">Submit</button>
                         <div class="dot-opacity-loader" *ngIf="resignationToggle">

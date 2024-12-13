@@ -3022,6 +3022,7 @@
       </div>
     </div>
   </div>
+  </div>
 
 
 
@@ -3149,21 +3150,23 @@
           <form #holidayForm="ngForm">
             <div
               *ngFor="let holiday of holidayList; let i = index"
-              class="form-group row mb-3"
+              class="row"
             >
-              <div class="col-md-6">
+              <div class="col-md-6 mb-3">
+                <label class="pb-2">Holiday Name</label>
                 <input
                   type="text"
                   name="holidayName{{ i }}"
                   [(ngModel)]="holiday.name"
-                  class="form-control whatapp-login-input"
+                  class="form-control input-zorro"
                   placeholder="Enter Holiday Name"
                   required
                 />
               </div>
-              <div class="col-md-5">
+              <div class="mb-3" [ngClass]="{ 'col-md-5': holidayList.length > 1, 'col-md-6' :  holidayList.length == 1 }" >
+                <label class="pb-2">Holiday Date</label>
                 <nz-date-picker
-                  class="nz-overlay-container whatapp-login-input"
+                  class="form-control"
                   name="holidayDate{{ i }}"
                   [(ngModel)]="holiday.date"
                   ngModel
@@ -3172,18 +3175,11 @@
                 ></nz-date-picker>
               </div>
               <div class="col-md-1">
-                <!-- <button
-                type="button"
-                class="btn btn-outline-danger"
-                (click)="removeHoliday(i)"
-                *ngIf="holidayList.length > 1"
-              >
-                Remove
-              </button> -->
+               
                 <button
                   type="button"
                   class="btn btn-soft-danger btn-icon-square-sm"
-                  style="padding: 24px"
+                  style="padding: 22px"
                   (click)="removeHoliday(i)"
                   *ngIf="holidayList.length > 1"
                 >
@@ -3194,12 +3190,12 @@
           </form>
         </div>
         <div class="d-flex justify-content-between modal-footer">
-          <span class="add-more-holiday" (click)="addHoliday()">
+          <button class="btn p-0 text-primary" (click)="addHoliday()">
             <i class="bi bi-plus"></i> Add More
-          </span>
+          </button>
           <button
             type="submit"
-            class="btn btn-outline-primary btn-round"
+            class="btn submitActionBtn"
             (click)="registerCustomHolidays()"
             [disabled]="holidayForm.invalid"
             *ngIf="!isCustomHolidayLoader"
