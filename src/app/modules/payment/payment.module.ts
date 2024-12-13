@@ -18,6 +18,9 @@ import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
 import { LeaveSummaryComponent } from './leave-summary/leave-summary.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
+import { EmployeeManagementComponent } from './employee-management/employee-management.component';
+import { EarningManagementComponent } from './earning-management/earning-management.component';
+import { SalaryDeductionManagementComponent } from './salary-deduction-management/salary-deduction-management.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +31,9 @@ import { NzEmptyModule } from 'ng-zorro-antd/empty';
     BonusAndDeductionComponent,
     DateFormatterPipe,
     LeaveSummaryComponent,
+    EmployeeManagementComponent,
+    EarningManagementComponent,
+    SalaryDeductionManagementComponent,
   ],
   imports: [
     CommonModule,

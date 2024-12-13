@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { Color, ScaleType } from '@swimlane/ngx-charts';
 import { Key } from 'src/app/constant/key';
 import { EpfDetailsRequest } from 'src/app/models/epf-details-request';
@@ -33,6 +33,8 @@ import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { PayrollService } from 'src/app/services/payroll.service';
 import { Modal } from 'bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import * as bootstrap from 'bootstrap';
 
 @Component({
   selector: 'app-payroll-dashboard',
@@ -48,6 +50,12 @@ export class PayrollDashboardComponent implements OnInit {
   search: string = '';
   searchBy: string = 'name';
   total: number = 0;
+
+  payrollToggleView:boolean=false;
+  showLeaveComponent:boolean=false;
+  showEmployeeComponent:boolean=false;
+  showSalaryComponent:boolean=false;
+  showEariningComponent:boolean=false;
 
   readonly TOAST_STATUS_SUCCESS = Key.TOAST_STATUS_SUCCESS;
   readonly TOAST_STATUS_ERROR = Key.TOAST_STATUS_ERROR;
@@ -146,6 +154,8 @@ export class PayrollDashboardComponent implements OnInit {
   // ------------------------------
   //Exmployee changes selection
   employeeChangesSection(PAYROLL_PROCESS_STEP : number){
+    this.payrollToggleView = true;
+    this.showEmployeeComponent = true;
     if(PAYROLL_PROCESS_STEP == this.FINAL_SETTLEMENT){
       this.finalSettlementTab();
       this.navigateToTab('step3-tab');
@@ -180,22 +190,24 @@ export class PayrollDashboardComponent implements OnInit {
   // ----------------------------------------------------------
   // Attendance, Leaves and Present Days tab selection
   attendanceAndLeaveSection(PAYROLL_PROCESS_STEP : number){
-    if(PAYROLL_PROCESS_STEP == this.LOP_REVERSAL){
-      this.lopReversalTab();
-      this.navigateToTab('step6-tab');
-    } else if(PAYROLL_PROCESS_STEP == this.LOP_SUMMARY){
-      this.lopSummaryTab();
-      this.navigateToTab('step5-tab');
-    } else{
-      this.leavesTab();
-    }
+    this.payrollToggleView = true;
+    this.showLeaveComponent = true;
+    // if(PAYROLL_PROCESS_STEP == this.LOP_REVERSAL){
+    //   this.lopReversalTab();
+    //   this.navigateToTab('step6-tab');
+    // } else if(PAYROLL_PROCESS_STEP == this.LOP_SUMMARY){
+    //   this.lopSummaryTab();
+    //   this.navigateToTab('step5-tab');
+    // } else{
+    //   this.leavesTab();
+    // }
   }
   leavesTab(){
     this.CURRENT_TAB = this.LEAVES;
     this.CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE = this.LEAVES;
     this.resetCriteriaFilter();
     console.log("==========getPendingLeaves==========")
-    this.getUserPendingLeaves(); ///ABHIJEET
+    // this.getUserPendingLeaves(); ///ABHIJEET
     // this.getPayrollLeaveResponseMethodCall();
   }
 
@@ -217,15 +229,17 @@ export class PayrollDashboardComponent implements OnInit {
   // ----------------------------------------------------------
   // Salary Changes, Bonus and Overtime tab selection
   salaryChangeSection(PAYROLL_PROCESS_STEP : number){
-    if(PAYROLL_PROCESS_STEP == this.OVERTIME){
-      this.overtimeTab();
-      this.navigateToTab('step9-tab');
-    } else if(PAYROLL_PROCESS_STEP == this.BONUS){
-      this.bonusTab();
-      this.navigateToTab('step8-tab');
-    } else{
-      this.salaryChangeTab();
-    }
+    this.payrollToggleView = true;
+    this.showEariningComponent = true;
+    // if(PAYROLL_PROCESS_STEP == this.OVERTIME){
+    //   this.overtimeTab();
+    //   this.navigateToTab('step9-tab');
+    // } else if(PAYROLL_PROCESS_STEP == this.BONUS){
+    //   this.bonusTab();
+    //   this.navigateToTab('step8-tab');
+    // } else{
+    //   this.salaryChangeTab();
+    // }
   }
   salaryChangeTab(){
     this.CURRENT_TAB = this.SALARY_CHANGE;
@@ -252,15 +266,17 @@ export class PayrollDashboardComponent implements OnInit {
   // -----------------------------------------
   // EPF, ESI & TDS
   epfEsiTdsSection(PAYROLL_PROCESS_STEP : number){
-    if(PAYROLL_PROCESS_STEP == this.TDS){
-      this.tdsTab();
-      this.navigateToTab('step12-tab');
-    } else if(PAYROLL_PROCESS_STEP == this.ESI){
-      this.esiTab();
-      this.navigateToTab('step11-tab');
-    } else{
-      this.epfTab();
-    }
+    this.payrollToggleView = true;
+    this.showSalaryComponent = true;
+    // if(PAYROLL_PROCESS_STEP == this.TDS){
+    //   this.tdsTab();
+    //   this.navigateToTab('step12-tab');
+    // } else if(PAYROLL_PROCESS_STEP == this.ESI){
+    //   this.esiTab();
+    //   this.navigateToTab('step11-tab');
+    // } else{
+    //   this.epfTab();
+    // }
   }
   epfTab(){
     this.CURRENT_TAB = this.EPF;
@@ -441,7 +457,8 @@ export class PayrollDashboardComponent implements OnInit {
   constructor(
     private dataService: DataService,
     private _helperService: HelperService,
-    private _payrollService : PayrollService
+    private _payrollService : PayrollService,
+  
   ) {}
 
   ngOnInit(): void {
@@ -979,7 +996,7 @@ export class PayrollDashboardComponent implements OnInit {
 
     // Leaves, Lop Summary, etc.
     if (step == this.LEAVES){
-
+      // this.getUserPendingLeaves();
     }
 
     if (step == this.LOP_SUMMARY){
@@ -2101,31 +2118,7 @@ extractPreviousMonthNameFromDate(dateString : string){
   
 
 
-  RUN_PAYROLL_LOADER : boolean = false;
-  generateSalaryReportMethodCall(): void {
-    this.RUN_PAYROLL_LOADER = true;
-    this.dataService.generateSalaryReport(this.startDate, this.endDate).subscribe({
-      next: (response) => {
-        this.getOrganizationIndividualMonthSalaryDataMethodCall();
-        const downloadLink = document.createElement('a');
-        downloadLink.href = response.object.reportExcelLink;
-        downloadLink.download = 'Report_JULY_1720181370937.xlsx';
-        downloadLink.click();
-        // console.log(response);
-        this.RUN_PAYROLL_LOADER = false;
-        this._helperService.showToast('Payroll generated successfully.', Key.TOAST_STATUS_SUCCESS);
-        this._payrollService.updatePayrollProcessStep(this.startDate, this.endDate, Key.PAYROLL_PORCESSED).subscribe((response)=>{
-          this.getPayrollProcessStepByOrganizationIdAndStartDateAndEndDateMethodCall();
-        }, ((error) => {
-          console.log(error);
-        }))  
-      },
-      error: (error) => {
-        this._helperService.showToast('Error while generating the Payroll!', Key.TOAST_STATUS_ERROR);
-        this.RUN_PAYROLL_LOADER = false;
-      },
-    });
-  } 
+  
 
   
   registerPayrollLeave(){
@@ -2152,7 +2145,7 @@ extractPreviousMonthNameFromDate(dateString : string){
  
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-payrollLogs: any[] = [];
+  payrollLogs: any[] = [];
   isPayrollHistoryPlaceholder = true;
   dataNotFoundPlaceholderForPayrollHistory : boolean = false;
   networkConnectionErrorPlaceHolderForPayrollHistory : boolean = false;
@@ -2176,86 +2169,38 @@ payrollLogs: any[] = [];
   }
 
 
-  pendingLeavesList:any[]=[];
-  getUserPendingLeaves(){
-    this.preRuleForShimmersAndErrorPlaceholdersForPayrollLeaveResponse();
-    this._payrollService.getPendingLeaves(this.startDate,this.endDate,1,10).subscribe((response) => {
-      if(response.status){
-        this.pendingLeavesList = response.object;
-      } 
-      this.isShimmerForPayrollLeaveResponse = false;
-    }, (error) => {
-      this.networkConnectionErrorPlaceHolderForPayrollLeaveResponse = true;
-      this.isShimmerForPayrollLeaveResponse = false;
-     
-    })
-  }
-
-
-  approvedLoader:boolean = false;
-  rejecetdLoader:boolean=false;
-  rejectionToggle:boolean=false;
-  rejectionReason: string ='';
-  approveOrDenyLeave(leaveId: number, status: string) {
-    if(status == 'approved'){
-      this.approvedLoader = true;
-    }else{
-      this.rejecetdLoader = true;
-    }
-    this.dataService.approveOrRejectLeaveOfUser(leaveId, status, this.rejectionReason).subscribe(
-      (response) => {
-        if(response.status){
-          this.getUserPendingLeaves();
-        }else{
-
-        }
-        this.approvedLoader = false;
-        this.rejecetdLoader = false;
+  RUN_PAYROLL_LOADER : boolean = false;
+  generateSalaryReportMethodCall(){
+    this.RUN_PAYROLL_LOADER = true;
+    this.dataService.generateSalaryReport(this.startDate, this.endDate).subscribe((response) => {
+        this.getOrganizationIndividualMonthSalaryDataMethodCall();
+        const downloadLink = document.createElement('a');
+        downloadLink.href = response.object.reportExcelLink;
+        downloadLink.download = 'Report_JULY_1720181370937.xlsx';
+        downloadLink.click();
+        // console.log(response);
+        this.RUN_PAYROLL_LOADER = false;
+        this._helperService.showToast('Payroll generated successfully.', Key.TOAST_STATUS_SUCCESS);
+        this._payrollService.updatePayrollProcessStep(this.startDate, this.endDate, Key.PAYROLL_PORCESSED).subscribe((response)=>{
+          this.getPayrollProcessStepByOrganizationIdAndStartDateAndEndDateMethodCall();
+        }, ((error) => {
+          console.log(error);
+        }))  
       },(error) => {
-        this.approvedLoader = false;
-        this.rejecetdLoader = false;
-        this._helperService.showToast('Error processing!',Key.TOAST_STATUS_ERROR);
+        this._helperService.showToast('Error while generating the Payroll!', Key.TOAST_STATUS_ERROR);
+        this.RUN_PAYROLL_LOADER = false;
       });
+  } 
+
+
+
+  getData(){
+    this.payrollToggleView = false;
+    this.showLeaveComponent = false;
+    this.showEmployeeComponent = false;
+    this.showEariningComponent = false;
+    this.showSalaryComponent = false;
   }
-
-
-  openLeaveLogsModal(leaveId : number, type:string ){
-   this.rejectionReason = '';
-   this.getPendingLeaveDetail(leaveId,type);
-   this.openSecondModal();
-  }
-
-
-  pendingLeaveDetail:any;
-  pendingLeaveDetailFetch : boolean =false;
-  getPendingLeaveDetail(leaveId: number, leaveType: string) {
-    this.pendingLeaveDetailFetch = true;
-    this.dataService.getRequestedUserLeaveByLeaveIdAndLeaveType(leaveId, leaveType).subscribe((response)  => {
-        if(response.status){    
-          this.pendingLeaveDetail = response.object;
-        }else{
-          this.pendingLeaveDetail = null;
-        }
-        this.pendingLeaveDetailFetch = false;
-      },(error)=>{
-        this.pendingLeaveDetailFetch = false;
-      });
-}
-
-  openSecondModal() {
-    const modal1 = document.getElementById('leaves');
-    const modal2 = document.getElementById('pendingLeaveModal');
-
-    if (modal1 && modal2) {
-      // Adjust z-index for the second modal
-      modal2.style.zIndex = (parseInt(window.getComputedStyle(modal1).zIndex) + 10).toString();
-
-      // Open the second modal
-      const modalInstance2 = new Modal(modal2);
-      modalInstance2.show();
-    }
-  }
-  
 
 }
 

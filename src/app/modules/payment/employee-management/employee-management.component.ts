@@ -1,0 +1,301 @@
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FinalSettlementResponse } from 'src/app/models/final-settlement-response';
+import { NewJoineeResponse } from 'src/app/models/new-joinee-response';
+import { PayActionType } from 'src/app/models/pay-action-type';
+import { UserExitResponse } from 'src/app/models/user-exit-response';
+import { DataService } from 'src/app/services/data.service';
+import { HelperService } from 'src/app/services/helper.service';
+
+@Component({
+  selector: 'app-employee-management',
+  templateUrl: './employee-management.component.html',
+  styleUrls: ['./employee-management.component.css']
+})
+export class EmployeeManagementComponent implements OnInit {
+
+
+  itemPerPage: number = 8;
+  pageNumber: number = 1;
+  lastPageNumber: number = 0;
+  sort: string = 'asc';
+  sortBy: string = 'id';
+  search: string = '';
+  searchBy: string = 'name';
+  total: number = 0;
+
+
+  @Input() startDate:any;
+  @Input() endDate:any;
+  @Output() getData: EventEmitter<boolean> = new EventEmitter<boolean>();
+    
+  sendBulkDataToComponent() {
+    this.getData.emit(true);
+  }
+
+
+  back(){
+    this.sendBulkDataToComponent();
+  }
+
+  constructor(private _dataService : DataService, 
+    private _helperService : HelperService) { }
+
+  ngOnInit(): void {
+    this.getNewJoineeByOrganizationIdMethodCall();
+  }
+
+
+  employeeChangesSection(PAYROLL_PROCESS_STEP : number){
+    // if(PAYROLL_PROCESS_STEP == this.FINAL_SETTLEMENT){
+    //   this.finalSettlementTab();
+    //   this.navigateToTab('step3-tab');
+    // } else if(PAYROLL_PROCESS_STEP == this.USER_EXIT){
+    //   this.userExitTab();
+    //   this.navigateToTab('step2-tab');
+    // } else{
+    //   this.newJoineeTab();
+    // }
+  }
+
+
+  // newJoineeTab() {
+  //   this.CURRENT_TAB = this.NEW_JOINEE;
+  //   this.CURRENT_TAB_IN_EMPLOYEE_CHANGE = this.NEW_JOINEE;
+  //   this.resetCriteriaFilter();
+  //   this.getNewJoineeByOrganizationIdMethodCall();
+  // }
+
+  // userExitTab() {
+  //   this.CURRENT_TAB = this.USER_EXIT;
+  //   this.CURRENT_TAB_IN_EMPLOYEE_CHANGE = this.USER_EXIT;
+  //   this.resetCriteriaFilter();
+  //   this.getUserExitByOrganizationIdMethodCall();
+  // }
+
+  // finalSettlementTab() {
+  //   this.CURRENT_TAB = this.FINAL_SETTLEMENT;
+  //   this.CURRENT_TAB_IN_EMPLOYEE_CHANGE = this.FINAL_SETTLEMENT;
+  //   this.resetCriteriaFilter();
+  //   this.getFinalSettlementByOrganizationIdMethodCall();
+  // }
+
+
+  isShimmerForNewJoinee = false;
+  dataNotFoundPlaceholderForNewJoinee = false;
+  networkConnectionErrorPlaceHolderForNewJoinee = false;
+  preRuleForShimmersAndErrorPlaceholdersForNewJoinee() {
+    this.isShimmerForNewJoinee = true;
+    this.dataNotFoundPlaceholderForNewJoinee = false;
+    this.networkConnectionErrorPlaceHolderForNewJoinee = false;
+  }
+
+  isShimmerForUserExit = false;
+  dataNotFoundPlaceholderForUserExit = false;
+  networkConnectionErrorPlaceHolderForUserExit = false;
+  preRuleForShimmersAndErrorPlaceholdersForUserExit() {
+    this.isShimmerForUserExit = true;
+    this.dataNotFoundPlaceholderForUserExit = false;
+    this.networkConnectionErrorPlaceHolderForUserExit = false;
+  }
+
+  isShimmerForFinalSettlement = false;
+  dataNotFoundPlaceholderForFinalSettlement = false;
+  networkConnectionErrorPlaceHolderForFinalSettlement = false;
+  preRuleForShimmersAndErrorPlaceholdersForFinalSettlement() {
+    this.isShimmerForFinalSettlement = true;
+    this.dataNotFoundPlaceholderForFinalSettlement = false;
+    this.networkConnectionErrorPlaceHolderForFinalSettlement = false;
+  }
+
+
+  payActionTypeList:any[]=[];
+  newJoineeResponseList: NewJoineeResponse[] = [];
+  debounceTimer: any;
+  selectedPayActionCache: { [uuid: string]: PayActionType } = {};
+  commentCache: { [uuid: string]: string } = {};
+  getNewJoineeByOrganizationIdMethodCall(debounceTime: number = 300) {
+    this.newJoineeResponseList = [];
+
+    if (this.debounceTimer) {
+      clearTimeout(this.debounceTimer);
+    }
+
+    this.debounceTimer = setTimeout(() => {
+      this.preRuleForShimmersAndErrorPlaceholdersForNewJoinee();
+      this._dataService
+        .getNewJoineeByOrganizationId(
+          this.itemPerPage,
+          this.pageNumber,
+          this.search,
+          this.startDate,
+          this.endDate
+        )
+        .subscribe(
+          (response) => {
+            if (this._helperService.isListOfObjectNullOrUndefined(response)) {
+              this.dataNotFoundPlaceholderForNewJoinee = true;
+            } else {
+              this.newJoineeResponseList = response.listOfObject.map((joinee: NewJoineeResponse) => {
+                // Apply cached selection if available
+                if (this.selectedPayActionCache[joinee.uuid]) {
+                  joinee.payActionType = this.selectedPayActionCache[joinee.uuid];
+                  joinee.payActionTypeId = this.selectedPayActionCache[joinee.uuid].id;
+                } else {
+                  // Set initial selection based on payActionTypeId
+                  const selectedPayActionType = this.payActionTypeList.find(
+                    (payActionType) => payActionType.id === joinee.payActionTypeId
+                  );
+                  if (selectedPayActionType) {
+                    joinee.payActionType = selectedPayActionType;
+                  }
+                }
+                   // Apply cached comment if available
+                   if (this.commentCache[joinee.uuid]) {
+                    joinee.comment = this.commentCache[joinee.uuid];
+                  }
+  
+                return joinee;
+              });
+              this.total = response.totalItems;
+              this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+            }
+            this.isShimmerForNewJoinee = false;
+          },
+          (error) => {
+            this.networkConnectionErrorPlaceHolderForNewJoinee = true;
+            this.isShimmerForNewJoinee = false;
+          }
+        );
+    }, debounceTime);
+  }
+
+
+
+    //Fetching the user exit data
+    userExitResponseList: UserExitResponse[] = [];
+    getUserExitByOrganizationIdMethodCall(debounceTime: number = 300) {
+      debugger
+      this.userExitResponseList = [];
+  
+      if (this.debounceTimer) {
+        clearTimeout(this.debounceTimer);
+      }
+  
+      this.debounceTimer = setTimeout(() => {
+        this.preRuleForShimmersAndErrorPlaceholdersForUserExit();
+        this._dataService
+          .getUserExitByOrganizationId(
+            this.itemPerPage,
+            this.pageNumber,
+            this.sort,
+            this.sortBy,
+            this.search,
+            this.searchBy,
+            this.startDate,
+            this.endDate
+          )
+          .subscribe(
+            (response) => {
+              if (this._helperService.isListOfObjectNullOrUndefined(response)) {
+                this.dataNotFoundPlaceholderForUserExit = true;
+              } else {
+                this.userExitResponseList = response.listOfObject.map((exit: UserExitResponse) => {
+                  // Apply cached pay action type if available
+                  if (this.selectedPayActionCache[exit.uuid]) {
+                    exit.payActionType = this.selectedPayActionCache[exit.uuid];
+                    exit.payActionTypeId = this.selectedPayActionCache[exit.uuid].id;
+                    // console.log(exit.name, exit.payActionType)
+                  } else {
+                    // Set initial selection based on payActionTypeId
+                    const selectedPayActionType = this.payActionTypeList.find(
+                      (payActionType) => payActionType.id === exit.payActionTypeId
+                    );
+                    if (selectedPayActionType) {
+                      exit.payActionType = selectedPayActionType;
+                    }
+                  }
+  
+                  // Apply cached comment if available
+                  if (this.commentCache[exit.uuid]) {
+                    exit.comment = this.commentCache[exit.uuid];
+                  }
+  
+                  return exit;
+                });
+                this.total = response.totalItems;
+                this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+              }
+              this.isShimmerForUserExit = false;
+            },
+            (error) => {
+              this.networkConnectionErrorPlaceHolderForUserExit = true;
+              this.isShimmerForUserExit = false;
+            }
+          );
+      }, debounceTime);
+    }
+  
+    //Fetching the final settlement data
+    finalSettlementResponseList: FinalSettlementResponse[] = [];
+    getFinalSettlementByOrganizationIdMethodCall(debounceTime: number = 300) {
+      this.finalSettlementResponseList = [];
+  
+      if (this.debounceTimer) {
+        clearTimeout(this.debounceTimer);
+      }
+  
+      this.debounceTimer = setTimeout(() => {
+        this.preRuleForShimmersAndErrorPlaceholdersForFinalSettlement();
+        this._dataService
+          .getFinalSettlementByOrganizationId(
+            this.itemPerPage,
+            this.pageNumber,
+            this.sort,
+            this.sortBy,
+            this.search,
+            this.searchBy,
+            this.startDate,
+            this.endDate
+          )
+          .subscribe(
+            (response) => {
+              if (this._helperService.isListOfObjectNullOrUndefined(response)) {
+                this.dataNotFoundPlaceholderForFinalSettlement = true;
+              } else {
+                this.finalSettlementResponseList = response.listOfObject.map((settlement: FinalSettlementResponse) => {
+                  // Apply cached pay action type if available
+                  if (this.selectedPayActionCache[settlement.uuid]) {
+                    settlement.payActionType = this.selectedPayActionCache[settlement.uuid];
+                    settlement.payActionTypeId = this.selectedPayActionCache[settlement.uuid].id;
+                  } else {
+                    // Set initial selection based on payActionTypeId
+                    const selectedPayActionType = this.payActionTypeList.find(
+                      (payActionType) => payActionType.id === settlement.payActionTypeId
+                    );
+                    if (selectedPayActionType) {
+                      settlement.payActionType = selectedPayActionType;
+                    }
+                  }
+  
+                  // Apply cached comment if available
+                  if (this.commentCache[settlement.uuid]) {
+                    settlement.comment = this.commentCache[settlement.uuid];
+                  }
+  
+                  return settlement;
+                });
+                this.total = response.totalItems;
+                this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+              }
+              this.isShimmerForFinalSettlement = false;
+            },
+            (error) => {
+              this.networkConnectionErrorPlaceHolderForFinalSettlement = true;
+              this.isShimmerForFinalSettlement = false;
+            }
+          );
+      }, debounceTime);
+    }
+
+
+}
