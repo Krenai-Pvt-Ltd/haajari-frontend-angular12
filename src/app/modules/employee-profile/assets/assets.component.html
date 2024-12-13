@@ -438,9 +438,9 @@
                 </svg>
                 </button>
             </div>
+            <form [formGroup]="assetRequestForm" (ngSubmit)="submitForm(assetRequestModal)">
             <div class="modal-body">
                 <div class="assets-request-form">
-                  <form [formGroup]="assetRequestForm" (ngSubmit)="submitForm(assetRequestModal)">
                     <div class="row register-form-box">
                       <div class="col-md-12 mb-3">
                         <div class="form-group">
@@ -466,7 +466,7 @@
                         <div class="form-group">
                           <label for="assetCategory" class="mb-2">Asset Category</label>
                           <nz-form-control>
-                            <nz-select formControlName="assetCategory" class="form-control" style="width: 100%" nzSize="large" nzPlaceHolder="Select Category">
+                            <nz-select formControlName="assetCategory" class="form-control placeholder-line" style="width: 100%" nzSize="large" nzPlaceHolder="Select Category">
                               <nz-option *ngFor="let category of assetCategories" [nzValue]="category.value" [nzLabel]="category.label"></nz-option>
                             </nz-select>
                           </nz-form-control>
@@ -478,7 +478,7 @@
                         <div class="form-group">
                           <label for="assetName" class="mb-2">Asset Name</label>
                           <nz-form-control>
-                            <input formControlName="assetName" type="text" class="form-control" placeholder="Enter the asset name" nzSize="large" style="width: 100%" />
+                            <input formControlName="assetName" type="text" class="form-control input-zorro" placeholder="Enter the asset name" nzSize="large" />
                           </nz-form-control>
                         </div>
                       </div>
@@ -487,7 +487,7 @@
                         <div class="form-group">
                           <label for="requestedUser" class="mb-2">Select user to request</label>
                           <nz-form-control>
-                            <nz-select formControlName="requestedUser" class="form-control" style="width: 100%" nzSize="large" nzPlaceHolder="Select a user">
+                            <nz-select formControlName="requestedUser" class="form-control placeholder-line" style="width: 100%" nzSize="large" nzPlaceHolder="Select a user">
                               <nz-option *ngFor="let manager of managers" [nzValue]="manager.uuid" [nzLabel]="manager.name"></nz-option>
                             </nz-select>
                           </nz-form-control>
@@ -509,23 +509,21 @@
                           </small>
                         </div>
                       </div>
-
                     </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn cancel-btn" data-bs-dismiss="modal" #cancelButton>Cancel</button>
-                      <button type="submit" class="btn btn-primary" [disabled]="assetRequestForm.invalid || isLoadingForm">
-                        <span  *ngIf="!isLoadingForm">Submit Request</span>
-                    <div class="dot-opacity-loader" *ngIf="isLoadingForm">
-                      <span></span>
-                      <span></span>
-                      <span></span>
-                    </div>
-                  </button>
-                  </div>
-                  </form>
-
                 </div>
             </div>
+            <div class="modal-footer d-flex align-items-center justify-content-end gap-2">
+              <button type="button" class="btn cancel-btn" data-bs-dismiss="modal" #cancelButton>Cancel</button>
+              <button type="submit" class="btn submitActionBtn" [disabled]="assetRequestForm.invalid || isLoadingForm">
+                <span  *ngIf="!isLoadingForm">Submit Request</span>
+                <div class="dot-opacity-loader" *ngIf="isLoadingForm">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+              </button>
+            </div>
+          </form>
 
         </div>
     </div>

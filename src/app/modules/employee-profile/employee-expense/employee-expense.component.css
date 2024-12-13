@@ -173,7 +173,7 @@
     color: #4a4a4a;
     font-size: 12px;
     font-weight: 500;
-    min-width: 100px;
+    width: 100px;
 }
 
 .submitActionBtn {
@@ -182,7 +182,7 @@
     font-size: 12px;
     font-weight: 500;
     border-radius: 2px;
-    min-width: 100px;
+    width: 100px;
 }
 
 .bill-image img {

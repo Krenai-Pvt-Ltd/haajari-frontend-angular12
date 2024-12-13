@@ -789,7 +789,7 @@
                                 <nz-form-control>
                                     <nz-select style="width: 100%" nzSize="large" nzPlaceHolder="Select Expense type"
                                     [(ngModel)]="expenseTypeId" (ngModelChange)="getExpenseTypeId($event)" required
-                                    id="expTypeIdInput" name="expTypeId" #expTypeId="ngModel" class="form-control">
+                                    id="expTypeIdInput" name="expTypeId" #expTypeId="ngModel" class="form-control placeholder-line">
                                     <nz-option *ngFor=" let expenseType of expenseTypeList"
                                         [nzValue]="expenseType.id" [nzLabel]="expenseType.name">
                                     </nz-option>
@@ -821,7 +821,7 @@
                                     <nz-form-control>
                                         <nz-select style="width: 100%" nzSize="large" nzPlaceHolder="Select Manager"
                                         [(ngModel)]="managerId" (ngModelChange)="getManagerId($event)" required
-                                        name="selManagerId" #selManagerId="ngModel" class="form-control">
+                                        name="selManagerId" #selManagerId="ngModel" class="form-control placeholder-line">
                                         <nz-option *ngFor="let manager of managers"
                                             [nzValue]="manager.id" [nzLabel]="manager.name">
                                         </nz-option>
@@ -882,13 +882,12 @@
                             [disabled]="isFileUploaded || expenseTypeReq.expenseTypeId == 0 || expenseTypeReq.managerId == 0 || expenseTypeReq.expenseDate == undefined 
                             || expenseTypeReq.notes == '' || expenseTypeReq.amount == undefined || expenseTypeReq.amount <= 0">
                             Submit
-                            </button>
-
                             <div class="dot-opacity-loader" *ngIf="createToggle">
                                 <span></span>
                                 <span></span>
                                 <span></span>
                             </div>
+                            </button>
                         </div>
 
                         <ng-container *ngIf="validatePolicyToggle" >
@@ -899,12 +898,14 @@
                                 <div class="d-flex justify-content-end gap-2">
                                     <button class="btn cancel-btn mt-0" (click)="cancelExpense()" >No</button>
                                     
-                                    <button *ngIf="!createToggle" class="btn submitActionBtn bg-primary" (click)="createExpense(createForm)">Yes</button>
-                                    <div class="dot-opacity-loader" *ngIf="createToggle">
-                                        <span></span>
-                                        <span></span>
-                                        <span></span>
-                                    </div>
+                                    <button *ngIf="!createToggle" class="btn submitActionBtn" (click)="createExpense(createForm)">Yes
+                                        <div class="dot-opacity-loader" *ngIf="createToggle">
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                        </div>
+                                    </button>
+                                    
                                 </div>
 
                             </div>
@@ -941,12 +942,14 @@
                                 <div *ngIf="ROLE != 'ADMIN' && (expenseTypeReq.status.id == 13 || expenseTypeReq.status.id == 15)" class="d-flex align-items-center gap-2">
                                     <button class="btn cancel-btn mt-0" type="button" (click)="getExpenseId(expenseTypeReq.id)" >Delete</button>
     
-                                    <button  type="submit" class="btn submitActionBtn" *ngIf="!createToggle">Update</button>
-                                    <div class="dot-opacity-loader" *ngIf="createToggle">
-                                        <span></span>
-                                        <span></span>
-                                        <span></span>
-                                    </div>
+                                    <button  type="submit" class="btn submitActionBtn" *ngIf="!createToggle">Update
+                                        <div class="dot-opacity-loader" *ngIf="createToggle">
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                        </div>
+                                    </button>
+                                   
     
                                 </div>
                             </ng-container>
@@ -958,12 +961,14 @@
                                 <div class="d-flex align-items-center gap-2">
                                     <button class="btn cancel-btn mt-0" (click)="getExpenseId(expenseTypeReq.id)" >No</button>
                                     
-                                    <button *ngIf="!deleteToggle" class="btn submitActionBtn bg-danger" (click)="deleteExpense()">Yes</button>
-                                    <div class="dot-opacity-loader" *ngIf="deleteToggle">
-                                        <span></span>
-                                        <span></span>
-                                        <span></span>
-                                    </div>
+                                    <button *ngIf="!deleteToggle" class="btn submitActionBtn bg-danger" (click)="deleteExpense()">Yes
+                                        <div class="dot-opacity-loader" *ngIf="deleteToggle">
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                        </div>
+                                    </button>
+                                    
                                     
                                 </div>
                             </ng-container>
