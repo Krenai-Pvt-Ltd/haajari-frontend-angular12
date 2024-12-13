@@ -2079,6 +2079,7 @@ onPageChange(page: number) {
 
   readonly constants = constant;
   validateRowToggle: boolean = false;
+  duplicateTransactionId: boolean = false;
   //  validateRows(rows: any[]): void {
   async validateRows(rows: any[]): Promise<void> {
     debugger;
@@ -2149,7 +2150,7 @@ onPageChange(page: number) {
         
 
       // If you have enter here then the values accpet only 'Online', 'Cash' otherwise not
-        if (this.fileColumnName[j] === 'Payment Method') {
+        if (this.fileColumnName[j] === 'Payment Method1') {
           // Validate that the field contains only 'Online' or 'Cash'
           const validPaymentMethods = ['ONLINE', 'CASH'];
           // if (!cellValue || !validPaymentMethods.includes(cellValue.trim())) {
@@ -2160,8 +2161,26 @@ onPageChange(page: number) {
           }
         }
 
-        // If you have Entered 'Online' then transactin ID is mandotary, for cash it is not
+        if (this.fileColumnName[j] === 'Payment Method') {
+          // Validate that the field is a non-empty string
+          if (!cellValue || typeof cellValue !== 'string' || cellValue.trim() === '') {
+            this.validateRowToggle = true;
+            this.invalidRows[i] = true;
+            this.invalidCells[i][j] = true; // Mark the cell as invalid
+          }  
+        }
+
         if (this.fileColumnName[j] === 'Transaction Id') {
+          // Validate that the field is a non-empty string
+          if (!cellValue || typeof cellValue !== 'string' || cellValue.trim() === '') {
+            this.validateRowToggle = true;
+            this.invalidRows[i] = true;
+            this.invalidCells[i][j] = true; // Mark the cell as invalid
+          }  
+        }
+
+        // If you have Entered 'Online' then transactin ID is mandotary, for cash it is not
+        if (this.fileColumnName[j] === 'Transaction Id1') {
           // Find the index of the 'Payment Method' column
           const paymentMethodIndex = this.fileColumnName.indexOf('Payment Method');
           const paymentMethod = paymentMethodIndex !== -1 ? rows[i][paymentMethodIndex]?.toString().trim() : null;
@@ -2243,7 +2262,7 @@ onPageChange(page: number) {
       // }
 
       
-       // Validate 'Transaction Id' field
+       // Validate Duplicate 'Transaction Id' field (If transaction Id is duplicate from the Database then will show error)
        if (this.fileColumnName[j] === 'Transaction Id') {
         const transactionIdIndex = this.fileColumnName.indexOf('Transaction Id');
         const transactionId = transactionIdIndex !== -1 ? rows[i][transactionIdIndex]?.toString().trim() : null;
@@ -2251,10 +2270,11 @@ onPageChange(page: number) {
         // Await the transaction ID check
         try {
           const exists = await this.existTransactionIdExcel(transactionId);
-          console.log('Transaction ID exists: ', exists);
+          // console.log('Transaction ID exists: ', exists);
 
           if (exists) {
             this.validateRowToggle = true;
+            // this.duplicateTransactionId = true;
             this.invalidRows[i] = true;
             this.invalidCells[i][j] = true; // Mark the cell as invalid
           }
@@ -2265,6 +2285,10 @@ onPageChange(page: number) {
           this.invalidCells[i][j] = true; // Mark the cell as invalid
         }
       }
+
+      // Check local duplicate transaction Id (which is in the input field)
+
+
       //end
 
       }
@@ -2288,6 +2312,25 @@ onPageChange(page: number) {
         }
       );
     });
+  }
+  
+  isDuplicateTrnxId: boolean = false;
+   isDuplicate(value: string, currentRowIndex: number, rows: any) {
+    // this.invalidRows = new Array(rows.length).fill(false); 
+console.log('calling....')
+    // if (!value) return false; // Ignore empty values
+    let duplicateCount = 0;
+  
+    // Check the "Transaction ID" column across all rows
+    for (let i = 0; i < rows.length; i++) {
+      if (rows[i]['Transaction Id'] === value) {
+        duplicateCount++;
+        if (duplicateCount > 1 && i !== currentRowIndex) {
+           this.isDuplicateTrnxId = true; // Duplicate found
+        }
+      }
+    }
+    this.isDuplicateTrnxId = false;
   }
   
 

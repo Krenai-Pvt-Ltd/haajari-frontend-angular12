@@ -172,6 +172,10 @@ export class EmployeeOnboardingDataComponent implements OnInit {
             }
             // this.isResignationUser = 0;
 
+            if(this.isResignationUser == 1){
+              this.isMainPlaceholder = false;
+            }
+
             this.isUserShimer = false;
           },
           (error) => {

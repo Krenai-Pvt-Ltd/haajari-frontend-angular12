@@ -134,7 +134,7 @@
                         <span class="table-font-weight">{{expense.expenseType}}</span>
                       </td>
                       <td class="text-left">
-                        <span class="table-font-weight white-space">{{expense.notes}}</span>
+                        <span class="table-font-weight white-space">{{ expense.notes == null ? 'N/A' :  expense.notes }}</span>
                       </td>
                       <td class="text-left">
                         <div
@@ -814,7 +814,7 @@
               This Expense is valid for amount: {{userExpense.limitAmount}}
             </div>
 
-            <p class="mt-4 mb-4">{{ userExpense.notes }}</p>
+            <p class="mt-4 mb-4">{{ userExpense.notes == null ? 'N/A' :  userExpense.notes }}</p>
             <div class="row mb-3">
               <!-- Checkbox in Column 4 -->
               <div class="align-items-center col-md-4 d-flex justify-content-start">
@@ -2027,13 +2027,43 @@
                     </tr>
                   </thead>
                   <tbody>
+                    
                     <tr *ngFor="let row of paginatedData; let i = index">
-                      <td *ngFor="let cell of fileColumnName; let j = index">
+                      <!-- <td *ngFor="let cell of fileColumnName; let j = index">
                         <input class="input-zorro p-2" *ngIf="!validateRowToggle" [(ngModel)]="row[j]" />
                         <input class="input-zorro p-2" *ngIf="validateRowToggle" [(ngModel)]="row[j]"
                           [ngClass]="{'error-border': invalidCells[i][j]}" />
+                      </td> -->
+                     
+                     
+                        <!-- Fields with condition -->
+                        <td *ngFor="let cell of fileColumnName; let j = index">
+                          
+                          <ng-container *ngIf="cell != 'Payment Method' && cell != 'Lapse Remaining Amount'">
+                            <input class="input-zorro p-2" *ngIf="!validateRowToggle" [(ngModel)]="row[j]" />
+                          <input class="input-zorro p-2" *ngIf="validateRowToggle" [(ngModel)]="row[j]"
+                            [ngClass]="{'error-border': invalidCells[i][j]}" />
 
-                      </td>
+                          </ng-container>
+
+                          <ng-container *ngIf="cell === 'Payment Method'">
+                            <nz-select [ngClass]="{'error-border': validateRowToggle && invalidCells[i][j]}" id="paymentMethod" name="payment-method" class="w-100" 
+                            [(ngModel)]="row[j]" nzPlaceHolder="Select Method">
+                              <nz-option [nzValue]="'ONLINE'" [nzLabel]="'ONLINE'"></nz-option>
+                              <nz-option [nzValue]="'CASH'" [nzLabel]="'CASH'"></nz-option>
+                          </nz-select>
+                          </ng-container>
+
+                          <ng-container *ngIf="cell === 'Lapse Remaining Amount'">
+                            <nz-select [ngClass]="{'error-border': validateRowToggle && invalidCells[i][j]}"  id="lapseAmount" 
+                                name="lapse-amount" class="w-100" [(ngModel)]="row[j]" nzPlaceHolder="Select Type">
+                              <nz-option [nzValue]="'YES'" [nzLabel]="'YES'"></nz-option>
+                              <nz-option [nzValue]="'NO'" [nzLabel]="'NO'"></nz-option>
+                          </nz-select>
+                          </ng-container>
+
+                        </td>
+
                     </tr>
                   </tbody>
 
