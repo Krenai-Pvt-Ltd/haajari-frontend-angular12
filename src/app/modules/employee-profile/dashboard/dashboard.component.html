@@ -721,7 +721,7 @@ aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-content">
         <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Initiate Exit</h5>
-            <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close"  #closeApproveModal>
+            <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" (click)="clearForm()"  #closeApproveModal>
             <!-- <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" (click)="clearFormData(resignationForm)" #closeResignationButton> -->
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                     <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
@@ -738,7 +738,7 @@ aria-labelledby="exampleModalLabel" aria-hidden="true">
         </div>
         <div class="modal-body p-0">
             <!-- <form #resignationForm="ngForm" (ngSubmit)="submitResignation(resignationForm)"> -->
-            <form #resignationForm="ngForm" >
+            <form #resignationForm="ngForm" (ngSubmit)="submitResignation()">
             
                 <div class="row register-form-box">
                     <!-- <div class="col-md-12">
@@ -753,7 +753,7 @@ aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <label for="templateName" class="pb-2">
                         What is the reason for initiating the exit?
                         </label>
-                        <input class="form-control input-zorro" disabled placeholder="Enter the reason" [(ngModel)]="userResignationInfo.reason"
+                        <input class="form-control input-zorro" [disabled]="ROLE == 'ADMIN'" placeholder="Enter the reason" [(ngModel)]="userResignationInfo.reason"
                             nzSize="large" minlength="3" maxlength="50" id="reason" name="inputReason" #inputReason="ngModel" required />
                     </div>
 
@@ -764,8 +764,8 @@ aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="row">
                             <div class="col-md-6">
                               <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                                <input disabled class="form-check-input" type="radio" name="managerDiscussionInput" id="yes" value="Yes"
-                                   required [(ngModel)]="discussionType">
+                                <input [disabled]="ROLE == 'ADMIN'" class="form-check-input" type="radio" name="managerDiscussionInput" id="yes" value="Yes"
+                                   required (change)="selectManagerDiscussion('Yes')" [(ngModel)]="discussionType">
                                 <p class="form-check-label mb-0" for="exampleRadios1">
                                 Yes
                                 </p>
@@ -773,8 +773,8 @@ aria-labelledby="exampleModalLabel" aria-hidden="true">
                             </div>
                             <div class="col-md-6">
                               <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                                <input disabled class="form-check-input" type="radio" name="managerDiscussionInput" id="no" value="No" required
-                                    [(ngModel)]="discussionType" >
+                                <input [disabled]="ROLE == 'ADMIN'" class="form-check-input" type="radio" name="managerDiscussionInput" id="no" value="No" required
+                                (change)="selectManagerDiscussion('No')" [(ngModel)]="discussionType" >
                                 <p class="form-check-label mb-0" for="exampleRadios1">
                                 No
                                 </p>
@@ -790,15 +790,15 @@ aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="row">
                             <div class="col-md-6">
                                 <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                                    <input disabled type="radio" name="recommendDay" id="complete" value="Complete"
-                                    [(ngModel)]="recommendDay" class="form-check-input">
+                                    <input [disabled]="ROLE == 'ADMIN'" type="radio" name="recommendDay" id="complete" value="Complete"
+                                    [(ngModel)]="recommendDay" (change)="selectRecommendDay('Complete')"  class="form-check-input">
                                     <p for="exampleRadios3" class="form-check-label mb-0" required> Complete notice periodes </p>
                                 </label>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                                    <input disabled type="radio" name="recommendDay" id="other" value="Other" required
-                                    [(ngModel)]="recommendDay" class="form-check-input">
+                                    <input [disabled]="ROLE == 'ADMIN'" type="radio" name="recommendDay" id="other" value="Other" required
+                                    [(ngModel)]="recommendDay" (change)="selectRecommendDay('Other')" class="form-check-input">
                                     <p for="exampleRadios4" class="form-check-label mb-0"> Other Date </p>
                                 </label>
                             </div>
@@ -809,20 +809,18 @@ aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div *ngIf="recommendDay == 'Other'" class="col-md-12 mb-3">
                         <div class="form-group">
                             <label for="employeeTypeId" class="mb-2">Select your notice period duration?</label>
-
-                        <!-- <ng-container *ngIf="noticePeriodDuration == 0">
-                            <nz-date-picker *ngIf="userResignationInfo.isRecommendLastDay == 1" [(ngModel)]="userResignationInfo.lastWorkingDay"
+<!-- 
+                        <ng-container *ngIf="noticePeriodDuration == 0">
+                            <nz-date-picker *ngIf="userResignationInfo.isRecommendLastDay == 1" [(ngModel)]="userResignationInfo.userLastWorkingDay"
                             nzPlaceHolder="dd/mm/yyyy"  id="selLastDate" name="lastDate" #lastDate="ngModel"
                             required class="form-control">
                         </nz-date-picker>
                         </ng-container> -->
 
-                        <!-- <ng-container *ngIf="noticePeriodDuration > 0">
-                            <nz-date-picker *ngIf="userResignationInfo.isRecommendLastDay == 1" [(ngModel)]="userResignationInfo.lastWorkingDay"
+                        <nz-date-picker *ngIf="userResignationInfo.isRecommendLastDay == 1" [(ngModel)]="userResignationInfo.userLastWorkingDay"
                             nzPlaceHolder="dd/mm/yyyy" [nzDisabledDate]="disableFutureDates"  id="selLastDate" name="lastDate" #lastDate="ngModel"
                             required class="form-control">
                         </nz-date-picker>
-                        </ng-container> -->
 
                         </div>
                     </div>
@@ -831,16 +829,17 @@ aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="d-flex align-items-center gap-3 p-3 notice-period-date">
                             <p class="mb-0">Notice period</p>
                             <span class="calendar-separator"></span>
-                            <h6 class="mb-0">{{userResignationInfo.lastWorkingDay | date: 'dd MMM yyyy'}}</h6>
+                            <!-- <h6 class="mb-0">{{userResignationInfo.lastWorkingDay | date: 'dd MMM yyyy'}}</h6> -->
+                            <h6 class="mb-0">{{userResignationInfo.userLastWorkingDay | date: 'dd MMM yyyy'}}</h6>
                         </div>
                     </div>
 
-                    <div *ngIf="recommendDay == 'Other' && (userResignationInfo.lastWorkingDay != null && userResignationInfo.lastWorkingDay != '')" class="col-md-12 mb-3 ">
+                    <div *ngIf="recommendDay == 'Other' && (userResignationInfo.userLastWorkingDay != null && userResignationInfo.userLastWorkingDay != '')" class="col-md-12 mb-3 ">
                         <div class="notice-period-error p-3">
                         <div class="d-flex align-items-center gap-3 mb-2">
                             <p class="mb-0">Notice period</p>
                             <span class="calendar-separator"></span>
-                            <h6 class="mb-0">{{userResignationInfo.lastWorkingDay | date: 'dd MMM yyyy'}}</h6>
+                            <h6 class="mb-0">{{userResignationInfo.userLastWorkingDay | date: 'dd MMM yyyy'}}</h6>
                         </div>
                         <p class="mb-0 font-13">Your last working day may change based on Manager/HR's decision.</p>
                         </div>
@@ -906,17 +905,26 @@ aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <label for="templateName" class="pb-2">
                             Comment
                         </label>
-                        <textarea disabled class="form-control nots-section" id="comment" name="inputComment"
+                        <textarea [disabled]="ROLE == 'ADMIN'" class="form-control nots-section" id="comment" name="inputComment"
                             placeholder="Write description" rows="3"  [(ngModel)]="userResignationInfo.comment"></textarea>
                     </div>
+
+                    <div class="col-md-12 mb-3" *ngIf="ROLE != 'ADMIN' && showRevokeDiv">
+                        <label for="templateName" class="pb-2">
+                            Reason of revoke
+                        </label>
+                        <textarea class="form-control nots-section" id="revoke" name="inputRevoke"
+                            placeholder="Write description" rows="3"  [(ngModel)]="userResignationInfo.revokeReason"></textarea>
+                    </div>
+
                  </div>
                 </div>
 
                 <!-- <div class="modal-footer d-flex align-items-center justify-content-end gap-2">
-                    <button class="btn cancel-btn" data-bs-dismiss="modal" aria-label="Close" #closeResignationButton>Cancel</button>
+                    <button class="btn cancel-btn" data-bs-dismiss="modal" aria-label="Close" #closeApproveModal>Cancel</button>
 
-                    <button *ngIf="!resignationToggle" type="submit" [disabled]="resignationForm.invalid || resignationToggle || isUploading" class="btn submitActionBtn">Submit</button>
-                    <div class="dot-opacity-loader" *ngIf="resignationToggle">
+                    <button *ngIf="approveToggle && ROLE == 'ADMIN'" type="submit" (click)="approveOrDenyResignation(userResignationInfo.id)" class="btn submitActionBtn">Approve</button>
+                    <div class="dot-opacity-loader" *ngIf="!approveToggle">
                         <span></span>
                         <span></span>
                         <span></span>
@@ -924,15 +932,19 @@ aria-labelledby="exampleModalLabel" aria-hidden="true">
                 </div> -->
 
                 <div class="modal-footer d-flex align-items-center justify-content-end gap-2">
-                    <button class="btn cancel-btn" data-bs-dismiss="modal" aria-label="Close" #closeApproveModal>Cancel</button>
+                    <button type="button" class="btn cancel-btn" *ngIf="showRevokeDiv || ROLE == 'ADMIN'" data-bs-dismiss="modal" (click)="clearForm()" aria-label="Close" #closeApproveModal>Cancel</button>
 
-                    <button *ngIf="!approveToggle && ROLE == 'ADMIN'" type="submit" (click)="approveOrDenyResignation(userResignationInfo.id)" class="btn submitActionBtn">Approve</button>
-                    <div class="dot-opacity-loader" *ngIf="approveToggle">
+                    <button *ngIf="!approveToggle && ROLE == 'ADMIN'" type="button" (click)="approveOrDenyResignation(userResignationInfo.id)" class="btn submitActionBtn">Approve</button>
+                    <button *ngIf="!approveToggle && ROLE != 'ADMIN'" type="button" class="btn submitActionBtn" (click)="showRevokeDiv = !showRevokeDiv">{{!showRevokeDiv ? 'Revoke' : 'Submit'}}</button>
+                    <button *ngIf="!approveToggle && !showRevokeDiv && !resignationToggle && ROLE != 'ADMIN'" type="submit" class="btn submitActionBtn">Update</button>
+
+                    <div class="dot-opacity-loader" *ngIf="approveToggle || resignationToggle">
                         <span></span>
                         <span></span>
                         <span></span>
                       </div>
                 </div>
+
 
             </form>
         </div>

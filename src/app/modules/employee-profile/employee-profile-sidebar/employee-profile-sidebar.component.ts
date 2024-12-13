@@ -474,12 +474,12 @@ export class EmployeeProfileSidebarComponent implements OnInit {
   recommendDay: string = ''; // Default selected value
   selectRecommendDay(value: string): void {
 
-    this.userResignationReq.lastWorkingDay = ''
+    this.userResignationReq.userLastWorkingDay = ''
 
     this.userResignationReq.isRecommendLastDay = value == 'Other' ? 1 : 0
 
     if(this.userResignationReq.isRecommendLastDay == 0){
-      this.userResignationReq.lastWorkingDay = ''
+      this.userResignationReq.userLastWorkingDay = ''
       this.calculateLasWorkingDay();
     }
 
@@ -506,14 +506,14 @@ export class EmployeeProfileSidebarComponent implements OnInit {
 
     // this.lastWorkingDay = maxDate;
     // this.userResignationReq.lastWorkingDay = maxDate
-    this.userResignationReq.lastWorkingDay = this.helperService.formatDateToYYYYMMDD(maxDate);
+    this.userResignationReq.userLastWorkingDay = this.helperService.formatDateToYYYYMMDD(maxDate);
     // console.log("Max Date: ", this.lastWorkingDay);
   }
 
   selectLastWorkingDay(startDate: Date) {
     debugger
     if (this.userResignationReq.isRecommendLastDay == 0 && startDate) {
-      this.userResignationReq.lastWorkingDay = this.helperService.formatDateToYYYYMMDD(startDate);
+      this.userResignationReq.userLastWorkingDay = this.helperService.formatDateToYYYYMMDD(startDate);
     }
   }
 

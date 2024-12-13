@@ -1,5 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { Key } from 'src/app/constant/key';
+import { UserResignation } from 'src/app/models/UserResignation';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
@@ -42,6 +44,7 @@ export class DashboardComponent implements OnInit {
     this.getUsersWithUpcomingBirthdays();
     this.getNewUsersJoinies();
     this.getUsersUpcomingWorkAnniversaries();
+    this.getNoticePeriodDuration()
 
   }
 
@@ -113,7 +116,7 @@ getWeekDayOfBirthday(birthday: string): string {
           this.discussionType = 'No'
         }
 
-        if(this.userResignationInfo.isRecommendedLastDay == 1){
+        if(this.userResignationInfo.isRecommendLastDay == 1){
           this.recommendDay = 'Other'
         }
 
@@ -144,6 +147,90 @@ getWeekDayOfBirthday(birthday: string): string {
         this.approveToggle = false;
       }
     })
+  }
+
+  // Function to disable future dates
+  disableFutureDates = (current: Date): boolean => {
+    const today = new Date();
+    // const maxDate = new Date();
+    const maxDate = new Date();
+    maxDate.setDate(today.getDate() + this.noticePeriodDuration); // Add 45 days to today's date
+
+    // this.lastWorkingDay = maxDate;
+    // console.log("Max Date: ", this.lastWorkingDay);
+    // Disable dates from today to maxDate (inclusive)
+    return current < today || current > maxDate;
+  };
+
+  noticePeriodDuration: number = 0;
+  getNoticePeriodDuration(){
+    this.dataService.getNoticePeriodDuration(this.userId).subscribe((res: any) => {
+      if(res.status){
+        this.noticePeriodDuration = res.object
+      }
+    })
+  }
+
+  selectRecommendDay(value: string): void {
+
+    // this.userResignationInfo.userLastWorkingDay = ''
+
+    this.userResignationInfo.isRecommendLastDay = value == 'Other' ? 1 : 0
+
+    if(this.userResignationInfo.isRecommendLastDay == 0){
+      this.userResignationInfo.userLastWorkingDay = ''
+      this.calculateLasWorkingDay();
+    }else{
+      this.userResignationInfo.userLastWorkingDay = this.userResignationInfo.userLastWorkingDay 
+    }
+  }
+
+  selectManagerDiscussion(value: string): void {
+    this.userResignationInfo.isManagerDiscussion = value == 'Yes' ? 1 : 0
+  }
+
+  calculateLasWorkingDay(){
+    const today = new Date();
+    // const maxDate = new Date();
+    const maxDate = new Date();
+    maxDate.setDate(today.getDate() + this.noticePeriodDuration); // Add 45 days to today's date
+
+    // this.lastWorkingDay = maxDate;
+    // this.userResignationReq.lastWorkingDay = maxDate
+    this.userResignationInfo.userLastWorkingDay = this.helperService.formatDateToYYYYMMDD(maxDate);
+    // console.log("Max Date: ", this.lastWorkingDay);
+  }
+
+  showRevokeDiv: boolean = false;
+  revokeReason: string = ''
+  revokeResignation(){
+
+  }
+
+  clearForm(){
+    this.userResignationInfo = this.userResignationInfo;
+    this.revokeReason = ''
+    this.userResignationInfo.revokeReason = ''
+    this.showRevokeDiv = false;
+  }
+
+  // @ViewChild('closeResignationButton') closeResignationButton!: ElementRef
+  userResignationReq: UserResignation = new UserResignation();
+  resignationToggle: boolean = false;
+  submitResignation(){
+    this.resignationToggle = true;
+    this.userResignationReq = this.userResignationInfo
+    this.dataService.submitResignation(this.userResignationReq).subscribe((res: any) => {
+        if(res.status){
+          this.resignationToggle =false
+          // this.helperService.resignationSubmitted.next(true);
+          this.closeApproveModal.nativeElement.click()
+          this.getUserResignationInfo()
+          // this.clearForm();
+        }
+    })
+
+    // console.log('reqs: ',this.userResignationReq)
 
   }
 
