@@ -1343,7 +1343,7 @@ span.members-namess {
 }
 
 .nav-link {
-  margin-right: 20px;
+  /* margin-right: 20px; */
   display: block;
   padding: 7px 10px;
   color: #000;
@@ -1351,6 +1351,9 @@ span.members-namess {
   font-style: normal;
   font-weight: 500;
   text-align: left;
+}
+.nav-item{
+  margin-right: 20px;
 }
 
 .employee-table{
@@ -1374,4 +1377,12 @@ span.members-namess {
   font-weight: 500;
   border-radius: 2px;
   min-width: 100px;
+}
+
+span.request-count {
+  background-color: rgb(241 241 253) !important;
+  color: var(--primary-color) !important;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
 }
