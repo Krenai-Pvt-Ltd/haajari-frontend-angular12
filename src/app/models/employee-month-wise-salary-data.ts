@@ -5,6 +5,7 @@ export class EmployeeMonthWiseSalaryData {
   userId !:  number;
   name !: string;
   email!: string;
+  phone!:string;
   uuid!: string;
   tdsAmount: number = 0;
   epfAmount: number = 0;
@@ -19,4 +20,6 @@ export class EmployeeMonthWiseSalaryData {
   paySlipUrl !: string;
   payslipMonth !: string;
   payStatus : Status = new Status();
+  isSlipHold:number =0;
+  checked:boolean=false;
 }

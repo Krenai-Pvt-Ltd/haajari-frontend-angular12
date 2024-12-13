@@ -1,8 +1,8 @@
 export class DatabaseHelper {
-    search: any = "";
+    search: string = "";
     searchBy: string = "";
     currentPage: number = 1;
     itemPerPage: number = 10;
-    sortBy: any = "";
-    sortOrder: any = "";
+    sortBy: string = "";
+    sortOrder: string = "";
 }
