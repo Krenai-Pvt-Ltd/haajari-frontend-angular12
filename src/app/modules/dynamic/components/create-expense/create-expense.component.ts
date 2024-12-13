@@ -1917,6 +1917,23 @@ updatePaginatedData() {
   this.paginatedData = this.data.slice(start, start + this.pageSize);
   }
 
+// Method to write 
+saveFileWhichCreateExcel(data: any[]): void {
+  // Step 1: Convert data to a worksheet format
+  const worksheet = XLSX.utils.json_to_sheet(data);
+
+  // Step 2: Create a new workbook and append the worksheet
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+
+  // Step 3: Write the workbook as a binary Excel file
+  const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+
+  // Step 4: Create a blob and prompt download
+  const blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
+  saveAs(blob, 'data.xlsx');
+}
+
 saveFile() {
   debugger
 
@@ -2087,6 +2104,10 @@ onPageChange(page: number) {
     this.invalidRows = new Array(rows.length).fill(false); // Reset invalid rows
     this.invalidCells = Array.from({ length: rows.length }, () => new Array(this.expectedColumns.length).fill(false)); // Reset invalid cells
   
+    const transactionIdIndex = this.fileColumnName.indexOf('Transaction Id'); // Get the column index for 'Transaction Id'
+    const transactionIdMap: { [key: string]: number[] } = {}; // Map to track transaction ids and their corresponding row indices
+
+
     for (let i = 0; i < rows.length; i++) {
       for (let j = 0; j < this.fileColumnName.length; j++) {
         const cellValue = rows[i][j];
@@ -2176,8 +2197,29 @@ onPageChange(page: number) {
             this.validateRowToggle = true;
             this.invalidRows[i] = true;
             this.invalidCells[i][j] = true; // Mark the cell as invalid
-          }  
+          } 
+
+          const paymentMethodIndex = this.fileColumnName.indexOf('Payment Method');
+          const paymentMethod = paymentMethodIndex !== -1 ? rows[i][paymentMethodIndex]?.toString().trim() : null;
+        
+          if (paymentMethod) {
+            if (paymentMethod.toUpperCase() === 'CASH') {
+              this.invalidCells[i][j] = false;
+              this.invalidRows[i] = false;
+              this.invalidCells[i][j] = false;
+            }else if (paymentMethod.toUpperCase() === 'ONLINE') {
+              // If Payment Method is 'Online', Transaction Id must not be empty
+              if (!cellValue || cellValue.toString().trim() === '') {
+                this.validateRowToggle = true;
+                this.invalidRows[i] = true;
+                this.invalidCells[i][j] = true; // Mark the Transaction Id cell as invalid
+              } else {
+                // Valid case for 'Online'
+                this.invalidCells[i][j] = false;
+              }
+            } 
         }
+      }
 
         // If you have Entered 'Online' then transactin ID is mandotary, for cash it is not
         if (this.fileColumnName[j] === 'Transaction Id1') {
@@ -2247,22 +2289,8 @@ onPageChange(page: number) {
           }
         }
 
-        
-         // Transaction Id validation (Asynchronous)
-      // if (this.fileColumnName[j] === 'Transaction Id') {
-      //   if (cellValue) {
-      //     this.existTransactionIdExcel(cellValue).then((exists: boolean) => {
-      //       if (exists) {
-      //         this.validateRowToggle = true;
-      //         this.invalidRows[i] = true;
-      //         this.invalidCells[i][j] = true;
-      //       }
-      //     });
-      //   }
-      // }
-
       
-       // Validate Duplicate 'Transaction Id' field (If transaction Id is duplicate from the Database then will show error)
+       // Validate Duplicate 'Transaction Id' field (If transaction Id is duplicate from the DATABASE then will show error)
        if (this.fileColumnName[j] === 'Transaction Id') {
         const transactionIdIndex = this.fileColumnName.indexOf('Transaction Id');
         const transactionId = transactionIdIndex !== -1 ? rows[i][transactionIdIndex]?.toString().trim() : null;
@@ -2286,10 +2314,35 @@ onPageChange(page: number) {
         }
       }
 
-      // Check local duplicate transaction Id (which is in the input field)
+      // Check LOCALLY duplicate transaction Id (which is in the input field) start
+
+      if (this.fileColumnName[j] === 'Transaction Id') {
+        // Validate non-empty and non-whitespace string
+        if (cellValue) {
+          // Track transaction ID occurrences
+          const trimmedValue = cellValue.trim();
+          if (!transactionIdMap[trimmedValue]) {
+            transactionIdMap[trimmedValue] = [];
+          }
+          transactionIdMap[trimmedValue].push(i);
+        }
+      }
+        
+      // Second Pass: Mark duplicates
+      for (const [transactionId, rowIndices] of Object.entries(transactionIdMap)) {
+        if (rowIndices.length > 1) {
+          // Mark all rows containing the duplicate transaction ID
+          for (const rowIndex of rowIndices) {
+            this.validateRowToggle = true;
+            this.invalidRows[rowIndex] = true;
+            this.invalidCells[rowIndex][transactionIdIndex] = true; // Mark the specific 'Transaction Id' cell as invalid
+          }
+        }
+      }
+    //end
 
 
-      //end
+      //over all end
 
       }
 

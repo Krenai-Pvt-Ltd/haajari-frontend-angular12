@@ -167,6 +167,7 @@ const routes: Routes = [
       {
         path: 'subscription',
         component: SubscriptionComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: 'refer-friend',

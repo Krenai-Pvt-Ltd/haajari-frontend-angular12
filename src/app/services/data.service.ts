@@ -2360,13 +2360,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     );
   }
 
-  getStatutoryAttributeByStatutoryId(statutoryId: number): Observable<any> {
-    const params = new HttpParams().set('statutory_id', statutoryId);
 
-    return this.httpClient.get<any>(`${this.baseUrl}/statutory/attribute/get`, {
-      params,
-    });
-  }
 
   updateTaxRegimeByUserId(taxRegimeId: number): Observable<any> {
     const params = new HttpParams().set('tax_regime_id', taxRegimeId);
@@ -2378,18 +2372,9 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     );
   }
 
-  getAllTaxRegime(): Observable<any> {
-    return this.httpClient.get<any>(
-      `${this.baseUrl}/statutory/tax-regime/get/all`
-    );
-  }
+ 
 
-  getStatutoryByOrganizationId(): Observable<any> {
-    debugger;
-    return this.httpClient.get<any>(
-      `${this.baseUrl}/statutory/employee/get/all`
-    );
-  }
+ 
 
   getSalaryConfigurationStep(): Observable<any> {
     return this.httpClient.get<any>(
@@ -2793,20 +2778,14 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
   getNewJoineeByOrganizationId(
     itemPerPage: number,
     pageNumber: number,
-    sort: string,
-    sortBy: string,
     search: string,
-    searchBy: string,
     startDate: string,
     endDate: string
   ): Observable<any> {
     const params = new HttpParams()
       .set('item_per_page', itemPerPage)
       .set('page_number', pageNumber)
-      .set('sort', sort)
-      .set('sort_by', sortBy)
       .set('search', search)
-      .set('search_by', searchBy)
       .set('start_date', startDate)
       .set('end_date', endDate);
     return this.httpClient.get<any>(
@@ -2985,49 +2964,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     );
   }
 
-  getLopSummaryResponseByOrganizationIdAndStartDateAndEndDate(
-    startDate: string,
-    endDate: string,
-    itemPerPage: number,
-    pageNumber: number,
-    search: string,
-    searchBy: string
-  ): Observable<any> {
-    const params = new HttpParams()
-      .set('start_date', startDate)
-      .set('end_date', endDate)
-      .set('item_per_page', itemPerPage)
-      .set('page_number', pageNumber)
-      .set('search', search)
-      .set('search_by', searchBy);
-
-    return this.httpClient.get<any>(
-      `${this.baseUrl}/salary/payroll-dashboard/leave-summary/lop-summary`,
-      { params }
-    );
-  }
-
-  getLopReversalResponseByOrganizationIdAndStartDateAndEndDate(
-    startDate: string,
-    endDate: string,
-    itemPerPage: number,
-    pageNumber: number,
-    search: string,
-    searchBy: string
-  ): Observable<any> {
-    const params = new HttpParams()
-      .set('start_date', startDate)
-      .set('end_date', endDate)
-      .set('item_per_page', itemPerPage)
-      .set('page_number', pageNumber)
-      .set('search', search)
-      .set('search_by', searchBy);
-
-    return this.httpClient.get<any>(
-      `${this.baseUrl}/salary/payroll-dashboard/leave-summary/lop-reversal`,
-      { params }
-    );
-  }
+  
 
   deleteLeaveSettingCategoryById(
     leaveSettingCategoriesId: number
@@ -3117,38 +3054,10 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/leave-setting-category/list-by-user-uuid`, {params});
   }
 
-  registerLopAdjustmentRequest(lopAdjustmentRequest : LopAdjustmentRequest, startDate : string, endDate : string){
-    const params = new HttpParams()
-    .set('start_date', startDate)
-    .set('end_date', endDate);
-
-    return this.httpClient.post<any>(`${this.baseUrl}/salary/payroll-dashboard/leave-summary/register-lop-adjustment-request`, lopAdjustmentRequest, {params});
-  }
+  
 
 
-
-  getPayrollLeaveLogResponse(userUuid : string): Observable<any> {
-    const params = new HttpParams()
-    .set('user_uuid', userUuid);
-
-    return this.httpClient.get<any>(`${this.baseUrl}/salary/payroll-dashboard/leave-summary/get-leave-logs`, {params});
-  }
-
-  registerLopSummaryRequestByOrganizationIdAndStartDateAndEndDate(lopSummaryRequestList : LopSummaryRequest[], startDate : string, endDate : string): Observable<any>{
-    const params = new HttpParams()
-    .set('start_date', startDate)
-    .set('end_date', endDate);
-
-    return this.httpClient.post<any>(`${this.baseUrl}/salary/payroll-dashboard/leave-summary/register-lop-summary`, lopSummaryRequestList, {params});
-  }
-
-  registerLopReversalRequestByOrganizationIdAndStartDateAndEndDate(lopReversalRequestList : LopReversalRequest[], startDate : string, endDate : string): Observable<any>{
-    const params = new HttpParams()
-    .set('start_date', startDate)
-    .set('end_date', endDate);
-
-    return this.httpClient.post<any>(`${this.baseUrl}/salary/payroll-dashboard/leave-summary/register-lop-reversal`, lopReversalRequestList, {params});
-  }
+  
 
   saveOrganizationHrPolicies(policyDocString: string): Observable<any> {
      const params = new HttpParams()
@@ -3192,18 +3101,13 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     startDate: string,
     endDate: string,
     itemPerPage: number,
-    pageNumber: number,
-    search: string,
-    searchBy: string): Observable<any> {
+    pageNumber: number): Observable<any> {
 
     const params = new HttpParams()
     .set('start_date', startDate)
     .set('end_date', endDate)
     .set('item_per_page', itemPerPage)
     .set('page_number', pageNumber)
-    .set('search', search)
-    .set('search_by', searchBy);
-
     return this.httpClient.get<any>(`${this.baseUrl}/salary/payroll-dashboard/salary-change`, {params});
   }
 
@@ -3239,37 +3143,9 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     return this.httpClient.post<any>(`${this.baseUrl}/salary/appraisal-request`, appraisalRequest);
   }
 
-  registerBonus(bonusRequest : BonusRequest, userUuid : string): Observable<any>{
-    const params = new HttpParams()
-    .set('user_uuid', userUuid);
+ 
 
-    return this.httpClient.post<any>(`${this.baseUrl}/salary/bonus/register`, bonusRequest, {params});
-  }
-
-  getMonthWiseSalaryData(
-    startDate: any,
-    endDate: any,
-    itemPerPage: number,
-    pageNumber: number,
-    search: string,
-    searchBy: string,
-    sort: string,
-    sortBy: string
-  ): Observable<any> {
-    const params = new HttpParams()
-      .set('start_date', startDate.toString())
-      .set('end_date', endDate.toString())
-      .set('item_per_page', itemPerPage.toString())
-      .set('page_number', pageNumber.toString())
-      .set('search', search)
-      .set('search_by', searchBy)
-      .set('sort', sort)
-      .set('sort_by', sortBy);
-    return this.httpClient.get<any>(
-      `${this.baseUrl}/salary/month-wise/data`,
-      { params }
-    );
-  }
+  
 
   getSalaryChangeOvertimeResponseListByOrganizationId(
     startDate: string,
@@ -3357,86 +3233,37 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/salary/payroll-dashboard/statutory/tds`, {params});
   }
 
-  getBonusAndDeductionLogs(
-    startDate: any,
-    endDate: any,
-    itemPerPage: number,
-    pageNumber: number,
-    search: string,
-    searchBy: string): Observable<any> {
+  
 
-    const params = new HttpParams()
-    .set('start_date', startDate)
-    .set('end_date', endDate)
-    .set('item_per_page', itemPerPage)
-    .set('page_number', pageNumber)
-    .set('search', search)
-    .set('search_by', searchBy)
+  // getSalarySlipDataMonthwise(
+  //   startDate: any,
+  //   endDate: any,
+  //   itemPerPage: number,
+  //   pageNumber: number,
+  //   search: string): Observable<any> {
 
-    return this.httpClient.get<any>(`${this.baseUrl}/bonus-deduction/logs`, {params});
-  }
+  //   const params = new HttpParams()
+  //   .set('start_date', startDate)
+  //   .set('end_date', endDate)
+  //   .set('item_per_page', itemPerPage)
+  //   .set('page_number', pageNumber)
+  //   .set('search', search)
 
-  getSalarySlipDataMonthwise(
-    startDate: any,
-    endDate: any,
-    itemPerPage: number,
-    pageNumber: number,
-    search: string,
-    searchBy: string): Observable<any> {
+  //   return this.httpClient.get<any>(`${this.baseUrl}/salary-slip/monthwise/data`, {params});
+  // }
 
-    const params = new HttpParams()
-    .set('start_date', startDate)
-    .set('end_date', endDate)
-    .set('item_per_page', itemPerPage)
-    .set('page_number', pageNumber)
-    .set('search', search)
-    .set('search_by', searchBy)
+  // getAllSalarySlipDataLogsMonthwise(
+  //   startDate: any,
+  //   endDate: any): Observable<any> {
 
-    return this.httpClient.get<any>(`${this.baseUrl}/salary-slip/monthwise/data`, {params});
-  }
+  //   const params = new HttpParams()
+  //   .set('start_date', startDate)
+  //   .set('end_date', endDate)
 
-  getAllSalarySlipDataLogsMonthwise(
-    startDate: any,
-    endDate: any): Observable<any> {
+  //   return this.httpClient.get<any>(`${this.baseUrl}/salary-slip/get-all`, {params});
+  // }
 
-    const params = new HttpParams()
-    .set('start_date', startDate)
-    .set('end_date', endDate)
-
-    return this.httpClient.get<any>(`${this.baseUrl}/salary-slip/get-all`, {params});
-  }
-
-  getPayrollLeaveResponse(
-    startDate: any,
-    endDate: any,
-    itemPerPage: number,
-    pageNumber: number,
-    search: string,
-    searchBy: string): Observable<any> {
-
-    const params = new HttpParams()
-    .set('start_date', startDate)
-    .set('end_date', endDate)
-    .set('item_per_page', itemPerPage)
-    .set('page_number', pageNumber)
-    .set('search', search)
-    .set('search_by', searchBy)
-    return this.httpClient.get<any>(`${this.baseUrl}/salary/payroll-dashboard/leave-summary/get-leaves`, {params});
-  }
-
-
-  getPayrollLeaveLogsResponse(
-    userUuid  : string,
-    startDate: any,
-    endDate: any
-  ): Observable<any> {
-
-    const params = new HttpParams()
-    .set('user_uuid', userUuid)
-    .set('start_date', startDate)
-    .set('end_date', endDate)
-    return this.httpClient.get<any>(`${this.baseUrl}/salary/payroll-dashboard/leave-summary/get-leave-logs`, {params});
-  }
+  
 
   registerEpfDetailsListByOrganizationId(startDate: string, endDate: string, epfDetailsRequestList : EpfDetailsRequest[]): Observable<any>{
 
@@ -3546,18 +3373,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
   }
 
 
-  getGeneratedPayrollMonthlyLogs(startDate: string, endDate: string, pageNumber: number, itemsPerPage : number): Observable<any> {
-    const url = `${this.baseUrl}/generate-reports/get-salary-reports-logs`;
-
-    const params = new HttpParams()
-      .set('start_date', startDate)
-      .set('end_date', endDate)
-      .set('page_number', pageNumber)
-      .set('item_per_page', itemsPerPage);
-
-    return this.httpClient.get<any>(url,{ params });
-  //  asset
-  }
+  
 
   getAssetCategory(): Observable<any> {
     const url = `${this.baseUrl}/asset/allocation/get/asset/category`;
@@ -3907,14 +3723,7 @@ getHolidayForOrganization(date: string): Observable<any>{
 
 
 
-  registerPayrollProcessStepByOrganizationIdAndStartDateAndEndDate(startDate: string, endDate: string, payrollProcessStepId: number):Observable<any>{
-    const params = new HttpParams()
-    .set('start_date', startDate)
-    .set('end_date', endDate)
-    .set('payroll_process_step_id', payrollProcessStepId);
-
-    return this.httpClient.post<any>(`${this.baseUrl}/salary/payroll-dashboard/step`,{}, {params});
-  }
+ 
 
   getAdminPersonalDetail():Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}/users/personal-detail/admin`, {});
@@ -4358,7 +4167,7 @@ getHolidayForOrganization(date: string): Observable<any>{
     if(statusIds.length > 0){
       params = params.set("statusIds", statusIds.join(','));
     }
-   
+
     if(userUuid){
       params = params.set("userUuid", userUuid);
     }
@@ -4548,6 +4357,19 @@ getHolidayForOrganization(date: string): Observable<any>{
   }
   getRecentlyWorkAnniversary(): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/users/work-anniversary`);
+  }
+
+  saveSkills(userUuid: string, skills: string[]): Observable<any> {
+    const body = skills;
+    return this.httpClient.post<void>(`${this.baseUrl}/skills/save-skills`, body, {
+      params: { userUuid }
+    });
+  }
+
+  getSkills(userUuid: string): Observable<string[]> {
+    return this.httpClient.get<string[]>(`${this.baseUrl}/skills/get-skills`, {
+      params: { userUuid }
+    });
   }
 }
 
