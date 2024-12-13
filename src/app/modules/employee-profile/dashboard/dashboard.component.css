@@ -144,10 +144,14 @@
     height: 95px;
     z-index: 9;
     position: relative;
-    border: 5px solid #fff
+    border: 5px solid #fff;
+    position: relative;
+    top: 10px;
 }
 .anniversaries-year{
     z-index: 9;
+    position: relative;
+    top: 10px;
 }
 .new-joinees::before{
     content: '';

@@ -50,7 +50,8 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     private modalService: NgbModal,
     private _subscriptionService:SubscriptionPlanService,
   ) {}
-  users: EmployeeOnboardingDataDto[] = [];
+  // users: EmployeeOnboardingDataDto[] = [];
+  users: EmployeeOnboardingDataDto[] = new Array();
   filteredUsers: Users[] = [];
   itemPerPage: number = 12;
   pageNumber: number = 1;
@@ -171,11 +172,16 @@ export class EmployeeOnboardingDataComponent implements OnInit {
             }
             // this.isResignationUser = 0;
 
+            if(this.isResignationUser == 1){
+              this.isMainPlaceholder = false;
+            }
+
             this.isUserShimer = false;
           },
           (error) => {
             this.isUserShimer = false;
             this.errorToggleTop = true;
+            this.users = []
           }
         );
     }, debounceTime);
@@ -184,6 +190,12 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   resignationRequest(){
     this.users = [];
     this.isResignationUser = 1
+
+    this.search = ''; // Clear the search box text
+    this.crossFlag = false;
+    this.searchText = ''
+    this.searchCriteria = ''
+
     this.getUsersByFiltersFunction();
   }
 
@@ -217,6 +229,10 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   selectedStatus: string | null = null;
 
   selectStatus(status: string) {
+    
+    this.users = [];
+    this.isResignationUser = 0
+
     if (status == 'ALL') {
       this.selectedStatus = 'All';
       this.searchUsers('any');

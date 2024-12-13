@@ -533,22 +533,19 @@ span.total-holiday {
 }
 
 #user-first-name-logo {
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
-}
-
-span.members-name-new {
   background-color: #a69ff3;
-  width: 32px;
-  height: 32px;
+  width: 33px;
+  height: 33px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  font-size: 18px;
+  font-size: 16px;
   text-transform: uppercase;
+  color: #fff;
+
 }
+
 
 .user-details {
   position: absolute;
@@ -895,15 +892,25 @@ button.btn.add-card-btn {
   border: 1px solid lightgray;
   border-radius: 5px;
 }
+.search-box{
+  border-bottom: 1px solid #f1f1f1;
+}
 
 .fixed-height {
   height: 80vh; /* Adjust this value as per your requirement */
 }
 
-.modal-body {
+/* .modal-body {
   overflow-y: auto;
   height: calc(85vh - 100px);
-  /* Adjust this value based on your modal header/footer height */
+} */
+
+.user-list-modal{
+  max-height: 500px;
+  overflow-y: scroll;
+}
+.user-list-modal::-webkit-scrollbar{
+  display: none;
 }
 
 .bill-detail {
@@ -1113,3 +1120,4 @@ button.btn.add-card-btn {
 .primiry-border{
   border-left : 5px solid var(--primary-background-color) !important;
 }
+
