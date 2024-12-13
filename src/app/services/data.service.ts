@@ -4131,7 +4131,7 @@ getHolidayForOrganization(date: string): Observable<any>{
   checkExpenseTransactionId(transactionId: string){
     const params = new HttpParams().set('id', transactionId);
     return this.httpClient.get(`${this.baseUrl}/company-expense/transaction`, {params});
-  }
+  } 
 
   exportExpense(){
     return this.httpClient.get<any>(`${this.baseUrl}/company-expense/export`);
@@ -4176,7 +4176,7 @@ getHolidayForOrganization(date: string): Observable<any>{
   }
 
 
-  getAllExpenseCount(role: string, pageNumber: number, itemPerPage: number, startDate: any, endDate: any){
+  getAllExpenseCount(role: string, pageNumber: number, itemPerPage: number, startDate: any, endDate: any, userUuid: any){
     var params = new HttpParams()
     .set('currentPage', pageNumber)
     .set('itemPerPage', itemPerPage)
@@ -4185,6 +4185,10 @@ getHolidayForOrganization(date: string): Observable<any>{
     if (startDate && endDate) {
       params = params.set('startDate', startDate)
       params = params.set('endDate', endDate)
+    }
+
+    if(userUuid){
+      params = params.set("userUuid", userUuid);
     }
 
     return this.httpClient.get<any>(`${this.baseUrl}/company-expense/count`, {params});
@@ -4235,6 +4239,10 @@ getHolidayForOrganization(date: string): Observable<any>{
 
   getUserExitPolicyType(){
     return this.httpClient.get<any>(`${this.baseUrl}/user-exit-type`);
+  }
+
+  getUserLeaveTaken(){
+    return this.httpClient.get<any>(`${this.baseUrl}/exit-policy/leave`);
   }
 
 
@@ -4351,6 +4359,15 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}/users/work-anniversary`);
   }
 
+  createAttendanceEntry(file: any, fileName: string) {
+    debugger;
+    const formdata: FormData = new FormData();
+    formdata.append('file', file);
+    formdata.append('fileName', fileName);
+    return this.httpClient.post(`${this.baseUrl}/whatsapp-user-onboarding/create/attendance`,
+      formdata,
+    );
+  }
   saveSkills(userUuid: string, skills: string[]): Observable<any> {
     const body = skills;
     return this.httpClient.post<void>(`${this.baseUrl}/skills/save-skills`, body, {
@@ -4363,6 +4380,16 @@ getHolidayForOrganization(date: string): Observable<any>{
       params: { userUuid }
     });
   }
+
+  getUsersCountByStatus(): Observable<string[]> {
+    return this.httpClient.get<string[]>(`${this.baseUrl}/users/get-count`);
+  }
+
+  getRequestCountByOrganizationUuid(): Observable<string[]> {
+    return this.httpClient.get<string[]>(`${this.baseUrl}/attendance/get-count`);
+  }
+
+
 }
 
 

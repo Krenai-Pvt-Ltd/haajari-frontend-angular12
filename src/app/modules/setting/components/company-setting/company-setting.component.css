@@ -1069,18 +1069,34 @@ nz-date-picker.nz-overlay-container.whatapp-login-input {
   width: 100%; /* Ensures the container takes full width */
 }
 
-/* Flexbox for the filter wrapper to align items properly */
-.container .content-wrapper .filter-wrapper {
-  display: flex;
-  align-items: center; /* Centers items vertically */
-  gap: 10px; /* Space between the select count and clear button */
+.filter-wrapper span{
+  font-weight: 500;
 }
-
 .info-button,
 .clear-button {
   white-space: nowrap; /* Prevents text wrapping */
   display: inline-flex;
   align-items: center;
+}
+.new-deopdown {
+  display: block;
+  width: 100%;
+  padding: 0.4rem 1rem;
+  font-size: 13px;
+  font-weight: 500;
+  height: 45px !important;
+  text-align: left;
+  background-color: #fff !important;
+  border-right: 1px solid #f1f1f1 !important;
+  color: #2d2e3e !important;
+  border: none;
+}
+
+.previousBtn svg {
+  width: 17px;
+  height: 17px;
+  position: relative;
+  top: -1px;
 }
 
 .text-danger {
@@ -1402,4 +1418,99 @@ font-size: 12px !important;
   line-height: 15px;
   letter-spacing: 0.152px;
   padding-left: 10px;
+}
+
+/* new side tab for new modal */
+
+.shift-time-modal {
+  height: 80vh;
+}
+
+.shift-time-menu{
+  background-color: #fbfbfb;
+  height: 100%;
+}
+
+.shift-time-modal .nav-pills .nav.nav-pills {
+  background-color: transparent;
+}
+.shift-time-modal .nav-link.active {
+  background: #f2f3ff !important;
+  color: #000 !important;
+  border-left: 5px solid var(--primary-background-color) !important;
+  border-bottom: none !important;
+}
+.shift-time-modal .nav-pills .nav-link {
+  background: transparent;
+  padding: 15px 10px;
+  color: #6b7280;
+  border-left: 5px solid transparent;
+  font-size: 14px;
+  font-weight: 400;
+  text-align: left;
+  padding-left: 35px;
+}
+
+
+
+
+
+
+
+.nots-section {
+  background-color: rgba(236, 236, 236, 0.21) !important;
+  width: 100%;
+  height: 80px !important;
+  border: 1px solid #e9e9e9;
+}
+
+.input-zorro{
+  border-radius: 2px !important;
+  border: 1.021px solid #e9e9e9 !important;
+  background: rgba(236, 236, 236, 0.21) !important;
+  height: 45px !important;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+}
+
+.leave-footer {
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  left: 0px;
+  border-radius: 0px;
+}
+.staff-selection-list{
+  max-height: 500px;
+  overflow: scroll;
+}
+.staff-selection-list::-webkit-scrollbar{
+  display: none;
+}
+.salary-setting{
+  border: 0px solid #f2f2f2;
+  height: 45px !important;
+  border-left: 0;
+  font-weight: 400 !important;
+  font-size: 14px !important;
+  color: #1f1f1f !important;
+}
+
+/* new side tab for new modal */
+
+.nav-link.active {
+  background: transparent ;
+  color: var(--primary-color);
+  border-radius: 0;
+  border-bottom: 2px solid var(--primary-color);
+}
+.nav-link{
+  margin-right: 20px;
+  display: block;
+  padding: 7px 10px;
+  color: #000;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  text-align: left;
 }

@@ -151,16 +151,20 @@
                 </div>
             </div>
 
-            <!-- <div class="row" *ngIf="!requestModal && ROLE == 'ADMIN' && userResignationInfo != undefined" > -->
-            <!-- <div class="row" *ngIf="!hideResignationModal && (!requestModal && ROLE == 'ADMIN' && userResignationInfo != undefined && userResignationInfo?.status?.id == 13)" > -->
-            
         <!-- <div class="row" *ngIf="!requestModal && !hideResignationModal && (userResignationInfo && ROLE == 'ADMIN' || userResignationInfo && ROLE == 'USER') && userResignationInfo?.status?.id == 13" >  -->
-        <div class="row" *ngIf="
+       
+            <!-- <div class="row" *ngIf="
         resignationSubmittedToggle && !requestModal ||
        ( !hideResignationModal 
         && userResignationInfo 
         && (ROLE === 'ADMIN' || ROLE === 'USER') 
-        && userResignationInfo?.status?.id === 13)"  > 
+        && userResignationInfo?.status?.id === 13)"  >  -->
+        <div [ngClass]="{'d-none' : requestModal}" class="row" *ngIf="
+        resignationSubmittedToggle ||
+       ( !hideResignationModal 
+        && userResignationInfo 
+        && (ROLE === 'ADMIN' || ROLE === 'USER') 
+        && userResignationInfo?.status?.id === 13)"  >
                 <div class="col-md-12">
                     <div class="resignation-request p-3 d-flex align-items-center justify-content-between">
                         <div class="d-flex align-items-center gap-3">

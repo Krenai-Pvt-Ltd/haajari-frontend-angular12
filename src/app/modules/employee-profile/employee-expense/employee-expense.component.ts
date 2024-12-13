@@ -35,6 +35,7 @@ export class EmployeeExpenseComponent implements OnInit {
 
     this.getExpenseType();
     this.fetchManagerNames()
+    this.getOrganizationRegistrationDateMethodCall();
   }
 
   async getRole(){
@@ -93,7 +94,7 @@ export class EmployeeExpenseComponent implements OnInit {
     this.endDate = '';
   }
 
-  this.dataService.getAllExpenseCount(this.ROLE, this.databaseHelper.currentPage, this.databaseHelper.itemPerPage, this.startDate, this.endDate).subscribe((res: any) => {
+  this.dataService.getAllExpenseCount(this.ROLE, this.databaseHelper.currentPage, this.databaseHelper.itemPerPage, this.startDate, this.endDate, this.userId).subscribe((res: any) => {
     if (res.status) {
       this.expenseCount = res.object
 
@@ -157,8 +158,121 @@ export class EmployeeExpenseComponent implements OnInit {
    }else{
     this.getExpenses();
    }
-
  }
+
+ goToPreviousMonth(): void {
+  if (!this.isPreviousDisabled()) {
+    this.expenseSelectedDate = new Date(
+      this.expenseSelectedDate.getFullYear(),
+      this.expenseSelectedDate.getMonth() - 1,
+      1
+    );
+    this.updateStartAndEndDates();
+  }
+}
+
+goToNextMonth(): void {
+  // this.nextMonthDisable = false;
+  if (!this.isNextDisabled()) {
+    this.expenseSelectedDate = new Date(
+      this.expenseSelectedDate.getFullYear(),
+      this.expenseSelectedDate.getMonth() + 1,
+      1
+    );
+    this.updateStartAndEndDates();
+  }
+  // else{
+  //   this.nextMonthDisable = true;
+  // }
+}
+
+updateStartAndEndDates(): void {
+  const startOfMonth = new Date(
+    this.expenseSelectedDate.getFullYear(),
+    this.expenseSelectedDate.getMonth(),
+    1
+  );
+  const endOfMonth = new Date(
+    this.expenseSelectedDate.getFullYear(),
+    this.expenseSelectedDate.getMonth() + 1,
+    0
+  );
+
+  // this.startDate = `${startOfMonth.toISOString().slice(0, 10)} 00:00:00`;
+  // this.endDate = `${endOfMonth.toISOString().slice(0, 10)} 23:59:59`;
+
+  this.startDate = startOfMonth.toDateString() + " 00:00:00"; // Date object
+  this.endDate = endOfMonth.toDateString() + " 23:59:59"; // Date object
+
+  if (this.pastExpenseToggle) {
+    this.statusIds.push(41);
+  }
+  this.getExpenses();
+}
+
+organizationRegistrationDate: string = '';
+getOrganizationRegistrationDateMethodCall() {
+  debugger;
+  this.dataService.getOrganizationRegistrationDate().subscribe(
+    (response) => {
+      this.organizationRegistrationDate = response;
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+}
+
+isPreviousDisabled(): boolean {
+  // Disable previous button logic (e.g., no date before Jan 2022)
+
+  const organizationRegistrationDate = new Date(this.organizationRegistrationDate);
+  return this.expenseSelectedDate <= organizationRegistrationDate
+}
+
+nextMonthDisable: boolean = false;
+isNextDisabled(): boolean {
+  // Disable next button logic (e.g., no date after the current month)
+  const today = new Date();
+  const maxDate = new Date(today.getFullYear(), today.getMonth(), 1);
+  return this.expenseSelectedDate >= maxDate;
+}
+
+disableMonths = (date: Date): boolean => {
+  const currentYear = new Date().getFullYear();
+  const currentMonth = new Date().getMonth();
+  const dateYear = date.getFullYear();
+  const dateMonth = date.getMonth();
+  const organizationRegistrationYear = new Date(
+    this.organizationRegistrationDate
+  ).getFullYear();
+  const organizationRegistrationMonth = new Date(
+    this.organizationRegistrationDate
+  ).getMonth();
+
+  // Disable if the month is before the organization registration month
+  if (
+    dateYear < organizationRegistrationYear ||
+    (dateYear === organizationRegistrationYear &&
+      dateMonth < organizationRegistrationMonth)
+  ) {
+    return true;
+  }
+
+  // Disable if the month is after the current month
+  if (
+    dateYear > currentYear ||
+    (dateYear === currentYear && dateMonth > currentMonth)
+  ) {
+    return true;
+  }
+
+  // Enable the month if it's from January 2023 to the current month
+  return false;
+};
+
+
+// Select Month and Next, Previous End
 
  selectedStatus: any
  filterByStatus(statusId: any){
