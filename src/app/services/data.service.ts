@@ -4131,7 +4131,7 @@ getHolidayForOrganization(date: string): Observable<any>{
   checkExpenseTransactionId(transactionId: string){
     const params = new HttpParams().set('id', transactionId);
     return this.httpClient.get(`${this.baseUrl}/company-expense/transaction`, {params});
-  }
+  } 
 
   exportExpense(){
     return this.httpClient.get<any>(`${this.baseUrl}/company-expense/export`);
@@ -4176,7 +4176,7 @@ getHolidayForOrganization(date: string): Observable<any>{
   }
 
 
-  getAllExpenseCount(role: string, pageNumber: number, itemPerPage: number, startDate: any, endDate: any){
+  getAllExpenseCount(role: string, pageNumber: number, itemPerPage: number, startDate: any, endDate: any, userUuid: any){
     var params = new HttpParams()
     .set('currentPage', pageNumber)
     .set('itemPerPage', itemPerPage)
@@ -4185,6 +4185,10 @@ getHolidayForOrganization(date: string): Observable<any>{
     if (startDate && endDate) {
       params = params.set('startDate', startDate)
       params = params.set('endDate', endDate)
+    }
+
+    if(userUuid){
+      params = params.set("userUuid", userUuid);
     }
 
     return this.httpClient.get<any>(`${this.baseUrl}/company-expense/count`, {params});
@@ -4235,6 +4239,10 @@ getHolidayForOrganization(date: string): Observable<any>{
 
   getUserExitPolicyType(){
     return this.httpClient.get<any>(`${this.baseUrl}/user-exit-type`);
+  }
+
+  getUserLeaveTaken(){
+    return this.httpClient.get<any>(`${this.baseUrl}/exit-policy/leave`);
   }
 
 
