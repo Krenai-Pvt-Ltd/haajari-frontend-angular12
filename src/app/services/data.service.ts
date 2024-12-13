@@ -3847,8 +3847,9 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}?id=${id}`);
   }
 
-  getAttendanceRequestLog(userUuid : string, pageNumber: number, itemPerPage: number): Observable<any>{
+  getAttendanceRequestLog(userUuid : string, pageNumber: number, itemPerPage: number, status: string): Observable<any>{
     const params = new HttpParams()
+    .set('status', status)
     .set('userUuid', userUuid).set('pageNumber', pageNumber)
     .set('itemPerPage', itemPerPage);
 
@@ -4025,9 +4026,10 @@ getHolidayForOrganization(date: string): Observable<any>{
 
   }
 
-  getOvertimeRequestLogResponseByUserUuid(userUuid : string): Observable<any>{
+  getOvertimeRequestLogResponseByUserUuid(userUuid : string, status: string): Observable<any>{
 
     const params = new HttpParams()
+    .set('status', status)
     .set('user_uuid', userUuid);
 
     return this.httpClient.get<any>(`${this.baseUrl}/overtime/log/response/get-by-user-uuid`, {params});
@@ -4564,6 +4566,9 @@ getHolidayForOrganization(date: string): Observable<any>{
 
     // Make the HTTP GET request and return the observable
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/attendance-requests`, { params });
+  }
+  getAttendanceSummary(userUuid: string): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/summary?userUuid=${userUuid}`);
   }
 }
 

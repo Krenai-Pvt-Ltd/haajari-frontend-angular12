@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Key } from 'src/app/constant/key';
+import { OvertimeRequestLogResponse } from 'src/app/models/overtime-request-log-response';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
@@ -17,7 +18,7 @@ export class DashboardComponent implements OnInit {
 
   resignationSubmittedSubscriber: any;
   resignationSubmittedToggle: boolean = false;
-  constructor(private roleService: RoleBasedAccessControlService, private dataService: DataService, public helperService: HelperService) { 
+  constructor(private roleService: RoleBasedAccessControlService, private dataService: DataService, public helperService: HelperService) {
     this.resignationSubmittedSubscriber =  this.helperService.resignationSubmitted.subscribe((value)=>{
       if(value){
         this.resignationSubmittedToggle = true;
@@ -42,6 +43,8 @@ export class DashboardComponent implements OnInit {
     this.getUsersWithUpcomingBirthdays();
     this.getNewUsersJoinies();
     this.getUsersUpcomingWorkAnniversaries();
+    this.getAttendanceRequestLogData();
+    this.fetchAttendanceSummary();
 
   }
 
@@ -145,5 +148,96 @@ getWeekDayOfBirthday(birthday: string): string {
     })
 
   }
+
+  userLeaveLog: any;
+  selectedLeaveType = 'All';
+  selectedStatus = 'Pending';
+  searchQuery = '';
+  totalItems = 0;
+  pageSize = 10;
+  currentPage = 1;
+  totalPages=0;
+  isLoading=true;
+  loadLeaveLogs(): void {
+    const leaveType = this.selectedLeaveType === 'All' ? undefined : this.selectedLeaveType;
+    const status = this.selectedStatus === 'All' ? undefined : this.selectedStatus;
+
+    this.isLoading=true;
+    this.dataService
+      .getUserLeaveLogFilter(this.userId, this.currentPage, this.pageSize, leaveType, status, this.searchQuery)
+      .subscribe((response) => {
+        this.userLeaveLog = response.content;
+        this.totalItems = response.totalElements;
+        this.totalPages = response.totalPages;
+        this.isLoading=false;
+      });
+  }
+
+
+
+  isShimmerForOvertimeLog = false;
+  dataNotFoundPlaceholderForOvertimeLog = false;
+  overtimeRequestLogResponseList : OvertimeRequestLogResponse[] = [];
+  getOvertimeRequestLogResponseByUserUuidMethodCall(){
+    this.isShimmerForOvertimeLog=true;
+    this.dataService.getOvertimeRequestLogResponseByUserUuid(this.userId,'pending').subscribe((response) => {
+      if(this.helperService.isListOfObjectNullOrUndefined(response)){
+        this.dataNotFoundPlaceholderForOvertimeLog = true;
+      } else{
+        this.overtimeRequestLogResponseList = response.listOfObject;
+      }
+
+      this.isShimmerForOvertimeLog = false;
+    }, (error) => {
+      this.isShimmerForOvertimeLog = false;
+    })
+  }
+
+  attendanceRequestLog: any[] = [];
+
+pageNumberAttendanceLogs: number = 1;
+itemPerPageAttendanceLogs: number = 5;
+fullAttendanceLogCount: number = 0;
+isFullLogLoader: boolean = false;
+debounceTimer: any;
+
+isShimmerForAttendanceUpdateRequestLog: boolean = false;
+dataNotFoundForAttendanceUpdateRequestLog: boolean = false;
+networkConnectionErrorForAttendanceUpdateRequestLog: boolean = false;
+
+getAttendanceRequestLogData() {
+  this.attendanceRequestLog = [];
+  return new Promise((resolve, reject) => {
+    this.isFullLogLoader = true;
+
+  this.dataService.getAttendanceRequestLog(this.userId, this.pageNumberAttendanceLogs, this.itemPerPageAttendanceLogs,'pending').subscribe(response => {
+    if(this.helperService.isObjectNullOrUndefined(response)){
+      this.dataNotFoundForAttendanceUpdateRequestLog = true;
+    } else{
+      this.attendanceRequestLog = response.object;
+      this.fullAttendanceLogCount = response.totalItems;
+    }
+    this.isFullLogLoader = false;
+    this.isShimmerForAttendanceUpdateRequestLog = false;
+  }, (error) => {
+    this.networkConnectionErrorForAttendanceUpdateRequestLog = true;
+    this.isShimmerForAttendanceUpdateRequestLog = false;
+    this.isFullLogLoader = false;
+  });
+});
+}
+
+attendanceSummary: any;
+fetchAttendanceSummary(): void {
+  this.dataService.getAttendanceSummary(this.userId).subscribe({
+    next: (response) => {
+      this.attendanceSummary = response;
+      console.log('Attendance Summary:', this.attendanceSummary);
+    },
+    error: (error) => {
+      console.error('Error fetching attendance summary:', error);
+    },
+  });
+}
 
 }

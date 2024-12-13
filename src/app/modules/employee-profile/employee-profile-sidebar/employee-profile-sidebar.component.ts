@@ -123,7 +123,12 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     if (this.searchSkill && !this.skills.includes(this.searchSkill)) {
       this.skills.push(this.searchSkill);
       this.searchSkill = ''; // Clear input field after adding
+    }else if(this.searchSkill){
+      this.helperService.showToast(this.searchSkill + ' is Already Added', Key.TOAST_STATUS_ERROR);
+    }else if(!this.searchSkill){
+      this.helperService.showToast('Empty field cannot be added ', Key.TOAST_STATUS_ERROR);
     }
+    this.skillsFilteredOptions=[];
   }
   checkSkillsArraysEqual(): boolean {
     debugger
@@ -290,7 +295,8 @@ export class EmployeeProfileSidebarComponent implements OnInit {
   onSkillsChange(value: string): void {
 
     this.skillsFilteredOptions = Skills.SKILLS.filter((option) =>
-      option.toLowerCase().includes(value.toLowerCase())
+      option.toLowerCase().includes(value.toLowerCase()) &&
+      !this.skills.includes(option)
     );
 
 }

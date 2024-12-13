@@ -3422,7 +3422,7 @@ getAttendanceRequestLogData() {
     // this.debounceTimer = setTimeout(() => {
 
   // this.attendanceRequestLog = [];
-  this.dataService.getAttendanceRequestLog(this.userId, this.pageNumberAttendanceLogs, this.itemPerPageAttendanceLogs).subscribe(response => {
+  this.dataService.getAttendanceRequestLog(this.userId, this.pageNumberAttendanceLogs, this.itemPerPageAttendanceLogs, '').subscribe(response => {
     if(this.helperService.isObjectNullOrUndefined(response)){
       this.dataNotFoundForAttendanceUpdateRequestLog = true;
     } else{
@@ -3638,7 +3638,7 @@ closeAttendanceFunc() {
   overtimeRequestLogResponseList : OvertimeRequestLogResponse[] = [];
   getOvertimeRequestLogResponseByUserUuidMethodCall(){
     this.preRuleForShimmersAndErrorPlaceholdersForOvertimeLogMethodCall();
-    this.dataService.getOvertimeRequestLogResponseByUserUuid(this.userId).subscribe((response) => {
+    this.dataService.getOvertimeRequestLogResponseByUserUuid(this.userId, '').subscribe((response) => {
       if(this.helperService.isListOfObjectNullOrUndefined(response)){
         this.dataNotFoundPlaceholderForOvertimeLog = true;
       } else{
