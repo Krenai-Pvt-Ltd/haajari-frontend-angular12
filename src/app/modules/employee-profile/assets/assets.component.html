@@ -146,11 +146,18 @@
                           </table>
                         </div>
 
-                      <div *ngIf="totalPages()>1" class="pagination-controls d-flex align-items-end">
+                      <div *ngIf="totalPages()>1" class="d-flex align-items-center justify-content-between pagination-box-profile w-100 p-3 bg-white border-top">
                         <!-- Ngb Pagination Component -->
+                        <p>
+                          Showing items
+                          {{assets.length}}
+                          of {{ totalCount }} records
+                        </p>
+
                         <ngb-pagination
                           [collectionSize]="totalCount"
                           [rotate]="true"
+                          class="pagition-box"
                           (pageChange)="pageChanged($event)"
                           [pageSize]="itemPerPage"
                           [(page)]="pageNumber"
@@ -360,17 +367,14 @@
 
                         </div>
 
-                        <div *ngIf="this.assetRequestsTotalPage>1"
-                          class="pagination-controls d-flex align-items-center justify-content-between">
-                          <!-- Ngb Pagination Component -->
-
-                          <div class="showing-items-message text-right font-13">
+                        <div *ngIf="this.assetRequestsTotalPage>1" class="d-flex align-items-center justify-content-between pagination-box-profile w-100 p-3 bg-white border-top">
+                          <p>
                             Showing items
                             {{ (assetRequestsPage - 1) * assetRequestsSize + 1 }} –
                             {{ Math.min(assetRequestsPage * assetRequestsSize, assetRequestsTotalCount) }}
                             of {{ assetRequestsTotalCount }} records
-                          </div>
-                          <ngb-pagination [collectionSize]="assetRequestsTotalCount" [rotate]="true" (pageChange)="pageChangedRequest($event)"
+                          </p>
+                          <ngb-pagination class="pagition-box" [collectionSize]="assetRequestsTotalCount" [rotate]="true" (pageChange)="pageChangedRequest($event)"
                             [pageSize]="assetRequestsSize" [(page)]="assetRequestsPage" [maxSize]="5" [boundaryLinks]="true">
                           </ngb-pagination>
                         </div>
@@ -514,7 +518,7 @@
             </div>
             <div class="modal-footer d-flex align-items-center justify-content-end gap-2">
               <button type="button" class="btn cancel-btn" data-bs-dismiss="modal" #cancelButton>Cancel</button>
-              <button type="submit" class="btn submitActionBtn" [disabled]="assetRequestForm.invalid || isLoadingForm">
+              <button type="submit" class="btn submitActionBtn" [disabled]="assetRequestForm.invalid || isLoadingForm" [ngClass]="{'btn-border':!assetRequestForm.invalid}">
                 <span  *ngIf="!isLoadingForm">Submit Request</span>
                 <div class="dot-opacity-loader" *ngIf="isLoadingForm">
                   <span></span>

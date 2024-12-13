@@ -468,3 +468,8 @@
     font-size: 14px;
   }
 /** Dot opacity end */
+
+.calendar-back-btn.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+  }

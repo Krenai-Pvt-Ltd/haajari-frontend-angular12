@@ -151,16 +151,20 @@
                 </div>
             </div>
 
-            <!-- <div class="row" *ngIf="!requestModal && ROLE == 'ADMIN' && userResignationInfo != undefined" > -->
-            <!-- <div class="row" *ngIf="!hideResignationModal && (!requestModal && ROLE == 'ADMIN' && userResignationInfo != undefined && userResignationInfo?.status?.id == 13)" > -->
-            
         <!-- <div class="row" *ngIf="!requestModal && !hideResignationModal && (userResignationInfo && ROLE == 'ADMIN' || userResignationInfo && ROLE == 'USER') && userResignationInfo?.status?.id == 13" >  -->
-        <div class="row" *ngIf="
+       
+            <!-- <div class="row" *ngIf="
         resignationSubmittedToggle && !requestModal ||
        ( !hideResignationModal 
         && userResignationInfo 
         && (ROLE === 'ADMIN' || ROLE === 'USER') 
-        && userResignationInfo?.status?.id === 13)"  > 
+        && userResignationInfo?.status?.id === 13)"  >  -->
+        <div [ngClass]="{'d-none' : requestModal}" class="row" *ngIf="
+        resignationSubmittedToggle ||
+       ( !hideResignationModal 
+        && userResignationInfo 
+        && (ROLE === 'ADMIN' || ROLE === 'USER') 
+        && userResignationInfo?.status?.id === 13)"  >
                 <div class="col-md-12">
                     <div class="resignation-request p-3 d-flex align-items-center justify-content-between">
                         <div class="d-flex align-items-center gap-3">
@@ -620,7 +624,8 @@
                     <div id="pills-tabContent" class="tab-content">
                       <div class="tab-pane active show pt-3" id="birthday" role="tabpanel" aria-labelledby="birthday-tab">
                         <div class="birthday-section">
-                          <div *ngFor="let user of usersWithUpcomingBirthdays" class="birthday-box d-flex align-items-center justify-content-between position-relative mb-3">
+                          <!-- <div *ngFor="let user of usersWithUpcomingBirthdays; let i= index;" class="birthday-box d-flex align-items-center justify-content-between position-relative mb-3" [ngClass]="{'birthday-box-+i'}"> -->
+                            <div *ngFor="let user of usersWithUpcomingBirthdays; let i = index;" class="birthday-box-0 d-flex align-items-center justify-content-between position-relative mb-3" [ngClass]="getDynamicClass(i)">
                             <div>
                               <h5 class="mb-1 font-16">{{ user.name }}</h5>
                               <p class="mb-0 font-13">{{ user.birthday | date: 'dd MMMM' }}, {{ getWeekDayOfBirthday(user.birthday) }}</p>

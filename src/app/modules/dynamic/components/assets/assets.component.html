@@ -803,8 +803,7 @@
         <button
           type="submit"
           class="btn submitActionBtn"
-          [disabled]="assetForm.invalid"
-        >
+          [disabled]="assetForm.invalid"  [ngClass]="{'btn-border':!assetForm.invalid}">
           Add Asset
         </button>
       </div>
@@ -1033,9 +1032,8 @@
       <div class="modal-footer">
         <button
           type="submit"
-          class="btn submitActionBtn"
-          [disabled]="assignRejectForm.invalid"
-        >
+          class="btn submitActionBtn" [ngClass]="{'btn-border':!assignRejectForm.valid}"
+          [disabled]="assignRejectForm.invalid">
           Submit
         </button>
       </div>

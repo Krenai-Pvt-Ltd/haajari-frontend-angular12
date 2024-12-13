@@ -576,9 +576,23 @@
                             </td>
                           </tr>
                         </tbody>
-                        <!--
-                                            <tbody class="table-design"><tr><td colspan="8"><div class="mt-3 dashnodata" ><div class="errorboxmain"><div class="errorboxinner text-center"><div class="errorboxplaceholder mb-2"><img src="assets/images/addnewproduct.svg" style="width:80px;" /></div><h4>No Data Found</h4><p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p></div></div></div></td></tr></tbody> -->
-                        <tbody *ngIf="users.length > 0 && !isUserShimer">
+
+                        <tbody *ngIf="users.length == 0 && !isUserShimer">
+                              <tr>
+                                  <td colspan="8">
+                                      <div class="empty-filenew" style="margin-top: 7%; margin-bottom: 7%">
+                                          <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                              [nzNotFoundContent]="contentTpl">
+                                              <ng-template #contentTpl>
+                                                  <p class="mb-1 empty-filenew">No data for now</p>
+                                              </ng-template>
+                                          </nz-empty>
+                                      </div>
+                                  </td>
+                              </tr>
+                        </tbody>
+
+                       <tbody *ngIf="users.length > 0 && !isUserShimer">
                           <tr *ngFor="
                               let i = index;
                               let user;
@@ -590,7 +604,6 @@
                                       totalItems: total
                                     }
                             ">
-                            <!-- class="stickyColTd" -->
                             <td>
                               <a (click)="routeToUserDetails(user.uuid)" class="mb-0 weekly-pro-name">{{ user.name }}</a>
                               <button class="text-danger" nz-button nzType="text" nz-popover
@@ -712,14 +725,13 @@
                                       Initiate Exit</a>
                                   </li>
 
-                                  <!-- <li><a class="dropdown-item" *ngIf="onboardingVia === 'SLACK' && user.slackUserId === null " (click)="saveSlackUserIdViaEmailData(user.email)"><i class="bi bi-arrow-repeat"></i> Fetch Slack UserId</a></li> -->
                                 </div>
                               </div>
                             </td>
                           </tr>
-                          <!-- <tr><td>06/06/2023</td><td>Wekreta</td><td>Meeting</td><td><p class="mb-0 weekly-pro">Weekly progress meeting</p></td><td class="text-center">12</td><td class="half-per"><span class="">50%</span></td><td class="text-center">13</td><td><div class="hstack gap-3 justify-content-center"><a href="javascript:void(0);" class="link-success text-decoration-underline">Request</a><a href="javascript:void(0);" routerLink="/employee-profile" class="link-primary text-decoration-underline">View</a></div></td></tr><tr><td>06/06/2023</td><td>Wekreta</td><td>Meeting</td><td><p class="mb-0 weekly-pro">Weekly progress meeting</p></td><td class="text-center">12</td><td class="full-per"><span class="">100%</span></td><td class="text-center">13</td><td><div class="hstack gap-3 justify-content-center"><a href="javascript:void(0);" class="link-success text-decoration-underline">Request</a><a href="javascript:void(0);" routerLink="/employee-profile" class="link-primary text-decoration-underline">View</a></div></td></tr> -->
                         </tbody>
-                        <tbody *ngIf="errorToggleTop && users.length == 0">
+                       
+                        <!-- <tbody *ngIf="errorToggleTop && users.length == 0">
                           <tr>
                             <td colspan="8">
                               <div class="mt-3 dashnodata">
@@ -748,7 +760,9 @@
                               </div>
                             </td>
                           </tr>
-                        </tbody>
+                        </tbody> -->
+
+
                       </table>
                     </div>
                     <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top"*ngIf="!isUserShimer && users.length > 0 && total > 12">
@@ -821,9 +835,23 @@
                             </td>
                           </tr>
                         </tbody>
-                        <!--
-                                            <tbody class="table-design"><tr><td colspan="8"><div class="mt-3 dashnodata" ><div class="errorboxmain"><div class="errorboxinner text-center"><div class="errorboxplaceholder mb-2"><img src="assets/images/addnewproduct.svg" style="width:80px;" /></div><h4>No Data Found</h4><p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p></div></div></div></td></tr></tbody> -->
-                        <tbody *ngIf="users.length > 0 && !isUserShimer">
+                       
+                        <tbody *ngIf="users.length == 0 && !isUserShimer">
+                          <tr>
+                              <td colspan="8">
+                                  <div class="empty-filenew" style="margin-top: 7%; margin-bottom: 7%">
+                                      <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                          [nzNotFoundContent]="contentTpl">
+                                          <ng-template #contentTpl>
+                                              <p class="mb-1 empty-filenew">No data for now</p>
+                                          </ng-template>
+                                      </nz-empty>
+                                  </div>
+                              </td>
+                          </tr>
+                    </tbody>
+
+                       <tbody *ngIf="users.length > 0 && !isUserShimer">
                           <tr *ngFor="
                               let i = index;
                               let user;
@@ -994,9 +1022,36 @@
                   </div>
                 </div>
               </div>
-              <div class="tab-pane fade" id="resignationRequest" role="tabpanel" aria-labelledby="overtimeRequest-tab">
-                <div>
-                 
+
+              <div class="tab-pane fade pt-3" id="resignationRequest" role="tabpanel" aria-labelledby="overtimeRequest-tab">
+                <!-- <div> -->
+                  <div class="onboard-add row align-items-center mx-0">
+                    <!-- <div *ngIf="users.length!=0"> -->
+                    <!-- || (searchUserPlaceholderFlag) -->
+                    <div class="col-md-12" *ngIf="!errorToggleTop">
+                      <div class="row justify-content-between align-items-center mx-0">
+                        <div class="col-lg-12 col-md-12 col-sm-12 ps-0">
+                          <div class="d-flex justify-content-start align-items-center">
+                            
+                            <div class="onboarding-date d-flex align-items-center position-relative">
+                              <form role="search" class="searching" style="width: 100%">
+                                <div class="form-group" style="width: 100%; position: relative">
+                                  <input type="text" id="searchText" placeholder="Search by name, email and phone number ..."
+                                    class="form-control me-2" (keyup)="searchUsers('any')" [(ngModel)]="search"
+                                    [ngModelOptions]="{ standalone: true }" style="padding: 10px 40px" />
+                                  <i class="bi bi-search search-icon" style="margin: auto; margin-left: 15px"
+                                    *ngIf="search==''"></i>
+                                  <i class="bi bi-x search-icon" style="margin: auto; margin-left: 15px" *ngIf="search!=''"
+                                    (click)="reloadPage()"></i>
+                                </div>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div> 
+
+                  </div>
                   <div class="col-md-12 mt-3">
                     <div class="table-responsive bg-white">
                       <table class="table empOnnoardtable">
@@ -1044,9 +1099,23 @@
                             </td>
                           </tr>
                         </tbody>
-                        <!--
-                                            <tbody class="table-design"><tr><td colspan="8"><div class="mt-3 dashnodata" ><div class="errorboxmain"><div class="errorboxinner text-center"><div class="errorboxplaceholder mb-2"><img src="assets/images/addnewproduct.svg" style="width:80px;" /></div><h4>No Data Found</h4><p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p></div></div></div></td></tr></tbody> -->
-                        <tbody *ngIf="users.length > 0 && !isUserShimer">
+
+                        <tbody *ngIf="users.length == 0 && !isUserShimer">
+                          <tr>
+                              <td colspan="8">
+                                  <div class="empty-filenew" style="margin-top: 7%; margin-bottom: 7%">
+                                      <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                          [nzNotFoundContent]="contentTpl">
+                                          <ng-template #contentTpl>
+                                              <p class="mb-1 empty-filenew">No data for now</p>
+                                          </ng-template>
+                                      </nz-empty>
+                                  </div>
+                              </td>
+                          </tr>
+                    </tbody>
+                       
+                       <tbody *ngIf="users.length > 0 && !isUserShimer">
                           <tr *ngFor="
                               let i = index;
                               let user;
@@ -1147,7 +1216,7 @@
                                   <i class="bi bi-three-dots-vertical"></i>
                                 </button>
                                 <div class="dropdown-menu actionMenuList">
-                                  <li>
+                                  <!-- <li>
                                     <a class="dropdown-item"><i class="bi bi-eye"></i>
                                       Approved</a>
                                   </li>
@@ -1155,6 +1224,17 @@
                                     <a class="dropdown-item"><i class="bi bi-eye"></i>
                                       Rejected</a>
                                   </li>
+                                  <li>
+                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"
+                                      (click)="openDeleteConfirmationModal(user.id)"><i class="bi bi-trash3"></i> Delete
+                                      Account</a>
+                                  </li> -->
+
+                                  <li>
+                                    <a class="dropdown-item" (click)="routeToUserDetails(user.uuid)"><i class="bi bi-eye"></i>
+                                      View Profile</a>
+                                  </li>
+                                  <li>
                                   <li>
                                     <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"
                                       (click)="openDeleteConfirmationModal(user.id)"><i class="bi bi-trash3"></i> Delete
@@ -1220,7 +1300,7 @@
                       </div>
 
                   </div>
-                </div>
+                <!-- </div> -->
               </div>
 
 
@@ -1231,10 +1311,10 @@
             </div>
 
         </div>
-        <div class="row mt-3"></div>
+        <div class="row mt-3">
       </div>
     </div>
-  </div>
+  <!-- </div> -->
 
 
   <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#add-employee"
@@ -1419,7 +1499,9 @@
                   personalInformationForm.invalid ||
                   isNumberExist ||
                   isEmailExist
-                " aria-label="Next Step">
+                "
+                [ngClass]="{'btn-border':!personalInformationForm.invalid}"
+                aria-label="Next Step">
                 <div *ngIf="toggle" class="dot-opacity-loader1">
                   <span></span>
                   <span></span>

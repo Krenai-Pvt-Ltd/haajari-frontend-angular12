@@ -20,8 +20,8 @@
                         <div class="d-flex align-items-center justify-content-between">
                             <div class="d-flex align-items-center gap-3">
                                 <div class="d-flex align-items-center attendance-date">
-                                    <span
-                                        class=" d-flex align-items-center justify-content-center pointer calendar-back-btn">
+                                    <span class=" d-flex align-items-center justify-content-center pointer calendar-back-btn" 
+                                        [class.disabled]="isPreviousDisabled()" (click)="goToPreviousMonth()">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21"
                                             viewBox="0 0 21 21" fill="none">
                                             <mask id="mask0_4719_1625" style="mask-type:alpha"
@@ -37,12 +37,15 @@
                                     </span>
                                     <span class="calendar-separator"></span>
                                     <div class="dropdown ">
-                                        <nz-date-picker nzMode="month"  nzFormat="MMM, yyyy" [(ngModel)]="expenseSelectedDate"
-                                        (ngModelChange)="onExpenseMonthChange($event)" ></nz-date-picker>
+                                        <!-- <nz-date-picker nzMode="month"  nzFormat="MMM, yyyy" [(ngModel)]="expenseSelectedDate"
+                                        (ngModelChange)="onExpenseMonthChange($event)" ></nz-date-picker> -->
+                                        <nz-date-picker nzMode="month" nzFormat="MMM, yyyy" [(ngModel)]="expenseSelectedDate"
+                                        (ngModelChange)="onExpenseMonthChange($event)" [nzDisabledDate]="disableMonths"></nz-date-picker>
+
                                     </div>
                                     <span class="calendar-separator"></span>
-                                    <span
-                                        class=" d-flex align-items-center justify-content-center pointer calendar-back-btn">
+                                    <span class=" d-flex align-items-center justify-content-center pointer calendar-back-btn" 
+                                    [class.disabled]="isNextDisabled()" (click)="goToNextMonth()">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21"
                                             viewBox="0 0 21 21" fill="none">
                                             <mask id="mask0_4719_1639" style="mask-type:alpha"
@@ -53,7 +56,7 @@
                                             <g mask="url(#mask0_4719_1639)">
                                                 <path
                                                     d="M12.168 15.5L17.168 10.5L12.168 5.5L11.0013 6.70833L13.9596 9.66667H3.83464V11.3333H13.9596L11.0013 14.2917L12.168 15.5Z"
-                                                    fill="#060606" />
+                                                     fill="#060606" />
                                             </g>
                                         </svg>
                                     </span>
@@ -127,31 +130,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- <div class="col-md-5">
-                                <div class="expense-data p-3 d-flex align-items-center gap-3">
-                                    <div style="width:30%">
-                                        <img src="assets/images/expance-chart.webp" style="width:100px">
-                                    </div>
-                                    <div class="" style="width:70%">
-                                        <div
-                                            class="d-flex align-items-center justify-content-between border-bottom pb-2 mb-2">
-                                            <p class="mb-0 font-12">Most Expense on</p>
-                                            <p class="mb-0 font-12 text-black"> <span class="food"></span> Food</p>
-                                        </div>
-                                        <div
-                                            class="d-flex align-items-center justify-content-between border-bottom pb-2 mb-2">
-                                            <p class="mb-0 font-12">Least Expense on</p>
-                                            <p class="mb-0 font-12 text-black"> <span class="transport"></span>
-                                                Transport</p>
-                                        </div>
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <p class="mb-0 font-12">Today Expense</p>
-                                            <p class="mb-0 font-12 text-black">₹47,344</p>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div> -->
+                           
                         </div>
                         <div class="table-responsive bg-white mt-3">
                             <table class="table empOnnoardtable">
@@ -239,7 +218,7 @@
                                         </td> -->
                                         <td class="text-left">
                                             <span class="badge rounded-pill " 
-                                                [ngClass]="{'badge-soft-warning': expense.status.id == 13, 'badge-soft-success': expense.status.id == 14, 
+                                                [ngClass]="{'badge-soft-warning': expense.status.id == 13 || expense.status.id == 46, 'badge-soft-success': expense.status.id == 14, 
                                                 'badge-soft-danger': expense.status.id == 15, 'badge-soft-primary': expense.status.id == 40}" > 
                                                 {{expense.status.response}} 
                                             </span>
@@ -267,12 +246,13 @@
 
                             </table>
 
-                                  <div class="p-3 d-flex align-items-center justify-content-between bg-white" *ngIf="totalItems > 9">
-                                    <p class="mb-0 font-13">Showing {{ expenseList.length }} of {{ totalItems }} </p>
-                                    <ngb-pagination lass="pagination-ul" [collectionSize]="totalItems" [rotate]="true" (pageChange)="pageChanged($event)"
-                                    [pageSize]="databaseHelper.itemPerPage" [(page)]="databaseHelper.currentPage" [maxSize]="4"
-                                    [boundaryLinks]="true"></ngb-pagination>
-                                  </div>
+                            <div class="d-flex align-items-center justify-content-between pagination-box-profile w-100 p-3 bg-white border-top" *ngIf="expenseList.length > 0 && totalItems > 9">
+                                <p class="mb-0 font-13">Showing {{ expenseList.length }} of {{ totalItems }} </p>
+                                <ngb-pagination class="pagition-box pagination-ul"  [collectionSize]="totalItems" [rotate]="true" (pageChange)="pageChanged($event)"
+                                [pageSize]="databaseHelper.itemPerPage" 
+                                [(page)]="databaseHelper.currentPage" [maxSize]="4" [boundaryLinks]="true">
+                                </ngb-pagination>
+                            </div>
 
                         </div>
                     </div>
@@ -282,7 +262,8 @@
                         <div class="d-flex align-items-center justify-content-between">
                             <div class="d-flex align-items-center gap-3">
                                 <div class="d-flex align-items-center attendance-date">
-                                    <span class=" d-flex align-items-center justify-content-center pointer calendar-back-btn">
+                                    <span class=" d-flex align-items-center justify-content-center pointer calendar-back-btn"
+                                    [class.disabled]="isPreviousDisabled()" (click)="goToPreviousMonth()">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
                                             <mask id="mask0_4719_1625" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21"
                                                 height="21">
@@ -299,10 +280,11 @@
                                     <div class="dropdown ">
                                         <!-- <nz-date-picker nzMode="month" nzFormat="MMM, yyyy"></nz-date-picker> -->
                                         <nz-date-picker nzMode="month"  nzFormat="MMM, yyyy" [(ngModel)]="expenseSelectedDate"
-                                        (ngModelChange)="onExpenseMonthChange($event)" ></nz-date-picker>
+                                        (ngModelChange)="onExpenseMonthChange($event)" [nzDisabledDate]="disableMonths" ></nz-date-picker>
                                     </div>
                                     <span class="calendar-separator"></span>
-                                    <span class=" d-flex align-items-center justify-content-center pointer calendar-back-btn">
+                                    <span class=" d-flex align-items-center justify-content-center pointer calendar-back-btn"
+                                    [class.disabled]="isNextDisabled()" (click)="goToNextMonth()">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
                                             <mask id="mask0_4719_1639" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21"
                                                 height="21">
@@ -471,11 +453,11 @@
 
                             </table>
 
-                            <div class="p-3 d-flex align-items-center justify-content-between bg-white" *ngIf="totalItems > 9">
+                            <div class="d-flex align-items-center justify-content-between pagination-box-profile w-100 p-3 bg-white border-top"  *ngIf="expenseList.length > 0 && totalItems > 9">
                                 <p class="mb-0 font-13">Showing {{ expenseList.length }} of {{ totalItems }} </p>
-                                <ngb-pagination lass="pagination-ul" [collectionSize]="totalItems" [rotate]="true" (pageChange)="pageChanged($event)"
+                                <ngb-pagination class="pagition-box pagination-ul" [collectionSize]="totalItems" [rotate]="true" (pageChange)="pageChanged($event)"
                                 [pageSize]="databaseHelper.itemPerPage" [(page)]="databaseHelper.currentPage" [maxSize]="4"
-                                [boundaryLinks]="true"></ngb-pagination>
+                                [boundaryLinks]="true"></ngb-pagination>2
                               </div>
                               
                         </div>
@@ -686,25 +668,39 @@
                     <div class="col-md-5 pr-0 mr-0">
                         <div class="bill-image d-flex align-items-center justify-content-center"
                             style="flex-direction: column">
-                           
-                            <!-- <img src="assets/images/bill-img.svg" style="width:100%;"> -->
-                            <!-- <span class="bill-images d-flex align-items-center gap-2 p-2">
-                                <img src="assets/images/bill-img.svg">
-                                <img src="assets/images/bill-img.svg">
-                            </span> -->
-
-                            <!-- <span *ngIf="expenseTypeReq.urls.length > 0" class="bill-images d-flex align-items-center gap-2 p-2">
-                                <img *ngFor="let url of expenseTypeReq.urls" src="{{url}}">
-                            </span> -->
 
                             <ng-container *ngIf="expenseTypeReq.urls.length > 0">
                             <!-- <div *ngIf="expenseTypeReq.urls.length > 0"> -->
-                                <img src="{{expenseTypeReq.urls[0]}}" style="width:100%;">
+                                <!-- <img src="{{expenseTypeReq.urls[0]}}" style="width:100%;"> -->
+                                
+                                <div id="expenseCarousel" class="carousel slide" data-bs-ride="carousel">
+                                    <div class="carousel-inner">
+                                      <div 
+                                        class="carousel-item" 
+                                        *ngFor="let url of expenseTypeReq.urls; let i = index" 
+                                        [class.active]="i === 0">
+                                        <div class="d-flex justify-content-center position-relative">
+                                          <img [src]="url" alt="Image {{i}}" class="d-block img-thumbnail">
+                                        </div>
+                                      </div>
+                                    </div>
+                                  
+                                    <!-- Carousel Controls -->
+                                    <button class="carousel-control-prev" type="button" data-bs-target="#expenseCarousel" data-bs-slide="prev">
+                                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                      <span class="visually-hidden">Previous</span>
+                                    </button>
+                                    <button class="carousel-control-next" type="button" data-bs-target="#expenseCarousel" data-bs-slide="next">
+                                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                      <span class="visually-hidden">Next</span>
+                                    </button>
+                                  </div>
+                                  
+                                  <!-- carousel end -->
+                                
+                                
                                 <span  class="bill-images d-flex align-items-center gap-2 p-2">
-                                <!-- <div class="d-flex align-items-center gap-2 position-relative">
-                                  <img *ngFor="let url of expenseTypeReq.urls" src="{{url}}">
-                                  <span class="bill-image-remvo d-flex align-items-center justify-content-center"><i class="bi bi-x"></i></span>
-                                </div> -->
+                             
 
                                 <div class="d-flex align-items-center gap-2 position-relative">
                                     <div *ngFor="let url of expenseTypeReq.urls; let i = index" class="position-relative">
@@ -854,7 +850,7 @@
                                     <div class="col-md-6 mb-3 " *ngIf="validatePolicyToggle">
                                         <div class="notice-period-error p-2">
                                             <div class="d-flex align-items-center gap-3">
-                                                <p class="mb-0">Amount Define</p>
+                                                <p class="mb-0">Allocated Amount</p>
                                                 <span class="calendar-separator"></span>
                                                 <h6 class="mb-0">₹ {{limitAmount}}</h6>
                                             </div>
@@ -878,9 +874,10 @@
                             <button type="button" class="btn cancel-btn mt-0" data-bs-dismiss="modal"
                                 (click)="clearExpenseForm(createForm)">Cancel</button>
                           
-                            <button *ngIf="!createToggle" type="submit" class="btn submitActionBtn"
+                            <button *ngIf="!createToggle" type="submit" class="btn submitActionBtn"  [ngClass]="{'btn-border':!(isFileUploaded || expenseTypeReq.expenseTypeId == 0 || expenseTypeReq.managerId == 0 || expenseTypeReq.expenseDate == undefined 
+                            || expenseTypeReq.notes == '' || expenseTypeReq.amount == undefined || expenseTypeReq.amount <= 0)}"
                             [disabled]="isFileUploaded || expenseTypeReq.expenseTypeId == 0 || expenseTypeReq.managerId == 0 || expenseTypeReq.expenseDate == undefined 
-                            || expenseTypeReq.notes == '' || expenseTypeReq.amount == undefined || expenseTypeReq.amount <= 0">
+                            || expenseTypeReq.notes == '' || expenseTypeReq.amount == undefined || expenseTypeReq.amount <= 0" >
                             Submit
                             <div class="dot-opacity-loader" *ngIf="createToggle">
                                 <span></span>
@@ -893,7 +890,9 @@
                         <ng-container *ngIf="validatePolicyToggle" >
                             <div class="d-flex align-items-center justify-content-between gap-2 p-3">
                                 <div class="d-flex align-items-center gap-2">
-                                    <p class="mb-0 text-primary">Do you want to continue</p>
+                                    <!-- <p class="mb-0 text-primary">Do you want to continue</p> -->
+                                    <p class="mb-0 text-primary">Your allocated limit is Rs. {{limitAmount}}. Are you sure you want to apply for a higher amount?
+                                    </p>
                                 </div>
                                 <div class="d-flex justify-content-end gap-2">
                                     <button class="btn cancel-btn mt-0" (click)="cancelExpense()" >No</button>
@@ -934,8 +933,14 @@
     
                                     <!-- <p class="mb-0 text-success">Your request is approved. Please wait a few days for expense reimbursement.</p> -->
                                    
-                                    <p *ngIf="expenseTypeReq.status.id == 41 && expenseTypeReq.paymentMethod?.toLowerCase() == 'online'" class="mb-0 text-success">Your request is approved. Your request will be settled to {{expenseTypeReq.settledDate | date: 'yyyy MMM dd'}}</p>
-                                    <p *ngIf="expenseTypeReq.status.id == 41 && expenseTypeReq.paymentMethod?.toLowerCase() == 'cash'" class="mb-0 text-success">Your request has been approved, and reimbursement will be made in cash.</p>
+                                    <!-- <p *ngIf="expenseTypeReq.status.id == 41 && expenseTypeReq.paymentMethod?.toLowerCase() == 'online'" class="mb-0 text-success">Your request is approved. Your request will be settled to {{expenseTypeReq.settledDate | date: 'yyyy MMM dd'}}</p> -->
+                                    <p *ngIf="expenseTypeReq.status.id == 41 && (expenseTypeReq.settledDate != null && expenseTypeReq.settledDate != '')" class="mb-0 text-success">
+                                        Your request has been approved - settlement will be processed in {{expenseTypeReq?.paymentMethod?.toLowerCase()}} by {{expenseTypeReq.settledDate | date: 'MMM dd'}}.</p>
+
+                                    <p *ngIf="expenseTypeReq.status.id == 41 && (expenseTypeReq.settledDate == null || expenseTypeReq.settledDate == '')" class="mb-0 text-success">
+                                        Your request has been approved - settlement will be processed in {{expenseTypeReq?.paymentMethod?.toLowerCase()}}.</p>
+
+                                    <p *ngIf="expenseTypeReq.status.id == 40" class="mb-0 text-primary">Your request has been approved - settlement will be processed with payroll.</p>
                                     <p *ngIf="expenseTypeReq.status.id == 15" class="mb-0 text-danger">Your request has been rejected by the admin</p>
                                 </div>
                                 
