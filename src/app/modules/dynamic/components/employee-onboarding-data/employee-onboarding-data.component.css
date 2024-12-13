@@ -786,7 +786,7 @@ Remove
 }
 
 .onboarding-date input[type="text"] {
-  width: 400px;
+  width: 600px;
   border-radius: 0px 10px 10px 0px;
   border: 0px solid #f2f2f2;
   height: 45px !important;
@@ -1120,7 +1120,7 @@ span.members-namess {
   border: 1.021px solid #e9e9e9 !important;
   background: rgba(236, 236, 236, 0.21) !important;
   height: 45px !important;
-  font-size: 12px !important;
+  font-size: 0.875rem !important;
   font-weight: 400 !important;
 }
 
@@ -1343,7 +1343,7 @@ span.members-namess {
 }
 
 .nav-link {
-  margin-right: 20px;
+  /* margin-right: 20px; */
   display: block;
   padding: 7px 10px;
   color: #000;
@@ -1351,4 +1351,38 @@ span.members-namess {
   font-style: normal;
   font-weight: 500;
   text-align: left;
+}
+.nav-item{
+  margin-right: 20px;
+}
+
+.employee-table{
+  min-height: 400px;
+}
+
+.cancel-btn {
+  background-color: #fbfbfb;
+  border: 1px solid #e6e7e9;
+  border-radius: 2px;
+  color: #4a4a4a;
+  font-size: 12px;
+  font-weight: 500;
+  min-width: 100px;
+}
+
+.submitActionBtn{
+  background-color: var(--primary-background-color);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 2px;
+  min-width: 100px;
+}
+
+span.request-count {
+  background-color: rgb(241 241 253) !important;
+  color: var(--primary-color) !important;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
 }

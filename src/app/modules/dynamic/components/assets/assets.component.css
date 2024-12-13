@@ -387,3 +387,10 @@ nz-select {
   top: 0px !important;
 }
 
+.add-icon i{
+  top: 3px;
+}
+
+.assets-count{
+  border: 1px solid #f1f1f1;
+}
