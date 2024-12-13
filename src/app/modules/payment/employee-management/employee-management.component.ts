@@ -5,6 +5,7 @@ import { PayActionType } from 'src/app/models/pay-action-type';
 import { UserExitResponse } from 'src/app/models/user-exit-response';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
+import { PayrollService } from 'src/app/services/payroll.service';
 
 @Component({
   selector: 'app-employee-management',
@@ -38,7 +39,8 @@ export class EmployeeManagementComponent implements OnInit {
   }
 
   constructor(private _dataService : DataService, 
-    private _helperService : HelperService) { }
+    private _helperService : HelperService,
+  private _payrollService : PayrollService) { }
 
   ngOnInit(): void {
     this.getNewJoineeByOrganizationIdMethodCall();
@@ -183,19 +185,12 @@ export class EmployeeManagementComponent implements OnInit {
   
       this.debounceTimer = setTimeout(() => {
         this.preRuleForShimmersAndErrorPlaceholdersForUserExit();
-        this._dataService
-          .getUserExitByOrganizationId(
+        this._payrollService.getUserInExitProcess(
             this.itemPerPage,
             this.pageNumber,
-            this.sort,
-            this.sortBy,
             this.search,
-            this.searchBy,
             this.startDate,
-            this.endDate
-          )
-          .subscribe(
-            (response) => {
+            this.endDate).subscribe((response) => {
               if (this._helperService.isListOfObjectNullOrUndefined(response)) {
                 this.dataNotFoundPlaceholderForUserExit = true;
               } else {
@@ -297,5 +292,70 @@ export class EmployeeManagementComponent implements OnInit {
       }, debounceTime);
     }
 
+
+
+    searchNewJoinee(event: Event) {
+      this._helperService.ignoreKeysDuringSearch(event);
+      this.resetCriteriaFilterMicro();
+      this.getNewJoineeByOrganizationIdMethodCall();
+    }
+  
+    searchUserExit(event: Event) {
+      this._helperService.ignoreKeysDuringSearch(event);
+      this.resetCriteriaFilterMicro();
+      this.getUserExitByOrganizationIdMethodCall();
+    }
+  
+    searchUsers(event: Event, step: number) {
+      this._helperService.ignoreKeysDuringSearch(event);
+      this.resetCriteriaFilterMicro();
+  
+      // if (step == this.NEW_JOINEE) {
+      //   this.getNewJoineeByOrganizationIdMethodCall();
+      // }
+  
+      // if (step == this.USER_EXIT) {
+      //   this.getUserExitByOrganizationIdMethodCall();
+      // }
+  
+      // if (step == this.FINAL_SETTLEMENT) {
+      //   this.getFinalSettlementByOrganizationIdMethodCall();
+      // }
+    }
+  
+    // Clearing search text
+    clearSearch(step: number) {
+      this.resetCriteriaFilter();
+      // if (step == this.NEW_JOINEE) {
+      //   this.getNewJoineeByOrganizationIdMethodCall();
+      // }
+  
+      // if (step == this.USER_EXIT) {
+      //   this.getUserExitByOrganizationIdMethodCall();
+      // }
+  
+      // if (step == this.FINAL_SETTLEMENT) {
+      //   this.getFinalSettlementByOrganizationIdMethodCall();
+      // }
+    }
+  
+    resetCriteriaFilter() {
+      this.itemPerPage = 8;
+      this.pageNumber = 1;
+      this.lastPageNumber = 0;
+      this.total = 0;
+      this.sort = 'asc';
+      this.sortBy = 'id';
+      this.search = '';
+      this.searchBy = 'name';
+      
+    }
+  
+    resetCriteriaFilterMicro() {
+      this.itemPerPage = 8;
+      this.pageNumber = 1;
+      this.lastPageNumber = 0;
+      this.total = 0;
+    }
 
 }
