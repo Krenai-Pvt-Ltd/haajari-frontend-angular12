@@ -1479,7 +1479,7 @@ approveOrReject(id:number, reqString: string) {
   }
 
 
-  // new 
+  // new code 
 
   @ViewChild('attendanceUploadModal') attendanceUploadModal!:ElementRef;
   openAttendanceUploadModal(){
@@ -2085,7 +2085,7 @@ approveOrReject(id:number, reqString: string) {
 
   }
 
-
+// finish
 
   
 
