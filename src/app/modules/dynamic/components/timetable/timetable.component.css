@@ -1544,3 +1544,14 @@ span.leave-rejected {
   font-weight: 300;
   color: #878A9A;
 }
+
+.alert-badge {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background-color: red;
+  border-radius: 50%;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}

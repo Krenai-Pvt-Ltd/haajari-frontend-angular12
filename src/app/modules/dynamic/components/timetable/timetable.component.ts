@@ -51,6 +51,7 @@ export class TimetableComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     window.scroll(0, 0);
     this.sampleFileUrl ="assets/samples/Attendance_Upload.xlsx"
+    this.getRequestCountByOrganizationUuid()
     this.getOrganizationRegistrationDateMethodCall();
     this.inputDate = this.getCurrentDate();
     this.assignRole();
@@ -1022,6 +1023,7 @@ getAttendanceRequestsData() {
       this.fullAttendanceRequestCount = response.totalItems;
       this.isFullRequestLoader = false;
     }
+    this.getRequestCountByOrganizationUuid();
     this.isShimmerForAttendanceUpdatePendingRequestResponse = false;
   }, (error) => {
     this.isFullRequestLoader = false;
@@ -1352,6 +1354,7 @@ approveOrReject(id:number, reqString: string) {
         this.overtimePendingRequestResponseList = response.listOfObject;
         this.pendingRequestCount = this.overtimePendingRequestResponseList.length;
       }
+      this.getRequestCountByOrganizationUuid();
 
       this.isShimmerForOvertimePendingRequestResponse = false;
     }, (error) => {
@@ -2085,6 +2088,20 @@ approveOrReject(id:number, reqString: string) {
 
   }
 
+
+  overtimeCount: number = 0;
+  attendanceUpdateCount: number = 0;
+  getRequestCountByOrganizationUuid() {
+    this.dataService.getRequestCountByOrganizationUuid().subscribe(
+      (response: any) => {
+        this.overtimeCount = response.object.count1;
+        this.attendanceUpdateCount = response.object.count2;
+      },
+      (error) => {
+        console.error('Error fetching user count by status:', error);
+      }
+    );
+  }
 
 
   
