@@ -106,17 +106,18 @@
               [ngClass]="{ 'active-tab': ACTIVE_TAB == ATTENDANCE_TAB }"
               >Attendance</a
             >
+            <!-- {{overtimeCount}} -->
             <a
-              (click)="changeTab(OVERTIME_TAB)"
-              [ngClass]="{ 'active-tab': ACTIVE_TAB == OVERTIME_TAB }"
-              >Overtime</a
+              (click)="changeTab(OVERTIME_TAB)" class="position-relative"
+              [ngClass]="{ 'active-tab': ACTIVE_TAB == OVERTIME_TAB }" 
+              >Overtime <span class="alert-badge" *ngIf="overtimeCount > 0"></span> </a
             >
             <a
-              (click)="changeTab(ATTENDANCE_UPDATE_REQUEST_TAB)"
+              (click)="changeTab(ATTENDANCE_UPDATE_REQUEST_TAB)" class="position-relative"
               [ngClass]="{
                 'active-tab': ACTIVE_TAB == ATTENDANCE_UPDATE_REQUEST_TAB
               }"
-              >Updation request</a
+              >Updation request <span class="alert-badge " *ngIf="attendanceUpdateCount > 0"></span></a
             >
           </div>
         </div>

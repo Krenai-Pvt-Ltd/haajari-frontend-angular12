@@ -1192,7 +1192,7 @@
                     </div>
 
                     <div class="modal-footer d-flex align-items-center justify-content-end gap-2">
-                        <button class="btn cancel-btn" data-bs-dismiss="modal" aria-label="Close" #closeResignationButton>Cancel</button>
+                        <button type="button" class="btn cancel-btn" data-bs-dismiss="modal" aria-label="Close" (click)="clearFormData(resignationForm)" #closeResignationButton>Cancel</button>
 
                         <button *ngIf="!resignationToggle" type="submit" [disabled]="resignationForm.invalid || resignationToggle || isUploading" class="btn submitActionBtn">Submit</button>
                         <div class="dot-opacity-loader" *ngIf="resignationToggle">

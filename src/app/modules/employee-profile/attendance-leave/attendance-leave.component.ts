@@ -26,6 +26,7 @@ export class AttendanceLeaveComponent implements OnInit {
   currentUserUuid: any
   userLeaveRequest: UserLeaveRequest = new UserLeaveRequest();
 modal: any;
+contentTemplate: string ='You are on the Notice Period, so that you can not apply leave';
 
   constructor(private dataService: DataService, private activateRoute: ActivatedRoute,
     private fb: FormBuilder, public helperService: HelperService, public domSanitizer: DomSanitizer,
@@ -61,9 +62,21 @@ modal: any;
     this.calculateDateRange();
     this.getEmployeeProfileAttendanceDetailsData();
     this.currentUserUuid = this.rbacService.getUuid();
+    this.checkUserLeaveTaken();
   }
   get canSubmit() {
     return this.userLeaveForm.valid;
+  }
+
+  isUserLeaveTaken: number = 0;
+  checkUserLeaveTaken(){
+    this.dataService.getUserLeaveTaken().subscribe((res: any) => {
+      if(res.status){
+        this.isUserLeaveTaken = res.object
+      }else{
+        this.isUserLeaveTaken = 0
+      }
+    })
   }
 
   isHalfLeaveSelected: boolean = false;
@@ -763,6 +776,7 @@ goToPreviousMonth(): void {
 }
 
 // Navigate to the next month
+nextMonthDisable: boolean = false;
 goToNextMonth(): void {
   if (!this.isNextDisabled()) {
     const nextMonth = new Date(

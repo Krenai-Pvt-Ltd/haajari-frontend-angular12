@@ -130,6 +130,7 @@ getWeekDayOfBirthday(birthday: string): string {
     debugger
     this.approveToggle = true;
     this.hideResignationModal = true;
+
     this.dataService.updateResignation(id).subscribe((res: any) => {
       if(res.status){
         this.closeApproveModal.nativeElement.click()

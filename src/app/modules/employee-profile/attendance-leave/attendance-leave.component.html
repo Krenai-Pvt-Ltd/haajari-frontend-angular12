@@ -754,7 +754,10 @@
 
                             </div>
                             <div>
-                                <button type="button" class="btn primaryBtnLink leave-request" *ngIf="userId==currentUserUuid" (click)="applyNewLeaveReq()">
+                                
+                                <ng-container *ngIf="isUserLeaveTaken == 1">
+                                    <button type="button" class="btn primaryBtnLink leave-request" 
+                                            *ngIf="userId==currentUserUuid" (click)="applyNewLeaveReq()">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
                                         <mask id="mask0_5145_1779" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20"
                                             height="21">
@@ -768,6 +771,32 @@
                                     </svg>
                                     Leave Request
                                 </button>
+                                </ng-container>
+
+                                <ng-container *ngIf="isUserLeaveTaken == 0">
+                                    <button type="button" nz-popover nzPopoverTitle="Note" [nzPopoverContent]="contentTemplate" [nzPopoverOverlayStyle]	="{'width':'300px'}"
+                                    class="btn primaryBtnLink leave-request" *ngIf="userId==currentUserUuid" >
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
+                                        <mask id="mask0_5145_1779" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20"
+                                            height="21">
+                                            <rect y="0.5" width="20" height="20" fill="#D9D9D9" />
+                                        </mask>
+                                        <g mask="url(#mask0_5145_1779)">
+                                            <path
+                                                d="M11.668 11.332H15.8346V9.66536H11.668V11.332ZM11.668 8.83203H15.8346V7.16536H11.668V8.83203ZM4.16797 13.832H10.8346V13.3737C10.8346 12.7487 10.5291 12.2522 9.91797 11.8841C9.30686 11.5161 8.5013 11.332 7.5013 11.332C6.5013 11.332 5.69575 11.5161 5.08464 11.8841C4.47352 12.2522 4.16797 12.7487 4.16797 13.3737V13.832ZM7.5013 10.4987C7.95964 10.4987 8.352 10.3355 8.67839 10.0091C9.00477 9.68273 9.16797 9.29036 9.16797 8.83203C9.16797 8.3737 9.00477 7.98134 8.67839 7.65495C8.352 7.32856 7.95964 7.16536 7.5013 7.16536C7.04297 7.16536 6.65061 7.32856 6.32422 7.65495C5.99783 7.98134 5.83464 8.3737 5.83464 8.83203C5.83464 9.29036 5.99783 9.68273 6.32422 10.0091C6.65061 10.3355 7.04297 10.4987 7.5013 10.4987ZM3.33464 17.1654C2.8763 17.1654 2.48394 17.0022 2.15755 16.6758C1.83116 16.3494 1.66797 15.957 1.66797 15.4987V5.4987C1.66797 5.04036 1.83116 4.648 2.15755 4.32161C2.48394 3.99523 2.8763 3.83203 3.33464 3.83203H16.668C17.1263 3.83203 17.5187 3.99523 17.8451 4.32161C18.1714 4.648 18.3346 5.04036 18.3346 5.4987V15.4987C18.3346 15.957 18.1714 16.3494 17.8451 16.6758C17.5187 17.0022 17.1263 17.1654 16.668 17.1654H3.33464ZM3.33464 15.4987H16.668V5.4987H3.33464V15.4987Z"
+                                                fill="#6666F2" />
+                                        </g>
+                                    </svg>
+                                    Leave Request
+                                </button>
+                                </ng-container>
+
+
+
+                                <!-- <span class="white-space table-font-weight" style="width: 40px !important;" nz-popover
+                    nzPopoverTitle="Note" [nzPopoverContent]="contentTemplate" [nzPopoverOverlayStyle]	="{'width':'300px'}"
+                     nzPopoverPlacement="top" > {{ asset.note || '--'}} </span> -->
+
                             </div>
                           </div>
                         </div>

@@ -24,8 +24,8 @@ import { OvertimeRequestLogResponse } from 'src/app/models/overtime-request-log-
 import { OvertimeResponseDTO } from 'src/app/models/overtime-response-dto';
 import { AttendanceTimeUpdateResponse } from 'src/app/models/attendance-time-update-response';
 import { constant } from 'src/app/constant/constant';
-import * as XLSX from 'xlsx';
 import * as moment from 'moment';
+import * as XLSX from 'xlsx';
 
 // import { ChosenDate, TimePeriod } from 'ngx-daterangepicker-material/daterangepicker.component';
 
@@ -51,6 +51,8 @@ export class TimetableComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.sampleFileUrl ="assets/samples/Attendance_Upload.xlsx"
     window.scroll(0, 0);
+    this.sampleFileUrl ="assets/samples/Attendance_Upload.xlsx"
+    this.getRequestCountByOrganizationUuid()
     this.getOrganizationRegistrationDateMethodCall();
     this.inputDate = this.getCurrentDate();
     this.assignRole();
@@ -1022,6 +1024,7 @@ getAttendanceRequestsData() {
       this.fullAttendanceRequestCount = response.totalItems;
       this.isFullRequestLoader = false;
     }
+    this.getRequestCountByOrganizationUuid();
     this.isShimmerForAttendanceUpdatePendingRequestResponse = false;
   }, (error) => {
     this.isFullRequestLoader = false;
@@ -1352,6 +1355,7 @@ approveOrReject(id:number, reqString: string) {
         this.overtimePendingRequestResponseList = response.listOfObject;
         this.pendingRequestCount = this.overtimePendingRequestResponseList.length;
       }
+      this.getRequestCountByOrganizationUuid();
 
       this.isShimmerForOvertimePendingRequestResponse = false;
     }, (error) => {
@@ -1478,8 +1482,8 @@ approveOrReject(id:number, reqString: string) {
     return "Click 'View Location' , to view attendace location on map";
   }
 
-
-  // new code 
+  
+  // new 
 
   @ViewChild('attendanceUploadModal') attendanceUploadModal!:ElementRef;
   openAttendanceUploadModal(){
@@ -2085,7 +2089,21 @@ approveOrReject(id:number, reqString: string) {
 
   }
 
-// finish
+
+  overtimeCount: number = 0;
+  attendanceUpdateCount: number = 0;
+  getRequestCountByOrganizationUuid() {
+    this.dataService.getRequestCountByOrganizationUuid().subscribe(
+      (response: any) => {
+        this.overtimeCount = response.object.count1;
+        this.attendanceUpdateCount = response.object.count2;
+      },
+      (error) => {
+        console.error('Error fetching user count by status:', error);
+      }
+    );
+  }
+
 
   
 
