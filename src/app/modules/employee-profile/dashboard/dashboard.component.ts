@@ -13,7 +13,7 @@ import { RoleBasedAccessControlService } from 'src/app/services/role-based-acces
 })
 export class DashboardComponent implements OnInit {
 
-  requestModal: boolean = false;
+  requestModal: boolean = true;
   usersWithUpcomingBirthdays: any;
 
   resignationSubmittedSubscriber: any;

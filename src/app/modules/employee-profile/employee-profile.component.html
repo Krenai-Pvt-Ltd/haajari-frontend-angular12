@@ -11,7 +11,7 @@
             <div class="p-3">
                 <ul id="pills-tab" role="tablist" class="nav nav-pills">
                     <li class="nav-item">
-                        <a id="pills-profile-tab" data-bs-toggle="pill" href="#home" role="tab" aria-controls="pills-home"
+                        <a id="pills-profile-tab" data-bs-toggle="pill" href="#home" role="tab" aria-controls="pills-home" (click)="setActiveTab('home')"
                             aria-selected="true" class="nav-link active">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                                 <mask id="mask0_5195_540" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
@@ -26,7 +26,7 @@
                             Home</a>
                     </li>
                     <li class="nav-item">
-                        <a id="pills-profile-tab" data-bs-toggle="pill" href="#attendance-leave" role="tab" aria-controls="pills-profile"
+                        <a id="pills-profile-tab" data-bs-toggle="pill" href="#attendance-leave" role="tab" aria-controls="pills-profile" (click)="setActiveTab('attendance-leave')"
                             aria-selected="false" class="nav-link ">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                                 <mask id="mask0_5195_546" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
@@ -41,7 +41,7 @@
                             Attendance & leave</a>
                     </li>
                     <li class="nav-item">
-                        <a id="pills-profile-tab" data-bs-toggle="pill" href="#payroll" role="tab" aria-controls="pills-profile"
+                        <a id="pills-profile-tab" data-bs-toggle="pill" href="#payroll" role="tab" aria-controls="pills-profile" (click)="setActiveTab('payroll')"
                             aria-selected="false" class="nav-link">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                                 <mask id="mask0_5195_552" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
@@ -56,7 +56,7 @@
                             Finance</a>
                     </li>
                     <li class="nav-item">
-                        <a id="pills-profile-tab" data-bs-toggle="pill" href="#expenses" role="tab" aria-controls="pills-profile"
+                        <a id="pills-profile-tab" data-bs-toggle="pill" href="#expenses" role="tab" aria-controls="pills-profile" (click)="setActiveTab('expenses')"
                             aria-selected="false" class="nav-link">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                                 <mask id="mask0_5195_552" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20"
@@ -74,7 +74,7 @@
 
 
                     <li class="nav-item">
-                        <a id="pills-profile-tab" data-bs-toggle="pill" href="#assets" role="tab" aria-controls="pills-profile"
+                        <a id="pills-profile-tab" data-bs-toggle="pill" href="#assets" role="tab" aria-controls="pills-profile" (click)="setActiveTab('assets')"
                             aria-selected="false" class="nav-link">
                             <svg xmlns="http://www.w3.org/2000/svg" width="21" height="20" viewBox="0 0 21 20" fill="none">
                                 <mask id="mask0_5195_564" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="20">
@@ -89,7 +89,7 @@
                             Assets</a>
                     </li>
                     <li class="nav-item" >
-                        <a id="pills-profile-tab" data-bs-toggle="pill" href="#announcement" role="tab" aria-controls="pills-profile"
+                        <a id="pills-profile-tab" data-bs-toggle="pill" href="#announcement" role="tab" aria-controls="pills-profile" (click)="setActiveTab('announcement')"
                             aria-selected="false" class="nav-link">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                                 <mask id="mask0_5195_576" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20"
@@ -105,7 +105,7 @@
                             Announcement</a>
                     </li>
                     <li class="nav-item">
-                        <a id="pills-profile-tab" data-bs-toggle="pill" href="#documents" role="tab" aria-controls="pills-profile"
+                        <a id="pills-profile-tab" data-bs-toggle="pill" href="#documents" role="tab" aria-controls="pills-profile" (click)="setActiveTab('documents')"
                             aria-selected="false" class="nav-link">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                                 <mask id="mask0_5195_558" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20"
@@ -121,7 +121,7 @@
                             Documents</a>
                     </li>
                     <li class="nav-item">
-                        <a id="pills-profile-tab" data-bs-toggle="pill" href="#information" role="tab" aria-controls="pills-profile"
+                        <a id="pills-profile-tab" data-bs-toggle="pill" href="#information" role="tab" aria-controls="pills-profile" (click)="setActiveTab('information')"
                             aria-selected="false" class="nav-link">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                                 <mask id="mask0_5195_570" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
@@ -143,34 +143,56 @@
             </div>
             <div id="pills-tabContent" class="tab-content">
 
-                <div class="tab-pane fade active show" id="home" role="tabpanel" aria-labelledby="home-tab">
-                    <app-dashboard></app-dashboard>
+              <div class="tab-pane fade active show" id="home" role="tabpanel" aria-labelledby="home-tab">
+                  <ng-container *ngIf="activeTab === 'home'">
+                      <app-dashboard></app-dashboard>
+                  </ng-container>
+              </div>
 
-                </div>
-                <div class="tab-pane fade " id="attendance-leave" role="tabpanel" aria-labelledby="attendance-leave-tab">
-                    <app-attendance-leave></app-attendance-leave>
-                </div>
-                <div class="tab-pane fade" id="payroll" role="tabpanel" aria-labelledby="payroll-tab">
+              <div class="tab-pane fade" id="attendance-leave" role="tabpanel" aria-labelledby="attendance-leave-tab">
+                  <ng-container *ngIf="activeTab === 'attendance-leave'">
+                      <app-attendance-leave></app-attendance-leave>
+                  </ng-container>
+              </div>
 
-                </div>
-                <div class="tab-pane fade" id="documents" role="tabpanel" aria-labelledby="documents-tab">
-                    <app-employee-document></app-employee-document>
-                </div>
-                <div class="tab-pane fade" id="assets" role="tabpanel" aria-labelledby="assets-tab">
-                    <app-assets></app-assets>
-                </div>
-                <div class="tab-pane fade" id="information" role="tabpanel" aria-labelledby="information-tab">
-                    <app-personal-information></app-personal-information>
-                </div>
-                <div class="tab-pane fade" id="expenses" role="tabpanel" aria-labelledby="expenses-tab">
-                    <app-employee-expense></app-employee-expense>
-                </div>
-                <div class="tab-pane fade" id="announcement" role="tabpanel" aria-labelledby="announcement-tab">
-                   <app-announcement-notification></app-announcement-notification>
-                </div>
+              <div class="tab-pane fade" id="payroll" role="tabpanel" aria-labelledby="payroll-tab">
+                  <ng-container *ngIf="activeTab === 'payroll'">
+                      <!-- <app-payroll></app-payroll> -->
+                  </ng-container>
+              </div>
 
+              <div class="tab-pane fade" id="documents" role="tabpanel" aria-labelledby="documents-tab">
+                  <ng-container *ngIf="activeTab === 'documents'">
+                      <app-employee-document></app-employee-document>
+                  </ng-container>
+              </div>
 
-            </div>
+              <div class="tab-pane fade" id="assets" role="tabpanel" aria-labelledby="assets-tab">
+                  <ng-container *ngIf="activeTab === 'assets'">
+                      <app-assets></app-assets>
+                  </ng-container>
+              </div>
+
+              <div class="tab-pane fade" id="information" role="tabpanel" aria-labelledby="information-tab">
+                  <ng-container *ngIf="activeTab === 'information'">
+                      <app-personal-information></app-personal-information>
+                  </ng-container>
+              </div>
+
+              <div class="tab-pane fade" id="expenses" role="tabpanel" aria-labelledby="expenses-tab">
+                  <ng-container *ngIf="activeTab === 'expenses'">
+                      <app-employee-expense></app-employee-expense>
+                  </ng-container>
+              </div>
+
+              <div class="tab-pane fade" id="announcement" role="tabpanel" aria-labelledby="announcement-tab">
+                  <ng-container *ngIf="activeTab === 'announcement'">
+                      <app-announcement-notification></app-announcement-notification>
+                  </ng-container>
+              </div>
+
+          </div>
+
         </div>
         <div class="col-md-9 pl-0" *ngIf="isEmployeeExit">
                 <app-employee-exit [exitDate]="resignationDate"></app-employee-exit>

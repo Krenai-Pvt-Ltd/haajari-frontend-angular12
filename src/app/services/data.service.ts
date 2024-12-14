@@ -4394,7 +4394,7 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/attendance-requests`, { params });
   }
   getAttendanceSummary(userUuid: string): Observable<any> {
-    return this.httpClient.get<any>(`${this.baseUrl}/attendance/summary?userUuid=${userUuid}`);
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/daily-summary?userUuid=${userUuid}`);
   }
 
   getUsersCountByStatus(): Observable<string[]> {
