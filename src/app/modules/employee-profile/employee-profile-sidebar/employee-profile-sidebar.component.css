@@ -107,11 +107,12 @@
     border: 1px solid #CECDFF;
     background: #F4F5FF;
     font-size: 13px;
-    font-weight: 500;
+    font-weight: 400;
     padding: 5px 15px;
     margin-bottom: 13px;
     margin-right: 10px;
     color: #000;
+    text-transform: capitalize;
 }
 
 .skill-set {
@@ -691,7 +692,7 @@ span.lat {
     z-index: 999;
   }
   .login-user-detail {
-      padding: 10px;
+      padding: 17px 10px 17px 10px;
       background-color: #fff;
       border: 1px solid #F5F5F5;
       padding-left: 25px;
@@ -811,7 +812,7 @@ span.lat {
     color: #4a4a4a;
     font-size: 12px;
     font-weight: 500;
-    min-width: 100px;
+    width: 100px;
 }
 
 .submitActionBtn {
@@ -820,7 +821,7 @@ span.lat {
     font-size: 12px;
     font-weight: 500;
     border-radius: 2px;
-    min-width: 100px;
+    width: 100px;
 }
 
 .input-zorro {

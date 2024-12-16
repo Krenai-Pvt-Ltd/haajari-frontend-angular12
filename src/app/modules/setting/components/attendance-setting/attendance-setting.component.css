@@ -1580,6 +1580,6 @@ font-size: 12px !important;
   font-size: 12px;
   font-weight: 500;
   border-radius: 2px;
-  min-width: 100px;
+  width: 100px;
 }
 /* new side tab for new modal */
