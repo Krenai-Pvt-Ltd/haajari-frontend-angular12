@@ -591,7 +591,13 @@
 
         </div>
         <div class="mt-3" *ngIf="(mailList.length==0 && !mailLoading)">
-            No data found
+          <div class="empty-file" style="margin-top: 7%; margin-bottom: 7%">
+            <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
+                <ng-template #contentTpl>
+                    <p class="mb-1 empty-detail">No data for now</p>
+                </ng-template>
+            </nz-empty>
+        </div>
         </div>
     </div>
 </div>

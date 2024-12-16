@@ -5,10 +5,10 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { DataService } from './data.service';
 import { formatDate } from '@angular/common';
 import { NavigationExtras, Router } from '@angular/router';
-import * as saveAs from 'file-saver';
 import { Key } from '../constant/key';
 import { RestrictedSubModule } from '../models/RestrictedSuubModule';
 import { OrganizationOnboardingService } from './organization-onboarding.service';
+import saveAs from 'file-saver';
 
 @Injectable({
   providedIn: 'root'
@@ -38,7 +38,7 @@ export class HelperService {
   restrictedModules!:RestrictedSubModule[];
   subModuleResponseList: any[] = [];
 
- 
+
 
   todoStepsSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
@@ -301,13 +301,13 @@ export class HelperService {
       }
     );
   }
-  
+
 
   saveOrgSecondaryToDoStepBarData(value : number) {
     debugger
     this.dataService.saveOrgSecondaryToDoStepBar(value).subscribe(
       (response) => {
-        // console.log("success");  
+        // console.log("success");
         // this.getOrgSecondaryToDoStepBarData();
       },
       (error) => {

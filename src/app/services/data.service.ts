@@ -2372,9 +2372,9 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     );
   }
 
- 
 
- 
+
+
 
   getSalaryConfigurationStep(): Observable<any> {
     return this.httpClient.get<any>(
@@ -2964,7 +2964,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     );
   }
 
-  
+
 
   deleteLeaveSettingCategoryById(
     leaveSettingCategoriesId: number
@@ -3054,10 +3054,10 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/leave-setting-category/list-by-user-uuid`, {params});
   }
 
-  
 
 
-  
+
+
 
   saveOrganizationHrPolicies(policyDocString: string): Observable<any> {
      const params = new HttpParams()
@@ -3143,9 +3143,9 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     return this.httpClient.post<any>(`${this.baseUrl}/salary/appraisal-request`, appraisalRequest);
   }
 
- 
 
-  
+
+
 
   getSalaryChangeOvertimeResponseListByOrganizationId(
     startDate: string,
@@ -3233,7 +3233,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/salary/payroll-dashboard/statutory/tds`, {params});
   }
 
-  
+
 
   // getSalarySlipDataMonthwise(
   //   startDate: any,
@@ -3263,7 +3263,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
   //   return this.httpClient.get<any>(`${this.baseUrl}/salary-slip/get-all`, {params});
   // }
 
-  
+
 
   registerEpfDetailsListByOrganizationId(startDate: string, endDate: string, epfDetailsRequestList : EpfDetailsRequest[]): Observable<any>{
 
@@ -3373,7 +3373,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
   }
 
 
-  
+
 
   getAssetCategory(): Observable<any> {
     const url = `${this.baseUrl}/asset/allocation/get/asset/category`;
@@ -3663,8 +3663,9 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}?id=${id}`);
   }
 
-  getAttendanceRequestLog(userUuid : string, pageNumber: number, itemPerPage: number): Observable<any>{
+  getAttendanceRequestLog(userUuid : string, pageNumber: number, itemPerPage: number, status: string): Observable<any>{
     const params = new HttpParams()
+    .set('status', status)
     .set('userUuid', userUuid).set('pageNumber', pageNumber)
     .set('itemPerPage', itemPerPage);
 
@@ -3723,7 +3724,7 @@ getHolidayForOrganization(date: string): Observable<any>{
 
 
 
- 
+
 
   getAdminPersonalDetail():Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}/users/personal-detail/admin`, {});
@@ -3834,9 +3835,10 @@ getHolidayForOrganization(date: string): Observable<any>{
 
   }
 
-  getOvertimeRequestLogResponseByUserUuid(userUuid : string): Observable<any>{
+  getOvertimeRequestLogResponseByUserUuid(userUuid : string, status: string): Observable<any>{
 
     const params = new HttpParams()
+    .set('status', status)
     .set('user_uuid', userUuid);
 
     return this.httpClient.get<any>(`${this.baseUrl}/overtime/log/response/get-by-user-uuid`, {params});
@@ -4131,7 +4133,7 @@ getHolidayForOrganization(date: string): Observable<any>{
   checkExpenseTransactionId(transactionId: string){
     const params = new HttpParams().set('id', transactionId);
     return this.httpClient.get(`${this.baseUrl}/company-expense/transaction`, {params});
-  } 
+  }
 
   exportExpense(){
     return this.httpClient.get<any>(`${this.baseUrl}/company-expense/export`);
@@ -4379,6 +4381,20 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.get<string[]>(`${this.baseUrl}/skills/get-skills`, {
       params: { userUuid }
     });
+  }
+  getUserAttendanceRequests(uuid: string, date: string, page: number, size: number): Observable<any> {
+    // Create the HTTP parameters
+    const params = new HttpParams()
+      .set('uuid', uuid)
+      .set('date', date)
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    // Make the HTTP GET request and return the observable
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/attendance-requests`, { params });
+  }
+  getAttendanceSummary(userUuid: string): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/daily-summary?userUuid=${userUuid}`);
   }
 
   getUsersCountByStatus(): Observable<string[]> {

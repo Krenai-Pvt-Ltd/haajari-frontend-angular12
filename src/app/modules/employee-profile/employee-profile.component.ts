@@ -19,6 +19,12 @@ export class EmployeeProfileComponent implements OnInit {
     this.getUuid();
   }
 
+  activeTab: string = 'home';
+
+  setActiveTab(tab: string) {
+      this.activeTab = tab;
+  }
+
   isEmployeeExit: boolean = false;
   UUID: any
   currentUserUuid: any

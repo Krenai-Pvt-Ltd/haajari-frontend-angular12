@@ -6,7 +6,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { DataService } from 'src/app/services/data.service';
-import * as dayjs from 'dayjs';
+import dayjs from 'dayjs';
 import { AttendenceDto } from 'src/app/models/attendence-dto';
 import { HelperService } from 'src/app/services/helper.service';
 import { AdditionalNotes } from 'src/app/models/additional-notes';
@@ -18,13 +18,13 @@ import { RoleBasedAccessControlService } from 'src/app/services/role-based-acces
 import { AttendanceDetailsCountResponse } from 'src/app/models/attendance-details-count-response';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
-import * as saveAs from 'file-saver';
+import saveAs from 'file-saver';
 import { DatePipe } from '@angular/common';
 import { OvertimeRequestLogResponse } from 'src/app/models/overtime-request-log-response';
 import { OvertimeResponseDTO } from 'src/app/models/overtime-response-dto';
 import { AttendanceTimeUpdateResponse } from 'src/app/models/attendance-time-update-response';
 import { constant } from 'src/app/constant/constant';
-import * as moment from 'moment';
+import moment from 'moment';
 import * as XLSX from 'xlsx';
 
 // import { ChosenDate, TimePeriod } from 'ngx-daterangepicker-material/daterangepicker.component';
@@ -182,27 +182,27 @@ export class TimetableComponent implements OnInit {
   selectPreviousMonth() {
     const currentDate = new Date(this.selectedDate);
     currentDate.setMonth(currentDate.getMonth() - 1);
-  
+
     if (currentDate < new Date(this.organizationRegistrationDate)) {
       return;
     }
-  
+
     this.selectedDate = currentDate;
     this.onMonthChange(currentDate);
   }
-  
+
   selectNextMonth() {
     const currentDate = new Date(this.selectedDate);
     currentDate.setMonth(currentDate.getMonth() + 1);
-  
+
     if (currentDate >= new Date()) {
       return;
     }
-  
+
     this.selectedDate = currentDate;
     this.onMonthChange(currentDate);
   }
-  
+
 
   private formatDate(date: Date): string {
     const year = date.getFullYear();
@@ -335,7 +335,7 @@ export class TimetableComponent implements OnInit {
     } else {
       this.dateRangeInputValue = '';
     }
-  }  
+  }
 
   // formatDate(date: Date): string {
   //   const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short', day: 'numeric' };
@@ -676,7 +676,7 @@ export class TimetableComponent implements OnInit {
         (response) => {
           debugger;
           this.attendanceLogResponseList = response;
-          
+
           // console.log(response);
           if (
             response === undefined ||
@@ -722,7 +722,7 @@ export class TimetableComponent implements OnInit {
   lat: number = 0;
   lng: number = 0;
   zoom: number = 15;
-  
+
   openAddressModal(lat: string, long: string) {
     this.lat = +lat;
     this.lng = +long;
@@ -824,8 +824,8 @@ export class TimetableComponent implements OnInit {
     this.viewLogs(this.userUuidToViewLogs);
     this.viewlog.nativeElement.click();
   }
-  
-  
+
+
   // reOpenLogsModal(): void {
   //   const closeButtons = document.querySelectorAll('.btn-close');
   //   closeButtons.forEach(button => {
@@ -838,12 +838,12 @@ export class TimetableComponent implements OnInit {
   // }
 
 
-  
+
 
   dailyReportLog : string = '';
   rotateToggle: boolean = false;
   downloadAttedanceReport(date: Date) {
-    
+
     let dateString:string | null  = this.datePipe.transform(date, 'yyyy-MM-dd');
     this .rotateToggle = true;
     if(dateString!==null) {
@@ -873,7 +873,7 @@ export class TimetableComponent implements OnInit {
  showPlaceholder:boolean = false;
 
  getHolidayForOrganization(){
-   
+
     this.dataService.getHolidayForOrganization(this.helperService.formatDateToYYYYMMDD(this.selectedDate))
     .subscribe(
       (response) => {
@@ -882,11 +882,11 @@ export class TimetableComponent implements OnInit {
         // console.error("Response", response.object);
 
         if (this.checkHoliday == true) {
-          this.showPlaceholder = true; 
+          this.showPlaceholder = true;
         } else if (this.checkHoliday == false){
-          this.showPlaceholder = false; 
+          this.showPlaceholder = false;
         }
-        
+
       },
       (error) =>{
         console.error('Error details:', error);
@@ -916,7 +916,7 @@ getFullAttendanceRequestLogData() {
   this.isRequestLoader = true;
   // if (this.debounceTimer) {
   //   clearTimeout(this.debounceTimer);
-  // } 
+  // }
   // this.debounceTimer = setTimeout(() => {
   this.dataService.getFullAttendanceRequestLog(this.pageNumberFullAttendanceRequest, this.itemPerPageFullAttendanceRequest, this.fullAttendanceRequestSearchString).subscribe(response => {
     if(this.helperService.isObjectNullOrUndefined(response)){
@@ -965,8 +965,8 @@ loadMoreLogs(): void {
 
 onSearchChangeOfFullAttendanceLogs(searchValue: string): void {
   this.fullAttendanceRequestSearchString = searchValue;
-  this.pageNumberFullAttendanceRequest = 1; 
-  this.attendanceFullRequestLog = []; 
+  this.pageNumberFullAttendanceRequest = 1;
+  this.attendanceFullRequestLog = [];
   this.getFullAttendanceRequestLogData();
 }
 
@@ -1039,7 +1039,7 @@ getAttendanceRequestsDataCount(): void {
   debugger
   this.dataService.getAttendanceRequestCount(this.startDate, this.endDate).subscribe(
     (response: any) => {
-      this.attendanceRequestCount = response.object; 
+      this.attendanceRequestCount = response.object;
     },
     (error) => {
       console.log(error);
@@ -1116,8 +1116,8 @@ loadMoreAttendanceRequestLogs(): void {
 
 onSearchChange(searchValue: string): void {
   this.attendanceRequestSearchString = searchValue;
-  this.pageNumberAttendanceRequest = 1; 
-  this.attendanceRequests = []; 
+  this.pageNumberAttendanceRequest = 1;
+  this.attendanceRequests = [];
   this.getAttendanceRequestsData();
 }
 
@@ -1132,7 +1132,7 @@ clearSearchUsersOfRequestLogs() {
 
 clearAttendanceRequestLogs() {
   this.attendanceRequests = [];
-  this.pageNumberAttendanceRequest = 1; 
+  this.pageNumberAttendanceRequest = 1;
   this.attendanceRequestSearchString =  '';
   this.attendanceFullRequestLog = [];
   this.pageNumberFullAttendanceRequest = 1;
@@ -1165,8 +1165,8 @@ approveOrReject(id:number, reqString: string) {
 
   this.totalAttendanceRequestCount = 0;
   this.attendanceRequestSearchString = '';
-  this.pageNumberAttendanceRequest = 1; 
-  this.attendanceRequests = []; 
+  this.pageNumberAttendanceRequest = 1;
+  this.attendanceRequests = [];
   this.getAttendanceRequestsData();
   this.getAttendanceRequestsDataCount();
   this.pageNumberFullAttendanceRequest = 1;
@@ -1411,7 +1411,7 @@ approveOrReject(id:number, reqString: string) {
   //     },
   //   });
   // }
-  
+
   // selectedTeamName : string = '';
   // selectTeam(teamName: string) {
   //   this.pageNumber = 1;
@@ -1436,7 +1436,7 @@ approveOrReject(id:number, reqString: string) {
   //   this.searchBy = '';
   //   this.getOvertimeRequestLogResponseByOrganizationUuidAndStartDateAndEndDateMethodCall();
   // }
-  
+
 
 
   // ####################--Updation Request Tab code--######################
@@ -1454,7 +1454,7 @@ approveOrReject(id:number, reqString: string) {
   getAttendanceUpdateRequestActionResponseMethodCall(attendanceTimeUpdateResponse : AttendanceTimeUpdateResponse){
     this.attendanceUpdateRequestActionResponse = attendanceTimeUpdateResponse;
   }
-  
+
   attendanceUpdateRequestApproveLoader : boolean = false;
   attendanceUpdateRequestRejectLoader : boolean = false;
   geocoder = new google.maps.Geocoder();
@@ -1481,16 +1481,16 @@ approveOrReject(id:number, reqString: string) {
     return "Click 'View Location' , to view attendace location on map";
   }
 
-  
-  // new 
+
+  // new
 
   @ViewChild('attendanceUploadModal') attendanceUploadModal!:ElementRef;
   openAttendanceUploadModal(){
     // console.log("================validate======",modal);
         this.attendanceUploadModal.nativeElement.click();
   }
-  
-  
+
+
   fileName: any;
   currentFileUpload: any;
   // expectedColumns: string[] = ['Name*', 'Phone*', 'Email*', 'Date*', 'In-Time*', 'Out-Time*'];
@@ -1517,12 +1517,12 @@ approveOrReject(id:number, reqString: string) {
         const file = event.target.files[0];
         this.currentFileUpload = file;
         this.fileName = file.name;
-  
+
         if (!this.isExcelFile(file)) {
           this.isExcel = 'Invalid file type. Please upload an Excel file.';
           return;
         }
-  
+
         const reader = new FileReader();
         reader.onload = (e: ProgressEvent<FileReader>) => {
           try {
@@ -1531,13 +1531,13 @@ approveOrReject(id:number, reqString: string) {
             const workbook = XLSX.read(binaryStr, { type: 'binary' });
             const worksheet = workbook.Sheets[workbook.SheetNames[0]];
             this.jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-  
+
             // Reset data and error tracking
             this.data = [];
             this.invalidRows = [];
             this.invalidCells = [];
             this.validateMap.clear();
-  
+
             const columnNames: string[] = this.jsonData[0] as string[];
             if (this.validateColumns(columnNames)) {
               this.data = this.jsonData.map((row: any[]) =>
@@ -1545,12 +1545,12 @@ approveOrReject(id:number, reqString: string) {
                   if (this.fileColumnName[index] === "date* ('mm-dd-yyyy')" && cell !== "date* ('mm-dd-yyyy')") {
                     // Remove leading/trailing commas and quotes
                     cell = this.cleanCell(cell);
-  
+
                     // Parse Excel date serial or formatted date string
                     if (typeof cell === 'number') {
                       return moment(XLSX.SSF.parse_date_code(cell)).format('MM-DD-YYYY');
                     }
-  
+
                     const formattedCell = this.formatDate1(cell);
                     return formattedCell ? formattedCell : '';
                   } else if (
@@ -1559,12 +1559,12 @@ approveOrReject(id:number, reqString: string) {
                   ) {
                     // Remove leading/trailing commas and quotes
                     cell = this.cleanCell(cell);
-  
+
                     // Parse Excel time serial or formatted time string
                     if (typeof cell === 'number') {
                       return moment(XLSX.SSF.parse_date_code(cell)).format('HH:mm:ss');
                     }
-  
+
                     const formattedTime = this.formatTime(cell);
                     return formattedTime ? formattedTime : '';
                   } else {
@@ -1574,7 +1574,7 @@ approveOrReject(id:number, reqString: string) {
               ).filter((row: any[]) =>
                 row.some((cell: any) => cell !== '')
               );
-  
+
               this.validateRows(this.data.slice(1));
               this.removeAllSingleEntries();
               this.validateMap.forEach((values, key) => {
@@ -1584,7 +1584,7 @@ approveOrReject(id:number, reqString: string) {
                 }
               });
               this.totalPage = Math.ceil(this.data.length / this.pageSize);
-  
+
               if (this.mismatches.length === 0) {
                 this.isinvalid = false;
                 this.uploadUserFile(file, this.fileName);
@@ -1604,26 +1604,26 @@ approveOrReject(id:number, reqString: string) {
       console.error('Error selecting file:', error);
     }
   }
-  
+
   // Helper method to clean cell values
   private cleanCell(cell: any): string {
     // Ensure the cell is a string, and remove leading/trailing commas or quotes
     return cell?.toString().replace(/^[,']+|[,']+$/g, '').trim() || '';
   }
-  
+
   // Helper methods for formatting date and time
   private formatDate1(cell: any): string | null {
     const acceptableFormats = ['MM-DD-YYYY', 'MM/DD/YYYY', 'YYYY-MM-DD', 'DD-MM-YYYY', 'DD/MM/YYYY'];
     const formattedDate = moment(cell, acceptableFormats, true);
     return formattedDate.isValid() ? formattedDate.format('MM-DD-YYYY') : null;
   }
-  
+
   private formatTime(cell: any): string | null {
     const acceptableFormats = ['HH:mm:ss', 'HH:mm'];
     const formattedTime = moment(cell, acceptableFormats, true);
     return formattedTime.isValid() ? formattedTime.format('HH:mm:ss') : null;
   }
-  
+
 
   // selectFile(event: any) {
   //   this.validateMap= new Map();
@@ -1690,7 +1690,7 @@ approveOrReject(id:number, reqString: string) {
   //                   // return "";
   //                   // List of acceptable input formats
   //                     const acceptableFormats = ['MM-DD-YYYY', 'MM/DD/YYYY', 'YYYY-MM-DD', 'DD-MM-YYYY', 'DD/MM/YYYY'];
-                      
+
   //                     // Replace any slashes with dashes for consistency
   //                     cell = cell.replace(/\//g, '-');
 
@@ -1711,27 +1711,27 @@ approveOrReject(id:number, reqString: string) {
   //                         }
   //                       }
   //                     }
-                      
+
   //                     // Return an empty string if the format, validity, or date range check fails
   //                     return "";
   //                 } else if ((this.fileColumnName[index] === 'in-time*' && cell !== 'in-time*') || (this.fileColumnName[index] === 'out-time*' && cell !== 'out-time*')) {
-            
+
   //                   // List of acceptable input formats for date and time
   //                     const acceptableFormats = [
-  //                       'MM-DD-YYYY HH:mm:ss', 
-  //                       'MM/DD/YYYY HH:mm:ss', 
-  //                       'YYYY-MM-DD HH:mm:ss', 
-  //                       'DD-MM-YYYY HH:mm:ss', 
+  //                       'MM-DD-YYYY HH:mm:ss',
+  //                       'MM/DD/YYYY HH:mm:ss',
+  //                       'YYYY-MM-DD HH:mm:ss',
+  //                       'DD-MM-YYYY HH:mm:ss',
   //                       'DD/MM/YYYY HH:mm:ss',
   //                       'MM-DD-YYYY HH:mm', // Handle cases without seconds
-  //                       'MM/DD/YYYY HH:mm', 
-  //                       'YYYY-MM-DD HH:mm', 
-  //                       'DD-MM-YYYY HH:mm', 
+  //                       'MM/DD/YYYY HH:mm',
+  //                       'YYYY-MM-DD HH:mm',
+  //                       'DD-MM-YYYY HH:mm',
   //                       'DD/MM/YYYY HH:mm',
   //                       'HH:mm:ss',
   //                       'HH:mm',
   //                     ];
-                      
+
   //                     // Replace any slashes with dashes for consistency
   //                     cell = cell.replace(/\//g, '-');
 
@@ -1748,12 +1748,12 @@ approveOrReject(id:number, reqString: string) {
 
   //                         // Ensure the date-time is within the next year
   //                         if (formattedDateTime.isBefore(oneYearFromNow)) {
-  //                           // return formattedDateTime.format('MM-DD-YYYY HH:mm:ss'); 
-  //                           return formattedDateTime.format('HH:mm:ss'); 
+  //                           // return formattedDateTime.format('MM-DD-YYYY HH:mm:ss');
+  //                           return formattedDateTime.format('HH:mm:ss');
   //                         }
   //                       }
   //                     }
-                      
+
   //                     // Return an empty string if the format, validity, or date range check fails
   //                     return "";
   //                 }
@@ -1836,13 +1836,13 @@ approveOrReject(id:number, reqString: string) {
 
   validateColumns(columnNames: string[]): boolean {
     this.mismatches = []; // Reset mismatches
-  
+
     // Step 2: Normalize both expected and actual column names for comparison
     const normalizedColumnNames = columnNames.map(col => col.trim().toLowerCase());
     this.fileColumnName = normalizedColumnNames;
     const normalizedExpectedColumns = this.expectedColumns.map(col => col.trim().toLowerCase());
     const normalizedCorrectColumns = this.correctColumnName.map(col => col.trim().toLowerCase());
-  
+
     // Step 3: Check that every expected column is present in actual column names
     for (const expectedColumn of normalizedExpectedColumns) {
       if (!normalizedColumnNames.includes(expectedColumn)) {
@@ -1850,7 +1850,7 @@ approveOrReject(id:number, reqString: string) {
         this.mismatches.push(`Missing column: "${expectedColumn}"`);
       }
     }
-  
+
     // Step 4: Check if there are extra or incorrect columns in actual column names
     for (const actualColumn of normalizedColumnNames) {
       if (
@@ -1862,17 +1862,17 @@ approveOrReject(id:number, reqString: string) {
         this.mismatches.push(`Unexpected or incorrect column: "${actualColumn}"`);
       }
     }
-  
+
     // Step 5: Log and return false if there are any mismatches
     if (this.mismatches.length > 0) {
       console.error('Column mismatches found:');
       this.mismatches.forEach(mismatch => console.error(mismatch));
       return false;
     }
-  
+
     return true;
   }
-  
+
 
   // validateColumns(columnNames: string[]): boolean {
   //   this.mismatches = []; // Reset mismatches
@@ -2015,7 +2015,7 @@ approveOrReject(id:number, reqString: string) {
   onboardUserList : any = [];
   networkConnectionErrorPlaceholderModal: boolean = false;
   sampleFileUrl: string = '';
-  pageSize: number = 10; 
+  pageSize: number = 10;
   totalPage: number = 0;
 
   formatAsCommaSeparated(items: string[]): string {
@@ -2104,6 +2104,6 @@ approveOrReject(id:number, reqString: string) {
   }
 
 
-  
+
 
 }
