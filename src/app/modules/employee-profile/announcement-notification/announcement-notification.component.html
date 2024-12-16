@@ -546,9 +546,6 @@
                   [ngClass]="{'unread-mssage': !mail.isRead}"
                  
                 >
-                <!-- (click)="readNotification(mail)"
-                data-bs-toggle="modal"
-                data-bs-target="#notification-readmore" -->
                   <div style="width:15%">
                     <h6 class="mb-0">{{ mail.title }}</h6>
                   </div>
@@ -565,18 +562,15 @@
               </ng-template>
             </div>
 
-            <div
-              *ngIf="totalMailNotification / databaseHelper.itemPerPage > 1"
-              class="pagination-controls d-flex align-items-center justify-content-between mt-3"
-            >
+            <div *ngIf="totalMailNotification / databaseHelper.itemPerPage > 1" class="d-flex align-items-center justify-content-between pagination-box-profile w-100 p-3 bg-white border-top">
               <!-- Ngb Pagination Component -->
-              <div class="showing-items-message text-right font-13">
+              <p class="mb-0">
                 Showing items
                 {{ (databaseHelper.currentPage - 1) * databaseHelper.itemPerPage + 1 }} –
                 {{ Math.min(databaseHelper.currentPage * databaseHelper.itemPerPage, totalMailNotification) }}
                 of {{ totalMailNotification }} records
-              </div>
-              <ngb-pagination
+              </p>
+              <ngb-pagination class="pagition-box"
                 [collectionSize]="totalMailNotification"
                 [rotate]="true"
                 (pageChange)="pageChanged($event)"
