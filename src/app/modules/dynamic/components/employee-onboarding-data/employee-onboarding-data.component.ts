@@ -105,6 +105,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   ngOnInit(): void {
     window.scroll(0, 0);
     this.sampleFileUrl ="assets/samples/HajiriBulkSheet.xlsx"
+    this.getUsersCountByStatus();
       // 'https://firebasestorage.googleapis.com/v0/b/haajiri.appspot.com/o/Hajiri%2FSample%2FEmployee_Details_Sample%2Femployee_details_sample.xlsx?alt=media';
     // this.isUserShimer=true;
     this.getEmployeesOnboardingStatus();
@@ -177,6 +178,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
             }
 
             this.isUserShimer = false;
+            this.getUsersCountByStatus();
           },
           (error) => {
             this.isUserShimer = false;
@@ -1895,4 +1897,21 @@ console.log(this.data);
     'Workplace Safety Officer',
   ];
 
+  resignationCount: number = 0;
+  editProfileCount: number = 0;
+  getUsersCountByStatus() {
+    this.dataService.getUsersCountByStatus().subscribe(
+      (response: any) => {
+        this.resignationCount = response.object.count1;
+        this.editProfileCount = response.object.count2;
+      },
+      (error) => {
+        console.error('Error fetching user count by status:', error);
+      }
+    );
+  }
+
+ 
+
+  
 }

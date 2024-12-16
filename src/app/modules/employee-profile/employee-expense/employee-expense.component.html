@@ -130,31 +130,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- <div class="col-md-5">
-                                <div class="expense-data p-3 d-flex align-items-center gap-3">
-                                    <div style="width:30%">
-                                        <img src="assets/images/expance-chart.webp" style="width:100px">
-                                    </div>
-                                    <div class="" style="width:70%">
-                                        <div
-                                            class="d-flex align-items-center justify-content-between border-bottom pb-2 mb-2">
-                                            <p class="mb-0 font-12">Most Expense on</p>
-                                            <p class="mb-0 font-12 text-black"> <span class="food"></span> Food</p>
-                                        </div>
-                                        <div
-                                            class="d-flex align-items-center justify-content-between border-bottom pb-2 mb-2">
-                                            <p class="mb-0 font-12">Least Expense on</p>
-                                            <p class="mb-0 font-12 text-black"> <span class="transport"></span>
-                                                Transport</p>
-                                        </div>
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <p class="mb-0 font-12">Today Expense</p>
-                                            <p class="mb-0 font-12 text-black">₹47,344</p>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div> -->
+                           
                         </div>
                         <div class="table-responsive bg-white mt-3">
                             <table class="table empOnnoardtable">
@@ -270,12 +246,13 @@
 
                             </table>
 
-                                  <div class="p-3 d-flex align-items-center justify-content-between bg-white" *ngIf="totalItems > 9">
-                                    <p class="mb-0 font-13">Showing {{ expenseList.length }} of {{ totalItems }} </p>
-                                    <ngb-pagination lass="pagination-ul" [collectionSize]="totalItems" [rotate]="true" (pageChange)="pageChanged($event)"
-                                    [pageSize]="databaseHelper.itemPerPage" [(page)]="databaseHelper.currentPage" [maxSize]="4"
-                                    [boundaryLinks]="true"></ngb-pagination>
-                                  </div>
+                            <div class="d-flex align-items-center justify-content-between pagination-box-profile w-100 p-3 bg-white border-top" *ngIf="expenseList.length > 0 && totalItems > 9">
+                                <p class="mb-0 font-13">Showing {{ expenseList.length }} of {{ totalItems }} </p>
+                                <ngb-pagination class="pagition-box pagination-ul"  [collectionSize]="totalItems" [rotate]="true" (pageChange)="pageChanged($event)"
+                                [pageSize]="databaseHelper.itemPerPage" 
+                                [(page)]="databaseHelper.currentPage" [maxSize]="4" [boundaryLinks]="true">
+                                </ngb-pagination>
+                            </div>
 
                         </div>
                     </div>
@@ -476,11 +453,11 @@
 
                             </table>
 
-                            <div class="p-3 d-flex align-items-center justify-content-between bg-white" *ngIf="totalItems > 9">
+                            <div class="d-flex align-items-center justify-content-between pagination-box-profile w-100 p-3 bg-white border-top"  *ngIf="expenseList.length > 0 && totalItems > 9">
                                 <p class="mb-0 font-13">Showing {{ expenseList.length }} of {{ totalItems }} </p>
-                                <ngb-pagination lass="pagination-ul" [collectionSize]="totalItems" [rotate]="true" (pageChange)="pageChanged($event)"
+                                <ngb-pagination class="pagition-box pagination-ul" [collectionSize]="totalItems" [rotate]="true" (pageChange)="pageChanged($event)"
                                 [pageSize]="databaseHelper.itemPerPage" [(page)]="databaseHelper.currentPage" [maxSize]="4"
-                                [boundaryLinks]="true"></ngb-pagination>
+                                [boundaryLinks]="true"></ngb-pagination>2
                               </div>
                               
                         </div>
@@ -691,16 +668,6 @@
                     <div class="col-md-5 pr-0 mr-0">
                         <div class="bill-image d-flex align-items-center justify-content-center"
                             style="flex-direction: column">
-                           
-                            <!-- <img src="assets/images/bill-img.svg" style="width:100%;"> -->
-                            <!-- <span class="bill-images d-flex align-items-center gap-2 p-2">
-                                <img src="assets/images/bill-img.svg">
-                                <img src="assets/images/bill-img.svg">
-                            </span> -->
-
-                            <!-- <span *ngIf="expenseTypeReq.urls.length > 0" class="bill-images d-flex align-items-center gap-2 p-2">
-                                <img *ngFor="let url of expenseTypeReq.urls" src="{{url}}">
-                            </span> -->
 
                             <ng-container *ngIf="expenseTypeReq.urls.length > 0">
                             <!-- <div *ngIf="expenseTypeReq.urls.length > 0"> -->
@@ -733,10 +700,7 @@
                                 
                                 
                                 <span  class="bill-images d-flex align-items-center gap-2 p-2">
-                                <!-- <div class="d-flex align-items-center gap-2 position-relative">
-                                  <img *ngFor="let url of expenseTypeReq.urls" src="{{url}}">
-                                  <span class="bill-image-remvo d-flex align-items-center justify-content-center"><i class="bi bi-x"></i></span>
-                                </div> -->
+                             
 
                                 <div class="d-flex align-items-center gap-2 position-relative">
                                     <div *ngFor="let url of expenseTypeReq.urls; let i = index" class="position-relative">
@@ -821,7 +785,7 @@
                                 <nz-form-control>
                                     <nz-select style="width: 100%" nzSize="large" nzPlaceHolder="Select Expense type"
                                     [(ngModel)]="expenseTypeId" (ngModelChange)="getExpenseTypeId($event)" required
-                                    id="expTypeIdInput" name="expTypeId" #expTypeId="ngModel" class="form-control">
+                                    id="expTypeIdInput" name="expTypeId" #expTypeId="ngModel" class="form-control placeholder-line">
                                     <nz-option *ngFor=" let expenseType of expenseTypeList"
                                         [nzValue]="expenseType.id" [nzLabel]="expenseType.name">
                                     </nz-option>
@@ -853,7 +817,7 @@
                                     <nz-form-control>
                                         <nz-select style="width: 100%" nzSize="large" nzPlaceHolder="Select Manager"
                                         [(ngModel)]="managerId" (ngModelChange)="getManagerId($event)" required
-                                        name="selManagerId" #selManagerId="ngModel" class="form-control">
+                                        name="selManagerId" #selManagerId="ngModel" class="form-control placeholder-line">
                                         <nz-option *ngFor="let manager of managers"
                                             [nzValue]="manager.id" [nzLabel]="manager.name">
                                         </nz-option>
@@ -910,17 +874,17 @@
                             <button type="button" class="btn cancel-btn mt-0" data-bs-dismiss="modal"
                                 (click)="clearExpenseForm(createForm)">Cancel</button>
                           
-                            <button *ngIf="!createToggle" type="submit" class="btn submitActionBtn"
+                            <button *ngIf="!createToggle" type="submit" class="btn submitActionBtn"  [ngClass]="{'btn-border':!(isFileUploaded || expenseTypeReq.expenseTypeId == 0 || expenseTypeReq.managerId == 0 || expenseTypeReq.expenseDate == undefined 
+                            || expenseTypeReq.notes == '' || expenseTypeReq.amount == undefined || expenseTypeReq.amount <= 0)}"
                             [disabled]="isFileUploaded || expenseTypeReq.expenseTypeId == 0 || expenseTypeReq.managerId == 0 || expenseTypeReq.expenseDate == undefined 
-                            || expenseTypeReq.notes == '' || expenseTypeReq.amount == undefined || expenseTypeReq.amount <= 0">
+                            || expenseTypeReq.notes == '' || expenseTypeReq.amount == undefined || expenseTypeReq.amount <= 0" >
                             Submit
-                            </button>
-
                             <div class="dot-opacity-loader" *ngIf="createToggle">
                                 <span></span>
                                 <span></span>
                                 <span></span>
                             </div>
+                            </button>
                         </div>
 
                         <ng-container *ngIf="validatePolicyToggle" >
@@ -933,12 +897,14 @@
                                 <div class="d-flex justify-content-end gap-2">
                                     <button class="btn cancel-btn mt-0" (click)="cancelExpense()" >No</button>
                                     
-                                    <button *ngIf="!createToggle" class="btn submitActionBtn bg-primary" (click)="createExpense(createForm)">Yes</button>
-                                    <div class="dot-opacity-loader" *ngIf="createToggle">
-                                        <span></span>
-                                        <span></span>
-                                        <span></span>
-                                    </div>
+                                    <button *ngIf="!createToggle" class="btn submitActionBtn" (click)="createExpense(createForm)">Yes
+                                        <div class="dot-opacity-loader" *ngIf="createToggle">
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                        </div>
+                                    </button>
+                                    
                                 </div>
 
                             </div>
@@ -981,12 +947,14 @@
                                 <div *ngIf="ROLE != 'ADMIN' && (expenseTypeReq.status.id == 13 || expenseTypeReq.status.id == 15)" class="d-flex align-items-center gap-2">
                                     <button class="btn cancel-btn mt-0" type="button" (click)="getExpenseId(expenseTypeReq.id)" >Delete</button>
     
-                                    <button  type="submit" class="btn submitActionBtn" *ngIf="!createToggle">Update</button>
-                                    <div class="dot-opacity-loader" *ngIf="createToggle">
-                                        <span></span>
-                                        <span></span>
-                                        <span></span>
-                                    </div>
+                                    <button  type="submit" class="btn submitActionBtn" *ngIf="!createToggle">Update
+                                        <div class="dot-opacity-loader" *ngIf="createToggle">
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                        </div>
+                                    </button>
+                                   
     
                                 </div>
                             </ng-container>
@@ -998,12 +966,14 @@
                                 <div class="d-flex align-items-center gap-2">
                                     <button class="btn cancel-btn mt-0" (click)="getExpenseId(expenseTypeReq.id)" >No</button>
                                     
-                                    <button *ngIf="!deleteToggle" class="btn submitActionBtn bg-danger" (click)="deleteExpense()">Yes</button>
-                                    <div class="dot-opacity-loader" *ngIf="deleteToggle">
-                                        <span></span>
-                                        <span></span>
-                                        <span></span>
-                                    </div>
+                                    <button *ngIf="!deleteToggle" class="btn submitActionBtn bg-danger" (click)="deleteExpense()">Yes
+                                        <div class="dot-opacity-loader" *ngIf="deleteToggle">
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                        </div>
+                                    </button>
+                                    
                                     
                                 </div>
                             </ng-container>

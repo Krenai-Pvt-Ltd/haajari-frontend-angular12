@@ -52,73 +52,7 @@
         </div>
       </div>
 
-      <div class="row mt-4" *ngIf="!isMainPlaceholder">
-        <div class="col-md-3">
-          <div class="employe-onbording" [ngClass]="{ empSelected: selectedStatus == 'APPROVED' }">
-            <div class="orderpcardinfo d-flex justify-content-between" style="cursor: pointer"
-              (click)="selectStatus('APPROVED')">
-              <div class="orderpcardleft">
-                <h6>Verified</h6>
-                <h5>{{ verificationCount.approvedEmployees || 0 }}</h5>
-              </div>
-              <div class="orderpcardright">
-                <div class="total-employ-icon">
-                  <img src="assets/images/shield.svg" style="width: 28px" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="employe-onbording" [ngClass]="{ empSelected: selectedStatus == 'PENDING' }">
-            <div class="orderpcardinfo d-flex justify-content-between" style="cursor: pointer"
-              (click)="selectStatus('PENDING')">
-              <div class="orderpcardleft">
-                <h6>Pending Verification</h6>
-                <h5>{{ verificationCount.pendingEmployees || 0 }}</h5>
-              </div>
-              <div class="orderpcardright">
-                <div class="total-employ-icon">
-                  <img src="assets/images/lock.svg" style="width: 28px" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-3">
-          <div class="employe-onbording" [ngClass]="{ empSelected: selectedStatus == 'REJECTED' }">
-            <div class="orderpcardinfo d-flex justify-content-between" style="cursor: pointer"
-              (click)="selectStatus('REJECTED')">
-              <div class="orderpcardleft">
-                <h6>Rejected</h6>
-                <h5>{{ verificationCount.rejectedEmployees || 0 }}</h5>
-              </div>
-              <div class="orderpcardright">
-                <div class="total-employ-icon">
-                  <img src="assets/images/recycle.svg" style="width: 28px" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="employe-onbording" [ngClass]="{ empSelected: selectedStatus == 'REQUESTED' }">
-            <div class="orderpcardinfo d-flex justify-content-between" style="cursor: pointer"
-              (click)="selectStatus('REQUESTED')">
-              <div class="orderpcardleft">
-                <h6>Requested</h6>
-                <h5>{{ verificationCount.requestedCount || 0 }}</h5>
-              </div>
-              <div class="orderpcardright">
-                <div class="total-employ-icon">
-                  <img src="assets/images/shield.svg" style="width: 28px" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+     
       <div class="row mt-3" *ngIf="isShowPendingVerificationTab && !isMainPlaceholder">
         <div class="col-md-7">
           <div class="on-leave-section">
@@ -419,20 +353,91 @@
                     <a id="pills-announcement-tab" data-bs-toggle="pill" href="#employeeList" role="tab" (click)="selectStatus('ACTIVE')"
                         aria-controls="pills-announcement" aria-selected="false" class="nav-link active">Employee</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item d-flex align-items-center">
                     <a id="pills-notification-tab" data-bs-toggle="pill" href="#editRequest" role="tab" (click)="selectStatus('EDITPROFILE')"
                         aria-controls="pills-notification" aria-selected="false" class="nav-link">Profile Edit Request</a>
+                        <span class="request-count d-flex align-items-center justify-content-center" *ngIf="editProfileCount > 0">{{editProfileCount}}</span>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item d-flex align-items-center">
                     <a id="pills-notification-tab" data-bs-toggle="pill" href="#resignationRequest" role="tab"
                         aria-controls="pills-notification" aria-selected="false" class="nav-link" (click)="resignationRequest()">Resignation Request</a>
+                    <span class="request-count d-flex align-items-center justify-content-center" *ngIf="resignationCount > 0">{{resignationCount}}</span>
                 </li>
             </ul>
 
             <div id="pills-tabContent" class="tab-content">
               <div class="tab-pane active show pt-3" id="employeeList" role="tabpanel" aria-labelledby="attendanceUpdate-tab">
                 <div>
-                  <div class="onboard-add row align-items-center mx-0">
+
+
+                  <div class="row" *ngIf="!isMainPlaceholder">
+                    <div class="col-md-3">
+                      <div class="employe-onbording" [ngClass]="{ empSelected: selectedStatus == 'APPROVED' }">
+                        <div class="orderpcardinfo d-flex justify-content-between" style="cursor: pointer"
+                          (click)="selectStatus('APPROVED')">
+                          <div class="orderpcardleft">
+                            <h6>Verified</h6>
+                            <h5>{{ verificationCount.approvedEmployees || 0 }}</h5>
+                          </div>
+                          <div class="orderpcardright">
+                            <div class="total-employ-icon">
+                              <img src="assets/images/shield.svg" style="width: 28px" />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="employe-onbording" [ngClass]="{ empSelected: selectedStatus == 'PENDING' }">
+                        <div class="orderpcardinfo d-flex justify-content-between" style="cursor: pointer"
+                          (click)="selectStatus('PENDING')">
+                          <div class="orderpcardleft">
+                            <h6>Pending Verification</h6>
+                            <h5>{{ verificationCount.pendingEmployees || 0 }}</h5>
+                          </div>
+                          <div class="orderpcardright">
+                            <div class="total-employ-icon">
+                              <img src="assets/images/lock.svg" style="width: 28px" />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+            
+                    <div class="col-md-3">
+                      <div class="employe-onbording" [ngClass]="{ empSelected: selectedStatus == 'REJECTED' }">
+                        <div class="orderpcardinfo d-flex justify-content-between" style="cursor: pointer"
+                          (click)="selectStatus('REJECTED')">
+                          <div class="orderpcardleft">
+                            <h6>Rejected</h6>
+                            <h5>{{ verificationCount.rejectedEmployees || 0 }}</h5>
+                          </div>
+                          <div class="orderpcardright">
+                            <div class="total-employ-icon">
+                              <img src="assets/images/recycle.svg" style="width: 28px" />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="employe-onbording" [ngClass]="{ empSelected: selectedStatus == 'REQUESTED' }">
+                        <div class="orderpcardinfo d-flex justify-content-between" style="cursor: pointer"
+                          (click)="selectStatus('REQUESTED')">
+                          <div class="orderpcardleft">
+                            <h6>Requested</h6>
+                            <h5>{{ verificationCount.requestedCount || 0 }}</h5>
+                          </div>
+                          <div class="orderpcardright">
+                            <div class="total-employ-icon">
+                              <img src="assets/images/shield.svg" style="width: 28px" />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="onboard-add row align-items-center mx-0 mt-3">
                     <!-- <div *ngIf="users.length!=0"> -->
                     <!-- || (searchUserPlaceholderFlag) -->
                     <div class="col-md-12" *ngIf="!errorToggleTop">
@@ -488,7 +493,7 @@
                                     [ngModelOptions]="{ standalone: true }" style="padding: 10px 40px" />
                                   <i class="bi bi-search search-icon" style="margin: auto; margin-left: 15px"
                                     *ngIf="search==''"></i>
-                                  <i class="bi bi-x search-icon" style="margin: auto; margin-left: 15px" *ngIf="search!=''"
+                                  <i class="bi bi-x search-icon text-primary" style="margin: auto; margin-left: 15px; font-size: 20px !important;" *ngIf="search!=''"
                                     (click)="reloadPage()"></i>
                                 </div>
                               </form>
@@ -525,7 +530,7 @@
                     <!-- </div> -->
                   </div>
                   <div class="col-md-12 mt-3">
-                    <div class="table-responsive bg-white">
+                    <div class="table-responsive bg-white employee-table">
                       <table class="table empOnnoardtable">
                         <!-- <thead class="thead-light table-design"> -->
                         <thead class="thead-light">
@@ -669,7 +674,7 @@
 
 
                           <!-- <ng-container *ngIf="user.resignationStatus == null; else resignationStatusBlock"> -->
-
+                            <!-- {{ user.onboardingStatus }} -->
                             <td *ngIf="constants.EMPTY_STRINGS.includes(user?.resignationStatus)">
                               <span class="badge rounded-pill" 
                               [ngClass]="{'badge-soft-success': user.onboardingStatus === 'APPROVED'||user.onboardingStatus === 'NEW_USER', 'badge-soft-danger': user.onboardingStatus === 'REJECTED', 'badge-soft-warning': user.onboardingStatus === 'PENDING', 'badge-soft-secondary': user.onboardingStatus === 'REQUESTED' }">
@@ -679,50 +684,7 @@
                               <span class="badge rounded-pill" [ngClass]="{'badge-soft-info': user.resignationStatus.id == 13, 'badge-soft-warning': user.resignationStatus.id == 42, 'badge-soft-danger': user.resignationStatus.id == 43 }"
                               >{{ user.resignationStatus.response }}</span>
                             </td>
-                            <!-- *ngIf="user.resignationStatus == null" -->
-                        <!-- <div>   -->
-
-                            <!-- <td class="text-center" *ngIf="user.onboardingStatus == pendingResponse">
-                              <div class="badge rounded-pill badge-soft-warning">
-                                <span class="">{{ user.onboardingStatus }}</span>
-                              </div>
-                            </td>
-
-                            <td class="text-center" *ngIf="user.onboardingStatus == approvedResponse">
-                              <div class="badge rounded-pill badge-soft-success">
-                                <span class="">{{ user.onboardingStatus }}</span>
-                              </div>
-                            </td>
-                            <td class="text-center" *ngIf="user.onboardingStatus == rejectedResponse">
-                              <div class="badge rounded-pill badge-soft-danger">
-                                <span class="">{{ user.onboardingStatus }}</span>
-                              </div>
-                            </td>
-                            <td class="text-center" *ngIf="user.onboardingStatus == requestedResponse">
-                              <div class="badge rounded-pill badge-soft-secondary">
-                                <span class="">{{ user.onboardingStatus }}</span>
-                              </div>
-                            </td>
-                            <td class="text-center" *ngIf="user.onboardingStatus == 'NOTICE PERIOD'">
-                              <div class="badge rounded-pill badge-soft-blue">
-                                <span class="">{{ user.onboardingStatus }}</span>
-                              </div>
-                            </td>
-                            <td class="text-center" *ngIf="user.onboardingStatus == newUserResponse">
-                              <div class="badge rounded-pill badge-soft-info">
-                                <span class="">NEW!</span>
-                              </div>
-                            </td> -->
-                          <!-- </div>  -->
-
-                          <!-- <ng-template #resignationStatusBlock> -->
-                          <!-- <div *ngIf="user.resignationStatus != null">
-                            <td class="text-center">
-                              <div class="badge rounded-pill badge-soft-danger">
-                                <span>{{ user.resignationStatus.response }}</span>
-                              </div>
-                            </td>
-                          </div> -->
+                           
 
 
                             <td class="stickyColTdend text-end">
@@ -803,12 +765,11 @@
 
                       </table>
                     </div>
-                    <div class="pagination pl-3" *ngIf="!isUserShimer && users.length > 0 && total > 12">
-                      <p class="mb-0" style="padding-left: 15px">
+                    <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top"*ngIf="!isUserShimer && users.length > 0 && total > 12">
+                      <p class="mb-0">
                         Showing {{ getStartIndex() }} - {{ getEndIndex() }} of {{ total }} users
                       </p>
-                      <div class="row">
-                        <div class="col-md-12">
+                        <div class="pagition-box">
                           <ngb-pagination
                             [collectionSize]="total"
                             [(page)]="pageNumber"
@@ -819,7 +780,6 @@
                             (pageChange)="onOnboardingPageChange($event)">
                           </ngb-pagination>
                         </div>
-                      </div>
                     </div>
 
                   </div>
@@ -974,7 +934,7 @@
 
                             <td *ngIf="user.resignationStatus == null">
                               <span class="badge rounded-pill"
-                              [ngClass]="{'badge-soft-success': user.onboardingStatus === 'APPROVED', 'badge-soft-danger': user.onboardingStatus === 'REJECTED', 'badge-soft-warning': user.onboardingStatus === 'PENDING' }">
+                              [ngClass]="{'badge-soft-success': user.onboardingStatus === 'APPROVED', 'badge-soft-danger': user.onboardingStatus === 'REJECTED', 'badge-soft-warning': user.onboardingStatus === 'PENDING', 'badge-soft-secondary': user.onboardingStatus === 'REQUESTED' }">
                               {{ user.onboardingStatus }}</span>
                             </td>
                             <td *ngIf="user.resignationStatus != null">
@@ -1042,11 +1002,10 @@
                         </tbody>
                       </table>
                     </div>
-                    <div class="pagination pl-3" *ngIf="!isUserShimer && users.length > 0 && total > 12">
+                    <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top" *ngIf="!isUserShimer && users.length > 0 && total > 12">
                       <p class="mb-0" style="padding-left: 15px">
                         Showing {{ getStartIndex() }} - {{ getEndIndex() }} of {{ total }} users
                       </p>
-                      <div class="row">
                         <div class="col-md-12">
                           <ngb-pagination
                             [collectionSize]="total"
@@ -1059,7 +1018,6 @@
                           </ngb-pagination>
                         </div>
                       </div>
-                    </div>
 
                   </div>
                 </div>
@@ -1074,47 +1032,7 @@
                       <div class="row justify-content-between align-items-center mx-0">
                         <div class="col-lg-12 col-md-12 col-sm-12 ps-0">
                           <div class="d-flex justify-content-start align-items-center">
-                            <!-- <div class="dropdown empFilerDropfilter">
-                              <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
-                                class="btn btn-secondary dropdown-toggle new-deopdown">
-                                {{ selectedStatus || "All" }}
-                                <i class="bi bi-chevron-down"></i>
-                              </button>
-                              <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu">
-                                <li>
-                                  <a class="dropdown-item" (click)="selectStatus('ALL')">All</a>
-                                </li>
-
-                                <li class="dropdown-header" aria-disabled="true">
-                                  Status Wise
-                                </li>
-
-                                <li>
-                                  <a class="dropdown-item" (click)="selectStatus('APPROVED')">Approved</a>
-                                </li>
-                                <li>
-                                  <a class="dropdown-item" (click)="selectStatus('PENDING')">Pending</a>
-                                </li>
-                                <li>
-                                  <a class="dropdown-item" (click)="selectStatus('REQUESTED')">Requested</a>
-                                </li>
-                                <li>
-                                  <a class="dropdown-item" (click)="selectStatus('EDITPROFILE')">Profile Edit Requests</a>
-                                </li>
-                                <li>
-                                  <a class="dropdown-item" (click)="selectStatus('REJECTED')">Rejected</a>
-                                </li>
-                                <li class="dropdown-header" aria-disabled="true">
-                                  Accessibility Wise
-                                </li>
-                                <li>
-                                  <a class="dropdown-item" (click)="selectStatus('ACTIVE')">Active</a>
-                                </li>
-                                <li>
-                                  <a class="dropdown-item" (click)="selectStatus('INACTIVE')">Inactive</a>
-                                </li>
-                              </ul>
-                            </div> -->
+                            
                             <div class="onboarding-date d-flex align-items-center position-relative">
                               <form role="search" class="searching" style="width: 100%">
                                 <div class="form-group" style="width: 100%; position: relative">
@@ -1364,12 +1282,11 @@
                         </tbody>
                       </table>
                     </div>
-                    <div class="pagination pl-3" *ngIf="!isUserShimer && users.length > 0 && total > 12">
+                    <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top" *ngIf="!isUserShimer && users.length > 0 && total > 12">
                       <p class="mb-0" style="padding-left: 15px">
                         Showing {{ getStartIndex() }} - {{ getEndIndex() }} of {{ total }} users
                       </p>
-                      <div class="row">
-                        <div class="col-md-12">
+                        <div class="pagition-box">
                           <ngb-pagination
                             [collectionSize]="total"
                             [(page)]="pageNumber"
@@ -1381,7 +1298,6 @@
                           </ngb-pagination>
                         </div>
                       </div>
-                    </div>
 
                   </div>
                 <!-- </div> -->
@@ -1411,38 +1327,31 @@
       <div #inviteModal class="modal fade" id="add-employee" tabindex="-1" role="dialog"
         aria-labelledby="exampleModalDefaultLabel" aria-hidden="true" data-bs-backdrop="static"
         data-bs-keyboard="false">
-        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h6 class="modal-title m-0" id="exampleModalDefaultLabel">
-                Add Employee
-              </h6>
+              <h5 class="modal-title"> Add Employee </h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <div class="row register-form-box">
-                <div class="col-md-12">
-                  <div class="mb-3">
+              <div class="row">
+                <div class="col-md-6 mb-3">
                     <label for="name" class="pb-2">Name <span class="text-optional">*</span></label>
-                    <input type="text" class="form-control whatapp-login-input" id="name" name="name" placeholder="Name"
+                    <input type="text" class="form-control input-zorro" id="name" name="name" placeholder="Name"
                       [(ngModel)]="userPersonalInformationRequest.name" required #nameField="ngModel" />
-                    <!-- Error Message for Name -->
+                   
                     <div *ngIf="nameField.invalid && nameField.touched">
                       <p class="errortxt mt-2 mb-0" style="color: red">
                         <i class="bi bi-exclamation-circle"></i> Name is
                         required.
                       </p>
                     </div>
-                  </div>
                 </div>
-                <div class="col-md-12">
-                  <div class="mb-3">
+                <div class="col-md-6 mb-3">
                     <label for="phoneNumber" class="pb-2">
-                      Phone Number <span class="text-optional">*</span>
-                      <i class="bi bi-exclamation-circle tolltip-icon"
-                        ngbTooltip="Please provide your personal phone number!" placement="top"></i>
+                      Phone Number <span class="text-optional">*</span> <i class="bi bi-exclamation-circle tolltip-icon" ngbTooltip="Please provide your personal phone number!" placement="top"></i>
                     </label>
-                    <input type="text" mask="0000000000" class="form-control whatapp-login-input" id="phoneNumber"
+                    <input type="text" mask="0000000000" class="form-control input-zorro" id="phoneNumber"
                       name="phoneNumber" placeholder="Phone number"
                       [(ngModel)]="userPersonalInformationRequest.phoneNumber" minlength="10" maxlength="10"
                       pattern="[0-9]*" (input)="restrictToDigits($event)" (keyup)="
@@ -1450,7 +1359,6 @@
                           userPersonalInformationRequest.phoneNumber
                         )
                       " #phoneNumberField="ngModel" required />
-                    <!-- Error Message for Phone Number -->
                     <div *ngIf="
                         phoneNumberField.invalid && phoneNumberField.touched
                       ">
@@ -1459,44 +1367,33 @@
                         10-digit phone number.
                       </p>
                     </div>
-
-                    <!-- Error message for phone number existence -->
                     <div *ngIf="isNumberExist" class="errortxt mt-2 mb-0" style="color: red">
                       <i class="bi bi-exclamation-circle"></i> Phone number
                       already registered with us.
                     </div>
-                  </div>
                 </div>
-
-                <div class="col-md-12">
-                  <div class="mb-3">
+                <div class="col-md-6 mb-3">
                     <label for="email" class="pb-2">Email Id <span class="text-optional">*</span></label>
-                    <input type="email" class="form-control whatapp-login-input" id="email" name="email"
+                    <input type="email" class="form-control input-zorro" id="email" name="email"
                       placeholder="Email id" [(ngModel)]="userPersonalInformationRequest.email" (keyup)="
                         checkEmailExistanceBefore(
                           userPersonalInformationRequest.email
                         )
                       " required #emailField="ngModel" />
-                    <!-- Error Message for Email Already Exists -->
                     <div *ngIf="isEmailExist" class="errortxt mt-2 mb-0" style="color: red">
                       <i class="bi bi-exclamation-circle"></i> Employee with
                       this email already registered
                     </div>
-
-                    <!-- Error Message for Invalid Email -->
                     <div *ngIf="emailField.invalid && emailField.touched">
                       <p class="errortxt mt-2 mb-0" class="errortxt mt-2 mb-0" style="color: red">
                         <i class="bi bi-exclamation-circle"></i> Please enter a
                         valid email address.
                       </p>
                     </div>
-                  </div>
                 </div>
-
-                <div class="col-md-12">
-                  <div class="mb-3">
+                <div class="col-md-6 mb-3">
                     <label for="shiftNames" class="pb-2">Select Shift <span class="text-optional">* </span></label>
-                    <nz-select id="shift" name="shift" class="whatapp-login-input" nzPlaceHolder="Select a shift"
+                    <nz-select id="shift" name="shift" class="form-control placeholder-line" nzPlaceHolder="Select a shift"
                       nzAllowClear nzShowSearch nzServerSearch [(ngModel)]="selectedShift"
                       [ngModelOptions]="{ standalone: true }" required #shiftField="ngModel">
                       <ng-container *ngFor="let shift of shiftList">
@@ -1507,75 +1404,48 @@
                         Loading Shifts...
                       </nz-option>
                     </nz-select>
-
-                    <!-- Error if no shift selected -->
                     <div *ngIf="shiftField.invalid && shiftField.touched" class="errortxt mt-2 mb-0" style="color: red">
                       <i class="bi bi-exclamation-circle"></i> Please select a
                       shift.
                     </div>
-
-                    <!-- Custom message if no shifts are available -->
                     <div *ngIf="shiftList.length === 0 && !isLoadingShifts" class="errortxt mt-2 mb-0"
                       style="color: red">
                       <i class="bi bi-exclamation-circle"></i> No shifts
                       available. Please add shifts from the Attendance Setting
                       section.
                     </div>
-                  </div>
                 </div>
-
-                <div class="col-md-12">
-                  <div class="mb-3">
+                <div class="col-md-6 mb-3">
                     <label for="gender" class="pb-2">Select Gender <span class="text-optional">*</span></label>
                     <nz-select id="gender" name="gender" [(ngModel)]="userPersonalInformationRequest.gender" required
-                      class="form-control whatapp-login-input" #genderField="ngModel" nzPlaceHolder="Select Gender">
+                      class="form-control placeholder-line" #genderField="ngModel" nzPlaceHolder="Select Gender">
                       <nz-option *ngFor="let gender of genders" [nzValue]="gender" [nzLabel]="gender"></nz-option>
                     </nz-select>
-
-
-
-                    <!-- Error if no gender selected -->
                     <div *ngIf="genderField.invalid && genderField.touched" class="errortxt mt-2 mb-0"
                       style="color: red">
                       <i class="bi bi-exclamation-circle"></i> Please select a gender.
                     </div>
-                  </div>
                 </div>
-
-                <div class="col-md-12">
-                  <div class="mb-3">
+                <div class="col-md-6 mb-3">
                     <label for="joiningDate" class="pb-2">Joining Date <span class="text-optional">*</span></label>
                     <nz-date-picker id="joiningDate" name="joiningDate" #joiningDateField="ngModel"
                       [(ngModel)]="userPersonalInformationRequest.joiningDate" required
                       nzPlaceHolder="Select Joining Date">
                     </nz-date-picker>
-
-                    <!-- Error message for joining date if required -->
-                    <!-- <div *ngIf="isJoiningDateInvalid && joiningDateField.touched" class="errortxt mt-2 mb-0" style="color: red">
-                      <i class="bi bi-exclamation-circle"></i> Joining Date is required.
-                    </div> -->
-                  </div>
                 </div>
-
-                <div class="col-md-12">
-                  <div class="mb-3">
+                <div class="col-md-6 mb-3">
                     <label for="positionDropdown" class="pb-2">Position <span
                         class="text-optional">(Optional)</span></label>
-                    <input maxlength="50" class="seach-dropdown" id="positionDropdown" name="positionDropdown"
+                    <input maxlength="50" class="input-zorro" id="positionDropdown" name="positionDropdown"
                       placeholder='Select Position' nz-input [(ngModel)]="this.userPersonalInformationRequest.position"
                       (ngModelChange)="onChange($event)" [nzAutocomplete]="positionAuto" #position="ngModel"
                       (keydown)="preventLeadingWhitespace($event)" />
                     <nz-autocomplete [nzDataSource]="positionFilteredOptions" #positionAuto></nz-autocomplete>
-                  </div>
                 </div>
-
-
-                <div class="col-md-12">
-                  <div class="mb-3">
+                <div class="col-md-6 mb-3">
                     <label for="isProbation" class="pb-2">Probation Status <span class="text-optional">*</span></label>
-                    <nz-select id="isProbation" name="isProbation"
-                      [(ngModel)]="userPersonalInformationRequest.isProbation" required
-                      class="form-control whatapp-login-input" #isProbationField="ngModel" nzPlaceHolder="Probation Status">
+                    <nz-select id="isProbation" name="isProbation" class="form-control placeholder-line"
+                      [(ngModel)]="userPersonalInformationRequest.isProbation" required #isProbationField="ngModel" nzPlaceHolder="Probation Status">
                       <nz-option [nzValue]="true" [nzLabel]="'Under Probation'"></nz-option>
                       <nz-option [nzValue]="false" [nzLabel]="'Confirmed'"></nz-option>
                     </nz-select>
@@ -1587,17 +1457,11 @@
                       style="color: red">
                       <i class="bi bi-exclamation-circle"></i> Please select a gender.
                     </div>
-                  </div>
                 </div>
-
-
-
-
-                <div class="col-md-12">
-                  <div class="mb-3">
+                <div class="col-md-6 mb-3">
                     <label for="teamNames" class="pb-2">Select Team<span class="text-optional">
                         (Optional)</span></label>
-                    <nz-select class="whatapp-login-input" nzMode="multiple" nzPlaceHolder="Select teams" nzAllowClear
+                    <nz-select class="form-control placeholder-font" nzMode="multiple" nzPlaceHolder="Select teams" nzAllowClear
                       nzShowSearch nzServerSearch [(ngModel)]="selectedTeams" [ngModelOptions]="{ standalone: true }"
                       (ngModelChange)="onTeamSelectionChange($event)" (nzOnSearch)="onSearch($event)">
                       <ng-container *ngFor="let o of teamNameList">
@@ -1608,13 +1472,11 @@
                         Loading Data...
                       </nz-option>
                     </nz-select>
-                  </div>
                 </div>
-                <div class="col-md-12">
-                  <div class="mb-3">
+                <div class="col-md-6 mb-3">
                     <label for="teamNames" class="pb-2">Select Leave <span class="text-optional">
                         (Optional)</span></label>
-                    <nz-select class="whatapp-login-input" nzMode="multiple" nzPlaceHolder="Select leave" nzAllowClear
+                    <nz-select class="form-control placeholder-font" nzMode="multiple" nzPlaceHolder="Select leave" nzAllowClear
                       nzShowSearch nzServerSearch [(ngModel)]="selectedLeaves" [ngModelOptions]="{ standalone: true }"
                       (ngModelChange)="onLeaveSelectionChange($event)" (nzOnSearch)="onSearchLeave($event)">
                       <ng-container *ngFor="let o of leaveNameList">
@@ -1625,20 +1487,21 @@
                         Loading Data...
                       </nz-option>
                     </nz-select>
-                  </div>
                 </div>
               </div>
             </div>
-            <div class="modal-footer d-flex align-items-center justify-content-end">
-              <button type="button" class="btn btn-de-secondary" data-bs-dismiss="modal" aria-label="Close"
+            <div class="modal-footer d-flex align-items-center justify-content-end gap-2">
+              <button type="button" class="btn cancel-btn" data-bs-dismiss="modal" aria-label="Close"
                 #closeInviteModal>
                 Cancel
               </button>
-              <button class="btn btn-primary" type="submit" [disabled]="
+              <button class="btn submitActionBtn" type="submit" [disabled]="
                   personalInformationForm.invalid ||
                   isNumberExist ||
                   isEmailExist
-                " aria-label="Next Step">
+                "
+                [ngClass]="{'btn-border':!personalInformationForm.invalid}"
+                aria-label="Next Step">
                 <div *ngIf="toggle" class="dot-opacity-loader1">
                   <span></span>
                   <span></span>
@@ -1655,18 +1518,16 @@
   </form>
 
   <!-- <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#confirmationModal" #confirmationModalButton id="confirmationModalButton"></button> -->
-  <div class="modal fade" id="deleteConfirmationModal" #deleteConfirmationModal tabindex="-1"
+  <!-- <div class="modal fade" id="deleteConfirmationModal" #deleteConfirmationModal tabindex="-1"
     aria-labelledby="confirmationModalLabel" aria-hidden="true" data-bs-backdrop="false">
     <div class="modal-dialog modal-dialog-centered mx-auto mx-auto" style="max-width: 600px !important">
       <div class="modal-content">
-        <!--end modal-header-->
         <div class="modal-body">
           <form #confirmationForm="ngForm">
             <div class="row">
               <div class="col-lg-3 text-center align-self-center">
                 <img src="assets/images/recycle-bin.svg" alt="" class="img-fluid" />
               </div>
-              <!--end col-->
               <div class="col-lg-9">
                 <h5>Delete Account</h5>
                 <span class="badge bg-warning font-14">Are you sure want to delete this account?</span>
@@ -1678,12 +1539,9 @@
                   <li>Other associated information from the system</li>
                 </ul>
               </div>
-              <!--end col-->
             </div>
-            <!--end row-->
           </form>
         </div>
-        <!--end modal-body-->
         <div class="modal-footer d-flex align-items-center justify-content-between">
           <button type="button" class="btn btn-de-secondary btn-sm" data-bs-dismiss="modal" #closeUserDeleteModal>
             Close
@@ -1697,11 +1555,61 @@
             <span></span>
           </div>
         </div>
-        <!--end modal-footer-->
       </div>
     </div>
   </div>
-</div>
+</div> -->
+
+
+
+<div class="modal fade" id="deleteConfirmationModal" #deleteConfirmationModal tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true" data-bs-backdrop="false">
+  <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+    <div class="modal-content">
+      <div class="modal-body p-0 delete-text">
+        <div class="delete-image d-flex align-items-center justify-content-center pt-4 pb-4">
+          <div class="delete-close-btn">
+            <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButtonDeleteLeave>
+              <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+                <mask id="mask0_2031_1331" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="30"
+                  height="30">
+                  <rect width="30" height="30" fill="#D9D9D9" />
+                </mask>
+                <g mask="url(#mask0_2031_1331)">
+                  <path
+                    d="M8 23.75L6.25 22L13.25 15L6.25 8L8 6.25L15 13.25L22 6.25L23.75 8L16.75 15L23.75 22L22 23.75L15 16.75L8 23.75Z"
+                    fill="black" />
+                </g>
+              </svg>
+            </button>
+          </div>
+          <img src="/assets/images/delete-img.svg" style="width: 70px" />
+        </div>
+        <div class="bg-white p-4 text-center">
+          <div class="mb-4">
+            <h5 class="alert-heading font-18 mb-2">
+              Are you sure want to delete this account?
+            </h5>
+            <p class="font-13">This action will permanently remove your <br> attendance logs, payment history</p>
+          </div>
+
+
+            <button class="btn continue-btn" (click)="deleteUser()" >
+             <span *ngIf="!disableUserLoader">Delete Account</span> 
+             <div class="dot-opacity-loader" *ngIf="disableUserLoader">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            </button>
+            <br>
+            <button class="btn p-0 mt-3 text-black" type="button" data-bs-dismiss="modal" aria-label="Close" #closeUserDeleteModal>
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
 <!-- Trigger Button for Modal -->
 <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#sampleFileModal"

@@ -234,4 +234,15 @@ getWeekDayOfBirthday(birthday: string): string {
 
   }
 
+
+  getDynamicClass(index: number): object {
+    if(index>=3){
+      var mod = index % 3;
+      return { [`birthday-box-${mod}`]: true };
+    }else{
+
+      return { [`birthday-box-${index}`]: true };
+    }
+  }
+
 }

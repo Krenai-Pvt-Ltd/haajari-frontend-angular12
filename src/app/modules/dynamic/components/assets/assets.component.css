@@ -347,7 +347,7 @@ nz-select {
   color: #4a4a4a;
   font-size: 12px;
   font-weight: 500;
-  min-width: 100px;
+  width: 100px;
 }
 .submitActionBtn{
   background-color: var(--primary-background-color);
@@ -355,7 +355,7 @@ nz-select {
   font-size: 12px;
   font-weight: 500;
   border-radius: 2px;
-  min-width: 100px;
+  width: 100px;
 }
 
 .assets-label label{
@@ -387,3 +387,12 @@ nz-select {
   top: 0px !important;
 }
 
+.add-icon i{
+  top: 3px;
+}
+
+.assets-count{
+  border: 1px solid #f1f1f1;
+  border-radius: 2px;
+  
+}

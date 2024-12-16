@@ -4359,6 +4359,15 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}/users/work-anniversary`);
   }
 
+  createAttendanceEntry(file: any, fileName: string) {
+    debugger;
+    const formdata: FormData = new FormData();
+    formdata.append('file', file);
+    formdata.append('fileName', fileName);
+    return this.httpClient.post(`${this.baseUrl}/whatsapp-user-onboarding/create/attendance`,
+      formdata,
+    );
+  }
   saveSkills(userUuid: string, skills: string[]): Observable<any> {
     const body = skills;
     return this.httpClient.post<void>(`${this.baseUrl}/skills/save-skills`, body, {
@@ -4371,6 +4380,16 @@ getHolidayForOrganization(date: string): Observable<any>{
       params: { userUuid }
     });
   }
+
+  getUsersCountByStatus(): Observable<string[]> {
+    return this.httpClient.get<string[]>(`${this.baseUrl}/users/get-count`);
+  }
+
+  getRequestCountByOrganizationUuid(): Observable<string[]> {
+    return this.httpClient.get<string[]>(`${this.baseUrl}/attendance/get-count`);
+  }
+
+
 }
 
 

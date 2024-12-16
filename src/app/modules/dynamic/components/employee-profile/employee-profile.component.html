@@ -2700,8 +2700,7 @@
                                 {{employeePayslipLogResponse.paySlipMonth | date: 'MMMM, yyyy' }}
                               </p>
                               <small style="margin-left: 24px;"
-                                class="text-muted">{{employeePayslipLogResponse.paySlipGeneratedDate | date:"dd MMM yy,
-                                hh:mm a"}}</small>
+                                class="text-muted">{{employeePayslipLogResponse.paySlipGeneratedDate | date:"dd MMM yy, hh:mm a"}}</small>
                             </div>
                             <span *ngIf="employeePayslipLogResponse.paySlipUrl; else notAvailable"
                                 class="badge badge-outline-success badge-pill"
@@ -3296,15 +3295,9 @@
                                   <div class="dropdown d-inline-block">
                                     <div class="align-self-center">
                                       <div class="btn btn-xs btn-light btn-round">
-                                        {{ assets.createdDate | date:"MMM dd, yyyy 'at' hh:mm a"
-                                        || "N/A"
-                                        }}
-                                        <!-- &nbsp;
-                                          <span>{{
-                                            formatTime(leaves.leaveDate) || "N/A"
-                                          }}</span> -->
+                                        {{ (assets.createdDate | date:"MMM dd, yyyy 'at' hh:mm a")  || "N/A"}}
                                       </div>
-                                      <!-- {{ leaves.docFileLink }} -->
+                                      2
                                     </div>
                                   </div>
                                 </div>
