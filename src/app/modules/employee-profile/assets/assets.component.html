@@ -357,7 +357,7 @@
                                   </ng-template>
                                 </td>
                                 <td class="text-left">
-                                  <span class="badge rounded-pill" [ngClass]="{'badge-soft-warning': asset.status == 'PENDING', 'badge-soft-danger': asset.status == 'REJECTED', 'badge-soft-success': asset.status == 'APPROVED'}">
+                                  <span class="badge rounded-pill" [ngClass]="{'badge-soft-warning': asset.status == 'PENDING', 'badge-soft-danger': asset.status == 'REJECTED', 'badge-soft-success': asset.status == 'APPROVED' || asset.status == 'ASSIGNED' }">
                                     {{ asset.status }}
                                   </span>
                                 </td>
