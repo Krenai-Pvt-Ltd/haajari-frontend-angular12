@@ -211,7 +211,7 @@
                       </div>
                       <!--end col-->
                       <div class="col-auto">
-                        <button type="button" data-bs-toggle="modal" data-bs-target="#createAssetModal"
+                        <button #createAssetButton id="createAssetButton" type="button" data-bs-toggle="modal" data-bs-target="#createAssetModal"
                           (click)="assignAssetId(0)" class="text-primary p-0 btn fw-semibold font-14 add-icon">
                           <i class="bi bi-plus position-relative font-20"></i> Create
                           Asset
@@ -449,7 +449,7 @@
                     </ng-template>
                   </td>
                   <td class="text-left">
-                    <span class="badge rounded-pill " [ngClass]="{'badge-soft-warning': asset.status == 'PENDING', 'badge-soft-danger': asset.status == 'REJECTED', 'badge-soft-success': asset.status == 'APPROVED' }" >
+                    <span class="badge rounded-pill " [ngClass]="{'badge-soft-warning': asset.status == 'PENDING', 'badge-soft-danger': asset.status == 'REJECTED', 'badge-soft-success': asset.status == 'APPROVED' || asset.status == 'ASSIGNED' }" >
                       {{ asset.status || '--' }}
                     </span>
                   </td>
@@ -584,6 +584,7 @@
   </div>
 </div>
 <div
+  #createAssetModal
   class="modal fade"
   id="createAssetModal"
   tabindex="-1"
@@ -979,7 +980,7 @@
         >
       <div class="modal-body">
         <div class="row assets-label">
-        
+
           <div class="col-md-12 mb-3">
             <label for="userId" class="form-label pb-2"
               >Select User <span class="text-danger">*</span></label
@@ -1026,8 +1027,8 @@
             </div>
           </div>
         </div>
-         
-      
+
+
       </div>
       <div class="modal-footer">
         <button
@@ -1124,7 +1125,7 @@
 
 
             <button class="btn submitActionBtn" (click)="deleteAssetData()">
-             <span *ngIf="!disableLoader">Delete Asset</span> 
+             <span *ngIf="!disableLoader">Delete Asset</span>
              <div class="dot-opacity-loader" *ngIf="disableLoader">
               <span></span>
               <span></span>
@@ -1222,6 +1223,6 @@
 
           <div *ngIf="selectedAsset.status!='APPROVED'" class="modal-footer d-flex align-content-center justify-content-end gap-2">
             <button type="button" class="btn cancel-btn mt-0" (click)="modal.dismiss('cancel')">Cancel</button>
-            <button type="button" class="btn submitActionBtn" (click)="changeStatus(selectedAsset); modal.close()">  Save </button>
+            <button type="button" class="btn submitActionBtn" (click)="changeStatus(selectedAsset)">  Save </button>
           </div>
 

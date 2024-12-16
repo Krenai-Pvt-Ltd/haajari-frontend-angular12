@@ -122,10 +122,12 @@ export class AssetsComponent implements OnInit {
 
   assetIdToUpdate:number = 0;
   getAssetDataById(): void {
+    this.asset = null;
     this.dataService.getAssetById(this.assetIdToUpdate)
       .subscribe(
         (response) => {
           const assetData = response.object;
+          if(assetData!=null){
           this.assetForm.patchValue({
             assetName: assetData.assetName,
             serialNumber: assetData.serialNumber,
@@ -138,6 +140,7 @@ export class AssetsComponent implements OnInit {
             assignedDate: assetData.assignedDate ? new Date(assetData.assignedDate) : null,
             categoryId: assetData.categoryId
           });
+          }
 
           this.cdr.detectChanges();
         },
@@ -397,6 +400,9 @@ saveAsset(): void {
   }
 
   const newAsset = this.assetForm.value;
+  if(this.asset){
+    newAsset.assetRequestedId = this.asset.id;
+  }
 
   this.dataService.createAsset(newAsset).subscribe(
     (response) => {
@@ -411,6 +417,7 @@ saveAsset(): void {
         document.getElementById('createAssetModal')?.click();
         this.helperService.showToast('Asset created successfully.', Key.TOAST_STATUS_SUCCESS);
 
+
     },
     (error) => {
       // console.error('Error creating asset:', error);
@@ -420,6 +427,7 @@ saveAsset(): void {
       } else {
       this.helperService.showToast('Failed to create asset.', Key.TOAST_STATUS_ERROR);
       }
+      this.asset = null;
     }
   );
 }
@@ -736,14 +744,20 @@ private formatDataForChart(data: any[]): any[] {
   }
   newStatus: string = 'Pending';
   selectedAsset: any;
-  statuses: string[] = ['APPROVED', 'REJECTED'];
+  statuses: string[] = ['APPROVED', 'REJECTED', 'ASSIGNED'];
   openStatusChangeModal(asset: any, statusChangeModal: TemplateRef<any>) {
     this.selectedAsset = asset;
     this.modalService.open(statusChangeModal);
   }
 
   changeStatus(asset: any) {
+    this.asset=null;
     asset.status = this.newStatus;
+    if(this.newStatus == 'ASSIGNED'){
+      this.openCreateAssetModal(asset);
+      return;
+    }
+
     this.dataService.changeAssetRequestStatus(asset.id, this.newStatus)
     .subscribe(
       (response) => {
@@ -758,6 +772,23 @@ private formatDataForChart(data: any[]): any[] {
         // Handle error response, e.g., show an error message
       }
     );
+  }
+
+  @ViewChild('createAssetButton', { static: false }) createAssetButton!: ElementRef;
+  asset: any;
+  openCreateAssetModal(asset: any) {
+    debugger
+    // Close any open modals first
+    this.modalService.dismissAll();
+    console.log(this.createAssetButton);
+    if(this.createAssetButton){
+    this.createAssetButton.nativeElement.click();
+    this.assetForm.patchValue({
+      assetName: asset.assetName,
+      userId: asset.userId,
+    });
+    this.asset = asset;
+    }
   }
 
   downloadFlag: boolean=false;
