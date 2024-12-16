@@ -1,11 +1,18 @@
-<div class="employee-dashboard-box m-3 mt-3">
+<div class="employee-dashboard-box m-3 mt-4">
     <div class="row">
         <div class="col-md-4">
             <div class="attendance-report p-3">
                 <h5 class="font-14 border-bottom pb-3">Attendance Report</h5>
                 <div class="mb-3">
-                    <img src="assets/images/week-attendance-report.svg" style="width:100%">
+                    <!-- <img src="assets/images/week-attendance-report.svg" style="width:100%"> -->
+                    <div class="chart-container" style="position: relative; height:40vh; width:80vw">
+                        <canvas #chartCanvas id="workingHoursChart"></canvas>
+                      </div>
+                      
+                      
                 </div>
+               
+                  
 
                 <h6 class="pb-2">Lorem ipsum</h6>
 
@@ -624,7 +631,8 @@
                     <div id="pills-tabContent" class="tab-content">
                       <div class="tab-pane active show pt-3" id="birthday" role="tabpanel" aria-labelledby="birthday-tab">
                         <div class="birthday-section">
-                          <div *ngFor="let user of usersWithUpcomingBirthdays" class="birthday-box d-flex align-items-center justify-content-between position-relative mb-3">
+                          <!-- <div *ngFor="let user of usersWithUpcomingBirthdays; let i= index;" class="birthday-box d-flex align-items-center justify-content-between position-relative mb-3" [ngClass]="{'birthday-box-+i'}"> -->
+                            <div *ngFor="let user of usersWithUpcomingBirthdays; let i = index;" class="birthday-box-0 d-flex align-items-center justify-content-between position-relative mb-3" [ngClass]="getDynamicClass(i)">
                             <div>
                               <h5 class="mb-1 font-16">{{ user.name }}</h5>
                               <p class="mb-0 font-13">{{ user.birthday | date: 'dd MMMM' }}, {{ getWeekDayOfBirthday(user.birthday) }}</p>
@@ -754,7 +762,7 @@ aria-labelledby="exampleModalLabel" aria-hidden="true">
                         What is the reason for initiating the exit?
                         </label>
                         <input class="form-control input-zorro" disabled placeholder="Enter the reason" [(ngModel)]="userResignationInfo.reason"
-                            nzSize="large" minlength="3" maxlength="50" id="reason" name="inputReason" #inputReason="ngModel" required />
+                            nzSize="large" minlength="3" maxlength="50" id="reason" name="inputReason" #inputReason="ngModel" [ngModelOptions]="{standalone: true}" required />
                     </div>
 
                     <div class="col-md-12 mb-3">
@@ -764,7 +772,7 @@ aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="row">
                             <div class="col-md-6">
                               <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                                <input disabled class="form-check-input" type="radio" name="managerDiscussionInput" id="yes" value="Yes"
+                                <input disabled class="form-check-input" type="radio" name="managerDiscussionInput" [ngModelOptions]="{standalone: true}" id="yes" value="Yes"
                                    required [(ngModel)]="discussionType">
                                 <p class="form-check-label mb-0" for="exampleRadios1">
                                 Yes
@@ -773,7 +781,7 @@ aria-labelledby="exampleModalLabel" aria-hidden="true">
                             </div>
                             <div class="col-md-6">
                               <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                                <input disabled class="form-check-input" type="radio" name="managerDiscussionInput" id="no" value="No" required
+                                <input disabled class="form-check-input" type="radio" name="managerDiscussionInput" [ngModelOptions]="{standalone: true}" id="no" value="No" required
                                     [(ngModel)]="discussionType" >
                                 <p class="form-check-label mb-0" for="exampleRadios1">
                                 No
@@ -791,14 +799,14 @@ aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="col-md-6">
                                 <label class="form-check assets-req d-flex align-items-center justify-content-start">
                                     <input disabled type="radio" name="recommendDay" id="complete" value="Complete"
-                                    [(ngModel)]="recommendDay" class="form-check-input">
+                                    [(ngModel)]="recommendDay" class="form-check-input" [ngModelOptions]="{standalone: true}">
                                     <p for="exampleRadios3" class="form-check-label mb-0" required> Complete notice periodes </p>
                                 </label>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-check assets-req d-flex align-items-center justify-content-start">
                                     <input disabled type="radio" name="recommendDay" id="other" value="Other" required
-                                    [(ngModel)]="recommendDay" class="form-check-input">
+                                    [(ngModel)]="recommendDay" class="form-check-input" [ngModelOptions]="{standalone: true}">
                                     <p for="exampleRadios4" class="form-check-label mb-0"> Other Date </p>
                                 </label>
                             </div>
@@ -907,7 +915,7 @@ aria-labelledby="exampleModalLabel" aria-hidden="true">
                             Comment
                         </label>
                         <textarea disabled class="form-control nots-section" id="comment" name="inputComment"
-                            placeholder="Write description" rows="3"  [(ngModel)]="userResignationInfo.comment"></textarea>
+                            placeholder="Write description" rows="3"  [(ngModel)]="userResignationInfo.comment" [ngModelOptions]="{standalone: true}"></textarea>
                     </div>
                  </div>
                 </div>

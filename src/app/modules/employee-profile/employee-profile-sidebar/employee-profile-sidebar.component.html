@@ -907,7 +907,7 @@
                             <label for="templateName" class="pb-2">
                             What is the reason for initiating the exit?
                             </label>
-                            <input class="form-control input-zorro" placeholder="Enter the reason" [(ngModel)]="userResignationReq.reason"
+                            <input class="form-control input-zorro" placeholder="Enter the reason" [(ngModel)]="userResignationReq.reason" [ngModelOptions]="{standalone: true}"
                                 nzSize="large" minlength="3" maxlength="50" id="reason" name="inputReason" #inputReason="ngModel" required />
 
                                 <div *ngIf="inputReason.invalid && inputReason.touched" class="text-danger">
@@ -965,7 +965,7 @@
                                 <div class="col-md-6">
                                   <label class="form-check assets-req d-flex align-items-center justify-content-start">
                                     <input class="form-check-input" type="radio" name="managerDiscussionInput" id="yes" value="Yes"
-                                       required [(ngModel)]="discussionType" (change)="selectManagerDiscussion('Yes')">
+                                       required [(ngModel)]="discussionType" [ngModelOptions]="{standalone: true}" (change)="selectManagerDiscussion('Yes')">
                                     <p class="form-check-label mb-0" for="exampleRadios1">
                                     Yes
                                     </p>
@@ -974,7 +974,7 @@
                                 <div class="col-md-6">
                                   <label class="form-check assets-req d-flex align-items-center justify-content-start">
                                     <input class="form-check-input" type="radio" name="managerDiscussionInput" id="no" value="No" required
-                                        [(ngModel)]="discussionType" (change)="selectManagerDiscussion('No')" >
+                                        [(ngModel)]="discussionType" [ngModelOptions]="{standalone: true}" (change)="selectManagerDiscussion('No')" >
                                     <p class="form-check-label mb-0" for="exampleRadios1">
                                     No
                                     </p>
@@ -1004,14 +1004,14 @@
                                 <div class="col-md-6">
                                     <label class="form-check assets-req d-flex align-items-center justify-content-start">
                                         <input type="radio" name="recommendDay" id="complete" value="Complete"
-                                        [(ngModel)]="recommendDay" (change)="selectRecommendDay('Complete')" class="form-check-input">
+                                        [(ngModel)]="recommendDay" [ngModelOptions]="{standalone: true}" (change)="selectRecommendDay('Complete')" class="form-check-input">
                                         <p for="exampleRadios3" class="form-check-label mb-0" required> Complete notice periodes </p>
                                     </label>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-check assets-req d-flex align-items-center justify-content-start">
                                         <input type="radio" name="recommendDay" id="other" value="Other" required
-                                        [(ngModel)]="recommendDay" (change)="selectRecommendDay('Other')" class="form-check-input">
+                                        [(ngModel)]="recommendDay" [ngModelOptions]="{standalone: true}" (change)="selectRecommendDay('Other')" class="form-check-input">
                                         <p for="exampleRadios4" class="form-check-label mb-0"> Other Date </p>
                                     </label>
                                 </div>
@@ -1037,7 +1037,7 @@
                                 </nz-date-picker> -->
 
                             <ng-container *ngIf="noticePeriodDuration == 0">
-                                <nz-date-picker *ngIf="userResignationReq.isRecommendLastDay == 1" [(ngModel)]="userResignationReq.lastWorkingDay"
+                                <nz-date-picker *ngIf="userResignationReq.isRecommendLastDay == 1" [(ngModel)]="userResignationReq.lastWorkingDay" [ngModelOptions]="{standalone: true}"
                                 nzPlaceHolder="dd/mm/yyyy"  id="selLastDate"
                                 (ngModelChange)="selectLastWorkingDay($event)" name="lastDate" #lastDate="ngModel"
                                 required class="form-control">
@@ -1045,7 +1045,7 @@
                             </ng-container>
 
                             <ng-container *ngIf="noticePeriodDuration > 0">
-                                <nz-date-picker *ngIf="userResignationReq.isRecommendLastDay == 1" [(ngModel)]="userResignationReq.lastWorkingDay"
+                                <nz-date-picker *ngIf="userResignationReq.isRecommendLastDay == 1" [(ngModel)]="userResignationReq.lastWorkingDay" [ngModelOptions]="{standalone: true}"
                                 nzPlaceHolder="dd/mm/yyyy" [nzDisabledDate]="disableFutureDates"  id="selLastDate"
                                 (ngModelChange)="selectLastWorkingDay($event)" name="lastDate" #lastDate="ngModel"
                                 required class="form-control">
@@ -1186,7 +1186,7 @@
                                 Comment
                             </label>
                             <textarea class="form-control nots-section" id="comment" name="inputComment"
-                                placeholder="Write description" rows="3"  [(ngModel)]="userResignationReq.comment"></textarea>
+                                placeholder="Write description" rows="3"  [(ngModel)]="userResignationReq.comment" [ngModelOptions]="{standalone: true}"></textarea>
                         </div>
                      </div>
                     </div>
@@ -1329,6 +1329,7 @@
                                placeholder="Search Your Skills (Ex: Testing)"
                                style="padding: 10px 70px 10px 40px;"
                                [(ngModel)]="searchSkill"
+                               [ngModelOptions]="{standalone: true}"
                                (ngModelChange)="onSkillsChange($event)"
                                 [nzAutocomplete]="skillsAuto"
 

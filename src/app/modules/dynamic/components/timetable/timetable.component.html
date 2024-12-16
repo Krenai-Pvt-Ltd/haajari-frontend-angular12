@@ -556,16 +556,6 @@
                   </div>
                 </div>
 
-                <!-- <div class="errorboxmain" *ngIf="dataNotFoundForAttendanceDetailsResponse">
-              <div class="errorboxinner text-center">
-                <div class="errorboxplaceholder mb-2">
-                  <img src="assets/images/empty-folder.svg" style="width: 80px" />
-                </div>
-    
-                <h4>No Data Found</h4>
-                <p>Sorry, We can't show you the data at this moment!</p>
-              </div>
-            </div> -->
 
                 <div
                   class="empty-file"
@@ -904,28 +894,7 @@
                               </ng-container>
                             </ng-template>
                             <ng-template #errorInFetchingAttendanceLogData>
-                              <!-- <div
-                                class="empty-file"
-                                *ngIf="dataNotFoundPlaceholder"
-                              >
-                                <div class="errorboxmain">
-                                  <div class="errorboxinner">
-                                    <div class="errorboxplaceholder mb-2">
-                                      <img
-                                        src="assets/images/empty-box.svg"
-                                        style="width: 80px"
-                                      />
-                                    </div>
-                                    <div class="">
-                                      <h4>No Data Found</h4>
-                                      <p class="mb-0">
-                                        Attendance log doesn't exist for this
-                                        user
-                                      </p>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div> -->
+                             
 
                               <div class="empty-file" style="margin-top: 20%;" *ngIf="dataNotFoundPlaceholder">
                                 <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
@@ -976,19 +945,16 @@
               <!-- modal -->
 
               <!-- Pagination -->
-              <div
-                class="pagination pl-3"
+              <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top"
                 *ngIf="
                   (total > 7 && attendanceDetailsResponseList.length > 7) ||
                   (pageNumber === lastPageNumber && lastPageNumber !== 1)
                 "
               >
-                <p class="mb-0" style="padding-left: 15px">
+                <p class="mb-0">
                   Showing {{ getStartIndex() }} - {{ getEndIndex() }} of
                   {{ total }} items
                 </p>
-                <div class="row">
-                  <div class="col-md-12">
                     <nav aria-label="Page navigation example">
                       <ul class="pagination justify-content-end">
                         <li
@@ -1031,8 +997,6 @@
                         </li>
                       </ul>
                     </nav>
-                  </div>
-                </div>
               </div>
             </div>
           </ng-container>

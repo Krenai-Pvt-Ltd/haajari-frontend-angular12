@@ -9912,6 +9912,19 @@ button:disabled {
   -webkit-animation-iteration-count: 1;
   animation-iteration-count: 1;
 }
+.btn-border-text {
+  color: var(--primary-color) !important;
+  -webkit-transform: perspective(1px) translateZ(0);
+  transform: perspective(1px) translateZ(0);
+  -webkit-animation-name: wobble;
+  animation-name: wobble;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-timing-function: ease-in-out;
+  animation-timing-function: ease-in-out;
+  -webkit-animation-iteration-count: 1;
+  animation-iteration-count: 1;
+}
 
 .btn-border span svg path {
   fill: #fff !important;

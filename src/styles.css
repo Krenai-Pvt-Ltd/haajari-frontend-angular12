@@ -736,3 +736,18 @@ actionMenuList .dropdown-item i {
 .form-control:focus{
   border-color: #e9e9e9 !important;
 }
+
+.pagination-box {
+  position: fixed;
+  bottom: 0;
+  z-index: 999;
+  left: 0px;
+  padding-left: 270px !important;
+}
+.pagination-box-profile {
+  position: fixed;
+  bottom: 0;
+  z-index: 99;
+  left: 0px;
+  padding-left: 445px !important;
+}

@@ -4390,8 +4390,10 @@ getHolidayForOrganization(date: string): Observable<any>{
   }
 
 
-  getWorkedHourForEachDayOfAWeek(): Observable<string[]> {
-    return this.httpClient.get<string[]>(`${this.baseUrl}/attendance/get-worked-hour`);
+  getWorkedHourForEachDayOfAWeek(uuid : string): Observable<string[]> {
+    const params = new HttpParams()
+    .set('uuid', uuid);
+    return this.httpClient.get<string[]>(`${this.baseUrl}/attendance/get-worked-hour`, {params});
   }
 
 

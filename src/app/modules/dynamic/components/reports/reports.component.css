@@ -425,7 +425,7 @@ span.members-name {
   color: #4a4a4a;
   font-size: 12px;
   font-weight: 500;
-  min-width: 100px;
+  width: 100px;
 }
 .submitActionBtn{
   background-color: var(--primary-background-color);
@@ -433,5 +433,5 @@ span.members-name {
   font-size: 12px;
   font-weight: 500;
   border-radius: 2px;
-  min-width: 100px;
+  width: 100px;
 }
