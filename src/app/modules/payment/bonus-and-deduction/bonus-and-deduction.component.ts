@@ -64,11 +64,9 @@ bonusAndDeductionDataList: BonusAndDeductionData[] = [];
   getBonusAndDeductionMethodCall() {
     this.preRuleForShimmersAndErrorPlaceholders();
     this._salaryService.getBonusAndDeductionLogs(this.startDate,this.endDate,this.itemPerPage,this.pageNumber,this.search)
-      .subscribe(
-        (response) => {
+      .subscribe((response) => {
           if (response.object == null || response.object.length ==0) {
             this.dataNotFoundPlaceholder = true;
-              
           } else {
             this.bonusAndDeductionDataList = response.object;
             this.totalItems = response.totalItems;         
