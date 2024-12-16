@@ -331,6 +331,8 @@ export class PayrollDashboardComponent implements OnInit {
   //   }
   // }
 
+  calendarShimmer :boolean =false;
+
   isShimmer = false;
   dataNotFoundPlaceholder = false;
   networkConnectionErrorPlaceHolder = false;
@@ -496,13 +498,16 @@ export class PayrollDashboardComponent implements OnInit {
   monthResponseList: MonthResponse[] = new Array();
   async getMonthResponseListByYearMethodCall(date: Date){
     return new Promise((resolve, reject) => {
+      this.calendarShimmer = true;
       this.monthResponseList = [];
       this._payrollService.getMonthResponseListByYear(this._helperService.formatDateToYYYYMMDD(date)).subscribe((response) => {
         if(response.status){
           this.monthResponseList = response.object;
         }
+        this.calendarShimmer = false;
         resolve(true);
       }, ((error) => {
+        this.calendarShimmer = false;
         resolve(true);
       }))
     })
