@@ -684,50 +684,7 @@
                               <span class="badge rounded-pill" [ngClass]="{'badge-soft-info': user.resignationStatus.id == 13, 'badge-soft-warning': user.resignationStatus.id == 42, 'badge-soft-danger': user.resignationStatus.id == 43 }"
                               >{{ user.resignationStatus.response }}</span>
                             </td>
-                            <!-- *ngIf="user.resignationStatus == null" -->
-                        <!-- <div>   -->
-
-                            <!-- <td class="text-center" *ngIf="user.onboardingStatus == pendingResponse">
-                              <div class="badge rounded-pill badge-soft-warning">
-                                <span class="">{{ user.onboardingStatus }}</span>
-                              </div>
-                            </td>
-
-                            <td class="text-center" *ngIf="user.onboardingStatus == approvedResponse">
-                              <div class="badge rounded-pill badge-soft-success">
-                                <span class="">{{ user.onboardingStatus }}</span>
-                              </div>
-                            </td>
-                            <td class="text-center" *ngIf="user.onboardingStatus == rejectedResponse">
-                              <div class="badge rounded-pill badge-soft-danger">
-                                <span class="">{{ user.onboardingStatus }}</span>
-                              </div>
-                            </td>
-                            <td class="text-center" *ngIf="user.onboardingStatus == requestedResponse">
-                              <div class="badge rounded-pill badge-soft-secondary">
-                                <span class="">{{ user.onboardingStatus }}</span>
-                              </div>
-                            </td>
-                            <td class="text-center" *ngIf="user.onboardingStatus == 'NOTICE PERIOD'">
-                              <div class="badge rounded-pill badge-soft-blue">
-                                <span class="">{{ user.onboardingStatus }}</span>
-                              </div>
-                            </td>
-                            <td class="text-center" *ngIf="user.onboardingStatus == newUserResponse">
-                              <div class="badge rounded-pill badge-soft-info">
-                                <span class="">NEW!</span>
-                              </div>
-                            </td> -->
-                          <!-- </div>  -->
-
-                          <!-- <ng-template #resignationStatusBlock> -->
-                          <!-- <div *ngIf="user.resignationStatus != null">
-                            <td class="text-center">
-                              <div class="badge rounded-pill badge-soft-danger">
-                                <span>{{ user.resignationStatus.response }}</span>
-                              </div>
-                            </td>
-                          </div> -->
+                           
 
 
                             <td class="stickyColTdend text-end">
@@ -808,12 +765,11 @@
 
                       </table>
                     </div>
-                    <div class="pagination pl-3" *ngIf="!isUserShimer && users.length > 0 && total > 12">
-                      <p class="mb-0" style="padding-left: 15px">
+                    <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top"*ngIf="!isUserShimer && users.length > 0 && total > 12">
+                      <p class="mb-0">
                         Showing {{ getStartIndex() }} - {{ getEndIndex() }} of {{ total }} users
                       </p>
-                      <div class="row">
-                        <div class="col-md-12">
+                        <div class="pagition-box">
                           <ngb-pagination
                             [collectionSize]="total"
                             [(page)]="pageNumber"
@@ -824,7 +780,6 @@
                             (pageChange)="onOnboardingPageChange($event)">
                           </ngb-pagination>
                         </div>
-                      </div>
                     </div>
 
                   </div>
@@ -1047,11 +1002,10 @@
                         </tbody>
                       </table>
                     </div>
-                    <div class="pagination pl-3" *ngIf="!isUserShimer && users.length > 0 && total > 12">
+                    <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top" *ngIf="!isUserShimer && users.length > 0 && total > 12">
                       <p class="mb-0" style="padding-left: 15px">
                         Showing {{ getStartIndex() }} - {{ getEndIndex() }} of {{ total }} users
                       </p>
-                      <div class="row">
                         <div class="col-md-12">
                           <ngb-pagination
                             [collectionSize]="total"
@@ -1064,7 +1018,6 @@
                           </ngb-pagination>
                         </div>
                       </div>
-                    </div>
 
                   </div>
                 </div>
@@ -1079,47 +1032,7 @@
                       <div class="row justify-content-between align-items-center mx-0">
                         <div class="col-lg-12 col-md-12 col-sm-12 ps-0">
                           <div class="d-flex justify-content-start align-items-center">
-                            <!-- <div class="dropdown empFilerDropfilter">
-                              <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
-                                class="btn btn-secondary dropdown-toggle new-deopdown">
-                                {{ selectedStatus || "All" }}
-                                <i class="bi bi-chevron-down"></i>
-                              </button>
-                              <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu">
-                                <li>
-                                  <a class="dropdown-item" (click)="selectStatus('ALL')">All</a>
-                                </li>
-
-                                <li class="dropdown-header" aria-disabled="true">
-                                  Status Wise
-                                </li>
-
-                                <li>
-                                  <a class="dropdown-item" (click)="selectStatus('APPROVED')">Approved</a>
-                                </li>
-                                <li>
-                                  <a class="dropdown-item" (click)="selectStatus('PENDING')">Pending</a>
-                                </li>
-                                <li>
-                                  <a class="dropdown-item" (click)="selectStatus('REQUESTED')">Requested</a>
-                                </li>
-                                <li>
-                                  <a class="dropdown-item" (click)="selectStatus('EDITPROFILE')">Profile Edit Requests</a>
-                                </li>
-                                <li>
-                                  <a class="dropdown-item" (click)="selectStatus('REJECTED')">Rejected</a>
-                                </li>
-                                <li class="dropdown-header" aria-disabled="true">
-                                  Accessibility Wise
-                                </li>
-                                <li>
-                                  <a class="dropdown-item" (click)="selectStatus('ACTIVE')">Active</a>
-                                </li>
-                                <li>
-                                  <a class="dropdown-item" (click)="selectStatus('INACTIVE')">Inactive</a>
-                                </li>
-                              </ul>
-                            </div> -->
+                            
                             <div class="onboarding-date d-flex align-items-center position-relative">
                               <form role="search" class="searching" style="width: 100%">
                                 <div class="form-group" style="width: 100%; position: relative">
@@ -1369,12 +1282,11 @@
                         </tbody>
                       </table>
                     </div>
-                    <div class="pagination pl-3" *ngIf="!isUserShimer && users.length > 0 && total > 12">
+                    <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top" *ngIf="!isUserShimer && users.length > 0 && total > 12">
                       <p class="mb-0" style="padding-left: 15px">
                         Showing {{ getStartIndex() }} - {{ getEndIndex() }} of {{ total }} users
                       </p>
-                      <div class="row">
-                        <div class="col-md-12">
+                        <div class="pagition-box">
                           <ngb-pagination
                             [collectionSize]="total"
                             [(page)]="pageNumber"
@@ -1386,7 +1298,6 @@
                           </ngb-pagination>
                         </div>
                       </div>
-                    </div>
 
                   </div>
                 <!-- </div> -->
@@ -1588,7 +1499,9 @@
                   personalInformationForm.invalid ||
                   isNumberExist ||
                   isEmailExist
-                " aria-label="Next Step">
+                "
+                [ngClass]="{'btn-border':!personalInformationForm.invalid}"
+                aria-label="Next Step">
                 <div *ngIf="toggle" class="dot-opacity-loader1">
                   <span></span>
                   <span></span>

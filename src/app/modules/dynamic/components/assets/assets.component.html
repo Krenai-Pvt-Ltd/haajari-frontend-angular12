@@ -803,8 +803,7 @@
         <button
           type="submit"
           class="btn submitActionBtn"
-          [disabled]="assetForm.invalid"
-        >
+          [disabled]="assetForm.invalid"  [ngClass]="{'btn-border':!assetForm.invalid}">
           Add Asset
         </button>
       </div>
@@ -1033,9 +1032,8 @@
       <div class="modal-footer">
         <button
           type="submit"
-          class="btn submitActionBtn"
-          [disabled]="assignRejectForm.invalid"
-        >
+          class="btn submitActionBtn" [ngClass]="{'btn-border':!assignRejectForm.valid}"
+          [disabled]="assignRejectForm.invalid">
           Submit
         </button>
       </div>
@@ -1125,7 +1123,7 @@
           </div>
 
 
-            <button class="btn continue-btn" (click)="deleteAssetData()">
+            <button class="btn submitActionBtn" (click)="deleteAssetData()">
              <span *ngIf="!disableLoader">Delete Asset</span> 
              <div class="dot-opacity-loader" *ngIf="disableLoader">
               <span></span>

@@ -693,7 +693,7 @@ nz-select.request-dropdown .ant-select-selector {
     font-size: 12px;
     font-weight: 500;
     border-radius: 2px;
-    min-width: 100px;
+    width: 100px;
 }
 
 .cancel-btn {
@@ -703,7 +703,7 @@ nz-select.request-dropdown .ant-select-selector {
     color: #4a4a4a;
     font-size: 12px;
     font-weight: 500;
-    min-width: 100px;
+    width: 100px;
 }
 
 .nots-section {
@@ -1033,13 +1033,6 @@ nz-select.request-dropdown .ant-select-selector {
     width: 90px !important;
 }
 
-.onboarding-date[_ngcontent-agv-c397] {
-    border-right: 1px solid #f2f2f2 !important;
-}
-
-.onboarding-date {
-    border-right: 1px solid #f2f2f2 !important;
-}
 
 div[ngbTooltip] {
     display: inline-block;

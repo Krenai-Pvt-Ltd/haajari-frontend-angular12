@@ -129,7 +129,7 @@ button.close-btn {
     font-size: 12px;
     font-weight: 500;
     border-radius: 2px;
-    min-width: 100px;
+    width: 120px;
 }
 
 .add-reference i{

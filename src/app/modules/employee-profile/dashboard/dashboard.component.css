@@ -79,11 +79,23 @@
     padding: 10px 15px !important;
 }
 
-.birthday-box{
+.birthday-box-0{
     border-radius: 2px;
     border: 0.5px solid #FCE6C2;
     background: linear-gradient(180deg, rgba(252, 230, 194, 0.30) 0%, rgba(248, 238, 224, 0.30) 100%);
     padding-left: 20px;
+}
+.birthday-box-1{
+    background: linear-gradient(180deg, rgba(193, 208, 242, 0.30) 0%, rgba(229, 234, 255, 0.30) 100%);
+    padding-left: 20px;
+    border-radius: 2px;
+    border: 0.5px solid #C1D0F2;
+}
+.birthday-box-2{
+    background: linear-gradient(180deg, rgba(202, 194, 232, 0.30) 0%, rgba(227, 225, 242, 0.30) 100%);
+    padding-left: 20px;
+    border-radius: 2px;
+    border: 0.5px solid #CECDFF;
 }
 .birthday-box h5{
     font-family: "Kanit", sans-serif;
@@ -98,7 +110,7 @@
    border: 5px solid #FCE6C2;
    z-index: 999;
 }
-.birthday-box span{
+.birthday-box-0 span{
     position: absolute;
     top: 0px;
     right: 35px;
@@ -280,7 +292,7 @@
     color: #4a4a4a;
     font-size: 12px;
     font-weight: 500;
-    min-width: 100px;
+    width: 100px;
 }
 
 .submitActionBtn {
@@ -289,7 +301,7 @@
     font-size: 12px;
     font-weight: 500;
     border-radius: 2px;
-    min-width: 100px;
+    width: 100px;
 }
 
 .input-zorro {
