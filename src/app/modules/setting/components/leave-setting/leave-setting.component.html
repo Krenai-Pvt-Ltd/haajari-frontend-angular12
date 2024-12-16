@@ -655,7 +655,7 @@
 
                             <label for="employeeTypeId" class="pb-2">Employee Type</label>
 
-                            <nz-select [disabled]="updateToggle" style="width: 100%" nzSize="large"
+                            <nz-select [disabled]="updateToggle" class="placeholder-line w-100" nzSize="large"
                               nzPlaceHolder="Select Employee type" [(ngModel)]="employeeTypeId"
                               (ngModelChange)="onEmployeeTypeChange($event)" name="emplTypeId" #emplTypeId="ngModel"
                               required class="form-control">
@@ -678,7 +678,7 @@
                                Quota Renew Cycle
                             </label>
 
-                            <nz-select [disabled]="updateToggle" style="width: 100%" nzSize="large" id="leaveFicsalYear"
+                            <nz-select [disabled]="updateToggle" class="placeholder-line w-100" nzSize="large" id="leaveFicsalYear"
                               nzPlaceHolder="Select Leave Quota Renew Cycle "
                               [(ngModel)]="leaveTemplateRequest.yearTypeName" (ngModelChange)="
                                 selectDateForLeaveTemplateRequest($event)
@@ -741,7 +741,8 @@
                         </div>
 
                         <div class="modal-footer d-flex align-items-center justify-content-end leave-footer">
-                          <button type="submit" class="btn p-0 next-btn" (click)="goToLeaveCategoryTab();" [disabled]="
+                          <button type="submit" class="btn p-0 next-btn" (click)="goToLeaveCategoryTab();" [ngClass]="{'btn-border': !(!leaveTemplateDefinitionForm.valid ||
+                              employeeTypeId == 0)}" [disabled]="
                               !leaveTemplateDefinitionForm.valid ||
                               employeeTypeId == 0
                             ">
@@ -780,7 +781,7 @@
                                 <div class="form-group">
                                   <label for="genderId" class="pb-2">Select Gender</label>
                                   <nz-form-control nzErrorTip="All">
-                                    <nz-select style="width: 100%" nzSize="large" nzPlaceHolder="Select Gender"
+                                    <nz-select class="placeholder-line w-100" nzSize="large" nzPlaceHolder="Select Gender"
                                       formControlName="gender" (ngModelChange)="
                                           onGenderChange($event, i)
                                         " required class="form-control">
@@ -797,7 +798,7 @@
                                   <span *ngIf="wfhTemplateToggle">WFH</span> <span *ngIf="!wfhTemplateToggle">Leave</span> Category Name
                                 </label>
                                 <nz-form-control nzErrorTip="Please select leave category name">
-                                  <nz-select style="width: 100%" nzSize="large"
+                                  <nz-select class="placeholder-line w-100" nzSize="large"
                                     nzPlaceHolder="Select Leave Category Name" formControlName="leaveCategoryId"
                                     required class="form-control">
                                     <nz-option *ngFor="
@@ -822,8 +823,8 @@
                               <div *ngIf="wfhTemplateToggle" class="col-md-6 mb-3" style="cursor: default;">
                                 <div class="form-group">
                                   <label for="genderId" class="pb-2">Select Gender</label>
-                                  <nz-form-control nzErrorTip="Please select a gender">
-                                    <nz-select aria-disabled="true" [nzDisabled]="wfhTemplateToggle" style="width: 100%"
+                                  <nz-form-control nzErrorTip="Please select a gender" >
+                                    <nz-select aria-disabled="true" [nzDisabled]="wfhTemplateToggle" class="placeholder-line w-100"
                                       nzSize="large" nzPlaceHolder="Select Gender" formControlName="gender" required
                                       class="form-control" style="cursor: default;">
                                       <nz-option *ngFor="let gender of genders" [nzValue]="gender.name"
@@ -838,8 +839,8 @@
                                 <label for="leaveCategoryId" class="pb-2">
                                   WFH Category Name
                                 </label>
-                                <nz-form-control nzErrorTip="Please select leave category name">
-                                  <nz-select [nzDisabled]="wfhTemplateToggle" style="width: 100%" nzSize="large"
+                                <nz-form-control nzErrorTip="Please select leave category name" >
+                                  <nz-select [nzDisabled]="wfhTemplateToggle" class="placeholder-line w-100" nzSize="large"
                                     nzPlaceHolder="Select Leave Category Name" formControlName="leaveCategoryId"
                                     required class="form-control">
                                     <nz-option *ngFor="let leaveCategory of filteredLeaveCategories"
@@ -854,7 +855,7 @@
                                   <span *ngIf="wfhTemplateToggle">WFH</span> <span *ngIf="!wfhTemplateToggle">Leave</span> Cycle
                                 </label>
 
-                                <nz-select style="width: 100%" nzSize="large" nzPlaceHolder="Select Leave Cycle"
+                                <nz-select class="placeholder-line w-100" nzSize="large" nzPlaceHolder="Select Leave Cycle"
                                   formControlName="leaveCycleId" required class="form-control">
                                   <nz-option *ngFor="let leaveCycle of leaveCycleList" [nzValue]="leaveCycle.id"
                                     [nzLabel]="leaveCycle.name">
@@ -875,7 +876,7 @@
                                   Select Accrual Type
                                 </label>
 
-                                <nz-select style="width: 100%" nzSize="large" nzPlaceHolder="Select Accrual Type"
+                                <nz-select class="placeholder-line w-100" nzSize="large" nzPlaceHolder="Select Accrual Type"
                                   formControlName="accrualTypeId" (ngModelChange)="onAccrualChange($event)" required
                                   class="form-control">
                                   <nz-option *ngFor="let accrualType of accrualTypes" [nzValue]="accrualType.id"
@@ -986,7 +987,7 @@
                                   Update leave Category
                                 </button>
 
-                                <button [disabled]="!form.valid" *ngIf="!editToggle"
+                                <button [disabled]="!form.valid" [ngClass]="{'btn-border-text': form.valid}" *ngIf="!editToggle"
                                   class="p-0 btn text-primary leave-category" (click)="addFormRow(i)">
                                   <i class="bi bi-plus-lg"></i>
                                   {{ !addFormToggle
@@ -1128,8 +1129,8 @@
                         </div>
 
                         <div class="modal-footer d-flex align-items-center justify-content-end leave-footer">
-
-                          <button [disabled]="displayedCategories.length == 0" type="submit" class="btn p-0 next-btn"
+                          <!-- [ngClass]="{'btn-border-text': form.valid}" -->
+                          <button [ngClass]="{'btn-border': displayedCategories.length > 0}" [disabled]="displayedCategories.length == 0"  type="submit" class="btn p-0 next-btn"
                             (click)="goToStaffSelectionTab()">
                             Next
                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22"
@@ -1148,11 +1149,7 @@
                         <div class="col-md-12 mb-3 position-relative">
                           <input placeholder="Search by Name " id="searchText" name="searchUsers" type="text"
                             class="form-control" (keyup)="searchUsers()" [(ngModel)]="searchText"
-                            [ngModelOptions]="{ standalone: true }" style="
-                              background-color: #f9fafc;
-                              border: none;
-                              padding: 0px 0px 0px 35px;
-                            " />
+                            [ngModelOptions]="{ standalone: true }" style="padding: 0px 0px 0px 35px;" />
                           <button type="button" class="btn close-btn" (click)="clearSearchUsers()" *ngIf="crossFlag">
                             <i class="bi bi-x"></i>
                           </button>
@@ -1285,74 +1282,28 @@
                             </table>
                           </div>
 
-                          <!-- Old Pagination all -->
-                          <!-- <div class="d-flex align-items-center justify-content-end">
-                            <div class="pagination mt-3" *ngIf="total > 8">
-                              <div class="row">
-                                <div class="col-md-12">
-                                  <nav aria-label="Page navigation example">
-                                    <ul class="pagination justify-content-end">
-                                      <li class="page-item" [class.disabled]="pageNumber == 1">
-                                        <a class="page-link" href="javascript:void(0);" aria-label="Previous"
-                                          (click)="changePage('prev')">
-                                          <span aria-hidden="true">&laquo;</span>
-                                        </a>
-                                      </li>
-                                      <li class="page-item" *ngFor="let page of getPages()"
-                                        [class.active]="pageNumber == page">
-                                        <a class="page-link" href="javascript:void(0);" (click)="changePage(page)">{{
-                                          page }}</a>
-                                      </li>
-                                      <li class="page-item" [class.disabled]="
-                                          pageNumber == totalPages
-                                        ">
-                                        <a class="page-link" href="javascript:void(0);" aria-label="Next"
-                                          (click)="changePage('next')">
-                                          <span aria-hidden="true">&raquo;</span>
-                                        </a>
-                                      </li>
-                                    </ul>
-                                  </nav>
-                                </div>
-                              </div>
-                            </div>
-                          </div> -->
 
-                          <!-- ngb Pagination -->
+                          
+                          <!-- ngb Pagination end-->
 
-                          <!-- <div class="row mt-4">
-                            <div class="col-md-12 d-flex justify-content-end">
-                                <ngb-pagination [collectionSize]="total" [rotate]="true"
-                                    (pageChange)="pageChanged($event)" [pageSize]="databaseHelper.itemPerPage"
-                                    [(page)]="databaseHelper.currentPage" [maxSize]="4"
-                                    [boundaryLinks]="true"></ngb-pagination>
-                            </div>
-                        </div> -->
-
-                          <div class="pagination justify-content-between pl-3" *ngIf="staffs.length > 0">
+                        </div>
+                        <div class="leave-footer bg-white">
+                          <div class="pagination justify-content-between p-3" *ngIf="staffs.length > 0">
                             <p class="mb-0" style="padding-left: 15px">
                               Showing {{ staffs.length }} of {{ total }} members
                             </p>
                             <div class="row">
                               <div class="col-md-12">
-                                <ngb-pagination [collectionSize]="total" [rotate]="true"
+                                <ngb-pagination class="pagition-box" [collectionSize]="total" [rotate]="true"
                                   (pageChange)="pageChanged($event)" [pageSize]="databaseHelper.itemPerPage"
                                   [(page)]="databaseHelper.currentPage" [maxSize]="4"
                                   [boundaryLinks]="true"></ngb-pagination>
                               </div>
                             </div>
                           </div>
-                          <!-- ngb Pagination end-->
-
-                        </div>
-
-                        <div class="modal-footer d-flex align-items-center justify-content-end leave-footer bg-white">
-
-                          <button *ngIf="!registerToggle" [disabled]="
-                              selectedStaffIdsUser.length == 0 || registerToggle
-                            " type="submit" class="btn p-0 next-btn" (click)="registerLeaveTemplateMethodCall()">
-                            {{ updateToggle ? "Update" : "Create" }} Leave
-                            Policy
+                          
+                        <div class="modal-footer d-flex align-items-center justify-content-end">
+                          <button *ngIf="!registerToggle" [disabled]="selectedStaffIdsUser.length == 0 || registerToggle" [ngClass]="{'btn-border': selectedStaffIdsUser.length > 0 }" type="submit" class="btn p-0 next-btn" (click)="registerLeaveTemplateMethodCall()"> {{ updateToggle ? "Update" : "Create" }} Leave Policy
                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22"
                               fill="none">
                               <path
@@ -1367,6 +1318,7 @@
                             <span></span>
                           </div>
                         </div>
+                      </div>
                       </div>
                     </div>
                   </div>

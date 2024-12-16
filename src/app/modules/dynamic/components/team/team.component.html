@@ -17,14 +17,7 @@
                     class="form-control me-2 ng-untouched ng-pristine ng-valid attendance-details-search"
                     (keyup)="searchTeams()" [(ngModel)]="searchText" [ngModelOptions]="{ standalone: true }"
                     style="padding: 10px 35px" />
-                  <!-- <button
-                              type="button"
-                              class="btn close-btn"
-                              (click)="reloadPage()"
-                              *ngIf="crossFlag"
-                              >
-                              <i class="bi bi-x mt-auto mb-auto pl-3"></i>
-                              </button> -->
+                 
                   <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px"
                     *ngIf="searchText == ''"></i>
                   <i class="bi bi-x search-icon" style="margin: auto; margin-left: 10px" (click)="reloadPage()"
@@ -142,25 +135,7 @@
         <div class="col-md-4"></div>
         <div class="col-md-4"></div>
       </div>
-      <!-- <div
-            class="row app-emptiy-notifaction"
-            *ngIf="!isShimmer && total == 0 && searchTeamPlaceholderFlag"
-            >
-            <div
-              class="col-md-6 d-flex align-items-center justify-content-center"
-              style="flex-direction: column"
-            >
-              <div class="">
-                <h4>Team not found</h4>
-                <p>Create new team by clicking on 'Create Team' button.</p>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="">
-                <img src="assets/images/empty-2.png" style="width: 100%" />
-              </div>
-            </div>
-            </div> -->
+     
       <div class="empty-file" style="margin-top: 15%" *ngIf="!isShimmer && total == 0 && searchTeamPlaceholderFlag">
         <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
           <ng-template #contentTpl>
@@ -284,12 +259,7 @@
                }
                ">
           <div class="card team-card" style="height: 185px; overflow: hidden">
-            <!-- <span class="profile-image-name-span">
-                     <i class="bi bi-patch-check-fill"></i>
-                     </span> -->
-            <!-- <div class="ribbon3 rib3-primary">
-                     <span class="text-white text-center rib3-primary">50% off</span>                                        
-                     </div> -->
+          
             <div class="card-body">
               <div class="float-end">
                 <div class="dropdown d-inline-block">
@@ -298,8 +268,7 @@
                     <i class="las la-ellipsis-v font-24 text-muted"></i>
                   </a>
                   <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dLabel1">
-                    <!-- <a class="dropdown-item" href="#">Open Project</a> -->
-                    <!-- <a class="dropdown-item" href="#">Edit Card</a> -->
+                   
                     <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" (click)="
                               openDeleteConfirmationModal(team.uuid, logInUserUuid)
                               " *ngIf="team.exitFromTeam">Exit From Team!</a>
@@ -311,7 +280,6 @@
               <div class="media align-items-center">
                 <div class="img-group">
                   <a class="user-avatar me-1" href="#">
-                    <!-- <img src="assets/images/user.png" alt="" class="rounded-circle thumb-md"> -->
                     <span class="members-icon">{{
                       capitalizeFirstLetter(team.name[0])
                       }}</span>
@@ -377,7 +345,7 @@
                               ">
                     <a class="user-avatar" href="" [ngClass]="i === 0 ? '' : 'ms-n3'" *ngIf="i < 3">
                       <span *ngIf="ul.image !== null">
-                        <img src="{{ ul.image }}" alt="u" class="thumb-xs rounded-circle" />
+                        <img onerror="this.src='./assets/images/broken-image-icon.jpg';" src="{{ ul.image }}" alt="u" class="thumb-xs rounded-circle" />
                       </span>
                       <span class="members-name" *ngIf="ul.image == null">{{
                         ul.name[0]
@@ -412,13 +380,11 @@
           <!--end card-body-->
         </div>
        
-        <div class="pagination pl-3" *ngIf="isShimmer == false && teamsNew.length > 0 && total > 12">
-          <p class="mb-0" style="padding-left: 15px">
+        <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top" *ngIf="isShimmer == false && teamsNew.length > 0 && total > 12">
+          <p class="mb-0">
             Showing {{ getStartIndex() }} - {{ getEndIndex() }} of
             {{ total }} teams
           </p>
-          <div class="row">
-            <div class="col-md-12">
               <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-end">
                   <li class="page-item" [class.disabled]="pageNumber == 1">
@@ -436,8 +402,6 @@
                   </li>
                 </ul>
               </nav>
-            </div>
-          </div>
         </div>
       </div>
       <!--end col-->
