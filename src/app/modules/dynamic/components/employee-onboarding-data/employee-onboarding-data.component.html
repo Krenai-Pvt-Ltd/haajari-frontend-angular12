@@ -356,12 +356,12 @@
                 <li class="nav-item d-flex align-items-center">
                     <a id="pills-notification-tab" data-bs-toggle="pill" href="#editRequest" role="tab" (click)="selectStatus('EDITPROFILE')"
                         aria-controls="pills-notification" aria-selected="false" class="nav-link">Profile Edit Request</a>
-                        <span class="request-count d-flex align-items-center justify-content-center">12</span>
+                        <span class="request-count d-flex align-items-center justify-content-center" *ngIf="editProfileCount > 0">{{editProfileCount}}</span>
                 </li>
                 <li class="nav-item d-flex align-items-center">
                     <a id="pills-notification-tab" data-bs-toggle="pill" href="#resignationRequest" role="tab"
                         aria-controls="pills-notification" aria-selected="false" class="nav-link" (click)="resignationRequest()">Resignation Request</a>
-                    <span class="request-count d-flex align-items-center justify-content-center">2</span>
+                    <span class="request-count d-flex align-items-center justify-content-center" *ngIf="resignationCount > 0">{{resignationCount}}</span>
                 </li>
             </ul>
 
@@ -674,7 +674,7 @@
 
 
                           <!-- <ng-container *ngIf="user.resignationStatus == null; else resignationStatusBlock"> -->
-
+                            <!-- {{ user.onboardingStatus }} -->
                             <td *ngIf="constants.EMPTY_STRINGS.includes(user?.resignationStatus)">
                               <span class="badge rounded-pill" 
                               [ngClass]="{'badge-soft-success': user.onboardingStatus === 'APPROVED'||user.onboardingStatus === 'NEW_USER', 'badge-soft-danger': user.onboardingStatus === 'REJECTED', 'badge-soft-warning': user.onboardingStatus === 'PENDING', 'badge-soft-secondary': user.onboardingStatus === 'REQUESTED' }">
@@ -934,7 +934,7 @@
 
                             <td *ngIf="user.resignationStatus == null">
                               <span class="badge rounded-pill"
-                              [ngClass]="{'badge-soft-success': user.onboardingStatus === 'APPROVED', 'badge-soft-danger': user.onboardingStatus === 'REJECTED', 'badge-soft-warning': user.onboardingStatus === 'PENDING' }">
+                              [ngClass]="{'badge-soft-success': user.onboardingStatus === 'APPROVED', 'badge-soft-danger': user.onboardingStatus === 'REJECTED', 'badge-soft-warning': user.onboardingStatus === 'PENDING', 'badge-soft-secondary': user.onboardingStatus === 'REQUESTED' }">
                               {{ user.onboardingStatus }}</span>
                             </td>
                             <td *ngIf="user.resignationStatus != null">
