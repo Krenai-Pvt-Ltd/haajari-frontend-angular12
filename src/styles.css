@@ -751,3 +751,24 @@ actionMenuList .dropdown-item i {
   left: 0px;
   padding-left: 445px !important;
 }
+
+.badge{
+  line-height: 12px;
+  padding: 0.55em 10px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.1px;
+  min-width: 95px;
+}
+.profile-badge {
+  line-height: 12px;
+  padding: 0.55em 10px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.1px;
+  min-width: 288px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
