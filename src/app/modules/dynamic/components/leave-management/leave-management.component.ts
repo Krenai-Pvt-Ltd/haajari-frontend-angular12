@@ -9,7 +9,7 @@ import {
 } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Color, ScaleType } from '@swimlane/ngx-charts';
-import * as moment from 'moment';
+import moment from 'moment';
 import { Key } from 'src/app/constant/key';
 import {
   FullLeaveLogsResponse,

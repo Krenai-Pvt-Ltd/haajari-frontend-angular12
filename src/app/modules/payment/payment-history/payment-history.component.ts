@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { debug } from 'console';
-import * as saveAs from 'file-saver';
-import * as moment from 'moment';
+import saveAs from 'file-saver';
+import moment from 'moment';
 import { Key } from 'src/app/constant/key';
 import { EmployeeMonthWiseSalaryData } from 'src/app/models/employee-month-wise-salary-data';
 import { StartDateAndEndDate } from 'src/app/models/start-date-and-end-date';
@@ -48,7 +48,7 @@ Math: any;
     private _salaryService: SalaryService,
      public _helperService: HelperService,
       private http: HttpClient) {
-    
+
   }
 
   ngOnInit(): void {
@@ -80,7 +80,7 @@ Math: any;
     this.getOrganizationMonthWiseSalaryDataMethodCall();
   }
 
-  
+
   mainPlaceholderFlag : boolean = false;
 
   employeeMonthWiseSalaryDataList: EmployeeMonthWiseSalaryData[] = [];
@@ -150,7 +150,7 @@ Math: any;
    this.getOrganizationMonthWiseSalaryDataMethodCall();
   }
 
-  
+
 
 
   unSelectAll(){
@@ -183,7 +183,7 @@ Math: any;
     this.allChecked = !this.allChecked;
   }
 
- 
+
   selectSingle(event: any, i: any) {
     if (event.checked) {
       this.employeeMonthWiseSalaryDataList[i].checked = false;
@@ -204,7 +204,7 @@ Math: any;
     }
   }
 
-  
+
   updateSalarySlipStatus(){
     this._salaryService.updateSalarySlipStatus(this.monthWiseIds).subscribe(
       (response) => {
@@ -213,11 +213,11 @@ Math: any;
           this._helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
         }
       },(error) => {
-       
+
       }
     );
   }
-  
+
   downloadPdf(url: string) {
     this.http.get(url, { responseType: 'blob' }).subscribe(blob => {
       saveAs(blob, 'Salary_PaySlip.pdf');
@@ -245,7 +245,7 @@ Math: any;
         }
       },
       (error) => {
-       
+
       }
     );
   }
@@ -253,7 +253,7 @@ Math: any;
   // generateSalarySlipMethodCall(){
   //   this.dataService.generateSalarySlip(this.startDate, this.endDate,this.selectedEmployeeIds).subscribe(
   //     (response) => {
-        
+
   //       this.isAllUsersSelected = false;
   //       this.selectedEmployeeIds= [];
   //       this.helperService.showToast('Payslip generated Succesfully', Key.TOAST_STATUS_SUCCESS)
@@ -264,6 +264,6 @@ Math: any;
   //     }
   //   );
   // }
-  
-  
+
+
 }

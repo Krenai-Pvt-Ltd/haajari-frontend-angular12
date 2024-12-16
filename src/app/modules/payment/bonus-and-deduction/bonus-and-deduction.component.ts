@@ -1,10 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import * as moment from 'moment';
 import { Key } from 'src/app/constant/key';
 import { BonusAndDeductionData } from 'src/app/models/bonus-and-deduction-data';
-import { EmployeeMonthWiseSalaryData } from 'src/app/models/employee-month-wise-salary-data';
-import { StartDateAndEndDate } from 'src/app/models/start-date-and-end-date';
-import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { SalaryService } from 'src/app/services/salary.service';
 
@@ -18,8 +14,6 @@ export class BonusAndDeductionComponent implements OnInit {
 
   constructor(public _helperService: HelperService,
               private _salaryService : SalaryService) {
-
-    
   }
 
   itemPerPage: number = 5;
@@ -31,7 +25,7 @@ export class BonusAndDeductionComponent implements OnInit {
   readonly APPROVED = Key.APPROVED;
 
   size: 'small' | 'default' | 'large' = 'default';
-  
+
   isShimmer = false;
   dataNotFoundPlaceholder = false;
   networkConnectionErrorPlaceHolder = false;
@@ -43,16 +37,10 @@ export class BonusAndDeductionComponent implements OnInit {
     this.totalItems = 0;
   }
 
-
-
   ngOnInit(): void {
     window.scroll(0, 0);
     this.getFirstAndLastDateOfMonth(this.selectedDate);
   }
-
- 
-
-
 
   onYearChange(date: Date): void {
     this.selectedDate = date;
@@ -89,7 +77,7 @@ bonusAndDeductionDataList: BonusAndDeductionData[] = [];
       new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0),
     );
     this.getBonusAndDeductionMethodCall();
-    
+
   }
 
   pageChange(page:any){
@@ -133,7 +121,7 @@ bonusAndDeductionDataList: BonusAndDeductionData[] = [];
    this.getBonusAndDeductionMethodCall();
   }
 
-  
+
   selectedDate: Date = new Date();
   startDate: string = '';
   endDate: string = '';
@@ -143,12 +131,12 @@ bonusAndDeductionDataList: BonusAndDeductionData[] = [];
     this.getFirstAndLastDateOfMonth(this.selectedDate);
   }
 
-  
+
 
   bonusEditReq : BonusAndDeductionData = new BonusAndDeductionData();
   @ViewChild('bonusEditButton') bonusEditButton!:ElementRef;
   openEditModal(data: BonusAndDeductionData){
-    this.bonusEditReq =  JSON.parse(JSON.stringify(data)) ;   
+    this.bonusEditReq =  JSON.parse(JSON.stringify(data)) ;
     this.bonusEditButton.nativeElement.click();
   }
 
