@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import * as moment from 'moment';
+import moment from 'moment';
 import { Key } from 'src/app/constant/key';
 import { BonusAndDeductionData } from 'src/app/models/bonus-and-deduction-data';
 import { EmployeeMonthWiseSalaryData } from 'src/app/models/employee-month-wise-salary-data';
@@ -20,7 +20,7 @@ export class BonusAndDeductionComponent implements OnInit {
               public _helperService: HelperService,
               private _salaryService : SalaryService) {
 
-    
+
   }
 
   itemPerPage: number = 8;
@@ -33,7 +33,7 @@ export class BonusAndDeductionComponent implements OnInit {
   readonly APPROVED = Key.APPROVED;
 
   size: 'small' | 'default' | 'large' = 'default';
-  
+
   isShimmer = false;
   dataNotFoundPlaceholder = false;
   networkConnectionErrorPlaceHolder = false;
@@ -50,7 +50,7 @@ export class BonusAndDeductionComponent implements OnInit {
     this.getFirstAndLastDateOfMonth(this.selectedDate);
   }
 
- 
+
 
 
 
@@ -68,11 +68,11 @@ bonusAndDeductionDataList: BonusAndDeductionData[] = [];
         (response) => {
           if (response.object == null || response.object.length ==0) {
             this.dataNotFoundPlaceholder = true;
-              
+
           } else {
             this.bonusAndDeductionDataList = response.object;
             this.total = response.totalItems;
-            this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);            
+            this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
           }
           this.isShimmer = false;
         },
@@ -92,10 +92,10 @@ bonusAndDeductionDataList: BonusAndDeductionData[] = [];
       new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0),
     );
     this.getBonusAndDeductionMethodCall();
-    
+
   }
 
-  
+
 
   changePage(page: number | string) {
     if (typeof page === 'number') {
@@ -153,7 +153,7 @@ bonusAndDeductionDataList: BonusAndDeductionData[] = [];
    this.getBonusAndDeductionMethodCall();
   }
 
-  
+
   selectedDate: Date = new Date();
   startDate: string = '';
   endDate: string = '';
@@ -163,12 +163,12 @@ bonusAndDeductionDataList: BonusAndDeductionData[] = [];
     this.getFirstAndLastDateOfMonth(this.selectedDate);
   }
 
-  
+
 
   bonusEditReq : BonusAndDeductionData = new BonusAndDeductionData();
   @ViewChild('bonusEditButton') bonusEditButton!:ElementRef;
   openEditModal(data: BonusAndDeductionData){
-    this.bonusEditReq =  JSON.parse(JSON.stringify(data)) ;   
+    this.bonusEditReq =  JSON.parse(JSON.stringify(data)) ;
     this.bonusEditButton.nativeElement.click();
   }
 

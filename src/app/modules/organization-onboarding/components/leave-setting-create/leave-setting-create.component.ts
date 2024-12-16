@@ -10,7 +10,7 @@ import {
 import { Router } from '@angular/router';
 import { error } from 'console';
 import { template } from 'lodash';
-import * as moment from 'moment';
+import moment from 'moment';
 import { constant } from 'src/app/constant/constant';
 import { Key } from 'src/app/constant/key';
 import { FullLeaveSettingRequest } from 'src/app/models/Full-Leave-Setting-Request';

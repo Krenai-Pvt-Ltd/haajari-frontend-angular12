@@ -495,10 +495,14 @@
   }
 
   .chart-container {
-    width: 100%;
-    max-width: 800px;
-    margin: 20px auto;
+    position: relative;
+    /* height: 50vh;
+    width: 50vw; */
+    /* height: 500px; */
+    width: 400px;
+    margin: 0 auto;
   }
+  
   
   
   
