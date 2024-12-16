@@ -42,6 +42,7 @@ export class DashboardComponent implements OnInit {
     this.getUsersWithUpcomingBirthdays();
     this.getNewUsersJoinies();
     this.getUsersUpcomingWorkAnniversaries();
+    this.getWorkedHourForEachDayOfAWeek();
 
   }
 
@@ -146,5 +147,19 @@ getWeekDayOfBirthday(birthday: string): string {
     })
 
   }
+
+  workedHourForEachDay: any;
+  getWorkedHourForEachDayOfAWeek() {
+    this.dataService.getWorkedHourForEachDayOfAWeek().subscribe(
+      (response: any) => {
+        this.workedHourForEachDay = response.object;
+      },
+      (error) => {
+        console.error('Error fetching user count by status:', error);
+      }
+    );
+  }
+
+  
 
 }

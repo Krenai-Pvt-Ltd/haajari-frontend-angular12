@@ -4390,6 +4390,11 @@ getHolidayForOrganization(date: string): Observable<any>{
   }
 
 
+  getWorkedHourForEachDayOfAWeek(): Observable<string[]> {
+    return this.httpClient.get<string[]>(`${this.baseUrl}/attendance/get-worked-hour`);
+  }
+
+
 }
 
 
