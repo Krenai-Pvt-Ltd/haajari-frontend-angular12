@@ -2878,6 +2878,18 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     );
   }
 
+  getNextSixHolidays(): Observable<any> {
+    // const params = {
+    //   page: `${page}`,
+    //   itemsPerPage: `${itemsPerPage}`,
+    // };
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/holiday/get-next-six-holidays`
+    );
+  }
+
+
+
   getHolidayCounts(): Observable<any> {
     return this.httpClient.get(
       `${this.baseUrl}/holiday/get-Counts-of-holidays`
@@ -4406,11 +4418,12 @@ getHolidayForOrganization(date: string): Observable<any>{
   }
 
 
-  getWorkedHourForEachDayOfAWeek(uuid : string, startDate:string, endDate: string): Observable<string[]> {
+  getWorkedHourForEachDayOfAWeek(uuid : string, startDate:string, endDate:string, searchString: string): Observable<string[]> {
     const params = new HttpParams()
     .set('uuid', uuid)
     .set('startDate', startDate)
-    .set('endDate', endDate);
+    .set('endDate', endDate)
+    .set('searchString', searchString);
     return this.httpClient.get<string[]>(`${this.baseUrl}/attendance/get-worked-hour`, {params});
   }
 

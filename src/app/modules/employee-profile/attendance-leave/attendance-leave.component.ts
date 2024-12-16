@@ -536,6 +536,7 @@ dayShiftToggleFun(shift: string) {
 
 
   onMonthChange(month: Date): void {
+   
     this.selectedDate = month;
     this.presentWeek = false;
     // this.resetData();
@@ -606,6 +607,7 @@ dayShiftToggleFun(shift: string) {
   }
 
   setWeekRange(date: Date, weekNumber: number): void {
+    debugger
     const currentDate = new Date();
     const startOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
     const lastDayOfMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0);
@@ -668,6 +670,12 @@ dayShiftToggleFun(shift: string) {
   }
 
   onTabChange(tab: string): void {
+    debugger
+    if(tab == '30 DAYS') {
+      this.searchString = 'ALL';
+    }else {
+      this.searchString = 'WEEK';
+    }
     this.selectedTab = tab;
     this.presentWeek = false;
     // this.resetData();
@@ -811,6 +819,7 @@ dayShiftToggleFun(shift: string) {
 // Navigate to the previous month
 goToPreviousMonth(): void {
   if (!this.isPreviousDisabled()) {
+    this.searchString = 'WEEK';
     const previousMonth = new Date(
       this.selectedDate.getFullYear(),
       this.selectedDate.getMonth() - 1,
@@ -824,6 +833,7 @@ goToPreviousMonth(): void {
 nextMonthDisable: boolean = false;
 goToNextMonth(): void {
   if (!this.isNextDisabled()) {
+    this.searchString = 'WEEK';
     const nextMonth = new Date(
       this.selectedDate.getFullYear(),
       this.selectedDate.getMonth() + 1,
@@ -1038,9 +1048,34 @@ timeline: Timeline | undefined;
 @ViewChild('chartCanvas', { static: false }) chartCanvas!: ElementRef<HTMLCanvasElement>;
 private chart!: Chart;
 
+searchString = 'WEEK';
+endDateStr : string = '';
 getWorkedHourForEachDayOfAWeek() {
   debugger
-  this.dataService.getWorkedHourForEachDayOfAWeek(this.userId, this.startDate, this.endDate).subscribe(
+  
+  /// Get current date and convert to the same format as endDate
+  const currentDate = new Date();
+  const endDate = new Date(this.endDate); // Convert endDate to Date object
+  const dayOfWeek = currentDate.getDay(); // Get the current day of the week (0 = Sunday, 6 = Saturday)
+
+  // Get the last date of the current week (Saturday)
+  const lastDayOfWeek = new Date(currentDate);
+  lastDayOfWeek.setDate(currentDate.getDate() - dayOfWeek + 6); // Set to Saturday of the current week
+
+  // Normalize currentDate and lastDayOfWeek to remove time component for accurate comparison
+  currentDate.setHours(0, 0, 0, 0);
+  lastDayOfWeek.setHours(0, 0, 0, 0);
+  endDate.setHours(0, 0, 0, 0); // Remove time component from endDate
+
+  // If endDate lies within the current week, adjust it to the last day (Saturday)
+  if (endDate >= currentDate && endDate <= lastDayOfWeek) {
+    console.log('End date is within the current week');
+    this.endDateStr = lastDayOfWeek.toISOString().split('T')[0]; // Format the date in YYYY-MM-DD format
+  }else {
+    this.endDateStr = this.endDate;
+  }
+
+  this.dataService.getWorkedHourForEachDayOfAWeek(this.userId, this.startDate, this.endDateStr, this.searchString).subscribe(
     (response: any) => {
       const labels = response.listOfObject.map((item: any) =>
         this.formatDate(item.workDate)
@@ -1062,9 +1097,18 @@ formatToDecimalHours(time: string): number {
   return hours + minutes / 60 + seconds / 3600;
 }
 
+// formatDate(date: string): string {
+//   const options: Intl.DateTimeFormatOptions = { weekday: 'short' };
+//   return new Date(date).toLocaleDateString('en-US', options);
+// }
+
 formatDate(date: string): string {
-  const options: Intl.DateTimeFormatOptions = { weekday: 'short' };
+  if (this.searchString === 'ALL') {
+    return date;
+  } else {
+    const options: Intl.DateTimeFormatOptions = { weekday: 'short' };
   return new Date(date).toLocaleDateString('en-US', options);
+  }
 }
 
 formatDecimalToTime(decimalHours: number): string {
@@ -1121,7 +1165,7 @@ initializeChart(labels: string[], data: number[]) {
           x: {
             title: {
               display: true,
-              text: 'Days',
+              text: this.searchString === 'ALL' ? 'Weeks' : 'Days',
             },
           },
           y: {

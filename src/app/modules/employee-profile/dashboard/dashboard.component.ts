@@ -15,6 +15,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
+import { Holiday } from 'src/app/models/Holiday';
 
 
 Chart.register(
@@ -60,6 +61,7 @@ export class DashboardComponent implements OnInit {
     const userUuidParam = new URLSearchParams(window.location.search).get('userId');
     this.userId = userUuidParam?.toString() ?? ''
     this.calculateDateRange();
+    this.loadHolidays();
     this.getRole();
     this.getUserResignationInfo();
     this.getUsersWithUpcomingBirthdays();
@@ -413,7 +415,7 @@ formatDateToYYYYMMDD(date: Date): string {
 private chart!: Chart;
 
 getWorkedHourForEachDayOfAWeek() {
-  this.dataService.getWorkedHourForEachDayOfAWeek(this.userId, this.startDate, this.endDate).subscribe(
+  this.dataService.getWorkedHourForEachDayOfAWeek(this.userId, this.startDate, this.endDate, 'WEEK').subscribe(
     (response: any) => {
       const labels = response.listOfObject.map((item: any) =>
         this.formatDate(item.workDate)
@@ -516,8 +518,51 @@ initializeChart(labels: string[], data: number[]) {
   }
 }
 
+// holidays
+
+// holidays: Holiday[] = [];
+// loadHolidays() {
+//     this.dataService.getNextSixHolidays().subscribe({
+//       next: (data: Holiday[]) => {
+//         this.holidays = data; 
+//       },
+//       error: (error) => {
+//         console.error('Failed to fetch holidays', error);
+//       },
+//     });
+//   }
 
 
+holidays: Holiday[] = [];
+  currentHolidayIndex: number = 0; // Initially show the first holiday
+
+  loadHolidays(): void {
+    this.dataService.getNextSixHolidays().subscribe({
+      next: (data: Holiday[]) => {
+        this.holidays = data; 
+        // Ensure currentHolidayIndex doesn't exceed array bounds
+        if (this.holidays.length > 0) {
+          this.currentHolidayIndex = 0; // Reset to show the first holiday in the list
+        }
+      },
+      error: (error) => {
+        console.error('Failed to fetch holidays', error);
+      },
+    });
+  }
+
+  showNextHoliday(): void {
+    if (this.holidays.length > 0) {
+      this.currentHolidayIndex = (this.currentHolidayIndex + 1) % this.holidays.length;
+    }
+  }
+
+  showPreviousHoliday(): void {
+    if (this.holidays.length > 0) {
+      this.currentHolidayIndex = 
+        (this.currentHolidayIndex - 1 + this.holidays.length) % this.holidays.length;
+    }
+  }
 
 
 
