@@ -274,7 +274,7 @@
                                             </tr>
                                         </tbody>
 
-                                        <!-- <tbody>
+                                        <tbody *ngIf="!isFullLogLoader && dataNotFoundForAttendanceUpdateRequestLog">
                                             <tr>
                                                 <td colspan="8">
                                                     <div class="empty-file" style="margin-top: 7%; margin-bottom: 7%">
@@ -288,9 +288,9 @@
 
                                                 </td>
                                             </tr>
-                                        </tbody> -->
+                                        </tbody>
 
-                                        <tbody *ngIf="!isFullLogLoader">
+                                        <tbody *ngIf="!isFullLogLoader && !dataNotFoundForAttendanceUpdateRequestLog">
 
                                           <tr *ngFor="let item of attendanceRequestLog">
                                             <td class="text-left">
@@ -397,7 +397,7 @@
                                                                         </tr>
                                                                     </tbody>
 
-                                        <!-- <tbody>
+                                        <tbody *ngIf="!isShimmerForOvertimeLog && overtimeRequestLogResponseList?.length === 0">
                                                                         <tr>
                                                                             <td colspan="8">
                                                                                 <div class="empty-file" style="margin-top: 7%; margin-bottom: 7%">
@@ -411,7 +411,7 @@
 
                                                                             </td>
                                                                         </tr>
-                                                                    </tbody> -->
+                                                                    </tbody>
 
                                                                     <tbody *ngIf="!isShimmerForOvertimeLog">
 
@@ -519,7 +519,7 @@
                                                                         </tr>
                                                                     </tbody>
 
-                                        <!-- <tbody>
+                                                                  <tbody *ngIf="!isLoading && userLeaveLog?.length === 0">
                                                                         <tr>
                                                                             <td colspan="8">
                                                                                 <div class="empty-file" style="margin-top: 7%; margin-bottom: 7%">
@@ -533,7 +533,7 @@
 
                                                                             </td>
                                                                         </tr>
-                                                                    </tbody> -->
+                                                                    </tbody>
 
                                         <tbody *ngIf="!isLoading">
 
