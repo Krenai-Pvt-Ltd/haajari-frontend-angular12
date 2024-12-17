@@ -102,12 +102,17 @@
 
                         </div>
 
-                        <nz-select class="request-dropdown"
-                            nzSize="large" nzPlaceHolder="New Request" required>
+                        <nz-select class="request-dropdown" nzSize="large" nzPlaceHolder="New Request" required [(ngModel)]="selectedRequest" (ngModelChange)="onRequestChange(selectedRequest)">
                             <nz-option [nzValue]="'Attendance update'" [nzLabel]="'Attendance update'"></nz-option>
+                            <!-- Add other options here if needed -->
+                        </nz-select>
+
+                        <!-- <nz-select class="request-dropdown"
+                            nzSize="large" nzPlaceHolder="New Request" required>
+                            <nz-option [nzValue]="'Attendance update'" [nzLabel]="'Attendance update'" ></nz-option>
                             <nz-option [nzValue]="'Overtime'" [nzLabel]="'Overtime'"></nz-option>
                             <nz-option [nzValue]="'Lop reversal'" [nzLabel]="'Lop reversal'"></nz-option>
-                        </nz-select>
+                        </nz-select> -->
 
                     </div>
                 </div>
@@ -1861,13 +1866,13 @@
 
 
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#updateRequest">
+<button type="button" class="btn btn-primary d-none" id="attendanceUpdate" data-bs-toggle="modal" data-bs-target="#updateRequest" >
     Attendance Update request
 </button>
 
 <!-- Modal -->
 <div class="modal fade" id="updateRequest" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
+    aria-hidden="true" >
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">

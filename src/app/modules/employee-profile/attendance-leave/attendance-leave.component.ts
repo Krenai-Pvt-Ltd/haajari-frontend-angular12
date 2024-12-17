@@ -1188,5 +1188,16 @@ initializeChart(labels: string[], data: number[]) {
   }
 }
 
+selectedRequest: string = ''; // Bind this to the ngModel
+
+  onRequestChange(value: string) {
+    if (value === 'Attendance update') {
+      // Trigger the hidden button to open the modal
+      const attendanceUpdateButton = document.getElementById('attendanceUpdate');
+      if (attendanceUpdateButton) {
+        attendanceUpdateButton.click();
+      }
+    }
+  }
 
 }
