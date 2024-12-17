@@ -123,7 +123,7 @@
 }
 
 .birthday-section{
-    max-height: 350px;
+    max-height: 330px;
     overflow: scroll;
 }
 .birthday-section::-webkit-scrollbar{

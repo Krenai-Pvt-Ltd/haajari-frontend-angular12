@@ -153,14 +153,7 @@
     border-radius: 2px;
     width: 100px;
 }
-.badge {
-    line-height: 12px;
-    padding: 0.55em 10px;
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 0.1px;
-    min-width: 80px;
-}
+
 .upload-file-input {
     border: 1px dashed rgba(102, 102, 242, 0.40);
     height: 120px;

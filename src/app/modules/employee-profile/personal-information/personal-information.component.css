@@ -24,7 +24,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    width: 155px;
+    max-width: 155px;
 }
 .profile-imfo-hedding h5{
   font-size: 15px;
@@ -170,4 +170,81 @@ button.close-btn {
 
 .empty-file .ant-empty-image img {
     width: 70px !important;
+}
+.edit-btn svg{
+    width: 15px !important;
+    position: relative !important;
+    top: -2px !important;
+}
+.profile-editrequest{
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background-color: #FFF6E9;
+}
+.request-log{
+    position: absolute;
+    top: 0px;
+    left: 200px;
+    width: 350px;
+    background-color: #fff;
+    border-radius: 2px;
+    filter: drop-shadow(0px 11.4px 13.7px rgba(71, 71, 71, 0.33));
+    display: none;
+    z-index: 9;
+}
+.profile-editrequest:hover .request-log {
+    display: block;
+}
+.request-log::before {
+    content: "";
+    position: absolute;
+    left: -16px;
+    width: 42px;
+    top: 22px;
+    height: 30px;
+    border-top: solid 40px #fff;
+    border-left: solid 24px transparent;
+    border-right: solid 24px transparent;
+    z-index: -1;
+    rotate: 325deg;
+}
+
+
+.request-log svg{
+    position: relative;
+    top: -2px;
+}
+.stap-bar::after{
+    content: "";
+    width: 2px;
+    height: 121px;
+    background-color: transparent;
+    top: -59px;
+    left: 9px;
+    z-index: 9;
+    position: absolute;
+    border-left: 2px dashed #ebecee;
+}
+.updaaate-log{
+    padding-left: 25px;
+}
+
+.stap-dot{
+    position: absolute;
+    top: -43px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #D9D9D9;
+    z-index: 99;
+}
+.stap-dot2{
+    position: absolute;
+    top: 20px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #D9D9D9;
+    z-index: 99;
 }

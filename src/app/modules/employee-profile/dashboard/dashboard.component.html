@@ -1,7 +1,8 @@
 <div class="employee-dashboard-box m-3 mt-4">
     <div class="row">
         <div class="col-md-4">
-            <div class="attendance-report p-3">
+            <!-- attendance-report -->
+            <div class="p-3">
                 <h5 class="font-14 border-bottom pb-3">Attendance Report</h5>
                 <div class="mb-3">
                     <img src="assets/images/week-attendance-report.svg" style="width:100%">
@@ -13,28 +14,28 @@
                     <div class="col-md-6 pr-1">
                         <div class="employee-dashboard p-2 mb-3">
                             <p class="mb-3 font-13">Check-In time</p>
-                            <h5 class="mb-2">{{attendanceSummary.inTime | date: 'hh:mm a' }}</h5>
-                            <p class="mb-0  font-13"><span class="text-danger">{{attendanceSummary.inLateTime}} </span></p>
+                            <h5 class="mb-2">{{attendanceSummary?.inTime | date: 'hh:mm a' }}</h5>
+                            <p class="mb-0  font-13"><span class="text-danger">{{attendanceSummary?.inLateTime}} </span></p>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="employee-dashboard p-2 mb-3">
                             <p class="mb-3 font-13">Check-Out time</p>
-                            <h5 class="mb-2">{{attendanceSummary.outTime | date: 'hh:mm a' }}</h5>
-                            <p class="mb-0  font-13">{{attendanceSummary.outLateTime}}</p>
+                            <h5 class="mb-2">{{attendanceSummary?.outTime | date: 'hh:mm a' }}</h5>
+                            <p class="mb-0  font-13">{{attendanceSummary?.outLateTime}}</p>
                         </div>
                     </div>
                     <div class="col-md-6 pr-1">
                         <div class="employee-dashboard p-2">
                             <p class="mb-3 font-13">Break Duration</p>
-                            <h5 class="mb-2">{{attendanceSummary.breakDuration}}</h5>
-                            <p class="mb-0  font-13"><span class="text-danger">{{attendanceSummary.breakRemaining}} </span> </p>
+                            <h5 class="mb-2">{{attendanceSummary?.breakDuration}}</h5>
+                            <p class="mb-0  font-13"><span class="text-danger">{{attendanceSummary?.breakRemaining}} </span> </p>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="employee-dashboard p-2">
                             <p class="mb-3 font-13">Break Count</p>
-                            <h5 class="mb-2">{{attendanceSummary.breakCount}}</h5>
+                            <h5 class="mb-2">{{attendanceSummary?.breakCount}}</h5>
                             <p class="mb-0  font-13">.</p>
                         </div>
                     </div>
@@ -158,13 +159,14 @@
         && userResignationInfo
         && (ROLE === 'ADMIN' || ROLE === 'USER')
         && userResignationInfo?.status?.id === 13)"  >  -->
-        <div [ngClass]="{'d-none' : requestModal}" class="row" *ngIf="
+
+    <div [ngClass]="{'d-none' : requestModal}" class="row" *ngIf="
         resignationSubmittedToggle ||
        ( !hideResignationModal
         && userResignationInfo
         && (ROLE === 'ADMIN' || ROLE === 'USER')
-        && userResignationInfo?.status?.id === 13)"  >
-                <div class="col-md-12">
+        && userResignationInfo?.status?.id === 13)">
+        <div class="col-md-12">
                     <div class="resignation-request p-3 d-flex align-items-center justify-content-between">
                         <div class="d-flex align-items-center gap-3">
                             <img src="assets/images/resign-submit.svg" style="width:50px;">
@@ -210,7 +212,7 @@
 
     <div class="row mt-3 mb-5">
         <div class="col-md-7">
-            <div class="attendance-report p-3">
+            <div class="p-3">
                 <div>
                     <ul id="pills-tab" role="tablist" class="nav nav-pills">
                         <li class="nav-item">
@@ -239,7 +241,7 @@
                                                 <th class="text-left font-13" style="width: 10%">Type </th>
                                                 <th class="text-left font-13" style="width: 10%">Time</th>
                                                 <th class="text-left font-13" style="width: 10%">Requested To</th>
-                                                <th class="text-left font-13" style="width: 20%">Reason</th>
+                                                <th class="text-left font-13" style="width: 20%">Note</th>
                                                 <th class="text-left font-13" style="width: 10%">Status</th>
                                             </tr>
                                         </thead>
@@ -264,19 +266,13 @@
                                                 <td>
                                                     <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
                                                 </td>
-                                                <td>
-                                                    <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                                </td>
-                                                <td>
-                                                    <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                                </td>
                                             </tr>
                                         </tbody>
 
                                         <tbody *ngIf="!isFullLogLoader && dataNotFoundForAttendanceUpdateRequestLog">
                                             <tr>
                                                 <td colspan="8">
-                                                    <div class="empty-file" style="margin-top: 7%; margin-bottom: 7%">
+                                                    <div class="empty-file" style="margin-top: 10%; margin-bottom: 10%">
                                                         <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
                                                             [nzNotFoundContent]="contentTpl">
                                                             <ng-template #contentTpl>
@@ -311,8 +307,7 @@
                                             </td>
                                             <td>
                                                 <div class="d-flex align-items-center gap-2">
-                                                    <!-- Dynamic Status -->
-                                                    {{ item.status }}
+                                                <span class="badge rounded-pill badge-soft-warning"> {{ item.status | uppercase}}
 
                                                     <!-- Delete Button -->
                                                     <!-- <button class="icon-button btn p-0" (click)="deleteRecord(item)">
@@ -341,7 +336,8 @@
                                                             </g>
                                                         </svg>
                                                     </button> -->
-                                                </div>
+                                                </span>
+                                            </div>
                                             </td>
                                           </tr>
 
@@ -352,7 +348,7 @@
 
                         </div>
                         <div class="tab-pane fade pt-3" id="overtimeRequest" role="tabpanel" aria-labelledby="overtimeRequest-tab">
-                            <div>
+                            <div class="birthday-section">
                                 <div class="table-responsive bg-white">
 
                                     <table class="table empOnnoardtable">
@@ -368,113 +364,115 @@
                                         </thead>
 
                                         <tbody *ngIf="isShimmerForOvertimeLog">
-                                                                        <tr *ngFor="let item of [].constructor(7)">
-                                                                            <td>
-                                                                                <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                                                            </td>
-                                                                            <td>
-                                                                                <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                                                            </td>
-                                                                            <td>
-                                                                                <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                                                            </td>
-                                                                            <td>
-                                                                                <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                                                            </td>
-                                                                            <td>
-                                                                                <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                                                            </td>
-                                                                            <td>
-                                                                                <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                                                            </td>
-                                                                            <td>
-                                                                                <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                                                            </td>
-                                                                            <td>
-                                                                                <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                                                            </td>
-                                                                        </tr>
-                                                                    </tbody>
+                                            <tr *ngFor="let item of [].constructor(7)">
+                                                <td>
+                                                    <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                                </td>
+                                                <td>
+                                                    <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                                </td>
+                                                <td>
+                                                    <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                                </td>
+                                                <td>
+                                                    <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                                </td>
+                                                <td>
+                                                    <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                                </td>
+                                                <td>
+                                                    <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                                </td>
+                                                <td>
+                                                    <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                                </td>
+                                                <td>
+                                                    <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                                </td>
+                                            </tr>
+                                        </tbody>
 
                                         <tbody *ngIf="!isShimmerForOvertimeLog && overtimeRequestLogResponseList?.length === 0">
-                                                                        <tr>
-                                                                            <td colspan="8">
-                                                                                <div class="empty-file" style="margin-top: 7%; margin-bottom: 7%">
-                                                                                    <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
-                                                                                        [nzNotFoundContent]="contentTpl">
-                                                                                        <ng-template #contentTpl>
-                                                                                            <p class="mb-1 empty-detail">No data for now</p>
-                                                                                        </ng-template>
-                                                                                    </nz-empty>
-                                                                                </div>
+                                            <tr>
+                                                <td colspan="8">
+                                                    <div class="empty-file" style="margin-top: 10%; margin-bottom: 10%">
+                                                        <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                                            [nzNotFoundContent]="contentTpl">
+                                                            <ng-template #contentTpl>
+                                                                <p class="mb-1 empty-detail">No data for now</p>
+                                                            </ng-template>
+                                                        </nz-empty>
+                                                    </div>
 
-                                                                            </td>
-                                                                        </tr>
-                                                                    </tbody>
+                                                </td>
+                                            </tr>
+                                        </tbody>
 
-                                                                    <tbody *ngIf="!isShimmerForOvertimeLog">
+                                        <tbody *ngIf="!isShimmerForOvertimeLog">
 
-                                                                      <tr *ngFor="let item of overtimeRequestLogResponseList">
-                                                                        <td class="text-left">
-                                                                            <span class="team-maneger mb-0">{{ item.createdDate | date: 'd MMM yy' }}</span>
-                                                                            <p class="mb-0 font-10">{{ item.createdDate | date: 'EEE' }}</p>
-                                                                        </td>
-                                                                        <td class="text-left">
-                                                                            <span class="team-maneger mb-0">{{ item.startTime | date: 'd MMM yy' }} - {{ item.endTime | date: 'd MMM yy' }}</span>
-                                                                        </td>
-                                                                        <td class="text-left">
-                                                                            <span class="team-maneger mb-0 table-font-weight">{{ item.workingHour }}</span>
-                                                                        </td>
-                                                                        <td class="text-left">
-                                                                            <span class="team-maneger mb-0 table-font-weight">{{ item.managerName || 'N/A' }}</span>
-                                                                        </td>
-                                                                        <td class="text-left">
-                                                                            <span class="team-maneger mb-0 table-font-weight">{{ item.note || 'N/A'}}</span>
-                                                                        </td>
-                                                                        <td>
-                                                                            <div class="d-flex align-items-center gap-2">
-                                                                                <!-- Dynamic Status -->
-                                                                                pending
+                                            <tr *ngFor="let item of overtimeRequestLogResponseList">
+                                            <td class="text-left">
+                                                <span class="team-maneger mb-0">{{ item.createdDate | date: 'd MMM yy' }}</span>
+                                                <p class="mb-0 font-10">{{ item.createdDate | date: 'EEE' }}</p>
+                                            </td>
+                                            <td class="text-left">
+                                                <span class="team-maneger mb-0">{{ item.startTime | date: 'd MMM yy' }} - {{ item.endTime | date: 'd MMM yy' }}</span>
+                                            </td>
+                                            <td class="text-left">
+                                                <span class="team-maneger mb-0 table-font-weight">{{ item.workingHour }}</span>
+                                            </td>
+                                            <td class="text-left">
+                                                <span class="team-maneger mb-0 table-font-weight">{{ item.managerName || 'N/A' }}</span>
+                                            </td>
+                                            <td class="text-left">
+                                                <span class="team-maneger mb-0 table-font-weight">{{ item.note || 'N/A'}}</span>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <span class="badge rounded-pill badge-soft-warning">
+                                                    <!-- Dynamic Status -->
+                                                    {{item.statusName | uppercase}}
 
-                                                                                <!-- Delete Button -->
-                                                                                <!-- <button class="icon-button btn p-0" (click)="deleteRecord(item)">
-                                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
-                                                                                        <mask id="mask0_6083_5461" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
-                                                                                            <rect x="0.910156" y="0.910156" width="20" height="20" fill="#D9D9D9" />
-                                                                                        </mask>
-                                                                                        <g mask="url(#mask0_6083_5461)">
-                                                                                            <path
-                                                                                                d="M6.74353 18.4102C6.2852 18.4102 5.89284 18.247 5.56645 17.9206C5.24006 17.5942 5.07686 17.2018 5.07686 16.7435V5.91016H4.24353V4.24349H8.4102V3.41016H13.4102V4.24349H17.5769V5.91016H16.7435V16.7435C16.7435 17.2018 16.5803 17.5942 16.2539 17.9206C15.9276 18.247 15.5352 18.4102 15.0769 18.4102H6.74353ZM15.0769 5.91016H6.74353V16.7435H15.0769V5.91016ZM8.4102 15.0768H10.0769V7.57682H8.4102V15.0768ZM11.7435 15.0768H13.4102V7.57682H11.7435V15.0768Z"
-                                                                                                fill="#FF0404" />
-                                                                                        </g>
-                                                                                    </svg>
-                                                                                </button> -->
+                                                    <!-- Delete Button -->
+                                                    <!-- <button class="icon-button btn p-0" (click)="deleteRecord(item)">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
+                                                            <mask id="mask0_6083_5461" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
+                                                                <rect x="0.910156" y="0.910156" width="20" height="20" fill="#D9D9D9" />
+                                                            </mask>
+                                                            <g mask="url(#mask0_6083_5461)">
+                                                                <path
+                                                                    d="M6.74353 18.4102C6.2852 18.4102 5.89284 18.247 5.56645 17.9206C5.24006 17.5942 5.07686 17.2018 5.07686 16.7435V5.91016H4.24353V4.24349H8.4102V3.41016H13.4102V4.24349H17.5769V5.91016H16.7435V16.7435C16.7435 17.2018 16.5803 17.5942 16.2539 17.9206C15.9276 18.247 15.5352 18.4102 15.0769 18.4102H6.74353ZM15.0769 5.91016H6.74353V16.7435H15.0769V5.91016ZM8.4102 15.0768H10.0769V7.57682H8.4102V15.0768ZM11.7435 15.0768H13.4102V7.57682H11.7435V15.0768Z"
+                                                                    fill="#FF0404" />
+                                                            </g>
+                                                        </svg>
+                                                    </button> -->
 
-                                                                                <!-- Edit Button -->
-                                                                                <!-- <button class="btn p-0 icon-button" (click)="editRecord(item)">
-                                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
-                                                                                        <mask id="mask0_6083_5464" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
-                                                                                            <rect x="0.910156" y="0.910156" width="20" height="20" fill="#D9D9D9" />
-                                                                                        </mask>
-                                                                                        <g mask="url(#mask0_6083_5464)">
-                                                                                            <path
-                                                                                                d="M5.07682 16.7435H6.26432L14.4102 8.59766L13.2227 7.41016L5.07682 15.556V16.7435ZM3.41016 18.4102V14.8685L14.4102 3.88932C14.5768 3.73655 14.7609 3.61849 14.9622 3.53516C15.1636 3.45182 15.3754 3.41016 15.5977 3.41016C15.8199 3.41016 16.0352 3.45182 16.2435 3.53516C16.4518 3.61849 16.6324 3.74349 16.7852 3.91016L17.931 5.07682C18.0977 5.2296 18.2192 5.41016 18.2956 5.61849C18.372 5.82682 18.4102 6.03516 18.4102 6.24349C18.4102 6.46571 18.372 6.67752 18.2956 6.87891C18.2192 7.0803 18.0977 7.26432 17.931 7.43099L6.95182 18.4102H3.41016ZM13.806 8.01432L13.2227 7.41016L14.4102 8.59766L13.806 8.01432Z"
-                                                                                                fill="black" />
-                                                                                        </g>
-                                                                                    </svg>
-                                                                                </button> -->
-                                                                            </div>
-                                                                        </td>
-                                                                      </tr>
+                                                    <!-- Edit Button -->
+                                                    <!-- <button class="btn p-0 icon-button" (click)="editRecord(item)">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
+                                                            <mask id="mask0_6083_5464" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
+                                                                <rect x="0.910156" y="0.910156" width="20" height="20" fill="#D9D9D9" />
+                                                            </mask>
+                                                            <g mask="url(#mask0_6083_5464)">
+                                                                <path
+                                                                    d="M5.07682 16.7435H6.26432L14.4102 8.59766L13.2227 7.41016L5.07682 15.556V16.7435ZM3.41016 18.4102V14.8685L14.4102 3.88932C14.5768 3.73655 14.7609 3.61849 14.9622 3.53516C15.1636 3.45182 15.3754 3.41016 15.5977 3.41016C15.8199 3.41016 16.0352 3.45182 16.2435 3.53516C16.4518 3.61849 16.6324 3.74349 16.7852 3.91016L17.931 5.07682C18.0977 5.2296 18.2192 5.41016 18.2956 5.61849C18.372 5.82682 18.4102 6.03516 18.4102 6.24349C18.4102 6.46571 18.372 6.67752 18.2956 6.87891C18.2192 7.0803 18.0977 7.26432 17.931 7.43099L6.95182 18.4102H3.41016ZM13.806 8.01432L13.2227 7.41016L14.4102 8.59766L13.806 8.01432Z"
+                                                                    fill="black" />
+                                                            </g>
+                                                        </svg>
+                                                    </button> -->
+                                                    </span>
+                                                </div>
+                                            </td>
+                                            </tr>
 
-                                                                    </tbody>
+                                        </tbody>
                                     </table>
                                 </div>
                             </div>
 
                         </div>
                         <div class="tab-pane fade pt-3" id="leaveRequest" role="tabpanel" aria-labelledby="leaveRequest-tab">
-                            <div>
+                            <div  class="birthday-section">
                                 <div class="table-responsive bg-white">
 
                                     <table class="table empOnnoardtable">
@@ -490,49 +488,49 @@
                                         </thead>
 
                                         <tbody *ngIf="isLoading">
-                                                                        <tr *ngFor="let item of [].constructor(7)">
-                                                                            <td>
-                                                                                <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                                                            </td>
-                                                                            <td>
-                                                                                <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                                                            </td>
-                                                                            <td>
-                                                                                <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                                                            </td>
-                                                                            <td>
-                                                                                <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                                                            </td>
-                                                                            <td>
-                                                                                <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                                                            </td>
-                                                                            <td>
-                                                                                <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                                                            </td>
-                                                                            <td>
-                                                                                <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                                                            </td>
-                                                                            <td>
-                                                                                <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                                                            </td>
-                                                                        </tr>
-                                                                    </tbody>
+                                            <tr *ngFor="let item of [].constructor(7)">
+                                                <td>
+                                                    <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                                </td>
+                                                <td>
+                                                    <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                                </td>
+                                                <td>
+                                                    <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                                </td>
+                                                <td>
+                                                    <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                                </td>
+                                                <td>
+                                                    <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                                </td>
+                                                <td>
+                                                    <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                                </td>
+                                                <td>
+                                                    <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                                </td>
+                                                <td>
+                                                    <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                                </td>
+                                            </tr>
+                                        </tbody>
 
-                                                                  <tbody *ngIf="!isLoading && userLeaveLog?.length === 0">
-                                                                        <tr>
-                                                                            <td colspan="8">
-                                                                                <div class="empty-file" style="margin-top: 7%; margin-bottom: 7%">
-                                                                                    <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
-                                                                                        [nzNotFoundContent]="contentTpl">
-                                                                                        <ng-template #contentTpl>
-                                                                                            <p class="mb-1 empty-detail">No data for now</p>
-                                                                                        </ng-template>
-                                                                                    </nz-empty>
-                                                                                </div>
+                                        <tbody *ngIf="!isLoading && userLeaveLog?.length === 0">
+                                            <tr>
+                                                <td colspan="8">
+                                                    <div class="empty-file" style="margin-top: 10%; margin-bottom: 10%">
+                                                        <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                                            [nzNotFoundContent]="contentTpl">
+                                                            <ng-template #contentTpl>
+                                                                <p class="mb-1 empty-detail">No data for now</p>
+                                                            </ng-template>
+                                                        </nz-empty>
+                                                    </div>
 
-                                                                            </td>
-                                                                        </tr>
-                                                                    </tbody>
+                                                </td>
+                                            </tr>
+                                        </tbody>
 
                                         <tbody *ngIf="!isLoading">
 
@@ -560,8 +558,9 @@
                                             </td>
                                             <td>
                                                 <div class="d-flex align-items-center gap-2">
+                                                    <span class="badge rounded-pill badge-soft-warning">
                                                     <!-- Dynamic Status -->
-                                                    {{ item.status }}
+                                                    {{ item.status | uppercase }}
 
                                                     <!-- Delete Button -->
                                                     <!-- <button class="icon-button btn p-0" (click)="deleteRecord(item)">
@@ -590,6 +589,7 @@
                                                             </g>
                                                         </svg>
                                                     </button> -->
+                                                    </span>
                                                 </div>
                                             </td>
                                           </tr>
@@ -605,7 +605,7 @@
             </div>
         </div>
         <div class="col-md-5">
-            <div class="attendance-report p-3">
+            <div class="p-3">
                 <div>
                     <ul id="pills-tab" role="tablist" class="nav nav-pills">
                         <li class="nav-item">

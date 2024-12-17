@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { NgForm } from '@angular/forms';
+import moment from 'moment';
 import { Key } from 'src/app/constant/key';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { ExpenseType } from 'src/app/models/ExpenseType';
@@ -56,10 +57,21 @@ export class EmployeeExpenseComponent implements OnInit {
    this.expenseList = []
    this.ROLE = await this.rbacService.getRole();
   
-   if(this.expenseSelectedDate == null){
-     this.startDate = '';
-     this.endDate = '';
+   if(!this.startDate && !this.endDate){
+    //  this.startDate = '';
+    //  this.endDate = '';
+
+    this.expenseSelectedDate = new Date();
+      // Calculate the start of the month (first day of the month) and set time to start of the day
+    const startOfMonth = new Date(this.expenseSelectedDate.getFullYear(), this.expenseSelectedDate.getMonth(), 1);
+
+    // Calculate the end of the month (last day of the month) and set time to end of the day
+    const endOfMonth = new Date(this.expenseSelectedDate.getFullYear(), this.expenseSelectedDate.getMonth() + 1, 0);
+
+    this.startDate = startOfMonth.toDateString() + " 00:00:00"; // Date object
+    this.endDate = endOfMonth.toDateString() + " 23:59:59"; // Date object
    }
+
    this.expenseList = []
    this.dataService.getAllExpense(this.ROLE, this.databaseHelper.currentPage, this.databaseHelper.itemPerPage, this.startDate, this.endDate, this.statusIds, this.userId).subscribe((res: any) => {
      if (res.status) {
@@ -89,12 +101,24 @@ export class EmployeeExpenseComponent implements OnInit {
   this.expenseCount = []
   this.ROLE = await this.rbacService.getRole();
  
-  if(this.expenseSelectedDate == null){
-    this.startDate = '';
-    this.endDate = '';
+  console.log("date log1: ",this.expenseSelectedDate)
+  if(!this.startDateStr && !this.endDateStr){
+    // this.startDate = '';
+    // this.endDate = '';
+    this.expenseSelectedDate = new Date();
+
+    const startOfMonth = new Date(this.expenseSelectedDate.getFullYear(), this.expenseSelectedDate.getMonth(), 1);
+
+    // Calculate the end of the month (last day of the month) and set time to end of the day
+    const endOfMonth = new Date(this.expenseSelectedDate.getFullYear(), this.expenseSelectedDate.getMonth() + 1, 0);
+
+    const currentDate = moment(startOfMonth); // Use the selected date directly
+    const currentEndDate = moment(endOfMonth); // Use the selected date directly
+    this.startDateStr = currentDate.startOf('month').format('YYYY-MM-DD 00:00:00');
+    this.endDateStr = currentEndDate.endOf('month').format('YYYY-MM-DD 23:59:59');
   }
 
-  this.dataService.getAllExpenseCount(this.ROLE, this.databaseHelper.currentPage, this.databaseHelper.itemPerPage, this.startDate, this.endDate, this.userId).subscribe((res: any) => {
+  this.dataService.getAllExpenseCount(this.ROLE, this.databaseHelper.currentPage, this.databaseHelper.itemPerPage, this.startDateStr, this.endDateStr, this.userId).subscribe((res: any) => {
     if (res.status) {
       this.expenseCount = res.object
 
@@ -135,9 +159,13 @@ export class EmployeeExpenseComponent implements OnInit {
 
  startDate: any;
  endDate: any;
+ startDateStr: string =''
+ endDateStr: string =''
+
 //  expenseSelectedDate: Date | null = null;
  expenseSelectedDate: Date = new Date();
  onExpenseMonthChange(month: Date): void {
+  // this.expenseSelectedDate = new Date();
    this.expenseSelectedDate = month;
 
    if(this.expenseSelectedDate){
@@ -149,6 +177,11 @@ export class EmployeeExpenseComponent implements OnInit {
 
      this.startDate = startOfMonth.toDateString() + " 00:00:00"; // Date object
      this.endDate = endOfMonth.toDateString() + " 23:59:59"; // Date object
+
+     const currentDate = moment(startOfMonth); // Use the selected date directly
+     const currentEndDate = moment(endOfMonth); // Use the selected date directly
+     this.startDateStr = currentDate.startOf('month').format('YYYY-MM-DD 00:00:00');
+     this.endDateStr = currentEndDate.endOf('month').format('YYYY-MM-DD 23:59:59');
    }
   //  this.getExpenses();
 
@@ -157,6 +190,7 @@ export class EmployeeExpenseComponent implements OnInit {
     this.getExpenses();
    }else{
     this.getExpenses();
+    this.getExpensesCount()
    }
  }
 
@@ -204,10 +238,16 @@ updateStartAndEndDates(): void {
   this.startDate = startOfMonth.toDateString() + " 00:00:00"; // Date object
   this.endDate = endOfMonth.toDateString() + " 23:59:59"; // Date object
 
+  const currentDate = moment(startOfMonth); // Use the selected date directly
+  const currentEndDate = moment(endOfMonth); // Use the selected date directly
+  this.startDateStr = currentDate.startOf('month').format('YYYY-MM-DD 00:00:00');
+  this.endDateStr = currentEndDate.endOf('month').format('YYYY-MM-DD 23:59:59');
+
   if (this.pastExpenseToggle) {
     this.statusIds.push(41);
   }
   this.getExpenses();
+  this.getExpensesCount()
 }
 
 organizationRegistrationDate: string = '';
