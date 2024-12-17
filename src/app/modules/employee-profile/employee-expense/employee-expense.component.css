@@ -204,9 +204,7 @@
     height: 100%;
  }
 
- /* .bill-image svg{
-    width: 100px;
- } */
+
 
  .add-image-btn svg{
     width: 16px;
@@ -354,17 +352,6 @@
  .filter-icon::before{
     font-weight: 600 !important;
  }
-
- .badge {
-     line-height: 12px;
-     padding: 0.55em 10px;
-     font-size: 13px;
-     font-weight: 400;
-     letter-spacing: 0.1px;
-     min-width: 80px;
- }
-
-
 
   /** Dot opacity start */
 

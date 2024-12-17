@@ -13,7 +13,7 @@ import { EmployeeProfileAttendanceResponse, TotalEmployeeProfileAttendanceRespon
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 // import { Timeline } from 'vis-timeline'
-import { Timeline,DataSet, TimelineItem } from 'vis-timeline/standalone';
+// import { Timeline,DataSet, TimelineItem } from 'vis-timeline/standalone';
 
 @Component({
   selector: 'app-attendance-leave',
@@ -50,7 +50,7 @@ contentTemplate: string ='You are on the Notice Period, so that you can not appl
       selectedUser: [null, Validators.required],
       note: [null, Validators.required],
     });
-    this.getAttendanceRequests();
+    // this.getAttendanceRequests();
     this.fetchManagerNames();
     this.getUserLeaveReq();
     this.loadLeaveLogs();
@@ -62,11 +62,11 @@ contentTemplate: string ='You are on the Notice Period, so that you can not appl
     // Set the default selected tab to the current week
     this.setDefaultWeekTab();
     this.calculateDateRange();
-    this.getEmployeeProfileAttendanceDetailsData();
+    // this.getEmployeeProfileAttendanceDetailsData();
     this.currentUserUuid = this.rbacService.getUuid();
 
     this.calculateDateRange();
-    this.getAttendanceRequests();
+    // this.getAttendanceRequests();
 
 
     this.checkUserLeaveTaken();
@@ -509,7 +509,7 @@ dayShiftToggleFun(shift: string) {
     this.updateWeekLabels();
     this.selectedTab = 'Week 1'; // Reset to default
     this.calculateDateRange();
-    this.getEmployeeProfileAttendanceDetailsData();
+    // this.getEmployeeProfileAttendanceDetailsData();
   }
 
   updateThirtyDaysLabel(): void {
@@ -636,7 +636,7 @@ dayShiftToggleFun(shift: string) {
     // this.resetData();
     this.isShimmer = true;
     this.calculateDateRange();
-    this.getEmployeeProfileAttendanceDetailsData();
+    // this.getEmployeeProfileAttendanceDetailsData();
   }
 
 
@@ -657,23 +657,23 @@ dayShiftToggleFun(shift: string) {
   attendanceDetails: EmployeeProfileAttendanceResponse[] = [];
   totalAttendanceDetails: TotalEmployeeProfileAttendanceResponse = new TotalEmployeeProfileAttendanceResponse();
   isShimmer : boolean = false;
-  getEmployeeProfileAttendanceDetailsData() {
-    debugger;
-    this.isShimmer = true;
-    this.attendanceDetails = [];
-    // this.totalAttendanceDetails = new TotalEmployeeProfileAttendanceResponse();
-    this.dataService.getEmployeeProfileAttendanceDetails(this.userId, this.startDate, this.endDate).subscribe(
-      (response) => {
-       this.isShimmer = false;
-       this.attendanceDetails = response.object.employeeProfileAttendanceResponseList;
-       this.totalAttendanceDetails = response.object.totalEmployeeProfileAttendanceResponse
-      },
-      (error) => {
-        this.isShimmer = false;
-        console.log(error);
-      }
-    );
-  }
+  // getEmployeeProfileAttendanceDetailsData() {
+  //   debugger;
+  //   this.isShimmer = true;
+  //   this.attendanceDetails = [];
+  //   // this.totalAttendanceDetails = new TotalEmployeeProfileAttendanceResponse();
+  //   this.dataService.getEmployeeProfileAttendanceDetails(this.userId, this.startDate, this.endDate).subscribe(
+  //     (response) => {
+  //      this.isShimmer = false;
+  //      this.attendanceDetails = response.object.employeeProfileAttendanceResponseList;
+  //      this.totalAttendanceDetails = response.object.totalEmployeeProfileAttendanceResponse
+  //     },
+  //     (error) => {
+  //       this.isShimmer = false;
+  //       console.log(error);
+  //     }
+  //   );
+  // }
 
   resetData() {
     this.attendanceDetails = [];
@@ -841,7 +841,7 @@ setDefaultWeekTab(): void {
 
 
 
-timeline: Timeline | undefined;
+// timeline: Timeline | undefined;
   options: {} | undefined;
   data: any;
   groups: any;
@@ -897,104 +897,104 @@ timeline: Timeline | undefined;
 
    page = 1;
    requestSize = 10;
-  getAttendanceRequests(): void {
-    debugger;
-    this.dataService.getUserAttendanceRequests(this.userId, '2024-12-01', this.page, this.requestSize).subscribe(
-      (response) => {
-        this.staticData = response.content;
-        console.log('kkkkkkkk', response);
-        this.getTimelineData();
-        this.getTimelineGroups();
-        this.getOptions();
-        this.timeline = new Timeline(this.timelineContainer?.nativeElement, this.data, this.options);
-        this.timeline.setGroups(this.groups);
-        this.timeline.setItems(this.data);
+  // getAttendanceRequests(): void {
+  //   debugger;
+  //   this.dataService.getUserAttendanceRequests(this.userId, '2024-12-01', this.page, this.requestSize).subscribe(
+  //     (response) => {
+  //       this.staticData = response.content;
+  //       console.log('kkkkkkkk', response);
+  //       this.getTimelineData();
+  //       this.getTimelineGroups();
+  //       this.getOptions();
+  //       this.timeline = new Timeline(this.timelineContainer?.nativeElement, this.data, this.options);
+  //       this.timeline.setGroups(this.groups);
+  //       this.timeline.setItems(this.data);
 
-      },
-       (err) => {
-        console.error('kkkkkkkk', err);
-      }
-    );
-  }
-
-
-  getTimelineGroups() {
-    // Create groups dynamically from static data
-    this.groups = new DataSet(
-      this.staticData.map((group) => ({
-        id: group.groupId,
-        content: group.date,
-      }))
-    );
-  }
-
-  getTimelineData() {
-    // Combine all items from the static data into a single array
-    const allItems = this.staticData
-    .map((group) =>
-      group.items.map((item) => ({
-        ...item,
-        group: group.groupId,
-      }))
-    )
-    .reduce((acc, items) => acc.concat(items), []);
+  //     },
+  //      (err) => {
+  //       console.error('kkkkkkkk', err);
+  //     }
+  //   );
+  // }
 
 
-    this.data = new DataSet(allItems);
-  }
+  // getTimelineGroups() {
+  //   // Create groups dynamically from static data
+  //   this.groups = new DataSet(
+  //     this.staticData.map((group) => ({
+  //       id: group.groupId,
+  //       content: group.date,
+  //     }))
+  //   );
+  // }
 
-  getOptions() {
-    let currentDate = new Date();
-    let startDate = new Date(currentDate);
-    startDate.setHours(0, 0, 0, 0); // Set the start time to 00:00
+  // getTimelineData() {
+  //   // Combine all items from the static data into a single array
+  //   const allItems = this.staticData
+  //   .map((group) =>
+  //     group.items.map((item) => ({
+  //       ...item,
+  //       group: group.groupId,
+  //     }))
+  //   )
+  //   .reduce((acc, items) => acc.concat(items), []);
 
-    let endDate = new Date(currentDate);
-    endDate.setHours(23, 59, 59, 999); // Set the end time to 23:59:59
 
-    this.options = {
-      stack: false,
-      editable: false,
-      margin: {
-        item: 10,
-        axis: 5,
-      },
-      orientation: 'top',
-      zoomable: false,
+  //   this.data = new DataSet(allItems);
+  // }
 
-      showCurrentTime: false,
-      format: {
-        minorLabels: {
-          hour: 'HH:00',
-        },
-        majorLabels: {
-          day: 'DD/MM/YYYY',
-        },
-      },
-      tooltip: {
-        followMouse: true,
-        overflowMethod: 'cap',
-        template: (item: TimelineItem) => {
-          const startTime = new Date(item.start).toLocaleTimeString([], {
-            hour: '2-digit',
-            minute: '2-digit',
-          });
-          const endTime = item.end
-            ? new Date(item.end).toLocaleTimeString([], {
-                hour: '2-digit',
-                minute: '2-digit',
-              })
-            : null;
-          return `
-            <div>
-              <strong>${item.content}</strong><br />
-              Start: ${startTime}<br />
-              ${endTime ? `End: ${endTime}` : ''}
-            </div>
-          `;
-        },
-      },
-    };
-  }
+  // getOptions() {
+  //   let currentDate = new Date();
+  //   let startDate = new Date(currentDate);
+  //   startDate.setHours(0, 0, 0, 0); // Set the start time to 00:00
+
+  //   let endDate = new Date(currentDate);
+  //   endDate.setHours(23, 59, 59, 999); // Set the end time to 23:59:59
+
+  //   this.options = {
+  //     stack: false,
+  //     editable: false,
+  //     margin: {
+  //       item: 10,
+  //       axis: 5,
+  //     },
+  //     orientation: 'top',
+  //     zoomable: false,
+
+  //     showCurrentTime: false,
+  //     format: {
+  //       minorLabels: {
+  //         hour: 'HH:00',
+  //       },
+  //       majorLabels: {
+  //         day: 'DD/MM/YYYY',
+  //       },
+  //     },
+  //     tooltip: {
+  //       followMouse: true,
+  //       overflowMethod: 'cap',
+  //       template: (item: TimelineItem) => {
+  //         const startTime = new Date(item.start).toLocaleTimeString([], {
+  //           hour: '2-digit',
+  //           minute: '2-digit',
+  //         });
+  //         const endTime = item.end
+  //           ? new Date(item.end).toLocaleTimeString([], {
+  //               hour: '2-digit',
+  //               minute: '2-digit',
+  //             })
+  //           : null;
+  //         return `
+  //           <div>
+  //             <strong>${item.content}</strong><br />
+  //             Start: ${startTime}<br />
+  //             ${endTime ? `End: ${endTime}` : ''}
+  //           </div>
+  //         `;
+  //       },
+  //     },
+  //   };
+  // }
 
 
 
