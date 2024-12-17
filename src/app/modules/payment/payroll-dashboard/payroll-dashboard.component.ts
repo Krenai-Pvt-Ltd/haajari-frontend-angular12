@@ -795,27 +795,28 @@ export class PayrollDashboardComponent implements OnInit {
             if (this._helperService.isListOfObjectNullOrUndefined(response)) {
               this.dataNotFoundPlaceholderForNewJoinee = true;
             } else {
-              this.newJoineeResponseList = response.listOfObject.map((joinee: NewJoineeResponse) => {
-                // Apply cached selection if available
-                if (this.selectedPayActionCache[joinee.uuid]) {
-                  joinee.payActionType = this.selectedPayActionCache[joinee.uuid];
-                  joinee.payActionTypeId = this.selectedPayActionCache[joinee.uuid].id;
-                } else {
-                  // Set initial selection based on payActionTypeId
-                  const selectedPayActionType = this.payActionTypeList.find(
-                    (payActionType) => payActionType.id === joinee.payActionTypeId
-                  );
-                  if (selectedPayActionType) {
-                    joinee.payActionType = selectedPayActionType;
-                  }
-                }
-                   // Apply cached comment if available
-                   if (this.commentCache[joinee.uuid]) {
-                    joinee.comment = this.commentCache[joinee.uuid];
-                  }
+              this.newJoineeResponseList = response.listOfObject
+              // .map((joinee: NewJoineeResponse) => {
+              //   // Apply cached selection if available
+              //   if (this.selectedPayActionCache[joinee.uuid]) {
+              //     joinee.payActionType = this.selectedPayActionCache[joinee.uuid];
+              //     joinee.payActionTypeId = this.selectedPayActionCache[joinee.uuid].id;
+              //   } else {
+              //     // Set initial selection based on payActionTypeId
+              //     const selectedPayActionType = this.payActionTypeList.find(
+              //       (payActionType) => payActionType.id === joinee.payActionTypeId
+              //     );
+              //     if (selectedPayActionType) {
+              //       joinee.payActionType = selectedPayActionType;
+              //     }
+              //   }
+              //      // Apply cached comment if available
+              //      if (this.commentCache[joinee.uuid]) {
+              //       joinee.comment = this.commentCache[joinee.uuid];
+              //     }
   
-                return joinee;
-              });
+              //   return joinee;
+              // });
               this.total = response.totalItems;
               this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
             }

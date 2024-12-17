@@ -12,7 +12,7 @@ export class UserExitResponse {
     // payActionTypeId !: number;
     // payActionType : PayActionType = new PayActionType();
     // comment : string = '';
-
+    id:number=0;
     userName:string='';
     uuid : string = ''
     email:string='';
@@ -21,5 +21,6 @@ export class UserExitResponse {
     lastWorkingDate:string='';
     fnfDate:string='';
     status:any;
+    payActionTypeId : number=0;
 
 }

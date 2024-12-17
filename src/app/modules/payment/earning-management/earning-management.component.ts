@@ -263,6 +263,15 @@ export class EarningManagementComponent implements OnInit {
   }
 
 
+  updatePayrollStep(){
+
+    // this._payrollService.updatePayrollProcessStep(this.startDate, this.endDate, this.FINAL_SETTLEMENT).subscribe((response)=>{
+     
+    
+    // }, ((error) => {
+    
+    // }))
+  }
   
 
 }

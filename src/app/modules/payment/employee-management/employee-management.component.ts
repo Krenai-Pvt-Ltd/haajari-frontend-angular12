@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import * as moment from 'moment';
 import { constant } from 'src/app/constant/constant';
 import { FinalSettlementResponse } from 'src/app/models/final-settlement-response';
 import { NewJoineeResponse } from 'src/app/models/new-joinee-response';
@@ -46,6 +45,7 @@ export class EmployeeManagementComponent implements OnInit {
   private _payrollService : PayrollService) { }
 
   ngOnInit(): void {
+    // this.getNewJoineeResponsesFromAPI();
     this.getNewJoineeByOrganizationIdMethodCall();
     this.getUserInExitProcess();
     this.getFullNFinalUser();
@@ -144,27 +144,28 @@ export class EmployeeManagementComponent implements OnInit {
             if (this._helperService.isListOfObjectNullOrUndefined(response)) {
               this.dataNotFoundPlaceholderForNewJoinee = true;
             } else {
-              this.newJoineeResponseList = response.listOfObject.map((joinee: NewJoineeResponse) => {
-                // Apply cached selection if available
-                if (this.selectedPayActionCache[joinee.uuid]) {
-                  joinee.payActionType = this.selectedPayActionCache[joinee.uuid];
-                  joinee.payActionTypeId = this.selectedPayActionCache[joinee.uuid].id;
-                } else {
-                  // Set initial selection based on payActionTypeId
-                  const selectedPayActionType = this.payActionTypeList.find(
-                    (payActionType) => payActionType.id === joinee.payActionTypeId
-                  );
-                  if (selectedPayActionType) {
-                    joinee.payActionType = selectedPayActionType;
-                  }
-                }
-                   // Apply cached comment if available
-                   if (this.commentCache[joinee.uuid]) {
-                    joinee.comment = this.commentCache[joinee.uuid];
-                  }
+              this.newJoineeResponseList = response.listOfObject
+              // .map((joinee: NewJoineeResponse) => {
+              //   // Apply cached selection if available
+              //   if (this.selectedPayActionCache[joinee.uuid]) {
+              //     joinee.payActionType = this.selectedPayActionCache[joinee.uuid];
+              //     joinee.payActionTypeId = this.selectedPayActionCache[joinee.uuid].id;
+              //   } else {
+              //     // Set initial selection based on payActionTypeId
+              //     const selectedPayActionType = this.payActionTypeList.find(
+              //       (payActionType) => payActionType.id === joinee.payActionTypeId
+              //     );
+              //     if (selectedPayActionType) {
+              //       joinee.payActionType = selectedPayActionType;
+              //     }
+              //   }
+              //      // Apply cached comment if available
+              //      if (this.commentCache[joinee.uuid]) {
+              //       joinee.comment = this.commentCache[joinee.uuid];
+              //     }
   
-                return joinee;
-              });
+              //   return joinee;
+              // });
               this.total = response.totalItems;
               this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
             }
@@ -176,6 +177,28 @@ export class EmployeeManagementComponent implements OnInit {
           }
         );
     }, debounceTime);
+  }
+
+
+  newJoineeResponseOptions: { payActionTypeId: number, label: string }[] = [];
+  getNewJoineeResponsesFromAPI(): void {
+    // Fetch data from the API
+    this._dataService
+    .getNewJoineeByOrganizationId(
+      this.itemPerPage,
+      this.pageNumber,
+      this.search,
+      this.startDate,
+      this.endDate
+    ).subscribe(response => {
+      this.newJoineeResponseList = response.listOfObject;
+  
+      // Map the data to the required format for nz-select
+      this.newJoineeResponseOptions = this.newJoineeResponseList.map(item => ({
+        payActionTypeId: item.payActionTypeId,
+        label: item.name  // Assuming 'name' is used for label
+      }));
+    });
   }
 
 
@@ -400,4 +423,35 @@ export class EmployeeManagementComponent implements OnInit {
             this.isShimmerForFinalSettlement = false;
           });
   }
+
+
+  updatePayrollStep(){
+
+    // this._payrollService.updatePayrollProcessStep(this.startDate, this.endDate, this.FINAL_SETTLEMENT).subscribe((response)=>{
+     
+    
+    // }, ((error) => {
+    
+    // }))
+  }
+  payActionTypes = [
+    { id: 1, value: 'PROCESS' },
+    { id: 2, value: 'HOLD' }
+  ];
+
+
+
+  holdIds: number[] = []; 
+  onPayActionTypeChange(data:any){
+    console.log("==============log==========",data);
+    // Check if the ID exists in the array
+    // const index = this.holdIds.findIndex(x => x === data.id);
+    // if (index == -1) {
+    //   this.holdIds.push(data.id); // Add ID if not already in the array
+    // } else {
+    //   this.holdIds.splice(index, 1); // Remove ID if it exists
+    // }
+    // console.log("==============holdIds==========",this.holdIds);
+  }
+
 }

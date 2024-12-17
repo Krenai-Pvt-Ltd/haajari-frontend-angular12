@@ -22,6 +22,7 @@ import { EmployeeManagementComponent } from './employee-management/employee-mana
 import { EarningManagementComponent } from './earning-management/earning-management.component';
 import { SalaryDeductionManagementComponent } from './salary-deduction-management/salary-deduction-management.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NzSelectModule } from 'ng-zorro-antd/select';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     NgxShimmerLoadingModule,
     NgxChartsModule,
     NzEmptyModule,
-    NgbModule
+    NgbModule,
+    NzSelectModule
   ],
 })
 export class PaymentModule {}
