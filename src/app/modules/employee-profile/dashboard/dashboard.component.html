@@ -151,15 +151,6 @@
                 </div>
             </div>
 
-        <!-- <div class="row" *ngIf="!requestModal && !hideResignationModal && (userResignationInfo && ROLE == 'ADMIN' || userResignationInfo && ROLE == 'USER') && userResignationInfo?.status?.id == 13" >  -->
-
-            <!-- <div class="row" *ngIf="
-        resignationSubmittedToggle && !requestModal ||
-       ( !hideResignationModal
-        && userResignationInfo
-        && (ROLE === 'ADMIN' || ROLE === 'USER')
-        && userResignationInfo?.status?.id === 13)"  >  -->
-
     <div [ngClass]="{'d-none' : requestModal}" class="row" *ngIf="
         resignationSubmittedToggle ||
        ( !hideResignationModal
