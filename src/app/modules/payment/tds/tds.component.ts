@@ -1,5 +1,5 @@
-import { Component, OnInit} from '@angular/core';
-import * as moment from 'moment';
+import { Component, OnInit } from '@angular/core';
+import moment from 'moment';
 import { Key } from 'src/app/constant/key';
 import { EmployeeMonthWiseSalaryData } from 'src/app/models/employee-month-wise-salary-data';
 import { StartDateAndEndDate } from 'src/app/models/start-date-and-end-date';
@@ -35,7 +35,7 @@ export class TdsComponent implements OnInit {
   constructor(private _dataService: DataService,
      public _helperService: HelperService,
      private _salaryService :SalaryService) {
-   
+
   }
 
   ngOnInit(): void {
@@ -52,11 +52,11 @@ export class TdsComponent implements OnInit {
       .subscribe((response) => {
           if (response.object == null || response.object.length ==0) {
             this.dataNotFoundPlaceholder = true;
-              
+
           } else {
             this.employeeMonthWiseSalaryDataList = response.object;
             this.total = response.totalItems;
-            this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);            
+            this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
           }
           this.isShimmer = false;
         },
@@ -78,7 +78,7 @@ export class TdsComponent implements OnInit {
     this.getFirstAndLastDateOfMonth(this.selectedDate);
   }
 
-  
+
 
   getFirstAndLastDateOfMonth(selectedDate: Date) {
 

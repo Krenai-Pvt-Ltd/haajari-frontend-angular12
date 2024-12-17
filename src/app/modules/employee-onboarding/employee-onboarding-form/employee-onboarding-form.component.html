@@ -95,7 +95,7 @@
                               <div class="col-md-6">
                                 <div class="mb-3">
                                   <label for="name" class="pb-2">Name <span class="text-optional">*</span></label>
-                                  <input type="text" class="form-control" id="name" placeholder="Enter full name" name="nameF" [(ngModel)]="userPersonalInformationRequest.name" minlength="3" maxlength="50" required #name="ngModel" [disabled]="userPersonalInformationRequest.name">
+                                  <input type="text" class="form-control" id="name" placeholder="Enter full name" name="nameF" [(ngModel)]="userPersonalInformationRequest.name" minlength="3" maxlength="50" required #name="ngModel">
                                 </div>
                                 <div *ngIf="name?.touched  || isFormInvalid">
                                   <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="name.errors?.required"><i
@@ -110,7 +110,7 @@
                               <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="emailField" class="pb-2">Email Id <span class="text-optional">*</span></label>
-                                    <input type="email" class="form-control" id="emailField" name="email" aria-describedby="emailHelp" placeholder="Enter email id" [(ngModel)]="userPersonalInformationRequest.email" required #email="ngModel" [disabled]="userPersonalInformationRequest.email != null">
+                                    <input type="email" class="form-control" id="emailField" name="email" aria-describedby="emailHelp" placeholder="Enter email id" [(ngModel)]="userPersonalInformationRequest.email" required #email="ngModel">
                                 </div>
                                 <div *ngIf="email?.touched || isFormInvalid">
                                     <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="email.errors?.required">

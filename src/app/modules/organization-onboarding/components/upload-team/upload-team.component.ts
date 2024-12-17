@@ -18,7 +18,7 @@ import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { OrganizationOnboardingService } from 'src/app/services/organization-onboarding.service';
 import * as XLSX from 'xlsx';
-import * as moment from 'moment';
+import moment from 'moment';
 import { OrganizationShift } from 'src/app/models/shift-type';
 import { saveAs } from 'file-saver';
 import { EmployeeOnboardingDataDto } from 'src/app/models/employee-onboarding-data-dto';
@@ -291,7 +291,7 @@ export class UploadTeamComponent implements OnInit {
       return false;
     }
     if (!lastUser.name && !lastUser.phone && this.userList.length == 1) {
-     
+
       return false;
     }
     if (!this.lastUsersValid()) {
@@ -311,7 +311,7 @@ export class UploadTeamComponent implements OnInit {
       return false;
     }
     if (!lastUser.name && !lastUser.phone) {
-     
+
       return true;
     }
     return this.isValidUser(lastUser);
@@ -714,7 +714,7 @@ export class UploadTeamComponent implements OnInit {
     if (this.excelLogLink) {
       const link = document.createElement('a');
       link.href = this.excelLogLink;
-      link.setAttribute('download', 'Organization_Excel_Log.xlsx'); 
+      link.setAttribute('download', 'Organization_Excel_Log.xlsx');
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);

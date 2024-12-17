@@ -1,6 +1,6 @@
 import { DatePipe, KeyValue } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import * as moment from 'moment';
+import moment from 'moment';
 import { Key } from 'src/app/constant/key';
 import { AttendanceReportLogs } from 'src/app/models/AttendanceReportLogs';
 import { DataService } from 'src/app/services/data.service';
@@ -82,10 +82,10 @@ export class ReportsComponent implements OnInit {
   disableBeforeOnboarding = (current: Date): boolean => {
     const onboardingDate = this.organizationOnboardingDate;
     const now = new Date();
-  
+
     return current < onboardingDate || current > now;
   };
-  
+
 
   disableBeforeOnboardingForSalary = (current: Date): boolean => {
     const onboardingYear = this.organizationOnboardingDate.getFullYear();
@@ -315,29 +315,29 @@ handleOkOfAttendanceSummary(): void {
   handleOkOfAttendanceReport(): void {
     if (this.selectedDateRange && this.selectedDateRange.length === 2) {
       const [startOfRange, endOfRange] = this.selectedDateRange;
-  
+
       this.startDate = new Date(startOfRange);
       this.endDate = new Date(endOfRange);
-  
+
       if (this.startDate && this.endDate) {
         this.isLoading2 = true;
         this.helperService.showToast(
           "Please Wait! We're loading your Attendance Records.",
           Key.TOAST_STATUS_SUCCESS
         );
-  
+
         const formattedStartDate = this.formatDate(this.startDate);
         const formattedEndDate = this.formatDate(this.endDate);
         this.generateAttendanceReport(formattedStartDate, formattedEndDate);
-  
+
         this.closeModal2();
       }
-  
+
       // Clear the selected range after processing
       this.selectedDateRange = [];
     }
   }
-  
+
 
   // handleOkOfAttendanceReport(): void {
   //   if (this.selectedMonth) {
@@ -487,7 +487,7 @@ handleOkOfAttendanceSummary(): void {
         //   downloadLink.href = response.message;
         //   downloadLink.download = 'attendance.xlsx';
         //   downloadLink.click();
-       
+
           this.isLoading4 = false;
         },
         (error) => {
@@ -510,16 +510,16 @@ handleOkOfAttendanceSummary(): void {
   disableBeforeOnboardingForDailyReport = (current: Date): boolean => {
     const onboardingDate = this.organizationOnboardingDate;
     const now = new Date();
-  
+
     // Disable dates before the organization onboarding date
     const isBeforeOnboarding = current < onboardingDate;
-  
+
     // Disable dates after the current date
     const isAfterCurrentDate = current > now;
-  
+
     return isBeforeOnboarding || isAfterCurrentDate;
   };
-  
+
 
 
 }
