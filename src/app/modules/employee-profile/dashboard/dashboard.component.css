@@ -493,5 +493,58 @@
       opacity: 1;
     }
   }
-  
-/** Dot opacity end */
+  .team-overview{
+    border: 1px solid #f1f1f1;
+  }
+.border-bottom{
+    border-bottom: 1px solid #f1f1f1 !important;
+}
+.request-dropdown {
+    width: 150px !important;
+    height: 38px !important;
+    border-radius: 2px;
+    border: 1px solid #DCDCE4 !important;
+}
+
+.border-right{
+    border-right: 1px solid #F1F1F1;
+}
+.roles-list p{
+  color: #858585;
+}
+.roles-list p span{
+    color: #000;
+}
+.roles-list img{
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+}
+.status-list img{
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+}
+.members-name {
+    background-color: #a69ff3;
+    color: #fff;
+    width: 33px;
+    height: 33px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 18px;
+    text-transform: uppercase;
+    box-shadow: 0 0 0 2px #f9fafb;
+}
+.team-member{
+    color: #858585;
+}
+.roles-list.status-list {
+    max-height: 275px;
+    overflow: scroll;
+}
+.roles-list.status-list::-webkit-scrollbar{
+    display: none;
+}
