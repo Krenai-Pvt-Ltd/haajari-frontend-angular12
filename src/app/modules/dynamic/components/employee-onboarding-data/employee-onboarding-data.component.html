@@ -713,7 +713,7 @@
                                       Account</a>
                                   </li>
 
-                                  <li>
+                                  <li *ngIf="user?.resignationStatus == null && user?.userExistInExitPolicy == 1">
                                     <a class="dropdown-item initiate-btn" data-bs-toggle="modal"
                                       data-bs-target="#initiateExit" (click)="getUserUuid(user.uuid);">
                                       <svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 17 16"

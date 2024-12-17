@@ -47,7 +47,8 @@ export class EmployeeProfileComponent implements OnInit {
       console.log(response.object);
       this.employeeProfileResponseData = response.object;
 
-      if(this.employeeProfileResponseData.resignationStatus != null && this.employeeProfileResponseData.resignationStatus  == 43){
+      if(!this.employeeProfileResponseData.resignationStatus && this.employeeProfileResponseData.resignationStatus  == 43){
+      // if(this.employeeProfileResponseData.resignationStatus != null && this.employeeProfileResponseData.resignationStatus  == 43){
         this.isEmployeeExit = true;
         this.resignationDate = this.employeeProfileResponseData.approvedDate;
       }

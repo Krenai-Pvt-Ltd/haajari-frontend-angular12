@@ -90,6 +90,8 @@ export class EmployeeProfileSidebarComponent implements OnInit {
       this.userRoleFlag = true;
     }
 
+    this.checkUserExist();
+
     this.getNoticePeriodDuration()
 
     this.getUserResignationInfo()
@@ -103,11 +105,19 @@ export class EmployeeProfileSidebarComponent implements OnInit {
 
   employeeProfileResponseData : EmployeeProfileResponse | undefined;
   teamString !: any;
+  resigntionStatus: any
   getEmployeeProfileData() {
     debugger
     this.dataService.getEmployeeProfile(this.userId).subscribe((response) => {
       console.log(response.object);
       this.employeeProfileResponseData = response.object;
+
+      // if(this.employeeProfileResponseData?.resignationStatus == 47){
+      //   this.resigntionStatus == null
+      // }else{
+      //   this.resigntionStatus =  this.employeeProfileResponseData?.resignationStatus
+      // }
+
       this.teamString = this.employeeProfileResponseData?.teams;
       this.splitTeams();
     }, (error) => {
@@ -533,6 +543,16 @@ export class EmployeeProfileSidebarComponent implements OnInit {
       if(res.status){
         this.userResignationInfo = res.object[0]
         console.log('userResignationInfo: ',this.userResignationInfo)
+      }
+    })
+  }
+
+  existExitPolicy: boolean = false;
+  checkUserExist(){
+    this.existExitPolicy = false
+    this.dataService.checkUserExist(this.userId).subscribe((res: any) =>{
+      if(res.status && res.object == 1){
+        this.existExitPolicy = true;
       }
     })
   }

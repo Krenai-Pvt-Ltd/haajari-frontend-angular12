@@ -936,7 +936,8 @@ aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <button type="button" class="btn cancel-btn" *ngIf="showRevokeDiv || ROLE == 'ADMIN'" data-bs-dismiss="modal" (click)="clearForm()" aria-label="Close" #closeApproveModal>Cancel</button>
 
                     <button *ngIf="!approveToggle && ROLE == 'ADMIN'" type="button" (click)="approveOrDenyResignation(userResignationInfo.id)" class="btn submitActionBtn">Approve</button>
-                    <button *ngIf="!approveToggle && ROLE != 'ADMIN'" type="button" class="btn submitActionBtn" (click)="showRevokeDiv = !showRevokeDiv">{{!showRevokeDiv ? 'Revoke' : 'Submit'}}</button>
+                    <!-- <button *ngIf="!approveToggle && ROLE != 'ADMIN'" [disabled]="showRevokeDiv && !userResignationInfo.revokeReason" type="button" class="btn submitActionBtn" (click)="showRevokeDiv = !showRevokeDiv">{{!showRevokeDiv ? 'Revoke' : 'Submit'}}</button> -->
+                    <button *ngIf="!approveToggle && ROLE != 'ADMIN'" [disabled]="showRevokeDiv && !userResignationInfo.revokeReason" type="button" class="btn submitActionBtn" (click)="revokeResignation(userResignationInfo.id)">{{!showRevokeDiv ? 'Revoke' : 'Submit'}}</button>
                     <button *ngIf="!approveToggle && !showRevokeDiv && !resignationToggle && ROLE != 'ADMIN'" type="submit" class="btn submitActionBtn">Update</button>
 
                     <div class="dot-opacity-loader" *ngIf="approveToggle || resignationToggle">

@@ -41,7 +41,7 @@ export class DashboardComponent implements OnInit {
 
     this.getRole();
     this.getUserResignationInfo();
-    this.getUsersWithUpcomingBirthdays();
+    // this.getUsersWithUpcomingBirthdays();
     this.getNewUsersJoinies();
     this.getUsersUpcomingWorkAnniversaries();
     this.getNoticePeriodDuration()
@@ -203,7 +203,31 @@ getWeekDayOfBirthday(birthday: string): string {
 
   showRevokeDiv: boolean = false;
   revokeReason: string = ''
-  revokeResignation(){
+  revokeResignation(id: number){
+
+    if(!this.showRevokeDiv){
+      this.showRevokeDiv = true;
+    }else{
+      this.approveToggle = true;
+      this.requestModal = true;
+      // console.log('hitt')
+      // this.approveToggle = false
+      // this.closeApproveModal.nativeElement.click()
+      this.dataService.revokeResignation(id, this.userResignationInfo.revokeReason).subscribe((res: any) => {
+        if(res.status){
+          this.closeApproveModal.nativeElement.click()
+          this.approveToggle = false
+          // this.helperService.profileChangeStatus.next(true);
+          this.helperService.showToast(
+            res.message,
+            Key.TOAST_STATUS_SUCCESS
+          );
+        }else{
+          this.approveToggle = false;
+        }
+      })
+
+    }
 
   }
 
@@ -231,9 +255,7 @@ getWeekDayOfBirthday(birthday: string): string {
     })
 
     // console.log('reqs: ',this.userResignationReq)
-
   }
-
 
   getDynamicClass(index: number): object {
     if(index>=3){

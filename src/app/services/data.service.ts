@@ -4309,6 +4309,13 @@ getHolidayForOrganization(date: string): Observable<any>{
     );
   }
 
+  checkUserExist(uuid: string) {
+    let params = new HttpParams().set('uuid', uuid);
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/exit-policy/exist`, {params}
+    );
+  }
+
   updateResignation1(id: number) {
     const params = new HttpParams().set('id', id);
     return this.httpClient.patch<any>(
@@ -4321,6 +4328,13 @@ getHolidayForOrganization(date: string): Observable<any>{
   updateResignation(id: number){
     const params = new HttpParams().set('id', id);
   return this.httpClient.patch<any>(`${this.baseUrl}/user-resignation`, {}, {params});
+  }
+
+  revokeResignation(id: number, message: string){
+    const params = new HttpParams()
+    .set('id', id)
+    .set('reason', message);
+  return this.httpClient.patch<any>(`${this.baseUrl}/user-resignation/revoke`, {}, {params});
   }
 
   updateResignation2(id: number) {
