@@ -570,7 +570,7 @@
           <li *ngFor="let team of teams.slice(0, 5)">{{ team }}</li>
           <span (click)="viewTeamsLess=false" *ngIf="teams.length>5 && viewTeamsLess" class="pointer" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
             +{{teams.length-5}}</span>
-          <div class="collapseTeam " id="collapseTeams">
+          <div *ngIf="!viewTeamsLess" class="collapseTeam " id="collapseTeams">
               <ul class="skill-set">
                 <li *ngFor="let team of teams.slice(5)">{{ team }}</li>
               </ul>

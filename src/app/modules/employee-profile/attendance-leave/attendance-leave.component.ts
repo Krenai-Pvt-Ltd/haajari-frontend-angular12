@@ -75,6 +75,34 @@ contentTemplate: string ='You are on the Notice Period, so that you can not appl
     return this.userLeaveForm?.valid;
   }
 
+  attendanceRequests: any = [];
+  currentAttendancePage: number = 0;
+  pageAttendanceSize: number = 10;
+  totalAttendanceElements: number = 0;
+  fetchAttendanceRequests(): void {
+    this.dataService
+      .getAttendanceUpdateFilteredRequests(
+        this.userId,
+        this.selectedStatus,
+        this.selectedLeaveType,
+        this.currentAttendancePage,
+        this.pageAttendanceSize
+      )
+      .subscribe((response) => {
+        this.attendanceRequests = response.content;
+        this.totalAttendanceElements = response.totalElements;
+      });
+  }
+  onAttendancePageChange(page: number): void {
+    this.currentAttendancePage = page;
+    this.fetchAttendanceRequests();
+  }
+
+  onAttendanceFilterChange(): void {
+    this.currentAttendancePage = 0; // Reset to first page when filters change
+    this.fetchAttendanceRequests();
+  }
+
   isUserLeaveTaken: number = 0;
   checkUserLeaveTaken(){
     this.dataService.getUserLeaveTaken().subscribe((res: any) => {

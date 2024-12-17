@@ -350,6 +350,7 @@ getAssetUserListData(): void {
 
 
  assignAssetId(assetId: number) {
+  this.selectedAsset = null;
   this.assetIdToUpdate = assetId;
   if(assetId>0) {
     this.getAssetDataById();
@@ -758,7 +759,7 @@ private formatDataForChart(data: any[]): any[] {
   changeStatus(asset: any) {
     this.asset=null;
     asset.status = this.newStatus;
-
+    this.modalService.dismissAll();
     this.dataService.changeAssetRequestStatus(asset.id, this.newStatus)
     .subscribe(
       (response) => {
@@ -771,6 +772,7 @@ private formatDataForChart(data: any[]): any[] {
       (error) => {
         console.error('Error updating status:', error);
         // Handle error response, e.g., show an error message
+        this.getAssetRequests();
       }
     );
   }
@@ -784,6 +786,14 @@ private formatDataForChart(data: any[]): any[] {
     console.log(this.createAssetButton);
     if(this.createAssetButton){
     this.createAssetButton.nativeElement.click();
+    this.selectedAsset = asset;
+    this.allAssetCategoryData.forEach((category: any) => {
+      if (category.categoryName === asset.assetCategoryName) {
+      this.assetForm.patchValue({
+        categoryId: category.categoryId
+      });
+    }
+    });
     this.assetForm.patchValue({
       assetName: asset.assetName,
       userId: asset.userId,

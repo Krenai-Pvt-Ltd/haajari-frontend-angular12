@@ -103,7 +103,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
 
   employeeProfileResponseData : EmployeeProfileResponse | undefined;
   teamString !: any;
-  viewTeamsLess: boolean = false;
+  viewTeamsLess: boolean = true;
   getEmployeeProfileData() {
     debugger
     this.dataService.getEmployeeProfile(this.userId).subscribe((response) => {

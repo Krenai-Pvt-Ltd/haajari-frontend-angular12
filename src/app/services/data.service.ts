@@ -4405,6 +4405,24 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.get<string[]>(`${this.baseUrl}/attendance/get-count`);
   }
 
+  getAttendanceUpdateFilteredRequests(
+    userUuid?: string,
+    status?: string,
+    requestType?: string,
+    page: number = 0,
+    size: number = 10
+  ): Observable<any> {
+    let params = new HttpParams()
+      .set('page', page)
+      .set('size', size);
+
+    if (userUuid) params = params.set('userUuid', userUuid);
+    if (status) params = params.set('status', status);
+    if (requestType) params = params.set('requestType', requestType);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get/requests/filter`, { params });
+  }
+
 
 }
 
