@@ -9,4 +9,5 @@ export class OvertimeRequestLogResponse {
     createdDate !: Date;
     requestStatusId : number = 0;
     note : string = '';
+    statusName : string= '';
 }

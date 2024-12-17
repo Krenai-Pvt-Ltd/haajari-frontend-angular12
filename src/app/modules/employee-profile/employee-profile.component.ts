@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 
 import { DataService } from 'src/app/services/data.service';
 import { ActivatedRoute } from '@angular/router';
@@ -63,6 +63,14 @@ export class EmployeeProfileComponent implements OnInit {
     }, (error) => {
          console.log(error);
     })
+  }
+
+  @ViewChild('notificationBtn') notificationBtn!: ElementRef;
+  public clickViewAll(){
+    debugger
+    if (this.notificationBtn) {
+      this.notificationBtn.nativeElement.click();
+    }
   }
 
 

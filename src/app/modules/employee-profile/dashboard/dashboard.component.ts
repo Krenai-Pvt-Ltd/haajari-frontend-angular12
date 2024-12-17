@@ -1,5 +1,6 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { Key } from 'src/app/constant/key';
+import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { OvertimeRequestLogResponse } from 'src/app/models/overtime-request-log-response';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
@@ -17,6 +18,9 @@ import {
 } from 'chart.js';
 import { Holiday } from 'src/app/models/Holiday';
 
+import { UserNotificationService } from 'src/app/services/user-notification.service';
+import { Notification } from 'src/app/models/Notification';
+import { EmployeeProfileComponent } from '../employee-profile.component';
 
 Chart.register(
   LineController,
@@ -41,7 +45,11 @@ export class DashboardComponent implements OnInit {
 
   resignationSubmittedSubscriber: any;
   resignationSubmittedToggle: boolean = false;
-  constructor(private roleService: RoleBasedAccessControlService, private dataService: DataService, public helperService: HelperService) {
+  constructor(private roleService: RoleBasedAccessControlService,
+      private _notificationService: UserNotificationService,
+     private dataService: DataService,
+      public helperService: HelperService,
+    private employeeProfileComponent: EmployeeProfileComponent) {
     this.resignationSubmittedSubscriber =  this.helperService.resignationSubmitted.subscribe((value)=>{
       if(value){
         this.resignationSubmittedToggle = true;
@@ -57,8 +65,25 @@ export class DashboardComponent implements OnInit {
     // this.stopCarousel();
   }
 
+ 
+  today = new Date();
+
+  getOrdinalSuffix(day: number): string {
+    const suffixes = ['th', 'st', 'nd', 'rd'];
+    const ones = day % 10;
+    const tens = Math.floor(day / 10) % 10;
+    
+    // Handle the special case for 11th, 12th, and 13th
+    if (tens === 1) {
+      return 'th';
+    }
+    
+    return suffixes[ones] || 'th';
+  }
+
   userId: string =''
   ngOnInit(): void {
+    this.today = new Date();
     const userUuidParam = new URLSearchParams(window.location.search).get('userId');
     this.userId = userUuidParam?.toString() ?? ''
     this.calculateDateRange();
@@ -71,6 +96,7 @@ export class DashboardComponent implements OnInit {
     // this.getWorkedHourForEachDayOfAWeek();
     this.getAttendanceRequestLogData();
     this.fetchAttendanceSummary();
+    this.loadHolidays();
     // this.startCarousel();
   }
   
@@ -78,6 +104,7 @@ export class DashboardComponent implements OnInit {
 
   ngAfterViewInit(): void {
     this.getWorkedHourForEachDayOfAWeek();
+    this.getMailNotification(this.userId, 'mail');
   }
 
 
@@ -590,4 +617,34 @@ holidays: Holiday[] = [];
 
 
 
+  mailList: Notification[] = new Array();
+  totalMailNotification: number = 0;
+  mailLoading: boolean = false;
+  totalNewMailNotification: number = 0;
+  notificationList: Notification[] = new Array();
+  databaseHelper: DatabaseHelper = new DatabaseHelper();
+  getMailNotification(uuid: any, notificationType: string) {
+    debugger;
+    this.mailLoading = true;
+    this.databaseHelper.itemPerPage = 1;
+    this._notificationService
+      .getMailNotification(uuid, this.databaseHelper, notificationType)
+      .subscribe((response: any) => {
+        if (response.status) {
+          this.mailList = response.object;
+          this.totalNewMailNotification =
+            response.object[0].newNotificationCount;
+          this.totalMailNotification = response.totalItems;
+          this.mailLoading = false;
+        }
+        this.mailLoading = false;
+      });
+  }
+
+  clickViewAll(){
+    debugger
+    this.employeeProfileComponent.clickViewAll();
+  }
+
+  currentDate = new Date();
 }
