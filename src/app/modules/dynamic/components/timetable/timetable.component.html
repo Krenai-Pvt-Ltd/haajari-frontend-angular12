@@ -95,10 +95,26 @@
               >Updation request <span class="alert-badge " *ngIf="attendanceUpdateCount > 0"></span></a
             >
           </div>
+
+          <!-- <ul id="pills-tab" role="tablist" class="nav nav-pills">
+            <li class="nav-item">
+                <a id="pills-announcement-tab" data-bs-toggle="pill" href="#Attendance" role="tab"
+                    aria-controls="pills-announcement" aria-selected="false" class="nav-link active">Attendance</a>
+            </li>
+            <li class="nav-item d-flex align-items-center">
+                <a id="pills-notification-tab" data-bs-toggle="pill" href="#Overtime" role="tab"
+                    aria-controls="pills-notification" aria-selected="false" class="nav-link">Overtime</a>
+            </li>
+            <li class="nav-item d-flex align-items-center">
+                <a id="pills-notification-tab" data-bs-toggle="pill" href="#updationRequest" role="tab"
+                    aria-controls="pills-notification" aria-selected="false" class="nav-link">Updation request</a> 
+            </li>
+          </ul>
+           -->
         </div>
       </div>
 
-      <div class="tab-content">
+      <div id="pills-tabContent" class="tab-content">
         <div class="row" *ngIf="ACTIVE_TAB == ATTENDANCE_TAB">
           <div class="attendance-sheet mt-4">
             <div class="row">
@@ -904,12 +920,7 @@
                             </ng-template>
                           </div>
                     </div>
-                    <!-- modal-body -->
-                    <!-- <div class="modal-footer d-flex align-items-center justify-content-end">
-                    <button type="button" class="btn btn-de-secondary" data-bs-dismiss="modal" aria-label="Close" >
-                      Cancel
-                    </button>
-                  </div> -->
+                   
                     <!-- modal-footer -->
                   </div>
                   <!-- modal-content -->
@@ -1719,7 +1730,7 @@
                 <hr style="margin-bottom: 10px" />
                 <ul class="nav nav-tabs bg-white" role="tablist">
                   <li
-                    class="nav-item"
+                    class="nav-item d-flex align-items-center"
                     (click)="
                       changeLogTabInAttendanceUpdateRequestTab(
                         ATTENDANCE_UPDATE_PENDING_REQUEST_TAB
@@ -1728,24 +1739,14 @@
                     "
                   >
                     <a
-                      class="nav-link"
+                      class="nav-link "
                       [ngClass]="{
                         active:
                           ACTIVE_TAB_IN_ATTENDANCE_UPDATE_REQUEST_TAB ==
                           ATTENDANCE_UPDATE_PENDING_REQUEST_TAB
                       }"
-                      data-bs-toggle="tab"
-                      href="#attendance-update-pending-request"
-                      role="tab"
-                      aria-selected="true"
-                      >Pending requests
-                      <span
-                        class="badge rounded-pill badge-outline-warning"
-                        style="margin-left: 10px"
-                        *ngIf="attendanceRequestCount > 0"
-                        >{{ attendanceRequestCount }}</span
-                      ></a
-                    >
+                      data-bs-toggle="tab" href="#attendance-update-pending-request" role="tab" aria-selected="true">Pending requests </a>
+                    <span class="request-count d-flex align-items-center justify-content-center" *ngIf="attendanceRequestCount > 0">{{ attendanceRequestCount }}</span>
                   </li>
                   <li
                     class="nav-item"

@@ -69,7 +69,7 @@
                             <div class="btn-group week-data radio-btn" role="group" aria-label="Basic radio toggle button group">
 
                                 <ng-container *ngFor="let week of weekLabels; let i = index">
-                                  <input
+                                    <input
                                     type="radio"
                                     class="btn-check"
                                     [id]="'btnradio' + (i + 2)"
@@ -77,27 +77,21 @@
                                     [value]="week"
                                     (change)="onTabChange(week)"
                                     [checked]="selectedTab === week"
-                                  />
-                                  <label
-                                    class="btn btn-outline-primary font-12"
-                                    [for]="'btnradio' + (i + 2)"
-                                  >
-                                    <span >{{ week }}</span>
-                                    <!-- <span *ngIf="presentWeek">Current Week</span> -->
-                                  </label>
+                                    />
+                                    <label class="btn btn-outline-primary font-12" [for]="'btnradio' + (i + 2)">
+                                        <span >{{ week }}</span>
+                                    </label>
                                 </ng-container>
 
-                                <input
-                                type="radio"
-                                class="btn-check"
-                                id="btnradio1"
-                                name="weekOptions"
-                                value="30 DAYS"
-                                (change)="onTabChange('30 DAYS')"
-                                [checked]="selectedTab === '30 DAYS'"
-                              />
-                              <label class="btn btn-outline-primary font-12" for="btnradio1">{{ thirtyDaysLabel }}</label>
-
+                                    <input
+                                    type="radio"
+                                    class="btn-check"
+                                    id="btnradio1"
+                                    name="weekOptions"
+                                    value="30 DAYS"
+                                    (change)="onTabChange('30 DAYS')"
+                                    [checked]="selectedTab === '30 DAYS'"/>
+                                    <label class="btn btn-outline-primary font-12" for="btnradio1">{{ thirtyDaysLabel }}</label>
                               </div>
 
                         </div>

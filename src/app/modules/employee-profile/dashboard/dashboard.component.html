@@ -7,9 +7,7 @@
                 <div class="mb-3">
                     <img src="assets/images/week-attendance-report.svg" style="width:100%">
                 </div>
-
                 <h6 class="pb-2">Lorem ipsum</h6>
-
                 <div class="row">
                     <div class="col-md-6 pr-1">
                         <div class="employee-dashboard p-2 mb-3">
@@ -22,7 +20,7 @@
                         <div class="employee-dashboard p-2 mb-3">
                             <p class="mb-3 font-13">Check-Out time</p>
                             <h5 class="mb-2">{{attendanceSummary?.outTime | date: 'hh:mm a' }}</h5>
-                            <p class="mb-0  font-13">{{attendanceSummary?.outLateTime}}</p>
+                            <p class="mb-0  font-13"><span class="text-danger">{{attendanceSummary?.outLateTime}}</span></p>
                         </div>
                     </div>
                     <div class="col-md-6 pr-1">
@@ -169,7 +167,7 @@
                                 <div class="roles p-3">
                                     <h5 class="mb-0 font-13">Roles</h5>
                                     <div class="roles-list mt-3 mb-4">
-                                        <div class="d-flex align-items-center gap-2">
+                                        <div class="d-flex align-items-center gap-2 mb-3">
                                                <img onerror="this.src='./assets/images/broken-image-icon.jpg';" src="assets/images/birthday-img.jpeg">
                                             <div>
                                                 <h5 class="mb-1 font-13">Anchal</h5>
