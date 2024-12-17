@@ -51,6 +51,7 @@ contentTemplate: string ='You are on the Notice Period, so that you can not appl
       note: [null, Validators.required],
     });
     // this.getAttendanceRequests();
+    this.fetchAttendanceRequests();
     this.fetchManagerNames();
     this.getUserLeaveReq();
     this.loadLeaveLogs();
@@ -75,16 +76,28 @@ contentTemplate: string ='You are on the Notice Period, so that you can not appl
     return this.userLeaveForm?.valid;
   }
 
+  attendanceTypeFilter: any = ['CREATE', 'UPDATE'];
+  attendanceStatusFilter: any = ['PENDING', 'APPROVED', 'REJECTED'];
+  updateAttendanceTypeFilter(type: string){
+    this.attendanceType = type;
+    this.fetchAttendanceRequests();
+  }
+  updateAttendanceStatusFilter(status: string){
+    this.attendanceStatus = status;
+    this.fetchAttendanceRequests();
+  }
   attendanceRequests: any = [];
   currentAttendancePage: number = 0;
   pageAttendanceSize: number = 10;
   totalAttendanceElements: number = 0;
+  attendanceStatus: string = '';
+  attendanceType: string = 'CREATE';
   fetchAttendanceRequests(): void {
     this.dataService
       .getAttendanceUpdateFilteredRequests(
         this.userId,
-        this.selectedStatus,
-        this.selectedLeaveType,
+        this.attendanceStatus,
+        this.attendanceType,
         this.currentAttendancePage,
         this.pageAttendanceSize
       )
