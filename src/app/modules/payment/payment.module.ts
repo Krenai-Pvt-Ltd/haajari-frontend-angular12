@@ -21,6 +21,8 @@ import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { EmployeeManagementComponent } from './employee-management/employee-management.component';
 import { EarningManagementComponent } from './earning-management/earning-management.component';
 import { SalaryDeductionManagementComponent } from './salary-deduction-management/salary-deduction-management.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NzSelectModule } from 'ng-zorro-antd/select';
 
 @NgModule({
   declarations: [
@@ -48,6 +50,8 @@ import { SalaryDeductionManagementComponent } from './salary-deduction-managemen
     NgxShimmerLoadingModule,
     NgxChartsModule,
     NzEmptyModule,
+    NgbModule,
+    NzSelectModule
   ],
 })
 export class PaymentModule {}

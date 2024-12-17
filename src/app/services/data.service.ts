@@ -3097,38 +3097,9 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     return this.httpClient.delete(url);
   }
 
-  getSalaryChangeResponseListByOrganizationId(
-    startDate: string,
-    endDate: string,
-    itemPerPage: number,
-    pageNumber: number): Observable<any> {
+ 
 
-    const params = new HttpParams()
-    .set('start_date', startDate)
-    .set('end_date', endDate)
-    .set('item_per_page', itemPerPage)
-    .set('page_number', pageNumber)
-    return this.httpClient.get<any>(`${this.baseUrl}/salary/payroll-dashboard/salary-change`, {params});
-  }
-
-  getSalaryChangeBonusResponseListByOrganizationId(
-    startDate: string,
-    endDate: string,
-    itemPerPage: number,
-    pageNumber: number,
-    search: string,
-    searchBy: string): Observable<any> {
-
-    const params = new HttpParams()
-    .set('start_date', startDate)
-    .set('end_date', endDate)
-    .set('item_per_page', itemPerPage)
-    .set('page_number', pageNumber)
-    .set('search', search)
-    .set('search_by', searchBy);
-
-    return this.httpClient.get<any>(`${this.baseUrl}/salary/payroll-dashboard/salary-change/bonus`, {params});
-  }
+ 
 
 
   getEmployeeSalary(userUuid : string): Observable<any> {
