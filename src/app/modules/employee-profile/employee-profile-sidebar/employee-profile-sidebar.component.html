@@ -440,7 +440,7 @@
               <ul class="skill-set">
                 <li *ngFor="let skill of fetchedSkills.slice(5)">{{ skill }}</li>
               </ul>
-              <button type="button" class="btn p-0 text-primary font-13 view-less" data-bs-toggle="collapse"
+              <button *ngIf="fetchedSkills.length>5" type="button" class="btn p-0 text-primary font-13 view-less" data-bs-toggle="collapse"
                   data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" (click)="viewLess=true">View Less <i
                       class="bi bi-chevron-up"></i></button>
           </div>
@@ -566,10 +566,19 @@
         <span *ngIf="teams.length > 0">
         <h5 class="mb-2 mt-4">TEAMS</h5>
 
-        <ul class="skill-set" >
-            <li *ngFor = "let t of teams">{{t}}</li>
-            <!-- <li>krenai </li> -->
-        </ul>
+        <ul class="skill-set">
+          <li *ngFor="let team of teams.slice(0, 5)">{{ team }}</li>
+          <span (click)="viewTeamsLess=false" *ngIf="teams.length>5 && viewTeamsLess" class="pointer" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            +{{teams.length-5}}</span>
+          <div class="collapseTeam " id="collapseTeams">
+              <ul class="skill-set">
+                <li *ngFor="let team of teams.slice(5)">{{ team }}</li>
+              </ul>
+              <button *ngIf="teams.length>5" type="button" class="btn p-0 text-primary font-13 view-less" data-bs-toggle="collapseTeam"
+                  data-bs-target="#collapseTeams" aria-expanded="false" aria-controls="collapseTeams" (click)="viewTeamsLess=true">View Less <i
+                      class="bi bi-chevron-up"></i></button>
+          </div>
+      </ul>
     </span>
     </div>
 

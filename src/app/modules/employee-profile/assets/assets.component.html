@@ -357,7 +357,7 @@
                                   </ng-template>
                                 </td>
                                 <td class="text-left">
-                                  <span class="badge rounded-pill" [ngClass]="{'badge-soft-warning': asset.status == 'PENDING', 'badge-soft-danger': asset.status == 'REJECTED', 'badge-soft-success': asset.status == 'APPROVED'}">
+                                  <span class="badge rounded-pill" [ngClass]="{'badge-soft-warning': asset.status == 'PENDING', 'badge-soft-danger': asset.status == 'REJECTED', 'badge-soft-success': asset.status == 'APPROVED' || asset.status == 'ASSIGNED' }">
                                     {{ asset.status }}
                                   </span>
                                 </td>
@@ -368,7 +368,7 @@
                         </div>
 
                         <div *ngIf="this.assetRequestsTotalPage>1" class="d-flex align-items-center justify-content-between pagination-box-profile w-100 p-3 bg-white border-top">
-                          <p>
+                          <p class="mb-0">
                             Showing items
                             {{ (assetRequestsPage - 1) * assetRequestsSize + 1 }} –
                             {{ Math.min(assetRequestsPage * assetRequestsSize, assetRequestsTotalCount) }}
