@@ -739,7 +739,7 @@
               placeholder="Type vendor name here..."
             />
           </div>
-          <div class="col-md-6 mb-3">
+          <div *ngIf="selectedAsset==null || selectedAsset==undefined" class="col-md-6 mb-3">
             <label for="userId" class="form-label"
               >Select User <span class="text-optional">(optional)</span></label
             >
@@ -756,6 +756,18 @@
                 [nzValue]="user.userId"
               ></nz-option>
             </nz-select>
+          </div>
+          <div *ngIf="selectedAsset && selectedAsset.status == 'APPROVED'" class="col-md-6 mb-3">
+            <label for="userId" class="form-label"
+              >Select User <span class="text-optional">(optional)</span></label
+            >
+            <input
+              type="text"
+              class="form-control input-zorro"
+              [value]="selectedAsset?.requestedBy"
+              disabled
+              placeholder="Requested by..."
+            />
           </div>
           <div class="col-md-6 mb-3">
             <label for="assignedDate" class="form-label"
@@ -1198,7 +1210,7 @@
               <div class="col-md-12 mb-3">
                 <label class="mb-2">Current Status </label>
                 <div class="pt-2 pb-2">
-                    <span class="badge rounded-pill" [ngClass]="{'badge-soft-warning': selectedAsset.status == 'PENDING', 'badge-soft-danger': selectedAsset.status == 'REJECTED', 'badge-soft-success': selectedAsset.status == 'APPROVED'}">{{ selectedAsset.status }}</span>
+                    <span class="badge rounded-pill" [ngClass]="{'badge-soft-warning': selectedAsset.status == 'PENDING', 'badge-soft-danger': selectedAsset.status == 'REJECTED', 'badge-soft-success': selectedAsset.status == 'APPROVED' || selectedAsset.status == 'ASSIGNED' }">{{ selectedAsset.status }}</span>
                 </div>
               </div>
               <div *ngIf="selectedAsset.status!='APPROVED'" class="col-md-12">

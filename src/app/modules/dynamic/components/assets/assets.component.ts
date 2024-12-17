@@ -406,7 +406,7 @@ saveAsset(): void {
 
   this.dataService.createAsset(newAsset).subscribe(
     (response) => {
-
+        this.selectedAsset = null;
         // console.log('Asset created successfully.');
         this.assetForm.reset();
         this.getAssetData();
@@ -422,6 +422,7 @@ saveAsset(): void {
     (error) => {
       // console.error('Error creating asset:', error);
       // console.log('Failed to create asset. Please try again.');
+      this.selectedAsset = null;
       if(error.error.message == 'Serial Number Already Registered') {
         this.helperService.showToast('Serial Number Already Registered.', Key.TOAST_STATUS_ERROR);
       } else {
@@ -744,19 +745,19 @@ private formatDataForChart(data: any[]): any[] {
   }
   newStatus: string = 'Pending';
   selectedAsset: any;
-  statuses: string[] = ['APPROVED', 'REJECTED', 'ASSIGNED'];
+  statuses: string[] = ['APPROVED', 'REJECTED'];
   openStatusChangeModal(asset: any, statusChangeModal: TemplateRef<any>) {
     this.selectedAsset = asset;
+    if(asset.status == 'APPROVED'){
+      this.openCreateAssetModal(asset);
+      return;
+    }
     this.modalService.open(statusChangeModal);
   }
 
   changeStatus(asset: any) {
     this.asset=null;
     asset.status = this.newStatus;
-    if(this.newStatus == 'ASSIGNED'){
-      this.openCreateAssetModal(asset);
-      return;
-    }
 
     this.dataService.changeAssetRequestStatus(asset.id, this.newStatus)
     .subscribe(
