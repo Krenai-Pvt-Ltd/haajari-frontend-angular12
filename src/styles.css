@@ -709,11 +709,17 @@ actionMenuList .dropdown-item i {
 .new-empty-file .ant-empty-image img {
   width: 70px !important;
 }
-
 .placeholder-line .ant-select-selection-placeholder{
   line-height: 45px !important;
   font-size: 0.875rem !important;
   font-weight: 400 !important;
+}
+
+.placeholder-lines .ant-select-selection-placeholder{
+  line-height: 35px !important;
+    font-size: 14px;
+    font-weight: 500 !important;
+    color: #000;
 }
 .placeholder-line .ant-select-selection-item  {
   line-height: 45px !important;
@@ -735,6 +741,9 @@ actionMenuList .dropdown-item i {
 
 .form-control:focus{
   border-color: #e9e9e9 !important;
+}
+.pl-2{
+  padding-left: 10px;
 }
 
 .pagination-box {
@@ -771,4 +780,9 @@ actionMenuList .dropdown-item i {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.request-dropdown .ant-select-selector {
+  min-height: 35px !important;
+  background-color: transparent !important;
 }
