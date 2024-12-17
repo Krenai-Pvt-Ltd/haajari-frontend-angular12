@@ -304,14 +304,7 @@ button.btn.close-btn {
   top: 0px;
   color: var(--primary-color);
 }
-.badge {
-  line-height: 12px;
-  padding: 0.55em 10px;
-  font-size: 13px;
-  font-weight: 400;
-  letter-spacing: 0.1px;
-  min-width: 100px;
-}
+
 
 .new-deopdown i {
   position: absolute;

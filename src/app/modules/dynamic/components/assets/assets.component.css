@@ -13,14 +13,7 @@
 .table-design {
   border: 1px solid #6d68ff;
 }
-.badge {
-  line-height: 12px;
-  padding: 0.55em 10px;
-  font-size: 13px !important;
-  font-weight: 400;
-  letter-spacing: 0.1px;
-  min-width: 80px;
-}
+
 .errorboxmain {
   /* min-height: 20vh; */
   background-color: #fff;
@@ -77,11 +70,6 @@
 .text-muted {
   font-size: 0.9rem;
 }
-
-.badge {
-  font-size: 0.85rem;
-}
-
 .search-icon {
   font-size: 12px !important;
   position: absolute !important;
