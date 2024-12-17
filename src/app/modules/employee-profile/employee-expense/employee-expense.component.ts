@@ -101,7 +101,7 @@ export class EmployeeExpenseComponent implements OnInit {
   this.expenseCount = []
   this.ROLE = await this.rbacService.getRole();
  
-  console.log("date log1: ",this.expenseSelectedDate)
+  // console.log("date log1: ",this.expenseSelectedDate)
   if(!this.startDateStr && !this.endDateStr){
     // this.startDate = '';
     // this.endDate = '';
@@ -341,6 +341,45 @@ disableMonths = (date: Date): boolean => {
   this.getExpenses();
  }
 
+ settlementLoading: boolean = false;
+ settlementExpenseList: any[] = new Array();
+ getExpenseSettlementLog(){
+  this.settlementLoading = true;
+  this.settlementExpenseList = []
+  // this.ROLE = await this.rbacService.getRole();
+ 
+  if(!this.startDateStr && !this.endDateStr){
+  
+    this.expenseSelectedDate = new Date();
+
+    const startOfMonth = new Date(this.expenseSelectedDate.getFullYear(), this.expenseSelectedDate.getMonth(), 1);
+
+    // Calculate the end of the month (last day of the month) and set time to end of the day
+    const endOfMonth = new Date(this.expenseSelectedDate.getFullYear(), this.expenseSelectedDate.getMonth() + 1, 0);
+
+    const currentDate = moment(startOfMonth); // Use the selected date directly
+    const currentEndDate = moment(endOfMonth); // Use the selected date directly
+    this.startDateStr = currentDate.startOf('month').format('YYYY-MM-DD 00:00:00');
+    this.endDateStr = currentEndDate.endOf('month').format('YYYY-MM-DD 23:59:59');
+  }
+
+  this.settlementExpenseList = []
+  this.dataService.getSettlementExpenseLog(this.ROLE, this.databaseHelper.currentPage, this.databaseHelper.itemPerPage, this.startDateStr, this.endDateStr, this.statusIds, this.userId).subscribe((res: any) => {
+    if (res.status) {
+      this.settlementExpenseList = res.object
+      this.totalItems = res.totalItems
+
+      console.log('settlementExpenseList: ',this.settlementExpenseList)
+
+      this.settlementLoading = false
+    }else{
+     this.settlementExpenseList = []
+     this.settlementLoading = false
+    }
+    this.statusIds = []
+  })
+ }
+
 
  /** Expense start **/
 
@@ -417,9 +456,11 @@ disableMonths = (date: Date): boolean => {
 
  @ViewChild('closeExpenseButton') closeExpenseButton!: ElementRef
  createToggle: boolean = false;
+ createToggleYes: boolean = false;
  createExpense(form: NgForm) {
    debugger
    this.createToggle = true;
+   this.createToggleYes = true;
   
    this.dataService.createExpense(this.expenseTypeReq).subscribe((res: any) => {
      if (res.status) {
@@ -430,7 +471,9 @@ disableMonths = (date: Date): boolean => {
        this.validatePolicyToggle = false;
        form.resetForm();
        this.getExpenses();
+       this.getExpensesCount()
        this.createToggle = false;
+       this.createToggleYes = false;
        this.closeExpenseButton.nativeElement.click()
        this.helperService.showToast(res.message, Key.TOAST_STATUS_SUCCESS);
      }
@@ -447,7 +490,7 @@ disableMonths = (date: Date): boolean => {
    // this.getExpenses();
 
    // this.closeExpenseButton.nativeElement.click()
-   console.log('Created Successfully')
+  //  console.log('Created Successfully')
  }
 
  async updateExpense(expense: any) {

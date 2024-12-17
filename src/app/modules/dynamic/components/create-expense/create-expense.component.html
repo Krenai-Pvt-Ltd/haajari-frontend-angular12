@@ -1025,10 +1025,40 @@
                       *ngIf="userExpense.limitAmount != null && userExpense.amount > userExpense.limitAmount">
                       <div class="notice-period-error">
                         <div class="d-flex align-items-center gap-2" style="padding-top: 8px;">
-                          <p class="mb-0">Amount Define</p>
+                          <p class="mb-0">Allocated Amount</p>
                           <span class="calendar-separator"></span>
                           <h6 class="mb-0">₹ {{userExpense.limitAmount}}</h6>
                         </div>
+                      </div>
+                    </div>
+
+            
+                   <p class="text-danger" *ngIf="userExpense?.status?.id != 13 && userExpense?.approvedAmount < userExpense?.amount" >Appoved amount {{userExpense.approvedAmount}} by Manager/HR</p>
+
+                    <!-- logic for approved-amount when manager approved this expense -->
+                    <div class="col-md-12 mb-3"  *ngIf="userExpense.status.id == 13 && userExpense.limitAmount != null && userExpense.amount > userExpense.limitAmount">
+                      <!-- Checkbox for 'Approve Amount' -->
+                      <div class="form-check">
+                        <input 
+                          type="checkbox" 
+                          class="form-check-input" 
+                          id="approveAmountCheckbox" 
+                          name="checkbox-approve-amount"
+                          [(ngModel)]="approveAmountChecked" 
+                        />
+                        <label class="form-check-label" for="approveAmountCheckbox">Approve Amount</label>
+                      </div>
+                    
+                      <!-- Input field that appears when checkbox is checked -->
+                      <div class="mt-2" *ngIf="approveAmountChecked">
+                        <input 
+                          type="text" 
+                          class="form-control" 
+                          placeholder="Enter approved amount" 
+                          id="appoveAmount"
+                          name="input-approve-amout"
+                          [(ngModel)]="approvedAmount" 
+                        />
                       </div>
                     </div>
                   </div>
@@ -1056,8 +1086,10 @@
                       </div>
                     </div>
     
-                    <p *ngIf="fullPartialAmount > 0">Remaining amount is: {{userExpense.amount -
-                      userExpense.partiallyPaidAmount}}</p>
+                    <p class="text-danger" *ngIf="userExpense?.status?.id != 13 && userExpense?.approvedAmount < userExpense?.amount" >Appoved amount {{userExpense.approvedAmount}} by Manager/HR</p>
+                    <p *ngIf="fullPartialAmount > 0">Remaining amount is: {{userExpense.approvedAmount - userExpense.partiallyPaidAmount}}</p>
+                    <!-- <p *ngIf="fullPartialAmount > 0">Remaining amount is: {{userExpense.amount - userExpense.partiallyPaidAmount}}</p> -->
+                      
     
                   </div>
                 </div>
@@ -1110,8 +1142,18 @@
                         placeholder="Enter the Amount " nzSize="large" minlength="3" maxlength="50" id="amount"
                         name="amount" [(ngModel)]="partialAmount" #amountInput="ngModel" required />
                     </div>
-                    <div>
+                    <!-- <div>
                       <p *ngIf="userExpense.partiallyPaidAmount == null && partialAmount > userExpense.amount"
+                        class="d-flex justify-content-end" style="color: red !important;"> Flexible amount should be less
+                        from expense amount</p>
+    
+                      <p *ngIf="userExpense.partiallyPaidAmount != null && partialAmount > fullPartialAmount"
+                        class="d-flex justify-content-end" style="color: red !important;"> Flexible amount should be less
+                        from remaining amount</p>
+    
+                    </div> -->
+                    <div>
+                      <p *ngIf="userExpense.partiallyPaidAmount == null && partialAmount > userExpense.approvedAmount"
                         class="d-flex justify-content-end" style="color: red !important;"> Flexible amount should be less
                         from expense amount</p>
     
@@ -1122,7 +1164,7 @@
                     </div>
                   </div>
     
-                  <div class="col-md-12 mb-3">
+                  <!-- <div class="col-md-12 mb-3">
                     <div class="form-group">
                       <label for="employeeTypeId" class="mb-2">Select settlement date?</label>
     
@@ -1132,7 +1174,7 @@
                       </nz-date-picker>
     
                     </div>
-                  </div>
+                  </div> -->
     
                   <div class="col-md-12 mb-3" *ngIf="showTransactionDiv">
                     <label for="employeeTypeId" class="mb-2"> Transaction Id </label>
@@ -1158,12 +1200,16 @@
                 <button class="btn approve-btn" *ngIf="userExpense.status.id == 13 && !approveToggle"
                   (click)="approveOrDeny(userExpense.id, 14, 0)">Approved</button>
                
-                <button class="btn approve-btn" [disabled]="partiallyPayment && (!partialAmount || partialAmount > userExpense.amount) || !settledDate" 
+                  <!-- partialAmount > userExpense.amount) -->
+                <button class="btn approve-btn" [disabled]="partiallyPayment && (!partialAmount || partialAmount > userExpense.approvedAmount)"
                 *ngIf="!expenseCancelToggle && userExpense.status.id == 14" (click)="showPayCashDiv()">Pay Now</button>
       
                
-                  <button class="btn approve-btn"
+                  <!-- <button class="btn approve-btn"
                   [disabled]="partiallyPayment && (partialAmount == '' || partialAmount == null || partialAmount > fullPartialAmount) || !settledDate"
+                  *ngIf="!expenseCancelToggle && userExpense.status.id == 46" (click)="showPayCashDiv()">Approved</button> -->
+                  <button class="btn approve-btn"
+                  [disabled]="partiallyPayment && (partialAmount == '' || partialAmount == null || partialAmount > fullPartialAmount)"
                   *ngIf="!expenseCancelToggle && userExpense.status.id == 46" (click)="showPayCashDiv()">Approved</button>
       
                 <div class="dot-opacity-loader" *ngIf="approveToggle || expenseCancelToggle || payrollToggle">
