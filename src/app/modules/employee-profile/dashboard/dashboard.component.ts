@@ -54,6 +54,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnDestroy(){
     this.resignationSubmittedSubscriber.complete();
+    // this.stopCarousel();
   }
 
   userId: string =''
@@ -70,8 +71,10 @@ export class DashboardComponent implements OnInit {
     // this.getWorkedHourForEachDayOfAWeek();
     this.getAttendanceRequestLogData();
     this.fetchAttendanceSummary();
-
+    // this.startCarousel();
   }
+  
+
 
   ngAfterViewInit(): void {
     this.getWorkedHourForEachDayOfAWeek();
@@ -533,6 +536,27 @@ initializeChart(labels: string[], data: number[]) {
 //   }
 
 
+colors = ['color1', 'color2', 'color3', 'color4', 'color5', 'color6'];
+
+  getHolidayBoxClass(index: number): string {
+    return this.colors[index % this.colors.length];
+  }
+
+
+  // currentHolidayIndex = 0;
+  // private intervalId!: ReturnType<typeof setInterval>;
+
+  // startCarousel() {
+  //   this.intervalId = setInterval(() => {
+  //     this.currentHolidayIndex = (this.currentHolidayIndex + 1) % this.holidays.length;
+  //   }, 2000); // Change slide every 2 seconds
+  // }
+
+  // stopCarousel() {
+  //   if (this.intervalId) {
+  //     clearInterval(this.intervalId);
+  //   }
+  // }
 holidays: Holiday[] = [];
   currentHolidayIndex: number = 0; // Initially show the first holiday
 

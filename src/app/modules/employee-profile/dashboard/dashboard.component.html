@@ -70,17 +70,18 @@
                     <div class="holidays-list">
                         <div class="d-flex align-items-center">
                             <div style="width: 75%">
-                                <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                                <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
                                     <div class="carousel-inner">
-                                      <div *ngFor="let hd of holidays; let i = index" 
-                                           class="carousel-item" 
-                                           [class.active]="i === currentHolidayIndex">
-                                        <div class="p-3 holidays-box">
+                                      <div 
+                                        *ngFor="let hd of holidays; let i = index" 
+                                        class="carousel-item" 
+                                        [class.active]="i === 0">
+                                        <div [ngClass]="getHolidayBoxClass(i)" class="p-3 holidays-box">
                                           <h6 class="text-white">Holidays</h6>
                                           <div class="d-flex align-items-center justify-content-between pl-3 pr-3">
                                             <div>
-                                              <h5 class="mb-1 text-white font-24">{{hd.name}}</h5>
-                                              <p class="mb-0 text-white">{{hd.date | date:'fullDate'}}</p>
+                                              <h5 class="mb-1 text-white font-24">{{ hd.name }}</h5>
+                                              <p class="mb-0 text-white">{{ hd.date | date:'EEE, MMM d, y' }}</p>
                                             </div>
                                             <div>
                                               <span class="holiday-initial text-white font-24">
@@ -92,16 +93,17 @@
                                       </div>
                                     </div>
                                   
-                                    <button class="carousel-control-prev" type="button" (click)="showPreviousHoliday()">
+                                    <!-- Carousel controls -->
+                                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
                                       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                       <span class="visually-hidden">Previous</span>
                                     </button>
-                                  
-                                    <button class="carousel-control-next" type="button" (click)="showNextHoliday()">
+                                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
                                       <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                       <span class="visually-hidden">Next</span>
                                     </button>
                                   </div>
+                                  
                                   
                                 <!-- <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
                                     <div class="carousel-inner">
