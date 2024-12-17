@@ -39,7 +39,6 @@ Chart.register(
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-
   requestModal: boolean = true;
   usersWithUpcomingBirthdays: any;
 
