@@ -95,9 +95,15 @@ export class DashboardComponent implements OnInit {
     this.getUsersUpcomingWorkAnniversaries();
     // this.getWorkedHourForEachDayOfAWeek();
     this.getAttendanceRequestLogData();
+    this.getTeamNames();
+    // this.loadMoreData();
     this.fetchAttendanceSummary();
     this.loadHolidays();
+    this.getTeamsWithManagerInfo();
+    this.getTotalTeamMembers();
     // this.startCarousel();
+
+
   }
   
 
@@ -647,4 +653,123 @@ holidays: Holiday[] = [];
   }
 
   currentDate = new Date();
+
+
+
+  teamManagerInfo: any[] = [];
+  getTeamsWithManagerInfo(): void {
+    this.dataService.getTeamsWithManagerInfo(this.userId).subscribe({
+      next: (response: any) => {
+        this.teamManagerInfo = response.listOfObject; 
+      },
+      error: (error) => {
+        console.error('Failed to fetch holidays', error);
+      },
+    });
+  }
+
+
+  teamNameList: { teamId: number; teamName: string }[] = [];
+  teamMembers: any[] = [];
+  selectedTeamId: number = 0;
+  selectedTeamName: string = 'All';
+  isLoadingNew: boolean = false;
+  hasMoreData: boolean = true;
+  pageNumber: number = 1;
+  itemsPerPage: number = 10;
+  teamName: string = '';
+
+
+
+  getTeamNames(): void {
+    this.dataService.getAllTeamsByUuid(this.userId).subscribe({
+      next: (response: any) => {
+        this.teamNameList = response.object;
+
+
+    if (this.teamNameList.length > 0) {
+      this.selectedTeamId = this.teamNameList[0].teamId;
+      this.teamName = this.teamNameList[0].teamName;
+    }
+    this.loadMoreData();
+      },
+      error: (error) => {
+        console.error('Failed to fetch team names:', error);
+      },
+    });
+  }
+
+  onTeamChange(teamId: number): void {
+    this.selectedTeamId = teamId;
+
+    if (teamId === 0) {
+      this.selectedTeamName = 'All';
+      this.teamName = '';
+    } else {
+      const selectedTeam = this.teamNameList.find((team) => team.teamId === teamId);
+      this.selectedTeamName = selectedTeam ? selectedTeam.teamName : 'All';
+      this.teamName = this.selectedTeamName;
+    }
+
+    // Reset pagination and fetch data
+    this.pageNumber = 1;
+    this.hasMoreData = true;
+    this.teamMembers = []; // Clear existing data
+    this.loadMoreData(); // Fetch filtered data
+  }
+
+
+  loadMoreData(): void {
+    if (this.isLoadingNew || !this.hasMoreData) {
+      return;
+    }
+
+    this.isLoadingNew = true;
+    this.dataService.findTeamsMembersInfoByUserUuid(this.userId, this.teamName, this.itemsPerPage, this.pageNumber)
+      .subscribe(
+        (data : any) => {
+          if (data.listOfObject.length < this.itemsPerPage) {
+            this.hasMoreData = false; 
+          }
+          this.teamMembers = [...this.teamMembers, ...data.listOfObject]; 
+          this.isLoadingNew = false;
+          this.pageNumber++;
+        },
+        (error) => {
+          console.error('Error fetching team members:', error);
+          this.isLoadingNew = false;
+        }
+      );
+  }
+
+  
+  onScroll(event: any): void {
+    const element = event.target;
+  debugger
+    // Check if user scrolled close to the bottom of the container
+    if (element.scrollHeight - element.scrollTop <= element.clientHeight + 100) {
+      this.loadMoreData();
+    }
+  }
+
+
+  images: any[] = [];
+  count : number = 0;
+  getTotalTeamMembers(): void {
+  
+    this.dataService.getTotalTeamMembers(this.userId)
+      .subscribe(
+        (data : any) => {
+         
+          this.images = data.object;
+          this.count = data.totalItems;
+        },
+        (error) => {
+          console.error('Error fetching team members:', error);
+        }
+      );
+  }
+  
+
+  
 }

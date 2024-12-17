@@ -4428,6 +4428,35 @@ getHolidayForOrganization(date: string): Observable<any>{
   }
 
 
+  getTeamsWithManagerInfo(uuid : string): Observable<string[]> {
+    const params = new HttpParams()
+    .set('userUuid', uuid);
+    return this.httpClient.get<string[]>(`${this.baseUrl}/team/manager-info`, {params});
+  }
+
+  findTeamsMembersInfoByUserUuid(uuid : string, teamString: string, itemPerPage: number, pageNumber: number): Observable<string[]> {
+    const params = new HttpParams()
+    .set('userUuid', uuid)
+    .set('teamName',teamString)
+    .set('limit',itemPerPage)
+    .set('offset',pageNumber);
+    return this.httpClient.get<string[]>(`${this.baseUrl}/team/members-info`, {params});
+  }
+
+  getAllTeamsByUuid(uuid : string): Observable<string[]> {
+    const params = new HttpParams()
+    .set('userUuid', uuid);
+    return this.httpClient.get<string[]>(`${this.baseUrl}/team/all-teams`, {params});
+  }
+
+  getTotalTeamMembers(uuid : string): Observable<string[]> {
+    const params = new HttpParams()
+    .set('userUuid', uuid);
+    return this.httpClient.get<string[]>(`${this.baseUrl}/team/total-team-members`, {params});
+  }
+
+  
+
 }
 
 
