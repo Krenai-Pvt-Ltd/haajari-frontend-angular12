@@ -175,7 +175,8 @@ export class Key {
   // Toast statusResponse
   public static TOAST_STATUS_SUCCESS = 'Success';
   public static TOAST_STATUS_ERROR = 'Error';
-
+  public static TOAST_STATUS_WARNING = 'Warning';
+  public static TOAST_STATUS_INFO = 'Info';
   // Current status of employee
   public static WORKING = 'Working';
   public static ON_BREAK = 'On Break';
@@ -268,7 +269,7 @@ export class Key {
 
   user_import = '/whatsapp-user-onboarding/import';
   user_import_onboarding = '/whatsapp-user-onboarding/import/onboarding';
-  
+
   get_report = '/user-import';
 
   // base_url = "http://localhost:8080/api/v2";
