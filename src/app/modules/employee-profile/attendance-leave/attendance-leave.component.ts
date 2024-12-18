@@ -1188,7 +1188,7 @@ initializeChart(labels: string[], data: number[]) {
   }
 }
 
-selectedRequest: string = ''; // Bind this to the ngModel
+selectedRequest: string = ''; 
 
   onRequestChange(value: string) {
     if (value === 'Attendance update') {

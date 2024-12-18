@@ -3107,11 +3107,17 @@ closeModal() {
 }
 
 
+// redirectToCompanySetting() {
+//   this.attendancewithlocationssButton.nativeElement.click();
+//   this.router.navigate(['/setting/company-setting']);
+
+// }
+
 redirectToCompanySetting() {
   this.attendancewithlocationssButton.nativeElement.click();
-  this.router.navigate(['/setting/company-setting']);
-
+  this.router.navigate(['/setting/company-setting'], { queryParams: { activeTab: 'locationSetting' } });
 }
+
 
 
 

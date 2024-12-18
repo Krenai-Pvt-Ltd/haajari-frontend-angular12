@@ -16,6 +16,7 @@ import { HelperService } from 'src/app/services/helper.service';
 import { PlacesService } from 'src/app/services/places.service';
 import { OnboardingModule } from 'src/app/models/OnboardingModule';
 import { Role } from 'src/app/models/role';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-company-setting',
@@ -33,11 +34,15 @@ export class CompanySettingComponent implements OnInit {
     private afStorage: AngularFireStorage,
     private helperService: HelperService,
     private sanitizer: DomSanitizer,
-    private placesService: PlacesService
+    private placesService: PlacesService,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
     window.scroll(0, 0);
+
+    
+    
     this.getOrganizationDetailsMethodCall();
     this.getHrPolicy();
     this.getTeamNames();
@@ -46,6 +51,17 @@ export class CompanySettingComponent implements OnInit {
     // this.helperService.saveOrgSecondaryToDoStepBarData(0);
     this.getAllRolesMethodCall();
     this.fetchOnboardingModules();
+  }
+
+  ngAfterViewInit() {
+
+    this.route.queryParams.subscribe(params => {
+      const activeTab = params['activeTab'];
+      if (activeTab) {
+        this.switchTab(activeTab);
+      }
+    });
+
   }
 
   getAllRolesMethodCall() {
@@ -971,6 +987,18 @@ export class CompanySettingComponent implements OnInit {
   switchTab(tabName: string) {
     this.activeTab = tabName;
   }
+
+  // switchTab(tab: string): void {
+  //   this.activeTab = tab;
+  //   if (tab === 'locationSetting') {
+  //     document.querySelector<HTMLButtonElement>('#home-tab')?.click();
+  //   } else if (tab === 'companySetting') {
+  //     document.querySelector<HTMLButtonElement>('#profile-tab')?.click();
+  //   } else if (tab === 'onboardingSetting') {
+  //     document.querySelector<HTMLButtonElement>('#onboardingSetting')?.click();
+  //   }
+  // }
+
   triggerFileInput() {
     const fileInput = document.getElementById('hrpolicies') as HTMLInputElement;
     fileInput.click();
