@@ -1361,7 +1361,7 @@
                             </div>
 
                             <!-- Search -->
-                            <div class="onboarding-date d-flex align-items-center justify-content-between position-relative w-100">
+                            <!-- <div class="onboarding-date d-flex align-items-center justify-content-between position-relative w-100">
                               <form novalidate class="searching d-flex align-items-center justify-content-between" style="width: 100%;">
                                 <div class="form-group" style="width: 100%; position: relative;">
                                   <input
@@ -1380,7 +1380,7 @@
                                 </div>
                               </form>
 
-                            </div>
+                            </div> -->
                             <div>
 
 
@@ -1406,15 +1406,17 @@
                           <th class="text-left font-13" style="width: 10%">Type</th>
                           <th class="text-left font-13" style="width: 10%">Requested To</th>
                           <!-- <th class="text-left font-13" style="width: 10%">Approved by</th> -->
-                          <th class="text-left font-13" style="width: 10%">In Time</th>
-                          <th class="text-left font-13" style="width: 10%">Out Time</th>
-                          <th class="text-left font-13" style="width: 10%">Requested For</th>
+                          <th *ngIf="attendanceType === 'CREATE'" class="text-left font-13" style="width: 10%">In Time</th>
+                          <th *ngIf="attendanceType === 'CREATE'" class="text-left font-13" style="width: 10%">Out Time</th>
+                          <th *ngIf="attendanceType === 'UPDATE'" class="text-left font-13" style="width: 10%">Old Time</th>
+                          <th *ngIf="attendanceType === 'UPDATE'" class="text-left font-13" style="width: 10%">Updated Time</th>
+                          <th *ngIf="attendanceType === 'UPDATE'" class="text-left font-13" style="width: 10%">Requested For</th>
                           <th class="text-left font-13" style="width: 10%">Reason</th>
                           <th class="text-left font-13" style="width: 10%">Status</th>
                         </tr>
                       </thead>
 
-                     <!-- <tbody>
+                     <tbody *ngIf="isAttendanceLoading">
                           <tr *ngFor="let item of [].constructor(7)">
                               <td>
                                   <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
@@ -1437,16 +1439,17 @@
                               <td>
                                   <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
                               </td>
-                              <td>
+                              <td *ngIf="attendanceType === 'CREATE'">
                                   <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
                               </td>
                           </tr>
-                      </tbody> -->
+                      </tbody>
 
-                      <tbody>
+                      <tbody *ngIf="!isAttendanceLoading">
                         <tr *ngFor="let item of attendanceRequests">
                             <td>
-                                <span>{{item?.inRequestTime | date:'dd MMM yyyy'}}</span>
+                                <span *ngIf="item?.requestType === 'CREATE'">{{item?.inRequestTime | date:'dd MMM yyyy'}}</span>
+                                <span *ngIf="item?.requestType === 'UPDATE'">{{item?.updatedTime | date:'dd MMM yyyy'}}</span>
                                 <!-- <p class="mb-0 font-12"> 1 Day </p> -->
                             </td>
                             <td>
@@ -1457,12 +1460,14 @@
                                 <span class="table-font-weight">{{ item.managerName }} </span>
                             </td>
                             <td>
-                                <span class="table-font-weight">{{item?.inRequestTime | date:'HH:mm'}}</span>
+                                <span *ngIf="attendanceType === 'CREATE'" class="table-font-weight">{{item?.inRequestTime | date:'HH:mm'}}</span>
+                                <span *ngIf="attendanceType === 'UPDATE'" class="table-font-weight">{{item?.oldTime | date:'HH:mm'}}</span>
                             </td>
                             <td>
-                                <span class="table-font-weight">{{item?.outRequestTime | date:'HH:mm'}}</span>
+                                <span *ngIf="attendanceType === 'CREATE'" class="table-font-weight">{{item?.outRequestTime | date:'HH:mm'}}</span>
+                                <span *ngIf="attendanceType === 'UPDATE'" class="table-font-weight">{{item?.updatedTime | date:'HH:mm'}}</span>
                             </td>
-                            <td>
+                            <td *ngIf="attendanceType === 'UPDATE'">
                                 <span class="table-font-weight">{{item?.requestedFor}}</span>
                             </td>
                             <td>
@@ -1472,7 +1477,7 @@
                                 <div class="d-flex align-items-center gap-2">
                                 <span class="badge rounded-pill badge-soft-warning">{{item?.status}}</span>
                                 <!-- Delete Button -->
-                                <button class="icon-button btn p-0">
+                                <button *ngIf="item?.status === 'PENDING'" class="icon-button btn p-0" (click)="deleteAttendanceRequest(item?.id)">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
                                         <mask id="mask0_6083_5461" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
                                             <rect x="0.910156" y="0.910156" width="20" height="20" fill="#D9D9D9" />
@@ -1486,7 +1491,7 @@
                                 </button>
 
                                 <!-- Edit Button -->
-                                <button class="btn p-0 icon-button" >
+                                <!-- <button class="btn p-0 icon-button" >
                                     <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
                                         <mask id="mask0_6083_5464" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
                                             <rect x="0.910156" y="0.910156" width="20" height="20" fill="#D9D9D9" />
@@ -1497,12 +1502,18 @@
                                                 fill="black" />
                                         </g>
                                     </svg>
-                                </button>
+                                </button> -->
                             </div>
 
                             </td>
 
                         </tr>
+                        <ngb-pagination *ngIf="pageAttendanceSize<totalAttendanceElements" [collectionSize]="totalAttendanceElements"
+                          [(page)]="currentAttendancePage"
+                          [pageSize]="pageAttendanceSize"
+                          (pageChange)="onAttendancePageChange($event)">
+
+                        </ngb-pagination>
 
                       </tbody>
                 </table>

@@ -4415,12 +4415,27 @@ getHolidayForOrganization(date: string): Observable<any>{
     let params = new HttpParams()
       .set('page', page)
       .set('size', size);
+     if (status === 'All') {
+      status = '';
+     }
 
     if (userUuid) params = params.set('userUuid', userUuid);
     if (status) params = params.set('status', status);
     if (requestType) params = params.set('requestType', requestType);
 
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/get/requests/filter`, { params });
+  }
+
+  deletePendingAttendance(id: number): Observable<string> {
+    const params = new HttpParams().set('id', id.toString());
+    return this.httpClient.post<string>(`${this.baseUrl}/attendance/delete-pending-attendance`, null, { params });
+  }
+  getDocumentsByTypeAndUser(documentType: string, userId: string): Observable<any[]> {
+    const params = new HttpParams()
+      .set('documentType', documentType)
+      .set('userId', userId);
+
+    return this.httpClient.get<any[]>(`${this.baseUrl}/documents/documents-by-type`, { params });
   }
 
 
