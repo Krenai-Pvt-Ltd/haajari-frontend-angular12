@@ -180,6 +180,11 @@
                   </ul>
                   <div class="tab-content my-3">
                     <div class="tab-pane fade show active" id="wallet_BTC" role="tabpanel">
+                      <div class="row" *ngIf="userSalaryTemplateNotConfigCount>0">
+                        <div class="col-md-12">
+                          <p class="mb-0" style="color : red"> salary template is not mapped with {{userSalaryTemplateNotConfigCount}} user</p>
+                        </div> 
+                      </div>
                       <div class="row">
                         <div class="col-md-6" (click)="employeeChangesSection(PAYROLL_PROCESS_STEP)">
                           <div class="card-body mt-3 payroll-step" [ngClass]="{'bg-soft-success': PAYROLL_PROCESS_STEP > FINAL_SETTLEMENT, 'bg-soft-warning': PAYROLL_PROCESS_STEP <= FINAL_SETTLEMENT}" >

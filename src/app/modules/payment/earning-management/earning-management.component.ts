@@ -119,7 +119,7 @@ export class EarningManagementComponent implements OnInit {
   getUserSalaryChange(){
     this.preRuleForShimmersAndErrorPlaceholdersForSalaryChangeResponse();
     this._payrollService.getUserSalaryChange(this.startDate, this.endDate, 
-        this.itemPerPage, this.pageNumber).subscribe((response) => {
+        this.itemPerPage, this.pageNumber, this.search).subscribe((response) => {
 
       if(response.object==null || response.object.length == 0){
         this.dataNotFoundPlaceholderForSalaryChangeResponse = true;
@@ -157,6 +157,15 @@ export class EarningManagementComponent implements OnInit {
 
   lastIndex(): number {
     return Math.min(this.pageNumber * this.itemPerPage, this.totalItems);
+  }
+
+
+  searching(event:any){
+
+  }
+
+  clearSearch(event:any){
+
   }
 
 

@@ -67,3 +67,7 @@
 ::ng-deep.ant-empty-image img {
   width: 90px;
 }
+
+::ng-deep.anticon-close-circle {
+  display: none;
+}

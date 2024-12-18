@@ -182,5 +182,11 @@ export class SalaryService {
     return this._http.post<any>(`${this._key.base_url}/salary-slip/share`,{}, {params});
   }
 
+  generatePaySlip(startDate: string,endDate: string): Observable<any>{
+    const params = new HttpParams()
+    .set('start_date', startDate)
+    .set('end_date', endDate);
+    return this._http.put<any>(`${this._key.base_url}/salary/generate-slip`, {params});
+  }
 
 }

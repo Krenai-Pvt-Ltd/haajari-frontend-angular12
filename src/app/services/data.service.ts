@@ -3307,17 +3307,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     return this.httpClient.put<any>(`${this.baseUrl}/salary-slip/update-pay-action-type`,{}, {params});
   }
 
-  generateSalarySlip(
-    startDate: string,
-    endDate: string,
-    userUuids: any
-  ): Observable<any>{
-    const params = new HttpParams()
-    .set('start_date', startDate)
-    .set('end_date', endDate)
-    ;
-    return this.httpClient.put<any>(`${this.baseUrl}/salary/generate-slip`,userUuids, {params});
-  }
+  
 
   sendPayslipViaWhatsapp(
     salaryResponse: any, payslipMonth: string

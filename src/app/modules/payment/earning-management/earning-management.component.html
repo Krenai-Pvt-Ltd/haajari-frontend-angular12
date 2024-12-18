@@ -39,6 +39,19 @@
   <div class="tab-content" id="pills-tabContent">
     <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
         <div class="table-responsive">
+          <div class="col-md-12 mt-2 mb-3">
+            <form novalidate="" role="search" (submit)="searching($event)" class="searching ng-untouched ng-pristine ng-valid">
+              <div class="form-group position-relative">
+                <input type="text" id="search" placeholder="Search by name and email" 
+                  class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px" 
+                  (keyup)="searching($event)" [(ngModel)]="search" [ngModelOptions]="{ standalone: true }" />
+              
+                  <i *ngIf="search.length > 0" (click)="clearSearch(1)" class="bi bi-x search-icon" style="font-size: 20px !important; margin: auto; margin-left: 10px"></i>
+                
+                  <i *ngIf="search.length == 0" class="bi bi-search search-icon" style="margin: auto; margin-left: 10px"></i>
+              </div>
+            </form>
+          </div>
             <table class="table border-dashed mb-0">
               <thead>
                 <tr>
@@ -137,6 +150,19 @@
     </div>
     <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
         <div class="table-responsive">
+          <div class="col-md-12 mt-2 mb-3">
+            <form novalidate="" role="search" (submit)="searching($event)" class="searching ng-untouched ng-pristine ng-valid">
+              <div class="form-group position-relative">
+                <input type="text" id="search" placeholder="Search by name and email" 
+                  class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px" 
+                  (keyup)="searching($event)" [(ngModel)]="search" [ngModelOptions]="{ standalone: true }" />
+              
+                  <i *ngIf="search.length > 0" (click)="clearSearch(1)" class="bi bi-x search-icon" style="font-size: 20px !important; margin: auto; margin-left: 10px"></i>
+                
+                  <i *ngIf="search.length == 0" class="bi bi-search search-icon" style="margin: auto; margin-left: 10px"></i>
+              </div>
+            </form>
+          </div>
             <table class="table border-dashed mb-0">
               <thead>
                 <tr>
@@ -241,6 +267,19 @@
     </div>
     <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
         <div class="table-responsive">
+          <div class="col-md-12 mt-2 mb-3">
+            <form novalidate="" role="search" (submit)="searching($event)" class="searching ng-untouched ng-pristine ng-valid">
+              <div class="form-group position-relative">
+                <input type="text" id="search" placeholder="Search by name and email" 
+                  class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px" 
+                  (keyup)="searching($event)" [(ngModel)]="search" [ngModelOptions]="{ standalone: true }" />
+              
+                  <i *ngIf="search.length > 0" (click)="clearSearch(1)" class="bi bi-x search-icon" style="font-size: 20px !important; margin: auto; margin-left: 10px"></i>
+                
+                  <i *ngIf="search.length == 0" class="bi bi-search search-icon" style="margin: auto; margin-left: 10px"></i>
+              </div>
+            </form>
+          </div>
             <table class="table border-dashed mb-0">
               <thead>
                 <tr>

@@ -79,7 +79,7 @@
                   nzMode="month"
                   [nzSize]="size"
                   [(ngModel)]="selectedDate"
-                  (ngModelChange)="onMonthChange($event)"
+                  (ngModelChange)="onMonthChange()"
                   [nzDisabledDate]="_helperService.disableMonths"
                 ></nz-date-picker>
               </div>

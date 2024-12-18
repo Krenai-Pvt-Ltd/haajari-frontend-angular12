@@ -77,6 +77,12 @@ export class PayrollService {
       return this._http.get<any>(`${this._key.base_url}/payroll/run/history`,{ params });
   }
 
+
+  getUserSalaryTemplateNotConfig(): Observable<any> {
+    
+    return this._http.get<any>(`${this._key.base_url}/payroll/user/template-not-config`);
+  }
+
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -216,13 +222,14 @@ export class PayrollService {
   }
 
 
-  getUserSalaryChange(startDate: string,endDate: string, itemPerPage: number,pageNumber: number): Observable<any> {
+  getUserSalaryChange(startDate: string,endDate: string, itemPerPage: number,pageNumber: number, search:string): Observable<any> {
 
     const params = new HttpParams()
     .set('start_date', startDate)
     .set('end_date', endDate)
     .set('item_per_page', itemPerPage)
     .set('page_number', pageNumber)
+    .set('search', search)
     return this._http.get<any>(`${this._key.base_url}/salary/payroll-dashboard/salary-change`, {params});
   }
 
