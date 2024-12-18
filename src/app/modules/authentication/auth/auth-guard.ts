@@ -42,11 +42,13 @@ export class AuthGuard implements CanActivate {
 
     await this.rbacService.isUserInfoInitializedMethod();
     // console.log("=====isSubscription======",this._subscriptionService.isSubscription)
-    if(this._subscriptionService.isSubscription!=undefined){
-      if(!this._subscriptionService.isSubscription || this._subscriptionService.isPlanExpired){
-          return false;
-      }
-    }
+
+    // commented need to check
+    // if(this._subscriptionService.isSubscription!=undefined){
+    //   if(!this._subscriptionService.isSubscription || this._subscriptionService.isPlanExpired){
+    //       return false;
+    //   }
+    // }
 
  
       if(this.dataService.step){
