@@ -135,7 +135,9 @@
                       </td>
                       <td class="text-left">
                         <div
-                          [ngClass]="{ 'badge-soft-warning': expense.status.id == 13,'badge-soft-success':expense.status.id == 14 || expense.status.id == 41, 'badge-soft-danger':expense.status.id == 15, 'badge-soft-primary': expense.status.id == 40, 'badge-soft-info': expense.status.id == 46}"
+                          [ngClass]="{ 'badge-soft-warning': expense.status.id == 13,'badge-soft-success':expense.status.id == 14 || 
+                          expense.status.id == 41, 'badge-soft-danger':expense.status.id == 15, 'badge-soft-primary': expense.status.id == 40 || expense.status.id == 48, 
+                          'badge-soft-info': expense.status.id == 46}"
                           class="badge rounded-pill">{{expense.status.response}}
                         </div>
 
@@ -1202,7 +1204,7 @@
                
                   <!-- partialAmount > userExpense.amount) -->
                 <button class="btn approve-btn" [disabled]="partiallyPayment && (!partialAmount || partialAmount > userExpense.approvedAmount)"
-                *ngIf="!expenseCancelToggle && userExpense.status.id == 14" (click)="showPayCashDiv()">Pay Now</button>
+                *ngIf="!expenseCancelToggle && userExpense.status.id == 14" (click)="showPayCashDiv()">Settle Now</button>
       
                
                   <!-- <button class="btn approve-btn"

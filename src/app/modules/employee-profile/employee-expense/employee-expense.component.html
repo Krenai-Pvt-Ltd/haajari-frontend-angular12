@@ -145,12 +145,19 @@
                                                 <h5 class="font-18 mb-0">₹ {{expenseCount.totalPaidAmount}}</h5>
                                                 <p class="mb-0">{{expenseCount.paidCount}} Bill</p>
                                              </div>
-                                             <div class="d-flex">
-                                                <p>Settled Amount: {{expenseCount.settledAmount}}</p>
+                                             <div class="d-flex gap-3">
+                                                <p>Settled: {{expenseCount.settledAmount}}</p><br>
                                                 <!-- <p *ngIf="expenseCount.settledAmount == 0">Settled Amount: 0</p>
                                                 <p *ngIf="expenseCount.settledAmount > 0">Settled Amount: {{expenseCount.unSettledAmount - expenseCount.settledAmount}}</p> -->
-                                                <p>Un-Settled Amount: {{expenseCount.unSettledAmount}}</p>
-                                             </div>
+                                                
+                                                <!-- <p *ngIf="expenseCount.unSettledAmount == 0">Un-Settled: {{expenseCount.newUnSettledAmount}}</p>
+                                                <p *ngIf="expenseCount.unSettledAmount > 0">Un-Settled: {{expenseCount.unSettledAmount}} + {{expenseCount.newUnSettledAmount}}</p> -->
+                                                
+                                                <p *ngIf="expenseCount.newUnSettledAmount == 0">Un-Settled: {{expenseCount.unSettledAmount}}</p>
+                                                <p *ngIf="expenseCount.unSettledAmount == 0 && expenseCount.newUnSettledAmount > 0">Un-Settled: {{expenseCount.newUnSettledAmount}}</p>
+                                                <p *ngIf="expenseCount.unSettledAmount > 0 && expenseCount.newUnSettledAmount > 0">Un-Settled: {{expenseCount.unSettledAmount}} + {{expenseCount.newUnSettledAmount}}</p>
+                                            
+                                            </div>
                                         </div>
                                     </div>
 
@@ -252,7 +259,7 @@
                                         <td class="text-left">
                                             <span class="badge rounded-pill " 
                                                 [ngClass]="{'badge-soft-warning': expense.status.id == 13 || expense.status.id == 46, 'badge-soft-success': expense.status.id == 14, 
-                                                'badge-soft-danger': expense.status.id == 15, 'badge-soft-primary': expense.status.id == 40}" > 
+                                                'badge-soft-danger': expense.status.id == 15, 'badge-soft-primary': expense.status.id == 40 || expense.status.id == 48}" > 
                                                 {{expense.status.response}} 
                                             </span>
                                         </td>
@@ -655,14 +662,14 @@
                                         </td>
 
                                         <td class="text-left">
-                                            <span class="table-font-weight"> Online </span>
+                                            <span class="table-font-weight"> {{ expense?.paymentMethod?.toUpperCase() }} </span>
                                         </td>
 
                                         <!-- <td class="text-left">
                                             <span class="table-font-weight"> ₹ {{expense.paidAmount == null ? 0 : expense.paidAmount}} </span>
                                         </td> -->
                                         <td class="text-left">
-                                            <span class="table-font-weight"> {{expense.transactionId == null || expense.transactionId == '' ? 'N/A' : expense.transactionId}} </span>
+                                            <span class="table-font-weight"> {{expense?.transactionId == null || expense?.transactionId == '' ? 'N/A' : expense?.transactionId}} </span>
                                         </td>
                                         <!-- <td class="text-left">
                                             <span class="table-font-weight white-space"> {{expense.notes}} </span>
