@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import moment from 'moment';
 import { Key } from 'src/app/constant/key';
 import { EmployeeMonthWiseSalaryData } from 'src/app/models/employee-month-wise-salary-data';
-import { StartDateAndEndDate } from 'src/app/models/start-date-and-end-date';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { SalaryService } from 'src/app/services/salary.service';
@@ -14,8 +12,8 @@ import { SalaryService } from 'src/app/services/salary.service';
 })
 export class TdsComponent implements OnInit {
   itemPerPage: number = 8;
-  lastPageNumber: number = 0;
-  total : number = 0
+  // lastPageNumber: number = 0;
+  totalItems : number = 0
   pageNumber: number = 1;
   search: string = '';
 
@@ -30,6 +28,7 @@ export class TdsComponent implements OnInit {
     this.isShimmer = true;
     this.dataNotFoundPlaceholder = false;
     this.networkConnectionErrorPlaceHolder = false;
+    this.employeeMonthWiseSalaryDataList = [];
   }
 
   constructor(private _dataService: DataService,
@@ -55,8 +54,8 @@ export class TdsComponent implements OnInit {
 
           } else {
             this.employeeMonthWiseSalaryDataList = response.object;
-            this.total = response.totalItems;
-            this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+            this.totalItems = response.totalItems;
+            // this.lastPageNumber = Math.ceil(this.totalItems / this.itemPerPage);            
           }
           this.isShimmer = false;
         },
@@ -93,48 +92,34 @@ export class TdsComponent implements OnInit {
 
 
 
-  changePage(page: number | string) {
-    if (typeof page === 'number') {
+  pageChange(page:any){
+    if(  this.pageNumber != page){
       this.pageNumber = page;
-    } else if (page === 'prev' && this.pageNumber > 1) {
-      this.pageNumber--;
-    } else if (page === 'next' && this.pageNumber < this.totalPages) {
-      this.pageNumber++;
+      this.getEmployeeMonthWiseSalaryDataMethodCall();
     }
-    this.getEmployeeMonthWiseSalaryDataMethodCall();
-
 
   }
 
-  getPages(): number[] {
-    const totalPages = Math.ceil(this.total / this.itemPerPage);
-    return Array.from({ length: totalPages }, (_, index) => index + 1);
-  }
 
-  get totalPages(): number {
-    return Math.ceil(this.total / this.itemPerPage);
-  }
-  getStartIndex(): number {
+  startIndex(): number {
     return (this.pageNumber - 1) * this.itemPerPage + 1;
   }
-  getEndIndex(): number {
-    const endIndex = this.pageNumber * this.itemPerPage;
-    return endIndex > this.total ? this.total : endIndex;
+
+  lastIndex(): number {
+    return Math.min(this.pageNumber * this.itemPerPage, this.totalItems);
   }
 
   resetCriteriaFilter() {
-    this.itemPerPage = 8;
+    this.itemPerPage = 5;
     this.pageNumber = 1;
-    this.lastPageNumber = 0;
-    this.total = 0;
+    this.totalItems = 0;
     this.search = '';
   }
 
   resetCriteriaFilterMicro() {
-    this.itemPerPage = 8;
+    this.itemPerPage = 5;
     this.pageNumber = 1;
-    this.lastPageNumber = 0;
-    this.total = 0;
+    this.totalItems = 0;
   }
 
   searchUsers(event: Event) {

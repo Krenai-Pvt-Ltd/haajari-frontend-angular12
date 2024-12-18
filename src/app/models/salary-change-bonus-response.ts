@@ -5,8 +5,5 @@ export class SalaryChangeBonusResponse {
     name : string = '';
     email : string = '';
     phone:string='';
-    amount : number = 0;
-    comment : string = '';
-    payActionType : PayActionType = new PayActionType();
-    payActionTypeId !: number;
+    totalAmt : number = 0;
 }

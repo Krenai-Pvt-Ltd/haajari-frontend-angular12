@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { OrganizationPersonalInformation } from 'src/app/models/organization-personal-information';
 import { AddShiftTimeComponent } from './components/add-shift-time/add-shift-time.component';
 import { AutomationRulesComponent } from './components/automation-rules/automation-rules.component';
 import { HolidayRuleSetupComponent } from './components/holiday-rule-setup/holiday-rule-setup.component';
@@ -13,7 +12,6 @@ import { OrganizationOnboardingComponent } from './organization-onboarding.compo
 import { AttendanceModeComponent } from './components/attendance-mode/attendance-mode.component';
 import { ShiftTimeListComponent } from './components/shift-time-list/shift-time-list.component';
 import { AddShiftPlaceholderComponent } from './components/add-shift-placeholder/add-shift-placeholder.component';
-import { OnboardingSuccessfulComponent } from './components/onboarding-successful/onboarding-successful.component';
 
 const routes: Routes = [
   {

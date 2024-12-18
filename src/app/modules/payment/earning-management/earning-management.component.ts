@@ -1,10 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Key } from 'src/app/constant/key';
 import { PayActionType } from 'src/app/models/pay-action-type';
 import { SalaryChangeBonusResponse } from 'src/app/models/salary-change-bonus-response';
 import { SalaryChangeOvertimeResponse } from 'src/app/models/salary-change-overtime-response';
 import { SalaryChangeResponse } from 'src/app/models/salary-change-response';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
+import { PayrollService } from 'src/app/services/payroll.service';
 
 @Component({
   selector: 'app-earning-management',
@@ -17,12 +19,12 @@ export class EarningManagementComponent implements OnInit {
   itemPerPage: number = 8;
   pageNumber: number = 1;
   lastPageNumber: number = 0;
-  sort: string = 'asc';
-  sortBy: string = 'id';
   search: string = '';
-  searchBy: string = 'name';
-  total: number = 0;
+  totalItems: number = 0;
 
+  readonly SALARY_CHANGE = Key.SALARY_CHANGE;
+  readonly BONUS = Key.BONUS;
+  readonly OVERTIME = Key.OVERTIME;
 
   @Input() startDate:any;
   @Input() endDate:any;
@@ -37,22 +39,26 @@ export class EarningManagementComponent implements OnInit {
     this.sendBulkDataToComponent();
   }
   constructor(private _dataService : DataService, 
-    private _helperService : HelperService) { }
+    private _helperService : HelperService,
+    private _payrollService : PayrollService) { }
 
   ngOnInit(): void {
+    this.getUserSalaryChange();
+    this.getUserBonus();
   }
 
 
   salaryChangeSection(PAYROLL_PROCESS_STEP : number){
-    // if(PAYROLL_PROCESS_STEP == this.OVERTIME){
-    //   this.overtimeTab();
-    //   this.navigateToTab('step9-tab');
-    // } else if(PAYROLL_PROCESS_STEP == this.BONUS){
-    //   this.bonusTab();
-    //   this.navigateToTab('step8-tab');
-    // } else{
-    //   this.salaryChangeTab();
-    // }
+    this.pageNumber = 1;
+    if(PAYROLL_PROCESS_STEP == this.OVERTIME){
+      // this.overtimeTab();
+      // this.navigateToTab('step9-tab');
+    } else if(PAYROLL_PROCESS_STEP == this.BONUS){
+      // this.bonusTab();
+      // this.navigateToTab('step8-tab');
+    } else{
+      // this.salaryChangeTab();
+    }
   }
 
   // salaryChangeTab(){
@@ -83,6 +89,7 @@ export class EarningManagementComponent implements OnInit {
     this.isShimmerForSalaryChangeResponse = true;
     this.dataNotFoundPlaceholderForSalaryChangeResponse = false;
     this.networkConnectionErrorPlaceHolderForSalaryChangeResponse = false;
+    this.salaryChangeResponseList = [];
   }
 
   isShimmerForSalaryChangeBonusResponse = false;
@@ -92,6 +99,7 @@ export class EarningManagementComponent implements OnInit {
     this.isShimmerForSalaryChangeBonusResponse = true;
     this.dataNotFoundPlaceholderForSalaryChangeBonusResponse = false;
     this.networkConnectionErrorPlaceHolderForSalaryChangeBonusResponse = false;
+    this.salaryChangeBonusResponseList = [];
   }
 
   isShimmerForSalaryChangeOvertimeResponse = false;
@@ -101,22 +109,23 @@ export class EarningManagementComponent implements OnInit {
     this.isShimmerForSalaryChangeOvertimeResponse = true;
     this.dataNotFoundPlaceholderForSalaryChangeOvertimeResponse = false;
     this.networkConnectionErrorPlaceHolderForSalaryChangeOvertimeResponse = false;
+    this.salaryChangeOvertimeResponseList = [];
   }
 
 
 
 
   salaryChangeResponseList : SalaryChangeResponse[] = [];
-  getSalaryChangeResponseListByOrganizationIdMethodCall(){
+  getUserSalaryChange(){
     this.preRuleForShimmersAndErrorPlaceholdersForSalaryChangeResponse();
-    this._dataService.getSalaryChangeResponseListByOrganizationId(this.startDate, this.endDate, this.itemPerPage, this.pageNumber).subscribe((response) => {
+    this._payrollService.getUserSalaryChange(this.startDate, this.endDate, 
+        this.itemPerPage, this.pageNumber).subscribe((response) => {
 
       if(response.object==null || response.object.length == 0){
         this.dataNotFoundPlaceholderForSalaryChangeResponse = true;
       } else{
         this.salaryChangeResponseList = response.object;
-        this.total = response.totalItems;
-        this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+        this.totalItems = response.totalItems;
       }
 
       this.isShimmerForSalaryChangeResponse = false;
@@ -126,85 +135,143 @@ export class EarningManagementComponent implements OnInit {
     })
   }
 
+
+  pageChange(page:any, section:any){
+    if(this.pageNumber != page){
+      this.pageNumber = page; 
+      if(section == this.SALARY_CHANGE){
+        this.getUserSalaryChange();
+      }else if(section == this.BONUS){
+        this.getUserBonus();
+      }else if(section == this.OVERTIME){ 
+        this.getUserOvertime();
+      }
+    }
+    
+
+  }
+
+  startIndex(): number {
+    return (this.pageNumber - 1) * this.itemPerPage + 1;
+  }
+
+  lastIndex(): number {
+    return Math.min(this.pageNumber * this.itemPerPage, this.totalItems);
+  }
+
+
+  getUserBonus(){
+    this.preRuleForShimmersAndErrorPlaceholdersForSalaryChangeBonusResponse();
+    this._payrollService.getUserBonusAndDeduction(this.startDate, this.endDate,this.itemPerPage, this.pageNumber).subscribe((response) => {
+
+      if(response.object==null || response.object.length == 0){
+        this.dataNotFoundPlaceholderForSalaryChangeBonusResponse = true;
+      } else{
+        this.salaryChangeBonusResponseList = response.object;
+        this.totalItems = response.totalItems;
+      }
+
+      this.isShimmerForSalaryChangeBonusResponse = false;
+    }, (error) => {
+      this.isShimmerForSalaryChangeBonusResponse = false;
+      this.networkConnectionErrorPlaceHolderForSalaryChangeResponse = true;
+    })
+  }
+
+
+
+
   payActionTypeList:any[]=[];
   debounceTimer: any;
   selectedPayActionCache: { [uuid: string]: PayActionType } = {};
   commentCache: { [uuid: string]: string } = {};
   salaryChangeBonusResponseList : SalaryChangeBonusResponse[] = [];
-  getSalaryChangeBonusResponseListByOrganizationIdMethodCall(debounceTime: number = 300) {
-    this.salaryChangeBonusResponseList = [];
+  // getSalaryChangeBonusResponseListByOrganizationIdMethodCall(debounceTime: number = 300) {
+  //   this.salaryChangeBonusResponseList = [];
 
-    if (this.debounceTimer) {
-      clearTimeout(this.debounceTimer);
-    }
+  //   if (this.debounceTimer) {
+  //     clearTimeout(this.debounceTimer);
+  //   }
 
-    this.debounceTimer = setTimeout(() => {
-      this.preRuleForShimmersAndErrorPlaceholdersForSalaryChangeBonusResponse();
-      this._dataService
-        .getSalaryChangeBonusResponseListByOrganizationId(
-          this.startDate,
-          this.endDate,
-          this.itemPerPage,
-          this.pageNumber,
-          this.search,
-          this.searchBy
-        )
-        .subscribe(
-          (response) => {
-            if (this._helperService.isListOfObjectNullOrUndefined(response)) {
-              this.dataNotFoundPlaceholderForSalaryChangeBonusResponse = true;
-            } else {
-              this.salaryChangeBonusResponseList = response.listOfObject.map((salaryChangeBonus: SalaryChangeBonusResponse) => {
-                // Apply cached selection if available
-                if (this.selectedPayActionCache[salaryChangeBonus.uuid]) {
-                  salaryChangeBonus.payActionType = this.selectedPayActionCache[salaryChangeBonus.uuid];
-                  salaryChangeBonus.payActionTypeId = this.selectedPayActionCache[salaryChangeBonus.uuid].id;
-                } else {
-                  // Set initial selection based on payActionTypeId
-                  const selectedPayActionType = this.payActionTypeList.find(
-                    (payActionType) => payActionType.id === salaryChangeBonus.payActionTypeId
-                  );
-                  if (selectedPayActionType) {
-                    salaryChangeBonus.payActionType = selectedPayActionType;
-                  }
-                }
+  //   this.debounceTimer = setTimeout(() => {
+  //     this.preRuleForShimmersAndErrorPlaceholdersForSalaryChangeBonusResponse();
+  //     this._payrollService
+  //       .getBonusResponseList(
+  //         this.startDate,
+  //         this.endDate,
+  //         this.itemPerPage,
+  //         this.pageNumber
+  //       )
+  //       .subscribe(
+  //         (response) => {
+  //           if (this._helperService.isListOfObjectNullOrUndefined(response)) {
+  //             this.dataNotFoundPlaceholderForSalaryChangeBonusResponse = true;
+  //           } else {
+  //             this.salaryChangeBonusResponseList = response.listOfObject.map((salaryChangeBonus: SalaryChangeBonusResponse) => {
+  //               // Apply cached selection if available
+  //               if (this.selectedPayActionCache[salaryChangeBonus.uuid]) {
+  //                 salaryChangeBonus.payActionType = this.selectedPayActionCache[salaryChangeBonus.uuid];
+  //                 salaryChangeBonus.payActionTypeId = this.selectedPayActionCache[salaryChangeBonus.uuid].id;
+  //               } else {
+  //                 // Set initial selection based on payActionTypeId
+  //                 const selectedPayActionType = this.payActionTypeList.find(
+  //                   (payActionType) => payActionType.id === salaryChangeBonus.payActionTypeId
+  //                 );
+  //                 if (selectedPayActionType) {
+  //                   salaryChangeBonus.payActionType = selectedPayActionType;
+  //                 }
+  //               }
 
-                // Apply cached comment if available
-                if (this.commentCache[salaryChangeBonus.uuid]) {
-                  salaryChangeBonus.comment = this.commentCache[salaryChangeBonus.uuid];
-                }
+  //               // Apply cached comment if available
+  //               if (this.commentCache[salaryChangeBonus.uuid]) {
+  //                 salaryChangeBonus.comment = this.commentCache[salaryChangeBonus.uuid];
+  //               }
 
-                return salaryChangeBonus;
-              });
-              this.total = response.totalItems;
-              this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
-            }
-            this.isShimmerForSalaryChangeBonusResponse = false;
-          },
-          (error) => {
-            this.isShimmerForSalaryChangeBonusResponse = false;
-            this.networkConnectionErrorPlaceHolderForSalaryChangeBonusResponse = true;
-          }
-        );
-    }, debounceTime);
-  }
+  //               return salaryChangeBonus;
+  //             });
+  //             this.totalItems = response.totalItems;
+  //             // this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+  //           }
+  //           this.isShimmerForSalaryChangeBonusResponse = false;
+  //         },
+  //         (error) => {
+  //           this.isShimmerForSalaryChangeBonusResponse = false;
+  //           this.networkConnectionErrorPlaceHolderForSalaryChangeBonusResponse = true;
+  //         }
+  //       );
+  //   }, debounceTime);
+  // }
+
+
   salaryChangeOvertimeResponseList : SalaryChangeOvertimeResponse[] = [];
-  getSalaryChangeOvertimeResponseListByOrganizationIdMethodCall(){
+  getUserOvertime(){
     this.preRuleForShimmersAndErrorPlaceholdersForSalaryChangeOvertimeResponse();
-    this._dataService.getSalaryChangeOvertimeResponseListByOrganizationId(this.startDate, this.endDate, this.itemPerPage, this.pageNumber, this.search, this.searchBy).subscribe((response) => {
+    // this._dataService.getSalaryChangeOvertimeResponseListByOrganizationId(this.startDate, this.endDate, this.itemPerPage, this.pageNumber).subscribe((response) => {
 
-      if(this._helperService.isListOfObjectNullOrUndefined(response)){
-        this.dataNotFoundPlaceholderForSalaryChangeOvertimeResponse = true;
-      } else{
-        this.salaryChangeOvertimeResponseList = response.listOfObject;
-        this.total = response.totalItems;
-        this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
-      }
-      this.isShimmerForSalaryChangeOvertimeResponse = false;
-    }, (error) => {
-      this.isShimmerForSalaryChangeOvertimeResponse = false;
-      this.networkConnectionErrorPlaceHolderForSalaryChangeOvertimeResponse = true;
-    })
+    //   if(this._helperService.isListOfObjectNullOrUndefined(response)){
+    //     this.dataNotFoundPlaceholderForSalaryChangeOvertimeResponse = true;
+    //   } else{
+    //     this.salaryChangeOvertimeResponseList = response.listOfObject;
+    //     this.totalItems = response.totalItems;
+    //     // this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+    //   }
+    //   this.isShimmerForSalaryChangeOvertimeResponse = false;
+    // }, (error) => {
+    //   this.isShimmerForSalaryChangeOvertimeResponse = false;
+    //   this.networkConnectionErrorPlaceHolderForSalaryChangeOvertimeResponse = true;
+    // })
   }
+
+
+  updatePayrollStep(){
+
+    // this._payrollService.updatePayrollProcessStep(this.startDate, this.endDate, this.FINAL_SETTLEMENT).subscribe((response)=>{
+     
+    
+    // }, ((error) => {
+    
+    // }))
+  }
+  
 
 }
