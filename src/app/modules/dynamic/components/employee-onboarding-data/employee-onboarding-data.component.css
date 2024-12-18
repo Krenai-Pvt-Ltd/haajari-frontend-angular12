@@ -1435,3 +1435,12 @@ span.request-count {
   width: 22px;
   height: 22px;
 }
+
+.reject-request-btn {
+  position: absolute;
+  bottom: 10px;
+  right: 15px;
+}
+.reject-request-btn svg{
+  width: 16px;
+}
