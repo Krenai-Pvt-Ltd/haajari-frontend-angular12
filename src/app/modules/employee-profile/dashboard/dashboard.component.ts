@@ -1,10 +1,13 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Key } from 'src/app/constant/key';
+import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { OvertimeRequestLogResponse } from 'src/app/models/overtime-request-log-response';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
-
+import { UserNotificationService } from 'src/app/services/user-notification.service';
+import { Notification } from 'src/app/models/Notification';
+import { EmployeeProfileComponent } from '../employee-profile.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,13 +15,16 @@ import { RoleBasedAccessControlService } from 'src/app/services/role-based-acces
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-
   requestModal: boolean = true;
   usersWithUpcomingBirthdays: any;
 
   resignationSubmittedSubscriber: any;
   resignationSubmittedToggle: boolean = false;
-  constructor(private roleService: RoleBasedAccessControlService, private dataService: DataService, public helperService: HelperService) {
+  constructor(private roleService: RoleBasedAccessControlService,
+      private _notificationService: UserNotificationService,
+     private dataService: DataService,
+      public helperService: HelperService,
+    private employeeProfileComponent: EmployeeProfileComponent) {
     this.resignationSubmittedSubscriber =  this.helperService.resignationSubmitted.subscribe((value)=>{
       if(value){
         this.resignationSubmittedToggle = true;
@@ -45,7 +51,7 @@ export class DashboardComponent implements OnInit {
     this.getUsersUpcomingWorkAnniversaries();
     this.getAttendanceRequestLogData();
     this.fetchAttendanceSummary();
-
+    this.getMailNotification(this.userId, 'mail');
   }
 
 
@@ -252,4 +258,34 @@ fetchAttendanceSummary(): void {
     }
   }
 
+  mailList: Notification[] = new Array();
+  totalMailNotification: number = 0;
+  mailLoading: boolean = false;
+  totalNewMailNotification: number = 0;
+  notificationList: Notification[] = new Array();
+  databaseHelper: DatabaseHelper = new DatabaseHelper();
+  getMailNotification(uuid: any, notificationType: string) {
+    debugger;
+    this.mailLoading = true;
+    this.databaseHelper.itemPerPage = 1;
+    this._notificationService
+      .getMailNotification(uuid, this.databaseHelper, notificationType)
+      .subscribe((response) => {
+        if (response.status) {
+          this.mailList = response.object;
+          this.totalNewMailNotification =
+            response.object[0].newNotificationCount;
+          this.totalMailNotification = response.totalItems;
+          this.mailLoading = false;
+        }
+        this.mailLoading = false;
+      });
+  }
+
+  clickViewAll(){
+    debugger
+    this.employeeProfileComponent.clickViewAll();
+  }
+
+  currentDate = new Date();
 }

@@ -331,6 +331,8 @@ export class PayrollDashboardComponent implements OnInit {
   //   }
   // }
 
+  calendarShimmer :boolean =false;
+
   isShimmer = false;
   dataNotFoundPlaceholder = false;
   networkConnectionErrorPlaceHolder = false;
@@ -496,13 +498,16 @@ export class PayrollDashboardComponent implements OnInit {
   monthResponseList: MonthResponse[] = new Array();
   async getMonthResponseListByYearMethodCall(date: Date){
     return new Promise((resolve, reject) => {
+      this.calendarShimmer = true;
       this.monthResponseList = [];
       this._payrollService.getMonthResponseListByYear(this._helperService.formatDateToYYYYMMDD(date)).subscribe((response) => {
         if(response.status){
           this.monthResponseList = response.object;
         }
+        this.calendarShimmer = false;
         resolve(true);
       }, ((error) => {
+        this.calendarShimmer = false;
         resolve(true);
       }))
     })
@@ -790,27 +795,28 @@ export class PayrollDashboardComponent implements OnInit {
             if (this._helperService.isListOfObjectNullOrUndefined(response)) {
               this.dataNotFoundPlaceholderForNewJoinee = true;
             } else {
-              this.newJoineeResponseList = response.listOfObject.map((joinee: NewJoineeResponse) => {
-                // Apply cached selection if available
-                if (this.selectedPayActionCache[joinee.uuid]) {
-                  joinee.payActionType = this.selectedPayActionCache[joinee.uuid];
-                  joinee.payActionTypeId = this.selectedPayActionCache[joinee.uuid].id;
-                } else {
-                  // Set initial selection based on payActionTypeId
-                  const selectedPayActionType = this.payActionTypeList.find(
-                    (payActionType) => payActionType.id === joinee.payActionTypeId
-                  );
-                  if (selectedPayActionType) {
-                    joinee.payActionType = selectedPayActionType;
-                  }
-                }
-                   // Apply cached comment if available
-                   if (this.commentCache[joinee.uuid]) {
-                    joinee.comment = this.commentCache[joinee.uuid];
-                  }
+              this.newJoineeResponseList = response.listOfObject
+              // .map((joinee: NewJoineeResponse) => {
+              //   // Apply cached selection if available
+              //   if (this.selectedPayActionCache[joinee.uuid]) {
+              //     joinee.payActionType = this.selectedPayActionCache[joinee.uuid];
+              //     joinee.payActionTypeId = this.selectedPayActionCache[joinee.uuid].id;
+              //   } else {
+              //     // Set initial selection based on payActionTypeId
+              //     const selectedPayActionType = this.payActionTypeList.find(
+              //       (payActionType) => payActionType.id === joinee.payActionTypeId
+              //     );
+              //     if (selectedPayActionType) {
+              //       joinee.payActionType = selectedPayActionType;
+              //     }
+              //   }
+              //      // Apply cached comment if available
+              //      if (this.commentCache[joinee.uuid]) {
+              //       joinee.comment = this.commentCache[joinee.uuid];
+              //     }
   
-                return joinee;
-              });
+              //   return joinee;
+              // });
               this.total = response.totalItems;
               this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
             }
@@ -1131,58 +1137,58 @@ export class PayrollDashboardComponent implements OnInit {
       clearTimeout(this.debounceTimer);
     }
 
-    this.debounceTimer = setTimeout(() => {
-      this.preRuleForShimmersAndErrorPlaceholdersForUserExit();
-      this.dataService
-        .getUserExitByOrganizationId(
-          this.itemPerPage,
-          this.pageNumber,
-          this.sort,
-          this.sortBy,
-          this.search,
-          this.searchBy,
-          this.startDate,
-          this.endDate
-        )
-        .subscribe(
-          (response) => {
-            if (this._helperService.isListOfObjectNullOrUndefined(response)) {
-              this.dataNotFoundPlaceholderForUserExit = true;
-            } else {
-              this.userExitResponseList = response.listOfObject.map((exit: UserExitResponse) => {
-                // Apply cached pay action type if available
-                if (this.selectedPayActionCache[exit.uuid]) {
-                  exit.payActionType = this.selectedPayActionCache[exit.uuid];
-                  exit.payActionTypeId = this.selectedPayActionCache[exit.uuid].id;
-                  // console.log(exit.name, exit.payActionType)
-                } else {
-                  // Set initial selection based on payActionTypeId
-                  const selectedPayActionType = this.payActionTypeList.find(
-                    (payActionType) => payActionType.id === exit.payActionTypeId
-                  );
-                  if (selectedPayActionType) {
-                    exit.payActionType = selectedPayActionType;
-                  }
-                }
+    // this.debounceTimer = setTimeout(() => {
+    //   this.preRuleForShimmersAndErrorPlaceholdersForUserExit();
+    //   this.dataService
+    //     .getUserExitByOrganizationId(
+    //       this.itemPerPage,
+    //       this.pageNumber,
+    //       this.sort,
+    //       this.sortBy,
+    //       this.search,
+    //       this.searchBy,
+    //       this.startDate,
+    //       this.endDate
+    //     )
+    //     .subscribe(
+    //       (response) => {
+    //         if (this._helperService.isListOfObjectNullOrUndefined(response)) {
+    //           this.dataNotFoundPlaceholderForUserExit = true;
+    //         } else {
+    //           this.userExitResponseList = response.listOfObject.map((exit: UserExitResponse) => {
+    //             // Apply cached pay action type if available
+    //             if (this.selectedPayActionCache[exit.uuid]) {
+    //               exit.payActionType = this.selectedPayActionCache[exit.uuid];
+    //               exit.payActionTypeId = this.selectedPayActionCache[exit.uuid].id;
+    //               // console.log(exit.name, exit.payActionType)
+    //             } else {
+    //               // Set initial selection based on payActionTypeId
+    //               const selectedPayActionType = this.payActionTypeList.find(
+    //                 (payActionType) => payActionType.id === exit.payActionTypeId
+    //               );
+    //               if (selectedPayActionType) {
+    //                 exit.payActionType = selectedPayActionType;
+    //               }
+    //             }
 
-                // Apply cached comment if available
-                if (this.commentCache[exit.uuid]) {
-                  exit.comment = this.commentCache[exit.uuid];
-                }
+    //             // Apply cached comment if available
+    //             if (this.commentCache[exit.uuid]) {
+    //               exit.comment = this.commentCache[exit.uuid];
+    //             }
 
-                return exit;
-              });
-              this.total = response.totalItems;
-              this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
-            }
-            this.isShimmerForUserExit = false;
-          },
-          (error) => {
-            this.networkConnectionErrorPlaceHolderForUserExit = true;
-            this.isShimmerForUserExit = false;
-          }
-        );
-    }, debounceTime);
+    //             return exit;
+    //           });
+    //           this.total = response.totalItems;
+    //           this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+    //         }
+    //         this.isShimmerForUserExit = false;
+    //       },
+    //       (error) => {
+    //         this.networkConnectionErrorPlaceHolderForUserExit = true;
+    //         this.isShimmerForUserExit = false;
+    //       }
+    //     );
+    // }, debounceTime);
   }
 
   //Fetching the final settlement data
@@ -1194,57 +1200,57 @@ export class PayrollDashboardComponent implements OnInit {
       clearTimeout(this.debounceTimer);
     }
 
-    this.debounceTimer = setTimeout(() => {
-      this.preRuleForShimmersAndErrorPlaceholdersForFinalSettlement();
-      this.dataService
-        .getFinalSettlementByOrganizationId(
-          this.itemPerPage,
-          this.pageNumber,
-          this.sort,
-          this.sortBy,
-          this.search,
-          this.searchBy,
-          this.startDate,
-          this.endDate
-        )
-        .subscribe(
-          (response) => {
-            if (this._helperService.isListOfObjectNullOrUndefined(response)) {
-              this.dataNotFoundPlaceholderForFinalSettlement = true;
-            } else {
-              this.finalSettlementResponseList = response.listOfObject.map((settlement: FinalSettlementResponse) => {
-                // Apply cached pay action type if available
-                if (this.selectedPayActionCache[settlement.uuid]) {
-                  settlement.payActionType = this.selectedPayActionCache[settlement.uuid];
-                  settlement.payActionTypeId = this.selectedPayActionCache[settlement.uuid].id;
-                } else {
-                  // Set initial selection based on payActionTypeId
-                  const selectedPayActionType = this.payActionTypeList.find(
-                    (payActionType) => payActionType.id === settlement.payActionTypeId
-                  );
-                  if (selectedPayActionType) {
-                    settlement.payActionType = selectedPayActionType;
-                  }
-                }
+    // this.debounceTimer = setTimeout(() => {
+    //   this.preRuleForShimmersAndErrorPlaceholdersForFinalSettlement();
+    //   this.dataService
+    //     .getFinalSettlementByOrganizationId(
+    //       this.itemPerPage,
+    //       this.pageNumber,
+    //       this.sort,
+    //       this.sortBy,
+    //       this.search,
+    //       this.searchBy,
+    //       this.startDate,
+    //       this.endDate
+    //     )
+    //     .subscribe(
+    //       (response) => {
+    //         if (this._helperService.isListOfObjectNullOrUndefined(response)) {
+    //           this.dataNotFoundPlaceholderForFinalSettlement = true;
+    //         } else {
+    //           this.finalSettlementResponseList = response.listOfObject.map((settlement: FinalSettlementResponse) => {
+    //             // Apply cached pay action type if available
+    //             if (this.selectedPayActionCache[settlement.uuid]) {
+    //               settlement.payActionType = this.selectedPayActionCache[settlement.uuid];
+    //               settlement.payActionTypeId = this.selectedPayActionCache[settlement.uuid].id;
+    //             } else {
+    //               // Set initial selection based on payActionTypeId
+    //               const selectedPayActionType = this.payActionTypeList.find(
+    //                 (payActionType) => payActionType.id === settlement.payActionTypeId
+    //               );
+    //               if (selectedPayActionType) {
+    //                 settlement.payActionType = selectedPayActionType;
+    //               }
+    //             }
 
-                // Apply cached comment if available
-                if (this.commentCache[settlement.uuid]) {
-                  settlement.comment = this.commentCache[settlement.uuid];
-                }
+    //             // Apply cached comment if available
+    //             if (this.commentCache[settlement.uuid]) {
+    //               settlement.comment = this.commentCache[settlement.uuid];
+    //             }
 
-                return settlement;
-              });
-              this.total = response.totalItems;
-              this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
-            }
-            this.isShimmerForFinalSettlement = false;
-          },
-          (error) => {
-            this.networkConnectionErrorPlaceHolderForFinalSettlement = true;
-            this.isShimmerForFinalSettlement = false;
-          }
-        );
-    }, debounceTime);
+    //             return settlement;
+    //           });
+    //           this.total = response.totalItems;
+    //           this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+    //         }
+    //         this.isShimmerForFinalSettlement = false;
+    //       },
+    //       (error) => {
+    //         this.networkConnectionErrorPlaceHolderForFinalSettlement = true;
+    //         this.isShimmerForFinalSettlement = false;
+    //       }
+    //     );
+    // }, debounceTime);
   }
   //Registering new joinee and user exit data to employee month wise salary data
   newJoineeAndUserExitRequestList: NewJoineeAndUserExitRequest[] = [];
@@ -1262,23 +1268,23 @@ export class PayrollDashboardComponent implements OnInit {
       } 
 
       if(this.CURRENT_TAB_IN_EMPLOYEE_CHANGE == this.USER_EXIT){
-        this.newJoineeAndUserExitRequestList = [];
+        // this.newJoineeAndUserExitRequestList = [];
 
-        this.userExitResponseList.forEach((item) => {
-          let newJoineeAndUserExitRequest = new NewJoineeAndUserExitRequest(item.uuid, item.payActionType.id, item.comment);
+        // this.userExitResponseList.forEach((item) => {
+        //   let newJoineeAndUserExitRequest = new NewJoineeAndUserExitRequest(item.uuid, item.payActionType.id, item.comment);
 
-          this.newJoineeAndUserExitRequestList.push(newJoineeAndUserExitRequest);
-        })
+        //   this.newJoineeAndUserExitRequestList.push(newJoineeAndUserExitRequest);
+        // })
       }
 
       if(this.CURRENT_TAB_IN_EMPLOYEE_CHANGE == this.FINAL_SETTLEMENT){
         this.newJoineeAndUserExitRequestList = [];
 
-        this.finalSettlementResponseList.forEach((item) => {
-          let newJoineeAndUserExitRequest = new NewJoineeAndUserExitRequest(item.uuid, item.payActionType.id, item.comment);
+        // this.finalSettlementResponseList.forEach((item) => {
+        //   let newJoineeAndUserExitRequest = new NewJoineeAndUserExitRequest(item.uuid, item.payActionType.id, item.comment);
 
-          this.newJoineeAndUserExitRequestList.push(newJoineeAndUserExitRequest);
-        })
+        //   this.newJoineeAndUserExitRequestList.push(newJoineeAndUserExitRequest);
+        // })
       }
       
       this.dataService.registerNewJoineeAndUserExit(this.newJoineeAndUserExitRequestList, this.startDate, this.endDate).subscribe((response) => {
@@ -1658,21 +1664,21 @@ extractPreviousMonthNameFromDate(dateString : string){
   salaryChangeResponseList : SalaryChangeResponse[] = [];
   getSalaryChangeResponseListByOrganizationIdMethodCall(){
     this.preRuleForShimmersAndErrorPlaceholdersForSalaryChangeResponse();
-    this.dataService.getSalaryChangeResponseListByOrganizationId(this.startDate, this.endDate, this.itemPerPage, this.pageNumber).subscribe((response) => {
+    // this.dataService.getSalaryChangeResponseListByOrganizationId(this.startDate, this.endDate, this.itemPerPage, this.pageNumber).subscribe((response) => {
 
-      if(response.object==null || response.object.length == 0){
-        this.dataNotFoundPlaceholderForSalaryChangeResponse = true;
-      } else{
-        this.salaryChangeResponseList = response.object;
-        this.total = response.totalItems;
-        this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
-      }
+    //   if(response.object==null || response.object.length == 0){
+    //     this.dataNotFoundPlaceholderForSalaryChangeResponse = true;
+    //   } else{
+    //     this.salaryChangeResponseList = response.object;
+    //     this.total = response.totalItems;
+    //     this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+    //   }
 
-      this.isShimmerForSalaryChangeResponse = false;
-    }, (error) => {
-      this.isShimmerForSalaryChangeResponse = false;
-      this.networkConnectionErrorPlaceHolderForSalaryChangeResponse = true;
-    })
+    //   this.isShimmerForSalaryChangeResponse = false;
+    // }, (error) => {
+    //   this.isShimmerForSalaryChangeResponse = false;
+    //   this.networkConnectionErrorPlaceHolderForSalaryChangeResponse = true;
+    // })
   }
 
 
@@ -1680,59 +1686,57 @@ extractPreviousMonthNameFromDate(dateString : string){
   getSalaryChangeBonusResponseListByOrganizationIdMethodCall(debounceTime: number = 300) {
     this.salaryChangeBonusResponseList = [];
 
-    if (this.debounceTimer) {
-      clearTimeout(this.debounceTimer);
-    }
+    // if (this.debounceTimer) {
+    //   clearTimeout(this.debounceTimer);
+    // }
 
-    this.debounceTimer = setTimeout(() => {
-      this.preRuleForShimmersAndErrorPlaceholdersForSalaryChangeBonusResponse();
-      this.dataService
-        .getSalaryChangeBonusResponseListByOrganizationId(
-          this.startDate,
-          this.endDate,
-          this.itemPerPage,
-          this.pageNumber,
-          this.search,
-          this.searchBy
-        )
-        .subscribe(
-          (response) => {
-            if (this._helperService.isListOfObjectNullOrUndefined(response)) {
-              this.dataNotFoundPlaceholderForSalaryChangeBonusResponse = true;
-            } else {
-              this.salaryChangeBonusResponseList = response.listOfObject.map((salaryChangeBonus: SalaryChangeBonusResponse) => {
-                // Apply cached selection if available
-                if (this.selectedPayActionCache[salaryChangeBonus.uuid]) {
-                  salaryChangeBonus.payActionType = this.selectedPayActionCache[salaryChangeBonus.uuid];
-                  salaryChangeBonus.payActionTypeId = this.selectedPayActionCache[salaryChangeBonus.uuid].id;
-                } else {
-                  // Set initial selection based on payActionTypeId
-                  const selectedPayActionType = this.payActionTypeList.find(
-                    (payActionType) => payActionType.id === salaryChangeBonus.payActionTypeId
-                  );
-                  if (selectedPayActionType) {
-                    salaryChangeBonus.payActionType = selectedPayActionType;
-                  }
-                }
+    // this.debounceTimer = setTimeout(() => {
+    //   this.preRuleForShimmersAndErrorPlaceholdersForSalaryChangeBonusResponse();
+    //   this.dataService
+    //     .getBonusResponseList(
+    //       this.startDate,
+    //       this.endDate,
+    //       this.itemPerPage,
+    //       this.pageNumber
+    //     )
+    //     .subscribe(
+    //       (response) => {
+    //         if (this._helperService.isListOfObjectNullOrUndefined(response)) {
+    //           this.dataNotFoundPlaceholderForSalaryChangeBonusResponse = true;
+    //         } else {
+    //           this.salaryChangeBonusResponseList = response.listOfObject.map((salaryChangeBonus: SalaryChangeBonusResponse) => {
+    //             // Apply cached selection if available
+    //             if (this.selectedPayActionCache[salaryChangeBonus.uuid]) {
+    //               salaryChangeBonus.payActionType = this.selectedPayActionCache[salaryChangeBonus.uuid];
+    //               salaryChangeBonus.payActionTypeId = this.selectedPayActionCache[salaryChangeBonus.uuid].id;
+    //             } else {
+    //               // Set initial selection based on payActionTypeId
+    //               const selectedPayActionType = this.payActionTypeList.find(
+    //                 (payActionType) => payActionType.id === salaryChangeBonus.payActionTypeId
+    //               );
+    //               if (selectedPayActionType) {
+    //                 salaryChangeBonus.payActionType = selectedPayActionType;
+    //               }
+    //             }
 
-                // Apply cached comment if available
-                if (this.commentCache[salaryChangeBonus.uuid]) {
-                  salaryChangeBonus.comment = this.commentCache[salaryChangeBonus.uuid];
-                }
+    //             // Apply cached comment if available
+    //             if (this.commentCache[salaryChangeBonus.uuid]) {
+    //               salaryChangeBonus.comment = this.commentCache[salaryChangeBonus.uuid];
+    //             }
 
-                return salaryChangeBonus;
-              });
-              this.total = response.totalItems;
-              this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
-            }
-            this.isShimmerForSalaryChangeBonusResponse = false;
-          },
-          (error) => {
-            this.isShimmerForSalaryChangeBonusResponse = false;
-            this.networkConnectionErrorPlaceHolderForSalaryChangeBonusResponse = true;
-          }
-        );
-    }, debounceTime);
+    //             return salaryChangeBonus;
+    //           });
+    //           this.total = response.totalItems;
+    //           this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+    //         }
+    //         this.isShimmerForSalaryChangeBonusResponse = false;
+    //       },
+    //       (error) => {
+    //         this.isShimmerForSalaryChangeBonusResponse = false;
+    //         this.networkConnectionErrorPlaceHolderForSalaryChangeBonusResponse = true;
+    //       }
+    //     );
+    // }, debounceTime);
   }
   salaryChangeOvertimeResponseList : SalaryChangeOvertimeResponse[] = [];
   getSalaryChangeOvertimeResponseListByOrganizationIdMethodCall(){
@@ -1787,11 +1791,11 @@ extractPreviousMonthNameFromDate(dateString : string){
     debugger
     this.salaryChangeBonusRequestList = [];
     
-    this.salaryChangeBonusResponseList.forEach((item) => {
-      let salaryChangeBonusRequest = new SalaryChangeBonusRequest(item.uuid,item.payActionType.id, item.comment);
+    // this.salaryChangeBonusResponseList.forEach((item) => {
+    //   let salaryChangeBonusRequest = new SalaryChangeBonusRequest(item.uuid,item.payActionType.id, item.comment);
 
-      this.salaryChangeBonusRequestList.push(salaryChangeBonusRequest);
-    })
+    //   this.salaryChangeBonusRequestList.push(salaryChangeBonusRequest);
+    // })
 
     this.dataService.registerSalaryChangeBonusListByOrganizationId(this.salaryChangeBonusRequestList).subscribe((response) => {
       this.selectedPayActionCache={};

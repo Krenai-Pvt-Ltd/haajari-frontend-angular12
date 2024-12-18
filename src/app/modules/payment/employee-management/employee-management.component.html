@@ -36,19 +36,19 @@
     <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
         <div class="tab-pane active" id="step1">
             <div class="table-responsive">
-              <!-- <div class="col-md-12 mt-2">
+              <div class="col-md-12 mt-2 mb-3">
                 <form novalidate="" role="search" (submit)="searchUsers($event, 1)" class="searching ng-untouched ng-pristine ng-valid">
-                  <div class="form-group" style="width: 350px; position: relative">
+                  <div class="form-group position-relative">
                     <input type="text" id="search" placeholder="Search by name and email" 
-                    class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px" 
-                    (keyup)="searchUsers($event, 1)" [(ngModel)]="search" [ngModelOptions]="{ standalone: true }" />
-                    <button *ngIf="search.length !== 0" type="button" class="btn close-btn" (click)="clearSearch(1)">
-                      <i class="bi bi-x mt-auto mb-auto pl-3"></i>
-                    </button>
-                    <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px"></i>
+                      class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px" 
+                      (keyup)="searchUsers($event, 1)" [(ngModel)]="search" [ngModelOptions]="{ standalone: true }" />
+                  
+                      <i *ngIf="search.length > 0" (click)="clearSearch(1)" class="bi bi-x search-icon" style="font-size: 20px !important; margin: auto; margin-left: 10px"></i>
+                    
+                      <i *ngIf="search.length == 0" class="bi bi-search search-icon" style="margin: auto; margin-left: 10px"></i>
                   </div>
                 </form>
-              </div> -->
+              </div>
               <table class="table border-dashed mb-0">
                 <thead>
                   <tr>
@@ -56,9 +56,8 @@
                     <th>EMAIL</th>
                     <th>PHONE</th>
                     <th>DATE OF JOINING</th>
+                    <th>PAYOUT DAYS</th>
                     <th>PAY ACTION</th>
-                    <th>COMMENT(Optional)</th>
-                    <!-- <th>ACTION</th> -->
                   </tr>
                 </thead>
                 <ng-container *ngIf="
@@ -68,22 +67,7 @@
                   ">
                   <tbody>
                     <tr *ngFor="let item of [].constructor(10)">
-                      <td class="text-center">
-                        <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
-                      </td>
-                      <td class="text-center">
-                        <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                      </td>
-                      <td class="text-center">
-                        <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                      </td>
-                      <td class="text-center">
-                        <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                      </td>
-                      <td class="text-center">
-                        <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                      </td>
-                      <td class="text-center">
+                      <td class="text-center" *ngFor="let e of [].constructor(6)">
                         <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
                       </td>
                     </tr>
@@ -97,52 +81,23 @@
                         !networkConnectionErrorPlaceHolderForNewJoinee;
                       else errorInFetchingNewJoinee
                     ">
-                    <tbody *ngFor="
-                        let newJoineeResponse of newJoineeResponseList
-                          | paginate
-                            : {
-                                itemsPerPage: itemPerPage,
-                                currentPage: pageNumber,
-                                totalItems: total
-                              }
-                      ">
+                    <tbody *ngFor="let newJoineeResponse of newJoineeResponseList; let i = index;">
                       <tr>
-                       
-                        <td>{{ newJoineeResponse.name || 'N/A'}}</td>
+                        <td>{{ newJoineeResponse.name}}</td>
                         <td>{{ newJoineeResponse.email || 'N/A'}}</td>
                         <td>{{ newJoineeResponse.phone || 'N/A' }}</td>
                         <td class="text-start">
-                          {{ newJoineeResponse.joiningDate | date: 'dd MMMM, yyyy' }}
+                          {{ newJoineeResponse.joiningDate | date: 'fullDate' }}
                         </td>
-    
-                        <!-- <td class="text-">
-                          <div class="dudct-type">
-                            <div class="dropdown pay-action-type">
-                              <button class="btn btn-secondary dropdown-toggle new-dropdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" style="
-                                  text-align: left;
-                                  background-color: white;
-                                  color: black;
-                                  border-color: #ced4da;
-                                  width: 100%;">
-                                {{ getSelectedPayActionTypeName(newJoineeResponse) || "Select pay action" }}
-                                <i class="bi bi-chevron-down"></i>
-                              </button>
-                              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 100%">
-                                <li *ngFor="let payActionType of payActionTypeList">
-                                  <a class="dropdown-item" (click)="selectPayActionType(
-                                        payActionType,
-                                        newJoineeResponse)">
-                                    {{ payActionType.name }}
-                                  </a>
-                                </li>
-                              </ul>
-                            </div>
-                          </div>
-                        </td> -->
-                        <td class="text-start">
-                          <!-- <input class="comment-input p-2" type="text" placeholder="Write the comment here" [(ngModel)]="newJoineeResponse.comment" (change)="updateComment(newJoineeResponse, newJoineeResponse.comment)" [ngModelOptions]="{ standalone: true }" /> -->
+                        <td>{{newJoineeResponse.payoutDays || 0}}</td>
+                        <td class="text-">
+                            <nz-select style="width: 100%" nzSize="large" 
+                              [(ngModel)]="newJoineeResponse.payActionTypeId"  id="selePayType{{i}}" name="selectPayType{{i}}"
+                              (ngModelChange)="onPayActionTypeChange(newJoineeResponse)" 
+                              class="form-control">
+                              <nz-option *ngFor="let action of payActionTypes" [nzValue]="action.id" [nzLabel]="action.value"></nz-option>
+                            </nz-select>
                         </td>
-                        
                       </tr>
                     </tbody>
                   </ng-container>
@@ -191,27 +146,29 @@
     <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
         <div class="tab-pane" id="step2">
             <div class="table-responsive">
-              <!-- <div class="col-md-12 mt-2">
-                <form novalidate="" role="search" (submit)="searchUsers($event, 2)" class="searching ng-untouched ng-pristine ng-valid">
-                  <div class="form-group" style="width: 350px; position: relative">
-                    <input type="text" id="search" placeholder="Search by name and email" class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px" (keyup)="searchUsers($event, 2)" [(ngModel)]="search" [ngModelOptions]="{ standalone: true }" />
-                    <button *ngIf="search.length !== 0" type="button" class="btn close-btn" (click)="clearSearch(2)">
-                      <i class="bi bi-x mt-auto mb-auto pl-3"></i>
-                    </button>
-                    <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px"></i>
+              <div class="col-md-12 mt-2 mb-3">
+                <form novalidate="" role="search" (submit)="searchUsers($event, 1)" class="searching ng-untouched ng-pristine ng-valid">
+                  <div class="form-group position-relative">
+                    <input type="text" id="search" placeholder="Search by name and email" 
+                      class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px" 
+                      (keyup)="searchUsers($event, 1)" [(ngModel)]="search" [ngModelOptions]="{ standalone: true }" />
+                  
+                      <i *ngIf="search.length > 0" (click)="clearSearch(1)" class="bi bi-x search-icon" style="font-size: 20px !important; margin: auto; margin-left: 10px"></i>
+                    
+                      <i *ngIf="search.length == 0" class="bi bi-search search-icon" style="margin: auto; margin-left: 10px"></i>
                   </div>
                 </form>
-              </div> -->
+              </div>
               <table class="table border-dashed mb-0">
                 <thead>
                   <tr>
                     <th>EMPLOYEE</th>
                     <th>EMAIL</th>
+                    <th>PHONE</th>
                     <th>DATE OF RESIGNATION</th>
-                    <th>NOTICE PERIOD DATE</th>
-                    <th>PAY ACTION</th>
-                    <th>COMMENT(Optional)</th>
+                    <th>LAST WORKING DAY</th>
                     <th>RESIGNATION STATUS</th>
+                    <th>PAY ACTION</th>
                   </tr>
                 </thead>
                 <ng-container *ngIf="
@@ -221,31 +178,7 @@
                   ">
                   <tbody>
                     <tr *ngFor="let item of [].constructor(10)">
-                      <td class="text-center">
-                        <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
-                      </td>
-                      <td class="text-center">
-                        <ngx-shimmer-loading [width]="'%'" [height]="'10px'"></ngx-shimmer-loading>
-                      </td>
-                      <td class="text-center">
-                        <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                      </td>
-                      <td class="text-center">
-                        <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                      </td>
-                      <td class="text-center">
-                        <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                      </td>
-                      <td class="text-center">
-                        <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                      </td>
-                      <td class="text-center">
-                        <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                      </td>
-                      <td class="text-center">
-                        <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                      </td>
-                      <td class="text-center">
+                      <td class="text-center" *ngFor="let e of [].constructor(7)">
                         <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
                       </td>
                     </tr>
@@ -260,66 +193,28 @@
                       else errorInFetchingUserExitList
                     ">
                     <tbody *ngFor="
-                        let userExitResponse of userExitResponseList
-                          | paginate
-                            : {
-                                itemsPerPage: itemPerPage,
-                                currentPage: pageNumber,
-                                totalItems: total
-                              }
-                      ">
+                        let userExitResponse of userExitResponseList; let i=index;">
                       <tr>
-                        <td>{{ userExitResponse.name }}</td>
-                        <td>{{ userExitResponse.email }}</td>
+                        <td>{{ userExitResponse.userName }}</td>
+                        <td>{{ userExitResponse.email || 'N/A' }}</td>
+                        <td>{{ userExitResponse.phone || 'N/A' }}</td>
                         <td>
-                          {{ userExitResponse.resignationDate | date: 'dd MMMM, yyyy'}}
+                          {{ constant.EMPTY_STRINGS.includes(userExitResponse.createdDate) ? 'N/A' : (userExitResponse.createdDate | date: 'dd MMMM, yyyy') }}
                         </td>
                         <td>
-                          {{ userExitResponse.noticePeriodEndDate | date: 'dd MMMM, yyyy'}}
+                          {{ constant.EMPTY_STRINGS.includes(userExitResponse.lastWorkingDate) ? 'N/A' : (userExitResponse.lastWorkingDate | date: 'dd MMMM, yyyy') }}
                         </td>
-                        <td>-</td>
-                        <td>{{ userExitResponse.salary }}</td>
                         <td class="text-">
-                          <!-- <div class="dudct-type">
-                            <div class="dropdown pay-action-type">
-                              <button class="btn btn-secondary dropdown-toggle new-dropdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" style="
-                                  text-align: left;
-                                  background-color: white;
-                                  color: black;
-                                  border-color: #ced4da;
-                                  width: 100%;
-                                ">
-                                {{ getSelectedPayActionTypeName(userExitResponse) || "Select pay action" }}
-                                <i class="bi bi-chevron-down"></i>
-                              </button>
-                              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 100%">
-                                <li *ngFor="
-                                    let payActionType of payActionTypeList
-                                  ">
-                                  <a class="dropdown-item" (click)="
-                                      selectPayActionType(
-                                        payActionType,
-                                        userExitResponse
-                                      )
-                                    ">
-                                    {{ payActionType.name }}
-                                  </a>
-                                </li>
-                              </ul>
-                            </div>
-                          </div> -->
+                          <nz-select style="width: 100%" nzSize="large" 
+                            [(ngModel)]="userExitResponse.payActionTypeId"  id="seleExitPayType{{i}}" name="seleExitPayType{{i}}"
+                            (ngModelChange)="onPayActionTypeChange(userExitResponse)" 
+                            class="form-control">
+                            <nz-option *ngFor="let action of payActionTypes" [nzValue]="action.id" [nzLabel]="action.value"></nz-option>
+                          </nz-select>
                         </td>
                         <td class="text-start">
-                          <!-- <input class="comment-input p-2" type="text" placeholder="Write the comment here" [(ngModel)]="userExitResponse.comment" (change)="updateComment(userExitResponse, userExitResponse.comment)" [ngModelOptions]="{ standalone: true }" /> -->
+                          {{ userExitResponse.status.response }}
                         </td>
-                        <td class="text-start">
-                          {{ userExitResponse.resignationStatus }}
-                        </td>
-                        <!-- <td><a (click)="
-                              routeToUserProfile(
-                                userExitResponse.uuid
-                              )
-                            "><i class="bi bi-pencil-square"></i></a></td> -->
                       </tr>
                     </tbody>
                   </ng-container>
@@ -368,17 +263,19 @@
     <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
         <div class="tab-pane" id="step3">
             <div class="table-responsive">
-              <!-- <div class="col-md-12 mt-2">
-                <form novalidate="" role="search" (submit)="searchUsers($event, 3)" class="searching ng-untouched ng-pristine ng-valid">
-                  <div class="form-group" style="width: 350px; position: relative">
-                    <input type="text" id="search" placeholder="Search by name and email" class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px" (keyup)="searchUsers($event, 3)" [(ngModel)]="search" [ngModelOptions]="{ standalone: true }" />
-                    <button *ngIf="search.length !== 0" type="button" class="btn close-btn" (click)="clearSearch(3)">
-                      <i class="bi bi-x mt-auto mb-auto pl-3"></i>
-                    </button>
-                    <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px"></i>
+              <div class="col-md-12 mt-2 mb-3">
+                <form novalidate="" role="search" (submit)="searchUsers($event, 1)" class="searching ng-untouched ng-pristine ng-valid">
+                  <div class="form-group position-relative">
+                    <input type="text" id="search" placeholder="Search by name and email" 
+                      class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px" 
+                      (keyup)="searchUsers($event, 1)" [(ngModel)]="search" [ngModelOptions]="{ standalone: true }" />
+                  
+                      <i *ngIf="search.length > 0" (click)="clearSearch(1)" class="bi bi-x search-icon" style="font-size: 20px !important; margin: auto; margin-left: 10px"></i>
+                    
+                      <i *ngIf="search.length == 0" class="bi bi-search search-icon" style="margin: auto; margin-left: 10px"></i>
                   </div>
                 </form>
-              </div> -->
+              </div>
               <table class="table border-dashed mb-0">
                 <thead>
                   <tr>
@@ -387,8 +284,9 @@
                     <th>PHONE</th>
                     <th>NOTICE PERIOD DATE</th>
                     <th>LAST WORKING DATE</th>
-                    <th>PAY ACTION</th>
+                    <th>FULL AND FINAL DATE</th>
                     <th>RESIGNATION STATUS</th>
+                    <th>PAY ACTION</th>
                   </tr>
                 </thead>
                 <ng-container *ngIf="
@@ -398,31 +296,7 @@
                   ">
                   <tbody>
                     <tr *ngFor="let item of [].constructor(10)">
-                      <td class="text-center">
-                        <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
-                      </td>
-                      <td class="text-center">
-                        <ngx-shimmer-loading [width]="'%'" [height]="'10px'"></ngx-shimmer-loading>
-                      </td>
-                      <td class="text-center">
-                        <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                      </td>
-                      <td class="text-center">
-                        <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                      </td>
-                      <td class="text-center">
-                        <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                      </td>
-                      <td class="text-center">
-                        <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                      </td>
-                      <td class="text-center">
-                        <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                      </td>
-                      <td class="text-center">
-                        <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                      </td>
-                      <td class="text-center">
+                      <td class="text-center" *ngFor="let e of [].constructor(8)">
                         <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
                       </td>
                     </tr>
@@ -437,66 +311,30 @@
                       else errorInFetchingFinalSettlementList
                     ">
                     <tbody *ngFor="
-                        let finalSettlementResponse of finalSettlementResponseList
-                          | paginate
-                            : {
-                                itemsPerPage: itemPerPage,
-                                currentPage: pageNumber,
-                                totalItems: total
-                              }
-                      ">
+                        let finalSettlementResponse of finalSettlementResponseList; let i = index;">
                       <tr>
-                        <td>{{ finalSettlementResponse.name }}</td>
-                        <td>{{ finalSettlementResponse.email }}</td>
+                        <td>{{ finalSettlementResponse.userName }}</td>
+                        <td>{{ finalSettlementResponse.email || 'N/A' }}</td>
+                        <td>{{ finalSettlementResponse.phone  || 'N/A'}}</td>
                         <td>
-                          {{ finalSettlementResponse.noticePeriodEndDate | date: 'dd MMMM, yyyy' }}
+                          {{ constant.EMPTY_STRINGS.includes(finalSettlementResponse.createdDate) ? 'N/A' : (finalSettlementResponse.createdDate | date: 'dd MMMM, yyyy') }}
                         </td>
-                        <!-- <td>
-                          {{ finalSettlementResponse.lastWorkingDate
-                          }}
-                        </td> -->
-                        <td>-</td>
-                        <td>{{ finalSettlementResponse.salary }}</td>
+                        <td>
+                          {{ constant.EMPTY_STRINGS.includes(finalSettlementResponse.lastWorkingDate) ? 'N/A' : (finalSettlementResponse.lastWorkingDate | date: 'dd MMMM, yyyy') }}
+                        </td>
+                        <td>
+                          {{ constant.EMPTY_STRINGS.includes(finalSettlementResponse.fnfDate) ? 'N/A' : (finalSettlementResponse.fnfDate | date: 'dd MMMM, yyyy') }}
+                        </td>
+                                                
                         <td class="text-">
-                          <!-- <div class="dudct-type">
-                            <div class="dropdown pay-action-type">
-                              <button class="btn btn-secondary dropdown-toggle new-dropdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" style="
-                                  text-align: left;
-                                  background-color: white;
-                                  color: black;
-                                  border-color: #ced4da;
-                                  width: 100%;
-                                ">
-                                {{ getSelectedPayActionTypeName(finalSettlementResponse) || "Select pay action" }}
-                                <i class="bi bi-chevron-down"></i>
-                              </button>
-                              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 100%">
-                                <li *ngFor="
-                                    let payActionType of payActionTypeList
-                                  ">
-                                  <a class="dropdown-item" (click)="
-                                      selectPayActionType(
-                                        payActionType,
-                                        finalSettlementResponse
-                                      )
-                                    ">
-                                    {{ payActionType.name }}
-                                  </a>
-                                </li>
-                              </ul>
-                            </div>
-                          </div> -->
+                          <nz-select style="width: 100%" nzSize="large" 
+                            [(ngModel)]="finalSettlementResponse.payActionTypeId"  id="seleFnfPayType{{i}}" name="seleFnfPayType{{i}}"
+                            (ngModelChange)="onPayActionTypeChange(finalSettlementResponse)" 
+                            class="form-control">
+                            <nz-option *ngFor="let action of payActionTypes" [nzValue]="action.id" [nzLabel]="action.value"></nz-option>
+                          </nz-select>
                         </td>
-                        <td class="text-start">
-                          <!-- <input class="comment-input p-2" type="text" placeholder="Write the comment here" [(ngModel)]="
-                              finalSettlementResponse.comment
-                            " (change)="updateComment(finalSettlementResponse, finalSettlementResponse.comment)" [ngModelOptions]="{ standalone: true }" /> -->
-                        </td>
-                        <td>
-                          {{ finalSettlementResponse.resignationStatus
-                          }}
-                        </td>
-                    
+                        <td> {{ finalSettlementResponse.status.response}}</td>
                       </tr>
                     </tbody>
                   </ng-container>

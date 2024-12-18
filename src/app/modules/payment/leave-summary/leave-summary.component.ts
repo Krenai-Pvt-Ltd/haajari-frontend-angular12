@@ -190,6 +190,16 @@ export class LeaveSummaryComponent implements OnInit {
         this._helperService.showToast('Error processing!',Key.TOAST_STATUS_ERROR);
       });    
   }
+
+  updatePayrollStep(){
+
+    // this._payrollService.updatePayrollProcessStep(this.startDate, this.endDate, this.FINAL_SETTLEMENT).subscribe((response)=>{
+     
+    
+    // }, ((error) => {
+    
+    // }))
+  }
   
 
 }
