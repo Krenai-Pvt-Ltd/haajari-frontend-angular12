@@ -12,16 +12,7 @@
               [gradient]="gradient" [xAxis]="true" [yAxis]="true" [legend]="false"
               [animations]="true"></ngx-charts-bar-vertical-stacked>
 
-            <!-- <div class="empty-file" style="margin-top: 15%">
-                <nz-empty
-                  nzNotFoundImage="assets/images/no-data-found-img-2.svg"
-                  [nzNotFoundContent]="contentTpl"
-                >
-                  <ng-template #contentTpl>
-                    <p class="mb-1 empty-detail font-16">No leave crated</p>
-                  </ng-template>
-                </nz-empty>
-              </div> -->
+          
           </div>
         </div>
         <div class="col-md-4">
@@ -92,12 +83,11 @@
               </a>
             </div>
             <ul class="nav nav-tabs bg-white border-top" role="tablist">
-              <li class="nav-item" (click)="activeTabs('home')">
+              <li class="nav-item d-flex align-items-center" (click)="activeTabs('home')">
                 <a class="nav-link active" data-bs-toggle="tab" href="#home" role="tab" aria-selected="true">Pending
                   Leave
-                  <span class="badge rounded-pill badge-outline-warning" style="margin-left: 10px"
-                    *ngIf="totalCountOfPendingCounts > 0">{{ totalCountOfPendingCounts }}</span>
                 </a>
+                <span class="request-count d-flex align-items-center justify-content-center" *ngIf="totalCountOfPendingCounts > 0">{{ totalCountOfPendingCounts }}</span>
               </li>
               <li class="nav-item" (click)="activeTabs('attendance')">
                 <a class="nav-link" data-bs-toggle="tab" href="#attendance" role="tab" aria-selected="true">Leaves
