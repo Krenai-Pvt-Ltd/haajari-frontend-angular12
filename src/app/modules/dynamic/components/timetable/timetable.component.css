@@ -1561,8 +1561,6 @@ span.leave-rejected {
   font-size: 14px;
   font-weight: 300;
   color: #878A9A;
-<<<<<<< HEAD
-=======
 }
 
 .alert-badge {
@@ -1624,5 +1622,4 @@ span.request-count {
   width: 25px;
   height: 25px;
   border-radius: 50%;
->>>>>>> f7ab7030c46f26ee90f4a103fbc64e2e3c1613b1
 }

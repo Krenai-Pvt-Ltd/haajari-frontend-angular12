@@ -222,17 +222,11 @@
                             <div class="col-md-5 border-right">
                                 <div class="roles p-3" >
                                     <h5 class="mb-0 font-13">Roles</h5>
-<<<<<<< HEAD
                                     <div style="max-height: 185px; overflow-y: auto;">
                                     <div class="roles-list mt-3 mb-4" >
                                         <div class="d-flex align-items-center gap-2" *ngFor="let tm of teamManagerInfo" >
                                                <img onerror="this.src='./assets/images/broken-image-icon.jpg';" src="assets/images/birthday-img.jpeg" *ngIf="!tm?.managerLogo">
                                                <img onerror="this.src='./assets/images/broken-image-icon.jpg';" src="{{tm?.managerLogo}}" *ngIf="tm?.managerLogo">
-=======
-                                    <div class="roles-list mt-3 mb-4">
-                                        <div class="d-flex align-items-center gap-2 mb-3">
-                                               <img onerror="this.src='./assets/images/broken-image-icon.jpg';" src="assets/images/birthday-img.jpeg">
->>>>>>> f7ab7030c46f26ee90f4a103fbc64e2e3c1613b1
                                             <div>
                                                 <h5 class="mb-1 font-13">{{tm?.managerName}}</h5>
                                                 <p class="mb-0 font-12">Team: <span *ngFor="let tn of tm?.teamName">{{tn}}</span> | <span>{{tm?.managerPosition || ' - '}}</span></p>
