@@ -1661,7 +1661,6 @@ a.fetch-location {
 .addUserRemvo svg {
   width: 16px;
   position: relative;
-  top: -1px;
 }
 
 /* new side tab for new modal */

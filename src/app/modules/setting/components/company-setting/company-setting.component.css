@@ -2,6 +2,7 @@
   padding: 15px;
   border-radius: 6px;
 }
+
 .edit-btn {
   margin-bottom: 0;
   color: #6666f3;
@@ -11,17 +12,21 @@
   background-color: #f9faff;
   border: 1px solid #6666f3;
 }
+
 .alert-light p {
   font-size: 14px;
   font-weight: 300;
   color: #878a9a;
 }
+
 .bg-soft-warning:hover {
   background-color: rgba(255, 159, 67, 0.08) !important;
 }
+
 .alert-light:hover .alert-heading {
   color: orange !important;
 }
+
 .origination-logo-box {
   width: 100%;
   border: 1px solid #eceff5;
@@ -30,11 +35,13 @@
   padding: 10px;
   height: 115px;
 }
+
 .origination-logo-box img {
   width: 150px;
   height: 70px;
   object-fit: contain;
 }
+
 .origination-logo-edit-btn {
   right: 10px;
   bottom: 10px;
@@ -45,11 +52,13 @@
   font-weight: 500;
   cursor: pointer;
 }
+
 .origination-logo-edit-btn svg {
   position: relative;
   top: -2px;
   width: 15px;
 }
+
 .edit-btn i {
   font-size: 12px;
   top: -1px;
@@ -691,6 +700,7 @@ i.bi.bi-plus {
 }
 
 @keyframes dotOpacity {
+
   0%,
   80%,
   100% {
@@ -785,6 +795,7 @@ i.bi.bi-plus {
 }
 
 @keyframes dotOpacity {
+
   0%,
   80%,
   100% {
@@ -829,6 +840,7 @@ i.bi.bi-plus {
 .shift-in-out-time p {
   font-size: 10px;
 }
+
 .holiday-date {
   padding: 15px;
   border-radius: 2px;
@@ -843,12 +855,14 @@ i.bi.bi-plus {
   background-color: #fff8ec;
   border-left: 4px solid #ffe9c4;
 }
+
 .universal {
   width: 20px;
   height: 20px;
   border-radius: 2px;
   background-color: #f5f8fa;
 }
+
 .custom {
   width: 20px;
   height: 20px;
@@ -884,11 +898,13 @@ i.bi.bi-plus {
 .automation-rules {
   border: 1px solid #f1f1f1;
 }
+
 .automation-rules-icon {
   border-radius: 50%;
   padding: 10px;
   background-color: #f1f1fd;
 }
+
 .border-bottom {
   border-bottom: 1px solid #f1f1f1 !important;
 }
@@ -896,6 +912,7 @@ i.bi.bi-plus {
 .custom-salary-hedding {
   background-color: #eeeefd;
 }
+
 .custom-salary-hedding h4 {
   font-size: 12px;
   font-weight: 400;
@@ -925,6 +942,7 @@ i.bi.bi-plus {
 .total-shifts h6 {
   font-size: 16px;
 }
+
 .total-shifts h4 {
   font-size: 26px;
 }
@@ -960,6 +978,7 @@ i.bi.bi-plus {
   position: relative;
   padding-left: 5px;
 }
+
 .text-truncate.mb-0 {
   font-size: 14px;
 }
@@ -981,6 +1000,7 @@ i.bi.bi-plus {
 .holiday-list-box-height::-webkit-scrollbar {
   display: none;
 }
+
 .holiday-list-box {
   height: auto;
 }
@@ -1021,6 +1041,7 @@ nz-date-picker.nz-overlay-container.whatapp-login-input {
   font-size: 13px;
   cursor: pointer;
 }
+
 .clear-all-user {
   cursor: pointer;
   color: #eb5050;
@@ -1029,6 +1050,7 @@ nz-date-picker.nz-overlay-container.whatapp-login-input {
   border-radius: 2px;
   font-size: 13px;
 }
+
 .user-close-btn i {
   font-size: 20px;
 }
@@ -1055,6 +1077,7 @@ nz-date-picker.nz-overlay-container.whatapp-login-input {
     overflow: scroll;
   }
 }
+
 @media (max-width: 1300px) {
   .modal-body.modal-height-fix {
     max-height: 450px;
@@ -1065,19 +1088,24 @@ nz-date-picker.nz-overlay-container.whatapp-login-input {
 /* Ensures the outermost container is a flex container */
 .container .content-wrapper {
   display: flex;
-  justify-content: flex-end; /* Aligns children to the right */
-  width: 100%; /* Ensures the container takes full width */
+  justify-content: flex-end;
+  /* Aligns children to the right */
+  width: 100%;
+  /* Ensures the container takes full width */
 }
 
-.filter-wrapper span{
+.filter-wrapper span {
   font-weight: 500;
 }
+
 .info-button,
 .clear-button {
-  white-space: nowrap; /* Prevents text wrapping */
+  white-space: nowrap;
+  /* Prevents text wrapping */
   display: inline-flex;
   align-items: center;
 }
+
 .new-deopdown {
   display: block;
   width: 100%;
@@ -1100,15 +1128,18 @@ nz-date-picker.nz-overlay-container.whatapp-login-input {
 }
 
 .text-danger {
-  color: #dc3545; /* Bootstrap's danger text color for consistency */
+  color: #dc3545;
+  /* Bootstrap's danger text color for consistency */
 }
 
 .bi-x {
-  margin-left: 4px; /* Adds a small space after the text */
+  margin-left: 4px;
+  /* Adds a small space after the text */
 }
 
 .agm-map {
-  height: 400px; /* Adjust the height as needed */
+  height: 400px;
+  /* Adjust the height as needed */
 }
 
 nz-time-picker {
@@ -1129,7 +1160,8 @@ nz-time-picker {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background-color: #6690f3 !important; /* Change to your preferred color */
+  background-color: #6690f3 !important;
+  /* Change to your preferred color */
   margin: 0 4px;
   animation: dotOpacity 1.4s infinite ease-in-out both;
 }
@@ -1143,11 +1175,13 @@ nz-time-picker {
 }
 
 @keyframes dotOpacity {
+
   0%,
   80%,
   100% {
     opacity: 0;
   }
+
   40% {
     opacity: 1;
   }
@@ -1176,13 +1210,16 @@ a.fetch-location {
   font-weight: 400;
   text-decoration: underline;
 }
+
 .excel-uplode-file-box p a:hover {
   text-decoration: underline !important;
 }
+
 .edit-submit-btn p {
   color: #878a9a;
   font-weight: 400;
 }
+
 .detail-save-btn {
   background-color: #6666f3;
   height: 35px;
@@ -1191,6 +1228,7 @@ a.fetch-location {
   font-weight: 400;
   min-width: 80px;
 }
+
 .empty-detail {
   color: #6b7280;
   line-height: 20px;
@@ -1199,6 +1237,7 @@ a.fetch-location {
 ::ng-deep.ant-empty-image img {
   width: 70px;
 }
+
 .edit-action-btn {
   text-decoration: underline;
   border: none;
@@ -1215,20 +1254,24 @@ a.fetch-location {
   padding-top: 10px !important;
   padding-bottom: 10px !important;
 }
+
 .separator {
   border-right: 1px solid #d1d1d1;
   height: 15px;
 }
+
 .hr-policy-file h5 {
   color: #444;
   font-weight: 400;
   font-size: 15px;
 }
+
 .hr-policy-file p {
   color: #8d93a1;
   font-size: 14px;
   font-size: 300;
 }
+
 .action-icon-btn span svg {
   position: relative;
   top: -1px;
@@ -1260,6 +1303,7 @@ a.fetch-location {
 }
 
 @keyframes dotOpacity {
+
   0%,
   80%,
   100% {
@@ -1282,14 +1326,16 @@ a.fetch-location {
 .map {
   position: relative;
 }
+
 .map-center-overlay {
   margin: 0;
   position: absolute;
-  top: 50%; 
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   pointer-events: none;
 }
+
 .map-search-overlay {
   left: 50%;
   margin: 0;
@@ -1298,43 +1344,45 @@ a.fetch-location {
   top: 10%;
   background-color: white;
 }
+
 .map-locate-me {
   margin: 0;
   position: absolute;
-  bottom: -5%; 
+  bottom: -5%;
   left: 14%;
   transform: translate(-50%, -50%);
 }
-.locate-btn{
-  color: rgb(145, 42, 183)!important;
-  border-color: rgb(145, 42, 183)!important;
-  background-color: white!important;
+
+.locate-btn {
+  color: rgb(145, 42, 183) !important;
+  border-color: rgb(145, 42, 183) !important;
+  background-color: white !important;
 }
 
-      .search-tag-remvo {
-        background-color: transparent;
-        border: none;
-        padding: 0px;
-      }
-  
-      .search-tag-remvo i {
-        font-size: 18px;
-        color: #444;
-      }
+.search-tag-remvo {
+  background-color: transparent;
+  border: none;
+  padding: 0px;
+}
 
-              .order-search {
-                padding: 0px 5px 0px;
-                background: #fff;
-                border: 1px solid #dee2e6;
-                box-sizing: border-box;
-                border-radius: 10px;
-              }
+.search-tag-remvo i {
+  font-size: 18px;
+  color: #444;
+}
+
+.order-search {
+  padding: 0px 5px 0px;
+  background: #fff;
+  border: 1px solid #dee2e6;
+  box-sizing: border-box;
+  border-radius: 10px;
+}
 
 
 
 .bg-transparent {
-   background-color: transparent !important;
-   border: transparent !important;
+  background-color: transparent !important;
+  border: transparent !important;
   font-size: 14px;
 }
 
@@ -1343,15 +1391,17 @@ a.fetch-location {
   right: 0px;
   top: 0px;
 }
+
 .quickGuideHeading h5 {
   color: #e27a17;
   font-style: normal;
   font-weight: 700;
   line-height: 20px;
 }
+
 .quickGuideHeading p {
   color: #2f2e41;
-font-size: 12px !important;
+  font-size: 12px !important;
   font-style: normal;
   font-weight: 400;
   line-height: 20px;
@@ -1364,6 +1414,7 @@ font-size: 12px !important;
   background-repeat: no-repeat;
   background-size: contain;
 }
+
 .employee-list h4 {
   color: #2f2e41;
   font-size: 16px;
@@ -1372,10 +1423,12 @@ font-size: 12px !important;
   line-height: 28.906px;
   letter-spacing: 0.141px;
 }
+
 .manualemployList {
   max-height: 275px;
   overflow: scroll;
 }
+
 .userName {
   background-color: #f2f2f2;
   width: 32px;
@@ -1389,6 +1442,7 @@ font-size: 12px !important;
   color: #e27a17;
   line-height: 22px;
 }
+
 .spreter-line {
   height: 15px;
   border-right: 1px solid #2f2e41;
@@ -1405,12 +1459,14 @@ font-size: 12px !important;
   letter-spacing: 0.141px;
   border-radius: 2px;
 }
+
 .addUserRemvo {
   color: #ff0404;
   font-size: 14px;
   font-weight: 500px;
 }
-.iHaveRead{
+
+.iHaveRead {
   color: #71737b;
   font-size: 12px !important;
   font-style: normal;
@@ -1426,7 +1482,7 @@ font-size: 12px !important;
   height: 80vh;
 }
 
-.shift-time-menu{
+.shift-time-menu {
   background-color: #fbfbfb;
   height: 100%;
 }
@@ -1434,12 +1490,14 @@ font-size: 12px !important;
 .shift-time-modal .nav-pills .nav.nav-pills {
   background-color: transparent;
 }
+
 .shift-time-modal .nav-link.active {
   background: #f2f3ff !important;
   color: #000 !important;
   border-left: 5px solid var(--primary-background-color) !important;
   border-bottom: none !important;
 }
+
 .shift-time-modal .nav-pills .nav-link {
   background: transparent;
   padding: 15px 10px;
@@ -1464,7 +1522,7 @@ font-size: 12px !important;
   border: 1px solid #e9e9e9;
 }
 
-.input-zorro{
+.input-zorro {
   border-radius: 2px !important;
   border: 1.021px solid #e9e9e9 !important;
   background: rgba(236, 236, 236, 0.21) !important;
@@ -1480,14 +1538,17 @@ font-size: 12px !important;
   left: 0px;
   border-radius: 0px;
 }
-.staff-selection-list{
+
+.staff-selection-list {
   max-height: 500px;
   overflow: scroll;
 }
-.staff-selection-list::-webkit-scrollbar{
+
+.staff-selection-list::-webkit-scrollbar {
   display: none;
 }
-.salary-setting{
+
+.salary-setting {
   border: 0px solid #f2f2f2;
   height: 45px !important;
   border-left: 0;
@@ -1499,13 +1560,13 @@ font-size: 12px !important;
 /* new side tab for new modal */
 
 .nav-link.active {
-  background: transparent ;
+  background: transparent;
   color: var(--primary-color);
   border-radius: 0;
   border-bottom: 2px solid var(--primary-color);
 }
-.nav-link{
-  margin-right: 20px;
+
+.nav-link {
   display: block;
   padding: 7px 10px;
   color: #000;
@@ -1513,4 +1574,10 @@ font-size: 12px !important;
   font-style: normal;
   font-weight: 500;
   text-align: left;
+}
+
+.empty-detail {
+  color: #6b7280 !important;
+  line-height: 20px;
+  font-size: 16px !important;
 }
