@@ -46,12 +46,12 @@ export class TimetableComponent implements OnInit {
     private sanitizer: DomSanitizer,
     private datePipe: DatePipe,
     // private headerComponent: HeaderComponent
-  ) {}
+  ) { }
 
   async ngOnInit(): Promise<void> {
     this.sampleFileUrl ="assets/samples/Attendance_Upload.xlsx"
     window.scroll(0, 0);
-    this.sampleFileUrl ="assets/samples/Attendance_Upload.xlsx"
+    this.sampleFileUrl = "assets/samples/Attendance_Upload.xlsx"
     this.getRequestCountByOrganizationUuid()
     this.getOrganizationRegistrationDateMethodCall();
     this.inputDate = this.getCurrentDate();
@@ -78,7 +78,7 @@ export class TimetableComponent implements OnInit {
 
   loginDetails = this.helperService.getDecodedValueFromToken();
   assignRole() {
-    this.role =   this.rbacService.getRole();
+    this.role = this.rbacService.getRole();
     this.userUuid = this.rbacService.getUUID();
     this.orgRefId = this.rbacService.getOrgRefUUID();
   }
@@ -841,351 +841,351 @@ export class TimetableComponent implements OnInit {
 
 
 
-  dailyReportLog : string = '';
+  dailyReportLog: string = '';
   rotateToggle: boolean = false;
   downloadAttedanceReport(date: Date) {
 
-    let dateString:string | null  = this.datePipe.transform(date, 'yyyy-MM-dd');
-    this .rotateToggle = true;
-    if(dateString!==null) {
-    this.dataService
-      .getAtendanceDailyReport(
-        dateString
-      )
-      .subscribe(
-        (response) => {
-         this.dailyReportLog = response.message;
-         const downloadLink = document.createElement('a');
-          downloadLink.href = response.message;
-          downloadLink.download = 'attendance.xlsx';
-          downloadLink.click();
-          this.rotateToggle = false;
-        },
-        (error) => {
-          this.rotateToggle = false;
-        }
-      );
+    let dateString: string | null = this.datePipe.transform(date, 'yyyy-MM-dd');
+    this.rotateToggle = true;
+    if (dateString !== null) {
+      this.dataService
+        .getAtendanceDailyReport(
+          dateString
+        )
+        .subscribe(
+          (response) => {
+            this.dailyReportLog = response.message;
+            const downloadLink = document.createElement('a');
+            downloadLink.href = response.message;
+            downloadLink.download = 'attendance.xlsx';
+            downloadLink.click();
+            this.rotateToggle = false;
+          },
+          (error) => {
+            this.rotateToggle = false;
+          }
+        );
     }
   }
 
   // ############################################
 
- checkHoliday:boolean = false;
- showPlaceholder:boolean = false;
+  checkHoliday: boolean = false;
+  showPlaceholder: boolean = false;
 
- getHolidayForOrganization(){
+  getHolidayForOrganization() {
 
     this.dataService.getHolidayForOrganization(this.helperService.formatDateToYYYYMMDD(this.selectedDate))
-    .subscribe(
-      (response) => {
-        this.checkHoliday = response.object;
-        // console.log(response);
-        // console.error("Response", response.object);
+      .subscribe(
+        (response) => {
+          this.checkHoliday = response.object;
+          // console.log(response);
+          // console.error("Response", response.object);
 
-        if (this.checkHoliday == true) {
-          this.showPlaceholder = true;
-        } else if (this.checkHoliday == false){
-          this.showPlaceholder = false;
+          if (this.checkHoliday == true) {
+            this.showPlaceholder = true;
+          } else if (this.checkHoliday == false) {
+            this.showPlaceholder = false;
+          }
+
+        },
+        (error) => {
+          console.error('Error details:', error);
         }
-
-      },
-      (error) =>{
-        console.error('Error details:', error);
-      }
-  )
+      )
   }
-attendanceFullRequestLog: any[] = [];
-pageNumberFullAttendanceRequest: number = 1;
-itemPerPageFullAttendanceRequest: number = 5;
-totalAttendanceRequestCount: number = 0;
-isRequestLoader: boolean = false;
-fullAttendanceRequestSearchString: string = '';
+  attendanceFullRequestLog: any[] = [];
+  pageNumberFullAttendanceRequest: number = 1;
+  itemPerPageFullAttendanceRequest: number = 5;
+  totalAttendanceRequestCount: number = 0;
+  isRequestLoader: boolean = false;
+  fullAttendanceRequestSearchString: string = '';
 
-isShimmerForAttendanceUpdateRequestLogResponse: boolean = false;
-dataNotFoundForAttendanceUpdateRequestLogResponse: boolean = false;
-networkConnectionErrorForAttendanceUpdateRequestLogResponse: boolean = false;
+  isShimmerForAttendanceUpdateRequestLogResponse: boolean = false;
+  dataNotFoundForAttendanceUpdateRequestLogResponse: boolean = false;
+  networkConnectionErrorForAttendanceUpdateRequestLogResponse: boolean = false;
 
-preRuleForShimmersAndErrorPlaceholdersForAttendanceUpdateRequestLogResponseMethodCall() {
-  this.isShimmerForAttendanceUpdateRequestLogResponse = true;
-  this.dataNotFoundForAttendanceUpdateRequestLogResponse = false;
-  this.networkConnectionErrorForAttendanceUpdateRequestLogResponse = false;
-}
-getFullAttendanceRequestLogData() {
-  this.attendanceFullRequestLog = [];
-  this.preRuleForShimmersAndErrorPlaceholdersForAttendanceUpdateRequestLogResponseMethodCall();
-  return new Promise((resolve, reject) => {
-  this.isRequestLoader = true;
-  // if (this.debounceTimer) {
-  //   clearTimeout(this.debounceTimer);
-  // }
-  // this.debounceTimer = setTimeout(() => {
-  this.dataService.getFullAttendanceRequestLog(this.pageNumberFullAttendanceRequest, this.itemPerPageFullAttendanceRequest, this.fullAttendanceRequestSearchString).subscribe(response => {
-    if(this.helperService.isObjectNullOrUndefined(response)){
-      this.dataNotFoundForAttendanceUpdateRequestLogResponse = true;
-    } else{
-      // this.attendanceFullRequestLog = response.listOfObject;
-      this.attendanceFullRequestLog = [...this.attendanceFullRequestLog, ...response.object];
-      this.totalAttendanceRequestCount = response.totalItems;
-      this.isRequestLoader = false;
+  preRuleForShimmersAndErrorPlaceholdersForAttendanceUpdateRequestLogResponseMethodCall() {
+    this.isShimmerForAttendanceUpdateRequestLogResponse = true;
+    this.dataNotFoundForAttendanceUpdateRequestLogResponse = false;
+    this.networkConnectionErrorForAttendanceUpdateRequestLogResponse = false;
+  }
+  getFullAttendanceRequestLogData() {
+    this.attendanceFullRequestLog = [];
+    this.preRuleForShimmersAndErrorPlaceholdersForAttendanceUpdateRequestLogResponseMethodCall();
+    return new Promise((resolve, reject) => {
+      this.isRequestLoader = true;
+      // if (this.debounceTimer) {
+      //   clearTimeout(this.debounceTimer);
+      // }
+      // this.debounceTimer = setTimeout(() => {
+      this.dataService.getFullAttendanceRequestLog(this.pageNumberFullAttendanceRequest, this.itemPerPageFullAttendanceRequest, this.fullAttendanceRequestSearchString).subscribe(response => {
+        if (this.helperService.isObjectNullOrUndefined(response)) {
+          this.dataNotFoundForAttendanceUpdateRequestLogResponse = true;
+        } else {
+          // this.attendanceFullRequestLog = response.listOfObject;
+          this.attendanceFullRequestLog = [...this.attendanceFullRequestLog, ...response.object];
+          this.totalAttendanceRequestCount = response.totalItems;
+          this.isRequestLoader = false;
+        }
+        this.isShimmerForAttendanceUpdateRequestLogResponse = false;
+      }, (error) => {
+        this.networkConnectionErrorForAttendanceUpdateRequestLogResponse = true;
+        this.isShimmerForAttendanceUpdateRequestLogResponse = false;
+        this.isRequestLoader = false;
+      });
+      //  }, debounceTime);
+    });
+  }
+
+  initialLoadDoneforFullLogs: boolean = false;
+  @ViewChild('logContainerforFullLogs') logContainerforFullLogs!: ElementRef<HTMLDivElement>;
+  scrollDownRecentActivityforFullLogs(event: any) {
+    debugger
+    if (!this.initialLoadDoneforFullLogs) return;
+
+    if (this.totalAttendanceRequestCount < ((this.pageNumberFullAttendanceRequest - 1) * this.itemPerPageFullAttendanceRequest)) {
+      return;
     }
-    this.isShimmerForAttendanceUpdateRequestLogResponse = false;
-  }, (error) => {
-    this.networkConnectionErrorForAttendanceUpdateRequestLogResponse = true;
-    this.isShimmerForAttendanceUpdateRequestLogResponse = false;
-    this.isRequestLoader = false;
-  });
-  //  }, debounceTime);
-  });
-}
+    const target = event.target as HTMLElement;
+    const atBottom =
+      target.scrollHeight - (target.scrollTop + target.clientHeight) < 10;
 
-initialLoadDoneforFullLogs: boolean = false;
-@ViewChild('logContainerforFullLogs') logContainerforFullLogs!: ElementRef<HTMLDivElement>;
-scrollDownRecentActivityforFullLogs(event: any) {
-  debugger
-  if (!this.initialLoadDoneforFullLogs) return;
-
-  if(this.totalAttendanceRequestCount < ((this.pageNumberFullAttendanceRequest - 1) * this.itemPerPageFullAttendanceRequest)) {
-    return;
+    if (atBottom) {
+      this.pageNumberFullAttendanceRequest++;
+      this.getFullAttendanceRequestLogData();
+    }
   }
-  const target = event.target as HTMLElement;
-  const atBottom =
-    target.scrollHeight - (target.scrollTop + target.clientHeight) < 10;
 
-  if (atBottom) {
+  loadMoreLogs(): void {
+    this.initialLoadDoneforFullLogs = true;
     this.pageNumberFullAttendanceRequest++;
+    // this.attendanceRequestLog = [];
     this.getFullAttendanceRequestLogData();
   }
-}
 
-loadMoreLogs(): void {
-  this.initialLoadDoneforFullLogs = true;
-  this.pageNumberFullAttendanceRequest++;
-  // this.attendanceRequestLog = [];
-  this.getFullAttendanceRequestLogData();
-}
-
-onSearchChangeOfFullAttendanceLogs(searchValue: string): void {
-  this.fullAttendanceRequestSearchString = searchValue;
-  this.pageNumberFullAttendanceRequest = 1;
-  this.attendanceFullRequestLog = [];
-  this.getFullAttendanceRequestLogData();
-}
-
-openLogs() {
-  this.pageNumberFullAttendanceRequest = 1;
-  this.totalAttendanceRequestCount = 0;
-  this.attendanceFullRequestLog = [];
-  this.fullAttendanceRequestSearchString = '';
-  this.getFullAttendanceRequestLogData();
-}
-
-clearSearchUsersOfFullLogs() {
-  this.pageNumberFullAttendanceRequest = 1;
-  this.totalAttendanceRequestCount = 0;
-  this.attendanceFullRequestLog = [];
-  this.fullAttendanceRequestSearchString = '';
-  this.getFullAttendanceRequestLogData();
-}
-
-attendanceRequests: AttendanceTimeUpdateResponse[] = [];
-pageNumberAttendanceRequest: number = 1;
-itemPerPageAttendanceRequest: number = 5;
-fullAttendanceRequestCount: number = 0;
-isFullRequestLoader: boolean = false;
-attendanceRequestSearchString: string = '';
-
-
-
-
-isShimmerForAttendanceUpdatePendingRequestResponse: boolean = false;
-dataNotFoundForAttendanceUpdatePendingRequestResponse: boolean = false;
-networkConnectionErrorForAttendanceUpdatePendingRequestResponse: boolean = false;
-
-preRuleForShimmersAndErrorPlaceholdersForAttendanceUpdatePendingRequestResponseMethodCall() {
-  this.isShimmerForAttendanceUpdatePendingRequestResponse = true;
-  this.dataNotFoundForAttendanceUpdatePendingRequestResponse = false;
-  this.networkConnectionErrorForAttendanceUpdatePendingRequestResponse = false;
-}
-getAttendanceRequestsData() {
-  this.attendanceRequests = [];
-  this.preRuleForShimmersAndErrorPlaceholdersForAttendanceUpdatePendingRequestResponseMethodCall();
-  return new Promise((resolve, reject) => {
-  this.isFullRequestLoader = true;
-  // if (this.debounceTimer) {
-  //   clearTimeout(this.debounceTimer);
-  // }
-  // this.debounceTimer = setTimeout(() => {
-  this.dataService.getAttendanceRequests(this.pageNumberAttendanceRequest, this.itemPerPageAttendanceRequest, this.attendanceRequestSearchString, this.startDate, this.endDate).subscribe(response => {
-    if(this.helperService.isObjectNullOrUndefined(response)){
-      this.dataNotFoundForAttendanceUpdatePendingRequestResponse = true;
-    } else{
-      // this.attendanceRequests = response.listOfObject;
-      this.attendanceRequests = [...this.attendanceRequests, ...response.object];
-      this.fullAttendanceRequestCount = response.totalItems;
-      this.isFullRequestLoader = false;
-    }
-    this.getRequestCountByOrganizationUuid();
-    this.isShimmerForAttendanceUpdatePendingRequestResponse = false;
-  }, (error) => {
-    this.isFullRequestLoader = false;
-    this.isShimmerForAttendanceUpdatePendingRequestResponse = false;
-    this.networkConnectionErrorForAttendanceUpdatePendingRequestResponse = true;
-  });
-// }, debounceTime);
-});
-}
-
-attendanceRequestCount: number = 0;
-getAttendanceRequestsDataCount(): void {
-  debugger
-  this.dataService.getAttendanceRequestCount(this.startDate, this.endDate).subscribe(
-    (response: any) => {
-      this.attendanceRequestCount = response.object;
-    },
-    (error) => {
-      console.log(error);
-    }
-  );
-}
-
-isShimmerForAttendanceUpdateRequestResponse: boolean = false;
-dataNotFoundForAttendanceUpdateRequestResponse: boolean = false;
-networkConnectionErrorForAttendanceUpdateRequestResponse: boolean = false;
-
-preRuleForShimmersAndErrorPlaceholdersForAttendanceUpdateRequestResponseMethodCall() {
-  this.isShimmerForAttendanceUpdateRequestResponse = true;
-  this.dataNotFoundForAttendanceUpdateRequestResponse = false;
-  this.networkConnectionErrorForAttendanceUpdateRequestResponse = false;
-}
-attendanceRequestsHistory: AttendanceTimeUpdateResponse[] = [];
-getAttendanceRequestsHistoryData() {
-  this.attendanceRequestsHistory = [];
-  this.preRuleForShimmersAndErrorPlaceholdersForAttendanceUpdateRequestResponseMethodCall();
-  return new Promise((resolve, reject) => {
-  // this.isFullRequestLoader = true;
-  // if (this.debounceTimer) {
-  //   clearTimeout(this.debounceTimer);
-  // }
-  // this.debounceTimer = setTimeout(() => {
-  this.dataService.getAttendanceRequestsHistory(this.pageNumberAttendanceRequest, this.itemPerPageAttendanceRequest, this.attendanceRequestSearchString, this.startDate, this.endDate).subscribe(response => {
-    if(this.helperService.isObjectNullOrUndefined(response)){
-      this.dataNotFoundForAttendanceUpdateRequestResponse = true;
-    } else{
-      // this.attendanceRequests = response.listOfObject;
-      this.attendanceRequestsHistory = [...this.attendanceRequestsHistory, ...response.object];
-      // this.fullAttendanceRequestCount = response.totalItems;
-      // this.isFullRequestLoader = false;
-      console.log('requests retrieved successfully', response.listOfObject);
-    }
-    this.isShimmerForAttendanceUpdateRequestResponse = false;
-  }, (error) => {
-    // this.isFullRequestLoader = false;
-    this.networkConnectionErrorForAttendanceUpdateRequestResponse = true;
-    this.isShimmerForAttendanceUpdateRequestResponse = false;
-  });
-// }, debounceTime);
-});
-}
-
-// approveOrRequest(id:number, reqString: string) {
-initialLoadDone: boolean = false;
-@ViewChild('logContainer') logContainer!: ElementRef<HTMLDivElement>;
-scrollDownRecentActivity(event: any) {
-  debugger
-  if (!this.initialLoadDone) return;
-
-  if(this.fullAttendanceRequestCount < ((this.pageNumberAttendanceRequest - 1) * this.itemPerPageAttendanceRequest)) {
-    return;
+  onSearchChangeOfFullAttendanceLogs(searchValue: string): void {
+    this.fullAttendanceRequestSearchString = searchValue;
+    this.pageNumberFullAttendanceRequest = 1;
+    this.attendanceFullRequestLog = [];
+    this.getFullAttendanceRequestLogData();
   }
-  const target = event.target as HTMLElement;
-  const atBottom =
-    target.scrollHeight - (target.scrollTop + target.clientHeight) < 10;
 
-  if (atBottom) {
+  openLogs() {
+    this.pageNumberFullAttendanceRequest = 1;
+    this.totalAttendanceRequestCount = 0;
+    this.attendanceFullRequestLog = [];
+    this.fullAttendanceRequestSearchString = '';
+    this.getFullAttendanceRequestLogData();
+  }
+
+  clearSearchUsersOfFullLogs() {
+    this.pageNumberFullAttendanceRequest = 1;
+    this.totalAttendanceRequestCount = 0;
+    this.attendanceFullRequestLog = [];
+    this.fullAttendanceRequestSearchString = '';
+    this.getFullAttendanceRequestLogData();
+  }
+
+  attendanceRequests: AttendanceTimeUpdateResponse[] = [];
+  pageNumberAttendanceRequest: number = 1;
+  itemPerPageAttendanceRequest: number = 5;
+  fullAttendanceRequestCount: number = 0;
+  isFullRequestLoader: boolean = false;
+  attendanceRequestSearchString: string = '';
+
+
+
+
+  isShimmerForAttendanceUpdatePendingRequestResponse: boolean = false;
+  dataNotFoundForAttendanceUpdatePendingRequestResponse: boolean = false;
+  networkConnectionErrorForAttendanceUpdatePendingRequestResponse: boolean = false;
+
+  preRuleForShimmersAndErrorPlaceholdersForAttendanceUpdatePendingRequestResponseMethodCall() {
+    this.isShimmerForAttendanceUpdatePendingRequestResponse = true;
+    this.dataNotFoundForAttendanceUpdatePendingRequestResponse = false;
+    this.networkConnectionErrorForAttendanceUpdatePendingRequestResponse = false;
+  }
+  getAttendanceRequestsData() {
+    this.attendanceRequests = [];
+    this.preRuleForShimmersAndErrorPlaceholdersForAttendanceUpdatePendingRequestResponseMethodCall();
+    return new Promise((resolve, reject) => {
+      this.isFullRequestLoader = true;
+      // if (this.debounceTimer) {
+      //   clearTimeout(this.debounceTimer);
+      // }
+      // this.debounceTimer = setTimeout(() => {
+      this.dataService.getAttendanceRequests(this.pageNumberAttendanceRequest, this.itemPerPageAttendanceRequest, this.attendanceRequestSearchString, this.startDate, this.endDate).subscribe(response => {
+        if (this.helperService.isObjectNullOrUndefined(response)) {
+          this.dataNotFoundForAttendanceUpdatePendingRequestResponse = true;
+        } else {
+          // this.attendanceRequests = response.listOfObject;
+          this.attendanceRequests = [...this.attendanceRequests, ...response.object];
+          this.fullAttendanceRequestCount = response.totalItems;
+          this.isFullRequestLoader = false;
+        }
+        this.getRequestCountByOrganizationUuid();
+        this.isShimmerForAttendanceUpdatePendingRequestResponse = false;
+      }, (error) => {
+        this.isFullRequestLoader = false;
+        this.isShimmerForAttendanceUpdatePendingRequestResponse = false;
+        this.networkConnectionErrorForAttendanceUpdatePendingRequestResponse = true;
+      });
+      // }, debounceTime);
+    });
+  }
+
+  attendanceRequestCount: number = 0;
+  getAttendanceRequestsDataCount(): void {
+    debugger
+    this.dataService.getAttendanceRequestCount(this.startDate, this.endDate).subscribe(
+      (response: any) => {
+        this.attendanceRequestCount = response.object;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  isShimmerForAttendanceUpdateRequestResponse: boolean = false;
+  dataNotFoundForAttendanceUpdateRequestResponse: boolean = false;
+  networkConnectionErrorForAttendanceUpdateRequestResponse: boolean = false;
+
+  preRuleForShimmersAndErrorPlaceholdersForAttendanceUpdateRequestResponseMethodCall() {
+    this.isShimmerForAttendanceUpdateRequestResponse = true;
+    this.dataNotFoundForAttendanceUpdateRequestResponse = false;
+    this.networkConnectionErrorForAttendanceUpdateRequestResponse = false;
+  }
+  attendanceRequestsHistory: AttendanceTimeUpdateResponse[] = [];
+  getAttendanceRequestsHistoryData() {
+    this.attendanceRequestsHistory = [];
+    this.preRuleForShimmersAndErrorPlaceholdersForAttendanceUpdateRequestResponseMethodCall();
+    return new Promise((resolve, reject) => {
+      // this.isFullRequestLoader = true;
+      // if (this.debounceTimer) {
+      //   clearTimeout(this.debounceTimer);
+      // }
+      // this.debounceTimer = setTimeout(() => {
+      this.dataService.getAttendanceRequestsHistory(this.pageNumberAttendanceRequest, this.itemPerPageAttendanceRequest, this.attendanceRequestSearchString, this.startDate, this.endDate).subscribe(response => {
+        if (this.helperService.isObjectNullOrUndefined(response)) {
+          this.dataNotFoundForAttendanceUpdateRequestResponse = true;
+        } else {
+          // this.attendanceRequests = response.listOfObject;
+          this.attendanceRequestsHistory = [...this.attendanceRequestsHistory, ...response.object];
+          // this.fullAttendanceRequestCount = response.totalItems;
+          // this.isFullRequestLoader = false;
+          console.log('requests retrieved successfully', response.listOfObject);
+        }
+        this.isShimmerForAttendanceUpdateRequestResponse = false;
+      }, (error) => {
+        // this.isFullRequestLoader = false;
+        this.networkConnectionErrorForAttendanceUpdateRequestResponse = true;
+        this.isShimmerForAttendanceUpdateRequestResponse = false;
+      });
+      // }, debounceTime);
+    });
+  }
+
+  // approveOrRequest(id:number, reqString: string) {
+  initialLoadDone: boolean = false;
+  @ViewChild('logContainer') logContainer!: ElementRef<HTMLDivElement>;
+  scrollDownRecentActivity(event: any) {
+    debugger
+    if (!this.initialLoadDone) return;
+
+    if (this.fullAttendanceRequestCount < ((this.pageNumberAttendanceRequest - 1) * this.itemPerPageAttendanceRequest)) {
+      return;
+    }
+    const target = event.target as HTMLElement;
+    const atBottom =
+      target.scrollHeight - (target.scrollTop + target.clientHeight) < 10;
+
+    if (atBottom) {
+      this.pageNumberAttendanceRequest++;
+      this.getAttendanceRequestsData();
+    }
+  }
+
+
+  loadMoreAttendanceRequestLogs(): void {
+    this.initialLoadDone = true;
     this.pageNumberAttendanceRequest++;
+    // this.attendanceRequestLog = [];
     this.getAttendanceRequestsData();
   }
-}
 
-
-loadMoreAttendanceRequestLogs(): void {
-  this.initialLoadDone = true;
-  this.pageNumberAttendanceRequest++;
-  // this.attendanceRequestLog = [];
-  this.getAttendanceRequestsData();
-}
-
-onSearchChange(searchValue: string): void {
-  this.attendanceRequestSearchString = searchValue;
-  this.pageNumberAttendanceRequest = 1;
-  this.attendanceRequests = [];
-  this.getAttendanceRequestsData();
-}
-
-clearSearchUsersOfRequestLogs() {
-  debugger
-  this.pageNumberAttendanceRequest = 1;
-  this.fullAttendanceRequestCount = 0;
-  this.attendanceRequests = [];
-  this.attendanceRequestSearchString = '';
-  this.getAttendanceRequestsData();
-}
-
-clearAttendanceRequestLogs() {
-  this.attendanceRequests = [];
-  this.pageNumberAttendanceRequest = 1;
-  this.attendanceRequestSearchString =  '';
-  this.attendanceFullRequestLog = [];
-  this.pageNumberFullAttendanceRequest = 1;
-  this.fullAttendanceRequestSearchString = '';
-  this.fullAttendanceRequestCount = 0;
-  this.totalAttendanceRequestCount = 0;
-}
-
-approveOrReject(id:number, reqString: string) {
-  if(reqString == 'APPROVE'){
-    this.attendanceUpdateRequestApproveLoader = true;
-  } else if(reqString == 'REJECT'){
-    this.attendanceUpdateRequestRejectLoader = true;
-  }
-  this.dataService.approveOrRejectAttendanceRequest(id, reqString).subscribe(response => {
-    this.attendanceUpdateRequestApproveLoader = false;
-    this.attendanceUpdateRequestRejectLoader = false;
-    // console.log('requests retrieved successfully', response.listOfObject);
-    if(response.message == 'APPROVE') {
-    this.helperService.showToast(
-      'Request Approved Successfully.',
-      Key.TOAST_STATUS_SUCCESS
-    );
-  } else if (response.message == 'REJECT') {
-    this.helperService.showToast(
-      'Request Rejected Successfully.',
-      Key.TOAST_STATUS_SUCCESS
-    );
+  onSearchChange(searchValue: string): void {
+    this.attendanceRequestSearchString = searchValue;
+    this.pageNumberAttendanceRequest = 1;
+    this.attendanceRequests = [];
+    this.getAttendanceRequestsData();
   }
 
-  this.totalAttendanceRequestCount = 0;
-  this.attendanceRequestSearchString = '';
-  this.pageNumberAttendanceRequest = 1;
-  this.attendanceRequests = [];
-  this.getAttendanceRequestsData();
-  this.getAttendanceRequestsDataCount();
-  this.pageNumberFullAttendanceRequest = 1;
-  this.fullAttendanceRequestCount = 0;
-  this.attendanceFullRequestLog = [];
-  this.fullAttendanceRequestSearchString = '';
-  this.getFullAttendanceRequestLogData();
-  this.closeAttendanceUpdateRequestActionModal.nativeElement.click();
-  }, (error) => {
-    this.attendanceUpdateRequestApproveLoader = false;
-    this.attendanceUpdateRequestRejectLoader = false;
-    console.log(error);
-    this.helperService.showToast(
-      'Error while processing the request!',
-      Key.TOAST_STATUS_ERROR
-    );
-  });
-}
+  clearSearchUsersOfRequestLogs() {
+    debugger
+    this.pageNumberAttendanceRequest = 1;
+    this.fullAttendanceRequestCount = 0;
+    this.attendanceRequests = [];
+    this.attendanceRequestSearchString = '';
+    this.getAttendanceRequestsData();
+  }
+
+  clearAttendanceRequestLogs() {
+    this.attendanceRequests = [];
+    this.pageNumberAttendanceRequest = 1;
+    this.attendanceRequestSearchString = '';
+    this.attendanceFullRequestLog = [];
+    this.pageNumberFullAttendanceRequest = 1;
+    this.fullAttendanceRequestSearchString = '';
+    this.fullAttendanceRequestCount = 0;
+    this.totalAttendanceRequestCount = 0;
+  }
+
+  approveOrReject(id: number, reqString: string) {
+    if (reqString == 'APPROVE') {
+      this.attendanceUpdateRequestApproveLoader = true;
+    } else if (reqString == 'REJECT') {
+      this.attendanceUpdateRequestRejectLoader = true;
+    }
+    this.dataService.approveOrRejectAttendanceRequest(id, reqString).subscribe(response => {
+      this.attendanceUpdateRequestApproveLoader = false;
+      this.attendanceUpdateRequestRejectLoader = false;
+      // console.log('requests retrieved successfully', response.listOfObject);
+      if (response.message == 'APPROVE') {
+        this.helperService.showToast(
+          'Request Approved Successfully.',
+          Key.TOAST_STATUS_SUCCESS
+        );
+      } else if (response.message == 'REJECT') {
+        this.helperService.showToast(
+          'Request Rejected Successfully.',
+          Key.TOAST_STATUS_SUCCESS
+        );
+      }
+
+      this.totalAttendanceRequestCount = 0;
+      this.attendanceRequestSearchString = '';
+      this.pageNumberAttendanceRequest = 1;
+      this.attendanceRequests = [];
+      this.getAttendanceRequestsData();
+      this.getAttendanceRequestsDataCount();
+      this.pageNumberFullAttendanceRequest = 1;
+      this.fullAttendanceRequestCount = 0;
+      this.attendanceFullRequestLog = [];
+      this.fullAttendanceRequestSearchString = '';
+      this.getFullAttendanceRequestLogData();
+      this.closeAttendanceUpdateRequestActionModal.nativeElement.click();
+    }, (error) => {
+      this.attendanceUpdateRequestApproveLoader = false;
+      this.attendanceUpdateRequestRejectLoader = false;
+      console.log(error);
+      this.helperService.showToast(
+        'Error while processing the request!',
+        Key.TOAST_STATUS_ERROR
+      );
+    });
+  }
 
   // Tab in Attedance section
   ATTENDANCE_TAB = Key.ATTENDANCE_TAB;
@@ -1193,10 +1193,10 @@ approveOrReject(id:number, reqString: string) {
   ATTENDANCE_UPDATE_REQUEST_TAB = Key.ATTENDANCE_UPDATE_REQUEST_TAB;
 
   ACTIVE_TAB = Key.ATTENDANCE_TAB;
-  changeTab(tabId : number){
+  changeTab(tabId: number) {
     this.ACTIVE_TAB = tabId;
 
-    if(tabId == this.OVERTIME_TAB || tabId == this.ATTENDANCE_UPDATE_REQUEST_TAB){
+    if (tabId == this.OVERTIME_TAB || tabId == this.ATTENDANCE_UPDATE_REQUEST_TAB) {
       this.onMonthChange(new Date());
     }
   }
@@ -1208,14 +1208,14 @@ approveOrReject(id:number, reqString: string) {
     this.selectedDate = month;
     this.getFirstAndLastDateOfMonth(this.selectedDate);
 
-    if(this.ACTIVE_TAB == this.OVERTIME_TAB){
+    if (this.ACTIVE_TAB == this.OVERTIME_TAB) {
       this.getOvertimeRequestLogResponseByOrganizationUuidAndStartDateAndEndDateMethodCall();
       this.getOvertimeRequestResponseByOrganizationUuidAndStartDateAndEndDateMethodCall();
       this.getOvertimePendingRequestResponseByOrganizationUuidAndStartDateAndEndDateMethodCall();
       // this.getTeamNames();
     }
 
-    if(this.ACTIVE_TAB == this.ATTENDANCE_UPDATE_REQUEST_TAB){
+    if (this.ACTIVE_TAB == this.ATTENDANCE_UPDATE_REQUEST_TAB) {
       this.getAttendanceRequestsData();
       this.getAttendanceRequestsHistoryData();
       this.getFullAttendanceRequestLogData();
@@ -1275,7 +1275,7 @@ approveOrReject(id:number, reqString: string) {
   OVERTIME_HISTORY_TAB = Key.OVERTIME_HISTORY_TAB;
 
   ACTIVE_TAB_IN_OVERTIME_TAB = Key.OVERTIME_PENDING_REQUEST_TAB;
-  changeLogTabInOvertimeTab(tabId : number){
+  changeLogTabInOvertimeTab(tabId: number) {
     this.ACTIVE_TAB_IN_OVERTIME_TAB = tabId;
   }
 
@@ -1310,13 +1310,13 @@ approveOrReject(id:number, reqString: string) {
   }
 
 
-  overtimeRequestLogResponseList : OvertimeRequestLogResponse[] = [];
-  getOvertimeRequestLogResponseByOrganizationUuidAndStartDateAndEndDateMethodCall(){
+  overtimeRequestLogResponseList: OvertimeRequestLogResponse[] = [];
+  getOvertimeRequestLogResponseByOrganizationUuidAndStartDateAndEndDateMethodCall() {
     this.preRuleForShimmersAndErrorPlaceholdersForOvertimeRequestLogResponseMethodCall();
     this.dataService.getOvertimeRequestLogResponseByOrganizationUuidAndStartDateAndEndDate(this.startDate, this.endDate, this.itemPerPage, this.pageNumber, this.searchText, this.searchBy).subscribe((response) => {
-      if(this.helperService.isListOfObjectNullOrUndefined(response)){
+      if (this.helperService.isListOfObjectNullOrUndefined(response)) {
         this.dataNotFoundForOvertimeRequestLogResponse = true;
-      } else{
+      } else {
         this.overtimeRequestLogResponseList = response.listOfObject;
       }
 
@@ -1327,13 +1327,13 @@ approveOrReject(id:number, reqString: string) {
     })
   }
 
-  overtimeRequestResponseList : OvertimeResponseDTO[] = [];
-  getOvertimeRequestResponseByOrganizationUuidAndStartDateAndEndDateMethodCall(){
+  overtimeRequestResponseList: OvertimeResponseDTO[] = [];
+  getOvertimeRequestResponseByOrganizationUuidAndStartDateAndEndDateMethodCall() {
     this.preRuleForShimmersAndErrorPlaceholdersForOvertimeRequestResponseMethodCall();
     this.dataService.getOvertimeRequestResponseByOrganizationUuidAndStartDateAndEndDate(this.startDate, this.endDate).subscribe((response) => {
-      if(this.helperService.isListOfObjectNullOrUndefined(response)){
+      if (this.helperService.isListOfObjectNullOrUndefined(response)) {
         this.dataNotFoundForOvertimeRequestResponse = true;
-      } else{
+      } else {
         this.overtimeRequestResponseList = response.listOfObject;
       }
 
@@ -1344,14 +1344,16 @@ approveOrReject(id:number, reqString: string) {
     })
   }
 
-  pendingRequestCount : number = 0;
-  overtimePendingRequestResponseList : OvertimeResponseDTO[] = [];
-  getOvertimePendingRequestResponseByOrganizationUuidAndStartDateAndEndDateMethodCall(){
+  pendingRequestCount: number = 0;
+  overtimePendingRequestResponseList: OvertimeResponseDTO[] = [];
+  getOvertimePendingRequestResponseByOrganizationUuidAndStartDateAndEndDateMethodCall() {
+    // this.pendingRequestCount
     this.preRuleForShimmersAndErrorPlaceholdersForOvertimePendingRequestResponseMethodCall();
     this.dataService.getOvertimePendingRequestResponseByOrganizationUuidAndStartDateAndEndDate(this.startDate, this.endDate).subscribe((response) => {
-      if(this.helperService.isListOfObjectNullOrUndefined(response)){
+      if (this.helperService.isListOfObjectNullOrUndefined(response)) {
         this.dataNotFoundForOvertimePendingRequestResponse = true;
-      } else{
+        this.pendingRequestCount = 0;
+      } else {
         this.overtimePendingRequestResponseList = response.listOfObject;
         this.pendingRequestCount = this.overtimePendingRequestResponseList.length;
       }
@@ -1365,20 +1367,20 @@ approveOrReject(id:number, reqString: string) {
   }
 
 
-  overtimeRequestActionResponse : OvertimeResponseDTO = new OvertimeResponseDTO();
-  getOvertimeRequestActionResponseMethodCall(overtimeResponseDTO : OvertimeResponseDTO){
+  overtimeRequestActionResponse: OvertimeResponseDTO = new OvertimeResponseDTO();
+  getOvertimeRequestActionResponseMethodCall(overtimeResponseDTO: OvertimeResponseDTO) {
     this.overtimeRequestActionResponse = overtimeResponseDTO;
     console.log(this.overtimeRequestActionResponse);
   }
 
 
   @ViewChild("closeOvertimeRequestActionModal") closeOvertimeRequestActionModal !: ElementRef;
-  approveLoader : boolean = false;
-  rejectLoader : boolean = false;
-  approveOrRejectOvertimeRequestMethodCall(overtimeRequestId : number, requestTypeId : number){
-    if(requestTypeId == this.key.APPROVED){
+  approveLoader: boolean = false;
+  rejectLoader: boolean = false;
+  approveOrRejectOvertimeRequestMethodCall(overtimeRequestId: number, requestTypeId: number) {
+    if (requestTypeId == this.key.APPROVED) {
       this.approveLoader = true;
-    } else if(requestTypeId == this.key.REJECTED){
+    } else if (requestTypeId == this.key.REJECTED) {
       this.rejectLoader = true;
     }
 
@@ -1446,20 +1448,20 @@ approveOrReject(id:number, reqString: string) {
   ATTENDANCE_UPDATE_REQUEST_HISTORY_TAB = Key.ATTENDANCE_UPDATE_REQUEST_HISTORY_TAB;
 
   ACTIVE_TAB_IN_ATTENDANCE_UPDATE_REQUEST_TAB = Key.ATTENDANCE_UPDATE_PENDING_REQUEST_TAB;
-  changeLogTabInAttendanceUpdateRequestTab(tabId : number){
+  changeLogTabInAttendanceUpdateRequestTab(tabId: number) {
     this.ACTIVE_TAB_IN_ATTENDANCE_UPDATE_REQUEST_TAB = tabId;
   }
 
   @ViewChild("closeAttendanceUpdateRequestActionModal") closeAttendanceUpdateRequestActionModal !: ElementRef;
-  attendanceUpdateRequestActionResponse : AttendanceTimeUpdateResponse = new AttendanceTimeUpdateResponse();
-  getAttendanceUpdateRequestActionResponseMethodCall(attendanceTimeUpdateResponse : AttendanceTimeUpdateResponse){
+  attendanceUpdateRequestActionResponse: AttendanceTimeUpdateResponse = new AttendanceTimeUpdateResponse();
+  getAttendanceUpdateRequestActionResponseMethodCall(attendanceTimeUpdateResponse: AttendanceTimeUpdateResponse) {
     this.attendanceUpdateRequestActionResponse = attendanceTimeUpdateResponse;
   }
 
-  attendanceUpdateRequestApproveLoader : boolean = false;
-  attendanceUpdateRequestRejectLoader : boolean = false;
+  attendanceUpdateRequestApproveLoader: boolean = false;
+  attendanceUpdateRequestRejectLoader: boolean = false;
   geocoder = new google.maps.Geocoder();
-  getAddressFromCoords(lat: any, lng: any): string|undefined {
+  getAddressFromCoords(lat: any, lng: any): string | undefined {
     // if(!this.Constant.EMPTY_STRINGS.includes(lat) && !this.Constant.EMPTY_STRINGS.includes(lng)){
     //   lat=Number(lat);
     //   lng=Number(lng)
@@ -1485,10 +1487,10 @@ approveOrReject(id:number, reqString: string) {
 
   // new
 
-  @ViewChild('attendanceUploadModal') attendanceUploadModal!:ElementRef;
-  openAttendanceUploadModal(){
+  @ViewChild('attendanceUploadModal') attendanceUploadModal!: ElementRef;
+  openAttendanceUploadModal() {
     // console.log("================validate======",modal);
-        this.attendanceUploadModal.nativeElement.click();
+    this.attendanceUploadModal.nativeElement.click();
   }
 
 
@@ -1498,15 +1500,15 @@ approveOrReject(id:number, reqString: string) {
   // correctColumnName: string[] = ['S. NO.*', 'Name*', 'Phone*', 'Email*', 'Date*', 'In-Time*', 'Out-Time*', 'Note'];
   expectedColumns: string[] = ['Name*', 'Phone*', 'Email*', "Date* ('MM-DD-YYYY')", "In-Time* ('HH:MM:SS')", "Out-Time* ('HH:MM:SS')"];
   correctColumnName: string[] = ['S. NO.*', 'Name*', 'Phone*', 'Email*', "Date* ('MM-DD-YYYY')", "In-Time* ('HH:MM:SS')", "Out-Time* ('HH:MM:SS')", 'Note'];
-  fileColumnName:string[] = [];
+  fileColumnName: string[] = [];
   isExcel: string = '';
   data: any[] = [];
-  dataWithoutHeader:any=[];
+  dataWithoutHeader: any = [];
   mismatches: string[] = [];
   invalidRows: boolean[] = []; // Track invalid rows
   invalidCells: boolean[][] = []; // Track invalid cells
-  isinvalid: boolean=false;
-  jsonData:any[]=[];
+  isinvalid: boolean = false;
+  jsonData: any[] = [];
   validateMap: Map<string, string[]> = new Map();
   @ViewChild('attention') elementToScroll!: ElementRef;
 
@@ -1912,7 +1914,7 @@ approveOrReject(id:number, reqString: string) {
   readonly constants = constant;
   addToMap(key: string, value: string) {
     if (this.validateMap.has(key)) {
-      console.log(key,value);
+      console.log(key, value);
       // If key exists, add the new value to the existing array
       this.validateMap.get(key)?.push(value);
     } else {
@@ -1945,11 +1947,11 @@ approveOrReject(id:number, reqString: string) {
 
         }
         if (this.fileColumnName[j] === 'email*' && cellValue) {
-          this.addToMap(cellValue.toString(),`${i+1}`);
+          this.addToMap(cellValue.toString(), `${i + 1}`);
         }
         if (this.fileColumnName[j] === 'phone*' && cellValue) {
           const phoneNumber = cellValue.toString().trim();
-          this.addToMap(cellValue.toString(),`${i+1}`);
+          this.addToMap(cellValue.toString(), `${i + 1}`);
           if (!/^\d{10}$/.test(phoneNumber)) {
             rowIsValid = false;
             this.invalidRows[i] = true; // Mark the row as invalid
@@ -1957,39 +1959,39 @@ approveOrReject(id:number, reqString: string) {
           }
         }
 
-      if (this.fileColumnName[j] === 'date*' && cellValue) {
+        if (this.fileColumnName[j] === 'date*' && cellValue) {
 
-        // Replace slashes with hyphens
-        const normalizedCell = cellValue.toString().trim().replace(/\//g, '-');
+          // Replace slashes with hyphens
+          const normalizedCell = cellValue.toString().trim().replace(/\//g, '-');
 
-        // Check if the normalized cell matches the exact MM-DD-YYYY format
-        const isExactFormat = /^\d{2}-\d{2}-\d{4}$/.test(normalizedCell);
+          // Check if the normalized cell matches the exact MM-DD-YYYY format
+          const isExactFormat = /^\d{2}-\d{2}-\d{4}$/.test(normalizedCell);
 
-        if (isExactFormat) {
+          if (isExactFormat) {
             // Parse with strict format checking
             const formattedDate = moment(normalizedCell, 'MM-DD-YYYY', true);
 
             // Check if the date is valid
             if (formattedDate.isValid()) {
-                const oneYearFromNow = moment().add(1, 'year');
+              const oneYearFromNow = moment().add(1, 'year');
 
-                // Ensure the date is in the past or less than one year from today
-                if (formattedDate.isAfter(oneYearFromNow)) {
-                    this.data[i+1][j] = undefined;
-                    rowIsValid = false;
-                    this.invalidRows[i] = true; // Mark the row as invalid
-                    this.invalidCells[i][j] = true; // Mark the cell as invalid
-                }
-            } else {
-                // If the date is not valid
-                this.data[i+1][j] = undefined;
+              // Ensure the date is in the past or less than one year from today
+              if (formattedDate.isAfter(oneYearFromNow)) {
+                this.data[i + 1][j] = undefined;
                 rowIsValid = false;
                 this.invalidRows[i] = true; // Mark the row as invalid
                 this.invalidCells[i][j] = true; // Mark the cell as invalid
+              }
+            } else {
+              // If the date is not valid
+              this.data[i + 1][j] = undefined;
+              rowIsValid = false;
+              this.invalidRows[i] = true; // Mark the row as invalid
+              this.invalidCells[i][j] = true; // Mark the cell as invalid
             }
-        } else {
+          } else {
             // If the format is not exactly MM-DD-YYYY
-            this.data[i+1][j] = undefined;
+            this.data[i + 1][j] = undefined;
             rowIsValid = false;
             this.invalidRows[i] = true; // Mark the row as invalid
             this.invalidCells[i][j] = true; // Mark the cell as invalid
@@ -2013,7 +2015,7 @@ approveOrReject(id:number, reqString: string) {
   errorMessage: string = '';
   phoneNumberNotFoundArray: any = [];
   emailNotFoundArray: any = [];
-  onboardUserList : any = [];
+  onboardUserList: any = [];
   networkConnectionErrorPlaceholderModal: boolean = false;
   sampleFileUrl: string = '';
   pageSize: number = 10;

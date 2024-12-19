@@ -587,7 +587,7 @@
     color: #858585;
 }
 .roles-list.status-list {
-    max-height: 275px;
+    max-height: 285px;
     overflow: scroll;
 }
 .roles-list.status-list::-webkit-scrollbar{
