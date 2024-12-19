@@ -1,6 +1,6 @@
 <div class="page-wrapper">
   <div class="page-content-tab pt-2">
-    <ul id="myTab" role="tablist" class="nav nav-tabs">
+    <!-- <ul id="myTab" role="tablist" class="nav nav-tabs">
         <li role="presentation" class="nav-item">
             <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#company-details-box" type="button"
                 role="tab" aria-controls="profile" aria-selected="false" class="nav-link active" (click)="switchTab('companySetting')"
@@ -22,7 +22,31 @@
               Onboarding Setting
           </button>
       </li>
-    </ul>
+    </ul> -->
+    <ul id="myTab" role="tablist" class="nav nav-tabs">
+      <li role="presentation" class="nav-item">
+          <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#company-details-box" type="button"
+              role="tab" aria-controls="profile" [attr.aria-selected]="activeTab === 'companySetting'" 
+              [ngClass]="{'active': activeTab === 'companySetting'}" class="nav-link" (click)="switchTab('companySetting')">
+              Company Details
+          </button>
+      </li>
+      <li role="presentation" class="nav-item">
+          <button id="home-tab" data-bs-toggle="tab" data-bs-target="#company-details-box" type="button"
+              role="tab" aria-controls="home" [attr.aria-selected]="activeTab === 'locationSetting'" 
+              [ngClass]="{'active': activeTab === 'locationSetting'}" class="nav-link" (click)="switchTab('locationSetting')">
+              Location Setting
+          </button>
+      </li>
+      <li role="presentation" class="nav-item">
+          <button id="home-tab" data-bs-toggle="tab" data-bs-target="#onboardingSetting" type="button"
+              role="tab" aria-controls="home" [attr.aria-selected]="activeTab === 'onboardingSetting'" 
+              [ngClass]="{'active': activeTab === 'onboardingSetting'}" class="nav-link" (click)="switchTab('onboardingSetting')">
+              Onboarding Setting
+          </button>
+      </li>
+  </ul>
+
 
 
     <div class="container-fluid">
@@ -915,7 +939,7 @@
                     <a
                       class="text-primary font-14 text-center"
                       data-bs-toggle="modal"
-                      data-bs-target="#shiftTime"
+                      data-bs-target="#shifTimeDefaultAddress"
                       (click)="clearLocationModel()"
                     >
                       Add Locations
