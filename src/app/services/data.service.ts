@@ -110,6 +110,8 @@ export class DataService {
   private baseUrl = this._key.base_url;
 
   openSidebar: boolean = true;
+
+  markAttendanceModal: boolean = false;
   // registerOrganizationUsingCodeParam(codeParam: string): Observable<any> {
   //   const params = new HttpParams().set('code_param', codeParam);
   //   return this.httpClient.put<any>(
