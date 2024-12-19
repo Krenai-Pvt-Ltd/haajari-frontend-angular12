@@ -1,4 +1,3 @@
-
 import { ChangeDetectorRef, Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
@@ -15,6 +14,8 @@ import { differenceInMonths, format, parseISO } from 'date-fns';
 import { UserResignation } from 'src/app/models/UserResignation';
 import { LoggedInUser } from 'src/app/models/logged-in-user';
 import { Skills } from 'src/app/constant/Skills';
+import { EmployeeAdditionalDocument } from 'src/app/models/EmployeeAdditionalDocument';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-employee-profile-sidebar',
@@ -76,7 +77,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     this.getUserAttendanceStatus();
     this.fetchUserPositions();
     this.getSkills();
-
+    this.fetchDocuments();
     this.ROLE = await this.roleService.getRole();
     this.UUID = await this.roleService.getUuid();
 
@@ -716,7 +717,117 @@ export class EmployeeProfileSidebarComponent implements OnInit {
       queryParams: { setting: tabName },
     });
   }
+  isDocumentLoading: boolean=false;
+  doc: EmployeeAdditionalDocument={fileName: '', name: 'Employee Agreement', url: '', value: '',documentType:'employee_agreement'};
+  uploadDocumentFile(event: Event, doc: EmployeeAdditionalDocument): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      this.doc.name='';
+      this.doc.id=doc.id;
+      this.doc.value=doc.value;
+      this.doc.name=doc.name;
+      this.doc.documentType=doc.documentType;
+      this.doc.fileName = file.name;
+      this.uploadAdditionalFile(file);
+      console.log('Uploading file for document:', doc.name, file);
+    }
+  }
 
+  uploadAdditionalFile(file: File): void {
+    const filePath = `employeeCompanyDocs/${new Date().getTime()}_${file.name}`;
+    const fileRef = this.afStorage.ref(filePath);
+    const task = this.afStorage.upload(filePath, file);
+    task
+      .snapshotChanges()
+      .pipe(
+        finalize(() => {
+          fileRef.getDownloadURL().subscribe((url) => {
+            this.doc.url=url;
+            this.isDocumentLoading=true;
+            this.dataService.saveDocumentForUser(this.userId, this.doc).subscribe({
+              next: (response) => {
+                this.fetchDocuments();
+                this.selectedFile=null;
+                const closeButton = document.querySelector('#addDocument .close-btn') as HTMLElement;
+                if (closeButton) {
+                  closeButton.click();
+                }
+
+                console.log('Document saved successfully:', response);
+                this.helperService.showToast('Document saved successfully:',Key.TOAST_STATUS_SUCCESS);
+                this.isDocumentLoading=false;
+              },
+              error: (err) => {
+                this.helperService.showToast('Some problem in saving Document:',Key.TOAST_STATUS_ERROR);
+                this.isDocumentLoading=false;
+              },
+            });
+          });
+        })
+      )
+      .subscribe();
+  }
+
+  documents: EmployeeAdditionalDocument[] = [];
+  fetchDocuments(): void {
+    this.dataService.getDocumentsByTypeAndUser('employee_agreement', this.userId)
+      .subscribe(
+        (data) => {
+          this.documents = data;
+        },
+        (error) => {
+          console.error('Error fetching documents:', error);
+        }
+      );
+  }
+
+  onDocumentSubmit(): void {
+    if (this.selectedFile) {
+      this.isDocumentLoading=true;
+      this.uploadAdditionalFile(this.selectedFile);
+    } else {
+      console.error('No file selected!');
+    }
+  }
+
+  downloadSingleImage(fileUrl: string) {
+
+    if (!fileUrl) {
+      return;
+    }
+    debugger
+    fetch(fileUrl)
+    .then(response => response.blob()) // Convert the image to a Blob
+    .then(blob => {
+      // Create a temporary URL for the Blob
+      const blobUrl = URL.createObjectURL(blob);
+
+      // Create a hidden link element
+      const link = document.createElement('a');
+      link.href = blobUrl;
+
+      // Extract the file name from the URL or use a default name
+      const fileName = fileUrl.split('/').pop()?.split('?')[0] || 'downloaded-file.jpg';
+
+      link.download = fileName;  // This triggers the download
+
+      // Simulate a click to start the download
+      link.style.display = 'none';  // Hide the link
+      document.body.appendChild(link); // Append the link to the body
+      link.click(); // Trigger the download
+      document.body.removeChild(link); // Remove the link from the DOM
+      URL.revokeObjectURL(blobUrl); // Release the object URL
+    })
+    .catch(error => {
+      console.error('Error downloading file:', error);
+    });
+  }
+  handleFileChange(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    this.doc.fileName = target.files?.[0]?.name || '';
+    this.selectedFile=target.files?.[0];
+  }
 
   jobTitles: string[] = [
     'Accountant',
@@ -886,6 +997,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     'Web Developer',
     'Workplace Safety Officer',
   ];
+
 
 
 }

@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { constant } from 'src/app/constant/constant';
 import { FinalSettlementResponse } from 'src/app/models/final-settlement-response';
 import { NewJoineeResponse } from 'src/app/models/new-joinee-response';
 import { PayActionType } from 'src/app/models/pay-action-type';
@@ -24,6 +25,7 @@ export class EmployeeManagementComponent implements OnInit {
   searchBy: string = 'name';
   total: number = 0;
 
+  readonly constant = constant;
 
   @Input() startDate:any;
   @Input() endDate:any;
@@ -43,7 +45,10 @@ export class EmployeeManagementComponent implements OnInit {
   private _payrollService : PayrollService) { }
 
   ngOnInit(): void {
+    // this.getNewJoineeResponsesFromAPI();
     this.getNewJoineeByOrganizationIdMethodCall();
+    this.getUserInExitProcess();
+    this.getFullNFinalUser();
   }
 
 
@@ -98,6 +103,7 @@ export class EmployeeManagementComponent implements OnInit {
     this.isShimmerForUserExit = true;
     this.dataNotFoundPlaceholderForUserExit = false;
     this.networkConnectionErrorPlaceHolderForUserExit = false;
+    this.userExitResponseList = [];
   }
 
   isShimmerForFinalSettlement = false;
@@ -107,6 +113,7 @@ export class EmployeeManagementComponent implements OnInit {
     this.isShimmerForFinalSettlement = true;
     this.dataNotFoundPlaceholderForFinalSettlement = false;
     this.networkConnectionErrorPlaceHolderForFinalSettlement = false;
+    this.finalSettlementResponseList = [];
   }
 
 
@@ -137,27 +144,28 @@ export class EmployeeManagementComponent implements OnInit {
             if (this._helperService.isListOfObjectNullOrUndefined(response)) {
               this.dataNotFoundPlaceholderForNewJoinee = true;
             } else {
-              this.newJoineeResponseList = response.listOfObject.map((joinee: NewJoineeResponse) => {
-                // Apply cached selection if available
-                if (this.selectedPayActionCache[joinee.uuid]) {
-                  joinee.payActionType = this.selectedPayActionCache[joinee.uuid];
-                  joinee.payActionTypeId = this.selectedPayActionCache[joinee.uuid].id;
-                } else {
-                  // Set initial selection based on payActionTypeId
-                  const selectedPayActionType = this.payActionTypeList.find(
-                    (payActionType) => payActionType.id === joinee.payActionTypeId
-                  );
-                  if (selectedPayActionType) {
-                    joinee.payActionType = selectedPayActionType;
-                  }
-                }
-                   // Apply cached comment if available
-                   if (this.commentCache[joinee.uuid]) {
-                    joinee.comment = this.commentCache[joinee.uuid];
-                  }
+              this.newJoineeResponseList = response.listOfObject
+              // .map((joinee: NewJoineeResponse) => {
+              //   // Apply cached selection if available
+              //   if (this.selectedPayActionCache[joinee.uuid]) {
+              //     joinee.payActionType = this.selectedPayActionCache[joinee.uuid];
+              //     joinee.payActionTypeId = this.selectedPayActionCache[joinee.uuid].id;
+              //   } else {
+              //     // Set initial selection based on payActionTypeId
+              //     const selectedPayActionType = this.payActionTypeList.find(
+              //       (payActionType) => payActionType.id === joinee.payActionTypeId
+              //     );
+              //     if (selectedPayActionType) {
+              //       joinee.payActionType = selectedPayActionType;
+              //     }
+              //   }
+              //      // Apply cached comment if available
+              //      if (this.commentCache[joinee.uuid]) {
+              //       joinee.comment = this.commentCache[joinee.uuid];
+              //     }
   
-                return joinee;
-              });
+              //   return joinee;
+              // });
               this.total = response.totalItems;
               this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
             }
@@ -172,143 +180,165 @@ export class EmployeeManagementComponent implements OnInit {
   }
 
 
+  newJoineeResponseOptions: { payActionTypeId: number, label: string }[] = [];
+  getNewJoineeResponsesFromAPI(): void {
+    // Fetch data from the API
+    this._dataService
+    .getNewJoineeByOrganizationId(
+      this.itemPerPage,
+      this.pageNumber,
+      this.search,
+      this.startDate,
+      this.endDate
+    ).subscribe(response => {
+      this.newJoineeResponseList = response.listOfObject;
+  
+      // Map the data to the required format for nz-select
+      this.newJoineeResponseOptions = this.newJoineeResponseList.map(item => ({
+        payActionTypeId: item.payActionTypeId,
+        label: item.name  // Assuming 'name' is used for label
+      }));
+    });
+  }
+
+
 
     //Fetching the user exit data
     userExitResponseList: UserExitResponse[] = [];
-    getUserExitByOrganizationIdMethodCall(debounceTime: number = 300) {
-      debugger
-      this.userExitResponseList = [];
+    // getUserExitByOrganizationIdMethodCall(debounceTime: number = 300) {
+    //   debugger
+    //   this.userExitResponseList = [];
   
-      if (this.debounceTimer) {
-        clearTimeout(this.debounceTimer);
-      }
+    //   if (this.debounceTimer) {
+    //     clearTimeout(this.debounceTimer);
+    //   }
   
-      this.debounceTimer = setTimeout(() => {
-        this.preRuleForShimmersAndErrorPlaceholdersForUserExit();
-        this._payrollService.getUserInExitProcess(
-            this.itemPerPage,
-            this.pageNumber,
-            this.search,
-            this.startDate,
-            this.endDate).subscribe((response) => {
-              if (this._helperService.isListOfObjectNullOrUndefined(response)) {
-                this.dataNotFoundPlaceholderForUserExit = true;
-              } else {
-                this.userExitResponseList = response.listOfObject.map((exit: UserExitResponse) => {
-                  // Apply cached pay action type if available
-                  if (this.selectedPayActionCache[exit.uuid]) {
-                    exit.payActionType = this.selectedPayActionCache[exit.uuid];
-                    exit.payActionTypeId = this.selectedPayActionCache[exit.uuid].id;
-                    // console.log(exit.name, exit.payActionType)
-                  } else {
-                    // Set initial selection based on payActionTypeId
-                    const selectedPayActionType = this.payActionTypeList.find(
-                      (payActionType) => payActionType.id === exit.payActionTypeId
-                    );
-                    if (selectedPayActionType) {
-                      exit.payActionType = selectedPayActionType;
-                    }
-                  }
+    //   this.debounceTimer = setTimeout(() => {
+    //     this.preRuleForShimmersAndErrorPlaceholdersForUserExit();
+    //     this._payrollService.getUserInExitProcess(
+    //         this.itemPerPage,
+    //         this.pageNumber,
+    //         this.search,
+    //         this.startDate,
+    //         this.endDate).subscribe((response) => {
+    //           if (this._helperService.isListOfObjectNullOrUndefined(response)) {
+    //             this.dataNotFoundPlaceholderForUserExit = true;
+    //           } else {
+    //             this.userExitResponseList = response.listOfObject.map((exit: UserExitResponse) => {
+    //               // Apply cached pay action type if available
+    //               if (this.selectedPayActionCache[exit.uuid]) {
+    //                 exit.payActionType = this.selectedPayActionCache[exit.uuid];
+    //                 exit.payActionTypeId = this.selectedPayActionCache[exit.uuid].id;
+    //                 // console.log(exit.name, exit.payActionType)
+    //               } else {
+    //                 // Set initial selection based on payActionTypeId
+    //                 const selectedPayActionType = this.payActionTypeList.find(
+    //                   (payActionType) => payActionType.id === exit.payActionTypeId
+    //                 );
+    //                 if (selectedPayActionType) {
+    //                   exit.payActionType = selectedPayActionType;
+    //                 }
+    //               }
   
-                  // Apply cached comment if available
-                  if (this.commentCache[exit.uuid]) {
-                    exit.comment = this.commentCache[exit.uuid];
-                  }
+    //               // Apply cached comment if available
+    //               if (this.commentCache[exit.uuid]) {
+    //                 exit.comment = this.commentCache[exit.uuid];
+    //               }
   
-                  return exit;
-                });
-                this.total = response.totalItems;
-                this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
-              }
-              this.isShimmerForUserExit = false;
-            },
-            (error) => {
-              this.networkConnectionErrorPlaceHolderForUserExit = true;
-              this.isShimmerForUserExit = false;
-            }
-          );
-      }, debounceTime);
-    }
+    //               return exit;
+    //             });
+    //             this.total = response.totalItems;
+    //             this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+    //           }
+    //           this.isShimmerForUserExit = false;
+    //         },
+    //         (error) => {
+    //           this.networkConnectionErrorPlaceHolderForUserExit = true;
+    //           this.isShimmerForUserExit = false;
+    //         }
+    //       );
+    //   }, debounceTime);
+    // }
   
     //Fetching the final settlement data
     finalSettlementResponseList: FinalSettlementResponse[] = [];
-    getFinalSettlementByOrganizationIdMethodCall(debounceTime: number = 300) {
-      this.finalSettlementResponseList = [];
+    // getFinalSettlementByOrganizationIdMethodCall(debounceTime: number = 300) {
+    //   this.finalSettlementResponseList = [];
   
-      if (this.debounceTimer) {
-        clearTimeout(this.debounceTimer);
-      }
+    //   if (this.debounceTimer) {
+    //     clearTimeout(this.debounceTimer);
+    //   }
   
-      this.debounceTimer = setTimeout(() => {
-        this.preRuleForShimmersAndErrorPlaceholdersForFinalSettlement();
-        this._dataService
-          .getFinalSettlementByOrganizationId(
-            this.itemPerPage,
-            this.pageNumber,
-            this.sort,
-            this.sortBy,
-            this.search,
-            this.searchBy,
-            this.startDate,
-            this.endDate
-          )
-          .subscribe(
-            (response) => {
-              if (this._helperService.isListOfObjectNullOrUndefined(response)) {
-                this.dataNotFoundPlaceholderForFinalSettlement = true;
-              } else {
-                this.finalSettlementResponseList = response.listOfObject.map((settlement: FinalSettlementResponse) => {
-                  // Apply cached pay action type if available
-                  if (this.selectedPayActionCache[settlement.uuid]) {
-                    settlement.payActionType = this.selectedPayActionCache[settlement.uuid];
-                    settlement.payActionTypeId = this.selectedPayActionCache[settlement.uuid].id;
-                  } else {
-                    // Set initial selection based on payActionTypeId
-                    const selectedPayActionType = this.payActionTypeList.find(
-                      (payActionType) => payActionType.id === settlement.payActionTypeId
-                    );
-                    if (selectedPayActionType) {
-                      settlement.payActionType = selectedPayActionType;
-                    }
-                  }
+    //   this.debounceTimer = setTimeout(() => {
+    //     this.preRuleForShimmersAndErrorPlaceholdersForFinalSettlement();
+    //     this._dataService
+    //       .getFinalSettlementByOrganizationId(
+    //         this.itemPerPage,
+    //         this.pageNumber,
+    //         this.sort,
+    //         this.sortBy,
+    //         this.search,
+    //         this.searchBy,
+    //         this.startDate,
+    //         this.endDate
+    //       )
+    //       .subscribe(
+    //         (response) => {
+    //           if (this._helperService.isListOfObjectNullOrUndefined(response)) {
+    //             this.dataNotFoundPlaceholderForFinalSettlement = true;
+    //           } else {
+    //             this.finalSettlementResponseList = response.listOfObject.map((settlement: FinalSettlementResponse) => {
+    //               // Apply cached pay action type if available
+    //               if (this.selectedPayActionCache[settlement.uuid]) {
+    //                 settlement.payActionType = this.selectedPayActionCache[settlement.uuid];
+    //                 settlement.payActionTypeId = this.selectedPayActionCache[settlement.uuid].id;
+    //               } else {
+    //                 // Set initial selection based on payActionTypeId
+    //                 const selectedPayActionType = this.payActionTypeList.find(
+    //                   (payActionType) => payActionType.id === settlement.payActionTypeId
+    //                 );
+    //                 if (selectedPayActionType) {
+    //                   settlement.payActionType = selectedPayActionType;
+    //                 }
+    //               }
   
-                  // Apply cached comment if available
-                  if (this.commentCache[settlement.uuid]) {
-                    settlement.comment = this.commentCache[settlement.uuid];
-                  }
+    //               // Apply cached comment if available
+    //               if (this.commentCache[settlement.uuid]) {
+    //                 settlement.comment = this.commentCache[settlement.uuid];
+    //               }
   
-                  return settlement;
-                });
-                this.total = response.totalItems;
-                this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
-              }
-              this.isShimmerForFinalSettlement = false;
-            },
-            (error) => {
-              this.networkConnectionErrorPlaceHolderForFinalSettlement = true;
-              this.isShimmerForFinalSettlement = false;
-            }
-          );
-      }, debounceTime);
-    }
+    //               return settlement;
+    //             });
+    //             this.total = response.totalItems;
+    //             this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+    //           }
+    //           this.isShimmerForFinalSettlement = false;
+    //         },
+    //         (error) => {
+    //           this.networkConnectionErrorPlaceHolderForFinalSettlement = true;
+    //           this.isShimmerForFinalSettlement = false;
+    //         }
+    //       );
+    //   }, debounceTime);
+    // }
 
 
 
-    searchNewJoinee(event: Event) {
-      this._helperService.ignoreKeysDuringSearch(event);
-      this.resetCriteriaFilterMicro();
-      this.getNewJoineeByOrganizationIdMethodCall();
-    }
+    // searchNewJoinee(event: Event) {
+    //   this._helperService.ignoreKeysDuringSearch(event);
+    //   this.resetCriteriaFilterMicro();
+    //   this.getNewJoineeByOrganizationIdMethodCall();
+    // }
   
-    searchUserExit(event: Event) {
-      this._helperService.ignoreKeysDuringSearch(event);
-      this.resetCriteriaFilterMicro();
-      this.getUserExitByOrganizationIdMethodCall();
-    }
+    // searchUserExit(event: Event) {
+    //   this._helperService.ignoreKeysDuringSearch(event);
+    //   this.resetCriteriaFilterMicro();
+    //   this.getUserExitByOrganizationIdMethodCall();
+    // }
   
     searchUsers(event: Event, step: number) {
       this._helperService.ignoreKeysDuringSearch(event);
-      this.resetCriteriaFilterMicro();
+      // this.resetCriteriaFilterMicro();
   
       // if (step == this.NEW_JOINEE) {
       //   this.getNewJoineeByOrganizationIdMethodCall();
@@ -325,7 +355,7 @@ export class EmployeeManagementComponent implements OnInit {
   
     // Clearing search text
     clearSearch(step: number) {
-      this.resetCriteriaFilter();
+      // this.resetCriteriaFilter();
       // if (step == this.NEW_JOINEE) {
       //   this.getNewJoineeByOrganizationIdMethodCall();
       // }
@@ -339,23 +369,89 @@ export class EmployeeManagementComponent implements OnInit {
       // }
     }
   
-    resetCriteriaFilter() {
-      this.itemPerPage = 8;
-      this.pageNumber = 1;
-      this.lastPageNumber = 0;
-      this.total = 0;
-      this.sort = 'asc';
-      this.sortBy = 'id';
-      this.search = '';
-      this.searchBy = 'name';
+    // resetCriteriaFilter() {
+    //   this.itemPerPage = 8;
+    //   this.pageNumber = 1;
+    //   this.lastPageNumber = 0;
+    //   this.total = 0;
+    //   this.sort = 'asc';
+    //   this.sortBy = 'id';
+    //   this.search = '';
+    //   this.searchBy = 'name';
       
-    }
+    // }
   
-    resetCriteriaFilterMicro() {
-      this.itemPerPage = 8;
-      this.pageNumber = 1;
-      this.lastPageNumber = 0;
-      this.total = 0;
+    // resetCriteriaFilterMicro() {
+    //   this.itemPerPage = 8;
+    //   this.pageNumber = 1;
+    //   this.lastPageNumber = 0;
+    //   this.total = 0;
+    // }
+
+
+    getUserInExitProcess() {
+        this.preRuleForShimmersAndErrorPlaceholdersForUserExit();
+        this._payrollService.getUserInExitProcess(this.startDate,this.endDate,0,this.itemPerPage,this.pageNumber,this.search).subscribe((response) => {
+              if (response.object == null || response.object.length == 0) {
+                this.dataNotFoundPlaceholderForUserExit = true;
+              } else {
+                this.userExitResponseList = response.object
+                this.total = response.totalItems;
+              }
+              this.isShimmerForUserExit = false;
+            },
+            (error) => {
+              this.networkConnectionErrorPlaceHolderForUserExit = true;
+              this.isShimmerForUserExit = false;
+            });
     }
+
+
+    getFullNFinalUser() {
+      this.preRuleForShimmersAndErrorPlaceholdersForFinalSettlement();
+      this._payrollService.getUserInExitProcess(this.startDate,this.endDate,1,this.itemPerPage,this.pageNumber,this.search).subscribe((response) => {
+            if (response.object == null || response.object.length == 0) {
+              this.dataNotFoundPlaceholderForFinalSettlement = true;
+            } else {
+              this.finalSettlementResponseList = response.object
+              this.total = response.totalItems;
+            }
+            this.isShimmerForFinalSettlement = false;
+          },
+          (error) => {
+            this.networkConnectionErrorPlaceHolderForFinalSettlement = true;
+            this.isShimmerForFinalSettlement = false;
+          });
+  }
+
+
+  updatePayrollStep(){
+
+    // this._payrollService.updatePayrollProcessStep(this.startDate, this.endDate, this.FINAL_SETTLEMENT).subscribe((response)=>{
+     
+    
+    // }, ((error) => {
+    
+    // }))
+  }
+  payActionTypes = [
+    { id: 1, value: 'PROCESS' },
+    { id: 2, value: 'HOLD' }
+  ];
+
+
+
+  holdIds: number[] = []; 
+  onPayActionTypeChange(data:any){
+    console.log("==============log==========",data);
+    // Check if the ID exists in the array
+    // const index = this.holdIds.findIndex(x => x === data.id);
+    // if (index == -1) {
+    //   this.holdIds.push(data.id); // Add ID if not already in the array
+    // } else {
+    //   this.holdIds.splice(index, 1); // Remove ID if it exists
+    // }
+    // console.log("==============holdIds==========",this.holdIds);
+  }
 
 }

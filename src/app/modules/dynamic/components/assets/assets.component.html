@@ -577,7 +577,7 @@
           </div>
         </div>
         <div class="modal-footer ">
-          <button type="submit" class="btn submitActionBtn"[disabled]="categoryForm.invalid"> Add Category</button>
+          <button type="submit" class="btn submitActionBtn"[disabled]="categoryForm.invalid"> Add</button>
         </div>
     </form>
     </div>
@@ -608,6 +608,41 @@
       <!-- {{assetIdToUpdate}} -->
       <form [formGroup]="assetForm" (ngSubmit)="updateOrSaveAsset()">
       <div class="modal-body">
+
+        <div *ngIf="selectedAsset" class="row">
+          <div>
+            <div style="display: flex; justify-content: space-between;">
+              <div>
+                <label>Requested Date</label>
+                <p>{{ selectedAsset.requestedOn }}</p>
+              </div>
+              <div>
+                <label>Category</label>
+                <p>{{ selectedAsset.assetCategoryName }}</p>
+              </div>
+              <div>
+                <label>Asset Name</label>
+                <p>{{ selectedAsset.assetName }}</p>
+              </div>
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between;">
+            <div>
+              <label>Requested Type</label>
+              <p>{{ selectedAsset.assetType }}</p>
+            </div>
+            <div>
+              <label>Note</label>
+              <p>{{ selectedAsset.note }}</p>
+            </div>
+            <div>
+              <label>Current Status</label>
+              <p>{{ selectedAsset.status }}</p>
+            </div>
+          </div>
+          </div>
+
 
         <div class="row assets-label">
           <div class="col-md-6 mb-3">
@@ -739,7 +774,7 @@
               placeholder="Type vendor name here..."
             />
           </div>
-          <div class="col-md-6 mb-3">
+          <div *ngIf="selectedAsset==null || selectedAsset==undefined" class="col-md-6 mb-3">
             <label for="userId" class="form-label"
               >Select User <span class="text-optional">(optional)</span></label
             >
@@ -756,6 +791,18 @@
                 [nzValue]="user.userId"
               ></nz-option>
             </nz-select>
+          </div>
+          <div *ngIf="selectedAsset && selectedAsset.status == 'APPROVED' " class="col-md-6 mb-3">
+            <label for="userId" class="form-label"
+              >Select User <span class="text-optional">(optional)</span></label
+            >
+            <input
+              type="text"
+              class="form-control input-zorro"
+              [value]="selectedAsset?.requestedBy"
+              disabled
+              placeholder="Requested by..."
+            />
           </div>
           <div class="col-md-6 mb-3">
             <label for="assignedDate" class="form-label"
@@ -1198,10 +1245,10 @@
               <div class="col-md-12 mb-3">
                 <label class="mb-2">Current Status </label>
                 <div class="pt-2 pb-2">
-                    <span class="badge rounded-pill" [ngClass]="{'badge-soft-warning': selectedAsset.status == 'PENDING', 'badge-soft-danger': selectedAsset.status == 'REJECTED', 'badge-soft-success': selectedAsset.status == 'APPROVED'}">{{ selectedAsset.status }}</span>
+                    <span class="badge rounded-pill" [ngClass]="{'badge-soft-warning': selectedAsset.status == 'PENDING', 'badge-soft-danger': selectedAsset.status == 'REJECTED', 'badge-soft-success': selectedAsset.status == 'APPROVED' || selectedAsset.status == 'ASSIGNED' }">{{ selectedAsset.status }}</span>
                 </div>
               </div>
-              <div *ngIf="selectedAsset.status!='APPROVED'" class="col-md-12">
+              <div *ngIf="selectedAsset.status!='ASSIGNED'" class="col-md-12">
                 <label class="mb-2">Change Status</label>
                 <div>
                   <nz-select
@@ -1221,7 +1268,7 @@
             </div>
           </div>
 
-          <div *ngIf="selectedAsset.status!='APPROVED'" class="modal-footer d-flex align-content-center justify-content-end gap-2">
+          <div *ngIf="selectedAsset.status!='ASSIGNED'" class="modal-footer d-flex align-content-center justify-content-end gap-2">
             <button type="button" class="btn cancel-btn mt-0" (click)="modal.dismiss('cancel')">Cancel</button>
             <button type="button" class="btn submitActionBtn" (click)="changeStatus(selectedAsset)">  Save </button>
           </div>

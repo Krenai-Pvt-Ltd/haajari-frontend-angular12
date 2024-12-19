@@ -533,3 +533,11 @@ span.leave-rejected {
   height: 80px !important;
   border: 1px solid #E9E9E9;
 }
+
+span.request-count {
+  background-color: rgb(241 241 253) !important;
+  color: var(--primary-color) !important;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+}

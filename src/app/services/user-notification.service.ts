@@ -33,7 +33,7 @@ export class UserNotificationService {
       .set('currentPage', databaseHelper.currentPage)
       .set('sortBy', "id")
       .set('sortOrder', "desc")
-      .set('notificationType', notificationType)
+      // .set('notificationType', notificationType)
 
     return this._httpClient.get<any>(this._key.base_url + this._key.get_mail, {params})
   }

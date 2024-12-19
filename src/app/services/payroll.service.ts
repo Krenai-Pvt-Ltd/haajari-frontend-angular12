@@ -204,14 +204,37 @@ export class PayrollService {
   }
 
 
-  getUserInExitProcess(itemPerPage: number,pageNumber: number,search: string,startDate: string,endDate: string): Observable<any> {
-    const params = new HttpParams()
+  getUserInExitProcess(startDate: string,endDate: string,isFNF:number,itemPerPage: number,pageNumber: number,search: string): Observable<any> {
+      const params = new HttpParams()
+      .set('start_date', startDate)
+      .set('end_date', endDate)
       .set('item_per_page', itemPerPage)
       .set('page_number', pageNumber)
-      .set('search', search)
-      .set('start_date', startDate)
-      .set('end_date', endDate);
+      .set('is_fnf', isFNF)
+      .set('search', search);
     return this._http.get<any>(`${this._key.base_url}/user-resignation`,{ params });
+  }
+
+
+  getUserSalaryChange(startDate: string,endDate: string, itemPerPage: number,pageNumber: number): Observable<any> {
+
+    const params = new HttpParams()
+    .set('start_date', startDate)
+    .set('end_date', endDate)
+    .set('item_per_page', itemPerPage)
+    .set('page_number', pageNumber)
+    return this._http.get<any>(`${this._key.base_url}/salary/payroll-dashboard/salary-change`, {params});
+  }
+
+
+  getUserBonusAndDeduction(startDate: string,endDate: string, itemPerPage: number,pageNumber: number): Observable<any> {
+
+    const params = new HttpParams()
+    .set('start_date', startDate)
+    .set('end_date', endDate)
+    .set('item_per_page', itemPerPage)
+    .set('page_number', pageNumber)
+    return this._http.get<any>(`${this._key.base_url}/salary/payroll-dashboard/bonus`, {params});
   }
 
   

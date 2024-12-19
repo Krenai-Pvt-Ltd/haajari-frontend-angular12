@@ -69,7 +69,7 @@
                             <div class="btn-group week-data radio-btn" role="group" aria-label="Basic radio toggle button group">
 
                                 <ng-container *ngFor="let week of weekLabels; let i = index">
-                                  <input
+                                    <input
                                     type="radio"
                                     class="btn-check"
                                     [id]="'btnradio' + (i + 2)"
@@ -77,27 +77,21 @@
                                     [value]="week"
                                     (change)="onTabChange(week)"
                                     [checked]="selectedTab === week"
-                                  />
-                                  <label
-                                    class="btn btn-outline-primary font-12"
-                                    [for]="'btnradio' + (i + 2)"
-                                  >
-                                    <span >{{ week }}</span>
-                                    <!-- <span *ngIf="presentWeek">Current Week</span> -->
-                                  </label>
+                                    />
+                                    <label class="btn btn-outline-primary font-12" [for]="'btnradio' + (i + 2)">
+                                        <span >{{ week }}</span>
+                                    </label>
                                 </ng-container>
 
-                                <input
-                                type="radio"
-                                class="btn-check"
-                                id="btnradio1"
-                                name="weekOptions"
-                                value="30 DAYS"
-                                (change)="onTabChange('30 DAYS')"
-                                [checked]="selectedTab === '30 DAYS'"
-                              />
-                              <label class="btn btn-outline-primary font-12" for="btnradio1">{{ thirtyDaysLabel }}</label>
-
+                                    <input
+                                    type="radio"
+                                    class="btn-check"
+                                    id="btnradio1"
+                                    name="weekOptions"
+                                    value="30 DAYS"
+                                    (change)="onTabChange('30 DAYS')"
+                                    [checked]="selectedTab === '30 DAYS'"/>
+                                    <label class="btn btn-outline-primary font-12" for="btnradio1">{{ thirtyDaysLabel }}</label>
                               </div>
 
                         </div>
@@ -753,9 +747,9 @@
 
                             </div>
                             <div>
-                                
+
                                 <ng-container *ngIf="isUserLeaveTaken == 1">
-                                    <button type="button" class="btn primaryBtnLink leave-request" 
+                                    <button type="button" class="btn primaryBtnLink leave-request"
                                             *ngIf="userId==currentUserUuid" (click)="applyNewLeaveReq()">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
                                         <mask id="mask0_5145_1779" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20"
@@ -1304,7 +1298,7 @@
                 <h1>vis-timeline</h1>
                 <div #timeline></div> -->
 
-                
+
 
                 <div class="obboard-employee-list">
                     <div class="onboard-add row align-items-center mx-0">
@@ -1321,14 +1315,14 @@
                                 aria-expanded="false"
                                 class="btn btn-secondary dropdown-toggle new-deopdown"
                               >
-                                {{ selectedLeaveType }} <i class="bi bi-chevron-down"></i>
+                                {{ attendanceType }} <i class="bi bi-chevron-down"></i>
                               </button>
                               <ul class="dropdown-menu" aria-labelledby="leaveTypeDropdown">
-                                <li *ngFor="let type of leaveTypes">
+                                <li *ngFor="let type of attendanceTypeFilter">
                                   <a
                                     class="dropdown-item"
-                                    (click)="updateLeaveType(type)"
-                                    [class.active]="selectedLeaveType === type"
+                                    (click)="updateAttendanceTypeFilter(type)"
+                                    [class.active]="attendanceType === type"
                                   >
                                     {{ type }}
                                   </a>
@@ -1345,14 +1339,14 @@
                                 aria-expanded="false"
                                 class="btn btn-secondary dropdown-toggle new-deopdown"
                               >
-                                {{ selectedStatus }} <i class="bi bi-chevron-down"></i>
+                                {{ attendanceStatus }} <i class="bi bi-chevron-down"></i>
                               </button>
                               <ul class="dropdown-menu" aria-labelledby="statusDropdown">
                                 <li *ngFor="let status of statuses">
                                   <a
                                     class="dropdown-item"
-                                    (click)="updateStatus(status)"
-                                    [class.active]="selectedStatus === status"
+                                    (click)="updateAttendanceStatusFilter(status)"
+                                    [class.active]="attendanceStatus === status"
                                   >
                                     {{ status }}
                                   </a>
@@ -1361,7 +1355,7 @@
                             </div>
 
                             <!-- Search -->
-                            <div class="onboarding-date d-flex align-items-center justify-content-between position-relative w-100">
+                            <!-- <div class="onboarding-date d-flex align-items-center justify-content-between position-relative w-100">
                               <form novalidate class="searching d-flex align-items-center justify-content-between" style="width: 100%;">
                                 <div class="form-group" style="width: 100%; position: relative;">
                                   <input
@@ -1380,10 +1374,10 @@
                                 </div>
                               </form>
 
-                            </div>
+                            </div> -->
                             <div>
-                                
-                              
+
+
 
 
 
@@ -1401,20 +1395,22 @@
                     <table  class="table empOnnoardtable">
                       <thead class="thead-light">
                         <tr>
-                         
+
                           <th class="text-left font-13" style="width: 10%">Date</th>
                           <th class="text-left font-13" style="width: 10%">Type</th>
                           <th class="text-left font-13" style="width: 10%">Requested To</th>
-                          <th class="text-left font-13" style="width: 10%">Approved by</th>
-                          <th class="text-left font-13" style="width: 10%">In Time</th>
-                          <th class="text-left font-13" style="width: 10%">Out Time</th>
-                          <th class="text-left font-13" style="width: 10%">Duration</th>
-                          <th class="text-left font-13" style="width: 10%">Action Taken on</th>
+                          <!-- <th class="text-left font-13" style="width: 10%">Approved by</th> -->
+                          <th *ngIf="attendanceType === 'CREATE'" class="text-left font-13" style="width: 10%">In Time</th>
+                          <th *ngIf="attendanceType === 'CREATE'" class="text-left font-13" style="width: 10%">Out Time</th>
+                          <th *ngIf="attendanceType === 'UPDATE'" class="text-left font-13" style="width: 10%">Old Time</th>
+                          <th *ngIf="attendanceType === 'UPDATE'" class="text-left font-13" style="width: 10%">Updated Time</th>
+                          <th *ngIf="attendanceType === 'UPDATE'" class="text-left font-13" style="width: 10%">Requested For</th>
+                          <th class="text-left font-13" style="width: 10%">Reason</th>
                           <th class="text-left font-13" style="width: 10%">Status</th>
                         </tr>
                       </thead>
-  
-                     <!-- <tbody>
+
+                     <tbody *ngIf="isAttendanceLoading">
                           <tr *ngFor="let item of [].constructor(7)">
                               <td>
                                   <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
@@ -1437,45 +1433,45 @@
                               <td>
                                   <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
                               </td>
-                              <td>
+                              <td *ngIf="attendanceType === 'CREATE'">
                                   <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
                               </td>
                           </tr>
-                      </tbody> -->
-  
-                      <tbody>
-                        <tr *ngFor="let item of [].constructor(3)">
+                      </tbody>
+
+                      <tbody *ngIf="!isAttendanceLoading">
+                        <tr *ngFor="let item of attendanceRequests">
                             <td>
-                                <span>16 Jun 2023</span>
-                                <p class="mb-0 font-12"> 1 Day </p>
+                                <span *ngIf="item?.requestType === 'CREATE'">{{item?.inRequestTime | date:'dd MMM yyyy'}}</span>
+                                <span *ngIf="item?.requestType === 'UPDATE'">{{item?.updatedTime | date:'dd MMM yyyy'}}</span>
+                                <!-- <p class="mb-0 font-12"> 1 Day </p> -->
                             </td>
                             <td>
-                                <span>Attendance Update</span>
-                                <p class="mb-0 font-12"> on Oct 14, 2024 </p>
+                                <span>Attendance {{item?.requestType}}</span>
+                                <p class="mb-0 font-12"> {{item?.createdDate | date:'dd MMM yyyy'}} </p>
                             </td>
                             <td>
-                                <span class="table-font-weight">Sam Michael </span>
+                                <span class="table-font-weight">{{ item.managerName }} </span>
                             </td>
                             <td>
-                                <span>Rohit Chaturvedi</span>
+                                <span *ngIf="attendanceType === 'CREATE'" class="table-font-weight">{{item?.inRequestTime | date:'HH:mm'}}</span>
+                                <span *ngIf="attendanceType === 'UPDATE'" class="table-font-weight">{{item?.oldTime | date:'HH:mm'}}</span>
                             </td>
                             <td>
-                                <span class="table-font-weight">09:30 pm</span>
+                                <span *ngIf="attendanceType === 'CREATE'" class="table-font-weight">{{item?.outRequestTime | date:'HH:mm'}}</span>
+                                <span *ngIf="attendanceType === 'UPDATE'" class="table-font-weight">{{item?.updatedTime | date:'HH:mm'}}</span>
+                            </td>
+                            <td *ngIf="attendanceType === 'UPDATE'">
+                                <span class="table-font-weight">{{item?.requestedFor}}</span>
                             </td>
                             <td>
-                                <span class="table-font-weight">06:00 pm</span>
-                            </td>
-                            <td>
-                                <span class="table-font-weight">-</span>
-                            </td>
-                            <td>
-                                <span class="table-font-weight">16 Jun,2024</span>
+                                <span class="table-font-weight">{{item?.requestReason}}</span>
                             </td>
                             <td>
                                 <div class="d-flex align-items-center gap-2">
-                                <span class="badge rounded-pill badge-soft-warning">PENDING</span>
+                                <span class="badge rounded-pill badge-soft-warning">{{item?.status}}</span>
                                 <!-- Delete Button -->
-                                <button class="icon-button btn p-0">
+                                <button *ngIf="item?.status === 'PENDING'" class="icon-button btn p-0" (click)="deleteAttendanceRequest(item?.id)">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
                                         <mask id="mask0_6083_5461" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
                                             <rect x="0.910156" y="0.910156" width="20" height="20" fill="#D9D9D9" />
@@ -1489,7 +1485,7 @@
                                 </button>
 
                                 <!-- Edit Button -->
-                                <button class="btn p-0 icon-button" >
+                                <!-- <button class="btn p-0 icon-button" >
                                     <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
                                         <mask id="mask0_6083_5464" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
                                             <rect x="0.910156" y="0.910156" width="20" height="20" fill="#D9D9D9" />
@@ -1500,78 +1496,19 @@
                                                 fill="black" />
                                         </g>
                                     </svg>
-                                </button>
+                                </button> -->
                             </div>
 
                             </td>
 
                         </tr>
-                        <tr *ngFor="let item of [].constructor(3)">
-                            <td>
-                                <span>16 Jun 2023</span>
-                                <p class="mb-0 font-12"> 1 Day </p>
-                            </td>
-                            <td>
-                                <span>Attendance Update</span>
-                                <p class="mb-0 font-12"> on Oct 14, 2024 </p>
-                            </td>
-                            <td>
-                                <span class="table-font-weight">Sam Michael </span>
-                            </td>
-                            <td>
-                                <span>Rohit Chaturvedi</span>
-                            </td>
-                            <td>
-                                <span class="table-font-weight">09:30 pm</span>
-                            </td>
-                            <td>
-                                <span class="table-font-weight">06:00 pm</span>
-                            </td>
-                            <td>
-                                <span class="table-font-weight">-</span>
-                            </td>
-                            <td>
-                                <span class="table-font-weight">16 Jun,2024</span>
-                            </td>
-                            <td>
-                                <span class="badge rounded-pill badge-soft-danger">REJECT</span>
+                        <ngb-pagination *ngIf="pageAttendanceSize<totalAttendanceElements" [collectionSize]="totalAttendanceElements"
+                          [(page)]="currentAttendancePage"
+                          [pageSize]="pageAttendanceSize"
+                          (pageChange)="onAttendancePageChange($event)">
 
-                                 
-                            </td>
+                        </ngb-pagination>
 
-                        </tr>
-                        <tr *ngFor="let item of [].constructor(3)">
-                            <td>
-                                <span>16 Jun 2023</span>
-                                <p class="mb-0 font-12"> 1 Day </p>
-                            </td>
-                            <td>
-                                <span>Attendance Update</span>
-                                <p class="mb-0 font-12"> on Oct 14, 2024 </p>
-                            </td>
-                            <td>
-                                <span class="table-font-weight">Sam Michael </span>
-                            </td>
-                            <td>
-                                <span>Rohit Chaturvedi</span>
-                            </td>
-                            <td>
-                                <span class="table-font-weight">09:30 pm</span>
-                            </td>
-                            <td>
-                                <span class="table-font-weight">06:00 pm</span>
-                            </td>
-                            <td>
-                                <span class="table-font-weight">-</span>
-                            </td>
-                            <td>
-                                <span class="table-font-weight">16 Jun,2024</span>
-                            </td>
-                            <td>
-                                <span class="badge rounded-pill badge-soft-success">APPROVED</span>
-                            </td>
-
-                        </tr>
                       </tbody>
                 </table>
             </div>
