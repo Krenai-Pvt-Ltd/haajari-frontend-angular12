@@ -1585,3 +1585,8 @@ a.fetch-location {
 .nav-item {
   margin-right: 20px;
 }
+
+.staff-location {
+  height: 570px;
+  overflow: scroll;
+}

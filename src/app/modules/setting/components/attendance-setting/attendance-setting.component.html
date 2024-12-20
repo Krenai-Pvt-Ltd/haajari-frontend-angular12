@@ -1538,9 +1538,7 @@
     <div class="modal-dialog modal-dialog-centered" style="max-width: 1050px;" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h6 class="modal-title m-0" id="exampleModalDefaultLabel">
-            Shift Time
-          </h6>
+          <h5 class="modal-title"> Shift Time</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="clearPage()"
             #closeShiftTimingModal></button>
         </div>
@@ -1829,30 +1827,25 @@
                                       class="form-control me-2 ng-untouched ng-pristine ng-valid attendance-details-search"
                                       (keyup)="searchUsers()" [(ngModel)]="searchText"
                                       [ngModelOptions]="{ standalone: true }" style="padding: 10px 50px 10px 40px" />
-                                    <button *ngIf="searchText.length !== 0" type="button" class="btn close-btn"
-                                      (click)="clearSearchText()">
-                                      <i class="bi bi-x mt-auto mb-auto pl-3"></i>
-                                    </button>
-                                    <i class="bi bi-search search-icon" style="
-                                      position: absolute;
-                                      top: 50%;
-                                      transform: translateY(-50%);
-                                      left: 10px;
-                                      padding-left: 5px;
-                                    "></i>
+
+                                    <i *ngIf="searchText.length !== 0" (click)="clearSearchText()"
+                                      class="bi bi-x search-icon position-absolute font-20 close-icon text-primary pointer"></i>
+
+                                    <i *ngIf="!searchText" class="bi bi-search search-icon position-absolute"></i>
                                   </div>
                                 </form>
                               </div>
                               <div class="container">
                                 <div class="content-wrapper">
-                                  <div class="d-flex align-items-center gap-3">
-                                    <a class="info-button text-black" *ngIf="selectedStaffsUuids.length > 0">
-                                      <span class="text-primary"> {{ selectedStaffsUuids.length }} </span> Selected of
+                                  <div class="d-flex align-items-center gap-3" *ngIf="selectedStaffsUuids.length > 0">
+                                    <a class="info-button text-black">
+                                      <span class="text-primary"> {{ selectedStaffsUuids.length }} </span>&nbsp;
+                                      Selected of&nbsp;
                                       <span class="text-primary"> {{ totalUserCount }} </span>
                                     </a>
                                     <span class="separator"></span>
                                     <span class="clear-button text-danger fw-semibold pointer"
-                                      *ngIf="selectedStaffsUuids.length > 0" (click)="unselectAllUsers()">
+                                      (click)="unselectAllUsers()">
                                       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19"
                                         fill="none">
                                         <mask id="mask0_4127_2858" style="mask-type: alpha" maskUnits="userSpaceOnUse"
@@ -1868,6 +1861,7 @@
                                       </svg>
                                       Clear Selection
                                     </span>
+
                                   </div>
                                 </div>
                               </div>
@@ -1917,18 +1911,14 @@
                           </div>
                         </ng-container>
                         <ng-template #noDataFoundPlaceholderInShiftTiming>
-                          <!-- <div class="errorboxmain">
-                            <div class="errorboxinner text-center">
-                              <div class="errorboxplaceholder mb-2">
-                                <img src="assets/images/addnewproduct.svg" style="width: 80px" />
-                              </div>
-                              <h4>No Data Found</h4>
-                              <p>
-                                We're unable to locate a record associated with the
-                                information you entered.
-                              </p>
-                            </div>
-                          </div> -->
+                          <div class="empty-file" style="margin-top: 33%;">
+                            <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                              [nzNotFoundContent]="contentTpl">
+                              <ng-template #contentTpl>
+                                <p class="mb-1 empty-detail">No data for now</p>
+                              </ng-template>
+                            </nz-empty>
+                          </div>
                         </ng-template>
                       </div>
 
