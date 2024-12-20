@@ -205,3 +205,24 @@
 i::before {
     font-weight: 600 !important;
 }
+
+.summary-box {
+    padding-right: 200px;
+}
+
+.universal-holiday {
+    background-color: #F9FAFC;
+    border-left: 4px solid #dcf1ff;
+    border-radius: 2px;
+}
+
+.down-icon i {
+    transition: -webkit-transform 0.2s linear;
+    transition: transform 0.2s linear;
+    transform: rotate(0deg);
+}
+
+.down-icon i.collapsed {
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
