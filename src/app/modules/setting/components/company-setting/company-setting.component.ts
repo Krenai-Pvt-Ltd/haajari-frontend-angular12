@@ -589,8 +589,12 @@ export class CompanySettingComponent implements OnInit {
     debugger;
 
     var id = this.organizationAddressDetail.id;
+    var branch = this.organizationAddressDetail.branch;
+    var radius = this.organizationAddressDetail.radius;
     this.organizationAddressDetail = new OrganizationAddressDetail();
     this.organizationAddressDetail.id = id;
+    this.organizationAddressDetail.branch = branch;
+    this.organizationAddressDetail.radius = radius;
     this.organizationAddressDetail.longitude = e.geometry.location.lng();
     this.organizationAddressDetail.latitude = e.geometry.location.lat();
     this.isShowMap = true;
@@ -634,7 +638,13 @@ export class CompanySettingComponent implements OnInit {
           .getLocationDetails(coords.latitude, coords.longitude)
           .then((details) => {
             this.locationLoader = false;
+            var branch = this.organizationAddressDetail.branch;
+            var radius = this.organizationAddressDetail.radius;
             this.organizationAddressDetail = new OrganizationAddressDetail();
+            
+            this.organizationAddressDetail.branch = branch;
+            this.organizationAddressDetail.radius = radius;
+            // this.organizationAddressDetail = new OrganizationAddressDetail();
             // this.organizationAddressDetail.id = id;
             this.organizationAddressDetail.longitude = coords.longitude;
             this.organizationAddressDetail.latitude = coords.latitude;

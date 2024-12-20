@@ -615,7 +615,7 @@
 
                               <div
                                 class="pagination pl-3 align-items-center justify-content-between"
-                                *ngIf="itemPerPage > 8"
+                                *ngIf="total > 8"
                               >
                                 <p style="padding-left: 15px">
                                   Showing {{ getStartIndex() }} -
@@ -1194,7 +1194,9 @@
         </div>
         <div class="d-flex align-items-center justify-content-end gap-3 mt-3">
           <!-- <button class="btn submit-add-more">Cancel</button> -->
-
+          <button class="btn submit-add-more d-none" data-bs-dismiss="modal" aria-label="Close" #closeButton2>
+            Cancel
+          </button>
           <button
             class="btn mannualSubmit"
             [disabled]="!isValidated"
