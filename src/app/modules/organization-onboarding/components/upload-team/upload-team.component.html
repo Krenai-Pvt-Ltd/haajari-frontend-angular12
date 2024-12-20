@@ -1479,7 +1479,7 @@
                       class="form-control profile-input"
                       (keyup)="checkNumberExistance(i, user.phone, user.uuid)"
                       #phone="ngModel"
-                      (input)="restrictToDigits($event)"
+                      
                       (paste)="preventPaste($event)"
                       required
                     />
@@ -1525,7 +1525,7 @@
                       pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}"
                       placeholder="Enter Email"
                       class="form-control profile-input"
-                      (paste)="preventPaste($event)"
+                      
                       (keyup)="checkEmailExistance(i, user.email, user.uuid)"
                     />
                     <p

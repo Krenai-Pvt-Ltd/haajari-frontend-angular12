@@ -415,3 +415,19 @@ span.request-count {
 .nav-item {
   margin-right: 20px;
 }
+
+.orderpcardleft h6 {
+  color: #444;
+  font-weight: 400;
+  letter-spacing: 0.1px;
+}
+
+.orderpcardleft h5 {
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 30px;
+  color: #444444;
+  margin-bottom: 0px;
+  text-align: left;
+  margin-top: 5px;
+}

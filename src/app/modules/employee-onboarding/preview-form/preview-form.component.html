@@ -8,7 +8,10 @@
       <div class="modal-body">
         <!-- Form Details Start Here -->
         <div class="maxHeight">
-          <div class="col-md-12">
+          <div *ngIf="isLoadingPreview">
+            LOADING DATA....
+          </div>
+          <div class="col-md-12" *ngIf="!isLoadingPreview">
             <div class="onboarding-deta mb-lg-3" *ngIf="this.dataService.isRoutePresent('/employee-onboarding-form')">
                 <table class="table mb-0">
                     <tr style="background-color: #f1f1f1;">
@@ -28,19 +31,19 @@
               <td>Phone : {{ onboardingPreviewData.user.phoneNumber }}</td>
             </tr>
             <tr>
-              <td>DOB : {{ onboardingPreviewData.user.dateOfBirth  | date : 'dd/MM/yyyy'  }}</td>
-              <td>Gender : {{ onboardingPreviewData.user.gender }}</td>
-              <td>Father's Name :   {{ onboardingPreviewData.user.fatherName }}</td>
+              <td>DOB : {{ (onboardingPreviewData.user.dateOfBirth  | date : 'dd/MM/yyyy') || 'N/A' }}</td>
+              <td>Gender : {{ onboardingPreviewData.user.gender || 'N/A'}}</td>
+              <td>Father's Name :   {{ onboardingPreviewData.user.fatherName || 'N/A' }}</td>
             </tr>
             <tr>
-              <td>Marital Status : {{ onboardingPreviewData.user.maritalStatus }}</td>
+              <td>Marital Status : {{ onboardingPreviewData.user.maritalStatus || 'N/A' }}</td>
               <td>Joining Date : {{ onboardingPreviewData.user.joiningDate | date : 'dd/MM/yyyy' }}</td>
               <td>Current Salary : {{ onboardingPreviewData.user.currentSalary ? (onboardingPreviewData.user.currentSalary | numberToWord) : 'N/A' }}</td>
             </tr>
             <tr>
               <td>Department : {{ onboardingPreviewData.user.department }}</td>
               <td>Current Position : {{ onboardingPreviewData.user.position }}</td>
-              <td>Nationality : {{ onboardingPreviewData.user.nationality }}</td>
+              <td>Nationality : {{ onboardingPreviewData.user.nationality || 'N/A'}}</td>
             </tr>
           </tbody>
         </table>
