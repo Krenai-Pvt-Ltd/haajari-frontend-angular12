@@ -110,6 +110,8 @@ export class DataService {
   private baseUrl = this._key.base_url;
 
   openSidebar: boolean = true;
+
+  markAttendanceModal: boolean = false;
   // registerOrganizationUsingCodeParam(codeParam: string): Observable<any> {
   //   const params = new HttpParams().set('code_param', codeParam);
   //   return this.httpClient.put<any>(
@@ -406,10 +408,10 @@ export class DataService {
       .set('search_by', searchBy)
       .set('team_id', teamId);
 
-      if(search != null && search != ''){
-        params = params.set('page_number', 0)
-        params = params.set('item_per_page', 0)
-      }
+      // if(search != null && search != ''){
+      //   params = params.set('page_number', 0)
+      //   params = params.set('item_per_page', 0)
+      // }
 
     return this.httpClient.get<any>(`${this.baseUrl}/users/get/by-filters`, {
       params,

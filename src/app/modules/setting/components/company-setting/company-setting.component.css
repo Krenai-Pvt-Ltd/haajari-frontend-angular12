@@ -1132,10 +1132,7 @@ nz-date-picker.nz-overlay-container.whatapp-login-input {
   /* Bootstrap's danger text color for consistency */
 }
 
-.bi-x {
-  margin-left: 4px;
-  /* Adds a small space after the text */
-}
+
 
 .agm-map {
   height: 400px;
@@ -1584,4 +1581,26 @@ a.fetch-location {
 
 .nav-item {
   margin-right: 20px;
+}
+
+.staff-location {
+  height: 570px;
+  overflow: scroll;
+}
+
+.search-list .checkbox-label input {
+  position: relative;
+  top: 1px;
+  border-radius: 2px;
+}
+
+.search-icon {
+  top: 50%;
+  transform: translateY(-50%);
+  left: 10px;
+  padding-left: 5px;
+}
+
+.close-icon {
+  top: 19px
 }

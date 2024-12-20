@@ -1327,10 +1327,7 @@ nz-date-picker.nz-overlay-container.whatapp-login-input {
   /* Bootstrap's danger text color for consistency */
 }
 
-.bi-x {
-  margin-left: 4px;
-  /* Adds a small space after the text */
-}
+
 
 .agm-map {
   height: 400px;
@@ -1550,7 +1547,8 @@ a.fetch-location {
   border: 1.021px solid #e9e9e9 !important;
   background: rgba(236, 236, 236, 0.21) !important;
   height: 45px !important;
-  font-size: 12px !important;
+  font-size: 13px !important;
+  color: #a2a2a2;
   font-weight: 400 !important;
 }
 
@@ -1564,7 +1562,6 @@ a.fetch-location {
 }
 
 .search-icon {
-  position: absolute;
   top: 50%;
   transform: translateY(-50%);
   left: 10px;
@@ -1661,6 +1658,16 @@ a.fetch-location {
 .addUserRemvo svg {
   width: 16px;
   position: relative;
+}
+
+.close-icon {
+  top: 19px
+}
+
+.search-list .checkbox-label input {
+  position: relative;
+  top: 1px;
+  border-radius: 2px;
 }
 
 /* new side tab for new modal */

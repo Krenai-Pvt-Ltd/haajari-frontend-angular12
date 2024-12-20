@@ -781,7 +781,7 @@
                     Staff Location
                   </button>
                   <button class="nav-link" id="profile-tab" data-bs-toggle="pill" data-bs-target="#staffselection"
-                    type="button" role="tab" #staffSelectionTab>
+                    type="button" [disabled]="!organizationAddressNgForm.form.valid" role="tab" #staffSelectionTab>
                     Staff Selection
                   </button>
                 </div>
@@ -792,7 +792,7 @@
 
                 <div class="tab-pane fade show active" id="staffLocation" role="tabpanel" #shifttime>
                   <form #organizationAddressNgForm="ngForm" (ngSubmit)="submit()">
-                    <div class="form-group p-3">
+                    <div class="form-group p-3 staff-location">
                       <div class="row">
 
                         <div class="col-md-12">
@@ -1006,7 +1006,8 @@
 
                     </div>
                     <div class="modal-footer d-flex align-items-center justify-content-end bg-white leave-footer">
-                      <button type="submit" class="btn p-0 next-btn nextBtn">
+                      <button type="submit" class="btn p-0 next-btn nextBtn"
+                        [ngClass]="{'btn-border': (organizationAddressNgForm.form.valid)}">
                         <span *ngIf="toggle" class="dot-opacity-loader-new">
                           <span></span>
                           <span></span>
@@ -1062,30 +1063,46 @@
                                   class="form-control me-2 ng-untouched ng-pristine ng-valid attendance-details-search"
                                   (keyup)="searchUsers()" [(ngModel)]="searchText"
                                   [ngModelOptions]="{ standalone: true }" style="padding: 10px 50px 10px 40px" />
-                                <button *ngIf="searchText.length !== 0" type="button" class="btn close-btn p-0"
+
+                                <!-- <button *ngIf="searchText.length !== 0" type="button" class="btn close-btn p-0"
                                   (click)="clearSearchText()">
-                                  <i class="bi bi-x mt-auto mb-auto pl-3"></i>
-                                </button>
-                                <i class="bi bi-search search-icon position-absolute" style="
-                                  top: 50%;
-                                  transform: translateY(-50%);
-                                  left: 10px;
-                                  padding-left: 5px;
-                                "></i>
+                                  <i class="bi bi-x mt-auto mb-auto pl-3" ></i>
+                                </button> -->
+                                <i class="bi bi-x search-icon position-absolute font-20 close-icon text-primary"
+                                  *ngIf="searchText != ''" (click)="clearSearchText()"></i>
+                                <i class="bi bi-search search-icon position-absolute" *ngIf="searchText == ''"></i>
                               </div>
                             </form>
                           </div>
 
-                          <div class="filter-wrapper d-flex align-items-center justify-content-end gap-3">
-                            <span class="text-primary font-13 pointer" *ngIf="selectedStaffsUuids.length > 0">
-                              {{ selectedStaffsUuids.length }} selected of
-                              {{ totalUserCount }}
+                          <div class="d-flex align-items-center justify-content-end gap-2 w-100 search-list"
+                            *ngIf="selectedStaffsUuids.length > 0">
+                            <span class="text-black font-13 pointer">
+                              <span class="text-primary">{{ selectedStaffsUuids.length }} </span> Selected of
+                              <span class="text-primary"> {{ totalUserCount }} </span>
                             </span>
-                            <span class="text-danger font-13 pointer" *ngIf="selectedStaffsUuids.length > 0"
-                              (click)="unselectAllUsers()">
-                              Clear all users
+                            <span class="separator"></span>
+                            <span class="text-danger fw-semibold pointer" (click)="unselectAllUsers()">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19"
+                                fill="none">
+                                <mask id="mask0_4127_2858" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0"
+                                  y="0" width="20" height="19">
+                                  <rect x="0.927246" y="0.460938" width="18.1564" height="18.1564" fill="#dc3545" />
+                                </mask>
+                                <g mask="url(#mask0_4127_2858)">
+                                  <path
+                                    d="M5.7642 14.8373L4.70508 13.7782L8.94157 9.54171L4.70508 5.30522L5.7642 4.24609L10.0007 8.48259L14.2372 4.24609L15.2963 5.30522L11.0598 9.54171L15.2963 13.7782L14.2372 14.8373L10.0007 10.6008L5.7642 14.8373Z"
+                                    fill="#dc3545" />
+                                </g>
+                              </svg>
+                              Clear Selection
                             </span>
-
+                            <span class="separator"></span>
+                            <label class="checkbox-label">
+                              <input type="checkbox" [(ngModel)]="isAllUsersSelected"
+                                (change)="selectAllUsers($event)" />&nbsp;
+                              Select all
+                            </label>
                           </div>
                         </div>
                       </div>
@@ -1162,7 +1179,7 @@
                   <!-- *ngIf="staffs.length > 8" -->
 
                   <div class="leave-footer bg-white">
-                    <div class="pagination p-3"
+                    <!-- <div class="pagination p-3"
                       *ngIf=" total > itemPerPage - 1 || (pageNumber === lastPageNumber && lastPageNumber !== 1)">
                       <p class="mb-0" style="padding-left: 15px">
                         Showing {{ getStartIndex() }} - {{ getEndIndex() }} of
@@ -1187,6 +1204,20 @@
                           </li>
                         </ul>
                       </nav>
+                    </div> -->
+                    <div class="pagination justify-content-between p-3" *ngIf="staffs.length > 0">
+                      <p class="mb-0">
+                        Showing {{ 1 + ( databaseHelper.itemPerPage * (databaseHelper.currentPage - 1)) }} - {{
+                        staffs.length + ( databaseHelper.itemPerPage * (databaseHelper.currentPage - 1)) }} of {{ total
+                        }} members
+                      </p>
+                      <div class="row">
+                        <div class="col-md-12">
+                          <ngb-pagination class="pagition-box" [collectionSize]="total" [rotate]="true"
+                            (pageChange)="pageChanged($event)" [pageSize]="databaseHelper.itemPerPage"
+                            [(page)]="databaseHelper.currentPage" [maxSize]="4" [boundaryLinks]="true"></ngb-pagination>
+                        </div>
+                      </div>
                     </div>
 
                     <div class="modal-footer d-flex align-items-center justify-content-between">
@@ -1202,7 +1233,8 @@
                       <button type="button" class="btn next-btn nextBtn" *ngIf="
                         this.userNameWithBranchName?.length > 0 &&
                         !this.isValidated
-                      " data-bs-target="#usersAlreadyAssigned" data-bs-toggle="modal" [disabled]="this.selectedStaffsUuids.length < 1
+                      " data-bs-target="#usersAlreadyAssigned" data-bs-toggle="modal"
+                        [ngClass]="{'btn-border': (this.selectedStaffsUuids.length > 0)}" [disabled]="this.selectedStaffsUuids.length < 1
                       ">
                         <span *ngIf="!loading">Submit
                           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22"
@@ -1220,8 +1252,9 @@
                           <span></span>
                         </div>
                       </button>
-                      <button type="button" class="btn next-btn nextBtn" *ngIf="this.userNameWithBranchName?.length < 1"
-                        (click)="saveStaffAddressDetails()" [disabled]="this.selectedStaffsUuids.length < 1
+                      <button type="button" class="btn next-btn nextBtn"
+                        [ngClass]="{'btn-border': (this.selectedStaffsUuids.length > 0)}"
+                        *ngIf="this.userNameWithBranchName?.length < 1" (click)="saveStaffAddressDetails()" [disabled]="this.selectedStaffsUuids.length < 1
                       ">
                         <span *ngIf="!loading">Submit
                           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22"
@@ -2104,7 +2137,8 @@
           <button class="btn submit-add-more d-none" data-bs-dismiss="modal" aria-label="Close" #closeButton2>
             Cancel
           </button>
-          <button class="btn mannualSubmit" [disabled]="!isValidated" (click)="registerAddress()">
+          <button class="btn mannualSubmit" [ngClass]="{'btn-border': isValidated}" [disabled]="!isValidated"
+            (click)="registerAddress()">
             <span *ngIf="!isRegisterLoad">Add all</span>
             <div class="dot-opacity-loader-new" *ngIf="isRegisterLoad">
               <span></span>
@@ -2135,14 +2169,14 @@
       </div>
       <div class="modal-body modal-height-fix">
         <div>
-          <ul id="myTab" role="tablist" class="nav nav-tabs">
+          <!-- <ul id="myTab" role="tablist" class="nav nav-tabs">
             <li role="presentation" class="nav-item">
               <button id="home-tab" data-bs-toggle="tab" data-bs-target="#shiftime" type="button" role="tab"
                 aria-controls="shiftime" aria-selected="true" class="nav-link active" #locationSettingTab>
                 Location
               </button>
             </li>
-          </ul>
+          </ul> -->
           <div class="tab-content" id="myTabContent">
 
             <div class="tab-pane fade show active" id="shiftime" role="tabpanel">

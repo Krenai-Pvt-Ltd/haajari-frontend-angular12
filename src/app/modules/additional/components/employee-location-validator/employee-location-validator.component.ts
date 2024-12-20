@@ -357,6 +357,7 @@ getFlexibleAttendanceMode() {
             } else if(response.onboardingVia == 'SLACK'){
               window.location.href = Key.SLACK_WORKSPACE_URL;
             }
+          this.helper.closeModal();
           this.toggle = false;
         },
         (error) => {
