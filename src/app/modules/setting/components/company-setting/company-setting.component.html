@@ -1075,14 +1075,14 @@
                             </form>
                           </div>
 
-                          <div class="d-flex align-items-center justify-content-end gap-2 w-100 search-list">
-                            <span class="text-black font-13 pointer" *ngIf="selectedStaffsUuids.length > 0">
+                          <div class="d-flex align-items-center justify-content-end gap-2 w-100 search-list"
+                            *ngIf="selectedStaffsUuids.length > 0">
+                            <span class="text-black font-13 pointer">
                               <span class="text-primary">{{ selectedStaffsUuids.length }} </span> Selected of
                               <span class="text-primary"> {{ totalUserCount }} </span>
                             </span>
                             <span class="separator"></span>
-                            <span class="text-danger fw-semibold pointer" *ngIf="selectedStaffsUuids.length > 0"
-                              (click)="unselectAllUsers()">
+                            <span class="text-danger fw-semibold pointer" (click)="unselectAllUsers()">
                               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19"
                                 fill="none">
                                 <mask id="mask0_4127_2858" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0"
@@ -1103,7 +1103,6 @@
                                 (change)="selectAllUsers($event)" />&nbsp;
                               Select all
                             </label>
-
                           </div>
                         </div>
                       </div>
