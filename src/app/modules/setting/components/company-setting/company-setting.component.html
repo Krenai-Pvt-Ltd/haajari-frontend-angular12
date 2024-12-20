@@ -781,7 +781,7 @@
                     Staff Location
                   </button>
                   <button class="nav-link" id="profile-tab" data-bs-toggle="pill" data-bs-target="#staffselection"
-                    type="button" role="tab" #staffSelectionTab>
+                    type="button"  [disabled]="!organizationAddressNgForm.form.valid" role="tab" #staffSelectionTab>
                     Staff Selection
                   </button>
                 </div>
@@ -1006,7 +1006,7 @@
 
                     </div>
                     <div class="modal-footer d-flex align-items-center justify-content-end bg-white leave-footer">
-                      <button type="submit" class="btn p-0 next-btn nextBtn">
+                      <button type="submit" class="btn p-0 next-btn nextBtn" [ngClass]="{'btn-border': (organizationAddressNgForm.form.valid)}">
                         <span *ngIf="toggle" class="dot-opacity-loader-new">
                           <span></span>
                           <span></span>
@@ -1222,7 +1222,7 @@
                       <button type="button" class="btn next-btn nextBtn" *ngIf="
                         this.userNameWithBranchName?.length > 0 &&
                         !this.isValidated
-                      " data-bs-target="#usersAlreadyAssigned" data-bs-toggle="modal" [disabled]="this.selectedStaffsUuids.length < 1
+                      " data-bs-target="#usersAlreadyAssigned" data-bs-toggle="modal"[ngClass]="{'btn-border': (this.selectedStaffsUuids.length > 0)}"  [disabled]="this.selectedStaffsUuids.length < 1
                       ">
                         <span *ngIf="!loading">Submit
                           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22"
@@ -1240,7 +1240,7 @@
                           <span></span>
                         </div>
                       </button>
-                      <button type="button" class="btn next-btn nextBtn" *ngIf="this.userNameWithBranchName?.length < 1"
+                      <button type="button" class="btn next-btn nextBtn" [ngClass]="{'btn-border': (this.selectedStaffsUuids.length > 0)}" *ngIf="this.userNameWithBranchName?.length < 1"
                         (click)="saveStaffAddressDetails()" [disabled]="this.selectedStaffsUuids.length < 1
                       ">
                         <span *ngIf="!loading">Submit
@@ -2124,7 +2124,7 @@
           <button class="btn submit-add-more d-none" data-bs-dismiss="modal" aria-label="Close" #closeButton2>
             Cancel
           </button>
-          <button class="btn mannualSubmit" [disabled]="!isValidated" (click)="registerAddress()">
+          <button class="btn mannualSubmit"  [ngClass]="{'btn-border': isValidated}" [disabled]="!isValidated" (click)="registerAddress()">
             <span *ngIf="!isRegisterLoad">Add all</span>
             <div class="dot-opacity-loader-new" *ngIf="isRegisterLoad">
               <span></span>
