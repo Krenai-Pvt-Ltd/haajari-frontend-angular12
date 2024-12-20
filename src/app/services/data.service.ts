@@ -3097,9 +3097,9 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     return this.httpClient.delete(url);
   }
 
- 
 
- 
+
+
 
 
   getEmployeeSalary(userUuid : string): Observable<any> {
@@ -4408,6 +4408,12 @@ getHolidayForOrganization(date: string): Observable<any>{
 
     return this.httpClient.get<any[]>(`${this.baseUrl}/documents/documents-by-type`, { params });
   }
+
+  getEditedFieldsByUserUuid(uuid: string): Observable<any> {
+    const params = new HttpParams().set('uuid', uuid);
+    return this.httpClient.get<any>(`${this.baseUrl}/get/onboarding/edited-fields`, { params });
+  }
+
 
 
 }

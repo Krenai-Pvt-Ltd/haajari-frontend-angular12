@@ -327,7 +327,7 @@
                                             </div>
                                             <span class="badge rounded-pill bg-soft-success">PRESENT</span>
                                         </div>
-                                        
+
                                     </div>
                                 </div>
                             </div>
@@ -418,7 +418,7 @@
                                 <div class="table-responsive bg-white">
 
                                     <table class="table empOnnoardtable">
-                                        <thead class="thead-light">
+                                        <thead *ngIf="!isFullLogLoader && !dataNotFoundForAttendanceUpdateRequestLog" class="thead-light">
                                             <tr>
                                                 <th class="text-left font-13" style="width: 10%">Apply On</th>
                                                 <th class="text-left font-13" style="width: 10%">Type </th>
@@ -535,7 +535,7 @@
                                 <div class="table-responsive bg-white">
 
                                     <table class="table empOnnoardtable">
-                                        <thead class="thead-light">
+                                        <thead *ngIf="!isFullLogLoader && !dataNotFoundPlaceholderForOvertimeLog" class="thead-light">
                                             <tr>
                                                 <th class="text-left font-13" style="width: 10%">Apply On</th>
                                                 <th class="text-left font-13" style="width: 10%">Date</th>
@@ -591,7 +591,7 @@
                                             </tr>
                                         </tbody>
 
-                                        <tbody *ngIf="!isShimmerForOvertimeLog">
+                                        <tbody *ngIf="!isShimmerForOvertimeLog && !dataNotFoundPlaceholderForOvertimeLog">
 
                                             <tr *ngFor="let item of overtimeRequestLogResponseList">
                                             <td class="text-left">
@@ -659,7 +659,7 @@
                                 <div class="table-responsive bg-white">
 
                                     <table class="table empOnnoardtable">
-                                        <thead class="thead-light">
+                                        <thead *ngIf="!isLoading && userLeaveLog?.length > 0"  class="thead-light">
                                             <tr>
                                                 <th class="text-left font-13" style="width: 10%">Apply On</th>
                                                 <th class="text-left font-13" style="width: 10%">Date</th>
@@ -897,7 +897,7 @@
     </div>
 </div>
 
-    
+
 
 
 
