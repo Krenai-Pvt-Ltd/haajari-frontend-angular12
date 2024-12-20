@@ -1,372 +1,364 @@
-<div class="d-flex justify-content-between">
-    <h5 class="m-0" style="color: #111; font-size: 18px" (click)="back()">
-        <div class="back-btns-box" style="cursor: pointer;">
-          <i class="bi bi-chevron-left"></i>
-          <span class="font-16 pt-2 pl-2">EPF, ESI & TDS (OVERRIDE)</span>
-        </div>
-      </h5>
-      <div class="button-items">
-        <!-- <button type="button" class="btn btn-light btn-round" (click)="epfEsiTdsBackTab()" *ngIf="CURRENT_TAB_IN_EPF_ESI_TDS != EPF"> BACK </button>
-        <button type="button" class="btn btn-primary btn-round" (click)="registerEpfEsiTdsMethodCall(CURRENT_TAB_IN_EPF_ESI_TDS)" *ngIf="CURRENT_TAB_IN_EPF_ESI_TDS != TDS"> SAVE & CONTINUE </button>
-        <button type="button" class="btn btn-primary btn-round" (click)="registerEpfEsiTdsMethodCall(CURRENT_TAB_IN_EPF_ESI_TDS)" *ngIf="CURRENT_TAB_IN_EPF_ESI_TDS == TDS"> MARK AS COMPLETE </button> -->
-      </div>
+<div class="d-flex justify-content-between mt-3">
+  <h5 class="m-0" style="color: #111; font-size: 18px" (click)="back()">
+    <div class="back-btns-box" style="cursor: pointer;">
+      <i class="bi bi-chevron-left"></i>
+      <span class="font-16 pt-2 pl-2">EPF, ESI & TDS (OVERRIDE)</span>
+    </div>
+  </h5>
 </div>
 
 
-<!-- <nav>
-    <div class="nav nav-tabs" id="nav-tab">
-      <a class="nav-link active" id="step10-tab" data-bs-toggle="tab" href="#step10" (click)="
-        epfTab()
-        " #step10Tab [class.disabled]="PAYROLL_PROCESS_STEP < EPF">EPF </a>
-      <a class="nav-link" id="step11-tab" data-bs-toggle="tab" href="#step11" (click)="
-          esiTab()
-        " #step11Tab [class.disabled]="PAYROLL_PROCESS_STEP < ESI">ESI </a>
-      <a class="nav-link" id="step12-tab" data-bs-toggle="tab" href="#step12" (click)="
-          tdsTab()
-        " #step12Tab [class.disabled]="PAYROLL_PROCESS_STEP < TDS">TDS </a>
-    </div>
-  </nav> -->
 
 
-<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+
+<ul class="nav nav-pills mb-3 mt-4" id="pills-tab" role="tablist">
   <li class="nav-item" role="presentation">
-    <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">EPF</button>
+    <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button"
+      role="tab" aria-controls="pills-home" aria-selected="true">EPF</button>
   </li>
   <li class="nav-item" role="presentation">
-    <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">ESI</button>
+    <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button"
+      role="tab" aria-controls="pills-profile" aria-selected="false">ESI</button>
   </li>
   <li class="nav-item" role="presentation">
-    <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">TDS</button>
+    <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button"
+      role="tab" aria-controls="pills-contact" aria-selected="false">TDS</button>
   </li>
 </ul>
 <div class="tab-content" id="pills-tabContent">
   <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
     <div class="table-responsive">
-        <table class="table border-dashed mb-0">
-          <thead>
-            <tr>
-              <th>EMPLOYEE</th>
-              <th>EMAIL</th>
-              <th>AMOUNT</th>
-              <th>AMOUNT TO BE ADJUSTED</th>
-              <th>FINAL AMOUNT</th>
-  
+      <table class="table border-dashed mb-0">
+        <thead>
+          <tr>
+            <th>EMPLOYEE</th>
+            <th>EMAIL</th>
+            <th>AMOUNT</th>
+            <th>AMOUNT TO BE ADJUSTED</th>
+            <th>FINAL AMOUNT</th>
+
+          </tr>
+        </thead>
+        <ng-container
+          *ngIf="isShimmerForEpfDetailsResponse && epfDetailsResponseList.length == 0; else epfDetailsResponseListCondition">
+          <tbody>
+            <tr *ngFor="let item of [].constructor(10)">
+              <td class="text-center">
+                <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+              </td>
+              <td class="text-center">
+                <ngx-shimmer-loading [width]="'%'" [height]="'10px'"></ngx-shimmer-loading>
+              </td>
+              <td class="text-center">
+                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+              </td>
+              <td class="text-center">
+                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+              </td>
+              <td class="text-center">
+                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+              </td>
+              <td class="text-center">
+                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+              </td>
+              <td class="text-center">
+                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+              </td>
+              <td class="text-center">
+                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+              </td>
+              <td class="text-center">
+                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+              </td>
             </tr>
-          </thead>
-          <ng-container *ngIf="isShimmerForEpfDetailsResponse && epfDetailsResponseList.length == 0; else epfDetailsResponseListCondition">
-            <tbody>
-              <tr *ngFor="let item of [].constructor(10)">
-                <td class="text-center">
-                  <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
-                </td>
-                <td class="text-center">
-                  <ngx-shimmer-loading [width]="'%'" [height]="'10px'"></ngx-shimmer-loading>
-                </td>
-                <td class="text-center">
-                  <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                </td>
-                <td class="text-center">
-                  <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                </td>
-                <td class="text-center">
-                  <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                </td>
-                <td class="text-center">
-                  <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                </td>
-                <td class="text-center">
-                  <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                </td>
-                <td class="text-center">
-                  <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                </td>
-                <td class="text-center">
-                  <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                </td>
-              </tr>
-            </tbody>
-          </ng-container>
-          <ng-template #epfDetailsResponseListCondition>
-            <ng-container *ngIf="!isShimmerForEpfDetailsResponse && epfDetailsResponseList.length != 0; else errorInFetchingEpfDetailsResponseListCondition">
-              <tbody *ngFor="let epfDetailsResponse of epfDetailsResponseList
+          </tbody>
+        </ng-container>
+        <ng-template #epfDetailsResponseListCondition>
+          <ng-container
+            *ngIf="!isShimmerForEpfDetailsResponse && epfDetailsResponseList.length != 0; else errorInFetchingEpfDetailsResponseListCondition">
+            <tbody *ngFor="let epfDetailsResponse of epfDetailsResponseList
                 | paginate
                   : {
                       itemsPerPage: itemPerPage,
                       currentPage: pageNumber,
                       totalItems: total
                     }">
-                <tr>
-                  <td>{{ epfDetailsResponse.name }}</td>
-                  <td>{{ epfDetailsResponse.email }}</td>
-                  <td>{{ epfDetailsResponse.amount }}</td>
-                  <td>
-                    <!-- <input class="comment-input p-2" type="number" placeholder="Enter the new amount here" [(ngModel)]="epfDetailsResponse.amountToBeAdjusted" (ngModelChange)="updateFinalAmount(epfDetailsResponse)" [ngModelOptions]="{ standalone: true }" /> -->
-                  </td>
-                  <td>{{ epfDetailsResponse.finalAmount }}</td>
-                  <!-- <td class="text-start"><a><i class="bi bi-pencil-square"></i></a></td> -->
-                </tr>
-              </tbody>
-            </ng-container>
-          </ng-template>
-          <ng-template #errorInFetchingEpfDetailsResponseListCondition>
-            <tbody>
               <tr>
-                <td colspan="8">
-                  <div class="errorboxmain" *ngIf="networkConnectionErrorPlaceHolderForEpfDetailsResponse">
-                    <div class="errorboxinner text-center">
-                      <div class="errorboxplaceholder mb-2">
-                        <img src="assets/images/signal.svg" style="width: 100px" />
-                      </div>
-                      <div class="">
-                        <h4>Something went wrong</h4>
-                        <p> An error occurred while processing your request. Please refresh the page and try again. </p>
-                      </div>
-                    </div>
-                  </div>
+                <td>{{ epfDetailsResponse.name }}</td>
+                <td>{{ epfDetailsResponse.email }}</td>
+                <td>{{ epfDetailsResponse.amount }}</td>
+                <td>
+                  <!-- <input class="comment-input p-2" type="number" placeholder="Enter the new amount here" [(ngModel)]="epfDetailsResponse.amountToBeAdjusted" (ngModelChange)="updateFinalAmount(epfDetailsResponse)" [ngModelOptions]="{ standalone: true }" /> -->
                 </td>
+                <td>{{ epfDetailsResponse.finalAmount }}</td>
+                <!-- <td class="text-start"><a><i class="bi bi-pencil-square"></i></a></td> -->
               </tr>
             </tbody>
-            <tbody>
-              <tr>
-                <td colspan="8">
-                  <div class="errorboxmain" *ngIf="
+          </ng-container>
+        </ng-template>
+        <ng-template #errorInFetchingEpfDetailsResponseListCondition>
+          <tbody>
+            <tr>
+              <td colspan="8">
+                <div class="errorboxmain" *ngIf="networkConnectionErrorPlaceHolderForEpfDetailsResponse">
+                  <div class="errorboxinner text-center">
+                    <div class="errorboxplaceholder mb-2">
+                      <img src="assets/images/signal.svg" style="width: 100px" />
+                    </div>
+                    <div class="">
+                      <h4>Something went wrong</h4>
+                      <p> An error occurred while processing your request. Please refresh the page and try again. </p>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+          <tbody>
+            <tr>
+              <td colspan="8">
+                <div class="errorboxmain" *ngIf="
                       dataNotFoundPlaceholderForEpfDetailsResponse &&
                       !networkConnectionErrorPlaceHolderForEpfDetailsResponse
                     ">
-                    <div class="errorboxinner text-center">
-                      <div class="errorboxplaceholder mb-2">
-                        <img src="assets/images/empty-folder.svg" style="width: 100px" />
-                      </div>
-                      <h4>No Data Found</h4>
-                      <p> Sorry, We can't show you the data at this moment! </p>
+                  <div class="errorboxinner text-center">
+                    <div class="errorboxplaceholder mb-2">
+                      <img src="assets/images/empty-folder.svg" style="width: 100px" />
                     </div>
+                    <h4>No Data Found</h4>
+                    <p> Sorry, We can't show you the data at this moment! </p>
                   </div>
-                </td>
-              </tr>
-            </tbody>
-          </ng-template>
-        </table>
-        <!--end /table-->
-      </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </ng-template>
+      </table>
+      <!--end /table-->
+    </div>
   </div>
   <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
     <div class="table-responsive">
-        <table class="table border-dashed mb-0">
-          <thead>
-            <tr>
-              <th>EMPLOYEE</th>
-              <th>EMAIL</th>
-              <th>AMOUNT</th>
-              <th>AMOUT TO BE ADJUSTED</th>
-              <th>FINAL AMOUNT</th>
-              <!-- <th>ACTION</th> -->
+      <table class="table border-dashed mb-0">
+        <thead>
+          <tr>
+            <th>EMPLOYEE</th>
+            <th>EMAIL</th>
+            <th>AMOUNT</th>
+            <th>AMOUT TO BE ADJUSTED</th>
+            <th>FINAL AMOUNT</th>
+            <!-- <th>ACTION</th> -->
+          </tr>
+        </thead>
+        <ng-container
+          *ngIf="isShimmerForEsiDetailsResponse && esiDetailsResponseList.length == 0; else esiDetailsResponseListCondition">
+          <tbody>
+            <tr *ngFor="let item of [].constructor(10)">
+              <td class="text-center">
+                <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+              </td>
+              <td class="text-center">
+                <ngx-shimmer-loading [width]="'%'" [height]="'10px'"></ngx-shimmer-loading>
+              </td>
+              <td class="text-center">
+                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+              </td>
+              <td class="text-center">
+                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+              </td>
+              <td class="text-center">
+                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+              </td>
+              <td class="text-center">
+                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+              </td>
+              <td class="text-center">
+                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+              </td>
+              <td class="text-center">
+                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+              </td>
+              <td class="text-center">
+                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+              </td>
             </tr>
-          </thead>
-          <ng-container *ngIf="isShimmerForEsiDetailsResponse && esiDetailsResponseList.length == 0; else esiDetailsResponseListCondition">
-            <tbody>
-              <tr *ngFor="let item of [].constructor(10)">
-                <td class="text-center">
-                  <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
-                </td>
-                <td class="text-center">
-                  <ngx-shimmer-loading [width]="'%'" [height]="'10px'"></ngx-shimmer-loading>
-                </td>
-                <td class="text-center">
-                  <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                </td>
-                <td class="text-center">
-                  <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                </td>
-                <td class="text-center">
-                  <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                </td>
-                <td class="text-center">
-                  <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                </td>
-                <td class="text-center">
-                  <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                </td>
-                <td class="text-center">
-                  <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                </td>
-                <td class="text-center">
-                  <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                </td>
-              </tr>
-            </tbody>
-          </ng-container>
-          <ng-template #esiDetailsResponseListCondition>
-            <ng-container *ngIf="!isShimmerForEsiDetailsResponse && esiDetailsResponseList.length != 0; else errorInFetchingEsiDetailsResponseListCondition">
-              <tbody *ngFor="let esiDetailsResponse of esiDetailsResponseList
+          </tbody>
+        </ng-container>
+        <ng-template #esiDetailsResponseListCondition>
+          <ng-container
+            *ngIf="!isShimmerForEsiDetailsResponse && esiDetailsResponseList.length != 0; else errorInFetchingEsiDetailsResponseListCondition">
+            <tbody *ngFor="let esiDetailsResponse of esiDetailsResponseList
                 | paginate
                   : {
                       itemsPerPage: itemPerPage,
                       currentPage: pageNumber,
                       totalItems: total
                     }">
-                <tr>
-                  <td>{{ esiDetailsResponse.name }}</td>
-                  <td>{{ esiDetailsResponse.email }}</td>
-                  <td>{{ esiDetailsResponse.amount }}</td>
-                  <td>
-                    <!-- <input class="comment-input p-2" type="number" placeholder="Enter the new amount here" [(ngModel)]="esiDetailsResponse.amountToBeAdjusted" (ngModelChange)="updateFinalAmount(esiDetailsResponse)" [ngModelOptions]="{ standalone: true }" /> -->
-                  </td>
-                  <td>{{ esiDetailsResponse.finalAmount }}</td>
-                  <!-- <td class="text-start"><a><i class="bi bi-pencil-square"></i></a></td> -->
-                </tr>
-              </tbody>
-            </ng-container>
-          </ng-template>
-          <ng-template #errorInFetchingEsiDetailsResponseListCondition>
-            <tbody>
               <tr>
-                <td colspan="8">
-                  <div class="errorboxmain" *ngIf="networkConnectionErrorPlaceHolderForEsiDetailsResponse">
-                    <div class="errorboxinner text-center">
-                      <div class="errorboxplaceholder mb-2">
-                        <img src="assets/images/signal.svg" style="width: 100px" />
-                      </div>
-                      <div class="">
-                        <h4>Something went wrong</h4>
-                        <p> An error occurred while processing your request. Please refresh the page and try again. </p>
-                      </div>
-                    </div>
-                  </div>
+                <td>{{ esiDetailsResponse.name }}</td>
+                <td>{{ esiDetailsResponse.email }}</td>
+                <td>{{ esiDetailsResponse.amount }}</td>
+                <td>
+                  <!-- <input class="comment-input p-2" type="number" placeholder="Enter the new amount here" [(ngModel)]="esiDetailsResponse.amountToBeAdjusted" (ngModelChange)="updateFinalAmount(esiDetailsResponse)" [ngModelOptions]="{ standalone: true }" /> -->
                 </td>
-              </tr>
-            </tbody>
-            <tbody>
-              <tr>
-                <td colspan="8">
-                  <div class="errorboxmain" *ngIf="
-                      dataNotFoundPlaceholderForEsiDetailsResponse &&
-                      !networkConnectionErrorPlaceHolderForEsiDetailsResponse
-                    ">
-                    <div class="errorboxinner text-center">
-                      <div class="errorboxplaceholder mb-2">
-                        <img src="assets/images/empty-folder.svg" style="width: 100px" />
-                      </div>
-                      <h4>No Data Found</h4>
-                      <p> Sorry, We can't show you the data at this moment! </p>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </ng-template>
-        </table>
-        <!--end /table-->
-      </div>
-    </div>
-  <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
-    <div class="table-responsive">
-        <table class="table border-dashed mb-0">
-          <thead>
-            <tr>
-              <th>EMPLOYEE</th>
-              <th>EMAIL</th>
-              <th>AMOUNT</th>
-              <th>AMOUT TO BE ADJUSTED</th>
-              <th>FINAL AMOUNT</th>
-              <!-- <th>ACTION</th> -->
-            </tr>
-          </thead>
-          <ng-container *ngIf="isShimmerForTdsDetailsResponse && tdsDetailsResponseList.length == 0; else tdsDetailsResponseListCondition">
-            <tbody>
-              <tr *ngFor="let item of [].constructor(10)">
-                <td class="text-center">
-                  <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
-                </td>
-                <td class="text-center">
-                  <ngx-shimmer-loading [width]="'%'" [height]="'10px'"></ngx-shimmer-loading>
-                </td>
-                <td class="text-center">
-                  <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                </td>
-                <td class="text-center">
-                  <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                </td>
-                <td class="text-center">
-                  <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                </td>
-                <td class="text-center">
-                  <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                </td>
-                <td class="text-center">
-                  <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                </td>
-                <td class="text-center">
-                  <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                </td>
-                <td class="text-center">
-                  <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                </td>
+                <td>{{ esiDetailsResponse.finalAmount }}</td>
+                <!-- <td class="text-start"><a><i class="bi bi-pencil-square"></i></a></td> -->
               </tr>
             </tbody>
           </ng-container>
-          <ng-template #tdsDetailsResponseListCondition>
-            <ng-container *ngIf="!isShimmerForTdsDetailsResponse && tdsDetailsResponseList.length != 0; else errorInFetchingTdsDetailsResponseListCondition">
-              <tbody *ngFor="let tdsDetailsResponse of tdsDetailsResponseList;">
-                <tr>
-                  <td>{{ tdsDetailsResponse.name }}</td>
-                  <td>{{ tdsDetailsResponse.email }}</td>
-                  <td>{{ tdsDetailsResponse.amount }}</td>
-                  <td>
-                    <!-- <input class="comment-input p-2" type="number" placeholder="Enter the new amount here" [(ngModel)]="tdsDetailsResponse.amountToBeAdjusted" (ngModelChange)="updateFinalAmount(tdsDetailsResponse)" [ngModelOptions]="{ standalone: true }" /> -->
-                  </td>
-                  <td>{{ tdsDetailsResponse.finalAmount }}</td>
-                  <!-- <td class="text-start"><a><i class="bi bi-pencil-square"></i></a></td> -->
-                </tr>
-              </tbody>
-            </ng-container>
-          </ng-template>
-          <ng-template #errorInFetchingTdsDetailsResponseListCondition>
-            <tbody>
-              <tr>
-                <td colspan="8">
-                  <div class="errorboxmain" *ngIf="networkConnectionErrorPlaceHolderForTdsDetailsResponse">
-                    <div class="errorboxinner text-center">
-                      <div class="errorboxplaceholder mb-2">
-                        <img src="assets/images/signal.svg" style="width: 100px" />
-                      </div>
-                      <div class="">
-                        <h4>Something went wrong</h4>
-                        <p> An error occurred while processing your request. Please refresh the page and try again. </p>
-                      </div>
+        </ng-template>
+        <ng-template #errorInFetchingEsiDetailsResponseListCondition>
+          <tbody>
+            <tr>
+              <td colspan="8">
+                <div class="errorboxmain" *ngIf="networkConnectionErrorPlaceHolderForEsiDetailsResponse">
+                  <div class="errorboxinner text-center">
+                    <div class="errorboxplaceholder mb-2">
+                      <img src="assets/images/signal.svg" style="width: 100px" />
+                    </div>
+                    <div class="">
+                      <h4>Something went wrong</h4>
+                      <p> An error occurred while processing your request. Please refresh the page and try again. </p>
                     </div>
                   </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+          <tbody>
+            <tr>
+              <td colspan="8">
+                <div class="errorboxmain" *ngIf="
+                      dataNotFoundPlaceholderForEsiDetailsResponse &&
+                      !networkConnectionErrorPlaceHolderForEsiDetailsResponse
+                    ">
+                  <div class="errorboxinner text-center">
+                    <div class="errorboxplaceholder mb-2">
+                      <img src="assets/images/empty-folder.svg" style="width: 100px" />
+                    </div>
+                    <h4>No Data Found</h4>
+                    <p> Sorry, We can't show you the data at this moment! </p>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </ng-template>
+      </table>
+      <!--end /table-->
+    </div>
+  </div>
+  <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+    <div class="table-responsive">
+      <table class="table border-dashed mb-0">
+        <thead>
+          <tr>
+            <th>EMPLOYEE</th>
+            <th>EMAIL</th>
+            <th>AMOUNT</th>
+            <th>AMOUT TO BE ADJUSTED</th>
+            <th>FINAL AMOUNT</th>
+            <!-- <th>ACTION</th> -->
+          </tr>
+        </thead>
+        <ng-container
+          *ngIf="isShimmerForTdsDetailsResponse && tdsDetailsResponseList.length == 0; else tdsDetailsResponseListCondition">
+          <tbody>
+            <tr *ngFor="let item of [].constructor(10)">
+              <td class="text-center">
+                <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+              </td>
+              <td class="text-center">
+                <ngx-shimmer-loading [width]="'%'" [height]="'10px'"></ngx-shimmer-loading>
+              </td>
+              <td class="text-center">
+                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+              </td>
+              <td class="text-center">
+                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+              </td>
+              <td class="text-center">
+                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+              </td>
+              <td class="text-center">
+                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+              </td>
+              <td class="text-center">
+                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+              </td>
+              <td class="text-center">
+                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+              </td>
+              <td class="text-center">
+                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+              </td>
+            </tr>
+          </tbody>
+        </ng-container>
+        <ng-template #tdsDetailsResponseListCondition>
+          <ng-container
+            *ngIf="!isShimmerForTdsDetailsResponse && tdsDetailsResponseList.length != 0; else errorInFetchingTdsDetailsResponseListCondition">
+            <tbody *ngFor="let tdsDetailsResponse of tdsDetailsResponseList;">
+              <tr>
+                <td>{{ tdsDetailsResponse.name }}</td>
+                <td>{{ tdsDetailsResponse.email }}</td>
+                <td>{{ tdsDetailsResponse.amount }}</td>
+                <td>
+                  <!-- <input class="comment-input p-2" type="number" placeholder="Enter the new amount here" [(ngModel)]="tdsDetailsResponse.amountToBeAdjusted" (ngModelChange)="updateFinalAmount(tdsDetailsResponse)" [ngModelOptions]="{ standalone: true }" /> -->
                 </td>
+                <td>{{ tdsDetailsResponse.finalAmount }}</td>
+                <!-- <td class="text-start"><a><i class="bi bi-pencil-square"></i></a></td> -->
               </tr>
             </tbody>
-            <tbody>
-              <tr>
-                <td colspan="8">
-                  <div class="errorboxmain" *ngIf="
+          </ng-container>
+        </ng-template>
+        <ng-template #errorInFetchingTdsDetailsResponseListCondition>
+          <tbody>
+            <tr>
+              <td colspan="8">
+                <div class="errorboxmain" *ngIf="networkConnectionErrorPlaceHolderForTdsDetailsResponse">
+                  <div class="errorboxinner text-center">
+                    <div class="errorboxplaceholder mb-2">
+                      <img src="assets/images/signal.svg" style="width: 100px" />
+                    </div>
+                    <div class="">
+                      <h4>Something went wrong</h4>
+                      <p> An error occurred while processing your request. Please refresh the page and try again. </p>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+          <tbody>
+            <tr>
+              <td colspan="8">
+                <div class="errorboxmain" *ngIf="
                       dataNotFoundPlaceholderForTdsDetailsResponse &&
                       !networkConnectionErrorPlaceHolderForTdsDetailsResponse
                     ">
-                    <div class="errorboxinner text-center">
-                      <div class="errorboxplaceholder mb-2">
-                        <img src="assets/images/empty-folder.svg" style="width: 100px" />
-                      </div>
-                      <h4>No Data Found</h4>
-                      <p> Sorry, We can't show you the data at this moment! </p>
+                  <div class="errorboxinner text-center">
+                    <div class="errorboxplaceholder mb-2">
+                      <img src="assets/images/empty-folder.svg" style="width: 100px" />
                     </div>
+                    <h4>No Data Found</h4>
+                    <p> Sorry, We can't show you the data at this moment! </p>
                   </div>
-                </td>
-              </tr>
-            </tbody>
-          </ng-template>
-        </table>
-        <!--end /table-->
-      </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </ng-template>
+      </table>
+      <!--end /table-->
     </div>
+  </div>
 </div>
 
 
 
 
-   <!-- <div class="pagination pl-3 align-items-center justify-content-between" *ngIf="(total > itemPerPage - 1 || (pageNumber === lastPageNumber && lastPageNumber !== 1)) && 
+<!-- <div class="pagination pl-3 align-items-center justify-content-between" *ngIf="(total > itemPerPage - 1 || (pageNumber === lastPageNumber && lastPageNumber !== 1)) && 
             ((CURRENT_TAB == EPF && !dataNotFoundPlaceholderForEpfDetailsResponse && !networkConnectionErrorPlaceHolderForEpfDetailsResponse) || 
              (CURRENT_TAB == ESI && !dataNotFoundPlaceholderForEsiDetailsResponse && !networkConnectionErrorPlaceHolderForEsiDetailsResponse) || 
              (CURRENT_TAB == TDS && !dataNotFoundPlaceholderForTdsDetailsResponse && !networkConnectionErrorPlaceHolderForTdsDetailsResponse))">
