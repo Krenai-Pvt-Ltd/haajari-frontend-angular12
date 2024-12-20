@@ -17,6 +17,7 @@ import { PlacesService } from 'src/app/services/places.service';
 import { OnboardingModule } from 'src/app/models/OnboardingModule';
 import { Role } from 'src/app/models/role';
 import { ActivatedRoute } from '@angular/router';
+import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 
 @Component({
   selector: 'app-company-setting',
@@ -371,8 +372,8 @@ export class CompanySettingComponent implements OnInit {
     // this.staffs = [];
     this.dataService
       .getUsersByFilter(
-        this.itemPerPage,
-        this.pageNumber,
+        this.databaseHelper.itemPerPage,
+        this.databaseHelper.currentPage,
         'asc',
         'id',
         this.searchText,
@@ -400,6 +401,21 @@ export class CompanySettingComponent implements OnInit {
         }
       );
   }
+
+  databaseHelper: DatabaseHelper = new DatabaseHelper();
+     totalItems: number = 0;
+     pageChanged(page: any) {
+      debugger;
+       if (page != this.databaseHelper.currentPage) {
+         this.databaseHelper.currentPage = page;
+         this.getUserByFiltersMethodCall();
+       }
+     }
+  
+     clearPage(){
+      this.databaseHelper = new DatabaseHelper();
+      this.searchText = ''
+     }
 
 
   teamNameList: UserTeamDetailsReflection[] = [];
@@ -446,6 +462,8 @@ export class CompanySettingComponent implements OnInit {
     }
     this.getUserByFiltersMethodCall();
   }
+
+
 
   getPages(): number[] {
     const totalPages = Math.ceil(this.total / this.itemPerPage);
@@ -553,6 +571,8 @@ export class CompanySettingComponent implements OnInit {
 
 
   searchUsers() {
+    this.databaseHelper.currentPage = 1;
+    this.databaseHelper.itemPerPage = 10;
     this.getUserByFiltersMethodCall();
   }
 
