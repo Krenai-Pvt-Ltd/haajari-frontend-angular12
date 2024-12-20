@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import * as moment from 'moment';
+import moment from 'moment';
 import { UserDto } from 'src/app/models/user-dto.model';
 import { DataService } from 'src/app/services/data.service';
 

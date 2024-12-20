@@ -9460,7 +9460,7 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
   background-color: #fff !important;
   border: 1px solid #f1f1f1 !important;
   border-radius: 2px !important;
-  height: 50px !important;
+  height: 45px !important;
   font-weight: 400 !important;
   font-size: 14px !important;
   line-height: 18px !important;
@@ -9901,6 +9901,19 @@ button:disabled {
   color: #fff !important;
   border-radius: 2px;
   padding: 7px 20px !important;
+  -webkit-transform: perspective(1px) translateZ(0);
+  transform: perspective(1px) translateZ(0);
+  -webkit-animation-name: wobble;
+  animation-name: wobble;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-timing-function: ease-in-out;
+  animation-timing-function: ease-in-out;
+  -webkit-animation-iteration-count: 1;
+  animation-iteration-count: 1;
+}
+.btn-border-text {
+  color: var(--primary-color) !important;
   -webkit-transform: perspective(1px) translateZ(0);
   transform: perspective(1px) translateZ(0);
   -webkit-animation-name: wobble;

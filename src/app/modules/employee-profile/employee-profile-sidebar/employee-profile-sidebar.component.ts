@@ -13,7 +13,10 @@ import { RoleBasedAccessControlService } from 'src/app/services/role-based-acces
 import { differenceInMonths, format, parseISO } from 'date-fns';
 import { UserResignation } from 'src/app/models/UserResignation';
 import { LoggedInUser } from 'src/app/models/logged-in-user';
-import { Subject } from 'rxjs';
+import { Skills } from 'src/app/constant/Skills';
+import { EmployeeAdditionalDocument } from 'src/app/models/EmployeeAdditionalDocument';
+import { finalize } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-employee-profile-sidebar',
@@ -34,7 +37,8 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     public domSanitizer: DomSanitizer,
     private afStorage: AngularFireStorage,
     public rbacService: RoleBasedAccessControlService,
-    private sanitizer: DomSanitizer,) {
+    private sanitizer: DomSanitizer,
+    private sharedService: HelperService) {
       this.myForm = this.fb.group({
         position: ['', Validators.required],  // Make Position field required
         effectiveDate: ['', Validators.required],
@@ -59,7 +63,9 @@ export class EmployeeProfileSidebarComponent implements OnInit {
 
    profileChangeStatusSubscriber: any;
 
-
+  //  modalUrl: any;
+   
+ 
 
    toggle :boolean = false;
    ROLE : any;
@@ -74,7 +80,8 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     this.getEmployeeProfileData();
     this.getUserAttendanceStatus();
     this.fetchUserPositions();
-
+    this.getSkills();
+    this.fetchDocuments();
     this.ROLE = await this.roleService.getRole();
     this.UUID = await this.roleService.getUuid();
 
@@ -91,16 +98,31 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     this.getNoticePeriodDuration()
 
     this.getUserResignationInfo()
+    this.closeModalSubscription = this.sharedService.closeModal$.subscribe(() => {
+      if (this.currentModalRef) {
+        this.currentModalRef.close();
+      }
+    });
 
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
+    debugger
+    if (this.closeModalSubscription) {
+
+      this.closeModalSubscription.unsubscribe();
+    }
     this.profileChangeStatusSubscriber.complete();
   }
+
+  // ngOnDestroy(){
+  //   this.profileChangeStatusSubscriber.complete();
+  // }
 
 
   employeeProfileResponseData : EmployeeProfileResponse | undefined;
   teamString !: any;
+  viewTeamsLess: boolean = true;
   getEmployeeProfileData() {
     debugger
     this.dataService.getEmployeeProfile(this.userId).subscribe((response) => {
@@ -112,6 +134,75 @@ export class EmployeeProfileSidebarComponent implements OnInit {
          console.log(error);
     })
     console.log("employee profile", this.employeeProfileResponseData);
+  }
+
+  skills: string[] = [];
+
+  searchSkill: string = '';
+  addSkill(): void {
+    if (this.searchSkill && !this.skills.includes(this.searchSkill)) {
+      this.skills.push(this.searchSkill);
+      this.searchSkill = ''; // Clear input field after adding
+    }else if(this.searchSkill){
+      this.helperService.showToast(this.searchSkill + ' is Already Added', Key.TOAST_STATUS_ERROR);
+    }else if(!this.searchSkill){
+      this.helperService.showToast('Empty field cannot be added ', Key.TOAST_STATUS_ERROR);
+    }
+    this.skillsFilteredOptions=[];
+  }
+  checkSkillsArraysEqual(): boolean {
+    debugger
+    if (this.skills.length !== this.fetchedSkills.length) {
+      return false;
+    }
+
+    // Sort both arrays and compare each element
+    const sortedArr1 = [...this.skills].sort();
+    const sortedArr2 = [...this.fetchedSkills].sort();
+
+    return sortedArr1.every((value, index) => value === sortedArr2[index]);
+  }
+
+  removeSkill(skill: string): void {
+    const index = this.skills.indexOf(skill);
+    if (index !== -1) {
+      this.skills.splice(index, 1);
+    }
+  }
+
+
+  fetchedSkills: string[] = [];
+  isSkillsLoading: boolean=false;
+  viewLess: boolean=true;
+  @ViewChild('closeButton') closeButton!: ElementRef;
+  saveSkills(): void {
+    debugger
+    this.isSkillsLoading=true;
+    this.dataService.saveSkills(this.userId, this.skills).subscribe(
+      (response) => {
+        this.isSkillsLoading=false;
+        this.helperService.showToast(response.message,Key.TOAST_STATUS_SUCCESS);
+        this.getSkills();
+        this.closeButton.nativeElement.click();
+      },
+      error => {
+        this.isSkillsLoading=false;
+        console.error('Error saving skills', error);
+      }
+    );
+  }
+
+  // Fetch skills from backend
+  getSkills(): void {
+    this.dataService.getSkills(this.userId).subscribe(
+      (skills) => {
+        this.fetchedSkills = skills;
+        this.skills= JSON.parse(JSON.stringify(skills));;
+      },
+      error => {
+        console.error('Error fetching skills', error);
+      }
+    );
   }
 
   fetchUserPositions(): void {
@@ -160,14 +251,22 @@ export class EmployeeProfileSidebarComponent implements OnInit {
   }
 
   InOutLoader: boolean = false;
-  modalUrl: SafeResourceUrl | null = null;
-  @ViewChild('urlModalTemplate', { static: true }) urlModalTemplate!: TemplateRef<any>;
-
+  outLoader: boolean = false;
+  breakLoader: boolean = false;
+  
   checkinCheckout(command: string) {
     this.InOutLoader = true;
+    if(command==='/out'){
+      this.outLoader=true;
+    }
+    if(command==='/break'){
+      this.breakLoader=true;
+    }
     this.dataService.checkinCheckoutInSlack(this.userId, command).subscribe(
       (data) => {
         this.InOutLoader = false;
+        this.outLoader=false;
+        this.breakLoader=false;
 
         // Check if data.message is a valid URL
         const urlPattern = /^(https?:\/\/[^\s/$.?#].[^\s]*)$/;
@@ -183,24 +282,48 @@ export class EmployeeProfileSidebarComponent implements OnInit {
       },
       (error) => {
         this.InOutLoader = false;
+        this.outLoader=false;
+        this.breakLoader=false;
         this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
       }
     );
   }
 
+  modalUrl: SafeResourceUrl | null = null;
+  // @ViewChild('urlModalTemplate', { static: true }) urlModalTemplate!: TemplateRef<any>;
+  @ViewChild('urlModalTemplate') urlModalTemplate!: TemplateRef<any>;
+  currentModalRef: any;
+  private closeModalSubscription!: Subscription;
+
+
   openUrlInModal(url: string) {
     this.modalUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url); // Sanitize URL
-    const modalRef = this.modalService.open(this.urlModalTemplate, { size: 'lg', centered: true });
-    modalRef.result.finally(() => {
+    this.currentModalRef = this.modalService.open(this.urlModalTemplate, { size: 'lg', centered: true });
+
+    console.log('Current Modal Ref:', this.currentModalRef);
+    // this.dataService.markAttendanceModal = true;
+    this.currentModalRef.result.finally(() => {
       this.modalUrl = null;
       this.getUserAttendanceStatus();
     });
   }
 
+  // openUrlInModal(url: string) {
+  //   this.modalUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url); // Sanitize URL
+  //   const modalRef = this.modalService.open(this.urlModalTemplate, { size: 'lg', centered: true });
+
+  //   this.dataService.markAttendanceModal = true;
+  //   modalRef.result.finally(() => {
+  //     this.modalUrl = null;
+  //     this.getUserAttendanceStatus();
+  //   });
+  // }
+
 
 
   position: string='';
   positionFilteredOptions: string[] = [];
+  skillsFilteredOptions: string[] = [];
   onChange(value: string): void {
 
       this.positionFilteredOptions = this.jobTitles.filter((option) =>
@@ -208,6 +331,14 @@ export class EmployeeProfileSidebarComponent implements OnInit {
       );
 
   }
+  onSkillsChange(value: string): void {
+
+    this.skillsFilteredOptions = Skills.SKILLS.filter((option) =>
+      option.toLowerCase().includes(value.toLowerCase()) &&
+      !this.skills.includes(option)
+    );
+
+}
   preventLeadingWhitespace(event: KeyboardEvent): void {
     const inputElement = event.target as HTMLInputElement;
 
@@ -293,23 +424,46 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     }
   }
 
-  duration: string = '0 year 0 months';
+  duration: string = '';
   setWithUsDuration() {
-    debugger
-    const dates = this.userPositionDTO.map(position => ({
-      start: parseISO(position.startDate),
-      end: position.endDate ? parseISO(position.endDate) : new Date()
-    }));
+    debugger;
 
-    const minDate = dates.reduce((min, date) => date.start < min ? date.start : min, dates[0].start);
-    const maxDate = dates.reduce((max, date) => date.end > max ? date.end : max, dates[0].end);
+    if (!this.userPositionDTO || this.userPositionDTO.length === 0) {
+      this.duration = '';
+      return;
+    }
 
-    const totalMonths = differenceInMonths(maxDate, minDate);
-    const years = Math.floor(totalMonths / 12);
-    const months = totalMonths % 12;
+    // Get the last element of the DTO
+    const lastElement = this.userPositionDTO[this.userPositionDTO.length - 1];
 
-    this.duration = `${years} years ${months} months`;
+    // If the last element's startDate is empty
+    if (!lastElement.startDate) {
+      const dates = this.userPositionDTO.map(position => ({
+        start: parseISO(position.startDate),
+        end: position.endDate ? parseISO(position.endDate) : new Date()
+      }));
+
+      const minDate = dates.reduce((min, date) => date.start < min ? date.start : min, dates[0].start);
+      const maxDate = dates.reduce((max, date) => date.end > max ? date.end : max, dates[0].end);
+
+      const totalMonths = differenceInMonths(maxDate, minDate);
+      const years = Math.floor(totalMonths / 12);
+      const months = totalMonths % 12;
+
+      this.duration = `${years} years ${months} months`;
+    } else {
+      // If the last element's startDate is available
+      const startDate = parseISO(lastElement.startDate);
+      const currentDate = new Date();
+
+      const totalMonths = differenceInMonths(currentDate, startDate);
+      const years = Math.floor(totalMonths / 12);
+      const months = totalMonths % 12;
+
+      this.duration = `${years} years ${months} months`;
+    }
   }
+
 
 
 
@@ -580,7 +734,117 @@ export class EmployeeProfileSidebarComponent implements OnInit {
       queryParams: { setting: tabName },
     });
   }
+  isDocumentLoading: boolean=false;
+  doc: EmployeeAdditionalDocument={fileName: '', name: 'Employee Agreement', url: '', value: '',documentType:'employee_agreement'};
+  uploadDocumentFile(event: Event, doc: EmployeeAdditionalDocument): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      this.doc.name='';
+      this.doc.id=doc.id;
+      this.doc.value=doc.value;
+      this.doc.name=doc.name;
+      this.doc.documentType=doc.documentType;
+      this.doc.fileName = file.name;
+      this.uploadAdditionalFile(file);
+      console.log('Uploading file for document:', doc.name, file);
+    }
+  }
 
+  uploadAdditionalFile(file: File): void {
+    const filePath = `employeeCompanyDocs/${new Date().getTime()}_${file.name}`;
+    const fileRef = this.afStorage.ref(filePath);
+    const task = this.afStorage.upload(filePath, file);
+    task
+      .snapshotChanges()
+      .pipe(
+        finalize(() => {
+          fileRef.getDownloadURL().subscribe((url) => {
+            this.doc.url=url;
+            this.isDocumentLoading=true;
+            this.dataService.saveDocumentForUser(this.userId, this.doc).subscribe({
+              next: (response) => {
+                this.fetchDocuments();
+                this.selectedFile=null;
+                const closeButton = document.querySelector('#addDocument .close-btn') as HTMLElement;
+                if (closeButton) {
+                  closeButton.click();
+                }
+
+                console.log('Document saved successfully:', response);
+                this.helperService.showToast('Document saved successfully:',Key.TOAST_STATUS_SUCCESS);
+                this.isDocumentLoading=false;
+              },
+              error: (err) => {
+                this.helperService.showToast('Some problem in saving Document:',Key.TOAST_STATUS_ERROR);
+                this.isDocumentLoading=false;
+              },
+            });
+          });
+        })
+      )
+      .subscribe();
+  }
+
+  documents: EmployeeAdditionalDocument[] = [];
+  fetchDocuments(): void {
+    this.dataService.getDocumentsByTypeAndUser('employee_agreement', this.userId)
+      .subscribe(
+        (data) => {
+          this.documents = data;
+        },
+        (error) => {
+          console.error('Error fetching documents:', error);
+        }
+      );
+  }
+
+  onDocumentSubmit(): void {
+    if (this.selectedFile) {
+      this.isDocumentLoading=true;
+      this.uploadAdditionalFile(this.selectedFile);
+    } else {
+      console.error('No file selected!');
+    }
+  }
+
+  downloadSingleImage(fileUrl: string) {
+
+    if (!fileUrl) {
+      return;
+    }
+    debugger
+    fetch(fileUrl)
+    .then(response => response.blob()) // Convert the image to a Blob
+    .then(blob => {
+      // Create a temporary URL for the Blob
+      const blobUrl = URL.createObjectURL(blob);
+
+      // Create a hidden link element
+      const link = document.createElement('a');
+      link.href = blobUrl;
+
+      // Extract the file name from the URL or use a default name
+      const fileName = fileUrl.split('/').pop()?.split('?')[0] || 'downloaded-file.jpg';
+
+      link.download = fileName;  // This triggers the download
+
+      // Simulate a click to start the download
+      link.style.display = 'none';  // Hide the link
+      document.body.appendChild(link); // Append the link to the body
+      link.click(); // Trigger the download
+      document.body.removeChild(link); // Remove the link from the DOM
+      URL.revokeObjectURL(blobUrl); // Release the object URL
+    })
+    .catch(error => {
+      console.error('Error downloading file:', error);
+    });
+  }
+  handleFileChange(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    this.doc.fileName = target.files?.[0]?.name || '';
+    this.selectedFile=target.files?.[0];
+  }
 
   jobTitles: string[] = [
     'Accountant',
@@ -750,6 +1014,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     'Web Developer',
     'Workplace Safety Officer',
   ];
+
 
 
 }

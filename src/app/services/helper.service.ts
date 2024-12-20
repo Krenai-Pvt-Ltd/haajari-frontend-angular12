@@ -5,10 +5,10 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { DataService } from './data.service';
 import { formatDate } from '@angular/common';
 import { NavigationExtras, Router } from '@angular/router';
-import * as saveAs from 'file-saver';
 import { Key } from '../constant/key';
 import { RestrictedSubModule } from '../models/RestrictedSuubModule';
 import { OrganizationOnboardingService } from './organization-onboarding.service';
+import saveAs from 'file-saver';
 
 @Injectable({
   providedIn: 'root'
@@ -19,12 +19,23 @@ export class HelperService {
   constructor( private _httpClient : HttpClient,
      private dataService: DataService,
      private router: Router,
-     private _onboardingService: OrganizationOnboardingService,
+  
     ) {
 
    }
+   organizationRegistrationDate:string='';
    profileChangeStatus : Subject<boolean> = new Subject<boolean>();
    resignationSubmitted : Subject<boolean> = new Subject<boolean>();
+
+   private closeModalSubject = new Subject<void>();
+   closeModal$ = this.closeModalSubject.asObservable();
+
+  closeModal() {
+    debugger
+    console.log('Current Modal Ref service1:', this.closeModal$);
+    console.log('Current Modal Ref service2:', this.closeModalSubject);
+    this.closeModalSubject.next();
+  }
 
    isFirstTime: boolean = true;
    markAsVisited() {
@@ -37,7 +48,7 @@ export class HelperService {
   restrictedModules!:RestrictedSubModule[];
   subModuleResponseList: any[] = [];
 
- 
+
 
   todoStepsSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
@@ -300,13 +311,13 @@ export class HelperService {
       }
     );
   }
-  
+
 
   saveOrgSecondaryToDoStepBarData(value : number) {
     debugger
     this.dataService.saveOrgSecondaryToDoStepBar(value).subscribe(
       (response) => {
-        // console.log("success");  
+        // console.log("success");
         // this.getOrgSecondaryToDoStepBarData();
       },
       (error) => {
@@ -346,4 +357,50 @@ export class HelperService {
   getSubscriptionRestrictedModules() {
     return this._httpClient.get<any>(this._key.base_url + this._key.get_restricted_modules)
   }
+
+
+  getOrganizationRegistrationDateMethodCall() {
+    this.dataService.getOrganizationRegistrationDate().subscribe(
+      (response) => {
+        this.organizationRegistrationDate = response;
+      },
+      (error) => {
+
+      }
+    );
+  }
+
+
+  disableMonths = (date: Date): boolean => {
+    const currentYear = new Date().getFullYear();
+    const currentMonth = new Date().getMonth();
+    const dateYear = date.getFullYear();
+    const dateMonth = date.getMonth();
+    const organizationRegistrationYear = new Date(
+      this.organizationRegistrationDate
+    ).getFullYear();
+    const organizationRegistrationMonth = new Date(
+      this.organizationRegistrationDate
+    ).getMonth();
+
+    // Disable if the month is before the organization registration month
+    if (
+      dateYear < organizationRegistrationYear ||
+      (dateYear === organizationRegistrationYear &&
+        dateMonth < organizationRegistrationMonth)
+    ) {
+      return true;
+    }
+
+    // Disable if the month is after the current month
+    if (
+      dateYear > currentYear ||
+      (dateYear === currentYear && dateMonth > currentMonth)
+    ) {
+      return true;
+    }
+
+    // Enable the month if it's from January 2023 to the current month
+    return false;
+  };
 }

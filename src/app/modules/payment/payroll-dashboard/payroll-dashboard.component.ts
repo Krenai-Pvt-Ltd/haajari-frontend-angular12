@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { Color, ScaleType } from '@swimlane/ngx-charts';
 import { Key } from 'src/app/constant/key';
 import { EpfDetailsRequest } from 'src/app/models/epf-details-request';
@@ -48,6 +48,12 @@ export class PayrollDashboardComponent implements OnInit {
   searchBy: string = 'name';
   total: number = 0;
 
+  payrollToggleView:boolean=false;
+  showLeaveComponent:boolean=false;
+  showEmployeeComponent:boolean=false;
+  showSalaryComponent:boolean=false;
+  showEariningComponent:boolean=false;
+
   readonly TOAST_STATUS_SUCCESS = Key.TOAST_STATUS_SUCCESS;
   readonly TOAST_STATUS_ERROR = Key.TOAST_STATUS_ERROR;
 
@@ -79,241 +85,253 @@ export class PayrollDashboardComponent implements OnInit {
 
   isTaskSuccess : boolean = true;
 
-  @ViewChild('step1Tab', { static: false }) step1Tab!: ElementRef;
-  @ViewChild('step2Tab', { static: false }) step2Tab!: ElementRef;
-  @ViewChild('step3Tab', { static: false }) step3Tab!: ElementRef;
-  @ViewChild('step4Tab', { static: false }) step4Tab!: ElementRef;
-  @ViewChild('step5Tab', { static: false }) step5Tab!: ElementRef;
-  @ViewChild('step6Tab', { static: false }) step6Tab!: ElementRef;
-  @ViewChild('step7Tab', { static: false }) step7Tab!: ElementRef;
-  @ViewChild('step8Tab', { static: false }) step8Tab!: ElementRef;
-  @ViewChild('step9Tab', { static: false }) step9Tab!: ElementRef;
-  @ViewChild('step10Tab', { static: false }) step10Tab!: ElementRef;
-  @ViewChild('step11Tab', { static: false }) step11Tab!: ElementRef;
-  @ViewChild('step12Tab', { static: false }) step12Tab!: ElementRef;
+  // @ViewChild('step1Tab', { static: false }) step1Tab!: ElementRef;
+  // @ViewChild('step2Tab', { static: false }) step2Tab!: ElementRef;
+  // @ViewChild('step3Tab', { static: false }) step3Tab!: ElementRef;
+  // @ViewChild('step4Tab', { static: false }) step4Tab!: ElementRef;
+  // @ViewChild('step5Tab', { static: false }) step5Tab!: ElementRef;
+  // @ViewChild('step6Tab', { static: false }) step6Tab!: ElementRef;
+  // @ViewChild('step7Tab', { static: false }) step7Tab!: ElementRef;
+  // @ViewChild('step8Tab', { static: false }) step8Tab!: ElementRef;
+  // @ViewChild('step9Tab', { static: false }) step9Tab!: ElementRef;
+  // @ViewChild('step10Tab', { static: false }) step10Tab!: ElementRef;
+  // @ViewChild('step11Tab', { static: false }) step11Tab!: ElementRef;
+  // @ViewChild('step12Tab', { static: false }) step12Tab!: ElementRef;
 
 
-  @ViewChild('employeeChangeModal', { static: false }) employeeChangeModal!: ElementRef;
-  @ViewChild('attendanceAndLeaveModal', { static: false }) attendanceAndLeaveModal!: ElementRef;
-  @ViewChild('salaryChangeModal', { static: false }) salaryChangeModal!: ElementRef;
-  @ViewChild('epfEsiTdsModal', { static: false }) epfEsiTdsModal!: ElementRef;
+  // @ViewChild('employeeChangeModal', { static: false }) employeeChangeModal!: ElementRef;
+  // @ViewChild('attendanceAndLeaveModal', { static: false }) attendanceAndLeaveModal!: ElementRef;
+  // @ViewChild('salaryChangeModal', { static: false }) salaryChangeModal!: ElementRef;
+  // @ViewChild('epfEsiTdsModal', { static: false }) epfEsiTdsModal!: ElementRef;
 
-  navigateToTab(tabId: string): void {
-    switch (tabId) {
-      case 'step1-tab':
-        this.step1Tab.nativeElement.click();
-        break;
-      case 'step2-tab':
-        this.step2Tab.nativeElement.click();
-        break;
-      case 'step3-tab':
-        this.step3Tab.nativeElement.click();
-        break;
-      case 'step4-tab':
-        this.step4Tab.nativeElement.click();
-        break;
-      case 'step5-tab':
-        this.step5Tab.nativeElement.click();
-        break;
-      case 'step6-tab':
-        this.step6Tab.nativeElement.click();
-        break;
-      case 'step7-tab':
-        this.step7Tab.nativeElement.click();
-        break;
-      case 'step8-tab':
-        this.step8Tab.nativeElement.click();
-        break;
-      case 'step9-tab':
-        this.step9Tab.nativeElement.click();
-        break;
-      case 'step10-tab':
-        this.step10Tab.nativeElement.click();
-        break;
-      case 'step11-tab':
-        this.step11Tab.nativeElement.click();
-        break;
-      case 'step12-tab':
-        this.step12Tab.nativeElement.click();
-        break;
-      default:
-        console.error(`Tab with id ${tabId} not found`);
-        return;
-    }
-  }
+  // navigateToTab(tabId: string): void {
+  //   switch (tabId) {
+  //     case 'step1-tab':
+  //       this.step1Tab.nativeElement.click();
+  //       break;
+  //     case 'step2-tab':
+  //       this.step2Tab.nativeElement.click();
+  //       break;
+  //     case 'step3-tab':
+  //       this.step3Tab.nativeElement.click();
+  //       break;
+  //     case 'step4-tab':
+  //       this.step4Tab.nativeElement.click();
+  //       break;
+  //     case 'step5-tab':
+  //       this.step5Tab.nativeElement.click();
+  //       break;
+  //     case 'step6-tab':
+  //       this.step6Tab.nativeElement.click();
+  //       break;
+  //     case 'step7-tab':
+  //       this.step7Tab.nativeElement.click();
+  //       break;
+  //     case 'step8-tab':
+  //       this.step8Tab.nativeElement.click();
+  //       break;
+  //     case 'step9-tab':
+  //       this.step9Tab.nativeElement.click();
+  //       break;
+  //     case 'step10-tab':
+  //       this.step10Tab.nativeElement.click();
+  //       break;
+  //     case 'step11-tab':
+  //       this.step11Tab.nativeElement.click();
+  //       break;
+  //     case 'step12-tab':
+  //       this.step12Tab.nativeElement.click();
+  //       break;
+  //     default:
+  //       console.error(`Tab with id ${tabId} not found`);
+  //       return;
+  //   }
+  // }
 
   // ------------------------------
   //Exmployee changes selection
   employeeChangesSection(PAYROLL_PROCESS_STEP : number){
-    if(PAYROLL_PROCESS_STEP == this.FINAL_SETTLEMENT){
-      this.finalSettlementTab();
-      this.navigateToTab('step3-tab');
-    } else if(PAYROLL_PROCESS_STEP == this.USER_EXIT){
-      this.userExitTab();
-      this.navigateToTab('step2-tab');
-    } else{
-      this.newJoineeTab();
-    }
+    this.payrollToggleView = true;
+    this.showEmployeeComponent = true;
+    // if(PAYROLL_PROCESS_STEP == this.FINAL_SETTLEMENT){
+    //   this.finalSettlementTab();
+    //   this.navigateToTab('step3-tab');
+    // } else if(PAYROLL_PROCESS_STEP == this.USER_EXIT){
+    //   this.userExitTab();
+    //   this.navigateToTab('step2-tab');
+    // } else{
+    //   this.newJoineeTab();
+    // }
   }
-  newJoineeTab() {
-    this.CURRENT_TAB = this.NEW_JOINEE;
-    this.CURRENT_TAB_IN_EMPLOYEE_CHANGE = this.NEW_JOINEE;
-    this.resetCriteriaFilter();
-    this.getNewJoineeByOrganizationIdMethodCall();
-  }
+  // newJoineeTab() {
+  //   this.CURRENT_TAB = this.NEW_JOINEE;
+  //   this.CURRENT_TAB_IN_EMPLOYEE_CHANGE = this.NEW_JOINEE;
+  //   this.resetCriteriaFilter();
+  //   this.getNewJoineeByOrganizationIdMethodCall();
+  // }
 
-  userExitTab() {
-    this.CURRENT_TAB = this.USER_EXIT;
-    this.CURRENT_TAB_IN_EMPLOYEE_CHANGE = this.USER_EXIT;
-    this.resetCriteriaFilter();
-    this.getUserExitByOrganizationIdMethodCall();
-  }
+  // userExitTab() {
+  //   this.CURRENT_TAB = this.USER_EXIT;
+  //   this.CURRENT_TAB_IN_EMPLOYEE_CHANGE = this.USER_EXIT;
+  //   this.resetCriteriaFilter();
+  //   this.getUserExitByOrganizationIdMethodCall();
+  // }
 
-  finalSettlementTab() {
-    this.CURRENT_TAB = this.FINAL_SETTLEMENT;
-    this.CURRENT_TAB_IN_EMPLOYEE_CHANGE = this.FINAL_SETTLEMENT;
-    this.resetCriteriaFilter();
-    this.getFinalSettlementByOrganizationIdMethodCall();
-  }
+  // finalSettlementTab() {
+  //   this.CURRENT_TAB = this.FINAL_SETTLEMENT;
+  //   this.CURRENT_TAB_IN_EMPLOYEE_CHANGE = this.FINAL_SETTLEMENT;
+  //   this.resetCriteriaFilter();
+  //   this.getFinalSettlementByOrganizationIdMethodCall();
+  // }
 
   // ----------------------------------------------------------
   // Attendance, Leaves and Present Days tab selection
   attendanceAndLeaveSection(PAYROLL_PROCESS_STEP : number){
-    if(PAYROLL_PROCESS_STEP == this.LOP_REVERSAL){
-      this.lopReversalTab();
-      this.navigateToTab('step6-tab');
-    } else if(PAYROLL_PROCESS_STEP == this.LOP_SUMMARY){
-      this.lopSummaryTab();
-      this.navigateToTab('step5-tab');
-    } else{
-      this.leavesTab();
-    }
+    this.payrollToggleView = true;
+    this.showLeaveComponent = true;
+    // if(PAYROLL_PROCESS_STEP == this.LOP_REVERSAL){
+    //   this.lopReversalTab();
+    //   this.navigateToTab('step6-tab');
+    // } else if(PAYROLL_PROCESS_STEP == this.LOP_SUMMARY){
+    //   this.lopSummaryTab();
+    //   this.navigateToTab('step5-tab');
+    // } else{
+    //   this.leavesTab();
+    // }
   }
-  leavesTab(){
-    this.CURRENT_TAB = this.LEAVES;
-    this.CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE = this.LEAVES;
-    this.resetCriteriaFilter();
-    this.getPayrollLeaveResponseMethodCall();
-  }
+  // leavesTab(){
+  //   this.CURRENT_TAB = this.LEAVES;
+  //   this.CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE = this.LEAVES;
+  //   this.resetCriteriaFilter();
+  //   console.log("==========getPendingLeaves==========")
+  //   // this.getUserPendingLeaves(); ///ABHIJEET
+  //   // this.getPayrollLeaveResponseMethodCall();
+  // }
 
-  lopSummaryTab(){
-    this.CURRENT_TAB = this.LOP_SUMMARY;
-    this.CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE = this.LOP_SUMMARY;
-    this.resetCriteriaFilter();
-    this.getLopSummaryResponseByOrganizationIdAndStartDateAndEndDateMethodCall();
-  }
+  // lopSummaryTab(){
+  //   this.CURRENT_TAB = this.LOP_SUMMARY;
+  //   this.CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE = this.LOP_SUMMARY;
+  //   this.resetCriteriaFilter();
+  //   this.getLopSummaryResponseByOrganizationIdAndStartDateAndEndDateMethodCall();
+  // }
 
-  lopReversalTab(){
-    this.CURRENT_TAB = this.LOP_REVERSAL;
-    this.CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE = this.LOP_REVERSAL;
-    this.resetCriteriaFilter();
-    this.getLopReversalResponseByOrganizationIdAndStartDateAndEndDateMethodCall();
-  }
+  // lopReversalTab(){
+  //   this.CURRENT_TAB = this.LOP_REVERSAL;
+  //   this.CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE = this.LOP_REVERSAL;
+  //   this.resetCriteriaFilter();
+  //   this.getLopReversalResponseByOrganizationIdAndStartDateAndEndDateMethodCall();
+  // }
 
 
   // ----------------------------------------------------------
   // Salary Changes, Bonus and Overtime tab selection
   salaryChangeSection(PAYROLL_PROCESS_STEP : number){
-    if(PAYROLL_PROCESS_STEP == this.OVERTIME){
-      this.overtimeTab();
-      this.navigateToTab('step9-tab');
-    } else if(PAYROLL_PROCESS_STEP == this.BONUS){
-      this.bonusTab();
-      this.navigateToTab('step8-tab');
-    } else{
-      this.salaryChangeTab();
-    }
+    this.payrollToggleView = true;
+    this.showEariningComponent = true;
+    // if(PAYROLL_PROCESS_STEP == this.OVERTIME){
+    //   this.overtimeTab();
+    //   this.navigateToTab('step9-tab');
+    // } else if(PAYROLL_PROCESS_STEP == this.BONUS){
+    //   this.bonusTab();
+    //   this.navigateToTab('step8-tab');
+    // } else{
+    //   this.salaryChangeTab();
+    // }
   }
-  salaryChangeTab(){
-    this.CURRENT_TAB = this.SALARY_CHANGE;
-    this.CURRENT_TAB_IN_SALARY_CHANGE = this.SALARY_CHANGE;
-    this.resetCriteriaFilter();
-    this.getSalaryChangeResponseListByOrganizationIdMethodCall();
-  }
+  // salaryChangeTab(){
+  //   this.CURRENT_TAB = this.SALARY_CHANGE;
+  //   this.CURRENT_TAB_IN_SALARY_CHANGE = this.SALARY_CHANGE;
+  //   this.resetCriteriaFilter();
+  //   this.getSalaryChangeResponseListByOrganizationIdMethodCall();
+  // }
 
-  bonusTab(){
-    this.CURRENT_TAB = this.BONUS;
-    this.CURRENT_TAB_IN_SALARY_CHANGE = this.BONUS;
-    this.resetCriteriaFilter();
-    this.getSalaryChangeBonusResponseListByOrganizationIdMethodCall();
-  }
+  // bonusTab(){
+  //   this.CURRENT_TAB = this.BONUS;
+  //   this.CURRENT_TAB_IN_SALARY_CHANGE = this.BONUS;
+  //   this.resetCriteriaFilter();
+  //   this.getSalaryChangeBonusResponseListByOrganizationIdMethodCall();
+  // }
 
-  overtimeTab(){
-    this.CURRENT_TAB = this.OVERTIME;
-    this.CURRENT_TAB_IN_SALARY_CHANGE = this.OVERTIME;
-    this.resetCriteriaFilter();
-    this.getSalaryChangeOvertimeResponseListByOrganizationIdMethodCall();
-  }
+  // overtimeTab(){
+  //   this.CURRENT_TAB = this.OVERTIME;
+  //   this.CURRENT_TAB_IN_SALARY_CHANGE = this.OVERTIME;
+  //   this.resetCriteriaFilter();
+  //   this.getSalaryChangeOvertimeResponseListByOrganizationIdMethodCall();
+  // }
 
 
   // -----------------------------------------
   // EPF, ESI & TDS
   epfEsiTdsSection(PAYROLL_PROCESS_STEP : number){
-    if(PAYROLL_PROCESS_STEP == this.TDS){
-      this.tdsTab();
-      this.navigateToTab('step12-tab');
-    } else if(PAYROLL_PROCESS_STEP == this.ESI){
-      this.esiTab();
-      this.navigateToTab('step11-tab');
-    } else{
-      this.epfTab();
-    }
+    this.payrollToggleView = true;
+    this.showSalaryComponent = true;
+    // if(PAYROLL_PROCESS_STEP == this.TDS){
+    //   this.tdsTab();
+    //   this.navigateToTab('step12-tab');
+    // } else if(PAYROLL_PROCESS_STEP == this.ESI){
+    //   this.esiTab();
+    //   this.navigateToTab('step11-tab');
+    // } else{
+    //   this.epfTab();
+    // }
   }
-  epfTab(){
-    this.CURRENT_TAB = this.EPF;
-    this.CURRENT_TAB_IN_EPF_ESI_TDS = this.EPF;
-    this.resetCriteriaFilter();
-    this.getEpfDetailsResponseListByOrganizationIdMethodCall();
-  }
+  // epfTab(){
+  //   this.CURRENT_TAB = this.EPF;
+  //   this.CURRENT_TAB_IN_EPF_ESI_TDS = this.EPF;
+  //   this.resetCriteriaFilter();
+  //   this.getEpfDetailsResponseListByOrganizationIdMethodCall();
+  // }
 
-  esiTab(){
-    this.CURRENT_TAB = this.ESI;
-    this.CURRENT_TAB_IN_EPF_ESI_TDS = this.ESI;
-    this.resetCriteriaFilter();
-    this.getEsiDetailsResponseListByOrganizationIdMethodCall();
-  }
+  // esiTab(){
+  //   this.CURRENT_TAB = this.ESI;
+  //   this.CURRENT_TAB_IN_EPF_ESI_TDS = this.ESI;
+  //   this.resetCriteriaFilter();
+  //   this.getEsiDetailsResponseListByOrganizationIdMethodCall();
+  // }
 
-  tdsTab(){
-    this.CURRENT_TAB = this.TDS;
-    this.CURRENT_TAB_IN_EPF_ESI_TDS = this.TDS;
-    this.resetCriteriaFilter();
-    this.getTdsDetailsResponseListByOrganizationIdMethodCall();
-  }
+  // tdsTab(){
+  //   this.CURRENT_TAB = this.TDS;
+  //   this.CURRENT_TAB_IN_EPF_ESI_TDS = this.TDS;
+  //   this.resetCriteriaFilter();
+  //   this.getTdsDetailsResponseListByOrganizationIdMethodCall();
+  // }
 
   // Employee Chages tab-estate
-  employeeChangesBackTab(){
-    if(this.CURRENT_TAB_IN_EMPLOYEE_CHANGE == this.FINAL_SETTLEMENT){
-      this.navigateToTab('step2-tab'); // Navigating to the user exit tab
-    } else if(this.CURRENT_TAB_IN_EMPLOYEE_CHANGE == this.USER_EXIT){
-      this.navigateToTab('step1-tab'); // Navigating to the new joinee tab
-    }
-  }
+  // employeeChangesBackTab(){
+  //   if(this.CURRENT_TAB_IN_EMPLOYEE_CHANGE == this.FINAL_SETTLEMENT){
+  //     this.navigateToTab('step2-tab'); // Navigating to the user exit tab
+  //   } else if(this.CURRENT_TAB_IN_EMPLOYEE_CHANGE == this.USER_EXIT){
+  //     this.navigateToTab('step1-tab'); // Navigating to the new joinee tab
+  //   }
+  // }
 
   // Attendance & Leave tab-estate
-  attendanceAndLeaveBackTab(){
-    if(this.CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE == this.LOP_REVERSAL){
-      this.navigateToTab('step5-tab');
-    } else if(this.CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE == this.LOP_SUMMARY){
-      this.navigateToTab('step4-tab');
-    }
-  }
+  // attendanceAndLeaveBackTab(){
+  //   if(this.CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE == this.LOP_REVERSAL){
+  //     this.navigateToTab('step5-tab');
+  //   } else if(this.CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE == this.LOP_SUMMARY){
+  //     this.navigateToTab('step4-tab');
+  //   }
+  // }
 
   // Salary changes, Bonus & Overtime tab-estate
-  salaryChangesBackTab(){
-    if(this.CURRENT_TAB_IN_SALARY_CHANGE == this.OVERTIME){
-      this.navigateToTab('step8-tab');
-    } else if(this.CURRENT_TAB_IN_SALARY_CHANGE == this.BONUS){
-      this.navigateToTab('step7-tab');
-    }
-  }
+  // salaryChangesBackTab(){
+  //   if(this.CURRENT_TAB_IN_SALARY_CHANGE == this.OVERTIME){
+  //     this.navigateToTab('step8-tab');
+  //   } else if(this.CURRENT_TAB_IN_SALARY_CHANGE == this.BONUS){
+  //     this.navigateToTab('step7-tab');
+  //   }
+  // }
 
-  epfEsiTdsBackTab(){
-    if(this.CURRENT_TAB_IN_EPF_ESI_TDS == this.TDS){
-      this.navigateToTab('step11-tab');
-    } else if(this.CURRENT_TAB_IN_EPF_ESI_TDS == this.ESI){
-      this.navigateToTab('step10-tab');
-    }
-  }
+  // epfEsiTdsBackTab(){
+  //   if(this.CURRENT_TAB_IN_EPF_ESI_TDS == this.TDS){
+  //     this.navigateToTab('step11-tab');
+  //   } else if(this.CURRENT_TAB_IN_EPF_ESI_TDS == this.ESI){
+  //     this.navigateToTab('step10-tab');
+  //   }
+  // }
+
+  calendarShimmer :boolean =false;
 
   isShimmer = false;
   dataNotFoundPlaceholder = false;
@@ -437,14 +455,15 @@ export class PayrollDashboardComponent implements OnInit {
 
   constructor(
     private dataService: DataService,
-    private helperService: HelperService,
-    private _payrollService : PayrollService
+    private _helperService: HelperService,
+    private _payrollService : PayrollService,
+  
   ) {}
 
   ngOnInit(): void {
     window.scroll(0, 0);
     this.getFirstAndLastDateOfMonth(); 
-    this.getOrganizationRegistrationDateMethodCall();
+    // this.getOrganizationRegistrationDateMethodCall();
     this.getMonthResponseListByYearMethodCall(this.selectedDate); 
     this.callPayrollDashboardMethod();
     this.getPayActionTypeListMethodCall();
@@ -457,10 +476,10 @@ export class PayrollDashboardComponent implements OnInit {
   //GET START DATE OF MONTH AND END DATE OF MONTH FROM CURRENT DATE
   getFirstAndLastDateOfMonth() {
     let currentDate = new Date();
-    this.startDate = this.helperService.formatDateToYYYYMMDD(
+    this.startDate = this._helperService.formatDateToYYYYMMDD(
       new Date(currentDate.getFullYear(), currentDate.getMonth(), 1)
     );
-    this.endDate = this.helperService.formatDateToYYYYMMDD(
+    this.endDate = this._helperService.formatDateToYYYYMMDD(
       new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0)
     );
   }
@@ -479,13 +498,16 @@ export class PayrollDashboardComponent implements OnInit {
   monthResponseList: MonthResponse[] = new Array();
   async getMonthResponseListByYearMethodCall(date: Date){
     return new Promise((resolve, reject) => {
+      this.calendarShimmer = true;
       this.monthResponseList = [];
-      this._payrollService.getMonthResponseListByYear(this.helperService.formatDateToYYYYMMDD(date)).subscribe((response) => {
+      this._payrollService.getMonthResponseListByYear(this._helperService.formatDateToYYYYMMDD(date)).subscribe((response) => {
         if(response.status){
           this.monthResponseList = response.object;
         }
+        this.calendarShimmer = false;
         resolve(true);
       }, ((error) => {
+        this.calendarShimmer = false;
         resolve(true);
       }))
     })
@@ -545,7 +567,7 @@ export class PayrollDashboardComponent implements OnInit {
   disableYears = (date: Date): boolean => {
     const currentYear = new Date().getFullYear();
     const dateYear = date.getFullYear();
-    const organizationRegistrationYear = new Date(this.organizationRegistrationDate).getFullYear();
+    const organizationRegistrationYear = new Date(this._helperService.organizationRegistrationDate).getFullYear();
     // Disable if the year is before the organization registration year or if the year is after the organization registration year.
     if (dateYear < organizationRegistrationYear || dateYear > currentYear) {
       return true;
@@ -555,22 +577,22 @@ export class PayrollDashboardComponent implements OnInit {
 
  
   // Fetching organization registration date.
-  organizationRegistrationDate: string = '';
-  getOrganizationRegistrationDateMethodCall() {
-    this.dataService.getOrganizationRegistrationDate().subscribe(
-      (response) => {
-        this.organizationRegistrationDate = response;
-      },
-      (error) => {
-      }
-    );
-  }
+  // organizationRegistrationDate: string = '';
+  // getOrganizationRegistrationDateMethodCall() {
+  //   this.dataService.getOrganizationRegistrationDate().subscribe(
+  //     (response) => {
+  //       this.organizationRegistrationDate = response;
+  //     },
+  //     (error) => {
+  //     }
+  //   );
+  // }
 
 
   //Fetching the employees count with new joinee count and user exit count
   payrollDashboardEmployeeCountResponse: PayrollDashboardEmployeeCountResponse = new PayrollDashboardEmployeeCountResponse();
   countPayrollDashboardEmployeeByOrganizationIdMethodCall() {
-    this._payrollService.countPayrollDashboardEmployee(this.startDate,this.endDate).subscribe( (response) => {
+    this._payrollService.countPayrollDashboard(this.startDate,this.endDate).subscribe( (response) => {
           this.payrollDashboardEmployeeCountResponse = response.object;
           if(this.payrollDashboardEmployeeCountResponse == null){
             this.payrollDashboardEmployeeCountResponse = new PayrollDashboardEmployeeCountResponse();
@@ -586,11 +608,21 @@ export class PayrollDashboardComponent implements OnInit {
   // Fetching organization individual month salary data.
   organizationMonthWiseSalaryData: OrganizationMonthWiseSalaryData = new OrganizationMonthWiseSalaryData();
   getOrganizationIndividualMonthSalaryDataMethodCall() {
-    this._payrollService.getOrganizationIndividualMonthSalaryData(this.startDate,this.endDate).subscribe((response) => {
+    this._payrollService.getIndividualMonthSalary(this.startDate,this.endDate).subscribe((response) => {
 
         if(response.object!=null){
           this.organizationMonthWiseSalaryData = response.object;
+          
+          this.organizationMonthWiseSalaryData.epfAmount = this.organizationMonthWiseSalaryData.epfAmount == null ? 0 : this.organizationMonthWiseSalaryData.epfAmount;
+          this.organizationMonthWiseSalaryData.esiAmount = this.organizationMonthWiseSalaryData.esiAmount == null ? 0 : this.organizationMonthWiseSalaryData.esiAmount;
+          this.organizationMonthWiseSalaryData.tdsAmount = this.organizationMonthWiseSalaryData.tdsAmount == null ? 0 : this.organizationMonthWiseSalaryData.tdsAmount;
+          this.organizationMonthWiseSalaryData.grossPay = this.organizationMonthWiseSalaryData.grossPay == null ? 0 : this.organizationMonthWiseSalaryData.grossPay;
+          this.organizationMonthWiseSalaryData.netPay = this.organizationMonthWiseSalaryData.netPay == null ? 0 : this.organizationMonthWiseSalaryData.netPay;
           this.payrollChartMehthodCall();
+          if( this.organizationMonthWiseSalaryData.grossPay == 0){
+            this.resetPayrollChartData();
+            this.dataNotFoundPlaceholder = true;
+          }
         }else{
           this.dataNotFoundPlaceholder = true;
         }
@@ -605,7 +637,7 @@ export class PayrollDashboardComponent implements OnInit {
 // Fetching organization previous month salarry data of selected month.
   organizationPreviousMonthSalaryData: OrganizationMonthWiseSalaryData = new OrganizationMonthWiseSalaryData();
   getOrganizationPreviousMonthSalaryDataMethodCall() {
-    this._payrollService.getOrganizationPreviousMonthSalaryData(this.startDate,this.endDate).subscribe((response) => {
+    this._payrollService.getPreviousMonthSalary(this.startDate,this.endDate).subscribe((response) => {
           if(response.object!=null){
             this.organizationPreviousMonthSalaryData = response.object;
           }
@@ -644,15 +676,11 @@ export class PayrollDashboardComponent implements OnInit {
     name: 'custom',
     selectable: true,
     group: ScaleType.Ordinal,
-    domain: ['#6666f3', '#FFA500', '#F8D7D7', '#EB5050', '#E9E9FF', '#02E59C', '#888']
+    domain: [ '#E9E9FF','#FFA500', '#F8D7D7','#EB5050','#888']
   };
 
   // chart data
   single = [
-    {
-      name: 'Total',
-      value: 0
-    },
     {
       name: 'EPF',
       value: 0
@@ -670,10 +698,6 @@ export class PayrollDashboardComponent implements OnInit {
       value: 0
     },
     {
-      name: 'Gross Pay',
-      value: 0
-    },
-    {
       name: 'Not Found',
       value: 0.1
     }
@@ -681,11 +705,7 @@ export class PayrollDashboardComponent implements OnInit {
 
 
   payrollChartMehthodCall(){
-    this.single = [
-      {
-        name: 'Total',
-        value: this.organizationMonthWiseSalaryData.totalAmount
-      },
+    this.single = [ 
       {
         name: 'EPF',
         value: this.organizationMonthWiseSalaryData.epfAmount
@@ -701,10 +721,32 @@ export class PayrollDashboardComponent implements OnInit {
       {
         name: 'Net Pay',
         value: this.organizationMonthWiseSalaryData.netPay
+      }
+    ];
+  }
+
+  resetPayrollChartData(){
+
+    this.single = [
+      {
+        name: 'EPF',
+        value: 0
       },
       {
-        name: 'Gross Pay',
-        value: this.organizationMonthWiseSalaryData.grossPay
+        name: 'ESI',
+        value: 0
+      },
+      {
+        name: 'TDS',
+        value: 0
+      },
+      {
+        name: 'Net Pay',
+        value: 0
+      },
+      {
+        name: 'Not Found',
+        value: 0.1
       }
     ];
   }
@@ -723,7 +765,7 @@ export class PayrollDashboardComponent implements OnInit {
 
   //Routing to the user profile section
   routeToUserProfile(uuid : string){
-    this.helperService.routeToUserProfile(uuid);
+    this._helperService.routeToUserProfile(uuid);
   }
 
   //Fetching the new joinee data
@@ -744,39 +786,37 @@ export class PayrollDashboardComponent implements OnInit {
         .getNewJoineeByOrganizationId(
           this.itemPerPage,
           this.pageNumber,
-          this.sort,
-          this.sortBy,
           this.search,
-          this.searchBy,
           this.startDate,
           this.endDate
         )
         .subscribe(
           (response) => {
-            if (this.helperService.isListOfObjectNullOrUndefined(response)) {
+            if (this._helperService.isListOfObjectNullOrUndefined(response)) {
               this.dataNotFoundPlaceholderForNewJoinee = true;
             } else {
-              this.newJoineeResponseList = response.listOfObject.map((joinee: NewJoineeResponse) => {
-                // Apply cached selection if available
-                if (this.selectedPayActionCache[joinee.uuid]) {
-                  joinee.payActionType = this.selectedPayActionCache[joinee.uuid];
-                  joinee.payActionTypeId = this.selectedPayActionCache[joinee.uuid].id;
-                } else {
-                  // Set initial selection based on payActionTypeId
-                  const selectedPayActionType = this.payActionTypeList.find(
-                    (payActionType) => payActionType.id === joinee.payActionTypeId
-                  );
-                  if (selectedPayActionType) {
-                    joinee.payActionType = selectedPayActionType;
-                  }
-                }
-                   // Apply cached comment if available
-                   if (this.commentCache[joinee.uuid]) {
-                    joinee.comment = this.commentCache[joinee.uuid];
-                  }
+              this.newJoineeResponseList = response.listOfObject
+              // .map((joinee: NewJoineeResponse) => {
+              //   // Apply cached selection if available
+              //   if (this.selectedPayActionCache[joinee.uuid]) {
+              //     joinee.payActionType = this.selectedPayActionCache[joinee.uuid];
+              //     joinee.payActionTypeId = this.selectedPayActionCache[joinee.uuid].id;
+              //   } else {
+              //     // Set initial selection based on payActionTypeId
+              //     const selectedPayActionType = this.payActionTypeList.find(
+              //       (payActionType) => payActionType.id === joinee.payActionTypeId
+              //     );
+              //     if (selectedPayActionType) {
+              //       joinee.payActionType = selectedPayActionType;
+              //     }
+              //   }
+              //      // Apply cached comment if available
+              //      if (this.commentCache[joinee.uuid]) {
+              //       joinee.comment = this.commentCache[joinee.uuid];
+              //     }
   
-                return joinee;
-              });
+              //   return joinee;
+              // });
               this.total = response.totalItems;
               this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
             }
@@ -813,7 +853,7 @@ export class PayrollDashboardComponent implements OnInit {
   noticePeriodList : NoticePeriod[] = [];
   getNoticePeriodListMethodCall(){
     this.dataService.getNoticePeriodList().subscribe((response) => {
-      if(this.helperService.isListOfObjectNullOrUndefined(response)){
+      if(this._helperService.isListOfObjectNullOrUndefined(response)){
 
       } else{
         this.noticePeriodList = response.listOfObject;
@@ -959,7 +999,7 @@ export class PayrollDashboardComponent implements OnInit {
 
     // Leaves, Lop Summary, etc.
     if (step == this.LEAVES){
-
+      // this.getUserPendingLeaves();
     }
 
     if (step == this.LOP_SUMMARY){
@@ -1024,19 +1064,19 @@ export class PayrollDashboardComponent implements OnInit {
 
   //New Joinee & User Exit Search
   searchNewJoinee(event: Event) {
-    this.helperService.ignoreKeysDuringSearch(event);
+    this._helperService.ignoreKeysDuringSearch(event);
     this.resetCriteriaFilterMicro();
     this.getNewJoineeByOrganizationIdMethodCall();
   }
 
   searchUserExit(event: Event) {
-    this.helperService.ignoreKeysDuringSearch(event);
+    this._helperService.ignoreKeysDuringSearch(event);
     this.resetCriteriaFilterMicro();
     this.getUserExitByOrganizationIdMethodCall();
   }
 
   searchUsers(event: Event, step: number) {
-    this.helperService.ignoreKeysDuringSearch(event);
+    this._helperService.ignoreKeysDuringSearch(event);
     this.resetCriteriaFilterMicro();
 
     if (step == this.NEW_JOINEE) {
@@ -1069,7 +1109,7 @@ export class PayrollDashboardComponent implements OnInit {
   }
 
   resetCriteriaFilter() {
-    this.itemPerPage = 2;
+    this.itemPerPage = 8;
     this.pageNumber = 1;
     this.lastPageNumber = 0;
     this.total = 0;
@@ -1081,7 +1121,7 @@ export class PayrollDashboardComponent implements OnInit {
   }
 
   resetCriteriaFilterMicro() {
-    this.itemPerPage = 2;
+    this.itemPerPage = 8;
     this.pageNumber = 1;
     this.lastPageNumber = 0;
     this.total = 0;
@@ -1097,58 +1137,58 @@ export class PayrollDashboardComponent implements OnInit {
       clearTimeout(this.debounceTimer);
     }
 
-    this.debounceTimer = setTimeout(() => {
-      this.preRuleForShimmersAndErrorPlaceholdersForUserExit();
-      this.dataService
-        .getUserExitByOrganizationId(
-          this.itemPerPage,
-          this.pageNumber,
-          this.sort,
-          this.sortBy,
-          this.search,
-          this.searchBy,
-          this.startDate,
-          this.endDate
-        )
-        .subscribe(
-          (response) => {
-            if (this.helperService.isListOfObjectNullOrUndefined(response)) {
-              this.dataNotFoundPlaceholderForUserExit = true;
-            } else {
-              this.userExitResponseList = response.listOfObject.map((exit: UserExitResponse) => {
-                // Apply cached pay action type if available
-                if (this.selectedPayActionCache[exit.uuid]) {
-                  exit.payActionType = this.selectedPayActionCache[exit.uuid];
-                  exit.payActionTypeId = this.selectedPayActionCache[exit.uuid].id;
-                  // console.log(exit.name, exit.payActionType)
-                } else {
-                  // Set initial selection based on payActionTypeId
-                  const selectedPayActionType = this.payActionTypeList.find(
-                    (payActionType) => payActionType.id === exit.payActionTypeId
-                  );
-                  if (selectedPayActionType) {
-                    exit.payActionType = selectedPayActionType;
-                  }
-                }
+    // this.debounceTimer = setTimeout(() => {
+    //   this.preRuleForShimmersAndErrorPlaceholdersForUserExit();
+    //   this.dataService
+    //     .getUserExitByOrganizationId(
+    //       this.itemPerPage,
+    //       this.pageNumber,
+    //       this.sort,
+    //       this.sortBy,
+    //       this.search,
+    //       this.searchBy,
+    //       this.startDate,
+    //       this.endDate
+    //     )
+    //     .subscribe(
+    //       (response) => {
+    //         if (this._helperService.isListOfObjectNullOrUndefined(response)) {
+    //           this.dataNotFoundPlaceholderForUserExit = true;
+    //         } else {
+    //           this.userExitResponseList = response.listOfObject.map((exit: UserExitResponse) => {
+    //             // Apply cached pay action type if available
+    //             if (this.selectedPayActionCache[exit.uuid]) {
+    //               exit.payActionType = this.selectedPayActionCache[exit.uuid];
+    //               exit.payActionTypeId = this.selectedPayActionCache[exit.uuid].id;
+    //               // console.log(exit.name, exit.payActionType)
+    //             } else {
+    //               // Set initial selection based on payActionTypeId
+    //               const selectedPayActionType = this.payActionTypeList.find(
+    //                 (payActionType) => payActionType.id === exit.payActionTypeId
+    //               );
+    //               if (selectedPayActionType) {
+    //                 exit.payActionType = selectedPayActionType;
+    //               }
+    //             }
 
-                // Apply cached comment if available
-                if (this.commentCache[exit.uuid]) {
-                  exit.comment = this.commentCache[exit.uuid];
-                }
+    //             // Apply cached comment if available
+    //             if (this.commentCache[exit.uuid]) {
+    //               exit.comment = this.commentCache[exit.uuid];
+    //             }
 
-                return exit;
-              });
-              this.total = response.totalItems;
-              this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
-            }
-            this.isShimmerForUserExit = false;
-          },
-          (error) => {
-            this.networkConnectionErrorPlaceHolderForUserExit = true;
-            this.isShimmerForUserExit = false;
-          }
-        );
-    }, debounceTime);
+    //             return exit;
+    //           });
+    //           this.total = response.totalItems;
+    //           this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+    //         }
+    //         this.isShimmerForUserExit = false;
+    //       },
+    //       (error) => {
+    //         this.networkConnectionErrorPlaceHolderForUserExit = true;
+    //         this.isShimmerForUserExit = false;
+    //       }
+    //     );
+    // }, debounceTime);
   }
 
   //Fetching the final settlement data
@@ -1160,57 +1200,57 @@ export class PayrollDashboardComponent implements OnInit {
       clearTimeout(this.debounceTimer);
     }
 
-    this.debounceTimer = setTimeout(() => {
-      this.preRuleForShimmersAndErrorPlaceholdersForFinalSettlement();
-      this.dataService
-        .getFinalSettlementByOrganizationId(
-          this.itemPerPage,
-          this.pageNumber,
-          this.sort,
-          this.sortBy,
-          this.search,
-          this.searchBy,
-          this.startDate,
-          this.endDate
-        )
-        .subscribe(
-          (response) => {
-            if (this.helperService.isListOfObjectNullOrUndefined(response)) {
-              this.dataNotFoundPlaceholderForFinalSettlement = true;
-            } else {
-              this.finalSettlementResponseList = response.listOfObject.map((settlement: FinalSettlementResponse) => {
-                // Apply cached pay action type if available
-                if (this.selectedPayActionCache[settlement.uuid]) {
-                  settlement.payActionType = this.selectedPayActionCache[settlement.uuid];
-                  settlement.payActionTypeId = this.selectedPayActionCache[settlement.uuid].id;
-                } else {
-                  // Set initial selection based on payActionTypeId
-                  const selectedPayActionType = this.payActionTypeList.find(
-                    (payActionType) => payActionType.id === settlement.payActionTypeId
-                  );
-                  if (selectedPayActionType) {
-                    settlement.payActionType = selectedPayActionType;
-                  }
-                }
+    // this.debounceTimer = setTimeout(() => {
+    //   this.preRuleForShimmersAndErrorPlaceholdersForFinalSettlement();
+    //   this.dataService
+    //     .getFinalSettlementByOrganizationId(
+    //       this.itemPerPage,
+    //       this.pageNumber,
+    //       this.sort,
+    //       this.sortBy,
+    //       this.search,
+    //       this.searchBy,
+    //       this.startDate,
+    //       this.endDate
+    //     )
+    //     .subscribe(
+    //       (response) => {
+    //         if (this._helperService.isListOfObjectNullOrUndefined(response)) {
+    //           this.dataNotFoundPlaceholderForFinalSettlement = true;
+    //         } else {
+    //           this.finalSettlementResponseList = response.listOfObject.map((settlement: FinalSettlementResponse) => {
+    //             // Apply cached pay action type if available
+    //             if (this.selectedPayActionCache[settlement.uuid]) {
+    //               settlement.payActionType = this.selectedPayActionCache[settlement.uuid];
+    //               settlement.payActionTypeId = this.selectedPayActionCache[settlement.uuid].id;
+    //             } else {
+    //               // Set initial selection based on payActionTypeId
+    //               const selectedPayActionType = this.payActionTypeList.find(
+    //                 (payActionType) => payActionType.id === settlement.payActionTypeId
+    //               );
+    //               if (selectedPayActionType) {
+    //                 settlement.payActionType = selectedPayActionType;
+    //               }
+    //             }
 
-                // Apply cached comment if available
-                if (this.commentCache[settlement.uuid]) {
-                  settlement.comment = this.commentCache[settlement.uuid];
-                }
+    //             // Apply cached comment if available
+    //             if (this.commentCache[settlement.uuid]) {
+    //               settlement.comment = this.commentCache[settlement.uuid];
+    //             }
 
-                return settlement;
-              });
-              this.total = response.totalItems;
-              this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
-            }
-            this.isShimmerForFinalSettlement = false;
-          },
-          (error) => {
-            this.networkConnectionErrorPlaceHolderForFinalSettlement = true;
-            this.isShimmerForFinalSettlement = false;
-          }
-        );
-    }, debounceTime);
+    //             return settlement;
+    //           });
+    //           this.total = response.totalItems;
+    //           this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+    //         }
+    //         this.isShimmerForFinalSettlement = false;
+    //       },
+    //       (error) => {
+    //         this.networkConnectionErrorPlaceHolderForFinalSettlement = true;
+    //         this.isShimmerForFinalSettlement = false;
+    //       }
+    //     );
+    // }, debounceTime);
   }
   //Registering new joinee and user exit data to employee month wise salary data
   newJoineeAndUserExitRequestList: NewJoineeAndUserExitRequest[] = [];
@@ -1228,54 +1268,54 @@ export class PayrollDashboardComponent implements OnInit {
       } 
 
       if(this.CURRENT_TAB_IN_EMPLOYEE_CHANGE == this.USER_EXIT){
-        this.newJoineeAndUserExitRequestList = [];
+        // this.newJoineeAndUserExitRequestList = [];
 
-        this.userExitResponseList.forEach((item) => {
-          let newJoineeAndUserExitRequest = new NewJoineeAndUserExitRequest(item.uuid, item.payActionType.id, item.comment);
+        // this.userExitResponseList.forEach((item) => {
+        //   let newJoineeAndUserExitRequest = new NewJoineeAndUserExitRequest(item.uuid, item.payActionType.id, item.comment);
 
-          this.newJoineeAndUserExitRequestList.push(newJoineeAndUserExitRequest);
-        })
+        //   this.newJoineeAndUserExitRequestList.push(newJoineeAndUserExitRequest);
+        // })
       }
 
       if(this.CURRENT_TAB_IN_EMPLOYEE_CHANGE == this.FINAL_SETTLEMENT){
         this.newJoineeAndUserExitRequestList = [];
 
-        this.finalSettlementResponseList.forEach((item) => {
-          let newJoineeAndUserExitRequest = new NewJoineeAndUserExitRequest(item.uuid, item.payActionType.id, item.comment);
+        // this.finalSettlementResponseList.forEach((item) => {
+        //   let newJoineeAndUserExitRequest = new NewJoineeAndUserExitRequest(item.uuid, item.payActionType.id, item.comment);
 
-          this.newJoineeAndUserExitRequestList.push(newJoineeAndUserExitRequest);
-        })
+        //   this.newJoineeAndUserExitRequestList.push(newJoineeAndUserExitRequest);
+        // })
       }
       
       this.dataService.registerNewJoineeAndUserExit(this.newJoineeAndUserExitRequestList, this.startDate, this.endDate).subscribe((response) => {
         debugger;
         this.selectedPayActionCache={};
         this.commentCache = {};
-        this.helperService.showToast(response.message, this.TOAST_STATUS_SUCCESS);
+        this._helperService.showToast(response.message, this.TOAST_STATUS_SUCCESS);
         if (this.CURRENT_TAB_IN_EMPLOYEE_CHANGE == this.NEW_JOINEE) {
-          this.dataService.registerPayrollProcessStepByOrganizationIdAndStartDateAndEndDate(this.startDate, this.endDate, this.USER_EXIT).subscribe((response)=>{
+          this._payrollService.updatePayrollProcessStep(this.startDate, this.endDate, this.USER_EXIT).subscribe((response)=>{
             this.getPayrollProcessStepByOrganizationIdAndStartDateAndEndDateMethodCall();
             setTimeout(() => {
-              this.navigateToTab('step2-tab');
+              // this.navigateToTab('step2-tab');
             }, 100);
           }, ((error) => {
             console.log(error);
           }))
         } else if (this.CURRENT_TAB_IN_EMPLOYEE_CHANGE == this.USER_EXIT) {
-          this.dataService.registerPayrollProcessStepByOrganizationIdAndStartDateAndEndDate(this.startDate, this.endDate, this.FINAL_SETTLEMENT).subscribe((response)=>{
+          this._payrollService.updatePayrollProcessStep(this.startDate, this.endDate, this.FINAL_SETTLEMENT).subscribe((response)=>{
             this.getPayrollProcessStepByOrganizationIdAndStartDateAndEndDateMethodCall();
             setTimeout(() => {
-              this.navigateToTab('step3-tab');
+              // this.navigateToTab('step3-tab');
             }, 100)
           }, ((error) => {
             console.log(error);
           }))
         } else if (this.CURRENT_TAB_IN_EMPLOYEE_CHANGE == this.FINAL_SETTLEMENT){
           debugger;
-          this.dataService.registerPayrollProcessStepByOrganizationIdAndStartDateAndEndDate(this.startDate, this.endDate, this.LEAVES).subscribe((response)=>{
+          this._payrollService.updatePayrollProcessStep(this.startDate, this.endDate, this.LEAVES).subscribe((response)=>{
             this.getPayrollProcessStepByOrganizationIdAndStartDateAndEndDateMethodCall();
             setTimeout(() => {
-              this.employeeChangeModal.nativeElement.click();
+              // this.employeeChangeModal.nativeElement.click();
             }, 100)
           }, ((error) => {
             console.log(error);
@@ -1283,7 +1323,7 @@ export class PayrollDashboardComponent implements OnInit {
         }
 
       }, (error) => {
-        this.helperService.showToast(error.error.message, this.TOAST_STATUS_ERROR);
+        this._helperService.showToast(error.error.message, this.TOAST_STATUS_ERROR);
       })
     }
 
@@ -1318,20 +1358,20 @@ export class PayrollDashboardComponent implements OnInit {
         this.lopSummaryRequestList.push(lopSummaryRequest);
       })
 
-      this.dataService.registerLopSummaryRequestByOrganizationIdAndStartDateAndEndDate(this.lopSummaryRequestList, this.startDate, this.endDate).subscribe((response) => {
+      this._payrollService.registerLopSummaryRequestByOrganizationIdAndStartDateAndEndDate(this.lopSummaryRequestList, this.startDate, this.endDate).subscribe((response) => {
         this.lopSummaryCommentCache = {};
         this.adjustedLopDaysCache = {};
-        this.helperService.showToast("LOP summary has been successfully saved.", this.TOAST_STATUS_SUCCESS);
-        this.dataService.registerPayrollProcessStepByOrganizationIdAndStartDateAndEndDate(this.startDate, this.endDate, this.LOP_REVERSAL).subscribe((response)=>{
+        this._helperService.showToast("LOP summary has been successfully saved.", this.TOAST_STATUS_SUCCESS);
+        this._payrollService.updatePayrollProcessStep(this.startDate, this.endDate, this.LOP_REVERSAL).subscribe((response)=>{
           this.getPayrollProcessStepByOrganizationIdAndStartDateAndEndDateMethodCall();
           setTimeout(() => {
-            this.navigateToTab('step6-tab');
+            // this.navigateToTab('step6-tab');
           }, 100)
         }, ((error) => {
           console.log(error);
         }))   
       }, (error) => {
-        this.helperService.showToast("Error while saving the LOP summary!", this.TOAST_STATUS_ERROR);
+        this._helperService.showToast("Error while saving the LOP summary!", this.TOAST_STATUS_ERROR);
         console.log(error);
       })
     }
@@ -1342,9 +1382,9 @@ export class PayrollDashboardComponent implements OnInit {
     
     getLopSummaryResponseByOrganizationIdAndStartDateAndEndDateMethodCall() {
       this.preRuleForShimmersAndErrorPlaceholdersForLopSummary();
-      this.dataService.getLopSummaryResponseByOrganizationIdAndStartDateAndEndDate(this.startDate, this.endDate, this.itemPerPage, this.pageNumber, this.search, this.searchBy).subscribe(
+      this._payrollService.getLopSummaryResponseByOrganizationIdAndStartDateAndEndDate(this.startDate, this.endDate, this.itemPerPage, this.pageNumber, this.search, this.searchBy).subscribe(
         (response) => {
-          if (this.helperService.isListOfObjectNullOrUndefined(response)) {
+          if (this._helperService.isListOfObjectNullOrUndefined(response)) {
             this.dataNotFoundPlaceholderForLopSummary = true;
           } else {
             this.lopSummaryResponseList = response.listOfObject.map((item: LopSummaryResponse) => {
@@ -1397,21 +1437,21 @@ export class PayrollDashboardComponent implements OnInit {
         this.lopReversalRequestList.push(lopReversalRequest);
       })
 
-      this.dataService.registerLopReversalRequestByOrganizationIdAndStartDateAndEndDate(this.lopReversalRequestList, this.startDate, this.endDate).subscribe((response) => {
-        this.helperService.showToast("LOP reversed successfully.", this.TOAST_STATUS_SUCCESS);
+      this._payrollService.registerLopReversalRequestByOrganizationIdAndStartDateAndEndDate(this.lopReversalRequestList, this.startDate, this.endDate).subscribe((response) => {
+        this._helperService.showToast("LOP reversed successfully.", this.TOAST_STATUS_SUCCESS);
         this.commentCache = {};
         this.reversedLopDaysCache = {};
 
-        this.dataService.registerPayrollProcessStepByOrganizationIdAndStartDateAndEndDate(this.startDate, this.endDate, this.SALARY_CHANGE).subscribe((response)=>{
+        this._payrollService.updatePayrollProcessStep(this.startDate, this.endDate, this.SALARY_CHANGE).subscribe((response)=>{
           this.getPayrollProcessStepByOrganizationIdAndStartDateAndEndDateMethodCall();
           setTimeout(() => {
-            this.attendanceAndLeaveModal.nativeElement.click();
+            // this.attendanceAndLeaveModal.nativeElement.click();
           }, 100)
         }, ((error) => {
           console.log(error);
         }))   
       }, (error) => {
-        this.helperService.showToast("Error while saving the LOP Reversal!", this.TOAST_STATUS_ERROR);
+        this._helperService.showToast("Error while saving the LOP Reversal!", this.TOAST_STATUS_ERROR);
         console.log(error);
       })
     }
@@ -1428,7 +1468,7 @@ getLopReversalResponseByOrganizationIdAndStartDateAndEndDateMethodCall(debounceT
   
   this.debounceTimer = setTimeout(() => {
     this.preRuleForShimmersAndErrorPlaceholdersForLopReversal();
-    this.dataService
+    this._payrollService
       .getLopReversalResponseByOrganizationIdAndStartDateAndEndDate(
         this.startDate,
         this.endDate,
@@ -1439,7 +1479,7 @@ getLopReversalResponseByOrganizationIdAndStartDateAndEndDateMethodCall(debounceT
       )
       .subscribe(
         (response) => {
-          if (this.helperService.isListOfObjectNullOrUndefined(response)) {
+          if (this._helperService.isListOfObjectNullOrUndefined(response)) {
             this.dataNotFoundPlaceholderForLopReversal = true;
           } else {
             this.lopReversalResponseList = response.listOfObject.map((lopReversal: LopReversalResponse) => {
@@ -1503,7 +1543,7 @@ extractPreviousMonthNameFromDate(dateString : string){
   leaveTypeResponseList : LeaveTypeResponse[] = [];
   getLeaveTypeResponseListByUserUuidMethodCall(uuid : string){
     this.dataService.getLeaveTypeResponseByUserUuid(uuid).subscribe((response) => {
-      if(this.helperService.isListOfObjectNullOrUndefined(response)){
+      if(this._helperService.isListOfObjectNullOrUndefined(response)){
         return;
       } else{
         this.selectedLeaveTypeResponse = response.listOfObject[0]; //Setting the first object as selected
@@ -1520,12 +1560,12 @@ extractPreviousMonthNameFromDate(dateString : string){
   lopAdjustmentRequest : LopAdjustmentRequest = new LopAdjustmentRequest();
   registerLopAdjustmentRequestMethodCall(){
     debugger;
-    this.dataService.registerLopAdjustmentRequest(this.lopAdjustmentRequest, this.startDate, this.endDate).subscribe((response) => {
+    this._payrollService.registerLopAdjustmentRequest(this.lopAdjustmentRequest, this.startDate, this.endDate).subscribe((response) => {
       this.closeLopAdjustmentRequestModal.nativeElement.click();
-      this.helperService.showToast(response.message, this.TOAST_STATUS_SUCCESS);
+      this._helperService.showToast(response.message, this.TOAST_STATUS_SUCCESS);
       this.getLopSummaryResponseByOrganizationIdAndStartDateAndEndDateMethodCall();
     }, (error) => {
-      this.helperService.showToast(error.message, this.TOAST_STATUS_ERROR);
+      this._helperService.showToast(error.message, this.TOAST_STATUS_ERROR);
     })
   }
 
@@ -1542,8 +1582,8 @@ extractPreviousMonthNameFromDate(dateString : string){
       this.dateRange[1] = dates[1];
     }
 
-    this.lopAdjustmentRequest.startDate = this.helperService.formatDateToYYYYMMDD(dates[0]);
-    this.lopAdjustmentRequest.endDate = this.helperService.formatDateToYYYYMMDD(dates[1]);
+    this.lopAdjustmentRequest.startDate = this._helperService.formatDateToYYYYMMDD(dates[0]);
+    this.lopAdjustmentRequest.endDate = this._helperService.formatDateToYYYYMMDD(dates[1]);
   }
 
 
@@ -1562,58 +1602,56 @@ extractPreviousMonthNameFromDate(dateString : string){
     this.lopAdjustmentRequest.lopDaysToBeAdjusted = count;
   }
 
+  
 
   // Fetching user's leave for payroll
 
   payrollLeaveResponseList : PayrollLeaveResponse[] = [];
-  getPayrollLeaveResponseMethodCall(){
-    this.preRuleForShimmersAndErrorPlaceholdersForPayrollLeaveResponse();
-    this.dataService.getPayrollLeaveResponse(
-      this.startDate,
-      this.endDate,
-      this.itemPerPage,
-      this.pageNumber,
-      this.search,
-      this.searchBy
-    ).subscribe((response) => {
-      if(this.helperService.isListOfObjectNullOrUndefined(response)){
-        this.dataNotFoundPlaceholderForPayrollLeaveResponse = true;
-      } else{
-        this.payrollLeaveResponseList = response.listOfObject;
-        this.total = response.totalItems;
-        this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
-      }
+  // getPayrollLeaveResponseMethodCall(){
+  //   this.preRuleForShimmersAndErrorPlaceholdersForPayrollLeaveResponse();
+  //   this._payrollService.getPayrollLeaveResponse(
+  //     this.startDate,
+  //     this.endDate,
+  //     this.itemPerPage,
+  //     this.pageNumber,
+  //     this.search,
+  //     this.searchBy
+  //   ).subscribe((response) => {
+  //     if(this._helperService.isListOfObjectNullOrUndefined(response)){
+  //       this.dataNotFoundPlaceholderForPayrollLeaveResponse = true;
+  //     } else{
+  //       this.payrollLeaveResponseList = response.listOfObject;
+  //       this.total = response.totalItems;
+  //       this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+  //     }
 
-      this.isShimmerForPayrollLeaveResponse = false;
-    }, (error) => {
-      this.networkConnectionErrorPlaceHolderForPayrollLeaveResponse = true;
-      this.isShimmerForPayrollLeaveResponse = false;
-    })
-  }
+  //     this.isShimmerForPayrollLeaveResponse = false;
+  //   }, (error) => {
+  //     this.networkConnectionErrorPlaceHolderForPayrollLeaveResponse = true;
+  //     this.isShimmerForPayrollLeaveResponse = false;
+  //   })
+  // }
 
   userUuid!: string
-  @ViewChild('leaveLogsModalButton') leaveLogsModalButton !: ElementRef;
+  // @ViewChild('leaveLogsModalButton') leaveLogsModalButton !: ElementRef;
   // /userLeaveLogs : UserInfoForPayrollReflection = new UserInfoForPayrollReflection();
-  userLeaveLogs : any;
-  getPayrollLeaveLogResponseMethodCall(userUuid : string){
-    this.userUuid = userUuid;
-    this.dataService.getPayrollLeaveLogsResponse(
-      userUuid,
-      this.startDate,
-      this.endDate
-    ).subscribe((response) => {
-      this.userLeaveLogs = response.listOfObject;
-      // console.log(response.listOfObject);
+  // userLeaveLogs : any;
+  // getPayrollLeaveLogResponseMethodCall(userUuid : string){
+  //   this.userUuid = userUuid;
+  //   this._payrollService.getPayrollLeaveLogsResponse(
+  //     userUuid,
+  //     this.startDate,
+  //     this.endDate
+  //   ).subscribe((response) => {
+  //     this.userLeaveLogs = response.listOfObject;
+  //     // console.log(response.listOfObject);
       
-    }, (error) => {
+  //   }, (error) => {
       
-    })
-  }
+  //   })
+  // }
 
-  openLeaveLogsModal(userUuid : string){
-    this.getPayrollLeaveLogResponseMethodCall(userUuid);
-    this.leaveLogsModalButton.nativeElement.click();
-  }
+  
 
   selectedRole : Role = new Role();
   roles : Role[] = [];
@@ -1626,21 +1664,21 @@ extractPreviousMonthNameFromDate(dateString : string){
   salaryChangeResponseList : SalaryChangeResponse[] = [];
   getSalaryChangeResponseListByOrganizationIdMethodCall(){
     this.preRuleForShimmersAndErrorPlaceholdersForSalaryChangeResponse();
-    this.dataService.getSalaryChangeResponseListByOrganizationId(this.startDate, this.endDate, this.itemPerPage, this.pageNumber, this.search, this.searchBy).subscribe((response) => {
+    // this.dataService.getSalaryChangeResponseListByOrganizationId(this.startDate, this.endDate, this.itemPerPage, this.pageNumber).subscribe((response) => {
 
-      if(this.helperService.isListOfObjectNullOrUndefined(response)){
-        this.dataNotFoundPlaceholderForSalaryChangeResponse = true;
-      } else{
-        this.salaryChangeResponseList = response.listOfObject;
-        this.total = response.totalItems;
-        this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
-      }
+    //   if(response.object==null || response.object.length == 0){
+    //     this.dataNotFoundPlaceholderForSalaryChangeResponse = true;
+    //   } else{
+    //     this.salaryChangeResponseList = response.object;
+    //     this.total = response.totalItems;
+    //     this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+    //   }
 
-      this.isShimmerForSalaryChangeResponse = false;
-    }, (error) => {
-      this.isShimmerForSalaryChangeResponse = false;
-      this.networkConnectionErrorPlaceHolderForSalaryChangeResponse = true;
-    })
+    //   this.isShimmerForSalaryChangeResponse = false;
+    // }, (error) => {
+    //   this.isShimmerForSalaryChangeResponse = false;
+    //   this.networkConnectionErrorPlaceHolderForSalaryChangeResponse = true;
+    // })
   }
 
 
@@ -1648,66 +1686,64 @@ extractPreviousMonthNameFromDate(dateString : string){
   getSalaryChangeBonusResponseListByOrganizationIdMethodCall(debounceTime: number = 300) {
     this.salaryChangeBonusResponseList = [];
 
-    if (this.debounceTimer) {
-      clearTimeout(this.debounceTimer);
-    }
+    // if (this.debounceTimer) {
+    //   clearTimeout(this.debounceTimer);
+    // }
 
-    this.debounceTimer = setTimeout(() => {
-      this.preRuleForShimmersAndErrorPlaceholdersForSalaryChangeBonusResponse();
-      this.dataService
-        .getSalaryChangeBonusResponseListByOrganizationId(
-          this.startDate,
-          this.endDate,
-          this.itemPerPage,
-          this.pageNumber,
-          this.search,
-          this.searchBy
-        )
-        .subscribe(
-          (response) => {
-            if (this.helperService.isListOfObjectNullOrUndefined(response)) {
-              this.dataNotFoundPlaceholderForSalaryChangeBonusResponse = true;
-            } else {
-              this.salaryChangeBonusResponseList = response.listOfObject.map((salaryChangeBonus: SalaryChangeBonusResponse) => {
-                // Apply cached selection if available
-                if (this.selectedPayActionCache[salaryChangeBonus.uuid]) {
-                  salaryChangeBonus.payActionType = this.selectedPayActionCache[salaryChangeBonus.uuid];
-                  salaryChangeBonus.payActionTypeId = this.selectedPayActionCache[salaryChangeBonus.uuid].id;
-                } else {
-                  // Set initial selection based on payActionTypeId
-                  const selectedPayActionType = this.payActionTypeList.find(
-                    (payActionType) => payActionType.id === salaryChangeBonus.payActionTypeId
-                  );
-                  if (selectedPayActionType) {
-                    salaryChangeBonus.payActionType = selectedPayActionType;
-                  }
-                }
+    // this.debounceTimer = setTimeout(() => {
+    //   this.preRuleForShimmersAndErrorPlaceholdersForSalaryChangeBonusResponse();
+    //   this.dataService
+    //     .getBonusResponseList(
+    //       this.startDate,
+    //       this.endDate,
+    //       this.itemPerPage,
+    //       this.pageNumber
+    //     )
+    //     .subscribe(
+    //       (response) => {
+    //         if (this._helperService.isListOfObjectNullOrUndefined(response)) {
+    //           this.dataNotFoundPlaceholderForSalaryChangeBonusResponse = true;
+    //         } else {
+    //           this.salaryChangeBonusResponseList = response.listOfObject.map((salaryChangeBonus: SalaryChangeBonusResponse) => {
+    //             // Apply cached selection if available
+    //             if (this.selectedPayActionCache[salaryChangeBonus.uuid]) {
+    //               salaryChangeBonus.payActionType = this.selectedPayActionCache[salaryChangeBonus.uuid];
+    //               salaryChangeBonus.payActionTypeId = this.selectedPayActionCache[salaryChangeBonus.uuid].id;
+    //             } else {
+    //               // Set initial selection based on payActionTypeId
+    //               const selectedPayActionType = this.payActionTypeList.find(
+    //                 (payActionType) => payActionType.id === salaryChangeBonus.payActionTypeId
+    //               );
+    //               if (selectedPayActionType) {
+    //                 salaryChangeBonus.payActionType = selectedPayActionType;
+    //               }
+    //             }
 
-                // Apply cached comment if available
-                if (this.commentCache[salaryChangeBonus.uuid]) {
-                  salaryChangeBonus.comment = this.commentCache[salaryChangeBonus.uuid];
-                }
+    //             // Apply cached comment if available
+    //             if (this.commentCache[salaryChangeBonus.uuid]) {
+    //               salaryChangeBonus.comment = this.commentCache[salaryChangeBonus.uuid];
+    //             }
 
-                return salaryChangeBonus;
-              });
-              this.total = response.totalItems;
-              this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
-            }
-            this.isShimmerForSalaryChangeBonusResponse = false;
-          },
-          (error) => {
-            this.isShimmerForSalaryChangeBonusResponse = false;
-            this.networkConnectionErrorPlaceHolderForSalaryChangeBonusResponse = true;
-          }
-        );
-    }, debounceTime);
+    //             return salaryChangeBonus;
+    //           });
+    //           this.total = response.totalItems;
+    //           this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+    //         }
+    //         this.isShimmerForSalaryChangeBonusResponse = false;
+    //       },
+    //       (error) => {
+    //         this.isShimmerForSalaryChangeBonusResponse = false;
+    //         this.networkConnectionErrorPlaceHolderForSalaryChangeBonusResponse = true;
+    //       }
+    //     );
+    // }, debounceTime);
   }
   salaryChangeOvertimeResponseList : SalaryChangeOvertimeResponse[] = [];
   getSalaryChangeOvertimeResponseListByOrganizationIdMethodCall(){
     this.preRuleForShimmersAndErrorPlaceholdersForSalaryChangeOvertimeResponse();
     this.dataService.getSalaryChangeOvertimeResponseListByOrganizationId(this.startDate, this.endDate, this.itemPerPage, this.pageNumber, this.search, this.searchBy).subscribe((response) => {
 
-      if(this.helperService.isListOfObjectNullOrUndefined(response)){
+      if(this._helperService.isListOfObjectNullOrUndefined(response)){
         this.dataNotFoundPlaceholderForSalaryChangeOvertimeResponse = true;
       } else{
         this.salaryChangeOvertimeResponseList = response.listOfObject;
@@ -1738,11 +1774,11 @@ extractPreviousMonthNameFromDate(dateString : string){
   }
 
   registerSalaryChangeListByOrganizationIdMethodCall(){
-    this.helperService.showToast("Salary changes details saved successfully.", this.TOAST_STATUS_SUCCESS);
-    this.dataService.registerPayrollProcessStepByOrganizationIdAndStartDateAndEndDate(this.startDate, this.endDate, this.BONUS).subscribe((response)=>{
+    this._helperService.showToast("Salary changes details saved successfully.", this.TOAST_STATUS_SUCCESS);
+    this._payrollService.updatePayrollProcessStep(this.startDate, this.endDate, this.BONUS).subscribe((response)=>{
       this.getPayrollProcessStepByOrganizationIdAndStartDateAndEndDateMethodCall();
       setTimeout(() => {
-        this.navigateToTab('step8-tab');
+        // this.navigateToTab('step8-tab');
       }, 100)
     }, ((error) => {
       console.log(error);
@@ -1755,26 +1791,26 @@ extractPreviousMonthNameFromDate(dateString : string){
     debugger
     this.salaryChangeBonusRequestList = [];
     
-    this.salaryChangeBonusResponseList.forEach((item) => {
-      let salaryChangeBonusRequest = new SalaryChangeBonusRequest(item.uuid,item.payActionType.id, item.comment);
+    // this.salaryChangeBonusResponseList.forEach((item) => {
+    //   let salaryChangeBonusRequest = new SalaryChangeBonusRequest(item.uuid,item.payActionType.id, item.comment);
 
-      this.salaryChangeBonusRequestList.push(salaryChangeBonusRequest);
-    })
+    //   this.salaryChangeBonusRequestList.push(salaryChangeBonusRequest);
+    // })
 
     this.dataService.registerSalaryChangeBonusListByOrganizationId(this.salaryChangeBonusRequestList).subscribe((response) => {
       this.selectedPayActionCache={};
       this.commentCache = {};
-      this.helperService.showToast(response.message, this.TOAST_STATUS_SUCCESS);
-      this.dataService.registerPayrollProcessStepByOrganizationIdAndStartDateAndEndDate(this.startDate, this.endDate, this.OVERTIME).subscribe((response)=>{
+      this._helperService.showToast(response.message, this.TOAST_STATUS_SUCCESS);
+      this._payrollService.updatePayrollProcessStep(this.startDate, this.endDate, this.OVERTIME).subscribe((response)=>{
         this.getPayrollProcessStepByOrganizationIdAndStartDateAndEndDateMethodCall();
         setTimeout(() => {
-          this.navigateToTab('step9-tab');
+          // this.navigateToTab('step9-tab');
         }, 100)
       }, ((error) => {
         console.log(error);
       }))  
     }, (error) => {
-      this.helperService.showToast("Error while registering the request!", this.TOAST_STATUS_ERROR);
+      this._helperService.showToast("Error while registering the request!", this.TOAST_STATUS_ERROR);
     })
   }
 
@@ -1792,19 +1828,19 @@ extractPreviousMonthNameFromDate(dateString : string){
     this.dataService.registerSalaryChangeOvertimeListByOrganizationId(this.salaryChangeOvertimeRequestList).subscribe((response) => {
       this.selectedPayActionCache={};
       this.commentCache = {};
-      this.helperService.showToast(response.message, this.TOAST_STATUS_SUCCESS);
-      this.dataService.registerPayrollProcessStepByOrganizationIdAndStartDateAndEndDate(this.startDate, this.endDate, this.EPF).subscribe((response)=>{
+      this._helperService.showToast(response.message, this.TOAST_STATUS_SUCCESS);
+      this._payrollService.updatePayrollProcessStep(this.startDate, this.endDate, this.EPF).subscribe((response)=>{
         this.getPayrollProcessStepByOrganizationIdAndStartDateAndEndDateMethodCall();
         setTimeout(() => {
-          this.salaryChangeModal.nativeElement.click();
+          // this.salaryChangeModal.nativeElement.click();
         }, 100)
       }, ((error) => {
         console.log(error);
       }))  
     }, (error) => {
-      this.helperService.showToast("Error while registering the request!", this.TOAST_STATUS_ERROR);
+      this._helperService.showToast("Error while registering the request!", this.TOAST_STATUS_ERROR);
       // To be commented
-      // this.dataService.registerPayrollProcessStepByOrganizationIdAndStartDateAndEndDate(this.startDate, this.endDate, this.EPF).subscribe((response)=>{
+      // this.dataService.updatePayrollProcessStep(this.startDate, this.endDate, this.EPF).subscribe((response)=>{
       //   this.getPayrollProcessStepByOrganizationIdAndStartDateAndEndDateMethodCall();
       //   setTimeout(() => {
       //     this.salaryChangeModal.nativeElement.click();
@@ -1861,7 +1897,7 @@ extractPreviousMonthNameFromDate(dateString : string){
         )
         .subscribe(
           (response) => {
-            if (this.helperService.isListOfObjectNullOrUndefined(response)) {
+            if (this._helperService.isListOfObjectNullOrUndefined(response)) {
               this.dataNotFoundPlaceholderForEpfDetailsResponse = true;
             } else {
               this.epfDetailsResponseList = response.listOfObject.map((item: EpfDetailsResponse) => {
@@ -1908,7 +1944,7 @@ extractPreviousMonthNameFromDate(dateString : string){
         )
         .subscribe(
           (response) => {
-            if (this.helperService.isListOfObjectNullOrUndefined(response)) {
+            if (this._helperService.isListOfObjectNullOrUndefined(response)) {
               this.dataNotFoundPlaceholderForEsiDetailsResponse = true;
             } else {
               this.esiDetailsResponseList = response.listOfObject.map((item: EsiDetailsResponse) => {
@@ -1954,7 +1990,7 @@ extractPreviousMonthNameFromDate(dateString : string){
         )
         .subscribe(
           (response) => {
-            if (this.helperService.isListOfObjectNullOrUndefined(response)) {
+            if (this._helperService.isListOfObjectNullOrUndefined(response)) {
               this.dataNotFoundPlaceholderForTdsDetailsResponse = true;
             } else {
               this.tdsDetailsResponseList = response.listOfObject.map((item: TdsDetailsResponse) => {
@@ -1982,23 +2018,6 @@ extractPreviousMonthNameFromDate(dateString : string){
 
   modifiedValuesMap = new Map<number, any>();
 
-
-
-  // updateEsiFinalAmount(esiDetailsResponse : EsiDetailsResponse) {
-  //   if (esiDetailsResponse.amountToBeAdjusted != null) {
-  //     esiDetailsResponse.finalAmount = esiDetailsResponse.amountToBeAdjusted;
-  //   } else {
-  //     esiDetailsResponse.finalAmount = esiDetailsResponse.amount;
-  //   }
-  // }
-
-  // updateTdsFinalAmount(tdsDetailsResponse : TdsDetailsResponse) {
-  //   if (tdsDetailsResponse.amountToBeAdjusted != null) {
-  //     tdsDetailsResponse.finalAmount = tdsDetailsResponse.amountToBeAdjusted;
-  //   } else {
-  //     tdsDetailsResponse.finalAmount = tdsDetailsResponse.amount;
-  //   }
-  // }
 
 
   registerEpfEsiTdsMethodCall(CURRENT_TAB_IN_EPF_ESI_TDS : number){
@@ -2030,18 +2049,18 @@ extractPreviousMonthNameFromDate(dateString : string){
     })
 
     this.dataService.registerEpfDetailsListByOrganizationId(this.startDate, this.endDate, this.epfDetailsRequestList).subscribe((response) => {
-      this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
+      this._helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
       this.amountCache = {};
-      this.dataService.registerPayrollProcessStepByOrganizationIdAndStartDateAndEndDate(this.startDate, this.endDate, this.ESI).subscribe((response)=>{
+      this._payrollService.updatePayrollProcessStep(this.startDate, this.endDate, this.ESI).subscribe((response)=>{
         this.getPayrollProcessStepByOrganizationIdAndStartDateAndEndDateMethodCall();
         setTimeout(() => {
-          this.navigateToTab('step11-tab');
+          // this.navigateToTab('step11-tab');
         }, 100)
       }, ((error) => {
         console.log(error);
       }))   
     }, (error) => {
-      this.helperService.showToast("Error while adjusting the epf details!", Key.TOAST_STATUS_ERROR);
+      this._helperService.showToast("Error while adjusting the epf details!", Key.TOAST_STATUS_ERROR);
     })
   }
 
@@ -2056,18 +2075,18 @@ extractPreviousMonthNameFromDate(dateString : string){
     })
 
     this.dataService.registerEsiDetailsListByOrganizationId(this.startDate, this.endDate, this.esiDetailsRequestList).subscribe((response) => {
-      this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
+      this._helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
       this.amountCache = {};
-      this.dataService.registerPayrollProcessStepByOrganizationIdAndStartDateAndEndDate(this.startDate, this.endDate, this.TDS).subscribe((response)=>{
+      this._payrollService.updatePayrollProcessStep(this.startDate, this.endDate, this.TDS).subscribe((response)=>{
         this.getPayrollProcessStepByOrganizationIdAndStartDateAndEndDateMethodCall();
         setTimeout(() => {
-          this.navigateToTab('step12-tab');
+          // this.navigateToTab('step12-tab');
         }, 100)
       }, ((error) => {
         console.log(error);
       }))   
     }, (error) => {
-      this.helperService.showToast("Error while adjusting the esi details!", Key.TOAST_STATUS_ERROR);
+      this._helperService.showToast("Error while adjusting the esi details!", Key.TOAST_STATUS_ERROR);
     })
   }
 
@@ -2083,82 +2102,34 @@ extractPreviousMonthNameFromDate(dateString : string){
     
     this.dataService.registerTdsDetailsListByOrganizationId(this.startDate, this.endDate, this.tdsDetailsRequestList).subscribe((response) => {
       this.amountCache = {};
-      this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
-      this.dataService.registerPayrollProcessStepByOrganizationIdAndStartDateAndEndDate(this.startDate, this.endDate, Key.PAYROLL_STEP_COMPLETED).subscribe((response)=>{
+      this._helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
+      this._payrollService.updatePayrollProcessStep(this.startDate, this.endDate, Key.PAYROLL_STEP_COMPLETED).subscribe((response)=>{
         this.getPayrollProcessStepByOrganizationIdAndStartDateAndEndDateMethodCall();
         setTimeout(() => {
-          this.epfEsiTdsModal.nativeElement.click();
+          // this.epfEsiTdsModal.nativeElement.click();
         }, 100)
       }, ((error) => {
         console.log(error);
       }))   
     }, (error) => {
-      this.helperService.showToast("Error while adjusting the tds details!", Key.TOAST_STATUS_ERROR);
+      this._helperService.showToast("Error while adjusting the tds details!", Key.TOAST_STATUS_ERROR);
     })
   }
 
-  rejectionReason: string =''
-  approveOrDeny(requestId: number, requestedString: string) {
-    this.dataService
-      .approveOrRejectLeaveOfUser(requestId, requestedString, this.rejectionReason)
-      .subscribe({
-        next: (logs) => {
-        this.getPayrollLeaveLogResponseMethodCall(this.userUuid);
-          // this.leaveLogsModalButton.nativeElement.click();
-
-          // Show toast message
-          let message =
-            requestedString === 'approved'
-              ? 'Leave approved successfully!'
-              : 'Leave rejected successfully!';
-          this.helperService.showToast(message, Key.TOAST_STATUS_SUCCESS);
-        },
-        error: (error) => {
-          
-          this.helperService.showToast(
-            'Error processing leave request!',
-            Key.TOAST_STATUS_ERROR
-          );
-        },
-      });
-  }
+  
 
 
-  RUN_PAYROLL_LOADER : boolean = false;
-  generateSalaryReportMethodCall(): void {
-    this.RUN_PAYROLL_LOADER = true;
-    this.dataService.generateSalaryReport(this.startDate, this.endDate).subscribe({
-      next: (response) => {
-        this.getOrganizationIndividualMonthSalaryDataMethodCall();
-        const downloadLink = document.createElement('a');
-        downloadLink.href = response.object.reportExcelLink;
-        downloadLink.download = 'Report_JULY_1720181370937.xlsx';
-        downloadLink.click();
-        // console.log(response);
-        this.RUN_PAYROLL_LOADER = false;
-        this.helperService.showToast('Payroll generated successfully.', Key.TOAST_STATUS_SUCCESS);
-        this.dataService.registerPayrollProcessStepByOrganizationIdAndStartDateAndEndDate(this.startDate, this.endDate, Key.PAYROLL_PORCESSED).subscribe((response)=>{
-          this.getPayrollProcessStepByOrganizationIdAndStartDateAndEndDateMethodCall();
-        }, ((error) => {
-          console.log(error);
-        }))  
-      },
-      error: (error) => {
-        this.helperService.showToast('Error while generating the Payroll!', Key.TOAST_STATUS_ERROR);
-        this.RUN_PAYROLL_LOADER = false;
-      },
-    });
-  } 
+  
 
   
   registerPayrollLeave(){
-    this.lopSummaryTab();
-    this.helperService.showToast('Leave details updated successfully.', Key.TOAST_STATUS_SUCCESS);
+    // this.lopSummaryTab();
+    this._helperService.showToast('Leave details updated successfully.', Key.TOAST_STATUS_SUCCESS);
 
-    this.dataService.registerPayrollProcessStepByOrganizationIdAndStartDateAndEndDate(this.startDate, this.endDate, this.LOP_SUMMARY).subscribe((response)=>{
+    this._payrollService.updatePayrollProcessStep(this.startDate, this.endDate, this.LOP_SUMMARY).subscribe((response)=>{
       this.getPayrollProcessStepByOrganizationIdAndStartDateAndEndDateMethodCall();
       setTimeout(() => {
-        this.navigateToTab('step5-tab');
+        // this.navigateToTab('step5-tab');
       }, 100)
     }, ((error) => {
       console.log(error);
@@ -2168,78 +2139,69 @@ extractPreviousMonthNameFromDate(dateString : string){
   }
 
 
+  
+  
+
+  // ########################--Validation--##############################
+ 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
   payrollLogs: any[] = [];
   isPayrollHistoryPlaceholder = true;
   dataNotFoundPlaceholderForPayrollHistory : boolean = false;
   networkConnectionErrorPlaceHolderForPayrollHistory : boolean = false;
   getPayrollLogs(): void {
     this.payrollLogs = [];
-    this.dataService.getGeneratedPayrollMonthlyLogs(this.startDate, this.endDate, this.pageNumber, this.itemPerPage)
-      .subscribe(
-        (response: any) => {
-          if(response.listOfObject.length==0){
+    this._payrollService.getGeneratedPayrollMonthlyLogs(this.startDate, this.endDate).subscribe(
+        (response) => {
+
+          if(response.object== null || response.object.length==0){
             this.dataNotFoundPlaceholderForPayrollHistory = true;
-            console.log("null")
           } else{
-            this.payrollLogs = response.listOfObject;
-            this.total = response.totalItems;
-            this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+            this.payrollLogs = response.object;
           }
-      
-          
-          // this.groupLogsByDate();
           this.isPayrollHistoryPlaceholder = this.payrollLogs.length === 0;
         },
-        (error: any) => {
-          console.error('Error fetching report logs:', error);
+        (error) => {
           this.isPayrollHistoryPlaceholder = true;
           this.networkConnectionErrorPlaceHolderForPayrollHistory = true;
         }
       );
   }
-  
-  
 
-  // payrollChartDataNotFoundMehthodCall(){
-  //   this.single = [
-  //     {
-  //       name: 'Total',
-  //       value: 0
-  //     },
-  //     {
-  //       name: 'Gross Pay',
-  //       value: 0
-  //     },
-  //     {
-  //       name: 'Net Pay',
-  //       value: 0
-  //     },
-  //     {
-  //       name: 'EPF',
-  //       value: 0
-  //     },
-  //     {
-  //       name: 'ESI',
-  //       value: 0
-  //     },
-  //     {
-  //       name: 'TDS',
-  //       value: 0
-  //     },
-  //     {
-  //       name: 'No data found!',
-  //       value: 0.1
-  //     }
-  //   ];
-  // }
-    
 
-  // ########################--Validation--##############################
- 
+  RUN_PAYROLL_LOADER : boolean = false;
+  generateSalaryReportMethodCall(){
+    this.RUN_PAYROLL_LOADER = true;
+    this.dataService.generateSalaryReport(this.startDate, this.endDate).subscribe((response) => {
+        this.getOrganizationIndividualMonthSalaryDataMethodCall();
+        const downloadLink = document.createElement('a');
+        downloadLink.href = response.object.reportExcelLink;
+        downloadLink.download = 'Report_JULY_1720181370937.xlsx';
+        downloadLink.click();
+        // console.log(response);
+        this.RUN_PAYROLL_LOADER = false;
+        this._helperService.showToast('Payroll generated successfully.', Key.TOAST_STATUS_SUCCESS);
+        this._payrollService.updatePayrollProcessStep(this.startDate, this.endDate, Key.PAYROLL_PORCESSED).subscribe((response)=>{
+          this.getPayrollProcessStepByOrganizationIdAndStartDateAndEndDateMethodCall();
+        }, ((error) => {
+          console.log(error);
+        }))  
+      },(error) => {
+        this._helperService.showToast('Error while generating the Payroll!', Key.TOAST_STATUS_ERROR);
+        this.RUN_PAYROLL_LOADER = false;
+      });
+  } 
 
 
 
-
+  getData(){
+    this.payrollToggleView = false;
+    this.showLeaveComponent = false;
+    this.showEmployeeComponent = false;
+    this.showEariningComponent = false;
+    this.showSalaryComponent = false;
+  }
 
 }
 

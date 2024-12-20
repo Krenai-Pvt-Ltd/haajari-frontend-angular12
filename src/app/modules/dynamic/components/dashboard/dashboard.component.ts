@@ -14,7 +14,7 @@ import {
   AttendanceWithTopPerformerResponseDto,
 } from 'src/app/models/Attendance.model';
 import { HelperService } from 'src/app/services/helper.service';
-import * as moment from 'moment';
+import moment from 'moment';
 import { LateEmployeeAttendanceDetailsResponse } from 'src/app/models/late-employee-attendance-details-response';
 import { AttendanceReportResponse } from 'src/app/models/attendance-report-response';
 import { Key } from 'src/app/constant/key';
@@ -49,9 +49,9 @@ export class DashboardComponent implements OnInit {
     private _subscriptionPlanService: SubscriptionPlanService,
     private roleBasedAccessControlService: RoleBasedAccessControlService
   ) {
-    
+
     // console.log(this.roleBasedAccessControlService.isUserInfoInitialized,"--9999-----");
-    
+
     const currentDate = moment();
     this.startDateStr = currentDate.startOf('month').format('YYYY-MM-DD');
     this.endDateStr = currentDate.endOf('month').format('YYYY-MM-DD');
@@ -118,12 +118,12 @@ export class DashboardComponent implements OnInit {
   startDateAndEndDate : StartDateAndEndDate = new StartDateAndEndDate();
 
 
-  
+
   onError(event: Event) {
     const target = event.target as HTMLImageElement;
     target.src = './assets/images/broken-image-icon.jpg';
   }
-  
+
 
   onMonthChange(month: Date): void {
     // console.log('Month is getting selected');
@@ -146,15 +146,15 @@ export class DashboardComponent implements OnInit {
 
   // calculation till current date
   // getFirstAndLastDateOfMonth(selectedDate: Date) {
-  //   const currentDate = new Date(); 
+  //   const currentDate = new Date();
   //   const isCurrentMonth =
   //     selectedDate.getFullYear() === currentDate.getFullYear() &&
   //     selectedDate.getMonth() === currentDate.getMonth();
-  
+
   //   this.startDate = this.formatDateToYYYYMMDD(
   //     new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1),
   //   );
-  
+
   //   // If the selected date is in the current month, use the current date as the end date
   //   if (isCurrentMonth) {
   //     this.endDate = this.formatDateToYYYYMMDD(currentDate);
@@ -987,7 +987,7 @@ export class DashboardComponent implements OnInit {
           this.totalItems = response.totalItems;
           this.lastPageNumberNew = Math.ceil(this.totalItems / this.itemPerPage);
           // console.log("lastPageNumberNew" + this.lastPageNumberNew );
-         
+
           if (
            (this.attendanceDetailsResponseList === undefined ||
             this.attendanceDetailsResponseList === null ||
@@ -997,8 +997,8 @@ export class DashboardComponent implements OnInit {
           }else {
             this.hideSearchBar = false;
           }
-          
-         
+
+
         },
         (error) => {
           this.isLoaderLoading = false;
@@ -1069,7 +1069,7 @@ getPagesNew(): (number | string)[] {
 
   return pages;
 }
-  
+
 
   // onSearchChange(): void {
   //   this.pageNumberNew = 1;
@@ -1102,7 +1102,7 @@ getPagesNew(): (number | string)[] {
     this.getAttendanceDetailsReportByDateMethodCall(this.filterCriteria);
   }
 
-  // break users 
+  // break users
 
   breakUsers: any[] = [];
   totalCountBreak: number = 0;
@@ -1173,7 +1173,7 @@ getPagesNew(): (number | string)[] {
   crossFlagBreak: boolean = false;
   searchBreak(): void {
     this.crossFlagBreak = this.searchTermBreak.length > 0;
-    this.pageNumberBreak = 1; 
+    this.pageNumberBreak = 1;
     this.getBreakUsers();
   }
 
@@ -1203,27 +1203,27 @@ getPagesNew(): (number | string)[] {
   get pagesBreak(): (number | string)[] {
     const pages: (number | string)[] = [];
     const totalPages = this.totalPagesBreak;
-    
+
     if (totalPages <= 2) {
-      
+
       for (let i = 1; i <= totalPages; i++) {
         pages.push(i);
       }
     } else {
       const startPage = Math.max(1, this.pageNumberBreak - 2);
       const endPage = Math.min(totalPages, this.pageNumberBreak + 2);
-  
+
       if (startPage > 1) {
         pages.push(1);
         if (startPage > 2) {
           pages.push('...');
         }
       }
-  
+
       for (let i = startPage; i <= endPage; i++) {
         pages.push(i);
       }
-  
+
       if (endPage < totalPages) {
         if (endPage < totalPages - 1) {
           pages.push('...');
@@ -1231,12 +1231,12 @@ getPagesNew(): (number | string)[] {
         pages.push(totalPages);
       }
     }
-  
+
     return pages;
   }
-  
 
-  //  late empl 
+
+  //  late empl
 
 
    lateUsers: any[] = [];
@@ -1319,27 +1319,27 @@ getPagesNew(): (number | string)[] {
   getPagesLate(): (number | string)[] {
     const pages: (number | string)[] = [];
     const totalPages = this.totalPagesLate;
-  
+
     if (totalPages <= 2) {
-      
+
       for (let i = 1; i <= totalPages; i++) {
         pages.push(i);
       }
     } else {
       const startPage = Math.max(1, this.currentPageLate - 2);
       const endPage = Math.min(totalPages, this.currentPageLate + 2);
-  
+
       if (startPage > 1) {
         pages.push(1);
         if (startPage > 2) {
           pages.push('...');
         }
       }
-  
+
       for (let i = startPage; i <= endPage; i++) {
         pages.push(i);
       }
-  
+
       if (endPage < totalPages) {
         if (endPage < totalPages - 1) {
           pages.push('...');
@@ -1347,13 +1347,13 @@ getPagesNew(): (number | string)[] {
         pages.push(totalPages);
       }
     }
-  
+
     return pages;
   }
-  
 
 
-  //  leave users 
+
+  //  leave users
 
   leaveUsers: any[] = [];
   totalCountLeave: number = 0;
@@ -1410,7 +1410,7 @@ getPagesNew(): (number | string)[] {
   crossFlagLeave: boolean = false;
   searchLeave(): void {
      this.crossFlagLeave = this.searchTermLeave.length > 0;
-    this.pageNumberLeave = 1; 
+    this.pageNumberLeave = 1;
     this.getLeaveUsers();
   }
 
@@ -1440,7 +1440,7 @@ getPagesNew(): (number | string)[] {
   getPagesLeave(): (number | string)[] {
     const pages: (number | string)[] = [];
     const totalPages = this.totalPagesLeave;
-  
+
     if (totalPages <= 2) {
 
       for (let i = 1; i <= totalPages; i++) {
@@ -1449,18 +1449,18 @@ getPagesNew(): (number | string)[] {
     } else {
       const startPage = Math.max(1, this.currentPageLeave - 2);
       const endPage = Math.min(totalPages, this.currentPageLeave + 2);
-  
+
       if (startPage > 1) {
         pages.push(1);
         if (startPage > 2) {
           pages.push('...');
         }
       }
-  
+
       for (let i = startPage; i <= endPage; i++) {
         pages.push(i);
       }
-  
+
       if (endPage < totalPages) {
         if (endPage < totalPages - 1) {
           pages.push('...');
@@ -1468,10 +1468,10 @@ getPagesNew(): (number | string)[] {
         pages.push(totalPages);
       }
     }
-  
+
     return pages;
   }
-  
+
 
 
   // tooltip attendance data
@@ -1497,8 +1497,8 @@ getPagesNew(): (number | string)[] {
           }
           // console.log('Attendance Details:', response.object);
           // this.openEventsModal.nativeElement.click();
-         
-         
+
+
         },
         (error) => {
           console.error('Error fetching attendance details:', error);
@@ -1520,7 +1520,7 @@ getPagesNew(): (number | string)[] {
   }
 
 
- 
+
 
   subscriptionList: any[] = new Array();
   loading: boolean = false;
@@ -1540,7 +1540,7 @@ getPagesNew(): (number | string)[] {
 
   selectSubscription(subscriptionId: number) {
     this.selectedSubscriptionId = subscriptionId;
-  } 
+  }
 
   isPurchased: boolean = false;
   @ViewChild('billingModal') billingModal!: ElementRef;
@@ -1564,8 +1564,8 @@ getPagesNew(): (number | string)[] {
       //   if (this.ROLE=="ADMIN") {
       //     this.router.navigate(['/billing-and-subscription']);
       //   }
-        
-       
+
+
       // }
     // });
   }
@@ -1576,14 +1576,14 @@ getPagesNew(): (number | string)[] {
     this.dataService.isToDoStepsCompleted().subscribe(
       (response) => {
         this.isToDoStepsCompleted = response.object;
-        
+
         // if(this.isToDoStepsCompleted == 0 && isOrgOnboardToday == 1) {
         //   this.router.navigate(['/to-do-step-dashboard']);
         // }else {
         //   this.router.navigate(['/dashboard']);
         // }
         console.log("isToDoStepsCompletedFlag :", this.isToDoStepsCompleted);
-        
+
       },
       (error) => {
         console.log('error');
@@ -1608,7 +1608,7 @@ getPagesNew(): (number | string)[] {
             this.hideOrganizationInitialToDoStepBar();
         }
         console.log("isToDoStepsCompletedFlag :", this.isToDoStepsCompleted);
-        
+
       },
       (error) => {
         console.log('error');
@@ -1620,7 +1620,7 @@ getPagesNew(): (number | string)[] {
     debugger
     this.dataService.hideOrganizationInitialToDoStepBar().subscribe(
       (response) => {
-        console.log("hide");  
+        console.log("hide");
         // this.getOrganizationInitialToDoStepBar();
         // location.reload();
       },
@@ -1630,7 +1630,7 @@ getPagesNew(): (number | string)[] {
     );
   }
 
-  
+
 
   routeToBillingPaymentPage(plandId : any) {
 this.BILLING_AND_SUBSCRIPTION_MODAL_TOGGLE = false
@@ -1748,7 +1748,7 @@ this.BILLING_AND_SUBSCRIPTION_MODAL_TOGGLE = false
   }
 
   isPlanPurchased: boolean = false;
- 
+
 
   paymentMethod: string = '';
   selectPaymentMethod(value: any) {
@@ -1777,11 +1777,11 @@ this.BILLING_AND_SUBSCRIPTION_MODAL_TOGGLE = false
         // console.error("Response", response.object);
 
         if (this.checkHoliday == true) {
-          this.showPlaceholder = true; 
+          this.showPlaceholder = true;
         } else if (this.checkHoliday == false){
-          this.showPlaceholder = false; 
+          this.showPlaceholder = false;
         }
-        
+
       },
       (error) =>{
         console.error('Error details:', error);
@@ -1793,7 +1793,7 @@ this.BILLING_AND_SUBSCRIPTION_MODAL_TOGGLE = false
     let navExtra: NavigationExtras = {
       queryParams: { userId: uuid },
     };
-    
+
     // this.router.navigate(['/employee-profile'], navExtra);
     // this.router.navigate([Key.EMPLOYEE_PROFILE_ROUTE], navExtra);
     const url = this.router.createUrlTree([Key.EMPLOYEE_PROFILE_ROUTE], navExtra).toString();
@@ -1837,7 +1837,7 @@ this.BILLING_AND_SUBSCRIPTION_MODAL_TOGGLE = false
               }
           });
   }
-  
+
   selecrPlanType(value: string) {
       this.sbscriptionPlanReq.planType = value;
       this.originalAmount = this.sbscriptionPlanReq.noOfEmployee * this.subscriptionPlan?.amount;
@@ -1849,19 +1849,19 @@ this.BILLING_AND_SUBSCRIPTION_MODAL_TOGGLE = false
           this.sbscriptionPlanReq.amount = this.originalAmount;
       }
       if (this.isCouponVerify) {
-          this.applyCoupon(); 
+          this.applyCoupon();
       } else {
           this.calculateTotalAmount();
       }
   }
-  
+
   calculateTotalAmount() {
       this.taxAmount = (this.sbscriptionPlanReq.amount * 18) / 100;
       this.totalAmount = this.sbscriptionPlanReq.amount + this.taxAmount;
   }
-  
+
   // getSubscriptionPlanDetails(id: any) {
-      
+
   //     this._subscriptionPlanService
   //         .getSubscriptionPlan(id)
   //         .subscribe((response) => {
@@ -1876,9 +1876,9 @@ this.BILLING_AND_SUBSCRIPTION_MODAL_TOGGLE = false
   //         });
   // }
 
-  @ViewChild('presentModal') presentModal!: ElementRef; 
+  @ViewChild('presentModal') presentModal!: ElementRef;
   routeToAttendanceSetting() {
-   
+
     this.presentModal.nativeElement.click();
     this.router.navigate(['/setting/attendance-setting']);
   }

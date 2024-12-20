@@ -448,3 +448,31 @@ span.Duplicate-number-count {
   font-weight: 500;
   line-height: 22px;
 }
+
+span.request-count {
+  background-color: rgb(241 241 253) !important;
+  color: var(--primary-color) !important;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+}
+
+.sucsuce-msg-box {
+  background-color: green;
+  width: 400px;
+  margin: 0 auto;
+  padding: 5px;
+  border-radius: 6px;
+}
+
+.sucsuce-msg {
+  color: #fff;
+  text-align: center;
+  font-weight: 500;
+  margin-bottom: 0px;
+  font-size: 12px;
+}
+
+.excel-file-error{
+  bottom: 69px !important;
+}

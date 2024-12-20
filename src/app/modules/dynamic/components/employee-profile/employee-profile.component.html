@@ -1109,7 +1109,7 @@
                         <full-calendar
                         [options]="calendarOptions" id="calendar" #calendar></full-calendar>
                       </div> -->
-
+                      <!-- {{date}} - {{joiningDate}} -->
 
                       <nz-calendar [(ngModel)]="date" [(nzMode)]="mode"
                       (nzPanelChange)="panelChange($event)"
@@ -1117,8 +1117,10 @@
                       [nzDisabledDate]="disablePreviousYears"
                       [nzDisabledDate]="disablePreviousMonths"
                       [nzDisabledDate]="disableDate">
+                     
            <ul *nzDateCell="let date" class="events">
-             <ng-container *ngIf="date >= joiningDate; else beforeJoiningDate">
+             <ng-container *ngIf="isSameOrAfterDate(date, joiningDate); else beforeJoiningDate">
+
                <ng-container *ngIf="getEventForDate(date) as event">
                  <li>
                    <span [ngStyle]="{'background-color': event.color}">
@@ -2131,7 +2133,7 @@
                         <div class="">
                           <div class="attendance-settin-list" *ngFor="let taxRegime of taxRegimeList">
                             <div class="categryCustomizecard d-flex pointer border-active"
-                              [ngClass]="{'border-active': taxRegime.selected == true, 'disabled-div': !userRoleFlag}"
+                              [ngClass]="{'border-active': taxRegime.selected, 'disabled-div': !userRoleFlag}"
                               (click)="updateTaxRegimeByUserIdMethodCall(taxRegime.id)">
                               <div class="categryCustomizeinfo" style="text-align: left">
                                 <label for="customizecategory1" class="mb-0">
@@ -2144,7 +2146,7 @@
                                 <div class="form-check">
                                   <input class="form-check-input" type="radio" name="exampleRadio{{ taxRegime.id }}"
                                     id="exampleRadio{{ taxRegime.id }}" value="option{{ taxRegime.id }}"
-                                    [checked]="taxRegime.selected == true" />
+                                    [checked]="taxRegime.selected" />
                                 </div>
                               </div>
                             </div>
@@ -2700,8 +2702,7 @@
                                 {{employeePayslipLogResponse.paySlipMonth | date: 'MMMM, yyyy' }}
                               </p>
                               <small style="margin-left: 24px;"
-                                class="text-muted">{{employeePayslipLogResponse.paySlipGeneratedDate | date:"dd MMM yy,
-                                hh:mm a"}}</small>
+                                class="text-muted">{{employeePayslipLogResponse.paySlipGeneratedDate | date:"dd MMM yy, hh:mm a"}}</small>
                             </div>
                             <span *ngIf="employeePayslipLogResponse.paySlipUrl; else notAvailable"
                                 class="badge badge-outline-success badge-pill"
@@ -3296,15 +3297,9 @@
                                   <div class="dropdown d-inline-block">
                                     <div class="align-self-center">
                                       <div class="btn btn-xs btn-light btn-round">
-                                        {{ assets.createdDate | date:"MMM dd, yyyy 'at' hh:mm a"
-                                        || "N/A"
-                                        }}
-                                        <!-- &nbsp;
-                                          <span>{{
-                                            formatTime(leaves.leaveDate) || "N/A"
-                                          }}</span> -->
+                                        {{ (assets.createdDate | date:"MMM dd, yyyy 'at' hh:mm a")  || "N/A"}}
                                       </div>
-                                      <!-- {{ leaves.docFileLink }} -->
+                                      2
                                     </div>
                                   </div>
                                 </div>

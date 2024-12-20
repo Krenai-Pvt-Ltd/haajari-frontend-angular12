@@ -9,7 +9,7 @@ import {
 } from '@angular/forms';
 import { isThisWeek } from 'date-fns';
 import * as _ from 'lodash';
-import * as moment from 'moment';
+import moment from 'moment';
 import { constant } from 'src/app/constant/constant';
 import { Key } from 'src/app/constant/key';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
@@ -1044,7 +1044,7 @@ export class LeaveSettingComponent implements OnInit {
     // }
     // this.errorTemplateNameFlag = false;
     this.leaveCategoryTab1.nativeElement.click();
-    
+
     if(this.wfhTemplateToggle){
       this.leaveTemplateForm(true);
     }else{
@@ -2130,17 +2130,17 @@ export class LeaveSettingComponent implements OnInit {
       // this.leaveTemplates = response.object;
       // console.log('leaveTemplates: ',this.leaveTemplates)
 
-      
-  // this.wfhLeaveTemplates = response.object.filter((template: any) => 
-  //   template.leaveTemplateCategoryRes.length > 0 && 
+
+  // this.wfhLeaveTemplates = response.object.filter((template: any) =>
+  //   template.leaveTemplateCategoryRes.length > 0 &&
   //   template.leaveTemplateCategoryRes.leaveCategoryId == 8
   // );
 
-  this.wfhLeaveTemplates = response.object.filter((template: any) => 
+  this.wfhLeaveTemplates = response.object.filter((template: any) =>
       template.leaveTemplateCategoryRes[0].leaveCategoryId === 8
   );
 
-  this.leaveTemplates = response.object.filter((template: any) => 
+  this.leaveTemplates = response.object.filter((template: any) =>
     template.leaveTemplateCategoryRes[0].leaveCategoryId != 8
 );
 
@@ -2316,7 +2316,7 @@ console.log('After SET Ids: ',this.selectedStaffIdsUser)
     debugger
 
     if(this.wfhTemplateToggle){
-     
+
       // setTimeout(() => {
       //   this.loadGenders();
 
@@ -2344,11 +2344,11 @@ console.log('After SET Ids: ',this.selectedStaffIdsUser)
     // if (wfhCategory) {
     //   this.defaultLeaveCategoryId = wfhCategory.id; // Set the ID of 'Earned Leave' as default
     // }
-  
+
     this.getUnusedLeaveActionList();
      this.unusedLeaveActionList = this.unusedLeaveActionList
     //  console.log('unusedLeaveActionList ',this.unusedLeaveActionList)
-  
+
     // this.defaultLeaveActionId = 1
     // }, 200)
 
@@ -2405,7 +2405,7 @@ setUnusedLeaveAction(index: number, value: any): void {
     this.filteredLeaveCategories = this.leaveCategoryList;
 
   const earnedLeave = this.filteredLeaveCategories.find((leave: any) => leave.name === 'WFH');
-  
+
   if (earnedLeave) {
     this.defaultLeaveCategoryId = earnedLeave.id; // Set the ID of 'Earned Leave' as default
   }

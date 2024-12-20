@@ -1,12 +1,12 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Key } from "../constant/key";
-import { DatabaseHelper } from "../models/DatabaseHelper";
 import { HelperService } from "./helper.service";
-import { ActivationEnd, Router } from "@angular/router";
+import { ActivatedRoute, ActivationEnd, NavigationEnd, Router } from "@angular/router";
 import { constant } from "../constant/constant";
 import { Routes } from "../constant/Routes";
-
+import { DatabaseHelper } from "../models/DatabaseHelper";
+import { filter } from "rxjs/operators";
 
 @Injectable({
   providedIn: "root",
@@ -17,29 +17,29 @@ export class SubscriptionPlanService {
   currentRoute:any;
   constructor(private _httpClient: HttpClient,
     private _helperService : HelperService,
-    private _router: Router
+    private _router ?: Router
   ) {
   
 
     if (this._router != undefined) {
-      this._router.events.subscribe(val => {
-        if (val instanceof ActivationEnd && constant.EMPTY_STRINGS.includes(this.currentRoute)) {
-          //@ts-ignore
-          this.currentRoute = val.snapshot._routerState.url.split("?")[0];
-          // console.log("route=======", this.currentRoute);
-          if (!Routes.AUTH_ROUTES.includes(String(this.currentRoute))) {
-             this.LoadAsync();
+      // console.log("11111route=======", this._router );
+        this._router.events.subscribe(val => {
+          // console.log("val=======", val);
+          if (val instanceof ActivationEnd && constant.EMPTY_STRINGS.includes(this.currentRoute)) {
+            //@ts-ignore
+            this.currentRoute = val.snapshot._routerState.url.split("?")[0];
+            // console.log("route=======", this.currentRoute);
+            if (!Routes.AUTH_ROUTES.includes(String(this.currentRoute))) {
+               this.LoadAsync();
+            }
           }
-        }
-
-      });
-
-
+        });
     }
   }
 
 
   LoadAsync = async () => {
+    
     await this.isSubscriptionPlanExpired();
     await this._helperService.getRestrictedModules();
     await this.getOrganizationSubsPlanDetail();

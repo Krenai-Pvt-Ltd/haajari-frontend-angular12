@@ -97,6 +97,12 @@ export class LoginComponent implements OnInit {
           const token = localStorage.getItem('token');
           if (token != null) {
             const onboardingStep = helper.decodeToken(token).statusResponse;
+
+            if (onboardingStep < 5) {
+              this.router.navigate(['/organization-onboarding/personal-information']);
+              // return false;
+            } else {
+
               if(this.rbacService.shouldDisplay('dashboard')){
                 this.router.navigate(['/dashboard']);
             } else {
@@ -104,6 +110,7 @@ export class LoginComponent implements OnInit {
                 queryParams: { userId: this.UUID, dashboardActive: 'true' },
               });
             }
+          }
           }
         }
         }),
@@ -303,6 +310,7 @@ export class LoginComponent implements OnInit {
   createPasswordFlag: boolean = false;
   otpErrorMessage: string = '';
   verifyOtp() {
+    debugger
     if (this.isWhatsappLogin) {
       this.verifyOtpByWhatsappMethodCall();
     } else {
@@ -505,6 +513,7 @@ export class LoginComponent implements OnInit {
               response.object.tokenResponse.refresh_token
             );
             await this.rbacService.initializeUserInfo();
+            await this._subscriptionService.LoadAsync();
             const helper = new JwtHelperService();
             const onboardingStep = helper.decodeToken(
               response.object.tokenResponse.access_token

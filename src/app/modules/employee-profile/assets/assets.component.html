@@ -146,11 +146,18 @@
                           </table>
                         </div>
 
-                      <div *ngIf="totalPages()>1" class="pagination-controls d-flex align-items-end">
+                      <div *ngIf="totalPages()>1" class="d-flex align-items-center justify-content-between pagination-box-profile w-100 p-3 bg-white border-top">
                         <!-- Ngb Pagination Component -->
+                        <p>
+                          Showing items
+                          {{assets.length}}
+                          of {{ totalCount }} records
+                        </p>
+
                         <ngb-pagination
                           [collectionSize]="totalCount"
                           [rotate]="true"
+                          class="pagition-box"
                           (pageChange)="pageChanged($event)"
                           [pageSize]="itemPerPage"
                           [(page)]="pageNumber"
@@ -350,7 +357,7 @@
                                   </ng-template>
                                 </td>
                                 <td class="text-left">
-                                  <span class="badge rounded-pill" [ngClass]="{'badge-soft-warning': asset.status == 'PENDING', 'badge-soft-danger': asset.status == 'REJECTED', 'badge-soft-success': asset.status == 'APPROVED'}">
+                                  <span class="badge rounded-pill" [ngClass]="{'badge-soft-warning': asset.status == 'PENDING', 'badge-soft-danger': asset.status == 'REJECTED', 'badge-soft-success': asset.status == 'APPROVED' || asset.status == 'ASSIGNED' }">
                                     {{ asset.status }}
                                   </span>
                                 </td>
@@ -360,17 +367,14 @@
 
                         </div>
 
-                        <div *ngIf="this.assetRequestsTotalPage>1"
-                          class="pagination-controls d-flex align-items-center justify-content-between">
-                          <!-- Ngb Pagination Component -->
-
-                          <div class="showing-items-message text-right font-13">
+                        <div *ngIf="this.assetRequestsTotalPage>1" class="d-flex align-items-center justify-content-between pagination-box-profile w-100 p-3 bg-white border-top">
+                          <p class="mb-0">
                             Showing items
                             {{ (assetRequestsPage - 1) * assetRequestsSize + 1 }} –
                             {{ Math.min(assetRequestsPage * assetRequestsSize, assetRequestsTotalCount) }}
                             of {{ assetRequestsTotalCount }} records
-                          </div>
-                          <ngb-pagination [collectionSize]="assetRequestsTotalCount" [rotate]="true" (pageChange)="pageChangedRequest($event)"
+                          </p>
+                          <ngb-pagination class="pagition-box" [collectionSize]="assetRequestsTotalCount" [rotate]="true" (pageChange)="pageChangedRequest($event)"
                             [pageSize]="assetRequestsSize" [(page)]="assetRequestsPage" [maxSize]="5" [boundaryLinks]="true">
                           </ngb-pagination>
                         </div>
@@ -438,9 +442,9 @@
                 </svg>
                 </button>
             </div>
+            <form [formGroup]="assetRequestForm" (ngSubmit)="submitForm(assetRequestModal)">
             <div class="modal-body">
                 <div class="assets-request-form">
-                  <form [formGroup]="assetRequestForm" (ngSubmit)="submitForm(assetRequestModal)">
                     <div class="row register-form-box">
                       <div class="col-md-12 mb-3">
                         <div class="form-group">
@@ -466,7 +470,7 @@
                         <div class="form-group">
                           <label for="assetCategory" class="mb-2">Asset Category</label>
                           <nz-form-control>
-                            <nz-select formControlName="assetCategory" class="form-control" style="width: 100%" nzSize="large" nzPlaceHolder="Select Category">
+                            <nz-select formControlName="assetCategory" class="form-control placeholder-line" style="width: 100%" nzSize="large" nzPlaceHolder="Select Category">
                               <nz-option *ngFor="let category of assetCategories" [nzValue]="category.value" [nzLabel]="category.label"></nz-option>
                             </nz-select>
                           </nz-form-control>
@@ -478,7 +482,7 @@
                         <div class="form-group">
                           <label for="assetName" class="mb-2">Asset Name</label>
                           <nz-form-control>
-                            <input formControlName="assetName" type="text" class="form-control" placeholder="Enter the asset name" nzSize="large" style="width: 100%" />
+                            <input formControlName="assetName" type="text" class="form-control input-zorro" placeholder="Enter the asset name" nzSize="large" />
                           </nz-form-control>
                         </div>
                       </div>
@@ -487,7 +491,7 @@
                         <div class="form-group">
                           <label for="requestedUser" class="mb-2">Select user to request</label>
                           <nz-form-control>
-                            <nz-select formControlName="requestedUser" class="form-control" style="width: 100%" nzSize="large" nzPlaceHolder="Select a user">
+                            <nz-select formControlName="requestedUser" class="form-control placeholder-line" style="width: 100%" nzSize="large" nzPlaceHolder="Select a user">
                               <nz-option *ngFor="let manager of managers" [nzValue]="manager.uuid" [nzLabel]="manager.name"></nz-option>
                             </nz-select>
                           </nz-form-control>
@@ -509,23 +513,21 @@
                           </small>
                         </div>
                       </div>
-
                     </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn cancel-btn" data-bs-dismiss="modal" #cancelButton>Cancel</button>
-                      <button type="submit" class="btn btn-primary" [disabled]="assetRequestForm.invalid || isLoadingForm">
-                        <span  *ngIf="!isLoadingForm">Submit Request</span>
-                    <div class="dot-opacity-loader" *ngIf="isLoadingForm">
-                      <span></span>
-                      <span></span>
-                      <span></span>
-                    </div>
-                  </button>
-                  </div>
-                  </form>
-
                 </div>
             </div>
+            <div class="modal-footer d-flex align-items-center justify-content-end gap-2">
+              <button type="button" class="btn cancel-btn" data-bs-dismiss="modal" #cancelButton>Cancel</button>
+              <button type="submit" class="btn submitActionBtn" [disabled]="assetRequestForm.invalid || isLoadingForm" [ngClass]="{'btn-border':!assetRequestForm.invalid}">
+                <span  *ngIf="!isLoadingForm">Submit Request</span>
+                <div class="dot-opacity-loader" *ngIf="isLoadingForm">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+              </button>
+            </div>
+          </form>
 
         </div>
     </div>

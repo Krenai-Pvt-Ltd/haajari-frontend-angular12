@@ -102,14 +102,6 @@
     font-weight: 400;
 }
 
-.badge {
-    line-height: 12px;
-    padding: 0.55em 10px;
-    font-size: 13px;
-    font-weight: 400;
-    letter-spacing: 0.1px;
-    min-width: 80px;
-}
 
 .table tbody{
     border: 1px solid #f1f1f1;
@@ -198,8 +190,16 @@
     font-size: 12px;
     font-weight: 500;
     border-radius: 2px;
-    min-width: 100px;
+    width: 130px;
 }
+.input-zorro {
+    border-radius: 2px !important;
+    border: 1.021px solid #e9e9e9 !important;
+    background: rgba(236, 236, 236, 0.21) !important;
+    height: 45px !important;
+    font-size: 0.875rem !important;
+    font-weight: 400 !important;
+  }
 
 .register-form-box label {
     color: rgba(0, 0, 0, 0.85);
@@ -217,7 +217,7 @@
     color: #4a4a4a;
     font-size: 12px;
     font-weight: 500;
-    min-width: 100px;
+    width: 130px;
 }
 
 .assets-req{
@@ -225,6 +225,7 @@
     border-radius: 2px;
     height: 47px;
     margin-bottom: 0px;
+    background-color: rgba(236, 236, 236, 0.21) !important;
 }
 
 .assets-req input {
@@ -265,3 +266,4 @@
 .assets-request-btn{
     min-width: 165px;
 }
+

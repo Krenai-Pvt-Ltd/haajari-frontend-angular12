@@ -1,0 +1,416 @@
+<div class="d-flex justify-content-between mt-3">
+  <h5 class="m-0" style="color: #111; font-size: 18px" (click)="back()">
+    <div class="back-btns-box" style="cursor: pointer;">
+      <i class="bi bi-chevron-left"></i>
+      <span class="font-16 pt-2 pl-2">Employee Changes </span>
+    </div>
+  </h5>
+</div>
+<ul class="nav nav-pills mb-3 mt-4" id="pills-tab" role="tablist">
+  <li class="nav-item" role="presentation">
+    <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button"
+      role="tab" aria-controls="pills-home" aria-selected="true">NEW JOINEE</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button"
+      role="tab" aria-controls="pills-profile" aria-selected="false">EMPLOYEES IN EXIT PROCESS</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button"
+      role="tab" aria-controls="pills-contact" aria-selected="false">FULL AND FINAL SETTLEMENT</button>
+  </li>
+</ul>
+<div class="tab-content" id="pills-tabContent">
+  <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+    <div class="tab-pane active" id="step1">
+      <div class="table-responsive">
+        <div class="col-md-12 mt-2 mb-3">
+          <form novalidate="" role="search" (submit)="searchUsers($event, 1)"
+            class="searching ng-untouched ng-pristine ng-valid">
+            <div class="form-group position-relative">
+              <input type="text" id="search" placeholder="Search by name and email"
+                class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px"
+                (keyup)="searchUsers($event, 1)" [(ngModel)]="search" [ngModelOptions]="{ standalone: true }" />
+
+              <i *ngIf="search.length > 0" (click)="clearSearch(1)" class="bi bi-x search-icon"
+                style="font-size: 20px !important; margin: auto; margin-left: 10px"></i>
+
+              <i *ngIf="search.length == 0" class="bi bi-search search-icon"
+                style="margin: auto; margin-left: 10px"></i>
+            </div>
+          </form>
+        </div>
+        <table class="table border-dashed mb-0">
+          <thead>
+            <tr>
+              <th>EMPLOYEE</th>
+              <th>EMAIL</th>
+              <th>PHONE</th>
+              <th>DATE OF JOINING</th>
+              <th>PAYOUT DAYS</th>
+              <th>PAY ACTION</th>
+            </tr>
+          </thead>
+          <ng-container *ngIf="
+                    isShimmerForNewJoinee &&
+                      newJoineeResponseList.length == 0;
+                    else newJoineeList
+                  ">
+            <tbody>
+              <tr *ngFor="let item of [].constructor(10)">
+                <td class="text-center" *ngFor="let e of [].constructor(6)">
+                  <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                </td>
+              </tr>
+            </tbody>
+          </ng-container>
+          <ng-template #newJoineeList>
+            <ng-container *ngIf="
+                      !isShimmerForNewJoinee &&
+                        newJoineeResponseList.length != 0 &&
+                        !dataNotFoundPlaceholderForNewJoinee &&
+                        !networkConnectionErrorPlaceHolderForNewJoinee;
+                      else errorInFetchingNewJoinee
+                    ">
+              <tbody *ngFor="let newJoineeResponse of newJoineeResponseList; let i = index;">
+                <tr>
+                  <td>{{ newJoineeResponse.name}}</td>
+                  <td>{{ newJoineeResponse.email || 'N/A'}}</td>
+                  <td>{{ newJoineeResponse.phone || 'N/A' }}</td>
+                  <td class="text-start">
+                    {{ newJoineeResponse.joiningDate | date: 'fullDate' }}
+                  </td>
+                  <td>{{newJoineeResponse.payoutDays || 0}}</td>
+                  <td class="text-">
+                    <nz-select style="width: 100%" nzSize="large" [(ngModel)]="newJoineeResponse.payActionTypeId"
+                      id="selePayType{{i}}" name="selectPayType{{i}}"
+                      (ngModelChange)="onPayActionTypeChange(newJoineeResponse)" class="form-control">
+                      <nz-option *ngFor="let action of payActionTypes" [nzValue]="action.id"
+                        [nzLabel]="action.value"></nz-option>
+                    </nz-select>
+                  </td>
+                </tr>
+              </tbody>
+            </ng-container>
+          </ng-template>
+          <ng-template #errorInFetchingNewJoinee>
+            <tbody>
+              <tr>
+                <td colspan="8">
+                  <div class="errorboxmain" *ngIf="
+                            networkConnectionErrorPlaceHolderForNewJoinee
+                          ">
+                    <div class="errorboxinner text-center">
+                      <div class="errorboxplaceholder mb-2">
+                        <img src="assets/images/signal.svg" style="width: 100px" />
+                      </div>
+                      <div class="">
+                        <h4>Something went wrong</h4>
+                        <p> An error occurred while processing your request. Please refresh the page and try again. </p>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+            <tbody *ngIf="dataNotFoundPlaceholderForNewJoinee">
+              <tr>
+                <td colspan="8">
+                  <div class="empty-file" style="margin-top: 8%; margin-bottom: 8%">
+                    <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
+                      <ng-template #contentTpl>
+                        <p class="mb-1 empty-detail">No data for now</p>
+                      </ng-template>
+                    </nz-empty>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </ng-template>
+        </table>
+        <!--end /table-->
+      </div>
+    </div>
+  </div>
+  <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+    <div class="tab-pane" id="step2">
+      <div class="table-responsive">
+        <div class="col-md-12 mt-2 mb-3">
+          <form novalidate="" role="search" (submit)="searchUsers($event, 1)"
+            class="searching ng-untouched ng-pristine ng-valid">
+            <div class="form-group position-relative">
+              <input type="text" id="search" placeholder="Search by name and email"
+                class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px"
+                (keyup)="searchUsers($event, 1)" [(ngModel)]="search" [ngModelOptions]="{ standalone: true }" />
+
+              <i *ngIf="search.length > 0" (click)="clearSearch(1)" class="bi bi-x search-icon"
+                style="font-size: 20px !important; margin: auto; margin-left: 10px"></i>
+
+              <i *ngIf="search.length == 0" class="bi bi-search search-icon"
+                style="margin: auto; margin-left: 10px"></i>
+            </div>
+          </form>
+        </div>
+        <table class="table border-dashed mb-0">
+          <thead>
+            <tr>
+              <th>EMPLOYEE</th>
+              <th>EMAIL</th>
+              <th>PHONE</th>
+              <th>DATE OF RESIGNATION</th>
+              <th>LAST WORKING DAY</th>
+              <th>RESIGNATION STATUS</th>
+              <th>PAY ACTION</th>
+            </tr>
+          </thead>
+          <ng-container *ngIf="
+                    isShimmerForUserExit &&
+                      userExitResponseList.length == 0;
+                    else userExitList
+                  ">
+            <tbody>
+              <tr *ngFor="let item of [].constructor(10)">
+                <td class="text-center" *ngFor="let e of [].constructor(7)">
+                  <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                </td>
+              </tr>
+            </tbody>
+          </ng-container>
+          <ng-template #userExitList>
+            <ng-container *ngIf="
+                      !isShimmerForUserExit &&
+                        userExitResponseList.length != 0 &&
+                        !dataNotFoundPlaceholderForUserExit &&
+                        !networkConnectionErrorPlaceHolderForUserExit;
+                      else errorInFetchingUserExitList
+                    ">
+              <tbody *ngFor="
+                        let userExitResponse of userExitResponseList; let i=index;">
+                <tr>
+                  <td>{{ userExitResponse.userName }}</td>
+                  <td>{{ userExitResponse.email || 'N/A' }}</td>
+                  <td>{{ userExitResponse.phone || 'N/A' }}</td>
+                  <td>
+                    {{ constant.EMPTY_STRINGS.includes(userExitResponse.createdDate) ? 'N/A' :
+                    (userExitResponse.createdDate | date: 'dd MMMM, yyyy') }}
+                  </td>
+                  <td>
+                    {{ constant.EMPTY_STRINGS.includes(userExitResponse.lastWorkingDate) ? 'N/A' :
+                    (userExitResponse.lastWorkingDate | date: 'dd MMMM, yyyy') }}
+                  </td>
+                  <td class="text-">
+                    <nz-select style="width: 100%" nzSize="large" [(ngModel)]="userExitResponse.payActionTypeId"
+                      id="seleExitPayType{{i}}" name="seleExitPayType{{i}}"
+                      (ngModelChange)="onPayActionTypeChange(userExitResponse)" class="form-control">
+                      <nz-option *ngFor="let action of payActionTypes" [nzValue]="action.id"
+                        [nzLabel]="action.value"></nz-option>
+                    </nz-select>
+                  </td>
+                  <td class="text-start">
+                    {{ userExitResponse.status.response }}
+                  </td>
+                </tr>
+              </tbody>
+            </ng-container>
+          </ng-template>
+          <ng-template #errorInFetchingUserExitList>
+            <tbody>
+              <tr>
+                <td colspan="8">
+                  <div class="errorboxmain" *ngIf="
+                            networkConnectionErrorPlaceHolderForUserExit
+                          ">
+                    <div class="errorboxinner text-center">
+                      <div class="errorboxplaceholder mb-2">
+                        <img src="assets/images/signal.svg" style="width: 100px" />
+                      </div>
+                      <div class="">
+                        <h4>Something went wrong</h4>
+                        <p> An error occurred while processing your request. Please refresh the page and try again. </p>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+            <tbody *ngIf="dataNotFoundPlaceholderForUserExit">
+              <tr>
+                <td colspan="8">
+                  <div class="empty-file" style="margin-top: 8%; margin-bottom: 8%">
+                    <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
+                      <ng-template #contentTpl>
+                        <p class="mb-1 empty-detail">No data for now</p>
+                      </ng-template>
+                    </nz-empty>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </ng-template>
+        </table>
+        <!--end /table-->
+      </div>
+    </div>
+  </div>
+  <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+    <div class="tab-pane" id="step3">
+      <div class="table-responsive">
+        <div class="col-md-12 mt-2 mb-3">
+          <form novalidate="" role="search" (submit)="searchUsers($event, 1)"
+            class="searching ng-untouched ng-pristine ng-valid">
+            <div class="form-group position-relative">
+              <input type="text" id="search" placeholder="Search by name and email"
+                class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px"
+                (keyup)="searchUsers($event, 1)" [(ngModel)]="search" [ngModelOptions]="{ standalone: true }" />
+
+              <i *ngIf="search.length > 0" (click)="clearSearch(1)" class="bi bi-x search-icon"
+                style="font-size: 20px !important; margin: auto; margin-left: 10px"></i>
+
+              <i *ngIf="search.length == 0" class="bi bi-search search-icon"
+                style="margin: auto; margin-left: 10px"></i>
+            </div>
+          </form>
+        </div>
+        <table class="table border-dashed mb-0">
+          <thead>
+            <tr>
+              <th>EMPLOYEE</th>
+              <th>EMAIL</th>
+              <th>PHONE</th>
+              <th>NOTICE PERIOD DATE</th>
+              <th>LAST WORKING DATE</th>
+              <th>FULL AND FINAL DATE</th>
+              <th>RESIGNATION STATUS</th>
+              <th>PAY ACTION</th>
+            </tr>
+          </thead>
+          <ng-container *ngIf="
+                    isShimmerForFinalSettlement &&
+                      finalSettlementResponseList.length == 0;
+                    else finalSettlementList
+                  ">
+            <tbody>
+              <tr *ngFor="let item of [].constructor(10)">
+                <td class="text-center" *ngFor="let e of [].constructor(8)">
+                  <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                </td>
+              </tr>
+            </tbody>
+          </ng-container>
+          <ng-template #finalSettlementList>
+            <ng-container *ngIf="
+                      !isShimmerForFinalSettlement &&
+                        finalSettlementResponseList.length != 0 &&
+                        !dataNotFoundPlaceholderForFinalSettlement &&
+                        !networkConnectionErrorPlaceHolderForFinalSettlement;
+                      else errorInFetchingFinalSettlementList
+                    ">
+              <tbody *ngFor="
+                        let finalSettlementResponse of finalSettlementResponseList; let i = index;">
+                <tr>
+                  <td>{{ finalSettlementResponse.userName }}</td>
+                  <td>{{ finalSettlementResponse.email || 'N/A' }}</td>
+                  <td>{{ finalSettlementResponse.phone || 'N/A'}}</td>
+                  <td>
+                    {{ constant.EMPTY_STRINGS.includes(finalSettlementResponse.createdDate) ? 'N/A' :
+                    (finalSettlementResponse.createdDate | date: 'dd MMMM, yyyy') }}
+                  </td>
+                  <td>
+                    {{ constant.EMPTY_STRINGS.includes(finalSettlementResponse.lastWorkingDate) ? 'N/A' :
+                    (finalSettlementResponse.lastWorkingDate | date: 'dd MMMM, yyyy') }}
+                  </td>
+                  <td>
+                    {{ constant.EMPTY_STRINGS.includes(finalSettlementResponse.fnfDate) ? 'N/A' :
+                    (finalSettlementResponse.fnfDate | date: 'dd MMMM, yyyy') }}
+                  </td>
+
+                  <td class="text-">
+                    <nz-select style="width: 100%" nzSize="large" [(ngModel)]="finalSettlementResponse.payActionTypeId"
+                      id="seleFnfPayType{{i}}" name="seleFnfPayType{{i}}"
+                      (ngModelChange)="onPayActionTypeChange(finalSettlementResponse)" class="form-control">
+                      <nz-option *ngFor="let action of payActionTypes" [nzValue]="action.id"
+                        [nzLabel]="action.value"></nz-option>
+                    </nz-select>
+                  </td>
+                  <td> {{ finalSettlementResponse.status.response}}</td>
+                </tr>
+              </tbody>
+            </ng-container>
+          </ng-template>
+          <ng-template #errorInFetchingFinalSettlementList>
+            <tbody>
+              <tr>
+                <td colspan="8">
+                  <div class="errorboxmain" *ngIf="
+                            networkConnectionErrorPlaceHolderForFinalSettlement
+                          ">
+                    <div class="errorboxinner text-center">
+                      <div class="errorboxplaceholder mb-2">
+                        <img src="assets/images/signal.svg" style="width: 100px" />
+                      </div>
+                      <div class="">
+                        <h4>Something went wrong</h4>
+                        <p> An error occurred while processing your request. Please refresh the page and try again. </p>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+            <tbody *ngIf="
+            dataNotFoundPlaceholderForFinalSettlement
+          ">
+              <tr>
+                <td colspan="8">
+                  <div class="empty-file" style="margin-top: 8%; margin-bottom: 8%">
+                    <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
+                      <ng-template #contentTpl>
+                        <p class="mb-1 empty-detail">No data for now</p>
+                      </ng-template>
+                    </nz-empty>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </ng-template>
+        </table>
+        <!--end /table-->
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+
+<!-- <div class="pagination pl-3 align-items-center justify-content-between" *ngIf="
+              (total > itemPerPage - 1 || (pageNumber === lastPageNumber && lastPageNumber !== 1)) && 
+              ((CURRENT_TAB == NEW_JOINEE && !dataNotFoundPlaceholderForNewJoinee && !networkConnectionErrorPlaceHolderForNewJoinee) || 
+              (CURRENT_TAB == USER_EXIT && !dataNotFoundPlaceholderForUserExit && !networkConnectionErrorPlaceHolderForUserExit) || 
+              (CURRENT_TAB == FINAL_SETTLEMENT && !dataNotFoundPlaceholderForFinalSettlement && !networkConnectionErrorPlaceHolderForFinalSettlement))
+            ">
+            <p style="padding-left: 15px"> Showing {{ getStartIndex() }} - {{ getEndIndex() }} of {{ total
+              }} employees </p>
+            <div>
+              <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-end">
+                  <li class="page-item" [class.disabled]="pageNumber == 1">
+                    <a class="page-link" href="javascript:void(0);" aria-label="Previous" (click)="changePage('prev', CURRENT_TAB)">
+                      <span aria-hidden="true">&laquo;</span>
+                    </a>
+                  </li>
+                  <li class="page-item" *ngFor="let page of getPages()" [class.active]="pageNumber == page">
+                    <a class="page-link" href="javascript:void(0);" (click)="changePage(page, CURRENT_TAB)">{{ page
+                      }}</a>
+                  </li>
+                  <li class="page-item" [class.disabled]="pageNumber == totalPages">
+                    <a class="page-link" href="javascript:void(0);" aria-label="Next" (click)="changePage('next', CURRENT_TAB)">
+                      <span aria-hidden="true">&raquo;</span>
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          </div> -->

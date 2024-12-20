@@ -172,16 +172,19 @@ export class AddShiftTimeComponent implements OnInit {
     this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId, "");
   }
 
+  @ViewChild('closeButton2') closeButton2!: ElementRef;
   @ViewChild('closeButton') closeButton!: ElementRef;
   isRegisterLoad: boolean = false;
   registerShift() {
     debugger;
     this.isRegisterLoad = true;
-    this.registerOrganizationShiftTimingMethodCall();
+    this.closeButton2.nativeElement.click();
 
-    setTimeout(() => {
-      this.closeButton.nativeElement.click();
-    }, 300);
+    this.registerOrganizationShiftTimingMethodCall();
+    
+    // setTimeout(() => {
+    //   this.closeButton2.nativeElement.click();
+    // }, 300);
   }
   loading: boolean = false;
   registerOrganizationShiftTimingMethodCall() {
@@ -194,6 +197,7 @@ export class AddShiftTimeComponent implements OnInit {
       .registerShiftTiming(this.organizationShiftTimingRequest)
       .subscribe(
         (response) => {
+          // this.closeShiftTimingModal.nativeElement.click();
           this.getAllShiftTimingsMethodCall();
           this.helperService.registerOrganizationRegistratonProcessStepData(
             Key.SHIFT_TIME_ID,

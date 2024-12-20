@@ -18,7 +18,7 @@ import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { OrganizationOnboardingService } from 'src/app/services/organization-onboarding.service';
 import * as XLSX from 'xlsx';
-import * as moment from 'moment';
+import moment from 'moment';
 import { OrganizationShift } from 'src/app/models/shift-type';
 import { saveAs } from 'file-saver';
 import { EmployeeOnboardingDataDto } from 'src/app/models/employee-onboarding-data-dto';
@@ -26,6 +26,10 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { LeaveSettingComponent } from 'src/app/modules/setting/components/leave-setting/leave-setting.component';
 import { AttendanceSettingComponent } from 'src/app/modules/setting/components/attendance-setting/attendance-setting.component';
 import { TeamComponent } from 'src/app/modules/dynamic/components/team/team.component';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { AngularFireDatabase } from '@angular/fire/compat/database';
+import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
+import * as uuid from 'uuid';
 
 export interface Team {
   label: string;
@@ -53,16 +57,29 @@ export class UploadTeamComponent implements OnInit {
     private modalService: NgbModal,
     private _location: Location,
     private _router: Router,
-    private helperService: HelperService
+    private helperService: HelperService,
+    private db: AngularFireDatabase,
+    private rbacService: RoleBasedAccessControlService
   ) {}
 
-  ngOnInit(): void {
+
+  orgRefId: any;
+  logInUserUuid: string = '';
+  async ngOnInit(): Promise<void> {
     debugger;
     window.scroll(0, 0);
+    this.logInUserUuid = await this.rbacService.getUUID();
+    this.orgRefId = this.rbacService.getOrgRefUUID();
     // this.sampleFileUrl =
-      // 'https://firebasestorage.googleapis.com/v0/b/haajiri.appspot.com/o/Hajiri%2FSample%2FEmployee_Details_Sample%2Femployee_details_sample.xlsx?alt=media';
-    this.sampleFileUrl =
-      'https://firebasestorage.googleapis.com/v0/b/haajiri.appspot.com/o/Hajiri%2FSample%2Femployee_details_sample.xlsx?alt=media';
+    //   'https://firebasestorage.googleapis.com/v0/b/haajiri.appspot.com/o/Hajiri%2FSample%2Femployee_details_sample.xlsx?alt=media';
+
+    this.sampleFileUrl ="assets/samples/employee_details_sample.xlsx"
+
+    const localStorageUniqueUuid = localStorage.getItem('uniqueUuid');
+    if (localStorageUniqueUuid) {
+      this.uniqueUuid = localStorageUniqueUuid;
+      this.getFirebaseData();
+    }
 
     this.getUser();
     this.selectMethod('mannual');
@@ -179,21 +196,33 @@ export class UploadTeamComponent implements OnInit {
 
   alreadyUsedPhoneNumberArray: any = [];
   alreadyUsedEmailArray: any = [];
+  slackFirstPlaceholderFlag :boolean = false;
+  slackDataPlaceholderFlag : boolean = false;
   uploadUserFile(file: any, fileName: string) {
-    // debugger;
+    debugger;
     this.importToggle = true;
     this.isProgressToggle = true;
     this.isErrorToggle = false;
     this.alreadyUsedPhoneNumberArray = 0;
     this.alreadyUsedEmailArray = 0;
     this.errorMessage = '';
-    this._onboardingService.userImportOnboarding(file, fileName).subscribe(
+    this.percentage = 0;
+    this.uniqueUuid = uuid.v4();
+    localStorage.setItem('uniqueUuid', this.uniqueUuid);
+    this.getFirebaseData();
+
+    this._onboardingService.userImportOnboarding(file, fileName, this.uniqueUuid).subscribe(
       (response: any) => {
         if (response.status) {
           this.importToggle = false;
           this.isProgressToggle = false;
           this.getReport();
           this.getUser();
+
+          if (localStorage.getItem('uniqueUuid')) {
+            localStorage.removeItem('uniqueUuid');
+          }
+
           // console.log(this.onboardUserList.length);
           this.alreadyUsedPhoneNumberArray = response.arrayOfString;
           this.alreadyUsedEmailArray = response.arrayOfString2;
@@ -214,6 +243,66 @@ export class UploadTeamComponent implements OnInit {
       }
     );
   }
+
+  uniqueUuid: string = '';
+  // basePath:"haziri_notific"+"/"+"organi_"+uuid+"/"+"user"+uuid+"/"+uniquesUUid
+  percentage!: number;
+  toggle: boolean = false;
+  firebaseDataReloadFlag = false;
+  showNotification = false;
+  rotateToggle = false;
+  getFirebaseData() {
+    debugger
+    // console.log(bulkId)
+    this.db
+      .object(
+        'hajiri_notification' +
+          '/' +
+          'organization_' +
+          this.orgRefId +
+          '/' +
+          'user_' +
+          this.logInUserUuid +
+          '/' +
+          this.uniqueUuid
+      )
+      .valueChanges()
+      .subscribe(async (res) => {
+        //@ts-ignore
+        var res = res;
+
+        //@ts-ignore
+        this.percentage = res!.percentage;
+        
+        if(this.percentage == 100) {
+          this.percentage = 0;
+          localStorage.removeItem('uniqueUuid');
+            this.showNotification = true;
+            setTimeout(() => {
+              this.showNotification = false;
+            }, 2000);
+
+            this.getUser();
+        }
+        // console.log('opercent ' + this.percentage);
+
+        //@ts-ignore
+        if (res != undefined && res != null) {
+
+          //@ts-ignore
+          if (res.flag == 1) {
+            localStorage.removeItem('uniqueUuid');
+            this.showNotification = true;
+            setTimeout(() => {
+              this.showNotification = false;
+            }, 5000);
+
+            this.getUser();
+          }
+        }
+      });
+  }
+
 
   closeImportModal() {
     this.getUser();
@@ -284,23 +373,30 @@ export class UploadTeamComponent implements OnInit {
   // }
 
   allUsersValid(): boolean {
-    // debugger
+    debugger
 
     const lastUser = this.userList[this.userList.length - 1];
     if(this.onboardingViaString === 'SLACK' && !lastUser.email) {
       return false;
     }
     if (!lastUser.name && !lastUser.phone && this.userList.length == 1) {
-     
+
       return false;
     }
     if (!this.lastUsersValid()) {
       return false;
     }
     return this.userList.length > 0 && this.userList.every((u, index) => {
-      if (index === this.userList.length - 1) {
+      if (index === this.userList.length - 1 && !this.currentUsersValid() && !this.showUserList) {
+        return false;
+      }
+      if(index === this.userList.length - 1 && this.showUserList){
         return true;
       }
+      // if(index === this.userList.length - 1){
+      //   return true;
+      // }
+      
       return this.isValidUser(u);
     });
   }
@@ -311,7 +407,7 @@ export class UploadTeamComponent implements OnInit {
       return false;
     }
     if (!lastUser.name && !lastUser.phone) {
-     
+
       return true;
     }
     return this.isValidUser(lastUser);
@@ -355,19 +451,27 @@ export class UploadTeamComponent implements OnInit {
 
   resetManualUploadModal() {
     // debugger;
+    this.userList = [];
     this.closeManualUploadModal();
 
-    this.userList.forEach((user) => {
-      user.name = '';
-      user.phone = '';
-      user.email = '';
-    });
+    // this.userList.forEach((user) => {
+    //   user.name = '';
+    //   user.phone = '';
+    //   user.email = '';
+    // });
   }
 
   @ViewChild('munal-upload') closeManualUploadButton!: ElementRef;
   @ViewChild('closeButton') closeButton!: ElementRef;
 
   closeManualUploadModal() {
+
+    this.userList[0] = new UserReq();
+    //  this.userList.forEach((user) => {
+    //   user.name = '';
+    //   user.phone = '';
+    //   user.email = '';
+    // });
     this.closeButton.nativeElement.click();
   }
 
@@ -418,11 +522,19 @@ export class UploadTeamComponent implements OnInit {
   getUser() {
     this.preRuleForShimmersAndErrorPlaceholdersMethodCall();
     this.loading = true;
-    this._onboardingService.getOnboardUser(0, 5).subscribe(
+    this.isShimmer = true;
+    this._onboardingService.getOnboardUser(this.page, this.size).subscribe(
       (response: any) => {
         if (response.status) {
           this.onboardUserList = response.object;
           this.totalOnboardingUserListCount = response.totalItems;
+
+          if (this.onboardUserList.some(user => this.listOfIds.includes(user.id))) {
+            this.isSelectAll = true;
+        } else {
+            this.isSelectAll = false;
+        }
+  
         } else {
           this.onboardUserList = [];
           this.dataNotFoundPlaceholder = true;
@@ -440,7 +552,7 @@ export class UploadTeamComponent implements OnInit {
 
   allUserIds: any[] = [];
   getAllUser() {
-    this._onboardingService.getOnboardUser(0, 5).subscribe(
+    this._onboardingService.getOnboardUser(this.page, this.totalOnboardingUserListCount).subscribe(
       (response: any) => {
         if (response.status) {
           this.allUserIds = response.object;
@@ -457,6 +569,7 @@ export class UploadTeamComponent implements OnInit {
   }
 
   nextPage() {
+    debugger
     if (this.onboardUserList.length === this.size) {
       // this.unselectAllUsers();
       this.onboardUserList = [];
@@ -466,6 +579,7 @@ export class UploadTeamComponent implements OnInit {
   }
 
   previousPage() {
+    debugger
     if (this.page > 0) {
       // this.unselectAllUsers();
       this.onboardUserList = [];
@@ -586,7 +700,11 @@ export class UploadTeamComponent implements OnInit {
   }
 
   isNumberExist: boolean = false;
-  checkNumberExistance(index: number, number: string, uuid: string) {
+  isEmailExist: boolean = false;
+  
+
+  checkNumberExistence(index: number, number: string, uuid: string) {
+    debugger
     if (number.trim() === '') {
       if (index >= 0) {
         this.userList[index].isPhoneExist = false;
@@ -594,6 +712,7 @@ export class UploadTeamComponent implements OnInit {
       this.isNumberExist = false;
       // console.log('Phone number is empty, skipping API call.');
     } else {
+
       this._onboardingService
         .checkEmployeeNumberExist(number, uuid)
         .subscribe((response: any) => {
@@ -606,9 +725,33 @@ export class UploadTeamComponent implements OnInit {
     }
   }
 
-  isEmailExist: boolean = false;
-  checkEmailExistance(index: number, email: string, uuid: string) {
-    // debugger;
+  checkNumberExistance(index: number, phone: string, uuid: string): void {
+    debugger
+    if (!phone.trim()) {
+      this.userList[index].isPhoneExist = false;
+      return;
+    }
+  
+    // Ensure last index entry does not check itself but checks all others
+    const isDuplicate = this.userList.some((user, i) => {
+      return (user.phone === phone && i !== this.userList.length - 1);
+    });
+  
+    if (isDuplicate) {
+      this.userList[index].isPhoneExist = true;
+      this.isNumberExist = true;
+    } else {
+      // Check for duplicacy on the backend
+      this._onboardingService.checkEmployeeNumberExist(phone, uuid).subscribe((exists: any) => {
+        this.userList[index].isPhoneExist = exists;
+        this.isNumberExist = exists;
+      });
+    }
+  }
+  
+
+  checkEmailExistence(index: number, email: string, uuid: string) {
+    debugger;
     // this.userList[index].isEmailExist = false;
     if (email != null && email.length > 5) {
       this._onboardingService
@@ -621,6 +764,36 @@ export class UploadTeamComponent implements OnInit {
         });
     }
   }
+
+
+  checkEmailExistance(index: number, email: string, uuid: string): void {
+    debugger
+    if (!email || email.length <= 5) {
+      this.userList[index].isEmailExist = false;
+      return;
+    }
+  
+
+    // Ensure last index entry does not check itself but checks all others
+    const isDuplicate = this.userList.some((user, i) => {
+      return (user.email === email && i !== this.userList.length - 1);
+    });
+  
+    if (isDuplicate) {
+      this.userList[index].isEmailExist = true;
+      this.isEmailExist = true;
+    } else {
+      // Check for duplicacy on the backend
+    this._onboardingService.checkEmployeeEmailExist(email, uuid).subscribe((exists: any) => {
+      this.userList[index].isEmailExist = exists;
+      this.isEmailExist = exists;
+    });
+    }
+
+
+    
+  }
+
   isNextloading: boolean = false;
   next() {
     // debugger;
@@ -714,7 +887,7 @@ export class UploadTeamComponent implements OnInit {
     if (this.excelLogLink) {
       const link = document.createElement('a');
       link.href = this.excelLogLink;
-      link.setAttribute('download', 'Organization_Excel_Log.xlsx'); 
+      link.setAttribute('download', 'Organization_Excel_Log.xlsx');
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -1382,7 +1555,10 @@ export class UploadTeamComponent implements OnInit {
     );
   }
 
-
+  preventPaste(event: ClipboardEvent): void {
+    event.preventDefault();
+  }
+  
 
 
 

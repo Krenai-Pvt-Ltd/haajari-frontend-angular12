@@ -1936,14 +1936,6 @@ i.bi.bi-plus {
 .table tbody {
   border: 1px solid #f1f1f1;
 }
-.badge {
-  line-height: 12px;
-  padding: 0.55em 10px;
-  font-size: 13px;
-  font-weight: 400;
-  letter-spacing: 0.1px;
-  min-width: 80px;
-}
 
 .table-font-weight {
   font-weight: 400;
@@ -2335,7 +2327,7 @@ font-size: 12px !important;
   color: #4a4a4a;
   font-size: 12px;
   font-weight: 500;
-  min-width: 90px;
+  width: 90px;
 }
 
 .submitActionBtn {
@@ -2344,9 +2336,56 @@ font-size: 12px !important;
   font-size: 12px;
   font-weight: 500;
   border-radius: 2px;
-  min-width: 90px;
+  width: 100px;
 }
 
 .error-border {
-  border: 1px solid red;
+  border: 1px solid red !important;
+}
+
+.bill-image{
+  background-color: rgba(244, 247, 255, 0.50);
+  height: 100%;
+}
+.bill-image img {
+  width: 100%;
+  height: 485px;
+  object-fit: cover;
+}
+.bill-images{
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(6.800000190734863px);
+  position: absolute;
+  bottom: 0px;
+  height: 70px;
+  width: 98%;
+}
+.bill-images img{
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  background-color: #FFF;
+  padding: 5px;
+  border-radius: 5px;
+}
+.expense-admin{
+  position: absolute;
+  width: 100%;
+  bottom: 0px;
+  right: 10px;
+}
+.border-right{
+  border-right: 1px solid #f1f1f1;
+}
+span.request-count {
+  background-color: rgb(241 241 253) !important;
+  color: var(--primary-color) !important;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+}
+
+.expance-forn-data{
+  max-height: 385px;
+  overflow: scroll;
 }

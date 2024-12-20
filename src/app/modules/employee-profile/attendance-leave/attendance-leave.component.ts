@@ -12,6 +12,8 @@ import { ExpenseType } from 'src/app/models/ExpenseType';
 import { EmployeeProfileAttendanceResponse, TotalEmployeeProfileAttendanceResponse } from 'src/app/models/employee-profile-attendance_response';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
+// import { Timeline } from 'vis-timeline'
+// import { Timeline,DataSet, TimelineItem } from 'vis-timeline/standalone';
 
 @Component({
   selector: 'app-attendance-leave',
@@ -26,6 +28,7 @@ export class AttendanceLeaveComponent implements OnInit {
   currentUserUuid: any
   userLeaveRequest: UserLeaveRequest = new UserLeaveRequest();
 modal: any;
+contentTemplate: string ='You are on the Notice Period, so that you can not apply leave';
 
   constructor(private dataService: DataService, private activateRoute: ActivatedRoute,
     private fb: FormBuilder, public helperService: HelperService, public domSanitizer: DomSanitizer,
@@ -36,7 +39,6 @@ modal: any;
       this.userId = this.activateRoute.snapshot.queryParamMap.get('userId');
     }
     // this.getFirstAndLastDateOfMonth(this.selectedDate);
-    this.calculateDateRange();
 
    }
 
@@ -48,6 +50,8 @@ modal: any;
       selectedUser: [null, Validators.required],
       note: [null, Validators.required],
     });
+    // this.getAttendanceRequests();
+    this.fetchAttendanceRequests();
     this.fetchManagerNames();
     this.getUserLeaveReq();
     this.loadLeaveLogs();
@@ -59,11 +63,88 @@ modal: any;
     // Set the default selected tab to the current week
     this.setDefaultWeekTab();
     this.calculateDateRange();
-    this.getEmployeeProfileAttendanceDetailsData();
+    // this.getEmployeeProfileAttendanceDetailsData();
     this.currentUserUuid = this.rbacService.getUuid();
+
+    this.calculateDateRange();
+    // this.getAttendanceRequests();
+
+
+    this.checkUserLeaveTaken();
   }
   get canSubmit() {
-    return this.userLeaveForm.valid;
+    return this.userLeaveForm?.valid;
+  }
+
+  attendanceTypeFilter: any = ['CREATE', 'UPDATE'];
+  attendanceStatusFilter: any = ['PENDING', 'APPROVED', 'REJECTED'];
+  updateAttendanceTypeFilter(type: string){
+    this.attendanceType = type;
+    this.fetchAttendanceRequests();
+  }
+  updateAttendanceStatusFilter(status: string){
+    this.attendanceStatus = status;
+    this.fetchAttendanceRequests();
+  }
+  attendanceRequests: any = [];
+  currentAttendancePage: number = 1;
+  pageAttendanceSize: number = 10;
+  totalAttendanceElements: number = 0;
+  attendanceStatus: string = 'All';
+  isAttendanceLoading: boolean = false;
+  attendanceType: string = 'CREATE';
+  fetchAttendanceRequests(): void {
+    this.isAttendanceLoading = true;
+    this.dataService
+      .getAttendanceUpdateFilteredRequests(
+        this.userId,
+        this.attendanceStatus,
+        this.attendanceType,
+        this.currentAttendancePage,
+        this.pageAttendanceSize
+      )
+      .subscribe((response) => {
+        this.attendanceRequests = response.content;
+        this.totalAttendanceElements = response.totalElements;
+        this.isAttendanceLoading = false;
+      },
+      (error) => {
+        this.isAttendanceLoading = false;
+      }
+    );
+  }
+  onAttendancePageChange(page: number): void {
+    this.currentAttendancePage = page;
+    this.fetchAttendanceRequests();
+  }
+
+  onAttendanceFilterChange(): void {
+    this.currentAttendancePage = 0; // Reset to first page when filters change
+    this.fetchAttendanceRequests();
+  }
+
+  deleteAttendanceRequest(id: number): void {
+    this.dataService.deletePendingAttendance(id).subscribe(
+      (response: any) => {
+        this.helperService.showToast(response.message,Key.TOAST_STATUS_INFO);
+        this.fetchAttendanceRequests();
+      },
+      (error) => {
+        this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
+      }
+    );
+  }
+
+
+  isUserLeaveTaken: number = 0;
+  checkUserLeaveTaken(){
+    this.dataService.getUserLeaveTaken().subscribe((res: any) => {
+      if(res.status){
+        this.isUserLeaveTaken = res.object
+      }else{
+        this.isUserLeaveTaken = 0
+      }
+    })
   }
 
   isHalfLeaveSelected: boolean = false;
@@ -468,7 +549,7 @@ dayShiftToggleFun(shift: string) {
     this.leaveApplyButton.nativeElement.click();
   }
 
-  //  attendance tab code 
+  //  attendance tab code
 
   size: 'large' | 'small' | 'default' = 'small';
   selectedDate: Date = new Date();
@@ -489,15 +570,15 @@ dayShiftToggleFun(shift: string) {
     this.updateWeekLabels();
     this.selectedTab = 'Week 1'; // Reset to default
     this.calculateDateRange();
-    this.getEmployeeProfileAttendanceDetailsData();
+    // this.getEmployeeProfileAttendanceDetailsData();
   }
-  
+
   updateThirtyDaysLabel(): void {
     const currentDate = new Date();
     const isCurrentMonth =
       this.selectedDate.getFullYear() === currentDate.getFullYear() &&
       this.selectedDate.getMonth() === currentDate.getMonth();
-  
+
     if (isCurrentMonth) {
       // this.thirtyDaysLabel = `${currentDate.getDate()} Days`;
       this.thirtyDaysLabel = `All`;
@@ -511,7 +592,7 @@ dayShiftToggleFun(shift: string) {
       this.thirtyDaysLabel = `All`;
     }
   }
-  
+
   updateWeekLabels(): void {
     const currentDate = new Date();
     const daysInMonth = new Date(
@@ -522,19 +603,19 @@ dayShiftToggleFun(shift: string) {
     const isCurrentMonth =
       this.selectedDate.getFullYear() === currentDate.getFullYear() &&
       this.selectedDate.getMonth() === currentDate.getMonth();
-  
+
     const lastDay = isCurrentMonth ? currentDate.getDate() : daysInMonth;
     const weeks = Math.ceil(lastDay / 7);
-  
+
     this.weekLabels = Array.from({ length: weeks }, (_, i) => `Week ${i + 1}`);
   }
-  
+
   calculateDateRange(): void {
     const currentDate = new Date();
     const isCurrentMonth =
       this.selectedDate.getFullYear() === currentDate.getFullYear() &&
       this.selectedDate.getMonth() === currentDate.getMonth();
-  
+
     if (this.selectedTab === '30 DAYS') {
       this.startDate = this.formatDateToYYYYMMDD(
         new Date(this.selectedDate.getFullYear(), this.selectedDate.getMonth(), 1)
@@ -552,7 +633,7 @@ dayShiftToggleFun(shift: string) {
     const currentDate = new Date();
     const startOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
     const lastDayOfMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0);
-  
+
     const weekStart = new Date(
       startOfMonth.getFullYear(),
       startOfMonth.getMonth(),
@@ -563,9 +644,9 @@ dayShiftToggleFun(shift: string) {
       weekStart.getMonth(),
       weekStart.getDate() + 6
     );
-  
+
     this.startDate = this.formatDateToYYYYMMDD(weekStart);
-  
+
     // Update end date logic
     if (weekEnd > lastDayOfMonth) {
       // If it's the last week of the month, adjust to the last day of the month
@@ -581,7 +662,7 @@ dayShiftToggleFun(shift: string) {
       this.endDate = this.formatDateToYYYYMMDD(weekEnd);
     }
   }
-  
+
   // setWeekRange(date: Date, weekNumber: number): void {
   //   const startOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
   //   const weekStart = new Date(
@@ -594,7 +675,7 @@ dayShiftToggleFun(shift: string) {
   //     weekStart.getMonth(),
   //     weekStart.getDate() + 6
   //   );
-  
+
   //   this.startDate = this.formatDateToYYYYMMDD(weekStart);
   //   this.endDate = this.formatDateToYYYYMMDD(
   //     weekEnd > new Date(date.getFullYear(), date.getMonth() + 1, 0)
@@ -602,24 +683,24 @@ dayShiftToggleFun(shift: string) {
   //       : weekEnd
   //     );
   // }
-  
+
   formatDateToYYYYMMDD(date: Date): string {
     const year = date.getFullYear();
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const day = date.getDate().toString().padStart(2, '0');
     return `${year}-${month}-${day}`;
   }
-  
+
   onTabChange(tab: string): void {
     this.selectedTab = tab;
     this.presentWeek = false;
     // this.resetData();
     this.isShimmer = true;
     this.calculateDateRange();
-    this.getEmployeeProfileAttendanceDetailsData();
+    // this.getEmployeeProfileAttendanceDetailsData();
   }
 
-  
+
 
   organizationRegistrationDate: string = '';
   getOrganizationRegistrationDateMethodCall() {
@@ -637,23 +718,23 @@ dayShiftToggleFun(shift: string) {
   attendanceDetails: EmployeeProfileAttendanceResponse[] = [];
   totalAttendanceDetails: TotalEmployeeProfileAttendanceResponse = new TotalEmployeeProfileAttendanceResponse();
   isShimmer : boolean = false;
-  getEmployeeProfileAttendanceDetailsData() {
-    debugger;
-    this.isShimmer = true;
-    this.attendanceDetails = [];
-    // this.totalAttendanceDetails = new TotalEmployeeProfileAttendanceResponse(); 
-    this.dataService.getEmployeeProfileAttendanceDetails(this.userId, this.startDate, this.endDate).subscribe(
-      (response) => {
-       this.isShimmer = false;
-       this.attendanceDetails = response.object.employeeProfileAttendanceResponseList;
-       this.totalAttendanceDetails = response.object.totalEmployeeProfileAttendanceResponse
-      },
-      (error) => {
-        this.isShimmer = false;
-        console.log(error);
-      }
-    );
-  }
+  // getEmployeeProfileAttendanceDetailsData() {
+  //   debugger;
+  //   this.isShimmer = true;
+  //   this.attendanceDetails = [];
+  //   // this.totalAttendanceDetails = new TotalEmployeeProfileAttendanceResponse();
+  //   this.dataService.getEmployeeProfileAttendanceDetails(this.userId, this.startDate, this.endDate).subscribe(
+  //     (response) => {
+  //      this.isShimmer = false;
+  //      this.attendanceDetails = response.object.employeeProfileAttendanceResponseList;
+  //      this.totalAttendanceDetails = response.object.totalEmployeeProfileAttendanceResponse
+  //     },
+  //     (error) => {
+  //       this.isShimmer = false;
+  //       console.log(error);
+  //     }
+  //   );
+  // }
 
   resetData() {
     this.attendanceDetails = [];
@@ -669,10 +750,10 @@ dayShiftToggleFun(shift: string) {
 
     const isNegative = time.startsWith('-');
     const timeWithoutSign = isNegative ? time.substring(1) : time;
-    
+
     // Split the time string into hours, minutes, and seconds
     const [hours, minutes, seconds] = timeWithoutSign.split(':').map((part) => parseInt(part, 10));
-    
+
     // Build the result
     let result = '';
     if (hours !== 0) {
@@ -681,7 +762,7 @@ dayShiftToggleFun(shift: string) {
     if (minutes !== 0 || result === '') { // Include minutes even if they are zero when there's no hour part
       result += `${result ? ', ' : isNegative ? '-' : ''}${Math.abs(minutes)} min${Math.abs(minutes) !== 1 ? 's' : ''}`;
     }
-  
+
     return result;
   }
 
@@ -693,10 +774,10 @@ dayShiftToggleFun(shift: string) {
 
     const isNegative = time.startsWith('-');
     const timeWithoutSign = isNegative ? time.substring(1) : time;
-    
+
     // Split the time string into hours, minutes, and seconds
     const [hours, minutes, seconds] = timeWithoutSign.split(':').map((part) => parseInt(part, 10));
-    
+
     // Build the result
     let result = '';
     if (hours !== 0) {
@@ -705,13 +786,13 @@ dayShiftToggleFun(shift: string) {
     if (minutes !== 0 || result === '') { // Include minutes even if they are zero when there's no hour part
       result += `${result ? ', ' : isNegative ? '-' : ''}${Math.abs(minutes)} min${Math.abs(minutes) !== 1 ? 's' : ''}`;
     }
-  
+
     return result;
   }
 
   checkTimeNegative(time: string | null | undefined): boolean {
     if (!time) {
-      return false; 
+      return false;
     }
 
     return time.startsWith('-');
@@ -749,7 +830,7 @@ dayShiftToggleFun(shift: string) {
     // Enable the month if it's from January 2023 to the current month
     return false;
   };
-  
+
 // Navigate to the previous month
 goToPreviousMonth(): void {
   if (!this.isPreviousDisabled()) {
@@ -763,6 +844,7 @@ goToPreviousMonth(): void {
 }
 
 // Navigate to the next month
+nextMonthDisable: boolean = false;
 goToNextMonth(): void {
   if (!this.isNextDisabled()) {
     const nextMonth = new Date(
@@ -816,8 +898,165 @@ setDefaultWeekTab(): void {
 }
 
 
-  
-  
+
+
+
+
+// timeline: Timeline | undefined;
+  options: {} | undefined;
+  data: any;
+  groups: any;
+
+  @ViewChild('timeline', { static: true }) timelineContainer: ElementRef | undefined;
+
+  staticData = [
+    {
+        "groupId": 1,
+        "date": "04-12-2024",
+        "items": [
+            {
+                "id": 1,
+                "start": "2024-12-04 21:33:21.775",
+                "end": "2024-12-04 21:33:21.775",
+                "content": "Request Check-In",
+                "type": null,
+                "className": null
+            },
+            {
+                "id": 2,
+                "start": "2024-12-04 02:33:26.791",
+                "end": "2024-12-04 02:33:26.791",
+                "content": "Request Check-Out",
+                "type": null,
+                "className": null
+            }
+        ]
+    },
+    {
+        "groupId": 2,
+        "date": "01-12-2024",
+        "items": [
+            {
+                "id": 3,
+                "start": "2024-13-01 19:37:04.863",
+                "end": "2024-13-01 19:37:04.863",
+                "content": "Request Check-In",
+                "type": null,
+                "className": null
+            },
+            {
+                "id": 4,
+                "start": "2024-13-01 01:37:07.777",
+                "end": "2024-13-01 01:37:07.777",
+                "content": "Request Check-Out",
+                "type": null,
+                "className": null
+            }
+        ]
+    }
+];
+
+   page = 1;
+   requestSize = 10;
+  // getAttendanceRequests(): void {
+  //   debugger;
+  //   this.dataService.getUserAttendanceRequests(this.userId, '2024-12-01', this.page, this.requestSize).subscribe(
+  //     (response) => {
+  //       this.staticData = response.content;
+  //       console.log('kkkkkkkk', response);
+  //       this.getTimelineData();
+  //       this.getTimelineGroups();
+  //       this.getOptions();
+  //       this.timeline = new Timeline(this.timelineContainer?.nativeElement, this.data, this.options);
+  //       this.timeline.setGroups(this.groups);
+  //       this.timeline.setItems(this.data);
+
+  //     },
+  //      (err) => {
+  //       console.error('kkkkkkkk', err);
+  //     }
+  //   );
+  // }
+
+
+  // getTimelineGroups() {
+  //   // Create groups dynamically from static data
+  //   this.groups = new DataSet(
+  //     this.staticData.map((group) => ({
+  //       id: group.groupId,
+  //       content: group.date,
+  //     }))
+  //   );
+  // }
+
+  // getTimelineData() {
+  //   // Combine all items from the static data into a single array
+  //   const allItems = this.staticData
+  //   .map((group) =>
+  //     group.items.map((item) => ({
+  //       ...item,
+  //       group: group.groupId,
+  //     }))
+  //   )
+  //   .reduce((acc, items) => acc.concat(items), []);
+
+
+  //   this.data = new DataSet(allItems);
+  // }
+
+  // getOptions() {
+  //   let currentDate = new Date();
+  //   let startDate = new Date(currentDate);
+  //   startDate.setHours(0, 0, 0, 0); // Set the start time to 00:00
+
+  //   let endDate = new Date(currentDate);
+  //   endDate.setHours(23, 59, 59, 999); // Set the end time to 23:59:59
+
+  //   this.options = {
+  //     stack: false,
+  //     editable: false,
+  //     margin: {
+  //       item: 10,
+  //       axis: 5,
+  //     },
+  //     orientation: 'top',
+  //     zoomable: false,
+
+  //     showCurrentTime: false,
+  //     format: {
+  //       minorLabels: {
+  //         hour: 'HH:00',
+  //       },
+  //       majorLabels: {
+  //         day: 'DD/MM/YYYY',
+  //       },
+  //     },
+  //     tooltip: {
+  //       followMouse: true,
+  //       overflowMethod: 'cap',
+  //       template: (item: TimelineItem) => {
+  //         const startTime = new Date(item.start).toLocaleTimeString([], {
+  //           hour: '2-digit',
+  //           minute: '2-digit',
+  //         });
+  //         const endTime = item.end
+  //           ? new Date(item.end).toLocaleTimeString([], {
+  //               hour: '2-digit',
+  //               minute: '2-digit',
+  //             })
+  //           : null;
+  //         return `
+  //           <div>
+  //             <strong>${item.content}</strong><br />
+  //             Start: ${startTime}<br />
+  //             ${endTime ? `End: ${endTime}` : ''}
+  //           </div>
+  //         `;
+  //       },
+  //     },
+  //   };
+  // }
+
 
 
 }

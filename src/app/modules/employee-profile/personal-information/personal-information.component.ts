@@ -8,7 +8,6 @@ import { UserAddressDetailsRequest } from 'src/app/models/user-address-details-r
 import { UserAddressRequest } from 'src/app/models/user-address-request';
 import { UserEmergencyContactDetailsRequest } from 'src/app/models/user-emergency-contact-details-request';
 import { UserExperience } from 'src/app/models/user-experience';
-import { UserExperienceDetailRequest } from 'src/app/models/user-experience-detail-request';
 import { UserGuarantorRequest } from 'src/app/models/user-guarantor-request';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
@@ -91,7 +90,7 @@ isFormInvalid: boolean=false;
       userExperience: this.fb.array([]),
       userEmergencyContacts: this.fb.array([]),
     });
-
+    this.fetchEditedFields();
     this.getOnboardingFormPreviewMethodCall();
     this.loadRoutes();
     this.getPendingRequest();
@@ -570,6 +569,31 @@ isFormInvalid: boolean=false;
   }
 
 
+  editedFields: any[] = [];
+  fetchEditedFields(): void {
+    this.dataService.getEditedFieldsByUserUuid(this.userId).subscribe(
+      (data: any[]) => {
+        this.editedFields = data;
+
+      },
+      (error) => {
+        console.error('Error fetching Edited Fields:', error);
+      }
+    );
+  }
+
+  findValueByColumnNameAndRowId( columnName: string, rowId: number): string | undefined {
+    const record = this.editedFields.find(item => item.columnName === columnName && item.rowId === rowId);
+    return record ? record.value : undefined;
+  }
+
+  findByColumnName(columnName: string): any[] {
+    if (!this.editedFields || !Array.isArray(this.editedFields)) {
+      console.error("Invalid data provided.");
+      return [];
+    }
+    return this.editedFields.filter(item => item.columnName === columnName);
+  }
 
 
 
