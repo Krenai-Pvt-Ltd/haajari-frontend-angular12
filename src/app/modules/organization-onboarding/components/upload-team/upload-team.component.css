@@ -473,3 +473,6 @@ span.request-count {
   font-size: 12px;
 }
 
+.excel-file-error{
+  bottom: 69px !important;
+}
