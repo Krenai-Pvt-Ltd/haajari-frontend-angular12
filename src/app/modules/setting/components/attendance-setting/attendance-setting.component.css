@@ -1663,4 +1663,10 @@ a.fetch-location {
   top: 19px
 }
 
+.search-list .checkbox-label input {
+  position: relative;
+  top: 1px;
+  border-radius: 2px;
+}
+
 /* new side tab for new modal */
