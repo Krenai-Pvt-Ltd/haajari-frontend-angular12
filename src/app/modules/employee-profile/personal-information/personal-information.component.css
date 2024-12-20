@@ -203,8 +203,8 @@ button.close-btn {
 
 .request-log {
     position: absolute;
-    top: 0px;
-    left: 195px;
+    top: -25px;
+    left: 45px;
     width: 350px;
     background-color: #fff;
     border-radius: 2px;
@@ -271,4 +271,8 @@ button.close-btn {
     border-radius: 50%;
     background-color: #D9D9D9;
     z-index: 99;
+}
+
+::ng-deep .ant-popover-inner-content {
+    padding: 0px !important;
 }
