@@ -1935,8 +1935,8 @@
                       <div class="bg-white leave-footer">
 
                         <div class="pagination justify-content-between p-3" *ngIf="staffs.length > 0">
-                          <p class="mb-0">
-                            Showing {{ staffs.length }} of {{ total }} members
+                          <p class="mb-0"> 
+                            Showing {{ 1  + ( databaseHelper.itemPerPage * (databaseHelper.currentPage - 1)) }} - {{ staffs.length  + ( databaseHelper.itemPerPage * (databaseHelper.currentPage - 1)) }} of {{ total }} members
                           </p>
                           <div class="row">
                             <div class="col-md-12">
