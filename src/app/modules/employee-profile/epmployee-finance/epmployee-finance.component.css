@@ -226,3 +226,7 @@ i::before {
     -webkit-transform: rotate(180deg);
     transform: rotate(180deg);
 }
+
+.blurre {
+    filter: blur(5px);
+}

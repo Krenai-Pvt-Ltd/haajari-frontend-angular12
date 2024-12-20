@@ -1538,9 +1538,7 @@
     <div class="modal-dialog modal-dialog-centered" style="max-width: 1050px;" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h6 class="modal-title m-0" id="exampleModalDefaultLabel">
-            Shift Time
-          </h6>
+          <h5 class="modal-title"> Shift Time</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="clearPage()"
             #closeShiftTimingModal></button>
         </div>
@@ -1847,7 +1845,8 @@
                                 <div class="content-wrapper">
                                   <div class="d-flex align-items-center gap-3">
                                     <a class="info-button text-black" *ngIf="selectedStaffsUuids.length > 0">
-                                      <span class="text-primary"> {{ selectedStaffsUuids.length }} </span> Selected of
+                                      <span class="text-primary"> {{ selectedStaffsUuids.length }} </span>&nbsp;
+                                      Selected of&nbsp;
                                       <span class="text-primary"> {{ totalUserCount }} </span>
                                     </a>
                                     <span class="separator"></span>
@@ -1868,6 +1867,7 @@
                                       </svg>
                                       Clear Selection
                                     </span>
+
                                   </div>
                                 </div>
                               </div>
@@ -1917,18 +1917,14 @@
                           </div>
                         </ng-container>
                         <ng-template #noDataFoundPlaceholderInShiftTiming>
-                          <!-- <div class="errorboxmain">
-                            <div class="errorboxinner text-center">
-                              <div class="errorboxplaceholder mb-2">
-                                <img src="assets/images/addnewproduct.svg" style="width: 80px" />
-                              </div>
-                              <h4>No Data Found</h4>
-                              <p>
-                                We're unable to locate a record associated with the
-                                information you entered.
-                              </p>
-                            </div>
-                          </div> -->
+                          <div class="empty-file" style="margin-top: 33%;">
+                            <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                              [nzNotFoundContent]="contentTpl">
+                              <ng-template #contentTpl>
+                                <p class="mb-1 empty-detail">No data for now</p>
+                              </ng-template>
+                            </nz-empty>
+                          </div>
                         </ng-template>
                       </div>
 
