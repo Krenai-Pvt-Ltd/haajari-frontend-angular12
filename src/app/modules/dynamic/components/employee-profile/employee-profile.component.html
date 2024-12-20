@@ -1109,7 +1109,7 @@
                         <full-calendar
                         [options]="calendarOptions" id="calendar" #calendar></full-calendar>
                       </div> -->
-
+                      <!-- {{date}} - {{joiningDate}} -->
 
                       <nz-calendar [(ngModel)]="date" [(nzMode)]="mode"
                       (nzPanelChange)="panelChange($event)"
@@ -1117,8 +1117,10 @@
                       [nzDisabledDate]="disablePreviousYears"
                       [nzDisabledDate]="disablePreviousMonths"
                       [nzDisabledDate]="disableDate">
+                     
            <ul *nzDateCell="let date" class="events">
-             <ng-container *ngIf="date > joiningDate; else beforeJoiningDate">
+             <ng-container *ngIf="isSameOrAfterDate(date, joiningDate); else beforeJoiningDate">
+
                <ng-container *ngIf="getEventForDate(date) as event">
                  <li>
                    <span [ngStyle]="{'background-color': event.color}">

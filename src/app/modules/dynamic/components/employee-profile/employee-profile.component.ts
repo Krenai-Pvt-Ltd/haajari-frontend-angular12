@@ -2415,6 +2415,13 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
     this.router.navigate([routePath], navExtra);
   }
 
+  isSameOrAfterDate(date1: Date, date2: Date): boolean {
+    const onlyDate1 = new Date(date1.getFullYear(), date1.getMonth(), date1.getDate());
+    const onlyDate2 = new Date(date2.getFullYear(), date2.getMonth(), date2.getDate());
+    return onlyDate1 >= onlyDate2;
+  }
+  
+
   joiningDate!: Date;
   getOnboardingFormPreviewMethodCall() {
     const userUuid = new URLSearchParams(window.location.search).get('userId') || '';
