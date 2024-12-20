@@ -1327,10 +1327,7 @@ nz-date-picker.nz-overlay-container.whatapp-login-input {
   /* Bootstrap's danger text color for consistency */
 }
 
-.bi-x {
-  margin-left: 4px;
-  /* Adds a small space after the text */
-}
+
 
 .agm-map {
   height: 400px;
@@ -1564,7 +1561,6 @@ a.fetch-location {
 }
 
 .search-icon {
-  position: absolute;
   top: 50%;
   transform: translateY(-50%);
   left: 10px;
@@ -1661,6 +1657,10 @@ a.fetch-location {
 .addUserRemvo svg {
   width: 16px;
   position: relative;
+}
+
+.close-icon {
+  top: 19px
 }
 
 /* new side tab for new modal */
