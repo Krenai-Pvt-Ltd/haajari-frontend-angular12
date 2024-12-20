@@ -1345,16 +1345,6 @@
                 <div #timeline></div> -->
 
 
-                    <div class="">
-
-                        <ul class="skill-set">
-                            <li class="pointer">Attendance Request</li>
-                            <li class="pointer">LOP Request</li>
-                            <li class="pointer">OverTime Request</li>
-                        </ul>
-
-                    </div>
-
 
 
                     <div class="obboard-employee-list">
@@ -1468,7 +1458,7 @@
                                 </tr>
                             </tbody>
 
-                            <tbody>
+                            <tbody *ngIf="attendanceRequests.length === 0 && !isAttendanceLoading">
                                 <tr>
                                     <td colspan="9">
                                         <div class="empty-filenew" style="margin-top: 7%; margin-bottom: 7%">
