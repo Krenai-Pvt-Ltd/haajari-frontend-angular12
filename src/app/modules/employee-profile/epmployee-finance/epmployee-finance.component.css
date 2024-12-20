@@ -57,3 +57,151 @@
 .payroll-summary {
     border: 1px solid #f1f1f1;
 }
+
+
+.progress-ring {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+}
+
+.line {
+    transform-origin: center;
+    transition: stroke 0.3s ease;
+}
+
+.progress-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.fraction {
+    line-height: 24px;
+}
+
+.subtitle {
+    color: #666;
+    margin-top: 5px;
+}
+
+.payroll-summary-hedding span {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #ECEBFF;
+}
+
+.payroll-summary-hedding p span {
+    background-color: transparent;
+}
+
+.progress-text span {
+    font-size: 30px;
+}
+
+.border-right {
+    border-right: 1px solid #f1f1f1
+}
+
+.standard-days {
+    border-left: 1px solid #EDEDED;
+    padding-left: 10px;
+}
+
+.standard-days::before {
+    content: '';
+    position: absolute;
+    top: 30px;
+    left: 8px;
+    background-color: var(--primary-color);
+    width: 2px;
+    height: 20px;
+    border-radius: 5px;
+
+}
+
+.table td {
+    border: 1px solid #f1f1f1;
+    font-size: 13px !important;
+}
+
+.table thead tr th {
+    font-size: 15px !important;
+}
+
+.payment-information {
+    border: 1px solid #f1f1f1;
+    height: 290px;
+}
+
+.payment-information-box p {
+    color: #787486;
+}
+
+.summary-btn {
+    position: absolute;
+    top: 10px;
+    right: 24px;
+    text-decoration: underline;
+}
+
+.summary-btn svg {
+    position: relative;
+    top: 1px;
+    width: 14px;
+    height: 14px;
+}
+
+.payroll-box {
+    border-left: 1px solid #EDEDED;
+    padding-left: 15px;
+}
+
+.payroll-box::before {
+    content: '';
+    position: absolute;
+    top: 22px;
+    left: -1px;
+    background-color: var(--primary-color);
+    width: 2px;
+    height: 18px;
+    border-radius: 5px;
+}
+
+.salary-simeline {
+    background-color: #F5F5F5;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+}
+
+.salary-simeline-box {
+    border: 1px solid #f1f1f1;
+    border-radius: 2px;
+}
+
+.salary-simeline-icon {
+    background-color: #F9F9F9;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    border: 1px solid #DEDEDE;
+}
+
+.down-icon {
+    background-color: #F5F5F5;
+    border-radius: 5px;
+    width: 45px;
+    height: 45px;
+}
+
+.down-icon i {
+    font-size: 20px;
+}
+
+i::before {
+    font-weight: 600 !important;
+}
