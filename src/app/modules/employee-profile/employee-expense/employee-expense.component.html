@@ -1097,7 +1097,8 @@
                                         </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6 mb-3 " *ngIf="validatePolicyToggle">
+                                    <!-- <div class="col-md-6 mb-3 " *ngIf="validatePolicyToggle"> starting-->
+                                    <div class="col-md-6 mb-3 " *ngIf="limitAmount > 0">
                                         <div class="notice-period-error p-2">
                                             <div class="d-flex align-items-center gap-3">
                                                 <p class="mb-0">Allocated Amount</p>
@@ -1106,6 +1107,8 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                    <p *ngIf="expenseTypeReq.approvedAmount > 0 && expenseTypeReq.approvedAmount < expenseTypeReq.amount" class="text-danger">Appoved amount {{expenseTypeReq.approvedAmount}} by Manager/HR</p>
                                 </div>
                             </div>
                             <div class="col-md-12">
@@ -1123,24 +1126,12 @@
                         
                             <button type="button" class="btn cancel-btn mt-0" data-bs-dismiss="modal"
                                 (click)="clearExpenseForm(createForm)">Cancel</button>
-                          
-                            <!-- <button *ngIf="!createToggle" type="submit" class="btn submitActionBtn"  [ngClass]="{'btn-border':!(isFileUploaded || expenseTypeReq.expenseTypeId == 0 || expenseTypeReq.managerId == 0 || expenseTypeReq.expenseDate == undefined 
-                            || expenseTypeReq.notes == '' || expenseTypeReq.amount == undefined || expenseTypeReq.amount <= 0)}"
-                            [disabled]="isFileUploaded || expenseTypeReq.expenseTypeId == 0 || expenseTypeReq.managerId == 0 || expenseTypeReq.expenseDate == undefined 
-                            || expenseTypeReq.notes == '' || expenseTypeReq.amount == undefined || expenseTypeReq.amount <= 0" >
-                            Submit
-                            <div class="dot-opacity-loader" *ngIf="createToggle">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </div>
-                            </button> -->
 
                             <button type="submit" class="btn submitActionBtn"  [ngClass]="{'btn-border':!(isFileUploaded || expenseTypeReq.expenseTypeId == 0 || expenseTypeReq.managerId == 0 || expenseTypeReq.expenseDate == undefined 
-                            || expenseTypeReq.notes == '' || expenseTypeReq.amount == undefined || expenseTypeReq.amount <= 0)}"
-                            [disabled]="isFileUploaded || expenseTypeReq.expenseTypeId == 0 || expenseTypeReq.managerId == 0 || expenseTypeReq.expenseDate == undefined 
-                            || expenseTypeReq.notes == '' || expenseTypeReq.amount == undefined || expenseTypeReq.amount <= 0" >
-                            Submit
+                            || !expenseTypeReq.notes || expenseTypeReq.amount == undefined || expenseTypeReq.amount <= 0)}"
+                            [disabled]="createToggle || isFileUploaded || expenseTypeReq.expenseTypeId == 0 || expenseTypeReq.managerId == 0 || expenseTypeReq.expenseDate == undefined 
+                            || !expenseTypeReq.notes || expenseTypeReq.amount == undefined || expenseTypeReq.amount <= 0" >
+                            <span *ngIf="!createToggle">Submit</span>
                             <div class="dot-opacity-loader" *ngIf="createToggle">
                                 <span></span>
                                 <span></span>
@@ -1158,9 +1149,13 @@
                                     </p>
                                 </div>
                                 <div class="d-flex justify-content-end gap-2">
-                                    <button class="btn cancel-btn mt-0" (click)="cancelExpense()" >No</button>
+                                    <button [disabled]="createToggleYes" class="btn cancel-btn mt-0" (click)="cancelExpense()" >No</button>
                                     
-                                    <button *ngIf="!createToggleYes" class="btn submitActionBtn" (click)="createExpense(createForm)">Yes
+                                    <button type="submit" class="btn submitActionBtn" (click)="createExpense(createForm)" [ngClass]="{'btn-border':!(isFileUploaded || expenseTypeReq.expenseTypeId == 0 || expenseTypeReq.managerId == 0 || expenseTypeReq.expenseDate == undefined 
+                                    || !expenseTypeReq.notes || expenseTypeReq.amount == undefined || expenseTypeReq.amount <= 0)}"
+                                    [disabled]="createToggleYes || isFileUploaded || expenseTypeReq.expenseTypeId == 0 || expenseTypeReq.managerId == 0 || expenseTypeReq.expenseDate == undefined 
+                                    || !expenseTypeReq.notes || expenseTypeReq.amount == undefined || expenseTypeReq.amount <= 0" >
+                                        <span *ngIf="!createToggleYes">Yes</span>
                                         <div class="dot-opacity-loader" *ngIf="createToggleYes">
                                             <span></span>
                                             <span></span>
@@ -1208,9 +1203,13 @@
                                 </div>
                                 
                                 <div *ngIf="ROLE != 'ADMIN' && (expenseTypeReq.status.id == 13 || expenseTypeReq.status.id == 15)" class="d-flex align-items-center gap-2">
-                                    <button class="btn cancel-btn mt-0" type="button" (click)="getExpenseId(expenseTypeReq.id)" >Delete</button>
+                                    <button [disabled]="createToggle" class="btn cancel-btn mt-0" type="button" (click)="getExpenseId(expenseTypeReq.id)" >Delete</button>
     
-                                    <button  type="submit" class="btn submitActionBtn" *ngIf="!createToggle">Update
+                                    <button type="submit" class="btn submitActionBtn" [ngClass]="{'btn-border':!(isFileUploaded || expenseTypeReq.expenseTypeId == 0 || expenseTypeReq.managerId == 0 || expenseTypeReq.expenseDate == undefined 
+                                    || !expenseTypeReq.notes || expenseTypeReq.amount == undefined || expenseTypeReq.amount <= 0)}"
+                                    [disabled]="createToggle || isFileUploaded || expenseTypeReq.expenseTypeId == 0 || expenseTypeReq.managerId == 0 || expenseTypeReq.expenseDate == undefined 
+                                    || !expenseTypeReq.notes || expenseTypeReq.amount == undefined || expenseTypeReq.amount <= 0">
+                                        <span *ngIf="!createToggle">Update</span>
                                         <div class="dot-opacity-loader" *ngIf="createToggle">
                                             <span></span>
                                             <span></span>
@@ -1227,9 +1226,10 @@
                                     <h5 class="mb-0 text-danger">Are you sure want to delete it</h5>
                                 </div>
                                 <div class="d-flex align-items-center gap-2">
-                                    <button class="btn cancel-btn mt-0" (click)="getExpenseId(expenseTypeReq.id)" >No</button>
+                                    <button [disabled]="deleteToggle" class="btn cancel-btn mt-0" (click)="getExpenseId(expenseTypeReq.id)" >No</button>
                                     
-                                    <button *ngIf="!deleteToggle" class="btn submitActionBtn bg-danger" (click)="deleteExpense()">Yes
+                                    <button type="button" class="btn submitActionBtn bg-danger" [disabled]="deleteToggle" (click)="deleteExpense()">
+                                        <span *ngIf="!deleteToggle">Yes</span>
                                         <div class="dot-opacity-loader" *ngIf="deleteToggle">
                                             <span></span>
                                             <span></span>

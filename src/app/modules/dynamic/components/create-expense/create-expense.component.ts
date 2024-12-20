@@ -276,6 +276,9 @@ export class CreateExpenseComponent implements OnInit {
     this.isCheckboxChecked = false;
     this.partialAmount = '';
 
+    this.approvedAmount = '';
+    this.approveAmountChecked = false;
+
     this.transactionId = ''
     this.settledDate = ''
     this.payCashDiv = false;
@@ -285,6 +288,8 @@ export class CreateExpenseComponent implements OnInit {
     this.expensePaymentType = 'full'
     this.partialAmount = ''
     this.partiallyPayment = false;
+
+    this.approveReq.rejectionReason = ''
 
   }
 
@@ -298,6 +303,13 @@ export class CreateExpenseComponent implements OnInit {
         this.approveOrDeny(id, statusId, isCashPayment);
       }
     })
+  }
+
+  onApproveAmountCheckboxChange(event: Event): void {
+    const isChecked = (event.target as HTMLInputElement).checked;
+    if (!isChecked) {
+      this.approvedAmount = '';
+    }
   }
 
   approveReq: ApproveReq = new ApproveReq();

@@ -420,7 +420,7 @@ disableMonths = (date: Date): boolean => {
  limitAmount: any;
  checkExpensePolicy(form: NgForm) {
    debugger
-
+  this.limitAmount = 0;
    this.dataService.checkExpensePolicy(this.expenseTypeReq.expenseTypeId, this.expenseTypeReq.amount).subscribe((res: any) => {
      this.limitAmount = res.object;
 
@@ -430,8 +430,19 @@ disableMonths = (date: Date): boolean => {
        this.createExpense(form);
      }
    })
-
  }
+
+ checkAllocatedAmunt(expenseTypeId: number, amount: number) {
+  debugger
+  this.limitAmount = 0;
+  this.dataService.checkExpensePolicy(expenseTypeId, amount).subscribe((res: any) => {
+    this.limitAmount = res.object;
+
+    // if (this.limitAmount > 0) {
+    //   this.validatePolicyToggle = true;
+    // } 
+  })
+}
 
  cancelExpense(){
   this.validatePolicyToggle = false;
@@ -497,6 +508,8 @@ disableMonths = (date: Date): boolean => {
   debugger
    await this.getExpenseType();
 
+   this.checkAllocatedAmunt(expense.expenseTypeId, expense.amount);
+
    // setTimeout(() =>{
    //   this.fetchManagerNames()
    // })
@@ -514,6 +527,7 @@ disableMonths = (date: Date): boolean => {
    this.expenseTypeReq.urls = expense.slipUrls
    this.expenseTypeReq.status = expense.status
    this.expenseTypeReq.managerId = expense.managerId
+   this.expenseTypeReq.approvedAmount = expense.approvedAmount
    this.expenseTypeId = expense.expenseTypeId
    this.managerId = expense.managerId
    
@@ -525,6 +539,7 @@ disableMonths = (date: Date): boolean => {
    this.expenseTypeReq = new ExpenseType();
    this.expenseTypeId = 0;
    this.validatePolicyToggle = false;
+   this.limitAmount = 0
    this.deleteExpenseToggle = false;
    form.resetForm();
  }
