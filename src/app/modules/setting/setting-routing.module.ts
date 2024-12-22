@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SettingComponent } from './setting.component';
-import { AuthGuard } from 'src/app/modules/authentication/auth/auth-guard';
+import { AuthGuard } from 'src/app/guards/auth-guard';
 import { AttendanceSettingComponent } from './components/attendance-setting/attendance-setting.component';
 import { CompanySettingComponent } from './components/company-setting/company-setting.component';
 import { LeaveSettingComponent } from './components/leave-setting/leave-setting.component';
