@@ -116,7 +116,7 @@
                           <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
                         </div>
 
-                        <div *ngFor="let item of findByColumnName('EMAIL_ADDRESS')" class="p-3 pt-4 pb-4">
+                        <div *ngFor="let item of findByColumnName('EMAIL_ADDRESS')" class="p-3 pt-4">
                           <div class="d-flex align-items-center justify-content-between mb-3">
                             <h6 class="mb-0">
                               <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19"
@@ -152,6 +152,12 @@
                             </div>
 
                           </div>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-end gap-3 p-3 p-3">
+                          <button class="btn font-14 fw-semibold btn-soft-success"><i class="ti ti-checks font-16"></i>
+                            Approve</button>
+                          <button class="btn font-14 fw-semibold btn-soft-danger"><i
+                              class="ti ti-alert-octagon font-16"></i> Reject</button>
                         </div>
 
 
