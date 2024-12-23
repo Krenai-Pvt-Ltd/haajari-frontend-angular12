@@ -16,7 +16,6 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReasonOfRejectionProfile } from 'src/app/models/reason-of-rejection-profile';
 import { constant } from 'src/app/constant/constant';
 import { ProfileService } from 'src/app/services/profile.service';
-import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-personal-information',
@@ -259,6 +258,7 @@ readonly Constants= constant;
     this.initializeFormValuesAndSubscriber();
   }
   
+  eligibleFormRoutes:number=5;
   editProfile(){
     var sectionIterated=0;
     return new Promise((resolve, reject) => {
@@ -269,9 +269,12 @@ readonly Constants= constant;
 
     if(this.routes.includes('/employee-address-detail') ){
      ++sectionIterated;
+    
       this.onboardingPreviewDataCopy.userAddress = this.onboardingPreviewDataCopy.userAddress==null?[]:this.onboardingPreviewDataCopy.userAddress;
       this.onboardingPreviewDataCopy.userAddress = [];
-     
+      if(this.eligibleFormRoutes==sectionIterated){
+        resolve(true);
+       }
     }
     if(this.routes.includes('/employee-address-detail')){
      ++sectionIterated;
@@ -280,26 +283,39 @@ readonly Constants= constant;
         this.onboardingPreviewDataCopy.userAddress.push(new UserAddressRequest());
       }
     }
+    if(this.eligibleFormRoutes==sectionIterated){
+      resolve(true);
+     }
     }
     if(this.onboardingPreviewDataCopy.userGuarantorInformation == null || this.onboardingPreviewDataCopy.userGuarantorInformation.length==0){
       this.onboardingPreviewDataCopy.userGuarantorInformation= [];
       // this.onboardingPreviewDataCopy.userGuarantorInformation.push(new UserGuarantorRequest());
+      
     }
     if(this.routes.includes('/acadmic') ){
      ++sectionIterated;
       this.onboardingPreviewDataCopy.userAcademics=!this.onboardingPreviewDataCopy.userAcademics?new UserAcademicsDetailRequest():this.onboardingPreviewDataCopy.userAcademics;
+      if(this.eligibleFormRoutes==sectionIterated){
+        resolve(true);
+       }
     }
 
     if(this.routes.includes('/emergency-contact')  ){
      ++sectionIterated;
       if(this.onboardingPreviewDataCopy.userEmergencyContacts == null || this.onboardingPreviewDataCopy.userEmergencyContacts.length==0){
       this.onboardingPreviewDataCopy.userEmergencyContacts = [];}
+      if(this.eligibleFormRoutes==sectionIterated){
+        resolve(true);
+       }
       // this.onboardingPreviewDataCopy.userEmergencyContacts.push(new UserEmergencyContactDetailsRequest());
     }
     if(this.routes.includes('/employee-experience')  ){
      ++sectionIterated;
       if(this.onboardingPreviewDataCopy.userExperience == null || this.onboardingPreviewDataCopy.userExperience.length == 0){
       this.onboardingPreviewDataCopy.userExperience = new Array();}
+      if(this.eligibleFormRoutes==sectionIterated){
+        resolve(true);
+       }
       // this.onboardingPreviewDataCopy.userExperience.push(new UserExperience());
     }
     if(this.routes.includes('/bank-details')  ){
@@ -307,6 +323,9 @@ readonly Constants= constant;
       if(!this.onboardingPreviewDataCopy.userBankDetails){
       this.onboardingPreviewDataCopy.userBankDetails=new UserBankDetailRequest();
       }
+      if(this.eligibleFormRoutes==sectionIterated){
+        resolve(true);
+       }
     }
 
     if (!this.references || this.references.length==0) {
@@ -347,19 +366,7 @@ readonly Constants= constant;
         }));
       });
     }
-    const allSectionsValid =
-      this.onboardingPreviewDataCopy.userAddress &&
-      this.onboardingPreviewDataCopy.userGuarantorInformation &&
-      this.onboardingPreviewDataCopy.userAcademics &&
-      this.onboardingPreviewDataCopy.userEmergencyContacts &&
-      this.onboardingPreviewDataCopy.userExperience &&
-      this.onboardingPreviewDataCopy.userBankDetails;
 
-    if (allSectionsValid) {
-      resolve(true);
-    } else {
-      reject(false);
-    }
   });
       
    
