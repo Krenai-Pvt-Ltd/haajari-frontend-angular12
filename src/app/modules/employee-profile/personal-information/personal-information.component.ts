@@ -16,20 +16,24 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReasonOfRejectionProfile } from 'src/app/models/reason-of-rejection-profile';
 import { constant } from 'src/app/constant/constant';
 import { ProfileService } from 'src/app/services/profile.service';
+import { EmployeeFormField } from 'src/app/constant/EmployeeFormField';
 
 @Component({
   selector: 'app-personal-information',
   templateUrl: './personal-information.component.html',
   styleUrls: ['./personal-information.component.css']
 })
-export class PersonalInformationComponent implements OnInit ,AfterViewInit{
+export class PersonalInformationComponent implements OnInit ,AfterViewInit,OnChanges{
+
+  readonly Constants= constant;
+  readonly EmployeeFormField=EmployeeFormField;
 
   profileEdit: boolean = false;
   profileLoding: boolean = false;
   userId: any;
   onboardingForm!: FormGroup;
 isFormInvalid: boolean=false;
-readonly Constants= constant;
+
 
   constructor(private dataService: DataService,private activateRoute: ActivatedRoute, private helperService : HelperService,
     public rbacService: RoleBasedAccessControlService, private fb: FormBuilder,
@@ -39,6 +43,11 @@ readonly Constants= constant;
       this.userId = this.activateRoute.snapshot.queryParamMap.get('userId');
     }
   }
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log("🚀 ~ PersonalInformationComponent ~ ngOnChanges ~ changes:", changes)
+    
+  }
+
   // ngOnChanges(changes: SimpleChanges): void {
   //   console.log("🚀 ~ PersonalInformationComponent ~ ngOnChanges ~ changes:", changes)
 
@@ -47,10 +56,7 @@ readonly Constants= constant;
  // Subscribe to form value changes
 
    
-//  this.onboardingForm.valueChanges.subscribe((newValues) => {
-//   console.log("🚀 ~ PersonalInformationComponent ~ this.onboardingForm.valueChanges.subscribe ~ newValues:", newValues)
-//   this.profileService.checkChanges(newValues,this.onboardingPreviewDataCopy,'');
-// });
+
   }
 
   ngOnInit(): void {
@@ -138,7 +144,7 @@ readonly Constants= constant;
   onboardingPreviewDataCopy: OnboardingFormPreviewResponse =
   new OnboardingFormPreviewResponse();
 
-
+  
   getOnboardingFormPreviewMethodCall() {
     this.profileLoding = true;
     const userUuid = new URLSearchParams(window.location.search).get('userId') || '';
@@ -195,68 +201,68 @@ readonly Constants= constant;
 
   isSaveBtnLoading: boolean=false;
   saveOnboardingData() {
-    this.userExperience.controls.forEach((control, index) => {
-      const experience = control.value;
+    this.compareValues(this.onboardingPreviewData, this.onboardingPreviewDataCopy, '');
 
-      // Directly assign values to the existing object
-      const targetExperience = this.onboardingPreviewDataCopy.userExperience[index];
-      targetExperience.companyName = experience.companyName;
-      targetExperience.startDate = experience.startDate;
-      targetExperience.endDate = experience.endDate;
-      targetExperience.lastJobPosition = experience.lastJobPosition;
-      targetExperience.lastSalary = experience.lastSalary;
-      targetExperience.lastJobDepartment = experience.lastJobDepartment;
-      targetExperience.jobResponisibilities = experience.jobResponsibilities;
-    });
+    //TODO: uncomment this
+    // this.userExperience.controls.forEach((control, index) => {
+    //   const experience = control.value;
 
-    // Sync userEmergencyContacts
-    this.userEmergencyContacts.controls.forEach((control, index) => {
-      const contact = control.value;
+    //   // Directly assign values to the existing object
+    //   const targetExperience = this.onboardingPreviewDataCopy.userExperience[index];
+    //   targetExperience.companyName = experience.companyName;
+    //   targetExperience.startDate = experience.startDate;
+    //   targetExperience.endDate = experience.endDate;
+    //   targetExperience.lastJobPosition = experience.lastJobPosition;
+    //   targetExperience.lastSalary = experience.lastSalary;
+    //   targetExperience.lastJobDepartment = experience.lastJobDepartment;
+    //   targetExperience.jobResponisibilities = experience.jobResponsibilities;
+    // });
 
-      // Directly assign values to the existing object
-      const targetContact = this.onboardingPreviewDataCopy.userEmergencyContacts[index];
-      targetContact.relationWithEmployee = contact.relationWithEmployee;
-      targetContact.contactName = contact.contactName;
-      targetContact.contactNumber = contact.contactNumber;
-    });
+    // // Sync userEmergencyContacts
+    // this.userEmergencyContacts.controls.forEach((control, index) => {
+    //   const contact = control.value;
 
-    this.references.controls.forEach((control, index) => {
-      const reference = control.value;
+    //   // Directly assign values to the existing object
+    //   const targetContact = this.onboardingPreviewDataCopy.userEmergencyContacts[index];
+    //   targetContact.relationWithEmployee = contact.relationWithEmployee;
+    //   targetContact.contactName = contact.contactName;
+    //   targetContact.contactNumber = contact.contactNumber;
+    // });
 
-      // Directly assign values to the existing object
-      const targetReference = this.onboardingPreviewDataCopy.userGuarantorInformation[index];
-      targetReference.name = reference.name;
-      targetReference.relation = reference.relation;
-      targetReference.phoneNumber = reference.phoneNumber;
-      targetReference.emailId = reference.emailId;
-    });
-    if(this.onboardingForm.valid){
-      this.isSaveBtnLoading=true;
-      this.dataService.saveOnboardingData(this.onboardingPreviewDataCopy).subscribe({
-        next: (response) => {
-          this.profileEdit=false;
-          this.isSaveBtnLoading=false;
-          this.helperService.showToast('Data Save successfully.', Key.TOAST_STATUS_SUCCESS);
-          this.getOnboardingFormPreviewMethodCall();
-          this.getPendingRequest();
-        },
-        error: (error) => {
-          console.error('Error saving data:', error);
-          this.helperService.showToast(error, Key.TOAST_STATUS_ERROR);
-        }
-      });
-    }
-    else{
-      this.isFormInvalid=true;
-      this.helperService.showToast('Some required fields are incorrect or missing. Please fix them', Key.TOAST_STATUS_ERROR);
-    }
+    // this.references.controls.forEach((control, index) => {
+    //   const reference = control.value;
+
+    //   // Directly assign values to the existing object
+    //   const targetReference = this.onboardingPreviewDataCopy.userGuarantorInformation[index];
+    //   targetReference.name = reference.name;
+    //   targetReference.relation = reference.relation;
+    //   targetReference.phoneNumber = reference.phoneNumber;
+    //   targetReference.emailId = reference.emailId;
+    // });
+    // if(this.onboardingForm.valid){
+    //   this.isSaveBtnLoading=true;
+    //   this.dataService.saveOnboardingData(this.onboardingPreviewDataCopy).subscribe({
+    //     next: (response) => {
+    //       this.profileEdit=false;
+    //       this.isSaveBtnLoading=false;
+    //       this.helperService.showToast('Data Save successfully.', Key.TOAST_STATUS_SUCCESS);
+    //       this.getOnboardingFormPreviewMethodCall();
+    //       this.getPendingRequest();
+    //     },
+    //     error: (error) => {
+    //       console.error('Error saving data:', error);
+    //       this.helperService.showToast(error, Key.TOAST_STATUS_ERROR);
+    //     }
+    //   });
+    // }
+    // else{
+    //   this.isFormInvalid=true;
+    //   this.helperService.showToast('Some required fields are incorrect or missing. Please fix them', Key.TOAST_STATUS_ERROR);
+    // }
 
 
   }
-  async editProfileAndSubscriberListener(){
-    await this.editProfile();
-    this.initializeFormValuesAndSubscriber();
-  }
+
   
   eligibleFormRoutes:number=5;
   editProfile(){
@@ -658,49 +664,62 @@ readonly Constants= constant;
   }
 
 
-  initializeFormValuesAndSubscriber() {
-    this.initialFormValues = this.onboardingForm.getRawValue();
-    console.log("🚀 ~ PersonalInformationComponent ~ initializeFormValuesAndSubscriber ~ this.onboardingForm.getRawValue():", this.onboardingForm.getRawValue())
-    // Subscribe to valueChanges of the form
-    this.onboardingForm.valueChanges.pipe(
-    ).subscribe(() => {
-        this.trackChanges();
-      
-    });
-  }
   changeLogs: any[] = []; // To store the logs of changes
-  initialFormValues: any = {}; // To store the initial state of the form
-  // Track changes and create log objects
-  trackChanges() {
-    const currentValues = this.onboardingForm.getRawValue();
-    this.changeLogs = []; // Clear previous logs
-    this.compareValues(this.initialFormValues, currentValues, '');
-
-
-
-  }
+  
 
   // Recursive function to compare form values
-  compareValues(initial: any, current: any, parentKey: string) {
-    debugger
+  compareValues(initial: any, current: any, parentKey: string = '') {
     Object.keys(initial).forEach((key) => {
       const fullKey = parentKey ? `${parentKey}.${key}` : key;
-
-      if (typeof initial[key] === 'object' && !this.Constants.EMPTY_STRINGS.includes(initial[key]) ) {
-        // If the value is a nested object, recursively compare
-        this.compareValues(initial[key], current[key], fullKey);
+  
+      if (typeof initial[key] === 'object' && initial[key] !== null) {
+        // Recursively compare nested objects
+        if (current[key] && typeof current[key] === 'object') {
+          this.compareValues(initial[key], current[key], fullKey);
+        } else {
+          // Handle cases where the structure is different
+          this.updateChangeLog(fullKey, JSON.stringify(initial[key]), current[key] || null);
+        }
       } else if (initial[key] !== current[key] && !this.Constants.EMPTY_STRINGS.includes(current[key])) {
-        // If values differ, log the change
-        this.changeLogs.push({
-          field: fullKey,
-          oldValue: initial[key],
-          newValue: current[key],
-        });
+        // Log changes if values differ and the current value is not empty
+        this.updateChangeLog(fullKey, initial[key], current[key]);
       }
-      console.log("cahned value ",this.changeLogs)
     });
+  
+    console.log('Changed values:', this.changeLogs);
   }
-
+  
+  // Helper method to update or add to changeLogs
+  updateChangeLog(field: string, oldValue: any, newValue: any) {
+    const existingLog = this.changeLogs.find((log) => log.field === field);
+    if (existingLog) {
+      // Update existing log
+      existingLog.oldValue = oldValue;
+      existingLog.newValue = newValue;
+    } else {
+      // Add a new log entry
+      this.changeLogs.push({
+        field: field,
+        oldValue: oldValue,
+        newValue: newValue,
+      });
+    }
+  }
+  
+  isShowChangeIcon(fieldName:string ){
+    const existingLog = this.changeLogs.find((log) => log.field === fieldName);
+    if(existingLog){
+      return true;
+    }else{
+      return false;
+    }
+  }
+  
+ getChangeLog(fieldName:string){
+  const existingLog = this.changeLogs.find((log) => log.field === fieldName);
+  return existingLog;
 }
+}
+
 
 

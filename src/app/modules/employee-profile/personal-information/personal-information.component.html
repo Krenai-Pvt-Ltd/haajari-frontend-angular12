@@ -47,7 +47,7 @@
         <!-- *ngIf="editStatus=='APPROVED' && rbacService.userInfo.role == 'USER'" -->
         <div class="d-flex align-items-center gap-3">
           <div class="badge profile-badge rounded-pill badge-soft-warning">You have requested a profile update.</div>
-          <button class="p-0 btn text-primary font-14 fw-semibold edit-btn" (click)="profileEdit=true; editProfileAndSubscriberListener()
+          <button class="p-0 btn text-primary font-14 fw-semibold edit-btn" (click)="profileEdit=true; editProfile()
           ">
             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
               <mask id="mask0_6512_3882" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="22"
@@ -1946,7 +1946,8 @@
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
                 <input formControlName="name" type="text" class="form__field"
                   [(ngModel)]="this.onboardingPreviewDataCopy.user.name" />
-                <label class="form__label">Name</label>
+                <label class="form__label">Name</label> <span *ngIf="isShowChangeIcon(EmployeeFormField.NAME)">some change is here</span>
+                <span>{{getChangeLog(EmployeeFormField.NAME)|json}}</span>
               </div>
               <div *ngIf="onboardingForm.get('user.name')?.touched || isFormInvalid">
                 <p class="errortxt mt-2 mb-0" style="color:red"
