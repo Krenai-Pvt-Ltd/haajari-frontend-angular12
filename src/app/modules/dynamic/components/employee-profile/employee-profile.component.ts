@@ -109,6 +109,7 @@ export class EmployeeProfileComponent implements OnInit {
         leaveType: ['', Validators.required],
         managerId: ['', Validators.required],
         optNotes: ['', Validators.required],
+        userLeaveTemplateId:[''],
         halfDayLeave: [false],
         dayShift: [false],
         eveningShift: [false],

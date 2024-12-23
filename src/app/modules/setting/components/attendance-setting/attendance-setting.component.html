@@ -1475,7 +1475,7 @@
                     <div class="add-filtter">
                       <a class="text-primary font-14 text-center" data-bs-toggle="modal"
                         data-bs-target="#automation-rules" (click)="getAttendanceRuleByOrganizationMethodCall()">
-                        Create Rules
+                        <i class="bi bi-plus"></i> Create Rules
                       </a>
                     </div>
                   </ng-template>
@@ -1596,7 +1596,7 @@
                             <label class="pb-2">Shift Type</label>
                             <nz-form-control>
                               <nz-select style="width: 100%" nzSize="large" nzPlaceHolder="Select shift type" required
-                                id="expTypeIdInput" name="expTypeId" class="form-control"
+                                id="expTypeIdInput" name="expTypeId" class="form-control placeholder-line"
                                 [(ngModel)]="selectedShiftType.id" (ngModelChange)="selectShiftType(selectedShiftType)">
                                 <nz-option *ngFor=" let shiftType of shiftTypeList" [nzValue]="shiftType.id"
                                   [nzLabel]="shiftType.name">

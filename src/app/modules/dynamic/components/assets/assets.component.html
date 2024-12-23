@@ -11,7 +11,7 @@
         <li class="nav-item d-flex align-items-center">
           <a id="pills-profile-tab" data-bs-toggle="pill" href="#asset-request" role="tab" aria-controls="pills-profile"
             aria-selected="false" (click)="this.getAssetRequests()" class="nav-link">Asset request</a>
-          <span class="request-count d-flex align-items-center justify-content-center">15</span>
+          <!-- <span class="request-count d-flex align-items-center justify-content-center">{{pendingRequestsCounter}}</span> -->
         </li>
       </ul>
       <div id="pills-tabContent" class="tab-content">
@@ -23,45 +23,43 @@
                 <div class="col-lg-12 mb-3">
                   <div class="row">
                     <div class="col-md-3">
-                      <div class="assets-count p-3">
-                        <span class="h5 fw-bold">{{
-                          totalAssetData?.totalAsset || 0
-                          }}</span>
-                        <h5 class="text-uppercase text-muted mt-2 m-0 font-14">
+                      <div class="assets-count p-3 orderpcardleft">
+                        <h6>
                           Total Assets
-                        </h5>
+                        </h6>
+                        <h5>{{ totalAssetData?.totalAsset || 0 }}</h5>
+
                       </div>
                     </div>
                     <!--end col-->
                     <div class="col-md-3">
-                      <div class="assets-count p-3">
-                        <span class="h5 fw-bold">{{
-                          totalAssetData?.totalAvailableAsset || 0
-                          }}</span>
-                        <h5 class="text-uppercase text-muted mt-2 m-0 font-14">
+                      <div class="assets-count p-3 orderpcardleft">
+                        <h6>
                           Available Assets
-                        </h5>
+                        </h6>
+                        <h5>{{ totalAssetData?.totalAvailableAsset || 0 }}</h5>
+
                       </div>
                     </div>
                     <!--end col-->
                     <div class="col-md-3">
-                      <div class="assets-count p-3">
-                        <span class="h5 fw-bold">{{
-                          totalAssetData?.totalAssignedAsset || 0
-                          }}</span>
-                        <h5 class="text-uppercase text-muted mt-2 m-0 font-14">
+                      <div class="assets-count p-3 orderpcardleft">
+                        <h6>
                           Assigned Assets
-                        </h5>
+                        </h6>
+                        <h5>{{
+                          totalAssetData?.totalAssignedAsset || 0
+                          }}</h5>
+
                       </div>
                     </div>
                     <div class="col-md-3">
-                      <div class="assets-count p-3">
-                        <span class="h5 fw-bold">{{
-                          totalAssetData?.totalUnavailableAsset || 0
-                          }}</span>
-                        <h5 class="text-uppercase text-muted mt-2 m-0 font-14">
+                      <div class="assets-count p-3 orderpcardleft">
+                        <h6>
                           Unavailable Assets
-                        </h5>
+                        </h6>
+                        <h5>{{ totalAssetData?.totalUnavailableAsset || 0 }}</h5>
+
                       </div>
                     </div>
                   </div>

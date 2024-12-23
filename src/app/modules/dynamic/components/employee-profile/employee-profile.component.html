@@ -1120,6 +1120,7 @@
                      
            <ul *nzDateCell="let date" class="events">
              <ng-container *ngIf="isSameOrAfterDate(date, joiningDate); else beforeJoiningDate">
+
                <ng-container *ngIf="getEventForDate(date) as event">
                  <li>
                    <span [ngStyle]="{'background-color': event.color}">

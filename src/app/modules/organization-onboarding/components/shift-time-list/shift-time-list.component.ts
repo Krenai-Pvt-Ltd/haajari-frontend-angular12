@@ -1,17 +1,12 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Key } from 'src/app/constant/key';
 import { OrganizationShiftTimingRequest } from 'src/app/models/organization-shift-timing-request';
 import { OrganizationShiftTimingResponse } from 'src/app/models/organization-shift-timing-response';
 import { OrganizationShiftTimingWithShiftTypeResponse } from 'src/app/models/organization-shift-timing-with-shift-type-response';
 import { ShiftType } from 'src/app/models/shift-type';
 import { Staff } from 'src/app/models/staff';
 import { DataService } from 'src/app/services/data.service';
-import { HelperService } from 'src/app/services/helper.service';
-import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { OrganizationOnboardingService } from 'src/app/services/organization-onboarding.service';
-import { resolve } from 'dns';
-import { reject } from 'lodash';
 
 @Component({
   selector: 'app-shift-time-list',
@@ -27,8 +22,6 @@ export class ShiftTimeListComponent implements OnInit {
 
   constructor(
     private dataService: DataService,
-    private helperService: HelperService,
-    private _location: Location,
     private router: Router,
     private onboardingService: OrganizationOnboardingService
   ) {}
