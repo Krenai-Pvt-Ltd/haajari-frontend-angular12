@@ -446,7 +446,7 @@
                                 </svg>
                                 Account Settings</a>
                         </div>
-                        <div *ngIf="employeeProfileResponseData?.resignationStatus == null" class="manager-list pointer"
+                        <div *ngIf="existExitPolicy && (employeeProfileResponseData?.resignationStatus == null || employeeProfileResponseData?.resignationStatus == 47)" class="manager-list pointer"
                             data-bs-toggle="modal" data-bs-target="#initiateExit">
                             <a class="dropdown-item d-flex align-items-center justify-content-start gap-2 btn-setting">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="19" viewBox="0 0 18 19"
@@ -1016,12 +1016,21 @@
                         <div class="modal-footer d-flex align-items-center justify-content-end gap-2">
                             <button type="button" class="btn cancel-btn" data-bs-dismiss="modal" aria-label="Close" (click)="clearFormData(resignationForm)" #closeResignationButton>Cancel</button>
     
-                            <button *ngIf="!resignationToggle" type="submit" [disabled]="resignationForm.invalid || resignationToggle || isUploading" class="btn submitActionBtn">Submit</button>
+                            <button type="submit" class="btn submitActionBtn" [ngClass]="{'btn-border':!(resignationForm.invalid || isUploading)}"
+                            [disabled]="resignationForm.invalid || resignationToggle || isUploading">
+                                <span *ngIf="!resignationToggle">Submit</span>
+                                <div class="dot-opacity-loader" *ngIf="resignationToggle">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                            </button>
+                            <!-- <button *ngIf="!resignationToggle" type="submit" [disabled]="resignationForm.invalid || resignationToggle || isUploading" class="btn submitActionBtn">Submitd</button>
                             <div class="dot-opacity-loader" *ngIf="resignationToggle">
                                 <span></span>
                                 <span></span>
                                 <span></span>
-                              </div>
+                              </div> -->
                         </div>
     
                     </form>

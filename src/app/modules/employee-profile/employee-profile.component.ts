@@ -50,13 +50,14 @@ export class EmployeeProfileComponent implements OnInit {
     this.isEmployeeExit = false;
     this.isLoading = true;
     this.dataService.getEmployeeProfile(this.UUID).subscribe((response) => {
-      console.log(response.object);
+      // console.log('employeeProfileResponseData: ',response.object);
       this.employeeProfileResponseData = response.object;
+      
 
-      if(!this.employeeProfileResponseData.resignationStatus && this.employeeProfileResponseData.resignationStatus  == 43){
-      // if(this.employeeProfileResponseData.resignationStatus != null && this.employeeProfileResponseData.resignationStatus  == 43){
+      if(this.employeeProfileResponseData.resignationStatus && this.employeeProfileResponseData.resignationStatus  == 43){
         this.isEmployeeExit = true;
         this.resignationDate = this.employeeProfileResponseData.approvedDate;
+
       }
 
       this.isLoading = false;
