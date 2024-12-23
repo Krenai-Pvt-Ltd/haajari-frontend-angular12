@@ -240,7 +240,6 @@ export class DashboardComponent implements OnInit {
     this.getRoleDetails();
     this.getAttendanceDetailsCountMethodCall();
     this.getAttendanceReportByDateDurationMethodCall();
-
     this.getLateEmployeeAttendanceDetailsMethodCall();
 
     // this.getAttendanceTopPerformerDetails();

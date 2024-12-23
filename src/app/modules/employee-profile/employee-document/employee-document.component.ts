@@ -213,8 +213,12 @@ export class EmployeeDocumentComponent implements OnInit {
         finalize(() => {
           fileRef.getDownloadURL().subscribe((url) => {
             this.doc.url=url;
-            if(this.doc.documentType!='employee_doc' && this.doc.documentType!='company_doc'){
+            if(this.doc.documentType!='employee_doc' && this.doc.documentType!='company_doc' && this.doc.documentType!='employee_agreement'){
               this.doc.documentType=this.docType;
+            }
+            if(this.doc.documentType=='employee_agreement'){
+              this.doc.startDate=new Date();
+              this.doc.endDate=new Date();
             }
             this.dataService.saveDocumentForUser(this.userId, this.doc).subscribe({
               next: (response) => {
