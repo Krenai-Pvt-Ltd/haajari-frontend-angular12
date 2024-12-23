@@ -16,6 +16,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReasonOfRejectionProfile } from 'src/app/models/reason-of-rejection-profile';
 import { constant } from 'src/app/constant/constant';
 import { ProfileService } from 'src/app/services/profile.service';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-personal-information',
@@ -29,6 +30,7 @@ export class PersonalInformationComponent implements OnInit ,AfterViewInit{
   userId: any;
   onboardingForm!: FormGroup;
 isFormInvalid: boolean=false;
+readonly Constants= constant;
 
   constructor(private dataService: DataService,private activateRoute: ActivatedRoute, private helperService : HelperService,
     public rbacService: RoleBasedAccessControlService, private fb: FormBuilder,
@@ -44,14 +46,16 @@ isFormInvalid: boolean=false;
   // }
   ngAfterViewInit(): void {
  // Subscribe to form value changes
- this.onboardingForm.valueChanges.subscribe((newValues) => {
-  console.log("🚀 ~ PersonalInformationComponent ~ this.onboardingForm.valueChanges.subscribe ~ newValues:", newValues)
-  this.profileService.checkChanges(newValues,this.onboardingPreviewDataCopy,'');
-});
+
+   
+//  this.onboardingForm.valueChanges.subscribe((newValues) => {
+//   console.log("🚀 ~ PersonalInformationComponent ~ this.onboardingForm.valueChanges.subscribe ~ newValues:", newValues)
+//   this.profileService.checkChanges(newValues,this.onboardingPreviewDataCopy,'');
+// });
   }
 
   ngOnInit(): void {
-
+   
     this.onboardingForm = this.fb.group({
       user: this.fb.group({
         name: ['', Validators.required],
@@ -250,36 +254,59 @@ isFormInvalid: boolean=false;
 
 
   }
-
+  async editProfileAndSubscriberListener(){
+    await this.editProfile();
+    this.initializeFormValuesAndSubscriber();
+  }
+  
   editProfile(){
+    var sectionIterated=0;
+    return new Promise((resolve, reject) => {
+    debugger
     //TODO: user constants
     this.onboardingPreviewDataCopy = JSON.parse(JSON.stringify(this.onboardingPreviewData));
-    if(this.routes.includes('/employee-address-detail') && this.onboardingPreviewDataCopy.userAddress == null){
+    console.log("🚀 ~ PersonalInformationComponent ~ returnnewPromise ~ this.routes.length:", this.routes.length)
+
+    if(this.routes.includes('/employee-address-detail') ){
+     ++sectionIterated;
+      this.onboardingPreviewDataCopy.userAddress = this.onboardingPreviewDataCopy.userAddress==null?[]:this.onboardingPreviewDataCopy.userAddress;
       this.onboardingPreviewDataCopy.userAddress = [];
+     
     }
-    if(this.routes.includes('/employee-address-detail') && this.onboardingPreviewDataCopy.userAddress.length<2){
+    if(this.routes.includes('/employee-address-detail')){
+     ++sectionIterated;
+      if(  this.onboardingPreviewDataCopy.userAddress.length<2){
       while(this.onboardingPreviewDataCopy.userAddress.length!=2 && this.onboardingPreviewDataCopy.userAddress.length<3){
         this.onboardingPreviewDataCopy.userAddress.push(new UserAddressRequest());
       }
+    }
     }
     if(this.onboardingPreviewDataCopy.userGuarantorInformation == null || this.onboardingPreviewDataCopy.userGuarantorInformation.length==0){
       this.onboardingPreviewDataCopy.userGuarantorInformation= [];
       // this.onboardingPreviewDataCopy.userGuarantorInformation.push(new UserGuarantorRequest());
     }
-    if(this.routes.includes('/acadmic') && !this.onboardingPreviewDataCopy.userAcademics){
-      this.onboardingPreviewDataCopy.userAcademics=new UserAcademicsDetailRequest();
+    if(this.routes.includes('/acadmic') ){
+     ++sectionIterated;
+      this.onboardingPreviewDataCopy.userAcademics=!this.onboardingPreviewDataCopy.userAcademics?new UserAcademicsDetailRequest():this.onboardingPreviewDataCopy.userAcademics;
     }
 
-    if(this.routes.includes('/emergency-contact') && (this.onboardingPreviewDataCopy.userEmergencyContacts == null || this.onboardingPreviewDataCopy.userEmergencyContacts.length==0)){
-      this.onboardingPreviewDataCopy.userEmergencyContacts = [];
+    if(this.routes.includes('/emergency-contact')  ){
+     ++sectionIterated;
+      if(this.onboardingPreviewDataCopy.userEmergencyContacts == null || this.onboardingPreviewDataCopy.userEmergencyContacts.length==0){
+      this.onboardingPreviewDataCopy.userEmergencyContacts = [];}
       // this.onboardingPreviewDataCopy.userEmergencyContacts.push(new UserEmergencyContactDetailsRequest());
     }
-    if(this.routes.includes('/employee-experience') && (this.onboardingPreviewDataCopy.userExperience == null || this.onboardingPreviewDataCopy.userExperience.length == 0)){
-      this.onboardingPreviewDataCopy.userExperience = new Array();
+    if(this.routes.includes('/employee-experience')  ){
+     ++sectionIterated;
+      if(this.onboardingPreviewDataCopy.userExperience == null || this.onboardingPreviewDataCopy.userExperience.length == 0){
+      this.onboardingPreviewDataCopy.userExperience = new Array();}
       // this.onboardingPreviewDataCopy.userExperience.push(new UserExperience());
     }
-    if(this.routes.includes('/bank-details') && !this.onboardingPreviewDataCopy.userBankDetails){
+    if(this.routes.includes('/bank-details')  ){
+      ++sectionIterated;
+      if(!this.onboardingPreviewDataCopy.userBankDetails){
       this.onboardingPreviewDataCopy.userBankDetails=new UserBankDetailRequest();
+      }
     }
 
     if (!this.references || this.references.length==0) {
@@ -320,7 +347,22 @@ isFormInvalid: boolean=false;
         }));
       });
     }
+    const allSectionsValid =
+      this.onboardingPreviewDataCopy.userAddress &&
+      this.onboardingPreviewDataCopy.userGuarantorInformation &&
+      this.onboardingPreviewDataCopy.userAcademics &&
+      this.onboardingPreviewDataCopy.userEmergencyContacts &&
+      this.onboardingPreviewDataCopy.userExperience &&
+      this.onboardingPreviewDataCopy.userBankDetails;
 
+    if (allSectionsValid) {
+      resolve(true);
+    } else {
+      reject(false);
+    }
+  });
+      
+   
   }
   get references(): FormArray {
     return this.onboardingForm.get('references') as FormArray;
@@ -609,5 +651,49 @@ isFormInvalid: boolean=false;
   }
 
 
+  initializeFormValuesAndSubscriber() {
+    this.initialFormValues = this.onboardingForm.getRawValue();
+    console.log("🚀 ~ PersonalInformationComponent ~ initializeFormValuesAndSubscriber ~ this.onboardingForm.getRawValue():", this.onboardingForm.getRawValue())
+    // Subscribe to valueChanges of the form
+    this.onboardingForm.valueChanges.pipe(
+    ).subscribe(() => {
+        this.trackChanges();
+      
+    });
+  }
+  changeLogs: any[] = []; // To store the logs of changes
+  initialFormValues: any = {}; // To store the initial state of the form
+  // Track changes and create log objects
+  trackChanges() {
+    const currentValues = this.onboardingForm.getRawValue();
+    this.changeLogs = []; // Clear previous logs
+    this.compareValues(this.initialFormValues, currentValues, '');
+
+
+
+  }
+
+  // Recursive function to compare form values
+  compareValues(initial: any, current: any, parentKey: string) {
+    debugger
+    Object.keys(initial).forEach((key) => {
+      const fullKey = parentKey ? `${parentKey}.${key}` : key;
+
+      if (typeof initial[key] === 'object' && !this.Constants.EMPTY_STRINGS.includes(initial[key]) ) {
+        // If the value is a nested object, recursively compare
+        this.compareValues(initial[key], current[key], fullKey);
+      } else if (initial[key] !== current[key] && !this.Constants.EMPTY_STRINGS.includes(current[key])) {
+        // If values differ, log the change
+        this.changeLogs.push({
+          field: fullKey,
+          oldValue: initial[key],
+          newValue: current[key],
+        });
+      }
+      console.log("cahned value ",this.changeLogs)
+    });
+  }
 
 }
+
+
