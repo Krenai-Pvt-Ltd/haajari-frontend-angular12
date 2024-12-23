@@ -6,7 +6,7 @@ import { BonusAndDeductionComponent } from './bonus-and-deduction/bonus-and-dedu
 import { TdsComponent } from './tds/tds.component';
 import { PaymentComponent } from './payment.component';
 import { LeaveSummaryComponent } from './leave-summary/leave-summary.component';
-import { AuthGuard } from '../authentication/auth/auth-guard';
+import { AuthGuard } from '../../guards/auth-guard';
 import { SubscriptionGuard } from 'src/app/guards/subscription.guard';
 
 const routes: Routes = [{path : '', redirectTo : '/payment/payroll-dashboard', pathMatch : 'full'},

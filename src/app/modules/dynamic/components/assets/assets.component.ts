@@ -51,6 +51,7 @@ export class AssetsComponent implements OnInit {
     this.getAssetUserListData();
     this.getCategoryCounts();
     this.getAssetDataById();
+    this.getPendingRequestsCounter();
     // this.helperService.saveOrgSecondaryToDoStepBarData(0);
   }
 
@@ -824,7 +825,17 @@ private formatDataForChart(data: any[]): any[] {
     );
   }
 
-
+  pendingRequestsCounter: number = 0;
+  getPendingRequestsCounter(): void {
+    this.dataService.getPendingRequestsCounter().subscribe(
+      (response) => {
+        this.pendingRequestsCounter = response.pendingRequestsCounter;
+      },
+      (error) => {
+        console.error('Error fetching pending requests counter', error);
+      }
+    );
+  }
 
 
 }

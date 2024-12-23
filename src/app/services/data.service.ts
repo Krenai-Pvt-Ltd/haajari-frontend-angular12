@@ -4416,6 +4416,10 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}/get/onboarding/edited-fields`, { params });
   }
 
+  getPendingRequestsCounter(): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/asset-requests/pending-requests-counter`);
+  }
+
 
 
 }
