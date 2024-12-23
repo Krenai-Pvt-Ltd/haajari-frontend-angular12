@@ -41,7 +41,7 @@
                 </div>
                 <div
                   class="upload-file-input bg-white p-2 mt-2 d-flex align-items-center justify-content-center flex-column pointer"
-                  data-bs-toggle="modal" data-bs-target="#addDocumentt" (click)="setDocType('employee_doc')">
+                  data-bs-toggle="modal" data-bs-target="#addDocumentt" (click)="setDocType(constant.DOC_TYPE_EMPLOYEE)">
                   <!-- <input id="fileSelect" type="file" name="img[]" accept=".xlsx" class="input"> -->
                   <span>
                     <svg xmlns="http://www.w3.org/2000/svg" width="46" height="45" viewBox="0 0 46 45" fill="none">
@@ -168,7 +168,7 @@
                 </div>
                 <div
                   class="upload-file-input bg-white p-2 mt-2 d-flex align-items-center justify-content-center flex-column pointer"
-                  data-bs-toggle="modal" data-bs-target="#addDocumentt" (click)="setDocType('company_doc')">
+                  data-bs-toggle="modal" data-bs-target="#addDocumentt" (click)="setDocType(constant.DOC_TYPE_COMPANY)">
                   <!-- <input id="fileSelect" type="file" name="img[]" accept=".xlsx" class="input"> -->
                   <span>
                     <svg xmlns="http://www.w3.org/2000/svg" width="46" height="45" viewBox="0 0 46 45" fill="none">
@@ -308,7 +308,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Add Document</h5>
-        <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButton>
+        <button type="button" class="close-btn" data-bs-dismiss="modal" (click)="onCloseModal()" aria-label="Close" #closeButton>
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
             <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24"
               height="24">
@@ -332,25 +332,27 @@
                     placeholder="Enter document name" [(ngModel)]="doc.name" name="documentName" />
                 </div>
               </div>
+              <ng-container *ngIf="docType===constant.DOC_TYPE_EMPLOYEE_AGREEMENT || docType===constant.DOC_TYPE_COMPANY">
               <div class="col-md-12 mb-3">
                 <div class="form-check d-flex align-items-center gap-2">
-                  <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                  <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                  <input type="checkbox" class="form-check-input" id="exampleCheck1" (change)="isEmployeeAgreement($event)" #checkBox>
+                  <label class="form-check-label" for="exampleCheck1">Is this Employee Agreement</label>
                 </div>
 
               </div>
-              <div class="col-md-6 mb-3">
+              <div *ngIf="isEmployeeAgreementChecked" class="col-md-6 mb-3">
                 <label for="documentName" class="mb-2">Start Date</label>
-                <nz-date-picker nzBorderless nzPlaceHolder="dd/mm/yyyy" id="selLastDate" name="lastDate" required
-                  class="form-control">
+                <nz-date-picker nzBorderless nzPlaceHolder="dd/mm/yyyy" id="selLastDate" name="lastDate" required [(ngModel)]="doc.startDate"
+                  [(ngModel)]="doc.startDate" class="form-control">
                 </nz-date-picker>
               </div>
-              <div class="col-md-6 mb-3">
+              <div *ngIf="isEmployeeAgreementChecked" class="col-md-6 mb-3">
                 <label for="documentName" class="mb-2">End Date</label>
-                <nz-date-picker nzBorderless nzPlaceHolder="dd/mm/yyyy" id="selLastDate" name="lastDate" required
+                <nz-date-picker nzBorderless nzPlaceHolder="dd/mm/yyyy" id="selLastDate" name="lastDate" required [(ngModel)]="doc.endDate"
                   class="form-control">
                 </nz-date-picker>
               </div>
+              </ng-container>
               <div class="col-md-12">
                 <div class="form-group">
                   <label for="fileInput" class="mb-2">Attach File</label>
