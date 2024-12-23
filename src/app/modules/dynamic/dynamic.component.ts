@@ -16,7 +16,7 @@ export class DynamicComponent implements OnInit {
   readonly key = Key;
   _router : any;
   constructor(private router: Router,
-    private _helperService:HelperService,
+    public _helperService:HelperService,
     private dataService : DataService,
     public roleBasedAccessControlService:RoleBasedAccessControlService){
     this._router = router;
@@ -26,16 +26,10 @@ export class DynamicComponent implements OnInit {
   ngOnInit(): void {
     // console.log(this.roleBasedAccessControlService.isUserInfoInitialized,"-------");
     this.isToDoStepsCompletedData();
-    this._router.events.subscribe((event:any) => {
-      if(event instanceof NavigationEnd &&  document.body?.classList){
-        this._helperService.todoStepsSubject.next("close")
-      }
-    })
-    //  this.helperService.todoStepsSubject
   }
 
   
-  isToDoStepsCompleted : number = 0;
+  isToDoStepsCompleted : number = 1;
   isToDoStepsCompletedData() {
     debugger
     this.dataService.isToDoStepsCompleted().subscribe(

@@ -43,6 +43,7 @@ import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { OnboardingSuccessfulComponent } from './components/onboarding-successful/onboarding-successful.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -93,6 +94,7 @@ import { OnboardingSuccessfulComponent } from './components/onboarding-successfu
     NzIconModule,
     NzInputModule,
     NzInputNumberModule,
+    SharedModule,
   ],
 })
 export class OrganizationOnboardingModule {}

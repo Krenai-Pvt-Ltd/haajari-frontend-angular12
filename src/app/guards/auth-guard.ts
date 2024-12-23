@@ -39,6 +39,11 @@ export class AuthGuard implements CanActivate {
       return false;
     }
 
+    if( route!.routeConfig!.path == 'dashboard'){
+      this._helperService.isDashboardActive=true;
+    }else{
+      this._helperService.isDashboardActive=false;
+    }
     await this.rbacService.isUserInfoInitializedMethod();
     // console.log("=====isSubscription======",this._subscriptionService.isSubscription)
 
@@ -50,8 +55,8 @@ export class AuthGuard implements CanActivate {
     // }
 
  
-      if(this.dataService.step){
-        this.step=this.dataService.step;
+      if(this._helperService.stepId){
+        this.step=this._helperService.stepId;
         if (this.step < 5) {
           this.router.navigate(['/organization-onboarding/personal-information']);
           return false;
@@ -64,23 +69,23 @@ export class AuthGuard implements CanActivate {
         }
       }
 
-    if(this.dataService.isToDoStepCompleted){
-      this.isToDoStepsCompleted=this.dataService.isToDoStepCompleted;
-    }else  if (!this.isToDoStepsCompleted) {
-      await this.isToDoStepsCompletedData();
-    }
+    // if(this.dataService.isToDoStepCompleted){
+    //   this.isToDoStepsCompleted=this.dataService.isToDoStepCompleted;
+    // }else  if (!this.isToDoStepsCompleted) {
+    //   await this.isToDoStepsCompletedData();
+    // }
 
 
       this.ROLE = await this.rbacService.getRole();
 
-    if (this.ROLE == 'ADMIN' && this.isToDoStepsCompleted == 0 && route!.routeConfig!.path == 'dashboard') {
-      debugger
-      this.router.navigate(['/to-do-step-dashboard']);
-      return false;
-    }else if (this.ROLE == 'ADMIN' && this.isToDoStepsCompleted == 0 && route!.routeConfig!.path == 'to-do-step-dashboard') {
-      debugger
-      return true;
-    }
+    // if (this.ROLE == 'ADMIN' && this.isToDoStepsCompleted == 0 && route!.routeConfig!.path == 'dashboard') {
+    //   debugger
+    //   // this.router.navigate(['/to-do-step-dashboard']);
+    //   return false;
+    // }else if (this.ROLE == 'ADMIN' && this.isToDoStepsCompleted == 0) {
+    //   debugger
+    //   return true;
+    // }
 
     
 
@@ -111,6 +116,7 @@ export class AuthGuard implements CanActivate {
         });
         return false;
       }
+      console.log("🚀 ~ AuthGuard ~ canActivate ~ this.currentRoute:", this.currentRoute)
 
 
       if (!await this.rbacService.hasAccessToSubmodule(this.currentRoute)) {

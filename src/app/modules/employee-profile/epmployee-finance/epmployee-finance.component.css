@@ -230,3 +230,99 @@ i::before {
 .blurre {
     filter: blur(5px);
 }
+
+
+
+
+
+.scene {
+    display: inline-block;
+    /* width: 200px;
+    height: 260px; */
+    perspective: 600px;
+}
+
+.card {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    transform-style: preserve-3d;
+    transform-origin: center right;
+    transition: transform 1s;
+    border: none;
+}
+
+.card.is-flipped {
+    transform: translateX(-100%) rotateY(-180deg);
+}
+
+.card__face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+}
+
+
+
+.overview-summary {
+    background: white;
+    transform: rotateY(180deg);
+}
+
+.overview-summary svg {
+    position: relative;
+    top: -1px;
+}
+
+.total-working-day {
+    border-left: 6px solid #000;
+    height: 40px;
+}
+
+.present {
+    border-color: #99C789;
+    background-color: #99C789 !important;
+}
+
+.absent {
+    border-color: #F1914C;
+    background-color: #F1914C;
+}
+
+.leave {
+    border-color: #EC5F54;
+    background-color: #EC5F54;
+}
+
+.week-off {
+    border-color: #D9D9D9;
+    background-color: #D9D9D9;
+}
+
+.holiday {
+    border-color: #B4B3FF;
+    background-color: #B4B3FF;
+}
+
+.half-day {
+    border-color: #F6BD41;
+    background-color: #F6BD41;
+}
+
+.late {
+    border-color: #717171;
+    background-color: #717171;
+}
+
+.overview-summary {
+    background-color: #F9FAFC;
+}
+
+.summary-count {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+
+}

@@ -10,6 +10,7 @@ import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { OrganizationOnboardingService } from 'src/app/services/organization-onboarding.service';
 import { constant } from 'src/app/constant/constant';
+import { N } from '@fullcalendar/core/internal-common';
 
 @Component({
   selector: 'app-add-shift-time',
@@ -647,9 +648,12 @@ export class AddShiftTimeComponent implements OnInit {
     }
   }
 
-  selectShiftType(shiftType: ShiftType) {
-    this.selectedShiftType = shiftType;
-    this.organizationShiftTimingRequest.shiftTypeId = shiftType.id;
+  selectShiftType(shiftType: number) {
+    debugger
+    // this.selectedShiftType = shiftType;
+    // this.organizationShiftTimingRequest.shiftTypeId = shiftType.id;
+    this.organizationShiftTimingRequest.shiftTypeId = shiftType;
+    console.log(this.organizationShiftTimingRequest.shiftTypeId);
   }
 
   clearSearch() {

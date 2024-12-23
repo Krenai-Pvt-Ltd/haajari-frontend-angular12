@@ -1570,7 +1570,7 @@ getPagesNew(): (number | string)[] {
     // });
   }
 
-  isToDoStepsCompleted: number = 0;
+  isToDoStepsCompleted!: number;
   isToDoStepsCompletedData(isOrgOnboardToday : number) {
     debugger
     this.dataService.isToDoStepsCompleted().subscribe(
@@ -1882,6 +1882,10 @@ this.BILLING_AND_SUBSCRIPTION_MODAL_TOGGLE = false
     this.presentModal.nativeElement.click();
     this.router.navigate(['/setting/attendance-setting']);
   }
+
+  // to do step completion
+
+  
 }
 
 
