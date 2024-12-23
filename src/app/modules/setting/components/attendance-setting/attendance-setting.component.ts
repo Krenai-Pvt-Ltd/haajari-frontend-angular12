@@ -1220,6 +1220,9 @@ export class AttendanceSettingComponent implements OnInit {
   }
 
   searchUsers() {
+   
+      this.databaseHelper.currentPage = 1;
+      this.databaseHelper.itemPerPage = 10;
     this.getUserByFiltersMethodCall();
   }
 
@@ -2578,6 +2581,7 @@ getAllAddressDetails(): void {
    databaseHelper: DatabaseHelper = new DatabaseHelper();
    totalItems: number = 0;
    pageChanged(page: any) {
+    debugger;
      if (page != this.databaseHelper.currentPage) {
        this.databaseHelper.currentPage = page;
        this.getUserByFiltersMethodCall();
@@ -3107,10 +3111,15 @@ closeModal() {
 }
 
 
+// redirectToCompanySetting() {
+//   this.attendancewithlocationssButton.nativeElement.click();
+//   this.router.navigate(['/setting/company-setting']);
+
+// }
+
 redirectToCompanySetting() {
   this.attendancewithlocationssButton.nativeElement.click();
-  this.router.navigate(['/setting/company-setting']);
-
+  this.router.navigate(['/setting/company-setting'], { queryParams: { activeTab: 'locationSetting' } });
 }
 
 

@@ -316,6 +316,12 @@ export class EmployeeOnboardingFormComponent implements OnInit {
       )
       .subscribe(
         (response: UserPersonalInformationRequest) => {
+          if(this.buttonType === 'preview'){
+            const modalRef = this.modalService.open(PreviewFormComponent, {
+              centered: true,
+              size: 'lg', backdrop: 'static'
+            });
+            }
           // console.log(response);
           this.employeeOnboardingFormStatus =
             response.employeeOnboardingFormStatus.toString();
@@ -920,15 +926,11 @@ export class EmployeeOnboardingFormComponent implements OnInit {
     try {
 
 
-    this.buttonType = type;
+
     this.userPersonalInformationRequest.directSave = false;
     this.formSubmitButton.nativeElement.click();
-    if(type === 'preview'){
-    const modalRef = this.modalService.open(PreviewFormComponent, {
-      centered: true,
-      size: 'lg', backdrop: 'static'
-    });
-    }
+    this.buttonType = type;
+
   } catch (error) {
       console.log(error)
   }
@@ -954,6 +956,10 @@ export class EmployeeOnboardingFormComponent implements OnInit {
           break;
         }
         case 'update': {
+          this.setEmployeePersonalDetailsMethodCall();
+          break;
+        }
+        case 'preview': {
           this.setEmployeePersonalDetailsMethodCall();
           break;
         }

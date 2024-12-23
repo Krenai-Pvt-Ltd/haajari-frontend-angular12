@@ -51,6 +51,7 @@ contentTemplate: string ='You are on the Notice Period, so that you can not appl
       note: [null, Validators.required],
     });
     // this.getAttendanceRequests();
+    this.fetchAttendanceRequests();
     this.fetchManagerNames();
     this.getUserLeaveReq();
     this.loadLeaveLogs();
@@ -74,6 +75,66 @@ contentTemplate: string ='You are on the Notice Period, so that you can not appl
   get canSubmit() {
     return this.userLeaveForm?.valid;
   }
+
+  attendanceTypeFilter: any = ['CREATE', 'UPDATE'];
+  attendanceStatusFilter: any = ['PENDING', 'APPROVED', 'REJECTED'];
+  updateAttendanceTypeFilter(type: string){
+    this.attendanceType = type;
+    this.fetchAttendanceRequests();
+  }
+  updateAttendanceStatusFilter(status: string){
+    this.attendanceStatus = status;
+    this.fetchAttendanceRequests();
+  }
+  attendanceRequests: any = [];
+  currentAttendancePage: number = 1;
+  pageAttendanceSize: number = 10;
+  totalAttendanceElements: number = 0;
+  attendanceStatus: string = 'All';
+  isAttendanceLoading: boolean = false;
+  attendanceType: string = 'CREATE';
+  fetchAttendanceRequests(): void {
+    this.isAttendanceLoading = true;
+    this.dataService
+      .getAttendanceUpdateFilteredRequests(
+        this.userId,
+        this.attendanceStatus,
+        this.attendanceType,
+        this.currentAttendancePage,
+        this.pageAttendanceSize
+      )
+      .subscribe((response) => {
+        this.attendanceRequests = response.content;
+        this.totalAttendanceElements = response.totalElements;
+        this.isAttendanceLoading = false;
+      },
+      (error) => {
+        this.isAttendanceLoading = false;
+      }
+    );
+  }
+  onAttendancePageChange(page: number): void {
+    this.currentAttendancePage = page;
+    this.fetchAttendanceRequests();
+  }
+
+  onAttendanceFilterChange(): void {
+    this.currentAttendancePage = 0; // Reset to first page when filters change
+    this.fetchAttendanceRequests();
+  }
+
+  deleteAttendanceRequest(id: number): void {
+    this.dataService.deletePendingAttendance(id).subscribe(
+      (response: any) => {
+        this.helperService.showToast(response.message,Key.TOAST_STATUS_INFO);
+        this.fetchAttendanceRequests();
+      },
+      (error) => {
+        this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
+      }
+    );
+  }
+
 
   isUserLeaveTaken: number = 0;
   checkUserLeaveTaken(){

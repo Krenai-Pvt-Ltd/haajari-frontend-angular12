@@ -2377,3 +2377,15 @@ font-size: 12px !important;
 .border-right{
   border-right: 1px solid #f1f1f1;
 }
+span.request-count {
+  background-color: rgb(241 241 253) !important;
+  color: var(--primary-color) !important;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+}
+
+.expance-forn-data{
+  max-height: 385px;
+  overflow: scroll;
+}

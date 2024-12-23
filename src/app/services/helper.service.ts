@@ -27,6 +27,16 @@ export class HelperService {
    profileChangeStatus : Subject<boolean> = new Subject<boolean>();
    resignationSubmitted : Subject<boolean> = new Subject<boolean>();
 
+   private closeModalSubject = new Subject<void>();
+   closeModal$ = this.closeModalSubject.asObservable();
+
+  closeModal() {
+    debugger
+    console.log('Current Modal Ref service1:', this.closeModal$);
+    console.log('Current Modal Ref service2:', this.closeModalSubject);
+    this.closeModalSubject.next();
+  }
+
    isFirstTime: boolean = true;
    markAsVisited() {
     this.isFirstTime = false;

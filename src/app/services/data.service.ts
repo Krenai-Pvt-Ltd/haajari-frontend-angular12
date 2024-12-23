@@ -110,6 +110,8 @@ export class DataService {
   private baseUrl = this._key.base_url;
 
   openSidebar: boolean = true;
+
+  markAttendanceModal: boolean = false;
   // registerOrganizationUsingCodeParam(codeParam: string): Observable<any> {
   //   const params = new HttpParams().set('code_param', codeParam);
   //   return this.httpClient.put<any>(
@@ -406,10 +408,10 @@ export class DataService {
       .set('search_by', searchBy)
       .set('team_id', teamId);
 
-      if(search != null && search != ''){
-        params = params.set('page_number', 0)
-        params = params.set('item_per_page', 0)
-      }
+      // if(search != null && search != ''){
+      //   params = params.set('page_number', 0)
+      //   params = params.set('item_per_page', 0)
+      // }
 
     return this.httpClient.get<any>(`${this.baseUrl}/users/get/by-filters`, {
       params,
@@ -3097,9 +3099,9 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     return this.httpClient.delete(url);
   }
 
- 
 
- 
+
+
 
 
   getEmployeeSalary(userUuid : string): Observable<any> {
@@ -4365,6 +4367,49 @@ getHolidayForOrganization(date: string): Observable<any>{
   getRequestCountByOrganizationUuid(): Observable<string[]> {
     return this.httpClient.get<string[]>(`${this.baseUrl}/attendance/get-count`);
   }
+
+  getAttendanceUpdateFilteredRequests(
+    userUuid?: string,
+    status?: string,
+    requestType?: string,
+    page: number = 0,
+    size: number = 10
+  ): Observable<any> {
+    let params = new HttpParams()
+      .set('page', page)
+      .set('size', size);
+     if (status === 'All') {
+      status = '';
+     }
+
+    if (userUuid) params = params.set('userUuid', userUuid);
+    if (status) params = params.set('status', status);
+    if (requestType) params = params.set('requestType', requestType);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get/requests/filter`, { params });
+  }
+
+  deletePendingAttendance(id: number): Observable<string> {
+    const params = new HttpParams().set('id', id.toString());
+    return this.httpClient.post<string>(`${this.baseUrl}/attendance/delete-pending-attendance`, null, { params });
+  }
+  getDocumentsByTypeAndUser(documentType: string, userId: string): Observable<any[]> {
+    const params = new HttpParams()
+      .set('documentType', documentType)
+      .set('userId', userId);
+
+    return this.httpClient.get<any[]>(`${this.baseUrl}/documents/documents-by-type`, { params });
+  }
+
+  getEditedFieldsByUserUuid(uuid: string): Observable<any> {
+    const params = new HttpParams().set('uuid', uuid);
+    return this.httpClient.get<any>(`${this.baseUrl}/get/onboarding/edited-fields`, { params });
+  }
+
+  getPendingRequestsCounter(): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/asset-requests/pending-requests-counter`);
+  }
+
 
 
 }

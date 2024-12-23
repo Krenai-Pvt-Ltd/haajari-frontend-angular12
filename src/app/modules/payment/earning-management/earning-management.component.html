@@ -1,200 +1,160 @@
-<div class="d-flex justify-content-between">
-    <h5 class="m-0" style="color: #111; font-size: 18px" (click)="back()">
-        <div class="back-btns-box" style="cursor: pointer;">
-          <i class="bi bi-chevron-left"></i>
-          <span class="font-16 pt-2 pl-2">Salary Changes, Bonus & Overtime</span>
-        </div>
-      </h5>
-      <div class="button-items">
-        <!-- <button type="button" class="btn btn-light btn-round" (click)="employeeChangesBackTab()" *ngIf="CURRENT_TAB_IN_EMPLOYEE_CHANGE != NEW_JOINEE"> BACK </button>
-        <button type="button" class="btn btn-primary btn-round" (click)="registerNewJoineeAndUserExitMethodCall()" *ngIf="CURRENT_TAB_IN_EMPLOYEE_CHANGE != FINAL_SETTLEMENT"> SAVE & CONTINUE </button>
-        <button type="button" class="btn btn-primary btn-round" (click)="registerNewJoineeAndUserExitMethodCall()" *ngIf="CURRENT_TAB_IN_EMPLOYEE_CHANGE == FINAL_SETTLEMENT"> MARK AS COMPLETE </button> -->
-      </div>
+<div class="d-flex justify-content-between mt-3">
+  <h5 class="m-0" style="color: #111; font-size: 18px" (click)="back()">
+    <div class="back-btns-box" style="cursor: pointer;">
+      <i class="bi bi-chevron-left"></i>
+      <span class="font-16 pt-2 pl-2">Salary Changes, Bonus & Overtime</span>
+    </div>
+  </h5>
 </div>
 
 
-<!-- <nav>
-    <div class="nav nav-tabs" id="nav-tab">
-      <a class="nav-link active" id="step7-tab" data-bs-toggle="tab" href="#step7" (click)="salaryChangeTab()" #step7Tab [class.disabled]="PAYROLL_PROCESS_STEP < SALARY_CHANGE">SALARY CHANGES </a>
-      <a class="nav-link" id="step8-tab" data-bs-toggle="tab" href="#step8" (click)="bonusTab()" #step8Tab [class.disabled]="PAYROLL_PROCESS_STEP < BONUS">BONUS </a>
-      <a class="nav-link" id="step9-tab" data-bs-toggle="tab" href="#step9" (click)="overtimeTab()" #step9Tab [class.disabled]="PAYROLL_PROCESS_STEP < OVERTIME">OVERTIME </a>
-    </div>
-  </nav> -->
 
 
-<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-    <li class="nav-item" role="presentation">
-      <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">SALARY CHANGES</button>
-    </li>
-    <li class="nav-item" role="presentation">
-      <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">BONUS</button>
-    </li>
-    <li class="nav-item" role="presentation">
-      <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">OVERTIME</button>
-    </li>
-  </ul>
+<ul class="nav nav-pills mb-3 mt-4" id="pills-tab" role="tablist">
+  <li class="nav-item" role="presentation">
+    <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button"
+      role="tab" aria-controls="pills-home" aria-selected="true">SALARY CHANGES</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button"
+      role="tab" aria-controls="pills-profile" aria-selected="false">BONUS</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button"
+      role="tab" aria-controls="pills-contact" aria-selected="false">OVERTIME</button>
+  </li>
+</ul>
 
 
 
-  <div class="tab-content" id="pills-tabContent">
-    <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-        <div class="table-responsive">
-          <div class="col-md-12 mt-2 mb-3">
-            <form novalidate="" role="search" (submit)="searching($event)" class="searching ng-untouched ng-pristine ng-valid">
-              <div class="form-group position-relative">
-                <input type="text" id="search" placeholder="Search by name and email" 
-                  class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px" 
-                  (keyup)="searching($event)" [(ngModel)]="search" [ngModelOptions]="{ standalone: true }" />
-              
-                  <i *ngIf="search.length > 0" (click)="clearSearch(1)" class="bi bi-x search-icon" style="font-size: 20px !important; margin: auto; margin-left: 10px"></i>
-                
-                  <i *ngIf="search.length == 0" class="bi bi-search search-icon" style="margin: auto; margin-left: 10px"></i>
-              </div>
-            </form>
-          </div>
-            <table class="table border-dashed mb-0">
-              <thead>
-                <tr>
-                  <th>EMPLOYEE</th>
-                  <th>EMAIL</th>
-                  <th>PHONE</th>
-                  <th>PREVIOUS CTC</th>
-                  <th>UPDATED CTC</th>
-                  <th>EFFECTIVE DATE</th>
-                </tr>
-              </thead>
-              <ng-container *ngIf="isShimmerForSalaryChangeResponse && salaryChangeResponseList.length == 0; else salaryChangeResponseListCondition">
-                <tbody>
-                  <tr *ngFor="let item of [].constructor(10)">
-                    <td class="text-center" *ngFor="let e of [].constructor(6)">
-                      <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                    </td>
-                  </tr>
-                </tbody>
-              </ng-container>
-              <ng-template #salaryChangeResponseListCondition>
-                <ng-container *ngIf="!isShimmerForSalaryChangeResponse && salaryChangeResponseList.length > 0; else errorInFetchingSalaryChangeResponseListCondition">
-                  <tbody *ngFor="let salaryChangeResponse of salaryChangeResponseList">
-                    <tr>
-                      <td>{{ salaryChangeResponse.name }}</td>
-                      <td>{{ salaryChangeResponse.email || 'N/A'}}</td>
-                      <td>{{ salaryChangeResponse.phone || 'N/A'}}</td>
-                      <td>{{ salaryChangeResponse.previousCtc }}</td>
-                      <td>{{ salaryChangeResponse.updatedCtc }}</td>
-                      <td>{{ salaryChangeResponse.effectiveDate | date: 'fullDate'}}</td>
-            
-                    </tr>
-                  </tbody>
-                </ng-container>
-              </ng-template>
-              <ng-template #errorInFetchingSalaryChangeResponseListCondition>
-                <tbody>
-                  <tr>
-                    <td colspan="8">
-                      <div class="errorboxmain" *ngIf="
+<div class="tab-content" id="pills-tabContent">
+  <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+    <div class="table-responsive">
+      <table class="table border-dashed mb-0">
+        <thead>
+          <tr>
+            <th>EMPLOYEE</th>
+            <th>EMAIL</th>
+            <th>PHONE</th>
+            <th>PREVIOUS CTC</th>
+            <th>UPDATED CTC</th>
+            <th>EFFECTIVE DATE</th>
+          </tr>
+        </thead>
+        <ng-container
+          *ngIf="isShimmerForSalaryChangeResponse && salaryChangeResponseList.length == 0; else salaryChangeResponseListCondition">
+          <tbody>
+            <tr *ngFor="let item of [].constructor(10)">
+              <td class="text-center" *ngFor="let e of [].constructor(6)">
+                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+              </td>
+            </tr>
+          </tbody>
+        </ng-container>
+        <ng-template #salaryChangeResponseListCondition>
+          <ng-container
+            *ngIf="!isShimmerForSalaryChangeResponse && salaryChangeResponseList.length > 0; else errorInFetchingSalaryChangeResponseListCondition">
+            <tbody *ngFor="let salaryChangeResponse of salaryChangeResponseList">
+              <tr>
+                <td>{{ salaryChangeResponse.name }}</td>
+                <td>{{ salaryChangeResponse.email || 'N/A'}}</td>
+                <td>{{ salaryChangeResponse.phone || 'N/A'}}</td>
+                <td>{{ salaryChangeResponse.previousCtc }}</td>
+                <td>{{ salaryChangeResponse.updatedCtc }}</td>
+                <td>{{ salaryChangeResponse.effectiveDate | date: 'fullDate'}}</td>
+
+              </tr>
+            </tbody>
+          </ng-container>
+        </ng-template>
+        <ng-template #errorInFetchingSalaryChangeResponseListCondition>
+          <tbody>
+            <tr>
+              <td colspan="8">
+                <div class="errorboxmain" *ngIf="
                         networkConnectionErrorPlaceHolderForSalaryChangeResponse
                       ">
-                        <div class="errorboxinner text-center">
-                          <div class="errorboxplaceholder mb-2">
-                            <img src="assets/images/signal.svg" style="width: 100px" />
-                          </div>
-                          <div class="">
-                            <h4>Something went wrong</h4>
-                            <p> An error occurred while processing your request. Please refresh the page and try again. </p>
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-                <tbody>
-                  <tr>
-                    <td colspan="8">
-                      <div class="errorboxmain" *ngIf="
-                        dataNotFoundPlaceholderForSalaryChangeResponse &&
-                        !networkConnectionErrorPlaceHolderForSalaryChangeResponse
-                      ">
-                        <div class="errorboxinner text-center">
-                          <div class="errorboxplaceholder mb-2">
-                            <img src="assets/images/empty-folder.svg" style="width: 100px" />
-                          </div>
-                          <h4>No Data Found</h4>
-                          <p> Sorry, We can't show you the data at this moment! </p>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </ng-template>
-            </table>
-            <!--end /table-->
-          </div>
-          <div class="pagination pl-3 justify-content-between" *ngIf="totalItems > itemPerPage">
-            <p class="mb-0" style="padding-left: 15px">
-              Showing {{startIndex() }} - {{lastIndex()}} of {{ totalItems }} 
-            </p>
-            <div class="row">
-              <div class="col-md-12">
-                <ngb-pagination
-                  [collectionSize]="totalItems"
-                  [page]="pageNumber"
-                  [pageSize]="itemPerPage"
-                  [maxSize]="5"
-                  [boundaryLinks]="true"
-                  [ellipses]="true"
-                  (pageChange)="pageChange($event,SALARY_CHANGE)">
-                </ngb-pagination>
-              </div>
-            </div>
-          </div>
+                  <div class="errorboxinner text-center">
+                    <div class="errorboxplaceholder mb-2">
+                      <img src="assets/images/signal.svg" style="width: 100px" />
+                    </div>
+                    <div class="">
+                      <h4>Something went wrong</h4>
+                      <p> An error occurred while processing your request. Please refresh the page and try again. </p>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+          <tbody *ngIf="
+          dataNotFoundPlaceholderForSalaryChangeResponse &&
+          !networkConnectionErrorPlaceHolderForSalaryChangeResponse
+        ">
+            <tr>
+              <td colspan="8">
+                <div class="empty-file" style="margin-top: 8%; margin-bottom: 8%">
+                  <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
+                    <ng-template #contentTpl>
+                      <p class="mb-1 empty-detail">No data for now</p>
+                    </ng-template>
+                  </nz-empty>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </ng-template>
+      </table>
+      <!--end /table-->
     </div>
-    <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-        <div class="table-responsive">
-          <div class="col-md-12 mt-2 mb-3">
-            <form novalidate="" role="search" (submit)="searching($event)" class="searching ng-untouched ng-pristine ng-valid">
-              <div class="form-group position-relative">
-                <input type="text" id="search" placeholder="Search by name and email" 
-                  class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px" 
-                  (keyup)="searching($event)" [(ngModel)]="search" [ngModelOptions]="{ standalone: true }" />
-              
-                  <i *ngIf="search.length > 0" (click)="clearSearch(1)" class="bi bi-x search-icon" style="font-size: 20px !important; margin: auto; margin-left: 10px"></i>
-                
-                  <i *ngIf="search.length == 0" class="bi bi-search search-icon" style="margin: auto; margin-left: 10px"></i>
-              </div>
-            </form>
-          </div>
-            <table class="table border-dashed mb-0">
-              <thead>
-                <tr>
-                  <th>EMPLOYEE</th>
-                  <th>EMAIL</th>
-                  <th>PHONE</th>
-                  <th>AMOUNT</th>
-                  <th>ACTION</th>
-              </thead>
-              <ng-container *ngIf="isShimmerForSalaryChangeBonusResponse && salaryChangeBonusResponseList.length == 0; else salaryChangeBonusResponseListCondition">
-                <tbody>
-                  <tr *ngFor="let item of [].constructor(10)">
-                    <td class="text-center" *ngFor="let e of [].constructor(5)">
-                      <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                    </td>
-                  </tr>
-                </tbody>
-              </ng-container>
-              <ng-template #salaryChangeBonusResponseListCondition>
-                <ng-container *ngIf="
+    <div class="pagination pl-3 justify-content-between" *ngIf="totalItems > itemPerPage">
+      <p class="mb-0" style="padding-left: 15px">
+        Showing {{startIndex() }} - {{lastIndex()}} of {{ totalItems }}
+      </p>
+      <div class="row">
+        <div class="col-md-12">
+          <ngb-pagination [collectionSize]="totalItems" [page]="pageNumber" [pageSize]="itemPerPage" [maxSize]="5"
+            [boundaryLinks]="true" [ellipses]="true" (pageChange)="pageChange($event,SALARY_CHANGE)">
+          </ngb-pagination>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+    <div class="table-responsive">
+      <table class="table border-dashed mb-0">
+        <thead>
+          <tr>
+            <th>EMPLOYEE</th>
+            <th>EMAIL</th>
+            <th>PHONE</th>
+            <th>AMOUNT</th>
+            <th>ACTION</th>
+        </thead>
+        <ng-container
+          *ngIf="isShimmerForSalaryChangeBonusResponse && salaryChangeBonusResponseList.length == 0; else salaryChangeBonusResponseListCondition">
+          <tbody>
+            <tr *ngFor="let item of [].constructor(10)">
+              <td class="text-center" *ngFor="let e of [].constructor(5)">
+                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+              </td>
+            </tr>
+          </tbody>
+        </ng-container>
+        <ng-template #salaryChangeBonusResponseListCondition>
+          <ng-container *ngIf="
                   !isShimmerForSalaryChangeBonusResponse &&
                   salaryChangeBonusResponseList.length > 0;
                   else errorInFetchingSalaryChangeBonusResponseListCondition
                 ">
-                  <tbody *ngFor="
+            <tbody *ngFor="
                     let salaryChangeBonusResponse of salaryChangeBonusResponseList">
-                    <tr>
-                      <td>{{ salaryChangeBonusResponse.name }}</td>
-                      <td>{{ salaryChangeBonusResponse.email || 'N/A'}}</td>
-                      <td>{{ salaryChangeBonusResponse.phone || 'N/A'}}</td>
-                      <td>{{ salaryChangeBonusResponse.totalAmt }}</td>
-                      <!-- <td class="text-">
+              <tr>
+                <td>{{ salaryChangeBonusResponse.name }}</td>
+                <td>{{ salaryChangeBonusResponse.email || 'N/A'}}</td>
+                <td>{{ salaryChangeBonusResponse.phone || 'N/A'}}</td>
+                <td>{{ salaryChangeBonusResponse.totalAmt }}</td>
+                <!-- <td class="text-">
                         <nz-select style="width: 100%" nzSize="large" 
                           [(ngModel)]="salaryChangeBonusResponse.payActionTypeId"  id="selePayType{{i}}" name="selectPayType{{i}}"
                           (ngModelChange)="onPayActionTypeChange(newJoineeResponse)" 
@@ -202,210 +162,182 @@
                           <nz-option *ngFor="let action of payActionTypes" [nzValue]="action.id" [nzLabel]="action.value"></nz-option>
                         </nz-select>
                     </td> -->
-                    </tr>
-                  </tbody>
-                </ng-container>
-              </ng-template>
-              <ng-template #errorInFetchingSalaryChangeBonusResponseListCondition>
-                <tbody>
-                  <tr>
-                    <td colspan="8">
-                      <div class="errorboxmain" *ngIf="networkConnectionErrorPlaceHolderForSalaryChangeBonusResponse">
-                        <div class="errorboxinner text-center">
-                          <div class="errorboxplaceholder mb-2">
-                            <img src="assets/images/signal.svg" style="width: 100px" />
-                          </div>
-                          <div class="">
-                            <h4>Something went wrong</h4>
-                            <p> An error occurred while processing your request. Please refresh the page and try again. </p>
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-                <tbody>
-                  <tr>
-                    <td colspan="8">
-                      <div class="errorboxmain" *ngIf="
-                        dataNotFoundPlaceholderForSalaryChangeBonusResponse &&
-                        !networkConnectionErrorPlaceHolderForSalaryChangeBonusResponse
-                      ">
-                        <div class="errorboxinner text-center">
-                          <div class="errorboxplaceholder mb-2">
-                            <img src="assets/images/empty-folder.svg" style="width: 100px" />
-                          </div>
-                          <h4>No Data Found</h4>
-                          <p> Sorry, We can't show you the data at this moment! </p>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </ng-template>
-            </table>
-            <!--end /table-->
-          </div>
-          <div class="pagination pl-3 justify-content-between" *ngIf="totalItems > itemPerPage">
-            <p class="mb-0" style="padding-left: 15px">
-              Showing {{startIndex() }} - {{lastIndex()}} of {{ totalItems }} 
-            </p>
-            <div class="row">
-              <div class="col-md-12">
-                <ngb-pagination
-                  [collectionSize]="totalItems"
-                  [page]="pageNumber"
-                  [pageSize]="itemPerPage"
-                  [maxSize]="5"
-                  [boundaryLinks]="true"
-                  [ellipses]="true"
-                  (pageChange)="pageChange($event,BONUS)">
-                </ngb-pagination>
-              </div>
-            </div>
-          </div>
+              </tr>
+            </tbody>
+          </ng-container>
+        </ng-template>
+        <ng-template #errorInFetchingSalaryChangeBonusResponseListCondition>
+          <tbody>
+            <tr>
+              <td colspan="8">
+                <div class="errorboxmain" *ngIf="networkConnectionErrorPlaceHolderForSalaryChangeBonusResponse">
+                  <div class="errorboxinner text-center">
+                    <div class="errorboxplaceholder mb-2">
+                      <img src="assets/images/signal.svg" style="width: 100px" />
+                    </div>
+                    <div class="">
+                      <h4>Something went wrong</h4>
+                      <p> An error occurred while processing your request. Please refresh the page and try again. </p>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+          <tbody *ngIf="
+          dataNotFoundPlaceholderForSalaryChangeBonusResponse &&
+          !networkConnectionErrorPlaceHolderForSalaryChangeBonusResponse
+        ">
+            <tr>
+              <td colspan="8">
+                <div class="empty-file" style="margin-top: 8%; margin-bottom: 8%">
+                  <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
+                    <ng-template #contentTpl>
+                      <p class="mb-1 empty-detail">No data for now</p>
+                    </ng-template>
+                  </nz-empty>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </ng-template>
+      </table>
+      <!--end /table-->
     </div>
-    <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
-        <div class="table-responsive">
-          <div class="col-md-12 mt-2 mb-3">
-            <form novalidate="" role="search" (submit)="searching($event)" class="searching ng-untouched ng-pristine ng-valid">
-              <div class="form-group position-relative">
-                <input type="text" id="search" placeholder="Search by name and email" 
-                  class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px" 
-                  (keyup)="searching($event)" [(ngModel)]="search" [ngModelOptions]="{ standalone: true }" />
-              
-                  <i *ngIf="search.length > 0" (click)="clearSearch(1)" class="bi bi-x search-icon" style="font-size: 20px !important; margin: auto; margin-left: 10px"></i>
-                
-                  <i *ngIf="search.length == 0" class="bi bi-search search-icon" style="margin: auto; margin-left: 10px"></i>
-              </div>
-            </form>
-          </div>
-            <table class="table border-dashed mb-0">
-              <thead>
-                <tr>
-                  <th>EMPLOYEE</th>
-                  <th>EMAIL</th>
-                  <th>OVERTIME COUNT</th>
-                  <th>OVERTIME HRS.</th>
-                  <th>PAY ACTION</th>
-                </tr>
-              </thead>
-              <ng-container *ngIf="isShimmerForSalaryChangeOvertimeResponse && salaryChangeOvertimeResponseList.length == 0; else salaryChangeOvertimeResponseListCondition">
-                <tbody>
-                  <tr *ngFor="let item of [].constructor(10)">
-                    <td class="text-center">
-                      <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
-                    </td>
-                    <td class="text-center">
-                      <ngx-shimmer-loading [width]="'%'" [height]="'10px'"></ngx-shimmer-loading>
-                    </td>
-                    <td class="text-center">
-                      <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                    </td>
-                    <td class="text-center">
-                      <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                    </td>
-                    <td class="text-center">
-                      <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                    </td>
-                    <td class="text-center">
-                      <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                    </td>
-                    <td class="text-center">
-                      <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                    </td>
-                    <td class="text-center">
-                      <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                    </td>
-                    <td class="text-center">
-                      <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                    </td>
-                  </tr>
-                </tbody>
-              </ng-container>
-              <ng-template #salaryChangeOvertimeResponseListCondition>
-                <ng-container *ngIf="
+    <div class="pagination pl-3 justify-content-between" *ngIf="totalItems > itemPerPage">
+      <p class="mb-0" style="padding-left: 15px">
+        Showing {{startIndex() }} - {{lastIndex()}} of {{ totalItems }}
+      </p>
+      <div class="row">
+        <div class="col-md-12">
+          <ngb-pagination [collectionSize]="totalItems" [page]="pageNumber" [pageSize]="itemPerPage" [maxSize]="5"
+            [boundaryLinks]="true" [ellipses]="true" (pageChange)="pageChange($event,BONUS)">
+          </ngb-pagination>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+    <div class="table-responsive">
+      <table class="table border-dashed mb-0">
+        <thead>
+          <tr>
+            <th>EMPLOYEE</th>
+            <th>EMAIL</th>
+            <th>OVERTIME COUNT</th>
+            <th>OVERTIME HRS.</th>
+            <th>PAY ACTION</th>
+          </tr>
+        </thead>
+        <ng-container
+          *ngIf="isShimmerForSalaryChangeOvertimeResponse && salaryChangeOvertimeResponseList.length == 0; else salaryChangeOvertimeResponseListCondition">
+          <tbody>
+            <tr *ngFor="let item of [].constructor(10)">
+              <td class="text-center">
+                <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+              </td>
+              <td class="text-center">
+                <ngx-shimmer-loading [width]="'%'" [height]="'10px'"></ngx-shimmer-loading>
+              </td>
+              <td class="text-center">
+                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+              </td>
+              <td class="text-center">
+                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+              </td>
+              <td class="text-center">
+                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+              </td>
+              <td class="text-center">
+                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+              </td>
+              <td class="text-center">
+                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+              </td>
+              <td class="text-center">
+                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+              </td>
+              <td class="text-center">
+                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+              </td>
+            </tr>
+          </tbody>
+        </ng-container>
+        <ng-template #salaryChangeOvertimeResponseListCondition>
+          <ng-container *ngIf="
                   !isShimmerForSalaryChangeOvertimeResponse &&
                   salaryChangeOvertimeResponseList.length != 0;
                   else errorWhileFetchingSalaryChangeOvertimeResponseListCondition
                 ">
-                  <tbody *ngFor="let salaryChangeOvertimeResponse of salaryChangeOvertimeResponseList">
-                    <tr>
-                      <td>{{ salaryChangeOvertimeResponse.name }}</td>
-                      <td>{{ salaryChangeOvertimeResponse.email }}</td>
-                      <td>{{ salaryChangeOvertimeResponse.overtimeCount }}</td>
-                      <td>{{ salaryChangeOvertimeResponse.overtimeHour | durationFormat }}</td>
-                    </tr>
-                  </tbody>
-                </ng-container>
-              </ng-template>
-              <ng-template #errorWhileFetchingSalaryChangeOvertimeResponseListCondition>
-                <tbody>
-                  <tr>
-                    <td colspan="8">
-                      <div class="errorboxmain" *ngIf="
+            <tbody *ngFor="let salaryChangeOvertimeResponse of salaryChangeOvertimeResponseList">
+              <tr>
+                <td>{{ salaryChangeOvertimeResponse.name }}</td>
+                <td>{{ salaryChangeOvertimeResponse.email }}</td>
+                <td>{{ salaryChangeOvertimeResponse.overtimeCount }}</td>
+                <td>{{ salaryChangeOvertimeResponse.overtimeHour | durationFormat }}</td>
+              </tr>
+            </tbody>
+          </ng-container>
+        </ng-template>
+        <ng-template #errorWhileFetchingSalaryChangeOvertimeResponseListCondition>
+          <tbody>
+            <tr>
+              <td colspan="8">
+                <div class="errorboxmain" *ngIf="
                         networkConnectionErrorPlaceHolderForSalaryChangeOvertimeResponse
                       ">
-                        <div class="errorboxinner text-center">
-                          <div class="errorboxplaceholder mb-2">
-                            <img src="assets/images/signal.svg" style="width: 100px" />
-                          </div>
-                          <div class="">
-                            <h4>Something went wrong</h4>
-                            <p> An error occurred while processing your request. Please refresh the page and try again. </p>
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-                <tbody>
-                  <tr>
-                    <td colspan="8">
-                      <div class="errorboxmain" *ngIf="
-                        dataNotFoundPlaceholderForSalaryChangeOvertimeResponse &&
-                        !networkConnectionErrorPlaceHolderForSalaryChangeOvertimeResponse
-                      ">
-                        <div class="errorboxinner text-center">
-                          <div class="errorboxplaceholder mb-2">
-                            <img src="assets/images/empty-folder.svg" style="width: 100px" />
-                          </div>
-                          <h4>No Data Found</h4>
-                          <p> Sorry, We can't show you the data at this moment! </p>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </ng-template>
-            </table>
-            <!--end /table-->
-          </div>
-          <div class="pagination pl-3 justify-content-between" *ngIf="totalItems > itemPerPage">
-            <p class="mb-0" style="padding-left: 15px">
-              Showing {{startIndex() }} - {{lastIndex()}} of {{ totalItems }} 
-            </p>
-            <div class="row">
-              <div class="col-md-12">
-                <ngb-pagination
-                  [collectionSize]="totalItems"
-                  [page]="pageNumber"
-                  [pageSize]="itemPerPage"
-                  [maxSize]="5"
-                  [boundaryLinks]="true"
-                  [ellipses]="true"
-                  (pageChange)="pageChange($event,OVERTIME)">
-                </ngb-pagination>
-              </div>
-            </div>
-          </div>
-        
+                  <div class="errorboxinner text-center">
+                    <div class="errorboxplaceholder mb-2">
+                      <img src="assets/images/signal.svg" style="width: 100px" />
+                    </div>
+                    <div class="">
+                      <h4>Something went wrong</h4>
+                      <p> An error occurred while processing your request. Please refresh the page and try again. </p>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+          <tbody *ngIf="
+          dataNotFoundPlaceholderForSalaryChangeOvertimeResponse &&
+          !networkConnectionErrorPlaceHolderForSalaryChangeOvertimeResponse
+        ">
+            <tr>
+              <td colspan="8">
+                <div class="empty-file" style="margin-top: 8%; margin-bottom: 8%">
+                  <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
+                    <ng-template #contentTpl>
+                      <p class="mb-1 empty-detail">No data for now</p>
+                    </ng-template>
+                  </nz-empty>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </ng-template>
+      </table>
+      <!--end /table-->
     </div>
+    <div class="pagination pl-3 justify-content-between" *ngIf="totalItems > itemPerPage">
+      <p class="mb-0" style="padding-left: 15px">
+        Showing {{startIndex() }} - {{lastIndex()}} of {{ totalItems }}
+      </p>
+      <div class="row">
+        <div class="col-md-12">
+          <ngb-pagination [collectionSize]="totalItems" [page]="pageNumber" [pageSize]="itemPerPage" [maxSize]="5"
+            [boundaryLinks]="true" [ellipses]="true" (pageChange)="pageChange($event,OVERTIME)">
+          </ngb-pagination>
+        </div>
+      </div>
+    </div>
+
   </div>
+</div>
 
 
 
-  <!-- <div class="pagination pl-3 align-items-center justify-content-between" *ngIf="(total > itemPerPage - 1 || (pageNumber === lastPageNumber && lastPageNumber !== 1)) && 
+<!-- <div class="pagination pl-3 align-items-center justify-content-between" *ngIf="(total > itemPerPage - 1 || (pageNumber === lastPageNumber && lastPageNumber !== 1)) && 
     ((CURRENT_TAB == SALARY_CHANGE && !dataNotFoundPlaceholderForSalaryChangeResponse && !networkConnectionErrorPlaceHolderForSalaryChangeResponse) || 
      (CURRENT_TAB == BONUS && !dataNotFoundPlaceholderForSalaryChangeBonusResponse && !networkConnectionErrorPlaceHolderForSalaryChangeBonusResponse) || 
      (CURRENT_TAB == OVERTIME && !dataNotFoundPlaceholderForSalaryChangeOvertimeResponse && !networkConnectionErrorPlaceHolderForSalaryChangeOvertimeResponse))">
