@@ -19,6 +19,9 @@ import { OnboardingWhatappComponent } from './onboarding-whatapp/onboarding-what
 import { OrganizationRegistrationFormComponent } from './organization-registration-form/organization-registration-form.component';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzProgressModule } from 'ng-zorro-antd/progress';
+import { RegisterComponent } from './register/register.component';
+import { AddShiftComponent } from './add-shift/add-shift.component';
+import { SetAttendanceModeComponent } from './set-attendance-mode/set-attendance-mode.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +36,9 @@ import { NzProgressModule } from 'ng-zorro-antd/progress';
     OnboardingWhatsAppSlackComponent,
     OnboardingWhatappComponent,
     OrganizationRegistrationFormComponent,
+    RegisterComponent,
+    AddShiftComponent,
+    SetAttendanceModeComponent,
   ],
   imports: [
     CommonModule,

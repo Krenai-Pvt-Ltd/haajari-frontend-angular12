@@ -1,8 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Router, RouterLink, RouterModule } from '@angular/router';
+import { Router} from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { truncate } from 'fs';
 import { Subscription, of, timer } from 'rxjs';
 import { catchError, switchMap, take, tap } from 'rxjs/operators';
 import { constant } from 'src/app/constant/constant';
@@ -33,7 +32,6 @@ export class OnboardingWhatappComponent implements OnInit {
     private router: Router,
     private rbacService: RoleBasedAccessControlService,
     private helperService: HelperService,
-    private _onboardingService: OrganizationOnboardingService
   ) {
     this.countDown = timer(0, this.tick)
       .pipe(take(this.counter))

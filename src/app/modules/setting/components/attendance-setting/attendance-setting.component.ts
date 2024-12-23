@@ -1,24 +1,17 @@
 import { DatePipe } from '@angular/common';
 import {
-  Directive,
   Component,
   ElementRef,
   OnInit,
   ViewChild,
-  ANALYZE_FOR_ENTRY_COMPONENTS,
 } from '@angular/core';
 import {
-  FormArray,
   FormBuilder,
-  FormGroup,
   NgForm,
   NgModel,
-  Validators,
 } from '@angular/forms';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { findLastKey } from 'lodash';
+import { ActivatedRoute, Router } from '@angular/router';
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
-import { filter } from 'rxjs/operators';
 import { Key } from 'src/app/constant/key';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { Holiday } from 'src/app/models/Holiday';
@@ -49,12 +42,11 @@ import { OvertimeSettingResponse } from 'src/app/models/overtime-setting-respons
 import { OvertimeType } from 'src/app/models/overtime-type';
 import { ShiftType } from 'src/app/models/shift-type';
 import { Staff } from 'src/app/models/staff';
-import { User } from 'src/app/models/user';
 import { UserTeamDetailsReflection } from 'src/app/models/user-team-details-reflection';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { PlacesService } from 'src/app/services/places.service';
-declare var google: any;
+// declare var google: any;
 
 @Component({
   selector: 'app-attendance-setting',
