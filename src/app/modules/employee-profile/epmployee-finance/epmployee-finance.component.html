@@ -17,16 +17,30 @@
                             aria-controls="pills-profile" aria-selected="false" class="nav-link">Pay Slips</a>
                     </li>
                 </ul>
-                <div class="d-flex align-items-center gap-3">
+                <div class="d-flex align-items-center gap-3" *ngIf="!financeBlur">
                     <p class="mb-0 font-13 fw-semibold">Close at your convenience</p>
-                    <nz-switch [ngModel]="true"></nz-switch>
+                    <nz-switch [(ngModel)]="financeBlur" [nzControl]="true" (click)="switchFinanceBlur()"></nz-switch>
                 </div>
             </div>
 
             <div id="pills-tabContent" class="tab-content">
-                <div class="tab-pane fade active show pt-3" id="summary" role="tabpanel"
+                <div class="security-reasons d-flex align-items-center justify-content-center gap-2 p-2"
+                    [ngClass]="{ 'security': financeBlur  }">
+                    <p class="mb-0 font-13 fw-semibold">Toggle disabled due to security reasons.</p>
+                    <nz-switch [(ngModel)]="financeBlur"></nz-switch>
+                </div>
+
+
+
+                <div class="tab-pane fade active show pt-3 security-hide" id="summary" role="tabpanel"
                     aria-labelledby="attendance-tab">
-                    <div class="payroll">
+
+                    <!-- <div class="security-reasons d-flex align-items-center justify-content-center gap-2 p-2"
+                        [ngClass]="{ 'security': financeBlur  }">
+                        <p class="mb-0 font-13 fw-semibold">Toggle disabled due to security reasons.</p>
+                        <nz-switch [(ngModel)]="financeBlur"></nz-switch>
+                    </div> -->
+                    <div class="payroll" [ngClass]="{ 'blurre': financeBlur  }">
                         <div class="d-flex align-items-center justify-content-between">
                             <h5 class="mb-0 font-15">Payroll</h5>
                             <div class="attendance-date">
@@ -594,7 +608,7 @@
                     </div>
                 </div>
                 <div class="tab-pane fade pt-3" id="payment" role="tabpanel" aria-labelledby="attendance-tab">
-                    <div class="payment-box mt-3">
+                    <div class="payment-box mt-3" [ngClass]="{ 'blurre': financeBlur  }">
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="payroll-count p-3 d-flex align-items-center gap-3">
@@ -893,7 +907,7 @@
                     </div>
                 </div>
                 <div class="tab-pane fade pt-3" id="pay-slips" role="tabpanel" aria-labelledby="attendance-tab">
-                    <div class="payroll">
+                    <div class="payroll" [ngClass]="{ 'blurre': financeBlur  }">
                         <div class="d-flex align-items-center justify-content-between">
                             <div>
                                 <h5 class="mb-1 font-15">Pay Slips</h5>

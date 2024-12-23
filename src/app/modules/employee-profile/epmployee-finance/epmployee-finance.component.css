@@ -228,10 +228,16 @@ i::before {
 }
 
 .blurre {
-    filter: blur(5px);
+    filter: blur(10px);
+    user-select: none;
+    /* border-radius: 10px; */
+    /* background: linear-gradient(165deg, rgba(123, 123, 123, 0.10) -5.23%, rgba(249, 250, 252, 0.10) 89.41%); */
+
 }
 
-
+.security {
+    visibility: visible !important;
+}
 
 
 
@@ -277,7 +283,7 @@ i::before {
 }
 
 .total-working-day {
-    border-left: 6px solid #000;
+    border-left: 5px solid #000;
     height: 40px;
 }
 
@@ -382,4 +388,16 @@ i::before {
 .down-icon.collapsed svg {
     transform: rotate(0deg);
     transition: transform 1s;
+}
+
+.security-reasons {
+    border: 1px solid #6666F2;
+    background-color: #fff;
+    position: fixed;
+    top: 60%;
+    left: 60%;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+    border-radius: 10px;
+    visibility: hidden;
 }
