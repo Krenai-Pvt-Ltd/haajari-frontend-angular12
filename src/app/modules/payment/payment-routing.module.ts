@@ -9,24 +9,35 @@ import { LeaveSummaryComponent } from './leave-summary/leave-summary.component';
 import { AuthGuard } from '../../guards/auth-guard';
 import { SubscriptionGuard } from 'src/app/guards/subscription.guard';
 
-const routes: Routes = [{path : '', redirectTo : '/payment/payroll-dashboard', pathMatch : 'full'},
-{path : '', component : PaymentComponent,
+const routes: Routes = [{ path: '', redirectTo: '/payment/payroll-dashboard', pathMatch: 'full' },
+{
+  path: '', component: PaymentComponent,
   children: [
-    {path : 'payroll-dashboard',
-      component : PayrollDashboardComponent,
-      canActivate: [AuthGuard, SubscriptionGuard]},
-    {path : 'payment-history',
-       component : PaymentHistoryComponent,
-       canActivate: [AuthGuard, SubscriptionGuard]},
-    {path : 'bonus-and-deduction',
-       component : BonusAndDeductionComponent,
-       canActivate: [AuthGuard, SubscriptionGuard]},
-    {path : 'epf-esi-tds',
-       component : TdsComponent,
-       canActivate: [AuthGuard, SubscriptionGuard]},
-    {path : 'payroll-dashboard/leave-summary',
-       component : LeaveSummaryComponent,
-       canActivate: [AuthGuard, SubscriptionGuard]}
+    {
+      path: 'payroll-dashboard',
+      component: PayrollDashboardComponent,
+      canActivate: [AuthGuard, SubscriptionGuard]
+    },
+    {
+      path: 'payment-history',
+      component: PaymentHistoryComponent,
+      canActivate: [AuthGuard, SubscriptionGuard]
+    },
+    {
+      path: 'bonus-and-deduction',
+      component: BonusAndDeductionComponent,
+      canActivate: [AuthGuard, SubscriptionGuard]
+    },
+    {
+      path: 'epf-esi-tds',
+      component: TdsComponent,
+      canActivate: [AuthGuard, SubscriptionGuard]
+    },
+    {
+      path: 'payroll-dashboard/leave-summary',
+      component: LeaveSummaryComponent,
+      canActivate: [AuthGuard, SubscriptionGuard]
+    }
   ]
 }
 

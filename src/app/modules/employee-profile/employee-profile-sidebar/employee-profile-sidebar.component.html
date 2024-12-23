@@ -323,14 +323,14 @@
         </div> -->
 
 
-        <div class="mb-2 mt-4 d-flex align-items-center justify-content-between slill-set">
+        <div class="mb-3 mt-4 d-flex align-items-center justify-content-between slill-set">
             <h5 class="mb-0">EMPLOYEE AGREEMENT</h5>
             <button type="button" class="btn p-0 text-primary font-13 " data-bs-toggle="modal"
                 data-bs-target="#addDocument">
                 <i class="bi bi-plus"></i> Add Agreement </button>
         </div>
         <div *ngFor="let doc of documents"
-            class="d-flex align-items-center justify-content-between employee-agreenment p-2 ">
+            class="d-flex align-items-center justify-content-between employee-agreenment p-2 mb-2">
             <div class="d-flex align-items-center gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
                     <path
@@ -381,9 +381,9 @@
 
 
         <span *ngIf="teams.length > 0">
-            <h5 class="mb-2 mt-4">TEAMS</h5>
+            <h5 class="mb-3 mt-4">TEAMS</h5>
 
-            <ul class="skill-set">
+            <ul class="skill-set pb-3">
                 <li *ngFor="let team of teams.slice(0, 5)">{{ team }}</li>
                 <span (click)="viewTeamsLess=false" *ngIf="teams.length>5 && viewTeamsLess" class="pointer"
                     type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false"
