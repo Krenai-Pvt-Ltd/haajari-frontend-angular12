@@ -25,6 +25,8 @@ import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
 import { EmployeeExpenseComponent } from './employee-expense/employee-expense.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { EpmployeeFinanceComponent } from './epmployee-finance/epmployee-finance.component';
+import { NzSwitchModule } from 'ng-zorro-antd/switch';
 
 
 
@@ -40,7 +42,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     AnnouncementNotificationComponent,
     EmployeeExitComponent,
     EmployeeExpenseComponent,
-    DashboardComponent
+    DashboardComponent,
+    EpmployeeFinanceComponent
   ],
   imports: [
     CommonModule,
@@ -60,7 +63,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     NzDatePickerModule,
     NzToolTipModule,
     NzPopoverModule,
-    NgxShimmerLoadingModule
+    NgxShimmerLoadingModule,
+    NzSwitchModule
   ]
 })
 export class EmployeeProfileModule { }

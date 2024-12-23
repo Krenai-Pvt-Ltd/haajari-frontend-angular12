@@ -16,6 +16,7 @@ import { LoggedInUser } from 'src/app/models/logged-in-user';
 import { Skills } from 'src/app/constant/Skills';
 import { EmployeeAdditionalDocument } from 'src/app/models/EmployeeAdditionalDocument';
 import { finalize } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-employee-profile-sidebar',
@@ -36,7 +37,8 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     public domSanitizer: DomSanitizer,
     private afStorage: AngularFireStorage,
     public rbacService: RoleBasedAccessControlService,
-    private sanitizer: DomSanitizer,) {
+    private sanitizer: DomSanitizer,
+    private sharedService: HelperService) {
       this.myForm = this.fb.group({
         position: ['', Validators.required],  // Make Position field required
         effectiveDate: ['', Validators.required],
@@ -61,7 +63,9 @@ export class EmployeeProfileSidebarComponent implements OnInit {
 
    profileChangeStatusSubscriber: any;
 
-
+  //  modalUrl: any;
+   
+ 
 
    toggle :boolean = false;
    ROLE : any;
@@ -96,12 +100,26 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     this.getNoticePeriodDuration()
 
     this.getUserResignationInfo()
+    this.closeModalSubscription = this.sharedService.closeModal$.subscribe(() => {
+      if (this.currentModalRef) {
+        this.currentModalRef.close();
+      }
+    });
 
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
+    debugger
+    if (this.closeModalSubscription) {
+
+      this.closeModalSubscription.unsubscribe();
+    }
     this.profileChangeStatusSubscriber.complete();
   }
+
+  // ngOnDestroy(){
+  //   this.profileChangeStatusSubscriber.complete();
+  // }
 
 
   employeeProfileResponseData : EmployeeProfileResponse | undefined;
@@ -245,9 +263,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
   InOutLoader: boolean = false;
   outLoader: boolean = false;
   breakLoader: boolean = false;
-  modalUrl: SafeResourceUrl | null = null;
-  @ViewChild('urlModalTemplate', { static: true }) urlModalTemplate!: TemplateRef<any>;
-
+  
   checkinCheckout(command: string) {
     this.InOutLoader = true;
     if(command==='/out'){
@@ -283,14 +299,35 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     );
   }
 
+  modalUrl: SafeResourceUrl | null = null;
+  // @ViewChild('urlModalTemplate', { static: true }) urlModalTemplate!: TemplateRef<any>;
+  @ViewChild('urlModalTemplate') urlModalTemplate!: TemplateRef<any>;
+  currentModalRef: any;
+  private closeModalSubscription!: Subscription;
+
+
   openUrlInModal(url: string) {
     this.modalUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url); // Sanitize URL
-    const modalRef = this.modalService.open(this.urlModalTemplate, { size: 'lg', centered: true });
-    modalRef.result.finally(() => {
+    this.currentModalRef = this.modalService.open(this.urlModalTemplate, { size: 'lg', centered: true });
+
+    console.log('Current Modal Ref:', this.currentModalRef);
+    // this.dataService.markAttendanceModal = true;
+    this.currentModalRef.result.finally(() => {
       this.modalUrl = null;
       this.getUserAttendanceStatus();
     });
   }
+
+  // openUrlInModal(url: string) {
+  //   this.modalUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url); // Sanitize URL
+  //   const modalRef = this.modalService.open(this.urlModalTemplate, { size: 'lg', centered: true });
+
+  //   this.dataService.markAttendanceModal = true;
+  //   modalRef.result.finally(() => {
+  //     this.modalUrl = null;
+  //     this.getUserAttendanceStatus();
+  //   });
+  // }
 
 
 

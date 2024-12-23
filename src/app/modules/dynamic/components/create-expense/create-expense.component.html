@@ -10,7 +10,7 @@
             [ngClass]="{'active':activeTab === 'allExpense'}" (click)="switchTab('allExpense')">
             All Expense
           </button>
-          <span class="request-count d-flex align-items-center justify-content-center" >15</span>
+          <span class="request-count d-none d-flex align-items-center justify-content-center">15</span>
         </li>
         <li role="presentation" class="nav-item">
           <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#company-expense-policy" type="button"
@@ -22,9 +22,10 @@
       </ul>
 
 
-      <div class="d-flex align-items-center gap-3" style="margin-right: 15px;"  *ngIf="activeTab === 'allExpense'">
-        <button class="btn p-0 primaryBtnLink d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#sampleFileModal">
-          <i class="bi bi-upload"></i> 
+      <div class="d-flex align-items-center gap-3" style="margin-right: 15px;" *ngIf="activeTab === 'allExpense'">
+        <button class="btn p-0 primaryBtnLink d-flex align-items-center gap-2" data-bs-toggle="modal"
+          data-bs-target="#sampleFileModal">
+          <i class="bi bi-upload"></i>
           <span>Import</span>
         </button>
         <span class="calendar-separator"></span>
@@ -76,7 +77,7 @@
                       Expense Type
                     </th>
 
-                    <th class="text-left" style="width: 30%">
+                    <th class="text-left" style="width: 15%">
                       Notes
                     </th>
 
@@ -132,7 +133,16 @@
                         <span class="table-font-weight">{{expense.expenseType}}</span>
                       </td>
                       <td class="text-left">
-                        <span class="table-font-weight white-space">{{ expense.notes == null ? 'N/A' :  expense.notes }}</span>
+                        <span class="table-font-weight white-space" style="width: 40px !important;" nz-popover
+                          nzPopoverTitle="Note" [nzPopoverContent]="contentTemplate"
+                          [nzPopoverOverlayStyle]="{'width':'300px'}" nzPopoverPlacement="top">{{ expense.notes == null
+                          ? 'N/A' : expense.notes
+                          }}</span>
+                        <ng-template #contentTemplate>
+                          <div>
+                            {{expense.notes}}
+                          </div>
+                        </ng-template>
                       </td>
                       <td class="text-left">
                         <div
@@ -145,8 +155,8 @@
                       </td>
                       <td class="text-left">
                         <div>
-                          <button type="button" class="btn p-0 text-primary View-btn" (click)="getExpense(expense)"
-                            data-bs-toggle="modal" data-bs-target="#approveModal">
+                          <button type="button" class="btn p-0 text-primary View-btn fw-semibold" (click)="
+                            getExpense(expense)" data-bs-toggle="modal" data-bs-target="#approveModal">
                             <i class="bi bi-eye"></i> View
                           </button>
                         </div>
@@ -158,15 +168,14 @@
 
               </table>
 
-              <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top" *ngIf="expenseTotalItems > 9">
+              <div
+                class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top"
+                *ngIf="expenseTotalItems > 9">
                 <p class="mb-0 font-13">Showing {{ expenseList.length }} of {{ expenseTotalItems }} </p>
-                <ngb-pagination lass="pagination-ul" class="pagition-box"
-                [collectionSize]="expenseTotalItems"
-                [rotate]="true" (pageChange)="expensePageChanged($event)"
-                [pageSize]="databaseHelper.itemPerPage"
-                [(page)]="databaseHelper.currentPage" [maxSize]="7"
-                [boundaryLinks]="true">
-              </ngb-pagination>
+                <ngb-pagination lass="pagination-ul" class="pagition-box" [collectionSize]="expenseTotalItems"
+                  [rotate]="true" (pageChange)="expensePageChanged($event)" [pageSize]="databaseHelper.itemPerPage"
+                  [(page)]="databaseHelper.currentPage" [maxSize]="7" [boundaryLinks]="true">
+                </ngb-pagination>
               </div>
 
             </div>
@@ -817,7 +826,7 @@
               This Expense is valid for amount: {{userExpense.limitAmount}}
             </div>
 
-            <p class="mt-4 mb-4">{{ userExpense.notes == null ? 'N/A' :  userExpense.notes }}</p>
+            <p class="mt-4 mb-4">{{ userExpense.notes == null ? 'N/A' : userExpense.notes }}</p>
             <div class="row mb-3">
               <!-- Checkbox in Column 4 -->
               <div class="align-items-center col-md-4 d-flex justify-content-start">
@@ -928,31 +937,31 @@
       <div class="modal-body p-0">
         <div class="row">
           <div class="col-md-5 pr-0 mr-0">
-          
+
 
             <ng-container *ngIf="userExpense && userExpense.slipUrls.length > 0">
-                  <div id="expenseCarousel" class="carousel slide" data-bs-ride="carousel">
-                      <div class="carousel-inner">
-                        <div 
-                          class="carousel-item" 
-                          *ngFor="let url of userExpense.slipUrls; let i = index" 
-                          [class.active]="i === 0">
-                          <div class="d-flex justify-content-center position-relative">
-                            <img [src]="url" alt="Image {{i}}" class="d-block w-100">
-                          </div>
-                        </div>
-                      </div>
-                      <button class="carousel-control-prev" type="button" data-bs-target="#expenseCarousel" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                      </button>
-                      <button class="carousel-control-next" type="button" data-bs-target="#expenseCarousel" data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                      </button>
+              <div id="expenseCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                  <div class="carousel-item" *ngFor="let url of userExpense.slipUrls; let i = index"
+                    [class.active]="i === 0">
+                    <div class="d-flex justify-content-center position-relative">
+                      <img [src]="url" alt="Image {{i}}" class="d-block w-100">
                     </div>
+                  </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#expenseCarousel"
+                  data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#expenseCarousel"
+                  data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+              </div>
             </ng-container>
-            
+
             <ng-container *ngIf="userExpense && userExpense.slipUrls.length == 0">
               <div class="empty-file" style="padding-top: 50%; padding-bottom: 50%">
                 <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
@@ -961,8 +970,8 @@
                   </ng-template>
                 </nz-empty>
               </div>
-           
-              
+
+
             </ng-container>
 
           </div>
@@ -979,15 +988,15 @@
                 </div>
                 <div class="text-end">
 
-                  <span class="badge rounded-pill"
-                    [ngClass]="{'badge-soft-warning' : userExpense.status.id == 13, 
+                  <span class="badge rounded-pill" [ngClass]="{'badge-soft-warning' : userExpense.status.id == 13, 
                     'badge-soft-success' : userExpense.status.id == 14 || userExpense.status.id == 41, 
                     'badge-soft-danger' : userExpense.status.id == 15, 
                     'badge-soft-primary' : userExpense.status.id == 40}">
                     {{userExpense.status.response}}
                   </span>
-    
-                  <p class="mb-0 mt-2 font-14 expance-date">Date: {{userExpense.expenseDate | date : "dd MMM yyyy" || "N/A"}}</p>
+
+                  <p class="mb-0 mt-2 font-14 expance-date">Date: {{userExpense.expenseDate | date : "dd MMM yyyy" ||
+                    "N/A"}}</p>
                 </div>
               </div>
 
@@ -996,14 +1005,14 @@
               </div>
 
               <div class="expance-forn-data">
-                 <div class="row">
-      
+                <div class="row">
+
                   <div class="col-md-12 mb-3 mt-3">
                     <label for="templateName" class="pb-2">
                       Expense Type
                     </label>
-                    
-      
+
+
                     <nz-form-control>
                       <nz-select disabled style="width: 100%" nzSize="large" nzPlaceHolder="Select Expense type"
                         [(ngModel)]="userExpense.expenseTypeId" required id="seleType" name="seleExpType"
@@ -1013,9 +1022,9 @@
                         </nz-option>
                       </nz-select>
                     </nz-form-control>
-      
+
                   </div>
-      
+
                   <div class="col-md-12" *ngIf="userExpense.partiallyPaidAmount == null">
                     <div class="row">
                       <label for="employeeTypeId" class="mb-2">Amount </label>
@@ -1079,7 +1088,7 @@
 
                     </div>
                   </div>
-      
+
                   <!-- for partially payment -->
                   <div class="col-md-12" *ngIf="userExpense.partiallyPaidAmount != null">
                     <div class="row">
@@ -1204,7 +1213,7 @@
                 <button class="btn payroll-btn"
                   *ngIf="userExpense && userExpense.status.id == 14 && (!payrollToggle && !partiallyPayment)"
                   (click)="approveOrDeny(userExpense.id, 40, 0)">Settled With Payroll</button>
-      
+
                 <button class="btn approve-btn" *ngIf="userExpense.status.id == 13 && !approveToggle"
                  [disabled]="(approveAmountChecked && approvedAmount == '') || (approveAmountChecked &&!approvedAmount) || approvedAmount > userExpense.amount" (click)="approveOrDeny(userExpense.id, 14, 0)">Approved</button>
                
@@ -1255,8 +1264,8 @@
                   *ngIf="!expenseCancelToggle && userExpense.status.id == 46" (click)="showPayCashDiv()">Approved</button>
       
               </div>
-      
-             
+
+
               <div *ngIf="rejectDiv" class="d-flex align-items-center gap-2">
       
                 <button type="button" class="btn submitActionBtn" (click)="approveOrDeny(userExpense.id, 15, 0)"
@@ -1271,13 +1280,15 @@
               </button>
       
               </div>
-            
+
               <div class="d-flex align-items-center justify-content-start d-none w-100">
-                <p class="font-13 text-success mb-0">This request has been approved, and reimbursement will be made in cash.
+                <p class="font-13 text-success mb-0">This request has been approved, and reimbursement will be made in
+                  cash.
                 </p>
               </div>
-            
-              <div *ngIf="payCashDiv && !showTransactionDiv" class="d-flex align-items-center justify-content-between w-100">
+
+              <div *ngIf="payCashDiv && !showTransactionDiv"
+                class="d-flex align-items-center justify-content-between w-100">
                 <p class="font-13 text-primary mb-0">Would you prefer to settle this in cash?</p>
                 <div class="d-flex align-items-center gap-2">
                 
@@ -1295,7 +1306,7 @@
       
                 </div>
               </div>
-      
+
               <div *ngIf="payCashDiv && showTransactionDiv" class="d-flex justify-content-end w-100">
 
                 <button type="button" class="btn submitActionBtn" (click)="checkTransactionId(userExpense.id, 41, 0)" 
@@ -1308,13 +1319,13 @@
                   </div>
               </button>
               </div>
-      
+
             </div>
           </div>
         </div>
-       
+
       </div>
-     
+
     </div>
   </div>
 </div>
@@ -2079,42 +2090,44 @@
                     </tr>
                   </thead>
                   <tbody>
-                    
+
                     <tr *ngFor="let row of paginatedData; let i = index">
                       <!-- <td *ngFor="let cell of fileColumnName; let j = index">
                         <input class="input-zorro p-2" *ngIf="!validateRowToggle" [(ngModel)]="row[j]" />
                         <input class="input-zorro p-2" *ngIf="validateRowToggle" [(ngModel)]="row[j]"
                           [ngClass]="{'error-border': invalidCells[i][j]}" />
                       </td> -->
-                     
-                     
-                        <!-- Fields with condition -->
-                        <td *ngFor="let cell of fileColumnName; let j = index">
-                          
-                          <ng-container *ngIf="cell != 'Payment Method' && cell != 'Lapse Remaining Amount'">
-                            <input class="input-zorro p-2" *ngIf="!validateRowToggle" [(ngModel)]="row[j]" />
+
+
+                      <!-- Fields with condition -->
+                      <td *ngFor="let cell of fileColumnName; let j = index">
+
+                        <ng-container *ngIf="cell != 'Payment Method' && cell != 'Lapse Remaining Amount'">
+                          <input class="input-zorro p-2" *ngIf="!validateRowToggle" [(ngModel)]="row[j]" />
                           <input class="input-zorro p-2" *ngIf="validateRowToggle" [(ngModel)]="row[j]"
                             [ngClass]="{'error-border': invalidCells[i][j]}" />
 
-                          </ng-container>
+                        </ng-container>
 
-                          <ng-container *ngIf="cell === 'Payment Method'">
-                            <nz-select [ngClass]="{'error-border': validateRowToggle && invalidCells[i][j]}" id="paymentMethod" name="payment-method" class="w-100" 
-                            [(ngModel)]="row[j]" nzPlaceHolder="Select Method">
-                              <nz-option [nzValue]="'ONLINE'" [nzLabel]="'ONLINE'"></nz-option>
-                              <nz-option [nzValue]="'CASH'" [nzLabel]="'CASH'"></nz-option>
+                        <ng-container *ngIf="cell === 'Payment Method'">
+                          <nz-select [ngClass]="{'error-border': validateRowToggle && invalidCells[i][j]}"
+                            id="paymentMethod" name="payment-method" class="w-100" [(ngModel)]="row[j]"
+                            nzPlaceHolder="Select Method">
+                            <nz-option [nzValue]="'ONLINE'" [nzLabel]="'ONLINE'"></nz-option>
+                            <nz-option [nzValue]="'CASH'" [nzLabel]="'CASH'"></nz-option>
                           </nz-select>
-                          </ng-container>
+                        </ng-container>
 
-                          <ng-container *ngIf="cell === 'Lapse Remaining Amount'">
-                            <nz-select [ngClass]="{'error-border': validateRowToggle && invalidCells[i][j]}"  id="lapseAmount" 
-                                name="lapse-amount" class="w-100" [(ngModel)]="row[j]" nzPlaceHolder="Select Type">
-                              <nz-option [nzValue]="'YES'" [nzLabel]="'YES'"></nz-option>
-                              <nz-option [nzValue]="'NO'" [nzLabel]="'NO'"></nz-option>
+                        <ng-container *ngIf="cell === 'Lapse Remaining Amount'">
+                          <nz-select [ngClass]="{'error-border': validateRowToggle && invalidCells[i][j]}"
+                            id="lapseAmount" name="lapse-amount" class="w-100" [(ngModel)]="row[j]"
+                            nzPlaceHolder="Select Type">
+                            <nz-option [nzValue]="'YES'" [nzLabel]="'YES'"></nz-option>
+                            <nz-option [nzValue]="'NO'" [nzLabel]="'NO'"></nz-option>
                           </nz-select>
-                          </ng-container>
+                        </ng-container>
 
-                        </td>
+                      </td>
 
                     </tr>
                   </tbody>

@@ -395,10 +395,10 @@ fetchAttendanceSummary(): void {
       });
   }
 
+  currentDate = new Date();
   clickViewAll(){
     debugger
     this.employeeProfileComponent.clickViewAll();
   }
 
-  currentDate = new Date();
 }
