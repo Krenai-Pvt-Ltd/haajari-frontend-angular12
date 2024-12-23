@@ -9,10 +9,23 @@ export class EpmployeeFinanceComponent implements OnInit, AfterViewInit {
 
   constructor() { }
 
+  financeBlur: boolean = false;
+
   ngOnInit(): void {
   }
 
   ngAfterViewInit(): void {
+
+    const cards = document.querySelectorAll('.card');
+
+    // Add event listener to flip the card on click
+    cards.forEach((card) => {
+      card.addEventListener('click', () => {
+        card.classList.toggle('is-flipped');
+      });
+    });
+
+
     const svg = document.querySelector('svg');
     const linesGroup = document.getElementById('lines');
     const fractionText = document.querySelector('.fraction');

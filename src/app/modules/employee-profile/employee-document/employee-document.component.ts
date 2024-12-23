@@ -8,6 +8,7 @@ import { HelperService } from 'src/app/services/helper.service';
 import { EmployeeAdditionalDocument } from 'src/app/models/EmployeeAdditionalDocument';
 import { finalize } from 'rxjs/operators';
 import { Key } from 'src/app/constant/key';
+import { constant } from 'src/app/constant/constant';
 
 @Component({
   selector: 'app-employee-document',
@@ -15,6 +16,7 @@ import { Key } from 'src/app/constant/key';
   styleUrls: ['./employee-document.component.css']
 })
 export class EmployeeDocumentComponent implements OnInit {
+  readonly constant=constant;
 
   uploadDoucument: boolean = false;
   documentLoading: boolean = false;
@@ -24,6 +26,7 @@ export class EmployeeDocumentComponent implements OnInit {
   setDocType(type: string) {
     debugger;
     this.docType = type;
+    this.doc.documentType=type;
     console.log('dc type------'+this.docType);
   }
 
@@ -213,7 +216,7 @@ export class EmployeeDocumentComponent implements OnInit {
         finalize(() => {
           fileRef.getDownloadURL().subscribe((url) => {
             this.doc.url=url;
-            if(this.doc.documentType!='employee_doc' && this.doc.documentType!='company_doc'){
+            if(this.doc.documentType!='employee_doc' && this.doc.documentType!='company_doc' && this.doc.documentType!='employee_agreement'){
               this.doc.documentType=this.docType;
             }
             this.dataService.saveDocumentForUser(this.userId, this.doc).subscribe({
@@ -252,4 +255,32 @@ export class EmployeeDocumentComponent implements OnInit {
     }
   }
 
+  isEmployeeAgreementChecked: boolean = false;
+  isEmployeeAgreement(event: any): void {
+    if(event.target.checked){
+      this.isEmployeeAgreementChecked=true;
+      this.doc.documentType=constant.DOC_TYPE_EMPLOYEE_AGREEMENT;
+    }else{
+      this.isEmployeeAgreementChecked=false;
+      this.doc.documentType=constant.DOC_TYPE_COMPANY;
+    }
+  }
+
+  @ViewChild('checkBox') checkBox!: ElementRef;
+  onCloseModal(): void {
+    this.doc = {fileName: '', name: '', url: '', value: ''};
+    this.isEmployeeAgreementChecked = false;
+    if (this.checkBox && this.checkBox.nativeElement) {
+      this.checkBox.nativeElement.checked = false;
+    }
+  }
+
+  ngAfterViewInit() {
+    const modal = document.getElementById('addDocumentt');
+    if (modal) {
+      modal.addEventListener('hidden.bs.modal', () => {
+        this.onCloseModal();
+      });
+    }
+  }
 }
