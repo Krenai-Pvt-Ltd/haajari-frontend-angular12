@@ -158,7 +158,7 @@
 
 .payroll-box {
     border-left: 1px solid #EDEDED;
-    padding-left: 15px;
+    padding-left: 25px;
 }
 
 .payroll-box::before {
@@ -186,8 +186,8 @@
 .salary-simeline-icon {
     background-color: #F9F9F9;
     border-radius: 50%;
-    width: 45px;
-    height: 45px;
+    width: 40px;
+    height: 40px;
     border: 1px solid #DEDEDE;
 }
 
@@ -357,7 +357,7 @@ i::before {
 
 .pay-slip-file {
     background-color: #363A3F;
-    height: 90vh;
+    height: 100vh;
 }
 
 .active-month {
@@ -372,4 +372,14 @@ i::before {
 .pay-slip-file .btn svg {
     position: relative;
     top: -1px;
+}
+
+.down-icon svg {
+    transition: transform 1s;
+    transform: rotate(180deg);
+}
+
+.down-icon.collapsed svg {
+    transform: rotate(0deg);
+    transition: transform 1s;
 }
