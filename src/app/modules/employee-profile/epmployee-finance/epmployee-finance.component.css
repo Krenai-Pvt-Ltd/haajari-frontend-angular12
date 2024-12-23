@@ -158,7 +158,7 @@
 
 .payroll-box {
     border-left: 1px solid #EDEDED;
-    padding-left: 15px;
+    padding-left: 25px;
 }
 
 .payroll-box::before {
@@ -186,16 +186,16 @@
 .salary-simeline-icon {
     background-color: #F9F9F9;
     border-radius: 50%;
-    width: 45px;
-    height: 45px;
+    width: 40px;
+    height: 40px;
     border: 1px solid #DEDEDE;
 }
 
 .down-icon {
     background-color: #F5F5F5;
     border-radius: 5px;
-    width: 45px;
-    height: 45px;
+    width: 40px;
+    height: 40px;
 }
 
 .down-icon i {
@@ -325,4 +325,61 @@ i::before {
     height: 10px;
     border-radius: 50%;
 
+}
+
+.pay-slip {
+    color: #444;
+
+}
+
+.pay-slip-box {
+    border: 1px solid #f1f1f1;
+    border-radius: 2px;
+}
+
+.pay-slip-box ul {
+    list-style: none;
+}
+
+.pay-slip-box ul li {
+    padding: 15px;
+    border-bottom: 1px solid #f1f1f1;
+    font-weight: 500;
+}
+
+.pay-slip-box ul li:hover {
+    background-color: #E9E9FF;
+}
+
+.pay-slip-box ul li:last-child {
+    border-bottom: none;
+}
+
+.pay-slip-file {
+    background-color: #363A3F;
+    height: 100vh;
+}
+
+.active-month {
+    background-color: #E9E9FF;
+}
+
+.pay-slip-heading {
+    background-color: #4D5462;
+
+}
+
+.pay-slip-file .btn svg {
+    position: relative;
+    top: -1px;
+}
+
+.down-icon svg {
+    transition: transform 1s;
+    transform: rotate(180deg);
+}
+
+.down-icon.collapsed svg {
+    transform: rotate(0deg);
+    transition: transform 1s;
 }
