@@ -1,10 +1,9 @@
 
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Key } from 'src/app/constant/key';
 import { OnboardingFormPreviewResponse } from 'src/app/models/onboarding-form-preview-response';
 import { UserAcademicsDetailRequest } from 'src/app/models/user-academics-detail-request';
-import { UserAddressDetailsRequest } from 'src/app/models/user-address-details-request';
 import { UserAddressRequest } from 'src/app/models/user-address-request';
 import { UserEmergencyContactDetailsRequest } from 'src/app/models/user-emergency-contact-details-request';
 import { UserExperience } from 'src/app/models/user-experience';
@@ -16,13 +15,14 @@ import { UserBankDetailRequest } from 'src/app/models/user-bank-detail-request';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReasonOfRejectionProfile } from 'src/app/models/reason-of-rejection-profile';
 import { constant } from 'src/app/constant/constant';
+import { ProfileService } from 'src/app/services/profile.service';
 
 @Component({
   selector: 'app-personal-information',
   templateUrl: './personal-information.component.html',
   styleUrls: ['./personal-information.component.css']
 })
-export class PersonalInformationComponent implements OnInit {
+export class PersonalInformationComponent implements OnInit ,AfterViewInit{
 
   profileEdit: boolean = false;
   profileLoding: boolean = false;
@@ -32,10 +32,22 @@ isFormInvalid: boolean=false;
 
   constructor(private dataService: DataService,private activateRoute: ActivatedRoute, private helperService : HelperService,
     public rbacService: RoleBasedAccessControlService, private fb: FormBuilder,
+    public profileService: ProfileService
   ) {
     if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
       this.userId = this.activateRoute.snapshot.queryParamMap.get('userId');
     }
+  }
+  // ngOnChanges(changes: SimpleChanges): void {
+  //   console.log("🚀 ~ PersonalInformationComponent ~ ngOnChanges ~ changes:", changes)
+
+  // }
+  ngAfterViewInit(): void {
+ // Subscribe to form value changes
+ this.onboardingForm.valueChanges.subscribe((newValues) => {
+  console.log("🚀 ~ PersonalInformationComponent ~ this.onboardingForm.valueChanges.subscribe ~ newValues:", newValues)
+  this.profileService.checkChanges(newValues,this.onboardingPreviewDataCopy,'');
+});
   }
 
   ngOnInit(): void {
@@ -94,7 +106,6 @@ isFormInvalid: boolean=false;
     this.getOnboardingFormPreviewMethodCall();
     this.loadRoutes();
     this.getPendingRequest();
-
   }
 
 
@@ -160,6 +171,7 @@ isFormInvalid: boolean=false;
       (routes: string[]) => {
         this.routes = routes;
         this.dataService.onboardingRoutes=routes;
+        //TODO: user constants
         if(!this.routes.includes('/employee-address-detail') ){
           this.onboardingForm.removeControl('currentAddress');
           this.onboardingForm.removeControl('permanentAddress');
@@ -240,6 +252,7 @@ isFormInvalid: boolean=false;
   }
 
   editProfile(){
+    //TODO: user constants
     this.onboardingPreviewDataCopy = JSON.parse(JSON.stringify(this.onboardingPreviewData));
     if(this.routes.includes('/employee-address-detail') && this.onboardingPreviewDataCopy.userAddress == null){
       this.onboardingPreviewDataCopy.userAddress = [];

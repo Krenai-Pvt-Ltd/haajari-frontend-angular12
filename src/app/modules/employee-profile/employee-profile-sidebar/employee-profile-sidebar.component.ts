@@ -64,8 +64,8 @@ export class EmployeeProfileSidebarComponent implements OnInit {
    profileChangeStatusSubscriber: any;
 
   //  modalUrl: any;
-   
- 
+
+
 
    toggle :boolean = false;
    ROLE : any;
@@ -151,7 +151,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     this.skillsFilteredOptions=[];
   }
   checkSkillsArraysEqual(): boolean {
-    debugger
+    // debugger
     if (this.skills.length !== this.fetchedSkills.length) {
       return false;
     }
@@ -253,7 +253,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
   InOutLoader: boolean = false;
   outLoader: boolean = false;
   breakLoader: boolean = false;
-  
+
   checkinCheckout(command: string) {
     this.InOutLoader = true;
     if(command==='/out'){
