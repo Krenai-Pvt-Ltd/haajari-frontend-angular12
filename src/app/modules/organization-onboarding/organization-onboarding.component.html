@@ -11,5 +11,7 @@
 
 
 
+<router-outlet  *ngIf=" this.helperService.stepId != undefined && onboardingService.isLoadingOnboardingStatus"></router-outlet>
 
-<router-outlet></router-outlet>
+<app-hajiri-page-loader *ngIf="this.helperService.stepId == undefined || !onboardingService.isLoadingOnboardingStatus">
+</app-hajiri-page-loader>

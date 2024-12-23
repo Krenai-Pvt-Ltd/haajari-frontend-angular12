@@ -81,7 +81,7 @@ export class UploadTeamComponent implements OnInit {
       this.getFirebaseData();
     }
 
-    this.getUser();
+    // this.getUser();
     this.selectMethod('mannual');
     this.checkShiftTimingExistsMethodCall();
     this.getOnboardingVia();
@@ -217,7 +217,7 @@ export class UploadTeamComponent implements OnInit {
           this.importToggle = false;
           this.isProgressToggle = false;
           this.getReport();
-          this.getUser();
+          // this.getUser();
 
           if (localStorage.getItem('uniqueUuid')) {
             localStorage.removeItem('uniqueUuid');
@@ -287,19 +287,19 @@ export class UploadTeamComponent implements OnInit {
         // console.log('opercent ' + this.percentage);
 
         //@ts-ignore
-        if (res != undefined && res != null) {
+        // if (res != undefined && res != null) {
 
-          //@ts-ignore
-          if (res.flag == 1) {
-            localStorage.removeItem('uniqueUuid');
-            this.showNotification = true;
-            setTimeout(() => {
-              this.showNotification = false;
-            }, 5000);
+        //   //@ts-ignore
+        //   if (res.flag == 1) {
+        //     localStorage.removeItem('uniqueUuid');
+        //     this.showNotification = true;
+        //     setTimeout(() => {
+        //       this.showNotification = false;
+        //     }, 5000);
 
-            this.getUser();
-          }
-        }
+        //     this.getUser();
+        //   }
+        // }
       });
   }
 
@@ -402,10 +402,10 @@ export class UploadTeamComponent implements OnInit {
   lastUsersValid(): boolean {
     // debugger
     const lastUser = this.userList[this.userList.length - 1];
-    if(this.onboardingViaString === 'SLACK' && !lastUser.email) {
+    if(this.onboardingViaString === 'SLACK' && !lastUser?.email) {
       return false;
     }
-    if (!lastUser.name && !lastUser.phone) {
+    if (!lastUser?.name && !lastUser?.phone) {
 
       return true;
     }
@@ -424,10 +424,10 @@ export class UploadTeamComponent implements OnInit {
   isValidUser(u: any): boolean {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     return (
-      !!u.name &&
-      u.phone &&
-      u.phone.length === 10 &&
-      (!u.email || emailRegex.test(u.email))
+      !!u?.name &&
+      u?.phone &&
+      u?.phone.length === 10 &&
+      (!u?.email || emailRegex.test(u?.email))
     );
   }
 

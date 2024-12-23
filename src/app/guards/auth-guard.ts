@@ -6,6 +6,7 @@ import { DataService } from 'src/app/services/data.service';
 import { OrganizationOnboardingService } from 'src/app/services/organization-onboarding.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import { SubscriptionPlanService } from 'src/app/services/subscription-plan.service';
+import { OnboardingService } from '../services/onboarding.service';
 
 @Injectable({
   providedIn: 'root',
@@ -16,6 +17,7 @@ export class AuthGuard implements CanActivate {
     private rbacService: RoleBasedAccessControlService,
     private _helperService: HelperService,
     private _onboardingService: OrganizationOnboardingService,
+    private onboardingService: OnboardingService,
     private dataService: DataService
   ) {
   
@@ -54,20 +56,39 @@ export class AuthGuard implements CanActivate {
     //   }
     // }
 
- 
-      if(this._helperService.stepId){
-        this.step=this._helperService.stepId;
-        if (this.step < 5) {
-          this.router.navigate(['/organization-onboarding/personal-information']);
-          return false;
-        }
-      }else if (!this.step) {
-        await this.isOnboardingCompleted();
-        if (this.step < 5) {
-          this.router.navigate(['/organization-onboarding/personal-information']);
-          return false;
-        }
+
+    if(this._helperService.stepId){
+      this.step=this._helperService.stepId;
+      if (this.step < 5) {
+        this.onboardingService.switchToRoutes(this.step);
+
+        // this.router.navigate(['/organization-onboarding/personal-information']);
+        return false;
       }
+    }else if (!this.step) {
+      await this.isOnboardingCompleted();
+      if (this.step < 5) {
+        this.onboardingService.switchToRoutes(this.step);
+
+        // this.router.navigate(['/organization-onboarding/personal-information']);
+        return false;
+      }
+    }
+
+//  deprecated
+      // if(this._helperService.stepId){
+      //   this.step=this._helperService.stepId;
+      //   if (this.step < 5) {
+      //     this.router.navigate(['/organization-onboarding/personal-information']);
+      //     return false;
+      //   }
+      // }else if (!this.step) {
+      //   await this.isOnboardingCompleted();
+      //   if (this.step < 5) {
+      //     this.router.navigate(['/organization-onboarding/personal-information']);
+      //     return false;
+      //   }
+      // }
 
     // if(this.dataService.isToDoStepCompleted){
     //   this.isToDoStepsCompleted=this.dataService.isToDoStepCompleted;

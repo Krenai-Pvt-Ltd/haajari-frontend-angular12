@@ -115,6 +115,7 @@ export class OrganizationOnboardingSidebarComponent implements OnInit {
         break;
       }
       case '5': {
+        this.helperService.stepId = 5;
          await this._subscriptionService.LoadAsync();
          setTimeout(() => {
          this.router.navigate(['/dashboard']);

@@ -231,7 +231,7 @@ export class AttendanceModeComponent implements OnInit {
           this.toggle = false;
           this.isUpdate = true;
           this.updateAttendanceModeMethodCall(this.currentAttendanceModeId);
-          this.closeAddressModal.nativeElement.click();
+          this.closeAddressModal?.nativeElement.click();
           // this.resetAddressDetailsModal();
           // setTimeout(() => {
           //   this.helperService.showToast(
