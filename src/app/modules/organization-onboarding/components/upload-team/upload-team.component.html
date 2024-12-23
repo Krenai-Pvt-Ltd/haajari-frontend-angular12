@@ -708,6 +708,7 @@
                         </p>
                         <p
                           class="mb-0 selectAll deleteSelecetdUser"
+                          style="cursor: pointer"
                           (click)="deleteUsers()"
                         >
                           Delete Selected Users
@@ -1480,7 +1481,7 @@
                       (keyup)="checkNumberExistance(i, user.phone, user.uuid)"
                       #phone="ngModel"
                       
-                      (paste)="preventPaste($event)"
+                     
                       required
                     />
                     <!-- Showing phone existence error first if it exists -->

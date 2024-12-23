@@ -379,18 +379,17 @@ export class UploadTeamComponent implements OnInit {
     if(this.onboardingViaString === 'SLACK' && !lastUser.email) {
       return false;
     }
-    if (!lastUser.name && !lastUser.phone && this.userList.length == 1) {
-
+    if (!lastUser?.name && !lastUser?.phone && this.userList?.length == 1) {
       return false;
     }
     if (!this.lastUsersValid()) {
       return false;
     }
-    return this.userList.length > 0 && this.userList.every((u, index) => {
-      if (index === this.userList.length - 1 && !this.currentUsersValid() && !this.showUserList) {
+    return this.userList?.length > 0 && this.userList?.every((u, index) => {
+      if (index === this.userList?.length - 1 && !this.currentUsersValid() && !this.showUserList) {
         return false;
       }
-      if(index === this.userList.length - 1 && this.showUserList){
+      if(index === this.userList?.length - 1 && this.showUserList){
         return true;
       }
       // if(index === this.userList.length - 1){
