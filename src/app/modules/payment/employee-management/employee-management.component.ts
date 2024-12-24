@@ -3,11 +3,11 @@ import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { constant } from 'src/app/constant/constant';
 import { Key } from 'src/app/constant/key';
+import { StatusKeys } from 'src/app/constant/StatusKeys';
 import { FinalSettlementResponse } from 'src/app/models/final-settlement-response';
 import { NewJoineeResponse } from 'src/app/models/new-joinee-response';
 import { PayActionType } from 'src/app/models/pay-action-type';
 import { UserExitResponse } from 'src/app/models/user-exit-response';
-import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { PayrollService } from 'src/app/services/payroll.service';
 
@@ -46,8 +46,7 @@ export class EmployeeManagementComponent implements OnInit {
 
   private searchSubject = new Subject<boolean>();
 
-  constructor(private _dataService : DataService, 
-    private _helperService : HelperService,
+  constructor(private _helperService : HelperService,
   private _payrollService : PayrollService) { 
 
 
@@ -138,11 +137,8 @@ export class EmployeeManagementComponent implements OnInit {
     this.resetSearch();
   }
 
-  payActionTypeList:any[]=[];
+  
   newJoineeResponseList: NewJoineeResponse[] = [];
-  debounceTimer: any;
-  selectedPayActionCache: { [uuid: string]: PayActionType } = {};
-  commentCache: { [uuid: string]: string } = {};
   getNewJoinee() {
       this.preRuleForShimmersAndErrorPlaceholdersForNewJoinee();
       this._payrollService.getNewJoinee(this.startDate,this.endDate,this.itemPerPage,this.pageNumber,this.search).subscribe((response) => {
@@ -152,33 +148,14 @@ export class EmployeeManagementComponent implements OnInit {
                 }else{
                   this.newJoineeResponseList = response.object;
                   this.total = response.totalItems;
+
+                  this.newJoineeResponseList .forEach((newJoinee)=>{
+                    if(this.holdActionIds.includes(newJoinee.monthId)){
+                      newJoinee.payActionId = StatusKeys.PAY_ACTION_HOLD;
+                    }
+                  });
                 }
-            } else {
-      
-              // .map((joinee: NewJoineeResponse) => {
-              //   // Apply cached selection if available
-              //   if (this.selectedPayActionCache[joinee.uuid]) {
-              //     joinee.payActionType = this.selectedPayActionCache[joinee.uuid];
-              //     joinee.payActionTypeId = this.selectedPayActionCache[joinee.uuid].id;
-              //   } else {
-              //     // Set initial selection based on payActionTypeId
-              //     const selectedPayActionType = this.payActionTypeList.find(
-              //       (payActionType) => payActionType.id === joinee.payActionTypeId
-              //     );
-              //     if (selectedPayActionType) {
-              //       joinee.payActionType = selectedPayActionType;
-              //     }
-              //   }
-              //      // Apply cached comment if available
-              //      if (this.commentCache[joinee.uuid]) {
-              //       joinee.comment = this.commentCache[joinee.uuid];
-              //     }
-  
-              //   return joinee;
-              // });
-             
-            
-            }
+            } 
             this.isShimmerForNewJoinee = false;
           },
           (error) => {
@@ -381,6 +358,12 @@ export class EmployeeManagementComponent implements OnInit {
               } else {
                 this.userExitResponseList = response.object
                 this.total = response.totalItems;
+
+                this.userExitResponseList .forEach((exitUser)=>{
+                  if(this.holdActionIds.includes(exitUser.monthId)){
+                    exitUser.payActionId = StatusKeys.PAY_ACTION_HOLD;
+                  }
+                });
               }
               this.isShimmerForUserExit = false;
             },
@@ -399,6 +382,11 @@ export class EmployeeManagementComponent implements OnInit {
             } else {
               this.finalSettlementResponseList = response.object
               this.total = response.totalItems;
+              this.finalSettlementResponseList .forEach((fnfUser)=>{
+                if(this.holdActionIds.includes(fnfUser.monthId)){
+                  fnfUser.payActionId = StatusKeys.PAY_ACTION_HOLD;
+                }
+              });
             }
             this.isShimmerForFinalSettlement = false;
           },
@@ -425,16 +413,16 @@ export class EmployeeManagementComponent implements OnInit {
 
 
 
-  holdIds: number[] = []; 
+  holdActionIds: number[] = []; 
   onPayActionTypeChange(data:any){
     console.log("==============log==========",data);
     // Check if the ID exists in the array
-    // const index = this.holdIds.findIndex(x => x === data.id);
-    // if (index == -1) {
-    //   this.holdIds.push(data.id); // Add ID if not already in the array
-    // } else {
-    //   this.holdIds.splice(index, 1); // Remove ID if it exists
-    // }
+    const index = this.holdActionIds.findIndex(x => x === data.id);
+    if (index == -1) {
+      this.holdActionIds.push(data.id); // Add ID if not already in the array
+    } else {
+      this.holdActionIds.splice(index, 1); // Remove ID if it exists
+    }
     // console.log("==============holdIds==========",this.holdIds);
   }
 
