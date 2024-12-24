@@ -9,7 +9,7 @@ export class EpmployeeFinanceComponent implements OnInit, AfterViewInit {
 
   constructor() { }
 
-  financeBlur: boolean = false;
+  financeBlur: boolean = true;
 
   ngOnInit(): void {
   }
@@ -93,6 +93,11 @@ export class EpmployeeFinanceComponent implements OnInit, AfterViewInit {
 
 
 
+  }
+
+
+  switchFinanceBlur() {
+    this.financeBlur = this.financeBlur == true ? false : true;
   }
 
 }
