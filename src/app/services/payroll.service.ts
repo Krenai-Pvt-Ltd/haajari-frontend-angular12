@@ -237,5 +237,12 @@ export class PayrollService {
     return this._http.get<any>(`${this._key.base_url}/salary/payroll-dashboard/bonus`, {params});
   }
 
+  generatePayrollReport(startDate: string, endDate: string): Observable<any> {
+    const params = new HttpParams()
+    .set('start_date', startDate)
+    .set('end_date', endDate)
+    return this._http.get(`${this._key.base_url}/payroll/user`,{ params });
+  }
+
   
 }

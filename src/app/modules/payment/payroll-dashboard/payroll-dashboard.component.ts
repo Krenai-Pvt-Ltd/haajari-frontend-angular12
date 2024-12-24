@@ -2203,6 +2203,23 @@ extractPreviousMonthNameFromDate(dateString : string){
     this.showSalaryComponent = false;
   }
 
+  getPayrollReport(){
+    this.RUN_PAYROLL_LOADER = true;
+    this._payrollService.generatePayrollReport(this.startDate, this.endDate).subscribe((response) => {
+      this.RUN_PAYROLL_LOADER = false;
+      this._helperService.showToast('Payroll generated successfully.', Key.TOAST_STATUS_SUCCESS);
+        const downloadLink = document.createElement('a');
+        downloadLink.href = response.object;
+        downloadLink.download = 'payroll_report.xlsx';
+        downloadLink.click();
+   
+      },(error) => {
+        this._helperService.showToast('Error while generating the Payroll!', Key.TOAST_STATUS_ERROR);
+        this.RUN_PAYROLL_LOADER = false;
+      });
+  } 
+
+
 }
 
 
