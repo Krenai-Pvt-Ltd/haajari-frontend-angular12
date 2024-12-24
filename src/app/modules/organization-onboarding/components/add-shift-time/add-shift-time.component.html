@@ -37,6 +37,35 @@
                             <!-- Dropdown for Shift Type -->
                             <div class="col-md-6">
                               <div class="form-fild">
+                                <label for="exampleInputEmail1" class="pb-2">
+                                  Shift Type
+                                  <span class="text-optional">*</span>
+                                </label>
+                                <nz-select
+                                  class="profile-input placeholder-line"
+                                  nzPlaceHolder="Select shift type"
+                                  name="shift type"
+                                  [(ngModel)]="selectedShiftType"
+                                  [nzDropdownStyle]="{ 'max-height': '200px', overflow: 'auto' }"
+                                  [ngClass]="{
+                                    'is-invalid': !selectedShiftType && shiftForm.submitted
+                                  }"
+                                  style="width: 100%; text-align: left; border-color: #e9e9e9;"
+                                  (ngModelChange)="selectShiftType($event)"
+                                >
+                                  <nz-option
+                                    *ngFor="let shiftType of shiftTypeList"
+                                    [nzLabel]="shiftType.name"
+                                    [nzValue]="shiftType.id"
+                                  >
+                                  </nz-option>
+                                </nz-select>
+                              </div>
+                            </div>
+                            
+                            
+                            <!-- <div class="col-md-6">
+                              <div class="form-fild">
                                 <label for="exampleInputEmail1" class="pb-2"
                                   >Shift Type
                                   <span class="text-optional">*</span></label
@@ -60,22 +89,14 @@
                                       width: 100%;
                                     "
                                   >
-                                    <!-- Day -->
+                                  
                                     {{
                                       selectedShiftType?.name ||
                                         "Select shift type"
                                     }}
                                     <i class="bi bi-chevron-down"></i>
                                   </button>
-                                  <!-- <ul
-                                    class="dropdown-menu"
-                                    aria-labelledby="dropdownMenuButton1"
-                                    style="width: 100%"
-                                  >
-                                    <li>
-                                      <a class="dropdown-item"> Day </a>
-                                    </li>
-                                  </ul> -->
+                                 
                                   <ul
                                     class="dropdown-menu"
                                     aria-labelledby="dropdownMenuButton1"
@@ -92,7 +113,7 @@
                                   </ul>
                                 </div>
                               </div>
-                            </div>
+                            </div> -->
                             <!-- Shift Name Input -->
                             <div class="col-md-6">
                               <div class="mb-3">
@@ -1130,11 +1151,11 @@
                   <div class="d-flex align-items-center gap-2">
                     <p class="mb-0 font-11">{{ list.userEmail || "N/A" }}</p>
                     <span class="spreter-line"></span>
-                    <span class="shift-tag">{{ list.shiftName }}</span>
+                    <span class="shift-tag pointer" (click)="removeUser(list.userUuid)"><span >{{constant.REMOVE_SHIFT_STRING}}</span> {{ list.shiftName }} </span>
                   </div>
                 </div>
               </div>
-              <div>
+              <!-- <div>
                 <button
                   class="btn p-0 addUserRemvo"
                   (click)="removeUser(list.userUuid)"
@@ -1170,9 +1191,9 @@
                       />
                     </g>
                   </svg>
-                  Remove
+                  {{constant.REMOVE_SHIFT_STRING}}
                 </button>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Key } from 'src/app/constant/key';
 import { HelperService } from 'src/app/services/helper.service';
+import { OnboardingService } from 'src/app/services/onboarding.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 
 @Component({
@@ -14,7 +15,7 @@ export class OrganizationOnboardingComponent implements OnInit {
   readonly key = Key;
   _router : any;
   constructor(private router: Router,
-    private _helperService: HelperService, public roleBasedAccessControlService: RoleBasedAccessControlService){
+    private _helperService: HelperService, public roleBasedAccessControlService: RoleBasedAccessControlService, public onboardingService : OnboardingService, public helperService : HelperService){
     this._router = router;
   }
 

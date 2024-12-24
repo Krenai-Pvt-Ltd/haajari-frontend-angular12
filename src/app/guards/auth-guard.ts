@@ -6,6 +6,7 @@ import { DataService } from 'src/app/services/data.service';
 import { OrganizationOnboardingService } from 'src/app/services/organization-onboarding.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import { SubscriptionPlanService } from 'src/app/services/subscription-plan.service';
+import { OnboardingService } from '../services/onboarding.service';
 
 @Injectable({
   providedIn: 'root',
@@ -16,6 +17,7 @@ export class AuthGuard implements CanActivate {
     private rbacService: RoleBasedAccessControlService,
     private _helperService: HelperService,
     private _onboardingService: OrganizationOnboardingService,
+    private onboardingService: OnboardingService,
     private dataService: DataService
   ) {
   
@@ -39,6 +41,16 @@ export class AuthGuard implements CanActivate {
       return false;
     }
 
+   
+    if( route!.routeConfig!.path == 'dashboard'){
+      this._helperService.isDashboardActive=true;
+    }else{
+      this._helperService.isDashboardActive=false;
+    }
+
+    // console.log("=====this._helperService.isDashboardActive======",this._helperService.isDashboardActive, "====route====",route!.routeConfig!.path);
+
+    
     await this.rbacService.isUserInfoInitializedMethod();
     // console.log("=====isSubscription======",this._subscriptionService.isSubscription)
 
@@ -49,38 +61,57 @@ export class AuthGuard implements CanActivate {
     //   }
     // }
 
- 
-      if(this.dataService.step){
-        this.step=this.dataService.step;
-        if (this.step < 5) {
-          this.router.navigate(['/organization-onboarding/personal-information']);
-          return false;
-        }
-      }else if (!this.step) {
-        await this.isOnboardingCompleted();
-        if (this.step < 5) {
-          this.router.navigate(['/organization-onboarding/personal-information']);
-          return false;
-        }
-      }
 
-    if(this.dataService.isToDoStepCompleted){
-      this.isToDoStepsCompleted=this.dataService.isToDoStepCompleted;
-    }else  if (!this.isToDoStepsCompleted) {
-      await this.isToDoStepsCompletedData();
+    if(this._helperService.orgStepId){
+      this.step=this._helperService.orgStepId;
+      if (this.step < 5) {
+        this.onboardingService.switchToRoutes(this.step);
+
+        // this.router.navigate(['/organization-onboarding/personal-information']);
+        return false;
+      }
+    }else if (!this.step) {
+      await this.isOnboardingCompleted();
+      if (this.step < 5) {
+        this.onboardingService.switchToRoutes(this.step);
+
+        // this.router.navigate(['/organization-onboarding/personal-information']);
+        return false;
+      }
     }
+
+//  deprecated
+      // if(this._helperService.stepId){
+      //   this.step=this._helperService.stepId;
+      //   if (this.step < 5) {
+      //     this.router.navigate(['/organization-onboarding/personal-information']);
+      //     return false;
+      //   }
+      // }else if (!this.step) {
+      //   await this.isOnboardingCompleted();
+      //   if (this.step < 5) {
+      //     this.router.navigate(['/organization-onboarding/personal-information']);
+      //     return false;
+      //   }
+      // }
+
+    // if(this.dataService.isToDoStepCompleted){
+    //   this.isToDoStepsCompleted=this.dataService.isToDoStepCompleted;
+    // }else  if (!this.isToDoStepsCompleted) {
+    //   await this.isToDoStepsCompletedData();
+    // }
 
 
       this.ROLE = await this.rbacService.getRole();
 
-    if (this.ROLE == 'ADMIN' && this.isToDoStepsCompleted == 0 && route!.routeConfig!.path == 'dashboard') {
-      debugger
-      this.router.navigate(['/to-do-step-dashboard']);
-      return false;
-    }else if (this.ROLE == 'ADMIN' && this.isToDoStepsCompleted == 0 && route!.routeConfig!.path == 'to-do-step-dashboard') {
-      debugger
-      return true;
-    }
+    // if (this.ROLE == 'ADMIN' && this.isToDoStepsCompleted == 0 && route!.routeConfig!.path == 'dashboard') {
+    //   debugger
+    //   // this.router.navigate(['/to-do-step-dashboard']);
+    //   return false;
+    // }else if (this.ROLE == 'ADMIN' && this.isToDoStepsCompleted == 0) {
+    //   debugger
+    //   return true;
+    // }
 
     
 
@@ -111,6 +142,7 @@ export class AuthGuard implements CanActivate {
         });
         return false;
       }
+      console.log("🚀 ~ AuthGuard ~ canActivate ~ this.currentRoute:", this.currentRoute)
 
 
       if (!await this.rbacService.hasAccessToSubmodule(this.currentRoute)) {

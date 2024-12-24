@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
+import { constant } from 'src/app/constant/constant';
 import { Key } from 'src/app/constant/key';
 import { LoggedInUser } from 'src/app/models/logged-in-user';
 import { LogoutConfirmationModalComponent } from 'src/app/modules/shared/logout-confirmation-modal/logout-confirmation-modal.component';
@@ -81,43 +82,44 @@ export class OrganizationOnboardingSidebarComponent implements OnInit {
     debugger;
     // console.log("Index to Go :", index);
     switch (index) {
-      case '1': {
-        this.STEP_ID = 1;
+      case (constant.ORG_ONBOARDING_PERSONAL_INFORMATION_STEP_ID): {
+        this.STEP_ID = +constant.ORG_ONBOARDING_PERSONAL_INFORMATION_STEP_ID;
         this.STEP_TEXT = 'Personal Information';
         this.STEP_CONTENT = 'Please confirm the validity of your email address';
-        this.router.navigate(['/organization-onboarding/personal-information']);
+        this.router.navigate([constant.ORG_ONBOARDING_PERSONAL_INFORMATION_ROUTE]);
         // console.log("Step 1 is calling");
         break;
       }
-      case '2': {
-        this.STEP_ID = 2;
+      case (constant.ORG_ONBOARDING_EMPLOYEE_CREATION_STEP_ID): {
+        this.STEP_ID = +constant.ORG_ONBOARDING_EMPLOYEE_CREATION_STEP_ID;
         this.STEP_TEXT = 'Employee Creation';
         this.STEP_CONTENT = 'Please upload valid credentials';
-        this.router.navigate(['/organization-onboarding/upload-team']);
+        this.router.navigate([constant.ORG_ONBOARDING_EMPLOYEE_CREATION_ROUTE]);
         // console.log("Step 2 is calling");
         break;
       }
-      case '3': {
-        this.STEP_ID = 3;
+      case (constant.ORG_ONBOARDING_SHIFT_TIME_STEP_ID): {
+        this.STEP_ID = +constant.ORG_ONBOARDING_SHIFT_TIME_STEP_ID;
         this.STEP_TEXT = 'Shift Time';
         this.STEP_CONTENT = 'Register shift time for your organization';
-        this.router.navigate(['/organization-onboarding/shift-time-list']);
+        this.router.navigate([constant.ORG_ONBOARDING_SHIFT_TIME_ROUTE]);
         // console.log("Step 3 is calling");
         break;
       }
-      case '4': {
-        this.STEP_ID = 4;
+      case (constant.ORG_ONBOARDING_ATTENDANCE_MODE_STEP_ID): {
+        this.STEP_ID = +constant.ORG_ONBOARDING_ATTENDANCE_MODE_STEP_ID;
         this.STEP_TEXT = 'Attendance Mode';
         this.STEP_CONTENT =
           'Please select attendance mode for your organization';
-        this.router.navigate(['/organization-onboarding/attendance-mode']);
+        this.router.navigate([constant.ORG_ONBOARDING_ATTENDANCE_MODE_ROUTE]);
         // console.log("Step 4 is calling");
         break;
       }
-      case '5': {
+      case (constant.ORG_ONBOARDING_ONBOARDING_COMPLETED_STEP_ID): {
+        this.helperService.orgStepId = +constant.ORG_ONBOARDING_ONBOARDING_COMPLETED_STEP_ID;
          await this._subscriptionService.LoadAsync();
          setTimeout(() => {
-         this.router.navigate(['/dashboard']);
+         this.router.navigate([constant.DASHBOARD_ROUTE]);
           // this.router.navigate(['/to-do-step-dashboard']);
         }, 5000);
         // this.router.navigate(['/dashboard']);
@@ -125,7 +127,7 @@ export class OrganizationOnboardingSidebarComponent implements OnInit {
         break;
       }
       default: {
-        this.router.navigate(['/organization-onboarding/personal-information']);
+        this.router.navigate([constant.ORG_ONBOARDING_PERSONAL_INFORMATION_ROUTE]);
         // console.log("Step default is calling");
         break;
       }

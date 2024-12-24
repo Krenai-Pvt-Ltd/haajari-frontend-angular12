@@ -33,7 +33,6 @@ import { DateFormatPipe } from './date-format.pipe';
 import { DurationFormatPipe } from './duration-format.pipe';
 import { DynamicRoutingModule } from './dynamic-routing.module';
 import { DynamicComponent } from './dynamic.component';
-import { SlackDataLoadComponent } from './slack-data-load/slack-data-load.component';
 import { TimeFormatPipe } from './time-format.pipe';
 import { SafePipe } from 'src/app/pipe/safe.pipe';
 import { AppComponent } from 'src/app/app.component';
@@ -94,24 +93,14 @@ import { ExistPolicyComponent } from './components/exist-policy/exist-policy.com
     TeamComponent,
     TeamDetailComponent,
     RoleComponent,
-    // EmployeeOnboardingFormComponent,
-    // EmployeeAddressDetailComponent,
-    // EmployeeDocumentComponent,
-    // AcadmicComponent,
-    // EmployeeExperienceComponent,
-    // BankDetailsComponent,
-    // EmergencyContactComponent,
     ReportsComponent,
     EmployeeProfileComponent,
     TestingComponent,
-    SlackDataLoadComponent,
     PrivacyComponent,
     SupportComponent,
     SafePipe,
     RoleAddComponent,
-    // EmployeeOnboardingPreviewComponent,
     EmployeeOnboardingDataComponent,
-    // LinkExpiredPageComponent,
     EmployeeProfileComponent,
     LeaveManagementComponent,
     AssetsComponent,
