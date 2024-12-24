@@ -116,7 +116,7 @@ export class OrganizationOnboardingSidebarComponent implements OnInit {
         break;
       }
       case (constant.ORG_ONBOARDING_ONBOARDING_COMPLETED_STEP_ID): {
-        this.helperService.stepId = +constant.ORG_ONBOARDING_ONBOARDING_COMPLETED_STEP_ID;
+        this.helperService.orgStepId = +constant.ORG_ONBOARDING_ONBOARDING_COMPLETED_STEP_ID;
          await this._subscriptionService.LoadAsync();
          setTimeout(() => {
          this.router.navigate(['/dashboard']);

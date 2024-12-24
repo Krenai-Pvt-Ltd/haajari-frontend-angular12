@@ -410,6 +410,7 @@ export class HelperService {
   };
 
   stepsData: any;
+  stepId: number = 0;
   getStepsData() {
     debugger;
     this.dataService.getStepsData().subscribe(
@@ -424,14 +425,14 @@ export class HelperService {
     );
   }
 
-  stepId : number = 0;
+  orgStepId !: number ;
   getOnboardingStep() {
     debugger;
     this._onboardingService
       .getOrgOnboardingStep()
       .subscribe((response: any) => {
         if (response.status) {
-          this.stepId = response.object.step;
+          this.orgStepId = response.object.step;
           // console.log(response.object.step);
         }
       });

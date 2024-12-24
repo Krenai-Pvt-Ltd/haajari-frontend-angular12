@@ -45,7 +45,7 @@ export class SettingComponent implements OnInit {
       (response) => {
       
         this.isToDoStep = response.object;
-        console.log("######### todo step" , this.isToDoStep, "***********", this.helperService.isDashboardActive);
+        // console.log("######### todo step" , this.isToDoStep, "***********", this.helperService.isDashboardActive);
         // console.log("success");
       },
       (error) => {

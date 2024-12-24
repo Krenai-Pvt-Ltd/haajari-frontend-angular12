@@ -48,7 +48,7 @@ export class AuthGuard implements CanActivate {
       this._helperService.isDashboardActive=false;
     }
 
-    console.log("=====this._helperService.isDashboardActive======",this._helperService.isDashboardActive, "====route====",route!.routeConfig!.path);
+    // console.log("=====this._helperService.isDashboardActive======",this._helperService.isDashboardActive, "====route====",route!.routeConfig!.path);
 
     
     await this.rbacService.isUserInfoInitializedMethod();
@@ -62,8 +62,8 @@ export class AuthGuard implements CanActivate {
     // }
 
 
-    if(this._helperService.stepId){
-      this.step=this._helperService.stepId;
+    if(this._helperService.orgStepId){
+      this.step=this._helperService.orgStepId;
       if (this.step < 5) {
         this.onboardingService.switchToRoutes(this.step);
 

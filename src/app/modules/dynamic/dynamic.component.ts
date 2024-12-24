@@ -3,6 +3,7 @@ import { NavigationEnd, RouteConfigLoadStart, Router } from '@angular/router';
 import { Key } from 'src/app/constant/key';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
+import { OnboardingService } from 'src/app/services/onboarding.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 
 
@@ -18,7 +19,7 @@ export class DynamicComponent implements OnInit {
   constructor(private router: Router,
     public _helperService:HelperService,
     private dataService : DataService,
-    public roleBasedAccessControlService:RoleBasedAccessControlService){
+    public roleBasedAccessControlService:RoleBasedAccessControlService, public onboardingService: OnboardingService, public helperService: HelperService){
     this._router = router;
     
   }
@@ -36,7 +37,7 @@ export class DynamicComponent implements OnInit {
     this.dataService.isToDoStepsCompleted().subscribe(
       (response) => {
         this.isToDoStepsCompleted = response.object;
-        console.log("isToDoStepsCompleted", this.isToDoStepsCompleted);
+        // console.log("isToDoStepsCompleted", this.isToDoStepsCompleted);
         
       },
       (error) => {
@@ -53,7 +54,7 @@ export class DynamicComponent implements OnInit {
       (response) => {
       
         this.isToDoStep = response.object;
-        console.log("######### todo step" , this.isToDoStep, "***********", this._helperService.isDashboardActive);
+        // console.log("######### todo step" , this.isToDoStep, "***********", this._helperService.isDashboardActive);
         // console.log("success");
       },
       (error) => {
