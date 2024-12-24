@@ -337,6 +337,7 @@ export class AddShiftTimeComponent implements OnInit {
 
   checkForShiftId: number = 0;
   selectAll(checked: boolean) {
+    debugger
     this.isAllSelected = checked;
     this.staffs.forEach((staff) => (staff.selected = checked));
 
@@ -359,6 +360,7 @@ export class AddShiftTimeComponent implements OnInit {
     }
     this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId, "");
   }
+  
 
   unselectAllUsers() {
     this.isAllUsersSelected = false;
@@ -426,7 +428,7 @@ export class AddShiftTimeComponent implements OnInit {
     //   this.onboardingService.refreshOnboarding();
     // });
     // this.onboardingService.refreshOnboarding();
-    this.selectAll(true);
+    // this.selectAll(true);
     this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId, "");
   }
 

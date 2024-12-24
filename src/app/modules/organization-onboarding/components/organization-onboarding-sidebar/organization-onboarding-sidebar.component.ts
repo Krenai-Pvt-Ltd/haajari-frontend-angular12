@@ -8,6 +8,7 @@ import { LoggedInUser } from 'src/app/models/logged-in-user';
 import { LogoutConfirmationModalComponent } from 'src/app/modules/shared/logout-confirmation-modal/logout-confirmation-modal.component';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
+import { OnboardingService } from 'src/app/services/onboarding.service';
 import { OrganizationOnboardingService } from 'src/app/services/organization-onboarding.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import { SubscriptionPlanService } from 'src/app/services/subscription-plan.service';
@@ -25,7 +26,8 @@ export class OrganizationOnboardingSidebarComponent implements OnInit {
     private helperService: HelperService,
     private rbacService: RoleBasedAccessControlService,
     private modalService: NgbModal,
-    private _subscriptionService: SubscriptionPlanService
+    private _subscriptionService: SubscriptionPlanService,
+    private onboardingService: OnboardingService
   ) {}
 
   onboardingViaString: string = '';
@@ -84,44 +86,54 @@ export class OrganizationOnboardingSidebarComponent implements OnInit {
     switch (index) {
       case (constant.ORG_ONBOARDING_PERSONAL_INFORMATION_STEP_ID): {
         this.STEP_ID = +constant.ORG_ONBOARDING_PERSONAL_INFORMATION_STEP_ID;
+        this.helperService.orgStepId = this.STEP_ID;
         this.STEP_TEXT = 'Personal Information';
         this.STEP_CONTENT = 'Please confirm the validity of your email address';
         this.router.navigate([constant.ORG_ONBOARDING_PERSONAL_INFORMATION_ROUTE]);
-        // console.log("Step 1 is calling");
+        this.onboardingService.isLoadingOnboardingStatus = false;
+        console.log("Step 1 sidebar is calling");
         break;
       }
       case (constant.ORG_ONBOARDING_EMPLOYEE_CREATION_STEP_ID): {
         this.STEP_ID = +constant.ORG_ONBOARDING_EMPLOYEE_CREATION_STEP_ID;
+        this.helperService.orgStepId = this.STEP_ID;
         this.STEP_TEXT = 'Employee Creation';
         this.STEP_CONTENT = 'Please upload valid credentials';
         this.router.navigate([constant.ORG_ONBOARDING_EMPLOYEE_CREATION_ROUTE]);
+        this.onboardingService.isLoadingOnboardingStatus = false;
         // console.log("Step 2 is calling");
         break;
       }
       case (constant.ORG_ONBOARDING_SHIFT_TIME_STEP_ID): {
         this.STEP_ID = +constant.ORG_ONBOARDING_SHIFT_TIME_STEP_ID;
+        this.helperService.orgStepId = this.STEP_ID;
         this.STEP_TEXT = 'Shift Time';
         this.STEP_CONTENT = 'Register shift time for your organization';
         this.router.navigate([constant.ORG_ONBOARDING_SHIFT_TIME_ROUTE]);
+        this.onboardingService.isLoadingOnboardingStatus = false;
         // console.log("Step 3 is calling");
         break;
       }
       case (constant.ORG_ONBOARDING_ATTENDANCE_MODE_STEP_ID): {
         this.STEP_ID = +constant.ORG_ONBOARDING_ATTENDANCE_MODE_STEP_ID;
+        this.helperService.orgStepId = this.STEP_ID;
         this.STEP_TEXT = 'Attendance Mode';
         this.STEP_CONTENT =
           'Please select attendance mode for your organization';
         this.router.navigate([constant.ORG_ONBOARDING_ATTENDANCE_MODE_ROUTE]);
+        this.onboardingService.isLoadingOnboardingStatus = false;
         // console.log("Step 4 is calling");
         break;
       }
       case (constant.ORG_ONBOARDING_ONBOARDING_COMPLETED_STEP_ID): {
         this.helperService.orgStepId = +constant.ORG_ONBOARDING_ONBOARDING_COMPLETED_STEP_ID;
+        this.helperService.orgStepId = this.STEP_ID;
          await this._subscriptionService.LoadAsync();
          setTimeout(() => {
          this.router.navigate([constant.DASHBOARD_ROUTE]);
           // this.router.navigate(['/to-do-step-dashboard']);
         }, 5000);
+        this.onboardingService.isLoadingOnboardingStatus = false;
         // this.router.navigate(['/dashboard']);
         // console.log("Step 5 is calling");
         break;
