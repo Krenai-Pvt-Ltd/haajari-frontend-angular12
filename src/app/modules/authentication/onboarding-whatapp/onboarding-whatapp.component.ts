@@ -172,7 +172,7 @@ export class OnboardingWhatappComponent implements OnInit {
     // this.isOtpVerify = false;
     // this.otpErrorMessage = '';
     // this.errorMessage = '';
-    this.router.navigate(['/auth/onboarding-whatapp']);
+    this.router.navigate(['/auth/onboarding-whatapp'], { replaceUrl: true });
   }
 
   redirectToRegister() {
@@ -440,8 +440,9 @@ export class OnboardingWhatappComponent implements OnInit {
                 this.router.navigate(['/dashboard']);
               } else {
                 this.router.navigate([
-                  '/organization-onboarding/personal-information',
-                ]);
+                  '/organization-onboarding/personal-information'
+                ], { replaceUrl: true });
+               
               }
             } else {
               this.router.navigate(['/dashboard']);

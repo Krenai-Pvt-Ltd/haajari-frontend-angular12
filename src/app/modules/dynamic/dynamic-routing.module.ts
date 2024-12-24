@@ -159,11 +159,11 @@ const routes: Routes = [
         canActivate: [AuthGuard, SubscriptionGuard]
       },
      
-      {
-        path: 'to-do-step-dashboard',
-        component: ToDoStepDashboardComponent,
-        canActivate: [AuthGuard, SubscriptionGuard]
-      },
+      // {
+      //   path: 'to-do-step-dashboard',
+      //   component: ToDoStepDashboardComponent,
+      //   canActivate: [AuthGuard, SubscriptionGuard]
+      // },
       {
         path: 'subscription',
         component: SubscriptionComponent,

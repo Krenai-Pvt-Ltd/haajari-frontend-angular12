@@ -231,7 +231,7 @@ export class AttendanceModeComponent implements OnInit {
           this.toggle = false;
           this.isUpdate = true;
           this.updateAttendanceModeMethodCall(this.currentAttendanceModeId);
-          this.closeAddressModal.nativeElement.click();
+          this.closeAddressModal?.nativeElement.click();
           // this.resetAddressDetailsModal();
           // setTimeout(() => {
           //   this.helperService.showToast(
@@ -368,6 +368,7 @@ export class AttendanceModeComponent implements OnInit {
 
   currentLocation() {
     debugger
+    this.isLatLongFieldOpen = false;
     this.locationLoader = true;
     this.fetchCurrentLocationLoader = true;
 
@@ -476,6 +477,9 @@ export class AttendanceModeComponent implements OnInit {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
           (position) => {
+            this.lat = position.coords.latitude;
+            this.lng = position.coords.longitude;
+            this.isShowMap = true;
             resolve({
               latitude: position.coords.latitude,
               longitude: position.coords.longitude,
@@ -483,13 +487,37 @@ export class AttendanceModeComponent implements OnInit {
           },
           (err) => {
             reject(err);
+          },
+          {
+            enableHighAccuracy: true,  // Precise location
+          maximumAge: 0              // Prevent cached locations
           }
         );
       } else {
         reject('Geolocation is not supported by this browser.');
       }
-    });
+    })
   }
+
+  // getCurrentLocation(): Promise<{ latitude: number; longitude: number }> {
+  //   return new Promise((resolve, reject) => {
+  //     if (navigator.geolocation) {
+  //       navigator.geolocation.getCurrentPosition(
+  //         (position) => {
+  //           resolve({
+  //             latitude: position.coords.latitude,
+  //             longitude: position.coords.longitude,
+  //           });
+  //         },
+  //         (err) => {
+  //           reject(err);
+  //         }
+  //       );
+  //     } else {
+  //       reject('Geolocation is not supported by this browser.');
+  //     }
+  //   });
+  // }
 
   isFormInvalid: boolean = false;
   @ViewChild('organizationAddressForm') organizationAddressForm!: NgForm;
@@ -531,6 +559,10 @@ export class AttendanceModeComponent implements OnInit {
   // }
 
   isShowMap: boolean = false;
+  lat!: number;
+  lng!: number;
+  zoom: number = 15;
+  markerPosition: any;
   getOrganizationAddressDetailMethodCall() {
     debugger;
     this.dataService.getOrganizationAddressDetail().subscribe(
@@ -542,14 +574,14 @@ export class AttendanceModeComponent implements OnInit {
           if (this.organizationAddressDetail.latitude == null) {
             this.currentLocation();
           } else {
-            // this.lat = Number(this.organizationAddressDetail.latitude);
-            // this.lng = Number(this.organizationAddressDetail.longitude);
+            this.lat = Number(this.organizationAddressDetail.latitude);
+            this.lng = Number(this.organizationAddressDetail.longitude);
             this.isShowMap = true;
           }
-          // if(this.organizationAddressDetail.latitude & this.organizationAddressDetail.longitude){
-          //   this.organizationAddressDetail.latitude = this.lat;
-          //   this.organizationAddressDetail.longitude = this.lat
-          // }
+          if(this.organizationAddressDetail.latitude & this.organizationAddressDetail.longitude){
+            this.organizationAddressDetail.latitude = this.lat;
+            this.organizationAddressDetail.longitude = this.lat
+          }
         } else {
           console.log('No address details found');
         }
@@ -743,4 +775,150 @@ export class AttendanceModeComponent implements OnInit {
     this.scrollToBottom.nativeElement.scrollTop =
       this.scrollToBottom.nativeElement.scrollHeight;
   }
+
+  // new 
+
+
+
+  // isShowMap: boolean = false;
+  // lat!: number;
+  // lng!: number;
+  // zoom: number = 15;
+  // markerPosition: any;
+
+
+  mapCenter: { lat: number; lng: number } = { lat: this.lat, lng: this.lng };
+
+  onMapClick(event: any) {
+    this.organizationAddressDetail.latitude = event.coords.lat;
+    this.organizationAddressDetail.longitude = event.coords.lng;
+  }
+
+  onMarkerDragEnd(event: any) {
+    this.organizationAddressDetail.latitude = event.coords.lat;
+    this.organizationAddressDetail.longitude = event.coords.lng;
+    this.mapCenter = { lat: this.lat, lng: this.lng };
+  }
+
+
+
+  public handleAddressChanges(e: any) {
+    //  console.log('ghdm',e);
+
+    this.lat = e.geometry.location.lat();
+    this.lng = e.geometry.location.lng();
+    // this.getAddress(this.lat, this.lng);
+  }
+
+
+centerChanged(event: any) {
+  // console.log(event);
+  this.newLat=event.lat;
+  this.newLng=event.lng;
+}
+newLat:any;
+newLng:any
+
+mapReady(map:any) {
+  // console.log("map=======",map);
+map.addListener("dragend", () => {
+  this.lat=this.newLat;
+  this.lng=this.newLng;
+  // console.log("999999",this.lat, this.lng);
+  //  this.getAddress(this.lat, this.lng);
+  });
+}
+
+
+onZoomChange(event: number) {
+  // console.log('Zoom level changed:', event);
+  this.lat=this.newLat;
+  this.lng=this.newLng;
+  // this.getAddress(this.lat, this.lng);
+}
+
+
+getData(event:any){
+  debugger
+ console.log("event :" + event);
+
+ var id = this.organizationAddressDetail.id;
+ var branch = this.organizationAddressDetail.branch;
+ var radius = this.organizationAddressDetail.radius;
+ this.organizationAddressDetail = new OrganizationAddressDetail();
+ this.organizationAddressDetail.id = id;
+ this.organizationAddressDetail.branch = branch;
+ this.organizationAddressDetail.radius = radius;
+ this.organizationAddressDetail.longitude = event.longitude;
+ this.organizationAddressDetail.latitude = event.latitude;
+ this.organizationAddressDetail.addressLine1 = event.addressLine1
+ this.organizationAddressDetail.addressLine2 = event.addressLine2;
+ this.organizationAddressDetail.city = event.city;
+ this.organizationAddressDetail.state = event.state;
+ this.organizationAddressDetail.country = event.country;
+ this.organizationAddressDetail.pincode = event.pincode;
+}
+
+isLatLongFieldOpen: boolean = false;
+openLatLongField() {
+  this.isLatLongFieldOpen = true;
+}
+
+
+public handleAddressChange2(e: any) {
+   console.log('ghdm',e);
+ debugger
+  // this.lat = e.geometry.location.lat();
+  // this.lng = e.geometry.location.lng();
+
+  
+  // this.organizationAddressDetail = new OrganizationAddressDetail();
+  this.organizationAddressDetail.longitude = this.newLng;
+  this.organizationAddressDetail.latitude = this.newLat;
+
+  this.organizationAddressDetail.addressLine1 = e.formatted_address;
+
+e?.address_components?.forEach((entry: any) => {
+  // console.log(entry);
+
+  if (entry.types?.[0] === 'route') {
+    this.organizationAddressDetail.addressLine2 = entry.long_name + ',';
+  }
+  if (entry.types?.[0] === 'sublocality_level_1') {
+    this.organizationAddressDetail.addressLine2 =
+      this.organizationAddressDetail.addressLine2 + entry.long_name;
+  }
+  if (entry.types?.[0] === 'locality') {
+    this.organizationAddressDetail.city = entry.long_name;
+  }
+  if (entry.types?.[0] === 'administrative_area_level_1') {
+    this.organizationAddressDetail.state = entry.long_name;
+  }
+  if (entry.types?.[0] === 'country') {
+    this.organizationAddressDetail.country = entry.long_name;
+  }
+  if (entry.types?.[0] === 'postal_code') {
+    this.organizationAddressDetail.pincode = entry.long_name;
+  }
+});
+
+
+  // this.setLatLng(this.organizationAddressDetail);
+  // this.getAddress(this.lat, this.lng);
+}
+
+getAddressFromCoords(lat: number, lng: number): void {
+  debugger
+  console.log("7898765678" , lat, lng);
+  this.newLat= lat;
+  this.newLng= lng;
+  const geocoder = new google.maps.Geocoder();
+  geocoder.geocode({ location: { lat, lng } }, (results, status) => {
+    if (status === google.maps.GeocoderStatus.OK && results && results[0] ) {
+      this.handleAddressChange2(results[0]); 
+    } else {
+      console.error('Geocode was not successful for the following reason: ' + status);
+    }
+  });
+}
 }

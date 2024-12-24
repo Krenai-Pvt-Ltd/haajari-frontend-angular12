@@ -1,4 +1,10 @@
-<div class="page-wrapper">
+<app-hajiri-page-loader *ngIf="isToDoStepsCompleted == undefined">
+</app-hajiri-page-loader>
+
+
+<app-to-do-step-dashboard *ngIf="!isToDoStepsCompleted"></app-to-do-step-dashboard>
+
+<div class="page-wrapper" *ngIf="isToDoStepsCompleted">
   <!-- Page Content-->
   <div class="page-content-tab">
     <div class="container-fluid">

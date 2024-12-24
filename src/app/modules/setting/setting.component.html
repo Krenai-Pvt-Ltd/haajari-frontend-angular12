@@ -1,4 +1,4 @@
 <router-outlet></router-outlet>
-<app-common-to-do-steps
-  *ngIf="isToDoStepsCompleted == 0"
+<app-common-to-do-steps [stepId]="helperService.stepId"
+  *ngIf="isToDoStepsCompleted == 0  && (!this.helperService.isDashboardActive || (this.helperService.isDashboardActive && !isToDoStep))"
 ></app-common-to-do-steps>

@@ -1468,11 +1468,11 @@
                   <div class="d-flex align-items-center gap-2">
                     <p class="mb-0 font-11">{{ list.userEmail || "N/A" }}</p>
                     <span class="spreter-line"></span>
-                    <span class="shift-tag">{{ list.shiftName }}</span>
+                    <span class="shift-tag pointer" (click)="removeUser(list.userUuid)"><span >{{constant.REMOVE_SHIFT_STRING}}</span> {{ list.shiftName }} </span>
                   </div>
                 </div>
               </div>
-              <div>
+              <!-- <div>
                 <button class="btn p-0 addUserRemvo" (click)="removeUser(list.userUuid)">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -1507,7 +1507,7 @@
                   </svg>
                   Remove
                 </button>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
