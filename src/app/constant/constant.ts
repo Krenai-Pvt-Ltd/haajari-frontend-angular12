@@ -22,6 +22,8 @@ export class constant{
     public static SETTING_SUBSCRIPTION_ROUTE = "/setting/subscription";
     public static LOGIN_ROUTE = "/auth/login";
 
-
+    public static ONBOARDING_ROUTES =[constant.ORG_ONBOARDING_PERSONAL_INFORMATION_ROUTE, constant.ORG_ONBOARDING_EMPLOYEE_CREATION_ROUTE, constant.ORG_ONBOARDING_SHIFT_TIME_ROUTE,
+    constant.ORG_ONBOARDING_ATTENDANCE_MODE_ROUTE
+    ]
 }
 
