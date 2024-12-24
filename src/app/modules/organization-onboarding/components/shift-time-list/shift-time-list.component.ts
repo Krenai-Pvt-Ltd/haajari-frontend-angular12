@@ -7,6 +7,7 @@ import { Staff } from 'src/app/models/staff';
 import { DataService } from 'src/app/services/data.service';
 import { Router } from '@angular/router';
 import { OrganizationOnboardingService } from 'src/app/services/organization-onboarding.service';
+import { constant } from 'src/app/constant/constant';
 
 @Component({
   selector: 'app-shift-time-list',
@@ -20,6 +21,7 @@ export class ShiftTimeListComponent implements OnInit {
   defaultStartLunchOpenTime: Date = new Date();
   defaultEndLunchOpenTime: Date = new Date();
 
+  readonly constant = constant;
   constructor(
     private dataService: DataService,
     private router: Router,

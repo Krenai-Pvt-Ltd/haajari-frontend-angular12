@@ -456,17 +456,36 @@ locationLoader: boolean = false;
     }
   }
 
-  isEmailExist: boolean = false;
-  checkEmailExistance(email: string) {
-    debugger;
-    if (email != null && email.length > 5) {
-      this._onboardingService
-        .checkAdminEmailExist(email)
-        .subscribe((response: any) => {
-          this.isEmailExist = response;
-        });
-    }
+
+private debounceTimer: any;
+isEmailExist: boolean = false;
+
+checkEmailExistance(email: string) {
+  if (this.debounceTimer) {
+    clearTimeout(this.debounceTimer);
   }
+
+  this.debounceTimer = setTimeout(() => {
+    if (email != null && email.length > 5) {
+      this._onboardingService.checkAdminEmailExist(email).subscribe((response: any) => {
+        this.isEmailExist = response;
+      });
+    }
+  }, 800); // 500ms debounce delay
+}
+
+
+  // isEmailExist: boolean = false;
+  // checkEmailExistance(email: string) {
+  //   debugger;
+  //   if (email != null && email.length > 5) {
+  //     this._onboardingService
+  //       .checkAdminEmailExist(email)
+  //       .subscribe((response: any) => {
+  //         this.isEmailExist = response;
+  //       });
+  //   }
+  // }
 
   /************ CHECK EXISTANCE **********/
 

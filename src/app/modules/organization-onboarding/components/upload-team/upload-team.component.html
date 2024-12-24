@@ -470,7 +470,11 @@
                           </span>
                           Users
                         </p>
-                        <p class="mb-0 selectAll deleteSelecetdUser" (click)="deleteUsers()">
+                        <p
+                          class="mb-0 selectAll deleteSelecetdUser"
+                          style="cursor: pointer"
+                          (click)="deleteUsers()"
+                        >
                           Delete Selected Users
                         </p>
                         <!-- <span class="error-spreter"></span> -->
@@ -930,10 +934,20 @@
                     <label class="mb-2">
                       Phone Number <span class="text-optional">*</span>
                     </label>
-                    <input type="tel" name="userPhone{{ i }}" [(ngModel)]="user.phone"
-                      placeholder="Enter Whatsapp Number" minlength="10" maxlength="10"
-                      class="form-control profile-input" (keyup)="checkNumberExistance(i, user.phone, user.uuid)"
-                      #phone="ngModel" (paste)="preventPaste($event)" required />
+                    <input
+                      type="tel"
+                      name="userPhone{{ i }}"
+                      [(ngModel)]="user.phone"
+                      placeholder="Enter Whatsapp Number"
+                      minlength="10"
+                      maxlength="10"
+                      class="form-control profile-input"
+                      (keyup)="checkNumberExistance(i, user.phone, user.uuid)"
+                      #phone="ngModel"
+                      
+                     
+                      required
+                    />
                     <!-- Showing phone existence error first if it exists -->
                     <p *ngIf="userList[i].isPhoneExist" class="error text-danger mt-2 mb-2">
                       <i class="bi bi-exclamation-circle"></i> Phone number already exists.
