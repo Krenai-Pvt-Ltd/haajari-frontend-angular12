@@ -68,8 +68,8 @@
               </div>
             </div>
             <ng-container *ngFor="let doc of documents">
-              <div class="col-md-3" *ngIf="doc.documentType=='employee_doc'">
-                <div *ngIf="doc.documentType=='employee_doc'" class="employee-doc-file file-svg p-2">
+              <div class="col-md-3" *ngIf="doc.documentType==constant.DOC_TYPE_EMPLOYEE">
+                <div *ngIf="doc.documentType==constant.DOC_TYPE_EMPLOYEE" class="employee-doc-file file-svg p-2">
                   <div class="d-flex align-items-center justify-content-between">
                     <div class="d-flex align-items-center gap-2">
 
@@ -196,7 +196,7 @@
               </div>
             </div>
             <ng-container *ngFor="let doc of documents">
-              <div class="col-md-3" *ngIf="doc.documentType=='company_doc'">
+              <div class="col-md-3" *ngIf="doc.documentType==constant.DOC_TYPE_COMPANY || doc.documentType==constant.DOC_TYPE_EMPLOYEE_AGREEMENT">
                 <div class="employee-doc-file file-svg p-2">
                   <div class="d-flex align-items-center justify-content-between">
                     <div class="d-flex align-items-center gap-2">

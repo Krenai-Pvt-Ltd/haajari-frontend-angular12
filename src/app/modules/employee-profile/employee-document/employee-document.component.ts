@@ -70,31 +70,6 @@ export class EmployeeDocumentComponent implements OnInit {
     });
   }
 
-  // private mapDocumentUrls() {
-  //   for (let doc of this.documentsEmployee) {
-  //     switch (doc.documentName) {
-  //       case 'highSchool':
-  //         this.highSchoolCertificate = doc.documentUrl;
-  //         break;
-  //       case 'highestQualification':
-  //         this.degreeCert = doc.documentUrl;
-  //         break;
-  //       case 'secondarySchool':
-  //         this.intermediateCertificate = doc.documentUrl;
-  //         break;
-  //       case 'testimonial':
-  //         this.testimonialsString = doc.documentUrl;
-  //         break;
-  //       case 'aadhaarCard':
-  //         this.aadhaarCardString = doc.documentUrl;
-  //         break;
-  //       case 'pancard':
-  //         this.pancardString = doc.documentUrl;
-  //         break;
-  //     }
-  //   }
-  // }
-
 
   previewString: SafeResourceUrl = '';
   downloadString!: string;
@@ -228,7 +203,7 @@ export class EmployeeDocumentComponent implements OnInit {
                 this.getEmployeeDocumentsDetailsByUuid();
               },
               error: (err) => {
-                this.helperService.showToast('Some problem in saving Document:',Key.TOAST_STATUS_ERROR);
+                this.helperService.showToast('Some problem in saving Document',Key.TOAST_STATUS_ERROR);
                 this.isLoading=false;
               },
             });

@@ -4410,6 +4410,13 @@ getHolidayForOrganization(date: string): Observable<any>{
 
     return this.httpClient.get<any[]>(`${this.baseUrl}/documents/documents-by-type`, { params });
   }
+  getHrPolicies(): Observable<any[]> {
+    return this.httpClient.get<any[]>(`${this.baseUrl}/documents/organization/hr-policy-documents`);
+  }
+  deleteDocument(documentId: number | undefined): Observable<string> {
+    const url = `${this.baseUrl}/documents/${documentId}`;
+    return this.httpClient.delete<string>(url);
+  }
 
   getEditedFieldsByUserUuid(uuid: string): Observable<any> {
     const params = new HttpParams().set('uuid', uuid);
@@ -4420,6 +4427,10 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}/asset-requests/pending-requests-counter`);
   }
 
+  acceptAgreement(): Observable<any> {
+    const url = `${this.baseUrl}/users/accept-agreement`;
+    return this.httpClient.post(url,{});
+  }
 
 
 }

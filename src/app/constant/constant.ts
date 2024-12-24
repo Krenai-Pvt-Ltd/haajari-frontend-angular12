@@ -6,5 +6,6 @@ export class constant{
     public static DOC_TYPE_EMPLOYEE_AGREEMENT='employee_agreement';
     public static DOC_TYPE_COMPANY='company_doc';
     public static DOC_TYPE_EMPLOYEE='employee_doc';
+    public static DOC_TYPE_HR_POLICY='hr_policy';
 }
 
