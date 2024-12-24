@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { OrganizationOnboardingService } from './organization-onboarding.service';
-import { Router } from '@angular/router';
+import { ActivationEnd, NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { constant } from '../constant/constant';
 import { HelperService } from './helper.service';
 import { SubscriptionPlanService } from './subscription-plan.service';
 import { RoleBasedAccessControlService } from './role-based-access-control.service';
+import { filter } from 'rxjs/internal/operators/filter';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +14,14 @@ export class OnboardingService {
 
   // isOnboardingCompleted: boolean = false;
   isLoadingOnboardingStatus: boolean = true;
+  requestedRoute!:string;
   constructor(private onboardingService : OrganizationOnboardingService, private router: Router, private helperService: HelperService, private subscriptionService: SubscriptionPlanService, private rbacService : RoleBasedAccessControlService) {
-    this.checkOnboardingStatus();
+   
+                this.requestedRoute = decodeURIComponent(window.location.pathname + window.location.search + window.location.hash);
+                this.checkOnboardingStatus();
+    
+
+
      
   }
 
@@ -22,15 +29,11 @@ export class OnboardingService {
     this.onboardingService
       .getOrgOnboardingStep()
       .subscribe(async (response: any) => {
-        
-        console.log("response" , response)
         if (response.status) {
           this.helperService.orgStepId = response.object.step;
-          console.log("stepId1", this.helperService.orgStepId);
 
            // to Check subscription plan
           if(this.helperService.orgStepId == +constant.ORG_ONBOARDING_ONBOARDING_COMPLETED_STEP_ID) {
-            console.log("stepId1check", this.helperService.orgStepId);
             await this.checkSubscriptionPlan();
             if(this.helperService.restrictedModules == undefined){
               await this.helperService.getRestrictedModules();
@@ -52,24 +55,18 @@ export class OnboardingService {
     if(this.subscriptionService.isSubscription==undefined){
       await this.subscriptionService.isSubscriptionPlanExpired();
     }
-    console.log("=====isSubscription======",this.subscriptionService.isSubscription);
   }
 
   switchToRoutes(orgStepId: number): void {
     this.isLoadingOnboardingStatus=true;
     // for onboarding routes 
-    console.log("stepId2", orgStepId);
     switch (orgStepId+"") {
       case (constant.ORG_ONBOARDING_PERSONAL_INFORMATION_STEP_ID): {
         this.router.navigate([constant.ORG_ONBOARDING_PERSONAL_INFORMATION_ROUTE]);
         this.isLoadingOnboardingStatus=false;
-
-        // console.log("Step 1 is calling");
         break;
       }
       case (constant.ORG_ONBOARDING_EMPLOYEE_CREATION_STEP_ID): {
-        console.log("Step 2 is calling");
-
         this.router.navigate([constant.ORG_ONBOARDING_EMPLOYEE_CREATION_ROUTE]);
         this.isLoadingOnboardingStatus=false;
 
@@ -78,21 +75,25 @@ export class OnboardingService {
       case (constant.ORG_ONBOARDING_SHIFT_TIME_STEP_ID): {
         this.router.navigate([constant.ORG_ONBOARDING_SHIFT_TIME_ROUTE]);
         this.isLoadingOnboardingStatus=false;
-
-        // console.log("Step 3 is calling");
         break;
       }
       case (constant.ORG_ONBOARDING_ATTENDANCE_MODE_STEP_ID): {
         this.router.navigate([constant.ORG_ONBOARDING_ATTENDANCE_MODE_ROUTE]);
         this.isLoadingOnboardingStatus=false;
-
-        // console.log("Step 4 is calling");
         break;
       }
       case (constant.ORG_ONBOARDING_ONBOARDING_COMPLETED_STEP_ID): {
-        // window.alert("Onboarding Completed" + this.helperService.orgStepId +"9999" +this.isLoadingOnboardingStatus);
         if(this.subscriptionService.isSubscription){
+          if(!constant.ONBOARDING_ROUTES.includes(this.requestedRoute.split("?")[0])){
+            // Parse the requested route into the path and query parameters
+            const [path, queryString] = this.requestedRoute.split('?');
+            const queryParams = this.parseQueryParams(queryString);
+            // Navigate to the route with query parameters
+            this.router.navigate([path], { queryParams });
+
+          }else{
           this.router.navigate([constant.DASHBOARD_ROUTE]);
+          }
           this.isLoadingOnboardingStatus=false;
 
         }else{
@@ -112,5 +113,14 @@ export class OnboardingService {
         break;
       }
     }
+  }
+
+  private parseQueryParams(queryString: string): { [key: string]: any } {
+    if (!queryString) return {};
+    return queryString.split('&').reduce((acc:any, param) => {
+      const [key, value] = param.split('=');
+      acc[key] = decodeURIComponent(value || '');
+      return acc;
+    }, {});
   }
 }
