@@ -413,6 +413,12 @@
                             <span></span>
                           </div>
                         </a>
+                        <a class="" style="color: #6666f3" (click)="openLatLongField()" *ngIf="!isLatLongFieldOpen">
+                          <span *ngIf="!locationLoader"
+                            >Add Location Via Lat Long
+                          </span>
+                          
+                        </a>
                         <div
                           *ngIf="
                             (addressLine1.touched && addressLine1.invalid) ||
@@ -449,6 +455,8 @@
                         </div>
                       </div>
                     </div>
+                  
+                   
                     <div class="col-md-3">
                       <!-- <div class="mb-3">
                         <label for="radius" class="pb-2">
@@ -561,6 +569,68 @@
                         </p>
                       </div> -->
                     </div>
+
+                    <div class="col-md-3" *ngIf="isLatLongFieldOpen">
+                      <div class="mb-3">
+                        <label for="radius" class="pb-2">
+                          Lat <span class="text-optional">*</span>
+                        </label>
+                        <input
+                          type="number"
+                          id="latitude"
+                          placeholder="Enter Latitude"
+                          name="latitude"
+                          class="form-control profile-input"
+                          [(ngModel)]="organizationAddressDetail.latitude"
+                          (ngModelChange)="getAddressFromCoords(organizationAddressDetail.latitude, organizationAddressDetail.longitude)"
+                          required
+                          #latitude="ngModel"
+                        />
+                      </div>
+                      <div
+                        *ngIf="(latitude.touched && latitude.invalid) || isFormInvalid"
+                      >
+                        <p
+                          class="errortxt mt-2 mb-0"
+                          style="color: red"
+                          *ngIf="latitude.errors?.required"
+                        >
+                          <i class="bi bi-exclamation-circle"></i> Latitude is
+                          required.
+                        </p>
+                      </div>
+                    </div>
+                    <div class="col-md-3"  *ngIf="isLatLongFieldOpen">
+                      <div class="mb-3">
+                        <label for="radius" class="pb-2">
+                          Long<span class="text-optional">*</span>
+                        </label>
+                        <input
+                          type="number"
+                          id="longitude"
+                          placeholder="Enter Longitude"
+                          name="longitude"
+                          class="form-control profile-input"
+                          [(ngModel)]="organizationAddressDetail.longitude"
+                          (ngModelChange)="getAddressFromCoords(organizationAddressDetail.latitude, organizationAddressDetail.longitude)"
+                          required
+                          #longitude="ngModel"
+                        />
+                      </div>
+                      <div
+                        *ngIf="(longitude.touched && longitude.invalid) || isFormInvalid"
+                      >
+                        <p
+                          class="errortxt mt-2 mb-0"
+                          style="color: red"
+                          *ngIf="longitude.errors?.required"
+                        >
+                          <i class="bi bi-exclamation-circle"></i> Longitude is
+                          required.
+                        </p>
+                      </div>
+                    </div>
+
                     <div class="col-md-3">
                       <div class="mb-3">
                         <label for="radius" class="pb-2">
@@ -683,6 +753,15 @@
                         </p>
                       </div>
                     </div>
+                  </div>
+                  <!-- new  -->
+                   <!-- {{isShowMap}} -->
+
+                  <div class="mb-10" *ngIf="isShowMap">
+
+                    <app-map [lat]="this.organizationAddressDetail.latitude"
+                      [lng]="this.organizationAddressDetail.longitude" (getData)="getData($event)"></app-map>
+                    
                   </div>
                 </form>
               </div>

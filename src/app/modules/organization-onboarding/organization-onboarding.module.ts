@@ -4,14 +4,8 @@ import { CommonModule } from '@angular/common';
 import { OrganizationOnboardingRoutingModule } from './organization-onboarding-routing.module';
 import { OrganizationOnboardingComponent } from './organization-onboarding.component';
 import { OrganizationPersonalInformationComponent } from './components/organization-personal-information/organization-personal-information.component';
-import { LeaveRuleSetupComponent } from './components/leave-rule-setup/leave-rule-setup.component';
-import { HolidayRuleSetupComponent } from './components/holiday-rule-setup/holiday-rule-setup.component';
 import { OrganizationOnboardingSidebarComponent } from './components/organization-onboarding-sidebar/organization-onboarding-sidebar.component';
-import { AutomationRulesComponent } from './components/automation-rules/automation-rules.component';
-import { LeaveSettingComponent } from './components/leave-setting/leave-setting.component';
-import { LeaveSettingCreateComponent } from './components/leave-setting-create/leave-setting-create.component';
 import { AddShiftTimeComponent } from './components/add-shift-time/add-shift-time.component';
-import { HolidaySettingComponent } from './components/holiday-setting/holiday-setting.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { DynamicRoutingModule } from '../dynamic/dynamic-routing.module';
@@ -43,19 +37,14 @@ import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { OnboardingSuccessfulComponent } from './components/onboarding-successful/onboarding-successful.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   declarations: [
     OrganizationOnboardingComponent,
     OrganizationPersonalInformationComponent,
-    LeaveRuleSetupComponent,
-    HolidayRuleSetupComponent,
     OrganizationOnboardingSidebarComponent,
-    AutomationRulesComponent,
-    LeaveSettingComponent,
-    LeaveSettingCreateComponent,
     AddShiftTimeComponent,
-    HolidaySettingComponent,
     UploadTeamComponent,
     AttendanceModeComponent,
     ShiftTimeListComponent,
@@ -93,6 +82,7 @@ import { OnboardingSuccessfulComponent } from './components/onboarding-successfu
     NzIconModule,
     NzInputModule,
     NzInputNumberModule,
+    SharedModule,
   ],
 })
 export class OrganizationOnboardingModule {}

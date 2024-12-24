@@ -3621,7 +3621,15 @@
                       <div class="modal-footer d-flex align-items-center justify-content-end">
                         <button type="button" class="btn btn-primary"
                           (click)="registerAttendanceRuleDefinitionMethodCall()">
-                          Submit
+
+                          <div class="dot-opacity-loader-new" *ngIf="saveAttendanceRuleDefinitionLoading">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                          </div>
+                         
+                          <span *ngIf="!saveAttendanceRuleDefinitionLoading">Submit</span>
+                         
                         </button>
                       </div>
                     </div>
