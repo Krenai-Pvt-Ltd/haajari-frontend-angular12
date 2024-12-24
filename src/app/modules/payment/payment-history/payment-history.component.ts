@@ -47,6 +47,7 @@ Math: any;
   constructor(
     private _salaryService: SalaryService,
      public _helperService: HelperService,
+     private dataService:DataService,
       private http: HttpClient) {
 
   }
@@ -250,20 +251,20 @@ Math: any;
     );
   }
 
-  // generateSalarySlipMethodCall(){
-  //   this.dataService.generateSalarySlip(this.startDate, this.endDate,this.selectedEmployeeIds).subscribe(
-  //     (response) => {
+  generateSalarySlipMethodCall(){
+    this.dataService.generateSalarySlip(this.startDate, this.endDate,this.shareIds).subscribe(
+      (response) => {
 
-  //       this.isAllUsersSelected = false;
-  //       this.selectedEmployeeIds= [];
-  //       this.helperService.showToast('Payslip generated Succesfully', Key.TOAST_STATUS_SUCCESS)
-  //       this.getOrganizationMonthWiseSalaryDataMethodCall();
-  //     },
-  //     (error) => {
-  //       console.log(error);
-  //     }
-  //   );
-  // }
+        // this.isAllUsersSelected = false;
+        this.shareIds= [];
+        this._helperService.showToast('Payslip generated Succesfully', Key.TOAST_STATUS_SUCCESS)
+        this.getOrganizationMonthWiseSalaryDataMethodCall();
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
 
 
 }
