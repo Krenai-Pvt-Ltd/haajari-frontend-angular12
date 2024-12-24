@@ -12,7 +12,7 @@ import { RoleBasedAccessControlService } from './role-based-access-control.servi
 export class OnboardingService {
 
   // isOnboardingCompleted: boolean = false;
-  isLoadingOnboardingStatus: boolean = true;
+ isLoadingOnboardingStatus: boolean = true;
   constructor(private onboardingService : OrganizationOnboardingService, private router: Router, private helperService: HelperService, private subscriptionService: SubscriptionPlanService, private rbacService : RoleBasedAccessControlService) {
     this.checkOnboardingStatus();
      

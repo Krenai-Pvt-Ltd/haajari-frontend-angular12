@@ -386,15 +386,15 @@ export class UploadTeamComponent implements OnInit {
       return false;
     }
     return this.userList?.length > 0 && this.userList?.every((u, index) => {
-      if (index === this.userList?.length - 1 && !this.currentUsersValid() && !this.showUserList) {
-        return false;
-      }
-      if(index === this.userList?.length - 1 && this.showUserList){
-        return true;
-      }
-      // if(index === this.userList.length - 1){
+      // if (index === this.userList?.length - 1 && !this.currentUsersValid() && !this.showUserList) {
+      //   return false;
+      // }
+      // if(index === this.userList?.length - 1 && this.showUserList){
       //   return true;
       // }
+      if(index === this.userList.length - 1){
+        return true;
+      }
       
       return this.isValidUser(u);
     });
@@ -406,7 +406,6 @@ export class UploadTeamComponent implements OnInit {
       return false;
     }
     if (!lastUser?.name && !lastUser?.phone) {
-
       return true;
     }
     return this.isValidUser(lastUser);
@@ -728,6 +727,7 @@ export class UploadTeamComponent implements OnInit {
     debugger
     if (!phone.trim()) {
       this.userList[index].isPhoneExist = false;
+      this.isNumberExist = false;
       return;
     }
   
@@ -769,6 +769,7 @@ export class UploadTeamComponent implements OnInit {
     debugger
     if (!email || email.length <= 5) {
       this.userList[index].isEmailExist = false;
+      this.isEmailExist = false;
       return;
     }
   
