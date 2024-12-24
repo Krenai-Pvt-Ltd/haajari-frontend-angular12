@@ -456,12 +456,13 @@ span.lat {
     height: 26px;
 }
 
-/* @media screen and (max-height: 1200px) {
+/* 
+@media screen and (max-height: 1200px) {
     .col-md-3 {
-        width: 19% !important;
+        width: 20% !important;
     }
 
     .col-md-9 {
-        width: 81% !important;
+        width: 80% !important;
     }
 } */
