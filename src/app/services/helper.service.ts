@@ -21,7 +21,9 @@ export class HelperService {
      private dataService: DataService,
      private router: Router,
      private _onboardingService: OrganizationOnboardingService
-     ) { }
+     ) { 
+      // this.getOrganizationInitialToDoStepBar();
+     }
   
    organizationRegistrationDate:string='';
    profileChangeStatus : Subject<boolean> = new Subject<boolean>();
@@ -308,7 +310,7 @@ export class HelperService {
         if(response.status) {
         this.stepId = stepId;
         }
-        // console.log("success");
+        // // console.log("success");
       },
       (error) => {
         // console.log('error');
@@ -407,6 +409,21 @@ export class HelperService {
     return false;
   };
 
+  stepsData: any;
+  getStepsData() {
+    debugger;
+    this.dataService.getStepsData().subscribe(
+      (response) => {
+        this.stepsData = response.listOfObject[0];
+        // console.log("success");
+        this.stepId = this.stepsData?.totalCompletedSteps;
+      },
+      (error) => {
+        // console.log('error');
+      }
+    );
+  }
+
   stepId : number = 0;
   getOnboardingStep() {
     debugger;
@@ -419,5 +436,8 @@ export class HelperService {
         }
       });
   }
+
+
+
 
 }

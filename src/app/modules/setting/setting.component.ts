@@ -19,6 +19,7 @@ export class SettingComponent implements OnInit {
 
   ngOnInit(): void {
     this.isToDoStepsCompletedData();
+    this.getOrganizationInitialToDoStepBar();
   }
 
   isToDoStepsCompleted: number = 1;
@@ -29,6 +30,23 @@ export class SettingComponent implements OnInit {
         this.isToDoStepsCompleted = response.object;
         // console.log("success");
         
+      },
+      (error) => {
+        // console.log('error');
+      }
+    );
+  }
+
+
+  isToDoStep: boolean = false;
+  getOrganizationInitialToDoStepBar() {
+    debugger;
+    this.dataService.getOrganizationInitialToDoStepBar().subscribe(
+      (response) => {
+      
+        this.isToDoStep = response.object;
+        console.log("######### todo step" , this.isToDoStep, "***********", this.helperService.isDashboardActive);
+        // console.log("success");
       },
       (error) => {
         // console.log('error');

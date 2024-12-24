@@ -96,6 +96,8 @@ export class CommonToDoStepsComponent implements OnInit, OnChanges {
         this.isToDoStepsCompletedFlag = response.object;
 
         if (this.isToDoStepsCompletedFlag == 0) {
+          this.STEP_ID = this.stepsData?.totalCompletedSteps;
+          this.helperService.stepId = this.STEP_ID;
           // this.getToDoStepViaSubject();
         } else {
           if (this.count == 0) {

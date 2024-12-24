@@ -26,6 +26,7 @@ export class DynamicComponent implements OnInit {
   ngOnInit(): void {
     // console.log(this.roleBasedAccessControlService.isUserInfoInitialized,"-------");
     this.isToDoStepsCompletedData();
+    this.getOrganizationInitialToDoStepBar();
   }
 
   
@@ -35,8 +36,25 @@ export class DynamicComponent implements OnInit {
     this.dataService.isToDoStepsCompleted().subscribe(
       (response) => {
         this.isToDoStepsCompleted = response.object;
-        // console.log("success");
+        console.log("isToDoStepsCompleted", this.isToDoStepsCompleted);
         
+      },
+      (error) => {
+        // console.log('error');
+      }
+    );
+  }
+
+
+  isToDoStep: boolean = false;
+  getOrganizationInitialToDoStepBar() {
+    debugger;
+    this.dataService.getOrganizationInitialToDoStepBar().subscribe(
+      (response) => {
+      
+        this.isToDoStep = response.object;
+        console.log("######### todo step" , this.isToDoStep, "***********", this._helperService.isDashboardActive);
+        // console.log("success");
       },
       (error) => {
         // console.log('error');

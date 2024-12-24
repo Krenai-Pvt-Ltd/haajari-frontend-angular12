@@ -15,6 +15,7 @@
   *ngIf="this.roleBasedAccessControlService.isUserInfoInitialized"
 ></router-outlet>
 <!-- {{isToDoStepsCompletedFlag}} -->
+ 
 <app-common-to-do-steps
-  *ngIf="isToDoStepsCompleted == 0 && !this._helperService.isDashboardActive"
+  *ngIf="isToDoStepsCompleted == 0 && (!this._helperService.isDashboardActive || (this._helperService.isDashboardActive && !isToDoStep))"
 ></app-common-to-do-steps>

@@ -41,11 +41,16 @@ export class AuthGuard implements CanActivate {
       return false;
     }
 
+   
     if( route!.routeConfig!.path == 'dashboard'){
       this._helperService.isDashboardActive=true;
     }else{
       this._helperService.isDashboardActive=false;
     }
+
+    console.log("=====this._helperService.isDashboardActive======",this._helperService.isDashboardActive, "====route====",route!.routeConfig!.path);
+
+    
     await this.rbacService.isUserInfoInitializedMethod();
     // console.log("=====isSubscription======",this._subscriptionService.isSubscription)
 
