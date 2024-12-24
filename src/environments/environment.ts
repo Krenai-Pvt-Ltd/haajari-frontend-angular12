@@ -20,10 +20,7 @@ export const RAZOR_PAY_KEY: string = 'rzp_test_Wd1RYd0fng3673';
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  export const BASE_URL = 'http://localhost:8082/api/v2';
-
-//  export const BASE_URL = 'http://localhost:8080/api/v2';
-// >>>>>>> ec17ff7c91762d464c22a99526ee957872d6a53c
+ export const BASE_URL = 'http://localhost:8082/api/v2';
 
 /* ------------------  Staging urls ----------------*/
 // export const BASE_URL = 'https://staging.hajiri.work/api/v2';

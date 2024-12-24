@@ -1593,16 +1593,24 @@
                                         <div class="form-group">
                                             <label for="startDate" class="mb-2">Pick a starting date</label>
                                             <nz-date-picker formControlName="startDate" nzPlaceHolder="dd/mm/yyyy"
-                                                [nzDisabledDate]="disableStartDate"
+                                                [nzDisabledDate]="disableStartDate && disableHolidayDate" [nzDateRender]="dateCellTemplate"
                                                 [(ngModel)]="userLeaveRequest.startDate" required></nz-date-picker>
+
+                                                <ng-template #dateCellTemplate let-current>
+                                                    <app-holiday-date-picker [holidays]="holidays" [currentDate]="current"></app-holiday-date-picker>
+                                                </ng-template>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="endDate" class="mb-2">Pick an ending date</label>
                                             <nz-date-picker formControlName="endDate" nzPlaceHolder="dd/mm/yyyy"
-                                                [(ngModel)]="userLeaveRequest.endDate" [nzDisabledDate]="disableEndDate"
-                                                required></nz-date-picker>
+                                                [(ngModel)]="userLeaveRequest.endDate" [nzDisabledDate]="disableEndDate && disableHolidayDate"
+                                                [nzDateRender]="dateCellTemplate" required></nz-date-picker>
+
+                                                <ng-template #dateCellTemplate let-current>
+                                                    <app-holiday-date-picker [holidays]="holidays" [currentDate]="current"></app-holiday-date-picker>
+                                                </ng-template>
                                         </div>
                                     </div>
                                 </div>

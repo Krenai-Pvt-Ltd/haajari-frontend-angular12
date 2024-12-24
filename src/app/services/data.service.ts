@@ -17,7 +17,7 @@ import {
 } from '../models/Attendance.model';
 import { RoleRequest } from '../models/role-request';
 import { UserPersonalInformationRequest } from '../models/user-personal-information-request';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, map, shareReplay, tap } from 'rxjs/operators';
 import { UserAddressDetailsRequest } from '../models/user-address-details-request';
 import { UserAcademicsDetailRequest } from '../models/user-academics-detail-request';
 import { UserExperience } from '../models/user-experience';
@@ -2501,6 +2501,22 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
       { params }
     );
   }
+
+  getAllHoliday(){
+    return this.httpClient.get<WeekDay[]>(
+      `${this.baseUrl}/holiday/all`
+    );
+  }
+  
+  // private holidays$: any = Observable<{ [key: string]: string }>
+  // getAllHoliday(): Observable<{ [key: string]: string }> {
+  //   if (!this.holidays$) {
+  //     this.holidays$ = this.httpClient
+  //       .get<{ [key: string]: string }>(`${this.baseUrl}/holiday/all`) // Replace with actual API
+  //       .pipe(shareReplay(1)); // Cache the result for reuse
+  //   }
+  //   return this.holidays$;
+  // }
 
   // ###############
 

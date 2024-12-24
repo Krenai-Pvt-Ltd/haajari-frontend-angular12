@@ -786,3 +786,10 @@ actionMenuList .dropdown-item i {
   min-height: 35px !important;
   background-color: transparent !important;
 }
+
+/* Add to your global styles or the component styles */
+.holiday-highlight {
+  background-color: red !important;
+  color: white;
+  border-radius: 50%;
+}

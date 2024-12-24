@@ -27,6 +27,7 @@ import { EmployeeExpenseComponent } from './employee-expense/employee-expense.co
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { EpmployeeFinanceComponent } from './epmployee-finance/epmployee-finance.component';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
+import { HolidayDatePickerComponent } from '../common/holiday-date-picker/holiday-date-picker.component';
 
 
 
@@ -43,7 +44,9 @@ import { NzSwitchModule } from 'ng-zorro-antd/switch';
     EmployeeExitComponent,
     EmployeeExpenseComponent,
     DashboardComponent,
-    EpmployeeFinanceComponent
+    EpmployeeFinanceComponent,
+    HolidayDatePickerComponent
+
   ],
   imports: [
     CommonModule,
