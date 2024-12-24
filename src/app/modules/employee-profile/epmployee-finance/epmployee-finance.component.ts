@@ -1,4 +1,10 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { EmployeePayslipLogResponse } from 'src/app/employee-payslip-log-response';
+import { EmployeePayslipBreakupResponse } from 'src/app/models/employee-payslip-breakup-response';
+import { EmployeePayslipDeductionResponse } from 'src/app/models/employee-payslip-deduction-response';
+import { EmployeePayslipResponse } from 'src/app/models/employee-payslip-response';
+import { DataService } from 'src/app/services/data.service';
+import { HelperService } from 'src/app/services/helper.service';
 
 @Component({
   selector: 'app-epmployee-finance',
@@ -7,11 +13,33 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 })
 export class EpmployeeFinanceComponent implements OnInit, AfterViewInit {
 
-  constructor() { }
+
+  userUuid : string ='';
+
+  constructor(private _dataService : DataService,
+      private _helperService : HelperService
+  ) { 
+
+    const userUuidParam = new URLSearchParams(window.location.search).get('userId');
+    this.userUuid = userUuidParam?.toString() ?? ''
+  }
 
   financeBlur: boolean = true;
 
   ngOnInit(): void {
+
+    let currentDate = new Date();
+    this.startDate = this._helperService.formatDateToYYYYMMDD(
+      new Date(currentDate.getFullYear(), currentDate.getMonth(), 1)
+    );
+    this.endDate = this._helperService.formatDateToYYYYMMDD(
+      new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0)
+    );
+
+    this.getEmployeePayslipResponseByUserUuidMethodCall();
+    this.getEmployeePayslipBreakupResponseByUserUuidMethodCall();
+    this.getEmployeePayslipDeductionResponseByUserUuidMethodCall();
+    this.getEmployeePayslipLogResponseByUserUuidMethodCall();
   }
 
   ngAfterViewInit(): void {
@@ -95,9 +123,144 @@ export class EpmployeeFinanceComponent implements OnInit, AfterViewInit {
 
   }
 
+  startDate:string='';
+  endDate:string ='';
+  //GET START DATE OF MONTH AND END DATE OF MONTH FROM CURRENT DATE
+  getFirstAndLastDateOfMonth() {
+    let currentDate = new Date();
+    this.startDate = this._helperService.formatDateToYYYYMMDD(
+      new Date(currentDate.getFullYear(), currentDate.getMonth(), 1)
+    );
+    this.endDate = this._helperService.formatDateToYYYYMMDD(
+      new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0)
+    );
+  }
 
   switchFinanceBlur() {
     this.financeBlur = this.financeBlur == true ? false : true;
+  }
+
+
+  isShimmerForEmployeePayslipResponse = false;
+  dataNotFoundPlaceholderForEmployeePayslipResponse = false;
+  networkConnectionErrorPlaceHolderForEmployeePayslipResponse = false;
+  preRuleForShimmersAndErrorPlaceholdersForEmployeePayslipResponseMethodCall() {
+    this.isShimmerForEmployeePayslipResponse = true;
+    this.dataNotFoundPlaceholderForEmployeePayslipResponse = false;
+    this.networkConnectionErrorPlaceHolderForEmployeePayslipResponse = false;
+  }
+
+  isShimmerForEmployeePayslipBreakupResponse = false;
+  dataNotFoundPlaceholderForEmployeePayslipBreakupResponse = false;
+  networkConnectionErrorPlaceHolderForEmployeePayslipBreakupResponse = false;
+  preRuleForShimmersAndErrorPlaceholdersForEmployeePayslipBreakupResponseMethodCall() {
+    this.isShimmerForEmployeePayslipBreakupResponse = true;
+    this.dataNotFoundPlaceholderForEmployeePayslipBreakupResponse = false;
+    this.networkConnectionErrorPlaceHolderForEmployeePayslipBreakupResponse = false;
+  }
+
+  isShimmerForEmployeePayslipDeductionResponse = false;
+  dataNotFoundPlaceholderForEmployeePayslipDeductionResponse = false;
+  networkConnectionErrorPlaceHolderForEmployeePayslipDeductionResponse = false;
+  preRuleForShimmersAndErrorPlaceholdersForEmployeePayslipDeductionResponseMethodCall() {
+    this.isShimmerForEmployeePayslipDeductionResponse = true;
+    this.dataNotFoundPlaceholderForEmployeePayslipDeductionResponse = false;
+    this.networkConnectionErrorPlaceHolderForEmployeePayslipDeductionResponse = false;
+  }
+
+  isShimmerForEmployeePayslipLogResponse = false;
+  dataNotFoundPlaceholderForEmployeePayslipLogResponse = false;
+  networkConnectionErrorPlaceHolderForEmployeePayslipLogResponse = false;
+  preRuleForShimmersAndErrorPlaceholdersForEmployeePayslipLogResponseMethodCall() {
+    this.isShimmerForEmployeePayslipLogResponse = true;
+    this.dataNotFoundPlaceholderForEmployeePayslipLogResponse = false;
+    this.networkConnectionErrorPlaceHolderForEmployeePayslipLogResponse = false;
+  }
+
+  employeePayslipResponse : EmployeePayslipResponse = new EmployeePayslipResponse();
+  getEmployeePayslipResponseByUserUuidMethodCall(){
+    this.preRuleForShimmersAndErrorPlaceholdersForEmployeePayslipResponseMethodCall();
+    this._dataService.getEmployeePayslipResponseByUserUuid(this.userUuid, this.startDate, this.endDate).subscribe((response) => {
+      if(this._helperService.isObjectNullOrUndefined(response)){
+        this.dataNotFoundPlaceholderForEmployeePayslipResponse = true;
+        this.employeePayslipResponse = new EmployeePayslipResponse();
+        // this.payrollChartDataNotFoundMehthodCall();
+      } else{
+        this.employeePayslipResponse = response.object;
+        // this.payrollChartMehthodCall();
+      }
+      this.isShimmerForEmployeePayslipResponse = false;
+    }, (error) => {
+      this.networkConnectionErrorPlaceHolderForEmployeePayslipResponse = true;
+      this.isShimmerForEmployeePayslipResponse = false;
+    })
+  }
+
+
+  monthlySalary:number=0;
+  earningSalary:number=0;
+  employeePayslipBreakupResponseList : EmployeePayslipBreakupResponse[] = [];
+  getEmployeePayslipBreakupResponseByUserUuidMethodCall(){
+    this.preRuleForShimmersAndErrorPlaceholdersForEmployeePayslipBreakupResponseMethodCall();
+    this._dataService.getEmployeePayslipBreakupResponseByUserUuid(this.userUuid, this.startDate, this.endDate).subscribe((response) => {
+      if(this._helperService.isListOfObjectNullOrUndefined(response)){
+        this.dataNotFoundPlaceholderForEmployeePayslipBreakupResponse = true;
+        this.employeePayslipBreakupResponseList = [];
+      } else{
+        this.employeePayslipBreakupResponseList = response.listOfObject;
+        this.monthlySalary =0;
+        this.earningSalary = 0;
+        this.employeePayslipBreakupResponseList.forEach((salary)=>{
+          this.monthlySalary = this.monthlySalary + salary.standardAmount;
+          this.earningSalary = this.earningSalary + salary.actualAmount;
+        });
+
+      }
+
+      this.isShimmerForEmployeePayslipBreakupResponse = true;
+    }, (error) => {
+      this.networkConnectionErrorPlaceHolderForEmployeePayslipBreakupResponse = true;
+      this.isShimmerForEmployeePayslipBreakupResponse = true;
+    })
+  }
+
+  employeePayslipDeductionResponse : EmployeePayslipDeductionResponse = new EmployeePayslipDeductionResponse();
+  getEmployeePayslipDeductionResponseByUserUuidMethodCall(){
+    this.preRuleForShimmersAndErrorPlaceholdersForEmployeePayslipDeductionResponseMethodCall();
+    this._dataService.getEmployeePayslipDeductionResponseByUserUuid(this.userUuid, this.startDate, this.endDate).subscribe((response) => {
+      if(this._helperService.isObjectNullOrUndefined(response)){
+        this.dataNotFoundPlaceholderForEmployeePayslipDeductionResponse = true;
+      } else{
+        this.employeePayslipDeductionResponse = response.object;
+      }
+
+      this.isShimmerForEmployeePayslipDeductionResponse = true;
+    }, (error) => {
+      this.networkConnectionErrorPlaceHolderForEmployeePayslipDeductionResponse = true;
+      this.isShimmerForEmployeePayslipDeductionResponse = true;
+    })
+  }
+
+  employeePayslipLogResponseList : EmployeePayslipLogResponse[] = [];
+  getEmployeePayslipLogResponseByUserUuidMethodCall(){
+    this.preRuleForShimmersAndErrorPlaceholdersForEmployeePayslipLogResponseMethodCall();
+    this._dataService.getEmployeePayslipLogResponseByUserUuid(this.userUuid, this.startDate, this.endDate).subscribe((response) => {
+      if(this._helperService.isListOfObjectNullOrUndefined(response)){
+        this.dataNotFoundPlaceholderForEmployeePayslipLogResponse = true;
+      } else{
+        this.employeePayslipLogResponseList = response.listOfObject;
+        console.log( this.employeePayslipLogResponseList);
+
+      }
+      this.isShimmerForEmployeePayslipLogResponse = false;
+    }, (error) => {
+      this.isShimmerForEmployeePayslipLogResponse = false;
+      this.networkConnectionErrorPlaceHolderForEmployeePayslipLogResponse = true;
+    })
+  }
+
+  downloadPaySlip(url: string, name: string){
+    this._helperService.downloadPdf(url, name);
   }
 
 }
