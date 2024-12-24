@@ -198,8 +198,39 @@ export class PayrollService {
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  
+  getNewJoinee(startDate: string,endDate: string,itemPerPage: number,pageNumber: number,search: string): Observable<any> {
+    const params = new HttpParams()
+    .set('start_date', startDate)
+    .set('end_date', endDate)
+    .set('item_per_page', itemPerPage)
+    .set('page_number', pageNumber)
+    .set('search', search);
+    return this._http.get<any>(`${this._key.base_url}/salary/user/change/new-joinee`,{ params });
+  }
 
 
+  getUserInExitProcess(startDate: string,endDate: string,itemPerPage: number,pageNumber: number,search: string): Observable<any> {
+    const params = new HttpParams()
+    .set('start_date', startDate)
+    .set('end_date', endDate)
+    .set('item_per_page', itemPerPage)
+    .set('page_number', pageNumber)
+    .set('search', search);
+  return this._http.get<any>(`${this._key.base_url}/salary/user/change/user-exit`,{ params });
+}
+
+
+getFNFUser(startDate: string,endDate: string,itemPerPage: number,pageNumber: number,search: string): Observable<any> {
+  const params = new HttpParams()
+  .set('start_date', startDate)
+  .set('end_date', endDate)
+  .set('item_per_page', itemPerPage)
+  .set('page_number', pageNumber)
+  .set('search', search);
+return this._http.get<any>(`${this._key.base_url}/salary/user/change/final-settlement`,{ params });
+}
+  
   getPendingLeaves(startDate : string, endDate : string, page: number, size: number): Observable<any> {
     const params = new HttpParams()
     .set('start_date', startDate)
@@ -209,17 +240,7 @@ export class PayrollService {
     return this._http.get<any>(`${this._key.base_url}/payroll/step/attendance/pending-leaves`,{ params });
   }
 
-
-  getUserInExitProcess(startDate: string,endDate: string,isFNF:number,itemPerPage: number,pageNumber: number,search: string): Observable<any> {
-      const params = new HttpParams()
-      .set('start_date', startDate)
-      .set('end_date', endDate)
-      .set('item_per_page', itemPerPage)
-      .set('page_number', pageNumber)
-      .set('is_fnf', isFNF)
-      .set('search', search);
-    return this._http.get<any>(`${this._key.base_url}/user-resignation`,{ params });
-  }
+ 
 
 
   getUserSalaryChange(startDate: string,endDate: string, itemPerPage: number,pageNumber: number, search:string): Observable<any> {

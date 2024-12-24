@@ -1275,11 +1275,11 @@ export class PayrollDashboardComponent implements OnInit {
       this.newJoineeAndUserExitRequestList = [];
 
 
-        this.newJoineeResponseList.forEach((item) => {
-          let newJoineeAndUserExitRequest = new NewJoineeAndUserExitRequest(item.uuid, item.payActionTypeId, item.comment);
+        // this.newJoineeResponseList.forEach((item) => {
+        //   let newJoineeAndUserExitRequest = new NewJoineeAndUserExitRequest(item.uuid, item.payActionId, item.comment);
 
-          this.newJoineeAndUserExitRequestList.push(newJoineeAndUserExitRequest);
-        });
+        //   this.newJoineeAndUserExitRequestList.push(newJoineeAndUserExitRequest);
+        // });
       } 
 
       if(this.CURRENT_TAB_IN_EMPLOYEE_CHANGE == this.USER_EXIT){

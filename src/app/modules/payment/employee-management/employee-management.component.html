@@ -9,15 +9,15 @@
 <ul class="nav nav-pills mb-3 mt-4" id="pills-tab" role="tablist">
   <li class="nav-item" role="presentation">
     <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button"
-      role="tab" aria-controls="pills-home" aria-selected="true">NEW JOINEE</button>
+      role="tab" aria-controls="pills-home" aria-selected="true" (click)="selectTab(NEW_JOINEE)">NEW JOINEE</button>
   </li>
   <li class="nav-item" role="presentation">
     <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button"
-      role="tab" aria-controls="pills-profile" aria-selected="false">EMPLOYEES IN EXIT PROCESS</button>
+      role="tab" aria-controls="pills-profile" aria-selected="false" (click)="selectTab(USER_EXIT)">EMPLOYEES IN EXIT PROCESS</button>
   </li>
   <li class="nav-item" role="presentation">
     <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button"
-      role="tab" aria-controls="pills-contact" aria-selected="false">FULL AND FINAL SETTLEMENT</button>
+      role="tab" aria-controls="pills-contact" aria-selected="false" (click)="selectTab(FINAL_SETTLEMENT)">FULL AND FINAL SETTLEMENT</button>
   </li>
 </ul>
 <div class="tab-content" id="pills-tabContent">
@@ -25,20 +25,18 @@
     <div class="tab-pane active" id="step1">
       <div class="table-responsive">
         <div class="col-md-12 mt-2 mb-3">
-          <form novalidate="" role="search" (submit)="searchUsers($event, 1)"
-            class="searching ng-untouched ng-pristine ng-valid">
             <div class="form-group position-relative">
               <input type="text" id="search" placeholder="Search by name and email"
                 class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px"
-                (keyup)="searchUsers($event, 1)" [(ngModel)]="search" [ngModelOptions]="{ standalone: true }" />
+                (keyup)="searchNewJoinee($event)" (paste)="searchNewJoinee($event)"
+                [(ngModel)]="search" [ngModelOptions]="{ standalone: true }" />
 
-              <i *ngIf="search.length > 0" (click)="clearSearch(1)" class="bi bi-x search-icon"
+              <i *ngIf="search.length > 0" (click)="resetSearch()" class="bi bi-x search-icon"
                 style="font-size: 20px !important; margin: auto; margin-left: 10px"></i>
 
               <i *ngIf="search.length == 0" class="bi bi-search search-icon"
                 style="margin: auto; margin-left: 10px"></i>
             </div>
-          </form>
         </div>
         <table class="table border-dashed mb-0">
           <thead>
@@ -78,11 +76,11 @@
                   <td>{{ newJoineeResponse.email || 'N/A'}}</td>
                   <td>{{ newJoineeResponse.phone || 'N/A' }}</td>
                   <td class="text-start">
-                    {{ newJoineeResponse.joiningDate | date: 'fullDate' }}
+                    {{ newJoineeResponse.joinDate | date: 'fullDate' }}
                   </td>
                   <td>{{newJoineeResponse.payoutDays || 0}}</td>
                   <td class="text-">
-                    <nz-select style="width: 100%" nzSize="large" [(ngModel)]="newJoineeResponse.payActionTypeId"
+                    <nz-select style="width: 100%" nzSize="large" [(ngModel)]="newJoineeResponse.payActionId"
                       id="selePayType{{i}}" name="selectPayType{{i}}"
                       (ngModelChange)="onPayActionTypeChange(newJoineeResponse)" class="form-control">
                       <nz-option *ngFor="let action of payActionTypes" [nzValue]="action.id"
@@ -136,20 +134,17 @@
     <div class="tab-pane" id="step2">
       <div class="table-responsive">
         <div class="col-md-12 mt-2 mb-3">
-          <form novalidate="" role="search" (submit)="searchUsers($event, 1)"
-            class="searching ng-untouched ng-pristine ng-valid">
             <div class="form-group position-relative">
               <input type="text" id="search" placeholder="Search by name and email"
                 class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px"
-                (keyup)="searchUsers($event, 1)" [(ngModel)]="search" [ngModelOptions]="{ standalone: true }" />
-
-              <i *ngIf="search.length > 0" (click)="clearSearch(1)" class="bi bi-x search-icon"
+                (keyup)="searchNewJoinee($event)" (paste)="searchNewJoinee($event)" 
+                [(ngModel)]="search" [ngModelOptions]="{ standalone: true }" />
+              <i *ngIf="search.length > 0" (click)="resetSearch()" class="bi bi-x search-icon"
                 style="font-size: 20px !important; margin: auto; margin-left: 10px"></i>
 
               <i *ngIf="search.length == 0" class="bi bi-search search-icon"
                 style="margin: auto; margin-left: 10px"></i>
             </div>
-          </form>
         </div>
         <table class="table border-dashed mb-0">
           <thead>
@@ -158,7 +153,7 @@
               <th>EMAIL</th>
               <th>PHONE</th>
               <th>DATE OF RESIGNATION</th>
-              <th>LAST WORKING DAY</th>
+              <th>LAST WORKING DATE</th>
               <th>RESIGNATION STATUS</th>
               <th>PAY ACTION</th>
             </tr>
@@ -187,28 +182,29 @@
               <tbody *ngFor="
                         let userExitResponse of userExitResponseList; let i=index;">
                 <tr>
-                  <td>{{ userExitResponse.userName }}</td>
+                  <td>{{ userExitResponse.name }}</td>
                   <td>{{ userExitResponse.email || 'N/A' }}</td>
                   <td>{{ userExitResponse.phone || 'N/A' }}</td>
                   <td>
-                    {{ constant.EMPTY_STRINGS.includes(userExitResponse.createdDate) ? 'N/A' :
-                    (userExitResponse.createdDate | date: 'dd MMMM, yyyy') }}
+                    {{ constant.EMPTY_STRINGS.includes(userExitResponse.resignDate) ? 'N/A' :
+                    (userExitResponse.resignDate | date: 'dd MMMM, yyyy') }}
                   </td>
                   <td>
                     {{ constant.EMPTY_STRINGS.includes(userExitResponse.lastWorkingDate) ? 'N/A' :
                     (userExitResponse.lastWorkingDate | date: 'dd MMMM, yyyy') }}
                   </td>
+                  <td class="text-start">
+                    <span *ngIf="userExitResponse.statusId==42"> NOTICE PERIOD </span>
+                  </td>
                   <td class="text-">
-                    <nz-select style="width: 100%" nzSize="large" [(ngModel)]="userExitResponse.payActionTypeId"
+                    <nz-select style="width: 100%" nzSize="large" [(ngModel)]="userExitResponse.payActionId"
                       id="seleExitPayType{{i}}" name="seleExitPayType{{i}}"
                       (ngModelChange)="onPayActionTypeChange(userExitResponse)" class="form-control">
                       <nz-option *ngFor="let action of payActionTypes" [nzValue]="action.id"
                         [nzLabel]="action.value"></nz-option>
                     </nz-select>
                   </td>
-                  <td class="text-start">
-                    {{ userExitResponse.status.response }}
-                  </td>
+                  
                 </tr>
               </tbody>
             </ng-container>
@@ -256,20 +252,19 @@
     <div class="tab-pane" id="step3">
       <div class="table-responsive">
         <div class="col-md-12 mt-2 mb-3">
-          <form novalidate="" role="search" (submit)="searchUsers($event, 1)"
-            class="searching ng-untouched ng-pristine ng-valid">
+          
             <div class="form-group position-relative">
               <input type="text" id="search" placeholder="Search by name and email"
                 class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px"
-                (keyup)="searchUsers($event, 1)" [(ngModel)]="search" [ngModelOptions]="{ standalone: true }" />
-
-              <i *ngIf="search.length > 0" (click)="clearSearch(1)" class="bi bi-x search-icon"
+                (keyup)="searchNewJoinee($event)" (paste)="searchNewJoinee($event)" 
+                [(ngModel)]="search" [ngModelOptions]="{ standalone: true }" />
+              <i *ngIf="search.length > 0" (click)="resetSearch()" class="bi bi-x search-icon"
                 style="font-size: 20px !important; margin: auto; margin-left: 10px"></i>
 
               <i *ngIf="search.length == 0" class="bi bi-search search-icon"
                 style="margin: auto; margin-left: 10px"></i>
             </div>
-          </form>
+
         </div>
         <table class="table border-dashed mb-0">
           <thead>
@@ -308,12 +303,12 @@
               <tbody *ngFor="
                         let finalSettlementResponse of finalSettlementResponseList; let i = index;">
                 <tr>
-                  <td>{{ finalSettlementResponse.userName }}</td>
+                  <td>{{ finalSettlementResponse.name }}</td>
                   <td>{{ finalSettlementResponse.email || 'N/A' }}</td>
                   <td>{{ finalSettlementResponse.phone || 'N/A'}}</td>
                   <td>
-                    {{ constant.EMPTY_STRINGS.includes(finalSettlementResponse.createdDate) ? 'N/A' :
-                    (finalSettlementResponse.createdDate | date: 'dd MMMM, yyyy') }}
+                    {{ constant.EMPTY_STRINGS.includes(finalSettlementResponse.resignDate) ? 'N/A' :
+                    (finalSettlementResponse.resignDate | date: 'dd MMMM, yyyy') }}
                   </td>
                   <td>
                     {{ constant.EMPTY_STRINGS.includes(finalSettlementResponse.lastWorkingDate) ? 'N/A' :
@@ -323,16 +318,17 @@
                     {{ constant.EMPTY_STRINGS.includes(finalSettlementResponse.fnfDate) ? 'N/A' :
                     (finalSettlementResponse.fnfDate | date: 'dd MMMM, yyyy') }}
                   </td>
-
+                  <td class="text-start">
+                    <span *ngIf="finalSettlementResponse.statusId==43"> EXIT </span>
+                  </td>
                   <td class="text-">
-                    <nz-select style="width: 100%" nzSize="large" [(ngModel)]="finalSettlementResponse.payActionTypeId"
+                    <nz-select style="width: 100%" nzSize="large" [(ngModel)]="finalSettlementResponse.payActionId"
                       id="seleFnfPayType{{i}}" name="seleFnfPayType{{i}}"
                       (ngModelChange)="onPayActionTypeChange(finalSettlementResponse)" class="form-control">
                       <nz-option *ngFor="let action of payActionTypes" [nzValue]="action.id"
                         [nzLabel]="action.value"></nz-option>
                     </nz-select>
                   </td>
-                  <td> {{ finalSettlementResponse.status.response}}</td>
                 </tr>
               </tbody>
             </ng-container>
