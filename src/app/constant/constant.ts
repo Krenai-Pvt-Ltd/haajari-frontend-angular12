@@ -13,5 +13,15 @@ export class constant{
     public static ORG_ONBOARDING_ONBOARDING_COMPLETED_STEP_ID = "5";
 
 
+
+    public static ORG_ONBOARDING_PERSONAL_INFORMATION_ROUTE = "/organization-onboarding/personal-information";
+    public static ORG_ONBOARDING_EMPLOYEE_CREATION_ROUTE = "/organization-onboarding/upload-team";
+    public static ORG_ONBOARDING_SHIFT_TIME_ROUTE = "/organization-onboarding/shift-time-list";
+    public static ORG_ONBOARDING_ATTENDANCE_MODE_ROUTE = "/organization-onboarding/attendance-mode";
+    public static DASHBOARD_ROUTE = "/dashboard";
+    public static SETTING_SUBSCRIPTION_ROUTE = "/setting/subscription";
+    public static LOGIN_ROUTE = "/auth/login";
+
+
 }
 

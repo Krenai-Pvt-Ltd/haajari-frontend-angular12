@@ -141,7 +141,7 @@ export class ToDoStepDashboardComponent implements OnInit {
     this.dataService.isOrgOnboarToday().subscribe(
       (response) => {
         this.isOrgOnboardToday = response.object;
-
+        
         this.isToDoStepsCompletedData(this.isOrgOnboardToday);
         console.log('isToDoStepsCompletedFlag :', this.isToDoStepsCompleted);
       },

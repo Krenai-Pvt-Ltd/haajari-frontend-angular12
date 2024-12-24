@@ -1577,6 +1577,9 @@ getPagesNew(): (number | string)[] {
       (response) => {
         this.isToDoStepsCompleted = response.object;
 
+        if(this.isOrgOnboardToday == 1 && this.isToDoStepsCompleted == 1) {
+          this.hideOrganizationInitialToDoStepBar();
+        }
         // if(this.isToDoStepsCompleted == 0 && isOrgOnboardToday == 1) {
         //   this.router.navigate(['/to-do-step-dashboard']);
         // }else {
