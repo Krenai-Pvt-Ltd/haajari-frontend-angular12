@@ -297,7 +297,7 @@
     border-radius: 3px;
 }
 
-.nav-link:hover{
+.nav-link:hover {
     color: #060606 !important;
 }
 
@@ -372,11 +372,11 @@ span.lat {
 }
 
 .col-md-3 {
-    width: 22% !important;
+    width: 22%;
 }
 
 .col-md-9 {
-    width: 78% !important;
+    width: 78%;
 }
 
 .break-notifaction {
@@ -428,7 +428,7 @@ span.lat {
     text-align: left;
 } */
 
-.nav-link svg{
+.nav-link svg {
     width: 15px;
     position: relative;
     top: -2px;
@@ -442,14 +442,26 @@ span.lat {
     /* padding-bottom: 15px; */
 }
 
-.resignation-box{
+.resignation-box {
     background: linear-gradient(97deg, #2F2F2F -22.99%, #6666F2 169.69%);
 }
-.resignation-box button{
+
+.resignation-box button {
     text-decoration: underline;
     font-weight: 500;
     font-size: 15px;
 }
-.resignation-box img{
+
+.resignation-box img {
     height: 26px;
 }
+
+/* @media screen and (max-height: 1200px) {
+    .col-md-3 {
+        width: 19% !important;
+    }
+
+    .col-md-9 {
+        width: 81% !important;
+    }
+} */
