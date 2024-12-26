@@ -5,6 +5,7 @@ import { constant } from '../constant/constant';
 import { HelperService } from './helper.service';
 import { SubscriptionPlanService } from './subscription-plan.service';
 import { RoleBasedAccessControlService } from './role-based-access-control.service';
+import { Key } from '../constant/key';
 @Injectable({
   providedIn: 'root'
 })
@@ -20,6 +21,7 @@ export class OnboardingService {
   }
 
   async checkOnboardingStatus() {
+    debugger
     this.onboardingService
       .getOrgOnboardingStep()
       .subscribe(async (response: any) => {
@@ -33,8 +35,14 @@ export class OnboardingService {
               await this.helperService.getRestrictedModules();
             }
           }
-
-          this.switchToRoutes(this.helperService.orgStepId);
+  
+          if((await this.rbacService.getRole()) != constant.USER){
+             this.switchToRoutes(this.helperService.orgStepId);
+          }else {
+            // this.helperService.orgStepId = 5;
+            // this.router.navigate([Key.EMPLOYEE_PROFILE_ROUTE]);
+            this.isLoadingOnboardingStatus = false;
+          }
 
         }
       },

@@ -11,6 +11,7 @@
     <app-header></app-header>
   </div> -->
 </div>
+
 <router-outlet
   *ngIf="this.roleBasedAccessControlService.isUserInfoInitialized && this.helperService.orgStepId  && !onboardingService.isLoadingOnboardingStatus"
 ></router-outlet>
