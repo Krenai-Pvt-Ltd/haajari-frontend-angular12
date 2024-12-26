@@ -78,3 +78,15 @@
 .table tbody {
   border: 1px solid #f1f1f1;
 }
+
+.search-icon {
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.close-btn {
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+}

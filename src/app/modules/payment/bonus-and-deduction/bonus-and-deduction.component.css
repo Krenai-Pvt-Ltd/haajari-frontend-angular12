@@ -215,3 +215,13 @@
 .table tbody {
   border: 1px solid #f1f1f1;
 }
+
+.search-icon {
+  margin: auto;
+  margin-left: 15px;
+}
+
+.close-btn {
+  right: 20px;
+  top: 3px;
+}
