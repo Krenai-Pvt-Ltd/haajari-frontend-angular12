@@ -17,6 +17,7 @@ import { ReasonOfRejectionProfile } from 'src/app/models/reason-of-rejection-pro
 import { constant } from 'src/app/constant/constant';
 import { ProfileService } from 'src/app/services/profile.service';
 import { EmployeeFormField } from 'src/app/constant/EmployeeFormField';
+import _ from 'lodash';
 
 @Component({
   selector: 'app-personal-information',
@@ -79,9 +80,10 @@ export class PersonalInformationComponent implements OnInit{
     this.getOnboardingFormPreviewMethodCall();
     this.loadRoutes();
     this.getPendingRequest();
+    this.getUserData(this.userId);
   }
 
-  
+
   initializeFormGroup(){
 
     this.onboardingForm = this.fb.group({
@@ -136,6 +138,19 @@ export class PersonalInformationComponent implements OnInit{
     });
     }
 
+    userData: any;
+    getUserData(uuid: string): void {
+      this.dataService.getUserAllData(uuid).subscribe({
+        next: (data) => {
+          this.userData = data;
+          this.onboardingPreviewData = data;
+
+        },
+        error: (error) => {
+          console.error('Error fetching user data:', error);
+        }
+      });
+    }
   getOnboardingFormPreviewMethodCall() {
     this.profileLoading = true;
     const userUuid = new URLSearchParams(window.location.search).get('userId') || '';
@@ -259,14 +274,29 @@ export class PersonalInformationComponent implements OnInit{
     return new Promise((resolve, reject) => {
       debugger
       //TODO: user constants
-      this.onboardingPreviewDataCopy = JSON.parse(JSON.stringify(this.onboardingPreviewData));
-      console.log("🚀 ~ PersonalInformationComponent ~ returnnewPromise ~ this.routes.length:", this.routes.length)
+      this.onboardingPreviewDataCopy = {
+        user: this.userData.user,
+        userAddress: this.userData.userAddress,
+        userAcademics: this.userData.userAcademics,
+        userEmergencyContacts: this.userData.userEmergencyContacts,
+        userDocuments: this.userData.userDocuments,
+        employeeAdditionalDocuments: this.userData.employeeAdditionalDocuments,
+        employeeCompanyDocuments: this.userData.employeeCompanyDocuments,
+        companyLogo: this.userData.companyLogo,
+        userExperience: this.userData.userExperience,
+        userBankDetails: this.userData.userBankDetails,
+        userGuarantorInformation: this.userData.userGuarantorInformation,
+        fresher: this.userData.fresher,
+        reasonOfRejection: this.userData.reasonOfRejection
+      }
+      console.log("🚀 ~ PersonalInformationComponent ~ returnnewPromise ~ this.routes.length:", this.onboardingPreviewDataCopy)
+      console.log("🚀 ~ PersonalInformationComponent ~ returnnewPromise ~ this.routes.length:", this.onboardingPreviewData)
 
       if (this.routes.includes('/employee-address-detail')) {
         ++sectionIterated;
 
         this.onboardingPreviewDataCopy.userAddress = this.onboardingPreviewDataCopy.userAddress == null ? [] : this.onboardingPreviewDataCopy.userAddress;
-        this.onboardingPreviewDataCopy.userAddress = [];
+        // this.onboardingPreviewDataCopy.userAddress = [];
         if (this.eligibleFormRoutes == sectionIterated) {
           resolve(true);
         }
@@ -660,9 +690,10 @@ export class PersonalInformationComponent implements OnInit{
 
   // Recursive function to compare form values
   compareValues(initial: any, current: any, parentKey: string = '') {
+    debugger
     Object.keys(initial).forEach((key) => {
       const fullKey = parentKey ? `${parentKey}.${key}` : key;
-
+// && initial[key] !== null
       if (typeof initial[key] === 'object' && initial[key] !== null) {
         // Recursively compare nested objects
         if (current[key] && typeof current[key] === 'object') {
@@ -671,7 +702,7 @@ export class PersonalInformationComponent implements OnInit{
           // Handle cases where the structure is different
           this.updateChangeLog(fullKey, JSON.stringify(initial[key]), current[key] || null);
         }
-      } else if (initial[key] !== current[key] && !this.Constants.EMPTY_STRINGS.includes(current[key])) {
+      } else if (initial[key] !== current[key] ) {
         // Log changes if values differ and the current value is not empty
         this.updateChangeLog(fullKey, initial[key], current[key]);
       }

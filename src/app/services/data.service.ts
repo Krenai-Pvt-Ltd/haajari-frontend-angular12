@@ -4432,6 +4432,12 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.post(url,{});
   }
 
+  getUserAllData(uuid: string): Observable<any> {
+    const params = new HttpParams().set('uuid', uuid);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/get/onboarding/get-user-all-data`, { params });
+  }
+
 
 }
 
