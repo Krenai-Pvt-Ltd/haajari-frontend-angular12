@@ -1707,9 +1707,16 @@
                               placeholder="Lunch break hours" />
                           </div>
                         </div>
+                       
                       </form>
 
-                      <div class="modal-footer d-flex align-items-center justify-content-end bg-white leave-footer">
+
+                      <div class="leave-footer p-3 mb-0">
+                       <p>
+                        If a user doesn't mark their checkout after their shift ends, Hajiri will automatically check them out one hour later.
+                       </p> 
+                        
+                      <div class="modal-footer d-flex align-items-center justify-content-end bg-white ">
                         <button type="submit" class="btn p-0 next-btn nextBtn" (click)="weekOffActiveTabMethod()"
                           [disabled]="
                       shiftForm.invalid ||
@@ -1731,6 +1738,7 @@
                           </svg>
                         </button>
                       </div>
+                    </div>
 
                     </div>
                     <div class="tab-pane fade" id="weeklyOff" role="tabpanel" [class.show]="activeTab === 'weeklyOff'"
