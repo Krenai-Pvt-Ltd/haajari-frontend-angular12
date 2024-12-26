@@ -954,7 +954,7 @@
         <div class="p-3 employee-list bg-white">
           <h4 class="mb-1">Employee List</h4>
 
-          <!-- <div>
+          <div *ngIf="isRemovingDuplicateUsers">
             <div>
               <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"></ngx-shimmer-loading>
             </div>
@@ -973,9 +973,9 @@
             <div>
               <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"></ngx-shimmer-loading>
             </div>
-          </div> -->
+          </div>
 
-          <div class="manualemployList" *ngIf="userNameWithShiftName?.length > 0">
+          <div class="manualemployList" *ngIf="userNameWithShiftName?.length > 0 && !isRemovingDuplicateUsers">
             <div class="d-flex align-items-center justify-content-between persnol-details userList p-0 pt-2 pb-2"
               *ngFor="let list of userNameWithShiftName">
               <div class="d-flex align-items-center gap-3 w-100">
