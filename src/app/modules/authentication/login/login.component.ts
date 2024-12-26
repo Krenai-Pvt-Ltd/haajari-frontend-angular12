@@ -85,12 +85,11 @@ export class LoginComponent implements OnInit {
           await this.rbacService.initializeUserInfo();
           this.UUID=this.rbacService.userInfo.uuid;
           this.ROLE = this.rbacService.userInfo.role;
-          console.log("🚀 ~ LoginComponent ~ tap ~ this.ROLE:", this.ROLE)
  
          if (this.ROLE === 'USER') {
+          await this.onboardingService.checkSubscriptionPlan();
           this.helperService.orgStepId = 5;
           this.onboardingService.isLoadingOnboardingStatus = false;
-          console.log("🚀 ~ LoginComponent ~ tap ~ this.onboardingService.isLoadingOnboardingStatus:", this.onboardingService.isLoadingOnboardingStatus)
           this.router.navigate([Key.EMPLOYEE_PROFILE_ROUTE], {
             queryParams: { userId: this.UUID, dashboardActive: 'true' },
           });

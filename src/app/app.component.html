@@ -17,7 +17,6 @@
     <app-header></app-header>
   </div>
 </div>
-{{onboardingService.isLoadingOnboardingStatus}}------
 <router-outlet  *ngIf="!onboardingService.isLoadingOnboardingStatus"></router-outlet>
 
 <app-hajiri-page-loader *ngIf="onboardingService.isLoadingOnboardingStatus">

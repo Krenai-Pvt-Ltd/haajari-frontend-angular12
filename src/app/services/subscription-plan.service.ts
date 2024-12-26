@@ -112,7 +112,7 @@ export class SubscriptionPlanService {
         return false;
       }
     }
-    return false;
+    return true;
   }
 
   getActiveUserCount() {
