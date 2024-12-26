@@ -136,9 +136,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
             .subscribe(
               (data) => {
                 this.hrPolicyDocuments = data;
-                setTimeout(() => {
-                  this.openModal();
-                }, 5000);
+                this.openModal();
               },
               (error) => {
                 console.error('Error fetching documents:', error);
