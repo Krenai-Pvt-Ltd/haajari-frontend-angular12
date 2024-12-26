@@ -51,21 +51,23 @@
               types, set approval workflows, and streamline employee leave
               tracking.
             </p>
-            <button class="btn add-leave-btn mt-4 mb-2" data-bs-toggle="modal" data-bs-target="#leavemodal" (click)="
+            <div class="d-flex align-items-center gap-3">
+              <button class="btn add-leave-btn mt-4 mb-2" data-bs-toggle="modal" data-bs-target="#leavemodal" (click)="
                 emptyAddLeaveSettingRule(); preMethodCallToCreateLeaveTemplate()
               ">
-              Add Leave Settings
-            </button>
-            <button class="btn add-leave-btn mt-4 mb-2" (click)="skipForNow()" *ngIf="!stepCompleted">
-              <div class="dot-opacity-loader" *ngIf="skipLoading">
-                <span></span>
-                <span></span>
-                <span></span>
-              </div>
-              <span *ngIf="!skipLoading">
-               Skip This Step For Now 
-              </span>
-            </button>
+                Add Leave Settings
+              </button>
+              <button class="btn mt-4 mb-2 p-0 text-primary" (click)="skipForNow()" *ngIf="!stepCompleted">
+                <div class="dot-opacity-loader" *ngIf="skipLoading">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+                <span *ngIf="!skipLoading">
+                  Skip This Step For Now <i class="bi bi-arrow-right"></i>
+                </span>
+              </button>
+            </div>
             <hr />
             <span class="mb-0">
               By signing, you are creating
