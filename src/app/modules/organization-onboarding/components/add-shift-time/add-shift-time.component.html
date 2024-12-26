@@ -5,13 +5,19 @@
         <div class="row">
           <div>
             <div clss="col-md-12">
-              <div class="card-header p-0 pb-3 bg-white">
+              <div class="card-header p-0 pb-3 bg-white" *ngIf="SHIFT_TIME_STEP_ID == SHIFT_TIME_ID">
                 <h4 class="card-title-headding mb-1">Create New Shift</h4>
                 <p class="mb-0 font-14">
                   Establish the working hours and break times for your
                   organization. These shifts will be assigned to employees in
                   the next step, ensuring that your company's operational needs
                   are met efficiently.
+                </p>
+              </div>
+              <div class="card-header p-0 pb-3 bg-white"  *ngIf="SHIFT_TIME_STEP_ID == STAFF_SELECTION_ID">
+                <h4 class="card-title-headding mb-1">Add Employees to : {{organizationShiftTimingRequest.name}}</h4>
+                <p class="mb-0 font-14">
+                  Select the employees from the list below that you would like to assign to the chosen shift. Once added, these users will be able to mark their attendance within this shift.
                 </p>
               </div>
             </div>
@@ -445,7 +451,7 @@
                                         Employee List
                                       </h5>
 
-                                      <div
+                                      <!-- <div
                                         class="d-flex align-items-center gap-3"
                                         *ngIf="selectedStaffsUuids.length == 0"
                                       >
@@ -458,7 +464,7 @@
                                           </span>
                                           Employees Add
                                         </p>
-                                      </div>
+                                      </div> -->
 
                                       <div
                                         class="d-flex align-items-center gap-3"
@@ -874,8 +880,7 @@
                     type="submit"
                     class="btn nextBtn"
                     *ngIf="
-                      this.userNameWithShiftName?.length > 0 &&
-                      !this.isValidated
+                      this.userNameWithShiftName?.length > 0
                     "
                     data-bs-target="#usersAlreadyAssigned"
                     data-bs-toggle="modal"

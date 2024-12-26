@@ -1140,7 +1140,8 @@
                           
 
                           <td class="stickyColTdend text-center">
-                            <button type="button" class="btn btnAction" (click)="download(invoice)">
+                            <!-- {{invoice.invoiceUrl}} -->
+                            <a type="button" class="btn btnAction" target="_blank" href={{invoice.invoiceUrl}}>
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="12"
@@ -1154,7 +1155,7 @@
                                 />
                               </svg>
                               Download
-                            </button>
+                            </a>
                           </td>
                         </tr>
                       </tbody>
