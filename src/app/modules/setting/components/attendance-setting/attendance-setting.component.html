@@ -1481,10 +1481,17 @@
                       </a>
                      
                     </div>
-                    <div>
-                      <a class="add-shift-time-btn" (click)="skipForNow()">
+                    <div *ngIf="!stepCompleted">
+                      <a class="add-shift-time-btn" (click)="skipForNow()" *ngIf="!skipLoading">
                         Skip This Step For Now
                       </a>
+                      <div class="dot-opacity-loader" *ngIf="skipLoading">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                      </div>
+                      
+
                     </div>
                   </ng-template>
                 </nz-empty>

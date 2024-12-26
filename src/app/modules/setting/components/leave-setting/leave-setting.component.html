@@ -56,8 +56,15 @@
               ">
               Add Leave Settings
             </button>
-            <button class="btn add-leave-btn mt-4 mb-2" (click)="skipForNow()">
-             Skip This Step For Now
+            <button class="btn add-leave-btn mt-4 mb-2" (click)="skipForNow()" *ngIf="!stepCompleted">
+              <div class="dot-opacity-loader" *ngIf="skipLoading">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+              <span *ngIf="!skipLoading">
+               Skip This Step For Now 
+              </span>
             </button>
             <hr />
             <span class="mb-0">
