@@ -31,3 +31,16 @@
   font-weight: 500;
   text-align: left;
 }
+
+.ant-empty-image img {
+  width: 90px;
+}
+
+.empty-detail {
+  color: #6b7280;
+  line-height: 20px;
+}
+
+.table tbody {
+  border: 1px solid #f1f1f1;
+}

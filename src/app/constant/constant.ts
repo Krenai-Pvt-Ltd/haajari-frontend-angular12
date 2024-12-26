@@ -1,8 +1,8 @@
-export class constant{
+export class constant {
 
     static EMPTY_STRINGS = [null, undefined, '', 'N/A', 'n/a', ' ', 'null', 'undefined'];
 
-    public static ALLOWED_BULK_UPLOAD_FORMATS=['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet','application/vnd.ms-excel'];
+    public static ALLOWED_BULK_UPLOAD_FORMATS = ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel'];
 
     public static REMOVE_SHIFT_STRING = 'Keep In - ';
     public static USER = 'USER';
@@ -34,7 +34,7 @@ export class constant{
     public static PUBLIC_SLACK_INSTALL_SUCCESS ="/additional/slack-installation-successfull";
     public static PUBLIC_SERVER_ERROR="/additional/internal-server-error";
 
-    public static ONBOARDING_ROUTES =[constant.ORG_ONBOARDING_PERSONAL_INFORMATION_ROUTE, constant.ORG_ONBOARDING_EMPLOYEE_CREATION_ROUTE, constant.ORG_ONBOARDING_SHIFT_TIME_ROUTE,
+    public static ONBOARDING_ROUTES = [constant.ORG_ONBOARDING_PERSONAL_INFORMATION_ROUTE, constant.ORG_ONBOARDING_EMPLOYEE_CREATION_ROUTE, constant.ORG_ONBOARDING_SHIFT_TIME_ROUTE,
     constant.ORG_ONBOARDING_ATTENDANCE_MODE_ROUTE
     ]
 
