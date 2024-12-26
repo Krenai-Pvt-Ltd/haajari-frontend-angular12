@@ -128,31 +128,39 @@ export class AuthGuard implements CanActivate {
       if (this._helperService.restrictedModules != undefined &&  this._helperService.restrictedModules.length > 0) {
         var index = this._helperService.restrictedModules.findIndex(module => module.route == this.currentRoute.trim())
         if (index > -1) {
+          console.log("🚀 restricted route  :: ", this.currentRoute);
           return false;
         }
       }
 
 
       if ((this.ROLE != 'ADMIN' && this.ROLE != 'MANAGER') && this.currentRoute == '/dashboard') {
+        debugger
+        // console.log("🚀 ~ AuthGuard ~ canActivate ~ this.currentRoute: user ####", this.currentRoute);
+        console.log("🚀routing to employee profile ", this.currentRoute);
         this.router.navigate([Key.EMPLOYEE_PROFILE_ROUTE], {
           queryParams: {
             userId: await this.rbacService.getUUID(),
             dashboardActive: 'true',
           },
-        });
+          
+        }
+      
+      );
         return false;
       }
       console.log("🚀 ~ AuthGuard ~ canActivate ~ this.currentRoute:", this.currentRoute)
 
 
       if (!await this.rbacService.hasAccessToSubmodule(this.currentRoute)) {
+        console.log("🚀 ~ AuthGuard ~ canActivate ~ this.currentRoute: un");
         this.router.navigate(['/unauthorized']);
         return false;
       }
 
     } 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+console.log("guard resolved to true");
     return true;
   }
 

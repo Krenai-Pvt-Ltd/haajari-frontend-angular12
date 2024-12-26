@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Key } from 'src/app/constant/key';
+import { OnboardingService } from 'src/app/services/onboarding.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 
 @Component({
@@ -12,7 +13,7 @@ export class AuthenticationComponent implements OnInit {
 
   readonly key = Key;
   _router : any;
-  constructor(private router: Router){
+  constructor(private router: Router, public onboardingService : OnboardingService){
     this._router = router;
   }
 

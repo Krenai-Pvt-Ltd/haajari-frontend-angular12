@@ -8,6 +8,7 @@ import { Key } from 'src/app/constant/key';
 import { UserReq } from 'src/app/models/userReq';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
+import { OnboardingService } from 'src/app/services/onboarding.service';
 import { OrganizationOnboardingService } from 'src/app/services/organization-onboarding.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import { SubscriptionPlanService } from 'src/app/services/subscription-plan.service';
@@ -32,7 +33,8 @@ export class LoginComponent implements OnInit {
     private rbacService: RoleBasedAccessControlService,
     private helperService: HelperService,
     private _onboardingService: OrganizationOnboardingService,
-    private _subscriptionService: SubscriptionPlanService 
+    private _subscriptionService: SubscriptionPlanService,
+    private onboardingService: OnboardingService 
   ) {
     this.countDown = timer(0, this.tick)
       .pipe(take(this.counter))
@@ -85,6 +87,9 @@ export class LoginComponent implements OnInit {
           this.ROLE = this.rbacService.userInfo.role;
  
          if (this.ROLE === 'USER') {
+          await this.onboardingService.checkSubscriptionPlan();
+          this.helperService.orgStepId = 5;
+          this.onboardingService.isLoadingOnboardingStatus = false;
           this.router.navigate([Key.EMPLOYEE_PROFILE_ROUTE], {
             queryParams: { userId: this.UUID, dashboardActive: 'true' },
           });
@@ -97,7 +102,7 @@ export class LoginComponent implements OnInit {
           const token = localStorage.getItem('token');
           if (token != null) {
             const onboardingStep = helper.decodeToken(token).statusResponse;
-
+            this.helperService.orgStepId = onboardingStep;
             if (onboardingStep < 5) {
               this.router.navigate(['/organization-onboarding/personal-information']);
               // return false;

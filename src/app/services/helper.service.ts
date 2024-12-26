@@ -301,21 +301,16 @@ export class HelperService {
     return null;
   }
 
-  registerOrganizationRegistratonProcessStepData(stepId:number, statusId: number) {
-    debugger
-    this.dataService.registerOrganizationRegistratonProcessStep(statusId, stepId).subscribe(
-      (response) => {
-
-        console.log("success" , response.status, "stepId", stepId, "statusId", statusId);
-        if(response.status) {
+  async registerOrganizationRegistratonProcessStepData(stepId: number, statusId: number): Promise<void> {
+    try {
+      const response = await this.dataService.registerOrganizationRegistratonProcessStep(statusId, stepId).toPromise();
+      console.log("success", response.status, "stepId", stepId, "statusId", statusId);
+      if (response.status) {
         this.stepId = stepId;
-        }
-        // // console.log("success");
-      },
-      (error) => {
-        // console.log('error');
       }
-    );
+    } catch (error) {
+      console.log('error', error);
+    }
   }
 
 

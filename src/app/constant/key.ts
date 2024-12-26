@@ -14,7 +14,7 @@ export class Key {
   public static DYNAMIC = '/dynamic';
   public static LOGIN = `${Key.DYNAMIC}/login`;
   public static ONBOARDING = `${Key.DYNAMIC}/onboarding`;
-  public static DASHBOARD = `${Key.DYNAMIC}/dashboard`;
+  public static DASHBOARD = `/dashboard`;
   public static HEADER = `${Key.DYNAMIC}/header`;
   public static TOPBAR = `${Key.DYNAMIC}/topbar`;
   public static TIMETABLE = `${Key.DYNAMIC}/timetable`;

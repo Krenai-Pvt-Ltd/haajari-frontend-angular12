@@ -21,11 +21,12 @@ export class DynamicComponent implements OnInit {
     private dataService : DataService,
     public roleBasedAccessControlService:RoleBasedAccessControlService, public onboardingService: OnboardingService, public helperService: HelperService){
     this._router = router;
+    console.log(this.roleBasedAccessControlService.isUserInfoInitialized,"-------", this.onboardingService.isLoadingOnboardingStatus, "------",this.helperService.orgStepId);
+
     
   }
 
   ngOnInit(): void {
-    // console.log(this.roleBasedAccessControlService.isUserInfoInitialized,"-------");
     this.isToDoStepsCompletedData();
     this.getOrganizationInitialToDoStepBar();
   }

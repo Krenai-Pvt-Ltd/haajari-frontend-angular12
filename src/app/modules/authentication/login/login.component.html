@@ -267,8 +267,7 @@
           <!-- [disabled]="(otp == null || otp == '' || otp.length != 6 ) && !loading" -->
           <button
             class="btn btn-soft-primary w-100 mt-3 btn-fix-height"
-            type="submit"
-            
+            type="submit" 
             *ngIf="showOtpInput && verifyOtpButtonFlag"
             [disabled]="!loading"
           >
@@ -603,6 +602,7 @@
               class="back-to-login-btn text-primary position-relative"
               *ngIf="enableBack"
               (click)="backToLogin()"
+              [ngClass]="{'disabled-alink': (sendOtpLoader || (otp != '' && otp.length < 6))}"
               ><i class="bi bi-arrow-left"></i> Back to login</a
             >
             <a
