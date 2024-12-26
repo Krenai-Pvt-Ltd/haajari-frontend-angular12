@@ -759,9 +759,11 @@
                     </div>
                     <div class="">
                       <a class="add-shift-time-btn" data-bs-toggle="modal" data-bs-target="#automation-rules"
-                        id="automationRuless" #automationRuless (click)="getAttendanceRuleByOrganizationMethodCall()">
+                        id="automationRuless" #automationRuless (click)="skipForNow()">
                         <i class="bi bi-plus"></i> Add Automation Rules
                       </a>
+                      
+
                       <!-- <button class="d-none" data-bs-toggle="modal" data-bs-target="#automation-rules" #automationRuless></button> -->
                     </div>
                   </div>
@@ -1477,6 +1479,19 @@
                         data-bs-target="#automation-rules" (click)="getAttendanceRuleByOrganizationMethodCall()">
                         <i class="bi bi-plus"></i> Create Rules
                       </a>
+                     
+                    </div>
+                    <div *ngIf="!stepCompleted">
+                      <a class="add-shift-time-btn" (click)="skipForNow()" *ngIf="!skipLoading">
+                        Skip This Step For Now
+                      </a>
+                      <div class="dot-opacity-loader" *ngIf="skipLoading">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                      </div>
+                      
+
                     </div>
                   </ng-template>
                 </nz-empty>
