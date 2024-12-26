@@ -3,8 +3,10 @@ import { EmployeePayslipLogResponse } from 'src/app/employee-payslip-log-respons
 import { EmployeePayslipBreakupResponse } from 'src/app/models/employee-payslip-breakup-response';
 import { EmployeePayslipDeductionResponse } from 'src/app/models/employee-payslip-deduction-response';
 import { EmployeePayslipResponse } from 'src/app/models/employee-payslip-response';
+import { PayoutDaysSummary } from 'src/app/models/payoutDaysSummary';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
+import { SalaryService } from 'src/app/services/salary.service';
 
 @Component({
   selector: 'app-epmployee-finance',
@@ -15,16 +17,17 @@ export class EpmployeeFinanceComponent implements OnInit, AfterViewInit {
 
 
   userUuid : string ='';
+  financeBlur: boolean = true;
 
   constructor(private _dataService : DataService,
-      private _helperService : HelperService
+      private _helperService : HelperService,
+      private _salaryService : SalaryService
   ) { 
 
     const userUuidParam = new URLSearchParams(window.location.search).get('userId');
     this.userUuid = userUuidParam?.toString() ?? ''
   }
 
-  financeBlur: boolean = true;
 
   ngOnInit(): void {
 
@@ -40,6 +43,7 @@ export class EpmployeeFinanceComponent implements OnInit, AfterViewInit {
     this.getEmployeePayslipBreakupResponseByUserUuidMethodCall();
     this.getEmployeePayslipDeductionResponseByUserUuidMethodCall();
     this.getEmployeePayslipLogResponseByUserUuidMethodCall();
+    this.getPayoutSummary();
   }
 
   ngAfterViewInit(): void {
@@ -52,76 +56,76 @@ export class EpmployeeFinanceComponent implements OnInit, AfterViewInit {
         card.classList.toggle('is-flipped');
       });
     });
+   
+  }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                            CIRCULAR PROGRESS LINE
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    const svg = document.querySelector('svg');
+  totalLines = 70; // Number of lines
+  radius = 90;
+  center = 100;
+  lineLength = 18;
+  lineWidth = 3;
+  createCircularPogressLine(){
     const linesGroup = document.getElementById('lines');
-    const fractionText = document.querySelector('.fraction');
-    const increaseBtn = document.getElementById('increaseBtn');
-
-    const totalLines = 70; // Number of lines
-    const radius = 90;
-    const center = 100;
-    const lineLength = 18;
-    const lineWidth = 3;
-
-    let currentValue = 24;
-    const maxValue = 30;
-
-    // Create all lines
-    for (let i = 0; i < totalLines; i++) {
-      const angle = (i * 360 / totalLines) * (Math.PI / 180);
-      const x1 = center + (radius - lineLength) * Math.cos(angle);
-      const y1 = center + (radius - lineLength) * Math.sin(angle);
-      const x2 = center + radius * Math.cos(angle);
-      const y2 = center + radius * Math.sin(angle);
+    for (let i = 0; i < this.totalLines; i++) {
+      const angle = (i * 360 / this.totalLines) * (Math.PI / 180);
+      const x1 = this.center + (this.radius - this.lineLength) * Math.cos(angle);
+      const y1 = this.center + (this.radius - this.lineLength) * Math.sin(angle);
+      const x2 = this.center + this.radius * Math.cos(angle);
+      const y2 = this.center + this.radius * Math.sin(angle);
 
       const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
       line.setAttribute('x1', x1.toString());
       line.setAttribute('y1', y1.toString());
       line.setAttribute('x2', x2.toString());
       line.setAttribute('y2', y2.toString());
-      line.setAttribute('stroke-width', lineWidth.toString());
+      line.setAttribute('stroke-width', this.lineWidth.toString());
       line.setAttribute('stroke', '#eee');
       line.classList.add('line');
       linesGroup?.appendChild(line);
     }
-
-    function setProgress(value: number) {
-      const progress = value / maxValue;
-      const activeLines = Math.floor(totalLines * progress);
-
-      const lines = document.querySelectorAll('.line');
-      lines.forEach((line, index) => {
-        line.setAttribute('stroke', index < activeLines ? '#6b7feb' : '#eee');
-      });
-
-      if (fractionText) {
-        fractionText.textContent = `${value}/${maxValue}`;
-      }
-
-      if (increaseBtn) {
-        // increaseBtn.disabled = value >= maxValue;
-      }
-    }
-
-    function increaseProgress() {
-      if (currentValue < maxValue) {
-        currentValue = Math.min(currentValue + Math.ceil(maxValue * 0.25), maxValue);
-        setProgress(currentValue);
-      }
-    }
-
-    if (increaseBtn) {
-      increaseBtn.addEventListener('click', increaseProgress);
-    }
-
-    // Set initial progress
-    setProgress(currentValue);
-
-
-
+    this.setProgress();
   }
+
+  setProgress() {
+    const fractionText = document.querySelector('.fraction');
+    const progress = this.totalPayoutDays / this.totalStandardDays;
+    const activeLines = Math.floor(this.totalLines * progress);
+
+    const lines = document.querySelectorAll('.line');
+    lines.forEach((line, index) => {
+      line.setAttribute('stroke', index < activeLines ? '#6b7feb' : '#eee');
+    });
+
+    if (fractionText) {
+      fractionText.textContent = `${this.totalPayoutDays}/${this.totalStandardDays}`;
+    }
+  }
+
+
+
+  getClass(status: string) {
+    // Present, Unmarked, Leave,  WeekOff, Holiday, Halfday, Late
+    return {
+      present: status === 'Present',
+      absent: status === 'Absent',
+      leave: status === 'Leave',
+      holiday: status === 'Holiday',
+      'half-day': status === 'Halfday',
+      late: status === 'Late',
+      'week-off': status === 'WeekOff',
+      'unmarked': status === '-',
+    };
+  }
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
   startDate:string='';
   endDate:string ='';
@@ -180,7 +184,7 @@ export class EpmployeeFinanceComponent implements OnInit, AfterViewInit {
   employeePayslipResponse : EmployeePayslipResponse = new EmployeePayslipResponse();
   getEmployeePayslipResponseByUserUuidMethodCall(){
     this.preRuleForShimmersAndErrorPlaceholdersForEmployeePayslipResponseMethodCall();
-    this._dataService.getEmployeePayslipResponseByUserUuid(this.userUuid, this.startDate, this.endDate).subscribe((response) => {
+    this._salaryService.getEmployeePayslipResponseByUserUuid(this.userUuid, this.startDate, this.endDate).subscribe((response) => {
       if(this._helperService.isObjectNullOrUndefined(response)){
         this.dataNotFoundPlaceholderForEmployeePayslipResponse = true;
         this.employeePayslipResponse = new EmployeePayslipResponse();
@@ -202,7 +206,7 @@ export class EpmployeeFinanceComponent implements OnInit, AfterViewInit {
   employeePayslipBreakupResponseList : EmployeePayslipBreakupResponse[] = [];
   getEmployeePayslipBreakupResponseByUserUuidMethodCall(){
     this.preRuleForShimmersAndErrorPlaceholdersForEmployeePayslipBreakupResponseMethodCall();
-    this._dataService.getEmployeePayslipBreakupResponseByUserUuid(this.userUuid, this.startDate, this.endDate).subscribe((response) => {
+    this._salaryService.getEmployeePayslipBreakupResponseByUserUuid(this.userUuid, this.startDate, this.endDate).subscribe((response) => {
       if(this._helperService.isListOfObjectNullOrUndefined(response)){
         this.dataNotFoundPlaceholderForEmployeePayslipBreakupResponse = true;
         this.employeePayslipBreakupResponseList = [];
@@ -227,7 +231,7 @@ export class EpmployeeFinanceComponent implements OnInit, AfterViewInit {
   employeePayslipDeductionResponse : EmployeePayslipDeductionResponse = new EmployeePayslipDeductionResponse();
   getEmployeePayslipDeductionResponseByUserUuidMethodCall(){
     this.preRuleForShimmersAndErrorPlaceholdersForEmployeePayslipDeductionResponseMethodCall();
-    this._dataService.getEmployeePayslipDeductionResponseByUserUuid(this.userUuid, this.startDate, this.endDate).subscribe((response) => {
+    this._salaryService.getEmployeePayslipDeductionResponseByUserUuid(this.userUuid, this.startDate, this.endDate).subscribe((response) => {
       if(this._helperService.isObjectNullOrUndefined(response)){
         this.dataNotFoundPlaceholderForEmployeePayslipDeductionResponse = true;
       } else{
@@ -244,12 +248,12 @@ export class EpmployeeFinanceComponent implements OnInit, AfterViewInit {
   employeePayslipLogResponseList : EmployeePayslipLogResponse[] = [];
   getEmployeePayslipLogResponseByUserUuidMethodCall(){
     this.preRuleForShimmersAndErrorPlaceholdersForEmployeePayslipLogResponseMethodCall();
-    this._dataService.getEmployeePayslipLogResponseByUserUuid(this.userUuid, this.startDate, this.endDate).subscribe((response) => {
+    this._salaryService.getEmployeePayslipLogResponseByUserUuid(this.userUuid, this.startDate, this.endDate).subscribe((response) => {
       if(this._helperService.isListOfObjectNullOrUndefined(response)){
         this.dataNotFoundPlaceholderForEmployeePayslipLogResponse = true;
       } else{
         this.employeePayslipLogResponseList = response.listOfObject;
-        console.log( this.employeePayslipLogResponseList);
+  
 
       }
       this.isShimmerForEmployeePayslipLogResponse = false;
@@ -261,6 +265,48 @@ export class EpmployeeFinanceComponent implements OnInit, AfterViewInit {
 
   downloadPaySlip(url: string, name: string){
     this._helperService.downloadPdf(url, name);
+  }
+
+
+ 
+
+
+  totalPayoutDays:number=0;
+  totalStandardDays:number= 0;
+  totalLopDays:number=0;
+  totalArrearDays:number=0;
+  getEmployeeBankDetail(){
+    this._salaryService.getEmployeePaymentBankDetail(this.userUuid).subscribe((response) => {
+      if(this._helperService.isListOfObjectNullOrUndefined(response)){
+        this.dataNotFoundPlaceholderForEmployeePayslipLogResponse = true;
+      } else{
+        this.employeePayslipLogResponseList = response.listOfObject;
+  
+
+      }
+      this.isShimmerForEmployeePayslipLogResponse = false;
+    }, (error) => {
+      this.isShimmerForEmployeePayslipLogResponse = false;
+      this.networkConnectionErrorPlaceHolderForEmployeePayslipLogResponse = true;
+    })
+  }
+
+  payoutDaysSummary : PayoutDaysSummary = new PayoutDaysSummary();
+  dateStatuses:any;
+  getPayoutSummary(){
+    this._salaryService.getPayoutSummaryDetail(this.userUuid,this.startDate, this.endDate).subscribe((response) => {
+      if(response.status){
+        this.payoutDaysSummary = response.object.statusCount;
+        this.dateStatuses = response.object.dateList;
+        this.totalStandardDays = response.object.standardDays;
+        this.totalPayoutDays = response.object.payoutDays;
+        this.totalLopDays = response.object.lopDays;
+        this.totalArrearDays = response.object.arrearDays;
+        this.createCircularPogressLine();
+      } 
+    }, (error) => {
+      
+    })
   }
 
 }

@@ -189,4 +189,59 @@ export class SalaryService {
     return this._http.put<any>(`${this._key.base_url}/salary/generate-slip`, {params});
   }
 
+
+  getEmployeePayslipResponseByUserUuid(userUuid : string, startDate : string, endDate : string): Observable<any>{
+    const params = new HttpParams()
+    .set('user_uuid', userUuid)
+    .set('start_date', startDate)
+    .set('end_date', endDate);
+
+    return this._http.get<any>(`${this._key.base_url}/salary/month-wise/pay-slip`, {params});
+  }
+
+  getEmployeePayslipBreakupResponseByUserUuid(userUuid : string, startDate : string, endDate : string): Observable<any>{
+    const params = new HttpParams()
+    .set('user_uuid', userUuid)
+    .set('start_date', startDate)
+    .set('end_date', endDate);
+
+    return this._http.get<any>(`${this._key.base_url}/salary/month-wise/pay-slip-breakup`, {params});
+  }
+
+  getEmployeePayslipDeductionResponseByUserUuid(userUuid : string, startDate : string, endDate : string): Observable<any>{
+    const params = new HttpParams()
+    .set('user_uuid', userUuid)
+    .set('start_date', startDate)
+    .set('end_date', endDate);
+
+    return this._http.get<any>(`${this._key.base_url}/salary/month-wise/pay-slip-deduction`, {params});
+  }
+
+  getEmployeePayslipLogResponseByUserUuid(userUuid : string, startDate : string, endDate : string): Observable<any>{
+
+    const params = new HttpParams()
+    .set('user_uuid', userUuid)
+    .set('start_date', startDate)
+    .set('end_date', endDate);
+
+    return this._http.get<any>(`${this._key.base_url}/salary/month-wise/pay-slip-log`, {params});
+  }
+
+  getEmployeePaymentBankDetail(userUuid : string): Observable<any>{
+
+    const params = new HttpParams()
+    .set('user_uuid', userUuid)
+    return this._http.get<any>(`${this._key.base_url}/salary/month-wise/pay-slip-log`, {params});
+  }
+
+
+  getPayoutSummaryDetail(userUuid : string, startDate : string, endDate : string): Observable<any>{
+
+    const params = new HttpParams()
+    .set('user_uuid', userUuid)
+    .set('start_date', startDate)
+    .set('end_date', endDate);
+
+    return this._http.get<any>(`${this._key.base_url}/salary/month-wise/attendance`, {params});
+  }
 }
