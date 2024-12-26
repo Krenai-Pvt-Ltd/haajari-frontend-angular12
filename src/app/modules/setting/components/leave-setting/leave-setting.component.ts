@@ -78,6 +78,7 @@ export class LeaveSettingComponent implements OnInit {
       this.localStorageLeaveRuleId = 0;
     }
 
+    this.checkStepCompletionStatusByStepId(Key.LEAVE_TEMPLATE_ID);
     this.leaveTemplateDefinitionForm = this.fb.group({
       employeeTypeId: [0, [Validators.required, Validators.min(1)]]
       // employeeTypeId: [null, Validators.required], // The form control for employee type
@@ -965,7 +966,7 @@ export class LeaveSettingComponent implements OnInit {
       this.dataService
         .registerLeaveSettingRules(this.fullLeaveSettingRuleRequest)
         .subscribe(
-          (response) => {
+          async (response) => {
             this.getFullLeaveSettingInformation();
             this.submitLeaveLoader = false;
             this.requestLeaveCloseModel1.nativeElement.click();
@@ -973,7 +974,7 @@ export class LeaveSettingComponent implements OnInit {
               'Leave rules registered successfully',
               Key.TOAST_STATUS_SUCCESS
             );
-            this.helperService.registerOrganizationRegistratonProcessStepData(Key.LEAVE_TEMPLATE_ID, Key.PROCESS_COMPLETED);
+            await this.helperService.registerOrganizationRegistratonProcessStepData(Key.LEAVE_TEMPLATE_ID, Key.PROCESS_COMPLETED);
           },
           (error) => {
             this.submitLeaveLoader = false;
@@ -2525,6 +2526,32 @@ validateMaxValue(index: number): void {
       control.setValue(this.tempLeaveCount);
     }
   });
+}
+
+skipLoading: boolean = false;
+  async skipForNow() {
+  this.skipLoading = true;
+  // this.stepCompleted = true;
+  await this.helperService.registerOrganizationRegistratonProcessStepData(Key.LEAVE_TEMPLATE_ID, Key.PROCESS_COMPLETED);
+  this.checkStepCompletionStatusByStepId(Key.LEAVE_TEMPLATE_ID);
+  this.skipLoading = false;
+}
+
+
+stepCompleted: boolean = true;
+checkStepCompletionStatusByStepId(stepId: number) {
+  this.dataService.checkStepCompletionStatusByStepId(stepId).subscribe(
+    (response: any) => {
+      if (response.object == 1) {
+         this.stepCompleted = true;
+      }else if (response.object == 0) {
+        this.stepCompleted = false;
+      }
+    },
+    (error) => {
+      console.log('error');
+    }
+  );
 }
 
 }

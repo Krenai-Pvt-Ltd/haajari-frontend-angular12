@@ -110,6 +110,8 @@ export class DataService {
   private baseUrl = this._key.base_url;
 
   openSidebar: boolean = true;
+
+  markAttendanceModal: boolean = false;
   // registerOrganizationUsingCodeParam(codeParam: string): Observable<any> {
   //   const params = new HttpParams().set('code_param', codeParam);
   //   return this.httpClient.put<any>(
@@ -406,10 +408,10 @@ export class DataService {
       .set('search_by', searchBy)
       .set('team_id', teamId);
 
-      if(search != null && search != ''){
-        params = params.set('page_number', 0)
-        params = params.set('item_per_page', 0)
-      }
+      // if(search != null && search != ''){
+      //   params = params.set('page_number', 0)
+      //   params = params.set('item_per_page', 0)
+      // }
 
     return this.httpClient.get<any>(`${this.baseUrl}/users/get/by-filters`, {
       params,
@@ -3109,9 +3111,9 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     return this.httpClient.delete(url);
   }
 
- 
 
- 
+
+
 
 
   getEmployeeSalary(userUuid : string): Observable<any> {
@@ -3975,8 +3977,8 @@ getHolidayForOrganization(date: string): Observable<any>{
     );
   }
 
-  step!: number;
-  isToDoStepCompleted !: number;
+  // step!: number;
+  // isToDoStepCompleted !: number;
 
   isToDoStepsCompleted(): Observable<any> {
     debugger
@@ -4420,6 +4422,25 @@ getHolidayForOrganization(date: string): Observable<any>{
 
     return this.httpClient.get<any[]>(`${this.baseUrl}/documents/documents-by-type`, { params });
   }
+
+  getEditedFieldsByUserUuid(uuid: string): Observable<any> {
+    const params = new HttpParams().set('uuid', uuid);
+    return this.httpClient.get<any>(`${this.baseUrl}/get/onboarding/edited-fields`, { params });
+  }
+
+  getPendingRequestsCounter(): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/asset-requests/pending-requests-counter`);
+  }
+
+
+  checkStepCompletionStatusByStepId(stepId: number): Observable<any[]> {
+    const params = new HttpParams()
+      .set('stepId', stepId);
+
+    return this.httpClient.get<any[]>(`${this.baseUrl}/organization/check-status`, { params });
+  }
+  
+  
 
 
   getWorkedHourForEachDayOfAWeek(uuid : string, startDate:string, endDate:string, searchString: string): Observable<string[]> {

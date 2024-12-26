@@ -9,6 +9,8 @@ import { Staff } from 'src/app/models/staff';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { OrganizationOnboardingService } from 'src/app/services/organization-onboarding.service';
+import { constant } from 'src/app/constant/constant';
+import { N } from '@fullcalendar/core/internal-common';
 
 @Component({
   selector: 'app-add-shift-time',
@@ -24,6 +26,9 @@ export class AddShiftTimeComponent implements OnInit {
   defaultOutOpenTime: Date = new Date();
   defaultStartLunchOpenTime: Date = new Date();
   defaultEndLunchOpenTime: Date = new Date();
+
+  readonly constant = constant;
+  // shiftString = constant.REMOVE_SHIFT_STRING;
 
   constructor(
     private dataService: DataService,
@@ -172,16 +177,19 @@ export class AddShiftTimeComponent implements OnInit {
     this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId, "");
   }
 
+  @ViewChild('closeButton2') closeButton2!: ElementRef;
   @ViewChild('closeButton') closeButton!: ElementRef;
   isRegisterLoad: boolean = false;
   registerShift() {
     debugger;
     this.isRegisterLoad = true;
-    this.registerOrganizationShiftTimingMethodCall();
+    this.closeButton2.nativeElement.click();
 
-    setTimeout(() => {
-      this.closeButton.nativeElement.click();
-    }, 300);
+    this.registerOrganizationShiftTimingMethodCall();
+    
+    // setTimeout(() => {
+    //   this.closeButton2.nativeElement.click();
+    // }, 300);
   }
   loading: boolean = false;
   registerOrganizationShiftTimingMethodCall() {
@@ -194,6 +202,7 @@ export class AddShiftTimeComponent implements OnInit {
       .registerShiftTiming(this.organizationShiftTimingRequest)
       .subscribe(
         (response) => {
+          // this.closeShiftTimingModal.nativeElement.click();
           this.getAllShiftTimingsMethodCall();
           this.helperService.registerOrganizationRegistratonProcessStepData(
             Key.SHIFT_TIME_ID,
@@ -328,6 +337,7 @@ export class AddShiftTimeComponent implements OnInit {
 
   checkForShiftId: number = 0;
   selectAll(checked: boolean) {
+    debugger
     this.isAllSelected = checked;
     this.staffs.forEach((staff) => (staff.selected = checked));
 
@@ -350,6 +360,7 @@ export class AddShiftTimeComponent implements OnInit {
     }
     this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId, "");
   }
+  
 
   unselectAllUsers() {
     this.isAllUsersSelected = false;
@@ -417,7 +428,7 @@ export class AddShiftTimeComponent implements OnInit {
     //   this.onboardingService.refreshOnboarding();
     // });
     // this.onboardingService.refreshOnboarding();
-    this.selectAll(true);
+    // this.selectAll(true);
     this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId, "");
   }
 
@@ -639,9 +650,12 @@ export class AddShiftTimeComponent implements OnInit {
     }
   }
 
-  selectShiftType(shiftType: ShiftType) {
-    this.selectedShiftType = shiftType;
-    this.organizationShiftTimingRequest.shiftTypeId = shiftType.id;
+  selectShiftType(shiftType: number) {
+    debugger
+    // this.selectedShiftType = shiftType;
+    // this.organizationShiftTimingRequest.shiftTypeId = shiftType.id;
+    this.organizationShiftTimingRequest.shiftTypeId = shiftType;
+    console.log(this.organizationShiftTimingRequest.shiftTypeId);
   }
 
   clearSearch() {

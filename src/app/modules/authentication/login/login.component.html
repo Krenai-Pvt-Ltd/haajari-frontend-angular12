@@ -187,16 +187,17 @@
               </p>
             </div>
 
-            <button
-              class="btn btn-soft-primary w-100 mt-3 btn-fix-height"
-              type="submit"
-              [disabled]="
+            <!-- [disabled]="
                 phoneNumber == null ||
                 phoneNumber == '' ||
                 phoneNumber.length != 10
-              "
+              " -->
+            <button
+              class="btn btn-soft-primary w-100 mt-3 btn-fix-height"
+              type="submit"
               *ngIf="isWhatsappLogin && !showOtpInput"
               (click)="signInByWhatsapp()"
+              [disabled]="!sendOtpLoader"
             >
               <span *ngIf="!sendOtpLoader">Send OTP</span>
               <div class="dot-opacity-loader" *ngIf="sendOtpLoader">
@@ -262,12 +263,13 @@
             </p>
           </div>
 
+          <!-- {{loading}} -->
+          <!-- [disabled]="(otp == null || otp == '' || otp.length != 6 ) && !loading" -->
           <button
             class="btn btn-soft-primary w-100 mt-3 btn-fix-height"
-            type="submit"
-            [disabled]="otp == null || otp == '' || otp.length != 6"
+            type="submit" 
             *ngIf="showOtpInput && verifyOtpButtonFlag"
-       
+            [disabled]="!loading"
           >
           <!-- (click)="verifyOtp()" -->
             <span *ngIf="!loading">Verify</span>
@@ -600,6 +602,7 @@
               class="back-to-login-btn text-primary position-relative"
               *ngIf="enableBack"
               (click)="backToLogin()"
+              [ngClass]="{'disabled-alink': (sendOtpLoader || (otp != '' && otp.length < 6))}"
               ><i class="bi bi-arrow-left"></i> Back to login</a
             >
             <a

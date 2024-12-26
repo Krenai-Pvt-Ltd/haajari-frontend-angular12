@@ -56,6 +56,16 @@
               ">
               Add Leave Settings
             </button>
+            <button class="btn add-leave-btn mt-4 mb-2" (click)="skipForNow()" *ngIf="!stepCompleted">
+              <div class="dot-opacity-loader" *ngIf="skipLoading">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+              <span *ngIf="!skipLoading">
+               Skip This Step For Now 
+              </span>
+            </button>
             <hr />
             <span class="mb-0">
               By signing, you are creating
@@ -675,11 +685,11 @@
                           <div class="col-md-6 mb-3" nz-form-item>
                             <label for="leaveRenewalCycle" class="pb-2">
                               <span *ngIf="wfhTemplateToggle">WFH</span> <span *ngIf="!wfhTemplateToggle">Leave</span>
-                               Quota Renew Cycle
+                              Quota Renew Cycle
                             </label>
 
-                            <nz-select [disabled]="updateToggle" class="placeholder-line w-100" nzSize="large" id="leaveFicsalYear"
-                              nzPlaceHolder="Select Leave Quota Renew Cycle "
+                            <nz-select [disabled]="updateToggle" class="placeholder-line w-100" nzSize="large"
+                              id="leaveFicsalYear" nzPlaceHolder="Select Leave Quota Renew Cycle "
                               [(ngModel)]="leaveTemplateRequest.yearTypeName" (ngModelChange)="
                                 selectDateForLeaveTemplateRequest($event)
                               " name="leaveRenewalCycled" #leaveRenewalCycled="ngModel" required class="form-control">
@@ -699,8 +709,9 @@
 
                           <div *ngIf="isCustomDateRange">
                             <div class="leave-period border-bottom pb-3 mb-3 m-2 mt-3">
-                              <h5 class="mb-0"><span *ngIf="wfhTemplateToggle">WFH</span> <span *ngIf="!wfhTemplateToggle">Leave</span>
-                                 Period</h5>
+                              <h5 class="mb-0"><span *ngIf="wfhTemplateToggle">WFH</span> <span
+                                  *ngIf="!wfhTemplateToggle">Leave</span>
+                                Period</h5>
                             </div>
 
                             <div class="d-flex gap-2">
@@ -775,14 +786,14 @@
                                   : i === editingIndex
                               ">
 
-                             
+
 
                               <div *ngIf="!wfhTemplateToggle" class="col-md-6 mb-3">
                                 <div class="form-group">
                                   <label for="genderId" class="pb-2">Select Gender</label>
                                   <nz-form-control nzErrorTip="All">
-                                    <nz-select class="placeholder-line w-100" nzSize="large" nzPlaceHolder="Select Gender"
-                                      formControlName="gender" (ngModelChange)="
+                                    <nz-select class="placeholder-line w-100" nzSize="large"
+                                      nzPlaceHolder="Select Gender" formControlName="gender" (ngModelChange)="
                                           onGenderChange($event, i)
                                         " required class="form-control">
                                       <nz-option *ngFor="let gender of genders" [nzValue]="gender.name"
@@ -795,7 +806,8 @@
 
                               <div *ngIf="!wfhTemplateToggle" class="col-md-6 mb-3" nz-form-item>
                                 <label for="leaveCategoryId" class="pb-2">
-                                  <span *ngIf="wfhTemplateToggle">WFH</span> <span *ngIf="!wfhTemplateToggle">Leave</span> Category Name
+                                  <span *ngIf="wfhTemplateToggle">WFH</span> <span
+                                    *ngIf="!wfhTemplateToggle">Leave</span> Category Name
                                 </label>
                                 <nz-form-control nzErrorTip="Please select leave category name">
                                   <nz-select class="placeholder-line w-100" nzSize="large"
@@ -823,10 +835,10 @@
                               <div *ngIf="wfhTemplateToggle" class="col-md-6 mb-3" style="cursor: default;">
                                 <div class="form-group">
                                   <label for="genderId" class="pb-2">Select Gender</label>
-                                  <nz-form-control nzErrorTip="Please select a gender" >
-                                    <nz-select aria-disabled="true" [nzDisabled]="wfhTemplateToggle" class="placeholder-line w-100"
-                                      nzSize="large" nzPlaceHolder="Select Gender" formControlName="gender" required
-                                      class="form-control" style="cursor: default;">
+                                  <nz-form-control nzErrorTip="Please select a gender">
+                                    <nz-select aria-disabled="true" [nzDisabled]="wfhTemplateToggle"
+                                      class="placeholder-line w-100" nzSize="large" nzPlaceHolder="Select Gender"
+                                      formControlName="gender" required class="form-control" style="cursor: default;">
                                       <nz-option *ngFor="let gender of genders" [nzValue]="gender.name"
                                         [nzLabel]="gender.name"></nz-option>
                                     </nz-select>
@@ -839,10 +851,10 @@
                                 <label for="leaveCategoryId" class="pb-2">
                                   WFH Category Name
                                 </label>
-                                <nz-form-control nzErrorTip="Please select leave category name" >
-                                  <nz-select [nzDisabled]="wfhTemplateToggle" class="placeholder-line w-100" nzSize="large"
-                                    nzPlaceHolder="Select Leave Category Name" formControlName="leaveCategoryId"
-                                    required class="form-control">
+                                <nz-form-control nzErrorTip="Please select leave category name">
+                                  <nz-select [nzDisabled]="wfhTemplateToggle" class="placeholder-line w-100"
+                                    nzSize="large" nzPlaceHolder="Select Leave Category Name"
+                                    formControlName="leaveCategoryId" required class="form-control">
                                     <nz-option *ngFor="let leaveCategory of filteredLeaveCategories"
                                       [nzValue]="leaveCategory.id" [nzLabel]="leaveCategory.name">
                                     </nz-option>
@@ -852,11 +864,13 @@
 
                               <div class="col-md-6 mb-3" nz-form-item>
                                 <label for="leavelCycleId" class="pb-2">
-                                  <span *ngIf="wfhTemplateToggle">WFH</span> <span *ngIf="!wfhTemplateToggle">Leave</span> Cycle
+                                  <span *ngIf="wfhTemplateToggle">WFH</span> <span
+                                    *ngIf="!wfhTemplateToggle">Leave</span> Cycle
                                 </label>
 
-                                <nz-select class="placeholder-line w-100" nzSize="large" nzPlaceHolder="Select Leave Cycle"
-                                  formControlName="leaveCycleId" required class="form-control">
+                                <nz-select class="placeholder-line w-100" nzSize="large"
+                                  nzPlaceHolder="Select Leave Cycle" formControlName="leaveCycleId" required
+                                  class="form-control">
                                   <nz-option *ngFor="let leaveCycle of leaveCycleList" [nzValue]="leaveCycle.id"
                                     [nzLabel]="leaveCycle.name">
                                   </nz-option>
@@ -876,9 +890,9 @@
                                   Select Accrual Type
                                 </label>
 
-                                <nz-select class="placeholder-line w-100" nzSize="large" nzPlaceHolder="Select Accrual Type"
-                                  formControlName="accrualTypeId" (ngModelChange)="onAccrualChange($event)" required
-                                  class="form-control">
+                                <nz-select class="placeholder-line w-100" nzSize="large"
+                                  nzPlaceHolder="Select Accrual Type" formControlName="accrualTypeId"
+                                  (ngModelChange)="onAccrualChange($event)" required class="form-control">
                                   <nz-option *ngFor="let accrualType of accrualTypes" [nzValue]="accrualType.id"
                                     [nzLabel]="accrualType.name">
                                   </nz-option>
@@ -888,7 +902,8 @@
 
                               <div class="col-md-6 mb-2" nz-form-item>
                                 <label for="leavecount" class="pb-2">
-                                  <span *ngIf="wfhTemplateToggle">WFH</span> <span *ngIf="!wfhTemplateToggle">Leave</span> Count
+                                  <span *ngIf="wfhTemplateToggle">WFH</span> <span
+                                    *ngIf="!wfhTemplateToggle">Leave</span> Count
                                 </label>
 
                                 <!-- <input class="form-control" type="number" style="width: 100%"
@@ -930,7 +945,8 @@
 
                               <div class="col-md-3 mb-2" nz-form-item>
                                 <label for="unusedLeaveActionId" class="pb-2">
-                                  Unused <span *ngIf="wfhTemplateToggle">WFH</span> <span *ngIf="!wfhTemplateToggle">Leave</span> Action
+                                  Unused <span *ngIf="wfhTemplateToggle">WFH</span> <span
+                                    *ngIf="!wfhTemplateToggle">Leave</span> Action
                                 </label>
 
                                 <nz-select [nzDisabled]="wfhTemplateToggle" style="width: 100%" nzSize="large"
@@ -944,19 +960,21 @@
                               </div>
 
 
-                             
+
 
                               <div class="col-md-3 mb-2" nz-form-item>
                                 <label for="leaveRenewalCycle" class="pb-2">
-                                  Unused <span *ngIf="wfhTemplateToggle">WFH</span> <span *ngIf="!wfhTemplateToggle">Leave</span> Action
+                                  Unused <span *ngIf="wfhTemplateToggle">WFH</span> <span
+                                    *ngIf="!wfhTemplateToggle">Leave</span> Action
                                 </label>
 
-                              
+
 
                                 <div *ngIf="categories.controls[i]!.get('unusedLeaveActionId')?.value != LAPSE"
                                   style="width: 100%">
-                                  <input nz-input  type="number" [nzAutocomplete]="auto" formControlName="unusedLeaveActionCount" required (keyup)="validateMaxValue(i)"
-                                    placeholder="Select Days" [required]="true" nzSize="large" min="1" max="400" 
+                                  <input nz-input type="number" [nzAutocomplete]="auto"
+                                    formControlName="unusedLeaveActionCount" required (keyup)="validateMaxValue(i)"
+                                    placeholder="Select Days" [required]="true" nzSize="large" min="1" max="400"
                                     class="form-control input-zorro no-spinner-specific" style="font-size: 13px;" />
 
                                   <nz-autocomplete #auto>
@@ -987,8 +1005,9 @@
                                   Update leave Category
                                 </button>
 
-                                <button [disabled]="!form.valid" [ngClass]="{'btn-border-text': form.valid}" *ngIf="!editToggle"
-                                  class="p-0 btn text-primary leave-category" (click)="addFormRow(i)">
+                                <button [disabled]="!form.valid" [ngClass]="{'btn-border-text': form.valid}"
+                                  *ngIf="!editToggle" class="p-0 btn text-primary leave-category"
+                                  (click)="addFormRow(i)">
                                   <i class="bi bi-plus-lg"></i>
                                   {{ !addFormToggle
                                   ? 'Save leave Category'
@@ -1006,19 +1025,23 @@
                                         Select Gender
                                       </th>
                                       <th class="text-center" style="width: 10%">
-                                        <span *ngIf="wfhTemplateToggle">WFH</span> <span *ngIf="!wfhTemplateToggle">Leave</span> Category
+                                        <span *ngIf="wfhTemplateToggle">WFH</span> <span
+                                          *ngIf="!wfhTemplateToggle">Leave</span> Category
                                       </th>
                                       <th class="text-center" style="width: 10%">
-                                        <span *ngIf="wfhTemplateToggle">WFH</span> <span *ngIf="!wfhTemplateToggle">Leave</span> Cycle
+                                        <span *ngIf="wfhTemplateToggle">WFH</span> <span
+                                          *ngIf="!wfhTemplateToggle">Leave</span> Cycle
                                       </th>
                                       <th class="text-center" style="width: 10%">
                                         Accrual Type
                                       </th>
                                       <th class="text-center" style="width: 10%">
-                                        <span *ngIf="wfhTemplateToggle">WFH</span> <span *ngIf="!wfhTemplateToggle">Leave</span> Count
+                                        <span *ngIf="wfhTemplateToggle">WFH</span> <span
+                                          *ngIf="!wfhTemplateToggle">Leave</span> Count
                                       </th>
                                       <th class="text-center" style="width: 10%">
-                                        Unused <span *ngIf="wfhTemplateToggle">WFH</span> <span *ngIf="!wfhTemplateToggle">Leave</span> Action
+                                        Unused <span *ngIf="wfhTemplateToggle">WFH</span> <span
+                                          *ngIf="!wfhTemplateToggle">Leave</span> Action
                                       </th>
 
                                       <th *ngIf="!updateToggle" class="text-center" style="width: 10%">
@@ -1130,7 +1153,8 @@
 
                         <div class="modal-footer d-flex align-items-center justify-content-end leave-footer">
                           <!-- [ngClass]="{'btn-border-text': form.valid}" -->
-                          <button [ngClass]="{'btn-border': displayedCategories.length > 0}" [disabled]="displayedCategories.length == 0"  type="submit" class="btn p-0 next-btn"
+                          <button [ngClass]="{'btn-border': displayedCategories.length > 0}"
+                            [disabled]="displayedCategories.length == 0" type="submit" class="btn p-0 next-btn"
                             (click)="goToStaffSelectionTab()">
                             Next
                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22"
@@ -1283,7 +1307,7 @@
                           </div>
 
 
-                          
+
                           <!-- ngb Pagination end-->
 
                         </div>
@@ -1301,24 +1325,28 @@
                               </div>
                             </div>
                           </div>
-                          
-                        <div class="modal-footer d-flex align-items-center justify-content-end">
-                          <button *ngIf="!registerToggle" [disabled]="selectedStaffIdsUser.length == 0 || registerToggle" [ngClass]="{'btn-border': selectedStaffIdsUser.length > 0 }" type="submit" class="btn p-0 next-btn" (click)="registerLeaveTemplateMethodCall()"> {{ updateToggle ? "Update" : "Create" }} Leave Policy
-                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22"
-                              fill="none">
-                              <path
-                                d="M1.95801 11.0005C1.95801 10.8131 2.01656 10.6609 2.13366 10.5438C2.25076 10.4267 2.40299 10.3681 2.59035 10.3681H18.1179L13.9725 6.22276C13.832 6.08224 13.7618 5.9183 13.7618 5.73094C13.7618 5.54358 13.832 5.39135 13.9725 5.27424C14.1131 5.15714 14.277 5.09859 14.4644 5.09859C14.6517 5.09859 14.8157 5.14543 14.9562 5.23911L20.2257 10.5086C20.3194 10.6492 20.3662 10.8131 20.3662 11.0005C20.3662 11.1878 20.3194 11.3518 20.2257 11.4923L14.9562 16.7618C14.8157 16.8555 14.6517 16.9023 14.4644 16.9023C14.277 16.9023 14.1131 16.8438 13.9725 16.7267C13.832 16.6096 13.7618 16.4574 13.7618 16.27C13.7618 16.0826 13.832 15.9187 13.9725 15.7782L18.1179 11.6328H2.59035C2.40299 11.6328 2.25076 11.5743 2.13366 11.4572C2.01656 11.3401 1.95801 11.1878 1.95801 11.0005Z"
-                                fill="#6666F2" />
-                            </svg>
-                          </button>
 
-                          <div class="dot-opacity-loader" *ngIf="registerToggle">
-                            <span></span>
-                            <span></span>
-                            <span></span>
+                          <div class="modal-footer d-flex align-items-center justify-content-end">
+                            <button *ngIf="!registerToggle"
+                              [disabled]="selectedStaffIdsUser.length == 0 || registerToggle"
+                              [ngClass]="{'btn-border': selectedStaffIdsUser.length > 0 }" type="submit"
+                              class="btn p-0 next-btn" (click)="registerLeaveTemplateMethodCall()"> {{ updateToggle ?
+                              "Update" : "Create" }} Leave Policy
+                              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22"
+                                fill="none">
+                                <path
+                                  d="M1.95801 11.0005C1.95801 10.8131 2.01656 10.6609 2.13366 10.5438C2.25076 10.4267 2.40299 10.3681 2.59035 10.3681H18.1179L13.9725 6.22276C13.832 6.08224 13.7618 5.9183 13.7618 5.73094C13.7618 5.54358 13.832 5.39135 13.9725 5.27424C14.1131 5.15714 14.277 5.09859 14.4644 5.09859C14.6517 5.09859 14.8157 5.14543 14.9562 5.23911L20.2257 10.5086C20.3194 10.6492 20.3662 10.8131 20.3662 11.0005C20.3662 11.1878 20.3194 11.3518 20.2257 11.4923L14.9562 16.7618C14.8157 16.8555 14.6517 16.9023 14.4644 16.9023C14.277 16.9023 14.1131 16.8438 13.9725 16.7267C13.832 16.6096 13.7618 16.4574 13.7618 16.27C13.7618 16.0826 13.832 15.9187 13.9725 15.7782L18.1179 11.6328H2.59035C2.40299 11.6328 2.25076 11.5743 2.13366 11.4572C2.01656 11.3401 1.95801 11.1878 1.95801 11.0005Z"
+                                  fill="#6666F2" />
+                              </svg>
+                            </button>
+
+                            <div class="dot-opacity-loader" *ngIf="registerToggle">
+                              <span></span>
+                              <span></span>
+                              <span></span>
+                            </div>
                           </div>
                         </div>
-                      </div>
                       </div>
                     </div>
                   </div>

@@ -1570,13 +1570,16 @@ getPagesNew(): (number | string)[] {
     // });
   }
 
-  isToDoStepsCompleted: number = 0;
+  isToDoStepsCompleted!: number;
   isToDoStepsCompletedData(isOrgOnboardToday : number) {
     debugger
     this.dataService.isToDoStepsCompleted().subscribe(
       (response) => {
         this.isToDoStepsCompleted = response.object;
 
+        if(this.isOrgOnboardToday == 1 && this.isToDoStepsCompleted == 1) {
+          this.hideOrganizationInitialToDoStepBar();
+        }
         // if(this.isToDoStepsCompleted == 0 && isOrgOnboardToday == 1) {
         //   this.router.navigate(['/to-do-step-dashboard']);
         // }else {
@@ -1882,6 +1885,10 @@ this.BILLING_AND_SUBSCRIPTION_MODAL_TOGGLE = false
     this.presentModal.nativeElement.click();
     this.router.navigate(['/setting/attendance-setting']);
   }
+
+  // to do step completion
+
+  
 }
 
 

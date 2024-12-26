@@ -646,12 +646,13 @@ holidays: Holiday[] = [];
       });
   }
 
+  currentDate = new Date();
   clickViewAll(){
     debugger
     this.employeeProfileComponent.clickViewAll();
   }
 
-  currentDate = new Date();
+  // currentDate = new Date();
 
 
 

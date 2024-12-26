@@ -255,8 +255,7 @@
                         </defs>
                       </svg>
                       <p class="mb-0 font-16">
-                        <b>Refer a friend</b> Invite your friends to join Remote
-                        using your referral link
+                        <b>Access Restrictions :</b> The subscription is for personal use and cannot be shared with others.
                       </p>
                     </div>
                     <div class="d-flex align-items-center gap-2 mb-3">
@@ -285,8 +284,7 @@
                         </defs>
                       </svg>
                       <p class="mb-0 font-16">
-                        <b>Earn your reward</b> Earn up to $300 after your
-                        friend signs up and runs two successful payrolls
+                        <b>Payment Terms : </b> Subscription fees must be paid on or before the due date to avoid service disruption.
                       </p>
                     </div>
                     <div class="d-flex align-items-center gap-2 mb-3">
@@ -314,9 +312,7 @@
                         </defs>
                       </svg>
                       <p class="mb-0 font-16">
-                        <b>Claim your reward</b> We will let you know once your
-                        reward is ready. To claim your reward sign into your
-                        referral account
+                        <b>Plan Switching : </b>Users can upgrade or downgrade plans mid-cycle, resulting in the collapse of the current plan and the activation of a new plan.
                       </p>
                     </div>
                     <div class="d-flex align-items-center gap-2 mb-3">
@@ -344,9 +340,7 @@
                         </defs>
                       </svg>
                       <p class="mb-0 font-16">
-                        <b>Claim your reward</b> We will let you know once your
-                        reward is ready. To claim your reward sign into your
-                        referral account
+                        <b>Feature Additions : </b> Additional features or benefits may be introduced during the subscription period.
                       </p>
                     </div>
                     <div class="d-flex align-items-center gap-2 mb-3">
@@ -374,9 +368,7 @@
                         </defs>
                       </svg>
                       <p class="mb-0 font-16">
-                        <b>Claim your reward</b> We will let you know once your
-                        reward is ready. To claim your reward sign into your
-                        referral account
+                        <b>Plan Restrictions : </b> Certain features or services may only be available under higher-tier plans.
                       </p>
                     </div>
                     <div class="d-flex align-items-center gap-2 mb-3">
@@ -404,9 +396,7 @@
                         </defs>
                       </svg>
                       <p class="mb-0 font-16">
-                        <b>Claim your reward</b> We will let you know once your
-                        reward is ready. To claim your reward sign into your
-                        referral account
+                        <b>Renewal Notice : </b> Subscribers will receive reminders before the renewal date to ensure continuity of service.
                       </p>
                     </div>
                   </div>
@@ -1141,7 +1131,7 @@
 
                           <td class="stickyColTdend text-center">
                             <button type="button" class="btn btnAction" (click)="download(invoice)">
-                              <svg
+                              <svg *ngIf="!downloadInvoiceLoading"
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="12"
                                 height="11"
@@ -1153,7 +1143,13 @@
                                   fill="#6666F2"
                                 />
                               </svg>
-                              Download
+                            
+                              <div class="dot-opacity-loader" *ngIf="downloadInvoiceLoading">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                              </div>
+                              <span *ngIf="!downloadInvoiceLoading">Download</span>
                             </button>
                           </td>
                         </tr>

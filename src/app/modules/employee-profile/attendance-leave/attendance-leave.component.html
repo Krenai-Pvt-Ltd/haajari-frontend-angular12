@@ -1402,189 +1402,146 @@
                             </div>
                         </div>
                     </div>
-                    </div>
-                    </div>
-    
-    
+
+
                     <div class="table-responsive bg-white mt-3">
+
+                        <table class="table empOnnoardtable">
+                            <thead class="thead-light">
+                                <tr>
+
+                                    <th class="text-left font-13" style="width: 10%">Date</th>
+                                    <th class="text-left font-13" style="width: 10%">Type</th>
+                                    <th class="text-left font-13" style="width: 10%">Requested To</th>
+                                    <!-- <th class="text-left font-13" style="width: 10%">Approved by</th> -->
+                                    <th *ngIf="attendanceType === 'CREATE'" class="text-left font-13"
+                                        style="width: 10%">In Time</th>
+                                    <th *ngIf="attendanceType === 'CREATE'" class="text-left font-13"
+                                        style="width: 10%">Out Time</th>
+                                    <th *ngIf="attendanceType === 'UPDATE'" class="text-left font-13"
+                                        style="width: 10%">Old Time</th>
+                                    <th *ngIf="attendanceType === 'UPDATE'" class="text-left font-13"
+                                        style="width: 10%">Updated Time</th>
+                                    <th *ngIf="attendanceType === 'UPDATE'" class="text-left font-13"
+                                        style="width: 10%">Requested For</th>
+                                    <th class="text-left font-13" style="width: 10%">Reason</th>
+                                    <th class="text-left font-13" style="width: 10%">Status</th>
+                                </tr>
+                            </thead>
+
+                            <tbody *ngIf="isAttendanceLoading">
+                                <tr *ngFor="let item of [].constructor(7)">
+                                    <td>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </td>
+                                    <td>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </td>
+                                    <td>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </td>
+                                    <td>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </td>
+                                    <td>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </td>
+                                    <td>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </td>
+                                    <td>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </td>
+                                    <td *ngIf="attendanceType === 'CREATE'">
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                            <tbody *ngIf="attendanceRequests.length === 0 && !isAttendanceLoading">
+                                <tr>
+                                    <td colspan="9">
+                                        <div class="empty-filenew" style="margin-top: 7%; margin-bottom: 7%">
+                                            <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                                [nzNotFoundContent]="contentTpl">
+                                                <ng-template #contentTpl>
+                                                    <p class="mb-1 empty-filenew">No data for now</p>
+                                                </ng-template>
+                                            </nz-empty>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                            <tbody *ngIf="!isAttendanceLoading">
+                                <tr *ngFor="let item of attendanceRequests">
+                                    <td>
+                                        <span *ngIf="item?.requestType === 'CREATE'">{{item?.inRequestTime | date:'dd
+                                            MMM yyyy'}}</span>
+                                        <span *ngIf="item?.requestType === 'UPDATE'">{{item?.updatedTime | date:'dd MMM
+                                            yyyy'}}</span>
+                                        <!-- <p class="mb-0 font-12"> 1 Day </p> -->
+                                    </td>
+                                    <td>
+                                        <span>Attendance {{item?.requestType}}</span>
+                                        <p class="mb-0 font-12"> {{item?.createdDate | date:'dd MMM yyyy'}} </p>
+                                    </td>
+                                    <td>
+                                        <span class="table-font-weight">{{ item.managerName }} </span>
+                                    </td>
+                                    <td>
+                                        <span *ngIf="attendanceType === 'CREATE'"
+                                            class="table-font-weight">{{item?.inRequestTime | date:'HH:mm'}}</span>
+                                        <span *ngIf="attendanceType === 'UPDATE'"
+                                            class="table-font-weight">{{item?.oldTime | date:'HH:mm'}}</span>
+                                    </td>
+                                    <td>
+                                        <span *ngIf="attendanceType === 'CREATE'"
+                                            class="table-font-weight">{{item?.outRequestTime | date:'HH:mm'}}</span>
+                                        <span *ngIf="attendanceType === 'UPDATE'"
+                                            class="table-font-weight">{{item?.updatedTime | date:'HH:mm'}}</span>
+                                    </td>
+                                    <td *ngIf="attendanceType === 'UPDATE'">
+                                        <span class="table-font-weight">{{item?.requestedFor}}</span>
+                                    </td>
+                                    <td>
+                                        <span class="table-font-weight">{{item?.requestReason}}</span>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <span class="badge rounded-pill badge-soft-warning">{{item?.status}}</span>
+                                            <!-- Delete Button -->
+                                            <button *ngIf="item?.status === 'PENDING'" class="icon-button btn p-0"
+                                                (click)="deleteAttendanceRequest(item?.id)">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21"
+                                                    viewBox="0 0 21 21" fill="none">
+                                                    <mask id="mask0_6083_5461" style="mask-type:alpha"
+                                                        maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
+                                                        <rect x="0.910156" y="0.910156" width="20" height="20"
+                                                            fill="#D9D9D9" />
+                                                    </mask>
+                                                    <g mask="url(#mask0_6083_5461)">
+                                                        <path
+                                                            d="M6.74353 18.4102C6.2852 18.4102 5.89284 18.247 5.56645 17.9206C5.24006 17.5942 5.07686 17.2018 5.07686 16.7435V5.91016H4.24353V4.24349H8.4102V3.41016H13.4102V4.24349H17.5769V5.91016H16.7435V16.7435C16.7435 17.2018 16.5803 17.5942 16.2539 17.9206C15.9276 18.247 15.5352 18.4102 15.0769 18.4102H6.74353ZM15.0769 5.91016H6.74353V16.7435H15.0769V5.91016ZM8.4102 15.0768H10.0769V7.57682H8.4102V15.0768ZM11.7435 15.0768H13.4102V7.57682H11.7435V15.0768Z"
+                                                            fill="#FF0404" />
+                                                    </g>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </td>
+
+                                </tr>
+                                <ngb-pagination *ngIf="pageAttendanceSize<totalAttendanceElements"
+                                    [collectionSize]="totalAttendanceElements" [(page)]="currentAttendancePage"
+                                    [pageSize]="pageAttendanceSize" (pageChange)="onAttendancePageChange($event)">
+
+                                </ngb-pagination>
+
+                            </tbody>
+                        </table>
+                    </div>
+                    </div>
     
-                        <table  class="table empOnnoardtable">
-                          <thead class="thead-light">
-                            <tr>
-                             
-                              <th class="text-left font-13" style="width: 10%">Date</th>
-                              <th class="text-left font-13" style="width: 10%">Type</th>
-                              <th class="text-left font-13" style="width: 10%">Requested To</th>
-                              <th class="text-left font-13" style="width: 10%">Approved by</th>
-                              <th class="text-left font-13" style="width: 10%">In Time</th>
-                              <th class="text-left font-13" style="width: 10%">Out Time</th>
-                              <th class="text-left font-13" style="width: 10%">Duration</th>
-                              <th class="text-left font-13" style="width: 10%">Action Taken on</th>
-                              <th class="text-left font-13" style="width: 10%">Status</th>
-                            </tr>
-                          </thead>
-      
-                         <!-- <tbody>
-                              <tr *ngFor="let item of [].constructor(7)">
-                                  <td>
-                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                  </td>
-                                  <td>
-                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                  </td>
-                                  <td>
-                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                  </td>
-                                  <td>
-                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                  </td>
-                                  <td>
-                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                  </td>
-                                  <td>
-                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                  </td>
-                                  <td>
-                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                  </td>
-                                  <td>
-                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                  </td>
-                              </tr>
-                          </tbody> -->
-      
-                          <tbody>
-                            <tr *ngFor="let item of [].constructor(3)">
-                                <td>
-                                    <span>16 Jun 2023</span>
-                                    <p class="mb-0 font-12"> 1 Day </p>
-                                </td>
-                                <td>
-                                    <span>Attendance Update</span>
-                                    <p class="mb-0 font-12"> on Oct 14, 2024 </p>
-                                </td>
-                                <td>
-                                    <span class="table-font-weight">Sam Michael </span>
-                                </td>
-                                <td>
-                                    <span>Rohit Chaturvedi</span>
-                                </td>
-                                <td>
-                                    <span class="table-font-weight">09:30 pm</span>
-                                </td>
-                                <td>
-                                    <span class="table-font-weight">06:00 pm</span>
-                                </td>
-                                <td>
-                                    <span class="table-font-weight">-</span>
-                                </td>
-                                <td>
-                                    <span class="table-font-weight">16 Jun,2024</span>
-                                </td>
-                                <td>
-                                    <div class="d-flex align-items-center gap-2">
-                                    <span class="badge rounded-pill badge-soft-warning">PENDING</span>
-                                    <!-- Delete Button -->
-                                    <button class="icon-button btn p-0">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
-                                            <mask id="mask0_6083_5461" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
-                                                <rect x="0.910156" y="0.910156" width="20" height="20" fill="#D9D9D9" />
-                                            </mask>
-                                            <g mask="url(#mask0_6083_5461)">
-                                                <path
-                                                    d="M6.74353 18.4102C6.2852 18.4102 5.89284 18.247 5.56645 17.9206C5.24006 17.5942 5.07686 17.2018 5.07686 16.7435V5.91016H4.24353V4.24349H8.4102V3.41016H13.4102V4.24349H17.5769V5.91016H16.7435V16.7435C16.7435 17.2018 16.5803 17.5942 16.2539 17.9206C15.9276 18.247 15.5352 18.4102 15.0769 18.4102H6.74353ZM15.0769 5.91016H6.74353V16.7435H15.0769V5.91016ZM8.4102 15.0768H10.0769V7.57682H8.4102V15.0768ZM11.7435 15.0768H13.4102V7.57682H11.7435V15.0768Z"
-                                                    fill="#FF0404" />
-                                            </g>
-                                        </svg>
-                                    </button>
-    
-                                    <!-- Edit Button -->
-                                    <button class="btn p-0 icon-button" >
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
-                                            <mask id="mask0_6083_5464" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
-                                                <rect x="0.910156" y="0.910156" width="20" height="20" fill="#D9D9D9" />
-                                            </mask>
-                                            <g mask="url(#mask0_6083_5464)">
-                                                <path
-                                                    d="M5.07682 16.7435H6.26432L14.4102 8.59766L13.2227 7.41016L5.07682 15.556V16.7435ZM3.41016 18.4102V14.8685L14.4102 3.88932C14.5768 3.73655 14.7609 3.61849 14.9622 3.53516C15.1636 3.45182 15.3754 3.41016 15.5977 3.41016C15.8199 3.41016 16.0352 3.45182 16.2435 3.53516C16.4518 3.61849 16.6324 3.74349 16.7852 3.91016L17.931 5.07682C18.0977 5.2296 18.2192 5.41016 18.2956 5.61849C18.372 5.82682 18.4102 6.03516 18.4102 6.24349C18.4102 6.46571 18.372 6.67752 18.2956 6.87891C18.2192 7.0803 18.0977 7.26432 17.931 7.43099L6.95182 18.4102H3.41016ZM13.806 8.01432L13.2227 7.41016L14.4102 8.59766L13.806 8.01432Z"
-                                                    fill="black" />
-                                            </g>
-                                        </svg>
-                                    </button>
-                                </div>
-    
-                                </td>
-    
-                            </tr>
-                            <tr *ngFor="let item of [].constructor(3)">
-                                <td>
-                                    <span>16 Jun 2023</span>
-                                    <p class="mb-0 font-12"> 1 Day </p>
-                                </td>
-                                <td>
-                                    <span>Attendance Update</span>
-                                    <p class="mb-0 font-12"> on Oct 14, 2024 </p>
-                                </td>
-                                <td>
-                                    <span class="table-font-weight">Sam Michael </span>
-                                </td>
-                                <td>
-                                    <span>Rohit Chaturvedi</span>
-                                </td>
-                                <td>
-                                    <span class="table-font-weight">09:30 pm</span>
-                                </td>
-                                <td>
-                                    <span class="table-font-weight">06:00 pm</span>
-                                </td>
-                                <td>
-                                    <span class="table-font-weight">-</span>
-                                </td>
-                                <td>
-                                    <span class="table-font-weight">16 Jun,2024</span>
-                                </td>
-                                <td>
-                                    <span class="badge rounded-pill badge-soft-danger">REJECT</span>
-    
-                                     
-                                </td>
-    
-                            </tr>
-                            <tr *ngFor="let item of [].constructor(3)">
-                                <td>
-                                    <span>16 Jun 2023</span>
-                                    <p class="mb-0 font-12"> 1 Day </p>
-                                </td>
-                                <td>
-                                    <span>Attendance Update</span>
-                                    <p class="mb-0 font-12"> on Oct 14, 2024 </p>
-                                </td>
-                                <td>
-                                    <span class="table-font-weight">Sam Michael </span>
-                                </td>
-                                <td>
-                                    <span>Rohit Chaturvedi</span>
-                                </td>
-                                <td>
-                                    <span class="table-font-weight">09:30 pm</span>
-                                </td>
-                                <td>
-                                    <span class="table-font-weight">06:00 pm</span>
-                                </td>
-                                <td>
-                                    <span class="table-font-weight">-</span>
-                                </td>
-                                <td>
-                                    <span class="table-font-weight">16 Jun,2024</span>
-                                </td>
-                                <td>
-                                    <span class="badge rounded-pill badge-soft-success">APPROVED</span>
-                                </td>
-    
-                            </tr>
-                          </tbody>
-                    </table>
-                </div>
     
     
     
@@ -2141,188 +2098,4 @@
             </div>
         </div>
     </div>
-    
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#overtimeRequest">
-          Overtime request
-    </button>
-    
-    <!-- Modal -->
-    <div class="modal fade" id="overtimeRequest" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Overtime request</h5>
-                    <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButton>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                            <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
-                                width="24" height="24">
-                                <rect width="24" height="24" fill="#D9D9D9" />
-                            </mask>
-                            <g mask="url(#mask0_5037_2014)">
-                                <path
-                                    d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z"
-                                    fill="black" />
-                            </g>
-                        </svg>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="assets-request-form">
-                        <form>
-                            <div class="row register-form-box">
-                                <!-- New Request -->
-                                <div class="col-md-12 mb-3">
-                                    <div class="form-group updated-over-timing">
-                                        <label for="employeeTypeId" class="mb-2">
-                                        Pick up the date and time:</label>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <nz-time-picker formControlName="updatedTime" id="updatedTime"
-                                                    nzFormat="HH:mm" class="w-100" nzPlaceHolder="Start Date">
-                                                </nz-time-picker>
-                                                <span class="updated-timing-input">Start Date</span>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <nz-time-picker formControlName="updatedTime" id="updatedTime"
-                                                    nzFormat="HH:mm" class="w-100" nzPlaceHolder="End Date">
-                                                </nz-time-picker>
-                                                <span class="updated-timing-input">End Date</span>
-                                            </div>
-                                        </div>
-    
-                                    </div>
-                                </div>
-                                <!-- New Request end -->
-    
-                                <div class="col-md-12 mb-3">
-                                    <!-- TO-DO apply on active class="active-overtime" -->
-                                    <div class="d-flex align-items-center gap-2 overtime-hour ">
-                                        <p class="mb-0 font-13"> Overtime Working Hour</p>
-                                        <span class="calendar-separator"></span>
-                                        <span class="font-13">00:00:00</span>
-                                    </div>
-                                </div>
-    
-                                <div class="col-md-12 mb-3">
-                                    <div class="form-group">
-                                        <label for="employeeTypeId" class="mb-2">Select manager to request for</label>
-                                        <nz-form-control>
-                                            <nz-select class="form-control" style="width: 100%" nzSize="large"
-                                                nzPlaceHolder="Select manager" required>
-                                                <nz-option [nzValue]="'Rohit Chaturvedi'"
-                                                    [nzLabel]="'Rohit Chaturvedi'"></nz-option>
-                                                <nz-option [nzValue]="'Pushpendra'" [nzLabel]="'Pushpendra'"></nz-option>
-                                                <nz-option [nzValue]="'Anchal Sharma'"
-                                                    [nzLabel]="'Anchal Sharma'"></nz-option>
-                                            </nz-select>
-                                        </nz-form-control>
-                                    </div>
-                                </div>
-                                <div class="col-md-12 mb-3">
-                                    <div class="form-group">
-                                        <label for="templateName" class="mb-2"> Reason</label>
-                                        <textarea class="form-control nots-section" placeholder="write the reason"
-                                            id="exampleFormControlTextarea1" rows="3"></textarea>
-                                    </div>
-                                </div>
-    
-                            </div>
-                        </form>
-                    </div>
-                </div>
-                <div class="modal-footer d-flex align-items-center justify-content-between">
-                    <div class="total-time">
-                        <p class="mb-1">Total Woking hours <i class="bi bi-exclamation-circle"></i></p>
-                        <h3>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="21" viewBox="0 0 18 21" fill="none">
-                                <path
-                                    d="M6 2V0H12V2H6ZM8 13H10V7H8V13ZM9 21C7.76667 21 6.60417 20.7625 5.5125 20.2875C4.42083 19.8125 3.46667 19.1667 2.65 18.35C1.83333 17.5333 1.1875 16.5792 0.7125 15.4875C0.2375 14.3958 0 13.2333 0 12C0 10.7667 0.2375 9.60417 0.7125 8.5125C1.1875 7.42083 1.83333 6.46667 2.65 5.65C3.46667 4.83333 4.42083 4.1875 5.5125 3.7125C6.60417 3.2375 7.76667 3 9 3C10.0333 3 11.025 3.16667 11.975 3.5C12.925 3.83333 13.8167 4.31667 14.65 4.95L16.05 3.55L17.45 4.95L16.05 6.35C16.6833 7.18333 17.1667 8.075 17.5 9.025C17.8333 9.975 18 10.9667 18 12C18 13.2333 17.7625 14.3958 17.2875 15.4875C16.8125 16.5792 16.1667 17.5333 15.35 18.35C14.5333 19.1667 13.5792 19.8125 12.4875 20.2875C11.3958 20.7625 10.2333 21 9 21ZM9 19C10.9333 19 12.5833 18.3167 13.95 16.95C15.3167 15.5833 16 13.9333 16 12C16 10.0667 15.3167 8.41667 13.95 7.05C12.5833 5.68333 10.9333 5 9 5C7.06667 5 5.41667 5.68333 4.05 7.05C2.68333 8.41667 2 10.0667 2 12C2 13.9333 2.68333 15.5833 4.05 16.95C5.41667 18.3167 7.06667 19 9 19Z"
-                                    fill="#6666F2" />
-                            </svg>
-                            10:00:00
-                        </h3>
-                    </div>
-                    <div class="d-flex align-items-center gap-2">
-                        <button type="button" class="btn cancel-btn mt-0" data-bs-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn submitActionBtn">Submit</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- <ng-template #deleteConfirmation let-modal>
-      <div class="modal-header">
-        <h5 class="modal-title">Confirm Deletion</h5>
-        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
-      </div>
-      <div class="modal-body">
-        Are you sure you want to delete this item?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Cancel</button>
-        <button
-        type="button"
-        class="btn btn-danger"
-        (click)="confirmDelete(modal)"
-        [disabled]="isDeleting">
-    
-        <span *ngIf="isDeleting" class="dot-opacity-loader"></span>
-        <span *ngIf="!isDeleting">Delete</span>
-    
-      </button>
-      </div>
-    </ng-template> -->
-    
-    
-    
-    
-    <button class="d-none" data-bs-toggle="modal" data-bs-target="#delete-leave" #deletModalButton></button>
-    
-    <div class="modal fade" id="delete-leave" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" style="max-width: 500px" role="document">
-            <div class="modal-content">
-                <div class="modal-body p-0 delete-text">
-                    <div class="delete-image d-flex align-items-center justify-content-center pt-4 pb-4">
-                        <div class="delete-close-btn">
-                            <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close"
-                               >
-                                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30"
-                                    fill="none">
-                                    <mask id="mask0_2031_1331" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0"
-                                        y="0" width="30" height="30">
-                                        <rect width="30" height="30" fill="#D9D9D9" />
-                                    </mask>
-                                    <g mask="url(#mask0_2031_1331)">
-                                        <path
-                                            d="M8 23.75L6.25 22L13.25 15L6.25 8L8 6.25L15 13.25L22 6.25L23.75 8L16.75 15L23.75 22L22 23.75L15 16.75L8 23.75Z"
-                                            fill="black" />
-                                    </g>
-                                </svg>
-                            </button>
-                        </div>
-                        <img src="/assets/images/delete-img.svg" style="width: 70px" />
-                    </div>
-                    <div class="bg-white p-4 text-center">
-                        <div>
-                            <h5 class="alert-heading font-18 mb-2">
-                                Are you sure you want to delete
-                            </h5>
-                            <p class="font-11">You will not be able to recover this</p>
-                        </div>
-                        <div class="mt-4 d-flex align-items-center flex-column">
-                            <button class="btn continue-btn"  (click)="confirmDelete(modal)">
-                                <span *ngIf="isDeleting" class="dot-opacity-loader"></span>
-                                <span *ngIf="!isDeleting">Continue</span>
-                            </button>
-                            <button class="btn pt-2" type="button" data-bs-dismiss="modal" aria-label="Close" #deleCloseButton>
-                                Cancel
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+</div>
