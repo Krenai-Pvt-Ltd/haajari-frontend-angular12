@@ -39,6 +39,7 @@ export class AppComponent implements OnInit {
     this._router = router;
   }
   ngOnInit(): void {
+    console.log(this.rbacService.isUserInfoInitialized, "-------", this.onboardingService.isLoadingOnboardingStatus);
     // this._helperService.showToast("Successfully generated.", "Success");
   }
 

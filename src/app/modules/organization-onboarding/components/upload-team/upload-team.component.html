@@ -194,7 +194,7 @@
                             </p>
                           </div>
                           <div class="">
-                            <button class="btn excelUploadBtn" data-bs-toggle="modal" data-bs-target="#munal-upload">
+                            <button class="btn excelUploadBtn" data-bs-toggle="modal" data-bs-target="#munal-upload" [disabled]="percentage > 0">
                               Single Enrollment
                               <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22"
                                 fill="none">
@@ -1013,7 +1013,7 @@
               </button> -->
 
               <button class="btn mannualSubmit" (click)="submit()"
-                [disabled]="!allUsersValid() || this.userList.length < 1">
+                [disabled]="!allUsersValid() || this.userList.length < 1 || isNumberExist || isEmailExist">
                 <span *ngIf="!isManualUploadSubmitLoader">Submit</span>
                 <div class="dot-opacity-white-loader" *ngIf="isManualUploadSubmitLoader">
                   <span></span>

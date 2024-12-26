@@ -11,7 +11,7 @@
 
 {{this.helperService.orgStepId}}
 
-<router-outlet  *ngIf="this.roleBasedAccessControlService.isUserInfoInitialized && this.helperService.orgStepId  && !onboardingService.isLoadingOnboardingStatus"></router-outlet>
+<router-outlet  *ngIf="this.helperService.orgStepId  && !onboardingService.isLoadingOnboardingStatus"></router-outlet>
 
 <app-hajiri-page-loader *ngIf="!this.helperService.orgStepId  || onboardingService.isLoadingOnboardingStatus">
 </app-hajiri-page-loader>
