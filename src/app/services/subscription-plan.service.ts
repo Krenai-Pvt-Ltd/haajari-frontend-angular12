@@ -85,6 +85,7 @@ export class SubscriptionPlanService {
   }
 
   verifySubscriptionAndRoute():boolean{
+    debugger
     if(this.isSubscription!=undefined && this.rbacService.getRoles()=='ADMIN'){
       
       if(this.isSubscription){

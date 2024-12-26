@@ -91,7 +91,7 @@ export class LoginComponent implements OnInit {
           this.helperService.orgStepId = 5;
           this.onboardingService.isLoadingOnboardingStatus = false;
           console.log("🚀 ~ LoginComponent ~ tap ~ this.onboardingService.isLoadingOnboardingStatus:", this.onboardingService.isLoadingOnboardingStatus)
-          this.router.navigate([Key.DASHBOARD], {
+          this.router.navigate([Key.EMPLOYEE_PROFILE_ROUTE], {
             queryParams: { userId: this.UUID, dashboardActive: 'true' },
           });
         } else if (this.ROLE == 'HR ADMIN') {
