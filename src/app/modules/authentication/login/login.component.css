@@ -561,3 +561,9 @@
     text-align: left;
   }
 }
+
+.disabled-alink {
+  pointer-events: none !important;
+  color: grey !important; 
+  cursor: not-allowed !important;
+}

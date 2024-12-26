@@ -419,11 +419,15 @@ invoiceDetail:InvoiceDetail = new InvoiceDetail();
   }
 
 
+  downloadInvoiceLoading:boolean=false;
   download(invoice:any){
+     this.downloadInvoiceLoading = true;
     if(!constant.EMPTY_STRINGS.includes(invoice.invoiceUrl)){
       window.open(invoice.invoiceUrl, "_blank");
+      this.downloadInvoiceLoading = false;
     }else{
       this.downloadInvoice(invoice.id);
+      this.downloadInvoiceLoading = false;
     }
   }
 
