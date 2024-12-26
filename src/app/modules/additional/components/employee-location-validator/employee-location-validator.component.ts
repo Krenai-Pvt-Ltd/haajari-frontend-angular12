@@ -231,15 +231,15 @@ export class EmployeeLocationValidatorComponent implements OnInit {
     for (const addressDetail of this.organizationAddressDetails) {
         const organizationLatLng = new google.maps.LatLng(Number(addressDetail.latitude), Number(addressDetail.longitude));
         var distance = google.maps.geometry.spherical.computeDistanceBetween(userLatLng, organizationLatLng);
-        window.alert("radius"+addressDetail.radius)
+        // window.alert("radius"+addressDetail.radius)
 
         if(this.accuracy>0){
           addressDetail.radius=String(+addressDetail.radius+this.accuracy);
-        window.alert("🚀 ~ EmployeeLocationValidatorComponent ~ calculateDistance ~ distance=distance+this.accuracy;: AFTER"+ (addressDetail.radius+(this.accuracy)))
+        // window.alert("🚀 ~ EmployeeLocationValidatorComponent ~ calculateDistance ~ distance=distance+this.accuracy;: AFTER"+ (addressDetail.radius+(this.accuracy)))
         }
         // window.alert(usee)
 
-        window.alert(distance + '---' + addressDetail.radius);
+        // window.alert(distance + '---' + addressDetail.radius);
         if (distance <= addressDetail.radius && !this.isFlexible) {
             isWithinAnyLocation = true;
             this.attendanceMode = addressDetail.attendanceMode;
