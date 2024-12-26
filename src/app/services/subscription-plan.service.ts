@@ -31,7 +31,7 @@ export class SubscriptionPlanService {
             //@ts-ignore
             this.currentRoute = val.snapshot._routerState.url.split("?")[0];
             // console.log("route=======", this.currentRoute);
-            if (!Routes.AUTH_ROUTES.includes(String(this.currentRoute))) {
+            if (!Routes.AUTH_ROUTES.includes(String(this.currentRoute))&& !constant.PUBLIC_ROUTES.includes(window.location.pathname)) {
                this.LoadAsync();
             }
           }

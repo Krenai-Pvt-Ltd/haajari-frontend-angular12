@@ -14,7 +14,9 @@ export class constant{
     public static ORG_ONBOARDING_ONBOARDING_COMPLETED_STEP_ID = "5";
 
 
-
+    /**
+     * ONBOARDING ROUTES START
+     */
     public static ORG_ONBOARDING_PERSONAL_INFORMATION_ROUTE = "/organization-onboarding/personal-information";
     public static ORG_ONBOARDING_EMPLOYEE_CREATION_ROUTE = "/organization-onboarding/upload-team";
     public static ORG_ONBOARDING_SHIFT_TIME_ROUTE = "/organization-onboarding/shift-time-list";
@@ -22,9 +24,23 @@ export class constant{
     public static DASHBOARD_ROUTE = "/dashboard";
     public static SETTING_SUBSCRIPTION_ROUTE = "/setting/subscription";
     public static LOGIN_ROUTE = "/auth/login";
+    /**
+     * ONBOARDING ROUTES END
+     */
+
+    public static PUBLIC_MARK_ATTENDANCE_URL = "/additional/location-validator";
+    public static PUBLIC_APPLY_LEAVE_URL = "/additional/leave-request";
+    public static PUBLIC_MARK_ATTENDANCE_WITH_IMAGE_URL="/additional/attendance-photo";
+    public static PUBLIC_SLACK_INSTALL_SUCCESS ="/additional/slack-installation-successfull";
+    public static PUBLIC_SERVER_ERROR="/additional/internal-server-error";
 
     public static ONBOARDING_ROUTES =[constant.ORG_ONBOARDING_PERSONAL_INFORMATION_ROUTE, constant.ORG_ONBOARDING_EMPLOYEE_CREATION_ROUTE, constant.ORG_ONBOARDING_SHIFT_TIME_ROUTE,
     constant.ORG_ONBOARDING_ATTENDANCE_MODE_ROUTE
     ]
+
+    public static PUBLIC_ROUTES = [constant.PUBLIC_MARK_ATTENDANCE_URL,constant.PUBLIC_APPLY_LEAVE_URL,constant.PUBLIC_MARK_ATTENDANCE_WITH_IMAGE_URL,constant.PUBLIC_SLACK_INSTALL_SUCCESS,
+        constant.PUBLIC_SERVER_ERROR   
+    ];
+
 }
 
