@@ -5,7 +5,6 @@ import { constant } from '../constant/constant';
 import { HelperService } from './helper.service';
 import { SubscriptionPlanService } from './subscription-plan.service';
 import { RoleBasedAccessControlService } from './role-based-access-control.service';
-
 @Injectable({
   providedIn: 'root'
 })
@@ -13,92 +12,88 @@ export class OnboardingService {
 
   // isOnboardingCompleted: boolean = false;
   isLoadingOnboardingStatus: boolean = true;
-  constructor(private onboardingService : OrganizationOnboardingService, private router: Router, private helperService: HelperService, private subscriptionService: SubscriptionPlanService, private rbacService : RoleBasedAccessControlService) {
+  requestedRoute!: string;
+  constructor(private onboardingService: OrganizationOnboardingService, private router: Router, private helperService: HelperService, private subscriptionService: SubscriptionPlanService, private rbacService: RoleBasedAccessControlService) {
+
+    this.requestedRoute = decodeURIComponent(window.location.pathname + window.location.search + window.location.hash);
     this.checkOnboardingStatus();
-     
   }
 
-  async checkOnboardingStatus(){
+  async checkOnboardingStatus() {
     this.onboardingService
       .getOrgOnboardingStep()
       .subscribe(async (response: any) => {
-        
-        console.log("response" , response)
         if (response.status) {
           this.helperService.orgStepId = response.object.step;
-          console.log("stepId1", this.helperService.orgStepId);
 
-           // to Check subscription plan
-          if(this.helperService.orgStepId == +constant.ORG_ONBOARDING_ONBOARDING_COMPLETED_STEP_ID) {
-            console.log("stepId1check", this.helperService.orgStepId);
+          // to Check subscription plan
+          if (this.helperService.orgStepId == +constant.ORG_ONBOARDING_ONBOARDING_COMPLETED_STEP_ID) {
             await this.checkSubscriptionPlan();
-            if(this.helperService.restrictedModules == undefined){
+            if (this.helperService.restrictedModules == undefined) {
               await this.helperService.getRestrictedModules();
             }
           }
-          
+
           this.switchToRoutes(this.helperService.orgStepId);
-          
+
         }
       },
-      (error) => {
-        this.isLoadingOnboardingStatus=false;
-        this.router.navigate(['/auth/login']);
-      });
+        (error) => {
+          this.isLoadingOnboardingStatus = false;
+          this.router.navigate(['/auth/login']);
+        });
 
   }
 
-  async checkSubscriptionPlan(){
-    if(this.subscriptionService.isSubscription==undefined){
+  async checkSubscriptionPlan() {
+    if (this.subscriptionService.isSubscription == undefined) {
       await this.subscriptionService.isSubscriptionPlanExpired();
     }
-    console.log("=====isSubscription======",this.subscriptionService.isSubscription);
   }
 
   switchToRoutes(orgStepId: number): void {
-    this.isLoadingOnboardingStatus=true;
+    this.isLoadingOnboardingStatus = true;
     // for onboarding routes 
-    console.log("stepId2", orgStepId);
-    switch (orgStepId+"") {
+    switch (orgStepId + "") {
       case (constant.ORG_ONBOARDING_PERSONAL_INFORMATION_STEP_ID): {
         this.router.navigate([constant.ORG_ONBOARDING_PERSONAL_INFORMATION_ROUTE]);
-        this.isLoadingOnboardingStatus=false;
-
-        // console.log("Step 1 is calling");
+        this.isLoadingOnboardingStatus = false;
         break;
       }
       case (constant.ORG_ONBOARDING_EMPLOYEE_CREATION_STEP_ID): {
-        console.log("Step 2 is calling");
-
         this.router.navigate([constant.ORG_ONBOARDING_EMPLOYEE_CREATION_ROUTE]);
-        this.isLoadingOnboardingStatus=false;
+        this.isLoadingOnboardingStatus = false;
 
         break;
       }
       case (constant.ORG_ONBOARDING_SHIFT_TIME_STEP_ID): {
         this.router.navigate([constant.ORG_ONBOARDING_SHIFT_TIME_ROUTE]);
-        this.isLoadingOnboardingStatus=false;
-
-        // console.log("Step 3 is calling");
+        this.isLoadingOnboardingStatus = false;
         break;
       }
       case (constant.ORG_ONBOARDING_ATTENDANCE_MODE_STEP_ID): {
         this.router.navigate([constant.ORG_ONBOARDING_ATTENDANCE_MODE_ROUTE]);
-        this.isLoadingOnboardingStatus=false;
-
-        // console.log("Step 4 is calling");
+        this.isLoadingOnboardingStatus = false;
         break;
       }
       case (constant.ORG_ONBOARDING_ONBOARDING_COMPLETED_STEP_ID): {
-        // window.alert("Onboarding Completed" + this.helperService.orgStepId +"9999" +this.isLoadingOnboardingStatus);
-        if(this.subscriptionService.isSubscription){
-          this.router.navigate([constant.DASHBOARD_ROUTE]);
-          this.isLoadingOnboardingStatus=false;
+        if (this.subscriptionService.isSubscription) {
+          if (!constant.ONBOARDING_ROUTES.includes(this.requestedRoute.split("?")[0])) {
+            // Parse the requested route into the path and query parameters
+            const [path, queryString] = this.requestedRoute.split('?');
+            const queryParams = this.parseQueryParams(queryString);
+            // Navigate to the route with query parameters
+            this.router.navigate([path], { queryParams });
 
-        }else{
+          } else {
+            this.router.navigate([constant.DASHBOARD_ROUTE]);
+          }
+          this.isLoadingOnboardingStatus = false;
+
+        } else {
           // this.subscriptionService.verifySubscriptionAndRoute();
-          this.router.navigate( [constant.SETTING_SUBSCRIPTION_ROUTE]);
-          this.isLoadingOnboardingStatus=false;
+          this.router.navigate([constant.SETTING_SUBSCRIPTION_ROUTE]);
+          this.isLoadingOnboardingStatus = false;
 
         }
 
@@ -106,11 +101,20 @@ export class OnboardingService {
         break;
       }
       default: {
-        this.isLoadingOnboardingStatus=false;
+        this.isLoadingOnboardingStatus = false;
         this.router.navigate([constant.LOGIN_ROUTE]);
         // console.log("Step default is calling");
         break;
       }
     }
+  }
+
+  private parseQueryParams(queryString: string): { [key: string]: any } {
+    if (!queryString) return {};
+    return queryString.split('&').reduce((acc: any, param) => {
+      const [key, value] = param.split('=');
+      acc[key] = decodeURIComponent(value || '');
+      return acc;
+    }, {});
   }
 }

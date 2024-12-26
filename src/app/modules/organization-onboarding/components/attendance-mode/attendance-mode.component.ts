@@ -735,8 +735,9 @@ export class AttendanceModeComponent implements OnInit {
   saveAttendaceFlexibleModeInfo(locationType: string) {
     this.dataService.saveFlexibleAttendanceMode(locationType).subscribe((response) => {
       if (locationType == 'fixed') {
-        this.scrollToView();
+       
         this.updateMasterAttendanceModeMethodCall(1, 3);
+        this.scrollToView();
         this.offFinishSetup = true;
       } else {
         this.offFinishSetup = false;
@@ -772,20 +773,16 @@ export class AttendanceModeComponent implements OnInit {
 
     @ViewChild('scrollToBottom') scrollToBottom!: ElementRef;
   scrollToView() {
-    this.scrollToBottom.nativeElement.scrollTop =
-      this.scrollToBottom.nativeElement.scrollHeight;
+    const element = document.getElementById("locationForm");
+    if(element){
+      element.scrollIntoView({ behavior: "smooth"});
+
+    }
+    // this.scrollToBottom.nativeElement.scrollTop =
+    //   this.scrollToBottom.nativeElement.scrollHeight;
   }
 
   // new 
-
-
-
-  // isShowMap: boolean = false;
-  // lat!: number;
-  // lng!: number;
-  // zoom: number = 15;
-  // markerPosition: any;
-
 
   mapCenter: { lat: number; lng: number } = { lat: this.lat, lng: this.lng };
 
