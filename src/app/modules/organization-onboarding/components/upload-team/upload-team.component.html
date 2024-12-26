@@ -194,7 +194,7 @@
                             </p>
                           </div>
                           <div class="">
-                            <button class="btn excelUploadBtn" data-bs-toggle="modal" data-bs-target="#munal-upload" [disabled]="percentage > 0">
+                            <button class="btn excelUploadBtn" data-bs-toggle="modal" data-bs-target="#munal-upload" [disabled]="isProgressToggle">
                               Single Enrollment
                               <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22"
                                 fill="none">
@@ -378,7 +378,7 @@
                           accept=".xlsx,application/vnd.ms-excel" class="input" style="display: none"
                           (change)="selectFile($event)" />
                         <button type="button" class="btn add-excel" (click)="fileInput.click()"
-                          [disabled]="percentage > 0">
+                          [disabled]="isProgressToggle || percentage > 0">
                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                             *ngIf="!isProgressToggle">
                             <mask id="mask0_1549_4381" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0"
@@ -407,7 +407,7 @@
 
                         <span class="spreter"></span>
                         <button type="button" class="btn add-excel" data-bs-toggle="modal"
-                          data-bs-target="#munal-upload" (click)="selectMethod('mannual')" [disabled]="percentage > 0">
+                          data-bs-target="#munal-upload" (click)="selectMethod('mannual')" [disabled]="isProgressToggle || percentage > 0">
                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                             fill="none">
                             <mask id="mask0_1549_4386" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0"

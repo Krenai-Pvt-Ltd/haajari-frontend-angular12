@@ -62,7 +62,7 @@ export class AttendanceModeComponent implements OnInit {
       this.saveAttendaceFlexibleModeInfo('flexible');
     } else {
       this.updateAttendanceModeMethodCall(attendanceModeId);
-      this.scrollToView();
+      // this.scrollToView();
       // this.getFlexibleAttendanceMode();
       // this.updateMasterAttendanceModeMethodCall(1, 3);
       // this.attendanceWithLocationButton.nativeElement.click();
@@ -772,12 +772,14 @@ export class AttendanceModeComponent implements OnInit {
   }
 
     @ViewChild('scrollToBottom') scrollToBottom!: ElementRef;
+
   scrollToView() {
     const element = document.getElementById("locationForm");
     if(element){
       element.scrollIntoView({ behavior: "smooth"});
 
     }
+    return true;
     // this.scrollToBottom.nativeElement.scrollTop =
     //   this.scrollToBottom.nativeElement.scrollHeight;
   }
@@ -917,5 +919,15 @@ getAddressFromCoords(lat: number, lng: number): void {
       console.error('Geocode was not successful for the following reason: ' + status);
     }
   });
+}
+
+//  new 
+
+showLocationForm() {
+  if( this.selectedMasterAttendanceModeId === 1 && this.attendanceModeStep === 3 && this.locationType === 'fixed' && this.selectedAttendanceModeId != 1) {
+    return true;
+  }else {
+    return false;
+  }
 }
 }
