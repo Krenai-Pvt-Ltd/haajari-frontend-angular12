@@ -97,12 +97,12 @@
           <table class="table border-dashed mb-0">
             <thead>
               <tr>
-                <th>EMPLOYEE</th>
-                <th>EMAIL</th>
-                <th>AMOUNT</th>
-                <th>STATUS</th>
-                <th>ACTION DATE</th>
-                <th>ACTIONS</th>
+                <th>Employee</th>
+                <th>Email</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Action Date</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <ng-container *ngIf="
@@ -201,7 +201,7 @@
           <tbody *ngIf="dataNotFoundPlaceholder">
             <tr>
               <td colspan="8">
-                <div class="empty-file" style="margin-top: 3%; margin-bottom: 3%">
+                <div class="empty-file" style="margin-top: 5%; margin-bottom: 5%">
                   <nz-empty nzNotFoundImage="assets/images/no-data-found-img-2.svg" [nzNotFoundContent]="contentTpl">
                     <ng-template #contentTpl>
                       <p class="mb-1 empty-detail font-16">No data for now</p>

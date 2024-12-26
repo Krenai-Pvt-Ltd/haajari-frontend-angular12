@@ -13,15 +13,15 @@
 <ul class="nav nav-pills mb-3 mt-4" id="pills-tab" role="tablist">
   <li class="nav-item" role="presentation">
     <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button"
-      role="tab" aria-controls="pills-home" aria-selected="true">SALARY CHANGES</button>
+      role="tab" aria-controls="pills-home" aria-selected="true">Salary Changes</button>
   </li>
   <li class="nav-item" role="presentation">
     <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button"
-      role="tab" aria-controls="pills-profile" aria-selected="false">BONUS</button>
+      role="tab" aria-controls="pills-profile" aria-selected="false">Bonus</button>
   </li>
   <li class="nav-item" role="presentation">
     <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button"
-      role="tab" aria-controls="pills-contact" aria-selected="false">OVERTIME</button>
+      role="tab" aria-controls="pills-contact" aria-selected="false">Overtime</button>
   </li>
 </ul>
 
@@ -33,12 +33,12 @@
       <table class="table border-dashed mb-0">
         <thead>
           <tr>
-            <th>EMPLOYEE</th>
-            <th>EMAIL</th>
-            <th>PHONE</th>
-            <th>PREVIOUS CTC</th>
-            <th>UPDATED CTC</th>
-            <th>EFFECTIVE DATE</th>
+            <th>Employee</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Previous CTC</th>
+            <th>Updated CTC</th>
+            <th>Effective Date</th>
           </tr>
         </thead>
         <ng-container
@@ -68,12 +68,11 @@
           </ng-container>
         </ng-template>
         <ng-template #errorInFetchingSalaryChangeResponseListCondition>
-          <tbody>
+          <tbody *ngIf="
+                        networkConnectionErrorPlaceHolderForSalaryChangeResponse">
             <tr>
               <td colspan="8">
-                <div class="errorboxmain" *ngIf="
-                        networkConnectionErrorPlaceHolderForSalaryChangeResponse
-                      ">
+                <div class="errorboxmain">
                   <div class="errorboxinner text-center">
                     <div class="errorboxplaceholder mb-2">
                       <img src="assets/images/signal.svg" style="width: 100px" />
@@ -107,16 +106,15 @@
       </table>
       <!--end /table-->
     </div>
-    <div class="pagination pl-3 justify-content-between" *ngIf="totalItems > itemPerPage">
-      <p class="mb-0" style="padding-left: 15px">
+    <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top"
+      *ngIf="totalItems > itemPerPage">
+      <p class="mb-0">
         Showing {{startIndex() }} - {{lastIndex()}} of {{ totalItems }}
       </p>
-      <div class="row">
-        <div class="col-md-12">
-          <ngb-pagination [collectionSize]="totalItems" [page]="pageNumber" [pageSize]="itemPerPage" [maxSize]="5"
-            [boundaryLinks]="true" [ellipses]="true" (pageChange)="pageChange($event,SALARY_CHANGE)">
-          </ngb-pagination>
-        </div>
+      <div class="pagition-box">
+        <ngb-pagination [collectionSize]="totalItems" [page]="pageNumber" [pageSize]="itemPerPage" [maxSize]="5"
+          [boundaryLinks]="true" [ellipses]="true" (pageChange)="pageChange($event,SALARY_CHANGE)">
+        </ngb-pagination>
       </div>
     </div>
   </div>
@@ -125,11 +123,11 @@
       <table class="table border-dashed mb-0">
         <thead>
           <tr>
-            <th>EMPLOYEE</th>
-            <th>EMAIL</th>
-            <th>PHONE</th>
-            <th>AMOUNT</th>
-            <th>ACTION</th>
+            <th>Employee</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Amount</th>
+            <th>Action</th>
         </thead>
         <ng-container
           *ngIf="isShimmerForSalaryChangeBonusResponse && salaryChangeBonusResponseList.length == 0; else salaryChangeBonusResponseListCondition">
@@ -167,10 +165,10 @@
           </ng-container>
         </ng-template>
         <ng-template #errorInFetchingSalaryChangeBonusResponseListCondition>
-          <tbody>
+          <tbody *ngIf="networkConnectionErrorPlaceHolderForSalaryChangeBonusResponse">
             <tr>
               <td colspan="8">
-                <div class="errorboxmain" *ngIf="networkConnectionErrorPlaceHolderForSalaryChangeBonusResponse">
+                <div class="errorboxmain">
                   <div class="errorboxinner text-center">
                     <div class="errorboxplaceholder mb-2">
                       <img src="assets/images/signal.svg" style="width: 100px" />
@@ -186,8 +184,7 @@
           </tbody>
           <tbody *ngIf="
           dataNotFoundPlaceholderForSalaryChangeBonusResponse &&
-          !networkConnectionErrorPlaceHolderForSalaryChangeBonusResponse
-        ">
+          !networkConnectionErrorPlaceHolderForSalaryChangeBonusResponse">
             <tr>
               <td colspan="8">
                 <div class="empty-file" style="margin-top: 8%; margin-bottom: 8%">
@@ -204,16 +201,13 @@
       </table>
       <!--end /table-->
     </div>
-    <div class="pagination pl-3 justify-content-between" *ngIf="totalItems > itemPerPage">
-      <p class="mb-0" style="padding-left: 15px">
-        Showing {{startIndex() }} - {{lastIndex()}} of {{ totalItems }}
-      </p>
-      <div class="row">
-        <div class="col-md-12">
-          <ngb-pagination [collectionSize]="totalItems" [page]="pageNumber" [pageSize]="itemPerPage" [maxSize]="5"
-            [boundaryLinks]="true" [ellipses]="true" (pageChange)="pageChange($event,BONUS)">
-          </ngb-pagination>
-        </div>
+    <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top"
+      *ngIf="totalItems > itemPerPage">
+      <p class="mb-0"> Showing {{startIndex() }} - {{lastIndex()}} of {{ totalItems }}</p>
+      <div class="pagition-box">
+        <ngb-pagination [collectionSize]="totalItems" [page]="pageNumber" [pageSize]="itemPerPage" [maxSize]="5"
+          [boundaryLinks]="true" [ellipses]="true" (pageChange)="pageChange($event,BONUS)">
+        </ngb-pagination>
       </div>
     </div>
   </div>
@@ -222,11 +216,11 @@
       <table class="table border-dashed mb-0">
         <thead>
           <tr>
-            <th>EMPLOYEE</th>
-            <th>EMAIL</th>
-            <th>OVERTIME COUNT</th>
-            <th>OVERTIME HRS.</th>
-            <th>PAY ACTION</th>
+            <th>Employee</th>
+            <th>Email</th>
+            <th>Overtime Count</th>
+            <th>Overtime HRS.</th>
+            <th>Pay Action</th>
           </tr>
         </thead>
         <ng-container
@@ -280,12 +274,10 @@
           </ng-container>
         </ng-template>
         <ng-template #errorWhileFetchingSalaryChangeOvertimeResponseListCondition>
-          <tbody>
+          <tbody *ngIf="networkConnectionErrorPlaceHolderForSalaryChangeOvertimeResponse">
             <tr>
               <td colspan="8">
-                <div class="errorboxmain" *ngIf="
-                        networkConnectionErrorPlaceHolderForSalaryChangeOvertimeResponse
-                      ">
+                <div class="errorboxmain">
                   <div class="errorboxinner text-center">
                     <div class="errorboxplaceholder mb-2">
                       <img src="assets/images/signal.svg" style="width: 100px" />
@@ -301,8 +293,7 @@
           </tbody>
           <tbody *ngIf="
           dataNotFoundPlaceholderForSalaryChangeOvertimeResponse &&
-          !networkConnectionErrorPlaceHolderForSalaryChangeOvertimeResponse
-        ">
+          !networkConnectionErrorPlaceHolderForSalaryChangeOvertimeResponse">
             <tr>
               <td colspan="8">
                 <div class="empty-file" style="margin-top: 8%; margin-bottom: 8%">
@@ -319,28 +310,15 @@
       </table>
       <!--end /table-->
     </div>
-    <div class="pagination pl-3 justify-content-between" *ngIf="totalItems > itemPerPage">
-      <p class="mb-0" style="padding-left: 15px">
-        Showing {{startIndex() }} - {{lastIndex()}} of {{ totalItems }}
-      </p>
-      <div class="row">
-        <div class="col-md-12">
-          <ngb-pagination [collectionSize]="totalItems" [page]="pageNumber" [pageSize]="itemPerPage" [maxSize]="5"
-            [boundaryLinks]="true" [ellipses]="true" (pageChange)="pageChange($event,OVERTIME)">
-          </ngb-pagination>
-        </div>
+    <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top"
+      *ngIf="totalItems > itemPerPage">
+      <p class="mb-0">Showing {{startIndex() }} - {{lastIndex()}} of {{ totalItems }}</p>
+      <div class="pagition-box">
+        <ngb-pagination [collectionSize]="totalItems" [page]="pageNumber" [pageSize]="itemPerPage" [maxSize]="5"
+          [boundaryLinks]="true" [ellipses]="true" (pageChange)="pageChange($event,OVERTIME)">
+        </ngb-pagination>
       </div>
     </div>
 
   </div>
 </div>
-
-
-
-<!-- <div class="pagination pl-3 align-items-center justify-content-between" *ngIf="(total > itemPerPage - 1 || (pageNumber === lastPageNumber && lastPageNumber !== 1)) && 
-    ((CURRENT_TAB == SALARY_CHANGE && !dataNotFoundPlaceholderForSalaryChangeResponse && !networkConnectionErrorPlaceHolderForSalaryChangeResponse) || 
-     (CURRENT_TAB == BONUS && !dataNotFoundPlaceholderForSalaryChangeBonusResponse && !networkConnectionErrorPlaceHolderForSalaryChangeBonusResponse) || 
-     (CURRENT_TAB == OVERTIME && !dataNotFoundPlaceholderForSalaryChangeOvertimeResponse && !networkConnectionErrorPlaceHolderForSalaryChangeOvertimeResponse))">
-    <p style="padding-left: 15px"> Showing {{ getStartIndex() }} - {{ getEndIndex() }} of {{ total }} employees </p>
-    
-  </div> -->

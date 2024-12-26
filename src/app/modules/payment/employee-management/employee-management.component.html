@@ -9,15 +9,15 @@
 <ul class="nav nav-pills mb-3 mt-4" id="pills-tab" role="tablist">
   <li class="nav-item" role="presentation">
     <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button"
-      role="tab" aria-controls="pills-home" aria-selected="true">NEW JOINEE</button>
+      role="tab" aria-controls="pills-home" aria-selected="true">New Joinee</button>
   </li>
   <li class="nav-item" role="presentation">
     <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button"
-      role="tab" aria-controls="pills-profile" aria-selected="false">EMPLOYEES IN EXIT PROCESS</button>
+      role="tab" aria-controls="pills-profile" aria-selected="false">Employees In Exit Process</button>
   </li>
   <li class="nav-item" role="presentation">
     <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button"
-      role="tab" aria-controls="pills-contact" aria-selected="false">FULL AND FINAL SETTLEMENT</button>
+      role="tab" aria-controls="pills-contact" aria-selected="false">Full And Final Settlement</button>
   </li>
 </ul>
 <div class="tab-content" id="pills-tabContent">
@@ -43,12 +43,12 @@
         <table class="table border-dashed mb-0">
           <thead>
             <tr>
-              <th>EMPLOYEE</th>
-              <th>EMAIL</th>
-              <th>PHONE</th>
-              <th>DATE OF JOINING</th>
-              <th>PAYOUT DAYS</th>
-              <th>PAY ACTION</th>
+              <th>Employee</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Date Of Joining</th>
+              <th>Payout Days</th>
+              <th>Pay Action</th>
             </tr>
           </thead>
           <ng-container *ngIf="
@@ -94,12 +94,10 @@
             </ng-container>
           </ng-template>
           <ng-template #errorInFetchingNewJoinee>
-            <tbody>
+            <tbody *ngIf="networkConnectionErrorPlaceHolderForNewJoinee">
               <tr>
                 <td colspan="8">
-                  <div class="errorboxmain" *ngIf="
-                            networkConnectionErrorPlaceHolderForNewJoinee
-                          ">
+                  <div class="errorboxmain">
                     <div class="errorboxinner text-center">
                       <div class="errorboxplaceholder mb-2">
                         <img src="assets/images/signal.svg" style="width: 100px" />
@@ -128,6 +126,13 @@
             </tbody>
           </ng-template>
         </table>
+
+        <div
+          class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top d-none">
+          <p class="mb-0 font-13">Showing 10 of 15 </p>
+          <ngb-pagination class="pagition-box">
+          </ngb-pagination>
+        </div>
         <!--end /table-->
       </div>
     </div>
@@ -154,13 +159,13 @@
         <table class="table border-dashed mb-0">
           <thead>
             <tr>
-              <th>EMPLOYEE</th>
-              <th>EMAIL</th>
-              <th>PHONE</th>
-              <th>DATE OF RESIGNATION</th>
-              <th>LAST WORKING DAY</th>
-              <th>RESIGNATION STATUS</th>
-              <th>PAY ACTION</th>
+              <th>Employee</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Date Of Resignation</th>
+              <th>Last Working Day</th>
+              <th>Resignation Status</th>
+              <th>Pay Action</th>
             </tr>
           </thead>
           <ng-container *ngIf="
@@ -214,12 +219,10 @@
             </ng-container>
           </ng-template>
           <ng-template #errorInFetchingUserExitList>
-            <tbody>
+            <tbody *ngIf="networkConnectionErrorPlaceHolderForUserExit">
               <tr>
                 <td colspan="8">
-                  <div class="errorboxmain" *ngIf="
-                            networkConnectionErrorPlaceHolderForUserExit
-                          ">
+                  <div class="errorboxmain">
                     <div class="errorboxinner text-center">
                       <div class="errorboxplaceholder mb-2">
                         <img src="assets/images/signal.svg" style="width: 100px" />
@@ -248,6 +251,13 @@
             </tbody>
           </ng-template>
         </table>
+
+        <div
+          class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top d-none">
+          <p class="mb-0 font-13">Showing 10 of 15 </p>
+          <ngb-pagination class="pagition-box">
+          </ngb-pagination>
+        </div>
         <!--end /table-->
       </div>
     </div>
@@ -274,14 +284,14 @@
         <table class="table border-dashed mb-0">
           <thead>
             <tr>
-              <th>EMPLOYEE</th>
-              <th>EMAIL</th>
-              <th>PHONE</th>
-              <th>NOTICE PERIOD DATE</th>
-              <th>LAST WORKING DATE</th>
-              <th>FULL AND FINAL DATE</th>
-              <th>RESIGNATION STATUS</th>
-              <th>PAY ACTION</th>
+              <th>Employee</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Notice Period Date</th>
+              <th>Last Working Date</th>
+              <th>Full And Final Date</th>
+              <th>Resignation Status</th>
+              <th>Pay Action</th>
             </tr>
           </thead>
           <ng-container *ngIf="
@@ -338,12 +348,10 @@
             </ng-container>
           </ng-template>
           <ng-template #errorInFetchingFinalSettlementList>
-            <tbody>
+            <tbody *ngIf="networkConnectionErrorPlaceHolderForFinalSettlement">
               <tr>
                 <td colspan="8">
-                  <div class="errorboxmain" *ngIf="
-                            networkConnectionErrorPlaceHolderForFinalSettlement
-                          ">
+                  <div class="errorboxmain">
                     <div class="errorboxinner text-center">
                       <div class="errorboxplaceholder mb-2">
                         <img src="assets/images/signal.svg" style="width: 100px" />
@@ -357,9 +365,7 @@
                 </td>
               </tr>
             </tbody>
-            <tbody *ngIf="
-            dataNotFoundPlaceholderForFinalSettlement
-          ">
+            <tbody *ngIf="dataNotFoundPlaceholderForFinalSettlement">
               <tr>
                 <td colspan="8">
                   <div class="empty-file" style="margin-top: 8%; margin-bottom: 8%">
@@ -374,43 +380,16 @@
             </tbody>
           </ng-template>
         </table>
+
+        <div
+          class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top done">
+          <p class="mb-0 font-13">Showing 10 of 15 </p>
+          <ngb-pagination class="pagition-box">
+          </ngb-pagination>
+        </div>
         <!--end /table-->
       </div>
     </div>
 
   </div>
 </div>
-
-
-
-
-
-<!-- <div class="pagination pl-3 align-items-center justify-content-between" *ngIf="
-              (total > itemPerPage - 1 || (pageNumber === lastPageNumber && lastPageNumber !== 1)) && 
-              ((CURRENT_TAB == NEW_JOINEE && !dataNotFoundPlaceholderForNewJoinee && !networkConnectionErrorPlaceHolderForNewJoinee) || 
-              (CURRENT_TAB == USER_EXIT && !dataNotFoundPlaceholderForUserExit && !networkConnectionErrorPlaceHolderForUserExit) || 
-              (CURRENT_TAB == FINAL_SETTLEMENT && !dataNotFoundPlaceholderForFinalSettlement && !networkConnectionErrorPlaceHolderForFinalSettlement))
-            ">
-            <p style="padding-left: 15px"> Showing {{ getStartIndex() }} - {{ getEndIndex() }} of {{ total
-              }} employees </p>
-            <div>
-              <nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-end">
-                  <li class="page-item" [class.disabled]="pageNumber == 1">
-                    <a class="page-link" href="javascript:void(0);" aria-label="Previous" (click)="changePage('prev', CURRENT_TAB)">
-                      <span aria-hidden="true">&laquo;</span>
-                    </a>
-                  </li>
-                  <li class="page-item" *ngFor="let page of getPages()" [class.active]="pageNumber == page">
-                    <a class="page-link" href="javascript:void(0);" (click)="changePage(page, CURRENT_TAB)">{{ page
-                      }}</a>
-                  </li>
-                  <li class="page-item" [class.disabled]="pageNumber == totalPages">
-                    <a class="page-link" href="javascript:void(0);" aria-label="Next" (click)="changePage('next', CURRENT_TAB)">
-                      <span aria-hidden="true">&raquo;</span>
-                    </a>
-                  </li>
-                </ul>
-              </nav>
-            </div>
-          </div> -->
