@@ -2527,4 +2527,8 @@ validateMaxValue(index: number): void {
   });
 }
 
+skipForNow() {
+  this.helperService.registerOrganizationRegistratonProcessStepData(Key.LEAVE_TEMPLATE_ID, Key.PROCESS_COMPLETED);
+}
+
 }

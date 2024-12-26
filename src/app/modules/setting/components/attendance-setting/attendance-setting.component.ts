@@ -3114,5 +3114,9 @@ redirectToCompanySetting() {
   this.router.navigate(['/setting/company-setting'], { queryParams: { activeTab: 'locationSetting' } });
 }
 
+skipForNow() {
+  this.helperService.registerOrganizationRegistratonProcessStepData(Key.AUTOMATION_RULE_ID, Key.PROCESS_COMPLETED);
+}
+
 
 }
