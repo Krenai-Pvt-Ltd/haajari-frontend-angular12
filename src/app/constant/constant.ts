@@ -5,6 +5,7 @@ export class constant{
     public static ALLOWED_BULK_UPLOAD_FORMATS=['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet','application/vnd.ms-excel'];
 
     public static REMOVE_SHIFT_STRING = 'Keep In - ';
+    public static USER = 'USER';
 
     public static ORG_ONBOARDING_PERSONAL_INFORMATION_STEP_ID = "1";
     public static ORG_ONBOARDING_EMPLOYEE_CREATION_STEP_ID = "2";
