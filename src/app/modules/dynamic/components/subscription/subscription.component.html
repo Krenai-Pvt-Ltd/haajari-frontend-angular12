@@ -1130,9 +1130,8 @@
                           
 
                           <td class="stickyColTdend text-center">
-                            <!-- {{invoice.invoiceUrl}} -->
-                            <a type="button" class="btn btnAction" target="_blank" href={{invoice.invoiceUrl}}>
-                              <svg
+                            <button type="button" class="btn btnAction" (click)="download(invoice)">
+                              <svg *ngIf="!downloadInvoiceLoading"
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="12"
                                 height="11"
@@ -1144,8 +1143,14 @@
                                   fill="#6666F2"
                                 />
                               </svg>
-                              Download
-                            </a>
+                            
+                              <div class="dot-opacity-loader" *ngIf="downloadInvoiceLoading">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                              </div>
+                              <span *ngIf="!downloadInvoiceLoading">Download</span>
+                            </button>
                           </td>
                         </tr>
                       </tbody>
