@@ -231,7 +231,14 @@ export class SalaryService {
 
     const params = new HttpParams()
     .set('user_uuid', userUuid)
-    return this._http.get<any>(`${this._key.base_url}/salary/month-wise/pay-slip-log`, {params});
+    return this._http.get<any>(`${this._key.base_url}/users/bank`, {params});
+  }
+
+  getEmployeeStatutory(userUuid : string): Observable<any>{
+
+    const params = new HttpParams()
+    .set('user_uuid', userUuid)
+    return this._http.get<any>(`${this._key.base_url}/statutory/employee`, {params});
   }
 
 

@@ -433,4 +433,7 @@ i::before {
     font-size: 0.875rem !important;
     font-weight: 400 !important;
 }
+::ng-deep.anticon-close-circle {
+    display: none;
+  }
 
