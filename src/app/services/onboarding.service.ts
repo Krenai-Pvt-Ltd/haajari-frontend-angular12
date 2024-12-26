@@ -17,7 +17,11 @@ export class OnboardingService {
   constructor(private onboardingService: OrganizationOnboardingService, private router: Router, private helperService: HelperService, private subscriptionService: SubscriptionPlanService, private rbacService: RoleBasedAccessControlService) {
 
     this.requestedRoute = decodeURIComponent(window.location.pathname + window.location.search + window.location.hash);
+    if(!constant.PUBLIC_ROUTES.includes(window.location.pathname)){
     this.checkOnboardingStatus();
+    }else{
+      this.isLoadingOnboardingStatus = false;
+    }
   }
 
   async checkOnboardingStatus() {

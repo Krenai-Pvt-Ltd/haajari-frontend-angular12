@@ -4421,6 +4421,15 @@ getHolidayForOrganization(date: string): Observable<any>{
   }
 
 
+  checkStepCompletionStatusByStepId(stepId: number): Observable<any[]> {
+    const params = new HttpParams()
+      .set('stepId', stepId);
+
+    return this.httpClient.get<any[]>(`${this.baseUrl}/organization/check-status`, { params });
+  }
+  
+  
+
 
 }
 
