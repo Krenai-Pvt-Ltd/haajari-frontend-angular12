@@ -463,10 +463,10 @@ export class PayrollDashboardComponent implements OnInit {
   ngOnInit(): void {
     window.scroll(0, 0);
     this.getFirstAndLastDateOfMonth(); 
-    // this.getOrganizationRegistrationDateMethodCall();
     this.getMonthResponseListByYearMethodCall(this.selectedDate); 
     this.callPayrollDashboardMethod();
-    this.getPayActionTypeListMethodCall();
+    // this.getPayActionTypeListMethodCall();
+    this.getUserSalaryTemplateNotConfig();
   }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -532,6 +532,9 @@ export class PayrollDashboardComponent implements OnInit {
 
 
   async onYearChange(year: any) {
+    if(this.selectedDate.getFullYear() == new Date(this.startDate).getFullYear()){
+      return; // Do nothing if the year hasn't changed
+    }
     this.selectedDate = year;
     await this.getMonthResponseListByYearMethodCall(this.selectedDate);
 
@@ -647,6 +650,18 @@ export class PayrollDashboardComponent implements OnInit {
       );
   }
 
+  // Fetching those user whose salary template is not mapped
+  userSalaryTemplateNotConfigCount : number=0;
+  getUserSalaryTemplateNotConfig() {
+    this._payrollService.getUserSalaryTemplateNotConfig().subscribe((response) => {
+          if(response.totalItems!=null){
+            this.userSalaryTemplateNotConfigCount = response.totalItems;
+          }
+        },(error) => {
+          
+        }
+      );
+  }
   
   PAYROLL_PROCESS_STEP : number = 0;
   // get process step of payroll
@@ -1260,11 +1275,11 @@ export class PayrollDashboardComponent implements OnInit {
       this.newJoineeAndUserExitRequestList = [];
 
 
-        this.newJoineeResponseList.forEach((item) => {
-          let newJoineeAndUserExitRequest = new NewJoineeAndUserExitRequest(item.uuid, item.payActionTypeId, item.comment);
+        // this.newJoineeResponseList.forEach((item) => {
+        //   let newJoineeAndUserExitRequest = new NewJoineeAndUserExitRequest(item.uuid, item.payActionId, item.comment);
 
-          this.newJoineeAndUserExitRequestList.push(newJoineeAndUserExitRequest);
-        });
+        //   this.newJoineeAndUserExitRequestList.push(newJoineeAndUserExitRequest);
+        // });
       } 
 
       if(this.CURRENT_TAB_IN_EMPLOYEE_CHANGE == this.USER_EXIT){
@@ -2203,6 +2218,8 @@ extractPreviousMonthNameFromDate(dateString : string){
     this.showSalaryComponent = false;
   }
 
+
+
   getPayrollReport(){
     this.RUN_PAYROLL_LOADER = true;
     this._payrollService.generatePayrollReport(this.startDate, this.endDate).subscribe((response) => {
@@ -2218,7 +2235,6 @@ extractPreviousMonthNameFromDate(dateString : string){
         this.RUN_PAYROLL_LOADER = false;
       });
   } 
-
 
 }
 

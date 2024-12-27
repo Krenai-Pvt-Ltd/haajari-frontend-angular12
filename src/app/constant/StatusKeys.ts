@@ -8,4 +8,6 @@ export class StatusKeys{
 
 	static PAY_ACTION_PROCESS=1;
 	static PAY_ACTION_HOLD=2;
+
+
 }

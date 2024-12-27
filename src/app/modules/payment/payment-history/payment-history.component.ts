@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { debug } from 'console';
 import saveAs from 'file-saver';
 import moment from 'moment';
+import { constant } from 'src/app/constant/constant';
 import { Key } from 'src/app/constant/key';
 import { EmployeeMonthWiseSalaryData } from 'src/app/models/employee-month-wise-salary-data';
 import { StartDateAndEndDate } from 'src/app/models/start-date-and-end-date';
@@ -19,8 +20,7 @@ import { SalaryService } from 'src/app/services/salary.service';
 export class PaymentHistoryComponent implements OnInit {
 
 
-  itemPerPage: number = 5;
-  // lastPageNumber: number = 0;
+  itemPerPage: number = 8;
   totalItems : number = 0
   pageNumber: number = 1;
   search: string = '';
@@ -32,11 +32,12 @@ export class PaymentHistoryComponent implements OnInit {
   readonly PENDING = Key.PENDING;
   readonly APPROVED = Key.APPROVED;
 
+  readonly constant = constant;
+
 
   isShimmer = false;
   dataNotFoundPlaceholder = false;
   networkConnectionErrorPlaceHolder = false;
-Math: any;
   preRuleForShimmersAndErrorPlaceholders() {
     this.isShimmer = true;
     this.dataNotFoundPlaceholder = false;
@@ -63,8 +64,10 @@ Math: any;
   startDate: string = '';
   endDate: string = '';
 
-  onMonthChange(month: Date): void {
-    this.selectedDate = month;
+  onMonthChange(): void {
+    if(this.selectedDate.getMonth() == new Date(this.startDate).getMonth()){
+      return;
+    }
     this.getFirstAndLastDateOfMonth(this.selectedDate);
   }
 
@@ -94,7 +97,6 @@ Math: any;
           } else {
             this.employeeMonthWiseSalaryDataList = response.object;
             this.totalItems = response.totalItems;
-            // this.lastPageNumber = Math.ceil(this.totalItems / this.itemPerPage);
           }
           this.isShimmer = false;
         },
@@ -125,21 +127,18 @@ Math: any;
 
 
   resetCriteriaFilter() {
-    this.itemPerPage = 5;
     this.pageNumber = 1;
     this.totalItems = 0;
     this.search = '';
   }
 
   resetCriteriaFilterMicro() {
-    this.itemPerPage = 5;
     this.pageNumber = 1;
     this.totalItems = 0;
   }
 
   searchUsers(event: Event) {
     this._helperService.ignoreKeysDuringSearch(event);
-    this.itemPerPage = 5;
     this.pageNumber = 1;
     this.totalItems = 0;
     this.getOrganizationMonthWiseSalaryDataMethodCall();
@@ -251,17 +250,21 @@ Math: any;
     );
   }
 
-  generateSalarySlipMethodCall(){
-    this.dataService.generateSalarySlip(this.startDate, this.endDate,this.shareIds).subscribe(
-      (response) => {
 
-        // this.isAllUsersSelected = false;
-        this.shareIds= [];
-        this._helperService.showToast('Payslip generated Succesfully', Key.TOAST_STATUS_SUCCESS)
-        this.getOrganizationMonthWiseSalaryDataMethodCall();
+
+
+  generateSalarySlipMethodCall(){
+    this._salaryService.generatePaySlip(this.startDate, this.endDate).subscribe(
+      (response) => {
+        if(response.status){
+          this._helperService.showToast('Payslip generated Succesfully', Key.TOAST_STATUS_SUCCESS)
+          this.getOrganizationMonthWiseSalaryDataMethodCall();
+        }else{
+          this._helperService.showToast('Failed to generate pay slip', Key.TOAST_STATUS_ERROR)
+        }
       },
       (error) => {
-        console.log(error);
+    
       }
     );
   }

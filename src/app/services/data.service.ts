@@ -3309,17 +3309,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     return this.httpClient.put<any>(`${this.baseUrl}/salary-slip/update-pay-action-type`,{}, {params});
   }
 
-  generateSalarySlip(
-    startDate: string,
-    endDate: string,
-    userUuids: any
-  ): Observable<any>{
-    const params = new HttpParams()
-    .set('start_date', startDate)
-    .set('end_date', endDate)
-    ;
-    return this.httpClient.put<any>(`${this.baseUrl}/salary/generate-slip`,userUuids, {params});
-  }
+  
 
   sendPayslipViaWhatsapp(
     salaryResponse: any, payslipMonth: string
@@ -3965,8 +3955,8 @@ getHolidayForOrganization(date: string): Observable<any>{
     );
   }
 
-  step!: number;
-  isToDoStepCompleted !: number;
+  // step!: number;
+  // isToDoStepCompleted !: number;
 
   isToDoStepsCompleted(): Observable<any> {
     debugger
@@ -4421,6 +4411,27 @@ getHolidayForOrganization(date: string): Observable<any>{
   }
 
 
+  checkStepCompletionStatusByStepId(stepId: number): Observable<any[]> {
+    const params = new HttpParams()
+      .set('stepId', stepId);
+
+    return this.httpClient.get<any[]>(`${this.baseUrl}/organization/check-status`, { params });
+  }
+
+
+  createSubscriptionInquiryRequest(request: any): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/contact-and-support/save-request`, request);
+  }
+
+  getSubscriptionRequestInfo(): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/contact-and-support/get-subscription-request-info`);
+  }
+
+  getSubscriptionRequestStatus(): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/contact-and-support/get-subscription-request-status`);
+  }
+  
+  
 
 }
 

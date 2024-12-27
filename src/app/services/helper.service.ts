@@ -16,13 +16,17 @@ import saveAs from 'file-saver';
 export class HelperService {
 
   private _key: Key = new Key();
+  isDashboardActive: boolean=true;
   constructor( private _httpClient : HttpClient,
      private dataService: DataService,
      private router: Router,
-  
-    ) {
-
-   }
+     private _onboardingService: OrganizationOnboardingService
+     ) { 
+      // this.getOrganizationInitialToDoStepBar();
+     }
+  // use for employee profile 
+   userJoiningDate:string='';
+  // use for employee profile 
    organizationRegistrationDate:string='';
    profileChangeStatus : Subject<boolean> = new Subject<boolean>();
    resignationSubmitted : Subject<boolean> = new Subject<boolean>();
@@ -50,7 +54,7 @@ export class HelperService {
 
 
 
-  todoStepsSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  // todoStepsSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
   async getDecodedValueFromToken(): Promise<any> {
 
@@ -299,17 +303,16 @@ export class HelperService {
     return null;
   }
 
-  registerOrganizationRegistratonProcessStepData(statusId: number, stepId:number) {
-    debugger
-    this.dataService.registerOrganizationRegistratonProcessStep(statusId, stepId).subscribe(
-      (response) => {
-        // console.log("success");
-        this.todoStepsSubject.next(true);
-      },
-      (error) => {
-        // console.log('error');
+  async registerOrganizationRegistratonProcessStepData(stepId: number, statusId: number): Promise<void> {
+    try {
+      const response = await this.dataService.registerOrganizationRegistratonProcessStep(statusId, stepId).toPromise();
+      console.log("success", response.status, "stepId", stepId, "statusId", statusId);
+      if (response.status) {
+        this.stepId = stepId;
       }
-    );
+    } catch (error) {
+      console.log('error', error);
+    }
   }
 
 
@@ -318,7 +321,6 @@ export class HelperService {
     this.dataService.saveOrgSecondaryToDoStepBar(value).subscribe(
       (response) => {
         // console.log("success");
-        // this.getOrgSecondaryToDoStepBarData();
       },
       (error) => {
         // console.log('error');
@@ -403,4 +405,37 @@ export class HelperService {
     // Enable the month if it's from January 2023 to the current month
     return false;
   };
+
+  stepsData: any;
+  stepId: number = 0;
+  getStepsData() {
+    debugger;
+    this.dataService.getStepsData().subscribe(
+      (response) => {
+        this.stepsData = response.listOfObject[0];
+        // console.log("success");
+        this.stepId = this.stepsData?.totalCompletedSteps;
+      },
+      (error) => {
+        // console.log('error');
+      }
+    );
+  }
+
+  orgStepId !: number ;
+  getOnboardingStep() {
+    debugger;
+    this._onboardingService
+      .getOrgOnboardingStep()
+      .subscribe((response: any) => {
+        if (response.status) {
+          this.orgStepId = response.object.step;
+          // console.log(response.object.step);
+        }
+      });
+  }
+
+
+
+
 }

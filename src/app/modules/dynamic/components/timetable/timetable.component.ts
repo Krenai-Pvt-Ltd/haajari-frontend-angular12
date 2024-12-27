@@ -2093,6 +2093,15 @@ export class TimetableComponent implements OnInit {
 
   overtimeCount: number = 0;
   attendanceUpdateCount: number = 0;
+  /**
+   * Fetches the request count by organization UUID and updates the component's state with the retrieved counts.
+   * 
+   * This method calls the `getRequestCountByOrganizationUuid` method of the `dataService` to fetch the request counts.
+   * On a successful response, it updates the `overtimeCount` and `attendanceUpdateCount` properties with the respective counts.
+   * If an error occurs during the request, it logs the error to the console.
+   * 
+   * @returns {void}
+   */
   getRequestCountByOrganizationUuid() {
     this.dataService.getRequestCountByOrganizationUuid().subscribe(
       (response: any) => {

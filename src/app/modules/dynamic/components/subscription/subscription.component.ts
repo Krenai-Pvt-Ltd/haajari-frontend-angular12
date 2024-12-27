@@ -1,5 +1,6 @@
 import { Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { constant } from 'src/app/constant/constant';
 import { StatusKeys } from 'src/app/constant/StatusKeys';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
@@ -8,6 +9,7 @@ import { InvoiceDetail } from 'src/app/models/InvoiceDetail';
 import { Invoices } from 'src/app/models/Invoices';
 import { OrganizationSubscriptionDetail } from 'src/app/models/OrganizationSubscriptionDetail';
 import { SubscriptionPlan } from 'src/app/models/SubscriptionPlan';
+import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import { SubscriptionPlanService } from 'src/app/services/subscription-plan.service';
@@ -25,20 +27,32 @@ export class SubscriptionComponent implements OnInit {
   RulesRegulation: boolean = false;
   showYearlyPlans:number=1;
   orgUuid:string='';
-
+  requestForm: FormGroup;
+  
   readonly Constant = constant; 
   constructor( public _subscriptionPlanService: SubscriptionPlanService,
     private _roleBasedService: RoleBasedAccessControlService,
     private _helperService: HelperService,
-    private db: AngularFireDatabase,private ngZone: NgZone) {
+    private db: AngularFireDatabase,private ngZone: NgZone, private fb: FormBuilder, private dataService: DataService) {
 
       this.orgUuid = this._roleBasedService.userInfo.orgRefId;
+
+      this.requestForm = this.fb.group({
+        name: ['', Validators.required],
+        email: ['', [Validators.required, Validators.email]],
+        phone: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
+        empCount: ['', [Validators.required, Validators.min(1)]],
+        description: ['', Validators.required],
+      });
+
     }
 
   ngOnInit(): void {
     this.getCurrentSubscriptionPlan();
     this.getPlans();
     this.getActiveUserCount();
+    this.fetchSubscriptionRequestInfo();
+    this.getSubscriptionRequestStatus();
   }
 
   switchSubscriptionPlan() {
@@ -419,28 +433,34 @@ invoiceDetail:InvoiceDetail = new InvoiceDetail();
   }
 
 
-  download(invoice:any){
+  downloadInvoiceLoading:boolean=false;
+  async download(invoice:any){
+     this.downloadInvoiceLoading = true;
     if(!constant.EMPTY_STRINGS.includes(invoice.invoiceUrl)){
       window.open(invoice.invoiceUrl, "_blank");
+      this.downloadInvoiceLoading = false;
     }else{
-      this.downloadInvoice(invoice.id);
+      await this.downloadInvoice(invoice.id);
+      this.downloadInvoiceLoading = false;
     }
   }
 
 
-  downloadingInvoice:boolean=false;
-  downloadInvoice(invoiceId:number){
-    this.downloadingInvoice =true;
-    this._subscriptionPlanService.downloadInvoice(invoiceId).subscribe((response) => {
-      this.downloadingInvoice =false;
-      if (response.status) {
-        if(response.object!=null){
-          window.open(response.object,"_blank");
-        }
+  downloadingInvoice: boolean = false;
+  async downloadInvoice(invoiceId: number) {
+    this.downloadingInvoice = true;
+    this.downloadInvoiceLoading = true;
+    try {
+      const response = await this._subscriptionPlanService.downloadInvoice(invoiceId).toPromise();
+      this.downloadingInvoice = false;
+      if (response.status && response.object) {
+        window.open(response.object, "_blank");
       }
-    },(error)=>{
-      this.downloadingInvoice =false;
-    });
+      this.downloadInvoiceLoading = false;
+    } catch (error) {
+      this.downloadingInvoice = false;
+      this.downloadInvoiceLoading = false;
+    }
   }
 
   // async downloadInvocie(invoiceUrl: string) {
@@ -596,4 +616,72 @@ invoiceDetail:InvoiceDetail = new InvoiceDetail();
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   
+
+@ViewChild('closemodal')closemodal!:ElementRef;
+submitRequest() {
+  if (this.requestForm.valid) {
+    this.dataService.createSubscriptionInquiryRequest(this.requestForm.value).subscribe({
+      next: (response) => {
+        // alert('Request submitted successfully!');
+        this.getSubscriptionRequestStatus();
+        this.closemodal.nativeElement.click();
+        this.requestForm.reset();
+      },
+      error: (error) => {
+        // alert('Error submitting request');
+        console.error(error);
+      }
+    });
+  } else {
+    alert('Please fill out the form correctly.');
+  }
+}
+
+
+fetchSubscriptionRequestInfo(): void {
+  this.dataService.getSubscriptionRequestInfo().subscribe({
+    next: (response) => {
+      if (response.status) {
+        const data = response.object;
+        this.requestForm.patchValue({
+          name: data.name,
+          email: data.email,
+          phone: data.phoneNumber,
+          empCount: data.totalEmpCount
+        });
+      } else {
+        console.log("error fetching subscription request info");
+        // alert('Failed to load subscription request info');
+      }
+    },
+    error: (err) => {
+      console.error(err);
+      // alert('Error fetching subscription request info');
+    }
+  });
+}
+
+pendingSubscriptionRequestStatus: boolean = false;
+getSubscriptionRequestStatus(): void {
+  this.dataService.getSubscriptionRequestStatus().subscribe({
+    next: (response) => {
+      if (response.status) {
+        if(response.object===0) {
+          this.pendingSubscriptionRequestStatus = true;
+        }else if(response.object===1) {
+          this.pendingSubscriptionRequestStatus = false;
+        };
+      } else {
+        console.log("error fetching subscription request info");
+      }
+    },
+    error: (err) => {
+      console.error(err);
+    }
+  });
+}
+
+
+
+
 }

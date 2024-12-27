@@ -73,7 +73,9 @@ export class TdsComponent implements OnInit {
   endDate: string = '';
 
   onMonthChange(month: Date): void {
-    this.selectedDate = month;
+    if(this.selectedDate.getMonth() == new Date(this.startDate).getMonth()){
+      return;
+    }
     this.getFirstAndLastDateOfMonth(this.selectedDate);
   }
 
