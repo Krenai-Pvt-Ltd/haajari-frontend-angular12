@@ -321,6 +321,10 @@ i::before {
     border-color: #717171;
     background-color: #717171;
 }
+.unmarked{
+    border-color: #e9e4e4;
+    background-color: #e9e4e4;
+}
 
 .overview-summary {
     background-color: #F9FAFC;
@@ -429,3 +433,7 @@ i::before {
     font-size: 0.875rem !important;
     font-weight: 400 !important;
 }
+::ng-deep.anticon-close-circle {
+    display: none;
+  }
+

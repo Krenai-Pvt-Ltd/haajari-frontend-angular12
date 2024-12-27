@@ -75,6 +75,9 @@
   width: 90px;
 }
 
+::ng-deep.anticon-close-circle {
+  display: none;
+}
 .table tbody {
   border: 1px solid #f1f1f1;
 }

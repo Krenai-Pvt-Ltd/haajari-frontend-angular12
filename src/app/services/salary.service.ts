@@ -182,5 +182,71 @@ export class SalaryService {
     return this._http.post<any>(`${this._key.base_url}/salary-slip/share`,{}, {params});
   }
 
+  generatePaySlip(startDate: string,endDate: string): Observable<any>{
+    const params = new HttpParams()
+    .set('start_date', startDate)
+    .set('end_date', endDate);
+    return this._http.put<any>(`${this._key.base_url}/salary/generate-slip`, {params});
+  }
 
+
+  getEmployeePayslipResponseByUserUuid(userUuid : string, startDate : string, endDate : string): Observable<any>{
+    const params = new HttpParams()
+    .set('user_uuid', userUuid)
+    .set('start_date', startDate)
+    .set('end_date', endDate);
+
+    return this._http.get<any>(`${this._key.base_url}/salary/month-wise/pay-slip`, {params});
+  }
+
+  getEmployeePayslipBreakupResponseByUserUuid(userUuid : string, startDate : string, endDate : string): Observable<any>{
+    const params = new HttpParams()
+    .set('user_uuid', userUuid)
+    .set('start_date', startDate)
+    .set('end_date', endDate);
+
+    return this._http.get<any>(`${this._key.base_url}/salary/month-wise/pay-slip-breakup`, {params});
+  }
+
+  getEmployeePayslipDeductionResponseByUserUuid(userUuid : string, startDate : string, endDate : string): Observable<any>{
+    const params = new HttpParams()
+    .set('user_uuid', userUuid)
+    .set('start_date', startDate)
+    .set('end_date', endDate);
+
+    return this._http.get<any>(`${this._key.base_url}/salary/month-wise/pay-slip-deduction`, {params});
+  }
+
+  getEmployeePayslipLogByUserUuid(userUuid : string, startYear : string): Observable<any>{
+
+    const params = new HttpParams()
+    .set('user_uuid', userUuid)
+    .set('start_year', startYear)
+    return this._http.get<any>(`${this._key.base_url}/salary/month-wise/pay-slip-log`, {params});
+  }
+
+  getEmployeePaymentBankDetail(userUuid : string): Observable<any>{
+
+    const params = new HttpParams()
+    .set('user_uuid', userUuid)
+    return this._http.get<any>(`${this._key.base_url}/users/bank`, {params});
+  }
+
+  getEmployeeStatutory(userUuid : string): Observable<any>{
+
+    const params = new HttpParams()
+    .set('user_uuid', userUuid)
+    return this._http.get<any>(`${this._key.base_url}/statutory/employee`, {params});
+  }
+
+
+  getPayoutSummaryDetail(userUuid : string, startDate : string, endDate : string): Observable<any>{
+
+    const params = new HttpParams()
+    .set('user_uuid', userUuid)
+    .set('start_date', startDate)
+    .set('end_date', endDate);
+
+    return this._http.get<any>(`${this._key.base_url}/salary/month-wise/attendance`, {params});
+  }
 }

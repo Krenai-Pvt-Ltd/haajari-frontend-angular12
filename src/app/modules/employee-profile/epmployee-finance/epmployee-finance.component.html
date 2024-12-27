@@ -13,7 +13,7 @@
                     </li>
                     <li class="nav-item">
                         <a id="pills-profile-tab" data-bs-toggle="pill" href="#pay-slips" role="tab"
-                            aria-controls="pills-profile" aria-selected="false" class="nav-link">Pay Slips</a>
+                            aria-controls="pills-profile" aria-selected="false" class="nav-link" (click)="onYearChange(selectedYear)">Pay Slips</a>
                     </li>
                 </ul>
                 <div class="d-flex align-items-center gap-3" *ngIf="!financeBlur">
@@ -34,7 +34,9 @@
                         <div class="d-flex align-items-center justify-content-between">
                             <h5 class="mb-0 font-15">Payroll</h5>
                             <div class="attendance-date">
-                                <nz-date-picker nzMode="month" nzFormat="MMM, yyyy"></nz-date-picker>
+                                <nz-date-picker nzMode="month" [nzSize]="size" [(ngModel)]="selectedDate" 
+                                [nzDisabledDate]="disableMonths" (ngModelChange)="onMonthChange()">
+                                </nz-date-picker>
                             </div>
                         </div>
                         <div class="row collem-5 mt-3">
@@ -42,7 +44,7 @@
                                 <div class="payroll-count p-3 d-flex align-items-center justify-content-between">
                                     <div>
                                         <p class="mb-1 font-13">Earning</p>
-                                        <h5 class="mb-0 fw-semibold">₹20,000
+                                        <h5 class="mb-0 fw-semibold">₹{{employeePayslipResponse.grossPay || '0'}}
                                             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="17"
                                                 viewBox="0 0 12 17" fill="none">
                                                 <path fill-rule="evenodd" clip-rule="evenodd"
@@ -75,7 +77,7 @@
                                 <div class="payroll-count p-3 d-flex align-items-center justify-content-between">
                                     <div>
                                         <p class="mb-1 font-13">Additions</p>
-                                        <h5 class="mb-0 fw-semibold">₹20,000
+                                        <h5 class="mb-0 fw-semibold">₹{{employeePayslipResponse.bonus || '0'}}
                                             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="17"
                                                 viewBox="0 0 12 17" fill="none">
                                                 <path fill-rule="evenodd" clip-rule="evenodd"
@@ -116,7 +118,7 @@
                                 <div class="payroll-count p-3 d-flex align-items-center justify-content-between">
                                     <div>
                                         <p class="mb-1 font-13">Deduction</p>
-                                        <h5 class="mb-0 fw-semibold">₹20,000
+                                        <h5 class="mb-0 fw-semibold">₹{{employeePayslipResponse.deduction || '0'}}
                                             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="17"
                                                 viewBox="0 0 12 17" fill="none">
                                                 <path fill-rule="evenodd" clip-rule="evenodd"
@@ -143,7 +145,7 @@
                                 <div class="payroll-count p-3 d-flex align-items-center justify-content-between">
                                     <div>
                                         <p class="mb-1 font-13">Benefit</p>
-                                        <h5 class="mb-0 fw-semibold">8% </h5>
+                                        <h5 class="mb-0 fw-semibold">{{employeePayslipResponse.benifit || '0'}}% </h5>
                                     </div>
                                     <span
                                         class="payroll-count-icon bg-white d-flex align-items-center justify-content-center">
@@ -169,7 +171,7 @@
                                 <div class="payroll-count p-3 d-flex align-items-center justify-content-between">
                                     <div>
                                         <p class="mb-1 font-13">Net Payable</p>
-                                        <h5 class="mb-0 fw-semibold">₹30,000
+                                        <h5 class="mb-0 fw-semibold">₹{{employeePayslipResponse.netPay || '0'}}
                                             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="17"
                                                 viewBox="0 0 12 17" fill="none">
                                                 <path fill-rule="evenodd" clip-rule="evenodd"
@@ -229,7 +231,9 @@
                                     <h5 class="mb-0 font-14 fw-semibold">Payroll Summary</h5>
                                 </div>
                                 <p class="mb-0 fw-semibold font-15">Last Processes Cycle:
-                                    <span class="text-primary"> Sep 2024 (01 sep - 30 sep)</span>
+                                    <!-- <span class="text-primary"> Sep 2024 (01 sep - 30 sep)</span> -->
+                                    <span class="text-primary">  {{ startDate | date: 'MMM yyyy' }} ({{ startDate | date: 'dd MMM' }} - {{endDate| date: 'dd MMM' }})</span>
+
                                 </p>
                             </div>
 
@@ -238,7 +242,7 @@
                                     <div class="scene scene--card">
                                         <div class="card">
                                             <div class="month-day pt-4 p-3">
-                                                <button class="p-0 btn text-primary summary-btn fw-semibold ">Summary
+                                                <button class="p-0 btn text-primary summary-btn fw-semibold " (click)="flipView()">Summary
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13"
                                                         viewBox="0 0 13 13" fill="none">
                                                         <mask id="mask0_6753_7078" style="mask-type:alpha"
@@ -262,19 +266,19 @@
                                                         <g id="lines"></g>
                                                     </svg>
                                                     <div class="progress-text">
-                                                        <div class="fraction font-24 fw-bold"><span
-                                                                class="font-28">24/</span>30
+                                                        <div class="fraction font-24 fw-bold">
                                                         </div>
                                                         <div id="increaseBtn" class="subtitle font-14 mt-1 pointer">
-                                                            Working Days
+                                                            Payout Days
                                                         </div>
                                                     </div>
                                                 </div>
+
                                                 <div class="row mt-5">
                                                     <div class="col-md-6">
                                                         <div class="standard-days mb-5">
                                                             <p class="mb-2 fw-semibold font-13">Standard Days</p>
-                                                            <h5 class="mb-1 font-14">3O days</h5>
+                                                            <h5 class="mb-1 font-14">{{totalStandardDays}} days</h5>
                                                             <p class="mb-0 font-12">Lorem ipsum dolor sit</p>
 
                                                         </div>
@@ -282,7 +286,7 @@
                                                     <div class="col-md-6">
                                                         <div class="standard-days mb-5">
                                                             <p class="mb-2 fw-semibold font-13">Payout Days</p>
-                                                            <h5 class="mb-1 font-14">24 days</h5>
+                                                            <h5 class="mb-1 font-14">{{totalPayoutDays}} days</h5>
                                                             <p class="mb-0 font-12">Lorem ipsum dolor sit</p>
 
                                                         </div>
@@ -290,7 +294,7 @@
                                                     <div class="col-md-6">
                                                         <div class="standard-days 4">
                                                             <p class="mb-2 fw-semibold font-13">LOP Days</p>
-                                                            <h5 class="mb-1 font-14">2 days</h5>
+                                                            <h5 class="mb-1 font-14">{{totalLopDays}} days</h5>
                                                             <p class="mb-0 font-12">Lorem ipsum dolor sit</p>
 
                                                         </div>
@@ -298,7 +302,7 @@
                                                     <div class="col-md-6">
                                                         <div class="standard-days 4">
                                                             <p class="mb-2 fw-semibold font-13">Arrear Days</p>
-                                                            <h5 class="mb-1 font-14">O days</h5>
+                                                            <h5 class="mb-1 font-14">{{totalArrearDays}} days</h5>
                                                             <p class="mb-0 font-12">Lorem ipsum dolor sit</p>
 
                                                         </div>
@@ -310,7 +314,7 @@
                                                 <!-- Back Content -->
                                                 <div class="d-flex align-items-center justify-content-between border-bottom"
                                                     style="padding: 13px 15px;">
-                                                    <button class="p-0 btn text-black fw-semibold">
+                                                    <button class="p-0 btn text-black fw-semibold" (click)="flipView()">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15"
                                                             viewBox="0 0 15 15" fill="none">
                                                             <mask id="mask0_6684_3610" style="mask-type:alpha"
@@ -332,35 +336,12 @@
                                                 <div class=" p-3">
                                                     <div class="d-flex align-items-center gap-3 mb-2">
                                                         <div class="d-flex align-items-center gap-1">
-                                                            <span class="present  total-working-day"></span>
-                                                            <span class="absent total-working-day"></span>
-                                                            <span class="present total-working-day"></span>
-                                                            <span class="leave total-working-day"></span>
-                                                            <span class="present total-working-day"></span>
-                                                            <span class="holiday total-working-day"></span>
-                                                            <span class="half-day total-working-day"></span>
-                                                            <span class="late total-working-day"></span>
-                                                            <span class="present total-working-day"></span>
-                                                            <span class="present total-working-day"></span>
-                                                            <span class="late total-working-day"></span>
-                                                            <span class="present total-working-day"></span>
-                                                            <span class="week-off total-working-day"></span>
-                                                            <span class="week-off total-working-day"></span>
-                                                            <span class="present total-working-day"></span>
-                                                            <span class="present total-working-day"></span>
-                                                            <span class="half-day total-working-day"></span>
-                                                            <span class="present total-working-day"></span>
-                                                            <span class="present total-working-day"></span>
-                                                            <span class="week-off total-working-day"></span>
-                                                            <span class="week-off total-working-day"></span>
-                                                            <span class="present total-working-day"></span>
-                                                            <span class="half-day total-working-day"></span>
-                                                            <span class="present total-working-day"></span>
+                                                            <span class="total-working-day" *ngFor="let date of dateStatuses;"
+                                                            [ngClass]="getClass(date.status)"></span>
                                                         </div>
-                                                        <p class="mb-0 font-13 fw-semibold">24 days</p>
                                                     </div>
                                                     <p class="font-13">Standard days were <span
-                                                            class="fw-semibold  ">30</span></p>
+                                                            class="fw-semibold  ">{{totalStandardDays}}</span></p>
                                                     <div class="overview-summary-detail">
 
                                                         <div
@@ -369,7 +350,7 @@
                                                                 <span class="summary-count present"></span>
                                                                 <p class="mb-0 fonr-13 fw-semibold">Present</p>
                                                             </div>
-                                                            <p class="mb-0 fonr-13 fw-semibold">18</p>
+                                                            <p class="mb-0 fonr-13 fw-semibold">{{payoutDaysSummary.presentCount}}</p>
                                                         </div>
                                                         <div
                                                             class="d-flex align-items-center justify-content-between mb-3">
@@ -377,7 +358,7 @@
                                                                 <span class="summary-count absent"></span>
                                                                 <p class="mb-0 fonr-13 fw-semibold">Absent</p>
                                                             </div>
-                                                            <p class="mb-0 fonr-13 fw-semibold">2</p>
+                                                            <p class="mb-0 fonr-13 fw-semibold">{{payoutDaysSummary.absentCount}}</p>
                                                         </div>
                                                         <div
                                                             class="d-flex align-items-center justify-content-between mb-3">
@@ -385,7 +366,7 @@
                                                                 <span class="summary-count leave"></span>
                                                                 <p class="mb-0 fonr-13 fw-semibold">Leave</p>
                                                             </div>
-                                                            <p class="mb-0 fonr-13 fw-semibold">1</p>
+                                                            <p class="mb-0 fonr-13 fw-semibold">{{payoutDaysSummary.leaveCount}}</p>
                                                         </div>
                                                         <div
                                                             class="d-flex align-items-center justify-content-between mb-3">
@@ -393,7 +374,7 @@
                                                                 <span class="summary-count week-off"></span>
                                                                 <p class="mb-0 fonr-13 fw-semibold">Week-off</p>
                                                             </div>
-                                                            <p class="mb-0 fonr-13 fw-semibold">6</p>
+                                                            <p class="mb-0 fonr-13 fw-semibold">{{payoutDaysSummary.weekOffCount}}</p>
                                                         </div>
                                                         <div
                                                             class="d-flex align-items-center justify-content-between mb-3">
@@ -401,7 +382,7 @@
                                                                 <span class="summary-count holiday"></span>
                                                                 <p class="mb-0 fonr-13 fw-semibold">Holiday</p>
                                                             </div>
-                                                            <p class="mb-0 fonr-13 fw-semibold">1</p>
+                                                            <p class="mb-0 fonr-13 fw-semibold">{{payoutDaysSummary.holidayCount}}</p>
                                                         </div>
                                                         <div
                                                             class="d-flex align-items-center justify-content-between mb-3">
@@ -409,7 +390,7 @@
                                                                 <span class="summary-count half-day"></span>
                                                                 <p class="mb-0 fonr-13 fw-semibold">Half Day</p>
                                                             </div>
-                                                            <p class="mb-0 fonr-13 fw-semibold">1</p>
+                                                            <p class="mb-0 fonr-13 fw-semibold">{{payoutDaysSummary.halfDayCount}}</p>
                                                         </div>
                                                         <div
                                                             class="d-flex align-items-center justify-content-between mb-3">
@@ -417,7 +398,7 @@
                                                                 <span class="summary-count late"></span>
                                                                 <p class="mb-0 fonr-13 fw-semibold">Late</p>
                                                             </div>
-                                                            <p class="mb-0 fonr-13 fw-semibold">2</p>
+                                                            <p class="mb-0 fonr-13 fw-semibold">{{payoutDaysSummary.lateCount}}</p>
                                                         </div>
 
                                                     </div>
@@ -428,7 +409,7 @@
 
                                 </div>
                                 <div class="col-md-9 p-0 m-0">
-                                    <div class="table-responsive">
+                                    <div class="d-flex align-items-start table-responsive">
                                         <table class="table">
                                             <thead class="thead-light">
                                                 <tr>
@@ -441,83 +422,61 @@
                                                     <th class="text-center"
                                                         style="width: 20%; background-color: #F9FAFC !important;"><span
                                                             class="fw-semibold">Actual</span></th>
-                                                    <th c style=" width: 15%; background-color: #F9FAFC !important;">
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let payslipBreakup of employeePayslipBreakupResponseList;">
+                                                    <td><span class="fw-semibold">{{payslipBreakup.name}}</span></td>
+                                                    <td class="text-center"><span class="fw-semibold">₹{{payslipBreakup.standardAmount}}</span>
+                                                    </td>
+                                                    <td class="text-center"><span class="fw-semibold">₹{{payslipBreakup.actualAmount}}</span>
+                                                    </td>
+                                                   
+                                                </tr>
+                                               
+                                                <tr>
+                                                    <td>
+                                                        <span class="fw-bold text-black">Gross Earning</span>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <span class="fw-bold text-primary">₹{{monthlySalary}}</span>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <span class="fw-bold text-primary ">₹{{earningSalary}}</span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <table class="table">
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    
+                                                    <th style=" width: 15%; background-color: #F9FAFC !important;">
                                                         <span class="fw-semibold">Deduction</span>
                                                     </th>
                                                     <th style=" width: 15%; background-color: #F9FAFC !important;"></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td><span class="fw-semibold">Conveyance Allowance</span></td>
-                                                    <td class="text-center"><span class="fw-semibold">₹17000.00</span>
-                                                    </td>
-                                                    <td class="text-center"><span class="fw-semibold">₹13000.00</span>
-                                                    </td>
-                                                    <td><span class="fw-semibold">Tax@10%</span></td>
-                                                    <td class="text-end"><span class="fw-semibold">₹17000.00</span></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><span class="fw-semibold">Basic Pay</span></td>
-                                                    <td class="text-center"><span class="fw-semibold">₹17000.00</span>
-                                                    </td>
-                                                    <td class="text-center"><span class="fw-semibold">₹13000.00</span>
-                                                    </td>
-                                                    <td><span class="fw-semibold">EPF @8%</span></td>
-                                                    <td class="text-end"><span class="fw-semibold">₹1700.00</span></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><span class="fw-semibold">Additional Allowance</span></td>
-                                                    <td class="text-center"><span class="fw-semibold">₹17000.00</span>
-                                                    </td>
-                                                    <td class="text-center"><span class="fw-semibold">₹13000.00</span>
-                                                    </td>
-                                                    <td><span class="fw-semibold">ESI @7%</span></td>
-                                                    <td class="text-end"><span class="fw-semibold">₹7000.00</span></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><span class="fw-semibold">HRA</span></td>
-                                                    <td class="text-center"><span class="fw-semibold">₹17000.00</span>
-                                                    </td>
-                                                    <td class="text-center"><span class="fw-semibold">₹13000.00</span>
-                                                    </td>
-                                                    <td> <span class="fw-semibold">Absent @2 Days</span></td>
-                                                    <td class="text-end"><span class="fw-semibold">₹1700.00</span></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><span class="fw-semibold">Transport Allowance</span></td>
-                                                    <td class="text-center"><span class="fw-semibold">₹17000.00</span>
-                                                    </td>
-                                                    <td class="text-center"><span class="fw-semibold">₹13000.00</span>
-                                                    </td>
-                                                    <td colspan="2" rowspan="4"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><span class="fw-semibold">Transport Allowance</span></td>
-                                                    <td class="text-center"><span class="fw-semibold">₹17000.00</span>
-                                                    </td>
-                                                    <td class="text-center"><span class="fw-semibold">₹13000.00</span>
-                                                    </td>
-
-                                                </tr>
-                                                <tr>
-                                                    <td><span class="fw-semibold">Medical Allowance</span></td>
-                                                    <td class="text-center"><span class="fw-semibold"> ₹17000.00</span>
-                                                    </td>
-                                                    <td class="text-center"><span class="fw-semibold">₹13000.00</span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <span class="fw-bold text-black">Gross Earning</span>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <span class="fw-bold text-primary">23,8000</span>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <span class="fw-bold text-primary ">₹18,8000</span>
-                                                    </td>
-                                                </tr>
+                                                    <tr >
+                                                        <td><span class="fw-semibold">TDS</span></td>
+                                                        <td class="text-end"><span class="fw-semibold">₹{{employeePayslipDeductionResponse.tdsAmount | number:'1.0-2'}}</span></td>
+                                                    </tr>
+                                                    <tr >
+                                                        <td><span class="fw-semibold">EPF</span></td>
+                                                        <td class="text-end"><span class="fw-semibold">₹{{employeePayslipDeductionResponse.epfAmount | number:'1.0-2'}}</span></td>
+                                                    </tr>
+                                                    <tr >
+                                                        <td><span class="fw-semibold">ESI</span></td>
+                                                       <td class="text-end"><span class="fw-semibold">₹{{employeePayslipDeductionResponse.esiAmount | number:'1.0-2'}}</span></td>
+                                                    </tr>
+                                                    <tr *ngIf="">
+                                                        <td> <span class="fw-semibold">Absent @2 Days</span></td>
+                                                        <td class="text-end"><span class="fw-semibold">₹1700.00</span></td>
+                                                    </tr> 
+                                          
+                                               
+                                               
                                             </tbody>
                                         </table>
                                     </div>
@@ -529,8 +488,8 @@
                                 <div class="payment-information p-3">
                                     <div class="d-flex align-items-center justify-content-between border-bottom pb-3">
                                         <h5 class="mb-0 font-14 fw-semibold">Payment Information</h5>
-                                        <button class="btn p-0 text-primary font-13 fw-semibold" data-bs-toggle="modal"
-                                            data-bs-target="#paymentInformation">Edit It</button>
+                                        <button class="btn p-0 text-primary font-13 fw-semibold"  
+                                           (click)="employeeProfileComponent.clickOnProfileTab()" >Edit It</button>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-6 ">
@@ -542,11 +501,11 @@
                                                 </div>
                                                 <div class="mt-4">
                                                     <p class="mb-1 font-13">Bank Name</p>
-                                                    <h5 class="mb-0 font-15">ICICI Bank</h5>
+                                                    <h5 class="mb-0 font-15">{{userPaymentDetail.bankName || '-'}}</h5>
                                                 </div>
                                                 <div class="mt-4 mb-3">
                                                     <p class="mb-1 font-13">Name of the account</p>
-                                                    <h5 class="mb-0 font-15">Yogesh Kumar</h5>
+                                                    <h5 class="mb-0 font-15">{{userPaymentDetail.accountHolderName || '-'}}</h5>
                                                 </div>
 
                                             </div>
@@ -556,11 +515,11 @@
                                             <div class="payment-information-box " style="padding-left: 30px;">
                                                 <div class="mt-4">
                                                     <p class="mb-1 font-13">Account Number</p>
-                                                    <h5 class="mb-0 font-15">9007101571267</h5>
+                                                    <h5 class="mb-0 font-15">{{userPaymentDetail.accountNumber || '-'}}</h5>
                                                 </div>
                                                 <div class="mt-4">
                                                     <p class="mb-1 font-13">IFSC code</p>
-                                                    <h5 class="mb-0 font-15">ICIC0000071</h5>
+                                                    <h5 class="mb-0 font-15">{{userPaymentDetail.ifsc || '-'}}</h5>
                                                 </div>
                                             </div>
 
@@ -576,14 +535,14 @@
                                     </div>
                                     <div class="payment-information-box " style="padding-left: 30px;">
                                         <div class="mt-4">
-                                            <h5 class="mb-1 font-15">ESI Account Information</h5>
-                                            <p class="mb-1 font-13">ESI Status</p>
-                                            <h5 class="mb-0 font-14">Not Eligible</h5>
+                                            <h5 class="mb-1 font-15">EPF Account Information</h5>
+                                            <p class="mb-1 font-13">EPF Status</p>
+                                            <h5 class="mb-0 font-14">{{isEPF ? 'ENABLE': 'DISABLE'}}</h5>
                                         </div>
                                         <div class="mt-4">
-                                            <h5 class="mb-1 font-15">LWF Details</h5>
-                                            <p class="mb-1 font-13">LWS Status</p>
-                                            <h5 class="mb-0 font-14">Disabled</h5>
+                                            <h5 class="mb-1 font-15">ESI Account Information</h5>
+                                            <p class="mb-1 font-13">ESI Status</p>
+                                            <h5 class="mb-0 font-14"> {{isESI? 'ENABLE': 'DISABLE'}}</h5>
                                         </div>
                                     </div>
                                 </div>
@@ -897,100 +856,23 @@
                         <div class="d-flex align-items-center justify-content-between">
                             <div>
                                 <h5 class="mb-1 font-15">Pay Slips</h5>
-                                <p class="mb-0 font-13 pay-slip">Here you can manage all Hajiri generated payslips for
+                                <p class="mb-0 font-13 pay-slip">Here you can manage all generated payslips for
                                     application years.</p>
                             </div>
                             <div class="attendance-date">
-                                <nz-date-picker nzMode="month" nzFormat="MMM, yyyy"></nz-date-picker>
+                                <nz-date-picker nzMode="year" [nzSize]="size" [(ngModel)]="selectedYear" 
+                                [nzDisabledDate]="disableYears" (ngModelChange)="onYearChange($event)">
+                                </nz-date-picker>
                             </div>
                         </div>
 
                         <div class="mt-3 pay-slip-box d-flex align-items-start">
                             <div class="" style="width:300px;">
                                 <ul class="mb-0 pl-0">
-                                    <li class="d-flex align-items-center justify-content-between">
-                                        <span>December 2024</span>
-                                        <!-- <span class="pointer">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="29" height="30"
-                                                viewBox="0 0 29 30" fill="none">
-                                                <mask id="mask0_6709_6993" style="mask-type:alpha"
-                                                    maskUnits="userSpaceOnUse" x="0" y="0" width="29" height="30">
-                                                    <rect y="0.5" width="29" height="29" fill="#D9D9D9" />
-                                                </mask>
-                                                <g mask="url(#mask0_6709_6993)">
-                                                    <path d="M10 23.1253V6.875L18.1252 15.0002L10 23.1253Z"
-                                                        fill="#6666F2" />
-                                                </g>
-                                            </svg>
-                                        </span> -->
-                                    </li>
-                                    <li class="d-flex align-items-center justify-content-between">
-                                        <span>November 2024</span>
-                                        <!-- <span class="pointer">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="29" height="30"
-                                                viewBox="0 0 29 30" fill="none">
-                                                <mask id="mask0_6709_6993" style="mask-type:alpha"
-                                                    maskUnits="userSpaceOnUse" x="0" y="0" width="29" height="30">
-                                                    <rect y="0.5" width="29" height="29" fill="#D9D9D9" />
-                                                </mask>
-                                                <g mask="url(#mask0_6709_6993)">
-                                                    <path d="M10 23.1253V6.875L18.1252 15.0002L10 23.1253Z"
-                                                        fill="#6666F2" />
-                                                </g>
-                                            </svg>
-                                        </span> -->
-                                    </li>
-                                    <li class="d-flex align-items-center justify-content-between">
-                                        <span>October 2024</span>
-                                        <!-- <span class="pointer">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="29" height="30"
-                                                viewBox="0 0 29 30" fill="none">
-                                                <mask id="mask0_6709_6993" style="mask-type:alpha"
-                                                    maskUnits="userSpaceOnUse" x="0" y="0" width="29" height="30">
-                                                    <rect y="0.5" width="29" height="29" fill="#D9D9D9" />
-                                                </mask>
-                                                <g mask="url(#mask0_6709_6993)">
-                                                    <path d="M10 23.1253V6.875L18.1252 15.0002L10 23.1253Z"
-                                                        fill="#6666F2" />
-                                                </g>
-                                            </svg>
-                                        </span> -->
-                                    </li>
-                                    <li class="d-flex align-items-center justify-content-between">
-                                        <span>September 2024</span>
-                                        <!-- <span class="pointer">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="29" height="30"
-                                                viewBox="0 0 29 30" fill="none">
-                                                <mask id="mask0_6709_6993" style="mask-type:alpha"
-                                                    maskUnits="userSpaceOnUse" x="0" y="0" width="29" height="30">
-                                                    <rect y="0.5" width="29" height="29" fill="#D9D9D9" />
-                                                </mask>
-                                                <g mask="url(#mask0_6709_6993)">
-                                                    <path d="M10 23.1253V6.875L18.1252 15.0002L10 23.1253Z"
-                                                        fill="#6666F2" />
-                                                </g>
-                                            </svg>
-                                        </span> -->
-                                    </li>
-                                    <li class="d-flex align-items-center justify-content-between">
-                                        <span>August 2024</span>
-                                        <!-- <span class="pointer">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="29" height="30"
-                                                viewBox="0 0 29 30" fill="none">
-                                                <mask id="mask0_6709_6993" style="mask-type:alpha"
-                                                    maskUnits="userSpaceOnUse" x="0" y="0" width="29" height="30">
-                                                    <rect y="0.5" width="29" height="29" fill="#D9D9D9" />
-                                                </mask>
-                                                <g mask="url(#mask0_6709_6993)">
-                                                    <path d="M10 23.1253V6.875L18.1252 15.0002L10 23.1253Z"
-                                                        fill="#6666F2" />
-                                                </g>
-                                            </svg>
-                                        </span> -->
-                                    </li>
-                                    <li class="d-flex align-items-center justify-content-between active-month">
-                                        <span>July 2024</span>
-                                        <span class="pointer">
+                                    <li class="d-flex align-items-center justify-content-between" *ngFor="let payslip of employeePayslipLogResponseList; let i = index;"
+                                        [ngClass]="{' active-month':i == selectedIndex}" (click)="selectedIndex = i; loadPayslip(payslip)">
+                                        <span>{{payslip.paySlipMonth | date: 'MMMM yyyy'}}</span>
+                                        <span class="pointer" *ngIf="i == selectedIndex">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="29" height="30"
                                                 viewBox="0 0 29 30" fill="none">
                                                 <mask id="mask0_6709_6993" style="mask-type:alpha"
@@ -1004,141 +886,13 @@
                                             </svg>
                                         </span>
                                     </li>
-                                    <li class="d-flex align-items-center justify-content-between">
-                                        <span>August 2024</span>
-                                        <!-- <span class="pointer">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="29" height="30"
-                                                viewBox="0 0 29 30" fill="none">
-                                                <mask id="mask0_6709_6993" style="mask-type:alpha"
-                                                    maskUnits="userSpaceOnUse" x="0" y="0" width="29" height="30">
-                                                    <rect y="0.5" width="29" height="29" fill="#D9D9D9" />
-                                                </mask>
-                                                <g mask="url(#mask0_6709_6993)">
-                                                    <path d="M10 23.1253V6.875L18.1252 15.0002L10 23.1253Z"
-                                                        fill="#6666F2" />
-                                                </g>
-                                            </svg>
-                                        </span> -->
-                                    </li>
-                                    <li class="d-flex align-items-center justify-content-between">
-                                        <span>July 2024</span>
-                                        <!-- <span class="pointer">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="29" height="30"
-                                                viewBox="0 0 29 30" fill="none">
-                                                <mask id="mask0_6709_6993" style="mask-type:alpha"
-                                                    maskUnits="userSpaceOnUse" x="0" y="0" width="29" height="30">
-                                                    <rect y="0.5" width="29" height="29" fill="#D9D9D9" />
-                                                </mask>
-                                                <g mask="url(#mask0_6709_6993)">
-                                                    <path d="M10 23.1253V6.875L18.1252 15.0002L10 23.1253Z"
-                                                        fill="#6666F2" />
-                                                </g>
-                                            </svg>
-                                        </span> -->
-                                    </li>
-                                    <li class="d-flex align-items-center justify-content-between">
-                                        <span>June 2024</span>
-                                        <!-- <span class="pointer">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="29" height="30"
-                                                viewBox="0 0 29 30" fill="none">
-                                                <mask id="mask0_6709_6993" style="mask-type:alpha"
-                                                    maskUnits="userSpaceOnUse" x="0" y="0" width="29" height="30">
-                                                    <rect y="0.5" width="29" height="29" fill="#D9D9D9" />
-                                                </mask>
-                                                <g mask="url(#mask0_6709_6993)">
-                                                    <path d="M10 23.1253V6.875L18.1252 15.0002L10 23.1253Z"
-                                                        fill="#6666F2" />
-                                                </g>
-                                            </svg>
-                                        </span> -->
-                                    </li>
-                                    <li class="d-flex align-items-center justify-content-between">
-                                        <span>May 2024</span>
-                                        <!-- <span class="pointer">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="29" height="30"
-                                                viewBox="0 0 29 30" fill="none">
-                                                <mask id="mask0_6709_6993" style="mask-type:alpha"
-                                                    maskUnits="userSpaceOnUse" x="0" y="0" width="29" height="30">
-                                                    <rect y="0.5" width="29" height="29" fill="#D9D9D9" />
-                                                </mask>
-                                                <g mask="url(#mask0_6709_6993)">
-                                                    <path d="M10 23.1253V6.875L18.1252 15.0002L10 23.1253Z"
-                                                        fill="#6666F2" />
-                                                </g>
-                                            </svg>
-                                        </span> -->
-                                    </li>
-                                    <li class="d-flex align-items-center justify-content-between">
-                                        <span>April 2024</span>
-                                        <!-- <span class="pointer">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="29" height="30"
-                                                viewBox="0 0 29 30" fill="none">
-                                                <mask id="mask0_6709_6993" style="mask-type:alpha"
-                                                    maskUnits="userSpaceOnUse" x="0" y="0" width="29" height="30">
-                                                    <rect y="0.5" width="29" height="29" fill="#D9D9D9" />
-                                                </mask>
-                                                <g mask="url(#mask0_6709_6993)">
-                                                    <path d="M10 23.1253V6.875L18.1252 15.0002L10 23.1253Z"
-                                                        fill="#6666F2" />
-                                                </g>
-                                            </svg>
-                                        </span> -->
-                                    </li>
-                                    <li class="d-flex align-items-center justify-content-between">
-                                        <span>March 2024</span>
-                                        <!-- <span class="pointer">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="29" height="30"
-                                                viewBox="0 0 29 30" fill="none">
-                                                <mask id="mask0_6709_6993" style="mask-type:alpha"
-                                                    maskUnits="userSpaceOnUse" x="0" y="0" width="29" height="30">
-                                                    <rect y="0.5" width="29" height="29" fill="#D9D9D9" />
-                                                </mask>
-                                                <g mask="url(#mask0_6709_6993)">
-                                                    <path d="M10 23.1253V6.875L18.1252 15.0002L10 23.1253Z"
-                                                        fill="#6666F2" />
-                                                </g>
-                                            </svg>
-                                        </span> -->
-                                    </li>
-                                    <li class="d-flex align-items-center justify-content-between">
-                                        <span>February 2024</span>
-                                        <!-- <span class="pointer">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="29" height="30"
-                                                viewBox="0 0 29 30" fill="none">
-                                                <mask id="mask0_6709_6993" style="mask-type:alpha"
-                                                    maskUnits="userSpaceOnUse" x="0" y="0" width="29" height="30">
-                                                    <rect y="0.5" width="29" height="29" fill="#D9D9D9" />
-                                                </mask>
-                                                <g mask="url(#mask0_6709_6993)">
-                                                    <path d="M10 23.1253V6.875L18.1252 15.0002L10 23.1253Z"
-                                                        fill="#6666F2" />
-                                                </g>
-                                            </svg>
-                                        </span> -->
-                                    </li>
-                                    <li class="d-flex align-items-center justify-content-between">
-                                        <span>January 2024</span>
-                                        <!-- <span class="pointer">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="29" height="30"
-                                                viewBox="0 0 29 30" fill="none">
-                                                <mask id="mask0_6709_6993" style="mask-type:alpha"
-                                                    maskUnits="userSpaceOnUse" x="0" y="0" width="29" height="30">
-                                                    <rect y="0.5" width="29" height="29" fill="#D9D9D9" />
-                                                </mask>
-                                                <g mask="url(#mask0_6709_6993)">
-                                                    <path d="M10 23.1253V6.875L18.1252 15.0002L10 23.1253Z"
-                                                        fill="#6666F2" />
-                                                </g>
-                                            </svg>
-                                        </span> -->
-                                    </li>
                                 </ul>
 
                             </div>
-                            <div class="pay-slip-file w-100">
-                                <div class="d-flex align-items-center justify-content-between pay-slip-heading p-3">
-                                    <h5 class="mb-0 font-14 text-white">September 2024</h5>
-                                    <button class="btn p-0 text-white font-13 fw-semibold">September 2024 Pay Slip
+                            <div class="pay-slip-file w-100" *ngIf="selectedPayslip">
+                                <!-- <div class="d-flex align-items-center justify-content-between pay-slip-heading p-3">
+                                    <h5 class="mb-0 font-14 text-white">{{selectedPayslip.paySlipMonth | date: 'MMMM yyyy'}}</h5>
+                                    <button class="btn p-0 text-white font-13 fw-semibold">{{selectedPayslip.paySlipMonth | date: 'MMMM yyyy'}} Pay Slip
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             viewBox="0 0 24 24" fill="none">
                                             <mask id="mask0_6757_7264" style="mask-type:alpha"
@@ -1152,10 +906,16 @@
                                             </g>
                                         </svg>
                                     </button>
-                                </div>
+                                </div> -->
 
-                                <div class="d-flex align-items-center justify-content-center mt-5">
-                                    <img src="assets/images/pay-slip.png">
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <iframe 
+                                    class="nest" 
+                                    [src]="selectedPayslipUrl" 
+                                    style="width: 100%; height: 100vh;" 
+                                    frameborder="0">
+                                  </iframe>
+                       
                                 </div>
 
                             </div>
@@ -1163,80 +923,6 @@
                     </div>
 
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#paymentInformation">
-    Payment Information
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="paymentInformation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Payment Information</h5>
-                <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButton>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
-                            width="24" height="24">
-                            <rect width="24" height="24" fill="#D9D9D9" />
-                        </mask>
-                        <g mask="url(#mask0_5037_2014)">
-                            <path
-                                d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z"
-                                fill="black" />
-                        </g>
-                    </svg>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-12 mb-3">
-                        <div class="form-group">
-                            <label for="assetName" class="mb-2">Salary Payment Mode</label>
-
-
-                            <nz-select class="form-control placeholder-line w-100" nzPlaceHolder="Payment mode">
-                                <nz-option nzValue="Cash" nzLabel="Cash"></nz-option>
-                                <nz-option nzValue="Bank transfer" nzLabel="Bank transfer"></nz-option>
-                            </nz-select>
-                        </div>
-                    </div>
-                    <div class="col-md-12 mb-3">
-                        <div class="form-group">
-                            <label for="assetName" class="mb-2">Account Number</label>
-                            <input type="text" class="form-control input-zorro" placeholder="Enter account number" />
-                        </div>
-                    </div>
-                    <div class="col-md-12 mb-3">
-                        <div class="form-group">
-                            <label for="assetName" class="mb-2">Bank Name</label>
-                            <input type="text" class="form-control input-zorro" placeholder="Enter bank name" />
-                        </div>
-                    </div>
-                    <div class="col-md-12 mb-3">
-                        <div class="form-group">
-                            <label for="assetName" class="mb-2">IFSC Code</label>
-                            <input type="text" class="form-control input-zorro" placeholder="Enter IFSC code" />
-                        </div>
-                    </div>
-                    <div class="col-md-12 mb-3">
-                        <div class="form-group">
-                            <label for="assetName" class="mb-2">Name of the account</label>
-                            <input type="text" class="form-control input-zorro" placeholder="Enter name" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer d-flex align-items-center gap-2">
-                <button type="button" class="btn cancel-btn" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn submitActionBtn">Submit Request</button>
             </div>
         </div>
     </div>
