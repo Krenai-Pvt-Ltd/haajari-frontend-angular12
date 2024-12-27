@@ -148,7 +148,7 @@
 
 .sideBarStep-one {
   border-left: 4px solid #6666f2;
-  min-height: 15%;
+  min-height: 15vh;
   position: absolute;
   left: 0px;
   top: 0px;
@@ -156,15 +156,15 @@
 }
 
 .sideBarStep-two {
-  min-height: 23%;
+  min-height: 25vh;
 }
 
 .sideBarStep-three {
-  min-height: 27%;
+  min-height: 30vh;
 }
 
 .sideBarStep-four {
-  min-height: 33%;
+  min-height: 35vh;
 }
 
 .pending-step h5 svg {
