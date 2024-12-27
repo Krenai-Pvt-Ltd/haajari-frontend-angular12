@@ -2,6 +2,7 @@
   width: 17px;
   height: 17px;
 }
+
 .new-dropdown {
   display: block;
   width: 100%;
@@ -15,6 +16,7 @@
   color: #2d2e3e;
   position: relative;
 }
+
 .new-dropdown i {
   position: absolute;
   right: 15px;
@@ -38,6 +40,7 @@ button.btn.close-btn {
   color: var(--primary-color);
   cursor: pointer;
 }
+
 .errorboxmain {
   min-height: 40vh;
   background-color: #fff;
@@ -45,6 +48,7 @@ button.btn.close-btn {
   align-items: center;
   justify-content: center;
 }
+
 .add-filtter {
   background-color: #fff;
   border-radius: 50%;
@@ -56,23 +60,28 @@ button.btn.close-btn {
   line-height: 16px;
   border: 1px solid #4f5eee;
 }
+
 /* Pushpendra's Code  */
 .card-header {
   background-color: #fff;
   border: 0;
   border-bottom: 1px dashed #e8ebf3;
 }
+
 .mt-110 {
   margin-top: 110px;
 }
+
 .bg-soft-warning:hover {
   color: #000 !important;
   background-color: rgba(255, 159, 67, 0.08) !important;
 }
+
 .select-user-count b {
   color: var(--primary-color);
   font-size: 13px;
 }
+
 .all-select-user {
   background-color: #f0f0ff;
   color: var(--primary-color);
@@ -81,6 +90,7 @@ button.btn.close-btn {
   font-size: 13px;
   cursor: pointer;
 }
+
 .clear-all-user {
   cursor: pointer;
   color: #eb5050;
@@ -89,6 +99,7 @@ button.btn.close-btn {
   border-radius: 2px;
   font-size: 13px;
 }
+
 .user-close-btn i {
   font-size: 20px;
 }
@@ -105,9 +116,8 @@ button.btn.close-btn {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background-color: var(
-    --primary-bckground-color
-  ) !important; /* Change to your preferred color */
+  background-color: var(--primary-bckground-color) !important;
+  /* Change to your preferred color */
   margin: 0 4px;
   animation: dotOpacity 1.4s infinite ease-in-out both;
 }
@@ -121,11 +131,13 @@ button.btn.close-btn {
 }
 
 @keyframes dotOpacity {
+
   0%,
   80%,
   100% {
     opacity: 0;
   }
+
   40% {
     opacity: 1;
   }
@@ -182,16 +194,19 @@ button.btn.close-btn {
   font-size: 14px;
   font-weight: 500;
 }
+
 .learn-more svg {
   width: 15px;
   height: 15px;
 }
+
 .AssistVideo {
   background-repeat: no-repeat;
   background-size: cover;
   height: 100%;
   border-radius: 0px 3px 3px 0px;
 }
+
 .playBtn {
   position: absolute;
   top: 46%;
@@ -218,20 +233,23 @@ button.btn.close-btn {
   position: relative;
   top: -5px;
 }
-.video-img{
+
+.video-img {
   min-width: 140px;
 }
 
 
 @media screen and (max-width: 2600px) {
   .video-img img {
-      width: 60%;
-    }
+    width: 296px;
+    height: 187px;
+  }
 }
 
 
 @media screen and (max-width: 1280px) {
   .video-img img {
-    width: 60%;
+    width: 296px;
+    height: 187px;
   }
 }

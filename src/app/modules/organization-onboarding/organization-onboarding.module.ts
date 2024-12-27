@@ -38,6 +38,8 @@ import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { OnboardingSuccessfulComponent } from './components/onboarding-successful/onboarding-successful.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { NzImageModule } from 'ng-zorro-antd/image';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
 
 @NgModule({
   declarations: [
@@ -83,6 +85,9 @@ import { SharedModule } from 'src/app/shared/shared.module';
     NzInputModule,
     NzInputNumberModule,
     SharedModule,
+    NzImageModule,
+    NzSpaceModule
+
   ],
 })
-export class OrganizationOnboardingModule {}
+export class OrganizationOnboardingModule { }
