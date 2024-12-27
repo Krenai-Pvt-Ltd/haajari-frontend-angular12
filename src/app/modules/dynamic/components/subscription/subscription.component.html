@@ -92,11 +92,11 @@
                     </div>
 
                     <div class="footer-action">
-                      <h3 class="mb-0 font-14">Rules & Regulation</h3>
-                      <p class="text-black font-13 mb-0">
+                      <h3 class="mb-0">Rules & Regulation</h3>
+                      <p class="text-black font-16 mb-0">
                         Guidelines and Policies to Follow
                       </p>
-                      <button class="btn p-0 font-14   text-primary subscription-rule mt-2"
+                      <button class="btn p-0 font-18 text-primary subscription-rule mt-2"
                         (click)="switchRulesRegulation()">
                         Know More
                         <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="none">
@@ -142,8 +142,9 @@
                   </div>
 
                   <div class="mt-3">
-                    <div class="d-flex align-items-start gap-2 mb-3">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 19 19" fill="none">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 19 19" fill="none"
+                        style="width: 25px">
                         <g clip-path="url(#clip0_3746_4210)">
                           <path
                             d="M18.4574 2.59314C18.1779 2.31314 17.7244 2.31266 17.4448 2.59195L8.85429 11.1598L5.75484 7.79353C5.48702 7.50282 5.03421 7.48396 4.74301 7.75175C4.45204 8.01956 4.43341 8.4726 4.70123 8.76357L8.30552 12.6779C8.43751 12.8214 8.62224 12.9047 8.81703 12.9087C8.82226 12.9089 8.82731 12.9089 8.83232 12.9089C9.02161 12.9089 9.20371 12.8338 9.33786 12.7001L18.456 3.60589C18.7362 3.32664 18.7367 2.87313 18.4574 2.59314Z"
@@ -163,8 +164,9 @@
                         others.
                       </p>
                     </div>
-                    <div class="d-flex align-items-start gap-2 mb-3">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 19 19" fill="none">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 19 19" fill="none"
+                        style="width: 32px">
                         <g clip-path="url(#clip0_3746_4210)">
                           <path
                             d="M18.4574 2.59314C18.1779 2.31314 17.7244 2.31266 17.4448 2.59195L8.85429 11.1598L5.75484 7.79353C5.48702 7.50282 5.03421 7.48396 4.74301 7.75175C4.45204 8.01956 4.43341 8.4726 4.70123 8.76357L8.30552 12.6779C8.43751 12.8214 8.62224 12.9047 8.81703 12.9087C8.82226 12.9089 8.82731 12.9089 8.83232 12.9089C9.02161 12.9089 9.20371 12.8338 9.33786 12.7001L18.456 3.60589C18.7362 3.32664 18.7367 2.87313 18.4574 2.59314Z"
@@ -184,7 +186,7 @@
                         service disruption.
                       </p>
                     </div>
-                    <div class="d-flex align-items-start gap-2 mb-3">
+                    <div class="d-flex align-items-center gap-2 mb-3">
                       <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 19 19" fill="none">
                         <g clip-path="url(#clip0_3746_4210)">
                           <path
@@ -205,7 +207,7 @@
                         collapse of the current plan and the activation of a new plan.
                       </p>
                     </div>
-                    <div class="d-flex align-items-start gap-2 mb-3">
+                    <div class="d-flex align-items-center gap-2 mb-3">
                       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 19 19" fill="none">
                         <g clip-path="url(#clip0_3746_4210)">
                           <path
@@ -226,7 +228,7 @@
                         subscription period.
                       </p>
                     </div>
-                    <div class="d-flex align-items-start gap-2 mb-3">
+                    <div class="d-flex align-items-center gap-2 mb-3">
                       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 19 19" fill="none">
                         <g clip-path="url(#clip0_3746_4210)">
                           <path
@@ -247,7 +249,7 @@
                         plans.
                       </p>
                     </div>
-                    <div class="d-flex align-items-start gap-2 mb-3">
+                    <div class="d-flex align-items-center gap-2 mb-3">
                       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 19 19" fill="none">
                         <g clip-path="url(#clip0_3746_4210)">
                           <path
@@ -434,7 +436,7 @@
                               </div>
 
                               <p class="mb-0 font-14" *ngIf="plan.isYearly==1">
-                                <span class="plan-year-off"> 30% off </span>
+                                <span class="plan-year-off"> 30% off </span>
                                 with annual contract
                               </p>
                               <span class="saperater-border mt-4 mb-4"></span>
@@ -535,7 +537,8 @@
 
                               <span class="saperater-border mt-4 mb-4"></span>
 
-                              <button class="btn change-plan w-100 mb-4">
+                              <button class="btn change-plan w-100 mb-4" data-bs-toggle="modal"
+                                data-bs-target="#createRequest">
                                 Request
                               </button>
 
@@ -1204,7 +1207,7 @@
                         advanced workforce management
                       </p> -->
                       <p *ngIf="selectedSubscriptionPlan.isYearly==1" class="mb-0 text-black font-16">
-                        <span><b>30% off</b></span> with annual contract
+                        <span><b>30% off</b></span> with annual contract
                       </p>
                     </div>
 
@@ -1445,16 +1448,14 @@
   </div>
 </div>
 
-<button data-bs-toggle="modal" data-bs-target="#success-payment" #sucessPaymentModalButton></button>
+<button class="d-none" data-bs-toggle="modal" data-bs-target="#success-payment" #sucessPaymentModalButton></button>
 <div class="modal fade" id="success-payment" tabindex="-1" role="dialog" aria-hidden="true" data-bs-backdrop="static"
   data-bs-keyboard="false">
   <div class="modal-dialog modal-dialog-centered" style="max-width: 550px" role="document">
     <div class="modal-content">
-
-      <div class="modal-body d-flex align-items-center justify-content-center" style="height:500px;"
-        *ngIf="isUnderProcess">
-        <div class="spinner-border text-primary" role="status">
-          <span class="sr-only">Loading...</span>
+      <div class="modal-body d-flex align-items-center justify-content-center" style="height:500px;">
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Loading...</span>
         </div>
 
       </div>
@@ -1636,30 +1637,95 @@
 
 
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary " style="left: 50%;" data-bs-toggle="modal" data-bs-target="#loaderModal"
-  #loaderModalButton>
+<<<<<<< HEAD <button type="button" class="btn btn-primary " style="left: 50%;" data-bs-toggle="modal"
+  data-bs-target="#loaderModal" #loaderModalButton>
   Dues Paid Loader
-</button>
+  =======
+  <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#loaderModal"
+    #loaderModalButton>
+    Dues Paid Loader
+    >>>>>>> c407de0c3ba5394d862f37de64ff1252db8f1a03
+  </button>
 
-<!-- Modal -->
-<div class="modal fade" id="loaderModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="modal-body p-0" *ngIf="isUnderProcess">
-          <div class="spinner-border" role="status">
-            <span class="visually-hidden">Loading...</span>
-          </div>
+  <!-- Modal -->
+  <div class="modal fade" id="loaderModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-        Numquam omnis possimus placeat vitae aspernatur dolores at voluptate sit,
-        adipisci quas fugit dolor dicta reprehenderit earum excepturi, rem, recusandae aliquam delectus!
-      </div>
+        <div class="modal-body">
+          <div class="modal-body p-0" *ngIf="isUnderProcess">
+            <div class="spinner-border" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+          Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+          Numquam omnis possimus placeat vitae aspernatur dolores at voluptate sit,
+          adipisci quas fugit dolor dicta reprehenderit earum excepturi, rem, recusandae aliquam delectus!
+        </div>
 
+      </div>
     </div>
   </div>
-</div>
+
+  <!-- Request form -->
+
+  <button type="button" style="display: none" data-bs-toggle="modal" data-bs-target="#createRequest"
+    #createRequestButton id="createRequestButton"></button>
+  <div class="modal fade" id="createRequest" #createRequest tabindex="-1" aria-labelledby="exampleModalFullscreenLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title m-0">
+            Raise Request
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeRequestForm></button>
+        </div>
+        <!--end modal-header-->
+        <div class="modal-body">
+          <div class="containerhh">
+            <div class="form-group">
+              <label for="username" class="mb-2" style="font-size: 13px">Name</label>
+              <div class="input-group mb-3">
+                <input type="text" class="form-control input-zorro" name="name" id="name" placeholder='Enter name' />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="username" class="mb-2" style="font-size: 13px">Email</label>
+              <div class="input-group mb-3">
+                <input type="text" class="form-control input-zorro" name="email" id="email" placeholder='Enter email' />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="username" class="mb-2" style="font-size: 13px">Phone Number</label>
+              <div class="input-group mb-3">
+                <input type="text" class="form-control input-zorro" name="phone" id="phone" placeholder='Enter phone' />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="username" class="mb-2" style="font-size: 13px">Employee Count</label>
+              <div class="input-group mb-3">
+                <input type="text" class="form-control input-zorro" name="count" id="count"
+                  placeholder='Enter employee count' />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="username" class="mb-2" style="font-size: 13px">Description</label>
+              <div class="input-group mb-3">
+                <textarea class="form-control input-zorro" name="desc" id="desc"
+                  placeholder='Enter request description'></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary w-100 create-team">
+            Submit
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>

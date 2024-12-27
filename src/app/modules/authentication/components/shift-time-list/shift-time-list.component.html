@@ -96,8 +96,9 @@
                 <div class="">
                   <h6 class="text-truncate mb-0">Shifts</h6>
                 </div>
-                <div class="">
-                  <a class="add-shift-time-btn" routerLink="/organization-onboarding/add-shift-time">
+                <div >
+                  <!--  routerLink="/organization-onboarding/add-shift-time" -->
+                  <a class="add-shift-time-btn" [routerLink]="constant.ORG_ONBOARDING_ADD_SHIFT_TIME_ROUTE">
                     <i class="bi bi-plus-lg"></i>
                     Add Shift Time
                   </a>
@@ -954,7 +955,7 @@
         <div class="p-3 employee-list bg-white">
           <h4 class="mb-1">Employee List</h4>
 
-          <!-- <div>
+          <div *ngIf="isRemovingDuplicateUsers">
             <div>
               <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"></ngx-shimmer-loading>
             </div>
@@ -973,9 +974,9 @@
             <div>
               <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"></ngx-shimmer-loading>
             </div>
-          </div> -->
+          </div>
 
-          <div class="manualemployList" *ngIf="userNameWithShiftName?.length > 0">
+          <div class="manualemployList" *ngIf="userNameWithShiftName?.length > 0 && !isRemovingDuplicateUsers">
             <div class="d-flex align-items-center justify-content-between persnol-details userList p-0 pt-2 pb-2"
               *ngFor="let list of userNameWithShiftName">
               <div class="d-flex align-items-center gap-3 w-100">
@@ -988,7 +989,7 @@
                   <div class="d-flex align-items-center justify-content-between w-100">
                     <p class="mb-0 font-12">{{ list.userEmail || "N/A" }}</p>
                     <!-- <span class="spreter-line"></span> -->
-                    <span class="fw-semibold text-primary font-12"
+                    <span class="fw-semibold text-primary font-12 pointer"
                       (click)="removeUser(list.userUuid)"><span>{{constant.REMOVE_SHIFT_STRING}}</span> {{
                       list.shiftName }} </span>
                   </div>

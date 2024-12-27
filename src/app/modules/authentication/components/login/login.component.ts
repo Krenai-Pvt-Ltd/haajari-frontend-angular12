@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { ActivatedRoute, Router, RouterLink, RouterModule } from '@angular/router';
+import { Router, RouterLink, RouterModule } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Subscription, of, timer } from 'rxjs';
 import { catchError, switchMap, take, tap } from 'rxjs/operators';
@@ -9,15 +9,17 @@ import { Key } from 'src/app/constant/key';
 import { UserReq } from 'src/app/models/userReq';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
+import { OnboardingService } from 'src/app/services/onboarding.service';
 import { OrganizationOnboardingService } from 'src/app/services/organization-onboarding.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
+import { SubscriptionPlanService } from 'src/app/services/subscription-plan.service';
 
 @Component({
-  selector: 'app-sign-up',
-  templateUrl: './sign-up.component.html',
-  styleUrls: ['./sign-up.component.css'],
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css'],
 })
-export class SignUpComponent implements OnInit {
+export class LoginComponent implements OnInit {
   email: string = '';
   password: string = '';
   confirmPassword: string = '';
@@ -25,16 +27,15 @@ export class SignUpComponent implements OnInit {
   countDown: Subscription;
   counter: number = 10;
   tick = 1000;
-  promotionalOffer:string='';
-  readonly Constant = constant;
 
   constructor(
     private dataService: DataService,
     private router: Router,
     private rbacService: RoleBasedAccessControlService,
     private helperService: HelperService,
-    private _routeParams: ActivatedRoute,
-    private _onboardingService: OrganizationOnboardingService
+    private _onboardingService: OrganizationOnboardingService,
+    private _subscriptionService: SubscriptionPlanService,
+    private onboardingService: OnboardingService 
   ) {
     this.countDown = timer(0, this.tick)
       .pipe(take(this.counter))
@@ -44,16 +45,14 @@ export class SignUpComponent implements OnInit {
           this.countDown.unsubscribe();
         }
       });
-
-
-      if (this._routeParams.snapshot.queryParamMap.has('offer') && !this.Constant.EMPTY_STRINGS.includes(this._routeParams.snapshot.queryParamMap.get('offer'))) {
-        this.promotionalOffer = String(this._routeParams.snapshot.queryParamMap.get('offer'));
-        this.setCookie("promotionalOffer", this.promotionalOffer, 7);
-      }
   }
 
   ngOnInit(): void {
-    // this.getSlackAuthUrl();
+    // this.getSlackAuthUrlForSignInWithSlack();
+    const token = localStorage.getItem('token');
+    if (token) {
+      this.router.navigate(['/dashboard']);
+    }
   }
 
   otp: string = '';
@@ -74,90 +73,180 @@ export class SignUpComponent implements OnInit {
   ROLE: any;
   UUID: any;
 
-  // signIn() {
-
-  //   this.loginButtonLoader = true;
-  //   this.dataService.loginUser(this.email, this.password).subscribe(async response => {
-
-  //     console.log(response);
-  //     this.helperService.subModuleResponseList = response.subModuleResponseList;
-
-  //     localStorage.setItem('token', response.tokenResponse.access_token);
-  //     localStorage.setItem('refresh_token', response.tokenResponse.refresh_token);
-
-  //     this.ROLE = await this.rbacService.getRole();
-  //     this.UUID = await this.rbacService.getUuid();
-
-  //     if (this.ROLE === 'USER') {
-  //       this.router.navigate(['/employee-profile'], { queryParams: { userId: this.UUID, dashboardActive: 'true' } });
-  //     } else {
-  //       const helper = new JwtHelperService();
-  //       const onboardingStep = helper.decodeToken(response.tokenResponse.access_token).statusResponse;
-  //         if (onboardingStep == "5") {
-  //           this.router.navigate(['/dashboard']);
-  //         } else {
-  //           this.router.navigate(['/organization-onboarding/personal-information']);
-  //         }
-  //     }
-
-  //   }, (error) => {
-  //     console.log(error.error.message);
-  //     this.errorMessage = error.error.message;
-  //     this.loginButtonLoader = false;
-  //   })
-  // }
-
   signIn() {
+    debugger
     this.loginButtonLoader = true;
-    this.dataService
-      .loginUser(this.email, this.password)
-      .pipe(
-        tap((response) => {
-          // console.log(response);
-          this.helperService.subModuleResponseList =
-            response.subModuleResponseList;
-          localStorage.setItem('token', response.tokenResponse.access_token);
-          localStorage.setItem(
-            'refresh_token',
-            response.tokenResponse.refresh_token
-          );
-        }),
-        switchMap(() => this.rbacService.getRole()),
-        tap((ROLE) => {
-          this.ROLE = ROLE;
-        }),
-        switchMap(() => this.rbacService.getUUID()),
-        tap((UUID) => {
-          this.UUID = UUID;
+    this.dataService.loginUser(this.email, this.password).pipe(
+        tap(async (response) => {
 
-          if (this.ROLE === 'USER') {
-            this.router.navigate([Key.EMPLOYEE_PROFILE_ROUTE], {
-              queryParams: { userId: this.UUID, dashboardActive: 'true' },
-            });
-          } else {
-            const helper = new JwtHelperService();
-            const token = localStorage.getItem('token');
-            if (token != null) {
-              const onboardingStep = helper.decodeToken(token).statusResponse;
-              if (onboardingStep == '5') {
-                this.router.navigate(['/dashboard']);
-              } else {
-                this.router.navigate([
-                  '/organization-onboarding/personal-information'
-                ], { replaceUrl: true });
-              }
+          this.helperService.subModuleResponseList = response.subModuleResponseList;
+          localStorage.setItem('token', response.tokenResponse.access_token);
+          localStorage.setItem('refresh_token',response.tokenResponse.refresh_token);
+          
+          await this.rbacService.initializeUserInfo();
+          this.UUID=this.rbacService.userInfo.uuid;
+          this.ROLE = this.rbacService.userInfo.role;
+ 
+         if (this.ROLE === 'USER') {
+          await this.onboardingService.checkSubscriptionPlan();
+          this.helperService.orgStepId = 5;
+          this.onboardingService.isLoadingOnboardingStatus = false;
+          this.router.navigate([Key.EMPLOYEE_PROFILE_ROUTE], {
+            queryParams: { userId: this.UUID, dashboardActive: 'true' },
+          });
+        } else if (this.ROLE == 'HR ADMIN') {
+           this.router.navigate(['/employee-onboarding-data']);
+        }
+        else {
+          await this._subscriptionService.LoadAsync();
+          const helper = new JwtHelperService();
+          const token = localStorage.getItem('token');
+          if (token != null) {
+            const onboardingStep = helper.decodeToken(token).statusResponse;
+            this.helperService.orgStepId = onboardingStep;
+            if (onboardingStep < 5) {
+              // this.router.navigate(['/organization-onboarding/personal-information']);
+              this.router.navigate([constant.ORG_ONBOARDING_PERSONAL_INFORMATION_ROUTE]);
+
+              // return false;
+            } else {
+
+              if(this.rbacService.shouldDisplay('dashboard')){
+                this.router.navigate([constant.DASHBOARD_ROUTE]);
+            } else {
+              this.router.navigate([Key.EMPLOYEE_PROFILE_ROUTE], {
+                queryParams: { userId: this.UUID, dashboardActive: 'true' },
+              });
             }
           }
+          }
+        }
         }),
+
+        
+        switchMap(() => this.rbacService?.userInfo?.uuid),
         catchError((error) => {
-          console.log(error.error.message);
-          this.errorMessage = error.error.message;
+          console.log(error);
           this.loginButtonLoader = false;
           return of(null); // handle error appropriately
         })
       )
       .subscribe();
   }
+
+
+  // signIn() {
+  //   debugger
+  //   this.loginButtonLoader = true;
+  //   this.dataService
+  //     .loginUser(this.email, this.password)
+  //     .pipe(
+  //       tap(async (response) => {
+  //         console.log(response);
+  //         this.helperService.subModuleResponseList =
+  //           response.subModuleResponseList;
+  //         localStorage.setItem('token', response.tokenResponse.access_token);
+  //         localStorage.setItem(
+  //           'refresh_token',
+  //           response.tokenResponse.refresh_token
+  //         );
+  //        await this.rbacService.initializeUserInfo();
+  //        this.UUID=this.rbacService.userInfo.uuid
+  //       }),
+  //       switchMap(() => this.rbacService.getRole()),
+  //       tap((ROLE) => {
+  //         this.ROLE = ROLE;
+  //       }),
+  //       switchMap(() => this.rbacService!.userInfo!.uuid),
+  //       tap((UUID) => {
+  //         this.UUID = UUID;
+
+  //         if (this.ROLE === 'USER') {
+  //           this.router.navigate(['/employee-profile'], {
+  //             queryParams: { userId: this.UUID, dashboardActive: 'true' },
+  //           });
+  //         } else if (this.ROLE == 'HR ADMIN') {
+  //            this.router.navigate(['/employee-onboarding-data']);
+  //         } else {
+  //           const helper = new JwtHelperService();
+  //           const token = localStorage.getItem('token');
+  //           if (token != null) {
+  //             const onboardingStep = helper.decodeToken(token).statusResponse;
+  //             if (onboardingStep == '5') {
+  //               this.router.navigate(['/dashboard']);
+  //             } else {
+  //               this.router.navigate([
+  //                 '/organization-onboarding/personal-information',
+  //               ]);
+  //             }
+  //           }
+  //         }
+  //       }),
+  //       catchError((error) => {
+  //         console.log(error);
+  //         // this.errorMessage = error.error.message;
+  //         this.loginButtonLoader = false;
+  //         return of(null); // handle error appropriately
+  //       })
+  //     )
+  //     .subscribe();
+  // }
+  // signIn2() {
+  //   debugger
+  //   this.loginButtonLoader = true;
+  //   this.dataService
+  //     .loginUser(this.email, this.password)
+  //     .pipe(
+  //       tap(async (response) => {
+  //         console.log(response);
+  //         this.helperService.subModuleResponseList =
+  //           response.subModuleResponseList;
+
+  //         localStorage.setItem('token', response.tokenResponse.access_token);
+  //         localStorage.setItem(
+  //           'refresh_token',
+  //           response.tokenResponse.refresh_token
+  //         );
+  //         await this.rbacService.initializeUserInfo();
+
+  //       }),
+  //       switchMap(() => this.rbacService.getRole()),
+  //       tap((ROLE) => {
+  //         this.ROLE = ROLE;
+  //       }),
+  //       switchMap(() => this.rbacService.getUUID()),
+  //       tap((UUID) => {
+  //         this.UUID = UUID;
+
+  //         if (this.ROLE === 'USER') {
+  //           this.router.navigate(['/employee-profile'], {
+  //             queryParams: { userId: this.UUID, dashboardActive: 'true' },
+  //           });
+  //         } else if (this.ROLE == 'HR ADMIN') {
+  //            this.router.navigate(['/employee-onboarding-data']);
+  //         } else {
+  //           const helper = new JwtHelperService();
+  //           const token = localStorage.getItem('token');
+  //           if (token != null) {
+  //             const onboardingStep = helper.decodeToken(token).statusResponse;
+  //             if (onboardingStep == '5') {
+  //               this.router.navigate(['/dashboard']);
+  //             } else {
+  //               this.router.navigate([
+  //                 '/organization-onboarding/personal-information',
+  //               ]);
+  //             }
+  //           }
+  //         }
+  //       }),
+  //       catchError((error) => {
+  //         this.errorMessage = error.error.message;
+  //         this.loginButtonLoader = false;
+  //         return of(null); // handle error appropriately
+  //       })
+  //     )
+  //     .subscribe();
+  // }
 
   enableBack: boolean = false;
   signInWithEmail() {
@@ -173,15 +262,14 @@ export class SignUpComponent implements OnInit {
   }
 
   signInWithWhatsapp() {
-    // this.showOtpInput = false;
-    // this.enableBack = true;
-    // this.isEmailLogin = false;
-    // this.isWhatsappLogin = true;
-    // this.phoneNumber = '';
-    // this.isOtpVerify = false;
-    // this.otpErrorMessage = '';
-    // this.errorMessage = '';
-    this.router.navigate(['/auth/onboarding-whatapp'], { replaceUrl: true });
+    this.showOtpInput = false;
+    this.enableBack = true;
+    this.isEmailLogin = false;
+    this.isWhatsappLogin = true;
+    this.phoneNumber = '';
+    this.isOtpVerify = false;
+    this.otpErrorMessage = '';
+    this.errorMessage = '';
   }
 
   redirectToRegister() {
@@ -191,6 +279,7 @@ export class SignUpComponent implements OnInit {
   ngAfterViewInit() {
     this.autoplayVideo();
   }
+  
 
   autoplayVideo() {
     var div = document.getElementById('videoId');
@@ -229,6 +318,7 @@ export class SignUpComponent implements OnInit {
   createPasswordFlag: boolean = false;
   otpErrorMessage: string = '';
   verifyOtp() {
+    debugger
     if (this.isWhatsappLogin) {
       this.verifyOtpByWhatsappMethodCall();
     } else {
@@ -431,6 +521,7 @@ export class SignUpComponent implements OnInit {
               response.object.tokenResponse.refresh_token
             );
             await this.rbacService.initializeUserInfo();
+            await this._subscriptionService.LoadAsync();
             const helper = new JwtHelperService();
             const onboardingStep = helper.decodeToken(
               response.object.tokenResponse.access_token
@@ -441,13 +532,17 @@ export class SignUpComponent implements OnInit {
             if (role == 'ADMIN') {
               if (onboardingStep == '5') {
                 this.router.navigate(['/dashboard']);
+
               } else {
+                // this.router.navigate([
+                //   '/organization-onboarding/personal-information',
+                // ]);
                 this.router.navigate([
-                  '/organization-onboarding/personal-information'
-                ], { replaceUrl: true });
+                  constant.ORG_ONBOARDING_PERSONAL_INFORMATION_ROUTE
+                ]);
               }
             } else {
-              this.router.navigate(['/dashboard']);
+              this.router.navigate([constant.DASHBOARD_ROUTE]);
             }
           } else {
             this.isOtpVerify = true;
@@ -505,11 +600,24 @@ export class SignUpComponent implements OnInit {
     }, 1000);
   }
 
+  @ViewChild('otp1Input') otp1Input!: ElementRef<HTMLInputElement>;
   changeNumber() {
     this.showOtpInput = false;
     this.verifyOtpButtonFlag = false;
     this.phoneNumber = '';
     this.email = '';
+    this.focusOnFirstInput();
+    // if (this.firstOtpInput) {
+    //   this.firstOtpInput.nativeElement.focus();
+    // }
+    
+    // this.activeInputIndex = 1;
+  }
+
+  focusOnFirstInput() {
+    setTimeout(() => {
+      this.otp1Input.nativeElement.focus(); 
+    }, 0); 
   }
 
   backToLogin() {
@@ -518,17 +626,17 @@ export class SignUpComponent implements OnInit {
     this.isEmailLogin = false;
     this.showOtpInput = false;
   }
+
+
   authUrl: string = '';
   workspaceUrl: string = '';
   workspaceName: string = '';
-  // getSlackAuthUrl(event: MouseEvent): void {
+  // getSlackAuthUrl(): void {
   //   debugger;
-  //   event.preventDefault(); // Prevent default anchor behavior
   //   this.dataService.getSlackAuthUrl().subscribe(
   //     (response: any) => {
   //       this.authUrl = response.message;
   //       console.log('authUrl' + this.authUrl);
-  //       window.open(this.authUrl);
   //     },
   //     (error) => {
   //       console.error('Error fetching Slack auth URL', error);
@@ -536,24 +644,24 @@ export class SignUpComponent implements OnInit {
   //   );
   // }
 
-  getSlackAuthUrl(event: MouseEvent): void {
+
+  getSlackAuthUrlForSignInWithSlack(event: MouseEvent): void {
     event.preventDefault(); // Prevent default anchor behavior
 
-    this.dataService.getSlackAuthUrl().subscribe(
+    this.dataService.getSlackAuthUrlForSignInWithSlack().subscribe(
       (response: any) => {
         this.authUrl = response.message;
         // console.log('authUrl: ' + this.authUrl);
 
-        // // Traverse up the DOM to find the closest anchor element
-        // const target = event.target as HTMLElement;
-        // const anchor = target.closest('a') as HTMLAnchorElement;
+        // Traverse up the DOM to find the closest anchor element
+        const target = event.target as HTMLElement;
+        const anchor = target.closest('a') as HTMLAnchorElement;
 
-        // if (anchor) {
-        //   anchor.href = this.authUrl;
-        //   // Redirect in the same tab
-        //   window.location.href = this.authUrl;
-        // }
-        window.location.href = this.authUrl;
+        if (anchor) {
+          anchor.href = this.authUrl;
+          // Redirect in the same tab
+          window.location.href = this.authUrl;
+        }
       },
       (error) => {
         console.error('Error fetching Slack auth URL', error);
@@ -561,6 +669,7 @@ export class SignUpComponent implements OnInit {
     );
   }
 
+  //  previous
   // getSlackAuthUrlForSignInWithSlack(): void {
   //   debugger;
   //   this.dataService.getSlackAuthUrlForSignInWithSlack().subscribe(
@@ -583,52 +692,76 @@ export class SignUpComponent implements OnInit {
   }
 
 
-  setCookie(name:string, value:string, days:number) {
-    let expires = "";
-    if (days) {
-        const date = new Date();
-        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000)); // convert days to milliseconds
-        expires = "; expires=" + date.toUTCString();
-    }
-    document.cookie = name + "=" + (value || "") + expires + "; path=/";
-  }
+  otp1: string = '';
+  otp2: string = '';
+  otp3: string = '';
+  otp4: string = '';
+  otp5: string = '';
+  otp6: string = '';
+  activeInputIndex: number = 1;
+  isPasting: boolean = false;
 
+
+   moveToNext(event: any, nextInput: any, index: number) {
+
+    if(this.isPasting) {
+      return;
+    }
+   
+    const input = event.target;
+    const value = input.value;
   
-@ViewChild('close_button') close_button!: ElementRef;
-  @ViewChild('videoIframe', { static: false }) youtubeIframe:
-    | ElementRef<HTMLIFrameElement>
-    | undefined;
-
-  // Stops or pauses the video when modal closes
-  stopVideo(): void {
-    this.close_button.nativeElement.click();
-
-    if (this.youtubeIframe) {
-      // Ensure that contentWindow is correctly typed
-      const iframeWindow = (
-        this.youtubeIframe.nativeElement as HTMLIFrameElement
-      ).contentWindow;
-
-      const iframeElement = this.youtubeIframe.nativeElement as HTMLIFrameElement;
-      iframeElement.src = '';
+   
+    if (value.length >= 1 && nextInput) {
+      nextInput.focus();
+      this.activeInputIndex = index;
     }
+  
     
+    this.otp = this.otp1 + this.otp2 + this.otp3 + this.otp4 + this.otp5 + this.otp6;
+  
+   
+    this.onOtpChange(this.otp);
   }
+  
+  // Handle backspace navigation
+  moveToPrevious(event: any, previousInput: any, index: number) {
 
-
-
-  setSrc(){
-    if (this.youtubeIframe) {
-    const iframeElement = this.youtubeIframe.nativeElement as HTMLIFrameElement;
-      iframeElement.src = 'https://www.youtube.com/embed/jh7-qF48ANk?si=WJvojNbQucaWaknY';
+    this.otpErrorMessage = '';
+    const input = event.target;
+    if (event.key === 'Backspace' && input.value === '' && previousInput) {
+      previousInput.focus();
+      this.activeInputIndex = index;
     }
+  
+   
+    this.otp = this.otp1 + this.otp2 + this.otp3 + this.otp4 + this.otp5 + this.otp6;
+    
+    
+    this.onOtpChange(this.otp);
   }
 
-  // Call this method when modal closes to stop the video
-  onModalClose(): void {
-    this.stopVideo();
-    // this.pauseYouTubeVideo();
+  handleOtpPaste(event: ClipboardEvent) {
+    this.isPasting = true;
+    // console.log('pasteevent :' + event);
+    const clipboardData = event.clipboardData;
+    const pastedData = clipboardData?.getData('text');
+    
+    if (pastedData && pastedData.length === 6) {
+      this.otp1 = pastedData[0];
+      this.otp2 = pastedData[1];
+      this.otp3 = pastedData[2];
+      this.otp4 = pastedData[3];
+      this.otp5 = pastedData[4];
+      this.otp6 = pastedData[5];
+  
+      this.activeInputIndex = 6;  
+  
+
+      this.onOtpChange(this.otp1 + this.otp2 + this.otp3 + this.otp4 + this.otp5 + this.otp6);
+    }
+    this.debounceTimer = setTimeout(() => {
+     this.isPasting = false;
+    }, 500);
   }
 }
-
-

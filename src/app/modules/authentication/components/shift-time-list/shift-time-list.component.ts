@@ -21,7 +21,7 @@ export class ShiftTimeListComponent implements OnInit {
   defaultStartLunchOpenTime: Date = new Date();
   defaultEndLunchOpenTime: Date = new Date();
 
-  readonly constant = constant;
+ public readonly constant = constant;
   constructor(
     private dataService: DataService,
     private router: Router,
@@ -55,8 +55,9 @@ export class ShiftTimeListComponent implements OnInit {
     this.dataService.shiftTimingExists().subscribe(
       (response: any) => {
         if (!response.object) {
-          // this.router.navigate(['/organization-onboarding/add-shift-time']);
-          this.router.navigate(['/organization-onboarding/add-shift-placeholder']);
+          // this.router.navigate(['/organization-onboarding/add-shift-placeholder']);
+          this.router.navigate([constant.ORG_ONBOARDING_SHIFT_TIME_PLACEHOLDER_ROUTE]);
+
         }
       },
       (error) => {}
@@ -733,6 +734,8 @@ calculateTimes(): void {
   getOrganizationUserNameWithShiftNameData(shiftId : number, type:string) {
     this.dataService.getOrganizationUserNameWithShiftName(this.selectedStaffsUuids, shiftId).subscribe(
       (response) => {
+        this.isRemovingDuplicateUsers=false;
+
         this.userNameWithShiftName = response.listOfObject;
         if( this.userNameWithShiftName.length <1 && type == "SHIFT_USER_EDIT") {
           this.closeButton3.nativeElement.click();
@@ -749,9 +752,12 @@ calculateTimes(): void {
     this.isValidated ? false : true;
   }
 
+  isRemovingDuplicateUsers:boolean=true;
+
   @ViewChild("closeButton3") closeButton3!:ElementRef;
   removeUser(uuid: string) {
    debugger
+   this.isRemovingDuplicateUsers=true;
     this.selectedStaffsUuids = this.selectedStaffsUuids.filter(id => id !== uuid);
 
     this.staffs.forEach((staff) => {
