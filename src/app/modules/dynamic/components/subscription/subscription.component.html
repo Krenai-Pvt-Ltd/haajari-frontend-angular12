@@ -1445,14 +1445,16 @@
   </div>
 </div>
 
-<button class="d-none" data-bs-toggle="modal" data-bs-target="#success-payment" #sucessPaymentModalButton></button>
+<button data-bs-toggle="modal" data-bs-target="#success-payment" #sucessPaymentModalButton></button>
 <div class="modal fade" id="success-payment" tabindex="-1" role="dialog" aria-hidden="true" data-bs-backdrop="static"
   data-bs-keyboard="false">
   <div class="modal-dialog modal-dialog-centered" style="max-width: 550px" role="document">
     <div class="modal-content">
-      <div class="modal-body p-0" *ngIf="isUnderProcess">
-        <div class="spinner-border" role="status">
-          <span class="visually-hidden">Loading...</span>
+
+      <div class="modal-body d-flex align-items-center justify-content-center" style="height:500px;"
+        *ngIf="isUnderProcess">
+        <div class="spinner-border text-primary" role="status">
+          <span class="sr-only">Loading...</span>
         </div>
 
       </div>
@@ -1634,7 +1636,7 @@
 
 
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#loaderModal"
+<button type="button" class="btn btn-primary " style="left: 50%;" data-bs-toggle="modal" data-bs-target="#loaderModal"
   #loaderModalButton>
   Dues Paid Loader
 </button>

@@ -146,9 +146,11 @@
   width: 18px;
 }
 
+
 .sideBarStep-one {
   border-left: 4px solid #6666f2;
-  min-height: 18vh;
+  /* min-height: 16%; */
+  min-height: calc(13% + 100px);
   position: absolute;
   left: 0px;
   top: 0px;
@@ -156,16 +158,23 @@
 }
 
 .sideBarStep-two {
-  min-height: 25vh;
+  min-height: calc(20% + 100px);
+
 }
 
 .sideBarStep-three {
-  min-height: 30vh;
+  min-height: calc(25% + 100px);
+
 }
 
 .sideBarStep-four {
-  min-height: 35vh;
+  min-height: calc(30% + 100px);
+
 }
+
+
+
+
 
 .pending-step h5 svg {
   width: 15px;
