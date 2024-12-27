@@ -1,8 +1,8 @@
-export class constant{
+export class constant {
 
     static EMPTY_STRINGS = [null, undefined, '', 'N/A', 'n/a', ' ', 'null', 'undefined'];
 
-    public static ALLOWED_BULK_UPLOAD_FORMATS=['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet','application/vnd.ms-excel'];
+    public static ALLOWED_BULK_UPLOAD_FORMATS = ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel'];
 
     public static DOC_TYPE_EMPLOYEE_AGREEMENT='employee_agreement';
     public static DOC_TYPE_COMPANY='company_doc';
@@ -21,10 +21,12 @@ export class constant{
     /**
      * ONBOARDING ROUTES START
      */
-    public static ORG_ONBOARDING_PERSONAL_INFORMATION_ROUTE = "/organization-onboarding/personal-information";
-    public static ORG_ONBOARDING_EMPLOYEE_CREATION_ROUTE = "/organization-onboarding/upload-team";
-    public static ORG_ONBOARDING_SHIFT_TIME_ROUTE = "/organization-onboarding/shift-time-list";
-    public static ORG_ONBOARDING_ATTENDANCE_MODE_ROUTE = "/organization-onboarding/attendance-mode";
+    public static ORG_ONBOARDING_PERSONAL_INFORMATION_ROUTE = "/auth/personal-information";
+    public static ORG_ONBOARDING_EMPLOYEE_CREATION_ROUTE = "/auth/upload-team";
+    public static ORG_ONBOARDING_SHIFT_TIME_ROUTE = "/auth/shift-time-list";
+    public static ORG_ONBOARDING_SHIFT_TIME_PLACEHOLDER_ROUTE = "/auth/add-shift-placeholder";
+    public static ORG_ONBOARDING_ATTENDANCE_MODE_ROUTE = "/auth/attendance-mode";
+    public static ORG_ONBOARDING_ADD_SHIFT_TIME_ROUTE ="/auth/add-shift-time";
     public static DASHBOARD_ROUTE = "/dashboard";
     public static SETTING_SUBSCRIPTION_ROUTE = "/setting/subscription";
     public static LOGIN_ROUTE = "/auth/login";
@@ -38,7 +40,7 @@ export class constant{
     public static PUBLIC_SLACK_INSTALL_SUCCESS ="/additional/slack-installation-successfull";
     public static PUBLIC_SERVER_ERROR="/additional/internal-server-error";
 
-    public static ONBOARDING_ROUTES =[constant.ORG_ONBOARDING_PERSONAL_INFORMATION_ROUTE, constant.ORG_ONBOARDING_EMPLOYEE_CREATION_ROUTE, constant.ORG_ONBOARDING_SHIFT_TIME_ROUTE,
+    public static ONBOARDING_ROUTES = [constant.ORG_ONBOARDING_PERSONAL_INFORMATION_ROUTE, constant.ORG_ONBOARDING_EMPLOYEE_CREATION_ROUTE, constant.ORG_ONBOARDING_SHIFT_TIME_ROUTE,
     constant.ORG_ONBOARDING_ATTENDANCE_MODE_ROUTE
     ]
 

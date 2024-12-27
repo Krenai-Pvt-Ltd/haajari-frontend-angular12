@@ -24,7 +24,9 @@ export class HelperService {
      ) { 
       // this.getOrganizationInitialToDoStepBar();
      }
-  
+  // use for employee profile 
+   userJoiningDate:string='';
+  // use for employee profile 
    organizationRegistrationDate:string='';
    profileChangeStatus : Subject<boolean> = new Subject<boolean>();
    resignationSubmitted : Subject<boolean> = new Subject<boolean>();

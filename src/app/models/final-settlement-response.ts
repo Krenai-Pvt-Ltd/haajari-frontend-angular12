@@ -2,14 +2,13 @@ import { PayActionType } from "./pay-action-type";
 
 export class FinalSettlementResponse {
 
-    id:number=0;
-    userName:string='';
-    uuid : string = ''
+    monthId:number=0;
+    name:string='';
     email:string='';
     phone:string='';
-    createdDate:string='';
+    resignDate:string='';
     lastWorkingDate:string='';
     fnfDate:string='';
-    status:any;
-    payActionTypeId:number=0;
+    statusId:number=0;
+    payActionId:number=0;
 }
