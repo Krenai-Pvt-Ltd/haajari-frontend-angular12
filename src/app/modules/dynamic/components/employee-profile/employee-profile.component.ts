@@ -2251,7 +2251,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
         this.dataNotFoundPlaceholderForEmployeePayslipBreakupResponse = true;
         this.employeePayslipBreakupResponseList = [];
       } else{
-        this.employeePayslipBreakupResponseList = response.listOfObject;
+        this.employeePayslipBreakupResponseList = response.object;
       }
 
       this.isShimmerForEmployeePayslipBreakupResponse = true;
