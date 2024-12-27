@@ -181,13 +181,21 @@ export class UploadTeamComponent implements OnInit {
   // }
 
   selectFile(event: any) {
+    // console.log("🚀 ~ UploadTeamComponent ~ selectFile ~ event:", event)
+    // console.log("🚀 ~ UploadTeamComponent ~ selectFile ~ event.target.files && event.target.files.length > 0):", (event.target.files && event.target.files.length > 0))
+
     if (event.target.files && event.target.files.length > 0) {
       const file = event.target.files[0];
       this.currentFileUpload = file;
       this.fileName = file.name;
       this.uploadUserFile(file, this.fileName);
+
+      // Reset the file input to allow selecting the same file again
+      event.target.value = '';
     }
   }
+
+  @ViewChild('closeButtonExcelModal2') closeButtonExcelModal2!: ElementRef;
 
   importToggle: boolean = false;
   isProgressToggle: boolean = false;
@@ -234,12 +242,14 @@ export class UploadTeamComponent implements OnInit {
         }
         this.getOrgExcelLogLink();
         // this.importToggle = false;
+        this.closeButtonExcelModal2.nativeElement.click();
       },
       (error) => {
         this.importToggle = true;
         this.isErrorToggle = true;
         this.isProgressToggle = false;
         this.errorMessage = error.error.message;
+        this.closeButtonExcelModal2.nativeElement.click();
       }
     );
   }

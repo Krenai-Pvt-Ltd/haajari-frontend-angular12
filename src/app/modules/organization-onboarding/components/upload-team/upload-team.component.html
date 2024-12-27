@@ -374,7 +374,26 @@
                       </div>
 
                       <div class="d-flex gap-3">
-                        <input #fileInput id="fileSelect" type="file" name="img[]"
+
+                       
+                          <button class="btn p-0 text-primary fw-semibold" type="button" data-bs-toggle="modal"
+                            data-bs-target="#sampleFileModal2" [disabled]="isProgressToggle || percentage > 0">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            *ngIf="!isProgressToggle">
+                            <mask id="mask0_1549_4381" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                              width="24" height="24">
+                              <rect width="24" height="24" fill="#D9D9D9" />
+                            </mask>
+                            <g mask="url(#mask0_1549_4381)">
+                              <path
+                                d="M8 18H16V16H8V18ZM8 14H16V12H8V14ZM6 22C5.45 22 4.97917 21.8042 4.5875 21.4125C4.19583 21.0208 4 20.55 4 20V4C4 3.45 4.19583 2.97917 4.5875 2.5875C4.97917 2.19583 5.45 2 6 2H14L20 8V20C20 20.55 19.8042 21.0208 19.4125 21.4125C19.0208 21.8042 18.55 22 18 22H6ZM13 9V4H6V20H18V9H13Z"
+                                fill="#6666F2" />
+                            </g>
+                          </svg>  
+                          Excel Upload
+                          </button>
+                       
+                        <!-- <input #fileInput id="fileSelect" type="file" name="img[]"
                           accept=".xlsx,application/vnd.ms-excel" class="input" style="display: none"
                           (change)="selectFile($event)" />
                         <button type="button" class="btn add-excel" (click)="fileInput.click()"
@@ -394,16 +413,8 @@
 
                           <div *ngIf="isProgressToggle" class="spinner-border text-primary excel-spinner" role="status">
                           </div>
-                          <!-- <div
-                          *ngIf="isProgressToggle"
-                          class="text-primary excel-spinner"
-                        >
-                         {{percentage}}
-                         </div> -->
-
-                          <!-- <span class="request-count d-flex align-items-center justify-content-center" *ngIf="isProgressToggle">{{percentage}}</span> -->
                           Excel Upload
-                        </button>
+                        </button> -->
 
                         <span class="spreter"></span>
                         <button type="button" class="btn add-excel" data-bs-toggle="modal"
@@ -1537,6 +1548,75 @@
             </button>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--  new modal to download excel  -->
+
+
+
+
+<!-- Trigger Button for Modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#sampleFileModal2"
+  id="uploadMembersModal" #sampleFileModalButton>
+  Open Sample File Modal
+</button>
+<!-- Modal -->
+<div class="modal fade" id="sampleFileModal2" tabindex="-1" aria-labelledby="sampleFileModalLabel" aria-hidden="true"
+  #sampleFileModal2>
+  <div class="modal-dialog modal-xl" style="max-width: 1400px !important;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="sampleFileModalLabel">Sample Excel File</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+          #closeButtonExcelModal2></button>
+      </div>
+      <div class="modal-body">
+        <ng-container>
+          <div class="col-md-12">
+            <div class="card-body mt-0 p-0">
+              <div class="alert alert-light mb-0" role="alert">
+                <h4 class="alert-heading font-18">
+                  Download the Sample Excel File!
+                </h4>
+                <p>
+                  Look for the sample file titled "Sample_Data.xlsx" and click
+                  on the download button to save it to your computer.
+                </p>
+                <p>
+                  Take a moment to review the existing data in the Excel file.
+                  This will help you understand the structure and content of the
+                  data before making any updates.
+                </p>
+                <p>
+                  <span class="text-primary">
+                    <u><a class="text-primary" href="{{ sampleFileUrl }}">Download a sample Excel file</a></u>
+                  </span>
+                  , update its data, and upload it back with the updated content
+                  on our platform
+                </p>
+              </div>
+            </div>
+            <div class="card-body mt-3 p-0">
+              <div class="alert alert-light mb-0 excel-uplode-file-box text-center" style="border: 2px dashed #dddd">
+                <input id="fileSelect" type="file" name="img[]" accept=".xlsx, application/vnd.ms-excel" class="input"
+                  (change)="selectFile($event)" />
+                <img src="assets/images/excel.svg" style="width: 50px" class="pb-3" />
+                <p>
+                  Drag file here to upload or,
+                  <u><a class="text-primary" href="#!">Choose file</a></u>
+                </p>
+                <div *ngIf="isProgressToggle" class="spinner-border text-success" role="status">
+
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </ng-container>
       </div>
     </div>
   </div>

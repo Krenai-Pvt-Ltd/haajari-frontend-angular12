@@ -682,7 +682,7 @@
                       
                             <span class="saperater-border mt-4 mb-4"></span>
                       
-                            <button class="btn change-plan w-100 mb-4">
+                            <button class="btn change-plan w-100 mb-4" data-bs-toggle="modal" data-bs-target="#createRequest">
                               Request
                             </button>
                       
@@ -2126,6 +2126,69 @@ Dues Paid Loader
          adipisci quas fugit dolor dicta reprehenderit earum excepturi, rem, recusandae aliquam delectus!
       </div>
       
+    </div>
+  </div>
+</div>
+
+<!-- Request form -->
+
+<button type="button" style="display: none" data-bs-toggle="modal" data-bs-target="#createRequest" #createRequestButton
+  id="createRequestButton"></button>
+<div class="modal fade" id="createRequest" #createRequest tabindex="-1" aria-labelledby="exampleModalFullscreenLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title m-0" >
+          Raise Request
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeRequestForm></button>
+      </div>
+      <!--end modal-header-->
+      <div class="modal-body">
+        <div class="containerhh">
+                  <div class="form-group">
+                    <label for="username" class="mb-2" style="font-size: 13px">Name</label>
+                    <div class="input-group mb-3">
+                      <input type="text" class="form-control input-zorro" name="name" id="name"
+                        placeholder='Enter name' />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="username" class="mb-2" style="font-size: 13px">Email</label>
+                    <div class="input-group mb-3">
+                      <input type="text" class="form-control input-zorro" name="email" id="email"
+                        placeholder='Enter email' />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="username" class="mb-2" style="font-size: 13px">Phone Number</label>
+                    <div class="input-group mb-3">
+                      <input type="text" class="form-control input-zorro" name="phone" id="phone"
+                        placeholder='Enter phone'/>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="username" class="mb-2" style="font-size: 13px">Employee Count</label>
+                    <div class="input-group mb-3">
+                      <input type="text" class="form-control input-zorro" name="count" id="count"
+                        placeholder='Enter employee count' />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="username" class="mb-2" style="font-size: 13px">Description</label>
+                    <div class="input-group mb-3">
+                        <textarea class="form-control input-zorro" name="desc" id="desc"
+                        placeholder='Enter request description'></textarea>
+                    </div>
+                  </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button"  class="btn btn-primary w-100 create-team">
+          Submit
+        </button>
+      </div>
     </div>
   </div>
 </div>
