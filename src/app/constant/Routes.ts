@@ -6,6 +6,7 @@ export class Routes {
     public static SIGNUP = "/auth/signup";
     public static SLACK_AUTH = "/auth/slackauth";
     public static SLACK_SIGN_IN = "/auth/sign-in-with-slack";
+    public static ONBOARDING_WHATSAPP ="/auth/onboarding-whatapp"
 
     /**
     * LOGIN ROUTES END
@@ -19,5 +20,5 @@ export class Routes {
         '/auth/shift-time-list', '/auth/add-shift-placeholder'];
 
 
-    static LOGIN_ROUTES = [Routes.LOGIN,Routes.SIGNUP,Routes.SLACK_AUTH,Routes.SLACK_SIGN_IN ]
+    static LOGIN_ROUTES = [Routes.LOGIN,Routes.SIGNUP,Routes.SLACK_AUTH,Routes.SLACK_SIGN_IN ,Routes.ONBOARDING_WHATSAPP]
 }
