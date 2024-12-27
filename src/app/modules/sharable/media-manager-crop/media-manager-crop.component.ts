@@ -22,7 +22,7 @@ import { finalize } from 'rxjs/operators';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 
 import { constant } from 'src/app/constant/constant';
-import { OrganizationPersonalInformationComponent } from '../../organization-onboarding/components/organization-personal-information/organization-personal-information.component';
+import { OrganizationPersonalInformationComponent } from '../../authentication/components/organization-personal-information/organization-personal-information.component';
 // import { Constant } from 'src/app/constants/Constants';
 // import { SharedService } from 'src/app/services/data-sharing/shared.service';
 // import { AuthenticationService } from 'src/app/services/-authentication.service';

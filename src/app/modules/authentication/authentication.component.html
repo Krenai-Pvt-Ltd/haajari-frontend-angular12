@@ -1,1 +1,13 @@
-<router-outlet></router-outlet>
+<!-- <router-outlet></router-outlet> -->
+<div class="container-scroller"
+    *ngIf="(key.ORGANIZATION_ONBOARDING_SIDEBAR_ROUTES.includes(this._router.url.split('?')[0]))">
+    <div class="horizontal-menu">
+        <app-organization-onboarding-sidebar></app-organization-onboarding-sidebar>
+    </div>
+</div>
+
+
+<router-outlet  *ngIf="(this.helperService.orgStepId  && !onboardingService.isLoadingOnboardingStatus)||(Routes.LOGIN_ROUTES.includes(this._router.url.split('?')[0]))"></router-outlet>
+
+<app-hajiri-page-loader *ngIf="(!this.helperService.orgStepId  || onboardingService.isLoadingOnboardingStatus)&& !(Routes.LOGIN_ROUTES.includes(this._router.url.split('?')[0]))">
+</app-hajiri-page-loader>

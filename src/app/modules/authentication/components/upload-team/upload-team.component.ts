@@ -1,18 +1,14 @@
 import { Location } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {
-  FormArray,
   FormBuilder,
   FormGroup,
   NgForm,
-  Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { error } from 'console';
 import { Key } from 'src/app/constant/key';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { UserListReq } from 'src/app/models/UserListReq';
-import { User } from 'src/app/models/user';
 import { UserReq } from 'src/app/models/userReq';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
@@ -26,10 +22,10 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { LeaveSettingComponent } from 'src/app/modules/setting/components/leave-setting/leave-setting.component';
 import { AttendanceSettingComponent } from 'src/app/modules/setting/components/attendance-setting/attendance-setting.component';
 import { TeamComponent } from 'src/app/modules/dynamic/components/team/team.component';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import * as uuid from 'uuid';
+import { constant } from 'src/app/constant/constant';
 
 export interface Team {
   label: string;
@@ -820,11 +816,13 @@ export class UploadTeamComponent implements OnInit {
     });
 
     if (this.shiftTimingExists) {
-      this._router.navigate(['/organization-onboarding/shift-time-list']);
+      // this._router.navigate(['/organization-onboarding/shift-time-list']);
+
+      this._router.navigate([constant.ORG_ONBOARDING_SHIFT_TIME_ROUTE]);
     } else {
-      // this._router.navigate(['/organization-onboarding/add-shift-time']);
-      this._router.navigate(['/organization-onboarding/add-shift-placeholder']);
-      //  routerLink="/organization-onboarding/add-shift-placeholder"
+      // this._router.navigate(['/organization-onboarding/add-shift-placeholder']);
+      this._router.navigate([constant.ORG_ONBOARDING_SHIFT_TIME_PLACEHOLDER_ROUTE]);
+
     }
 
     // this._onboardingService.refreshOnboarding();

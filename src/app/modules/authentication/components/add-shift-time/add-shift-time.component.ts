@@ -10,7 +10,6 @@ import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { OrganizationOnboardingService } from 'src/app/services/organization-onboarding.service';
 import { constant } from 'src/app/constant/constant';
-import { N } from '@fullcalendar/core/internal-common';
 
 @Component({
   selector: 'app-add-shift-time',
@@ -67,14 +66,14 @@ export class AddShiftTimeComponent implements OnInit {
     debugger;
     await this.checkShiftTimingExists();
     if (this.shiftTimingExists) {
-      this.router.navigate(['/organization-onboarding/shift-time-list']);
+      constant.ORG_ONBOARDING_SHIFT_TIME_ROUTE
+      this.router.navigate([constant.ORG_ONBOARDING_SHIFT_TIME_ROUTE]);
     } else {
-      // this._router.navigate(['/organization-onboarding/add-shift-time']);
-      this.router.navigate(['/organization-onboarding/add-shift-placeholder']);
-      //  routerLink="/organization-onboarding/add-shift-placeholder"
+      // this.router.navigate(['/auth/add-shift-placeholder']);
+      this.router.navigate([constant.ORG_ONBOARDING_SHIFT_TIME_PLACEHOLDER_ROUTE]);
+
     }
 
-    // this._onboardingService.refreshOnboarding();
   }
 
   shiftTimingExists = false;
@@ -215,7 +214,7 @@ export class AddShiftTimeComponent implements OnInit {
           //   'Shift Timing registered successfully',
           //   Key.TOAST_STATUS_SUCCESS
           // );
-          this.router.navigate(['/organization-onboarding/shift-time-list']);
+          this.router.navigate([constant.ORG_ONBOARDING_SHIFT_TIME_ROUTE]);
         },
         (error) => {
           this.isRegisterLoad = false;

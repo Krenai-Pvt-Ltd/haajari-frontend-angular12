@@ -11,7 +11,7 @@ import {
 } from 'ngx-image-cropper';
 import { Key } from 'src/app/constant/key';
 
-import { OrganizationPersonalInformation, OrganizationPersonalInformationMain } from 'src/app/models/organization-personal-information';
+import { OrganizationPersonalInformationMain } from 'src/app/models/organization-personal-information';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { OrganizationOnboardingService } from 'src/app/services/organization-onboarding.service';

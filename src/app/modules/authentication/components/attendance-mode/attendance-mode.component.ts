@@ -3,6 +3,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
+import { constant } from 'src/app/constant/constant';
 import { Key } from 'src/app/constant/key';
 import { AttendanceMode } from 'src/app/models/attendance-mode';
 import { OrganizationAddressDetail } from 'src/app/models/organization-address-detail';
@@ -260,7 +261,7 @@ export class AttendanceModeComponent implements OnInit {
     this.onboardingService.saveOrgOnboardingStep(3).subscribe((resp) => {
       this.onboardingService.refreshOnboarding();
     });
-    this.router.navigate(['/organization-onboarding/shift-time-list']);
+    this.router.navigate([constant.ORG_ONBOARDING_SHIFT_TIME_ROUTE]);
     // this.isAttendanceModeBackLoading = false;
     setTimeout(() => {
       this.isAttendanceModeBackLoading = false;

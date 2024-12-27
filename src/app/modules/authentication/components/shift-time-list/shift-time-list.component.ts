@@ -8,7 +8,6 @@ import { DataService } from 'src/app/services/data.service';
 import { Router } from '@angular/router';
 import { OrganizationOnboardingService } from 'src/app/services/organization-onboarding.service';
 import { constant } from 'src/app/constant/constant';
-import { AttendanceTimeUpdateRequestDto } from 'src/app/models/user-dto.model';
 
 @Component({
   selector: 'app-shift-time-list',
@@ -22,7 +21,7 @@ export class ShiftTimeListComponent implements OnInit {
   defaultStartLunchOpenTime: Date = new Date();
   defaultEndLunchOpenTime: Date = new Date();
 
-  readonly constant = constant;
+ public readonly constant = constant;
   constructor(
     private dataService: DataService,
     private router: Router,
@@ -56,8 +55,9 @@ export class ShiftTimeListComponent implements OnInit {
     this.dataService.shiftTimingExists().subscribe(
       (response: any) => {
         if (!response.object) {
-          // this.router.navigate(['/organization-onboarding/add-shift-time']);
-          this.router.navigate(['/organization-onboarding/add-shift-placeholder']);
+          // this.router.navigate(['/organization-onboarding/add-shift-placeholder']);
+          this.router.navigate([constant.ORG_ONBOARDING_SHIFT_TIME_PLACEHOLDER_ROUTE]);
+
         }
       },
       (error) => {}

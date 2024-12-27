@@ -9,7 +9,6 @@ import { Key } from 'src/app/constant/key';
 import { UserReq } from 'src/app/models/userReq';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
-import { OrganizationOnboardingService } from 'src/app/services/organization-onboarding.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 
 @Component({
@@ -133,8 +132,11 @@ export class OnboardingWhatappComponent implements OnInit {
               if (onboardingStep == '5') {
                 this.router.navigate(['/dashboard']);
               } else {
+                // this.router.navigate([
+                //   '/organization-onboarding/personal-information',
+                // ]);
                 this.router.navigate([
-                  '/organization-onboarding/personal-information',
+                 constant.ORG_ONBOARDING_PERSONAL_INFORMATION_ROUTE
                 ]);
               }
             }
@@ -439,13 +441,16 @@ export class OnboardingWhatappComponent implements OnInit {
               if (onboardingStep == '5') {
                 this.router.navigate(['/dashboard']);
               } else {
+                // this.router.navigate([
+                //   '/organization-onboarding/personal-information'
+                // ], { replaceUrl: true });
                 this.router.navigate([
-                  '/organization-onboarding/personal-information'
+                 constant.ORG_ONBOARDING_PERSONAL_INFORMATION_ROUTE
                 ], { replaceUrl: true });
                
               }
             } else {
-              this.router.navigate(['/dashboard']);
+              this.router.navigate([constant.DASHBOARD_ROUTE]);
             }
           } else {
             this.isOtpVerify = true;
