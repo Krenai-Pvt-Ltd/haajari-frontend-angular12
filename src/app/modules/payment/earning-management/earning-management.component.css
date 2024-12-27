@@ -21,3 +21,7 @@
     font-weight: 500;
     text-align: left;
 }
+
+.table tbody {
+    border: 1px solid #f1f1f1;
+}
