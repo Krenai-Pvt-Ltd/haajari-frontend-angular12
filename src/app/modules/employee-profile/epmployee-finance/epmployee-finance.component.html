@@ -13,7 +13,7 @@
                     </li>
                     <li class="nav-item">
                         <a id="pills-profile-tab" data-bs-toggle="pill" href="#pay-slips" role="tab"
-                            aria-controls="pills-profile" aria-selected="false" class="nav-link" (click)="getEmployeePayslipLog()">Pay Slips</a>
+                            aria-controls="pills-profile" aria-selected="false" class="nav-link" (click)="onYearChange(selectedYear)">Pay Slips</a>
                     </li>
                 </ul>
                 <div class="d-flex align-items-center gap-3" *ngIf="!financeBlur">
@@ -35,7 +35,7 @@
                             <h5 class="mb-0 font-15">Payroll</h5>
                             <div class="attendance-date">
                                 <nz-date-picker nzMode="month" [nzSize]="size" [(ngModel)]="selectedDate" 
-                                [nzDisabledDate]="_helperService.disableMonths" (ngModelChange)="onMonthChange()">
+                                [nzDisabledDate]="disableMonths" (ngModelChange)="onMonthChange()">
                                 </nz-date-picker>
                             </div>
                         </div>
@@ -242,7 +242,7 @@
                                     <div class="scene scene--card">
                                         <div class="card">
                                             <div class="month-day pt-4 p-3">
-                                                <button class="p-0 btn text-primary summary-btn fw-semibold ">Summary
+                                                <button class="p-0 btn text-primary summary-btn fw-semibold " (click)="flipView()">Summary
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13"
                                                         viewBox="0 0 13 13" fill="none">
                                                         <mask id="mask0_6753_7078" style="mask-type:alpha"
@@ -314,7 +314,7 @@
                                                 <!-- Back Content -->
                                                 <div class="d-flex align-items-center justify-content-between border-bottom"
                                                     style="padding: 13px 15px;">
-                                                    <button class="p-0 btn text-black fw-semibold">
+                                                    <button class="p-0 btn text-black fw-semibold" (click)="flipView()">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15"
                                                             viewBox="0 0 15 15" fill="none">
                                                             <mask id="mask0_6684_3610" style="mask-type:alpha"
@@ -339,7 +339,6 @@
                                                             <span class="total-working-day" *ngFor="let date of dateStatuses;"
                                                             [ngClass]="getClass(date.status)"></span>
                                                         </div>
-                                                        <!-- <p class="mb-0 font-13 fw-semibold">{{totalPayoutDays}} days</p> -->
                                                     </div>
                                                     <p class="font-13">Standard days were <span
                                                             class="fw-semibold  ">{{totalStandardDays}}</span></p>
@@ -459,15 +458,15 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                    <tr *ngIf="employeePayslipDeductionResponse.tdsAmount>0">
+                                                    <tr >
                                                         <td><span class="fw-semibold">TDS</span></td>
                                                         <td class="text-end"><span class="fw-semibold">₹{{employeePayslipDeductionResponse.tdsAmount | number:'1.0-2'}}</span></td>
                                                     </tr>
-                                                    <tr *ngIf="employeePayslipDeductionResponse.epfAmount>0">
+                                                    <tr >
                                                         <td><span class="fw-semibold">EPF</span></td>
                                                         <td class="text-end"><span class="fw-semibold">₹{{employeePayslipDeductionResponse.epfAmount | number:'1.0-2'}}</span></td>
                                                     </tr>
-                                                    <tr *ngIf="employeePayslipDeductionResponse.esiAmount>0">
+                                                    <tr >
                                                         <td><span class="fw-semibold">ESI</span></td>
                                                        <td class="text-end"><span class="fw-semibold">₹{{employeePayslipDeductionResponse.esiAmount | number:'1.0-2'}}</span></td>
                                                     </tr>
@@ -489,8 +488,8 @@
                                 <div class="payment-information p-3">
                                     <div class="d-flex align-items-center justify-content-between border-bottom pb-3">
                                         <h5 class="mb-0 font-14 fw-semibold">Payment Information</h5>
-                                        <button class="btn p-0 text-primary font-13 fw-semibold" 
-                                            >Edit It</button>
+                                        <button class="btn p-0 text-primary font-13 fw-semibold"  
+                                           (click)="employeeProfileComponent.clickOnProfileTab()" >Edit It</button>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-6 ">
@@ -538,12 +537,12 @@
                                         <div class="mt-4">
                                             <h5 class="mb-1 font-15">EPF Account Information</h5>
                                             <p class="mb-1 font-13">EPF Status</p>
-                                            <h5 class="mb-0 font-14">{{isEPF ? 'ACTIVE': 'INACTIVE'}}</h5>
+                                            <h5 class="mb-0 font-14">{{isEPF ? 'ENABLE': 'DISABLE'}}</h5>
                                         </div>
                                         <div class="mt-4">
                                             <h5 class="mb-1 font-15">ESI Account Information</h5>
                                             <p class="mb-1 font-13">ESI Status</p>
-                                            <h5 class="mb-0 font-14"> {{isESI? 'ACTIVE': 'INACTIVE'}}</h5>
+                                            <h5 class="mb-0 font-14"> {{isESI? 'ENABLE': 'DISABLE'}}</h5>
                                         </div>
                                     </div>
                                 </div>
@@ -857,12 +856,14 @@
                         <div class="d-flex align-items-center justify-content-between">
                             <div>
                                 <h5 class="mb-1 font-15">Pay Slips</h5>
-                                <p class="mb-0 font-13 pay-slip">Here you can manage all Hajiri generated payslips for
+                                <p class="mb-0 font-13 pay-slip">Here you can manage all generated payslips for
                                     application years.</p>
                             </div>
-                            <!-- <div class="attendance-date">
-                                <nz-date-picker nzMode="month" nzFormat="MMM, yyyy"></nz-date-picker>
-                            </div> -->
+                            <div class="attendance-date">
+                                <nz-date-picker nzMode="year" [nzSize]="size" [(ngModel)]="selectedYear" 
+                                [nzDisabledDate]="disableYears" (ngModelChange)="onYearChange($event)">
+                                </nz-date-picker>
+                            </div>
                         </div>
 
                         <div class="mt-3 pay-slip-box d-flex align-items-start">
@@ -922,80 +923,6 @@
                     </div>
 
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#paymentInformation">
-    Payment Information
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="paymentInformation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Payment Information</h5>
-                <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButton>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
-                            width="24" height="24">
-                            <rect width="24" height="24" fill="#D9D9D9" />
-                        </mask>
-                        <g mask="url(#mask0_5037_2014)">
-                            <path
-                                d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z"
-                                fill="black" />
-                        </g>
-                    </svg>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-12 mb-3">
-                        <div class="form-group">
-                            <label for="assetName" class="mb-2">Salary Payment Mode</label>
-
-
-                            <nz-select class="form-control placeholder-line w-100" nzPlaceHolder="Payment mode">
-                                <nz-option nzValue="Cash" nzLabel="Cash"></nz-option>
-                                <nz-option nzValue="Bank transfer" nzLabel="Bank transfer"></nz-option>
-                            </nz-select>
-                        </div>
-                    </div>
-                    <div class="col-md-12 mb-3">
-                        <div class="form-group">
-                            <label for="assetName" class="mb-2">Account Number</label>
-                            <input type="text" class="form-control input-zorro" placeholder="Enter account number" />
-                        </div>
-                    </div>
-                    <div class="col-md-12 mb-3">
-                        <div class="form-group">
-                            <label for="assetName" class="mb-2">Bank Name</label>
-                            <input type="text" class="form-control input-zorro" placeholder="Enter bank name" />
-                        </div>
-                    </div>
-                    <div class="col-md-12 mb-3">
-                        <div class="form-group">
-                            <label for="assetName" class="mb-2">IFSC Code</label>
-                            <input type="text" class="form-control input-zorro" placeholder="Enter IFSC code" />
-                        </div>
-                    </div>
-                    <div class="col-md-12 mb-3">
-                        <div class="form-group">
-                            <label for="assetName" class="mb-2">Name of the account</label>
-                            <input type="text" class="form-control input-zorro" placeholder="Enter name" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer d-flex align-items-center gap-2">
-                <button type="button" class="btn cancel-btn" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn submitActionBtn">Submit Request</button>
             </div>
         </div>
     </div>

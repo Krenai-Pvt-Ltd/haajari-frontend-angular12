@@ -36,6 +36,8 @@ isFormInvalid: boolean=false;
     if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
       this.userId = this.activateRoute.snapshot.queryParamMap.get('userId');
     }
+
+    
   }
 
   ngOnInit(): void {

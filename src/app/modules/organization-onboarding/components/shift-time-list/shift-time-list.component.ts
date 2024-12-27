@@ -8,6 +8,7 @@ import { DataService } from 'src/app/services/data.service';
 import { Router } from '@angular/router';
 import { OrganizationOnboardingService } from 'src/app/services/organization-onboarding.service';
 import { constant } from 'src/app/constant/constant';
+import { AttendanceTimeUpdateRequestDto } from 'src/app/models/user-dto.model';
 
 @Component({
   selector: 'app-shift-time-list',
@@ -733,6 +734,8 @@ calculateTimes(): void {
   getOrganizationUserNameWithShiftNameData(shiftId : number, type:string) {
     this.dataService.getOrganizationUserNameWithShiftName(this.selectedStaffsUuids, shiftId).subscribe(
       (response) => {
+        this.isRemovingDuplicateUsers=false;
+
         this.userNameWithShiftName = response.listOfObject;
         if( this.userNameWithShiftName.length <1 && type == "SHIFT_USER_EDIT") {
           this.closeButton3.nativeElement.click();
@@ -749,9 +752,12 @@ calculateTimes(): void {
     this.isValidated ? false : true;
   }
 
+  isRemovingDuplicateUsers:boolean=true;
+
   @ViewChild("closeButton3") closeButton3!:ElementRef;
   removeUser(uuid: string) {
    debugger
+   this.isRemovingDuplicateUsers=true;
     this.selectedStaffsUuids = this.selectedStaffsUuids.filter(id => id !== uuid);
 
     this.staffs.forEach((staff) => {

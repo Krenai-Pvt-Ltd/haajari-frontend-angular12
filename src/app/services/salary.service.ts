@@ -217,13 +217,11 @@ export class SalaryService {
     return this._http.get<any>(`${this._key.base_url}/salary/month-wise/pay-slip-deduction`, {params});
   }
 
-  getEmployeePayslipLogResponseByUserUuid(userUuid : string, startDate : string, endDate : string): Observable<any>{
+  getEmployeePayslipLogByUserUuid(userUuid : string, startYear : string): Observable<any>{
 
     const params = new HttpParams()
     .set('user_uuid', userUuid)
-    .set('start_date', startDate)
-    .set('end_date', endDate);
-
+    .set('start_year', startYear)
     return this._http.get<any>(`${this._key.base_url}/salary/month-wise/pay-slip-log`, {params});
   }
 

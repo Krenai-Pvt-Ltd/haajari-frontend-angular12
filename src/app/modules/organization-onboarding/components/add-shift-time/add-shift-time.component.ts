@@ -706,6 +706,7 @@ export class AddShiftTimeComponent implements OnInit {
       .getOrganizationUserNameWithShiftName(this.selectedStaffsUuids, shiftId)
       .subscribe(
         (response) => {
+          this.isRemovingDuplicateUsers=false;
           this.userNameWithShiftName = response.listOfObject;
           if( this.userNameWithShiftName.length <1 && type == "SHIFT_USER_EDIT") {
             this.closeButton.nativeElement.click();
@@ -722,7 +723,9 @@ export class AddShiftTimeComponent implements OnInit {
     this.isValidated ? false : true;
   }
 
+  isRemovingDuplicateUsers:boolean=true;
   removeUser(uuid: string) {
+    this.isRemovingDuplicateUsers=true;
     this.selectedStaffsUuids = this.selectedStaffsUuids.filter(
       (id) => id !== uuid
     );

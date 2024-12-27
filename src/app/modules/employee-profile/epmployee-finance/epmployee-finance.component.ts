@@ -1,5 +1,6 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
 import { EmployeePayslipLogResponse } from 'src/app/employee-payslip-log-response';
 import { EmployeePayslipBreakupResponse } from 'src/app/models/employee-payslip-breakup-response';
 import { EmployeePayslipDeductionResponse } from 'src/app/models/employee-payslip-deduction-response';
@@ -9,13 +10,14 @@ import { UserPaymentDetail } from 'src/app/models/UserPaymentDetail';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { SalaryService } from 'src/app/services/salary.service';
+import { EmployeeProfileComponent } from '../employee-profile.component';
 
 @Component({
   selector: 'app-epmployee-finance',
   templateUrl: './epmployee-finance.component.html',
   styleUrls: ['./epmployee-finance.component.css']
 })
-export class EpmployeeFinanceComponent implements OnInit, AfterViewInit {
+export class EpmployeeFinanceComponent implements OnInit {
 
   selectedPayslipUrl!: SafeResourceUrl;
   userUuid : string ='';
@@ -24,7 +26,8 @@ export class EpmployeeFinanceComponent implements OnInit, AfterViewInit {
   constructor(private _dataService : DataService,
       public _helperService : HelperService,
       private _salaryService : SalaryService,
-      private sanitizer: DomSanitizer
+      private sanitizer: DomSanitizer,
+      public employeeProfileComponent: EmployeeProfileComponent
   ) { 
 
     const userUuidParam = new URLSearchParams(window.location.search).get('userId');
@@ -38,6 +41,9 @@ export class EpmployeeFinanceComponent implements OnInit, AfterViewInit {
     this.getEmployeeStatutory();
   }
 
+  ngAfterViewInit(){
+ 
+  }
 
   callInitialMethod(){
     this.getEmployeePayslipResponseByUserUuidMethodCall();
@@ -46,22 +52,21 @@ export class EpmployeeFinanceComponent implements OnInit, AfterViewInit {
     this.getPayoutSummary();
   }
 
-  ngAfterViewInit(): void {
-
-    const cards = document.querySelectorAll('.card');
-
-    // Add event listener to flip the card on click
-    cards.forEach((card) => {
-      card.addEventListener('click', () => {
-        card.classList.toggle('is-flipped');
-      });
-    });
-   
-  }
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                            CIRCULAR PROGRESS LINE
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  flipView(){
+    const cards = document.querySelectorAll('.card');
+    // Add event listener to flip the card on click
+    cards.forEach((card) => {
+      card.classList.toggle('is-flipped');
+      // card.addEventListener('click', () => {
+       
+      // });
+    });
+  }
+
 
   totalLines = 70; // Number of lines
   radius = 90;
@@ -108,7 +113,6 @@ export class EpmployeeFinanceComponent implements OnInit, AfterViewInit {
     });
 
     if (fractionText) {
-      console.log('fractionText: ',fractionText)
       fractionText.textContent = `${this.totalPayoutDays}/${this.totalStandardDays}`;
     }
   }
@@ -131,9 +135,54 @@ export class EpmployeeFinanceComponent implements OnInit, AfterViewInit {
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+//                                                                   SUMMARY TAB  
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+  // disableMonths = (date: Date): boolean => {
+  //   const current = new Date();
+  //   const userJoiningDate = new Date(this._helperService.userJoiningDate);
+
+  //   // Disable if the date is outside the range of user joining and current date
+  //   return (
+  //       date < new Date(userJoiningDate.getFullYear(), userJoiningDate.getMonth(), 1) || 
+  //       date > new Date(current.getFullYear(), current.getMonth(), 1)
+  //   );
+  // };
+
+
+  disableMonths = (date: Date): boolean => {
+    const currentYear = new Date().getFullYear();
+    const currentMonth = new Date().getMonth();
+    const dateYear = date.getFullYear();
+    const dateMonth = date.getMonth();
+    const userJoiningYear = new Date(
+      this._helperService.userJoiningDate
+    ).getFullYear();
+    const userJoiningMonth = new Date(
+      this._helperService.userJoiningDate
+    ).getMonth();
+
+    // Disable if the month is before the organization registration month
+    if (
+      dateYear < userJoiningYear ||
+      (dateYear === userJoiningYear &&
+        dateMonth < userJoiningMonth)
+    ) {
+      return true;
+    }
+
+    // Disable if the month is after the current month
+    if (
+      dateYear > currentYear ||
+      (dateYear === currentYear && dateMonth > currentMonth)
+    ) {
+      return true;
+    }
+
+    // Enable the month if it's from January 2023 to the current month
+    return false;
+  };
 
   startDate:string='';
   endDate:string ='';
@@ -150,6 +199,7 @@ export class EpmployeeFinanceComponent implements OnInit, AfterViewInit {
     this.callInitialMethod();
   }
 
+
   onMonthChange(): void { 
     if(this.selectedDate.getMonth() == new Date(this.startDate).getMonth()){
       return;
@@ -165,11 +215,13 @@ export class EpmployeeFinanceComponent implements OnInit, AfterViewInit {
   employeePayslipResponse : EmployeePayslipResponse = new EmployeePayslipResponse();
   getEmployeePayslipResponseByUserUuidMethodCall(){
     this._salaryService.getEmployeePayslipResponseByUserUuid(this.userUuid, this.startDate, this.endDate).subscribe((response) => {
-      
-      if(response.object==null ){
-        this.employeePayslipResponse = new EmployeePayslipResponse();
-      }else{
+      if(response.status){
         this.employeePayslipResponse = response.object;
+        if( this.employeePayslipResponse ==null ){
+          this.employeePayslipResponse = new EmployeePayslipResponse();
+        }
+      }else{
+         this.employeePayslipResponse = new EmployeePayslipResponse();
       }
     }, (error) => {
      
@@ -184,16 +236,18 @@ export class EpmployeeFinanceComponent implements OnInit, AfterViewInit {
     this.monthlySalary =0;
     this.earningSalary = 0;
     this._salaryService.getEmployeePayslipBreakupResponseByUserUuid(this.userUuid, this.startDate, this.endDate).subscribe((response) => {
-
-      if(response.listOfObject==null || response.listOfObject.length ==0){
-        this.employeePayslipBreakupResponseList = [];
+      if(response.status){
+          this.employeePayslipBreakupResponseList = response.object;
+          if( this.employeePayslipBreakupResponseList==null){
+            this.employeePayslipBreakupResponseList = [];
+          }else{
+            this.monthlySalary = this.employeePayslipBreakupResponseList.reduce((total, salary) => total + salary.standardAmount, 0);
+            this.earningSalary = this.employeePayslipBreakupResponseList.reduce((total, salary) => total + salary.actualAmount, 0);
+          }
       }else{
-        this.employeePayslipBreakupResponseList = response.listOfObject;  
-        this.employeePayslipBreakupResponseList.forEach((salary)=>{
-          this.monthlySalary = this.monthlySalary + salary.standardAmount;
-          this.earningSalary = this.earningSalary + salary.actualAmount;
-        });
+        this.employeePayslipBreakupResponseList = [];
       }
+      
     }, (error) => {
     
     })
@@ -202,20 +256,17 @@ export class EpmployeeFinanceComponent implements OnInit, AfterViewInit {
   employeePayslipDeductionResponse : EmployeePayslipDeductionResponse = new EmployeePayslipDeductionResponse();
   getEmployeePayslipDeductionResponseByUserUuidMethodCall(){
     this._salaryService.getEmployeePayslipDeductionResponseByUserUuid(this.userUuid, this.startDate, this.endDate).subscribe((response) => {
-
+      if(response.status){
         this.employeePayslipDeductionResponse = response.object;
         if( this.employeePayslipDeductionResponse == null){
           this.employeePayslipDeductionResponse = new EmployeePayslipDeductionResponse();
         }
-    
+      }else{
+        this.employeePayslipDeductionResponse = new EmployeePayslipDeductionResponse();
+      }
     }, (error) => {
 
     })
-  }
-
-
-  downloadPaySlip(url: string, name: string){
-    this._helperService.downloadPdf(url, name);
   }
 
 
@@ -253,36 +304,67 @@ export class EpmployeeFinanceComponent implements OnInit, AfterViewInit {
   }
 
   payoutDaysSummary : PayoutDaysSummary = new PayoutDaysSummary();
-  dateStatuses:any;
+  dateStatuses:any=[];
   getPayoutSummary(){
     this._salaryService.getPayoutSummaryDetail(this.userUuid,this.startDate, this.endDate).subscribe((response) => {
       if(response.status){
-        this.payoutDaysSummary = response.object.statusCount;
+
         this.dateStatuses = response.object.dateList;
-        this.totalStandardDays = response.object.standardDays;
-        this.totalPayoutDays = response.object.payoutDays;
-        this.totalLopDays = response.object.lopDays;
-        this.totalArrearDays = response.object.arrearDays;
-        this.createCircularPogressLine();
+        this.payoutDaysSummary =  response.object.statusCount;
+        this.totalStandardDays = response.object.standardDays != null ? response.object.standardDays : 0;
+        this.totalPayoutDays = response.object.payoutDays != null ? response.object.payoutDays : 0;
+        this.totalLopDays = response.object.lopDays != null ? response.object.lopDays : 0;
+        this.totalArrearDays = response.object.arrearDays != null ? response.object.arrearDays : 0;
       } 
+      this.createCircularPogressLine();
     }, (error) => {
       
     })
   }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                               PAYSLIP TAB
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+  disableYears = (date: Date): boolean => {
+    const currentYear = new Date().getFullYear();
+    const userJoiningYear = new Date(this._helperService.userJoiningDate).getFullYear();
+    const dateYear = date.getFullYear();
+
+    // Disable if the year is outside the range of user joining year and current year
+    return dateYear < userJoiningYear || dateYear > currentYear;
+  };
+
+  selectedYear:Date = new Date();
+  startYear:string='';
+  onYearChange(year: any) {
+    // console.log("======year=======",year.getFullYear() )
+    if(year.getFullYear() === this.startYear){
+      return; // Do nothing if the year hasn't changed
+    }
+    this.selectedYear = year;
+    this.startYear = year.getFullYear();
+    this.getEmployeePayslipLog();
+  }
 
   selectedIndex:number=-1;
   selectedPayslip!: EmployeePayslipLogResponse;
   employeePayslipLogResponseList : EmployeePayslipLogResponse[] = [];
   getEmployeePayslipLog(){
-    this._salaryService.getEmployeePayslipLogResponseByUserUuid(this.userUuid, this.startDate, this.endDate).subscribe((response) => {
-     
-        this.employeePayslipLogResponseList = response.listOfObject;
-        if(this.employeePayslipLogResponseList.length > 0){
-          this.selectedIndex = 0;
-          this.loadPayslip( this.employeePayslipLogResponseList[0]);
+    this._salaryService.getEmployeePayslipLogByUserUuid(this.userUuid, this.startYear).subscribe((response) => {
+      if(response.status){
+        this.employeePayslipLogResponseList = response.object;
+        if(this.employeePayslipLogResponseList == null){
+          this.employeePayslipLogResponseList = [];
+        }else{
+          if(this.employeePayslipLogResponseList.length > 0){
+            this.selectedIndex = 0;
+            this.loadPayslip( this.employeePayslipLogResponseList[0]);
+          }
         }
+      }else{
+        this.employeePayslipLogResponseList = [];
+      }
     }, (error) => {
       
     })
@@ -294,6 +376,11 @@ export class EpmployeeFinanceComponent implements OnInit, AfterViewInit {
     this.selectedPayslip = selectedPayslip;
     this.selectedPayslipUrl = this.sanitizer.bypassSecurityTrustResourceUrl(selectedPayslip.paySlipUrl);
   }
+
+
+  // downloadPaySlip(url: string, name: string){
+  //   this._helperService.downloadPdf(url, name);
+  // }
 
 }
 

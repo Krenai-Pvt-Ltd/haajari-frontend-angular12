@@ -4,44 +4,40 @@
       <div class="row">
         <div class="col-md-9"></div>
         <div class="dropdown col-md-3 mt-3">
-          <nz-date-picker nzMode="year" [nzSize]="size" [(ngModel)]="selectedDate" 
-          (ngModelChange)="onYearChange($event)" [nzDisabledDate]="disableYears">
-        </nz-date-picker>
+          <nz-date-picker nzMode="year" [nzSize]="size" [(ngModel)]="selectedDate"
+            (ngModelChange)="onYearChange($event)" [nzDisabledDate]="disableYears">
+          </nz-date-picker>
         </div>
         <div class="col-md-12 mt-3">
 
           <ng-container *ngIf="calendarShimmer; else monthList">
             <!-- Shimmer effect for each file box -->
-              <div class="file-box-content d-flex justify-content-between">
-                <!-- Shimmer Loading for Months -->
-                <div
-                  class="file-box text-center"
-                  *ngFor="let i of [].constructor(12)"
-                >
-                  <ngx-shimmer-loading [width]="'70%'" [height]="'20px'"></ngx-shimmer-loading>
-                  <ngx-shimmer-loading [width]="'50%'" [height]="'15px'"></ngx-shimmer-loading>
-                  <ngx-shimmer-loading [width]="'30%'" [height]="'15px'"></ngx-shimmer-loading>
-                </div>
+            <div class="file-box-content d-flex justify-content-between">
+              <!-- Shimmer Loading for Months -->
+              <div class="file-box text-center" *ngFor="let i of [].constructor(12)">
+                <ngx-shimmer-loading [width]="'70%'" [height]="'20px'"></ngx-shimmer-loading>
+                <ngx-shimmer-loading [width]="'50%'" [height]="'15px'"></ngx-shimmer-loading>
+                <ngx-shimmer-loading [width]="'30%'" [height]="'15px'"></ngx-shimmer-loading>
               </div>
+            </div>
           </ng-container>
           <ng-template #monthList>
-          <div class="file-box-content d-flex">
-            <div class="file-box" *ngFor="let monthResponse of monthResponseList" [class.disabled]="monthResponse.disable" [ngClass]="{
+            <div class="file-box-content d-flex">
+              <div class="file-box" *ngFor="let monthResponse of monthResponseList"
+                [class.disabled]="monthResponse.disable" [ngClass]="{
                 'selected-month-color':
                   monthResponse.firstDate == startDate &&
                   monthResponse.lastDate == endDate
               }">
-              <div class="text-center" (click)="selectMonth(monthResponse)">
-                <h6 class="text-truncate">
-                  {{ monthResponse.firstDate | date: 'MMM' }} - {{ monthResponse.firstDate | date: 'yyyy' }}
-                </h6>
-                <small class="text-muted">
-                  {{ monthResponse.firstDate | date: 'dd MMM' }} - {{ monthResponse.lastDate | date: 'dd MMM' }}
-                </small>
-                <!-- Condition for hr tag -->
-                <!-- [ngClass]="{'text-blue' : (monthResponse.month == selectedMonth && monthResponse.year == selectedYear)}" -->
-                <hr class="hr" />
-                <small [ngClass]="{
+                <div class="text-center" (click)="selectMonth(monthResponse)">
+                  <h6 class="text-truncate">
+                    {{ monthResponse.firstDate | date: 'MMM' }} - {{ monthResponse.firstDate | date: 'yyyy' }}
+                  </h6>
+                  <small class="text-muted">
+                    {{ monthResponse.firstDate | date: 'dd MMM' }} - {{ monthResponse.lastDate | date: 'dd MMM' }}
+                  </small>
+                  <hr class="hr" />
+                  <small [ngClass]="{
                   'text-blue':
                     (monthResponse.firstDate == startDate &&
                     monthResponse.lastDate== endDate) || (monthResponse.status == 'Current' &&
@@ -62,21 +58,21 @@
                       monthResponse.lastDate == endDate
                     )
                 }">
-                  {{ monthResponse.status }}
-                </small>
+                    {{ monthResponse.status }}
+                  </small>
+                </div>
               </div>
             </div>
-          </div>
-     
-          <div class="payroll-next-prev-btn">
-            <span class="payroll-next position-absolute d-flex align-items-center justify-content-center">
-              <i class="bi bi-chevron-left position-relative"></i>
-            </span>
-            <span class="payroll-prev position-absolute d-flex align-items-center justify-content-center">
-              <i class="bi bi-chevron-right position-relative"></i>
-            </span>
-          </div>
-        </ng-template>
+
+            <div class="payroll-next-prev-btn">
+              <span class="payroll-next position-absolute d-flex align-items-center justify-content-center">
+                <i class="bi bi-chevron-left position-relative"></i>
+              </span>
+              <span class="payroll-prev position-absolute d-flex align-items-center justify-content-center">
+                <i class="bi bi-chevron-right position-relative"></i>
+              </span>
+            </div>
+          </ng-template>
         </div>
         <div class="card mt-4">
           <div class="card-body invoice-head">
@@ -89,7 +85,8 @@
                       <h4 class="mt-3 fw-bold">
                         {{ payrollDashboardEmployeeCountResponse.totalUser }}
                         <span class="text-muted font-12 fw-normal">
-                          <span class="text-success">+{{ payrollDashboardEmployeeCountResponse.newJoinee }}</span> &nbsp; <span class="text-danger">-{{ payrollDashboardEmployeeCountResponse.userExit }}</span>
+                          <span class="text-success">+{{ payrollDashboardEmployeeCountResponse.newJoinee }}</span>
+                          &nbsp; <span class="text-danger">-{{ payrollDashboardEmployeeCountResponse.userExit }}</span>
                         </span>
                       </h4>
                     </div>
@@ -103,7 +100,8 @@
                     <!--end col-->
                     <div class="col-auto">
                       <p class="mb-0 font-12">Payroll</p>
-                      <h4 class="mt-3 fw-bold"> {{payrollDashboardEmployeeCountResponse.processedPayrollCount}}/{{ payrollDashboardEmployeeCountResponse.totalUser }}
+                      <h4 class="mt-3 fw-bold"> {{payrollDashboardEmployeeCountResponse.processedPayrollCount}}/{{
+                        payrollDashboardEmployeeCountResponse.totalUser }}
                         <span class="text-muted font-10 fw-normal">EMPLOYEES</span>
                       </h4>
                     </div>
@@ -119,7 +117,8 @@
                       <p class="text-muted font-12 mb-0">TOTAL PAYROLL COST</p>
                       <h5 class="mb-0"> ₹ {{ organizationMonthWiseSalaryData?.grossPay || 0 }}
                       </h5>
-                      <small class="text-success">{{organizationPreviousMonthSalaryData.month}} ₹ {{ organizationPreviousMonthSalaryData?.grossPay || 0 }}</small>
+                      <small class="text-success">{{organizationPreviousMonthSalaryData.month}} ₹ {{
+                        organizationPreviousMonthSalaryData?.grossPay || 0 }}</small>
                     </div>
                   </li>
                   <li class="list-inline-item">
@@ -127,7 +126,8 @@
                       <p class="text-muted font-12 mb-0">TDS</p>
                       <h5 class="mb-0"> ₹ {{ organizationMonthWiseSalaryData?.tdsAmount || 0 }}
                       </h5>
-                      <small class="text-success">{{organizationPreviousMonthSalaryData.month}} ₹ {{ organizationPreviousMonthSalaryData?.tdsAmount || 0 }}</small>
+                      <small class="text-success">{{organizationPreviousMonthSalaryData.month}} ₹ {{
+                        organizationPreviousMonthSalaryData?.tdsAmount || 0 }}</small>
                     </div>
                   </li>
                   <li class="list-inline-item">
@@ -135,7 +135,8 @@
                       <p class="text-muted font-12 mb-0">EPF</p>
                       <h5 class="mb-0"> ₹ {{ organizationMonthWiseSalaryData?.epfAmount || 0 }}
                       </h5>
-                      <small class="text-success">{{organizationPreviousMonthSalaryData.month}} ₹ {{ organizationPreviousMonthSalaryData?.epfAmount || 0 }}</small>
+                      <small class="text-success">{{organizationPreviousMonthSalaryData.month}} ₹ {{
+                        organizationPreviousMonthSalaryData?.epfAmount || 0 }}</small>
                     </div>
                   </li>
                   <li class="list-inline-item">
@@ -143,7 +144,8 @@
                       <p class="text-muted font-12 mb-0">ESI</p>
                       <h5 class="mb-0"> ₹ {{ organizationMonthWiseSalaryData?.esiAmount || 0 }}
                       </h5>
-                      <small class="text-success">{{organizationPreviousMonthSalaryData.month}} ₹ {{ organizationPreviousMonthSalaryData?.esiAmount || 0 }}</small>
+                      <small class="text-success">{{organizationPreviousMonthSalaryData.month}} ₹ {{
+                        organizationPreviousMonthSalaryData?.esiAmount || 0 }}</small>
                     </div>
                   </li>
                   <li class="list-inline-item">
@@ -151,7 +153,8 @@
                       <p class="text-muted font-12 mb-0">NET PAY</p>
                       <h5 class="mb-0"> ₹ {{ organizationMonthWiseSalaryData?.netPay || 0 }}
                       </h5>
-                      <small class="text-success">{{organizationPreviousMonthSalaryData.month}} ₹ {{ organizationPreviousMonthSalaryData?.netPay || 0 }}</small>
+                      <small class="text-success">{{organizationPreviousMonthSalaryData.month}} ₹ {{
+                        organizationPreviousMonthSalaryData?.netPay || 0 }}</small>
                     </div>
                   </li>
                 </ul>
@@ -163,7 +166,7 @@
           <!--end card-body-->
         </div>
         <!--end card-body-->
-      </div> 
+      </div>
       <div class="row">
         <div class="col-lg-8">
           <div class="card bg-transparent shadow-none">
@@ -172,10 +175,12 @@
                 <div class="col align-self-center mt-4 mt-lg-0">
                   <ul class="nav nav-tabs" role="tablist">
                     <li class="nav-item">
-                      <a class="nav-link active fw-semibold pt-0" data-bs-toggle="tab" href="#wallet_BTC" role="tab"> RUN PAYROLL </a>
+                      <a class="nav-link active fw-semibold pt-0" data-bs-toggle="tab" href="#wallet_BTC" role="tab">
+                        Run Payroll </a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link fw-semibold pt-0" data-bs-toggle="tab" href="#payrollHistory" role="tab" (click)="getPayrollLogs()"> PAYROLL HISTORY </a>
+                      <a class="nav-link fw-semibold pt-0" data-bs-toggle="tab" href="#payrollHistory" role="tab"
+                        (click)="getPayrollLogs()"> Payroll History </a>
                     </li>
                   </ul>
                   <div class="tab-content my-3">
@@ -187,14 +192,17 @@
                       </div>
                       <div class="row">
                         <div class="col-md-6" (click)="employeeChangesSection(PAYROLL_PROCESS_STEP)">
-                          <div class="card-body mt-3 payroll-step" [ngClass]="{'bg-soft-success': PAYROLL_PROCESS_STEP > FINAL_SETTLEMENT, 'bg-soft-warning': PAYROLL_PROCESS_STEP <= FINAL_SETTLEMENT}" >
+                          <div class="card-body mt-3 payroll-step"
+                            [ngClass]="{'bg-soft-success': PAYROLL_PROCESS_STEP > FINAL_SETTLEMENT, 'bg-soft-warning': PAYROLL_PROCESS_STEP <= FINAL_SETTLEMENT}">
                             <div class="row">
                               <div class="col-auto">
-                                <img src="assets/images/creative-idea.svg" alt="user" height="50" class="align-self-center mb-3 mb-lg-0" />
+                                <img src="assets/images/creative-idea.svg" alt="user" height="50"
+                                  class="align-self-center mb-3 mb-lg-0" />
                               </div>
                               <div class="col align-self-center">
                                 <p class="font-14 mb-2"> Employee Changes <span class="task-priority-icon float-end">
-                                    <i class="ti" [ngClass]="{'ti-checkbox text-success': PAYROLL_PROCESS_STEP > FINAL_SETTLEMENT,'ti-circle-1': PAYROLL_PROCESS_STEP <= FINAL_SETTLEMENT}">
+                                    <i class="ti"
+                                      [ngClass]="{'ti-checkbox text-success': PAYROLL_PROCESS_STEP > FINAL_SETTLEMENT,'ti-circle-1': PAYROLL_PROCESS_STEP <= FINAL_SETTLEMENT}">
                                     </i>
                                   </span>
                                 </p>
@@ -205,53 +213,69 @@
                           </div>
                         </div>
                         <div class="col-md-6" (click)="attendanceAndLeaveSection(PAYROLL_PROCESS_STEP)">
-                          <div class="card-body mt-3 payroll-step" [ngClass]="{'bg-soft-success': PAYROLL_PROCESS_STEP > LOP_REVERSAL, 'bg-soft-warning': PAYROLL_PROCESS_STEP <= LOP_REVERSAL}"  [class.disabled]="PAYROLL_PROCESS_STEP <= FINAL_SETTLEMENT">
+                          <div class="card-body mt-3 payroll-step"
+                            [ngClass]="{'bg-soft-success': PAYROLL_PROCESS_STEP > LOP_REVERSAL, 'bg-soft-warning': PAYROLL_PROCESS_STEP <= LOP_REVERSAL}"
+                            [class.disabled]="PAYROLL_PROCESS_STEP <= FINAL_SETTLEMENT">
                             <div class="row">
                               <div class="col-auto">
-                                <img src="assets/images/schedule.svg" alt="user" height="50" class="align-self-center mb-3 mb-lg-0" />
+                                <img src="assets/images/schedule.svg" alt="user" height="50"
+                                  class="align-self-center mb-3 mb-lg-0" />
                               </div>
                               <div class="col align-self-center">
-                                <p class="font-14 mb-2"> Attendance, Leave & Present Days <span class="task-priority-icon float-end">
-                                    <i class="ti" [ngClass]="{'ti-checkbox': PAYROLL_PROCESS_STEP > LOP_REVERSAL,'ti-circle-2': PAYROLL_PROCESS_STEP <= LOP_REVERSAL}">
+                                <p class="font-14 mb-2"> Attendance, Leave & Present Days <span
+                                    class="task-priority-icon float-end">
+                                    <i class="ti"
+                                      [ngClass]="{'ti-checkbox': PAYROLL_PROCESS_STEP > LOP_REVERSAL,'ti-circle-2': PAYROLL_PROCESS_STEP <= LOP_REVERSAL}">
                                     </i>
                                   </span>
                                 </p>
                                 <!-- <small class="text-muted">Nov 19.2023, 05:39 PM - Pushpendra</small> -->
                                 <small class="text-muted">Manage pending leaves and LOPs</small>
-                                
+
                               </div>
                             </div>
                           </div>
                         </div>
                         <div class="col-md-6" (click)="salaryChangeSection(PAYROLL_PROCESS_STEP)">
-                          <div class="card-body mt-3 payroll-step" [ngClass]="{'bg-soft-success': PAYROLL_PROCESS_STEP > OVERTIME, 'bg-soft-warning': PAYROLL_PROCESS_STEP <= OVERTIME}" [class.disabled]="PAYROLL_PROCESS_STEP <= LOP_REVERSAL">
+                          <div class="card-body mt-3 payroll-step"
+                            [ngClass]="{'bg-soft-success': PAYROLL_PROCESS_STEP > OVERTIME, 'bg-soft-warning': PAYROLL_PROCESS_STEP <= OVERTIME}"
+                            [class.disabled]="PAYROLL_PROCESS_STEP <= LOP_REVERSAL">
                             <div class="row">
                               <div class="col-auto">
-                                <img src="assets/images/business-report.svg" alt="user" height="50" class="align-self-center mb-3 mb-lg-0" />
+                                <img src="assets/images/business-report.svg" alt="user" height="50"
+                                  class="align-self-center mb-3 mb-lg-0" />
                               </div>
                               <div class="col align-self-center">
-                                <p class="font-14 mb-2"> Salary Revision, Overtime & Deduction <span class="task-priority-icon float-end">
-                                    <i class="ti" [ngClass]="{'ti-checkbox': PAYROLL_PROCESS_STEP > OVERTIME,'ti-circle-3': PAYROLL_PROCESS_STEP <= OVERTIME}">
+                                <p class="font-14 mb-2"> Salary Revision, Overtime & Deduction <span
+                                    class="task-priority-icon float-end">
+                                    <i class="ti"
+                                      [ngClass]="{'ti-checkbox': PAYROLL_PROCESS_STEP > OVERTIME,'ti-circle-3': PAYROLL_PROCESS_STEP <= OVERTIME}">
                                     </i>
                                   </span>
                                 </p>
                                 <!-- <small class="text-muted">Nov 19.2023, 05:39 PM - Pushpendra</small> -->
-                              
-                                
-                                <small class="text-muted">Review this month's salary revisions, overtime, and deductions.</small>
+
+
+                                <small class="text-muted">Review this month's salary revisions, overtime, and
+                                  deductions.</small>
                               </div>
                             </div>
                           </div>
                         </div>
                         <div class="col-md-6" (click)="epfEsiTdsSection(PAYROLL_PROCESS_STEP)">
-                          <div class="card-body mt-3 payroll-step" [ngClass]="{'bg-soft-success': PAYROLL_PROCESS_STEP > TDS, 'bg-soft-warning': PAYROLL_PROCESS_STEP <= TDS}" [class.disabled]="PAYROLL_PROCESS_STEP <= OVERTIME">
+                          <div class="card-body mt-3 payroll-step"
+                            [ngClass]="{'bg-soft-success': PAYROLL_PROCESS_STEP > TDS, 'bg-soft-warning': PAYROLL_PROCESS_STEP <= TDS}"
+                            [class.disabled]="PAYROLL_PROCESS_STEP <= OVERTIME">
                             <div class="row">
                               <div class="col-auto">
-                                <img src="assets/images/card-reader.svg" alt="user" height="50" class="align-self-center mb-3 mb-lg-0" />
+                                <img src="assets/images/card-reader.svg" alt="user" height="50"
+                                  class="align-self-center mb-3 mb-lg-0" />
                               </div>
                               <div class="col align-self-center">
-                                <p class="font-14 mb-2"> EPF, ESI & TDS (OVERRIDE) <span class="task-priority-icon float-end">
-                                    <i class="ti" [ngClass]="{'ti-checkbox text-success': PAYROLL_PROCESS_STEP > TDS,'ti-circle-4': PAYROLL_PROCESS_STEP <= TDS}">
+                                <p class="font-14 mb-2"> EPF, ESI & TDS (OVERRIDE) <span
+                                    class="task-priority-icon float-end">
+                                    <i class="ti"
+                                      [ngClass]="{'ti-checkbox text-success': PAYROLL_PROCESS_STEP > TDS,'ti-circle-4': PAYROLL_PROCESS_STEP <= TDS}">
                                     </i>
                                   </span>
                                 </p>
@@ -266,7 +290,10 @@
                         <div class="col">
                           <div class="media">
                             <div class="media-body align-self-center">
-                              <p class="text-muted font-12 mb-0 mt-2"> Last Preview Run On {{organizationMonthWiseSalaryData?.updatedDate | date: 'dd MMM'}} at {{organizationMonthWiseSalaryData?.updatedDate | date:'shortTime'}} By {{organizationMonthWiseSalaryData?.updatedBy}} </p>
+                              <p class="text-muted font-12 mb-0 mt-2"> Last Preview Run On
+                                {{organizationMonthWiseSalaryData?.updatedDate | date: 'dd MMM'}} at
+                                {{organizationMonthWiseSalaryData?.updatedDate | date:'shortTime'}} By
+                                {{organizationMonthWiseSalaryData?.updatedBy}} </p>
                             </div>
                           </div>
                         </div>
@@ -290,8 +317,10 @@
                     </div>
                     <div class="tab-pane fade" id="payrollHistory" role="tabpanel">
                       <div class="content">
-                        <ul class="list-group" *ngIf="!isPayrollHistoryPlaceholder; else errorConditionWhileFetchingReport">
-                          <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let log of payrollLogs">
+                        <ul class="list-group"
+                          *ngIf="!isPayrollHistoryPlaceholder; else errorConditionWhileFetchingReport">
+                          <li class="list-group-item d-flex justify-content-between align-items-center"
+                            *ngFor="let log of payrollLogs">
                             <div>
                               <i class="la la-check text-muted font-16 me-2"></i> {{ log.fileName }}
                             </div>
@@ -312,20 +341,21 @@
                               </div>
                               <div class="">
                                 <h4>Something went wrong</h4>
-                                <p> An error occurred while processing your request. Please refresh the page and try again. </p>
+                                <p> An error occurred while processing your request. Please refresh the page and try
+                                  again. </p>
                               </div>
                             </div>
                           </div>
-                          <div class="errorboxmain" *ngIf="
-                                    dataNotFoundPlaceholderForPayrollHistory
-                                  ">
-                            <div class="errorboxinner text-center">
-                              <div class="errorboxplaceholder mb-2">
-                                <img src="assets/images/empty-folder.svg" style="width: 100px" />
-                              </div>
-                              <h4>No Data Found</h4>
-                              <p> Sorry, We can't show you the data at this moment! </p>
-                            </div>
+
+
+                          <div class="empty-file" style="margin-top: 9%; margin-bottom: 9%" *ngIf="
+                          dataNotFoundPlaceholderForPayrollHistory">
+                            <nz-empty nzNotFoundImage="assets/images/no-data-found-img-2.svg"
+                              [nzNotFoundContent]="contentTpl">
+                              <ng-template #contentTpl>
+                                <p class="mb-1 empty-detail font-16">No data for now</p>
+                              </ng-template>
+                            </nz-empty>
                           </div>
                         </ng-template>
                       </div>
@@ -350,9 +380,9 @@
             </div>
             <div class="card-body">
               <div class="text-center">
-                <ngx-charts-pie-chart [view]="view" [scheme]="colorScheme" [results]="single" [legend]="showLegend" 
-                [explodeSlices]="explodeSlices" [labels]="showLabels" [doughnut]="doughnut" [gradient]="gradient">
-              </ngx-charts-pie-chart>
+                <ngx-charts-pie-chart [view]="view" [scheme]="colorScheme" [results]="single" [legend]="showLegend"
+                  [explodeSlices]="explodeSlices" [labels]="showLabels" [doughnut]="doughnut" [gradient]="gradient">
+                </ngx-charts-pie-chart>
               </div>
             </div>
           </div>
@@ -360,19 +390,14 @@
       </div>
     </div>
     <div class="container-fluid" *ngIf="payrollToggleView">
-      <app-leave-summary [startDate]="startDate" [endDate]="endDate" (getData)="getData()" *ngIf="showLeaveComponent"></app-leave-summary>
-      <app-employee-management [startDate]="startDate" [endDate]="endDate" (getData)="getData()" *ngIf="showEmployeeComponent"></app-employee-management>
-      <app-earning-management [startDate]="startDate" [endDate]="endDate" (getData)="getData()" *ngIf="showEariningComponent"></app-earning-management>
-      <app-salary-deduction-management [startDate]="startDate" [endDate]="endDate" (getData)="getData()" *ngIf="showSalaryComponent"></app-salary-deduction-management>
+      <app-leave-summary [startDate]="startDate" [endDate]="endDate" (getData)="getData()"
+        *ngIf="showLeaveComponent"></app-leave-summary>
+      <app-employee-management [startDate]="startDate" [endDate]="endDate" (getData)="getData()"
+        *ngIf="showEmployeeComponent"></app-employee-management>
+      <app-earning-management [startDate]="startDate" [endDate]="endDate" (getData)="getData()"
+        *ngIf="showEariningComponent"></app-earning-management>
+      <app-salary-deduction-management [startDate]="startDate" [endDate]="endDate" (getData)="getData()"
+        *ngIf="showSalaryComponent"></app-salary-deduction-management>
     </div>
   </div>
 </div>
-
-
-
-
-
-
-
-
-
