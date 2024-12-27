@@ -1719,4 +1719,9 @@ a.fetch-location {
   top: -1px;
 }
 
+.alreadyMemberBox {
+  background-color: #fff8f2;
+  border-radius: 2px;
+}
+
 /* new side tab for new modal */
