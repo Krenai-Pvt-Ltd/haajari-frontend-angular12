@@ -149,8 +149,7 @@
 
 .sideBarStep-one {
   border-left: 4px solid #6666f2;
-  /* min-height: 16%; */
-  min-height: calc(13% + 100px);
+  min-height: calc(5% + 100px);
   position: absolute;
   left: 0px;
   top: 0px;
@@ -158,18 +157,17 @@
 }
 
 .sideBarStep-two {
-  min-height: calc(20% + 100px);
+  min-height: calc(12% + 100px);
 
 }
 
 .sideBarStep-three {
-  min-height: calc(25% + 100px);
+  min-height: calc(20% + 100px);
 
 }
 
 .sideBarStep-four {
   min-height: calc(30% + 100px);
-
 }
 
 
