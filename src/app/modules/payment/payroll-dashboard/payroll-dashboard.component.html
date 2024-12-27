@@ -185,6 +185,11 @@
                   </ul>
                   <div class="tab-content my-3">
                     <div class="tab-pane fade show active" id="wallet_BTC" role="tabpanel">
+                      <div class="row" *ngIf="userSalaryTemplateNotConfigCount>0">
+                        <div class="col-md-12">
+                          <p class="mb-0" style="color : red"> salary template is not mapped with {{userSalaryTemplateNotConfigCount}} user</p>
+                        </div> 
+                      </div>
                       <div class="row">
                         <div class="col-md-6" (click)="employeeChangesSection(PAYROLL_PROCESS_STEP)">
                           <div class="card-body mt-3 payroll-step"
@@ -294,9 +299,7 @@
                         </div>
                         <div class="col-auto align-self-center">
                           <div class="button-items">
-                            <button type="button" class="btn btn-outline-primary btn-round"
-                              [disabled]="PAYROLL_PROCESS_STEP < PAYROLL_STEP_COMPLETED"
-                              (click)="generateSalaryReportMethodCall()">
+                            <button type="button" class="btn btn-outline-primary btn-round" [disabled]="PAYROLL_PROCESS_STEP < PAYROLL_STEP_COMPLETED" (click)="getPayrollReport()">
                               <ng-container *ngIf="RUN_PAYROLL_LOADER; else runPayrollLoaderFalseCondition">
                                 <div class="dot-opacity-loader">
                                   <span></span>
