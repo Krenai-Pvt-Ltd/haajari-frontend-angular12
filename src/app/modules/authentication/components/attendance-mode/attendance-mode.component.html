@@ -413,11 +413,10 @@
                             <span></span>
                           </div>
                         </a>
-                        <a class="" style="color: #6666f3" (click)="openLatLongField()" *ngIf="!isLatLongFieldOpen">
+                        <a class="text-primary position-relative" style="top:5px" (click)="openLatLongField()" *ngIf="!isLatLongFieldOpen">
                           <span *ngIf="!locationLoader"
-                            >Add Location Via Latitude & Longitude
+                            ><i class="bi bi-plus"></i> Add Location Via Latitude & Longitude
                           </span>
-                          
                         </a>
                         <div
                           *ngIf="
