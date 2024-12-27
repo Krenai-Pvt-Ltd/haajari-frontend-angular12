@@ -420,31 +420,33 @@ invoiceDetail:InvoiceDetail = new InvoiceDetail();
 
 
   downloadInvoiceLoading:boolean=false;
-  download(invoice:any){
+  async download(invoice:any){
      this.downloadInvoiceLoading = true;
     if(!constant.EMPTY_STRINGS.includes(invoice.invoiceUrl)){
       window.open(invoice.invoiceUrl, "_blank");
       this.downloadInvoiceLoading = false;
     }else{
-      this.downloadInvoice(invoice.id);
+      await this.downloadInvoice(invoice.id);
       this.downloadInvoiceLoading = false;
     }
   }
 
 
-  downloadingInvoice:boolean=false;
-  downloadInvoice(invoiceId:number){
-    this.downloadingInvoice =true;
-    this._subscriptionPlanService.downloadInvoice(invoiceId).subscribe((response) => {
-      this.downloadingInvoice =false;
-      if (response.status) {
-        if(response.object!=null){
-          window.open(response.object,"_blank");
-        }
+  downloadingInvoice: boolean = false;
+  async downloadInvoice(invoiceId: number) {
+    this.downloadingInvoice = true;
+    this.downloadInvoiceLoading = true;
+    try {
+      const response = await this._subscriptionPlanService.downloadInvoice(invoiceId).toPromise();
+      this.downloadingInvoice = false;
+      if (response.status && response.object) {
+        window.open(response.object, "_blank");
       }
-    },(error)=>{
-      this.downloadingInvoice =false;
-    });
+      this.downloadInvoiceLoading = false;
+    } catch (error) {
+      this.downloadingInvoice = false;
+      this.downloadInvoiceLoading = false;
+    }
   }
 
   // async downloadInvocie(invoiceUrl: string) {
