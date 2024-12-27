@@ -40,7 +40,7 @@
               <div class="col-md-3" *ngIf="_subscriptionPlanService.isSubscription && !_subscriptionPlanService.isTrialPlan">
                 <div class="current-plan-box pt-4" *ngIf="!RulesRegulation">
                   <h2 class="font-18">Current</h2>
-
+                 
                   <div
                     class="d-flex align-items-start justify-content-between mt-5"
                   >
@@ -676,14 +676,26 @@
                               digital attendance management.
                             </p>
                       
-                            <h1 class="requestQuote mb-0 mt-2">
+                            <h1 class="requestQuote mb-0 mt-2" *ngIf="!orgSubscriptionPlanDetail.custom">
                               Request a quote
+                            </h1>
+
+                            <h1 class="requestQuote mb-0 mt-2" *ngIf="orgSubscriptionPlanDetail.custom">
+                              Active
                             </h1>
                       
                             <span class="saperater-border mt-4 mb-4"></span>
                       
-                            <button class="btn change-plan w-100 mb-4" data-bs-toggle="modal" data-bs-target="#createRequest">
+                            <button class="btn change-plan w-100 mb-4" data-bs-toggle="modal" data-bs-target="#createRequest" *ngIf="!pendingSubscriptionRequestStatus &&  !orgSubscriptionPlanDetail.custom">
                               Request
+                            </button>
+
+                            <button class="btn change-plan w-100 mb-4 disabled" style="pointer-events: none;" *ngIf="pendingSubscriptionRequestStatus &&  !orgSubscriptionPlanDetail.custom">
+                              Requested
+                            </button>
+
+                            <button class="btn current-plan w-100 mb-4" *ngIf="orgSubscriptionPlanDetail.custom">
+                             Current plan
                             </button>
                       
                             <ul class="plan-pints pl-0">
@@ -2132,60 +2144,59 @@ Dues Paid Loader
 
 <!-- Request form -->
 
-<button type="button" style="display: none" data-bs-toggle="modal" data-bs-target="#createRequest" #createRequestButton
-  id="createRequestButton"></button>
-<div class="modal fade" id="createRequest" #createRequest tabindex="-1" aria-labelledby="exampleModalFullscreenLabel"
+<button type="button" data-bs-toggle="modal" data-bs-target="#createRequest">
+  Open Form
+</button>
+
+<div class="modal fade" id="createRequest" tabindex="-1" aria-labelledby="exampleModalFullscreenLabel"
   aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title m-0" >
-          Raise Request
-        </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeRequestForm></button>
+        <h5 class="modal-title">Raise Request</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closemodal></button>
       </div>
-      <!--end modal-header-->
       <div class="modal-body">
-        <div class="containerhh">
-                  <div class="form-group">
-                    <label for="username" class="mb-2" style="font-size: 13px">Name</label>
-                    <div class="input-group mb-3">
-                      <input type="text" class="form-control input-zorro" name="name" id="name"
-                        placeholder='Enter name' />
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="username" class="mb-2" style="font-size: 13px">Email</label>
-                    <div class="input-group mb-3">
-                      <input type="text" class="form-control input-zorro" name="email" id="email"
-                        placeholder='Enter email' />
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="username" class="mb-2" style="font-size: 13px">Phone Number</label>
-                    <div class="input-group mb-3">
-                      <input type="text" class="form-control input-zorro" name="phone" id="phone"
-                        placeholder='Enter phone'/>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="username" class="mb-2" style="font-size: 13px">Employee Count</label>
-                    <div class="input-group mb-3">
-                      <input type="text" class="form-control input-zorro" name="count" id="count"
-                        placeholder='Enter employee count' />
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="username" class="mb-2" style="font-size: 13px">Description</label>
-                    <div class="input-group mb-3">
-                        <textarea class="form-control input-zorro" name="desc" id="desc"
-                        placeholder='Enter request description'></textarea>
-                    </div>
-                  </div>
-        </div>
+        <form [formGroup]="requestForm">
+          <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" id="name" class="form-control" formControlName="name">
+            <div *ngIf="requestForm.get('name')?.invalid && requestForm.get('name')?.touched" class="text-danger">
+              Name is required.
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" id="email" class="form-control" formControlName="email">
+            <div *ngIf="requestForm.get('email')?.invalid && requestForm.get('email')?.touched" class="text-danger">
+              Enter a valid email address.
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="phone" class="form-label">Phone</label>
+            <input type="text" id="phone" class="form-control" formControlName="phone">
+            <div *ngIf="requestForm.get('phone')?.invalid && requestForm.get('phone')?.touched" class="text-danger">
+              Enter a valid 10-digit phone number.
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="empCount" class="form-label">Employee Count</label>
+            <input type="number" id="empCount" class="form-control" formControlName="empCount">
+            <div *ngIf="requestForm.get('empCount')?.invalid && requestForm.get('empCount')?.touched" class="text-danger">
+              Employee count must be greater than 0.
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea id="description" class="form-control" formControlName="description"></textarea>
+            <div *ngIf="requestForm.get('description')?.invalid && requestForm.get('description')?.touched" class="text-danger">
+              Description is required.
+            </div>
+          </div>
+        </form>
       </div>
       <div class="modal-footer">
-        <button type="button"  class="btn btn-primary w-100 create-team">
+        <button type="button" class="btn btn-primary" [disabled]="requestForm.invalid" (click)="submitRequest()">
           Submit
         </button>
       </div>

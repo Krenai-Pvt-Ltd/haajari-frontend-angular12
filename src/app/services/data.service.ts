@@ -4427,9 +4427,21 @@ getHolidayForOrganization(date: string): Observable<any>{
 
     return this.httpClient.get<any[]>(`${this.baseUrl}/organization/check-status`, { params });
   }
-  
-  
 
+
+  createSubscriptionInquiryRequest(request: any): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/contact-and-support/save-request`, request);
+  }
+
+  getSubscriptionRequestInfo(): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/contact-and-support/get-subscription-request-info`);
+  }
+
+  getSubscriptionRequestStatus(): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/contact-and-support/get-subscription-request-status`);
+  }
+  
+  
 
 }
 
