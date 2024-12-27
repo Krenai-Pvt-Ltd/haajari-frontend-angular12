@@ -4431,6 +4431,9 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}/contact-and-support/get-subscription-request-status`);
   }
   
+  sendNotifications(request: any[]): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/whatsapp-user-onboarding/send-notifications`, request);
+  }
   
 
 }
