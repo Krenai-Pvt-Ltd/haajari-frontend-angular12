@@ -4444,8 +4444,30 @@ getHolidayForOrganization(date: string): Observable<any>{
 
     return this.httpClient.get<any[]>(`${this.baseUrl}/organization/check-status`, { params });
   }
-  
-  
+
+  saveAllUserData(onboardingData: any, userUuid: string): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const params = { userUuid };
+
+    return this.httpClient.post(`${this.baseUrl}/get/onboarding/save-all-user-data`, onboardingData, {
+      headers,
+      params,
+    });
+  }
+
+  getRequestedData(userUuid: string): Observable<any> {
+    const params = { userUuid };
+    return this.httpClient.get(`${this.baseUrl}/get/onboarding/get-requested-data`, {
+      params,
+    });
+  }
+  saveRequestedData(uuid: string): Observable<any> {
+    const params = { uuid };
+    return this.httpClient.post(`${this.baseUrl}/get/onboarding/save-requested-data`,null, {
+      params
+    });
+  }
+
 
 
 }
