@@ -1707,5 +1707,21 @@ a.fetch-location {
   }
 }
 
+.spreter-line {
+  height: 15px;
+  border-right: 1px solid #2f2e41;
+  position: relative;
+  top: 2px;
+}
+
+.skip-btn i {
+  position: relative;
+  top: -1px;
+}
+
+.alreadyMemberBox {
+  background-color: #fff8f2;
+  border-radius: 2px;
+}
 
 /* new side tab for new modal */

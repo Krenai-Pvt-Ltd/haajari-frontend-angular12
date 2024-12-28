@@ -62,28 +62,28 @@
       </div> -->
 
       <div>
-        <div class="row mb-1 mt-3 align-items-center" style="padding-bottom: 15px">
+        <div class="row mb-1 mt-4 align-items-center pb-3">
           <div class="col-md-12">
             <div class="d-flex align-items-center" style="border: 1px solid #f1f1f1">
-              <div style="width: 20%; position: relative">
+              <div class="position-relative" style="width: 20%;">
                 <div class="dropdown bonus-payroll">
                   <nz-date-picker nzMode="month" [nzSize]="size" [(ngModel)]="selectedDate"
-                    (ngModelChange)="onMonthChange($event)"
+                    (ngModelChange)="onMonthChange()"
                     [nzDisabledDate]="_helperService.disableMonths"></nz-date-picker>
                 </div>
               </div>
 
-              <div class="" style="width: 80%">
+              <div style="width: 80%">
                 <form role="search" class="searching ng-untouched ng-pristine ng-valid" (submit)="searchUsers($event)">
-                  <div class="form-group" style="position: relative; width: 100%">
+                  <div class="form-group position-relative w-100">
                     <input type="text" id="searchText" placeholder="Search"
                       class="form-control me-2 ng-untouched ng-pristine ng-valid attendance-details-search"
                       style="padding: 10px 40px; padding-right: 20px" (keyup)="searchUsers($event)" [(ngModel)]="search"
                       [ngModelOptions]="{ standalone: true }" />
 
-                    <i class="bi bi-search search-icon" style="margin: auto; margin-left: 15px"></i>
-                    <button *ngIf="search.length !== 0" type="button" class="btn close-btn" (click)="clearSearch()"
-                      style="position: absolute; right: 20px; top: 3px">
+                    <i class="bi bi-search search-icon"></i>
+                    <button *ngIf="search.length !== 0" type="button" class="btn close-btn position-absolute"
+                      (click)="clearSearch()">
                       <i class="bi bi-x mt-auto mb-auto"></i>
                     </button>
                   </div>
@@ -97,12 +97,12 @@
           <table class="table border-dashed mb-0">
             <thead>
               <tr>
-                <th>EMPLOYEE</th>
-                <th>EMAIL</th>
-                <th>AMOUNT</th>
-                <th>STATUS</th>
-                <th>ACTION DATE</th>
-                <th>ACTIONS</th>
+                <th>Employee</th>
+                <th>Email</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Action Date</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <ng-container *ngIf="
@@ -201,7 +201,7 @@
           <tbody *ngIf="dataNotFoundPlaceholder">
             <tr>
               <td colspan="8">
-                <div class="empty-file" style="margin-top: 3%; margin-bottom: 3%">
+                <div class="empty-file" style="margin-top: 5%; margin-bottom: 5%">
                   <nz-empty nzNotFoundImage="assets/images/no-data-found-img-2.svg" [nzNotFoundContent]="contentTpl">
                     <ng-template #contentTpl>
                       <p class="mb-1 empty-detail font-16">No data for now</p>
