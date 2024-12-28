@@ -3174,7 +3174,6 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     search: string,
     searchBy: string
   ): Observable<any>{
-
     const params = new HttpParams()
     .set('start_date', startDate)
     .set('end_date', endDate)
