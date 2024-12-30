@@ -189,11 +189,42 @@
     right: 0px;
     top: 30px;
 }
-.holidays-box{
+/* .holidays-box{
     background-color: #9487BE;
     border-top-left-radius: 2px;
     border-bottom-left-radius: 2px;
-}
+} */
+.holidays-box {
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+    transition: background-color 0.5s ease; /* Smooth transition */
+  }
+  
+  .color1 {
+    background-color: #9487BE;
+  }
+  
+  .color2 {
+    background-color: #FF7F50;
+  }
+  
+  .color3 {
+    background-color: #FFD700;
+  }
+  
+  .color4 {
+    background-color: #90EE90;
+  }
+  
+  .color5 {
+    background-color: #87CEFA;
+  }
+  
+  .color6 {
+    background-color: #FFB6C1;
+  }
+  
+  
 
 .holidays-box h5{
     font-family: "Kanit", sans-serif;
@@ -493,6 +524,20 @@
       opacity: 1;
     }
   }
+
+  .chart-container {
+    position: relative;
+    /* height: 50vh;
+    width: 50vw; */
+    /* height: 500px; */
+    width: 400px;
+    margin: 0 auto;
+  }
+  
+  
+  
+  
+/** Dot opacity end */
   .team-overview{
     border: 1px solid #f1f1f1;
   }

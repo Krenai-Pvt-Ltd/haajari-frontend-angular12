@@ -89,15 +89,17 @@
                     shiftCounts.nightShiftCount || 0
                     }}</small>
                 </div>
-                <div class="d-flex align-items-center justify-content-between"
-                  *ngIf="shiftCounts.rotationalShiftCount != 0">
-                  <small class="text-muted">Default Punchin</small>
+                <div
+                  class="d-flex align-items-center justify-content-between"
+                  *ngIf="shiftCounts.rotationalShiftCount != 0"
+                >
+                  <small class="text-muted">Automated Punchin</small>
                   <small class="text-muted">{{
                     shiftCounts.rotationalShiftCount || 0
                     }}</small>
                 </div>
               </div>
-            </div>
+            </div>    
           </div>
           <!-- {{ dataNotFoundPlaceholder }} {{ isShimmer }} -->
           <div class="col-md-7 mt-3 mb-3">

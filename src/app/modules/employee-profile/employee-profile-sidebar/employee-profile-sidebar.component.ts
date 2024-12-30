@@ -167,7 +167,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     this.skillsFilteredOptions=[];
   }
   checkSkillsArraysEqual(): boolean {
-    // debugger
+
     if (this.skills.length !== this.fetchedSkills.length) {
       return false;
     }

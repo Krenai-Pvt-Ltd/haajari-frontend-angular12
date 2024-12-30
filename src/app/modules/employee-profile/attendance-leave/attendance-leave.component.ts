@@ -16,6 +16,31 @@ import { AttendanceRequest } from 'src/app/models/AttendanceRequest';
 // import { Timeline } from 'vis-timeline'
 // import { Timeline,DataSet, TimelineItem } from 'vis-timeline/standalone';
 
+import {
+  Chart,
+  LineController,
+  LineElement,
+  PointElement,
+  LinearScale,
+  CategoryScale,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+
+
+Chart.register(
+  LineController,
+  LineElement,
+  PointElement,
+  LinearScale,
+  CategoryScale,
+  Title,
+  Tooltip,
+  Legend
+);
+
+
 @Component({
   selector: 'app-attendance-leave',
   templateUrl: './attendance-leave.component.html',
@@ -64,7 +89,7 @@ contentTemplate: string ='You are on the Notice Period, so that you can not appl
     // Set the default selected tab to the current week
     this.setDefaultWeekTab();
     this.calculateDateRange();
-    // this.getEmployeeProfileAttendanceDetailsData();
+    this.getEmployeeProfileAttendanceDetailsData();
     this.currentUserUuid = this.rbacService.getUuid();
 
     this.calculateDateRange();
@@ -565,6 +590,7 @@ dayShiftToggleFun(shift: string) {
 
 
   onMonthChange(month: Date): void {
+   
     this.selectedDate = month;
     this.presentWeek = false;
     // this.resetData();
@@ -573,7 +599,8 @@ dayShiftToggleFun(shift: string) {
     this.updateWeekLabels();
     this.selectedTab = 'Week 1'; // Reset to default
     this.calculateDateRange();
-    // this.getEmployeeProfileAttendanceDetailsData();
+    this.getEmployeeProfileAttendanceDetailsData();
+    // this.getWorkedHourForEachDayOfAWeek();
   }
 
   updateThirtyDaysLabel(): void {
@@ -630,9 +657,11 @@ dayShiftToggleFun(shift: string) {
       const weekNumber = parseInt(this.selectedTab.replace('Week ', ''), 10);
       this.setWeekRange(this.selectedDate, weekNumber);
     }
+    this.getWorkedHourForEachDayOfAWeek();
   }
 
   setWeekRange(date: Date, weekNumber: number): void {
+    debugger
     const currentDate = new Date();
     const startOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
     const lastDayOfMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0);
@@ -695,12 +724,19 @@ dayShiftToggleFun(shift: string) {
   }
 
   onTabChange(tab: string): void {
+    debugger
+    if(tab == '30 DAYS') {
+      this.searchString = 'ALL';
+    }else {
+      this.searchString = 'WEEK';
+    }
     this.selectedTab = tab;
     this.presentWeek = false;
     // this.resetData();
     this.isShimmer = true;
     this.calculateDateRange();
-    // this.getEmployeeProfileAttendanceDetailsData();
+    this.getEmployeeProfileAttendanceDetailsData();
+    // this.getWorkedHourForEachDayOfAWeek();
   }
 
 
@@ -721,23 +757,23 @@ dayShiftToggleFun(shift: string) {
   attendanceDetails: EmployeeProfileAttendanceResponse[] = [];
   totalAttendanceDetails: TotalEmployeeProfileAttendanceResponse = new TotalEmployeeProfileAttendanceResponse();
   isShimmer : boolean = false;
-  // getEmployeeProfileAttendanceDetailsData() {
-  //   debugger;
-  //   this.isShimmer = true;
-  //   this.attendanceDetails = [];
-  //   // this.totalAttendanceDetails = new TotalEmployeeProfileAttendanceResponse();
-  //   this.dataService.getEmployeeProfileAttendanceDetails(this.userId, this.startDate, this.endDate).subscribe(
-  //     (response) => {
-  //      this.isShimmer = false;
-  //      this.attendanceDetails = response.object.employeeProfileAttendanceResponseList;
-  //      this.totalAttendanceDetails = response.object.totalEmployeeProfileAttendanceResponse
-  //     },
-  //     (error) => {
-  //       this.isShimmer = false;
-  //       console.log(error);
-  //     }
-  //   );
-  // }
+  getEmployeeProfileAttendanceDetailsData() {
+    debugger;
+    this.isShimmer = true;
+    this.attendanceDetails = [];
+    // this.totalAttendanceDetails = new TotalEmployeeProfileAttendanceResponse();
+    this.dataService.getEmployeeProfileAttendanceDetails(this.userId, this.startDate, this.endDate).subscribe(
+      (response) => {
+       this.isShimmer = false;
+       this.attendanceDetails = response.object.employeeProfileAttendanceResponseList;
+       this.totalAttendanceDetails = response.object.totalEmployeeProfileAttendanceResponse
+      },
+      (error) => {
+        this.isShimmer = false;
+        console.log(error);
+      }
+    );
+  }
 
   resetData() {
     this.attendanceDetails = [];
@@ -837,6 +873,7 @@ dayShiftToggleFun(shift: string) {
 // Navigate to the previous month
 goToPreviousMonth(): void {
   if (!this.isPreviousDisabled()) {
+    this.searchString = 'WEEK';
     const previousMonth = new Date(
       this.selectedDate.getFullYear(),
       this.selectedDate.getMonth() - 1,
@@ -850,6 +887,7 @@ goToPreviousMonth(): void {
 nextMonthDisable: boolean = false;
 goToNextMonth(): void {
   if (!this.isNextDisabled()) {
+    this.searchString = 'WEEK';
     const nextMonth = new Date(
       this.selectedDate.getFullYear(),
       this.selectedDate.getMonth() + 1,
@@ -1060,6 +1098,160 @@ setDefaultWeekTab(): void {
   //   };
   // }
 
+@ViewChild('chartCanvas', { static: false }) chartCanvas!: ElementRef<HTMLCanvasElement>;
+private chart!: Chart;
 
+searchString = 'WEEK';
+endDateStr : string = '';
+getWorkedHourForEachDayOfAWeek() {
+  debugger
+  
+  /// Get current date and convert to the same format as endDate
+  const currentDate = new Date();
+  const endDate = new Date(this.endDate); // Convert endDate to Date object
+  const dayOfWeek = currentDate.getDay(); // Get the current day of the week (0 = Sunday, 6 = Saturday)
+
+  // Get the last date of the current week (Saturday)
+  const lastDayOfWeek = new Date(currentDate);
+  lastDayOfWeek.setDate(currentDate.getDate() - dayOfWeek + 6); // Set to Saturday of the current week
+
+  // Normalize currentDate and lastDayOfWeek to remove time component for accurate comparison
+  currentDate.setHours(0, 0, 0, 0);
+  lastDayOfWeek.setHours(0, 0, 0, 0);
+  endDate.setHours(0, 0, 0, 0); // Remove time component from endDate
+
+  // If endDate lies within the current week, adjust it to the last day (Saturday)
+  if (endDate >= currentDate && endDate <= lastDayOfWeek) {
+    console.log('End date is within the current week');
+    this.endDateStr = lastDayOfWeek.toISOString().split('T')[0]; // Format the date in YYYY-MM-DD format
+  }else {
+    this.endDateStr = this.endDate;
+  }
+
+  this.dataService.getWorkedHourForEachDayOfAWeek(this.userId, this.startDate, this.endDateStr, this.searchString).subscribe(
+    (response: any) => {
+      const labels = response.listOfObject.map((item: any) =>
+        this.formatDate(item.workDate)
+      );
+      const data = response.listOfObject.map((item: any) =>
+        this.formatToDecimalHours(item.totalWorkedHour)
+      );
+
+      this.initializeChart(labels, data);
+    },
+    (error) => {
+      console.error('Error fetching worked hours:', error);
+    }
+  );
+}
+
+formatToDecimalHours(time: string): number {
+  const [hours, minutes, seconds] = time.split(':').map(Number);
+  return hours + minutes / 60 + seconds / 3600;
+}
+
+// formatDate(date: string): string {
+//   const options: Intl.DateTimeFormatOptions = { weekday: 'short' };
+//   return new Date(date).toLocaleDateString('en-US', options);
+// }
+
+formatDate(date: string): string {
+  if (this.searchString === 'ALL') {
+    return date;
+  } else {
+    const options: Intl.DateTimeFormatOptions = { weekday: 'short' };
+  return new Date(date).toLocaleDateString('en-US', options);
+  }
+}
+
+formatDecimalToTime(decimalHours: number): string {
+  const hours = Math.floor(decimalHours);
+  const minutes = Math.round((decimalHours - hours) * 60);
+  return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}hrs`;
+}
+initializeChart(labels: string[], data: number[]) {
+  const ctx = this.chartCanvas.nativeElement.getContext('2d');
+
+  if (ctx) {
+    // Check if there's an existing chart and destroy it
+    if (this.chart) {
+      this.chart.destroy();
+    }
+
+    // Create the new chart
+    this.chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: 'Total Worked Hours',
+            data: data,
+            borderColor: 'rgba(75, 192, 192, 1)',
+            backgroundColor: 'rgba(153, 102, 255, 0.2)',
+            tension: 0.4, 
+            fill: true, 
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            display: false,
+            position: 'top',
+          },
+          title: {
+            display: true,
+            text: 'Worked Hours',
+          },
+          tooltip: {
+            callbacks: {
+              label: (tooltipItem: any) => {
+                const formattedTime = this.formatDecimalToTime(tooltipItem.raw);
+                return `${tooltipItem.label}: ${formattedTime}`;
+              }
+            },
+          },
+        },
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: this.searchString === 'ALL' ? 'Weeks' : 'Days',
+            },
+          },
+          y: {
+            title: {
+              display: true,
+              text: 'Worked Hours',
+            },
+            beginAtZero: true,
+            ticks: {
+              callback: (tickValue: string | number) => {
+                const value = typeof tickValue === 'string' ? parseFloat(tickValue) : tickValue;
+                return this.formatDecimalToTime(value); 
+              },
+              stepSize: 0.5,  
+            },
+            type: 'linear', 
+          },
+        },
+      },
+    });
+  }
+}
+
+selectedRequest: string = ''; 
+
+  onRequestChange(value: string) {
+    if (value === 'Attendance update') {
+      // Trigger the hidden button to open the modal
+      const attendanceUpdateButton = document.getElementById('attendanceUpdate');
+      if (attendanceUpdateButton) {
+        attendanceUpdateButton.click();
+      }
+    }
+  }
 
 }
