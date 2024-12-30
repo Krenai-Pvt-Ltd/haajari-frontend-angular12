@@ -37,7 +37,7 @@ isFormInvalid: boolean=false;
       this.userId = this.activateRoute.snapshot.queryParamMap.get('userId');
     }
 
-    
+
   }
 
   ngOnInit(): void {
@@ -143,20 +143,37 @@ isFormInvalid: boolean=false;
     return this.requestedData.userEmergencyContacts.find(contact => contact.id === id);
   }
   findAllEmergencyContactWithNullId(): any {
+    if(!this.requestedData.userEmergencyContacts){
+      return [];
+    }
     return this.requestedData.userEmergencyContacts.filter(contact => contact.id === 0 || contact.id === null);
   }
   findExperienceWithId(id: number): any {
     return this.requestedData.userExperience.find(experience => experience.id === id);
   }
   findAllExperienceWithNullId(): any {
+    if(!this.requestedData.userExperience){
+      return [];
+    }
     return this.requestedData.userExperience.filter(experience => experience.id === 0 || experience.id === null);
   }
   findGuarantorWithId(id: number): any {
     return this.requestedData.userGuarantorInformation.find(guarantor => guarantor.id === id);
   }
   findAllGuarantorWithNullId(): any {
+    if(!this.requestedData.userGuarantorInformation){
+      return [];
+    }
     return this.requestedData.userGuarantorInformation.filter(guarantor => guarantor.id === 0 || guarantor.id === null);
   }
+  get hasValidAddress(): boolean {
+    const address = this.requestedData?.userAddress?.[0];
+    return !!(
+      address &&
+      (address.addressLine1 || address.addressLine2 || address.city || address.pincode)
+    );
+  }
+
   approveRequestedData(): void {
     this.dataService.saveRequestedData(this.userId).subscribe({
       next: (response) => {

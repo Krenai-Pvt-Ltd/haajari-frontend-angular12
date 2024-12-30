@@ -92,7 +92,7 @@
                 <p class="mb-1">Email Address</p>
                 <div class="d-flex align-items-center gap-2">
                   <h6 class="profile-email mb-0">{{ user.email || '--'}}</h6>
-                  <span *ngIf=" requestedData && requestedData.user.email != user.email"
+                  <span *ngIf=" requestedData && requestedData?.user?.email"
                     class="profile-editrequest d-flex align-items-center justify-content-center pointer position-relative">
                     <span style="width: 40px !important;" nz-popover [nzPopoverContent]="contentTemplate"
                       [nzPopoverOverlayStyle]="{'width':'400px'}" nzPopoverPlacement="rightTop">
@@ -143,7 +143,7 @@
                             <div class="updaaate-log pb-3">
                               <div>
                                 <p class="mb-1 font-14">Updated</p>
-                                <h5 class="mb-0">{{requestedData.user.email}}</h5>
+                                <h5 class="mb-0">{{requestedData?.user?.email}}</h5>
                               </div>
                               <div class="mt-3">
                                 <p class="mb-1 font-14">Current </p>
@@ -173,7 +173,7 @@
                 <p class="mb-1">Phone Number</p>
                 <div class="d-flex align-items-center gap-2">
                   <h6 class="profile-email mb-0">{{ user.phoneNumber || '--'}}</h6>
-                  <span *ngIf=" requestedData && requestedData.user.phoneNumber != user.phoneNumber"
+                  <span *ngIf=" requestedData && requestedData?.user?.phoneNumber"
                     class="profile-editrequest d-flex align-items-center justify-content-center pointer position-relative">
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
                       <circle cx="13" cy="13" r="13" fill="#FFF6E9" />
@@ -224,14 +224,13 @@
                           <div class="updaaate-log pb-3">
                             <div>
                               <p class="mb-1 font-14">Updated</p>
-                              <h5 class="mb-0">{{requestedData.user.phoneNumber}}</h5>
+                              <h5 class="mb-0">{{requestedData?.user?.phoneNumber}}</h5>
                             </div>
 
                             <div class="mt-3">
                               <p class="mb-1 font-14">Current </p>
                               <h5 class="mb-0">{{user.phoneNumber}}</h5>
                             </div>
-
                           </div>
 
                         </div>
@@ -248,7 +247,7 @@
                 <p class="mb-1">Gender</p>
                 <div class="d-flex align-items-center gap-2">
                   <h6 class="profile-email mb-0">{{ user.gender || '--'}}</h6>
-                  <span *ngIf="requestedData && requestedData.user.gender != user.gender"
+                  <span *ngIf="requestedData && requestedData?.user?.gender"
                     class="profile-editrequest d-flex align-items-center justify-content-center pointer position-relative">
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
                       <circle cx="13" cy="13" r="13" fill="#FFF6E9" />
@@ -299,7 +298,7 @@
                           <div class="updaaate-log pb-3">
                             <div>
                               <p class="mb-1 font-14">Updated</p>
-                              <h5 class="mb-0">{{requestedData.user.gender}}</h5>
+                              <h5 class="mb-0">{{requestedData?.user?.gender}}</h5>
                             </div>
 
                             <div class="mt-3">
@@ -324,7 +323,7 @@
                 <h6></h6>
                 <div class="d-flex align-items-center gap-2">
                   <h6 class="profile-email mb-0">{{ (user.dateOfBirth | date:'dd-MM-yyyy' )|| '--'}}</h6>
-                  <span *ngIf="requestedData && requestedData.user.dateOfBirth != user.dateOfBirth"
+                  <span *ngIf="requestedData && requestedData?.user?.dateOfBirth"
                     class="profile-editrequest d-flex align-items-center justify-content-center position-relative pointer">
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
                       <circle cx="13" cy="13" r="13" fill="#FFF6E9" />
@@ -375,7 +374,7 @@
                           <div class="updaaate-log pb-3">
                             <div>
                               <p class="mb-1 font-14">Updated</p>
-                              <h5 class="mb-0">{{requestedData.user.dateOfBirth | date:'dd-MM-yyyy'}}</h5>
+                              <h5 class="mb-0">{{requestedData?.user?.dateOfBirth | date:'dd-MM-yyyy'}}</h5>
                             </div>
 
                             <div class="mt-3">
@@ -402,7 +401,7 @@
                 <h6></h6>
                 <div class="d-flex align-items-center gap-2">
                   <h6 class="profile-email mb-0">{{ user.maritalStatus || '--'}}</h6>
-                  <span *ngIf="requestedData && requestedData.user.maritalStatus != user.maritalStatus"
+                  <span *ngIf="requestedData && requestedData?.user?.maritalStatus"
                     class="profile-editrequest d-flex align-items-center justify-content-center position-relative pointer">
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
                       <circle cx="13" cy="13" r="13" fill="#FFF6E9" />
@@ -477,7 +476,7 @@
                 <p class="mb-1">Nationality</p>
                 <div class="d-flex align-items-center gap-2">
                   <h6 class="profile-email mb-0">{{ user.nationality || '--'}}</h6>
-                  <span *ngIf="requestedData && requestedData.user.nationality != user.nationality"
+                  <span *ngIf="requestedData && requestedData?.user?.nationality"
                     class="profile-editrequest d-flex align-items-center justify-content-center position-relative pointer">
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
                       <circle cx="13" cy="13" r="13" fill="#FFF6E9" />
@@ -552,7 +551,7 @@
                 <p class="mb-1">Father’s Name</p>
                 <div class="d-flex align-items-center ">
                   <h6 class="profile-email mb-0">{{ user.fatherName || '--'}}</h6>
-                  <span *ngIf="requestedData && requestedData.user.fatherName != user.fatherName"
+                  <span *ngIf="requestedData && requestedData?.user?.fatherName"
                     class="profile-editrequest d-flex align-items-center justify-content-center pointer position-relative">
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
                       <circle cx="13" cy="13" r="13" fill="#FFF6E9" />
@@ -648,7 +647,7 @@
                   addressEmployee?.[0]?.city}} - {{ addressEmployee?.[0]?.pincode}}
 
 
-                  <span *ngIf="requestedData && requestedData.userAddress[0] != addressEmployee?.[0]"
+                  <span *ngIf="hasValidAddress"
                     class="profile-editrequest d-flex align-items-center justify-content-center pointer position-relative">
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
                       <circle cx="13" cy="13" r="13" fill="#FFF6E9" />
@@ -699,7 +698,7 @@
                           <div class="updaaate-log pb-3">
                             <div>
                               <p class="mb-1 font-14">Updated</p>
-                              <h5 class="mb-0">{{requestedData.userAddress[0].addressLine1}} {{requestedData.userAddress[0].addressLine2}} {{requestedData.userAddress[0].city}} - {{requestedData.userAddress[0].pincode}}</h5>
+                              <h5 class="mb-0">{{requestedData.userAddress[0]?.addressLine1}} {{requestedData.userAddress[0]?.addressLine2}} {{requestedData.userAddress[0]?.city}} - {{requestedData.userAddress[0]?.pincode}}</h5>
                             </div>
 
                             <div class="mt-3">
@@ -730,7 +729,7 @@
                 <h6 class="mb-1">{{ addressEmployee?.[1]?.addressLine1 || '--'}} {{ addressEmployee?.[1]?.addressLine2}}
                   {{ addressEmployee?.[1]?.city}} - {{ addressEmployee?.[1]?.pincode}}
 
-                  <span *ngIf="requestedData && requestedData.userAddress[0] != addressEmployee?.[0]"
+                  <span *ngIf="hasValidAddress"
                   class="profile-editrequest d-flex align-items-center justify-content-center pointer position-relative">
                   <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
                     <circle cx="13" cy="13" r="13" fill="#FFF6E9" />
@@ -889,7 +888,7 @@
                 <div class="d-flex align-items-center gap-2">
                   <div class="d-flex align-items-center gap-2">
                     <h6 class="profile-email mb-0">{{ refrence.name }}</h6>
-                    <span *ngIf="requestedData && findGuarantorWithId(refrence.id) != refrence"
+                    <span *ngIf="requestedData && (findGuarantorWithId(refrence.id)?.name || findGuarantorWithId(refrence.id)?.relation || findGuarantorWithId(refrence.id)?.phoneNumber || findGuarantorWithId(refrence.id)?.emailId)"
                       class="profile-editrequest d-flex align-items-center justify-content-center pointer position-relative">
                       <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
                         <circle cx="13" cy="13" r="13" fill="#FFF6E9" />
@@ -948,10 +947,10 @@
 
                               <div class="mt-3">
                                 <p class="mb-1 font-14">Current </p>
-                                <h5 class="mb-0">{{refrence.name || '--'}}</h5>
-                                <h5 class="mb-0">{{refrence.relation || '--'}}</h5>
-                                <h5 class="mb-0">{{refrence.phoneNumber || '--'}}</h5>
-                                <h5 class="mb-0">{{refrence.emailId || '--'}}</h5>
+                                <h5 class="mb-0" *ngIf="findGuarantorWithId(refrence.id)?.name">{{refrence.name || '--'}}</h5>
+                                <h5 class="mb-0" *ngIf="findGuarantorWithId(refrence.id)?.relation">{{refrence.relation || '--'}}</h5>
+                                <h5 class="mb-0" *ngIf="findGuarantorWithId(refrence.id)?.phoneNumber">{{refrence.phoneNumber || '--'}}</h5>
+                                <h5 class="mb-0" *ngIf="findGuarantorWithId(refrence.id)?.emailId">{{refrence.emailId || '--'}}</h5>
                               </div>
 
                             </div>
@@ -992,7 +991,7 @@
                 <p class="mb-1">Higher Qualification</p>
                 <div class="d-flex align-items-center gap-2">
                   <h6 class="profile-email mb-0">{{ academicEmployee.highestEducationalLevel || '--'}}</h6>
-                  <span *ngIf="requestedData && requestedData.userAcademics.highestEducationalLevel != academicEmployee.highestEducationalLevel"
+                  <span *ngIf="requestedData && requestedData?.userAcademics?.highestEducationalLevel"
                     class="profile-editrequest d-flex align-items-center justify-content-center pointer position-relative">
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
                       <circle cx="13" cy="13" r="13" fill="#FFF6E9" />
@@ -1067,7 +1066,7 @@
                 <p class="mb-1">Degree/Diploma</p>
                 <div class="d-flex align-items-center gap-2">
                   <h6 class="profile-email mb-0">{{ academicEmployee.degreeObtained || '--'}}</h6>
-                  <span *ngIf="requestedData && requestedData.userAcademics.degreeObtained != academicEmployee.degreeObtained"
+                  <span *ngIf="requestedData && requestedData?.userAcademics?.degreeObtained"
                     class="profile-editrequest d-flex align-items-center justify-content-center pointer position-relative">
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
                       <circle cx="13" cy="13" r="13" fill="#FFF6E9" />
@@ -1142,7 +1141,7 @@
                 <p class="mb-1">Field of Study</p>
                 <div class="d-flex align-items-center gap-2">
                   <h6 class="profile-email mb-0">{{ academicEmployee.fieldOfStudy || '--'}}</h6>
-                  <span *ngIf="requestedData && requestedData.userAcademics.fieldOfStudy != academicEmployee.fieldOfStudy"
+                  <span *ngIf="requestedData && requestedData?.userAcademics?.fieldOfStudy"
                     class="profile-editrequest d-flex align-items-center justify-content-center pointer position-relative">
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
                       <circle cx="13" cy="13" r="13" fill="#FFF6E9" />
@@ -1217,7 +1216,7 @@
                 <p class="mb-1">Institution Name</p>
                 <div class="d-flex align-items-center gap-2">
                   <h6 class="profile-email mb-0">{{ academicEmployee.institutionName || '--'}}</h6>
-                  <span *ngIf="requestedData && requestedData.userAcademics.institutionName != academicEmployee.institutionName"
+                  <span *ngIf="requestedData && requestedData?.userAcademics?.institutionName"
                     class="profile-editrequest d-flex align-items-center justify-content-center pointer position-relative">
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
                       <circle cx="13" cy="13" r="13" fill="#FFF6E9" />
@@ -1292,7 +1291,7 @@
                 <p class="mb-1">CGPA</p>
                 <div class="d-flex align-items-center gap-2">
                   <h6 class="profile-email mb-0">{{ academicEmployee.grade || '--'}}</h6>
-                  <span *ngIf="requestedData && requestedData.userAcademics.grade != academicEmployee.grade"
+                  <span *ngIf="requestedData && requestedData?.userAcademics?.grade"
                     class="profile-editrequest d-flex align-items-center justify-content-center pointer position-relative">
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
                       <circle cx="13" cy="13" r="13" fill="#FFF6E9" />
@@ -1367,7 +1366,7 @@
                 <p class="mb-1">Graduating Year</p>
                 <div class="d-flex align-items-center gap-2">
                   <h6 class="profile-email mb-0">{{ academicEmployee.graduationYear || '--'}}</h6>
-                  <span *ngIf="requestedData && requestedData.userAcademics.graduationYear != academicEmployee.graduationYear"
+                  <span *ngIf="requestedData && requestedData?.userAcademics?.graduationYear"
                     class="profile-editrequest d-flex align-items-center justify-content-center poiter position-relative">
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
                       <circle cx="13" cy="13" r="13" fill="#FFF6E9" />
@@ -1592,7 +1591,7 @@
                 <p class="mb-1">Account Holder Name</p>
                 <div class="d-flex align-items-center gap-2">
                   <h6 class="mb-0">{{ bankDetailsEmployee?.accountHolderName || '--'}}</h6>
-                  <span *ngIf="requestedData && requestedData.userBankDetails.accountHolderName != bankDetailsEmployee.accountHolderName"
+                  <span *ngIf="requestedData && requestedData?.userBankDetails?.accountHolderName"
                     class="profile-editrequest d-flex align-items-center justify-content-center pointer position-relative">
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
                       <circle cx="13" cy="13" r="13" fill="#FFF6E9" />
@@ -1668,7 +1667,7 @@
                 <p class="mb-1">Bank Name</p>
                 <div class="d-flex align-items-center gap-2">
                   <h6 class="mb-0">{{ bankDetailsEmployee?.bankName || '--'}}</h6>
-                  <span *ngIf="requestedData && requestedData.userBankDetails.bankName != bankDetailsEmployee.bankName"
+                  <span *ngIf="requestedData && requestedData?.userBankDetails?.bankName"
                     class="profile-editrequest d-flex align-items-center justify-content-center pointer position-relative">
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
                       <circle cx="13" cy="13" r="13" fill="#FFF6E9" />
@@ -1744,7 +1743,7 @@
                 <p class="mb-1">Account Number</p>
                 <div class="d-flex align-items-center gap-2">
                   <h6 class="mb-0">{{ bankDetailsEmployee?.accountNumber || '--'}}</h6>
-                  <span *ngIf="requestedData && requestedData.userBankDetails.accountNumber != bankDetailsEmployee.accountNumber"
+                  <span *ngIf="requestedData && requestedData?.userBankDetails?.accountNumber"
                     class="profile-editrequest d-flex align-items-center justify-content-center pointer position-relative">
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
                       <circle cx="13" cy="13" r="13" fill="#FFF6E9" />
@@ -1819,7 +1818,7 @@
                 <p class="mb-1">IFSC Number</p>
                 <div class="d-flex align-items-center gap-2">
                   <h6 class="mb-0">{{ bankDetailsEmployee?.ifsc || '--'}}</h6>
-                  <span *ngIf="requestedData && requestedData.userBankDetails.ifsc != bankDetailsEmployee.ifsc"
+                  <span *ngIf="requestedData && requestedData?.userBankDetails?.ifsc "
                     class="profile-editrequest d-flex align-items-center justify-content-center pointer position-relative">
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
                       <circle cx="13" cy="13" r="13" fill="#FFF6E9" />
@@ -1988,7 +1987,7 @@
                 <div class="d-flex align-items-center gap-2">
                   <div class="d-flex align-items-center gap-2 mb-1">
                     <h6 class="mb-0">{{ emergencyContact.contactName || '--'}}</h6>
-                    <span *ngIf="requestedData && findEmergencyContactWithId(emergencyContact.id) != emergencyContact"
+                    <span *ngIf="requestedData && (findEmergencyContactWithId(emergencyContact.id)?.contactNumber || findEmergencyContactWithId(emergencyContact.id)?.contactName || findEmergencyContactWithId(emergencyContact.id)?.relationWithEmployee)"
                       class="profile-editrequest d-flex align-items-center justify-content-center pointer position-relative">
                       <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
                         <circle cx="13" cy="13" r="13" fill="#FFF6E9" />
