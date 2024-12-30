@@ -49,6 +49,7 @@ export class TimetableComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
+    this.sampleFileUrl ="assets/samples/Attendance_Upload.xlsx"
     window.scroll(0, 0);
     this.sampleFileUrl = "assets/samples/Attendance_Upload.xlsx"
     this.getRequestCountByOrganizationUuid()
