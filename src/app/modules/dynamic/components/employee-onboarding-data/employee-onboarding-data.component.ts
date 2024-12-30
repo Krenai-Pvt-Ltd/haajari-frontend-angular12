@@ -1936,32 +1936,86 @@ console.log(this.data);
 
 
   loadingFlag: boolean = false;
+  enableEmailNotification: boolean = false;
+  enableWhatsAppNotification: boolean = false;
+
+  // sendNotifications(): void {
+  //   this.loadingFlag = true;
+  //   const notifications = this.onboardUserList.map((user) => ({
+  //     id: user.id,
+  //     emailNotificationEnabled: user.emailNotificationEnabled,
+  //     whatsappNotificationEnabled: user.whatsappNotificationEnabled,
+  //   }));
+
+  //   this.dataService.sendNotifications(notifications).subscribe({
+  //     next: (response) => {
+  //         this.closeButtonExcelModal.nativeElement.click();
+  //         this.getUsersByFiltersFunction();
+  //         this.getUser();
+  //         this.helperService.showToast("Notifications sent Successfully.", Key.TOAST_STATUS_SUCCESS);
+  //       // console.log('Notifications sent successfully:', response);
+  //       this.loadingFlag = false;
+  //     },
+  //     error: (err) => {
+  //       this.helperService.showToast("Error While Sending Notification", Key.TOAST_STATUS_ERROR);
+  //       // console.error('Error sending notifications:', err);
+  //       this.loadingFlag = false;
+  //     },
+  //   });
+  // }
+
   sendNotifications(): void {
+    if (!this.enableEmailNotification && !this.enableWhatsAppNotification) {
+      this.helperService.showToast(
+        "Please select at least one notification type to proceed.",
+        Key.TOAST_STATUS_ERROR
+      );
+      return;
+    }
+
     this.loadingFlag = true;
-    const notifications = this.onboardUserList.map((user) => ({
+
+    // Filter users based on the toggles
+    const emailUsers = this.enableEmailNotification
+      ? this.onboardUserList.filter((user) => user.emailNotificationEnabled)
+      : [];
+    const whatsappUsers = this.enableWhatsAppNotification
+      ? this.onboardUserList.filter((user) => user.whatsappNotificationEnabled)
+      : [];
+
+    const notifications = [...emailUsers, ...whatsappUsers].map((user) => ({
       id: user.id,
-      emailNotificationEnabled: user.emailNotificationEnabled,
-      whatsappNotificationEnabled: user.whatsappNotificationEnabled,
+      emailNotificationEnabled: this.enableEmailNotification,
+      whatsappNotificationEnabled: this.enableWhatsAppNotification,
     }));
 
+    if (notifications.length === 0) {
+      this.helperService.showToast(
+        "No users available for the selected notification type.",
+        Key.TOAST_STATUS_ERROR
+      );
+      this.loadingFlag = false;
+      return;
+    }
+
+    // API call
     this.dataService.sendNotifications(notifications).subscribe({
       next: (response) => {
-          this.closeButtonExcelModal.nativeElement.click();
-          this.getUsersByFiltersFunction();
-          this.getUser();
-          this.helperService.showToast("Notifications sent Successfully.", Key.TOAST_STATUS_SUCCESS);
-        // console.log('Notifications sent successfully:', response);
+        this.helperService.showToast(
+          "Notifications sent successfully.",
+          Key.TOAST_STATUS_SUCCESS
+        );
         this.loadingFlag = false;
       },
       error: (err) => {
-        this.helperService.showToast("Error While Sending Notification", Key.TOAST_STATUS_ERROR);
-        // console.error('Error sending notifications:', err);
+        this.helperService.showToast(
+          "Error while sending notifications.",
+          Key.TOAST_STATUS_ERROR
+        );
         this.loadingFlag = false;
       },
     });
   }
-
- 
 
   
 }
