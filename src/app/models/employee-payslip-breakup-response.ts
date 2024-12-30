@@ -2,5 +2,6 @@ export class EmployeePayslipBreakupResponse {
     name : string = '';
     description : string = '';
     iconClass : string = '';
-    amount : number = 0;
+    actualAmount : number = 0;
+    standardAmount : number = 0;
 }

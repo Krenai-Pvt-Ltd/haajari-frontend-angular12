@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { NzDateMode } from 'ng-zorro-antd/date-picker';
 import { Key } from 'src/app/constant/key';
 import { BonusAndDeductionData } from 'src/app/models/bonus-and-deduction-data';
 import { HelperService } from 'src/app/services/helper.service';
@@ -40,10 +41,6 @@ export class BonusAndDeductionComponent implements OnInit {
   ngOnInit(): void {
     window.scroll(0, 0);
     this.getFirstAndLastDateOfMonth(this.selectedDate);
-  }
-
-  onYearChange(date: Date): void {
-    this.selectedDate = date;
   }
 
 
@@ -122,12 +119,15 @@ bonusAndDeductionDataList: BonusAndDeductionData[] = [];
   }
 
 
-  selectedDate: Date = new Date();
-  startDate: string = '';
-  endDate: string = '';
 
-  onMonthChange(month: Date): void {
-    this.selectedDate = month;
+  selectedDate: Date = new Date();
+  startDate: string='';
+  endDate: string='';
+
+  onMonthChange(): void { 
+    if(this.selectedDate.getMonth() == new Date(this.startDate).getMonth()){
+      return;
+    }
     this.getFirstAndLastDateOfMonth(this.selectedDate);
   }
 
