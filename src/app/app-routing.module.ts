@@ -10,13 +10,13 @@ const routes: Routes = [
     loadChildren: () =>
       import('./modules/dynamic/dynamic.module').then((m) => m.DynamicModule),
   },
-  {
-    path: 'organization-onboarding',
-    loadChildren: () =>
-      import(
-        './modules/organization-onboarding/organization-onboarding.module'
-      ).then((m) => m.OrganizationOnboardingModule),
-  },
+  // {
+  //   path: 'organization-onboarding',
+  //   loadChildren: () =>
+  //     import(
+  //       './modules/organization-onboarding/organization-onboarding.module'
+  //     ).then((m) => m.OrganizationOnboardingModule),
+  // },
   {
     path: 'employee-onboarding',
     loadChildren: () =>

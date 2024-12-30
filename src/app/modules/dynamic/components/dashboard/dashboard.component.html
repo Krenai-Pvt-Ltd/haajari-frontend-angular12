@@ -1,4 +1,10 @@
-<div class="page-wrapper">
+<app-hajiri-page-loader *ngIf="isToDoStepsCompleted == undefined">
+</app-hajiri-page-loader>
+
+
+<app-to-do-step-dashboard *ngIf="!isToDoStepsCompleted"></app-to-do-step-dashboard>
+
+<div class="page-wrapper" *ngIf="isToDoStepsCompleted">
   <!-- Page Content-->
   <div class="page-content-tab">
     <div class="container-fluid">
@@ -525,7 +531,7 @@
         </ng-template>
       </div>
       <!--  ########best performer -->
-      <div>
+      <div *ngIf="bestPerformerAttendanceDetailsResponseList.length > 0">
         <div class="row mb-3" *ngIf="ROLE === ADMIN || ROLE === MANAGER">
           <div class="col-md-12">
             <div class="col mb-3">

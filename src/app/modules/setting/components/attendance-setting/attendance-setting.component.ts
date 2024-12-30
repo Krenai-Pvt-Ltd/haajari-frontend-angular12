@@ -87,6 +87,7 @@ export class AttendanceSettingComponent implements OnInit {
       this.activeModel = true;
     }
 
+    this.checkStepCompletionStatusByStepId(Key.AUTOMATION_RULE_ID);
     this.getUniversalHolidays();
     this.getCustomHolidays();
     this.getWeeklyHolidays();
@@ -502,7 +503,7 @@ export class AttendanceSettingComponent implements OnInit {
     this.dataService
       .registerAttendanceRuleDefinition(this.attendanceRuleDefinitionRequest)
       .subscribe(
-        (response) => {
+        async (response) => {
           localStorage.removeItem('staffSelectionActive');
           this.addAttendanceRuleDefinitionModalClose.nativeElement.click();
           this.activeModel2 = false;
@@ -511,7 +512,7 @@ export class AttendanceSettingComponent implements OnInit {
             'Attendance rule registered successfully',
             Key.TOAST_STATUS_SUCCESS
           );
-          this.helperService.registerOrganizationRegistratonProcessStepData(Key.AUTOMATION_RULE_ID, Key.PROCESS_COMPLETED);
+          await this.helperService.registerOrganizationRegistratonProcessStepData(Key.AUTOMATION_RULE_ID, Key.PROCESS_COMPLETED);
           this.getAttendanceRuleWithAttendanceRuleDefinitionMethodCall();
         },
         (error) => {
@@ -1563,7 +1564,7 @@ export class AttendanceSettingComponent implements OnInit {
     this.dataService
       .registerShiftTiming(this.organizationShiftTimingRequest)
       .subscribe(
-        (response) => {
+        async (response) => {
           // console.log(response);
           this.closeShiftTimingModal.nativeElement.click();
           this.getAllShiftTimingsMethodCall();
@@ -1576,7 +1577,7 @@ export class AttendanceSettingComponent implements OnInit {
           this.isEditStaffLoader = false;
           this.isValidated = false;
           this.isRegisterLoad = false;
-          this.helperService.registerOrganizationRegistratonProcessStepData(Key.SHIFT_TIME_ID, Key.PROCESS_COMPLETED);
+          await this.helperService.registerOrganizationRegistratonProcessStepData(Key.SHIFT_TIME_ID, Key.PROCESS_COMPLETED);
         },
         (error) => {
           console.log(error);
@@ -3112,6 +3113,32 @@ closeModal() {
 redirectToCompanySetting() {
   this.attendancewithlocationssButton.nativeElement.click();
   this.router.navigate(['/setting/company-setting'], { queryParams: { activeTab: 'locationSetting' } });
+}
+
+skipLoading : boolean = false;
+  async skipForNow() {
+  this.skipLoading = true;
+  // this.stepCompleted = true;
+  await this.helperService.registerOrganizationRegistratonProcessStepData(Key.AUTOMATION_RULE_ID, Key.PROCESS_COMPLETED);
+  this.checkStepCompletionStatusByStepId(Key.AUTOMATION_RULE_ID);
+  this.skipLoading = false;
+}
+
+
+stepCompleted: boolean = true;
+checkStepCompletionStatusByStepId(stepId: number) {
+  this.dataService.checkStepCompletionStatusByStepId(stepId).subscribe(
+    (response: any) => {
+      if (response.object == 1) {
+         this.stepCompleted = true;
+      }else if (response.object == 0) {
+        this.stepCompleted = false;
+      }
+    },
+    (error) => {
+      console.log('error');
+    }
+  );
 }
 
 

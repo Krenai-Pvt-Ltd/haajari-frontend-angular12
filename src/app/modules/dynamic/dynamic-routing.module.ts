@@ -130,7 +130,7 @@ const routes: Routes = [
         path: 'employee-profile',
         component: EmployeeProfileComponent,
         canActivate: [AuthGuard, SubscriptionGuard],
-        data: { requiredSubmodule: '/employee-profile' },
+       
       },
       { path: 'testing', component: TestingComponent },
       {
@@ -159,11 +159,11 @@ const routes: Routes = [
         canActivate: [AuthGuard, SubscriptionGuard]
       },
      
-      {
-        path: 'to-do-step-dashboard',
-        component: ToDoStepDashboardComponent,
-        canActivate: [AuthGuard, SubscriptionGuard]
-      },
+      // {
+      //   path: 'to-do-step-dashboard',
+      //   component: ToDoStepDashboardComponent,
+      //   canActivate: [AuthGuard, SubscriptionGuard]
+      // },
       {
         path: 'subscription',
         component: SubscriptionComponent,

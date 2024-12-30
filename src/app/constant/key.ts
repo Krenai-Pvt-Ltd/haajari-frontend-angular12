@@ -14,7 +14,7 @@ export class Key {
   public static DYNAMIC = '/dynamic';
   public static LOGIN = `${Key.DYNAMIC}/login`;
   public static ONBOARDING = `${Key.DYNAMIC}/onboarding`;
-  public static DASHBOARD = `${Key.DYNAMIC}/dashboard`;
+  public static DASHBOARD = `/dashboard`;
   public static HEADER = `${Key.DYNAMIC}/header`;
   public static TOPBAR = `${Key.DYNAMIC}/topbar`;
   public static TIMETABLE = `${Key.DYNAMIC}/timetable`;
@@ -124,19 +124,19 @@ export class Key {
   ];
 
   public static ORGANIZATION_ONBOARDING_SIDEBAR_ROUTES = [
-    '/organization-onboarding/personal-information',
-    '/organization-onboarding/attendance-rule-setup',
-    '/organization-onboarding/leave-rule-setup',
-    '/organization-onboarding/holiday-rule-setup',
-    '/organization-onboarding/automation-rules',
-    '/organization-onboarding/creat-rule',
-    '/organization-onboarding/leave-setting-create',
-    '/organization-onboarding/add-shift-time',
-    '/organization-onboarding/holiday-setting',
-    '/organization-onboarding/upload-team',
-    '/organization-onboarding/shift-time-list',
-    '/organization-onboarding/attendance-mode',
-    '/organization-onboarding/add-shift-placeholder',
+    '/auth/personal-information',
+    '/auth/attendance-rule-setup',
+    '/auth/leave-rule-setup',
+    '/auth/holiday-rule-setup',
+    '/auth/automation-rules',
+    '/auth/creat-rule',
+    '/auth/leave-setting-create',
+    '/auth/add-shift-time',
+    '/auth/holiday-setting',
+    '/auth/upload-team',
+    '/auth/shift-time-list',
+    '/auth/attendance-mode',
+    '/auth/add-shift-placeholder',
   ];
 
   // Deduction Ids

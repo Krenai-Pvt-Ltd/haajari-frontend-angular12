@@ -26,7 +26,7 @@
               </button>
             </div>
             <hr />
-            <span class="mb-0">
+            <!-- <span class="mb-0">
               By signing, you are creating
               <a href="#!">
                 Learn more about it
@@ -42,7 +42,7 @@
                   </g>
                 </svg>
               </a>
-            </span>
+            </span> -->
           </div>
         </div>
         <div class="col-md-6">
@@ -1820,643 +1820,639 @@
   </div>
   </div>
 
-  <!-- Edit Request Modal End -->
+<!-- Edit Request Modal End -->
 
-  <!-- Trigger Button for Modal -->
-  <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#sampleFileModal"
-    id="uploadMembersModal" #sampleFileModalButton>
-    Open Sample File Modal
-  </button>
-  <!-- Modal -->
-  <div class="modal fade" id="sampleFileModal" tabindex="-1" aria-labelledby="sampleFileModalLabel" aria-hidden="true"
-    #sampleFileModal>
-    <div class="modal-dialog modal-xl modal-dialog-centered" style="max-width: 1400px !important;">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="sampleFileModalLabel">Sample Excel File</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-            #closeButtonExcelModal></button>
-        </div>
-        <div class="modal-body">
-          <ng-container *ngIf="
+<!-- Trigger Button for Modal -->
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#sampleFileModal"
+  id="uploadMembersModal" #sampleFileModalButton>
+  Open Sample File Modal
+</button>
+<!-- Modal -->
+<div class="modal fade" id="sampleFileModal" tabindex="-1" aria-labelledby="sampleFileModalLabel" aria-hidden="true"
+  #sampleFileModal>
+  <div class="modal-dialog modal-xl modal-dialog-centered" style="max-width: 1400px !important;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="sampleFileModalLabel">Sample Excel File</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+          #closeButtonExcelModal></button>
+      </div>
+      <div class="modal-body">
+        <ng-container *ngIf="
             !isShimmer &&
             onboardUserList.length == 0 &&
             !networkConnectionErrorPlaceholder
           ">
-            <div class="col-md-12">
-              <div class="card-body mt-0 p-0">
-                <div class="alert alert-light mb-0" role="alert">
-                  <h4 class="alert-heading font-18">
-                    Download the Sample Excel File!
-                  </h4>
-                  <p>
-                    Look for the sample file titled "Sample_Data.xlsx" and click
-                    on the download button to save it to your computer.
-                  </p>
-                  <p>
-                    Take a moment to review the existing data in the Excel file.
-                    This will help you understand the structure and content of the
-                    data before making any updates.
-                  </p>
-                  <p>
-                    <span class="text-primary">
-                      <u><a class="text-primary" href="{{ sampleFileUrl }}">Download a sample Excel file</a></u>
-                    </span>
-                    , update its data, and upload it back with the updated content
-                    on our platform
-                  </p>
-                </div>
-              </div>
-              <div class="card-body mt-3 p-0">
-                <div class="alert alert-light mb-0 excel-uplode-file-box text-center" style="border: 2px dashed #dddd">
-                  <input id="fileSelect" type="file" name="img[]" accept=".xlsx" class="input"
-                    (change)="selectFile($event)" />
-                  <img src="assets/images/excel.svg" style="width: 50px" class="pb-3" />
-                  <p>
-                    Drag file here to upload or,
-                    <u><a class="text-primary" href="#!">Choose file</a></u>
-                  </p>
-                  <div *ngIf="isProgressToggle" class="spinner-border text-success" role="status"></div>
-                </div>
+          <div class="col-md-12">
+            <div class="card-body mt-0 p-0">
+              <div class="alert alert-light mb-0" role="alert">
+                <h4 class="alert-heading font-18">
+                  Download the Sample Excel File!
+                </h4>
+                <p>
+                  Look for the sample file titled "Sample_Data.xlsx" and click
+                  on the download button to save it to your computer.
+                </p>
+                <p>
+                  Take a moment to review the existing data in the Excel file.
+                  This will help you understand the structure and content of the
+                  data before making any updates.
+                </p>
+                <p>
+                  <span class="text-primary">
+                    <u><a class="text-primary" href="{{ sampleFileUrl }}">Download a sample Excel file</a></u>
+                  </span>
+                  , update its data, and upload it back with the updated content
+                  on our platform
+                </p>
               </div>
             </div>
-            <div #attention class="create-password-warning waring-box p-3 mb-0 mt-4 ng-star-inserted text-start" *ngIf="
+            <div class="card-body mt-3 p-0">
+              <div class="alert alert-light mb-0 excel-uplode-file-box text-center" style="border: 2px dashed #dddd">
+                <input id="fileSelect" type="file" name="img[]" accept=".xlsx" class="input"
+                  (change)="selectFile($event)" />
+                <img src="assets/images/excel.svg" style="width: 50px" class="pb-3" />
+                <p>
+                  Drag file here to upload or,
+                  <u><a class="text-primary" href="#!">Choose file</a></u>
+                </p>
+                <div *ngIf="isProgressToggle" class="spinner-border text-success" role="status"></div>
+              </div>
+            </div>
+          </div>
+          <div #attention class="create-password-warning waring-box p-3 mb-0 mt-4 ng-star-inserted text-start" *ngIf="
               alreadyUsedPhoneNumberArray.length > 0 ||
               alreadyUsedEmailArray.length > 0 ||
               this.mismatches.length > 0 ||
               isErrorToggle">
-              <h4 class="alert-heading font-18 text-danger">Attention!!</h4>
-              <ul style="padding-left: 15px;">
-                <li class="mb-1" *ngIf="this.mismatches.length > 0">
+            <h4 class="alert-heading font-18 text-danger">Attention!!</h4>
+            <ul style="padding-left: 15px;">
+              <li class="mb-1" *ngIf="this.mismatches.length > 0">
 
-                  {{ this.mismatches }}
-                </li>
-                <li class="mb-1" *ngIf="alreadyUsedPhoneNumberArray.length > 0">
-                  Phone Numbers:
-                  {{ formatAsCommaSeparated(alreadyUsedPhoneNumberArray) }}
-                </li>
-                <li class="mb-1" *ngIf="alreadyUsedEmailArray.length > 0">
-                  Emails: {{ formatAsCommaSeparated(alreadyUsedEmailArray) }}
-                </li>
-                <li class="mb-1" *ngIf="isErrorToggle">Error: {{ errorMessage }}</li>
+                {{ this.mismatches }}
+              </li>
+              <li class="mb-1" *ngIf="alreadyUsedPhoneNumberArray.length > 0">
+                Phone Numbers:
+                {{ formatAsCommaSeparated(alreadyUsedPhoneNumberArray) }}
+              </li>
+              <li class="mb-1" *ngIf="alreadyUsedEmailArray.length > 0">
+                Emails: {{ formatAsCommaSeparated(alreadyUsedEmailArray) }}
+              </li>
+              <li class="mb-1" *ngIf="isErrorToggle">Error: {{ errorMessage }}</li>
 
 
-              </ul>
-            </div>
-            <div class="create-password-warning mb-0 mt-4 text-start" *ngIf="data.length > 0 && isinvalid ">
-              <!-- <h4 class="alert-heading font-16 mb-1">Attention</h4> -->
-              <p *ngIf="isExcel.length > 0">
-                {{ isExcel }}
-              </p>
-              <div *ngIf="data.length > 0">
-                <h3 class="font-18 mb-2">Uploaded Data</h3>
-                <div class="align-items-center empuploadHeader excelUploadTable row mb-3">
-                  <div class="col-lg-8 col-md-12">
-                    <div class="row" *ngIf="isAnyRowSelected()">
-                      <div class="col-lg-4 col-md-3">
-                        <div>
-                          <nz-select [(ngModel)]="bulkShift" (ngModelChange)="applyBulkChange('shift', $event)"
-                            nzPlaceHolder="Select Shift" [nzDropdownRender]="customDropdownShift"
-                            class="whatapp-login-input">
+            </ul>
+          </div>
+          <div class="create-password-warning mb-0 mt-4 text-start" *ngIf="data.length > 0 && isinvalid ">
+            <!-- <h4 class="alert-heading font-16 mb-1">Attention</h4> -->
+            <p *ngIf="isExcel.length > 0">
+              {{ isExcel }}
+            </p>
+            <div *ngIf="data.length > 0">
+              <h3 class="font-18 mb-2">Uploaded Data</h3>
+              <div class="align-items-center empuploadHeader excelUploadTable row mb-3">
+                <div class="col-lg-8 col-md-12">
+                  <div class="row" *ngIf="isAnyRowSelected()">
+                    <div class="col-lg-4 col-md-3">
+                      <div>
+                        <nz-select [(ngModel)]="bulkShift" (ngModelChange)="applyBulkChange('shift', $event)"
+                          nzPlaceHolder="Select Shift" [nzDropdownRender]="customDropdownShift"
+                          class="whatapp-login-input">
+                          <nz-option *ngFor="let shift of shiftList" [nzValue]="shift.label"
+                            [nzLabel]="shift.label"></nz-option>
+                        </nz-select>
+                        <ng-template #customDropdownShift>
+                          <div class="custom-dropdown-footer">
+                            <button nz-button nzType="link" (click)="openAddShiftModal()">Add Shift</button>
+                          </div>
+                        </ng-template>
+                      </div>
+                    </div>
+                    <div class="col-lg-4 col-md-3">
+                      <div>
+                        <nz-select [(ngModel)]="bulkLeave" (ngModelChange)="applyBulkChange('leave', $event)"
+                          nzPlaceHolder="Select Leave" nzMode="multiple" [nzDropdownRender]="customDropdown"
+                          class="whatapp-login-input">
+                          <nz-option *ngFor="let leave of originalLeaveNameList" [nzValue]="leave.label"
+                            [nzLabel]="leave.label"></nz-option>
+                        </nz-select>
+                        <ng-template #customDropdown>
+                          <div class="custom-dropdown-footer">
+                            <button nz-button nzType="link" (click)="openAddLeaveModal()">Add Leave</button>
+                          </div>
+                        </ng-template>
+                      </div>
+                    </div>
+                    <div class="col-lg-4 col-md-3">
+                      <nz-select [(ngModel)]="bulkTeam" (ngModelChange)="applyBulkChange('team', $event)"
+                        nzPlaceHolder="Select Team" nzMode="multiple" [nzDropdownRender]="customDropdownTeam"
+                        class="whatapp-login-input">
+                        <nz-option *ngFor="let team of originalTeamNameList" [nzValue]="team.label"
+                          [nzLabel]="team.label"></nz-option>
+                      </nz-select>
+                      <ng-template #customDropdownTeam>
+                        <div class="custom-dropdown-footer">
+                          <button nz-button nzType="link" (click)="openAddTeamModal()">Add Team</button>
+                        </div>
+                      </ng-template>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-4 col-md-12">
+                  <div class="align-items-center d-flex gap-2 justify-content-end">
+                    <label class="m-0 d-flex align-items-center gap-2 justify-content-center">
+                      <input type="checkbox" [(ngModel)]="selectAllCurrentPage" (change)="toggleSelectAllCurrentPage()"
+                        [disabled]="selectAllPages" />
+                      Select all on current page
+                    </label>
+                    <span class="btnSeprator"></span>
+                    <label class="m-0 d-flex align-items-center gap-2 justify-content-center">
+                      <input type="checkbox" [(ngModel)]="selectAllPages" (change)="toggleSelectAllPage()"
+                        [disabled]="selectAllCurrentPage" />
+                      Select All Pages
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="table-responsive">
+
+                <table class="table excelUploadTable">
+
+                  <!-- Dropdowns for applying to selected rows -->
+                  <thead>
+                    <tr>
+                      <th>select</th>
+                      <th class="select-all-page" *ngFor="let col of fileColumnName">{{ col }}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- Skip the first row for pagination purposes -->
+                    <tr *ngFor="let row of paginatedData; let i = index">
+                      <td class="text-center">
+                        <!-- *ngIf="i + currentPage -1!=0" -->
+                        <input type="checkbox" [(ngModel)]="row.selected" />
+                      </td>
+
+                      <td *ngFor="let cell of fileColumnName; let j = index">
+                        <ng-container *ngIf="fileColumnName[j] === 'shift*' ; else leaveColumns">
+
+                          <nz-select [(ngModel)]="row[j]"
+                            [ngClass]="{'invalid-input': invalidCells[((currentPage - 1) * pageSize)+i][j]}"
+                            (ngModelChange)="onValueChange((currentPage - 1) * pageSize + i, j)"
+                            nzPlaceHolder="Select Shift" [nzDropdownRender]="customDropdownShift">
+
                             <nz-option *ngFor="let shift of shiftList" [nzValue]="shift.label"
                               [nzLabel]="shift.label"></nz-option>
+
                           </nz-select>
+
                           <ng-template #customDropdownShift>
                             <div class="custom-dropdown-footer">
                               <button nz-button nzType="link" (click)="openAddShiftModal()">Add Shift</button>
                             </div>
                           </ng-template>
-                        </div>
-                      </div>
-                      <div class="col-lg-4 col-md-3">
-                        <div>
-                          <nz-select [(ngModel)]="bulkLeave" (ngModelChange)="applyBulkChange('leave', $event)"
-                            nzPlaceHolder="Select Leave" nzMode="multiple" [nzDropdownRender]="customDropdown"
-                            class="whatapp-login-input">
-                            <nz-option *ngFor="let leave of originalLeaveNameList" [nzValue]="leave.label"
-                              [nzLabel]="leave.label"></nz-option>
-                          </nz-select>
-                          <ng-template #customDropdown>
-                            <div class="custom-dropdown-footer">
-                              <button nz-button nzType="link" (click)="openAddLeaveModal()">Add Leave</button>
-                            </div>
-                          </ng-template>
-                        </div>
-                      </div>
-                      <div class="col-lg-4 col-md-3">
-                        <nz-select [(ngModel)]="bulkTeam" (ngModelChange)="applyBulkChange('team', $event)"
-                          nzPlaceHolder="Select Team" nzMode="multiple" [nzDropdownRender]="customDropdownTeam"
-                          class="whatapp-login-input">
-                          <nz-option *ngFor="let team of originalTeamNameList" [nzValue]="team.label"
-                            [nzLabel]="team.label"></nz-option>
-                        </nz-select>
-                        <ng-template #customDropdownTeam>
-                          <div class="custom-dropdown-footer">
-                            <button nz-button nzType="link" (click)="openAddTeamModal()">Add Team</button>
-                          </div>
-                        </ng-template>
-                      </div>
-                    </div>
-                  </div>
+                        </ng-container>
 
-                  <div class="col-lg-4 col-md-12">
-                    <div class="align-items-center d-flex gap-2 justify-content-end">
-                      <label class="m-0 d-flex align-items-center gap-2 justify-content-center">
-                        <input type="checkbox" [(ngModel)]="selectAllCurrentPage"
-                          (change)="toggleSelectAllCurrentPage()" [disabled]="selectAllPages" />
-                        Select all on current page
-                      </label>
-                      <span class="btnSeprator"></span>
-                      <label class="m-0 d-flex align-items-center gap-2 justify-content-center">
-                        <input type="checkbox" [(ngModel)]="selectAllPages" (change)="toggleSelectAllPage()"
-                          [disabled]="selectAllCurrentPage" />
-                        Select All Pages
-                      </label>
-                    </div>
-                  </div>
-                </div>
-                <div class="table-responsive">
+                        <ng-template #leaveColumns>
+                          <ng-container *ngIf="this.fileColumnName[j] === 'leavenames' ; else otherColumns">
+                            <nz-select class="whatapp-login-input" nzMode="multiple" nzPlaceHolder="Select leave"
+                              nzAllowClear nzShowSearch nzServerSearch [(ngModel)]="row[j]"
+                              [ngModelOptions]="{ standalone: true }"
+                              (ngModelChange)="onMultiSelectChange($event, (currentPage - 1) * pageSize + i, j)"
+                              (nzOnSearch)="onSearchLeave($event)" [nzDropdownRender]="customDropdown"
+                              [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}">
+                              <ng-container *ngFor="let o of originalLeaveNameList">
+                                <nz-option *ngIf="!isLoadingLeave" [nzValue]="o.label" [nzLabel]="o.label"></nz-option>
+                              </ng-container>
 
-                  <table class="table excelUploadTable">
-
-                    <!-- Dropdowns for applying to selected rows -->
-                    <thead>
-                      <tr>
-                        <th>select</th>
-                        <th class="select-all-page" *ngFor="let col of fileColumnName">{{ col }}</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <!-- Skip the first row for pagination purposes -->
-                      <tr *ngFor="let row of paginatedData; let i = index">
-                        <td class="text-center">
-                          <!-- *ngIf="i + currentPage -1!=0" -->
-                          <input type="checkbox" [(ngModel)]="row.selected" />
-                        </td>
-
-                        <td *ngFor="let cell of fileColumnName; let j = index">
-                          <ng-container *ngIf="fileColumnName[j] === 'shift*' ; else leaveColumns">
-
-                            <nz-select [(ngModel)]="row[j]"
-                              [ngClass]="{'invalid-input': invalidCells[((currentPage - 1) * pageSize)+i][j]}"
-                              (ngModelChange)="onValueChange((currentPage - 1) * pageSize + i, j)"
-                              nzPlaceHolder="Select Shift" [nzDropdownRender]="customDropdownShift">
-
-                              <nz-option *ngFor="let shift of shiftList" [nzValue]="shift.label"
-                                [nzLabel]="shift.label"></nz-option>
-
+                              <nz-option *ngIf="isLoadingLeave" nzDisabled nzCustomContent>
+                                <span nz-icon nzType="loading" class="loading-icon"></span>
+                                Loading Data...
+                              </nz-option>
                             </nz-select>
-
-                            <ng-template #customDropdownShift>
+                            <ng-template #customDropdown>
                               <div class="custom-dropdown-footer">
-                                <button nz-button nzType="link" (click)="openAddShiftModal()">Add Shift</button>
+                                <button nz-button nzType="link" (click)="openAddLeaveModal()">Add Leave</button>
                               </div>
                             </ng-template>
                           </ng-container>
+                        </ng-template>
 
-                          <ng-template #leaveColumns>
-                            <ng-container *ngIf="this.fileColumnName[j] === 'leavenames' ; else otherColumns">
-                              <nz-select class="whatapp-login-input" nzMode="multiple" nzPlaceHolder="Select leave"
-                                nzAllowClear nzShowSearch nzServerSearch [(ngModel)]="row[j]"
-                                [ngModelOptions]="{ standalone: true }"
-                                (ngModelChange)="onMultiSelectChange($event, (currentPage - 1) * pageSize + i, j)"
-                                (nzOnSearch)="onSearchLeave($event)" [nzDropdownRender]="customDropdown"
-                                [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}">
-                                <ng-container *ngFor="let o of originalLeaveNameList">
-                                  <nz-option *ngIf="!isLoadingLeave" [nzValue]="o.label"
-                                    [nzLabel]="o.label"></nz-option>
-                                </ng-container>
-
-                                <nz-option *ngIf="isLoadingLeave" nzDisabled nzCustomContent>
-                                  <span nz-icon nzType="loading" class="loading-icon"></span>
-                                  Loading Data...
-                                </nz-option>
-                              </nz-select>
-                              <ng-template #customDropdown>
-                                <div class="custom-dropdown-footer">
-                                  <button nz-button nzType="link" (click)="openAddLeaveModal()">Add Leave</button>
-                                </div>
-                              </ng-template>
-                            </ng-container>
-                          </ng-template>
-
-                          <ng-template #otherColumns>
-                            <ng-container
-                              *ngIf="this.fileColumnName[j] === 'joiningdate*' || this.fileColumnName[j] === 'dob' ; else teamColumns">
-                              <nz-date-picker id="joiningDate" name="joiningDate" #joiningDate="ngModel"
-                                [(ngModel)]="row[j]" required
-                                (ngModelChange)="onDateChange($event, (currentPage - 1) * pageSize + i , j)"
-                                [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}"
-                                [nzAllowClear]="false" nzPlaceHolder="Select Joining Date">
-                              </nz-date-picker>
-                            </ng-container>
-                          </ng-template>
-
-                          <ng-template #teamColumns>
-                            <ng-container *ngIf="this.fileColumnName[j] === 'team' ; else genderColumns">
-                              <nz-select nzAllowClear nzShowSearch nzServerSearch nzMode="multiple"
-                                nzPlaceHolder="Select teams" [(ngModel)]="row[j]"
-                                [ngModelOptions]="{ standalone: true }"
-                                (ngModelChange)="onTeamSelectionChanges($event, (currentPage - 1) * pageSize + i, j)"
-                                (nzOnSearch)="onSearch($event)"
-                                [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}"
-                                [nzDropdownRender]="customDropdownTeam">
-                                <ng-container *ngFor="let o of originalTeamNameList">
-                                  <nz-option *ngIf="!isLoadingTeams" [nzValue]="o.label"
-                                    [nzLabel]="o.label"></nz-option>
-                                </ng-container>
-                                <nz-option *ngIf="isLoadingTeams" nzDisabled nzCustomContent>
-                                  <span nz-icon nzType="loading" class="loading-icon"></span>
-                                  Loading Data...
-                                </nz-option>
-                              </nz-select>
-                              <ng-template #customDropdownTeam>
-                                <div class="custom-dropdown-footer">
-                                  <button nz-button nzType="link" (click)="openAddTeamModal()">Add Team</button>
-                                </div>
-                              </ng-template>
-                            </ng-container>
-                          </ng-template>
-
-                          <ng-template #genderColumns>
-                            <ng-container *ngIf="this.fileColumnName[j] === 'gender*' ; else defaultInput">
-                              <nz-select id="gender" name="gender" [(ngModel)]="row[j]"
-                                [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}"
-                                (ngModelChange)="onValueChange((currentPage - 1) * pageSize + i, j)"
-                                nzPlaceHolder="Select Gender">
-                                <nz-option *ngFor="let gender of genders" [nzValue]="gender"
-                                  [nzLabel]="gender"></nz-option>
-                              </nz-select>
-                            </ng-container>
-                          </ng-template>
-
-                          <!-- Default input for other columns -->
-                          <ng-template #defaultInput>
-                            <input [(ngModel)]="row[j]"
+                        <ng-template #otherColumns>
+                          <ng-container
+                            *ngIf="this.fileColumnName[j] === 'joiningdate*' || this.fileColumnName[j] === 'dob' ; else teamColumns">
+                            <nz-date-picker id="joiningDate" name="joiningDate" #joiningDate="ngModel"
+                              [(ngModel)]="row[j]" required
+                              (ngModelChange)="onDateChange($event, (currentPage - 1) * pageSize + i , j)"
                               [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}"
-                              (ngModelChange)="onValueChange((currentPage - 1) * pageSize + i, j)" />
-                          </ng-template>
+                              [nzAllowClear]="false" nzPlaceHolder="Select Joining Date">
+                            </nz-date-picker>
+                          </ng-container>
+                        </ng-template>
 
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+                        <ng-template #teamColumns>
+                          <ng-container *ngIf="this.fileColumnName[j] === 'team' ; else genderColumns">
+                            <nz-select nzAllowClear nzShowSearch nzServerSearch nzMode="multiple"
+                              nzPlaceHolder="Select teams" [(ngModel)]="row[j]" [ngModelOptions]="{ standalone: true }"
+                              (ngModelChange)="onTeamSelectionChanges($event, (currentPage - 1) * pageSize + i, j)"
+                              (nzOnSearch)="onSearch($event)"
+                              [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}"
+                              [nzDropdownRender]="customDropdownTeam">
+                              <ng-container *ngFor="let o of originalTeamNameList">
+                                <nz-option *ngIf="!isLoadingTeams" [nzValue]="o.label" [nzLabel]="o.label"></nz-option>
+                              </ng-container>
+                              <nz-option *ngIf="isLoadingTeams" nzDisabled nzCustomContent>
+                                <span nz-icon nzType="loading" class="loading-icon"></span>
+                                Loading Data...
+                              </nz-option>
+                            </nz-select>
+                            <ng-template #customDropdownTeam>
+                              <div class="custom-dropdown-footer">
+                                <button nz-button nzType="link" (click)="openAddTeamModal()">Add Team</button>
+                              </div>
+                            </ng-template>
+                          </ng-container>
+                        </ng-template>
 
-                </div>
-                <div class="d-flex justify-content-end align-items-center">
-                  <p class="m-0" *ngIf="data.length-1>pageSize"> Showing {{(currentPage - 1) * pageSize +currentPage}} -
-                    {{(currentPage - 1) * pageSize +(currentPage-1)+(data.length - 1)}} of {{data.length-1}} </p>
-                  <ngb-pagination [rotate]="true" [maxSize]="4" [collectionSize]="data.length - 1" [pageSize]="pageSize"
-                    [(page)]="currentPage" (pageChange)="onPageChange($event)">
-                  </ngb-pagination>
-                </div>
-                <div class="text-end border-top pt-3">
-                  <!-- <button type="button" class="btn btn-primary btn-sm" (click)="saveFile()">Save Changes</button> -->
-                  <button type="button" class="btn p-0 next-btn btn-border" (click)="saveFile()">Save Changes</button>
-                </div>
+                        <ng-template #genderColumns>
+                          <ng-container *ngIf="this.fileColumnName[j] === 'gender*' ; else defaultInput">
+                            <nz-select id="gender" name="gender" [(ngModel)]="row[j]"
+                              [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}"
+                              (ngModelChange)="onValueChange((currentPage - 1) * pageSize + i, j)"
+                              nzPlaceHolder="Select Gender">
+                              <nz-option *ngFor="let gender of genders" [nzValue]="gender"
+                                [nzLabel]="gender"></nz-option>
+                            </nz-select>
+                          </ng-container>
+                        </ng-template>
+
+                        <!-- Default input for other columns -->
+                        <ng-template #defaultInput>
+                          <input [(ngModel)]="row[j]"
+                            [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}"
+                            (ngModelChange)="onValueChange((currentPage - 1) * pageSize + i, j)" />
+                        </ng-template>
+
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
               </div>
-
-              <p *ngIf="isErrorToggle">Error: {{ errorMessage }}</p>
-              <p *ngIf="!isErrorToggle" class="m-0"></p>
+              <div class="d-flex justify-content-end align-items-center">
+                <p class="m-0" *ngIf="data.length-1>pageSize"> Showing {{(currentPage - 1) * pageSize +currentPage}} -
+                  {{(currentPage - 1) * pageSize +(currentPage-1)+(data.length - 1)}} of {{data.length-1}} </p>
+                <ngb-pagination [rotate]="true" [maxSize]="4" [collectionSize]="data.length - 1" [pageSize]="pageSize"
+                  [(page)]="currentPage" (pageChange)="onPageChange($event)">
+                </ngb-pagination>
+              </div>
+              <div class="text-end border-top pt-3">
+                <!-- <button type="button" class="btn btn-primary btn-sm" (click)="saveFile()">Save Changes</button> -->
+                <button type="button" class="btn p-0 next-btn btn-border" (click)="saveFile()">Save Changes</button>
+              </div>
             </div>
-          </ng-container>
-          <ng-container *ngIf="
+
+            <p *ngIf="isErrorToggle">Error: {{ errorMessage }}</p>
+            <p *ngIf="!isErrorToggle" class="m-0"></p>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="
             isShimmer &&
               onboardUserList.length == 0 &&
               !networkConnectionErrorPlaceholder;
             else onboardUserListCondition
           ">
-            <div class="">
-              <div class="text-end">
-                <ngx-shimmer-loading [width]="'30%'" [height]="'40px'" style="border-radius: 50%"></ngx-shimmer-loading>
-              </div>
+          <div class="">
+            <div class="text-end">
+              <ngx-shimmer-loading [width]="'30%'" [height]="'40px'" style="border-radius: 50%"></ngx-shimmer-loading>
             </div>
-            <div class="mt-3 mb-2" style="border: 1px solid #f5f5f5; padding: 5px; border-radius: 6px"
-              *ngFor="let number of [1, 2, 3, 4, 5]">
-              <div class="row mt-3">
-                <div class="col-md-2">
-                  <div class="">
-                    <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
-                      style="border-radius: 50%"></ngx-shimmer-loading>
-                  </div>
-                </div>
-                <div class="col-md-2">
-                  <div class="">
-                    <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
-                      style="border-radius: 50%"></ngx-shimmer-loading>
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="">
-                    <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
-                      style="border-radius: 50%"></ngx-shimmer-loading>
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="">
-                    <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
-                      style="border-radius: 50%"></ngx-shimmer-loading>
-                  </div>
-                </div>
-                <div class="col-md-2">
-                  <div class="">
-                    <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
-                      style="border-radius: 50%"></ngx-shimmer-loading>
-                  </div>
+          </div>
+          <div class="mt-3 mb-2" style="border: 1px solid #f5f5f5; padding: 5px; border-radius: 6px"
+            *ngFor="let number of [1, 2, 3, 4, 5]">
+            <div class="row mt-3">
+              <div class="col-md-2">
+                <div class="">
+                  <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                    style="border-radius: 50%"></ngx-shimmer-loading>
                 </div>
               </div>
+              <div class="col-md-2">
+                <div class="">
+                  <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                    style="border-radius: 50%"></ngx-shimmer-loading>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="">
+                  <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                    style="border-radius: 50%"></ngx-shimmer-loading>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="">
+                  <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                    style="border-radius: 50%"></ngx-shimmer-loading>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="">
+                  <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                    style="border-radius: 50%"></ngx-shimmer-loading>
+                </div>
+              </div>
             </div>
-          </ng-container>
+          </div>
+        </ng-container>
 
-          <ng-template #onboardUserListCondition>
-            <ng-container *ngIf="
+        <ng-template #onboardUserListCondition>
+          <ng-container *ngIf="
               !isShimmer &&
                 onboardUserList.length != 0 &&
                 !networkConnectionErrorPlaceholder;
               else errorInOnboardUserListCondition
             ">
-              <div class="mt-0">
-                <div class="d-flex align-items-center justify-content-end mb-3 p-0">
-                  <input #fileInput id="fileSelect" type="file" name="img[]" accept=".xlsx" class="input"
-                    style="display: none" (change)="selectFile($event)" />
-                  <button type="button" class="btn add-excel" (click)="fileInput.click()">
-                    <i *ngIf="!isProgressToggle" class="bi bi-file-earmark-excel"
-                      style="position: relative; top: -1px; padding-right: 6px"></i>
-                    <div *ngIf="isProgressToggle" class="spinner-border text-primary excel-spinner" role="status"></div>
-                    Excel Upload
-                  </button>
+            <div class="mt-0">
+              <div class="d-flex align-items-center justify-content-end mb-3 p-0">
+                <input #fileInput id="fileSelect" type="file" name="img[]" accept=".xlsx" class="input"
+                  style="display: none" (change)="selectFile($event)" />
+                <button type="button" class="btn add-excel" (click)="fileInput.click()">
+                  <i *ngIf="!isProgressToggle" class="bi bi-file-earmark-excel"
+                    style="position: relative; top: -1px; padding-right: 6px"></i>
+                  <div *ngIf="isProgressToggle" class="spinner-border text-primary excel-spinner" role="status"></div>
+                  Excel Upload
+                </button>
 
-                </div>
-                <div class="create-password-warning waring-box p-3 mt-3 mb-3 text-start" role="alert" *ngIf="
+              </div>
+              <div class="create-password-warning waring-box p-3 mt-3 mb-3 text-start" role="alert" *ngIf="
                   alreadyUsedPhoneNumberArray.length > 0 ||
                   alreadyUsedEmailArray.length > 0 ||
                   isErrorToggle
                 ">
-                  <h4 class="alert-heading font-18">Attention!</h4>
+                <h4 class="alert-heading font-18">Attention!</h4>
 
-                  <ul style="padding-left:20px;">
-                    <li *ngIf="isErrorToggle">Error: {{ errorMessage }}</li>
-                    <li *ngIf="alreadyUsedEmailArray.length > 0">Phone Numbers: {{
-                      formatAsCommaSeparated(alreadyUsedPhoneNumberArray) }}</li>
-                    <li *ngIf="!isErrorToggle">These credentials are already registered with us!</li>
-                  </ul>
-
-
-                </div>
-                <table class="table">
-                  <!-- <thead class="thead-light table-design"> -->
-                  <thead class="thead-light">
-                    <tr>
-                      <th style="width: 5%" class="text-center">#</th>
-                      <th style="width: 25%" class="text-left">Name</th>
-                      <th style="width: 20%" class="text-left">Phone</th>
-                      <th style="width: 25%" class="text-left">Email</th>
-                      <th style="width: 20%" class="text-center">Action</th>
-                    </tr>
-                  </thead>
-                  <!-- <tbody class="table-design"> -->
-                  <tbody>
-                    <tr *ngFor="let onboardUser of onboardUserList; let i = index">
-                      <td>
-                        <p class="tableinfo mb-0 text-left">
-                          <b>{{ i + 1 }}</b>
-                        </p>
-                      </td>
-                      <td>
-                        <p class="tableinfo mb-0 text-left">
-                          <b>{{ onboardUser.name }}</b>
-                        </p>
-                      </td>
-                      <td>
-                        <p class="tableinfo mb-0 text-left">
-                          <b>{{ onboardUser.phone }}</b>
-                        </p>
-                      </td>
-                      <td>
-                        <p class="tableinfo mb-0 text-left">
-                          <b>{{
-                            onboardUser.email ? onboardUser.email : "N/A"
-                            }}</b>
-                        </p>
-                      </td>
-                      <td>
-                        <div class="d-flex justify-content-center gap-3">
-                          <p class="tableinfo mb-0 pointer text-center text-danger mb-2"
-                            (click)="deleteNewUser(onboardUser.id)">
-                            <i class="bi bi-trash text-danger"></i>
-                          </p>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-                <div class="d-flex justify-content-end gap-3 mt-3">
-                  <button type="button" class="btn btn-primary" (click)="sendEmailToUsers(true)">
-                    <span *ngIf="!sendMailExcelUserFlag"> Send Email </span>
-                    <div class="dot-opacity-loader" *ngIf="sendMailExcelUserFlag">
-                      <span></span>
-                      <span></span>
-                      <span></span>
-                    </div>
-                  </button>
-
-
-                  <button type="button" class="btn btn-primary" style="background-color: white; color: black;"
-                    (click)="sendEmailToUsers(false)">
-                    <span *ngIf="!sendMailExcelUserFlag"> Cancel</span>
-                    <div class="dot-opacity-loader" *ngIf="sendMailExcelUserFlag">
-                      <span></span>
-                      <span></span>
-                      <span></span>
-                    </div>
-                  </button>
-                </div>
-
+                <ul style="padding-left:20px;">
+                  <li *ngIf="isErrorToggle">Error: {{ errorMessage }}</li>
+                  <li *ngIf="alreadyUsedEmailArray.length > 0">Phone Numbers: {{
+                    formatAsCommaSeparated(alreadyUsedPhoneNumberArray) }}</li>
+                  <li *ngIf="!isErrorToggle">These credentials are already registered with us!</li>
+                </ul>
 
 
               </div>
-            </ng-container>
-          </ng-template>
+              <table class="table">
+                <!-- <thead class="thead-light table-design"> -->
+                <thead class="thead-light">
+                  <tr>
+                    <th style="width: 5%" class="text-center">#</th>
+                    <th style="width: 25%" class="text-left">Name</th>
+                    <th style="width: 20%" class="text-left">Phone</th>
+                    <th style="width: 25%" class="text-left">Email</th>
+                    <th style="width: 20%" class="text-center">Action</th>
+                  </tr>
+                </thead>
+                <!-- <tbody class="table-design"> -->
+                <tbody>
+                  <tr *ngFor="let onboardUser of onboardUserList; let i = index">
+                    <td>
+                      <p class="tableinfo mb-0 text-left">
+                        <b>{{ i + 1 }}</b>
+                      </p>
+                    </td>
+                    <td>
+                      <p class="tableinfo mb-0 text-left">
+                        <b>{{ onboardUser.name }}</b>
+                      </p>
+                    </td>
+                    <td>
+                      <p class="tableinfo mb-0 text-left">
+                        <b>{{ onboardUser.phone }}</b>
+                      </p>
+                    </td>
+                    <td>
+                      <p class="tableinfo mb-0 text-left">
+                        <b>{{
+                          onboardUser.email ? onboardUser.email : "N/A"
+                          }}</b>
+                      </p>
+                    </td>
+                    <td>
+                      <div class="d-flex justify-content-center gap-3">
+                        <p class="tableinfo mb-0 pointer text-center text-danger mb-2"
+                          (click)="deleteNewUser(onboardUser.id)">
+                          <i class="bi bi-trash text-danger"></i>
+                        </p>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="d-flex justify-content-end gap-3 mt-3">
+                <button type="button" class="btn btn-primary" (click)="sendEmailToUsers(true)">
+                  <span *ngIf="!sendMailExcelUserFlag"> Send Email </span>
+                  <div class="dot-opacity-loader" *ngIf="sendMailExcelUserFlag">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                </button>
 
-          <ng-template #errorInOnboardUserListCondition>
-            <div class="errorboxmain" *ngIf="networkConnectionErrorPlaceholder">
-              <div class="errorboxinner text-center">
-                <div class="errorboxplaceholder mb-2">
-                  <img src="assets/images/signal.svg" style="width: 80px" />
-                </div>
 
-                <h4>Something went wrong!</h4>
+                <button type="button" class="btn btn-primary" style="background-color: white; color: black;"
+                  (click)="sendEmailToUsers(false)">
+                  <span *ngIf="!sendMailExcelUserFlag"> Cancel</span>
+                  <div class="dot-opacity-loader" *ngIf="sendMailExcelUserFlag">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                </button>
+              </div>
 
-                <p>An error occurred while processing your request!</p>
+
+
+            </div>
+          </ng-container>
+        </ng-template>
+
+        <ng-template #errorInOnboardUserListCondition>
+          <div class="errorboxmain" *ngIf="networkConnectionErrorPlaceholder">
+            <div class="errorboxinner text-center">
+              <div class="errorboxplaceholder mb-2">
+                <img src="assets/images/signal.svg" style="width: 80px" />
+              </div>
+
+              <h4>Something went wrong!</h4>
+
+              <p>An error occurred while processing your request!</p>
+            </div>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#duesWarningModal"
+  #duesWarningModalButton>
+  Dues Warning Modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="duesWarningModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Dues Warning</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p> Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          Dignissimos magni ratione quae reiciendis ullam pariatur necessitatibus! Amet,
+          earum quae natus dolorum eligendi consectetur iure, cumque asperiores modi nemo culpa nostrum!</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Initiate Exit (UserResignation) Modal Start -->
+<div class="modal fade" id="initiateExit" tabindex="-1" role="dialog" #assetRequestModal aria-hidden="true"
+  aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Initiate Exit</h5>
+        <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close"
+          (click)="closeResignationModal(resignationForm)" #closeResignationButton>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24"
+              height="24">
+              <rect width="24" height="24" fill="#D9D9D9" />
+            </mask>
+            <g mask="url(#mask0_5037_2014)">
+              <path d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z"
+                fill="black" />
+            </g>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body p-0">
+        <form #resignationForm="ngForm" (ngSubmit)="submitResignation(resignationForm)">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="hr-notes p-3">
+                <p class="mb-0 font-13"> <span class="text-primary"> Note:</span> HR will take the final action on the
+                  exit request</p>
               </div>
             </div>
-          </ng-template>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-  <!-- Button trigger modal -->
-  <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#duesWarningModal"
-    #duesWarningModalButton>
-    Dues Warning Modal
-  </button>
-
-  <!-- Modal -->
-  <div class="modal fade" id="duesWarningModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-    aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="staticBackdropLabel">Dues Warning</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <p> Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Dignissimos magni ratione quae reiciendis ullam pariatur necessitatibus! Amet,
-            earum quae natus dolorum eligendi consectetur iure, cumque asperiores modi nemo culpa nostrum!</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-  <!-- Initiate Exit (UserResignation) Modal Start -->
-  <div class="modal fade" id="initiateExit" tabindex="-1" role="dialog" #assetRequestModal aria-hidden="true"
-    aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Initiate Exit</h5>
-          <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close"
-            (click)="closeResignationModal(resignationForm)" #closeResignationButton>
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-              <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24"
-                height="24">
-                <rect width="24" height="24" fill="#D9D9D9" />
-              </mask>
-              <g mask="url(#mask0_5037_2014)">
-                <path
-                  d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z"
-                  fill="black" />
-              </g>
-            </svg>
-          </button>
-        </div>
-        <div class="modal-body p-0">
-          <form #resignationForm="ngForm" (ngSubmit)="submitResignation(resignationForm)">
-            <div class="row">
-              <div class="col-md-12">
-                <div class="hr-notes p-3">
-                  <p class="mb-0 font-13"> <span class="text-primary"> Note:</span> HR will take the final action on the
-                    exit request</p>
+            <div class="p-4">
+              <div class="col-md-12 mb-3">
+                <label for="templateName" class="pb-2">
+                  What is the reason for initiating the exit?
+                </label>
+                <nz-form-control>
+                  <nz-select style="width: 100%" nzSize="large" nzPlaceHolder="Select exit type"
+                    [(ngModel)]="userExitTypeId" (ngModelChange)="selectUserExitType($event)" required id="seleType"
+                    name="seleExpType" #seleExpType="ngModel" class="form-control">
+                    <nz-option *ngFor=" let exitType of userExitTypeList" [nzValue]="exitType.id"
+                      [nzLabel]="exitType.name">
+                    </nz-option>
+                  </nz-select>
+                </nz-form-control>
+              </div>
+              <div class="col-md-12 mb-3">
+                <label for="templateName" class="pb-2">
+                  Do you want them to complete their notice period?
+                </label>
+                <div class="row">
+                  <div class="col-md-6">
+                    <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                      <input type="radio" name="recommendDay" id="complete" value="Complete" [(ngModel)]="recommendDay"
+                        (change)="selectRecommendDay('Complete')" class="form-check-input">
+                      <p for="exampleRadios3" class="form-check-label mb-0" required> Complete notice periodes </p>
+                    </label>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                      <input type="radio" name="recommendDay" id="other" value="Other" required
+                        [(ngModel)]="recommendDay" (change)="selectRecommendDay('Other')" class="form-check-input">
+                      <p for="exampleRadios4" class="form-check-label mb-0"> Immediate Termination </p>
+                    </label>
+                  </div>
                 </div>
               </div>
-              <div class="p-4">
-                <div class="col-md-12 mb-3">
-                  <label for="templateName" class="pb-2">
-                    What is the reason for initiating the exit?
-                  </label>
-                  <nz-form-control>
-                    <nz-select style="width: 100%" nzSize="large" nzPlaceHolder="Select exit type"
-                      [(ngModel)]="userExitTypeId" (ngModelChange)="selectUserExitType($event)" required id="seleType"
-                      name="seleExpType" #seleExpType="ngModel" class="form-control">
-                      <nz-option *ngFor=" let exitType of userExitTypeList" [nzValue]="exitType.id"
-                        [nzLabel]="exitType.name">
-                      </nz-option>
-                    </nz-select>
-                  </nz-form-control>
-                </div>
-                <div class="col-md-12 mb-3">
-                  <label for="templateName" class="pb-2">
-                    Do you want them to complete their notice period?
-                  </label>
-                  <div class="row">
-                    <div class="col-md-6">
-                      <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                        <input type="radio" name="recommendDay" id="complete" value="Complete"
-                          [(ngModel)]="recommendDay" (change)="selectRecommendDay('Complete')" class="form-check-input">
-                        <p for="exampleRadios3" class="form-check-label mb-0" required> Complete notice periodes </p>
-                      </label>
-                    </div>
-                    <div class="col-md-6">
-                      <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                        <input type="radio" name="recommendDay" id="other" value="Other" required
-                          [(ngModel)]="recommendDay" (change)="selectRecommendDay('Other')" class="form-check-input">
-                        <p for="exampleRadios4" class="form-check-label mb-0"> Immediate Termination </p>
-                      </label>
-                    </div>
-                  </div>
-                </div>
-                <div *ngIf="recommendDay == 'Other'" class="col-md-12 mb-3">
-                  <div class="form-group">
-                    <label for="employeeTypeId" class="mb-2">Specify the termination notice date</label>
+              <div *ngIf="recommendDay == 'Other'" class="col-md-12 mb-3">
+                <div class="form-group">
+                  <label for="employeeTypeId" class="mb-2">Specify the termination notice date</label>
 
-                    <ng-container *ngIf="noticePeriodDuration == 0">
-                      <nz-date-picker *ngIf="userResignationReq.isRecommendLastDay == 1"
-                        [(ngModel)]="userResignationReq.lastWorkingDay" nzPlaceHolder="dd/mm/yyyy" id="selLastDate"
-                        (ngModelChange)="selectLastWorkingDay($event)" name="lastDate" #lastDate="ngModel" required
-                        class="form-control">
-                      </nz-date-picker>
-                    </ng-container>
+                  <ng-container *ngIf="noticePeriodDuration == 0">
+                    <nz-date-picker *ngIf="userResignationReq.isRecommendLastDay == 1"
+                      [(ngModel)]="userResignationReq.lastWorkingDay" nzPlaceHolder="dd/mm/yyyy" id="selLastDate"
+                      (ngModelChange)="selectLastWorkingDay($event)" name="lastDate" #lastDate="ngModel" required
+                      class="form-control">
+                    </nz-date-picker>
+                  </ng-container>
 
-                    <ng-container *ngIf="noticePeriodDuration > 0">
-                      <nz-date-picker *ngIf="userResignationReq.isRecommendLastDay == 1"
-                        [(ngModel)]="userResignationReq.lastWorkingDay" nzPlaceHolder="dd/mm/yyyy"
-                        [nzDisabledDate]="disableFutureDates" id="selLastDate"
-                        (ngModelChange)="selectLastWorkingDay($event)" name="lastDate" #lastDate="ngModel" required
-                        class="form-control">
-                      </nz-date-picker>
-                    </ng-container>
+                  <ng-container *ngIf="noticePeriodDuration > 0">
+                    <nz-date-picker *ngIf="userResignationReq.isRecommendLastDay == 1"
+                      [(ngModel)]="userResignationReq.lastWorkingDay" nzPlaceHolder="dd/mm/yyyy"
+                      [nzDisabledDate]="disableFutureDates" id="selLastDate"
+                      (ngModelChange)="selectLastWorkingDay($event)" name="lastDate" #lastDate="ngModel" required
+                      class="form-control">
+                    </nz-date-picker>
+                  </ng-container>
 
-                  </div>
                 </div>
-                <div *ngIf="recommendDay == 'Complete'" class="col-md-12 mb-3">
-                  <div class="d-flex align-items-center gap-3 p-3 notice-period-date">
+              </div>
+              <div *ngIf="recommendDay == 'Complete'" class="col-md-12 mb-3">
+                <div class="d-flex align-items-center gap-3 p-3 notice-period-date">
+                  <p class="mb-0">Notice period</p>
+                  <span class="calendar-separator"></span>
+                  <h6 class="mb-0">{{userResignationReq.lastWorkingDay | date: 'dd MMM yyyy'}}</h6>
+                </div>
+              </div>
+              <div class="col-md-12 mb-3"
+                *ngIf="recommendDay == 'Other' && (userResignationReq.lastWorkingDay != null && userResignationReq.lastWorkingDay != '')">
+                <div class="notice-period-error p-3">
+                  <div class="d-flex align-items-center gap-3 mb-2">
                     <p class="mb-0">Notice period</p>
                     <span class="calendar-separator"></span>
                     <h6 class="mb-0">{{userResignationReq.lastWorkingDay | date: 'dd MMM yyyy'}}</h6>
                   </div>
-                </div>
-                <div class="col-md-12 mb-3"
-                  *ngIf="recommendDay == 'Other' && (userResignationReq.lastWorkingDay != null && userResignationReq.lastWorkingDay != '')">
-                  <div class="notice-period-error p-3">
-                    <div class="d-flex align-items-center gap-3 mb-2">
-                      <p class="mb-0">Notice period</p>
-                      <span class="calendar-separator"></span>
-                      <h6 class="mb-0">{{userResignationReq.lastWorkingDay | date: 'dd MMM yyyy'}}</h6>
-                    </div>
-                    <!-- <p class="mb-0 font-13">Your last working day may change based on Manager/HR's decision.</p> -->
-                    <p class="mb-0 font-13">This is the user last working day.</p>
-                  </div>
-                </div>
-                <div class="col-md-12 mb-3">
-                  <label for="templateName" class="pb-2">
-                    Comment
-                  </label>
-                  <textarea class="form-control nots-section" id="comment" name="inputComment"
-                    placeholder="Write description" rows="3" [(ngModel)]="userResignationReq.comment"></textarea>
+                  <!-- <p class="mb-0 font-13">Your last working day may change based on Manager/HR's decision.</p> -->
+                  <p class="mb-0 font-13">This is the user last working day.</p>
                 </div>
               </div>
+              <div class="col-md-12 mb-3">
+                <label for="templateName" class="pb-2">
+                  Comment
+                </label>
+                <textarea class="form-control nots-section" id="comment" name="inputComment"
+                  placeholder="Write description" rows="3" [(ngModel)]="userResignationReq.comment"></textarea>
+              </div>
             </div>
-            <div class="modal-footer d-flex align-items-center justify-content-end gap-2">
-              <!-- <button class="btn cancel-btn" data-bs-dismiss="modal" aria-label="Close" (click)="closeResignationModal(resignationForm)" #closeResignationButton>Cancel</button> -->
-              <button type="button" class="btn cancel-btn" data-bs-dismiss="modal" aria-label="Close"
-                (click)="closeResignationModal(resignationForm)" #closeResignationButton>Cancel</button>
+          </div>
+          <div class="modal-footer d-flex align-items-center justify-content-end gap-2">
+            <!-- <button class="btn cancel-btn" data-bs-dismiss="modal" aria-label="Close" (click)="closeResignationModal(resignationForm)" #closeResignationButton>Cancel</button> -->
+            <button type="button" class="btn cancel-btn" data-bs-dismiss="modal" aria-label="Close"
+              (click)="closeResignationModal(resignationForm)" #closeResignationButton>Cancel</button>
 
-              <button *ngIf="!resignationToggle" type="submit"
-                [disabled]="resignationForm.invalid || userExitTypeId == 0 || resignationToggle"
-                class="btn submitActionBtn">Submit</button>
-              <div class="dot-opacity-loader" *ngIf="resignationToggle">
-                <span></span>
-                <span></span>
-                <span></span>
-              </div>
+            <button *ngIf="!resignationToggle" type="submit"
+              [disabled]="resignationForm.invalid || userExitTypeId == 0 || resignationToggle"
+              class="btn submitActionBtn">Submit</button>
+            <div class="dot-opacity-loader" *ngIf="resignationToggle">
+              <span></span>
+              <span></span>
+              <span></span>
             </div>
-          </form>
-        </div>
+          </div>
+        </form>
       </div>
     </div>
   </div>
-  <!-- Initiate Exit (UserResignation) Modal End -->
+</div>
+<!-- Initiate Exit (UserResignation) Modal End -->

@@ -29,12 +29,11 @@ import { TestingComponent } from './components/testing/testing.component';
 import { TimetableComponent } from './components/timetable/timetable.component';
 import { UserlistComponent } from './components/userlist/userlist.component';
 import { WaitingPageComponent } from './components/waiting-page/waiting-page.component';
-import { DateFormatPipe } from './date-format.pipe';
-import { DurationFormatPipe } from './duration-format.pipe';
+import { DateFormatPipe } from '../../pipe/date-format.pipe';
+import { DurationFormatPipe } from '../../pipe/duration-format.pipe';
 import { DynamicRoutingModule } from './dynamic-routing.module';
 import { DynamicComponent } from './dynamic.component';
-import { SlackDataLoadComponent } from './slack-data-load/slack-data-load.component';
-import { TimeFormatPipe } from './time-format.pipe';
+import { TimeFormatPipe } from '../../pipe/time-format.pipe';
 import { SafePipe } from 'src/app/pipe/safe.pipe';
 import { AppComponent } from 'src/app/app.component';
 import { RoleAddComponent } from './components/role-add/role-add.component';
@@ -94,24 +93,14 @@ import { ExistPolicyComponent } from './components/exist-policy/exist-policy.com
     TeamComponent,
     TeamDetailComponent,
     RoleComponent,
-    // EmployeeOnboardingFormComponent,
-    // EmployeeAddressDetailComponent,
-    // EmployeeDocumentComponent,
-    // AcadmicComponent,
-    // EmployeeExperienceComponent,
-    // BankDetailsComponent,
-    // EmergencyContactComponent,
     ReportsComponent,
     EmployeeProfileComponent,
     TestingComponent,
-    SlackDataLoadComponent,
     PrivacyComponent,
     SupportComponent,
     SafePipe,
     RoleAddComponent,
-    // EmployeeOnboardingPreviewComponent,
     EmployeeOnboardingDataComponent,
-    // LinkExpiredPageComponent,
     EmployeeProfileComponent,
     LeaveManagementComponent,
     AssetsComponent,

@@ -7,6 +7,7 @@ import { constant } from "../constant/constant";
 import { Routes } from "../constant/Routes";
 import { DatabaseHelper } from "../models/DatabaseHelper";
 import { filter } from "rxjs/operators";
+import { RoleBasedAccessControlService } from "./role-based-access-control.service";
 
 @Injectable({
   providedIn: "root",
@@ -17,19 +18,20 @@ export class SubscriptionPlanService {
   currentRoute:any;
   constructor(private _httpClient: HttpClient,
     private _helperService : HelperService,
-    private _router ?: Router
+    private router : Router,
+    private rbacService : RoleBasedAccessControlService
   ) {
   
 
-    if (this._router != undefined) {
+    if (this.router != undefined) {
       // console.log("11111route=======", this._router );
-        this._router.events.subscribe(val => {
+        this.router.events.subscribe(val => {
           // console.log("val=======", val);
           if (val instanceof ActivationEnd && constant.EMPTY_STRINGS.includes(this.currentRoute)) {
             //@ts-ignore
             this.currentRoute = val.snapshot._routerState.url.split("?")[0];
             // console.log("route=======", this.currentRoute);
-            if (!Routes.AUTH_ROUTES.includes(String(this.currentRoute))) {
+            if (!Routes.AUTH_ROUTES.includes(String(this.currentRoute))&& !constant.PUBLIC_ROUTES.includes(window.location.pathname)) {
                this.LoadAsync();
             }
           }
@@ -82,6 +84,36 @@ export class SubscriptionPlanService {
     });
   }
 
+  verifySubscriptionAndRoute():boolean{
+    debugger
+    if(this.isSubscription!=undefined && this.rbacService.getRoles()=='ADMIN'){
+      
+      if(this.isSubscription){
+        if(this.isPlanExpired){
+          this.router.navigate( ['/subscription/expired']);
+          return false;
+        }else{
+          return true;
+        }
+      }else{
+        this.router.navigate( ['/setting/subscription']);
+        return false;
+      }
+    }else if(this.isSubscription!=undefined  && this.rbacService.getRoles()!='USER') {
+      if(this.isSubscription){
+        if(this.isPlanExpired){
+          this.router.navigate( ['/subscription/expired']);
+          return false;
+        }else{
+          return true;
+        }
+      }else{
+        // this._router.navigate( ['/setting/subscription']);
+        return false;
+      }
+    }
+    return true;
+  }
 
   getActiveUserCount() {
     return this._httpClient.get<any>(this._key.base_url + this._key.get_active_user_count);
