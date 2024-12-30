@@ -4518,6 +4518,18 @@ getHolidayForOrganization(date: string): Observable<any>{
   getSubscriptionRequestStatus(): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/contact-and-support/get-subscription-request-status`);
   }
+  removeKeyValuePair(key: string, userId: string, value: any): Observable<any> {
+    // Set URL parameters for key and userId
+    const params = new HttpParams()
+      .set('key', key)
+      .set('value', value)
+      .set('userId', userId);
+
+    // Send the DELETE request with parameters and request body (value)
+    return this.httpClient.delete<any>(`${this.baseUrl}/get/onboarding/remove-field-in-requested-data`, {
+      params: params
+    });
+  }
 
 
 

@@ -16,6 +16,7 @@ import { UserBankDetailRequest } from 'src/app/models/user-bank-detail-request';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReasonOfRejectionProfile } from 'src/app/models/reason-of-rejection-profile';
 import { constant } from 'src/app/constant/constant';
+import { th } from 'date-fns/locale';
 
 @Component({
   selector: 'app-personal-information',
@@ -97,6 +98,7 @@ isFormInvalid: boolean=false;
     this.loadRoutes();
     // this.getPendingRequest();
     this.fetchRequestedData();
+    // this.approveRequestedData();
   }
 
 
@@ -188,6 +190,23 @@ isFormInvalid: boolean=false;
         console.error('Error:', error);
         this.helperService.showToast('An error occurred while saving data', Key.TOAST_STATUS_ERROR);
       },
+    });
+  }
+
+  removeField(key: string, value: any) {
+    this.dataService.removeKeyValuePair(key, this.userId, value).subscribe({
+      next: (response) => {
+        console.log('Response:', response);
+        if (response.success) {
+          this.helperService.showToast('Field removed successfully', Key.TOAST_STATUS_SUCCESS);
+        } else {
+          this.helperService.showToast('Failed to remove the field', Key.TOAST_STATUS_ERROR);
+        }
+      },
+      error: (err) => {
+        console.error('Error:', err);
+        alert('An error occurred while removing the field.');
+      }
     });
   }
 
