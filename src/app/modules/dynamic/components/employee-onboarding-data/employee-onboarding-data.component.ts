@@ -1376,7 +1376,9 @@ console.log(this.data);
     this._onboardingService.deleteOnboardUser(id).subscribe(
       (response: any) => {
         if (response.status) {
+          this.getUsersByFiltersFunction();
           this.getUser();
+          // this.getUser();
         }
       },
       (error) => {}
@@ -1967,54 +1969,64 @@ console.log(this.data);
   sendNotifications(): void {
     if (!this.enableEmailNotification && !this.enableWhatsAppNotification) {
       this.helperService.showToast(
-        "Please select at least one notification type to proceed.",
-        Key.TOAST_STATUS_ERROR
+        'Please select at least one notification type to proceed.',
+        'error'
       );
       return;
     }
 
     this.loadingFlag = true;
 
-    // Filter users based on the toggles
+    // Filter users based on toggled notification preferences
     const emailUsers = this.enableEmailNotification
-      ? this.onboardUserList.filter((user) => user.emailNotificationEnabled)
+      ? this.onboardUserList
+        .filter((user) => user.emailNotificationEnabled && user.email)
+        .map((user) => user.email)
       : [];
+
     const whatsappUsers = this.enableWhatsAppNotification
-      ? this.onboardUserList.filter((user) => user.whatsappNotificationEnabled)
+      ? this.onboardUserList
+        .filter((user) => user.whatsappNotificationEnabled && user.phone)
+        .map((user) => user.phone)
       : [];
 
-    const notifications = [...emailUsers, ...whatsappUsers].map((user) => ({
-      id: user.id,
-      emailNotificationEnabled: this.enableEmailNotification,
-      whatsappNotificationEnabled: this.enableWhatsAppNotification,
-    }));
+    // Prepare request payload
+    const notificationRequest = {
+      emailUsers,
+      whatsappUsers,
+    };
 
-    if (notifications.length === 0) {
-      this.helperService.showToast(
-        "No users available for the selected notification type.",
-        Key.TOAST_STATUS_ERROR
-      );
-      this.loadingFlag = false;
-      return;
-    }
-
-    // API call
-    this.dataService.sendNotifications(notifications).subscribe({
-      next: (response) => {
+    this.dataService.sendNotifications(notificationRequest).subscribe({
+      next: () => {
         this.helperService.showToast(
-          "Notifications sent successfully.",
+          'Notifications sent successfully.',
           Key.TOAST_STATUS_SUCCESS
         );
+        this.enableEmailNotification = false;
+        this.enableWhatsAppNotification = false;
+        this.closeButtonExcelModal.nativeElement.click();
+        this.getUsersByFiltersFunction();
+        this.getUser();
         this.loadingFlag = false;
       },
-      error: (err) => {
+      error: () => {
         this.helperService.showToast(
-          "Error while sending notifications.",
+          'Error while sending notifications.',
           Key.TOAST_STATUS_ERROR
         );
         this.loadingFlag = false;
       },
     });
+  }
+
+  closeNotificationModalFlag: boolean = false;
+
+  closeNotificationModal() {
+    this.closeNotificationModalFlag = true;
+    this.closeButtonExcelModal.nativeElement.click();
+    this.getUsersByFiltersFunction();
+    this.getUser();
+    this.closeNotificationModalFlag = false;
   }
 
   

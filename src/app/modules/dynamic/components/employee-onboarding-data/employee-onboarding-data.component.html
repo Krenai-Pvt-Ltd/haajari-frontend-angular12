@@ -2280,31 +2280,22 @@
                   </tr>
                 </tbody>
               </table>
-              <div class="d-flex justify-content-end gap-3 mt-3">
-                <!-- <button type="button" class="btn btn-primary" (click)="sendEmailToUsers(true)">
-                  <span *ngIf="!sendMailExcelUserFlag"> Send Email </span>
-                  <div class="dot-opacity-loader" *ngIf="sendMailExcelUserFlag">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                  </div>
-                </button> -->
-
-               
+              <div class="d-flex align-items-center justify-content-between">
+              <div class="d-flex align-items-center gap-3 mt-3">
                   <label class="m-0 d-flex align-items-center gap-2 justify-content-center">
                     <input type="checkbox" [(ngModel)]="enableEmailNotification" />
-                    Enable Email Notification
+                     Email 
                   </label>
                   <label class="m-0 d-flex align-items-center gap-2 justify-content-center">
                     <input type="checkbox" [(ngModel)]="enableWhatsAppNotification" />
-                    Enable WhatsApp Notification
+                     WhatsApp 
                   </label>
                 </div>
                 <div class="d-flex align-items-center gap-3 mt-3">
                   <button
                     type="button"
                     class="btn btn-primary"
-                    [disabled]="loadingFlag"
+                    [disabled]="(!this.enableEmailNotification && !this.enableWhatsAppNotification)"
                     (click)="sendNotifications()"
                   >
                     <span *ngIf="!loadingFlag">Send Notification</span>
@@ -2319,9 +2310,10 @@
                     type="button"
                     class="btn btn-primary"
                     style="background-color: white; color: black;"
+                    (click)="closeNotificationModal()"
                   >
-                    <span *ngIf="!sendMailExcelUserFlag">Skip Notification</span>
-                    <div class="dot-opacity-loader" *ngIf="sendMailExcelUserFlag">
+                    <span *ngIf="!closeNotificationModalFlag">Skip Notification</span>
+                    <div class="dot-opacity-loader" *ngIf="closeNotificationModalFlag">
                       <span></span>
                       <span></span>
                       <span></span>
@@ -2329,6 +2321,7 @@
                   </button>
                 
               </div>
+            </div>
 
 
 
