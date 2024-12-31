@@ -80,12 +80,13 @@ contentTemplate: string ='You are on the Notice Period, so that you can not appl
     this.fetchManagerNames();
     this.getUserLeaveReq();
     this.loadLeaveLogs();
-    this.getOrganizationRegistrationDateMethodCall();
+    // this.getOrganizationRegistrationDateMethodCall();
+    this.getUserJoiningDate();
 
     this.selectedDate = new Date();
     this.updateThirtyDaysLabel();
-    this.updateWeekLabels();
-    // Set the default selected tab to the current week
+    // this.updateWeekLabels();
+    // // Set the default selected tab to the current week
     this.setDefaultWeekTab();
     this.calculateDateRange();
     this.getEmployeeProfileAttendanceDetailsData();
@@ -586,19 +587,76 @@ dayShiftToggleFun(shift: string) {
 
 
 
-  onMonthChange(month: Date): void {
+  // onMonthChange(month: Date): void {
    
+  //   this.selectedDate = month;
+  //   this.presentWeek = false;
+  //   // this.resetData();
+  //   this.isShimmer = true;
+  //   this.updateThirtyDaysLabel();
+  //   this.updateWeekLabels();
+  //   this.selectedTab = 'Week 1'; // Reset to default
+  //   this.calculateDateRange();
+  //   this.getEmployeeProfileAttendanceDetailsData();
+  //   // this.getWorkedHourForEachDayOfAWeek();
+  // }
+
+  onMonthChange(month: Date): void {
     this.selectedDate = month;
     this.presentWeek = false;
-    // this.resetData();
     this.isShimmer = true;
     this.updateThirtyDaysLabel();
     this.updateWeekLabels();
-    this.selectedTab = 'Week 1'; // Reset to default
+  
+    // Select the first week containing or after the joining date
+    const joiningDate = new Date(this.userJoiningDate);
+  
+    const selectedIndex = this.weekLabels.findIndex((_, index) => {
+      const weekStart = new Date(this.selectedDate.getFullYear(), this.selectedDate.getMonth(), index * 7 + 1);
+      const weekEnd = new Date(weekStart);
+      weekEnd.setDate(weekStart.getDate() + 6);
+  
+      // Check if the joining date falls in the week
+      return weekStart <= joiningDate && joiningDate <= weekEnd;
+    });
+  
+    // Default to Week 1 if no valid week is found
+    this.selectedTab = selectedIndex !== -1 ? this.weekLabels[selectedIndex] : this.weekLabels[0];
+    console.log('Selected Tab:', this.selectedTab);
+  
     this.calculateDateRange();
     this.getEmployeeProfileAttendanceDetailsData();
-    // this.getWorkedHourForEachDayOfAWeek();
   }
+
+  
+  // onMonthChange(month: Date): void {
+  //   this.selectedDate = month;
+  //   this.presentWeek = false;
+  //   this.isShimmer = true;
+  //   this.updateThirtyDaysLabel();
+  //   this.updateWeekLabels();
+  
+  //   // Select the week containing or after the joining date
+  //   const joiningDate = new Date(this.userJoiningDate);
+  
+  //   let selectedIndex = 0; // Default to Week 1 if no match is found
+  //   this.weekLabels.forEach((_, index) => {
+  //     const weekStart = new Date(this.selectedDate.getFullYear(), this.selectedDate.getMonth(), index * 7 + 1);
+  //     const weekEnd = new Date(weekStart);
+  //     weekEnd.setDate(weekStart.getDate() + 6);
+  
+  //     if (weekEnd >= joiningDate && joiningDate >= weekStart) {
+  //       selectedIndex = index;
+  //     }
+  //   });
+  
+  //   this.selectedTab = this.weekLabels[selectedIndex]; // Select the matching week or default to Week 1
+  //   console.log('Selected Tab:', this.selectedTab);
+  //   this.calculateDateRange();
+  //   this.getEmployeeProfileAttendanceDetailsData();
+  // }
+  
+  
 
   updateThirtyDaysLabel(): void {
     const currentDate = new Date();
@@ -620,6 +678,23 @@ dayShiftToggleFun(shift: string) {
     }
   }
 
+  // updateWeekLabels(): void {
+  //   const currentDate = new Date();
+  //   const daysInMonth = new Date(
+  //     this.selectedDate.getFullYear(),
+  //     this.selectedDate.getMonth() + 1,
+  //     0
+  //   ).getDate();
+  //   const isCurrentMonth =
+  //     this.selectedDate.getFullYear() === currentDate.getFullYear() &&
+  //     this.selectedDate.getMonth() === currentDate.getMonth();
+
+  //   const lastDay = isCurrentMonth ? currentDate.getDate() : daysInMonth;
+  //   const weeks = Math.ceil(lastDay / 7);
+
+  //   this.weekLabels = Array.from({ length: weeks }, (_, i) => `Week ${i + 1}`);
+  // }
+
   updateWeekLabels(): void {
     const currentDate = new Date();
     const daysInMonth = new Date(
@@ -630,12 +705,20 @@ dayShiftToggleFun(shift: string) {
     const isCurrentMonth =
       this.selectedDate.getFullYear() === currentDate.getFullYear() &&
       this.selectedDate.getMonth() === currentDate.getMonth();
-
+  
     const lastDay = isCurrentMonth ? currentDate.getDate() : daysInMonth;
-    const weeks = Math.ceil(lastDay / 7);
-
-    this.weekLabels = Array.from({ length: weeks }, (_, i) => `Week ${i + 1}`);
+    const joiningDate = new Date(this.userJoiningDate);
+  
+    this.weekLabels = Array.from({ length: Math.ceil(lastDay / 7) }, (_, i) => {
+      const weekStart = new Date(this.selectedDate.getFullYear(), this.selectedDate.getMonth(), i * 7 + 1);
+      const weekEnd = new Date(weekStart);
+      weekEnd.setDate(weekStart.getDate() + 6);
+  
+      // Include only weeks where the end date is on or after the joining date
+      return weekEnd >= joiningDate ? `Week ${i + 1}` : null;
+    }).filter(week => week !== null) as string[];
   }
+  
 
   calculateDateRange(): void {
     const currentDate = new Date();
@@ -751,6 +834,27 @@ dayShiftToggleFun(shift: string) {
     );
   }
 
+  userJoiningDate: string = '';
+  getUserJoiningDate() {
+    debugger;
+    this.dataService.getUserJoiningDate(this.userId).subscribe(
+      (response) => {
+        this.userJoiningDate = response;
+        console.log('User Joining Date:', this.userJoiningDate);
+        // this.updateThirtyDaysLabel();
+        this.updateWeekLabels();
+        // Set the default selected tab to the current week
+        // this.setDefaultWeekTab();
+        // this.calculateDateRange();
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  
+
   attendanceDetails: EmployeeProfileAttendanceResponse[] = [];
   totalAttendanceDetails: TotalEmployeeProfileAttendanceResponse = new TotalEmployeeProfileAttendanceResponse();
   isShimmer : boolean = false;
@@ -839,18 +943,18 @@ dayShiftToggleFun(shift: string) {
     const currentMonth = new Date().getMonth();
     const dateYear = date.getFullYear();
     const dateMonth = date.getMonth();
-    const organizationRegistrationYear = new Date(
-      this.organizationRegistrationDate
+    const userRegistrationYear = new Date(
+      this.userJoiningDate
     ).getFullYear();
-    const organizationRegistrationMonth = new Date(
-      this.organizationRegistrationDate
+    const userRegistrationMonth = new Date(
+      this.userJoiningDate
     ).getMonth();
 
     // Disable if the month is before the organization registration month
     if (
-      dateYear < organizationRegistrationYear ||
-      (dateYear === organizationRegistrationYear &&
-        dateMonth < organizationRegistrationMonth)
+      dateYear < userRegistrationYear ||
+      (dateYear === userRegistrationYear &&
+        dateMonth < userRegistrationMonth)
     ) {
       return true;
     }
@@ -896,10 +1000,10 @@ goToNextMonth(): void {
 
 // Disable previous button logic
 isPreviousDisabled(): boolean {
-  const organizationRegistrationDate = new Date(this.organizationRegistrationDate);
+  const userRegistrationDate = new Date(this.userJoiningDate);
   return (
-    this.selectedDate.getFullYear() === organizationRegistrationDate.getFullYear() &&
-    this.selectedDate.getMonth() === organizationRegistrationDate.getMonth()
+    this.selectedDate.getFullYear() === userRegistrationDate.getFullYear() &&
+    this.selectedDate.getMonth() === userRegistrationDate.getMonth()
   );
 }
 
@@ -933,6 +1037,15 @@ setDefaultWeekTab(): void {
     this.selectedTab = 'Week 1';
     this.presentWeek = false;
   }
+}
+
+
+isWeekBeforeJoiningDate(weekIndex: number): boolean {
+  const joiningDate = new Date(this.userJoiningDate);
+  const joiningWeek = Math.ceil(joiningDate.getDate() / 7);
+
+  // Weeks before the joining week should be hidden
+  return weekIndex + 1 < joiningWeek;
 }
 
 

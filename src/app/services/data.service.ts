@@ -2180,6 +2180,15 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     );
   }
 
+  getUserJoiningDate(userUuid: string): Observable<any> {
+    const params = new HttpParams().set('userUuid', userUuid);
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/users/joining/date`, { params }
+    );
+  }
+
+  
+
   signInByWhatsapp(phoneNumber: string): Observable<any> {
     const url = `${this.baseUrl}/user/auth/sent/otp-whatsapp?phoneNumber=${phoneNumber}`;
     return this.httpClient.post<any>(url, {});
