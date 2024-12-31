@@ -914,6 +914,8 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     });
   }
 
+  
+
   setupScrollDetection(container: HTMLElement) {
     container.addEventListener('scroll', () => {
       const maxScroll = container.scrollHeight - container.clientHeight;
