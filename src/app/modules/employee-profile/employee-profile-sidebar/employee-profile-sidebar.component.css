@@ -2,6 +2,12 @@
     border-right: 1px solid #f1f1f1;
 }
 
+#pdf-container {
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+
 .company-logo {
     background-color: #F5F5F5;
     height: 130px;

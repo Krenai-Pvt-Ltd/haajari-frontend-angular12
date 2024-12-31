@@ -243,22 +243,17 @@
           </div>
         </div>
         <div class="col-md-7" *ngIf="activeTab === 'companySetting'">
-          <div class="row" *ngIf="!fileUrl">
+          <div class="row">
             <div class="col-md-12">
               <div class="p-3 excel-uplode-file-box text-center">
-                <input id="hrpolicies" type="file" name="hrpolicies" class="input" accept="application/pdf"
-                  (change)="onFileSelectedHrPolicies($event)" />
-                <!-- <img src="assets/images/documentation.svg" style="width: 50px" class="pb-3" /> -->
-                <p class="mb-0">
-                  Drag file here to upload or,
-                  <a class="text-primary" href="#!"> choose file </a>
-                </p>
-                <div *ngIf="isUpdatingHrPolicies" class="spinner-border text-success" role="status"></div>
+                <button type="button" class="btn p-0 text-primary font-13 " data-bs-toggle="modal"
+                data-bs-target="#addDocument">
+                <i class="bi bi-plus"></i> Add HR Policy </button>
               </div>
             </div>
           </div>
           <div>
-            <div *ngIf="fileUrl" class="mt-3">
+            <div *ngFor="let document of documents" class="mt-3">
               <div class="hr-policy-file d-flex justify-content-between align-items-center p-3">
                 <div class="d-flex align-items-center gap-2">
                   <div class="d-flex align-items-center gap-2">
@@ -282,15 +277,15 @@
                         d="M21.3881 18.3893C21.2335 18.3847 21.0802 18.4196 20.9429 18.4908C20.8056 18.562 20.6887 18.6671 20.6034 18.7961C20.3999 19.1377 20.3037 19.5326 20.3273 19.9296C20.3273 20.925 20.7051 21.4263 21.4608 21.4263C21.6868 21.425 21.9116 21.3932 22.1292 21.3318C22.3472 21.2665 22.5651 21.1865 22.7831 21.0993V22.2836C22.3238 22.4793 21.8292 22.5783 21.33 22.5743C20.997 22.5999 20.6624 22.5534 20.3489 22.438C20.0355 22.3227 19.7506 22.1412 19.5136 21.9058C19.0591 21.3543 18.8329 20.6498 18.8815 19.9368C18.8652 19.435 18.9699 18.9366 19.1866 18.4837C19.3769 18.0911 19.6806 17.7646 20.0585 17.5465C20.47 17.3211 20.9336 17.2083 21.4026 17.2195C21.9582 17.2196 22.5068 17.3438 23.0083 17.5828L22.5797 18.709C22.3943 18.6195 22.2024 18.5442 22.0057 18.4837C21.8063 18.4188 21.5977 18.3869 21.3881 18.3893Z"
                         fill="#6666F2" />
                     </svg>
-                    <h5 class="mb-0 font-14">HR Policy File</h5>
+                    <h5 class="mb-0 font-14">{{document.name}}</h5>
                   </div>
-                  <span class="separator"></span>
-                  <p class="mb-0 font-14">
+
+                  <!-- <p class="mb-0 font-14">
                     Uploaded {{ docsUploadedDate | date }}
-                  </p>
+                  </p> -->
                 </div>
                 <div class="d-flex align-items-center gap-2 action-icon-btn">
-                  <span (click)="openViewModal(fileUrl)">
+                  <span (click)="openViewModal(document.url)">
                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
                       <mask id="mask0_4339_1635" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0"
                         width="22" height="22">
@@ -306,10 +301,10 @@
                   <!-- (click)="downloadFile(fileUrl)" -->
                   <input id="hrpolicies" type="file" name="hrpolicies" class="input" accept="application/pdf"
                     (change)="onFileSelectedHrPolicies($event)" style="display: none;" />
-                  <span>
+                  <!-- <span>
                     <div *ngIf="isUpdatingHrPolicies" class="spinner-border text-primary" role="status"></div>
-                  </span>
-                  <span (click)="triggerFileInput()" *ngIf="!isUpdatingHrPolicies">
+                  </span> -->
+                  <!-- <span (click)="triggerFileInput()" *ngIf="!isUpdatingHrPolicies">
                     <svg xmlns="http://www.w3.org/2000/svg" width="23" height="22" viewBox="0 0 23 22" fill="none">
                       <mask id="mask0_4339_1623" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0"
                         width="23" height="22">
@@ -321,8 +316,8 @@
                           fill="#444444" />
                       </g>
                     </svg>
-                  </span>
-                  <span>
+                  </span> -->
+                  <span (click)="deleteDocument(document.id)">
                     <svg xmlns="http://www.w3.org/2000/svg" width="23" height="22" viewBox="0 0 23 22" fill="none">
                       <mask id="mask0_4339_1620" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0"
                         width="23" height="22">
@@ -545,7 +540,7 @@
                             ) -->
                             <a style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#shiftTime" (click)="openEditAddressTab(item.organizationAddress.id,
                                   item.organizationAddress.addressStatus)
-                               
+
                               ">
                               <i class="bi bi-pencil pointer"></i>
                             </a>
@@ -752,7 +747,7 @@
           <button type="button" class="btn btn-de-secondary" data-bs-dismiss="modal" aria-label="Close">
             Cancel
           </button>
-          <button class="btn btn-primary" (click)="downloadFile(fileUrl)">
+          <button class="btn btn-primary" (click)="downloadFile('')">
             <span> <i class="bi bi-download"></i> Download </span>
           </button>
         </div>
@@ -832,7 +827,7 @@
                               </p>
                               <p class="errortxt mt-2 mb-0" *ngIf="
                                 !organizationAddressDetail.longitude &&
-                                !organizationAddressDetail.latitude 
+                                !organizationAddressDetail.latitude
                               ">
                                 <i class="bi bi-exclamation-circle"></i> Please
                                 Select Address from Address Dropdown only. Do
@@ -1306,7 +1301,7 @@
                 aria-selected="false"
                 class="nav-link"
                 #staffSelectionTab
-                
+
                 [disabled]="!organizationAddressNgForm.form.valid"
               >
                 Staff selection
@@ -1314,7 +1309,7 @@
             </li>
           </ul>
           <div class="tab-content" id="myTabContent">
-            
+
             <div
               class="tab-pane fade show active"
               id="shiftime"
@@ -1326,7 +1321,7 @@
                   <div class="modal-body">
                     <div class="form-group">
                       <div class="row">
-                       
+
                         <div class="col-md-12">
                           <div class="mb-3" style="position: relative">
                             <label for="addressLine1" class="pb-2"
@@ -1400,7 +1395,7 @@
                                 class="errortxt mt-2 mb-0"
                                 *ngIf="
                                   !organizationAddressDetail.longitude &&
-                                  !organizationAddressDetail.latitude 
+                                  !organizationAddressDetail.latitude
                                 "
                               >
                                 <i class="bi bi-exclamation-circle"></i> Please
@@ -1467,7 +1462,7 @@
                             </p>
                           </div>
                       </div>
-                        
+
                         <div
                           class="col-md-4"
                           *ngIf="
@@ -1665,9 +1660,9 @@
                             <nz-autocomplete #radiusAuto (select)="onSelect($event)">
                               <nz-auto-option
                                 *ngFor="let option of radiusFilteredOptions"
-                                [nzValue]="option.value"  
-                                [nzLabel]="option.label"> 
-                                {{ option.label }}         
+                                [nzValue]="option.value"
+                                [nzLabel]="option.label">
+                                {{ option.label }}
                               </nz-auto-option>
                             </nz-autocomplete>
                             <div *ngIf="radius?.touched || isFormInvalid">
@@ -1684,20 +1679,20 @@
                                     <i class="bi bi-exclamation-circle"></i> Maximum radius is 99,000 meters.
                                 </p>
                             </div>
-                      
-                      
+
+
                           </div>
-                        
+
                         </div>
                       </div>
                         <div class="mb-10" *ngIf="isShowMap">
                           <app-map [lat]="this.organizationAddressDetail.latitude" [lng]="this.organizationAddressDetail.longitude" (getData)="getData($event)"></app-map>
-                       
+
                       </div>
-            
+
                     </div>
                   </div>
-                  
+
                   <div
                     class="modal-footer d-flex align-items-center justify-content-end"
                   >
@@ -2453,4 +2448,93 @@
       </div>
     </div>
   </div>
+</div>
+
+<div class="modal fade" id="addDocument" name="addDocument" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Document</h5>
+                <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButtonHrPolicies>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                            width="24" height="24">
+                            <rect width="24" height="24" fill="#D9D9D9" />
+                        </mask>
+                        <g mask="url(#mask0_5037_2014)">
+                            <path
+                                d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z"
+                                fill="black" />
+                        </g>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="assets-request-form">
+                    <form>
+                        <div class="row register-form-box">
+                            <div class="col-md-12 mb-3">
+                                <div class="form-group">
+                                    <label for="documentName" class="mb-2">Document Name</label>
+                                    <input type="text" class="form-control" id="documentName"
+                                        placeholder="Enter document name" [(ngModel)]="doc.name" name="documentName" />
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="fileInput" class="mb-2">Attach File</label>
+                                    <div
+                                        class="upload-file-input p-2 d-flex align-items-center justify-content-center flex-column add-other-file">
+                                        <input id="fileInput" type="file" name="file"
+                                            accept=".xlsx,.pdf,.docx,.jpg,.jpeg,.png" class="input"
+                                            (change)="handleFileChange($event)" />
+                                        <span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="46" height="45"
+                                                viewBox="0 0 46 45" fill="none">
+                                                <g clip-path="url(#clip0_4843_1408)">
+                                                    <path
+                                                        d="M12.0151 0H27.0758L39.8253 13.2948V39.1489C39.8253 42.3774 37.2027 45 33.9656 45H12.0152C8.78667 45 6.16406 42.3774 6.16406 39.1489V5.85114C6.16401 2.6226 8.78661 0 12.0151 0Z"
+                                                        fill="#6666F2" />
+                                                    <path opacity="0.302" fill-rule="evenodd" clip-rule="evenodd"
+                                                        d="M27.0625 0V13.191H39.8294L27.0625 0Z" fill="white" />
+                                                    <path
+                                                        d="M28.9285 23.4109H17.0618C16.5165 23.4109 16.0664 22.9695 16.0664 22.4242C16.0664 21.8789 16.5165 21.4375 17.0618 21.4375H28.9285C29.4738 21.4375 29.9152 21.8789 29.9152 22.4242C29.9152 22.9695 29.4738 23.4109 28.9285 23.4109ZM24.9729 35.2776H17.0618C16.5165 35.2776 16.0664 34.8362 16.0664 34.2909C16.0664 33.7456 16.5165 33.3042 17.0618 33.3042H24.9729C25.5183 33.3042 25.9596 33.7456 25.9596 34.2909C25.9596 34.8362 25.5183 35.2776 24.9729 35.2776ZM28.9285 31.322H17.0618C16.5165 31.322 16.0664 30.8806 16.0664 30.3353C16.0664 29.7901 16.5165 29.3486 17.0618 29.3486H28.9285C29.4738 29.3486 29.9152 29.7901 29.9152 30.3353C29.9152 30.8806 29.4738 31.322 28.9285 31.322ZM28.9285 27.3665H17.0618C16.5165 27.3665 16.0664 26.925 16.0664 26.3798C16.0664 25.8345 16.5165 25.3931 17.0618 25.3931H28.9285C29.4738 25.3931 29.9152 25.8345 29.9152 26.3798C29.9152 26.925 29.4738 27.3665 28.9285 27.3665Z"
+                                                        fill="white" />
+                                                </g>
+                                                <defs>
+                                                    <clipPath id="clip0_4843_1408">
+                                                        <rect width="45" height="45" fill="white"
+                                                            transform="translate(0.5)" />
+                                                    </clipPath>
+                                                </defs>
+                                            </svg>
+                                        </span>
+                                        <button type="button" class="btn add-file mt-2 font-14">
+                                            <i *ngIf="doc.fileName===''" class="bi bi-plus-lg"></i>{{doc.fileName!=''?
+                                            doc.fileName : 'Add File' }}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn cancel-btn" data-bs-dismiss="modal">
+                    Cancel
+                </button>
+                <button type="button" class="btn submitActionBtn" [disabled]="isUpdatingHrPolicies || doc.name.length<1"
+                    (click)="onDocumentSubmit()">
+                    <span *ngIf="!isUpdatingHrPolicies">Submit</span>
+                    <div class="dot-opacity-loader" *ngIf="isUpdatingHrPolicies">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
 </div>
