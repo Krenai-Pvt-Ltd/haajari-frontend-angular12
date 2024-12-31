@@ -2012,7 +2012,7 @@
                   class="btn btn-primary"
                   *ngIf="this.userNameWithBranchName?.length < 1"
                   (click)="saveStaffAddressDetails()"
-                  [disabled]="this.selectedStaffsUuids.length < 1
+                  [disabled]="this.selectedStaffsUuids.length <div 1
                     "
                 >
                   <span *ngIf="!loading">Submit</span>
@@ -2481,7 +2481,26 @@
                                         placeholder="Enter document name" [(ngModel)]="doc.name" name="documentName" />
                                 </div>
                             </div>
-                            <div class="col-md-12">
+                            <div class="d-flex align-items-center justify-content-between" style="padding-top: 2px;">
+                              <p class="mb-0">Upload Youtube Video Url <span class="font-12 text-primary">(optional)</span></p>
+                              <div class="form-check">
+                                <input
+                                  class="form-check-input"
+                                  type="checkbox"
+                                  id="defaultCheck1"
+                                  [(ngModel)]="isYouTubeVideo"
+                                  (change)="toggleVideoSelection($event)"
+                                />
+                              </div>
+                            </div>
+                            <div class="col-md-12 mb-3" *ngIf="isYouTubeVideo">
+                              <div class="form-group" >
+                                <label for="youtubeUrl" class="mb-2">Youtube Video Url</label>
+                                <input type="text" class="form-control" id="youtubeUrl"
+                                    placeholder="Enter youtube video url" [(ngModel)]="doc.url" name="youtubeUrl" />
+                            </div>
+                            </div>
+                            <div class="col-md-12" *ngIf="!isYouTubeVideo">
                                 <div class="form-group">
                                     <label for="fileInput" class="mb-2">Attach File</label>
                                     <div
