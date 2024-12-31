@@ -9,7 +9,7 @@
                     </li>
                     <li class="nav-item">
                         <a id="pills-profile-tab" data-bs-toggle="pill" href="#payment" role="tab"
-                            aria-controls="pills-profile" aria-selected="false" class="nav-link">Payment</a>
+                            aria-controls="pills-profile" aria-selected="false" class="nav-link" (click)="getEmployeeSalaryRevision()">Payment</a>
                     </li>
                     <li class="nav-item">
                         <a id="pills-profile-tab" data-bs-toggle="pill" href="#pay-slips" role="tab"
@@ -427,9 +427,9 @@
                                             <tbody>
                                                 <tr *ngFor="let payslipBreakup of employeePayslipBreakupResponseList;">
                                                     <td><span class="fw-semibold">{{payslipBreakup.name}}</span></td>
-                                                    <td class="text-center"><span class="fw-semibold">₹{{payslipBreakup.standardAmount}}</span>
+                                                    <td class="text-center"><span class="fw-semibold">₹{{convertNumberToStringFormat(payslipBreakup.standardAmount)}}</span>
                                                     </td>
-                                                    <td class="text-center"><span class="fw-semibold">₹{{payslipBreakup.actualAmount}}</span>
+                                                    <td class="text-center"><span class="fw-semibold">₹{{convertNumberToStringFormat(payslipBreakup.actualAmount)}}</span>
                                                     </td>
                                                    
                                                 </tr>
@@ -439,10 +439,10 @@
                                                         <span class="fw-bold text-black">Gross Earning</span>
                                                     </td>
                                                     <td class="text-center">
-                                                        <span class="fw-bold text-primary">₹{{monthlySalary}}</span>
+                                                        <span class="fw-bold text-primary">₹{{convertNumberToStringFormat(monthlySalary)}}</span>
                                                     </td>
                                                     <td class="text-center">
-                                                        <span class="fw-bold text-primary ">₹{{earningSalary}}</span>
+                                                        <span class="fw-bold text-primary ">₹{{convertNumberToStringFormat(earningSalary)}}</span>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -460,15 +460,15 @@
                                             <tbody>
                                                     <tr >
                                                         <td><span class="fw-semibold">TDS</span></td>
-                                                        <td class="text-end"><span class="fw-semibold">₹{{employeePayslipDeductionResponse.tdsAmount | number:'1.0-2'}}</span></td>
+                                                        <td class="text-end"><span class="fw-semibold">₹{{convertNumberToStringFormat(employeePayslipDeductionResponse.tdsAmount )}}</span></td>
                                                     </tr>
                                                     <tr >
                                                         <td><span class="fw-semibold">EPF</span></td>
-                                                        <td class="text-end"><span class="fw-semibold">₹{{employeePayslipDeductionResponse.epfAmount | number:'1.0-2'}}</span></td>
+                                                        <td class="text-end"><span class="fw-semibold">₹{{convertNumberToStringFormat(employeePayslipDeductionResponse.epfAmount )}}</span></td>
                                                     </tr>
                                                     <tr >
                                                         <td><span class="fw-semibold">ESI</span></td>
-                                                       <td class="text-end"><span class="fw-semibold">₹{{employeePayslipDeductionResponse.esiAmount | number:'1.0-2'}}</span></td>
+                                                       <td class="text-end"><span class="fw-semibold">₹{{convertNumberToStringFormat(employeePayslipDeductionResponse.esiAmount )}}</span></td>
                                                     </tr>
                                                     <tr *ngIf="">
                                                         <td> <span class="fw-semibold">Absent @2 Days</span></td>
@@ -657,196 +657,92 @@
                                     </svg>
                                 </span>
                             </div>
-                            <div>
-                                <div class="p-3 border-bottom d-flex align-items-center justify-content-between">
-                                    <div class="d-flex align-items-center gap-3">
-                                        <span
-                                            class="salary-simeline-icon d-flex align-items-center justify-content-center">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21"
-                                                viewBox="0 0 21 21" fill="none">
-                                                <mask id="mask0_6704_1548" style="mask-type:alpha"
-                                                    maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
-                                                    <rect x="0.925781" y="0.789062" width="19.4286" height="19.4286"
-                                                        fill="#D9D9D9" />
-                                                </mask>
-                                                <g mask="url(#mask0_6704_1548)">
+                            <div *ngFor="let salaryRevision of userSalaryRevisionResList; let i = index;">
+                              
+                                    <div class="d-flex align-items-center justify-content-between p-3">
+                                        <div class="d-flex align-items-center gap-3">
+                                            <span
+                                                class="salary-simeline-icon d-flex align-items-center justify-content-center">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21"
+                                                    viewBox="0 0 21 21" fill="none">
+                                                    <mask id="mask0_6704_1548" style="mask-type:alpha"
+                                                        maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
+                                                        <rect x="0.925781" y="0.789062" width="19.4286" height="19.4286"
+                                                            fill="#D9D9D9" />
+                                                    </mask>
+                                                    <g mask="url(#mask0_6704_1548)">
+                                                        <path
+                                                            d="M3.67826 15.3627L2.54492 14.2294L8.5354 8.19844L11.7735 11.4365L15.983 7.26749H13.8783V5.64844H18.7354V10.5056H17.1163V8.40082L11.7735 13.7437L8.5354 10.5056L3.67826 15.3627Z"
+                                                            fill="#444444" />
+                                                    </g>
+                                                </svg>
+                                            </span>
+                                            <div>
+                                                <h5 class="mb-1 font-15 fw-semibold">Salary Revision</h5>
+                                                <p class="mb-0 font-13">Effective {{salaryRevision.effectiveDate| date : 'MMM , dd yyyy'}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex align-items-center gap-3">
+                                            <div class="d-flex align-items-center gap-2">
+                                                <p class="mb-0 font-13">Regular Salary</p>
+                                                <p class="mb-0 fw-bold font-13">INR {{convertNumberToStringFormat(salaryRevision.monthlyCtc)}}</p>
+                                            </div>
+                                            <div class="d-flex align-items-center gap-2">
+                                                <p class="mb-0 font-13">Total</p>
+                                                <p class="mb-0 fw-bold font-13">INR {{convertNumberToStringFormat(salaryRevision.annualCtc)}}</p>
+                                            </div>
+                                            <span
+                                                class="down-icon d-flex align-items-center justify-content-center collapsed"
+                                                data-bs-toggle="collapse"  [attr.href]="'#collapseExample' + i" role="button"
+                                                aria-expanded="false" aria-controls="collapseExample" *ngIf="salaryRevision.salaryBreakup.length>0">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="11"
+                                                    viewBox="0 0 17 11" fill="none">
                                                     <path
-                                                        d="M3.67826 15.3627L2.54492 14.2294L8.5354 8.19844L11.7735 11.4365L15.983 7.26749H13.8783V5.64844H18.7354V10.5056H17.1163V8.40082L11.7735 13.7437L8.5354 10.5056L3.67826 15.3627Z"
+                                                        d="M8.125 10.6625L0.0625 2.6L1.94375 0.71875L8.125 6.9L14.3063 0.71875L16.1875 2.6L8.125 10.6625Z"
                                                         fill="#444444" />
-                                                </g>
-                                            </svg>
-                                        </span>
-                                        <div>
-                                            <h5 class="mb-1 font-15 fw-semibold">Salary Revision</h5>
-                                            <p class="mb-0 font-13">Effective Jul 01, 2024</p>
+                                                </svg>
+                                            </span>
                                         </div>
                                     </div>
-                                    <div class="d-flex align-items-center gap-3">
-                                        <div class="d-flex align-items-center gap-2">
-                                            <p class="mb-0 font-13">Regular Salary</p>
-                                            <p class="mb-0 fw-bold font-13">INR 3,43,000</p>
-                                        </div>
-                                        <div class="d-flex align-items-center gap-2">
-                                            <p class="mb-0 font-13">Total</p>
-                                            <p class="mb-0 fw-bold font-13">INR 3,43,000</p>
-                                        </div>
-                                        <span
-                                            class="down-icon d-flex align-items-center justify-content-center collapsed"
-                                            data-bs-toggle="collapse" href="#collapseExample" role="button"
-                                            aria-expanded="false" aria-controls="collapseExample">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="11"
-                                                viewBox="0 0 17 11" fill="none">
-                                                <path
-                                                    d="M8.125 10.6625L0.0625 2.6L1.94375 0.71875L8.125 6.9L14.3063 0.71875L16.1875 2.6L8.125 10.6625Z"
-                                                    fill="#444444" />
-                                            </svg>
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="collapse p-3 border-bottom" id="collapseExample">
-                                    <h5 class="mb-0 font-14 mb-3">Summary</h5>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="summary-box border-right">
-                                                <div class="d-flex align-items-center justify-content-between mb-4">
-                                                    <h5 class="fw-normal font-14 mb-0">Conveyance Allowance</h5>
-                                                    <h5 class="fw-normal font-14 mb-0">₹17000.00</h5>
+                                    <div class="collapse p-3 border-bottom" [attr.id]="'collapseExample' + i">
+                                        <h5 class="mb-0 font-14 mb-3">Summary</h5>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="summary-box border-right">
+                                                    <div class="d-flex align-items-center justify-content-between mb-4"
+                                                        *ngFor="let component of salaryRevision.salaryBreakup;">
+                                                        <h5 class="fw-normal font-14 mb-0">{{component.name}}</h5>
+                                                        <h5 class="fw-normal font-14 mb-0">₹{{convertNumberToStringFormat(component.standardAmount)}}</h5>
+                                                    </div>
+                                                   
+                                                    <div class="d-flex align-items-center justify-content-between mb-4">
+                                                        <h5 class="fw-boid font-15 mb-0">Gross Earning</h5>
+                                                        <h5 class="fw-bold text-primary font-15 mb-0">₹{{convertNumberToStringFormat(salaryRevision.monthlyCtc)}}</h5>
+                                                    </div>
                                                 </div>
-                                                <div class="d-flex align-items-center justify-content-between mb-4">
-                                                    <h5 class="fw-normal font-14 mb-0">Basic Pay</h5>
-                                                    <h5 class="fw-normal font-14 mb-0">₹7000.00</h5>
-                                                </div>
-                                                <div class="d-flex align-items-center justify-content-between mb-4">
-                                                    <h5 class="fw-normal font-14 mb-0">Additional Allowance</h5>
-                                                    <h5 class="fw-normal font-14 mb-0">₹1700.00</h5>
-                                                </div>
-                                                <div class="d-flex align-items-center justify-content-between mb-4">
-                                                    <h5 class="fw-normal font-14 mb-0">HRA</h5>
-                                                    <h5 class="fw-normal font-14 mb-0">₹5000.00</h5>
-                                                </div>
-                                                <div class="d-flex align-items-center justify-content-between mb-4">
-                                                    <h5 class="fw-normal font-14 mb-0">Transport Allowance</h5>
-                                                    <h5 class="fw-normal font-14 mb-0">₹1100.00</h5>
-                                                </div>
-                                                <div class="d-flex align-items-center justify-content-between mb-4">
-                                                    <h5 class="fw-normal font-14 mb-0">Medical Allowance</h5>
-                                                    <h5 class="fw-normal font-14 mb-0">₹1700.00</h5>
-                                                </div>
-                                                <div class="d-flex align-items-center justify-content-between mb-4">
-                                                    <h5 class="fw-boid font-15 mb-0">Gross Earning</h5>
-                                                    <h5 class="fw-bold text-primary font-15 mb-0">₹23,8000</h5>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="">
+                                                    <!-- <div class="p-3 holiday-date mb-3 universal-holiday">
+                                                        <p class="mb-0"> Regular Salary | <span style="color: #3f988f;">INR
+                                                                {{convertNumberToStringFormat(salaryRevision.annualCtc)}}</span></p>
+                                                    </div> -->
+                                                    <div class="p-3 holiday-date mb-3 universal-holiday">
+                                                        <p class="mb-0"> Salary Per Month | <span
+                                                                style="color: #3f988f;">INR {{convertNumberToStringFormat(salaryRevision.monthlyCtc)}}</span></p>
+                                                    </div>
+                                                    <!-- <div class="p-3 holiday-date mb-3 universal-holiday">
+                                                        <p class="mb-0"> Tax Deduction | <span style="color: #3f988f;">INR
+                                                                7000</span></p>
+                                                    </div> -->
+                                                    <!-- <div class="p-3 holiday-date mb-3 universal-holiday">
+                                                        <p class="mb-0"> EPF Detection (Pre Month) | <span
+                                                                style="color: #3f988f;">INR 1800</span></p>
+                                                    </div> -->
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
-                                            <div class="">
-                                                <div class="p-3 holiday-date mb-3 universal-holiday">
-                                                    <p class="mb-0"> Regular Salary | <span style="color: #3f988f;">INR
-                                                            4,80,000</span></p>
-                                                </div>
-                                                <div class="p-3 holiday-date mb-3 universal-holiday">
-                                                    <p class="mb-0"> Salary Per Month | <span
-                                                            style="color: #3f988f;">INR 40,000</span></p>
-                                                </div>
-                                                <div class="p-3 holiday-date mb-3 universal-holiday">
-                                                    <p class="mb-0"> Tax Deduction | <span style="color: #3f988f;">INR
-                                                            7000</span></p>
-                                                </div>
-                                                <div class="p-3 holiday-date mb-3 universal-holiday">
-                                                    <p class="mb-0"> EPF Detection (Pre Month) | <span
-                                                            style="color: #3f988f;">INR 1800</span></p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="p-3 border-bottom d-flex align-items-center justify-content-between">
-                                    <div class="d-flex align-items-center gap-3">
-                                        <span
-                                            class="salary-simeline-icon d-flex align-items-center justify-content-center">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21"
-                                                viewBox="0 0 21 21" fill="none">
-                                                <mask id="mask0_6704_1548" style="mask-type:alpha"
-                                                    maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
-                                                    <rect x="0.925781" y="0.789062" width="19.4286" height="19.4286"
-                                                        fill="#D9D9D9" />
-                                                </mask>
-                                                <g mask="url(#mask0_6704_1548)">
-                                                    <path
-                                                        d="M3.67826 15.3627L2.54492 14.2294L8.5354 8.19844L11.7735 11.4365L15.983 7.26749H13.8783V5.64844H18.7354V10.5056H17.1163V8.40082L11.7735 13.7437L8.5354 10.5056L3.67826 15.3627Z"
-                                                        fill="#444444" />
-                                                </g>
-                                            </svg>
-                                        </span>
-                                        <div>
-                                            <h5 class="mb-1 font-15 fw-semibold">Salary Revision</h5>
-                                            <p class="mb-0 font-13">Effective Jul 01, 2024</p>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex align-items-center gap-3">
-                                        <div class="d-flex align-items-center gap-2">
-                                            <p class="mb-0 font-13">Regular Salary</p>
-                                            <p class="mb-0 fw-bold font-13">INR 3,43,000</p>
-                                        </div>
-                                        <div class="d-flex align-items-center gap-2">
-                                            <p class="mb-0 font-13">Total</p>
-                                            <p class="mb-0 fw-bold font-13">INR 3,43,000</p>
-                                        </div>
-                                        <span
-                                            class="down-icon d-flex align-items-center justify-content-center collapsed">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="11"
-                                                viewBox="0 0 17 11" fill="none">
-                                                <path
-                                                    d="M8.125 10.6625L0.0625 2.6L1.94375 0.71875L8.125 6.9L14.3063 0.71875L16.1875 2.6L8.125 10.6625Z"
-                                                    fill="#444444" />
-                                            </svg>
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="p-3 d-flex align-items-center justify-content-between">
-                                    <div class="d-flex align-items-center gap-3">
-                                        <span
-                                            class="salary-simeline-icon d-flex align-items-center justify-content-center ">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21"
-                                                viewBox="0 0 21 21" fill="none">
-                                                <mask id="mask0_6704_1548" style="mask-type:alpha"
-                                                    maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
-                                                    <rect x="0.925781" y="0.789062" width="19.4286" height="19.4286"
-                                                        fill="#D9D9D9" />
-                                                </mask>
-                                                <g mask="url(#mask0_6704_1548)">
-                                                    <path
-                                                        d="M3.67826 15.3627L2.54492 14.2294L8.5354 8.19844L11.7735 11.4365L15.983 7.26749H13.8783V5.64844H18.7354V10.5056H17.1163V8.40082L11.7735 13.7437L8.5354 10.5056L3.67826 15.3627Z"
-                                                        fill="#444444" />
-                                                </g>
-                                            </svg>
-                                        </span>
-                                        <div>
-                                            <h5 class="mb-1 font-15 fw-semibold">Salary Revision</h5>
-                                            <p class="mb-0 font-13">Effective Jul 01, 2024</p>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex align-items-center gap-3">
-                                        <div class="d-flex align-items-center gap-2">
-                                            <p class="mb-0 font-13">Regular Salary</p>
-                                            <p class="mb-0 fw-bold font-13">INR 3,43,000</p>
-                                        </div>
-                                        <div class="d-flex align-items-center gap-2">
-                                            <p class="mb-0 font-13">Total</p>
-                                            <p class="mb-0 fw-bold font-13">INR 3,43,000</p>
-                                        </div>
-                                        <span
-                                            class="down-icon d-flex align-items-center justify-content-center collapsed">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="11"
-                                                viewBox="0 0 17 11" fill="none">
-                                                <path
-                                                    d="M8.125 10.6625L0.0625 2.6L1.94375 0.71875L8.125 6.9L14.3063 0.71875L16.1875 2.6L8.125 10.6625Z"
-                                                    fill="#444444" />
-                                            </svg>
-                                        </span>
-                                    </div>
-                                </div>
-
+                                    </div>                             
                             </div>
                         </div>
                     </div>

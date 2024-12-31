@@ -4518,6 +4518,14 @@ getHolidayForOrganization(date: string): Observable<any>{
   getSubscriptionRequestStatus(): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/contact-and-support/get-subscription-request-status`);
   }
+
+  sendNotifications(request: { emailUsers: string[]; whatsappUsers: string[] }): Observable<any> {
+    return this.httpClient.post(
+      `${this.baseUrl}/whatsapp-user-onboarding/send-notifications`,
+      request
+    );
+  }
+  
   removeKeyValuePair(key: string, userId: string, value: any): Observable<any> {
     // Set URL parameters for key and userId
     const params = new HttpParams()

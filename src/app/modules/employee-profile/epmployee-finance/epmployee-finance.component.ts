@@ -11,6 +11,7 @@ import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { SalaryService } from 'src/app/services/salary.service';
 import { EmployeeProfileComponent } from '../employee-profile.component';
+import { UserSalaryRevisionRes } from 'src/app/models/UserSalaryRevisionRes';
 
 @Component({
   selector: 'app-epmployee-finance',
@@ -50,6 +51,15 @@ export class EpmployeeFinanceComponent implements OnInit {
     this.getEmployeePayslipBreakupResponseByUserUuidMethodCall();
     this.getEmployeePayslipDeductionResponseByUserUuidMethodCall();
     this.getPayoutSummary();
+  }
+
+
+  convertNumberToStringFormat(value:number){
+    const formattedValue = value.toLocaleString('en-IN', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+    return formattedValue;
   }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -137,19 +147,6 @@ export class EpmployeeFinanceComponent implements OnInit {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                   SUMMARY TAB  
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-  // disableMonths = (date: Date): boolean => {
-  //   const current = new Date();
-  //   const userJoiningDate = new Date(this._helperService.userJoiningDate);
-
-  //   // Disable if the date is outside the range of user joining and current date
-  //   return (
-  //       date < new Date(userJoiningDate.getFullYear(), userJoiningDate.getMonth(), 1) || 
-  //       date > new Date(current.getFullYear(), current.getMonth(), 1)
-  //   );
-  // };
-
 
   disableMonths = (date: Date): boolean => {
     const currentYear = new Date().getFullYear();
@@ -323,6 +320,25 @@ export class EpmployeeFinanceComponent implements OnInit {
   }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                               PAYMENT TAB
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
+
+
+userSalaryRevisionResList: UserSalaryRevisionRes [] = new Array();
+  getEmployeeSalaryRevision(){
+    this.userSalaryRevisionResList = [];
+    this._salaryService.getEmployeeSalaryRevisionDetail(this.userUuid).subscribe((response) => {
+      if(response.status){
+        this.userSalaryRevisionResList = response.object;
+      }else{
+        this.userSalaryRevisionResList = [];
+      }
+    }, (error) => {
+      
+    })
+  }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                               PAYSLIP TAB
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -381,6 +397,10 @@ export class EpmployeeFinanceComponent implements OnInit {
   // downloadPaySlip(url: string, name: string){
   //   this._helperService.downloadPdf(url, name);
   // }
+
+  
+
+
 
 }
 
