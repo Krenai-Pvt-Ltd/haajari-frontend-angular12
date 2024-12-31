@@ -136,7 +136,9 @@ export class EmployeeProfileSidebarComponent implements OnInit {
             .subscribe(
               (data) => {
                 this.hrPolicyDocuments = data;
-                this.openModal();
+                if (this.hrPolicyDocuments.length > 0) {
+                  this.openModal();
+                }
               },
               (error) => {
                 console.error('Error fetching documents:', error);
@@ -870,7 +872,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
   currentPdfIndex = 0;
 
   openModal() {
-    if (this.pdfModal && this.modalService.hasOpenModals() && this.hrPolicyDocuments.length>this.currentPdfIndex) {
+    if (this.pdfModal && this.modalService.hasOpenModals() && this.hrPolicyDocuments.length>=this.currentPdfIndex) {
       return;
     }
     this.modalService.open(this.pdfModal, { backdrop: 'static', keyboard: false });
