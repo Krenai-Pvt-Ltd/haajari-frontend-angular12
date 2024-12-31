@@ -131,7 +131,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     this.dataService.getEmployeeProfile(this.userId).subscribe((response) => {
       console.log(response.object);
       this.employeeProfileResponseData = response.object;
-      if(!this.employeeProfileResponseData?.agreementAccepted){
+      if(!this.employeeProfileResponseData?.agreementAccepted && this.userId === this.UUID){
           this.dataService.getHrPolicies()
             .subscribe(
               (data) => {
@@ -870,21 +870,71 @@ export class EmployeeProfileSidebarComponent implements OnInit {
   isAgreementAccepted = false;
   totalPages = 0;
   currentPdfIndex = 0;
+  lastIndex=-1;
 
   openModal() {
-    if (this.pdfModal && this.modalService.hasOpenModals() && this.hrPolicyDocuments.length>=this.currentPdfIndex) {
+    debugger
+    console.log('Open modal  ' + this.modalService.hasOpenModals());
+    if (this.pdfModal && this.modalService.hasOpenModals()) {
       return;
     }
+    this.lastIndex++;
     this.modalService.open(this.pdfModal, { backdrop: 'static', keyboard: false });
+
+  // Wait for the modal to fully render before loading the PDF
+  setTimeout(() => {
     const pdfUrl = this.hrPolicyDocuments[this.currentPdfIndex].url;
-    this.loadPDF(pdfUrl);
+    this.loadContent(pdfUrl);
+  }, 500);
   }
 
-  loadPDF(pdfUrl: string) {
+  loadContent(contentUrl: string) {
+    debugger;
     const container = document.getElementById('pdf-container');
     console.log('Container:', container);
     if (!container) return;
 
+    // Clear previous content
+    container.innerHTML = '';
+
+    if (this.isYouTubeUrl(contentUrl)) {
+      // Render YouTube content in iframe
+      const iframe = document.createElement('iframe');
+      iframe.width = '100%';
+      iframe.height = '500px';
+      iframe.src = this.getYouTubeEmbedUrl(contentUrl);
+      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+      iframe.allowFullscreen = true;
+      container.appendChild(iframe);
+      this.isLastPageRead = true;
+    } else {
+      // Render PDF
+      this.loadPDF(contentUrl);
+    }
+  }
+
+  isAccepted: boolean = false;
+
+  onCheckboxChange(event: Event): void {
+    const checkbox = event.target as HTMLInputElement;
+    this.isAccepted = checkbox.checked;
+  }
+
+  isYouTubeUrl(url: string): boolean {
+    const youtubeRegex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|embed|watch)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+    return youtubeRegex.test(url);
+  }
+
+  getYouTubeEmbedUrl(url: string): string {
+    const match = url.match(/(?:v=|\/)([a-zA-Z0-9_-]{11})/);
+    return match ? `https://www.youtube.com/embed/${match[1]}` : '';
+  }
+
+  loadPDF(pdfUrl: string) {
+    debugger
+    const container = document.getElementById('pdf-container');
+    console.log('Container:', container);
+    if (!container) return;
     pdfjsLib.getDocument(pdfUrl).promise.then((pdf) => {
       console.log('PDF loaded, number of pages:', pdf.numPages);
       this.totalPages = pdf.numPages;
@@ -923,6 +973,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
   }
 
   acceptAgreement(modal: any) {
+    debugger
     if (this.isLastPageRead) {
       this.isAgreementAccepted = true;
       this.moveToNextPdf(modal);
@@ -934,12 +985,18 @@ export class EmployeeProfileSidebarComponent implements OnInit {
   }
 
   moveToNextPdf(modal: any) {
-    // Move to the next PDF in the list
+    debugger
     this.currentPdfIndex++;
 
     // If there are more PDFs to show
     if (this.currentPdfIndex < this.hrPolicyDocuments.length) {
-      this.openModal(); // Open modal with the next PDF
+      modal.close();
+      this.modalService.dismissAll();
+      this.isLastPageRead = false;
+      this.isAccepted = false;
+      setTimeout(() => {
+        this.openModal(); // Open modal with the next PDF
+      }, 200);
     } else {
       this.dataService.acceptAgreement().subscribe((res: any) => {
         if(res.status){

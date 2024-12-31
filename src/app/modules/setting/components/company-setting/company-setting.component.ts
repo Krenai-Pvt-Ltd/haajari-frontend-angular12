@@ -359,6 +359,7 @@ export class CompanySettingComponent implements OnInit {
   }
   regex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|embed\/|v\/|.+?&v=)|youtu\.be\/)([a-zA-Z0-9_-]+)/;
 
+  isInvalidUrl: boolean = false;
   onDocumentSubmit(): void {
     if(this.isYouTubeVideo){
       this.doc.url = this.doc.url.trim();
@@ -366,6 +367,7 @@ export class CompanySettingComponent implements OnInit {
 
       if(this.doc.url==undefined || !this.regex.test(this.doc.url)){
         this.helperService.showToast('Please enter a valid YouTube URL', Key.TOAST_STATUS_ERROR);
+        this.isInvalidUrl=true;
         return;
       }
       this.savePolicyDocToDatabase(this.doc.url);
@@ -389,6 +391,7 @@ export class CompanySettingComponent implements OnInit {
         this.doc = { documentType: constant.DOC_TYPE_HR_POLICY, name: 'HR Policy', value: 'HR Policy', url: '', fileName: '' };
         this.isYouTubeVideo = false;
         this.fetchDocuments();
+        this.selectedFile=undefined;
         this.closeButtonHrPolicies.nativeElement.click();
       },
       error: (err) => {
@@ -397,8 +400,16 @@ export class CompanySettingComponent implements OnInit {
         this.isYouTubeVideo = false;
         this.closeButtonHrPolicies.nativeElement.click();
         this.isUpdatingHrPolicies=false;
+        this.selectedFile=undefined;
       },
     });
+  }
+
+  onCancel(): void {
+    this.doc = { documentType: constant.DOC_TYPE_HR_POLICY, name: 'HR Policy', value: 'HR Policy', url: '', fileName: '' };
+    this.isYouTubeVideo = false;
+    this.selectedFile=undefined;
+    this.isInvalidUrl=false;
   }
 
 

@@ -112,9 +112,9 @@
                 <p class="mb-0">DOB: {{employeeProfileResponseData?.dateOfBirth | date}}</p>
             </div>
         </div>
-       
-    
-        
+
+
+
 
         <span class="separator mt-4 mb-4"></span>
     </div>
@@ -1335,15 +1335,21 @@
   </div>
   <div class="modal-body">
     <div #pdfContainer id="pdf-container" style="height: 500px; overflow-y: scroll; border: 1px solid #ccc; padding: 10px;"></div>
+    <div *ngIf="isLastPageRead" class="mt-3">
+    <input type="checkbox" id="acceptCheckbox" (change)="onCheckboxChange($event)" />
+    <label for="acceptCheckbox"> I accept the terms and conditions</label>
+  </div>
   </div>
   <div class="modal-footer">
     <button
+      *ngIf="isAccepted"
       type="button"
       class="btn btn-primary"
       [disabled]="!isLastPageRead"
       (click)="acceptAgreement(modal)"
     >
-      Accept Agreement
+    <span *ngIf="currentPdfIndex < hrPolicyDocuments.length-1 && isAccepted">Next</span>
+     <span *ngIf="currentPdfIndex >= hrPolicyDocuments.length-1 && isAccepted"> Accept Agreement</span>
     </button>
   </div>
 </ng-template>
