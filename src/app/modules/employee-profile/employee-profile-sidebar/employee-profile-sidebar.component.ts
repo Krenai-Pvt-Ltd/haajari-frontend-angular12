@@ -290,6 +290,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
         const urlPattern = /^(https?:\/\/[^\s/$.?#].[^\s]*)$/;
         if (urlPattern.test(data.message)) {
           // Open the URL in a UI popup/modal
+          console.log('Opening URL in modal:', data.message);
           this.openUrlInModal(data.message);
         } else {
           // Show toast with success message
@@ -962,6 +963,8 @@ export class EmployeeProfileSidebarComponent implements OnInit {
       }
     });
   }
+
+  
 
   setupScrollDetection(container: HTMLElement) {
     container.addEventListener('scroll', () => {
