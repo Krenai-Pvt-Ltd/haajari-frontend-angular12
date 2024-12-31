@@ -43,6 +43,7 @@ export class EmployeeProfileComponent implements OnInit {
 
 
     this.getEmployeeProfileData();
+    this.getUserJoiningDataByUserId();
   }
 
   employeeProfileResponseData: any;
@@ -55,11 +56,6 @@ export class EmployeeProfileComponent implements OnInit {
     this.dataService.getEmployeeProfile(this.UUID).subscribe((response) => {
       // console.log(response.object);
       this.employeeProfileResponseData = response.object;
-
-      if(this.employeeProfileResponseData.joiningDate!=null){
-        this._helperService.userJoiningDate = this.employeeProfileResponseData.joiningDate;
-      }
-
       if(this.employeeProfileResponseData.resignationStatus != null && this.employeeProfileResponseData.resignationStatus  == 43){
         this.isEmployeeExit = true;
         this.resignationDate = this.employeeProfileResponseData.approvedDate;
@@ -70,6 +66,17 @@ export class EmployeeProfileComponent implements OnInit {
     }, (error) => {
         //  console.log(error);
     })
+  }
+
+
+  getUserJoiningDataByUserId() {
+    this.dataService.getEmployeeProfile(this.userId).subscribe((response) => {
+
+      this.employeeProfileResponseData = response.object;
+      if(this.employeeProfileResponseData.joiningDate!=null){
+        this._helperService.userJoiningDate = this.employeeProfileResponseData.joiningDate;
+      }
+  })
   }
 
   @ViewChild('notificationBtn') notificationBtn!: ElementRef;
