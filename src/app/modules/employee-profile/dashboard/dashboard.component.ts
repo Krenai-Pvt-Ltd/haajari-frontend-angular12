@@ -110,6 +110,7 @@ export class DashboardComponent implements OnInit {
   ngAfterViewInit(): void {
     this.getWorkedHourForEachDayOfAWeek();
     this.getMailNotification(this.userId, 'mail');
+    this.fetchAttendanceRequests();
   }
 
 
@@ -117,8 +118,16 @@ export class DashboardComponent implements OnInit {
 
 
 getUsersWithUpcomingBirthdays(): void {
+  const currentYear = new Date().getFullYear();
   this.dataService.getUsersWithUpcomingBirthdays().subscribe(
     (data) => {
+      data.forEach((item: any) => {
+        if (item.birthday) {
+          const birthdayDate = new Date(item.birthday);
+          birthdayDate.setFullYear(currentYear); // Set the year to current year
+          item.birthday = birthdayDate.toISOString().split('T')[0]; // Update birthday to new date
+        }
+      });
       this.usersWithUpcomingBirthdays = data;
     },
     (error) => {
@@ -154,14 +163,25 @@ isToday(birthday: string): boolean {
   const birthdayDate = new Date(birthday);
   return today.getDate() === birthdayDate.getDate() && today.getMonth() === birthdayDate.getMonth();
 }
-getWeekDayOfBirthday(birthday: string): string {
-  const currentYear = new Date().getFullYear();
-  const [month, day] = birthday.split('-'); // Assuming 'MM-dd' format in the backend
-  const birthdayDate = new Date(currentYear, parseInt(month) - 1, parseInt(day));
-  // Get the weekday name (e.g., "Monday", "Tuesday", etc.)
-  const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-  return weekdays[birthdayDate.getDay()];
+changeDateToCurrentYear(dateString: string): string {
+  const inputDate = new Date(dateString);
+  const today = new Date();
+  const currentYear = today.getFullYear();
+
+  inputDate.setFullYear(currentYear);
+
+  if (
+    inputDate.getMonth() < today.getMonth() ||
+    (inputDate.getMonth() === today.getMonth() && inputDate.getDate() < today.getDate())
+  ) {
+
+    inputDate.setFullYear(currentYear + 1);
+  }
+
+  return inputDate.toISOString().split('T')[0];
 }
+
+
   ROLE: any;
   async getRole(){
     this.ROLE = await this.roleService.getRole();
@@ -291,6 +311,33 @@ getAttendanceRequestLogData() {
   });
 });
 }
+  attendanceRequests: any = [];
+  currentAttendancePage: number = 1;
+  pageAttendanceSize: number = 10;
+  totalAttendanceElements: number = 0;
+  attendanceStatus: string = 'PENDING';
+  isAttendanceLoading: boolean = false;
+  attendanceType: string = '';
+  fetchAttendanceRequests(): void {
+    this.isAttendanceLoading = true;
+    this.dataService
+      .getAttendanceUpdateFilteredRequests(
+        this.userId,
+        this.attendanceStatus,
+        this.attendanceType,
+        this.currentAttendancePage,
+        this.pageAttendanceSize
+      )
+      .subscribe((response) => {
+        this.attendanceRequests = response.content;
+        this.totalAttendanceElements = response.totalElements;
+        this.isAttendanceLoading = false;
+      },
+      (error) => {
+        this.isAttendanceLoading = false;
+      }
+    );
+  }
 
 attendanceSummary: any;
 fetchAttendanceSummary(): void {

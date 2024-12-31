@@ -1328,3 +1328,22 @@
         </div>
     </div>
 </div>
+
+<ng-template #pdfModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Agreement</h4>
+  </div>
+  <div class="modal-body">
+    <div #pdfContainer id="pdf-container" style="height: 500px; overflow-y: scroll; border: 1px solid #ccc; padding: 10px;"></div>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-primary"
+      [disabled]="!isLastPageRead"
+      (click)="acceptAgreement(modal)"
+    >
+      Accept Agreement
+    </button>
+  </div>
+</ng-template>

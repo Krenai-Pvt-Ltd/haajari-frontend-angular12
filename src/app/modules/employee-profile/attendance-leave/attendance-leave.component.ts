@@ -12,6 +12,7 @@ import { ExpenseType } from 'src/app/models/ExpenseType';
 import { EmployeeProfileAttendanceResponse, TotalEmployeeProfileAttendanceResponse } from 'src/app/models/employee-profile-attendance_response';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
+import { AttendanceRequest } from 'src/app/models/AttendanceRequest';
 // import { Timeline } from 'vis-timeline'
 // import { Timeline,DataSet, TimelineItem } from 'vis-timeline/standalone';
 
@@ -112,7 +113,8 @@ contentTemplate: string ='You are on the Notice Period, so that you can not appl
     this.attendanceStatus = status;
     this.fetchAttendanceRequests();
   }
-  attendanceRequests: any = [];
+
+  attendanceRequests: AttendanceRequest[] = [];
   currentAttendancePage: number = 1;
   pageAttendanceSize: number = 10;
   totalAttendanceElements: number = 0;
@@ -130,6 +132,7 @@ contentTemplate: string ='You are on the Notice Period, so that you can not appl
         this.pageAttendanceSize
       )
       .subscribe((response) => {
+
         this.attendanceRequests = response.content;
         this.totalAttendanceElements = response.totalElements;
         this.isAttendanceLoading = false;

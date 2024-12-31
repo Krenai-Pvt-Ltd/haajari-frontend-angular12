@@ -1513,7 +1513,7 @@
                                             <span class="badge rounded-pill badge-soft-warning">{{item?.status}}</span>
                                             <!-- Delete Button -->
                                             <button *ngIf="item?.status === 'PENDING'" class="icon-button btn p-0"
-                                                (click)="deleteAttendanceRequest(item?.id)">
+                                                (click)="deleteAttendanceRequest(item!.id)">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21"
                                                     viewBox="0 0 21 21" fill="none">
                                                     <mask id="mask0_6083_5461" style="mask-type:alpha"

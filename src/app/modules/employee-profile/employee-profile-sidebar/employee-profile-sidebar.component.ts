@@ -17,6 +17,9 @@ import { Skills } from 'src/app/constant/Skills';
 import { EmployeeAdditionalDocument } from 'src/app/models/EmployeeAdditionalDocument';
 import { finalize } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
+import { constant } from 'src/app/constant/constant';
+import * as pdfjsLib from 'pdfjs-dist';
+
 
 @Component({
   selector: 'app-employee-profile-sidebar',
@@ -48,7 +51,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
       this.userId = this.activateRoute.snapshot.queryParamMap.get('userId');
     }
-
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'pdf.worker.min.js';
 
     this.profileChangeStatusSubscriber =  this.helperService.profileChangeStatus.subscribe((value)=>{
       if(value){
@@ -60,12 +63,11 @@ export class EmployeeProfileSidebarComponent implements OnInit {
 
     // this.userId = "731a011e-ae1e-11ee-9597-784f4361d885";
    }
-
    profileChangeStatusSubscriber: any;
 
   //  modalUrl: any;
-   
- 
+
+
 
    toggle :boolean = false;
    ROLE : any;
@@ -84,7 +86,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     this.fetchDocuments();
     this.ROLE = await this.roleService.getRole();
     this.UUID = await this.roleService.getUuid();
-
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'pdf.worker.min.js';
     console.log('ROLE for emp-sidebar: ',this.ROLE)
 
     if (this.ROLE == this.ADMIN) {
@@ -123,11 +125,27 @@ export class EmployeeProfileSidebarComponent implements OnInit {
   employeeProfileResponseData : EmployeeProfileResponse | undefined;
   teamString !: any;
   viewTeamsLess: boolean = true;
+  hrPolicyDocuments: EmployeeAdditionalDocument[] = [];
   getEmployeeProfileData() {
     debugger
     this.dataService.getEmployeeProfile(this.userId).subscribe((response) => {
       console.log(response.object);
       this.employeeProfileResponseData = response.object;
+      if(!this.employeeProfileResponseData?.agreementAccepted){
+          this.dataService.getHrPolicies()
+            .subscribe(
+              (data) => {
+                this.hrPolicyDocuments = data;
+                if (this.hrPolicyDocuments.length > 0) {
+                  this.openModal();
+                }
+              },
+              (error) => {
+                console.error('Error fetching documents:', error);
+              }
+            );
+        }
+
       this.teamString = this.employeeProfileResponseData?.teams;
       this.splitTeams();
     }, (error) => {
@@ -151,7 +169,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     this.skillsFilteredOptions=[];
   }
   checkSkillsArraysEqual(): boolean {
-    
+
     if (this.skills.length !== this.fetchedSkills.length) {
       return false;
     }
@@ -253,7 +271,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
   InOutLoader: boolean = false;
   outLoader: boolean = false;
   breakLoader: boolean = false;
-  
+
   checkinCheckout(command: string) {
     this.InOutLoader = true;
     if(command==='/out'){
@@ -789,7 +807,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
 
   documents: EmployeeAdditionalDocument[] = [];
   fetchDocuments(): void {
-    this.dataService.getDocumentsByTypeAndUser('employee_agreement', this.userId)
+    this.dataService.getDocumentsByTypeAndUser(constant.DOC_TYPE_EMPLOYEE_AGREEMENT, this.userId)
       .subscribe(
         (data) => {
           this.documents = data;
@@ -845,6 +863,92 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     const target = event.target as HTMLInputElement;
     this.doc.fileName = target.files?.[0]?.name || '';
     this.selectedFile=target.files?.[0];
+  }
+
+  @ViewChild('pdfModal') pdfModal: any;
+
+  isLastPageRead = false;
+  isAgreementAccepted = false;
+  totalPages = 0;
+  currentPdfIndex = 0;
+
+  openModal() {
+    if (this.pdfModal && this.modalService.hasOpenModals() && this.hrPolicyDocuments.length>=this.currentPdfIndex) {
+      return;
+    }
+    this.modalService.open(this.pdfModal, { backdrop: 'static', keyboard: false });
+    const pdfUrl = this.hrPolicyDocuments[this.currentPdfIndex].url;
+    this.loadPDF(pdfUrl);
+  }
+
+  loadPDF(pdfUrl: string) {
+    const container = document.getElementById('pdf-container');
+    console.log('Container:', container);
+    if (!container) return;
+
+    pdfjsLib.getDocument(pdfUrl).promise.then((pdf) => {
+      console.log('PDF loaded, number of pages:', pdf.numPages);
+      this.totalPages = pdf.numPages;
+
+      // Clear previous content
+      container.innerHTML = '';
+
+      // Render pages
+      for (let i = 1; i <= pdf.numPages; i++) {
+        pdf.getPage(i).then((page) => {
+          const viewport = page.getViewport({ scale: 1 });
+          const canvas = document.createElement('canvas');
+          const context = canvas.getContext('2d');
+          canvas.height = viewport.height;
+          canvas.width = viewport.width;
+          if (context) {
+            container.appendChild(canvas);
+            page.render({ canvasContext: context, viewport }).promise.then(() => {
+              if (i === pdf.numPages) {
+                this.setupScrollDetection(container);
+              }
+            });
+          }
+        });
+      }
+    });
+  }
+
+  setupScrollDetection(container: HTMLElement) {
+    container.addEventListener('scroll', () => {
+      const maxScroll = container.scrollHeight - container.clientHeight;
+      if (container.scrollTop >= maxScroll) {
+        this.isLastPageRead = true;
+      }
+    });
+  }
+
+  acceptAgreement(modal: any) {
+    if (this.isLastPageRead) {
+      this.isAgreementAccepted = true;
+      this.moveToNextPdf(modal);
+
+
+    } else {
+        this.helperService.showToast('Please scroll to the last page before accepting.',Key.TOAST_STATUS_ERROR);
+    }
+  }
+
+  moveToNextPdf(modal: any) {
+    // Move to the next PDF in the list
+    this.currentPdfIndex++;
+
+    // If there are more PDFs to show
+    if (this.currentPdfIndex < this.hrPolicyDocuments.length) {
+      this.openModal(); // Open modal with the next PDF
+    } else {
+      this.dataService.acceptAgreement().subscribe((res: any) => {
+        if(res.status){
+          this.helperService.showToast(res.message,Key.TOAST_STATUS_SUCCESS);
+        }
+      })
+      modal.close();
+    }
   }
 
   jobTitles: string[] = [
