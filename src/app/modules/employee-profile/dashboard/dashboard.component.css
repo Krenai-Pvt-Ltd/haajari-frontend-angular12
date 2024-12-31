@@ -226,23 +226,28 @@
     border-top-left-radius: 2px;
     border-bottom-left-radius: 2px;
     transition: background-color 0.5s ease;
+    height: 149px;
     /* Smooth transition */
 }
 
 .color1 {
     background-color: #9487BE;
+    color: #9487BE;
 }
 
 .color2 {
     background-color: #FF7F50;
+    color: #FF7F50;
 }
 
 .color3 {
     background-color: #FFD700;
+    color: #FFD700;
 }
 
 .color4 {
     background-color: #90EE90;
+    color: #90EE90;
 }
 
 .color5 {
@@ -251,6 +256,7 @@
 
 .color6 {
     background-color: #FFB6C1;
+    color: #FFB6C1;
 }
 
 
@@ -286,12 +292,21 @@
     top: 25px;
 }
 
+.carousel-control-next i {
+    font-size: 25px !important;
+}
+
+.carousel-control-prev i {
+    font-size: 25px !important;
+}
+
+
 .carousel-control-next {
-    right: -5px;
+    right: -12px;
 }
 
 .carousel-control-prev {
-    left: -5px;
+    left: -12px;
 }
 
 .holiday-date {
@@ -662,4 +677,33 @@
 .role-list-fix {
     max-height: 210px;
     overflow-y: auto;
+}
+
+.roles-list small {
+    color: #858585;
+    font-size: 12px !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 200px;
+}
+
+span.holiday-initial {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    border-radius: 50%;
+    font-size: 40px !important;
+    font-weight: 500;
+
+}
+
+::ng-deep .placeholder-lines .ant-select-selection-item {
+    line-height: 35px !important;
+    font-size: 0.875rem !important;
+    font-weight: 400 !important;
+    text-transform: capitalize;
 }
