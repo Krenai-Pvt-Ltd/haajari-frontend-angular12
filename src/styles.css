@@ -782,7 +782,7 @@ actionMenuList .dropdown-item i {
   color: #000;
 }
 
-.placeholder-line .ant-select-selection-item {
+::ng-deep .placeholder-line .ant-select-selection-item {
   line-height: 45px !important;
   font-size: 0.875rem !important;
   font-weight: 400 !important;
