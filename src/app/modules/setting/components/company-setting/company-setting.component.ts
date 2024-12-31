@@ -43,6 +43,9 @@ export class CompanySettingComponent implements OnInit {
 
   ngOnInit(): void {
     window.scroll(0, 0);
+
+    
+    
     this.getOrganizationDetailsMethodCall();
     this.getTeamNames();
     this.getUserByFiltersMethodCall();
@@ -63,7 +66,6 @@ export class CompanySettingComponent implements OnInit {
     });
 
   }
-
 
   getAllRolesMethodCall() {
     this.dataService
@@ -1056,6 +1058,18 @@ export class CompanySettingComponent implements OnInit {
   switchTab(tabName: string) {
     this.activeTab = tabName;
   }
+
+  // switchTab(tab: string): void {
+  //   this.activeTab = tab;
+  //   if (tab === 'locationSetting') {
+  //     document.querySelector<HTMLButtonElement>('#home-tab')?.click();
+  //   } else if (tab === 'companySetting') {
+  //     document.querySelector<HTMLButtonElement>('#profile-tab')?.click();
+  //   } else if (tab === 'onboardingSetting') {
+  //     document.querySelector<HTMLButtonElement>('#onboardingSetting')?.click();
+  //   }
+  // }
+
   triggerFileInput() {
     const fileInput = document.getElementById('hrpolicies') as HTMLInputElement;
     fileInput.click();

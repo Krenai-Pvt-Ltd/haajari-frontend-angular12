@@ -24,7 +24,9 @@ export class HelperService {
      ) { 
       // this.getOrganizationInitialToDoStepBar();
      }
-  
+  // use for employee profile 
+   userJoiningDate:string='';
+  // use for employee profile 
    organizationRegistrationDate:string='';
    profileChangeStatus : Subject<boolean> = new Subject<boolean>();
    resignationSubmitted : Subject<boolean> = new Subject<boolean>();
@@ -301,21 +303,16 @@ export class HelperService {
     return null;
   }
 
-  registerOrganizationRegistratonProcessStepData(stepId:number, statusId: number) {
-    debugger
-    this.dataService.registerOrganizationRegistratonProcessStep(statusId, stepId).subscribe(
-      (response) => {
-
-        console.log("success" , response.status, "stepId", stepId, "statusId", statusId);
-        if(response.status) {
+  async registerOrganizationRegistratonProcessStepData(stepId: number, statusId: number): Promise<void> {
+    try {
+      const response = await this.dataService.registerOrganizationRegistratonProcessStep(statusId, stepId).toPromise();
+      console.log("success", response.status, "stepId", stepId, "statusId", statusId);
+      if (response.status) {
         this.stepId = stepId;
-        }
-        // // console.log("success");
-      },
-      (error) => {
-        // console.log('error');
       }
-    );
+    } catch (error) {
+      console.log('error', error);
+    }
   }
 
 

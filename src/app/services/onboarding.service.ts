@@ -16,10 +16,15 @@ export class OnboardingService {
   constructor(private onboardingService: OrganizationOnboardingService, private router: Router, private helperService: HelperService, private subscriptionService: SubscriptionPlanService, private rbacService: RoleBasedAccessControlService) {
 
     this.requestedRoute = decodeURIComponent(window.location.pathname + window.location.search + window.location.hash);
+    if(!constant.PUBLIC_ROUTES.includes(window.location.pathname)){
     this.checkOnboardingStatus();
+    }else{
+      this.isLoadingOnboardingStatus = false;
+    }
   }
 
   async checkOnboardingStatus() {
+    debugger
     this.onboardingService
       .getOrgOnboardingStep()
       .subscribe(async (response: any) => {
@@ -33,8 +38,14 @@ export class OnboardingService {
               await this.helperService.getRestrictedModules();
             }
           }
-
-          this.switchToRoutes(this.helperService.orgStepId);
+  
+          if((await this.rbacService.getRole()) != constant.USER){
+             this.switchToRoutes(this.helperService.orgStepId);
+          }else {
+            // this.helperService.orgStepId = 5;
+            // this.router.navigate([Key.EMPLOYEE_PROFILE_ROUTE]);
+            this.isLoadingOnboardingStatus = false;
+          }
 
         }
       },

@@ -31,7 +31,7 @@ export class SubscriptionPlanService {
             //@ts-ignore
             this.currentRoute = val.snapshot._routerState.url.split("?")[0];
             // console.log("route=======", this.currentRoute);
-            if (!Routes.AUTH_ROUTES.includes(String(this.currentRoute))) {
+            if (!Routes.AUTH_ROUTES.includes(String(this.currentRoute))&& !constant.PUBLIC_ROUTES.includes(window.location.pathname)) {
                this.LoadAsync();
             }
           }
@@ -85,6 +85,7 @@ export class SubscriptionPlanService {
   }
 
   verifySubscriptionAndRoute():boolean{
+    debugger
     if(this.isSubscription!=undefined && this.rbacService.getRoles()=='ADMIN'){
       
       if(this.isSubscription){
@@ -111,7 +112,7 @@ export class SubscriptionPlanService {
         return false;
       }
     }
-    return false;
+    return true;
   }
 
   getActiveUserCount() {
