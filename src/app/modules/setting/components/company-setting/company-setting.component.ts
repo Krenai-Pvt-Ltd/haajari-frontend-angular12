@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { FormGroup, NgForm } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
@@ -38,14 +38,15 @@ export class CompanySettingComponent implements OnInit {
     private helperService: HelperService,
     private sanitizer: DomSanitizer,
     private placesService: PlacesService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
     window.scroll(0, 0);
 
-    
-    
+
+
     this.getOrganizationDetailsMethodCall();
     this.getTeamNames();
     this.getUserByFiltersMethodCall();
@@ -327,12 +328,49 @@ export class CompanySettingComponent implements OnInit {
         }
       );
   }
+
+  isYouTubeVideo: boolean = false;
+  toggleVideoSelection(event: Event): void {
+    debugger
+    const checkbox = event.target as HTMLInputElement;
+    this.isYouTubeVideo = checkbox.checked;
+    this.cdr.detectChanges();
+  }
+
+  getYouTubeEmbedUrl(url: string): string | null {
+    if (!url) {
+      return null;
+    }
+
+    const match = url.match(this.regex);
+
+    if (match && match[1]) {
+      const videoId = match[1];
+      return `https://www.youtube.com/embed/${videoId}`;
+    }
+
+    return null; // Return null if the URL is invalid
+  }
+
   handleFileChange(event: Event): void {
     const target = event.target as HTMLInputElement;
     this.doc.fileName = target.files?.[0]?.name || '';
     this.selectedFile=target.files?.[0];
   }
+  regex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|embed\/|v\/|.+?&v=)|youtu\.be\/)([a-zA-Z0-9_-]+)/;
+
   onDocumentSubmit(): void {
+    if(this.isYouTubeVideo){
+      this.doc.url = this.doc.url.trim();
+      this.doc.url = this.getYouTubeEmbedUrl(this.doc.url) || '';
+
+      if(this.doc.url==undefined || !this.regex.test(this.doc.url)){
+        this.helperService.showToast('Please enter a valid YouTube URL', Key.TOAST_STATUS_ERROR);
+        return;
+      }
+      this.savePolicyDocToDatabase(this.doc.url);
+      return;
+    }
     if (this.selectedFile) {
       this.isUpdatingHrPolicies=true;
       this.uploadFileHrPolicies(this.selectedFile);
@@ -348,11 +386,15 @@ export class CompanySettingComponent implements OnInit {
         console.log('Document saved successfully:', response);
         this.helperService.showToast('Document saved successfully:',Key.TOAST_STATUS_SUCCESS);
         this.isUpdatingHrPolicies=false;
+        this.doc = { documentType: constant.DOC_TYPE_HR_POLICY, name: 'HR Policy', value: 'HR Policy', url: '', fileName: '' };
+        this.isYouTubeVideo = false;
         this.fetchDocuments();
         this.closeButtonHrPolicies.nativeElement.click();
       },
       error: (err) => {
         this.helperService.showToast('Some problem in saving Document',Key.TOAST_STATUS_ERROR);
+        this.doc = { documentType: constant.DOC_TYPE_HR_POLICY, name: 'HR Policy', value: 'HR Policy', url: '', fileName: '' };
+        this.isYouTubeVideo = false;
         this.closeButtonHrPolicies.nativeElement.click();
         this.isUpdatingHrPolicies=false;
       },
