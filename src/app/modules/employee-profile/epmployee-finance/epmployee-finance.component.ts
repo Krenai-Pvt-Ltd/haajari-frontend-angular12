@@ -12,6 +12,7 @@ import { HelperService } from 'src/app/services/helper.service';
 import { SalaryService } from 'src/app/services/salary.service';
 import { EmployeeProfileComponent } from '../employee-profile.component';
 import { UserSalaryRevisionRes } from 'src/app/models/UserSalaryRevisionRes';
+import { CurrentSalaryDetail } from 'src/app/models/CurrentSalaryDetail';
 
 @Component({
   selector: 'app-epmployee-finance',
@@ -78,43 +79,39 @@ export class EpmployeeFinanceComponent implements OnInit {
   }
 
 
-  totalLines = 70; // Number of lines
-  radius = 90;
-  center = 100;
-  lineLength = 18;
-  lineWidth = 3;
   createCircularPogressLine(){
     
+    const totalLines = 70; // Number of lines
+    const radius = 90;
+    const center = 100;
+    const lineLength = 18;
+    const lineWidth = 3;
     const linesGroup = document.getElementById('lines');
      // Clear existing lines
     if (linesGroup) {
       linesGroup.innerHTML = '';
     }
-    for (let i = 0; i < this.totalLines; i++) {
-      const angle = (i * 360 / this.totalLines) * (Math.PI / 180);
-      const x1 = this.center + (this.radius - this.lineLength) * Math.cos(angle);
-      const y1 = this.center + (this.radius - this.lineLength) * Math.sin(angle);
-      const x2 = this.center + this.radius * Math.cos(angle);
-      const y2 = this.center + this.radius * Math.sin(angle);
+    for (let i = 0; i < totalLines; i++) {
+      const angle = (i * 360 / totalLines) * (Math.PI / 180);
+      const x1 = center + (radius - lineLength) * Math.cos(angle);
+      const y1 = center + (radius - lineLength) * Math.sin(angle);
+      const x2 = center + radius * Math.cos(angle);
+      const y2 = center + radius * Math.sin(angle);
 
       const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
       line.setAttribute('x1', x1.toString());
       line.setAttribute('y1', y1.toString());
       line.setAttribute('x2', x2.toString());
       line.setAttribute('y2', y2.toString());
-      line.setAttribute('stroke-width', this.lineWidth.toString());
+      line.setAttribute('stroke-width', lineWidth.toString());
       line.setAttribute('stroke', '#eee');
       line.classList.add('line');
       linesGroup?.appendChild(line);
     }
-    this.setProgress();
-  }
 
-  setProgress() {
-    
     const fractionText = document.querySelector('.fraction');
     const progress = this.totalPayoutDays / this.totalStandardDays;
-    const activeLines = Math.floor(this.totalLines * progress);
+    const activeLines = Math.floor(totalLines * progress);
 
     const lines = document.querySelectorAll('.line');
 
@@ -126,7 +123,6 @@ export class EpmployeeFinanceComponent implements OnInit {
       fractionText.textContent = `${this.totalPayoutDays}/${this.totalStandardDays}`;
     }
   }
-
 
 
   getClass(status: string) {
@@ -323,6 +319,18 @@ export class EpmployeeFinanceComponent implements OnInit {
 //                                                               PAYMENT TAB
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
 
+  currentSalaryDetail: CurrentSalaryDetail = new CurrentSalaryDetail();
+  getCurrentSalaryDetail(){
+    this._salaryService.getCurrentSalaryDetail(this.userUuid).subscribe((response) => {
+      if(response.status){
+        this.currentSalaryDetail = response.object;
+      }else{
+        this.currentSalaryDetail = new CurrentSalaryDetail();
+      }
+    }, (error) => {
+      
+    })
+  }
 
 userSalaryRevisionResList: UserSalaryRevisionRes [] = new Array();
   getEmployeeSalaryRevision(){
