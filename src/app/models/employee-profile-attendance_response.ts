@@ -16,6 +16,7 @@ export class EmployeeProfileAttendanceResponse{
   shiftType!: string;
   workingHourDifference!: string;
   status!: string;
+  currentStatus!: string;
 }
 
 export class TotalEmployeeProfileAttendanceResponse {
