@@ -2477,7 +2477,7 @@
                             <div class="col-md-12 mb-3">
                                 <div class="form-group">
                                     <label for="documentName" class="mb-2">Document Name</label>
-                                    <input type="text" class="form-control" id="documentName"
+                                    <input [maxlength]="50" type="text" class="form-control" id="documentName"
                                         placeholder="Enter document name" [(ngModel)]="doc.name" name="documentName" />
                                 </div>
                             </div>
@@ -2499,6 +2499,10 @@
                                 <input type="text" class="form-control" id="youtubeUrl"
                                     placeholder="Enter youtube video url" [(ngModel)]="doc.url" name="youtubeUrl" />
                             </div>
+                            <div>
+                                <p *ngIf="isInvalidUrl" class="mb-0 font-12 text-primary">Note: Please enter the youtube video url in the format
+                                    https://www.youtube.com/watch?v=videoId</p>
+                            </div>
                             </div>
                             <div class="col-md-12" *ngIf="!isYouTubeVideo">
                                 <div class="form-group">
@@ -2506,7 +2510,7 @@
                                     <div
                                         class="upload-file-input p-2 d-flex align-items-center justify-content-center flex-column add-other-file">
                                         <input id="fileInput" type="file" name="file"
-                                            accept=".xlsx,.pdf,.docx,.jpg,.jpeg,.png" class="input"
+                                            accept=".pdf" class="input" [(ngModel)]="selectedFile"
                                             (change)="handleFileChange($event)" />
                                         <span>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="46" height="45"
@@ -2541,7 +2545,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn cancel-btn" data-bs-dismiss="modal">
+                <button type="button" (click)="onCancel()" class="btn cancel-btn" data-bs-dismiss="modal">
                     Cancel
                 </button>
                 <button type="button" class="btn submitActionBtn" [disabled]="isUpdatingHrPolicies || doc.name.length<1"
