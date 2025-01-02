@@ -2207,8 +2207,9 @@
                     <th style="width: 5%" class="text-center">#</th>
                     <th style="width: 25%" class="text-left">Name</th>
                     <th style="width: 20%" class="text-left">Phone</th>
-                    <th style="width: 25%" class="text-left">Email</th>
-                    <th style="width: 20%" class="text-center">Action</th>
+                    <th style="width: 20%" class="text-left">Email</th>
+                    <th style="width: 5%" class="text-center">Action</th>
+                    <!-- <th style="width: 25%" class="text-center">Notification</th> -->
                   </tr>
                 </thead>
                 <!-- <tbody class="table-design"> -->
@@ -2244,30 +2245,83 @@
                         </p>
                       </div>
                     </td>
+                  <!-- <td>
+                    <div class="d-flex justify-content-center gap-3">
+                      <div class="form-check form-switch">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          id="emailNotificationToggle{{ i }}"
+                          [(ngModel)]="onboardUser.emailNotificationEnabled"
+                          (change)="updateNotification(onboardUser)"
+                        />
+                        <label
+                          class="form-check-label"
+                          for="emailNotificationToggle{{ i }}"
+                          >Email</label
+                        >
+                      </div>
+                      <div class="form-check form-switch">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          id="whatsappNotificationToggle{{ i }}"
+                          [(ngModel)]="onboardUser.whatsappNotificationEnabled"
+                          (change)="updateNotification(onboardUser)"
+                        />
+                        <label
+                          class="form-check-label"
+                          for="whatsappNotificationToggle{{ i }}"
+                          >WhatsApp</label
+                        >
+                      </div>
+                    </div>
+                  </td> -->
                   </tr>
                 </tbody>
               </table>
-              <div class="d-flex justify-content-end gap-3 mt-3">
-                <button type="button" class="btn btn-primary" (click)="sendEmailToUsers(true)">
-                  <span *ngIf="!sendMailExcelUserFlag"> Send Email </span>
-                  <div class="dot-opacity-loader" *ngIf="sendMailExcelUserFlag">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                  </div>
-                </button>
-
-
-                <button type="button" class="btn btn-primary" style="background-color: white; color: black;"
-                  (click)="sendEmailToUsers(false)">
-                  <span *ngIf="!sendMailExcelUserFlag"> Cancel</span>
-                  <div class="dot-opacity-loader" *ngIf="sendMailExcelUserFlag">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                  </div>
-                </button>
+              <div class="d-flex align-items-center justify-content-between">
+              <div class="d-flex align-items-center gap-3 mt-3">
+                  <label class="m-0 d-flex align-items-center gap-2 justify-content-center">
+                    <input type="checkbox" [(ngModel)]="enableEmailNotification" />
+                     Email 
+                  </label>
+                  <label class="m-0 d-flex align-items-center gap-2 justify-content-center">
+                    <input type="checkbox" [(ngModel)]="enableWhatsAppNotification" />
+                     WhatsApp 
+                  </label>
+                </div>
+                <div class="d-flex align-items-center gap-3 mt-3">
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    [disabled]="(!this.enableEmailNotification && !this.enableWhatsAppNotification)"
+                    (click)="sendNotifications()"
+                  >
+                    <span *ngIf="!loadingFlag">Send Notification</span>
+                    <div class="dot-opacity-loader" *ngIf="loadingFlag">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </div>
+                  </button>
+                
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    style="background-color: white; color: black;"
+                    (click)="closeNotificationModal()"
+                  >
+                    <span *ngIf="!closeNotificationModalFlag">Skip Notification</span>
+                    <div class="dot-opacity-loader" *ngIf="closeNotificationModalFlag">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </div>
+                  </button>
+                
               </div>
+            </div>
 
 
 
