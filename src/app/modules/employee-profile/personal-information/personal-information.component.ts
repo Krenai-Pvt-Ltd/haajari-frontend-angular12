@@ -199,8 +199,29 @@ isFormInvalid: boolean=false;
         console.log('Response:', response);
         if (response.success) {
           this.helperService.showToast('Field removed successfully', Key.TOAST_STATUS_SUCCESS);
+          this.getOnboardingFormPreviewMethodCall();
+          this.fetchRequestedData();
+
         } else {
           this.helperService.showToast('Failed to remove the field', Key.TOAST_STATUS_ERROR);
+        }
+      },
+      error: (err) => {
+        console.error('Error:', err);
+        alert('An error occurred while removing the field.');
+      }
+    });
+  }
+  approveField(key: string, value: any) {
+    this.dataService.approveKeyValuePair(key, this.userId, value).subscribe({
+      next: (response) => {
+        console.log('Response:', response);
+        if (response.success) {
+          this.helperService.showToast('Field approve successfully', Key.TOAST_STATUS_SUCCESS);
+          this.getOnboardingFormPreviewMethodCall();
+          this.fetchRequestedData();
+        } else {
+          this.helperService.showToast('Failed to approve the field', Key.TOAST_STATUS_ERROR);
         }
       },
       error: (err) => {
