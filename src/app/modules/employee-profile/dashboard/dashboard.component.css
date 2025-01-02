@@ -20,6 +20,7 @@
 .announcement {
     border: 1px solid #f2f2f2;
     border-radius: 2px;
+    height: 149px;
 }
 
 .announcement button {
@@ -666,7 +667,7 @@
 }
 
 .roles-list.status-list {
-    max-height: 285px;
+    height: 285px;
     overflow: scroll;
 }
 
@@ -710,8 +711,4 @@ span.holiday-initial {
 
 .empty-detail {
     color: #787486;
-}
-
-::ng-deep .ant-empty-image img {
-    width: 90px;
 }

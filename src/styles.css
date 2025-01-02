@@ -852,3 +852,7 @@ actionMenuList .dropdown-item i {
   min-height: 35px !important;
   background-color: transparent !important;
 }
+
+::ng-deep .ant-empty-image img {
+  width: 90px;
+}
