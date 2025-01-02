@@ -5,6 +5,7 @@ import { constant } from '../constant/constant';
 import { HelperService } from './helper.service';
 import { SubscriptionPlanService } from './subscription-plan.service';
 import { RoleBasedAccessControlService } from './role-based-access-control.service';
+import { Routes } from '../constant/Routes';
 @Injectable({
   providedIn: 'root'
 })
@@ -13,10 +14,11 @@ export class OnboardingService {
   // isOnboardingCompleted: boolean = false;
   isLoadingOnboardingStatus: boolean = true;
   requestedRoute!: string;
+  readonly Routes= Routes;
   constructor(private onboardingService: OrganizationOnboardingService, private router: Router, private helperService: HelperService, private subscriptionService: SubscriptionPlanService, private rbacService: RoleBasedAccessControlService) {
 
     this.requestedRoute = decodeURIComponent(window.location.pathname + window.location.search + window.location.hash);
-    if(!constant.PUBLIC_ROUTES.includes(window.location.pathname)){
+    if(!constant.PUBLIC_ROUTES.includes(window.location.pathname) && !this.Routes.SLACK_AUTH_ROUTES.includes(window.location.pathname)){
     this.checkOnboardingStatus();
     }else{
       this.isLoadingOnboardingStatus = false;
