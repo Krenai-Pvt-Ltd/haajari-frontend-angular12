@@ -707,9 +707,11 @@ export class DashboardComponent implements OnInit {
   getTeamsWithManagerInfo(): void {
     this.dataService.getTeamsWithManagerInfo(this.userId).subscribe({
       next: (response: any) => {
+        this.isLoadingTeamMembers=false;
         this.teamManagerInfo = response.listOfObject;
       },
       error: (error) => {
+        this.isLoadingTeamMembers=false;
         console.error('Failed to fetch holidays', error);
       },
     });
@@ -720,7 +722,7 @@ export class DashboardComponent implements OnInit {
   teamMembers: any[] = [];
   selectedTeamId: number = 0;
   selectedTeamName: string = 'All';
-  isLoadingNew: boolean = false;
+  isLoadingTeamMembers: boolean = true;
   hasMoreData: boolean = true;
   pageNumber: number = 1;
   itemsPerPage: number = 10;
@@ -767,11 +769,11 @@ export class DashboardComponent implements OnInit {
 
 
   loadMoreData(): void {
-    if (this.isLoadingNew || !this.hasMoreData) {
+    if (this.isLoadingTeamMembers || !this.hasMoreData) {
       return;
     }
 
-    this.isLoadingNew = true;
+    this.isLoadingTeamMembers = true;
     this.dataService.findTeamsMembersInfoByUserUuid(this.userId, this.teamName, this.itemsPerPage, this.pageNumber)
       .subscribe(
         (data: any) => {
@@ -779,12 +781,12 @@ export class DashboardComponent implements OnInit {
             this.hasMoreData = false;
           }
           this.teamMembers = [...this.teamMembers, ...data.listOfObject];
-          this.isLoadingNew = false;
+          this.isLoadingTeamMembers = false;
           this.pageNumber++;
         },
         (error) => {
           console.error('Error fetching team members:', error);
-          this.isLoadingNew = false;
+          this.isLoadingTeamMembers = false;
         }
       );
   }
