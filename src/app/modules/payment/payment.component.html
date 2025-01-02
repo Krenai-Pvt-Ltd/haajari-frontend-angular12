@@ -1,1 +1,189 @@
 <router-outlet></router-outlet>
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+    <title>Invoice</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0
+      }
+
+      table {
+        border-spacing: 0;
+        width: 100%
+      }
+    </style>
+  </head>
+  <body>
+    <div style="width:90%;margin:0 auto;font-family:AlrightSans-Medium;font-size:16px;color:#000;padding-top:20px">
+      <table style="margin-bottom:2rem">
+        <tr>
+          <td style="width:50%">
+            <h3 style="font-size:40px;font-family:IBM Plex Sans,serif;font-weight:600">INVOICE</h3>
+          </td>
+          <td style="width:50%;text-align:right">
+            <img src="https://www.hajiri.in/images/HAjiRi.svg" style="width:200px">
+          </td>
+        </tr>
+      </table>
+      <table style="margin-bottom:2rem">
+        <tr>
+          <td style="width:50%">
+            <p style="font-family:IBM Plex Sans,serif;color:#232122;font-size:14px;font-weight:500;padding-bottom:7px">Invoice number - ${invoice.invoiceNo}</p>
+            <p style="font-family:IBM Plex Sans,serif;color:#232122;font-size:14px;font-weight:500;padding-bottom:7px">Date of issue - ${invoice.paymentDate}</p>
+          </td>
+          <td></td>
+        </tr>
+      </table>
+      <table style="margin-bottom:2rem">
+        <tr style="display:flex;align-items:start">
+          <td style="width:50%">
+            <h5 style="font-family:IBM Plex Sans,serif;color:#020202;font-size:18px;font-weight:500;padding-bottom:10px;padding-top:10px">Krenai Service Pvt Ltd</h5>
+            <p style="font-family:IBM Plex Sans,serif;color:#232122;font-size:14px;font-weight:500;padding-bottom:7px;line-height:22px">Unit no.1431, First Floor, <br>Plus office, Landmark, Sector 67 <br>Gurugram 122102 </p>
+            <p style="font-family:IBM Plex Sans,serif;color:#232122;font-size:14px;font-weight:500;padding-bottom:7px;line-height:22px">Contact No: +91 9876543210</p>
+            <p style="font-family:IBM Plex Sans,serif;color:#232122;font-size:14px;font-weight:500;padding-bottom:7px;line-height:22px">GST: 234WEDF567YHI98</p>
+          </td>
+          <td style="width:50%;text-align:right">
+            <h5 style="font-family:IBM Plex Sans,serif;color:#020202;font-size:18px;font-weight:500;padding-bottom:10px;padding-top:10px">Bill to</h5>
+            <p style="font-family:IBM Plex Sans,serif;color:#232122;font-size:14px;font-weight:500;padding-bottom:7px;line-height:22px">${invoice.name}</p>
+            <p style="font-family:IBM Plex Sans,serif;color:#232122;font-size:14px;font-weight:500;padding-bottom:7px;line-height:22px">${invoice.address}
+            <p style="font-family:IBM Plex Sans,serif;color:#232122;font-size:14px;font-weight:500;padding-bottom:7px;line-height:22px">Contact No.: +91 ${invoice.phone}</p>
+            <#if (invoice.gst)>
+            <p style="font-family:IBM Plex Sans,serif;color:#232122;font-size:14px;font-weight:500;padding-bottom:7px;line-height:22px">GST: ${invoice.gst}</p>
+            </#if>
+          </td>
+        </tr>
+      </table>
+      <div style="background-color:#f8f8f8;padding:10px;margin-bottom:3rem">
+        <table>
+          <thead style="text-align:left">
+            <tr>
+              <th style="padding:15px;color:#000;font-family:IBM Plex Sans,serif;font-size:14px;width:40%;border-bottom:1px solid #232122">Description</th>
+              <th style="padding:15px;padding-left:30px;color:#000;font-family:IBM Plex Sans,serif;font-size:14px;border-bottom:1px solid #232122;width:20%;text-align:right">Qty</th>
+              <th style="padding:15px;padding-left:30px;color:#000;font-family:IBM Plex Sans,serif;font-size:14px;border-bottom:1px solid #232122;width:20%;text-align:right">Unit price</th>
+              <th style="padding:15px;color:#000;font-family:IBM Plex Sans,serif;font-size:14px;border-bottom:1px solid #232122;width:20%;text-align:right">Amount</th>
+            </tr>
+          </thead>
+          <#if (invoice.isSubscription)>
+          <tbody>
+            <tr>
+              <td style="padding:15px;font-family:IBM Plex Sans,serif;font-size:14px;border-bottom:1px solid #dedede;vertical-align:top">
+                <h5 style="font-family:IBM Plex Sans,serif;color:#232122;font-size:18px;font-weight:500;padding-bottom:7px">Hajiri ${invoice.planName} <span style="color:#000;font-weight:600">(${invoice.planType})</span>
+                </h5>
+                <p style="font-family:IBM Plex Sans,serif;color:#717171;font-size:14px;font-weight:500">${invoice.validFrom} - ${invoice.validTo}</p>
+              </td>
+              <td style="padding:15px;padding-left:30px;font-family:IBM Plex Sans,serif;font-size:14px;text-align:right;border-bottom:1px solid #dedede;vertical-align:top">${invoice.qty}</td>
+              <td style="padding:15px;padding-left:30px;font-family:IBM Plex Sans,serif;font-size:14px;text-align:right;border-bottom:1px solid #dedede;vertical-align:top">₹ ${invoice.planAmount}</td>
+              <td style="padding:15px;font-family:IBM Plex Sans,serif;font-size:14px;text-align:right;border-bottom:1px solid #dedede;vertical-align:top">₹ ${invoice.subTotal}</td>
+            <tr>
+          </tbody>
+          </#if >
+          <#if (!invoice.isSubscription)>
+          <tbody>
+            <tr>
+              <td style="padding:15px;font-family:IBM Plex Sans,serif;font-size:14px;vertical-align:top">
+                <h5 style="font-family:IBM Plex Sans,serif;color:#232122;font-size:18px;font-weight:500;padding-bottom:7px">New Seats Allotment <span style="color:#000;font-weight:600">(Annually)</span>
+                </h5>
+                <p style="font-family:IBM Plex Sans,serif;color:#717171;font-size:14px;font-weight:500">Rs.99 x 123</p>
+              </td>
+              <td style="padding:15px;padding-left:30px;font-family:IBM Plex Sans,serif;font-size:14px;text-align:right;vertical-align:top">5</td>
+              <td style="padding:15px;padding-left:30px;font-family:IBM Plex Sans,serif;font-size:14px;text-align:right;vertical-align:top">₹ 99</td>
+              <td style="padding:15px;font-family:IBM Plex Sans,serif;font-size:14px;text-align:right;vertical-align:top">₹ 495</td>
+            <tr>
+          </tbody>
+          </#if >
+        </table>
+        <table>
+          <tr>
+            <td style="width:55%"></td>
+            <td style="width:45%">
+              <table style="border-top:1px solid #dedede">
+                <tr>
+                  <td style="padding:15px;font-family:IBM Plex Sans,serif;font-size:15px;color:#232122;font-weight:500">Subtotal</td>
+                  <td></td>
+                  <td style="padding:15px;font-family:IBM Plex Sans,serif;font-size:15px;text-align:right;color:#232122;font-weight:500">₹ ${invoice.subTotal}</td>
+                </tr>
+              </table>
+              <#if (invoice.discount > 0)>
+              <table style="border-top:1px solid #dedede">
+                <tr>
+                  <td style="padding:15px;font-family:IBM Plex Sans,serif;font-size:15px;color:#232122;font-weight:500">Discount</td>
+                  <td></td>
+                  <td style="padding:15px;font-family:IBM Plex Sans,serif;font-size:15px;text-align:right;color:#232122;font-weight:500">₹ ${invoice.discount}</td>
+                </tr>
+              </table>
+              </#if>
+              <table style="border-top:1px solid #dedede">
+                <tr>
+                  <td style="padding:15px;font-family:IBM Plex Sans,serif;font-size:15px;color:#232122;font-weight:500">Taxable Amount</td>
+                  <td></td>
+                  <td style="padding:15px;font-family:IBM Plex Sans,serif;font-size:15px;text-align:right;color:#232122;font-weight:500">₹ ${invoice.taxableAmount}</td>
+                </tr>
+              </table>
+              <#if (invoice.isIGst == 0)>
+              <table style="border-top:1px solid #dedede">
+                <tr>
+                  <td style="padding:15px;font-family:IBM Plex Sans,serif;font-size:15px;color:#232122;font-weight:500">CGST (9%)</td>
+                  <td></td>
+                  <td style="padding:15px;font-family:IBM Plex Sans,serif;font-size:15px;text-align:right;color:#232122;font-weight:500">₹ ${invoice.cgst}</td>
+                </tr>
+              </table>
+  
+              <table style="border-top:1px solid #dedede">
+                <tr>
+                  <td style="padding:15px;font-family:IBM Plex Sans,serif;font-size:15px;color:#232122;font-weight:500">SGST (9%)</td>
+                  <td></td>
+                  <td style="padding:15px;font-family:IBM Plex Sans,serif;font-size:15px;text-align:right;color:#232122;font-weight:500">₹ ${invoice.sgst}</td>
+                </tr>
+              </table>
+              </#if>
+              <#if (invoice.isIGst == 1)>
+              <table style="border-top:1px solid #dedede">
+                <tr>
+                  <td style="padding:15px;font-family:IBM Plex Sans,serif;font-size:15px;color:#232122;font-weight:500">IGST (18%)</td>
+                  <td></td>
+                  <td style="padding:15px;font-family:IBM Plex Sans,serif;font-size:15px;text-align:right;color:#232122;font-weight:500">₹ ${invoice.igst}</td>
+                </tr>
+              </table>
+              </#if>
+              <table style="border-top: 1px solid #dedede;">
+                <tbody><tr>
+                    <td style="padding: 15px;font-family: IBM Plex Sans, serif;font-size: 16px; font-weight: 700;color: #232122;">Net Pay</td>
+                    <td></td>
+                    <td style="padding: 15px;font-family: IBM Plex Sans, serif;font-size: 16px;text-align: right;font-weight: 700;color: #232122;">₹ ${invoice.netAmount}</td>
+                    </tr>
+                </tbody>
+              </table>
+            </td>
+            </tr>
+        </table>
+    </div>
+            <table style=" margin-bottom: 2rem; ">
+                <tbody><tr style="display: flex; align-items: start;">
+                    <td style="width: 100%;">
+                        <h5 style="font-family: IBM Plex Sans, serif;color: #232122; font-size:16px;font-weight: 500;padding-bottom: 7px;">
+                            Place of supply: Haryana</h5>
+                        <h5 style="font-family: IBM Plex Sans, serif;color: #232122; font-size:16px;font-weight: 500;padding-bottom: 7px;">
+                            Type of supply: Haryana</h5>
+                        <h5 style="font-family: IBM Plex Sans, serif;color: #232122; font-size:16px;font-weight: 500;padding-bottom: 7px;">
+                            HSN code: 997331</h5>
+                    </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+  </body>
+</html> -->
+
+
+
+        
