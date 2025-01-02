@@ -9,7 +9,7 @@
                     </li>
                     <li class="nav-item">
                         <a id="pills-profile-tab" data-bs-toggle="pill" href="#payment" role="tab"
-                            aria-controls="pills-profile" aria-selected="false" class="nav-link" (click)="getEmployeeSalaryRevision()">Payment</a>
+                            aria-controls="pills-profile" aria-selected="false" class="nav-link" (click)="getEmployeeSalaryRevision(); getCurrentSalaryDetail();">Payment</a>
                     </li>
                     <li class="nav-item">
                         <a id="pills-profile-tab" data-bs-toggle="pill" href="#pay-slips" role="tab"
@@ -584,9 +584,9 @@
                                         </svg>
                                     </span>
                                     <div>
-                                        <p class="mb-1 font-13">Current Compensation</p>
-                                        <h5 class="mb-0 fw-semibold font-14">INR 3,42,000/<span
-                                                class="font-13 fw-normal">Annun</span>
+                                        <p class="mb-1 font-13">Current Compensation (CTC)</p>
+                                        <h5 class="mb-0 fw-semibold font-14">INR {{convertNumberToStringFormat(currentSalaryDetail.annualCTC)}}/<span
+                                                class="font-13 fw-normal">Annum</span>
                                         </h5>
                                     </div>
                                 </div>
@@ -619,7 +619,7 @@
                                         </div>
                                         <div class="payroll-box position-relative" style="width:35%;">
                                             <p class="mb-1 font-13">Legal Entity</p>
-                                            <h5 class="mb-0 fw-semibold font-14">Krenai Services Private Limited.
+                                            <h5 class="mb-0 fw-semibold font-14">{{currentSalaryDetail.companyName}}
                                             </h5>
                                         </div>
                                         <div class="payroll-box position-relative" style="width:15%;">
