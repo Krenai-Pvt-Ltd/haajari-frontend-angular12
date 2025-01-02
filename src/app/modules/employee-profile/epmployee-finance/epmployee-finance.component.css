@@ -125,7 +125,7 @@
 }
 
 .table td {
-    border: 1px solid #f1f1f1;
+    /* border: 1px solid #f1f1f1; */
     font-size: 13px !important;
 }
 
@@ -321,7 +321,8 @@ i::before {
     border-color: #717171;
     background-color: #717171;
 }
-.unmarked{
+
+.unmarked {
     border-color: #e9e4e4;
     background-color: #e9e4e4;
 }
@@ -433,7 +434,21 @@ i::before {
     font-size: 0.875rem !important;
     font-weight: 400 !important;
 }
+
 ::ng-deep.anticon-close-circle {
     display: none;
-  }
+}
 
+.earning {
+    width: 70%;
+    border-right: 1px solid #f1f1f1;
+}
+
+.table th {
+    border: none !important;
+}
+
+.deduction {
+    width: 30%;
+
+}
