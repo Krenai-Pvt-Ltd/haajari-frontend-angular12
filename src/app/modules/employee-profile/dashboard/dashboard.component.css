@@ -707,3 +707,11 @@ span.holiday-initial {
     font-weight: 400 !important;
     text-transform: capitalize;
 }
+
+.empty-detail {
+    color: #787486;
+}
+
+::ng-deep .ant-empty-image img {
+    width: 90px;
+}
