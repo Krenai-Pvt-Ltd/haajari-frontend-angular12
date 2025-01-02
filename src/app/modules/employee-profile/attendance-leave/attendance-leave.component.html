@@ -377,10 +377,10 @@
                                             </span>
                                         </td>
                                         <td class="text-left">
-                                            <span class="team-maneger mb-0 table-font-weight" *ngIf="item.checkOutTime">
+                                            <span class="team-maneger mb-0 table-font-weight" *ngIf="item.checkOutTime && (item.currentStatus == 'out')">
                                                 {{item.checkOutTime | date:'shortTime'}} &nbsp; <span class="text-primary font-12" *ngIf="item.checkoutType == 'SYSTEM_GENERATED'">System</span>
                                             </span>
-                                            <span class="team-maneger mb-0 table-font-weight" *ngIf="!item.checkOutTime">
+                                            <span class="team-maneger mb-0 table-font-weight" *ngIf="(item.currentStatus != 'out')">
                                                 <span class="text-primary font-12">Working</span>
                                             </span>
                                         </td>

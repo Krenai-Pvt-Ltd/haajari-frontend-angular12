@@ -102,11 +102,11 @@
 
                                     <!-- Carousel controls -->
                                     <button class="carousel-control-prev" type="button"
-                                        data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                                        data-bs-target="#carouselExampleControls" data-bs-slide="prev" *ngIf="holidays.length > 1">
                                         <i class="bi bi-chevron-left"></i>
                                     </button>
                                     <button class="carousel-control-next" type="button"
-                                        data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                                        data-bs-target="#carouselExampleControls" data-bs-slide="next" *ngIf="holidays.length > 1">
                                         <i class="bi bi-chevron-right"></i>
                                     </button>
                                 </div>
