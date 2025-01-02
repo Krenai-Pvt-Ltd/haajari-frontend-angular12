@@ -25,37 +25,30 @@ export class OnboardingService {
     }
   }
 
-  async checkOnboardingStatus() {
-    debugger
-    this.onboardingService
-      .getOrgOnboardingStep()
-      .subscribe(async (response: any) => {
-        if (response.status) {
-          this.helperService.orgStepId = response.object.step;
+  async checkOnboardingStatus(): Promise<void> {
+    try {
+      const response: any = await this.onboardingService.getOrgOnboardingStep().toPromise();
+      if (response.status) {
+        this.helperService.orgStepId = response.object.step;
 
-          // to Check subscription plan
-          if (this.helperService.orgStepId == +constant.ORG_ONBOARDING_ONBOARDING_COMPLETED_STEP_ID) {
-            await this.checkSubscriptionPlan();
-            if (this.helperService.restrictedModules == undefined) {
-              await this.helperService.getRestrictedModules();
-            }
+        // to Check subscription plan
+        if (this.helperService.orgStepId == +constant.ORG_ONBOARDING_ONBOARDING_COMPLETED_STEP_ID) {
+          await this.checkSubscriptionPlan();
+          if (this.helperService.restrictedModules == undefined) {
+            await this.helperService.getRestrictedModules();
           }
-  
-          if((await this.rbacService.getRole()) != constant.USER){
-             this.switchToRoutes(this.helperService.orgStepId);
-          }else {
-            // this.helperService.orgStepId = 5;
-            // this.router.navigate([Key.EMPLOYEE_PROFILE_ROUTE]);
-            this.isLoadingOnboardingStatus = false;
-          }
-
         }
-      },
-        (error) => {
-          this.isLoadingOnboardingStatus = false;
-          this.router.navigate(['/auth/login']);
-        });
 
+        if ((await this.rbacService.getRole()) != constant.USER) {
+          this.switchToRoutes(this.helperService.orgStepId);
+        } else {
+          this.isLoadingOnboardingStatus = false;
+        }
+      }
+    } catch (error) {
+      this.isLoadingOnboardingStatus = false;
+      this.router.navigate(['/auth/login']);
+    }
   }
 
   async checkSubscriptionPlan() {
