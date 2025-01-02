@@ -4534,7 +4534,7 @@ getHolidayForOrganization(date: string): Observable<any>{
       request
     );
   }
-  
+
   removeKeyValuePair(key: string, userId: string, value: any): Observable<any> {
     // Set URL parameters for key and userId
     const params = new HttpParams()
@@ -4544,6 +4544,19 @@ getHolidayForOrganization(date: string): Observable<any>{
 
     // Send the DELETE request with parameters and request body (value)
     return this.httpClient.delete<any>(`${this.baseUrl}/get/onboarding/remove-field-in-requested-data`, {
+      params: params
+    });
+  }
+
+  approveKeyValuePair(key: string, userId: string, value: any): Observable<any> {
+    // Set URL parameters for key and userId
+    const params = new HttpParams()
+      .set('key', key)
+      .set('value', value)
+      .set('userId', userId);
+
+    // Send the DELETE request with parameters and request body (value)
+    return this.httpClient.post<any>(`${this.baseUrl}/get/onboarding/approve-field-in-requested-data`,null, {
       params: params
     });
   }
