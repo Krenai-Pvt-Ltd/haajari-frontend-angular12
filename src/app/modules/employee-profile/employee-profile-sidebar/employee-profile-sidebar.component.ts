@@ -27,11 +27,12 @@ import * as pdfjsLib from 'pdfjs-dist';
   styleUrls: ['./employee-profile-sidebar.component.css']
 })
 export class EmployeeProfileSidebarComponent implements OnInit {
-   loggedInUser: LoggedInUser = new LoggedInUser();
-  userPositionDTO: UserPositionDTO[]=[];
-  userId : any;
+  loggedInUser: LoggedInUser = new LoggedInUser();
+  userPositionDTO: UserPositionDTO[] = [];
+  userId: any;
   myForm: FormGroup;
-  constructor( private dataService: DataService,private modalService: NgbModal, private fb: FormBuilder,
+  modal: any;
+  constructor(private dataService: DataService, private modalService: NgbModal, private fb: FormBuilder,
     private activateRoute: ActivatedRoute,
     public helperService: HelperService,
     private router: Router,
@@ -42,41 +43,41 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     public rbacService: RoleBasedAccessControlService,
     private sanitizer: DomSanitizer,
     private sharedService: HelperService) {
-      this.myForm = this.fb.group({
-        position: ['', Validators.required],  // Make Position field required
-        effectiveDate: ['', Validators.required],
-        isProbation: [false],
-        endDate: ['']
-      });
+    this.myForm = this.fb.group({
+      position: ['', Validators.required],  // Make Position field required
+      effectiveDate: ['', Validators.required],
+      isProbation: [false],
+      endDate: ['']
+    });
     if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
       this.userId = this.activateRoute.snapshot.queryParamMap.get('userId');
     }
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'pdf.worker.min.js';
 
-    this.profileChangeStatusSubscriber =  this.helperService.profileChangeStatus.subscribe((value)=>{
-      if(value){
+    this.profileChangeStatusSubscriber = this.helperService.profileChangeStatus.subscribe((value) => {
+      if (value) {
         this.toggle = true;
-      }else{
+      } else {
         this.toggle = false;
       }
     });
 
     // this.userId = "731a011e-ae1e-11ee-9597-784f4361d885";
-   }
-   profileChangeStatusSubscriber: any;
+  }
+  profileChangeStatusSubscriber: any;
 
   //  modalUrl: any;
 
 
 
-   toggle :boolean = false;
-   ROLE : any;
-   UUID : any;
-   adminRoleFlag : boolean = false;
-   userRoleFlag : boolean = false;
-   ADMIN = Key.ADMIN;
-   MANAGER = Key.MANAGER;
-   USER = Key.USER;
+  toggle: boolean = false;
+  ROLE: any;
+  UUID: any;
+  adminRoleFlag: boolean = false;
+  userRoleFlag: boolean = false;
+  ADMIN = Key.ADMIN;
+  MANAGER = Key.MANAGER;
+  USER = Key.USER;
   async ngOnInit(): Promise<void> {
     // this.calculateLasWorkingDay();
     this.getEmployeeProfileData();
@@ -87,7 +88,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     this.ROLE = await this.roleService.getRole();
     this.UUID = await this.roleService.getUuid();
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'pdf.worker.min.js';
-    console.log('ROLE for emp-sidebar: ',this.ROLE)
+    console.log('ROLE for emp-sidebar: ', this.ROLE)
 
     if (this.ROLE == this.ADMIN) {
       this.adminRoleFlag = true;
@@ -122,7 +123,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
   // }
 
 
-  employeeProfileResponseData : EmployeeProfileResponse | undefined;
+  employeeProfileResponseData: EmployeeProfileResponse | undefined;
   teamString !: any;
   viewTeamsLess: boolean = true;
   hrPolicyDocuments: EmployeeAdditionalDocument[] = [];
@@ -131,25 +132,25 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     this.dataService.getEmployeeProfile(this.userId).subscribe((response) => {
       console.log(response.object);
       this.employeeProfileResponseData = response.object;
-      if(!this.employeeProfileResponseData?.agreementAccepted && this.userId === this.UUID){
-          this.dataService.getHrPolicies()
-            .subscribe(
-              (data) => {
-                this.hrPolicyDocuments = data;
-                if (this.hrPolicyDocuments.length > 0) {
-                  this.openModal();
-                }
-              },
-              (error) => {
-                console.error('Error fetching documents:', error);
+      if (!this.employeeProfileResponseData?.agreementAccepted && this.userId === this.UUID) {
+        this.dataService.getHrPolicies()
+          .subscribe(
+            (data) => {
+              this.hrPolicyDocuments = data;
+              if (this.hrPolicyDocuments.length > 0) {
+                this.openModal();
               }
-            );
-        }
+            },
+            (error) => {
+              console.error('Error fetching documents:', error);
+            }
+          );
+      }
 
       this.teamString = this.employeeProfileResponseData?.teams;
       this.splitTeams();
     }, (error) => {
-         console.log(error);
+      console.log(error);
     })
     console.log("employee profile", this.employeeProfileResponseData);
   }
@@ -161,12 +162,12 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     if (this.searchSkill && !this.skills.includes(this.searchSkill)) {
       this.skills.push(this.searchSkill);
       this.searchSkill = ''; // Clear input field after adding
-    }else if(this.searchSkill){
+    } else if (this.searchSkill) {
       this.helperService.showToast(this.searchSkill + ' is Already Added', Key.TOAST_STATUS_ERROR);
-    }else if(!this.searchSkill){
+    } else if (!this.searchSkill) {
       this.helperService.showToast('Empty field cannot be added ', Key.TOAST_STATUS_ERROR);
     }
-    this.skillsFilteredOptions=[];
+    this.skillsFilteredOptions = [];
   }
   checkSkillsArraysEqual(): boolean {
 
@@ -190,21 +191,21 @@ export class EmployeeProfileSidebarComponent implements OnInit {
 
 
   fetchedSkills: string[] = [];
-  isSkillsLoading: boolean=false;
-  viewLess: boolean=true;
+  isSkillsLoading: boolean = false;
+  viewLess: boolean = true;
   @ViewChild('closeButton') closeButton!: ElementRef;
   saveSkills(): void {
     debugger
-    this.isSkillsLoading=true;
+    this.isSkillsLoading = true;
     this.dataService.saveSkills(this.userId, this.skills).subscribe(
       (response) => {
-        this.isSkillsLoading=false;
-        this.helperService.showToast(response.message,Key.TOAST_STATUS_SUCCESS);
+        this.isSkillsLoading = false;
+        this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
         this.getSkills();
         this.closeButton.nativeElement.click();
       },
       error => {
-        this.isSkillsLoading=false;
+        this.isSkillsLoading = false;
         console.error('Error saving skills', error);
       }
     );
@@ -215,7 +216,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     this.dataService.getSkills(this.userId).subscribe(
       (skills) => {
         this.fetchedSkills = skills;
-        this.skills= JSON.parse(JSON.stringify(skills));;
+        this.skills = JSON.parse(JSON.stringify(skills));;
       },
       error => {
         console.error('Error fetching skills', error);
@@ -274,17 +275,17 @@ export class EmployeeProfileSidebarComponent implements OnInit {
 
   checkinCheckout(command: string) {
     this.InOutLoader = true;
-    if(command==='/out'){
-      this.outLoader=true;
+    if (command === '/out') {
+      this.outLoader = true;
     }
-    if(command==='/break'){
-      this.breakLoader=true;
+    if (command === '/break') {
+      this.breakLoader = true;
     }
     this.dataService.checkinCheckoutInSlack(this.userId, command).subscribe(
       (data) => {
         this.InOutLoader = false;
-        this.outLoader=false;
-        this.breakLoader=false;
+        this.outLoader = false;
+        this.breakLoader = false;
 
         // Check if data.message is a valid URL
         const urlPattern = /^(https?:\/\/[^\s/$.?#].[^\s]*)$/;
@@ -301,8 +302,8 @@ export class EmployeeProfileSidebarComponent implements OnInit {
       },
       (error) => {
         this.InOutLoader = false;
-        this.outLoader=false;
-        this.breakLoader=false;
+        this.outLoader = false;
+        this.breakLoader = false;
         this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
       }
     );
@@ -340,14 +341,14 @@ export class EmployeeProfileSidebarComponent implements OnInit {
 
 
 
-  position: string='';
+  position: string = '';
   positionFilteredOptions: string[] = [];
   skillsFilteredOptions: string[] = [];
   onChange(value: string): void {
 
-      this.positionFilteredOptions = this.jobTitles.filter((option) =>
-        option.toLowerCase().includes(value.toLowerCase())
-      );
+    this.positionFilteredOptions = this.jobTitles.filter((option) =>
+      option.toLowerCase().includes(value.toLowerCase())
+    );
 
   }
   onSkillsChange(value: string): void {
@@ -357,7 +358,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
       !this.skills.includes(option)
     );
 
-}
+  }
   preventLeadingWhitespace(event: KeyboardEvent): void {
     const inputElement = event.target as HTMLInputElement;
 
@@ -370,12 +371,12 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     }
   }
 
-  isPromotion: boolean=false;
+  isPromotion: boolean = false;
   openFormModal(validate: String) {
-    if(validate==='Promotion'){
-      this.isPromotion=false;
+    if (validate === 'Promotion') {
+      this.isPromotion = false;
     } else {
-        this.isPromotion=true;
+      this.isPromotion = true;
     }
 
   }
@@ -417,7 +418,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
   saveButtonLoader: boolean = false;
   onSubmit() {
     debugger
-    this.saveButtonLoader=true;
+    this.saveButtonLoader = true;
     if (this.myForm.valid) {
       const userPositionDTO: UserPositionDTO = {
         position: this.myForm.get('position')?.value,
@@ -492,34 +493,34 @@ export class EmployeeProfileSidebarComponent implements OnInit {
   @ViewChild('closeResignationButton') closeResignationButton!: ElementRef
   userResignationReq: UserResignation = new UserResignation();
   resignationToggle: boolean = false;
-  submitResignation(form: NgForm){
+  submitResignation(form: NgForm) {
 
     this.resignationToggle = true;
     this.userResignationReq.createdBy = this.ROLE
     this.userResignationReq.uuid = this.userId
     // console.log('request form : ',this.userResignationReq)
     this.dataService.submitResignation(this.userResignationReq).subscribe((res: any) => {
-        if(res.status){
-          this.resignationToggle =false
-          // this.resignationViewModal = true;
-          this.helperService.resignationSubmitted.next(true);
-          this.closeResignationButton.nativeElement.click()
-          this.clearForm();
-          form.resetForm();
-        }
+      if (res.status) {
+        this.resignationToggle = false
+        // this.resignationViewModal = true;
+        this.helperService.resignationSubmitted.next(true);
+        this.closeResignationButton.nativeElement.click()
+        this.clearForm();
+        form.resetForm();
+      }
     })
   }
 
-  clearFormData(form: NgForm){
+  clearFormData(form: NgForm) {
     this.clearForm();
     form.resetForm();
   }
 
 
-  clearForm(){
+  clearForm() {
     this.recommendDay = ''
     this.discussionType = ''
-    this.userResignationReq.uuid =''
+    this.userResignationReq.uuid = ''
     this.userResignationReq.reason = ''
     this.userResignationReq.comment = ''
     this.userResignationReq.isManagerDiscussion = 0
@@ -542,7 +543,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
 
     this.userResignationReq.isRecommendLastDay = value == 'Other' ? 1 : 0
 
-    if(this.userResignationReq.isRecommendLastDay == 0){
+    if (this.userResignationReq.isRecommendLastDay == 0) {
       this.userResignationReq.lastWorkingDay = ''
       this.calculateLasWorkingDay();
     }
@@ -562,7 +563,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     return current < today || current > maxDate;
   };
 
-  calculateLasWorkingDay(){
+  calculateLasWorkingDay() {
     const today = new Date();
     // const maxDate = new Date();
     const maxDate = new Date();
@@ -582,21 +583,21 @@ export class EmployeeProfileSidebarComponent implements OnInit {
   }
 
   noticePeriodDuration: number = 0;
-  getNoticePeriodDuration(){
+  getNoticePeriodDuration() {
     this.dataService.getNoticePeriodDuration(this.userId).subscribe((res: any) => {
-      if(res.status){
+      if (res.status) {
         this.noticePeriodDuration = res.object
-        console.log('Duration: ',this.noticePeriodDuration)
+        console.log('Duration: ', this.noticePeriodDuration)
       }
     })
   }
 
   userResignationInfo: any;
-  getUserResignationInfo(){
+  getUserResignationInfo() {
     this.dataService.getUserResignationInfo(this.userId).subscribe((res: any) => {
-      if(res.status){
+      if (res.status) {
         this.userResignationInfo = res.object[0]
-        console.log('userResignationInfo: ',this.userResignationInfo)
+        console.log('userResignationInfo: ', this.userResignationInfo)
       }
     })
   }
@@ -609,7 +610,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     debugger
     this.approveToggle = true;
     this.dataService.updateResignation(id).subscribe((res: any) => {
-      if(res.status){
+      if (res.status) {
         this.closeApproveModal.nativeElement.click()
         this.approveToggle = false
 
@@ -617,14 +618,14 @@ export class EmployeeProfileSidebarComponent implements OnInit {
           res.message,
           Key.TOAST_STATUS_SUCCESS
         );
-      }else{
+      } else {
         this.approveToggle = false;
       }
     })
 
   }
 
-  clearApproveModal(){
+  clearApproveModal() {
 
   }
 
@@ -740,7 +741,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
 
 
 
- onLogout() {
+  onLogout() {
     localStorage.clear();
     this.rbacService.clearRbacService();
     this.helperService.clearHelperService();
@@ -753,17 +754,17 @@ export class EmployeeProfileSidebarComponent implements OnInit {
       queryParams: { setting: tabName },
     });
   }
-  isDocumentLoading: boolean=false;
-  doc: EmployeeAdditionalDocument={fileName: '', name: 'Employee Agreement', url: '', value: '',documentType:'employee_agreement'};
+  isDocumentLoading: boolean = false;
+  doc: EmployeeAdditionalDocument = { fileName: '', name: 'Employee Agreement', url: '', value: '', documentType: 'employee_agreement' };
   uploadDocumentFile(event: Event, doc: EmployeeAdditionalDocument): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       const file = input.files[0];
-      this.doc.name='';
-      this.doc.id=doc.id;
-      this.doc.value=doc.value;
-      this.doc.name=doc.name;
-      this.doc.documentType=doc.documentType;
+      this.doc.name = '';
+      this.doc.id = doc.id;
+      this.doc.value = doc.value;
+      this.doc.name = doc.name;
+      this.doc.documentType = doc.documentType;
       this.doc.fileName = file.name;
       this.uploadAdditionalFile(file);
       console.log('Uploading file for document:', doc.name, file);
@@ -779,24 +780,24 @@ export class EmployeeProfileSidebarComponent implements OnInit {
       .pipe(
         finalize(() => {
           fileRef.getDownloadURL().subscribe((url) => {
-            this.doc.url=url;
-            this.isDocumentLoading=true;
+            this.doc.url = url;
+            this.isDocumentLoading = true;
             this.dataService.saveDocumentForUser(this.userId, this.doc).subscribe({
               next: (response) => {
                 this.fetchDocuments();
-                this.selectedFile=null;
+                this.selectedFile = null;
                 const closeButton = document.querySelector('#addDocument .close-btn') as HTMLElement;
                 if (closeButton) {
                   closeButton.click();
                 }
 
                 console.log('Document saved successfully:', response);
-                this.helperService.showToast('Document saved successfully:',Key.TOAST_STATUS_SUCCESS);
-                this.isDocumentLoading=false;
+                this.helperService.showToast('Document saved successfully:', Key.TOAST_STATUS_SUCCESS);
+                this.isDocumentLoading = false;
               },
               error: (err) => {
-                this.helperService.showToast('Some problem in saving Document:',Key.TOAST_STATUS_ERROR);
-                this.isDocumentLoading=false;
+                this.helperService.showToast('Some problem in saving Document:', Key.TOAST_STATUS_ERROR);
+                this.isDocumentLoading = false;
               },
             });
           });
@@ -820,7 +821,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
 
   onDocumentSubmit(): void {
     if (this.selectedFile) {
-      this.isDocumentLoading=true;
+      this.isDocumentLoading = true;
       this.uploadAdditionalFile(this.selectedFile);
     } else {
       console.error('No file selected!');
@@ -834,59 +835,60 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     }
     debugger
     fetch(fileUrl)
-    .then(response => response.blob()) // Convert the image to a Blob
-    .then(blob => {
-      // Create a temporary URL for the Blob
-      const blobUrl = URL.createObjectURL(blob);
+      .then(response => response.blob()) // Convert the image to a Blob
+      .then(blob => {
+        // Create a temporary URL for the Blob
+        const blobUrl = URL.createObjectURL(blob);
 
-      // Create a hidden link element
-      const link = document.createElement('a');
-      link.href = blobUrl;
+        // Create a hidden link element
+        const link = document.createElement('a');
+        link.href = blobUrl;
 
-      // Extract the file name from the URL or use a default name
-      const fileName = fileUrl.split('/').pop()?.split('?')[0] || 'downloaded-file.jpg';
+        // Extract the file name from the URL or use a default name
+        const fileName = fileUrl.split('/').pop()?.split('?')[0] || 'downloaded-file.jpg';
 
-      link.download = fileName;  // This triggers the download
+        link.download = fileName;  // This triggers the download
 
-      // Simulate a click to start the download
-      link.style.display = 'none';  // Hide the link
-      document.body.appendChild(link); // Append the link to the body
-      link.click(); // Trigger the download
-      document.body.removeChild(link); // Remove the link from the DOM
-      URL.revokeObjectURL(blobUrl); // Release the object URL
-    })
-    .catch(error => {
-      console.error('Error downloading file:', error);
-    });
+        // Simulate a click to start the download
+        link.style.display = 'none';  // Hide the link
+        document.body.appendChild(link); // Append the link to the body
+        link.click(); // Trigger the download
+        document.body.removeChild(link); // Remove the link from the DOM
+        URL.revokeObjectURL(blobUrl); // Release the object URL
+      })
+      .catch(error => {
+        console.error('Error downloading file:', error);
+      });
   }
   handleFileChange(event: Event): void {
     const target = event.target as HTMLInputElement;
     this.doc.fileName = target.files?.[0]?.name || '';
-    this.selectedFile=target.files?.[0];
+    this.selectedFile = target.files?.[0];
   }
 
-  @ViewChild('pdfModal') pdfModal: any;
+  @ViewChild('pdfModalButton') pdfModalButton!: ElementRef;
 
   isLastPageRead = false;
   isAgreementAccepted = false;
   totalPages = 0;
   currentPdfIndex = 0;
-  lastIndex=-1;
+  lastIndex = -1;
 
   openModal() {
     debugger
-    console.log('Open modal  ' + this.modalService.hasOpenModals());
-    if (this.pdfModal && this.modalService.hasOpenModals()) {
-      return;
-    }
+    // console.log('Open modal  ' + this.modalService.hasOpenModals());
+    // if (this.pdfModal && this.modalService.hasOpenModals()) {
+    //   return;
+    // }
+    this.pdfModalButton.nativeElement.click();
     this.lastIndex++;
-    this.modalService.open(this.pdfModal, { backdrop: 'static', keyboard: false });
+    // this.modalService.open(this.pdfModal, { backdrop: 'static', keyboard: false });
 
-  // Wait for the modal to fully render before loading the PDF
-  setTimeout(() => {
-    const pdfUrl = this.hrPolicyDocuments[this.currentPdfIndex].url;
-    this.loadContent(pdfUrl);
-  }, 500);
+    // Wait for the modal to fully render before loading the PDF
+    setTimeout(() => {
+      const pdfUrl = this.hrPolicyDocuments[this.currentPdfIndex].url;
+      this.loadContent(pdfUrl);
+    }, 500);
   }
 
   loadContent(contentUrl: string) {
@@ -964,7 +966,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     });
   }
 
-  
+
 
   setupScrollDetection(container: HTMLElement) {
     container.addEventListener('scroll', () => {
@@ -983,7 +985,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
 
 
     } else {
-        this.helperService.showToast('Please scroll to the last page before accepting.',Key.TOAST_STATUS_ERROR);
+      this.helperService.showToast('Please scroll to the last page before accepting.', Key.TOAST_STATUS_ERROR);
     }
   }
 
@@ -993,8 +995,9 @@ export class EmployeeProfileSidebarComponent implements OnInit {
 
     // If there are more PDFs to show
     if (this.currentPdfIndex < this.hrPolicyDocuments.length) {
-      modal.close();
-      this.modalService.dismissAll();
+      // modal.close();
+      // this.modalService.dismissAll();
+      this.pdfModalButton.nativeElement.click();
       this.isLastPageRead = false;
       this.isAccepted = false;
       setTimeout(() => {
@@ -1002,8 +1005,8 @@ export class EmployeeProfileSidebarComponent implements OnInit {
       }, 200);
     } else {
       this.dataService.acceptAgreement().subscribe((res: any) => {
-        if(res.status){
-          this.helperService.showToast(res.message,Key.TOAST_STATUS_SUCCESS);
+        if (res.status) {
+          this.helperService.showToast(res.message, Key.TOAST_STATUS_SUCCESS);
         }
       })
       modal.close();
