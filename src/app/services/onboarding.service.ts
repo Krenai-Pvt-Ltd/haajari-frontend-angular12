@@ -5,6 +5,7 @@ import { constant } from '../constant/constant';
 import { HelperService } from './helper.service';
 import { SubscriptionPlanService } from './subscription-plan.service';
 import { RoleBasedAccessControlService } from './role-based-access-control.service';
+import { Routes } from '../constant/Routes';
 @Injectable({
   providedIn: 'root'
 })
@@ -13,47 +14,41 @@ export class OnboardingService {
   // isOnboardingCompleted: boolean = false;
   isLoadingOnboardingStatus: boolean = true;
   requestedRoute!: string;
+  readonly Routes= Routes;
   constructor(private onboardingService: OrganizationOnboardingService, private router: Router, private helperService: HelperService, private subscriptionService: SubscriptionPlanService, private rbacService: RoleBasedAccessControlService) {
 
     this.requestedRoute = decodeURIComponent(window.location.pathname + window.location.search + window.location.hash);
-    if(!constant.PUBLIC_ROUTES.includes(window.location.pathname)){
+    if(!constant.PUBLIC_ROUTES.includes(window.location.pathname) && !this.Routes.SLACK_AUTH_ROUTES.includes(window.location.pathname)){
     this.checkOnboardingStatus();
     }else{
       this.isLoadingOnboardingStatus = false;
     }
   }
 
-  async checkOnboardingStatus() {
-    debugger
-    this.onboardingService
-      .getOrgOnboardingStep()
-      .subscribe(async (response: any) => {
-        if (response.status) {
-          this.helperService.orgStepId = response.object.step;
+  async checkOnboardingStatus(): Promise<void> {
+    try {
+      const response: any = await this.onboardingService.getOrgOnboardingStep().toPromise();
+      if (response.status) {
+        this.helperService.orgStepId = response.object.step;
 
-          // to Check subscription plan
-          if (this.helperService.orgStepId == +constant.ORG_ONBOARDING_ONBOARDING_COMPLETED_STEP_ID) {
-            await this.checkSubscriptionPlan();
-            if (this.helperService.restrictedModules == undefined) {
-              await this.helperService.getRestrictedModules();
-            }
+        // to Check subscription plan
+        if (this.helperService.orgStepId == +constant.ORG_ONBOARDING_ONBOARDING_COMPLETED_STEP_ID) {
+          await this.checkSubscriptionPlan();
+          if (this.helperService.restrictedModules == undefined) {
+            await this.helperService.getRestrictedModules();
           }
-  
-          if((await this.rbacService.getRole()) != constant.USER){
-             this.switchToRoutes(this.helperService.orgStepId);
-          }else {
-            // this.helperService.orgStepId = 5;
-            // this.router.navigate([Key.EMPLOYEE_PROFILE_ROUTE]);
-            this.isLoadingOnboardingStatus = false;
-          }
-
         }
-      },
-        (error) => {
-          this.isLoadingOnboardingStatus = false;
-          this.router.navigate(['/auth/login']);
-        });
 
+        if ((await this.rbacService.getRole()) != constant.USER) {
+          this.switchToRoutes(this.helperService.orgStepId);
+        } else {
+          this.isLoadingOnboardingStatus = false;
+        }
+      }
+    } catch (error) {
+      this.isLoadingOnboardingStatus = false;
+      this.router.navigate(['/auth/login']);
+    }
   }
 
   async checkSubscriptionPlan() {

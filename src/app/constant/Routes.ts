@@ -21,4 +21,7 @@ export class Routes {
 
 
     static LOGIN_ROUTES = [Routes.LOGIN,Routes.SIGNUP,Routes.SLACK_AUTH,Routes.SLACK_SIGN_IN ,Routes.ONBOARDING_WHATSAPP]
+
+    // routes for slack auth to exclude from onboarding service check and if needed then call explicitly onboarding service
+    static SLACK_AUTH_ROUTES = [Routes.SLACK_AUTH,Routes.SLACK_SIGN_IN];
 }

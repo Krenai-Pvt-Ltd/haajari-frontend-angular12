@@ -6,6 +6,9 @@ import { DataService } from 'src/app/services/data.service';
 import { resolve } from 'dns';
 import { Observable } from 'rxjs';
 import { Key } from '../constant/key';
+import { ActivationEnd, Router } from '@angular/router';
+import { constant } from '../constant/constant';
+import { Routes } from '../constant/Routes';
 
 @Injectable({
   providedIn: 'root',
@@ -19,11 +22,24 @@ export class RoleBasedAccessControlService {
   ROLE !: string;
   isUserInfoInitialized: boolean = false;
   private userInfoInitialized: Promise<void>|any;
+  currentRoute:any;
+  constructor(private helperService: HelperService, private dataService: DataService,  private router : Router) {
 
-  constructor(private helperService: HelperService, private dataService: DataService) {
-
-    debugger
-     this.LoadAsync();
+  
+     if (this.router != undefined) {
+          // console.log("11111route=======", this._router );
+            this.router.events.subscribe(val => {
+              // console.log("val=======", val);
+              if (val instanceof ActivationEnd && constant.EMPTY_STRINGS.includes(this.currentRoute)) {
+                //@ts-ignore
+                this.currentRoute = val.snapshot._routerState.url.split("?")[0];
+                // console.log("route=======", this.currentRoute);
+                if (!Routes.AUTH_ROUTES.includes(String(this.currentRoute))&& !constant.PUBLIC_ROUTES.includes(window.location.pathname)) {
+                   this.LoadAsync();
+                }
+              }
+            });
+        }
 
 
   }

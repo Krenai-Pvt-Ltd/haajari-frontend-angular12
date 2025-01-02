@@ -4321,21 +4321,25 @@
           <div class="manualemployList" *ngIf="userNameWithShiftName?.length > 0">
             <div class="d-flex align-items-center justify-content-between persnol-details userList p-0 pt-2 pb-2"
               *ngFor="let list of userNameWithShiftName">
-              <div class="d-flex align-items-center gap-3">
+              <div class="d-flex align-items-center gap-3 w-100">
                 <span class="userName">{{
                   list.userName.charAt(0).toUpperCase()
                   }}</span>
 
-                <div>
-                  <h5 class="alert-heading font-13 mb-1"> {{ list.userName }}</h5>
-                  <div class="d-flex align-items-center gap-2">
-                    <p class="mb-0 font-11">{{ list.userEmail || "N/A" }}</p>
-                    <span class="spreter-line"></span>
-                    <span class="shift-tag">{{ list.shiftName }}</span>
+                <div class="w-100">
+                  <h5 class="alert-heading font-13 mb-1">
+                    {{ list.userName }}
+                  </h5>
+                  <div class="d-flex align-items-center justify-content-between">
+                    <p class="mb-0 font-12">{{ list.userEmail || "N/A" }}</p>
+                    <!-- <span class="spreter-line"></span> -->
+                    <span class="font-12 fw-semibold text-primary pointer"
+                      (click)="removeUser(list.userUuid)"><span>{{constant.REMOVE_SHIFT_STRING}} </span> {{
+                      list.shiftName }} </span>
                   </div>
                 </div>
               </div>
-              <div>
+              <!-- <div>
                 <button class="btn p-0 addUserRemvo" (click)="removeUser(list.userUuid)">
                   <svg xmlns="http://www.w3.org/2000/svg" width="22" height="23" viewBox="0 0 22 23" fill="none">
                     <mask id="mask0_3479_11708" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0"
@@ -4350,7 +4354,7 @@
                   </svg>
                   Remove
                 </button>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
