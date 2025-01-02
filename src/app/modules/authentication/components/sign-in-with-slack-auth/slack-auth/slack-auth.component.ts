@@ -9,6 +9,7 @@ import { Key } from 'src/app/constant/key';
 import { HelperService } from 'src/app/services/helper.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import { constant } from 'src/app/constant/constant';
+import { OnboardingService } from 'src/app/services/onboarding.service';
 
 @Component({
   selector: 'app-slack-auth',
@@ -21,7 +22,8 @@ export class SlackAuthComponent implements OnInit {
     private httpClient: HttpClient,
     private router: Router,
     private helperService: HelperService,
-    private rbacService: RoleBasedAccessControlService
+    private rbacService: RoleBasedAccessControlService,
+    private onboardingService: OnboardingService
   ) {}
 
   ngOnInit(): void {
@@ -71,22 +73,36 @@ export class SlackAuthComponent implements OnInit {
             this.promotionCode ='';
             this.deleteAllCookies();
           }
-          this.isSuccessComponent = true;
+         
+          localStorage.setItem('token', response.object.access_token);
+          localStorage.setItem('refresh_token', response.object.refresh_token);
+
+          await this.rbacService.initializeUserInfo();
+          
+          await this.onboardingService.checkOnboardingStatus();
+           console.log('this.helperService.orgStepId-------------', this.helperService.orgStepId);
+          if(this.helperService.orgStepId == +constant.ORG_ONBOARDING_ONBOARDING_COMPLETED_STEP_ID){
+            this.router.navigate(['/dashboard']);
+            this.isSuccessComponent = false;
+          }else {
+            this.isSuccessComponent = true;
+          }
+
+          
           if(this.isSuccessComponent) {
             this.startCountdown();
           }
           this.isErrorComponent = false;
 
-          localStorage.setItem('token', response.object.access_token);
-          localStorage.setItem('refresh_token', response.object.refresh_token);
-
-          await this.rbacService.initializeUserInfo();
 
           this.getSlackUserCountData();
           debugger;
           const decodedValue = this.decodeFirebaseAccessToken(
             response.object.access_token
           );
+          
+          if(decodedValue)
+          
 
           Key.LOGGED_IN_USER = decodedValue;
 

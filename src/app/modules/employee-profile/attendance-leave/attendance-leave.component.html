@@ -225,7 +225,33 @@
                                     </div>
                                 </div>
                             </div>
-
+                            <div class="col-md-4">
+                                <div class="attendance-summery p-3 pt-2 pb-2">
+                                    <h5 class="mb-0 font-15">{{convertToHourMinuteFormat(totalAttendanceDetails.totalLateHours)}} <span class="lat">({{totalAttendanceDetails.totalLateCount}} late in’s)</span></h5>
+                                    <p class="mb-0 font-12">Total late delay</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="attendance-summery p-3 pt-2 pb-2">
+                                    <h5 class="mb-0 font-15">{{convertToHourMinuteFormat(totalAttendanceDetails.totalHalfDayHours)}} <span class="lat">({{totalAttendanceDetails.totalHalfDayCount}} half day in’s)</span></h5>
+                                    <p class="mb-0 font-12">Total half day delay</p>
+                                </div>
+                            </div>
+    
+                            <div class="col-md-2">
+                                <div class="attendance-summery p-3 pt-2 pb-2">
+                                    <h5 class="mb-0 font-15">{{totalAttendanceDetails.totalSystemCheckoutCount || 0}}</h5>
+                                    <p class="mb-0 font-12">System checkout</p>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="attendance-summery p-3 pt-2 pb-2">
+                                    <h5 class="mb-0 font-15">{{totalAttendanceDetails.totalAbsentCount || 0}}</h5>
+                                    <p class="mb-0 font-12">Absent</p>
+                                </div>
+                            </div>
+                           </div>
+    
                         </div>
                         <div class="col-md-3">
                             <div class="total-detail ">
@@ -421,6 +447,10 @@
                                                         class="lat">({{convertToHourMinuteFormat(item.totalWorkingHour)}})</span>
                                                 </h5>
                                                 <p class="mb-0 font-10">Shift: {{item.shiftType}}</p>
+                                            </div>
+                                            <div class="" *ngIf="!item.shiftInTime">
+                                                <!-- <h5 class="mb-0 font-12"> {{item.shiftInTime | date:'shortTime'}} -  {{item.shiftOutTime | date:'shortTime'}} <span class="lat">({{convertToHourMinuteFormat(item.totalWorkingHour)}})</span></h5> -->
+                                                <h5 class="mb-0 font-10">--</h5>
                                             </div>
                                         </td>
                                         <td class="text-left">
@@ -2176,4 +2206,3 @@
             </div>
         </div>
     </div>
-</div>
