@@ -213,7 +213,8 @@ isFormInvalid: boolean=false;
     });
   }
   approveField(key: string, value: any) {
-    this.dataService.approveKeyValuePair(key, this.userId, value).subscribe({
+    const stringValue = typeof value === 'object' ? JSON.stringify(value) : String(value);
+    this.dataService.approveKeyValuePair(key, this.userId, stringValue).subscribe({
       next: (response) => {
         console.log('Response:', response);
         if (response.success) {
@@ -329,9 +330,10 @@ isFormInvalid: boolean=false;
           this.isSaveBtnLoading=false;
           this.helperService.showToast('Data Save successfully.', Key.TOAST_STATUS_SUCCESS);
           this.getOnboardingFormPreviewMethodCall();
-          this.getPendingRequest();
+          this.fetchRequestedData();
         },
         error: (error) => {
+          this.fetchRequestedData();
           console.error('Error saving data:', error);
           this.helperService.showToast(error, Key.TOAST_STATUS_ERROR);
         }
