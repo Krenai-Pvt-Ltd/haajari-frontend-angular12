@@ -128,7 +128,7 @@
     
                                     </div>
                                     <div class="text-end d-flex align-items-center gap-2">
-                                        <span class="total-worked">
+                                        <!-- <span class="total-worked">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="108" height="32" viewBox="0 0 108 32" fill="none">
                                                 <path d="M0 30.5039H107.75" stroke="#AFAFAF" stroke-width="1.36538" stroke-dasharray="4.1 4.1" />
                                                 <path
@@ -145,7 +145,7 @@
                                                     </linearGradient>
                                                 </defs>
                                             </svg>
-                                        </span>
+                                        </span> -->
                                         <div>
                                             <h5 class="mb-0 font-15">{{convertToHourMinuteFormat(totalAttendanceDetails.totalWorkedHours)}}</h5>
                                             <p class="mb-0 font-12">Worked</p>
@@ -176,13 +176,13 @@
     
                             <div class="col-md-2">
                                 <div class="attendance-summery p-3 pt-2 pb-2">
-                                    <h5 class="mb-0 font-15">{{totalAttendanceDetails.totalSystemCheckoutCount}}</h5>
+                                    <h5 class="mb-0 font-15">{{totalAttendanceDetails.totalSystemCheckoutCount || 0}}</h5>
                                     <p class="mb-0 font-12">System checkout</p>
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="attendance-summery p-3 pt-2 pb-2">
-                                    <h5 class="mb-0 font-15">{{totalAttendanceDetails.totalAbsentCount}}</h5>
+                                    <h5 class="mb-0 font-15">{{totalAttendanceDetails.totalAbsentCount || 0}}</h5>
                                     <p class="mb-0 font-12">Absent</p>
                                 </div>
                             </div>
@@ -366,9 +366,13 @@
                                            
                                         </td>
                                         <td class="text-left">
-                                            <div class="team-maneger mb-0 table-font-weight schedule">
+                                            <div class="team-maneger mb-0 table-font-weight schedule" *ngIf="item.shiftInTime">
                                                 <h5 class="mb-0 font-12"> {{item.shiftInTime | date:'shortTime'}} -  {{item.shiftOutTime | date:'shortTime'}} <span class="lat">({{convertToHourMinuteFormat(item.totalWorkingHour)}})</span></h5>
                                                 <p class="mb-0 font-10">Shift: {{item.shiftType}}</p>
+                                            </div>
+                                            <div class="" *ngIf="!item.shiftInTime">
+                                                <!-- <h5 class="mb-0 font-12"> {{item.shiftInTime | date:'shortTime'}} -  {{item.shiftOutTime | date:'shortTime'}} <span class="lat">({{convertToHourMinuteFormat(item.totalWorkingHour)}})</span></h5> -->
+                                                <h5 class="mb-0 font-10">--</h5>
                                             </div>
                                         </td>
                                         <td class="text-left">

@@ -746,6 +746,7 @@ export class CompanySettingComponent implements OnInit {
   locationLoader: boolean = false;
   currentLocation() {
     debugger;
+    this.isLatLongFieldOpen = false;
     this.locationLoader = true;
     this.fetchCurrentLocationLoader = true;
     this.getCurrentLocation()
@@ -792,12 +793,14 @@ export class CompanySettingComponent implements OnInit {
           })
           .catch((error) => {
             console.error(error);
+            this.locationLoader = false;
             this.fetchCurrentLocationLoader = false;
           });
         // this.fetchCurrentLocationLoader = false;
       })
       .catch((error) => {
         console.error(error);
+        this.locationLoader = false;
         this.fetchCurrentLocationLoader = false;
       });
     // this.fetchCurrentLocationLoader = false;
@@ -1553,6 +1556,71 @@ getData(event:any){
 //     }
 //   );
 // }
+
+
+isLatLongFieldOpen: boolean = false;
+openLatLongField() {
+  this.isLatLongFieldOpen = true;
+}
+
+getAddressFromCoords(lat: number, lng: number): void {
+  debugger
+  console.log("7898765678" , lat, lng);
+  this.newLat= lat;
+  this.newLng= lng;
+  const geocoder = new google.maps.Geocoder();
+  geocoder.geocode({ location: { lat, lng } }, (results, status) => {
+    if (status === google.maps.GeocoderStatus.OK && results && results[0] ) {
+      this.handleAddressChange2(results[0]); 
+    } else {
+      console.error('Geocode was not successful for the following reason: ' + status);
+    }
+  });
+}
+
+
+public handleAddressChange2(e: any) {
+  console.log('ghdm',e);
+debugger
+ // this.lat = e.geometry.location.lat();
+ // this.lng = e.geometry.location.lng();
+
+ 
+ // this.organizationAddressDetail = new OrganizationAddressDetail();
+ this.organizationAddressDetail.longitude = this.newLng;
+ this.organizationAddressDetail.latitude = this.newLat;
+ this.isShowMap = true;
+
+ this.organizationAddressDetail.addressLine1 = e.formatted_address;
+
+e?.address_components?.forEach((entry: any) => {
+ // console.log(entry);
+
+ if (entry.types?.[0] === 'route') {
+   this.organizationAddressDetail.addressLine2 = entry.long_name + ',';
+ }
+ if (entry.types?.[0] === 'sublocality_level_1') {
+   this.organizationAddressDetail.addressLine2 =
+     this.organizationAddressDetail.addressLine2 + entry.long_name;
+ }
+ if (entry.types?.[0] === 'locality') {
+   this.organizationAddressDetail.city = entry.long_name;
+ }
+ if (entry.types?.[0] === 'administrative_area_level_1') {
+   this.organizationAddressDetail.state = entry.long_name;
+ }
+ if (entry.types?.[0] === 'country') {
+   this.organizationAddressDetail.country = entry.long_name;
+ }
+ if (entry.types?.[0] === 'postal_code') {
+   this.organizationAddressDetail.pincode = entry.long_name;
+ }
+});
+
+
+ // this.setLatLng(this.organizationAddressDetail);
+ // this.getAddress(this.lat, this.lng);
+}
 
 
 }

@@ -12,6 +12,7 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
+import { constant } from 'src/app/constant/constant';
 import { Key } from 'src/app/constant/key';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { Holiday } from 'src/app/models/Holiday';
@@ -58,6 +59,7 @@ export class AttendanceSettingComponent implements OnInit {
     new OrganizationAddressDetail();
 
   readonly OVERTIME_RULE = Key.OVERTIME_RULE;
+  readonly  constant = constant;
 
   constructor(
     private dataService: DataService,
