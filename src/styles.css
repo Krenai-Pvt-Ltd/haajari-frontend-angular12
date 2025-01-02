@@ -769,17 +769,25 @@ actionMenuList .dropdown-item i {
   width: 70px !important;
 }
 
-.placeholder-line .ant-select-selection-placeholder {
+
+::ng-deep .placeholder-lines .ant-select-selection-item {
+  line-height: 35px !important;
+  font-size: 13px !important;
+  font-weight: 400 !important;
+  color: #000;
+}
+
+::ng-deep .placeholder-lines .ant-select-selection-placeholder {
+  line-height: 35px !important;
+  font-size: 13px !important;
+  font-weight: 400 !important;
+  color: #000;
+}
+
+::ng-deep .placeholder-line .ant-select-selection-placeholder {
   line-height: 45px !important;
   font-size: 0.875rem !important;
   font-weight: 400 !important;
-}
-
-.placeholder-lines .ant-select-selection-placeholder {
-  line-height: 35px !important;
-  font-size: 14px;
-  font-weight: 500 !important;
-  color: #000;
 }
 
 ::ng-deep .placeholder-line .ant-select-selection-item {
@@ -823,7 +831,7 @@ actionMenuList .dropdown-item i {
   bottom: 0;
   z-index: 99;
   left: 0px;
-  padding-left: 445px !important;
+  padding-left: 390px !important;
 }
 
 .badge {
