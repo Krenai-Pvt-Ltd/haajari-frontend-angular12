@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { FormGroup, NgForm } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
@@ -18,6 +18,8 @@ import { OnboardingModule } from 'src/app/models/OnboardingModule';
 import { Role } from 'src/app/models/role';
 import { ActivatedRoute } from '@angular/router';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
+import { EmployeeAdditionalDocument } from 'src/app/models/EmployeeAdditionalDocument';
+import { constant } from 'src/app/constant/constant';
 
 @Component({
   selector: 'app-company-setting',
@@ -36,22 +38,23 @@ export class CompanySettingComponent implements OnInit {
     private helperService: HelperService,
     private sanitizer: DomSanitizer,
     private placesService: PlacesService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
     window.scroll(0, 0);
 
-    
-    
+
+
     this.getOrganizationDetailsMethodCall();
-    this.getHrPolicy();
     this.getTeamNames();
     this.getUserByFiltersMethodCall();
     this.getAllAddressDetails();
     // this.helperService.saveOrgSecondaryToDoStepBarData(0);
     this.getAllRolesMethodCall();
     this.fetchOnboardingModules();
+    this.fetchDocuments();
   }
 
   ngAfterViewInit() {
@@ -175,7 +178,7 @@ export class CompanySettingComponent implements OnInit {
   }
 
   isUpdating: boolean = false;
-  selectedFile: File | null = null;
+  selectedFile: File | undefined = undefined;
   toggle = false;
   updateOrganizationPersonalInformationMethodCall() {
     debugger;
@@ -293,31 +296,122 @@ export class CompanySettingComponent implements OnInit {
     ).subscribe();
   }
 
+  isDocumentLoading: boolean = false;
+  documents: EmployeeAdditionalDocument[] = [];
+  doc: EmployeeAdditionalDocument = {
+    documentType: constant.DOC_TYPE_HR_POLICY,
+    name: 'HR Policy',
+    value: 'HR Policy',
+    url: '',
+    fileName: ''
+  };
+  deleteDocument(documentId: number | undefined): void {
+    this.dataService.deleteDocument(documentId)
+      .subscribe(
+        (response) => {
+          console.log('Document deleted successfully:', response);
+          this.fetchDocuments();
+        },
+        (error) => {
+          console.error('Error deleting document:', error);
+        }
+      );
+  }
+  fetchDocuments(): void {
+    this.dataService.getHrPolicies()
+      .subscribe(
+        (data) => {
+          this.documents = data;
+        },
+        (error) => {
+          console.error('Error fetching documents:', error);
+        }
+      );
+  }
+
+  isYouTubeVideo: boolean = false;
+  toggleVideoSelection(event: Event): void {
+    debugger
+    const checkbox = event.target as HTMLInputElement;
+    this.isYouTubeVideo = checkbox.checked;
+    this.cdr.detectChanges();
+  }
+
+  getYouTubeEmbedUrl(url: string): string | null {
+    if (!url) {
+      return null;
+    }
+
+    const match = url.match(this.regex);
+
+    if (match && match[1]) {
+      const videoId = match[1];
+      return `https://www.youtube.com/embed/${videoId}`;
+    }
+
+    return null; // Return null if the URL is invalid
+  }
+
+  handleFileChange(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    this.doc.fileName = target.files?.[0]?.name || '';
+    this.selectedFile=target.files?.[0];
+  }
+  regex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|embed\/|v\/|.+?&v=)|youtu\.be\/)([a-zA-Z0-9_-]+)/;
+
+  isInvalidUrl: boolean = false;
+  onDocumentSubmit(): void {
+    if(this.isYouTubeVideo){
+      this.doc.url = this.doc.url.trim();
+      this.doc.url = this.getYouTubeEmbedUrl(this.doc.url) || '';
+
+      if(this.doc.url==undefined || !this.regex.test(this.doc.url)){
+        this.helperService.showToast('Please enter a valid YouTube URL', Key.TOAST_STATUS_ERROR);
+        this.isInvalidUrl=true;
+        return;
+      }
+      this.savePolicyDocToDatabase(this.doc.url);
+      return;
+    }
+    if (this.selectedFile) {
+      this.isUpdatingHrPolicies=true;
+      this.uploadFileHrPolicies(this.selectedFile);
+    } else {
+      console.error('No file selected!');
+    }
+  }
   savePolicyDocToDatabase(fileUrl: string): void {
     debugger
-    this.dataService.saveOrganizationHrPolicies(fileUrl).subscribe(response => {
-      // console.log('File URL saved to database:', response.message);
-      this.helperService.showToast(
-        'Doc Uploaded Successfully',
-        Key.TOAST_STATUS_SUCCESS
-      );
-      this.getHrPolicy();
-    }, (error) => {
-      console.log(error);
+    this.doc.url=fileUrl;
+    this.dataService.saveDocumentForUser('', this.doc).subscribe({
+      next: (response) => {
+        console.log('Document saved successfully:', response);
+        this.helperService.showToast('Document saved successfully:',Key.TOAST_STATUS_SUCCESS);
+        this.isUpdatingHrPolicies=false;
+        this.doc = { documentType: constant.DOC_TYPE_HR_POLICY, name: 'HR Policy', value: 'HR Policy', url: '', fileName: '' };
+        this.isYouTubeVideo = false;
+        this.fetchDocuments();
+        this.selectedFile=undefined;
+        this.closeButtonHrPolicies.nativeElement.click();
+      },
+      error: (err) => {
+        this.helperService.showToast('Some problem in saving Document',Key.TOAST_STATUS_ERROR);
+        this.doc = { documentType: constant.DOC_TYPE_HR_POLICY, name: 'HR Policy', value: 'HR Policy', url: '', fileName: '' };
+        this.isYouTubeVideo = false;
+        this.closeButtonHrPolicies.nativeElement.click();
+        this.isUpdatingHrPolicies=false;
+        this.selectedFile=undefined;
+      },
     });
   }
 
-  fileUrl!: string;
-  docsUploadedDate: any;
-  getHrPolicy(): void {
-    this.dataService.getOrganizationHrPolicies().subscribe(response => {
-      this.fileUrl = response.object?.hrPolicyDoc;
-      this.docsUploadedDate = response.object?.docsUploadedDate;
-      // console.log('policy retrieved successfully', response.object);
-    }, (error) => {
-      console.log(error);
-    });
+  onCancel(): void {
+    this.doc = { documentType: constant.DOC_TYPE_HR_POLICY, name: 'HR Policy', value: 'HR Policy', url: '', fileName: '' };
+    this.isYouTubeVideo = false;
+    this.selectedFile=undefined;
+    this.isInvalidUrl=false;
   }
+
 
   previewString: SafeResourceUrl | null = null;
   isPDF: boolean = false;
@@ -413,7 +507,7 @@ export class CompanySettingComponent implements OnInit {
          this.getUserByFiltersMethodCall();
        }
      }
-  
+
      clearPage(){
       this.databaseHelper = new DatabaseHelper();
       this.searchText = ''
@@ -663,7 +757,7 @@ export class CompanySettingComponent implements OnInit {
             var branch = this.organizationAddressDetail.branch;
             var radius = this.organizationAddressDetail.radius;
             this.organizationAddressDetail = new OrganizationAddressDetail();
-            
+
             this.organizationAddressDetail.branch = branch;
             this.organizationAddressDetail.radius = radius;
             // this.organizationAddressDetail = new OrganizationAddressDetail();
@@ -1139,8 +1233,9 @@ export class CompanySettingComponent implements OnInit {
   }
 
 
-  @ViewChild("closeButton") closeButton!:ElementRef;
+  @ViewChild("closeButtonHrPolicies") closeButtonHrPolicies!:ElementRef;
 
+  @ViewChild("closeButton") closeButton!:ElementRef;
   userNameWithBranchName: any;
   getOrganizationUserNameWithBranchNameData(addressId : number, type:string) {
     this.dataService.getOrganizationUserNameWithBranchName(this.selectedStaffsUuids, addressId).subscribe(

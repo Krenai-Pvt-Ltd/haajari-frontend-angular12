@@ -9,4 +9,5 @@ export class EmployeeProfileResponse {
     isProbation!: boolean;
     status: number = 0;
     resignationStatus: any
+    agreementAccepted: boolean = false;
 }

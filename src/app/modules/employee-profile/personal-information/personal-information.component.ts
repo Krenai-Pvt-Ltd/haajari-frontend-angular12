@@ -16,6 +16,7 @@ import { UserBankDetailRequest } from 'src/app/models/user-bank-detail-request';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReasonOfRejectionProfile } from 'src/app/models/reason-of-rejection-profile';
 import { constant } from 'src/app/constant/constant';
+import { th } from 'date-fns/locale';
 
 @Component({
   selector: 'app-personal-information',
@@ -37,7 +38,7 @@ isFormInvalid: boolean=false;
       this.userId = this.activateRoute.snapshot.queryParamMap.get('userId');
     }
 
-    
+
   }
 
   ngOnInit(): void {
@@ -92,11 +93,12 @@ isFormInvalid: boolean=false;
       userExperience: this.fb.array([]),
       userEmergencyContacts: this.fb.array([]),
     });
-    this.fetchEditedFields();
+    // this.fetchEditedFields();
     this.getOnboardingFormPreviewMethodCall();
     this.loadRoutes();
-    this.getPendingRequest();
-
+    // this.getPendingRequest();
+    this.fetchRequestedData();
+    // this.approveRequestedData();
   }
 
 
@@ -126,12 +128,93 @@ isFormInvalid: boolean=false;
   onboardingPreviewDataCopy: OnboardingFormPreviewResponse =
   new OnboardingFormPreviewResponse();
 
+  requestedData: OnboardingFormPreviewResponse = new OnboardingFormPreviewResponse();
+  fetchRequestedData(): void {
+
+    this.dataService.getRequestedData(this.userId).subscribe({
+      next: (response) => {
+        this.requestedData = response;
+        console.log('Fetched Data:', response);
+      },
+      error: (error) => {
+        console.error('Error:', error);
+      },
+    });
+  }
+  findEmergencyContactWithId(id: number): any {
+    return this.requestedData.userEmergencyContacts.find(contact => contact.id === id);
+  }
+  findAllEmergencyContactWithNullId(): any {
+    if(!this.requestedData.userEmergencyContacts){
+      return [];
+    }
+    return this.requestedData.userEmergencyContacts.filter(contact => contact.id === 0 || contact.id === null);
+  }
+  findExperienceWithId(id: number): any {
+    return this.requestedData.userExperience.find(experience => experience.id === id);
+  }
+  findAllExperienceWithNullId(): any {
+    if(!this.requestedData.userExperience){
+      return [];
+    }
+    return this.requestedData.userExperience.filter(experience => experience.id === 0 || experience.id === null);
+  }
+  findGuarantorWithId(id: number): any {
+    return this.requestedData.userGuarantorInformation.find(guarantor => guarantor.id === id);
+  }
+  findAllGuarantorWithNullId(): any {
+    if(!this.requestedData.userGuarantorInformation){
+      return [];
+    }
+    return this.requestedData.userGuarantorInformation.filter(guarantor => guarantor.id === 0 || guarantor.id === null);
+  }
+  get hasValidAddress(): boolean {
+    const address = this.requestedData?.userAddress?.[0];
+    return !!(
+      address &&
+      (address.addressLine1 || address.addressLine2 || address.city || address.pincode)
+    );
+  }
+
+  approveRequestedData(): void {
+    this.dataService.saveRequestedData(this.userId).subscribe({
+      next: (response) => {
+        console.log('Response:', response);
+        if (response.success) {
+          this.helperService.showToast('Data saved successfully', Key.TOAST_STATUS_SUCCESS);
+        } else {
+          this.helperService.showToast('Failed to save data', Key.TOAST_STATUS_ERROR);
+        }
+      },
+      error: (error) => {
+        console.error('Error:', error);
+        this.helperService.showToast('An error occurred while saving data', Key.TOAST_STATUS_ERROR);
+      },
+    });
+  }
+
+  removeField(key: string, value: any) {
+    this.dataService.removeKeyValuePair(key, this.userId, value).subscribe({
+      next: (response) => {
+        console.log('Response:', response);
+        if (response.success) {
+          this.helperService.showToast('Field removed successfully', Key.TOAST_STATUS_SUCCESS);
+        } else {
+          this.helperService.showToast('Failed to remove the field', Key.TOAST_STATUS_ERROR);
+        }
+      },
+      error: (err) => {
+        console.error('Error:', err);
+        alert('An error occurred while removing the field.');
+      }
+    });
+  }
 
   getOnboardingFormPreviewMethodCall() {
     this.profileLoding = true;
     const userUuid = new URLSearchParams(window.location.search).get('userId') || '';
     if (userUuid) {
-      this.dataService.getOnboardingFormPreview(userUuid).subscribe(
+      this.dataService.getUserAllData(userUuid).subscribe(
         (preview) => {
           // console.log(preview);
           this.onboardingPreviewData = preview;
@@ -219,7 +302,7 @@ isFormInvalid: boolean=false;
     });
     if(this.onboardingForm.valid){
       this.isSaveBtnLoading=true;
-      this.dataService.saveOnboardingData(this.onboardingPreviewDataCopy).subscribe({
+      this.dataService.saveAllUserData(this.onboardingPreviewDataCopy,this.userId).subscribe({
         next: (response) => {
           this.profileEdit=false;
           this.isSaveBtnLoading=false;
