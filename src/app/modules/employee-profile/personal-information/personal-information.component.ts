@@ -175,6 +175,13 @@ isFormInvalid: boolean=false;
       (address.addressLine1 || address.addressLine2 || address.city || address.pincode)
     );
   }
+  get hasValidAddress1(): boolean {
+    const address = this.requestedData?.userAddress?.[1];
+    return !!(
+      address &&
+      (address.addressLine1 || address.addressLine2 || address.city || address.pincode)
+    );
+  }
 
   approveRequestedData(): void {
     this.dataService.saveRequestedData(this.userId).subscribe({
