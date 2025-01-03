@@ -862,5 +862,5 @@ actionMenuList .dropdown-item i {
 }
 
 ::ng-deep .ant-empty-image img {
-  width: 90px;
+  width: 90px !important;
 }
