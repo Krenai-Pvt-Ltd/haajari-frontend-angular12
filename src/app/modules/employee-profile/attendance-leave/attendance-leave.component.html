@@ -643,7 +643,8 @@
                                     </tr>
                                     <!-- leave  -->
                                     <tr class="week-leave"
-                                        *ngIf="item.status == 'Paid Leave' || item.status == 'Unpaid Leave'">
+                                    *ngIf="item.status.toLowerCase().includes('paid leave') || item.status.toLowerCase().includes('unpaid leave')"
+                                    >
                                         <td class="text-left">
                                             <span class="team-maneger mb-0 ">
                                                 {{item.createdDate | date:'fullDate'}}</span>
