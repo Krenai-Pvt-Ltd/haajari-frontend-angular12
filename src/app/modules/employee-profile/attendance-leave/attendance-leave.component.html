@@ -66,7 +66,7 @@
                             </span>
                         </div>
 
-                        <div class="d-flex align-items-center justify-content-end gap-3">
+                        <div class="d-flex align-items-center justify-content-end gap-3 w-50">
                             <div class="btn-group week-data radio-btn" role="group"
                                 aria-label="Basic radio toggle button group">
 
@@ -79,9 +79,8 @@
 
                             </div>
 
-                            <nz-select class="request-dropdown placeholder-lines" nzSize="large"
-                                nzPlaceHolder="New Request" required [(ngModel)]="selectedRequest"
-                                (ngModelChange)="onRequestChange(selectedRequest)">
+                            <nz-select class="request-dropdown" nzSize="large" nzPlaceHolder="New Request" required
+                                [(ngModel)]="selectedRequest" (ngModelChange)="onRequestChange(selectedRequest)">
                                 <nz-option [nzValue]="'Attendance update'" [nzLabel]="'Attendance update'"></nz-option>
                                 <!-- Add other options here if needed -->
                             </nz-select>
@@ -102,12 +101,35 @@
                                             <p class="mb-0 font-12">Overtime</p>
 
                                         </div>
-
-                                        <div>
-                                            <h5 class="mb-0 font-15">
-                                                {{convertToHourMinuteFormat(totalAttendanceDetails.totalWorkedHours)}}
-                                            </h5>
-                                            <p class="mb-0 font-12">Worked</p>
+                                        <div class="text-end d-flex align-items-center gap-2">
+                                            <span class="total-worked">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="108" height="32"
+                                                    viewBox="0 0 108 32" fill="none">
+                                                    <path d="M0 30.5039H107.75" stroke="#AFAFAF" stroke-width="1.36538"
+                                                        stroke-dasharray="4.1 4.1" />
+                                                    <path
+                                                        d="M22.4334 11.6206C18.959 15.6204 13.2953 19.3171 10.3945 20.9145V30.2017H97.2362V21.8797L88.9641 4.54834C88.0301 2.59149 85.2977 2.45136 84.1685 4.3024L75.8006 18.0186L64.9912 12.066L56.0139 19.4665L45.3877 16.2489L34.3951 18.0186L27.1188 11.156C25.804 9.91593 23.6186 10.2562 22.4334 11.6206Z"
+                                                        fill="url(#paint0_linear_5195_1562)" />
+                                                    <path
+                                                        d="M10.3945 20.9145C13.4618 19.2254 19.6181 15.1892 23.009 10.9294C23.8532 9.86882 25.4784 9.60887 26.4645 10.5389L33.6609 17.3261C34.1238 17.7627 34.7634 17.9593 35.3916 17.8582L44.9211 16.3241C45.2282 16.2746 45.5425 16.2958 45.8401 16.3859L54.9641 19.1486C55.6199 19.3472 56.3316 19.2047 56.8604 18.7688L63.9184 12.9504C64.566 12.4165 65.4739 12.3318 66.2091 12.7367L74.0846 17.0736C75.0444 17.6022 76.2502 17.2816 76.8209 16.3462L84.8246 3.2268C85.6716 1.83852 87.7209 1.94361 88.4214 3.41125L97.2362 21.8797"
+                                                        stroke="#3AB37E" stroke-width="2.04808"
+                                                        stroke-linecap="round" />
+                                                    <defs>
+                                                        <linearGradient id="paint0_linear_5195_1562" x1="53.8154"
+                                                            y1="7.5138" x2="53.8154" y2="30.2017"
+                                                            gradientUnits="userSpaceOnUse">
+                                                            <stop stop-color="#3AB37E" />
+                                                            <stop offset="1" stop-color="#D9D9D9" stop-opacity="0" />
+                                                        </linearGradient>
+                                                    </defs>
+                                                </svg>
+                                            </span>
+                                            <div>
+                                                <h5 class="mb-0 font-15">
+                                                    {{convertToHourMinuteFormat(totalAttendanceDetails.totalWorkedHours)}}
+                                                </h5>
+                                                <p class="mb-0 font-12">Worked</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -391,7 +413,7 @@
                                                 </defs>
                                             </svg>
 
-                                            <img src="assets/images/hajiri-icon.svg" style="width: 25px; height: 25px;"
+                                            <img src="assets/images/hajiri-icon.svg" style="width: 50px; height: 50px;"
                                                 *ngIf="item.attendanceSource == 'DASHBOARD'">
 
 
@@ -399,8 +421,7 @@
 
                                         </td>
                                         <td class="text-left">
-                                            <div class="team-maneger mb-0 table-font-weight schedule"
-                                                *ngIf="item.shiftInTime">
+                                            <div class="team-maneger mb-0 table-font-weight schedule" *ngIf="item.shiftInTime">
                                                 <h5 class="mb-0 font-12"> {{item.shiftInTime | date:'shortTime'}} -
                                                     {{item.shiftOutTime | date:'shortTime'}} <span
                                                         class="lat">({{convertToHourMinuteFormat(item.totalWorkingHour)}})</span>
@@ -447,16 +468,20 @@
                                                 {{convertToHourMinuteFormat(item.totalWorkedHour)}}</span>
                                         </td>
                                         <td class="text-left">
-                                            <span class="team-manager mb-0 table-font-weight" [ngClass]="{
+                                            <span
+                                            class="team-manager mb-0 table-font-weight"
+                                            [ngClass]="{
                                               'text-danger': checkTimeNegative(item.workingHourDifference),
                                               'text-success': !checkTimeNegative(item.workingHourDifference)
                                             }" *ngIf="item.workingHourDifference && (item.currentStatus == 'out')">
-                                                {{ convertToHourMinuteFormatNegativeCase(item.workingHourDifference) }}
-                                            </span>
-                                            <span class="team-manager mb-0 table-font-weight"
-                                                *ngIf="(item.currentStatus != 'out')">
-                                                --
-                                            </span>
+                                            {{ convertToHourMinuteFormatNegativeCase(item.workingHourDifference) }}
+                                          </span>
+                                          <span
+                                            class="team-manager mb-0 table-font-weight"
+                                            *ngIf="(item.currentStatus != 'out')"
+                                           >
+                                            --
+                                          </span>
 
                                         </td>
 
@@ -513,7 +538,7 @@
                                                 6:00 pm &nbsp; <span class="text-danger font-12">Early out</span>
                                             </span>
                                         </td>
-        
+
                                         <td class="text-center">
                                             <span class="team-maneger mb-0 table-font-weight"> 1</span>
                                         </td>
@@ -521,7 +546,7 @@
                                             <span class="team-maneger text-center mb-0 table-font-weight">
                                                 1 hr 30 min</span>
                                         </td>
-        
+
                                         <td class="text-left">
                                             <span class="team-maneger text-center mb-0 table-font-weight">
                                                 5 hr 30 min</span>
@@ -1081,10 +1106,10 @@
                                 </svg>
                             </span>
                         </div>
-    
+
                         <div class="d-flex align-items-center justify-content-end gap-3 w-50">
-    
-    
+
+
                             <div class="btn-group week-data radio-btn" role="group" aria-label="Basic radio toggle button group">
                                 <input type="radio" class="btn-check">
                                 <label class="btn btn-outline-secondary font-12">30 DAYS</label>
@@ -1097,22 +1122,22 @@
                                 <input type="radio" class="btn-check">
                                 <label class="btn btn-outline-secondary font-12">Week 4</label>
                             </div>
-    
+
                             <nz-select class="request-dropdown" nzSize="large" nzPlaceHolder="New Request" required>
                                 <nz-option [nzValue]="'Attendance update'" [nzLabel]="'Attendance update'"></nz-option>
                                 <nz-option [nzValue]="'Overtime'" [nzLabel]="'Overtime'"></nz-option>
                                 <nz-option [nzValue]="'Lop reversal'" [nzLabel]="'Lop reversal'"></nz-option>
                             </nz-select>
-    
+
                         </div>
                     </div> -->
 
 
                     <!-- <div class="table-responsive bg-white mt-3">
-    
-    
-    
-    
+
+
+
+
                         <table class="table empOnnoardtable">
                             <thead class="thead-light">
                                 <tr>
@@ -1151,7 +1176,7 @@
                                     </th>
                                 </tr>
                             </thead>
-    
+
                             <tbody class="">
                                 <tr class="">
                                     <td class="text-left stickyColTh">
@@ -1172,14 +1197,14 @@
                                                 <h6 class="mb-0">07:00 PM</h6>
                                                 <p class="mb-0">Out</p>
                                             </div>
-    
+
                                         </div>
                                     </td>
                                 <td class="text-left stickyColThend">
                                     <div class="position-relative request-btn">
                                         <div class="d-flex align-items-center gap-2">
                                             <button class="btn p-0 Pending-btn text-primary font-13 "> 1 Request </button>
-    
+
                                             <span class="edit-action-btn">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="15" viewBox="0 0 22 15" fill="none">
                                                     <path
@@ -1188,12 +1213,12 @@
                                                 </svg>
                                             </span>
                                         </div>
-    
-    
+
+
                                         <span class="request-loge p-3">
                                             <div class="d-flex align-items-center justify-content-between">
                                                 <h5>Request</h5>
-    
+
                                                 <div>
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                                                         <mask id="mask0_5429_4311" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
@@ -1212,7 +1237,7 @@
                                                 <div class=" mt-2 d-flex align-items-center justify-content-between">
                                                     <div>
                                                         <div class="d-flex align-items-center gap-2">
-    
+
                                                             <div>
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14"
                                                                     fill="none">
@@ -1228,12 +1253,12 @@
                                                                 </svg>
                                                             </div>
                                                             <h6 class="font-13">Request</h6>
-    
+
                                                         </div>
                                                         <h5 class="mb-2 mt-1 font-16">Attendance Update</h5>
                                                         <p class="mb-0 font-13">12/10/24</p>
                                                     </div>
-    
+
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="15" viewBox="0 0 22 15" fill="none">
                                                         <path
                                                             d="M11 12C12.25 12 13.3125 11.5625 14.1875 10.6875C15.0625 9.8125 15.5 8.75 15.5 7.5C15.5 6.25 15.0625 5.1875 14.1875 4.3125C13.3125 3.4375 12.25 3 11 3C9.75 3 8.6875 3.4375 7.8125 4.3125C6.9375 5.1875 6.5 6.25 6.5 7.5C6.5 8.75 6.9375 9.8125 7.8125 10.6875C8.6875 11.5625 9.75 12 11 12ZM11 10.2C10.25 10.2 9.6125 9.9375 9.0875 9.4125C8.5625 8.8875 8.3 8.25 8.3 7.5C8.3 6.75 8.5625 6.1125 9.0875 5.5875C9.6125 5.0625 10.25 4.8 11 4.8C11.75 4.8 12.3875 5.0625 12.9125 5.5875C13.4375 6.1125 13.7 6.75 13.7 7.5C13.7 8.25 13.4375 8.8875 12.9125 9.4125C12.3875 9.9375 11.75 10.2 11 10.2ZM11 15C8.56667 15 6.35 14.3208 4.35 12.9625C2.35 11.6042 0.9 9.78333 0 7.5C0.9 5.21667 2.35 3.39583 4.35 2.0375C6.35 0.679167 8.56667 0 11 0C13.4333 0 15.65 0.679167 17.65 2.0375C19.65 3.39583 21.1 5.21667 22 7.5C21.1 9.78333 19.65 11.6042 17.65 12.9625C15.65 14.3208 13.4333 15 11 15ZM11 13C12.8833 13 14.6125 12.5042 16.1875 11.5125C17.7625 10.5208 18.9667 9.18333 19.8 7.5C18.9667 5.81667 17.7625 4.47917 16.1875 3.4875C14.6125 2.49583 12.8833 2 11 2C9.11667 2 7.3875 2.49583 5.8125 3.4875C4.2375 4.47917 3.03333 5.81667 2.2 7.5C3.03333 9.18333 4.2375 10.5208 5.8125 11.5125C7.3875 12.5042 9.11667 13 11 13Z"
@@ -1242,10 +1267,10 @@
                                                 </div>
                                             </div>
                                         </span>
-    
+
                                     </div>
                                 </td>
-    
+
                                 </tr>
                                 <tr class="">
                                     <td class="text-left stickyColTh">
@@ -1270,7 +1295,7 @@
                                             <h6 class="mb-0">Overtime</h6>
                                             <p class="mb-0">Hour: 2hr</p>
                                         </div>
-    
+
                                     </div>
                                     </td>
                                     <td class="text-left stickyColThend">
@@ -1285,7 +1310,7 @@
                                             </span>
                                         </div>
                                     </td>
-    
+
                                 </tr>
                                 <tr class="">
                                     <td class="text-left stickyColTh">
@@ -1306,13 +1331,13 @@
                                                 <h6 class="mb-0">System Out</h6>
                                                 <p class="mb-0">08:00 PM</p>
                                             </div>
-    
+
                                         </div>
                                     </td>
                                     <td class="text-left stickyColThend">
                                         <div class="d-flex align-items-center gap-2 position-relative">
                                             <button class="btn p-0 Pending-btn text-primary font-13 request-btn"> 1 Request </button>
-    
+
                                             <span class="edit-action-btn">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="15" viewBox="0 0 22 15" fill="none">
                                                     <path
@@ -1320,12 +1345,12 @@
                                                         fill="#1C1B1F" />
                                                 </svg>
                                             </span>
-    
-    
-    
+
+
+
                                         </div>
                                     </td>
-    
+
                                 </tr>
                                 <tr class="">
                                     <td class="text-left stickyColTh">
@@ -1346,13 +1371,13 @@
                                                 <h6 class="mb-0">System Out</h6>
                                                 <p class="mb-0">08:00 PM</p>
                                             </div>
-    
+
                                         </div>
                                     </td>
                                     <td class="text-left stickyColThend">
                                         <div class="d-flex align-items-center gap-2 position-relative">
                                             <button class="btn p-0 Pending-btn text-primary font-13 request-btn"> 1 Request </button>
-    
+
                                             <span class="edit-action-btn">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="15" viewBox="0 0 22 15" fill="none">
                                                     <path
@@ -1360,266 +1385,227 @@
                                                         fill="#1C1B1F" />
                                                 </svg>
                                             </span>
-    
-    
-    
+
+
+
                                         </div>
                                     </td>
-    
+
                                 </tr>
-    
-    
+
+
                             </tbody>
                         </table>
-    
-    
+
+
                     </div>
-    
-    
+
+
                     <h1>vis-timeline</h1>
                     <div #timeline></div> -->
 
 
-
                     <div class="obboard-employee-list">
-                        <div class="onboard-add row align-items-center mx-0">
-                            <div class="col-md-12 p-0">
-                                <div class="row justify-content-between align-items-center mx-0">
-                                    <div class="col-lg-12 col-md-12 col-sm-12 ps-0">
-                                        <div class="d-flex justify-content-start align-items-center">
-                                            <!-- Leave Type Filter -->
-                                            <div class="dropdown empFilerDropfilter">
-                                                <button type="button" id="leaveTypeDropdown" data-bs-toggle="dropdown"
-                                                    aria-expanded="false"
-                                                    class="btn btn-secondary dropdown-toggle new-deopdown">
-                                                    {{ selectedLeaveType }} <i class="bi bi-chevron-down"></i>
-                                                </button>
-                                                <ul class="dropdown-menu" aria-labelledby="leaveTypeDropdown">
-                                                    <li *ngFor="let type of leaveTypes">
-                                                        <a class="dropdown-item" (click)="updateLeaveType(type)"
-                                                            [class.active]="selectedLeaveType === type">
-                                                            {{ type }}
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
+                      <div class="onboard-add row align-items-center mx-0">
+                          <div class="col-md-12 p-0">
+                              <div class="row justify-content-between align-items-center mx-0">
+                                  <div class="col-lg-12 col-md-12 col-sm-12 ps-0">
+                                      <div class="d-flex justify-content-start align-items-center">
+                                          <!-- Leave Type Filter -->
+                                          <div class="dropdown empFilerDropfilter">
+                                              <button type="button" id="leaveTypeDropdown" data-bs-toggle="dropdown"
+                                                  aria-expanded="false"
+                                                  class="btn btn-secondary dropdown-toggle new-deopdown">
+                                                  {{ attendanceType }} <i class="bi bi-chevron-down"></i>
+                                              </button>
+                                              <ul class="dropdown-menu" aria-labelledby="leaveTypeDropdown">
+                                                  <li *ngFor="let type of attendanceTypeFilter">
+                                                      <a class="dropdown-item"
+                                                          (click)="updateAttendanceTypeFilter(type)"
+                                                          [class.active]="attendanceType === type">
+                                                          {{ type }}
+                                                      </a>
+                                                  </li>
+                                              </ul>
+                                          </div>
 
-                                            <!-- Status Filter -->
-                                            <div class="dropdown empFilerDropfilter">
-                                                <button type="button" id="statusDropdown" data-bs-toggle="dropdown"
-                                                    aria-expanded="false"
-                                                    class="btn btn-secondary dropdown-toggle new-deopdown">
-                                                    {{ selectedStatus }} <i class="bi bi-chevron-down"></i>
-                                                </button>
-                                                <ul class="dropdown-menu" aria-labelledby="statusDropdown">
-                                                    <li *ngFor="let status of statuses">
-                                                        <a class="dropdown-item" (click)="updateStatus(status)"
-                                                            [class.active]="selectedStatus === status">
-                                                            {{ status }}
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
+                                          <!-- Status Filter -->
+                                          <div class="dropdown empFilerDropfilter">
+                                              <button type="button" id="statusDropdown" data-bs-toggle="dropdown"
+                                                  aria-expanded="false"
+                                                  class="btn btn-secondary dropdown-toggle new-deopdown">
+                                                  {{ attendanceStatus }} <i class="bi bi-chevron-down"></i>
+                                              </button>
+                                              <ul class="dropdown-menu" aria-labelledby="statusDropdown">
+                                                  <li *ngFor="let status of statuses">
+                                                      <a class="dropdown-item"
+                                                          (click)="updateAttendanceStatusFilter(status)"
+                                                          [class.active]="attendanceStatus === status">
+                                                          {{ status }}
+                                                      </a>
+                                                  </li>
+                                              </ul>
+                                          </div>
 
-                                            <!-- Search -->
-                                            <div
-                                                class="onboarding-date d-flex align-items-center justify-content-between position-relative w-100">
-                                                <form novalidate
-                                                    class="searching d-flex align-items-center justify-content-between w-100">
-                                                    <div class="form-group w-100 position-relative">
-                                                        <input type="text" id="searchText" #searchInput
-                                                            [value]="searchQuery"
-                                                            (input)="updateSearch(searchInput.value)"
-                                                            placeholder="Search by name.."
-                                                            class="form-control me-2 ww-100"
-                                                            style="padding: 10px 45px;" />
-
-                                                        <i class="bi bi-search search-icon"></i>
-
-                                                    </div>
-                                                </form>
-
-                                            </div>
-                                            <div>
+                                          <div>
 
 
 
 
 
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="table-responsive bg-white mt-3">
-
-                            <table class="table empOnnoardtable">
-                                <thead class="thead-light">
-                                    <tr>
-
-                                        <th class="text-left font-13" style="width: 10%">Date</th>
-                                        <th class="text-left font-13" style="width: 10%">Type</th>
-                                        <th class="text-left font-13" style="width: 10%">Requested To</th>
-                                        <!-- <th class="text-left font-13" style="width: 10%">Approved by</th> -->
-                                        <th *ngIf="attendanceType === 'CREATE'" class="text-left font-13"
-                                            style="width: 10%">In Time</th>
-                                        <th *ngIf="attendanceType === 'CREATE'" class="text-left font-13"
-                                            style="width: 10%">Out Time</th>
-                                        <th *ngIf="attendanceType === 'UPDATE'" class="text-left font-13"
-                                            style="width: 10%">Old Time</th>
-                                        <th *ngIf="attendanceType === 'UPDATE'" class="text-left font-13"
-                                            style="width: 10%">Updated Time</th>
-                                        <th *ngIf="attendanceType === 'UPDATE'" class="text-left font-13"
-                                            style="width: 10%">Requested For</th>
-                                        <th class="text-left font-13" style="width: 10%">Reason</th>
-                                        <th class="text-left font-13" style="width: 10%">Status</th>
-                                    </tr>
-                                </thead>
-
-                                <tbody *ngIf="isAttendanceLoading">
-                                    <tr *ngFor="let item of [].constructor(7)">
-                                        <td>
-                                            <ngx-shimmer-loading [width]="'100%'"
-                                                [height]="'15px'"></ngx-shimmer-loading>
-                                        </td>
-                                        <td>
-                                            <ngx-shimmer-loading [width]="'100%'"
-                                                [height]="'15px'"></ngx-shimmer-loading>
-                                        </td>
-                                        <td>
-                                            <ngx-shimmer-loading [width]="'100%'"
-                                                [height]="'15px'"></ngx-shimmer-loading>
-                                        </td>
-                                        <td>
-                                            <ngx-shimmer-loading [width]="'100%'"
-                                                [height]="'15px'"></ngx-shimmer-loading>
-                                        </td>
-                                        <td>
-                                            <ngx-shimmer-loading [width]="'100%'"
-                                                [height]="'15px'"></ngx-shimmer-loading>
-                                        </td>
-                                        <td>
-                                            <ngx-shimmer-loading [width]="'100%'"
-                                                [height]="'15px'"></ngx-shimmer-loading>
-                                        </td>
-                                        <td>
-                                            <ngx-shimmer-loading [width]="'100%'"
-                                                [height]="'15px'"></ngx-shimmer-loading>
-                                        </td>
-                                        <!-- <td *ngIf="attendanceType === 'CREATE'">
-                                            <ngx-shimmer-loading [width]="'100%'"
-                                                [height]="'15px'"></ngx-shimmer-loading>
-                                        </td> -->
-                                    </tr>
-                                </tbody>
-
-                                <tbody *ngIf="attendanceRequests.length === 0 && !isAttendanceLoading">
-                                    <tr>
-                                        <td colspan="9">
-                                            <div class="empty-filenew" style="margin-top: 7%; margin-bottom: 7%">
-                                                <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
-                                                    [nzNotFoundContent]="contentTpl">
-                                                    <ng-template #contentTpl>
-                                                        <p class="mb-1 empty-filenew">No data for now</p>
-                                                    </ng-template>
-                                                </nz-empty>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-
-                                <tbody *ngIf="!isAttendanceLoading">
-                                    <tr *ngFor="let item of attendanceRequests">
-                                        <td>
-                                            <span *ngIf="item?.requestType === 'CREATE'">
-                                                {{item?.inRequestTime |
-                                                date:'dd MMM yyyy'}}</span>
-                                            <span *ngIf="item?.requestType === 'UPDATE'">
-                                                {{item?.updatedTime | date:'dd MMM yyyy'}}</span>
-                                            <!-- <p class="mb-0 font-12"> 1 Day </p> -->
-                                        </td>
-                                        <td>
-                                            <span>Attendance {{item?.requestType}}</span>
-                                            <p class="mb-0 font-12"> {{item?.createdDate | date:'dd MMM yyyy'}} </p>
-                                        </td>
-                                        <td>
-                                            <span class="table-font-weight">{{ item.managerName }} </span>
-                                        </td>
-                                        <td>
-                                            <span *ngIf="attendanceType === 'CREATE'"
-                                                class="table-font-weight">{{item?.inRequestTime |
-                                                date:'HH:mm'}}</span>
-                                            <span *ngIf="attendanceType === 'UPDATE'"
-                                                class="table-font-weight">{{item?.oldTime | date:'HH:mm'}}</span>
-                                        </td>
-                                        <td>
-                                            <span *ngIf="attendanceType === 'CREATE'"
-                                                class="table-font-weight">{{item?.outRequestTime |
-                                                date:'HH:mm'}}</span>
-                                            <span *ngIf="attendanceType === 'UPDATE'"
-                                                class="table-font-weight">{{item?.updatedTime |
-                                                date:'HH:mm'}}</span>
-                                        </td>
-                                        <td *ngIf="attendanceType === 'UPDATE'">
-                                            <span class="table-font-weight">{{item?.requestedFor}}</span>
-                                        </td>
-                                        <td>
-                                            <span class="table-font-weight">{{item?.requestReason}}</span>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex align-items-center gap-2">
-                                                <span
-                                                    class="badge rounded-pill badge-soft-warning">{{item?.status}}</span>
-                                                <!-- Delete Button -->
-                                                <button *ngIf="item?.status === 'PENDING'" class="icon-button btn p-0"
-                                                    (click)="deleteAttendanceRequest(item!.id)">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21"
-                                                        viewBox="0 0 21 21" fill="none">
-                                                        <mask id="mask0_6083_5461" style="mask-type:alpha"
-                                                            maskUnits="userSpaceOnUse" x="0" y="0" width="21"
-                                                            height="21">
-                                                            <rect x="0.910156" y="0.910156" width="20" height="20"
-                                                                fill="#D9D9D9" />
-                                                        </mask>
-                                                        <g mask="url(#mask0_6083_5461)">
-                                                            <path
-                                                                d="M6.74353 18.4102C6.2852 18.4102 5.89284 18.247 5.56645 17.9206C5.24006 17.5942 5.07686 17.2018 5.07686 16.7435V5.91016H4.24353V4.24349H8.4102V3.41016H13.4102V4.24349H17.5769V5.91016H16.7435V16.7435C16.7435 17.2018 16.5803 17.5942 16.2539 17.9206C15.9276 18.247 15.5352 18.4102 15.0769 18.4102H6.74353ZM15.0769 5.91016H6.74353V16.7435H15.0769V5.91016ZM8.4102 15.0768H10.0769V7.57682H8.4102V15.0768ZM11.7435 15.0768H13.4102V7.57682H11.7435V15.0768Z"
-                                                                fill="#FF0404" />
-                                                        </g>
-                                                    </svg>
-                                                </button>
-                                            </div>
-                                        </td>
-
-                                    </tr>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
 
 
-                                </tbody>
-                            </table>
-                        </div>
+                  <div class="table-responsive bg-white mt-3">
 
-                        <div class="d-flex align-items-center justify-content-between pagination-box-profile w-100 p-3 bg-white border-top"
-                            *ngIf="pageAttendanceSize<totalAttendanceElements">
-                            <p class="m-0"> Showing {{currentAttendancePage*pageAttendanceSize}} -
-                                {{(currentAttendancePage+1)*pageAttendanceSize}} of {{totalAttendanceElements}} </p>
+                      <table class="table empOnnoardtable">
+                          <thead class="thead-light">
+                              <tr>
 
-                            <ngb-pagination class="pagition-box" [collectionSize]="totalAttendanceElements"
-                                [(page)]="currentAttendancePage" [pageSize]="pageAttendanceSize"
-                                (pageChange)="onAttendancePageChange($event)">
-                            </ngb-pagination>
-                        </div>
+                                  <th class="text-left font-13" style="width: 10%">Date</th>
+                                  <th class="text-left font-13" style="width: 10%">Type</th>
+                                  <th class="text-left font-13" style="width: 10%">Requested To</th>
+                                  <!-- <th class="text-left font-13" style="width: 10%">Approved by</th> -->
+                                  <th *ngIf="attendanceType === 'CREATE'" class="text-left font-13"
+                                      style="width: 10%">In Time</th>
+                                  <th *ngIf="attendanceType === 'CREATE'" class="text-left font-13"
+                                      style="width: 10%">Out Time</th>
+                                  <th *ngIf="attendanceType === 'UPDATE'" class="text-left font-13"
+                                      style="width: 10%">Old Time</th>
+                                  <th *ngIf="attendanceType === 'UPDATE'" class="text-left font-13"
+                                      style="width: 10%">Updated Time</th>
+                                  <th *ngIf="attendanceType === 'UPDATE'" class="text-left font-13"
+                                      style="width: 10%">Requested For</th>
+                                  <th class="text-left font-13" style="width: 10%">Reason</th>
+                                  <th class="text-left font-13" style="width: 10%">Status</th>
+                              </tr>
+                          </thead>
+
+                          <tbody *ngIf="isAttendanceLoading">
+                              <tr *ngFor="let item of [].constructor(7)">
+                                  <td>
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                  </td>
+                                  <td>
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                  </td>
+                                  <td>
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                  </td>
+                                  <td>
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                  </td>
+                                  <td>
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                  </td>
+                                  <td>
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                  </td>
+                                  <td>
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                  </td>
+                                  <td *ngIf="attendanceType === 'CREATE'">
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                  </td>
+                              </tr>
+                          </tbody>
+
+                          <tbody *ngIf="attendanceRequests.length === 0 && !isAttendanceLoading">
+                              <tr>
+                                  <td colspan="9">
+                                      <div class="empty-filenew" style="margin-top: 7%; margin-bottom: 7%">
+                                          <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                              [nzNotFoundContent]="contentTpl">
+                                              <ng-template #contentTpl>
+                                                  <p class="mb-1 empty-filenew">No data for now</p>
+                                              </ng-template>
+                                          </nz-empty>
+                                      </div>
+                                  </td>
+                              </tr>
+                          </tbody>
+
+                          <tbody *ngIf="!isAttendanceLoading">
+                              <tr *ngFor="let item of attendanceRequests">
+                                  <td>
+                                      <span *ngIf="item?.requestType === 'CREATE'">{{item?.inRequestTime | date:'dd
+                                          MMM yyyy'}}</span>
+                                      <span *ngIf="item?.requestType === 'UPDATE'">{{item?.updatedTime | date:'dd MMM
+                                          yyyy'}}</span>
+                                      <!-- <p class="mb-0 font-12"> 1 Day </p> -->
+                                  </td>
+                                  <td>
+                                      <span>Attendance {{item?.requestType}}</span>
+                                      <p class="mb-0 font-12"> {{item?.createdDate | date:'dd MMM yyyy'}} </p>
+                                  </td>
+                                  <td>
+                                      <span class="table-font-weight">{{ item.managerName }} </span>
+                                  </td>
+                                  <td>
+                                      <span *ngIf="attendanceType === 'CREATE'"
+                                          class="table-font-weight">{{item?.inRequestTime | date:'HH:mm'}}</span>
+                                      <span *ngIf="attendanceType === 'UPDATE'"
+                                          class="table-font-weight">{{item?.oldTime | date:'HH:mm'}}</span>
+                                  </td>
+                                  <td>
+                                      <span *ngIf="attendanceType === 'CREATE'"
+                                          class="table-font-weight">{{item?.outRequestTime | date:'HH:mm'}}</span>
+                                      <span *ngIf="attendanceType === 'UPDATE'"
+                                          class="table-font-weight">{{item?.updatedTime | date:'HH:mm'}}</span>
+                                  </td>
+                                  <td *ngIf="attendanceType === 'UPDATE'">
+                                      <span class="table-font-weight">{{item?.requestedFor}}</span>
+                                  </td>
+                                  <td>
+                                      <span class="table-font-weight">{{item?.requestReason}}</span>
+                                  </td>
+                                  <td>
+                                      <div class="d-flex align-items-center gap-2">
+                                          <span class="badge rounded-pill badge-soft-warning">{{item?.status}}</span>
+                                          <!-- Delete Button -->
+                                          <button *ngIf="item?.status === 'PENDING'" class="icon-button btn p-0"
+                                              (click)="deleteAttendanceRequest(item.id)">
+                                              <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21"
+                                                  viewBox="0 0 21 21" fill="none">
+                                                  <mask id="mask0_6083_5461" style="mask-type:alpha"
+                                                      maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
+                                                      <rect x="0.910156" y="0.910156" width="20" height="20"
+                                                          fill="#D9D9D9" />
+                                                  </mask>
+                                                  <g mask="url(#mask0_6083_5461)">
+                                                      <path
+                                                          d="M6.74353 18.4102C6.2852 18.4102 5.89284 18.247 5.56645 17.9206C5.24006 17.5942 5.07686 17.2018 5.07686 16.7435V5.91016H4.24353V4.24349H8.4102V3.41016H13.4102V4.24349H17.5769V5.91016H16.7435V16.7435C16.7435 17.2018 16.5803 17.5942 16.2539 17.9206C15.9276 18.247 15.5352 18.4102 15.0769 18.4102H6.74353ZM15.0769 5.91016H6.74353V16.7435H15.0769V5.91016ZM8.4102 15.0768H10.0769V7.57682H8.4102V15.0768ZM11.7435 15.0768H13.4102V7.57682H11.7435V15.0768Z"
+                                                          fill="#FF0404" />
+                                                  </g>
+                                              </svg>
+                                          </button>
+                                      </div>
+                                  </td>
+
+                              </tr>
+                              <ngb-pagination *ngIf="pageAttendanceSize<totalAttendanceElements"
+                                  [collectionSize]="totalAttendanceElements" [(page)]="currentAttendancePage"
+                                  [pageSize]="pageAttendanceSize" (pageChange)="onAttendancePageChange($event)">
+
+                              </ngb-pagination>
+
+                          </tbody>
+                      </table>
+                  </div>
 
 
 
-
-                    </div>
-                </div>
-            </div>
+              </div>
+          </div>
 
 
-        </div>
+      </div>
 
 
 
@@ -1964,7 +1950,7 @@
                                                 <div class="">
                                                     <h5 class="mb-0">12th November, 2024</h5>
                                                     <p class="mb-0">Monday</p>
-    
+
                                                 </div>
                                             </div>
                                             <div>
@@ -2043,7 +2029,7 @@
                                                     </nz-select>
                                                 </nz-form-control>
                                             </div>
-    
+
                                         <div class="col-md-6">
                                             <div class="d-flex align-items-center gap-2 checkin-time">
                                                 <p class="mb-0 font-13"> Check-in Time</p>
