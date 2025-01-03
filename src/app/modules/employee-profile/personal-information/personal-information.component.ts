@@ -45,50 +45,50 @@ isFormInvalid: boolean=false;
 
     this.onboardingForm = this.fb.group({
       user: this.fb.group({
-        name: ['', Validators.required],
-        maritalStatus: ['', Validators.required],
-        email: ['', [Validators.required, Validators.email]],
+        name: [''],
+        maritalStatus: [''],
+        email: ['', [Validators.required]],
         joiningDate: [null, Validators.required],
-        phoneNumber: ['', Validators.pattern(/^[0-9]{10}$/)],
+        phoneNumber: [''],
         // currentSalary: [''],
-        gender: ['', Validators.required],
-        department: ['', Validators.required],
-        dateOfBirth: [null, Validators.required],
-        position: ['',[ Validators.required, Validators.minLength(3)]],
-        fatherName: ['', [Validators.required, Validators.minLength(3)]],
-        nationality: ['', [Validators.required, Validators.minLength(3)]],
+        gender: ['', ],
+        department: ['', ],
+        dateOfBirth: [null, ],
+        position: ['',],
+        fatherName: ['', ],
+        nationality: ['',],
       }),
       currentAddress: this.fb.group({
-        addressLine1: ['', Validators.required],
+        addressLine1: ['', ],
         addressLine2: [''],
-        city: ['', Validators.required],
-        state: ['', Validators.required],
-        country: ['', Validators.required],
-        pincode: ['', [Validators.required, Validators.pattern('^[0-9]{6}$')]],
+        city: ['', ],
+        state: ['', ],
+        country: ['', ],
+        pincode: ['', ],
       }),
       permanentAddress: this.fb.group({
-        addressLine1: ['', Validators.required],
+        addressLine1: ['', ],
         addressLine2: [''],
-        city: ['', Validators.required],
-        state: ['', Validators.required],
-        country: ['', Validators.required],
-        pincode: ['', [Validators.required, Validators.pattern('^[0-9]{6}$')]],
+        city: ['', ],
+        state: ['', ],
+        country: ['', ],
+        pincode: ['', ],
       }),
       refrences: this.fb.array([]),
 
       academicDetails: this.fb.group({
-        highestEducationalLevel: ['', Validators.required],
-        degreeObtained: ['', Validators.required],
-        fieldOfStudy: ['', Validators.required],
-        institutionName: ['', Validators.required],
-        grade: ['', Validators.required],
-        graduationYear: ['', Validators.required],
+        highestEducationalLevel: ['', ],
+        degreeObtained: ['', ],
+        fieldOfStudy: ['', ],
+        institutionName: ['', ],
+        grade: ['', ],
+        graduationYear: ['', ],
       }),
       bankDetails: this.fb.group({
-        accountHolderName: ['', Validators.required],
-        bankName: ['', Validators.required],
-        accountNumber: ['',  Validators.required],
-        ifsc: ['', Validators.required],
+        accountHolderName: ['', ],
+        bankName: ['', ],
+        accountNumber: ['',  ],
+        ifsc: ['', ],
       }),
       userExperience: this.fb.array([]),
       userEmergencyContacts: this.fb.array([]),
@@ -183,9 +183,12 @@ isFormInvalid: boolean=false;
     );
   }
 
+  approveLoading: boolean = false;
   approveRequestedData(): void {
+    this.approveLoading = true;
     this.dataService.saveRequestedData(this.userId).subscribe({
       next: (response) => {
+        this.approveLoading = false;
         console.log('Response:', response);
         if (response.success) {
           this.helperService.showToast('Data saved successfully', Key.TOAST_STATUS_SUCCESS);
@@ -196,15 +199,19 @@ isFormInvalid: boolean=false;
         }
       },
       error: (error) => {
+        this.approveLoading = false;
         console.error('Error:', error);
         this.helperService.showToast('An error occurred while saving data', Key.TOAST_STATUS_ERROR);
       },
     });
   }
 
+  rejectLoading: boolean = false;
   rejectData(): void {
+    this.rejectLoading = true;
     this.dataService.rejectRequestedData(this.userId).subscribe(
       (response) => {
+        this.rejectLoading = false;
         if (response.success) {
           this.helperService.showToast('Request rejected successfully', Key.TOAST_STATUS_SUCCESS);
           this.fetchRequestedData();
@@ -213,14 +220,18 @@ isFormInvalid: boolean=false;
         }
       },
       (error) => {
+        this.rejectLoading = false;
         console.error('API Error:', error);
       }
     );
   }
 
+  fieldLoading: boolean = false;
   removeField(key: string, value: any) {
+    this.fieldLoading = true;
     this.dataService.removeKeyValuePair(key, this.userId, value).subscribe({
       next: (response) => {
+        this.fieldLoading = false;
         console.log('Response:', response);
         if (response.success) {
           this.helperService.showToast('Field removed successfully', Key.TOAST_STATUS_SUCCESS);
@@ -232,15 +243,18 @@ isFormInvalid: boolean=false;
         }
       },
       error: (err) => {
+        this.fieldLoading = false;
         console.error('Error:', err);
         alert('An error occurred while removing the field.');
       }
     });
   }
   approveField(key: string, value: any) {
+    this.fieldLoading = true;
     const stringValue = typeof value === 'object' ? JSON.stringify(value) : String(value);
     this.dataService.approveKeyValuePair(key, this.userId, stringValue).subscribe({
       next: (response) => {
+        this.fieldLoading = false;
         console.log('Response:', response);
         if (response.success) {
           this.helperService.showToast('Field approve successfully', Key.TOAST_STATUS_SUCCESS);
@@ -251,6 +265,7 @@ isFormInvalid: boolean=false;
         }
       },
       error: (err) => {
+        this.fieldLoading = false;
         console.error('Error:', err);
         alert('An error occurred while removing the field.');
       }
