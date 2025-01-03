@@ -9,8 +9,7 @@
                     </li>
                     <li class="nav-item">
                         <a id="pills-profile-tab" data-bs-toggle="pill" href="#payment" role="tab"
-                            aria-controls="pills-profile" aria-selected="false" class="nav-link"
-                            >Payment</a>
+                            aria-controls="pills-profile" aria-selected="false" class="nav-link">Payment</a>
                     </li>
                     <li class="nav-item">
                         <a id="pills-profile-tab" data-bs-toggle="pill" href="#pay-slips" role="tab"
@@ -23,9 +22,11 @@
                     <nz-switch [(ngModel)]="financeBlur" [nzControl]="true" (click)="switchFinanceBlur()"></nz-switch>
                 </div>
             </div>
-            <div id="pills-tabContent" class="tab-content" *ngIf="firstTimeLoad"> 
+            <!-- *ngIf="firstTimeLoad" -->
+            <div id="pills-tabContent" class="d-flex align-items-center justify-content-center" *ngIf="firstTimeLoad"
+                style="height: 90svh;">
                 <div class="d-flex align-items-center justify-content-center">
-                    <div class="spinner-border" role="status" >
+                    <div class="spinner-border text-primary" role="status">
                         <span class="visually-hidden">Loading...</span>
                     </div>
                 </div>
@@ -877,12 +878,11 @@
             </div>
             <div id="pills-tabContent" class="tab-content" *ngIf="currentSalaryDetail.annualCTC == 0 && !firstTimeLoad">
                 <div class="empty-file" style="margin-top: 20%; margin-bottom: 20%">
-                <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
-                    [nzNotFoundContent]="contentTpl">
-                    <ng-template #contentTpl>
-                        <p class="mb-1 empty-detail">No data for now</p>
-                    </ng-template>
-                </nz-empty>
+                    <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
+                        <ng-template #contentTpl>
+                            <p class="mb-1 empty-detail">No data for now</p>
+                        </ng-template>
+                    </nz-empty>
                 </div>
             </div>
         </div>
