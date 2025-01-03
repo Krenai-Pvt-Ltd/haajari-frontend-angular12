@@ -541,7 +541,7 @@
                 <ng-template #notificationList>
                     <!-- Actual Notification List -->
                     <div *ngFor="let mail of mailList" class="d-flex align-items-center gap-3 p-3 border-bottom pointer"
-                        [ngClass]="{'unread-mssage': !mail.isRead}">
+                        [ngClass]="{'unread-mssage': !mail.isRead}" (click)="readNotification(mail)">
                         <div style="width:15%">
                             <h6 class="mb-0">{{ mail.title }}</h6>
                         </div>
