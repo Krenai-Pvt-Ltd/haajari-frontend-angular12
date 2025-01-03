@@ -123,7 +123,7 @@
                   </div>
                 </div>
               </div>
-              <div class="errorboxmaintop" style="box-shadow: none; padding: 5px; padding-left: 0px"
+              <!-- <div class="errorboxmaintop" style="box-shadow: none; padding: 5px; padding-left: 0px"
                 *ngIf="dataNotFoundPlaceHolderForLast3PendingUsers">
                 <div class="errorboxinner" style="display: flex; align-items: center; gap: 10px">
                   <div class="errorboxplaceholder">
@@ -133,10 +133,22 @@
                     <h6 style="font-size: 13px; margin-bottom: 0px">
                       No Data Found
                     </h6>
-                    <!-- <p class="mb-0">There's no pending employees!</p> -->
                   </div>
                 </div>
+              </div> -->
+
+
+              <div class="empty-file" style="margin-top: 5%; margin-bottom: 5%"
+                *ngIf="dataNotFoundPlaceHolderForLast3PendingUsers">
+                <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
+                  <ng-template #contentTpl>
+                    <p class="mb-1 empty-detail font-16">No data for now</p>
+                  </ng-template>
+                </nz-empty>
               </div>
+
+
+
             </ng-template>
           </div>
         </div>
@@ -214,7 +226,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="errorboxmaintop" style="box-shadow: none; padding: 5px; padding-left: 0px"
+                  <!-- <div class="errorboxmaintop" style="box-shadow: none; padding: 5px; padding-left: 0px"
                     *ngIf="dataNotFoundPlaceHolderForLastApproved">
                     <div class="errorboxinner" style="display: flex; align-items: center; gap: 10px">
                       <div class="errorboxplaceholder">
@@ -226,6 +238,16 @@
                         </h6>
                       </div>
                     </div>
+                  </div> -->
+
+
+                  <div class="empty-file" style="margin-top: 5%; margin-bottom: 5%"
+                    *ngIf="dataNotFoundPlaceHolderForLastApproved">
+                    <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
+                      <ng-template #contentTpl>
+                        <p class="mb-1 empty-detail font-16">No data for now</p>
+                      </ng-template>
+                    </nz-empty>
                   </div>
                 </ng-template>
               </div>
@@ -301,7 +323,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="errorboxmaintop" style="box-shadow: none; padding: 5px; padding-left: 0px"
+                  <!-- <div class="errorboxmaintop" style="box-shadow: none; padding: 5px; padding-left: 0px"
                     *ngIf="dataNotFoundPlaceHolderForLastRejected">
                     <div class="errorboxinner" style="display: flex; align-items: center; gap: 10px">
                       <div class="errorboxplaceholder">
@@ -311,10 +333,21 @@
                         <h6 style="font-size: 13px; margin-bottom: 0px">
                           No Data Found!
                         </h6>
-                        <!-- <p class="mb-0">There's no rejected employee!</p> -->
                       </div>
                     </div>
+                  </div> -->
+
+
+                  <div class="empty-file" style="margin-top: 5%; margin-bottom: 5%"
+                    *ngIf="dataNotFoundPlaceHolderForLastRejected">
+                    <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
+                      <ng-template #contentTpl>
+                        <p class="mb-1 empty-detail font-16">No data for now</p>
+                      </ng-template>
+                    </nz-empty>
                   </div>
+
+
                 </ng-template>
               </div>
             </div>
