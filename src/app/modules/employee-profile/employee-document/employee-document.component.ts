@@ -64,7 +64,6 @@ export class EmployeeDocumentComponent implements OnInit {
     this.dataService.getDocumentsByUserId(this.userId).subscribe({
       next: (docs) => {
         this.documents = docs;
-        console.log('Documents:', this.documents);
          this.documentLoading = false;
       },
       error: (err) => {
@@ -276,5 +275,11 @@ export class EmployeeDocumentComponent implements OnInit {
         this.onCloseModal();
       });
     }
+  }
+
+  isCompanyDocsExist(){
+    return this.documents.some(
+      doc => doc.documentType === constant.DOC_TYPE_COMPANY || doc.documentType === constant.DOC_TYPE_EMPLOYEE_AGREEMENT
+  );
   }
 }
