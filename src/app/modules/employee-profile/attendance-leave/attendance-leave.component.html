@@ -407,8 +407,14 @@
                                               [ngClass]="{
                                                 'text-danger': checkTimeNegative(item.workingHourDifference),
                                                 'text-success': !checkTimeNegative(item.workingHourDifference)
-                                              }">
+                                              }" *ngIf="item.workingHourDifference && (item.currentStatus == 'out')">
                                               {{ convertToHourMinuteFormatNegativeCase(item.workingHourDifference) }}
+                                            </span>
+                                            <span
+                                              class="team-manager mb-0 table-font-weight"
+                                              *ngIf="(item.currentStatus != 'out')"
+                                             >
+                                              --
                                             </span>
                                           </td>
     
