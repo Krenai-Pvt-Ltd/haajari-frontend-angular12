@@ -453,3 +453,8 @@ i::before {
     width: 30%;
 
 }
+
+.spinner-border {
+    width: 3rem !important;
+    height: 3rem !important;
+}
