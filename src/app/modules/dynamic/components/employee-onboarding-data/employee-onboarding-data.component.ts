@@ -399,13 +399,19 @@ export class EmployeeOnboardingDataComponent implements OnInit {
 
   // Define a new flag
   emailAlreadyExists = false;
-  toggle = false;
-  setEmployeePersonalDetailsMethodCall() {
+  toggle1 = false;
+  toggle2 = false;
+  // inviteLoader: boolean = false;
+  setEmployeePersonalDetailsMethodCall(invite: boolean) {
     // Reset the flag
     debugger
+    if(!invite) {
+      this.toggle1 = true;
+    }else {
+      this.toggle2 = true;
+    }
     this.emailAlreadyExists = false;
-
-    this.toggle = true;
+    
     const userUuid = '';
     this.dataService
       .setEmployeePersonalDetails(
@@ -413,16 +419,19 @@ export class EmployeeOnboardingDataComponent implements OnInit {
         userUuid,
         this.selectedTeamIds,
         this.selectedShift,
-        this.selectedLeaveIds
+        this.selectedLeaveIds,
+        invite
       )
       .subscribe(
         (response: UserPersonalInformationRequest) => {
-          this.toggle = false;
+          this.toggle1 = false;
+          this.toggle2 = false;
 
           // Check if the response indicates the email already exists
           if (response.statusResponse === 'existed') {
             this.emailAlreadyExists = true; // Set the flag to display the error message
-            this.toggle = false;
+            this.toggle1 = false;
+            this.toggle2 = false;
           } else {
             this.clearForm();
             this.closeModal();
@@ -432,14 +441,23 @@ export class EmployeeOnboardingDataComponent implements OnInit {
           this.selectedTeams = [];
           this.selectedShift = 0;
           this.getUsersByFiltersFunction();
+          
+          if(invite) {
+            this.helperService.showToast(
+              'Member added and invited successfully.',
+              Key.TOAST_STATUS_SUCCESS
+            );
+        } else {
           this.helperService.showToast(
-            'Email sent successfully.',
+            'Member added successfully.',
             Key.TOAST_STATUS_SUCCESS
           );
+        }
         },
         (error) => {
           console.error(error);
-          this.toggle = false;
+          this.toggle1 = false;
+          this.toggle2 = false;
           this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
         }
       );
