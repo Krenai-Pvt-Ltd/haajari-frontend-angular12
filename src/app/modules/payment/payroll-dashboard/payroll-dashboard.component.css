@@ -19,6 +19,7 @@
 
 .invoice-head {
   border-bottom: none;
+  border: 1px solid #f1f1f1;
 }
 
 .invoice-head .contact-detail li {

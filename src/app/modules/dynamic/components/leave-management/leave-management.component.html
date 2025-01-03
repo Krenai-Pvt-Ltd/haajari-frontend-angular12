@@ -1,9 +1,8 @@
 <div class="page-wrapper">
   <div class="page-content-tab">
-    <div class="container-fluid">
-      <div class="row"></div>
+    <div class="container-fluid mt-4">
 
-      <div class="row p-2 mt-3">
+      <div class="row">
         <div class="col-md-4">
           <div class="chart-box">
             <h4 class="mb-2">Weekly Leave Pattern</h4>
@@ -12,7 +11,7 @@
               [gradient]="gradient" [xAxis]="true" [yAxis]="true" [legend]="false"
               [animations]="true"></ngx-charts-bar-vertical-stacked>
 
-          
+
           </div>
         </div>
         <div class="col-md-4">
@@ -71,7 +70,7 @@
           </div>
         </div>
       </div>
-      <div class="row p-2 mt-3">
+      <div class="row mt-3">
         <div class="col-md-6">
           <div class="my-leave-log">
             <div
@@ -87,7 +86,8 @@
                 <a class="nav-link active" data-bs-toggle="tab" href="#home" role="tab" aria-selected="true">Pending
                   Leave
                 </a>
-                <span class="request-count d-flex align-items-center justify-content-center" *ngIf="totalCountOfPendingCounts > 0">{{ totalCountOfPendingCounts }}</span>
+                <span class="request-count d-flex align-items-center justify-content-center"
+                  *ngIf="totalCountOfPendingCounts > 0">{{ totalCountOfPendingCounts }}</span>
               </li>
               <li class="nav-item" (click)="activeTabs('attendance')">
                 <a class="nav-link" data-bs-toggle="tab" href="#attendance" role="tab" aria-selected="true">Leaves
@@ -409,7 +409,9 @@
                         </h6>
                       </div>
                       <p class="text-muted mb-0">{{ fullLogList.notes }}</p>
-                      <p class="text-danger mb-0" *ngIf="fullLogList.rejectionReason != null && fullLogList.rejectionReason != ''">Reason: {{ fullLogList.rejectionReason }} </p>
+                      <p class="text-danger mb-0"
+                        *ngIf="fullLogList.rejectionReason != null && fullLogList.rejectionReason != ''">Reason: {{
+                        fullLogList.rejectionReason }} </p>
                     </div>
                     <!-- <a class="text-primary" *ngIf="fullLogList.docFileLink != null"
                       (click)="downloadSingleImage(fullLogList.docFileLink)">
@@ -453,113 +455,113 @@
     <div class="modal-dialog modal-dialog-centered" style="max-width: 570px" role="document">
       <div class="modal-content">
         <div class="modal-body p-4">
-          <button type="button" class="leave-request-modat-close-btn" (click)="rejectLeaveModalClose()" data-bs-dismiss="modal" aria-label="Close"
-            #closeModal>
+          <button type="button" class="leave-request-modat-close-btn" (click)="rejectLeaveModalClose()"
+            data-bs-dismiss="modal" aria-label="Close" #closeModal>
             <i class="bi bi-x" style="line-height: 20px"></i>
           </button>
-         
-         <div *ngIf="!rejectLeaveToggle">
-          <div class="text-center leave-appervo-modal" *ngIf="specificLeaveRequest">
-            <div class="d-flex align-items-start justify-content-between">
-              <div class="d-flex align-items-center profile-details" style="gap: 15px">
-                <div class="profile-user-img">
-                  <img [src]="
+
+          <div *ngIf="!rejectLeaveToggle">
+            <div class="text-center leave-appervo-modal" *ngIf="specificLeaveRequest">
+              <div class="d-flex align-items-start justify-content-between">
+                <div class="d-flex align-items-center profile-details" style="gap: 15px">
+                  <div class="profile-user-img">
+                    <img [src]="
                       specificLeaveRequest.image || 'assets/images/user.png'
                     " style="width: 50px; height: 50px; object-fit: cover" />
-                </div>
+                  </div>
 
-                <div>
-                  <h4 style="cursor: pointer" (click)="
+                  <div>
+                    <h4 style="cursor: pointer" (click)="
                       routeToUserProfileAfterClosePending(
                         specificLeaveRequest.uuid
                       )
                     ">
-                    {{ specificLeaveRequest.name }}
-                  </h4>
-                  <p>{{ specificLeaveRequest.email }}</p>
+                      {{ specificLeaveRequest.name }}
+                    </h4>
+                    <p>{{ specificLeaveRequest.email }}</p>
+                  </div>
+                </div>
+                <div class="total-holidey-live">
+                  <h5>
+                    {{
+                    specificLeaveRequest.startDate
+                    | date : "dd MMM yyyy" || "N/A"
+                    }}
+                    -
+                    {{
+                    specificLeaveRequest.endDate | date : "dd MMM yyyy" || "N/A"
+                    }}
+                  </h5>
+                  <p>
+                    {{ specificLeaveRequest.leaveType }} (
+                    {{ specificLeaveRequest.totalDays }} Days )
+                  </p>
+                  <p>
+                    {{
+                    specificLeaveRequest.leaveDate
+                    | date : "dd MMM yyyy hh:mm:ss a"
+                    }}
+                  </p>
+                  <p>Applied To : {{ specificLeaveRequest.managerName }}</p>
+
+                  <div *ngIf="specificLeaveRequest.attachment != null" class="text-end">
+                    <a [href]="specificLeaveRequest.attachment" target="_blank" rel="noopener noreferrer"
+                      style="font-size: 13px;">View Attachment <i class="fas fa-external-link-square-alt me-1"></i> </a>
+                  </div>
+
                 </div>
               </div>
-              <div class="total-holidey-live">
-                <h5>
-                  {{
-                  specificLeaveRequest.startDate
-                  | date : "dd MMM yyyy" || "N/A"
-                  }}
-                  -
-                  {{
-                  specificLeaveRequest.endDate | date : "dd MMM yyyy" || "N/A"
-                  }}
-                </h5>
-                <p>
-                  {{ specificLeaveRequest.leaveType }} (
-                  {{ specificLeaveRequest.totalDays }} Days )
-                </p>
-                <p>
-                  {{
-                  specificLeaveRequest.leaveDate
-                  | date : "dd MMM yyyy hh:mm:ss a"
-                  }}
-                </p>
-                <p>Applied To : {{ specificLeaveRequest.managerName }}</p>
-
-                <div *ngIf="specificLeaveRequest.attachment != null" class="text-end">
-                  <a [href]="specificLeaveRequest.attachment" target="_blank" rel="noopener noreferrer"
-                    style="font-size: 13px;">View Attachment <i class="fas fa-external-link-square-alt me-1"></i> </a>
-                </div>
-
-              </div>
-            </div>
-            <div class="mt-4">
-              <div class="d-flex align-items-center">
-                <div class="Approved rejected-css">
-                  <p class="mb-0" style="color: black"></p>
-                  <span style="
+              <div class="mt-4">
+                <div class="d-flex align-items-center">
+                  <div class="Approved rejected-css">
+                    <p class="mb-0" style="color: black"></p>
+                    <span style="
                       color: #9196a4 !important;
                       text-align: left;
                       font-size: 14px;
                       font-weight: 400;
                     " class="total-holiday">{{ specificLeaveRequest.leaveType }}</span>
+                  </div>
+                  <div class="Approved">
+                    <p class="mb-0">{{ specificLeaveRequest.approved }}</p>
+                    <span class="total-holiday">Approved</span>
+                  </div>
+                  <div class="Approved pending-css">
+                    <p class="mb-0">{{ specificLeaveRequest.applied }}</p>
+                    <span class="total-holiday">Pending</span>
+                  </div>
+                  <div class="Approved remaining-css">
+                    <p class="mb-0">{{ specificLeaveRequest.remainingQuota }}</p>
+                    <span class="total-holiday">Remaining</span>
+                  </div>
                 </div>
-                <div class="Approved">
-                  <p class="mb-0">{{ specificLeaveRequest.approved }}</p>
-                  <span class="total-holiday">Approved</span>
-                </div>
-                <div class="Approved pending-css">
-                  <p class="mb-0">{{ specificLeaveRequest.applied }}</p>
-                  <span class="total-holiday">Pending</span>
-                </div>
-                <div class="Approved remaining-css">
-                  <p class="mb-0">{{ specificLeaveRequest.remainingQuota }}</p>
-                  <span class="total-holiday">Remaining</span>
-                </div>
-              </div>
 
-              <p class="mt-4 mb-4">{{ specificLeaveRequest.notes }}</p>
-              <div class="mb-3" style="text-align: left">
-                <a *ngIf="specificLeaveRequest.docFileLink != null" [href]="specificLeaveRequest.docFileLink"
-                  target="_blank" rel="noopener noreferrer">
-                  Declaration <i class="bi bi-arrow-down"></i>
-                </a>
+                <p class="mt-4 mb-4">{{ specificLeaveRequest.notes }}</p>
+                <div class="mb-3" style="text-align: left">
+                  <a *ngIf="specificLeaveRequest.docFileLink != null" [href]="specificLeaveRequest.docFileLink"
+                    target="_blank" rel="noopener noreferrer">
+                    Declaration <i class="bi bi-arrow-down"></i>
+                  </a>
 
-              </div>
-              <div class="d-flex align-items-center justify-content-end" style="gap: 10px" *ngIf="
+                </div>
+                <div class="d-flex align-items-center justify-content-end" style="gap: 10px" *ngIf="
                   specificLeaveRequest.managerUuid === logInUserUuid ||
                   ROLE == 'ADMIN'
                 ">
-                <!-- Approve Button -->
-                <button class="btn approve-btn" type="button"
-                  (click)="approveOrDeny(specificLeaveRequest.id, 'approved')">
-                  <div *ngIf="approvedLoader; else approveLabel">
-                    <div class="dot-opacity-loader">
-                      <span></span>
-                      <span></span>
-                      <span></span>
+                  <!-- Approve Button -->
+                  <button class="btn approve-btn" type="button"
+                    (click)="approveOrDeny(specificLeaveRequest.id, 'approved')">
+                    <div *ngIf="approvedLoader; else approveLabel">
+                      <div class="dot-opacity-loader">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                      </div>
                     </div>
-                  </div>
-                  <ng-template #approveLabel>Approve</ng-template>
-                </button>
-                <!-- Reject Button -->
-                <!-- <button class="btn reject-btn" type="button"
+                    <ng-template #approveLabel>Approve</ng-template>
+                  </button>
+                  <!-- Reject Button -->
+                  <!-- <button class="btn reject-btn" type="button"
                   (click)="approveOrDeny(specificLeaveRequest.id, 'rejected')">
                   <div *ngIf="rejecetdLoader; else rejectLabel">
                     <div class="dot-opacity-loader">
@@ -571,49 +573,48 @@
                   <ng-template #rejectLabel>Reject</ng-template>
                 </button> -->
 
-                <button class="btn reject-btn" type="button"
-                  (click)="rejectLeave()">
-                  <div *ngIf="rejecetdLoader; else rejectLabel">
-                    <div class="dot-opacity-loader">
-                      <span></span>
-                      <span></span>
-                      <span></span>
+                  <button class="btn reject-btn" type="button" (click)="rejectLeave()">
+                    <div *ngIf="rejecetdLoader; else rejectLabel">
+                      <div class="dot-opacity-loader">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                      </div>
                     </div>
+                    <ng-template #rejectLabel>Reject</ng-template>
+                  </button>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="rejectLeaveToggle">
+            <div>
+              <label for="" class="mb-3">Rejection Reason</label>
+              <textarea class="nots-section" name="inputReason" id="reason" [(ngModel)]="rejectionReason"></textarea>
+            </div>
+
+            <div class="d-flex align-items-center justify-content-end gap-2 mt-3">
+
+              <button type="button" class="btn btn-warning" (click)="rejectLeave()" aria-label="Close">Close</button>
+
+              <button class="btn reject-btn" type="button" [disabled]="rejectionReason == ''"
+                (click)="approveOrDeny(specificLeaveRequest.id, 'rejected')">
+                <div *ngIf="rejecetdLoader; else rejectLabel">
+                  <div class="dot-opacity-loader">
+                    <span></span>
+                    <span></span>
+                    <span></span>
                   </div>
-                  <ng-template #rejectLabel>Reject</ng-template>
-                </button>
+                </div>
+                <ng-template #rejectLabel>Submit</ng-template>
+              </button>
 
-              </div>
             </div>
           </div>
-         </div>
 
-         <div *ngIf="rejectLeaveToggle">
-          <div>
-            <label for="" class="mb-3">Rejection Reason</label>
-           <textarea class="nots-section" name="inputReason" id="reason" [(ngModel)]="rejectionReason"></textarea>
-          </div>
-
-           <div class="d-flex align-items-center justify-content-end gap-2 mt-3">
-
-            <button type="button" class="btn btn-warning" (click)="rejectLeave()" aria-label="Close">Close</button>
-
-            <button class="btn reject-btn" type="button" [disabled]="rejectionReason == ''"
-            (click)="approveOrDeny(specificLeaveRequest.id, 'rejected')">
-            <div *ngIf="rejecetdLoader; else rejectLabel">
-              <div class="dot-opacity-loader">
-                <span></span>
-                <span></span>
-                <span></span>
-              </div>
-            </div>
-            <ng-template #rejectLabel>Submit</ng-template>
-          </button>
-
-          </div>
-        </div>
-
-    <!-- </div> -->
+          <!-- </div> -->
 
         </div>
       </div>

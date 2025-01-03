@@ -1,7 +1,7 @@
 <div class="page-wrapper">
   <div class="page-content-tab">
     <div class="container-fluid">
-      <div class="row leave-management-settings p-3 mt-2 align-items-center" *ngIf="isMainPlaceholder">
+      <div class="row leave-management-settings p-3 mt-4 align-items-center" *ngIf="isMainPlaceholder">
         <div class="col-md-6">
           <div class="leave-management-detail pt-5 pb-5">
             <h3 class="mb-3">
@@ -15,8 +15,6 @@
               tracking.
             </p>
 
-            <!-- <button class="btn add-leave-btn mt-4 mb-2">Add New Members</button> -->
-
             <div class="d-flex align-items-center gap-3">
               <button class="btn add-leave-btn mt-4 mb-2" type="button" (click)="validateDuesInvoice('add')">
                 <i class="bi bi-plus-lg"></i> Add New Members
@@ -26,23 +24,6 @@
               </button>
             </div>
             <hr />
-            <!-- <span class="mb-0">
-              By signing, you are creating
-              <a href="#!">
-                Learn more about it
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
-                  <mask id="mask0_4244_1588" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20"
-                    height="21">
-                    <rect y="0.546875" width="20" height="20" fill="#6666F2" />
-                  </mask>
-                  <g mask="url(#mask0_4244_1588)">
-                    <path
-                      d="M4.50016 17.2148L3.3335 16.0482L13.0002 6.38151H7.50016V4.71484H15.8335V13.0482H14.1668V7.54818L4.50016 17.2148Z"
-                      fill="#6666F2" />
-                  </g>
-                </svg>
-              </a>
-            </span> -->
           </div>
         </div>
         <div class="col-md-6">
@@ -53,7 +34,7 @@
       </div>
 
 
-      <div class="row mt-3" *ngIf="isShowPendingVerificationTab && !isMainPlaceholder">
+      <div class="row mt-4" *ngIf="isShowPendingVerificationTab && !isMainPlaceholder">
         <div class="col-md-7">
           <div class="on-leave-section">
             <h5>Latest Joining - Pending Verification</h5>
@@ -106,9 +87,9 @@
                     !dataNotFoundPlaceHolderForLast3PendingUsers;
                   else errorInFetchinglast3PendingUserData
                 ">
-                <div class="d-flex align-items-center mt-4" style="gap: 10px">
+                <div class="d-flex align-items-center mt-4 gap-2">
                   <div class="on-leave" *ngFor="let statusUsers of employeeStatus.last3PendingUsers">
-                    <div class="d-flex align-items-center" style="gap: 10px">
+                    <div class="d-flex align-items-center gap-2">
                       <div class="">
                         <span *ngIf="statusUsers?.image !== null">
                           <img src="{{ statusUsers?.image }}" class="rounded-circle thumb-xl" />
@@ -192,7 +173,7 @@
                       else errorInFetchingLastApprovedUserData
                     ">
                     <div class="on-leaves mt-4">
-                      <div class="d-flex align-items-center j" style="gap: 10px">
+                      <div class="d-flex align-items-center gap-2">
                         <div class="">
                           <span *ngIf="
                               employeeStatus!.lastApprovedUser?.image !== null
@@ -222,7 +203,7 @@
                 <ng-template #errorInFetchingLastApprovedUserData>
                   <div class="errorboxmaintop" style="box-shadow: none; padding: 5px; padding-left: 0px"
                     *ngIf="networkConnectionErrorPlaceHolder">
-                    <div class="errorboxinner" style="display: flex; align-items: center; gap: 10px">
+                    <div class="errorboxinner d-flex align-items-center gap-2">
                       <div class="errorboxplaceholder mb-2">
                         <img src="assets/images/signal.svg" style="width: 50px" />
                       </div>
@@ -230,7 +211,6 @@
                         <h6 style="font-size: 13px; margin-bottom: 0px">
                           Something went wrong!
                         </h6>
-                        <!-- <p class="mb-0">An error occurred while processing your request. Please refresh the page and try again.</p> -->
                       </div>
                     </div>
                   </div>
@@ -244,7 +224,6 @@
                         <h6 style="font-size: 13px; margin-bottom: 0px">
                           No Data Found!
                         </h6>
-                        <!-- <p class="mb-0">There's no approved employee!</p> -->
                       </div>
                     </div>
                   </div>
@@ -343,7 +322,7 @@
         </div>
       </div>
 
-      <div class="row mt-3" *ngIf="!isMainPlaceholder">
+      <div class="row mt-4" *ngIf="!isMainPlaceholder">
 
         <div class="col-md-12">
           <ul id="pills-tab" role="tablist" class="nav nav-pills d-none">
@@ -369,7 +348,7 @@
           </ul>
 
           <div id="pills-tabContent" class="tab-content">
-            <div class="tab-pane active show pt-3" id="employeeList" role="tabpanel" aria-labelledby="employee-tab">
+            <div class="tab-pane active show" id="employeeList" role="tabpanel" aria-labelledby="employee-tab">
               <div>
                 <div class="row" *ngIf="!isMainPlaceholder">
                   <div class="col-md-3">
@@ -731,7 +710,7 @@
               </div>
             </div>
             <div class="tab-pane fade" id="editRequest" role="tabpanel" aria-labelledby="editrequest-tab">
-              <div class="col-md-12 mt-3">
+              <div class="col-md-12">
                 <div class="table-responsive bg-white">
                   <table class="table empOnnoardtable">
                     <!-- <thead class="thead-light table-design"> -->
@@ -2245,7 +2224,7 @@
                         </p>
                       </div>
                     </td>
-                  <!-- <td>
+                    <!-- <td>
                     <div class="d-flex justify-content-center gap-3">
                       <div class="form-check form-switch">
                         <input
@@ -2281,23 +2260,20 @@
                 </tbody>
               </table>
               <div class="d-flex align-items-center justify-content-between">
-              <div class="d-flex align-items-center gap-3 mt-3">
+                <div class="d-flex align-items-center gap-3 mt-3">
                   <label class="m-0 d-flex align-items-center gap-2 justify-content-center">
                     <input type="checkbox" [(ngModel)]="enableEmailNotification" />
-                     Email 
+                    Email
                   </label>
                   <label class="m-0 d-flex align-items-center gap-2 justify-content-center">
                     <input type="checkbox" [(ngModel)]="enableWhatsAppNotification" />
-                     WhatsApp 
+                    WhatsApp
                   </label>
                 </div>
                 <div class="d-flex align-items-center gap-3 mt-3">
-                  <button
-                    type="button"
-                    class="btn btn-primary"
+                  <button type="button" class="btn btn-primary"
                     [disabled]="(!this.enableEmailNotification && !this.enableWhatsAppNotification)"
-                    (click)="sendNotifications()"
-                  >
+                    (click)="sendNotifications()">
                     <span *ngIf="!loadingFlag">Send Notification</span>
                     <div class="dot-opacity-loader" *ngIf="loadingFlag">
                       <span></span>
@@ -2305,13 +2281,9 @@
                       <span></span>
                     </div>
                   </button>
-                
-                  <button
-                    type="button"
-                    class="btn btn-primary"
-                    style="background-color: white; color: black;"
-                    (click)="closeNotificationModal()"
-                  >
+
+                  <button type="button" class="btn btn-primary" style="background-color: white; color: black;"
+                    (click)="closeNotificationModal()">
                     <span *ngIf="!closeNotificationModalFlag">Skip Notification</span>
                     <div class="dot-opacity-loader" *ngIf="closeNotificationModalFlag">
                       <span></span>
@@ -2319,9 +2291,9 @@
                       <span></span>
                     </div>
                   </button>
-                
+
+                </div>
               </div>
-            </div>
 
 
 

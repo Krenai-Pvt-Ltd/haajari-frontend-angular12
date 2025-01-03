@@ -620,7 +620,7 @@
     width: 150px !important;
     height: 38px !important;
     border-radius: 2px;
-    border: 1px solid #DCDCE4 !important;
+    border: 1px solid #d9d9d9 !important;
 }
 
 .border-right {
@@ -667,7 +667,7 @@
 }
 
 .roles-list.status-list {
-    height: 285px;
+    height: 287px;
     overflow: scroll;
 }
 
