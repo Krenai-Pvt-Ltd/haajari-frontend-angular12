@@ -1649,6 +1649,7 @@ selectedRequest: string = '';
       // Optionally reset common fields if needed
       this.attendanceTimeUpdateForm.get('managerId')?.reset();
       this.attendanceTimeUpdateForm.get('requestReason')?.reset();
+      // this.attendanceTimeUpdateForm.get('attendanceRequestType')?.setValue('UPDATE');
     }
   
   
