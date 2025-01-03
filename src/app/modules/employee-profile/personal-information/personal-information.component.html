@@ -27,11 +27,27 @@
               <div class="d-flex align-items-center justify-content-between border-bottom p-3">
                 <h5 class="mb-0">Update Request</h5>
                 <div class="d-flex align-items-center gap-2">
-                  <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
+                  <!-- <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
                   <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER && fieldLoading'"
                     (click)="removeField('name', requestedData.user.name)">Delete</button>
                   <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER' && fieldLoading"
-                    (click)="approveField('name', requestedData.user.name)">Approve</button>
+                    (click)="approveField('name', requestedData.user.name)">Approve</button> -->
+
+                  <div class="d-flex align-items-center gap-2">
+                    <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
+                    <div
+                      class="icon-info-activity bg-soft-danger pointer d-flex align-items-center justify-content-center"
+                      *ngIf="rbacService.userInfo.role != 'USER && fieldLoading'"
+                      (click)="removeField('name', requestedData.user.name)">
+                      <i class="ti ti-x"></i>
+                    </div>
+                    <div
+                      class="icon-info-activity bg-soft-success pointer d-flex align-items-center justify-content-center"
+                      *ngIf="rbacService.userInfo.role != 'USER' && fieldLoading"
+                      (click)="approveField('name', requestedData.user.name)">
+                      <i class="ti ti-checks "></i>
+                    </div>
+                  </div>
                 </div>
 
               </div>
@@ -62,11 +78,11 @@
                   <div class="updaaate-log pb-3">
                     <div>
                       <p class="mb-1 font-14">Updated</p>
-                      <h5 class="mb-0">{{requestedData?.user?.name}}</h5>
+                      <h5 class="mb-0 font-15">{{requestedData?.user?.name}}</h5>
                     </div>
                     <div class="mt-3">
                       <p class="mb-1 font-14">Current </p>
-                      <h5 class="mb-0">{{user.name}}</h5>
+                      <h5 class="mb-0 font-15">{{user.name}}</h5>
                     </div>
                   </div>
 
@@ -99,14 +115,30 @@
               </svg>
             </span>
             <ng-template #contentTemplate>
-              <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+              <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
                 (click)="removeField('position', requestedData.user.position)">Delete</button>
               <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
-                (click)="approveField('position', requestedData.user.position)">Approve</button>
+                (click)="approveField('position', requestedData.user.position)">Approve</button> -->
               <div class="request-g">
                 <div class="d-flex align-items-center justify-content-between border-bottom p-3">
                   <h5 class="mb-0">Update Request</h5>
-                  <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
+                  <!-- <span class="badge rounded-pill badge-soft-warning"> PENDING </span> -->
+
+                  <div class="d-flex align-items-center gap-2">
+                    <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
+                    <div
+                      class="icon-info-activity bg-soft-danger pointer d-flex align-items-center justify-content-center"
+                      *ngIf="rbacService.userInfo.role != 'USER'"
+                      (click)="removeField('position', requestedData.user.position)">
+                      <i class="ti ti-x"></i>
+                    </div>
+                    <div
+                      class="icon-info-activity bg-soft-success pointer d-flex align-items-center justify-content-center"
+                      *ngIf="rbacService.userInfo.role != 'USER'"
+                      (click)="approveField('position', requestedData.user.position)">
+                      <i class="ti ti-checks "></i>
+                    </div>
+                  </div>
                 </div>
 
                 <div class="p-3 pt-4 pb-4">
@@ -135,11 +167,11 @@
                     <div class="updaaate-log pb-3">
                       <div>
                         <p class="mb-1 font-14">Updated</p>
-                        <h5 class="mb-0">{{requestedData?.user?.position}}</h5>
+                        <h5 class="mb-0 font-15">{{requestedData?.user?.position}}</h5>
                       </div>
                       <div class="mt-3">
                         <p class="mb-1 font-14">Current </p>
-                        <h5 class="mb-0">{{user.position}}</h5>
+                        <h5 class="mb-0 font-15">{{user.position}}</h5>
                       </div>
                     </div>
 
@@ -172,14 +204,30 @@
               </svg>
             </span>
             <ng-template #contentTemplate>
-              <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+              <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
                 (click)="removeField('department', requestedData.user.department)">Delete</button>
               <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
-                (click)="approveField('department', requestedData.user.department)">Approve</button>
+                (click)="approveField('department', requestedData.user.department)">Approve</button> -->
               <div class="request-g">
                 <div class="d-flex align-items-center justify-content-between border-bottom p-3">
                   <h5 class="mb-0">Update Request</h5>
-                  <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
+                  <!-- <span class="badge rounded-pill badge-soft-warning"> PENDING </span> -->
+
+                  <div class="d-flex align-items-center gap-2">
+                    <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
+                    <div
+                      class="icon-info-activity bg-soft-danger pointer d-flex align-items-center justify-content-center"
+                      *ngIf="rbacService.userInfo.role != 'USER'"
+                      (click)="removeField('department', requestedData.user.department)">
+                      <i class="ti ti-x"></i>
+                    </div>
+                    <div
+                      class="icon-info-activity bg-soft-success pointer d-flex align-items-center justify-content-center"
+                      *ngIf="rbacService.userInfo.role != 'USER'"
+                      (click)="approveField('department', requestedData.user.department)">
+                      <i class="ti ti-checks "></i>
+                    </div>
+                  </div>
                 </div>
 
                 <div class="p-3 pt-4 pb-4">
@@ -208,11 +256,11 @@
                     <div class="updaaate-log pb-3">
                       <div>
                         <p class="mb-1 font-14">Updated</p>
-                        <h5 class="mb-0">{{requestedData?.user?.department}}</h5>
+                        <h5 class="mb-0 font-15">{{requestedData?.user?.department}}</h5>
                       </div>
                       <div class="mt-3">
                         <p class="mb-1 font-14">Current </p>
-                        <h5 class="mb-0">{{user.department}}</h5>
+                        <h5 class="mb-0 font-15">{{user.department}}</h5>
                       </div>
                     </div>
 
@@ -315,7 +363,7 @@
           <div class="row">
             <div class="col-md-3">
               <div class="profile-imformation mb-3">
-                <p class="mb-1">Email Address</p>
+                <p class="mb-1"></p>
                 <div class="d-flex align-items-center gap-2">
                   <h6 class="profile-email mb-0">{{ user.email || '--'}}</h6>
                   <span *ngIf=" requestedData && requestedData?.user?.email"
@@ -374,7 +422,7 @@
                                     fill="#CF7800" />
                                 </g>
                               </svg>
-                              Email Address
+
                             </h6>
                             <!-- <p class="mb-0 fw-semibold">{{item.createdDate | date:'dd-MM-yyyy'}}</p> -->
                           </div>
@@ -2924,7 +2972,7 @@
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
                 <input formControlName="email" type="text" class="form__field"
                   [(ngModel)]="this.onboardingPreviewDataCopy.user.email" />
-                <label class="form__label">Email Address</label>
+                <label class="form__label"></label>
               </div>
 
 
@@ -3180,7 +3228,7 @@
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
                 <input type="text" formControlName="emailId" class="form__field" />
-                <label class="form__label">Email Address</label>
+                <label class="form__label"></label>
               </div>
               <div
                 *ngIf="(reference.get('emailId')?.touched || isFormInvalid) && reference.get('emailId')?.hasError('required')"
@@ -3190,7 +3238,7 @@
               <div
                 *ngIf="(reference.get('emailId')?.touched || isFormInvalid) && reference.get('emailId')?.hasError('email')"
                 class="error-text">
-                Please enter a valid email address.
+                Please enter a valid .
               </div>
             </div>
             <div class="d-flex"
