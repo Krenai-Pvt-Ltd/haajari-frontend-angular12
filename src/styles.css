@@ -772,14 +772,14 @@ actionMenuList .dropdown-item i {
 
 ::ng-deep .placeholder-lines .ant-select-selection-item {
   line-height: 35px !important;
-  font-size: 13px !important;
+  font-size: 14px !important;
   font-weight: 400 !important;
   color: #000;
 }
 
 ::ng-deep .placeholder-lines .ant-select-selection-placeholder {
   line-height: 35px !important;
-  font-size: 13px !important;
+  font-size: 14px !important;
   font-weight: 400 !important;
   color: #000;
 }
