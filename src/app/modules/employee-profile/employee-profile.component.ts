@@ -13,10 +13,10 @@ import { HelperService } from 'src/app/services/helper.service';
 export class EmployeeProfileComponent implements OnInit {
 
   constructor(private roleService: RoleBasedAccessControlService, private dataService: DataService,
-    private activateRoute: ActivatedRoute,private _helperService: HelperService
+    private activateRoute: ActivatedRoute, private _helperService: HelperService
   ) {
 
-   }
+  }
 
   ngOnInit(): void {
     this.getUuid();
@@ -25,7 +25,7 @@ export class EmployeeProfileComponent implements OnInit {
   activeTab: string = 'attendance-leave';
 
   setActiveTab(tab: string) {
-      this.activeTab = tab;
+    this.activeTab = tab;
   }
 
   isEmployeeExit: boolean = false;
@@ -33,7 +33,7 @@ export class EmployeeProfileComponent implements OnInit {
   currentUserUuid: any
   userId: any
 
-  public async getUuid(){
+  public async getUuid() {
     this.UUID = await this.roleService.getUuid();
     this.currentUserUuid = await this.roleService.getUuid();
 
@@ -56,7 +56,7 @@ export class EmployeeProfileComponent implements OnInit {
     this.dataService.getEmployeeProfile(this.UUID).subscribe((response) => {
       // console.log(response.object);
       this.employeeProfileResponseData = response.object;
-      if(this.employeeProfileResponseData.resignationStatus != null && this.employeeProfileResponseData.resignationStatus  == 43){
+      if (this.employeeProfileResponseData.resignationStatus != null && this.employeeProfileResponseData.resignationStatus == 43) {
         this.isEmployeeExit = true;
         this.resignationDate = this.employeeProfileResponseData.approvedDate;
       }
@@ -64,7 +64,7 @@ export class EmployeeProfileComponent implements OnInit {
       this.isLoading = false;
 
     }, (error) => {
-        //  console.log(error);
+      //  console.log(error);
     })
   }
 
@@ -73,14 +73,14 @@ export class EmployeeProfileComponent implements OnInit {
     this.dataService.getEmployeeProfile(this.userId).subscribe((response) => {
 
       this.employeeProfileResponseData = response.object;
-      if(this.employeeProfileResponseData.joiningDate!=null){
+      if (this.employeeProfileResponseData.joiningDate != null) {
         this._helperService.userJoiningDate = this.employeeProfileResponseData.joiningDate;
       }
-  })
+    })
   }
 
   @ViewChild('notificationBtn') notificationBtn!: ElementRef;
-  public clickViewAll(){
+  public clickViewAll() {
     debugger
     if (this.notificationBtn) {
       this.notificationBtn.nativeElement.click();
@@ -90,7 +90,7 @@ export class EmployeeProfileComponent implements OnInit {
 
 
   @ViewChild('profileBtn') profileBtn!: ElementRef;
-  public clickOnProfileTab(){
+  public clickOnProfileTab() {
     if (this.profileBtn) {
       this.profileBtn.nativeElement.click();
     }

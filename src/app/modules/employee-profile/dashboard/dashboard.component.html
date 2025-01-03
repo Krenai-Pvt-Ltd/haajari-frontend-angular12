@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-md-4">
             <!-- attendance-report -->
-            <div class="attendance-report p-3" style="height: 571px;">
+            <div class="attendance-report p-3" style="height: 573px;">
                 <h5 class="font-14 border-bottom pb-3">Attendance Report</h5>
                 <div class="mb-4">
                     <!-- <img src="assets/images/week-attendance-report.svg" style="width:100%"> -->
@@ -89,7 +89,8 @@
                         </div>
 
                         <div class="empty-file d-flex align-items-center justify-content-center"
-                            style="margin-top: 8%; margin-bottom: 8%" *ngIf="mailList.length == 0 && !isLoadingTeamMembers">
+                            style="margin-top: 8%; margin-bottom: 8%"
+                            *ngIf="mailList.length == 0 && !isLoadingTeamMembers">
                             <p class="mb-1 empty-detail">No data for now</p>
                         </div>
                     </div>
@@ -125,6 +126,12 @@
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
+
+                                    <div class="empty-file d-flex align-items-center justify-content-center bg-soft-info"
+                                        style="padding-top: 8%; padding-bottom: 8%; height: 149px;"
+                                        *ngIf="holidays.length ==0">
+                                        <p class="mb-1 empty-detail">No Holidays for Now</p>
                                     </div>
 
                                     <!-- Carousel controls -->
@@ -226,7 +233,8 @@
                                     </div>
 
                                     <h5 class="mb-0 font-13">Team </h5>
-                                    <div class="img-group d-flex mt-3" *ngIf="!isLoadingTeamMembers  && images.length > 0">
+                                    <div class="img-group d-flex mt-3"
+                                        *ngIf="!isLoadingTeamMembers  && images.length > 0">
                                         <a class="user-avatar " *ngFor="let t of images; let i = index"
                                             [ngClass]="{'ms-n3': i > 0}">
                                             <span class="members-name" *ngIf="!t?.image">{{t?.name?.charAt(0)|
@@ -261,7 +269,9 @@
                             <div class="col-md-7">
                                 <div class="status-tracker p-3">
                                     <h5 class="mb-0 font-13">Status Tracker</h5>
-                                    <div class="roles-list status-list mt-3" *ngIf="!isLoadingTeamMembers && teamMembers!.length>0" (scroll)="onScroll($event)">
+                                    <div class="roles-list status-list mt-3"
+                                        *ngIf="!isLoadingTeamMembers && teamMembers!.length>0"
+                                        (scroll)="onScroll($event)">
                                         <div *ngFor="let member of teamMembers"
                                             class="d-flex align-items-center justify-content-between">
                                             <div class="d-flex align-items-center gap-2 mb-3">
@@ -311,7 +321,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="empty-file" style="margin-top: 25%; margin-bottom: 25%"
+                                    <div class="empty-file" style="margin-top: 19%; margin-bottom: 19%"
                                         *ngIf="teamMembers.length == 0 && !isLoadingTeamMembers">
                                         <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
                                             [nzNotFoundContent]="contentTpl">
@@ -935,7 +945,7 @@
             </div>
         </div>
         <div class="col-md-5">
-            <div class="p-3 attendance-report">
+            <div class="p-3 attendance-report birthday-anniversaries">
                 <div>
                     <ul id="pills-tab" role="tablist" class="nav nav-pills">
                         <li class="nav-item">
@@ -978,6 +988,22 @@
                                     </span>
                                 </div>
                             </div>
+
+                            <div class="d-flex align-items-center justify-content-center"
+                                *ngIf="usersWithUpcomingBirthdays?.length === 0 || usersWithUpcomingBirthdays == undefined">
+                                <div class="empty-file" style="margin-top: 9%; margin-bottom: 9%">
+                                    <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                        [nzNotFoundContent]="contentTpl">
+                                        <ng-template #contentTpl>
+                                            <p class="mb-1 empty-detail">No data for now</p>
+                                        </ng-template>
+                                    </nz-empty>
+                                </div>
+                            </div>
+
+
+
+
                         </div>
 
                         <div class="tab-pane fade pt-3" id="workAnniversaries" role="tabpanel"
@@ -1005,6 +1031,18 @@
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+
+                            <div class="d-flex align-items-center justify-content-center"
+                                *ngIf="anniversaries?.length === 0 || anniversaries == undefined">
+                                <div class="empty-file" style="margin-top: 9%; margin-bottom: 9%">
+                                    <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                        [nzNotFoundContent]="contentTpl">
+                                        <ng-template #contentTpl>
+                                            <p class="mb-1 empty-detail">No data for now</p>
+                                        </ng-template>
+                                    </nz-empty>
                                 </div>
                             </div>
                         </div>

@@ -97,7 +97,7 @@ export class DashboardComponent implements OnInit {
     this.getTeamNames();
     // this.loadMoreData();
     this.fetchAttendanceSummary();
-    this.loadHolidays();
+    // this.loadHolidays();
     this.getTeamsWithManagerInfo();
     this.getTotalTeamMembers();
     // this.startCarousel();
@@ -707,11 +707,11 @@ export class DashboardComponent implements OnInit {
   getTeamsWithManagerInfo(): void {
     this.dataService.getTeamsWithManagerInfo(this.userId).subscribe({
       next: (response: any) => {
-        this.isLoadingTeamMembers=false;
+        this.isLoadingTeamMembers = false;
         this.teamManagerInfo = response.listOfObject;
       },
       error: (error) => {
-        this.isLoadingTeamMembers=false;
+        this.isLoadingTeamMembers = false;
         console.error('Failed to fetch holidays', error);
       },
     });
