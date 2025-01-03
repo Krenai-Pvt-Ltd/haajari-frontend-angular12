@@ -675,6 +675,10 @@
     display: none;
 }
 
+.birthday-anniversaries {
+    height: 418px;
+}
+
 .role-list-fix {
     max-height: 210px;
     overflow-y: auto;
