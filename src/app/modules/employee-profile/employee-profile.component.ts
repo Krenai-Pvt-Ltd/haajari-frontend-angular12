@@ -12,7 +12,7 @@ import { HelperService } from 'src/app/services/helper.service';
 })
 export class EmployeeProfileComponent implements OnInit {
 
-  constructor(private roleService: RoleBasedAccessControlService, private dataService: DataService,
+  constructor(public roleService: RoleBasedAccessControlService, private dataService: DataService,
     private activateRoute: ActivatedRoute, private _helperService: HelperService
   ) {
 

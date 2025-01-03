@@ -25,6 +25,7 @@ export class EpmployeeFinanceComponent implements OnInit {
   userUuid: string = '';
   financeBlur: boolean = true;
   isLoading: boolean = false;
+  firstTimeLoad:boolean=true;
 
   constructor(private _dataService: DataService,
     public _helperService: HelperService,
@@ -39,13 +40,21 @@ export class EpmployeeFinanceComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.getFirstAndLastDateOfMonth();
-    this.getEmployeeBankDetail();
-    this.getEmployeeStatutory();
+    this.getCurrentSalaryDetail();
+  
+
   }
 
   ngAfterViewInit() {
 
+  }
+
+
+  callAllInitialMethod(){
+    this.getFirstAndLastDateOfMonth();
+    this.getEmployeeBankDetail();
+    this.getEmployeeStatutory();
+    this.getEmployeeSalaryRevision(); 
   }
 
   callInitialMethod() {
@@ -327,9 +336,15 @@ export class EpmployeeFinanceComponent implements OnInit {
     this._salaryService.getCurrentSalaryDetail(this.userUuid).subscribe((response) => {
       if (response.status) {
         this.currentSalaryDetail = response.object;
+        if( this.currentSalaryDetail ==null){
+          this.currentSalaryDetail = new CurrentSalaryDetail();
+        }else{
+          this.callAllInitialMethod();
+        }
       } else {
         this.currentSalaryDetail = new CurrentSalaryDetail();
       }
+      this.firstTimeLoad = false;
     }, (error) => {
 
     })
