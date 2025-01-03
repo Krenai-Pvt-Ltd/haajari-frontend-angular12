@@ -27,9 +27,6 @@
                 *ngIf="attendanceUpdateCount > 0">{{ attendanceUpdateCount }}</span>
             </li>
           </ul>
-
-
-
           <ng-container *ngIf="ACTIVE_TAB == ATTENDANCE_TAB; else attendanceSectionOtherTabCondition">
             <div class="d-flex align-items-center attendance-date position-relative" style="top: -7px">
               <span class="d-flex align-items-center justify-content-center pointer calendar-back-btn"
@@ -106,29 +103,15 @@
               </span>
             </div>
           </ng-template>
-
-
-
-
-
         </div>
       </div>
 
       <div id="pills-tabContent" class="tab-content">
-        <div class="row" *ngIf="ACTIVE_TAB == ATTENDANCE_TAB">
-
-
+        <div *ngIf="ACTIVE_TAB == ATTENDANCE_TAB">
           <div class="attendance-sheet mt-4">
             <div class="row">
               <div class="col-md-6 d-flex align-items-center justify-content-end">
                 <div class="all-approved">
-                  <!-- <p class="mb-0">
-                    <i
-                      class="bi bi-check-circle-fill"
-                      style="padding-right: 5px"
-                    ></i>
-                    All Approved
-                  </p> -->
                 </div>
               </div>
             </div>
@@ -193,12 +176,8 @@
                     </div>
                   </div>
                   <div class="searchbr-ui " style="width:70%;" id="attendanceDataTopbar">
-                    <form
-                      novalidate=""
-                      role="search"
-                      (submit)="searchUsers($event)"
-                      class="searching ng-untouched ng-pristine ng-valid"
-                    >
+                    <form novalidate="" role="search" (submit)="searchUsers($event)"
+                      class="searching ng-untouched ng-pristine ng-valid">
                       <div class="form-group" style="position: relative">
                         <input type="text" id="searchText" placeholder="Search by name and role"
                           class="form-control me-2 ng-untouched ng-pristine ng-valid attendance-details-search"
@@ -213,11 +192,12 @@
                     </form>
                   </div>
                   <div class="d-flex align-items-center justify-content-end w-100" style="padding-right:10px;">
-                    <button class="btn p-0 text-primary fw-semibold" type="button" data-bs-toggle="modal" data-bs-target="#sampleFileModal">
-                    <i class="bi bi-upload"></i> Upload Members
-                  </button>
-                </div>
-                  
+                    <button class="btn p-0 text-primary fw-semibold" type="button" data-bs-toggle="modal"
+                      data-bs-target="#sampleFileModal">
+                      <i class="bi bi-upload"></i> Upload Members
+                    </button>
+                  </div>
+
                 </div>
                 <!-- <div class="col-md-3">
                 
