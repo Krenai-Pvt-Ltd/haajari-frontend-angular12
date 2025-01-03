@@ -195,6 +195,9 @@
                 </div>
               </div>
             </div>
+            <ng-container *ngIf="!isCompanyDocsExist() && ROLE=='USER'">
+              No documents found
+            </ng-container>
             <ng-container *ngFor="let doc of documents">
               <div class="col-md-3" *ngIf="doc.documentType==constant.DOC_TYPE_COMPANY || doc.documentType==constant.DOC_TYPE_EMPLOYEE_AGREEMENT">
                 <div class="employee-doc-file file-svg p-2">
