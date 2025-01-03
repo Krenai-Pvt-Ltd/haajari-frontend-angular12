@@ -29,19 +29,17 @@ export class EmployeeProfileComponent implements OnInit {
   }
 
   isEmployeeExit: boolean = false;
-  UUID: any
-  currentUserUuid: any
-  userId: any
+  UUID: string=''
+  currentUserUuid: string='';
+  userId: string='';
 
   public async getUuid() {
     this.UUID = await this.roleService.getUuid();
-    this.currentUserUuid = await this.roleService.getUuid();
+    // this.currentUserUuid = await this.roleService.getUuid();
 
     if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
-      this.userId = this.activateRoute.snapshot.queryParamMap.get('userId');
+      this.userId = String(this.activateRoute.snapshot.queryParamMap.get('userId'));
     }
-
-
     this.getEmployeeProfileData();
     this.getUserJoiningDataByUserId();
   }
