@@ -1,7 +1,7 @@
 <div class="page-wrapper">
   <div class="page-content-tab">
 
-    <div class="d-flex align-items-center justify-content-between border-bottom">
+    <div class="d-flex align-items-center justify-content-between border-bottom ml-2" style="margin-right: 10px;">
 
       <ul *ngIf="ROLE == 'ADMIN'" id="myTab" role="tablist" class="nav nav-tabs mt-3 " style="border:none;">
         <li role="presentation" class="nav-item d-flex align-items-center">
@@ -22,7 +22,7 @@
       </ul>
 
 
-      <div class="d-flex align-items-center gap-3" style="margin-right: 15px;" *ngIf="activeTab === 'allExpense'">
+      <div class="d-flex align-items-center gap-3 mr-3" *ngIf="activeTab === 'allExpense'">
         <button class="btn p-0 primaryBtnLink d-flex align-items-center gap-2" data-bs-toggle="modal"
           data-bs-target="#sampleFileModal">
           <i class="bi bi-upload"></i>

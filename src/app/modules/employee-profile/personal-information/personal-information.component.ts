@@ -175,6 +175,13 @@ isFormInvalid: boolean=false;
       (address.addressLine1 || address.addressLine2 || address.city || address.pincode)
     );
   }
+  get hasValidAddress1(): boolean {
+    const address = this.requestedData?.userAddress?.[1];
+    return !!(
+      address &&
+      (address.addressLine1 || address.addressLine2 || address.city || address.pincode)
+    );
+  }
 
   approveRequestedData(): void {
     this.dataService.saveRequestedData(this.userId).subscribe({
@@ -182,6 +189,8 @@ isFormInvalid: boolean=false;
         console.log('Response:', response);
         if (response.success) {
           this.helperService.showToast('Data saved successfully', Key.TOAST_STATUS_SUCCESS);
+          this.getOnboardingFormPreviewMethodCall();
+          this.fetchRequestedData();
         } else {
           this.helperService.showToast('Failed to save data', Key.TOAST_STATUS_ERROR);
         }
@@ -191,6 +200,22 @@ isFormInvalid: boolean=false;
         this.helperService.showToast('An error occurred while saving data', Key.TOAST_STATUS_ERROR);
       },
     });
+  }
+
+  rejectData(): void {
+    this.dataService.rejectRequestedData(this.userId).subscribe(
+      (response) => {
+        if (response.success) {
+          this.helperService.showToast('Request rejected successfully', Key.TOAST_STATUS_SUCCESS);
+          this.fetchRequestedData();
+        } else {
+          this.helperService.showToast('Failed to reject request', Key.TOAST_STATUS_ERROR);
+        }
+      },
+      (error) => {
+        console.error('API Error:', error);
+      }
+    );
   }
 
   removeField(key: string, value: any) {

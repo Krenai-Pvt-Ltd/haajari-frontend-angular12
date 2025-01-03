@@ -327,11 +327,9 @@
         </div> -->
 
 
-        <div class="mb-3 mt-4 d-flex align-items-center justify-content-between slill-set">
+        <div *ngIf="documents.length>0" class="mb-3 mt-4 d-flex align-items-center justify-content-between slill-set">
             <h5 class="mb-0">EMPLOYEE AGREEMENT</h5>
-            <button type="button" class="btn p-0 text-primary font-13 " data-bs-toggle="modal"
-                data-bs-target="#addDocument">
-                <i class="bi bi-plus"></i> Add Agreement </button>
+
         </div>
         <div *ngFor="let doc of documents"
             class="d-flex align-items-center justify-content-between employee-agreenment p-2 mb-2">

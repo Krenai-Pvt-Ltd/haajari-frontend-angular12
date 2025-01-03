@@ -15,6 +15,7 @@
   font-size: 16px;
   font-weight: 500;
 }
+
 .employee-report-deta h5 {
   font-size: 15px;
 }
@@ -51,9 +52,9 @@
 
 .employee-reports {
   background-color: #fff;
-  padding: 15px;
   border-radius: 6px;
 }
+
 .report-download {
   min-height: 100vh;
   position: sticky;
@@ -66,10 +67,11 @@
   /* box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05); */
 }
 
-.pl-3{
+.pl-3 {
   padding-left: 15px;
 }
-.pr-3{
+
+.pr-3 {
   padding-right: 15px;
 }
 
@@ -136,9 +138,11 @@
   text-align: center;
   background-color: #fff;
 }
+
 .errorboxmain {
   padding: 30px;
 }
+
 .heading {
   color: #000;
   margin-bottom: 20px;
@@ -152,6 +156,7 @@
 .report-main-div:first-child {
   margin-top: 0px;
 }
+
 .downloadlog {
   margin-top: 15px;
   margin-bottom: 5px;
@@ -165,6 +170,7 @@
   list-style: none;
   margin-bottom: 0px;
 }
+
 .download-icon ul li {
   display: inline-block;
   color: #6666f3;
@@ -382,6 +388,7 @@ span.members-name {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
@@ -399,6 +406,7 @@ span.members-name {
 .errorboxmain {
   padding: 30px;
 }
+
 .errorboxmain {
   min-height: 30vh;
   display: flex;
@@ -427,7 +435,8 @@ span.members-name {
   font-weight: 500;
   width: 100px;
 }
-.submitActionBtn{
+
+.submitActionBtn {
   background-color: var(--primary-background-color);
   color: #fff;
   font-size: 12px;

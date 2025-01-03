@@ -1,45 +1,39 @@
 <div class="page-wrapper">
-    <!-- Page Content-->
-    <div class="page-content-tab">
-      <div class="container-fluid">
-        <div class="row mt-3">
+  <!-- Page Content-->
+  <div class="page-content-tab">
+    <div class="container-fluid">
+      <div class="row mt-4">
         <div class="row">
-            <div
-             class="col-md-6"  
-           >
-             <!-- <div class="form-roe-data">
-               <h5>Allocate coins to Badges</h5>
-               <p>This will be displayed on your profile.</p>
-             </div> -->
-             <div class="card">
-                <div class="card-header">
-                  <div class="row align-items-center">
-                    <div class="col">
-                      <h4 class="card-title">Assign Gift and Bonus</h4>
-                    </div>
-                    <!--end col-->
-                    <div class="col-auto">
-                      <a type="button" >
-                        <i class="bi bi-plus" style="font-size: 18px"></i> Set limit to redeem gift and bonuses</a>
-                    </div>
-                    <!--end col-->
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-header">
+                <div class="row align-items-center">
+                  <div class="col">
+                    <h4 class="card-title">Assign Gift and Bonus</h4>
                   </div>
-                  <!--end row-->
+                  <!--end col-->
+                  <div class="col-auto">
+                    <a type="button">
+                      <i class="bi bi-plus" style="font-size: 18px"></i> Set limit to redeem gift and bonuses</a>
+                  </div>
+                  <!--end col-->
                 </div>
-                <!--end card-header-->
-                <div class="table-responsive category">
-                    <table class="table border-dashed mb-0">
-                      <thead>
-                        <tr>
-                          <th>#</th>
-                          <th class="text-center">Gift Name</th>
-                          <th class="text-center">Assigned Date</th>
-                          <th class="text-center">Gift Link</th>
-                          <th class="text-center">Super Coins</th>
-    
-                        </tr>
-                      </thead>
-                      <!-- <tbody  style="height: 40px;">
+                <!--end row-->
+              </div>
+              <!--end card-header-->
+              <div class="table-responsive category">
+                <table class="table border-dashed mb-0">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th class="text-center">Gift Name</th>
+                      <th class="text-center">Assigned Date</th>
+                      <th class="text-center">Gift Link</th>
+                      <th class="text-center">Super Coins</th>
+
+                    </tr>
+                  </thead>
+                  <!-- <tbody  style="height: 40px;">
                         <tr>
                           <td colspan="6">
                             <div class="errorboxmain text-center">
@@ -59,131 +53,140 @@
                           </td>
                         </tr>
                       </tbody> -->
-                      <tbody >
-                        <tr>
-                          <td ><b>1</b></td>
-                          <td class="text-center">Alexa</td> 
-                          <td class="text-center">25 jan, 2024</td>
-                          <td class="text-center">Link</td>
-                          <td class="text-center"><b>2000</b></td>
-                          
-                        </tr>
-                        <tr>
-                            <td ><b>2</b></td>
-                            <td class="text-center">Macbook</td>
-                            <td class="text-center">25 jan, 2024</td>
-                            <td class="text-center">Link</td>
-                            <td class="text-center"><b>1000</b></td>
-                          </tr>
-                          <tr>
-                            <td ><b>3</b></td>
-                            <td class="text-center">Ipad</td>
-                            <td class="text-center">25 jan, 2024</td>
-                            <td class="text-center">Link</td>
-                            <td class="text-center"><b>500</b></td>
-                          </tr>
-                          <tr>
-                            <td ><b>4</b></td>
-                            <td class="text-center">Laptop</td>
-                            <td class="text-center">25 jan, 2024</td>
-                            <td class="text-center">Link</td>
-                            <td class="text-center"><b>4000</b></td>
-                          </tr>
-                      </tbody>
-                    </table>
-                    <!--end /table-->
-                  </div>
-              </div>
-              <!--end card-->
-              <!--end row-->
-   
-            </div>
-               <div class="col-lg-6">
-                 <div class="card">
-                   <div class="card-header">
-                     <div class="row align-items-center">
-                       <div class="col">
-                         <h4 class="card-title">Assign coins to Badges</h4>
-                       </div>
-                       <!--end col-->
-                       <div class="col-auto">
-                         <a type="button" data-bs-toggle="modal" data-bs-target="#allocateCoinsForBadgeModal" (click)="resetAllocateCoinsForBadgesForm()">
-                           <i class="bi bi-plus" style="font-size: 18px" ></i> Allocate Coins to Badges </a>
-                       </div>
-                       <!--end col-->
-                     </div>
-                     <!--end row-->
-                   </div>
-                   <!--end card-header-->
-                   <div class="table-responsive" [ngClass]="{'category': coinsForBadges.length > 0}">
-                       <table class="table border-dashed mb-0">
-                         <thead>
-                           <tr>
-                             <th>#</th>
-                             <th class="text-center">Badge Logo</th>
-                             <th class="text-center">Badge Name</th>
-                             
-                             <th class="text-center">Assigned Date</th>
-                             <th class="text-center">Assigned Min Coins</th>
-                             <th class="text-center">Assigned Max Coins</th>
-                             <th class="text-center">Action</th>
+                  <tbody>
+                    <tr>
+                      <td><b>1</b></td>
+                      <td class="text-center">Alexa</td>
+                      <td class="text-center">25 jan, 2024</td>
+                      <td class="text-center">Link</td>
+                      <td class="text-center"><b>2000</b></td>
 
-       
-                           </tr>
-                         </thead>
-                         <tbody  style="height: 40px;" *ngIf="coinsForBadges.length ==0">
-                           <tr>
-                             <td colspan="7">
-                               <div class="errorboxmain text-center">
-                                 <div class="errorboxinner">
-                                   <div class="errorboxplaceholder mb-2">
-                                     <img src="assets/images/empty-box.svg" style="width: 80px" />
-                                   </div>
-                                   <div class="">
-                                     <h4>No Data Found</h4>
-                                     <p class="mb-0">
-                                       We're unable to locate a record associated with the
-                                       information you entered.
-                                     </p>
-                                   </div>
-                                 </div>
-                               </div>
-                             </td>
-                           </tr>
-                         </tbody>
-                         <tbody *ngIf="coinsForBadges.length >0">
-                           <tr *ngFor="let cfb of coinsForBadges; let i = index" >
-                             <td ><b>{{i+1}}</b></td>
-                             <td class="text-center"><img src="{{ cfb.badgeLogo }}" style="width:40px; height: 40px;" alt="" height="110" class="rounded-circle" /></td>
-                             <td class="text-center">{{cfb.badgeName}}</td> 
-                             
-                             <td class="text-center">{{cfb.assignedDate | date: 'dd MMM, yyyy'}}</td>
-                             <td class="text-center"><b>{{cfb.assignedMinCoins}}</b></td>
-                             <td class="text-center"><b>{{cfb.assignedMaxCoins}}</b></td>
-                             
-                             <td class="text-center">
-                              <div class="btn-group">
-                                  <div class="thumb-xs bg-soft-primary rounded-circle d-flex justify-content-center align-items-center" style="margin-left: 5px;" ngbTooltip="Update Information" (click)="getBadgeCoinsInformationByIdData(cfb.id)"  data-bs-toggle="modal" data-bs-target="#allocateCoinsForBadgeModal">
-                                    <i class="fas fa-wrench font-16"></i>
-                                  </div>
-                                  <div class="thumb-xs bg-soft-primary rounded-circle d-flex justify-content-center align-items-center" style="margin-left: 5px;"  (click)="openDeleteConfirmationModal(cfb.id, false)" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
-                                    <i class="fas fa-trash-alt font-16"></i>
-                                  </div>
-                                 </div>
-                            </td>
-                           </tr>
-                         </tbody>
-                       </table>
-                       <!--end /table-->
-                     </div>
-                 </div>
-                 <!--end card-->
-                 <!--end row-->
-               </div>
-               <!-- end col-->
+                    </tr>
+                    <tr>
+                      <td><b>2</b></td>
+                      <td class="text-center">Macbook</td>
+                      <td class="text-center">25 jan, 2024</td>
+                      <td class="text-center">Link</td>
+                      <td class="text-center"><b>1000</b></td>
+                    </tr>
+                    <tr>
+                      <td><b>3</b></td>
+                      <td class="text-center">Ipad</td>
+                      <td class="text-center">25 jan, 2024</td>
+                      <td class="text-center">Link</td>
+                      <td class="text-center"><b>500</b></td>
+                    </tr>
+                    <tr>
+                      <td><b>4</b></td>
+                      <td class="text-center">Laptop</td>
+                      <td class="text-center">25 jan, 2024</td>
+                      <td class="text-center">Link</td>
+                      <td class="text-center"><b>4000</b></td>
+                    </tr>
+                  </tbody>
+                </table>
+                <!--end /table-->
+              </div>
+            </div>
+            <!--end card-->
+            <!--end row-->
+
+          </div>
+          <div class="col-lg-6">
+            <div class="card">
+              <div class="card-header">
+                <div class="row align-items-center">
+                  <div class="col">
+                    <h4 class="card-title">Assign coins to Badges</h4>
+                  </div>
+                  <!--end col-->
+                  <div class="col-auto">
+                    <a type="button" data-bs-toggle="modal" data-bs-target="#allocateCoinsForBadgeModal"
+                      (click)="resetAllocateCoinsForBadgesForm()">
+                      <i class="bi bi-plus" style="font-size: 18px"></i> Allocate Coins to Badges </a>
+                  </div>
+                  <!--end col-->
+                </div>
+                <!--end row-->
+              </div>
+              <!--end card-header-->
+              <div class="table-responsive" [ngClass]="{'category': coinsForBadges.length > 0}">
+                <table class="table border-dashed mb-0">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th class="text-center">Badge Logo</th>
+                      <th class="text-center">Badge Name</th>
+
+                      <th class="text-center">Assigned Date</th>
+                      <th class="text-center">Assigned Min Coins</th>
+                      <th class="text-center">Assigned Max Coins</th>
+                      <th class="text-center">Action</th>
+
+
+                    </tr>
+                  </thead>
+                  <tbody style="height: 40px;" *ngIf="coinsForBadges.length ==0">
+                    <tr>
+                      <td colspan="7">
+                        <div class="errorboxmain text-center">
+                          <div class="errorboxinner">
+                            <div class="errorboxplaceholder mb-2">
+                              <img src="assets/images/empty-box.svg" style="width: 80px" />
+                            </div>
+                            <div class="">
+                              <h4>No Data Found</h4>
+                              <p class="mb-0">
+                                We're unable to locate a record associated with the
+                                information you entered.
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tbody *ngIf="coinsForBadges.length >0">
+                    <tr *ngFor="let cfb of coinsForBadges; let i = index">
+                      <td><b>{{i+1}}</b></td>
+                      <td class="text-center"><img src="{{ cfb.badgeLogo }}" style="width:40px; height: 40px;" alt=""
+                          height="110" class="rounded-circle" /></td>
+                      <td class="text-center">{{cfb.badgeName}}</td>
+
+                      <td class="text-center">{{cfb.assignedDate | date: 'dd MMM, yyyy'}}</td>
+                      <td class="text-center"><b>{{cfb.assignedMinCoins}}</b></td>
+                      <td class="text-center"><b>{{cfb.assignedMaxCoins}}</b></td>
+
+                      <td class="text-center">
+                        <div class="btn-group">
+                          <div
+                            class="thumb-xs bg-soft-primary rounded-circle d-flex justify-content-center align-items-center"
+                            style="margin-left: 5px;" ngbTooltip="Update Information"
+                            (click)="getBadgeCoinsInformationByIdData(cfb.id)" data-bs-toggle="modal"
+                            data-bs-target="#allocateCoinsForBadgeModal">
+                            <i class="fas fa-wrench font-16"></i>
+                          </div>
+                          <div
+                            class="thumb-xs bg-soft-primary rounded-circle d-flex justify-content-center align-items-center"
+                            style="margin-left: 5px;" (click)="openDeleteConfirmationModal(cfb.id, false)"
+                            data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
+                            <i class="fas fa-trash-alt font-16"></i>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <!--end /table-->
+              </div>
+            </div>
+            <!--end card-->
+            <!--end row-->
+          </div>
+          <!-- end col-->
         </div>
         <div class="row">
-            <!-- <div
+          <!-- <div
              class="col-md-4 mt-3 mb-3"  
            >
              <div class="form-roe-data">
@@ -192,189 +195,208 @@
              </div>
    
                </div> -->
-                 
-               <div class="col-lg-12">
-                 <div class="card">
-                   <div class="card-header">
-                     <div class="row align-items-center">
-                       <div class="col">
-                         <h4 class="card-title">Assign Coins Role wise</h4>
-                       </div>
-                       <!--end col-->
-                       <div class="col-auto">
-                         <a type="button" data-bs-toggle="modal" data-bs-target="#allocateCoinsModal" (click)="resetRoleSuperCoinsAllocationForm()">
-                           <i class="bi bi-plus" style="font-size: 18px" data></i> Assign Super Coins </a>
-                       </div>
-                       <!--end col-->
-                     </div>
-                     <!--end row-->
-                   </div>
-                   <!--end card-header-->
-                   <div class="table-responsive " >
-                       <table class="table border-dashed mb-0">
-                         <thead>
-                           <tr>
-                             <th>#</th>
-                             <th class="text-center">Role</th>
-                             <th class="text-center">Allocated Date</th>
-                             <th class="text-center">Super Coins</th>
-                            
-                             <th class="text-center">Can Donate to Manager Limit</th>
-                             <th class="text-center">Can Donate to User Limit</th>
-                             <th class="text-center">Can Donate to Team Members Limit</th>
-                             <th class="text-center">Action</th>
-       
-                           </tr>
-                         </thead>
-                         <tbody  style="height: 40px;" *ngIf="roleWiseCoins.length==0">
-                           <tr>
-                             <td colspan="7">
-                               <div class="errorboxmain text-center">
-                                 <div class="errorboxinner">
-                                   <div class="errorboxplaceholder mb-2">
-                                     <img src="assets/images/empty-box.svg" style="width: 80px" />
-                                   </div>
-                                   <div class="">
-                                     <h4>No Data Found</h4>
-                                     <p class="mb-0">
-                                       We're unable to locate a record associated with the
-                                       information you entered.
-                                     </p>
-                                   </div>
-                                 </div>
-                               </div>
-                             </td>
-                           </tr>
-                         </tbody>
-                         <tbody *ngIf="roleWiseCoins.length>0">
-                            <tr *ngFor="let coin of roleWiseCoins; let i = index">
-                              <td><b>{{ i + 1 }}</b></td>
-                              <td class="text-center">{{ coin.roleName }}</td>
-                              <td class="text-center">{{ coin.assignedDate | date: 'dd MMM, yyyy' }}</td>
-                              <td class="text-center"><b>{{ coin.allocatedCoins }}</b></td>
-                              <td class="text-center"><b>{{ coin.donateLimitForManager || 'N/A' }}</b></td>
-                              <td class="text-center"><b>{{ coin.donateLimitForUser || 'N/A' }}</b></td>
-                              <td class="text-center"><b>{{ coin.donateLimitForTeamMates || 'N/A' }}</b></td>
-                              <td class="text-center">
-                                <div class="btn-group">
-                                    <div class="thumb-xs bg-soft-primary rounded-circle d-flex justify-content-center align-items-center" style="margin-left: 5px;" ngbTooltip="Update Information" (click)="loadRoleWiseAllocatedCoinsById(coin.id)" data-bs-toggle="modal" data-bs-target="#allocateCoinsModal">
-                                      <i class="fas fa-wrench font-16"></i>
-                                    </div>
-                                    <div class="thumb-xs bg-soft-primary rounded-circle d-flex justify-content-center align-items-center" style="margin-left: 5px;" (click)="openDeleteConfirmationModal(coin.id, true)" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
-                                      <i class="fas fa-trash-alt font-16"></i>
-                                    </div>
-                                   </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                       </table>
-                       <!--end /table-->
-                     </div>
-                 </div>
-                 <!--end card-->
-                 <!--end row-->
-               </div>
-               <!-- end col-->
-           </div>
-   
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <div class="modal fade" id="allocateCoinsModal" tabindex="-1" aria-labelledby="allocateCoinsModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="allocateCoinsModalLabel">Allocate Super Coins</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeEditModal></button>
-        </div>
-        <div class="modal-body">
-          <form [formGroup]="allocateCoinsForm" (ngSubmit)="onSubmit()">
-            <div class="mb-3">
-                <label for="roleId" class="form-label">Select Role <span class="text-danger">*</span></label>
-                <!-- {{allocateCoinsForm.get('roleId')?.value}} -->
-                <nz-select class="form-control"  formControlName="roleId" nzShowSearch nzPlaceHolder="Select a role" nzSize="large">
-                  <nz-option *ngFor="let role of roles" [nzValue]="role.roleId" [nzLabel]="role.roleName"></nz-option>
-                </nz-select>
-                <div *ngIf="allocateCoinsForm.get('roleId')!.invalid && (allocateCoinsForm.get('roleId')!.dirty || allocateCoinsForm.get('roleId')!.touched)" class="text-danger">
-                  Role is required.
+          <div class="col-lg-12">
+            <div class="card">
+              <div class="card-header">
+                <div class="row align-items-center">
+                  <div class="col">
+                    <h4 class="card-title">Assign Coins Role wise</h4>
+                  </div>
+                  <!--end col-->
+                  <div class="col-auto">
+                    <a type="button" data-bs-toggle="modal" data-bs-target="#allocateCoinsModal"
+                      (click)="resetRoleSuperCoinsAllocationForm()">
+                      <i class="bi bi-plus" style="font-size: 18px" data></i> Assign Super Coins </a>
+                  </div>
+                  <!--end col-->
                 </div>
+                <!--end row-->
               </div>
-            <div class="mb-3">
-              <label for="allocatedCoins" class="form-label">Allocated Coins <span class="text-danger">*</span></label>
-              <input type="number" class="form-control" id="allocatedCoins" formControlName="allocatedCoins" placeholder="Enter allocated coins">
-              <div *ngIf="allocateCoinsForm.get('allocatedCoins')!.invalid && (allocateCoinsForm.get('allocatedCoins')!.dirty || allocateCoinsForm.get('allocatedCoins')!.touched)" class="text-danger">
-                Allocated coins are required.
+              <!--end card-header-->
+              <div class="table-responsive ">
+                <table class="table border-dashed mb-0">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th class="text-center">Role</th>
+                      <th class="text-center">Allocated Date</th>
+                      <th class="text-center">Super Coins</th>
+
+                      <th class="text-center">Can Donate to Manager Limit</th>
+                      <th class="text-center">Can Donate to User Limit</th>
+                      <th class="text-center">Can Donate to Team Members Limit</th>
+                      <th class="text-center">Action</th>
+
+                    </tr>
+                  </thead>
+                  <tbody style="height: 40px;" *ngIf="roleWiseCoins.length==0">
+                    <tr>
+                      <td colspan="7">
+                        <div class="errorboxmain text-center">
+                          <div class="errorboxinner">
+                            <div class="errorboxplaceholder mb-2">
+                              <img src="assets/images/empty-box.svg" style="width: 80px" />
+                            </div>
+                            <div class="">
+                              <h4>No Data Found</h4>
+                              <p class="mb-0">
+                                We're unable to locate a record associated with the
+                                information you entered.
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tbody *ngIf="roleWiseCoins.length>0">
+                    <tr *ngFor="let coin of roleWiseCoins; let i = index">
+                      <td><b>{{ i + 1 }}</b></td>
+                      <td class="text-center">{{ coin.roleName }}</td>
+                      <td class="text-center">{{ coin.assignedDate | date: 'dd MMM, yyyy' }}</td>
+                      <td class="text-center"><b>{{ coin.allocatedCoins }}</b></td>
+                      <td class="text-center"><b>{{ coin.donateLimitForManager || 'N/A' }}</b></td>
+                      <td class="text-center"><b>{{ coin.donateLimitForUser || 'N/A' }}</b></td>
+                      <td class="text-center"><b>{{ coin.donateLimitForTeamMates || 'N/A' }}</b></td>
+                      <td class="text-center">
+                        <div class="btn-group">
+                          <div
+                            class="thumb-xs bg-soft-primary rounded-circle d-flex justify-content-center align-items-center"
+                            style="margin-left: 5px;" ngbTooltip="Update Information"
+                            (click)="loadRoleWiseAllocatedCoinsById(coin.id)" data-bs-toggle="modal"
+                            data-bs-target="#allocateCoinsModal">
+                            <i class="fas fa-wrench font-16"></i>
+                          </div>
+                          <div
+                            class="thumb-xs bg-soft-primary rounded-circle d-flex justify-content-center align-items-center"
+                            style="margin-left: 5px;" (click)="openDeleteConfirmationModal(coin.id, true)"
+                            data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
+                            <i class="fas fa-trash-alt font-16"></i>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <!--end /table-->
               </div>
             </div>
-            <div class="mb-3" *ngIf="allocateCoinsForm.get('roleId')?.value == 1">
-                <label for="donateLimitForManager" class="form-label">Donate Limit for Manager</label>
-                <input type="number" class="form-control" id="donateLimitForManager" formControlName="donateLimitForManager" placeholder="Enter donate limit for manager">
-              </div>
-              <div class="mb-3" *ngIf="allocateCoinsForm.get('roleId')?.value == 1">
-                <label for="donateLimitForUser" class="form-label">Donate Limit for User</label>
-                <input type="number" class="form-control" id="donateLimitForUser" formControlName="donateLimitForUser" placeholder="Enter donate limit for user">
-              </div>
-              <div class="mb-3" *ngIf="(allocateCoinsForm.get('roleId')?.value == 2) || (allocateCoinsForm.get('roleId')?.value == 3)">
-                <label for="donateLimitForTeamMates" class="form-label">Donate Limit for Team Mates</label>
-                <input type="number" class="form-control" id="donateLimitForTeamMates" formControlName="donateLimitForTeamMates" placeholder="Enter donate limit for team mates">
-              </div>    
-            <div class="d-flex justify-content-end">
-              <button type="submit" class="btn btn-primary" [disabled]="allocateCoinsForm.invalid">Allocate</button>
-            </div>
-          </form>
+            <!--end card-->
+            <!--end row-->
+          </div>
+          <!-- end col-->
         </div>
+
       </div>
     </div>
   </div>
+</div>
+
+<div class="modal fade" id="allocateCoinsModal" tabindex="-1" aria-labelledby="allocateCoinsModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="allocateCoinsModalLabel">Allocate Super Coins</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeEditModal></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="allocateCoinsForm" (ngSubmit)="onSubmit()">
+          <div class="mb-3">
+            <label for="roleId" class="form-label">Select Role <span class="text-danger">*</span></label>
+            <!-- {{allocateCoinsForm.get('roleId')?.value}} -->
+            <nz-select class="form-control" formControlName="roleId" nzShowSearch nzPlaceHolder="Select a role"
+              nzSize="large">
+              <nz-option *ngFor="let role of roles" [nzValue]="role.roleId" [nzLabel]="role.roleName"></nz-option>
+            </nz-select>
+            <div
+              *ngIf="allocateCoinsForm.get('roleId')!.invalid && (allocateCoinsForm.get('roleId')!.dirty || allocateCoinsForm.get('roleId')!.touched)"
+              class="text-danger">
+              Role is required.
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="allocatedCoins" class="form-label">Allocated Coins <span class="text-danger">*</span></label>
+            <input type="number" class="form-control" id="allocatedCoins" formControlName="allocatedCoins"
+              placeholder="Enter allocated coins">
+            <div
+              *ngIf="allocateCoinsForm.get('allocatedCoins')!.invalid && (allocateCoinsForm.get('allocatedCoins')!.dirty || allocateCoinsForm.get('allocatedCoins')!.touched)"
+              class="text-danger">
+              Allocated coins are required.
+            </div>
+          </div>
+          <div class="mb-3" *ngIf="allocateCoinsForm.get('roleId')?.value == 1">
+            <label for="donateLimitForManager" class="form-label">Donate Limit for Manager</label>
+            <input type="number" class="form-control" id="donateLimitForManager" formControlName="donateLimitForManager"
+              placeholder="Enter donate limit for manager">
+          </div>
+          <div class="mb-3" *ngIf="allocateCoinsForm.get('roleId')?.value == 1">
+            <label for="donateLimitForUser" class="form-label">Donate Limit for User</label>
+            <input type="number" class="form-control" id="donateLimitForUser" formControlName="donateLimitForUser"
+              placeholder="Enter donate limit for user">
+          </div>
+          <div class="mb-3"
+            *ngIf="(allocateCoinsForm.get('roleId')?.value == 2) || (allocateCoinsForm.get('roleId')?.value == 3)">
+            <label for="donateLimitForTeamMates" class="form-label">Donate Limit for Team Mates</label>
+            <input type="number" class="form-control" id="donateLimitForTeamMates"
+              formControlName="donateLimitForTeamMates" placeholder="Enter donate limit for team mates">
+          </div>
+          <div class="d-flex justify-content-end">
+            <button type="submit" class="btn btn-primary" [disabled]="allocateCoinsForm.invalid">Allocate</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 <div class="modal fade" id="deleteConfirmationModal" #deleteConfirmationModal tabindex="-1"
-aria-labelledby="confirmationModalLabel" aria-hidden="true" data-bs-backdrop="false">
-<div class="modal-dialog modal-dialog-centered mx-auto mx-auto" style="max-width: 600px !important">
-  <div class="modal-content">
-    <!--end modal-header-->
-    <div class="modal-body">
-      <form #confirmationForm="ngForm">
-        <div class="row">
-          <div class="col-lg-3 text-center align-self-center">
-            <img src="assets/images/recycle-bin.svg" alt="" class="img-fluid" />
+  aria-labelledby="confirmationModalLabel" aria-hidden="true" data-bs-backdrop="false">
+  <div class="modal-dialog modal-dialog-centered mx-auto mx-auto" style="max-width: 600px !important">
+    <div class="modal-content">
+      <!--end modal-header-->
+      <div class="modal-body">
+        <form #confirmationForm="ngForm">
+          <div class="row">
+            <div class="col-lg-3 text-center align-self-center">
+              <img src="assets/images/recycle-bin.svg" alt="" class="img-fluid" />
+            </div>
+            <!--end col-->
+            <div class="col-lg-9">
+              <h5>Remove Asset from your Organization</h5>
+              <span class="badge bg-warning font-14">Are you sure want to remove this asset?</span>
+              <ul class="mt-3 mb-0">
+                <li>
+                  This action will delete this asset from your organization for assigned
+                  users also.
+                </li>
+                <!-- <li>Other associated information from the system</li> -->
+              </ul>
+            </div>
+            <!--end col-->
           </div>
-          <!--end col-->
-          <div class="col-lg-9">
-            <h5>Remove Asset from your Organization</h5>
-            <span class="badge bg-warning font-14">Are you sure want to remove this asset?</span>
-            <ul class="mt-3 mb-0">
-              <li>
-                This action will delete this asset from your organization for assigned
-                users also.
-              </li>
-              <!-- <li>Other associated information from the system</li> -->
-            </ul>
+          <!--end row-->
+        </form>
+      </div>
+      <!--end modal-body-->
+      <div class="modal-footer d-flex align-items-center justify-content-between">
+        <button type="button" class="btn btn-de-secondary btn-sm" data-bs-dismiss="modal" #closeUserDeleteModal>
+          Close
+        </button>
+        <button type="button" class="btn btn-danger btn-sm" (click)="callDelete()">
+          <span *ngIf="!disableLoader"> Delete Asset</span>
+          <div class="dot-opacity-loader" *ngIf="disableLoader">
+            <span></span>
+            <span></span>
+            <span></span>
           </div>
-          <!--end col-->
-        </div>
-        <!--end row-->
-      </form>
+        </button>
+      </div>
+      <!--end modal-footer-->
     </div>
-    <!--end modal-body-->
-    <div class="modal-footer d-flex align-items-center justify-content-between">
-      <button type="button" class="btn btn-de-secondary btn-sm" data-bs-dismiss="modal" #closeUserDeleteModal>
-        Close
-      </button>
-      <button type="button" class="btn btn-danger btn-sm" (click)="callDelete()">
-        <span *ngIf="!disableLoader"> Delete Asset</span>
-        <div class="dot-opacity-loader" *ngIf="disableLoader">
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-      </button>
-    </div>
-    <!--end modal-footer-->
   </div>
-</div>
 </div>
 
 <!-- <div class="modal fade" id="allocateCoinsForBadgeModal" tabindex="-1" aria-labelledby="allocateCoinsForBadgeModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
@@ -419,26 +441,31 @@ aria-labelledby="confirmationModalLabel" aria-hidden="true" data-bs-backdrop="fa
 </div> -->
 
 
-<div class="modal fade" id="allocateCoinsForBadgeModal" tabindex="-1" aria-labelledby="allocateCoinsForBadgeModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+<div class="modal fade" id="allocateCoinsForBadgeModal" tabindex="-1" aria-labelledby="allocateCoinsForBadgeModalLabel"
+  aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="allocateCoinsForBadgeModalLabel">Allocate Super Coins</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeSuperCoinsForBadgesModal></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+          #closeSuperCoinsForBadgesModal></button>
       </div>
       <div class="modal-body">
         <form [formGroup]="allocateCoinsForBadgesForm" (ngSubmit)="onSubmitBadges()">
           <div class="text-danger p-2" *ngIf="errorString" style="background-color: rgb(255, 216, 216);">
-             {{errorString}}
+            {{errorString}}
           </div>
           <div class="mb-3">
             <label for="badgeName" class="form-label">Badge Name <span class="text-danger">*</span></label>
             <!-- {{allocateCoinstoBadgeId}} -->
-            <input type="text" class="form-control" id="badgeName" formControlName="badgeName" placeholder="Enter badge name" required>
-            <div *ngIf="allocateCoinsForBadgesForm.get('badgeName')?.invalid && (allocateCoinsForBadgesForm.get('badgeName')?.dirty || allocateCoinsForBadgesForm.get('badgeName')?.touched)" class="text-danger">
+            <input type="text" class="form-control" id="badgeName" formControlName="badgeName"
+              placeholder="Enter badge name" required>
+            <div
+              *ngIf="allocateCoinsForBadgesForm.get('badgeName')?.invalid && (allocateCoinsForBadgesForm.get('badgeName')?.dirty || allocateCoinsForBadgesForm.get('badgeName')?.touched)"
+              class="text-danger">
               Badge name is required.
             </div>
-          </div>          
+          </div>
           <div class="mb-3">
             <label for="badgeLogo" class="form-label">Badge Logo <span class="text-danger">*</span></label>
             <label for="badgeLogoInput" class="image-upload-label">
@@ -450,34 +477,42 @@ aria-labelledby="confirmationModalLabel" aria-hidden="true" data-bs-backdrop="fa
               </div>
               <p *ngIf="!imagePreviewUrl">Upload badge logo</p>
             </label>
-            <input type="file" class="form-control-file" id="badgeLogoInput" (change)="onFileSelected($event)" accept="image/jpeg, image/png, image/jpg" hidden>
-            <div *ngIf="allocateCoinsForBadgesForm.get('badgeLogo')!.invalid && (allocateCoinsForBadgesForm.get('badgeLogo')!.dirty || allocateCoinsForBadgesForm.get('badgeLogo')!.touched)" class="text-danger">
+            <input type="file" class="form-control-file" id="badgeLogoInput" (change)="onFileSelected($event)"
+              accept="image/jpeg, image/png, image/jpg" hidden>
+            <div
+              *ngIf="allocateCoinsForBadgesForm.get('badgeLogo')!.invalid && (allocateCoinsForBadgesForm.get('badgeLogo')!.dirty || allocateCoinsForBadgesForm.get('badgeLogo')!.touched)"
+              class="text-danger">
               Badge logo is required.
             </div>
           </div>
           <div class="mb-3">
-            <label for="assignedMinCoins" class="form-label">Allocated Min Coins <span class="text-danger">*</span></label>
-            <input type="number" class="form-control" id="assignedMinCoins" formControlName="assignedMinCoins" placeholder="Enter allocated min coins" required>
-            <div *ngIf="allocateCoinsForBadgesForm.get('assignedMinCoins')!.invalid && (allocateCoinsForBadgesForm.get('assignedMinCoins')!.dirty || allocateCoinsForBadgesForm.get('assignedMinCoins')!.touched)" class="text-danger">
+            <label for="assignedMinCoins" class="form-label">Allocated Min Coins <span
+                class="text-danger">*</span></label>
+            <input type="number" class="form-control" id="assignedMinCoins" formControlName="assignedMinCoins"
+              placeholder="Enter allocated min coins" required>
+            <div
+              *ngIf="allocateCoinsForBadgesForm.get('assignedMinCoins')!.invalid && (allocateCoinsForBadgesForm.get('assignedMinCoins')!.dirty || allocateCoinsForBadgesForm.get('assignedMinCoins')!.touched)"
+              class="text-danger">
               Allocated min coins are required.
             </div>
           </div>
           <div class="mb-3">
-            <label for="assignedMaxCoins" class="form-label">Allocated Max Coins <span class="text-danger">*</span></label>
-            <input type="number" class="form-control" id="assignedMaxCoins" formControlName="assignedMaxCoins" placeholder="Enter allocated max coins" required>
-            <div *ngIf="allocateCoinsForBadgesForm.get('assignedMaxCoins')!.invalid && (allocateCoinsForBadgesForm.get('assignedMaxCoins')!.dirty || allocateCoinsForBadgesForm.get('assignedMaxCoins')!.touched)" class="text-danger">
+            <label for="assignedMaxCoins" class="form-label">Allocated Max Coins <span
+                class="text-danger">*</span></label>
+            <input type="number" class="form-control" id="assignedMaxCoins" formControlName="assignedMaxCoins"
+              placeholder="Enter allocated max coins" required>
+            <div
+              *ngIf="allocateCoinsForBadgesForm.get('assignedMaxCoins')!.invalid && (allocateCoinsForBadgesForm.get('assignedMaxCoins')!.dirty || allocateCoinsForBadgesForm.get('assignedMaxCoins')!.touched)"
+              class="text-danger">
               Allocated max coins are required.
             </div>
           </div>
           <div class="d-flex justify-content-end">
-            <button type="submit" class="btn btn-primary" [disabled]="allocateCoinsForBadgesForm.invalid">Allocate</button>
+            <button type="submit" class="btn btn-primary"
+              [disabled]="allocateCoinsForBadgesForm.invalid">Allocate</button>
           </div>
         </form>
       </div>
     </div>
   </div>
 </div>
-
-
-
-
