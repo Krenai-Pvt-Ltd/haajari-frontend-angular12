@@ -189,6 +189,8 @@ isFormInvalid: boolean=false;
         console.log('Response:', response);
         if (response.success) {
           this.helperService.showToast('Data saved successfully', Key.TOAST_STATUS_SUCCESS);
+          this.getOnboardingFormPreviewMethodCall();
+          this.fetchRequestedData();
         } else {
           this.helperService.showToast('Failed to save data', Key.TOAST_STATUS_ERROR);
         }
@@ -198,6 +200,22 @@ isFormInvalid: boolean=false;
         this.helperService.showToast('An error occurred while saving data', Key.TOAST_STATUS_ERROR);
       },
     });
+  }
+
+  rejectData(): void {
+    this.dataService.rejectRequestedData(this.userId).subscribe(
+      (response) => {
+        if (response.success) {
+          this.helperService.showToast('Request rejected successfully', Key.TOAST_STATUS_SUCCESS);
+          this.fetchRequestedData();
+        } else {
+          this.helperService.showToast('Failed to reject request', Key.TOAST_STATUS_ERROR);
+        }
+      },
+      (error) => {
+        console.error('API Error:', error);
+      }
+    );
   }
 
   removeField(key: string, value: any) {

@@ -2187,7 +2187,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     );
   }
 
-  
+
 
   signInByWhatsapp(phoneNumber: string): Observable<any> {
     const url = `${this.baseUrl}/user/auth/sent/otp-whatsapp?phoneNumber=${phoneNumber}`;
@@ -4475,6 +4475,12 @@ getHolidayForOrganization(date: string): Observable<any>{
     const params = { uuid };
     return this.httpClient.post(`${this.baseUrl}/get/onboarding/save-requested-data`,null, {
       params
+    });
+  }
+  rejectRequestedData(uuid: string): Observable<any> {
+    const endpoint = `${this.baseUrl}/get/onboarding/reject-requested-data`;
+    return this.httpClient.post(endpoint, null, {
+      params: { uuid },
     });
   }
 
