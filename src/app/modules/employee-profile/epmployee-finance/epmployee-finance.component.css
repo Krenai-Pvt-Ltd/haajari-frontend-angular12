@@ -442,6 +442,7 @@ i::before {
 .earning {
     width: 70%;
     border-right: 1px solid #f1f1f1;
+    height: 100%;
 }
 
 .table th {

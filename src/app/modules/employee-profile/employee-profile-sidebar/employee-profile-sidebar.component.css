@@ -3,8 +3,8 @@
 }
 
 #pdf-container {
-  border: 1px solid #ccc;
-  padding: 10px;
+    height: 500px;
+    overflow-y: scroll;
 }
 
 
@@ -838,7 +838,7 @@ span.members-namess {
     font-size: 12px;
     font-weight: 500;
     border-radius: 2px;
-    width: 100px;
+    min-width: 100px;
 }
 
 .input-zorro {

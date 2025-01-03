@@ -20,6 +20,7 @@
 .announcement {
     border: 1px solid #f2f2f2;
     border-radius: 2px;
+    height: 149px;
 }
 
 .announcement button {
@@ -666,12 +667,16 @@
 }
 
 .roles-list.status-list {
-    max-height: 285px;
+    height: 285px;
     overflow: scroll;
 }
 
 .roles-list.status-list::-webkit-scrollbar {
     display: none;
+}
+
+.birthday-anniversaries {
+    height: 418px;
 }
 
 .role-list-fix {
@@ -706,4 +711,8 @@ span.holiday-initial {
     font-size: 0.875rem !important;
     font-weight: 400 !important;
     text-transform: capitalize;
+}
+
+.empty-detail {
+    color: #787486;
 }

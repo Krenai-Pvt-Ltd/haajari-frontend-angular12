@@ -2,12 +2,15 @@
     <div class="row">
         <div class="col-md-4">
             <!-- attendance-report -->
-            <div class="attendance-report p-3" style="height: 571px;">
+            <div class="attendance-report p-3" style="height: 573px;">
                 <h5 class="font-14 border-bottom pb-3">Attendance Report</h5>
                 <div class="mb-4">
                     <!-- <img src="assets/images/week-attendance-report.svg" style="width:100%"> -->
-                    <div class="chart-container">
+                    <div class="chart-container w-100" *ngIf="!isLoadingTeamMembers">
                         <canvas #chartCanvas id="workingHoursChart"></canvas>
+                    </div>
+                    <div class="col-md-12" *ngIf="isLoadingTeamMembers">
+                        <ngx-shimmer-loading [width]="'100%'" [height]="'200px'"></ngx-shimmer-loading>
                     </div>
                 </div>
                 <h6 class="pb-2 mt-3">{{currentDate | date: 'EEEE, MMMM d, y'}}</h6>
@@ -55,15 +58,40 @@
                             <h5 class="font-14 mb-0 ">Recent Notification</h5>
                             <button class="btn p-0 text-primary font-13" (click)="clickViewAll()">View All</button>
                         </div>
-                        <div class="d-flex align-items-start gap-3 mt-3" *ngFor="let mail of mailList">
-                            <span
-                                class="announcement-user d-flex align-items-center justify-content-center">{{mail.title?.charAt(0)|
-                                uppercase}}</span>
-                            <div style="width:78%;">
-                                <h5 class="text-black font-14">
-                                    {{mail.title}} &nbsp; <span>{{mail.createdDate | date:'dd MMM,yyyy'}}</span></h5>
-                                <p class="mb-0 font-13">{{mail.message}}</p>
+                        <div *ngIf="!isLoadingTeamMembers">
+                            <div class="d-flex align-items-start gap-3 mt-3" *ngFor="let mail of mailList">
+                                <span
+                                    class="announcement-user d-flex align-items-center justify-content-center">{{mail.title?.charAt(0)|
+                                    uppercase}}</span>
+                                <div style="width:78%;">
+                                    <h5 class="text-black font-14">
+                                        {{mail.title}} &nbsp; <span>{{mail.createdDate | date:'dd MMM,yyyy'}}</span>
+                                    </h5>
+                                    <p class="mb-0 font-13">{{mail.message}}</p>
+                                </div>
                             </div>
+                        </div>
+
+                        <div class="feat-product-block mt-3" style="position: relative;" *ngIf="isLoadingTeamMembers">
+                            <div class="feat-bottom">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'40px'"
+                                            [borderRadius]="'50%'"></ngx-shimmer-loading>
+                                    </div>
+                                    <div class="col-md-8 my-auto" style="left: -5px;">
+                                        <ngx-shimmer-loading [height]="'15px'" [width]="'100%'"></ngx-shimmer-loading>
+                                        <ngx-shimmer-loading [height]="'10px'" [width]="'80%'"></ngx-shimmer-loading>
+                                        <ngx-shimmer-loading [height]="'10px'" [width]="'70%'"></ngx-shimmer-loading>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="empty-file d-flex align-items-center justify-content-center"
+                            style="margin-top: 8%; margin-bottom: 8%"
+                            *ngIf="mailList.length == 0 && !isLoadingTeamMembers">
+                            <p class="mb-1 empty-detail">No data for now</p>
                         </div>
                     </div>
                 </div>
@@ -100,13 +128,21 @@
                                         </div>
                                     </div>
 
+                                    <div class="empty-file d-flex align-items-center justify-content-center bg-soft-info"
+                                        style="padding-top: 8%; padding-bottom: 8%; height: 149px;"
+                                        *ngIf="holidays.length ==0">
+                                        <p class="mb-1 empty-detail">No Holidays for Now</p>
+                                    </div>
+
                                     <!-- Carousel controls -->
                                     <button class="carousel-control-prev" type="button"
-                                        data-bs-target="#carouselExampleControls" data-bs-slide="prev" *ngIf="holidays.length > 1">
+                                        data-bs-target="#carouselExampleControls" data-bs-slide="prev"
+                                        *ngIf="holidays.length > 1">
                                         <i class="bi bi-chevron-left"></i>
                                     </button>
                                     <button class="carousel-control-next" type="button"
-                                        data-bs-target="#carouselExampleControls" data-bs-slide="next" *ngIf="holidays.length > 1">
+                                        data-bs-target="#carouselExampleControls" data-bs-slide="next"
+                                        *ngIf="holidays.length > 1">
                                         <i class="bi bi-chevron-right"></i>
                                     </button>
                                 </div>
@@ -147,7 +183,7 @@
                             <div class="col-md-5 border-right">
                                 <div class="roles p-3">
                                     <h5 class="mb-0 font-13">Roles</h5>
-                                    <div class="roles-list mt-3 mb-4 role-list-fix">
+                                    <div class="roles-list mt-3 mb-4 role-list-fix" *ngIf="!isLoadingTeamMembers">
                                         <div class="d-flex align-items-center gap-2 mb-3"
                                             *ngFor="let tm of teamManagerInfo">
                                             <img onerror="this.src='./assets/images/broken-image-icon.jpg';"
@@ -166,8 +202,39 @@
                                         </div>
                                     </div>
 
+                                    <div class="mt-3 mb-3 " *ngIf="isLoadingTeamMembers">
+                                        <div class="feat-product-block mb-2" style="position: relative; "
+                                            *ngFor="let item of [].constructor(3)">
+                                            <div class="feat-bottom">
+                                                <div class="row">
+                                                    <div class="col-md-2 my-auto">
+                                                        <ngx-shimmer-loading [width]="'100%'" [height]="'40px'"
+                                                            [borderRadius]="'50%'"></ngx-shimmer-loading>
+                                                    </div>
+                                                    <div class="col-md-8 my-auto" style="left: -5px;">
+                                                        <ngx-shimmer-loading [height]="'15px'"
+                                                            [width]="'100%'"></ngx-shimmer-loading>
+                                                        <ngx-shimmer-loading [height]="'10px'"
+                                                            [width]="'70%'"></ngx-shimmer-loading>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="empty-file" style="margin-top: 18%; margin-bottom: 18%"
+                                        *ngIf="teamManagerInfo.length == 0 && !isLoadingTeamMembers">
+                                        <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                            [nzNotFoundContent]="contentTpl">
+                                            <ng-template #contentTpl>
+                                                <p class="mb-1 empty-detail">No data for now</p>
+                                            </ng-template>
+                                        </nz-empty>
+                                    </div>
+
                                     <h5 class="mb-0 font-13">Team </h5>
-                                    <div class="img-group d-flex mt-3">
+                                    <div class="img-group d-flex mt-3"
+                                        *ngIf="!isLoadingTeamMembers  && images.length > 0">
                                         <a class="user-avatar " *ngFor="let t of images; let i = index"
                                             [ngClass]="{'ms-n3': i > 0}">
                                             <span class="members-name" *ngIf="!t?.image">{{t?.name?.charAt(0)|
@@ -181,12 +248,30 @@
                                             class="justify-content-center d-flex align-items-center pl-2 team-member font-13 pointer">+
                                             {{count}} People</span>
                                     </div>
+                                    <div class="feat-product-block mb-2 mt-3" style="position: relative;"
+                                        *ngIf="isLoadingTeamMembers">
+                                        <div class="feat-bottom">
+                                            <div class="row">
+                                                <div class="col-md-12 my-auto">
+                                                    <ngx-shimmer-loading [width]="'100%'"
+                                                        [height]="'40px'"></ngx-shimmer-loading>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="empty-file d-flex align-items-center justify-content-center"
+                                        style="margin-top: 5%; margin-bottom: 5%"
+                                        *ngIf="images.length == 0 && !isLoadingTeamMembers">
+                                        <p class="mb-1 empty-detail">No data for now</p>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-7">
                                 <div class="status-tracker p-3">
                                     <h5 class="mb-0 font-13">Status Tracker</h5>
-                                    <div class="roles-list status-list mt-3" (scroll)="onScroll($event)">
+                                    <div class="roles-list status-list mt-3"
+                                        *ngIf="!isLoadingTeamMembers && teamMembers!.length>0"
+                                        (scroll)="onScroll($event)">
                                         <div *ngFor="let member of teamMembers"
                                             class="d-flex align-items-center justify-content-between">
                                             <div class="d-flex align-items-center gap-2 mb-3">
@@ -216,8 +301,8 @@
 
                                     </div>
                                     <!--  -->
-                                    <div *ngIf="isLoadingNew">
-                                        <div class="feat-product-block mb-2" style="position: relative; "
+                                    <div *ngIf="isLoadingTeamMembers">
+                                        <div class="feat-product-block mb-2 mt-3" style="position: relative; "
                                             *ngFor="let item of [].constructor(5)">
                                             <div class="feat-bottom">
                                                 <div class="row">
@@ -236,8 +321,8 @@
                                         </div>
                                     </div>
 
-                                    <div class="empty-file" style="margin-top: 8%; margin-bottom: 8%"
-                                        *ngIf="teamMembers.length == 0 && !isLoadingNew">
+                                    <div class="empty-file" style="margin-top: 19%; margin-bottom: 19%"
+                                        *ngIf="teamMembers.length == 0 && !isLoadingTeamMembers">
                                         <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
                                             [nzNotFoundContent]="contentTpl">
                                             <ng-template #contentTpl>
@@ -860,7 +945,7 @@
             </div>
         </div>
         <div class="col-md-5">
-            <div class="p-3 attendance-report">
+            <div class="p-3 attendance-report birthday-anniversaries">
                 <div>
                     <ul id="pills-tab" role="tablist" class="nav nav-pills">
                         <li class="nav-item">
@@ -903,6 +988,22 @@
                                     </span>
                                 </div>
                             </div>
+
+                            <div class="d-flex align-items-center justify-content-center"
+                                *ngIf="usersWithUpcomingBirthdays?.length === 0 || usersWithUpcomingBirthdays == undefined">
+                                <div class="empty-file" style="margin-top: 9%; margin-bottom: 9%">
+                                    <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                        [nzNotFoundContent]="contentTpl">
+                                        <ng-template #contentTpl>
+                                            <p class="mb-1 empty-detail">No data for now</p>
+                                        </ng-template>
+                                    </nz-empty>
+                                </div>
+                            </div>
+
+
+
+
                         </div>
 
                         <div class="tab-pane fade pt-3" id="workAnniversaries" role="tabpanel"
@@ -930,6 +1031,18 @@
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+
+                            <div class="d-flex align-items-center justify-content-center"
+                                *ngIf="anniversaries?.length === 0 || anniversaries == undefined">
+                                <div class="empty-file" style="margin-top: 9%; margin-bottom: 9%">
+                                    <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                        [nzNotFoundContent]="contentTpl">
+                                        <ng-template #contentTpl>
+                                            <p class="mb-1 empty-detail">No data for now</p>
+                                        </ng-template>
+                                    </nz-empty>
                                 </div>
                             </div>
                         </div>
