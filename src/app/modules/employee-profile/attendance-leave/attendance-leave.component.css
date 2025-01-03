@@ -479,19 +479,6 @@ span.lat {
     background-color: transparent !important;
 } */
 
-::ng-deep .placeholder-lines .ant-select-selection-item {
-    line-height: 36px !important;
-    font-size: 13px !important;
-    font-weight: 400 !important;
-    color: #6B7280;
-}
-
-::ng-deep .placeholder-lines .ant-select-selection-placeholder {
-    line-height: 36px !important;
-    font-size: 13px !important;
-    font-weight: 400 !important;
-    color: #6B7280;
-}
 
 /* 
 ::ng-deep.request-dropdown .ant-select-selection-placeholder {
@@ -510,9 +497,9 @@ span.lat {
     border: 1px solid #f1f1f1 !important;
 } */
 
-nz-select.request-dropdown .ant-select-selector {
+/* nz-select.request-dropdown .ant-select-selector {
     height: 35px !important;
-}
+} */
 
 .badge-soft-weekoff {
     background-color: #fff;
@@ -1135,4 +1122,18 @@ div[ngbTooltip] {
 
 ::ng-deep .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled)::before {
     background-color: var(--primary-background-color) !important;
+}
+
+::ng-deep .placeholder-lines .ant-select-selection-item {
+    line-height: 36px !important;
+    font-size: 13px !important;
+    font-weight: 400 !important;
+    color: #6B7280;
+}
+
+::ng-deep .placeholder-lines .ant-select-selection-placeholder {
+    line-height: 36px !important;
+    font-size: 13px !important;
+    font-weight: 400 !important;
+    color: #6B7280;
 }
