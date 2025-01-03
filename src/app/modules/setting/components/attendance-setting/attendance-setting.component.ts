@@ -1970,8 +1970,12 @@ formatMinutesToTime(minutes: number): string {
         (response) => {
           // console.log(response);
           this.getAllShiftTimingsMethodCall();
+          // this.helperService.showToast(
+          //   'Shift timing deleted successfully',
+          //   Key.TOAST_STATUS_SUCCESS
+          // );
           this.helperService.showToast(
-            'Shift timing deleted successfully',
+            response.message,
             Key.TOAST_STATUS_SUCCESS
           );
         },
