@@ -93,7 +93,7 @@ contentTemplate: string ='You are on the Notice Period, so that you can not appl
     this.getEmployeeProfileAttendanceDetailsData();
     this.currentUserUuid = this.rbacService.getUuid();
 
-    this.calculateDateRange();
+    // this.calculateDateRange();
     // this.getAttendanceRequests();
 
 
@@ -1216,6 +1216,7 @@ private chart!: Chart;
 
 searchString = 'WEEK';
 endDateStr : string = '';
+isPlaceholder: boolean = false;
 getWorkedHourForEachDayOfAWeek() {
   debugger
   
@@ -1249,6 +1250,13 @@ getWorkedHourForEachDayOfAWeek() {
       const data = response.listOfObject.map((item: any) =>
         this.formatToDecimalHours(item.totalWorkedHour)
       );
+
+      console.log('response.listOfObject.length:', response.listOfObject.length);
+      if(response.listOfObject.length == 0){
+        this.isPlaceholder = true;
+      }else {
+        this.isPlaceholder = false;
+      }
 
       this.initializeChart(labels, data);
     },

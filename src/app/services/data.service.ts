@@ -1057,10 +1057,11 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     userUuid: string,
     selectedTeamIds: number[],
     selectedShift: number,
-    selectedLeaveIds: number[]
+    selectedLeaveIds: number[],
+    invite: boolean,
   ): Observable<any> {
     debugger;
-    let params = new HttpParams().set('userUuid', userUuid).set('selectedShiftId', selectedShift);
+    let params = new HttpParams().set('userUuid', userUuid).set('selectedShiftId', selectedShift).set('invite', invite);
     const requestBody = {
       userPersonalInformationRequest,
       selectedTeamIds,
