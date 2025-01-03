@@ -1092,21 +1092,6 @@ export class CompanySettingComponent implements OnInit {
     this.locationSettingTab.nativeElement.click();
    }
 
-  deleteAddress(addressId: number) {
-    this.dataService.deleteByAddressId(addressId).subscribe(
-      (response) => {
-        console.log('Delete successful', response);
-       this.helperService.showToast(
-              'Location deleted successfully',
-              Key.TOAST_STATUS_SUCCESS
-       );
-         this.getAllAddressDetails();
-      },
-      (error) => {
-        console.error('Error deleting address', error);
-      }
-    );
-  }
 
   activeTab: string = 'companySetting'; // Default tab
 
@@ -1622,6 +1607,38 @@ e?.address_components?.forEach((entry: any) => {
  // this.getAddress(this.lat, this.lng);
 }
 
+
+deleteAddressId: number = 0;
+deleteToggle: boolean = false;
+getAddressTemplateId(currentAddress: number) {
+  this.deleteAddressId = currentAddress;
+}
+
+
+@ViewChild('closeButtonDeleteAddress') closeButtonDeleteAddress!: ElementRef;
+
+
+deleteAddress(addressId: number) {
+  this.deleteToggle = true;
+  this.dataService.deleteByAddressId(addressId).subscribe(
+    (response) => {
+      console.log('Delete successful', response);
+
+      this.deleteToggle = false;
+      this.deleteAddressId = 0;
+      this.closeButtonDeleteAddress.nativeElement.click();
+     this.helperService.showToast(
+            'Location deleted successfully',
+            Key.TOAST_STATUS_SUCCESS
+     );
+       this.getAllAddressDetails();
+    },
+    (error) => {
+      this.deleteToggle = false;
+      console.error('Error deleting address', error);
+    }
+  );
+}
 
 }
 
