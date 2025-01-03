@@ -421,7 +421,7 @@
 
                                         </td>
                                         <td class="text-left">
-                                            <div class="team-maneger mb-0 table-font-weight schedule">
+                                            <div class="team-maneger mb-0 table-font-weight schedule" *ngIf="item.shiftInTime">
                                                 <h5 class="mb-0 font-12"> {{item.shiftInTime | date:'shortTime'}} -
                                                     {{item.shiftOutTime | date:'shortTime'}} <span
                                                         class="lat">({{convertToHourMinuteFormat(item.totalWorkingHour)}})</span>
@@ -468,12 +468,21 @@
                                                 {{convertToHourMinuteFormat(item.totalWorkedHour)}}</span>
                                         </td>
                                         <td class="text-left">
-                                            <span class="team-manager mb-0 table-font-weight" [ngClass]="{
-                                                    'text-danger': checkTimeNegative(item.workingHourDifference),
-                                                    'text-success': !checkTimeNegative(item.workingHourDifference)
-                                                  }">
-                                                {{ convertToHourMinuteFormatNegativeCase(item.workingHourDifference) }}
-                                            </span>
+                                            <span
+                                            class="team-manager mb-0 table-font-weight"
+                                            [ngClass]="{
+                                              'text-danger': checkTimeNegative(item.workingHourDifference),
+                                              'text-success': !checkTimeNegative(item.workingHourDifference)
+                                            }" *ngIf="item.workingHourDifference && (item.currentStatus == 'out')">
+                                            {{ convertToHourMinuteFormatNegativeCase(item.workingHourDifference) }}
+                                          </span>
+                                          <span
+                                            class="team-manager mb-0 table-font-weight"
+                                            *ngIf="(item.currentStatus != 'out')"
+                                           >
+                                            --
+                                          </span>
+                                     
                                         </td>
 
 
