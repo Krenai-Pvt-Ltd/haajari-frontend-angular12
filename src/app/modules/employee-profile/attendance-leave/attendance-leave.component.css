@@ -465,7 +465,7 @@ span.lat {
 
 .request-dropdown {
     width: 150px !important;
-    height: 36px !important;
+    height: 40px !important;
     border-radius: 2px;
     border: 1px solid #DCDCE4 !important;
 }
@@ -1099,4 +1099,21 @@ div[ngbTooltip] {
     margin-right: 10px;
     color: #000;
     text-transform: capitalize;
+}
+
+::ng-deep .ant-radio-group-solid .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
+    color: #fff !important;
+    background: var(--primary-background-color) !important;
+    border-color: var(--primary-color) !important;
+}
+
+::ng-deep .ant-radio-button-wrapper:hover {
+    color: var(--primary-color) !important;
+}
+
+::ng-deep .ant-radio-button-wrapper {
+    color: #6B7280 !important;
+    font-weight: 400;
+    min-width: 80px;
+    text-align: center;
 }

@@ -25,21 +25,12 @@ export class RoleBasedAccessControlService {
   currentRoute:any;
   constructor(private helperService: HelperService, private dataService: DataService,  private router : Router) {
 
-  
-     if (this.router != undefined) {
-          // console.log("11111route=======", this._router );
-            this.router.events.subscribe(val => {
-              // console.log("val=======", val);
-              if (val instanceof ActivationEnd && constant.EMPTY_STRINGS.includes(this.currentRoute)) {
-                //@ts-ignore
-                this.currentRoute = val.snapshot._routerState.url.split("?")[0];
-                // console.log("route=======", this.currentRoute);
-                if (!Routes.AUTH_ROUTES.includes(String(this.currentRoute))&& !constant.PUBLIC_ROUTES.includes(window.location.pathname)) {
+
+                if (!Routes.AUTH_ROUTES.includes(String(window.location.pathname))&& !constant.PUBLIC_ROUTES.includes(window.location.pathname)) {
                    this.LoadAsync();
                 }
-              }
-            });
-        }
+             
+        
 
 
   }

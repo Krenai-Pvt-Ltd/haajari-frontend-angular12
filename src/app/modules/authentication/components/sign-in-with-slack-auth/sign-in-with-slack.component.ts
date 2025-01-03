@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
 import { Key } from 'src/app/constant/key';
 import { DataService } from 'src/app/services/data.service';
+import { HelperService } from 'src/app/services/helper.service';
+import { OnboardingService } from 'src/app/services/onboarding.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 
 @Component({
@@ -11,7 +13,7 @@ import { RoleBasedAccessControlService } from 'src/app/services/role-based-acces
   styleUrls: ['./sign-in-with-slack.component.css'],
 })
 export class SignInWithSlackComponent implements OnInit {
-  constructor(private dataService: DataService, private router: Router, private rbacService: RoleBasedAccessControlService) {}
+  constructor(private dataService: DataService, private router: Router, private rbacService: RoleBasedAccessControlService, private onboardingService: OnboardingService, private helperService: HelperService) {}
 
   ngOnInit(): void {
     this.userSignInWithSlack();
@@ -45,6 +47,10 @@ export class SignInWithSlackComponent implements OnInit {
         Key.LOGGED_IN_USER = decodedValue;
 
         debugger;
+
+        await this.onboardingService.checkOnboardingStatus();
+        console.log('this.helperService.orgStepId-------------', this.helperService.orgStepId);
+                  
         // console.log(decodedValue);
         this.router.navigate(['/dashboard']);
         // if (

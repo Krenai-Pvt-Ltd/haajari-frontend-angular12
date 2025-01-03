@@ -4321,20 +4321,21 @@
           <div class="manualemployList" *ngIf="userNameWithShiftName?.length > 0">
             <div class="d-flex align-items-center justify-content-between persnol-details userList p-0 pt-2 pb-2"
               *ngFor="let list of userNameWithShiftName">
-              <div class="d-flex align-items-center gap-3">
+              <div class="d-flex align-items-center gap-3 w-100">
                 <span class="userName">{{
                   list.userName.charAt(0).toUpperCase()
                   }}</span>
 
-                <div>
-                  <h5 class="alert-heading font-13 mb-1"> {{ list.userName }}</h5>
+                <div class="w-100">
+                  <h5 class="alert-heading font-13 mb-1">
+                    {{ list.userName }}
+                  </h5>
                   <div class="d-flex align-items-center justify-content-between">
-                    <p class="mb-0 font-11">{{ list.userEmail || "N/A" }}</p>
-                    <span class="font-12 fw-semibold text-primary pointer"
-                    (click)="removeUser(list.userUuid)"><span>{{constant.REMOVE_SHIFT_STRING}} </span> {{
-                    list.shiftName }} </span>
+                    <p class="mb-0 font-12">{{ list.userEmail || "N/A" }}</p>
                     <!-- <span class="spreter-line"></span> -->
-                    <!-- <span class="shift-tag">{{ list.shiftName }}</span> -->
+                    <span class="font-12 fw-semibold text-primary pointer"
+                      (click)="removeUser(list.userUuid)"><span>{{constant.REMOVE_SHIFT_STRING}} </span> {{
+                      list.shiftName }} </span>
                   </div>
                 </div>
               </div>

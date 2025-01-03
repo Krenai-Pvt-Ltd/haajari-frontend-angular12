@@ -14,7 +14,7 @@ export class EmployeeProfileComponent implements OnInit {
 
   constructor(private roleService: RoleBasedAccessControlService, private dataService: DataService,
     private activateRoute: ActivatedRoute,private _helperService: HelperService
-  ) { 
+  ) {
 
    }
 
@@ -22,7 +22,7 @@ export class EmployeeProfileComponent implements OnInit {
     this.getUuid();
   }
 
-  activeTab: string = 'home';
+  activeTab: string = 'attendance-leave';
 
   setActiveTab(tab: string) {
       this.activeTab = tab;
@@ -50,7 +50,7 @@ export class EmployeeProfileComponent implements OnInit {
   resignationDate: any;
   isLoading: boolean = false;
   getEmployeeProfileData() {
-    
+
     this.isEmployeeExit = false;
     this.isLoading = true;
     this.dataService.getEmployeeProfile(this.UUID).subscribe((response) => {

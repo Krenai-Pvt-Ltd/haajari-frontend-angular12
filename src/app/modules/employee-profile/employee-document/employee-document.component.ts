@@ -9,6 +9,7 @@ import { EmployeeAdditionalDocument } from 'src/app/models/EmployeeAdditionalDoc
 import { finalize } from 'rxjs/operators';
 import { Key } from 'src/app/constant/key';
 import { constant } from 'src/app/constant/constant';
+import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 
 @Component({
   selector: 'app-employee-document',
@@ -34,14 +35,17 @@ export class EmployeeDocumentComponent implements OnInit {
   constructor(private dataService: DataService,private activateRoute: ActivatedRoute,
     public domSanitizer: DomSanitizer, private firebaseStorage: AngularFireStorage,
     private afStorage: AngularFireStorage, private helperService : HelperService,
+    private roleService: RoleBasedAccessControlService,
   ) {
     if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
       this.userId = this.activateRoute.snapshot.queryParamMap.get('userId');
     }
   }
 
-  ngOnInit(): void {
+  ROLE: string = '';
+  async ngOnInit(): Promise<void> {
     this.getEmployeeDocumentsDetailsByUuid();
+    this.ROLE = await this.roleService.getRole();
   }
 
   isDocsPlaceholder: boolean = false;
