@@ -41,7 +41,8 @@
                 </div>
                 <div
                   class="upload-file-input bg-white p-2 mt-2 d-flex align-items-center justify-content-center flex-column pointer"
-                  data-bs-toggle="modal" data-bs-target="#addDocumentt" (click)="setDocType(constant.DOC_TYPE_EMPLOYEE)">
+                  data-bs-toggle="modal" data-bs-target="#addDocumentt"
+                  (click)="setDocType(constant.DOC_TYPE_EMPLOYEE)">
                   <!-- <input id="fileSelect" type="file" name="img[]" accept=".xlsx" class="input"> -->
                   <span>
                     <svg xmlns="http://www.w3.org/2000/svg" width="46" height="45" viewBox="0 0 46 45" fill="none">
@@ -196,10 +197,21 @@
               </div>
             </div>
             <ng-container *ngIf="!isCompanyDocsExist() && ROLE=='USER'">
-              No documents found
+
+
+              <div class="mt-3">
+                <div class="empty-file" style="margin-top: 20%; margin-bottom: 20%">
+                  <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
+                    <ng-template #contentTpl>
+                      <p class="mb-1 empty-detail">No data for now</p>
+                    </ng-template>
+                  </nz-empty>
+                </div>
+              </div>
             </ng-container>
             <ng-container *ngFor="let doc of documents">
-              <div class="col-md-3" *ngIf="doc.documentType==constant.DOC_TYPE_COMPANY || doc.documentType==constant.DOC_TYPE_EMPLOYEE_AGREEMENT">
+              <div class="col-md-3"
+                *ngIf="doc.documentType==constant.DOC_TYPE_COMPANY || doc.documentType==constant.DOC_TYPE_EMPLOYEE_AGREEMENT">
                 <div class="employee-doc-file file-svg p-2">
                   <div class="d-flex align-items-center justify-content-between">
                     <div class="d-flex align-items-center gap-2">
@@ -311,7 +323,8 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Add Document</h5>
-        <button type="button" class="close-btn" data-bs-dismiss="modal" (click)="onCloseModal()" aria-label="Close" #closeButton>
+        <button type="button" class="close-btn" data-bs-dismiss="modal" (click)="onCloseModal()" aria-label="Close"
+          #closeButton>
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
             <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24"
               height="24">
@@ -335,40 +348,28 @@
                     placeholder="Enter document name" [(ngModel)]="doc.name" name="documentName" />
                 </div>
               </div>
-              <ng-container *ngIf="docType===constant.DOC_TYPE_EMPLOYEE_AGREEMENT || docType===constant.DOC_TYPE_COMPANY">
-              <div class="col-md-12 mb-3">
-                <div class="form-check d-flex align-items-center gap-2">
-                  <input type="checkbox" class="form-check-input" id="exampleCheck1" (change)="isEmployeeAgreement($event)" #checkBox>
-                  <label class="form-check-label" for="exampleCheck1">Is this Employee Agreement</label>
-                </div>
+              <ng-container
+                *ngIf="docType===constant.DOC_TYPE_EMPLOYEE_AGREEMENT || docType===constant.DOC_TYPE_COMPANY">
+                <div class="col-md-12 mb-3">
+                  <div class="form-check d-flex align-items-center gap-2">
+                    <input type="checkbox" class="form-check-input" id="exampleCheck1"
+                      (change)="isEmployeeAgreement($event)" #checkBox>
+                    <label class="form-check-label" for="exampleCheck1">Is this Employee Agreement</label>
+                  </div>
 
-              </div>
-              <div *ngIf="isEmployeeAgreementChecked" class="col-md-6 mb-3">
-                <label for="startDate" class="mb-2">Start Date</label>
-                <nz-date-picker
-                  nzBorderless
-                  nzPlaceHolder="dd/mm/yyyy"
-                  id="startDate"
-                  name="startDate"
-                  required
-                  [(ngModel)]="doc.startDate"
-                  [nzDisabledDate]="disableStartDates"
-                  class="form-control">
-                </nz-date-picker>
-              </div>
-              <div *ngIf="isEmployeeAgreementChecked" class="col-md-6 mb-3">
-                <label for="endDate" class="mb-2">End Date</label>
-                <nz-date-picker
-                  nzBorderless
-                  nzPlaceHolder="dd/mm/yyyy"
-                  id="endDate"
-                  name="endDate"
-                  required
-                  [(ngModel)]="doc.endDate"
-                  [nzDisabledDate]="disableEndDates"
-                  class="form-control">
-                </nz-date-picker>
-              </div>
+                </div>
+                <div *ngIf="isEmployeeAgreementChecked" class="col-md-6 mb-3">
+                  <label for="startDate" class="mb-2">Start Date</label>
+                  <nz-date-picker nzBorderless nzPlaceHolder="dd/mm/yyyy" id="startDate" name="startDate" required
+                    [(ngModel)]="doc.startDate" [nzDisabledDate]="disableStartDates" class="form-control">
+                  </nz-date-picker>
+                </div>
+                <div *ngIf="isEmployeeAgreementChecked" class="col-md-6 mb-3">
+                  <label for="endDate" class="mb-2">End Date</label>
+                  <nz-date-picker nzBorderless nzPlaceHolder="dd/mm/yyyy" id="endDate" name="endDate" required
+                    [(ngModel)]="doc.endDate" [nzDisabledDate]="disableEndDates" class="form-control">
+                  </nz-date-picker>
+                </div>
 
               </ng-container>
               <div class="col-md-12">
