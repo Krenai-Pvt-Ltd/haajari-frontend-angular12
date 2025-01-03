@@ -491,6 +491,10 @@
                                             --
                                           </span>
 
+                                          <a href="" data-bs-toggle="modal" data-bs-target="#viewlog"
+                                            (click)="viewLogs(item.createdDate.toString())">
+                                            View Logs</a>
+
                                         </td>
 
 
@@ -2179,4 +2183,288 @@
             </div>
         </div>
     </div>
+</div>
+
+<!-- attendance logs -->
+
+<div class="modal fade" id="viewlog" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalDefaultLabel" aria-hidden="true" #viewlog>
+                <div class="modal-dialog modal-dialog-centered mx-auto" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h6 class="modal-title m-0" id="exampleModalDefaultLabel">
+                        Attendance Log
+                      </h6>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <!-- modal-header -->
+                    <div class="modal-body">
+                      <div class="scroll-box-logs">
+                        <ng-container *ngIf="
+                                isShimmer &&
+                                  attendanceLogResponseList.length === 0 &&
+                                  !dataNotFoundFlagForAttendanceLog &&
+                                  !networkConnectionErrorFlagForAttendanceLog;
+                                else attendanceLogResponseData
+                              ">
+                          <ul class="loges-loding" *ngFor="let item of [].constructor(5)">
+                            <li>
+                              <h6>
+                                <ngx-shimmer-loading [width]="'90%'" [height]="'15px'"></ngx-shimmer-loading>
+                              </h6>
+                              <h6 class="mt-1">
+                                <ngx-shimmer-loading [width]="'40%'" [height]="'10px'"></ngx-shimmer-loading>
+                              </h6>
+                              <h6 class="mt-1">
+                                <ngx-shimmer-loading [width]="'60%'" [height]="'10px'"></ngx-shimmer-loading>
+                              </h6>
+                            </li>
+                          </ul>
+                        </ng-container>
+
+                        <ng-template #attendanceLogResponseData>
+                          <ng-container *ngIf="
+                                  attendanceLogResponseList.length !== 0 &&
+                                    !dataNotFoundFlagForAttendanceLog &&
+                                    !networkConnectionErrorFlagForAttendanceLog;
+                                  else errorInFetchingAttendanceLogData
+                                ">
+                            <ul class="acitivity-timeline-2 list-unstyled mb-0" *ngFor="
+                                    let attendanceLogResponse of attendanceLogResponseList
+                                  ">
+                              <li>
+                                <!-- in-time-color out-time-color break-color break-back-color -->
+                                <h6 class="fs-md mt-0" *ngIf="
+                                        attendanceLogResponse.operationPerformedBy !==
+                                        null
+                                      ">
+                                  {{ attendanceLogResponse.operationType
+                                  }}<span class="added-by" style="padding-left: 10px">(Added By -
+                                    {{
+                                    attendanceLogResponse.operationPerformedBy
+                                    }})</span>
+                                </h6>
+                                <div class="d-flex align-items-center justify-content-between acitivity-box">
+                                  <h6 class="mb-0 attendance-log" *ngIf="
+                                        attendanceLogResponse.operationPerformedBy ===
+                                        null
+                                      " [ngClass]="{
+                                        'in-time-color':
+                                          attendanceLogResponse.operationType ==
+                                          'in',
+                                        'out-time-color':
+                                          attendanceLogResponse.operationType ==
+                                          'out',
+                                        'break-color':
+                                          attendanceLogResponse.operationType ==
+                                          'break',
+                                        'break-back-color':
+                                          attendanceLogResponse.operationType ==
+                                          'back'
+                                      }">
+                                    <span>
+                                      {{
+                                      attendanceLogResponse.operationType
+                                      }}
+                                      |
+                                      {{
+                                      attendanceLogResponse.operationTime
+                                      | date:'shortTime' 
+                                      }}
+                                    </span>
+                                  </h6>
+                                  <div>
+                                    <span class="fonnt-13" style="
+                                          font-weight: 600;
+                                          vertical-align: middle;
+                                        ">
+                                      <i class="bi bi-calendar3" style="margin-right: 5px"></i>
+                                      {{
+                                      attendanceLogResponse.operationTime
+                                      | date:'mediumDate' 
+                                      }}
+                                      |
+                                      {{
+                                      attendanceLogResponse.operationTime
+                                      | date:'shortTime' 
+                                      }}
+                                    </span>
+                                  </div>
+                                </div>
+                                <div class="d-flex align-items-center mb-2 mt-2 gap-3">
+                                  <p class="mb-0" style="font-size: 14px">
+                                    <span><b>Notes</b></span><span> : </span>
+                                    {{
+                                    attendanceLogResponse.additionalNotes
+                                    }}
+                                  </p>
+                                </div>
+
+
+                                <div class="card" *ngIf="
+                                        attendanceLogResponse.latString !=
+                                          null &&
+                                        attendanceLogResponse.longString != null
+                                      ">
+                                  <div class="card-content justify-content-start">
+                                    <div class="image-section" *ngIf="
+                                            attendanceLogResponse.imageUrlString !=
+                                            null
+                                          ">
+                                      <img [src]="
+                                              attendanceLogResponse.imageUrlString
+                                            " alt="User Image" class="user-image" />
+                                    </div>
+                                    <div class="info-section">
+                                      <div>
+                                        <p class="mb-0 mt-0 location-text">
+                                          <span><b>Location:</b></span>
+                                          <span class="location-address"
+                                            *ngIf="Constant.EMPTY_STRINGS.includes( attendanceLogResponse.currentAddress)">{{
+                                            attendanceLogResponse.currentAddress
+
+                                            }}</span>
+                                          <span class="location-address"
+                                            *ngIf="Constant.EMPTY_STRINGS.includes( attendanceLogResponse.currentAddress)">{{
+
+                                            getAddressFromCoords(
+                                            attendanceLogResponse.latString,attendanceLogResponse.longString)
+                                            }}</span>
+                                        </p>
+                                      </div>
+                                      <div class="d-flex align-items-center justify-content-end gap-2 mt-3">
+                                        <button *ngIf="
+                                                attendanceLogResponse.imageUrlString !=
+                                                null
+                                              " (click)="
+                                                openSelfieModal(
+                                                  attendanceLogResponse.imageUrlString
+                                                )
+                                              " class="btn submitActionBtn">
+                                          View Selfie
+                                        </button>
+                                        <button *ngIf="
+                                                attendanceLogResponse.latString !=
+                                                  null &&
+                                                attendanceLogResponse.longString !=
+                                                  null
+                                              " (click)="
+                                                openAddressModal(
+                                                  attendanceLogResponse.latString,
+                                                  attendanceLogResponse.longString
+                                                )
+                                              " class="btn submitActionBtn">
+                                          View Location
+                                        </button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </li>
+                            </ul>
+                          </ng-container>
+                        </ng-template>
+                        <ng-template #errorInFetchingAttendanceLogData>
+
+
+                          <div class="empty-file" style="margin-top: 20%;" *ngIf="dataNotFoundFlagForAttendanceLog">
+                            <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                              [nzNotFoundContent]="contentTpl">
+                              <ng-template #contentTpl>
+                                <p class="mb-1 empty-detail font-16">No data for now</p>
+                              </ng-template>
+                            </nz-empty>
+                          </div>
+
+                          <div class="empty-file" *ngIf="networkConnectionErrorFlagForAttendanceLog">
+                            <div class="errorboxmain">
+                              <div class="errorboxinner text-center">
+                                <div class="errorboxplaceholder mb-2">
+                                  <img src="assets/images/signal.svg" style="width: 80px" />
+                                </div>
+                                <div class="">
+                                  <h4>Something went wrong</h4>
+                                  <p>
+                                    An error occurred while processing your
+                                    request. Please refresh the page and try
+                                    again.
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </ng-template>
+                      </div>
+                    </div>
+
+                    <!-- modal-footer -->
+                  </div>
+                  <!-- modal-content -->
+                </div>
+                <!-- modal-dialog -->
+              </div>
+
+
+
+<button type="button" style="display: none" data-bs-toggle="modal" data-bs-target="#attendancewithlocationss"
+  #attendancewithlocationssButton id="attendancewithlocationssButton"></button>
+<div class="modal fade" id="attendancewithlocationss" tabindex="-1" role="dialog"
+  aria-labelledby="attendancewithlocation" aria-hidden="true">
+  <div class="modal-dialog modal-md" role="document">
+    <form>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h6 class="modal-title m-0" id="exampleModalDefaultLabel">
+            Staff Attendance Location
+          </h6>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-bs-toggle="modal"
+            data-bs-target="#viewlog"></button>
+        </div>
+        <!--end modal-header-->
+        <div class="modal-body">
+          <div class="mb-10">
+            <section>
+              <div class="el-card-item">
+                <div class="el-card-avatar el-overlay-1">
+                  <div class="map">
+                   <agm-map style="height: 350px" [latitude]="lat" [longitude]="lng" [zoom]="zoom" [maxZoom]="20"
+                      [zoomControl]="true" [disableDefaultUI]="true" [keyboardShortcuts]="false">
+                      <agm-marker *ngIf="lat && lng" [latitude]="lat" [longitude]="lng" draggable="true"
+                        [agmFitBounds]="true"></agm-marker>
+                    </agm-map> 
+                    <!--  #placesRef="ngx-places" -->
+                  </div>
+                </div>
+              </div>
+              <!-- </div> -->
+            </section>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#showDocModal"
+  #openDocModalButton id="openDocModalButton"></button>
+<div class="modal blur-bg-2" id="showDocModal" tabindex="-1" data-bs-keyboard="false"
+  aria-labelledby="showDocModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="showDocModalLabel">Attendance Selfie</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-bs-toggle="modal"
+          data-bs-target="#viewlog"></button>
+      </div>
+      <div class="modal-body text-center" style="overflow: scroll; max-height: 350px">
+        <!-- <iframe *ngIf="previewString" [src]="previewString" style="width: 100%; height: 100vh" frameborder="0"></iframe> -->
+        <img *ngIf="isImage" [src]="previewString" alt="Attendance Selfie" style="max-width: 100%; height: 350px" />
+      </div>
+      <div class="modal-footer d-flex align-items-center justify-content-end gap-3">
+        <!-- <button type="button" class="btn btn-de-secondary" data-bs-dismiss="modal" aria-label="Close">Cancel</button> -->
+        <button class="btn btn-primary btn-sm" *ngIf="imageDownUrl" (click)="downloadFile(imageDownUrl)">
+          <span><i class="bi bi-download"></i> Download</span>
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
