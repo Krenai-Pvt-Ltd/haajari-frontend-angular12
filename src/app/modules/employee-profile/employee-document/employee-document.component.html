@@ -341,17 +341,32 @@
 
               </div>
               <div *ngIf="isEmployeeAgreementChecked" class="col-md-6 mb-3">
-                <label for="documentName" class="mb-2">Start Date</label>
-                <nz-date-picker nzBorderless nzPlaceHolder="dd/mm/yyyy" id="selLastDate" name="lastDate" required [(ngModel)]="doc.startDate"
-                  [(ngModel)]="doc.startDate" class="form-control">
-                </nz-date-picker>
-              </div>
-              <div *ngIf="isEmployeeAgreementChecked" class="col-md-6 mb-3">
-                <label for="documentName" class="mb-2">End Date</label>
-                <nz-date-picker nzBorderless nzPlaceHolder="dd/mm/yyyy" id="selLastDate" name="lastDate" required [(ngModel)]="doc.endDate"
+                <label for="startDate" class="mb-2">Start Date</label>
+                <nz-date-picker
+                  nzBorderless
+                  nzPlaceHolder="dd/mm/yyyy"
+                  id="startDate"
+                  name="startDate"
+                  required
+                  [(ngModel)]="doc.startDate"
+                  [nzDisabledDate]="disableStartDates"
                   class="form-control">
                 </nz-date-picker>
               </div>
+              <div *ngIf="isEmployeeAgreementChecked" class="col-md-6 mb-3">
+                <label for="endDate" class="mb-2">End Date</label>
+                <nz-date-picker
+                  nzBorderless
+                  nzPlaceHolder="dd/mm/yyyy"
+                  id="endDate"
+                  name="endDate"
+                  required
+                  [(ngModel)]="doc.endDate"
+                  [nzDisabledDate]="disableEndDates"
+                  class="form-control">
+                </nz-date-picker>
+              </div>
+
               </ng-container>
               <div class="col-md-12">
                 <div class="form-group">

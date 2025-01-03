@@ -74,6 +74,21 @@ export class EmployeeDocumentComponent implements OnInit {
     });
   }
 
+  disableStartDates = (current: Date): boolean => {
+    if (!this.doc.endDate) {
+      return false;
+    }
+    // Disable dates after the selected end date
+    return current.getTime() > new Date(this.doc.endDate).getTime();
+  };
+
+  disableEndDates = (current: Date): boolean => {
+    if (!this.doc.startDate) {
+      return false;
+    }
+    // Disable dates before the selected start date
+    return current.getTime() < new Date(this.doc.startDate).getTime();
+  };
 
   previewString: SafeResourceUrl = '';
   downloadString!: string;
