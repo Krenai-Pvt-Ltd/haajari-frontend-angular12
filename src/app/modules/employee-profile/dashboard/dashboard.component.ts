@@ -495,7 +495,7 @@ export class DashboardComponent implements OnInit {
 
   @ViewChild('chartCanvas', { static: false }) chartCanvas!: ElementRef<HTMLCanvasElement>;
   private chart!: Chart;
-
+  isPlaceholder: boolean = false;
   getWorkedHourForEachDayOfAWeek() {
     this.dataService.getWorkedHourForEachDayOfAWeek(this.userId, this.startDate, this.endDate, 'WEEK').subscribe(
       (response: any) => {
@@ -505,6 +505,12 @@ export class DashboardComponent implements OnInit {
         const data = response.listOfObject.map((item: any) =>
           this.formatToDecimalHours(item.totalWorkedHour)
         );
+
+        if(response.listOfObject.length === 0) {
+          this.isPlaceholder = true;
+        }else {
+          this.isPlaceholder = false;
+        }
 
         this.initializeChart(labels, data);
       },

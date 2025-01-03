@@ -286,6 +286,7 @@ export class EmployeeOnboardingFormComponent implements OnInit {
   toggle = false;
   toggleSave = false;
   isUploading: boolean = false;
+  invite:boolean = true;
   setEmployeePersonalDetailsMethodCall() {
     debugger;
 
@@ -335,6 +336,7 @@ export class EmployeeOnboardingFormComponent implements OnInit {
               [],
               0,
               [],
+              this.invite
             );
             // this.userPersonalDetailsStatus = response.statusResponse;
             // localStorage.setItem('statusResponse', JSON.stringify(this.userPersonalDetailsStatus));

@@ -1243,7 +1243,8 @@
   #addEmployeeModalButton>
   Add Employee
 </button>
-<form #personalInformationForm="ngForm" (ngSubmit)="setEmployeePersonalDetailsMethodCall()"
+<!-- (ngSubmit)="setEmployeePersonalDetailsMethodCall(true)" -->
+<form #personalInformationForm="ngForm" 
   (shown.bs.modal)="resetForm()">
   <div class="form-group">
     <div #inviteModal class="modal fade" id="add-employee" tabindex="-1" role="dialog"
@@ -1410,7 +1411,7 @@
               </div>
             </div>
           </div>
-          <div class="modal-footer d-flex align-items-center justify-content-end gap-2">
+          <!-- <div class="modal-footer d-flex align-items-center justify-content-end gap-2">
             <button type="button" class="btn cancel-btn" data-bs-dismiss="modal" aria-label="Close" #closeInviteModal>
               Cancel
             </button>
@@ -1426,6 +1427,35 @@
               </div>
               <span *ngIf="!toggle">Invite
                 <i class="bi bi-arrow-right" style="padding-left: 8px"></i></span>
+            </button>
+          </div> -->
+          <div class="modal-footer d-flex align-items-center justify-content-end gap-2">
+            <button type="button" class="btn cancel-btn" data-bs-dismiss="modal" aria-label="Close" #closeInviteModal>
+              Cancel
+            </button>
+            <button class="btn submitActionBtn" type="submit" (click)="setEmployeePersonalDetailsMethodCall(false)" [disabled]="
+                  personalInformationForm.invalid ||
+                  isNumberExist ||
+                  isEmailExist
+                " [ngClass]="{'btn-border':!personalInformationForm.invalid}" aria-label="Add Only">
+              <div *ngIf="toggle1" class="dot-opacity-loader1">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+              <span *ngIf="!toggle1">Add Only</span>
+            </button>
+            <button class="btn submitActionBtn" type="submit" (click)="setEmployeePersonalDetailsMethodCall(true)" [disabled]="
+                  personalInformationForm.invalid ||
+                  isNumberExist ||
+                  isEmailExist
+                " [ngClass]="{'btn-border':!personalInformationForm.invalid}" aria-label="Add and Invite">
+              <div *ngIf="toggle2" class="dot-opacity-loader1">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+              <span *ngIf="!toggle2">Invite</span>
             </button>
           </div>
         </div>
