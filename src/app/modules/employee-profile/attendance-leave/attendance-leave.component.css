@@ -708,7 +708,7 @@ span.lat {
     font-size: 12px;
     font-weight: 500;
     border-radius: 2px;
-    width: 100px;
+    min-width: 100px;
 }
 
 .cancel-btn {
