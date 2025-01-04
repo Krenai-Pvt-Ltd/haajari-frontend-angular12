@@ -13,6 +13,7 @@ import { EmployeeProfileAttendanceResponse, TotalEmployeeProfileAttendanceRespon
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import { AttendanceRequest } from 'src/app/models/AttendanceRequest';
+import { constant } from 'src/app/constant/constant';
 // import { Timeline } from 'vis-timeline'
 // import { Timeline,DataSet, TimelineItem } from 'vis-timeline/standalone';
 
@@ -29,6 +30,9 @@ import {
 } from 'chart.js';
 import { DatePipe } from '@angular/common';
 import moment from 'moment';
+import { AttendanceLogResponse } from 'src/app/models/attendance-log-response';
+import saveAs from 'file-saver';
+
 
 
 Chart.register(
@@ -56,9 +60,11 @@ export class AttendanceLeaveComponent implements OnInit {
   currentUserUuid: any
   userLeaveRequest: UserLeaveRequest = new UserLeaveRequest();
 modal: any;
+
+readonly Constant = constant;
 contentTemplate: string ='You are on the Notice Period, so that you can not apply leave';
 
-  constructor(private dataService: DataService, private activateRoute: ActivatedRoute, private datePipe: DatePipe,
+  constructor(private dataService: DataService, private activateRoute: ActivatedRoute, private datePipe: DatePipe,  private firebaseStorage: AngularFireStorage,  private sanitizer: DomSanitizer,
     private fb: FormBuilder, public helperService: HelperService, public domSanitizer: DomSanitizer,
     private afStorage: AngularFireStorage, private modalService: NgbModal,
     private rbacService: RoleBasedAccessControlService,
@@ -1663,5 +1669,181 @@ selectedRequest: string = '';
   disabledDate = (current: Date): boolean => {
     return moment(current).isAfter(moment(), 'day');
   }
+
+
+  //  logs 
+
+  viewLogs(selectedDate: string) {
+    debugger
+    console.log('Selected Date:', selectedDate);
+    this.attendanceLogResponseList = [];
+    this.getAttendanceLogsMethodCall(selectedDate);
+  }
+
+
+    attendanceLogShimmerFlag: boolean = false;
+    dataNotFoundFlagForAttendanceLog: boolean = false;
+    networkConnectionErrorFlagForAttendanceLog: boolean = false;
+    attendanceLogResponseList: AttendanceLogResponse[] = [];
+    isShimmerLogs:boolean = false;
+    getAttendanceLogsMethodCall(selectedDate: string) {
+      this.isShimmerLogs = true;
+      this.dataService
+        .getAttendanceLogs(
+          this.userId,
+          selectedDate
+        )
+        .subscribe(
+          (response) => {
+            debugger;
+            this.attendanceLogResponseList = response;
+            this.isShimmerLogs = false;
+            // console.log(response);
+            if (
+              response === undefined ||
+              response === null ||
+              response.length === 0
+            ) {
+              this.dataNotFoundFlagForAttendanceLog = true;
+            }
+          },
+          (error) => {
+            // console.log(error);
+            this.isShimmerLogs = false;
+            this.networkConnectionErrorFlagForAttendanceLog = true;
+          }
+        );
+    }
+
+
+  @ViewChild('attendancewithlocationssButton')
+  attendancewithlocationssButton!: ElementRef;
+  lat: number = 0;
+  lng: number = 0;
+  zoom: number = 15;
+
+  openAddressModal(lat: string, long: string) {
+    this.lat = +lat;
+    this.lng = +long;
+    this.attendancewithlocationssButton.nativeElement.click();
+  }
+
+
+
+    url: string = '';
+    imageDownUrl: string = '';
+    openSelfieModal(url: string) {
+      this.url = url;
+      this.imageDownUrl = url;
+      this.updateFileType(url);
+      this.viewlog.nativeElement.click();
+      this.openDocModalButton.nativeElement.click();
+    }
+  
+    previewString: SafeResourceUrl | null = null;
+    isPDF: boolean = false;
+    isImage: boolean = false;
+  
+    @ViewChild('openDocModalButton') openDocModalButton!: ElementRef;
+    getFileName(url: string): string {
+      return url.split('/').pop() || 'Attendance Selfie';
+    }
+  
+    private updateFileType(url: string) {
+      const extension = url.split('?')[0].split('.').pop()?.toLowerCase();
+      this.isImage = ['png', 'jpg', 'jpeg', 'gif'].includes(extension!);
+      this.isPDF = extension === 'pdf';
+      if (this.isPDF) {
+        this.previewString = this.sanitizer.bypassSecurityTrustResourceUrl(`https://docs.google.com/gview?url=${encodeURIComponent(url)}&embedded=true`);
+      } else {
+        this.previewString = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+      }
+    }
+  
+    openViewModal(url: string): void {
+      this.url = url;
+      this.updateFileType(url);
+      this.viewlog.nativeElement.click();
+      this.openDocModalButton.nativeElement.click();
+    }
+  
+    // downloadFile(): void {
+    //   const link = document.createElement('a');
+    //   link.href = this.url;
+    //   link.download = this.getFileName(this.url);
+    //   link.click();
+    // }
+  
+  
+    downloadFile(imageUrl: any) {
+      if (!imageUrl) {
+        // console.error('Image URL is undefined or null');
+        return;
+      }
+  
+      var blob = null;
+      var splittedUrl = imageUrl.split(
+        '/firebasestorage.googleapis.com/v0/b/haajiri.appspot.com/o/'
+      );
+  
+      if (splittedUrl.length < 2) {
+        // console.error('Invalid image URL format');
+        return;
+      }
+  
+      splittedUrl = splittedUrl[1].split('?alt');
+      splittedUrl = splittedUrl[0].replace('https://', '');
+      splittedUrl = decodeURIComponent(splittedUrl);
+  
+      this.firebaseStorage.storage
+        .ref(splittedUrl)
+        .getDownloadURL()
+        .then((url: any) => {
+          // This can be downloaded directly:
+          var xhr = new XMLHttpRequest();
+          xhr.responseType = 'blob';
+          xhr.onload = (event) => {
+            blob = xhr.response;
+            saveAs(blob, 'Selfie');
+          };
+          xhr.open('GET', url);
+          xhr.send();
+        })
+        .catch((error: any) => {
+          // Handle any errors
+        });
+    }
+
+
+  @ViewChild('viewlog') viewlog!: ElementRef;
+  @ViewChild('attendanceLogModal') attendanceLogModal!: ElementRef;
+  reOpenLogsModal() {
+    this.viewLogs(this.userId);
+    this.viewlog.nativeElement.click();
+  }
+  
+  getAddressFromCoords(lat: any, lng: any): string | undefined {
+    // if(!this.Constant.EMPTY_STRINGS.includes(lat) && !this.Constant.EMPTY_STRINGS.includes(lng)){
+    //   lat=Number(lat);
+    //   lng=Number(lng)
+    //   console.log("🚀 ~ getAddressFromCoords ~ lat:", lat,lng)
+    //   // return "Click 'View Location' , to view attendace location on map";
+
+    // this.geocoder.geocode({ location: { lat, lng } }, (results, status) => {
+    //   if (status === google.maps.GeocoderStatus.OK && results && results[0] ) {
+    //     return results[0].formatted_address;
+    //   } else {
+    //     return "Click 'View Location' , to view attendace location on map";
+    //   }
+    // }).catch(error=>{
+    //   return "Click 'View Location' , to view attendace location on map";
+    // });
+    // }else{
+    //   return "Click 'View Location' , to view attendace location on map";
+
+    // }
+    return "Click 'View Location' , to view attendace location on map";
+  }
+  
 
 }
