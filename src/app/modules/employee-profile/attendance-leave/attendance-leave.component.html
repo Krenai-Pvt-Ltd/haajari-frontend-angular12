@@ -845,7 +845,7 @@
 
                                                     <ng-container *ngIf="isUserLeaveTaken == 1">
                                                         <button type="button" class="btn primaryBtnLink leave-request"
-                                                            *ngIf="userId==currentUserUuid"
+                                                            *ngIf="UUID==currentUserUuid"
                                                             (click)="applyNewLeaveReq()">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="20"
                                                                 height="21" viewBox="0 0 20 21" fill="none">
@@ -870,7 +870,7 @@
                                                             [nzPopoverContent]="contentTemplate"
                                                             [nzPopoverOverlayStyle]="{'width':'300px'}"
                                                             class="btn primaryBtnLink leave-request"
-                                                            *ngIf="userId==currentUserUuid">
+                                                            *ngIf="UUID==currentUserUuid">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="20"
                                                                 height="21" viewBox="0 0 20 21" fill="none">
                                                                 <mask id="mask0_5145_1779" style="mask-type:alpha"
@@ -1031,7 +1031,7 @@
                                                         </span>
 
                                                         <!-- Delete Button -->
-                                                        <button *ngIf="userId==currentUserUuid" class="icon-button"
+                                                        <button *ngIf="userId==currentUserUuid" class="icon-button d-none"
                                                             (click)="openDeleteConfirmation(item.id)">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="20"
                                                                 height="20" viewBox="0 0 20 20" fill="none">

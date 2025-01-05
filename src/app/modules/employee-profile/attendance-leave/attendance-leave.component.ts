@@ -60,18 +60,21 @@ export class AttendanceLeaveComponent implements OnInit {
   currentUserUuid: any
   userLeaveRequest: UserLeaveRequest = new UserLeaveRequest();
 modal: any;
-
+UUID:string = '';  
 readonly Constant = constant;
 contentTemplate: string ='You are on the Notice Period, so that you can not apply leave';
 
   constructor(private dataService: DataService, private activateRoute: ActivatedRoute, private datePipe: DatePipe,  private firebaseStorage: AngularFireStorage,  private sanitizer: DomSanitizer,
     private fb: FormBuilder, public helperService: HelperService, public domSanitizer: DomSanitizer,
     private afStorage: AngularFireStorage, private modalService: NgbModal,
+    public roleService: RoleBasedAccessControlService,
     private rbacService: RoleBasedAccessControlService,
   ) {
-    if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
-      this.userId = this.activateRoute.snapshot.queryParamMap.get('userId');
-    }
+    this.getUuid();
+    // if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
+    //   this.userId = this.activateRoute.snapshot.queryParamMap.get('userId');
+    // }
+    // this.UUID = await this.roleService.getUuid();
     // this.getFirstAndLastDateOfMonth(this.selectedDate);
 
     this.attendanceTimeUpdateForm = this.fb.group({
@@ -91,6 +94,14 @@ contentTemplate: string ='You are on the Notice Period, so that you can not appl
     });
 
    }
+   public async getUuid() {
+    this.UUID = await this.roleService.getUuid();
+    // this.currentUserUuid = await this.roleService.getUuid();
+
+    if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
+      this.userId = this.activateRoute.snapshot.queryParamMap.get('userId');
+    }
+  }
 
   ngOnInit(): void {
     this.userLeaveForm = this.fb.group({
