@@ -70,7 +70,10 @@ contentTemplate: string ='You are on the Notice Period, so that you can not appl
     public roleService: RoleBasedAccessControlService,
     private rbacService: RoleBasedAccessControlService,
   ) {
-    this.getUuid();
+    this.getUuid(); 
+    if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
+      this.userId = this.activateRoute.snapshot.queryParamMap.get('userId');
+    }
     // if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
     //   this.userId = this.activateRoute.snapshot.queryParamMap.get('userId');
     // }
@@ -85,7 +88,7 @@ contentTemplate: string ='You are on the Notice Period, so that you can not appl
         attendanceId: [null, Validators.required],
         updatedTime: [null, Validators.required],
       }),
-      createGroup: this.fb.group({
+      createGroup: this.fb.group({ 
         inRequestTime: [null, Validators.required],
         outRequestTime: [null, Validators.required],
       }),
@@ -98,9 +101,7 @@ contentTemplate: string ='You are on the Notice Period, so that you can not appl
     this.UUID = await this.roleService.getUuid();
     // this.currentUserUuid = await this.roleService.getUuid();
 
-    if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
-      this.userId = this.activateRoute.snapshot.queryParamMap.get('userId');
-    }
+   
   }
 
   ngOnInit(): void {

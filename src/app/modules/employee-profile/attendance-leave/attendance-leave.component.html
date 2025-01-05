@@ -93,8 +93,29 @@
                                 <div class="col-md-8 ">
                                     <div
                                         class="attendance-summery p-3 pt-2 pb-2 d-flex align-items-center justify-content-between ">
-                                        <div class="d-flex align-items-center gap-2">
-
+                                        <div class="text-end d-flex align-items-center gap-2">
+                                            <!-- <span class="total-worked">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="108" height="32"
+                                                    viewBox="0 0 108 32" fill="none">
+                                                    <path d="M0 30.5039H107.75" stroke="#AFAFAF" stroke-width="1.36538"
+                                                        stroke-dasharray="4.1 4.1" />
+                                                    <path
+                                                        d="M22.4334 11.6206C18.959 15.6204 13.2953 19.3171 10.3945 20.9145V30.2017H97.2362V21.8797L88.9641 4.54834C88.0301 2.59149 85.2977 2.45136 84.1685 4.3024L75.8006 18.0186L64.9912 12.066L56.0139 19.4665L45.3877 16.2489L34.3951 18.0186L27.1188 11.156C25.804 9.91593 23.6186 10.2562 22.4334 11.6206Z"
+                                                        fill="url(#paint0_linear_5195_1562)" />
+                                                    <path
+                                                        d="M10.3945 20.9145C13.4618 19.2254 19.6181 15.1892 23.009 10.9294C23.8532 9.86882 25.4784 9.60887 26.4645 10.5389L33.6609 17.3261C34.1238 17.7627 34.7634 17.9593 35.3916 17.8582L44.9211 16.3241C45.2282 16.2746 45.5425 16.2958 45.8401 16.3859L54.9641 19.1486C55.6199 19.3472 56.3316 19.2047 56.8604 18.7688L63.9184 12.9504C64.566 12.4165 65.4739 12.3318 66.2091 12.7367L74.0846 17.0736C75.0444 17.6022 76.2502 17.2816 76.8209 16.3462L84.8246 3.2268C85.6716 1.83852 87.7209 1.94361 88.4214 3.41125L97.2362 21.8797"
+                                                        stroke="#3AB37E" stroke-width="2.04808"
+                                                        stroke-linecap="round" />
+                                                    <defs>
+                                                        <linearGradient id="paint0_linear_5195_1562" x1="53.8154"
+                                                            y1="7.5138" x2="53.8154" y2="30.2017"
+                                                            gradientUnits="userSpaceOnUse">
+                                                            <stop stop-color="#3AB37E" />
+                                                            <stop offset="1" stop-color="#D9D9D9" stop-opacity="0" />
+                                                        </linearGradient>
+                                                    </defs>
+                                                </svg>
+                                            </span> -->
                                             <div>
                                                 <h5 class="mb-0 font-15">
                                                     {{convertToHourMinuteFormat(totalAttendanceDetails.totalWorkedHours)}}
@@ -128,7 +149,7 @@
 
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <div class="attendance-summery p-3 pt-2 pb-2">
                                         <h5 class="mb-0 font-15">
                                             {{convertToHourMinuteFormat(totalAttendanceDetails.totalLateHours)}} <span
@@ -137,7 +158,7 @@
                                         <p class="mb-0 font-12">Total late delay</p>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <div class="attendance-summery p-3 pt-2 pb-2">
                                         <h5 class="mb-0 font-15">
                                             {{convertToHourMinuteFormat(totalAttendanceDetails.totalHalfDayHours)}}
@@ -148,7 +169,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <div class="attendance-summery p-3 pt-2 pb-2">
                                         <div *ngIf="isShimmer">
                                             <ngx-shimmer-loading [width]="'50%'"
@@ -161,7 +182,7 @@
                                         <p class="mb-0 font-12">System checkout</p>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <div class="attendance-summery p-3 pt-2 pb-2">
                                         <div *ngIf="isShimmer">
                                             <ngx-shimmer-loading [width]="'40%'"
@@ -993,8 +1014,13 @@
 
                                         </td>
                                         <td>
-                                            <span class="team-maneger mb-0 table-font-weight white-space">{{
+                                            <span class="team-maneger mb-0 table-font-weight white-space"nz-popover nzPopoverTitle="Note"
+                                            [nzPopoverContent]="leaveNotes"
+                                            [nzPopoverOverlayStyle]="{'width':'300px'}">{{
                                                 item.optNotes || 'N/A'}}</span>
+                                                <ng-template #leaveNotes>
+                                                    {{ item.optNotes || 'N/A'}}
+                                                  </ng-template>
                                         </td>
                                         <td>
                                             <span class="team-maneger mb-0 table-font-weight white-space">{{
