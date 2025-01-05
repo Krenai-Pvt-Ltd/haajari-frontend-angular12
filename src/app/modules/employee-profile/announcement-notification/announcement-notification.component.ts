@@ -81,7 +81,7 @@ export class AnnouncementNotificationComponent implements OnInit {
     }
     this.apiResponse='';
     this.notification=mail;
-    this.handleApiCall(mail);
+    //this.handleApiCall(mail);
   }
 
   fetchNotification(notificationType: string) {

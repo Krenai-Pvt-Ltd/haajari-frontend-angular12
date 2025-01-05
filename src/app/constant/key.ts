@@ -432,8 +432,8 @@ export class Key {
   public static COL_MD_12 = 1;
 
   // employee profile old and new routes
-  public static EMPLOYEE_PROFILE_ROUTE = '/employee-profile';
-  // public static EMPLOYEE_PROFILE_ROUTE = '/employee';
+  // public static EMPLOYEE_PROFILE_ROUTE = '/employee-profile';
+  public static EMPLOYEE_PROFILE_ROUTE = '/employee';
 }
 
 

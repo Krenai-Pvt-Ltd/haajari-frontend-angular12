@@ -2,6 +2,12 @@
     border-right: 1px solid #f1f1f1;
 }
 
+#pdf-container {
+    height: 500px;
+    overflow-y: scroll;
+}
+
+
 .company-logo {
     background-color: #F5F5F5;
     height: 130px;
@@ -832,7 +838,7 @@ span.members-namess {
     font-size: 12px;
     font-weight: 500;
     border-radius: 2px;
-    width: 100px;
+    min-width: 100px;
 }
 
 .input-zorro {

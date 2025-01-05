@@ -497,8 +497,8 @@
                 <div class="d-flex align-items-center gap-2">
                     <button class="btn assets-request" (click)="markMailAsReadAll('mail')">
                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
-                            <mask id="mask0_5653_2453" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25"
-                                height="25">
+                            <mask id="mask0_5653_2453" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                                width="25" height="25">
                                 <rect x="0.5" y="0.5" width="24" height="24" fill="#D9D9D9" />
                             </mask>
                             <g mask="url(#mask0_5653_2453)">
@@ -511,8 +511,8 @@
                     </button>
                     <button class="btn assets-request" (click)="reload('mail')">
                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
-                            <mask id="mask0_5653_2460" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25"
-                                height="24">
+                            <mask id="mask0_5653_2460" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                                width="25" height="24">
                                 <rect x="0.5" width="24" height="24" fill="#D9D9D9" />
                             </mask>
                             <g mask="url(#mask0_5653_2460)">
@@ -525,73 +525,64 @@
                 </div>
             </div>
             <div class="notification-message mt-3">
-              <div *ngIf="mailLoading; else notificationList" class="shimmer-wrapper">
-                <!-- Shimmer Effect Template -->
-                <div class="shimmer-item d-flex align-items-center gap-3 p-3 border-bottom">
-                  <div class="shimmer" style="width:15%; height: 20px;"></div>
-                  <div class="shimmer" style="width:75%; height: 20px;"></div>
-                  <div class="shimmer" style="width:10%; height: 20px;"></div>
+                <div *ngIf="mailLoading; else notificationList" class="shimmer-wrapper">
+                    <!-- Shimmer Effect Template -->
+                    <div class="shimmer-item d-flex align-items-center gap-3 p-3 border-bottom">
+                        <div class="shimmer" style="width:15%; height: 20px;"></div>
+                        <div class="shimmer" style="width:75%; height: 20px;"></div>
+                        <div class="shimmer" style="width:10%; height: 20px;"></div>
+                    </div>
+                    <div class="shimmer-item d-flex align-items-center gap-3 p-3 border-bottom">
+                        <div class="shimmer" style="width:15%; height: 20px;"></div>
+                        <div class="shimmer" style="width:75%; height: 20px;"></div>
+                        <div class="shimmer" style="width:10%; height: 20px;"></div>
+                    </div>
                 </div>
-                <div class="shimmer-item d-flex align-items-center gap-3 p-3 border-bottom">
-                  <div class="shimmer" style="width:15%; height: 20px;"></div>
-                  <div class="shimmer" style="width:75%; height: 20px;"></div>
-                  <div class="shimmer" style="width:10%; height: 20px;"></div>
-                </div>
-              </div>
-              <ng-template #notificationList>
-                <!-- Actual Notification List -->
-                <div
-                  *ngFor="let mail of mailList"
-                  class="d-flex align-items-center gap-3 p-3 border-bottom pointer"
-                  [ngClass]="{'unread-mssage': !mail.isRead}"
-                 
-                >
-                  <div style="width:15%">
-                    <h6 class="mb-0">{{ mail.title }}</h6>
-                  </div>
-                  <div style="width:75%">
-                    <p class="mb-0">
-                      {{ mail.message }}
-                    </p>
-                  </div>
-                  <div style="width:10%" class="text-end d-flex align-items-center gap-2 justify-content-end">
-                    <div *ngIf="!mail.isRead" class="new-notification"></div>
-                    <span class="mb-0">{{ getTimeAgo(mail.createdDate.toLocaleString()) }}</span>
-                  </div>
-                </div>
-              </ng-template>
+                <ng-template #notificationList>
+                    <!-- Actual Notification List -->
+                    <div *ngFor="let mail of mailList" class="d-flex align-items-center gap-3 p-3 border-bottom pointer"
+                        [ngClass]="{'unread-mssage': !mail.isRead}" (click)="readNotification(mail)">
+                        <div style="width:15%">
+                            <h6 class="mb-0">{{ mail.title }}</h6>
+                        </div>
+                        <div style="width:75%">
+                            <p class="mb-0">
+                                {{ mail.message }}
+                            </p>
+                        </div>
+                        <div style="width:10%" class="text-end d-flex align-items-center gap-2 justify-content-end">
+                            <div *ngIf="!mail.isRead" class="new-notification"></div>
+                            <span class="mb-0">{{ getTimeAgo(mail.createdDate.toLocaleString()) }}</span>
+                        </div>
+                    </div>
+                </ng-template>
             </div>
 
-            <div *ngIf="totalMailNotification / databaseHelper.itemPerPage > 1" class="d-flex align-items-center justify-content-between pagination-box-profile w-100 p-3 bg-white border-top">
-              <!-- Ngb Pagination Component -->
-              <p class="mb-0">
-                Showing items
-                {{ (databaseHelper.currentPage - 1) * databaseHelper.itemPerPage + 1 }} –
-                {{ Math.min(databaseHelper.currentPage * databaseHelper.itemPerPage, totalMailNotification) }}
-                of {{ totalMailNotification }} records
-              </p>
-              <ngb-pagination class="pagition-box"
-                [collectionSize]="totalMailNotification"
-                [rotate]="true"
-                (pageChange)="pageChanged($event)"
-                [pageSize]="this.databaseHelper.itemPerPage"
-                [(page)]="this.databaseHelper.currentPage"
-                [maxSize]="5"
-                [boundaryLinks]="true"
-              >
-              </ngb-pagination>
+            <div
+                class="d-flex align-items-center justify-content-between pagination-box-profile w-100 p-3 bg-white border-top">
+                <!-- Ngb Pagination Component -->
+                <p class="mb-0">
+                    Showing items
+                    {{ (databaseHelper.currentPage - 1) * databaseHelper.itemPerPage + 1 }} –
+                    {{ Math.min(databaseHelper.currentPage * databaseHelper.itemPerPage, totalMailNotification) }}
+                    of {{ totalMailNotification }} records
+                </p>
+                <ngb-pagination class="pagition-box" [collectionSize]="totalMailNotification" [rotate]="true"
+                    (pageChange)="pageChanged($event)" [pageSize]="this.databaseHelper.itemPerPage"
+                    [(page)]="this.databaseHelper.currentPage" [maxSize]="5" [boundaryLinks]="true">
+                </ngb-pagination>
             </div>
 
 
         </div>
         <div class="mt-3" *ngIf="(mailList.length==0 && !mailLoading)">
-          <div class="empty-file" style="margin-top: 7%; margin-bottom: 7%">
-            <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
-                <ng-template #contentTpl>
-                    <p class="mb-1 empty-detail">No data for now</p>
-                </ng-template>
-            </nz-empty>
-        </div>
+            <div class="empty-file" style="margin-top: 20%; margin-bottom: 20%">
+                <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
+                    <ng-template #contentTpl>
+                        <p class="mb-1 empty-detail">No data for now</p>
+                    </ng-template>
+                </nz-empty>
+            </div>
         </div>
     </div>
 </div>
@@ -600,7 +591,7 @@
 
 
 <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#notification-readmore">
-   Onboarding
+    Onboarding
 </button>
 
 <!-- Modal -->
@@ -629,23 +620,37 @@
                     <div class="d-flex align-items-center gap-2 mb-4 notification-heading">
                         <img src="assets/images/user.png" style="width:50px;">
                         <div class="">
-                            <h5 class="mb-1">{{apiResponse?.approvedBy || 'HR'}} <span class="created-announcement">Created an Announcement</span></h5>
+                            <h5 class="mb-1">{{apiResponse?.approvedBy || 'HR'}} <span
+                                    class="created-announcement">Created an Announcement</span></h5>
                             <h6 class="mb-0">{{ getTimeAgo(notification.createdDate) }}</h6>
                         </div>
                     </div>
-                    <h5 class="mb-4" *ngIf="!Constant.EMPTY_STRINGS.includes(apiResponse?.status)"><span class="fw-semibold"> Status: </span> <span class="badge rounded-pill" [ngClass]="{
-                        'badge-soft-warning': apiResponse.status == 'PENDING', 'badge-soft-success': apiResponse.status == 'APPROVED', 'badge-soft-danger': apiResponse.status == 'REJECTED'}"> {{apiResponse?.status}} </span> </h5>
+                    <h5 class="mb-4" *ngIf="!Constant.EMPTY_STRINGS.includes(apiResponse?.status)"><span
+                            class="fw-semibold"> Status: </span> <span class="badge rounded-pill"
+                            [ngClass]="{
+                        'badge-soft-warning': apiResponse.status == 'PENDING', 'badge-soft-success': apiResponse.status == 'APPROVED', 'badge-soft-danger': apiResponse.status == 'REJECTED'}">
+                            {{apiResponse?.status}} </span> </h5>
                     <h5 class="mb-3">{{ notification.message }}</h5>
-                    <p class="mb-4 font-13" *ngIf="!Constant.EMPTY_STRINGS.includes(apiResponse?.createdDate)"><span class="fw-semibold"> Requested On : </span> {{this.apiResponse?.createdDate | date : 'short'}} </p>
-                    <p class="mb-4 font-13" *ngIf="!Constant.EMPTY_STRINGS.includes(apiResponse?.updatedDate)"><span class="fw-semibold"> Action Taken On : </span> {{this.apiResponse?.updatedDate | date : 'short'}} </p>
-                    <p class="mb-4 font-13" *ngIf="!Constant.EMPTY_STRINGS.includes(apiResponse?.startDate)"> <span class="fw-semibold"> Start Date : </span> {{apiResponse?.startDate | date : 'short'}} </p>
-                    <p class="mb-4 font-13" *ngIf="!Constant.EMPTY_STRINGS.includes(apiResponse?.endDate)"><span class="fw-semibold"> End Date : </span> {{apiResponse?.endDate | date : 'short'}} </p>
-                 
-                    <p class="mb-4 font-13" *ngIf="!Constant.EMPTY_STRINGS.includes(apiResponse?.approvedBy?.name)"><span class="fw-semibold"> {{apiResponse?.status}} by : </span> {{apiResponse?.approvedBy.name}} </p>
-                    <p class="mb-4 font-13" *ngIf="!Constant.EMPTY_STRINGS.includes(apiResponse?.optNotes)"><span class="fw-semibold"> Note:  </span> {{apiResponse?.optNotes}}  </p>
-                    <p class="mb-4 font-13" *ngIf="!Constant.EMPTY_STRINGS.includes(apiResponse?.note)"><span class="fw-semibold">  Note: </span>  {{apiResponse?.note}}  </p>
+                    <p class="mb-4 font-13" *ngIf="!Constant.EMPTY_STRINGS.includes(apiResponse?.createdDate)"><span
+                            class="fw-semibold"> Requested On : </span> {{this.apiResponse?.createdDate | date :
+                        'short'}} </p>
+                    <p class="mb-4 font-13" *ngIf="!Constant.EMPTY_STRINGS.includes(apiResponse?.updatedDate)"><span
+                            class="fw-semibold"> Action Taken On : </span> {{this.apiResponse?.updatedDate | date :
+                        'short'}} </p>
+                    <p class="mb-4 font-13" *ngIf="!Constant.EMPTY_STRINGS.includes(apiResponse?.startDate)"> <span
+                            class="fw-semibold"> Start Date : </span> {{apiResponse?.startDate | date : 'short'}} </p>
+                    <p class="mb-4 font-13" *ngIf="!Constant.EMPTY_STRINGS.includes(apiResponse?.endDate)"><span
+                            class="fw-semibold"> End Date : </span> {{apiResponse?.endDate | date : 'short'}} </p>
 
-                   
+                    <p class="mb-4 font-13" *ngIf="!Constant.EMPTY_STRINGS.includes(apiResponse?.approvedBy?.name)">
+                        <span class="fw-semibold"> {{apiResponse?.status}} by : </span> {{apiResponse?.approvedBy.name}}
+                    </p>
+                    <p class="mb-4 font-13" *ngIf="!Constant.EMPTY_STRINGS.includes(apiResponse?.optNotes)"><span
+                            class="fw-semibold"> Note: </span> {{apiResponse?.optNotes}} </p>
+                    <p class="mb-4 font-13" *ngIf="!Constant.EMPTY_STRINGS.includes(apiResponse?.note)"><span
+                            class="fw-semibold"> Note: </span> {{apiResponse?.note}} </p>
+
+
                 </div>
             </div>
         </div>
@@ -682,7 +687,8 @@
                                 Announcement Type
                             </label>
                             <nz-form-control>
-                                <nz-select class="form-control" style="width: 100%" nzSize="large" nzPlaceHolder="Select the announcement" required>
+                                <nz-select class="form-control" style="width: 100%" nzSize="large"
+                                    nzPlaceHolder="Select the announcement" required>
                                     <nz-option [nzValue]="'Announcement'" [nzLabel]="'Announcement'"></nz-option>
                                     <nz-option [nzValue]="'Post'" [nzLabel]="'Post'"></nz-option>
                                     <nz-option [nzValue]="'Poll'" [nzLabel]="'Poll'"></nz-option>
@@ -693,18 +699,20 @@
                             <label for="templateName" class="pb-2">
                                 Template Name
                             </label>
-                            <input class="form-control input-zorro" placeholder="Enter template name here" nzSize="large" minlength="3" maxlength="50" name="tempNamed" required />
+                            <input class="form-control input-zorro" placeholder="Enter template name here"
+                                nzSize="large" minlength="3" maxlength="50" name="tempNamed" required />
                         </div>
 
-                        
+
 
                         <div class="col-md-12 mb-3">
                             <label for="templateName" class="pb-2">
                                 Description
                             </label>
-                            <textarea class="form-control nots-section" id="exampleFormControlTextarea1" placeholder="Write description"  rows="3"></textarea>
+                            <textarea class="form-control nots-section" id="exampleFormControlTextarea1"
+                                placeholder="Write description" rows="3"></textarea>
                         </div>
-                        
+
 
 
 
@@ -719,4 +727,3 @@
         </div>
     </div>
 </div>
-

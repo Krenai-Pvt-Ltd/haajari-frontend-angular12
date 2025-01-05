@@ -3,14 +3,279 @@
     <div class="d-flex align-items-center justify-content-between profile-imfo mt-2 mb-3">
       <div>
         <h5 class="mb-2">{{ user.name }}</h5>
+        <span *ngIf=" requestedData && requestedData?.user?.name"
+          class="profile-editrequest d-flex align-items-center justify-content-center pointer position-relative">
+
+          <span style="width: 40px !important;" nz-popover [nzPopoverContent]="contentTemplate"
+            [nzPopoverOverlayStyle]="{'width':'400px'}" nzPopoverPlacement="left">
+            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
+              <circle cx="13" cy="13" r="13" fill="#FFF6E9" />
+              <mask id="mask0_6512_3861" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="6" y="6" width="14"
+                height="14">
+                <rect x="6" y="6" width="14" height="14" fill="#D9D9D9" />
+              </mask>
+              <g mask="url(#mask0_6512_3861)">
+                <path
+                  d="M10.6673 17.6641H15.334V15.9141C15.334 15.2724 15.1055 14.7231 14.6486 14.2661C14.1916 13.8092 13.6423 13.5807 13.0007 13.5807C12.359 13.5807 11.8097 13.8092 11.3527 14.2661C10.8958 14.7231 10.6673 15.2724 10.6673 15.9141V17.6641ZM8.33398 18.8307V17.6641H9.50065V15.9141C9.50065 15.321 9.63919 14.7644 9.91628 14.2443C10.1934 13.7241 10.5798 13.3085 11.0757 12.9974C10.5798 12.6863 10.1934 12.2707 9.91628 11.7505C9.63919 11.2304 9.50065 10.6738 9.50065 10.0807V8.33073H8.33398V7.16406H17.6673V8.33073H16.5007V10.0807C16.5007 10.6738 16.3621 11.2304 16.085 11.7505C15.8079 12.2707 15.4215 12.6863 14.9257 12.9974C15.4215 13.3085 15.8079 13.7241 16.085 14.2443C16.3621 14.7644 16.5007 15.321 16.5007 15.9141V17.6641H17.6673V18.8307H8.33398Z"
+                  fill="#CF7800" />
+              </g>
+            </svg>
+          </span>
+          <ng-template #contentTemplate>
+
+            <div class="request-g">
+              <div class="d-flex align-items-center justify-content-between border-bottom p-3">
+                <h5 class="mb-0">Update Request</h5>
+                <div class="d-flex align-items-center gap-2">
+                  <!-- <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
+                  <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER && fieldLoading'"
+                    (click)="removeField('name', requestedData.user.name)">Delete</button>
+                  <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER' && fieldLoading"
+                    (click)="approveField('name', requestedData.user.name)">Approve</button> -->
+
+                  <div class="d-flex align-items-center gap-2">
+                    <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
+                    <div
+                      class="icon-info-activity bg-soft-danger pointer d-flex align-items-center justify-content-center"
+                      *ngIf="rbacService.userInfo.role != 'USER && fieldLoading'"
+                      (click)="removeField('name', requestedData.user.name)">
+                      <i class="ti ti-x"></i>
+                    </div>
+                    <div
+                      class="icon-info-activity bg-soft-success pointer d-flex align-items-center justify-content-center"
+                      *ngIf="rbacService.userInfo.role != 'USER' && fieldLoading"
+                      (click)="approveField('name', requestedData.user.name)">
+                      <i class="ti ti-checks "></i>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="p-3 pt-4 pb-4">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                  <h6 class="mb-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="none">
+                      <mask id="mask0_6512_4004" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                        width="19" height="19">
+                        <rect x="0.980469" y="0.332031" width="18" height="18" fill="#D9D9D9" />
+                      </mask>
+                      <g mask="url(#mask0_6512_4004)">
+                        <path
+                          d="M1.73047 16.082L9.98047 1.83203L18.2305 16.082H1.73047ZM4.31797 14.582H15.643L9.98047 4.83203L4.31797 14.582ZM9.98047 13.832C10.193 13.832 10.3711 13.7602 10.5148 13.6164C10.6586 13.4727 10.7305 13.2945 10.7305 13.082C10.7305 12.8695 10.6586 12.6914 10.5148 12.5477C10.3711 12.4039 10.193 12.332 9.98047 12.332C9.76797 12.332 9.58984 12.4039 9.44609 12.5477C9.30234 12.6914 9.23047 12.8695 9.23047 13.082C9.23047 13.2945 9.30234 13.4727 9.44609 13.6164C9.58984 13.7602 9.76797 13.832 9.98047 13.832ZM9.23047 11.582H10.7305V7.83203H9.23047V11.582Z"
+                          fill="#CF7800" />
+                      </g>
+                    </svg>
+                    Name
+                  </h6>
+                  <!-- <p class="mb-0 fw-semibold">{{item.createdDate | date:'dd-MM-yyyy'}}</p> -->
+                </div>
+                <div class="d-flex align-items-center gap-2">
+                  <div class="stap-bar position-relative">
+                    <span class="stap-dot"></span>
+                    <span class="stap-dot2"></span>
+                  </div>
+                  <div class="updaaate-log pb-3">
+                    <div>
+                      <p class="mb-1 font-14">Updated</p>
+                      <h5 class="mb-0 font-15">{{requestedData?.user?.name}}</h5>
+                    </div>
+                    <div class="mt-3">
+                      <p class="mb-1 font-14">Current </p>
+                      <h5 class="mb-0 font-15">{{user.name}}</h5>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+
+            </div>
+          </ng-template>
+
+        </span>
         <div class="d-flex align-items-center gap-2 mb-0">
           <p class="mb-0 text-primary font-14">{{ user.position || '--'}}</p>
+          <span *ngIf=" requestedData && requestedData?.user?.position"
+            class="profile-editrequest d-flex align-items-center justify-content-center pointer position-relative">
+
+            <span style="width: 40px !important;" nz-popover [nzPopoverContent]="contentTemplate"
+              [nzPopoverOverlayStyle]="{'width':'400px'}" nzPopoverPlacement="left">
+              <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
+                <circle cx="13" cy="13" r="13" fill="#FFF6E9" />
+                <mask id="mask0_6512_3861" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="6" y="6" width="14"
+                  height="14">
+                  <rect x="6" y="6" width="14" height="14" fill="#D9D9D9" />
+                </mask>
+                <g mask="url(#mask0_6512_3861)">
+                  <path
+                    d="M10.6673 17.6641H15.334V15.9141C15.334 15.2724 15.1055 14.7231 14.6486 14.2661C14.1916 13.8092 13.6423 13.5807 13.0007 13.5807C12.359 13.5807 11.8097 13.8092 11.3527 14.2661C10.8958 14.7231 10.6673 15.2724 10.6673 15.9141V17.6641ZM8.33398 18.8307V17.6641H9.50065V15.9141C9.50065 15.321 9.63919 14.7644 9.91628 14.2443C10.1934 13.7241 10.5798 13.3085 11.0757 12.9974C10.5798 12.6863 10.1934 12.2707 9.91628 11.7505C9.63919 11.2304 9.50065 10.6738 9.50065 10.0807V8.33073H8.33398V7.16406H17.6673V8.33073H16.5007V10.0807C16.5007 10.6738 16.3621 11.2304 16.085 11.7505C15.8079 12.2707 15.4215 12.6863 14.9257 12.9974C15.4215 13.3085 15.8079 13.7241 16.085 14.2443C16.3621 14.7644 16.5007 15.321 16.5007 15.9141V17.6641H17.6673V18.8307H8.33398Z"
+                    fill="#CF7800" />
+                </g>
+              </svg>
+            </span>
+            <ng-template #contentTemplate>
+              <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                (click)="removeField('position', requestedData.user.position)">Delete</button>
+              <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                (click)="approveField('position', requestedData.user.position)">Approve</button> -->
+              <div class="request-g">
+                <div class="d-flex align-items-center justify-content-between border-bottom p-3">
+                  <h5 class="mb-0">Update Request</h5>
+                  <!-- <span class="badge rounded-pill badge-soft-warning"> PENDING </span> -->
+
+                  <div class="d-flex align-items-center gap-2">
+                    <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
+                    <div
+                      class="icon-info-activity bg-soft-danger pointer d-flex align-items-center justify-content-center"
+                      *ngIf="rbacService.userInfo.role != 'USER'"
+                      (click)="removeField('position', requestedData.user.position)">
+                      <i class="ti ti-x"></i>
+                    </div>
+                    <div
+                      class="icon-info-activity bg-soft-success pointer d-flex align-items-center justify-content-center"
+                      *ngIf="rbacService.userInfo.role != 'USER'"
+                      (click)="approveField('position', requestedData.user.position)">
+                      <i class="ti ti-checks "></i>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="p-3 pt-4 pb-4">
+                  <div class="d-flex align-items-center justify-content-between mb-3">
+                    <h6 class="mb-0">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="none">
+                        <mask id="mask0_6512_4004" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                          width="19" height="19">
+                          <rect x="0.980469" y="0.332031" width="18" height="18" fill="#D9D9D9" />
+                        </mask>
+                        <g mask="url(#mask0_6512_4004)">
+                          <path
+                            d="M1.73047 16.082L9.98047 1.83203L18.2305 16.082H1.73047ZM4.31797 14.582H15.643L9.98047 4.83203L4.31797 14.582ZM9.98047 13.832C10.193 13.832 10.3711 13.7602 10.5148 13.6164C10.6586 13.4727 10.7305 13.2945 10.7305 13.082C10.7305 12.8695 10.6586 12.6914 10.5148 12.5477C10.3711 12.4039 10.193 12.332 9.98047 12.332C9.76797 12.332 9.58984 12.4039 9.44609 12.5477C9.30234 12.6914 9.23047 12.8695 9.23047 13.082C9.23047 13.2945 9.30234 13.4727 9.44609 13.6164C9.58984 13.7602 9.76797 13.832 9.98047 13.832ZM9.23047 11.582H10.7305V7.83203H9.23047V11.582Z"
+                            fill="#CF7800" />
+                        </g>
+                      </svg>
+                      Position
+                    </h6>
+                    <!-- <p class="mb-0 fw-semibold">{{item.createdDate | date:'dd-MM-yyyy'}}</p> -->
+                  </div>
+                  <div class="d-flex align-items-center gap-2">
+                    <div class="stap-bar position-relative">
+                      <span class="stap-dot"></span>
+                      <span class="stap-dot2"></span>
+                    </div>
+                    <div class="updaaate-log pb-3">
+                      <div>
+                        <p class="mb-1 font-14">Updated</p>
+                        <h5 class="mb-0 font-15">{{requestedData?.user?.position}}</h5>
+                      </div>
+                      <div class="mt-3">
+                        <p class="mb-1 font-14">Current </p>
+                        <h5 class="mb-0 font-15">{{user.position}}</h5>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+
+              </div>
+            </ng-template>
+
+          </span>
           <span class="separator-border"></span>
           <p class="mb-0 font-13">Department: {{ user.department || '--'}}</p>
+          <span *ngIf=" requestedData && requestedData?.user?.department"
+            class="profile-editrequest d-flex align-items-center justify-content-center pointer position-relative">
+
+            <span style="width: 40px !important;" nz-popover [nzPopoverContent]="contentTemplate"
+              [nzPopoverOverlayStyle]="{'width':'400px'}" nzPopoverPlacement="left">
+              <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
+                <circle cx="13" cy="13" r="13" fill="#FFF6E9" />
+                <mask id="mask0_6512_3861" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="6" y="6" width="14"
+                  height="14">
+                  <rect x="6" y="6" width="14" height="14" fill="#D9D9D9" />
+                </mask>
+                <g mask="url(#mask0_6512_3861)">
+                  <path
+                    d="M10.6673 17.6641H15.334V15.9141C15.334 15.2724 15.1055 14.7231 14.6486 14.2661C14.1916 13.8092 13.6423 13.5807 13.0007 13.5807C12.359 13.5807 11.8097 13.8092 11.3527 14.2661C10.8958 14.7231 10.6673 15.2724 10.6673 15.9141V17.6641ZM8.33398 18.8307V17.6641H9.50065V15.9141C9.50065 15.321 9.63919 14.7644 9.91628 14.2443C10.1934 13.7241 10.5798 13.3085 11.0757 12.9974C10.5798 12.6863 10.1934 12.2707 9.91628 11.7505C9.63919 11.2304 9.50065 10.6738 9.50065 10.0807V8.33073H8.33398V7.16406H17.6673V8.33073H16.5007V10.0807C16.5007 10.6738 16.3621 11.2304 16.085 11.7505C15.8079 12.2707 15.4215 12.6863 14.9257 12.9974C15.4215 13.3085 15.8079 13.7241 16.085 14.2443C16.3621 14.7644 16.5007 15.321 16.5007 15.9141V17.6641H17.6673V18.8307H8.33398Z"
+                    fill="#CF7800" />
+                </g>
+              </svg>
+            </span>
+            <ng-template #contentTemplate>
+              <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                (click)="removeField('department', requestedData.user.department)">Delete</button>
+              <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                (click)="approveField('department', requestedData.user.department)">Approve</button> -->
+              <div class="request-g">
+                <div class="d-flex align-items-center justify-content-between border-bottom p-3">
+                  <h5 class="mb-0">Update Request</h5>
+                  <!-- <span class="badge rounded-pill badge-soft-warning"> PENDING </span> -->
+
+                  <div class="d-flex align-items-center gap-2">
+                    <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
+                    <div
+                      class="icon-info-activity bg-soft-danger pointer d-flex align-items-center justify-content-center"
+                      *ngIf="rbacService.userInfo.role != 'USER'"
+                      (click)="removeField('department', requestedData.user.department)">
+                      <i class="ti ti-x"></i>
+                    </div>
+                    <div
+                      class="icon-info-activity bg-soft-success pointer d-flex align-items-center justify-content-center"
+                      *ngIf="rbacService.userInfo.role != 'USER'"
+                      (click)="approveField('department', requestedData.user.department)">
+                      <i class="ti ti-checks "></i>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="p-3 pt-4 pb-4">
+                  <div class="d-flex align-items-center justify-content-between mb-3">
+                    <h6 class="mb-0">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="none">
+                        <mask id="mask0_6512_4004" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                          width="19" height="19">
+                          <rect x="0.980469" y="0.332031" width="18" height="18" fill="#D9D9D9" />
+                        </mask>
+                        <g mask="url(#mask0_6512_4004)">
+                          <path
+                            d="M1.73047 16.082L9.98047 1.83203L18.2305 16.082H1.73047ZM4.31797 14.582H15.643L9.98047 4.83203L4.31797 14.582ZM9.98047 13.832C10.193 13.832 10.3711 13.7602 10.5148 13.6164C10.6586 13.4727 10.7305 13.2945 10.7305 13.082C10.7305 12.8695 10.6586 12.6914 10.5148 12.5477C10.3711 12.4039 10.193 12.332 9.98047 12.332C9.76797 12.332 9.58984 12.4039 9.44609 12.5477C9.30234 12.6914 9.23047 12.8695 9.23047 13.082C9.23047 13.2945 9.30234 13.4727 9.44609 13.6164C9.58984 13.7602 9.76797 13.832 9.98047 13.832ZM9.23047 11.582H10.7305V7.83203H9.23047V11.582Z"
+                            fill="#CF7800" />
+                        </g>
+                      </svg>
+                      Department
+                    </h6>
+                    <!-- <p class="mb-0 fw-semibold">{{item.createdDate | date:'dd-MM-yyyy'}}</p> -->
+                  </div>
+                  <div class="d-flex align-items-center gap-2">
+                    <div class="stap-bar position-relative">
+                      <span class="stap-dot"></span>
+                      <span class="stap-dot2"></span>
+                    </div>
+                    <div class="updaaate-log pb-3">
+                      <div>
+                        <p class="mb-1 font-14">Updated</p>
+                        <h5 class="mb-0 font-15">{{requestedData?.user?.department}}</h5>
+                      </div>
+                      <div class="mt-3">
+                        <p class="mb-1 font-14">Current </p>
+                        <h5 class="mb-0 font-15">{{user.department}}</h5>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+
+              </div>
+            </ng-template>
+
+          </span>
         </div>
         <span>Joining Date: {{ (user.joiningDate | date:'dd-MM-yyyy') || '--' }}</span>
       </div>
-      <div class="d-flex align-items-center gap-3 mt-2" style="gap: 10px" *ngIf="
+      <div class="d-flex align-items-center gap-3 mt-2 gap-2" *ngIf="
             user!.employeeOnboardingStatus?.response == 'PENDING' && rbacService.userInfo.role != 'USER'
           ">
         <button [disabled]="approvedToggle" class="btn btn-soft-success btn-round" type="button"
@@ -30,24 +295,36 @@
       </div>
       <!--  -->
       <div class="action-btn" *ngIf=" user!.employeeOnboardingStatus?.response != 'PENDING'">
-        <div class="d-flex align-items-center gap-3"
-          *ngIf="editStatus === 'PENDING' && rbacService.userInfo.role !== 'USER'">
-          <button class="p-0 btn text-success font-14" (click)="changeStatus('approve')" [disabled]="isLoading">
-            <ng-container *ngIf="!isLoading">Approve</ng-container>
+        <div class="d-flex align-items-center gap-3" *ngIf="requestedData && rbacService.userInfo.role != 'USER'">
+          <button class="btn text-success bg-soft-success font-14" (click)="approveRequestedData()"
+            [disabled]="isLoading">
+            <i class="ti ti-x font-20" style="position: relative; top: 3px;"></i>
+            <ng-container *ngIf="!approveLoading && !rejectLoading">Approve</ng-container>
+            <div *ngIf="approveLoading" class="dot-opacity-loader">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
           </button>
-          <span></span>
-          <button class="p-0 btn text-danger font-14" (click)="changeStatus('reject')" [disabled]="isLoading">
-            <ng-container *ngIf="!isLoading">Reject</ng-container>
-            <ng-container *ngIf="isLoading">
-              <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-              Loading...
+
+          <button class="btn text-danger  bg-soft-danger font-14" b (click)="rejectData()" [disabled]="isLoading">
+            <i class="ti ti-checks font-20" style="position: relative; top: 3px;"></i>
+            <ng-container *ngIf="!rejectLoading && !approveLoading">Reject</ng-container>
+            <ng-container *ngIf="rejectLoading">
+              <div *ngIf="approveLoading" class="dot-opacity-loader">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
             </ng-container>
           </button>
         </div>
         <!-- *ngIf="editStatus=='APPROVED' && rbacService.userInfo.role == 'USER'" -->
         <div class="d-flex align-items-center gap-3">
-          <div class="badge profile-badge rounded-pill badge-soft-warning">You have requested a profile update.</div>
-          <button class="p-0 btn text-primary font-14 fw-semibold edit-btn" (click)="profileEdit=true; editProfile()">
+          <div *ngIf="requestedData && rbacService.userInfo.role == 'USER'"
+            class="badge profile-badge rounded-pill badge-soft-warning">You have requested a profile update.</div>
+          <button *ngIf="rbacService.userInfo.role == 'USER'" class="p-0 btn text-primary font-14 fw-semibold edit-btn"
+            (click)="profileEdit=true; editProfile()">
             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
               <mask id="mask0_6512_3882" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="22"
                 height="22">
@@ -89,13 +366,14 @@
           <div class="row">
             <div class="col-md-3">
               <div class="profile-imformation mb-3">
-                <p class="mb-1">Email Address</p>
+                <p class="mb-1"></p>
                 <div class="d-flex align-items-center gap-2">
                   <h6 class="profile-email mb-0">{{ user.email || '--'}}</h6>
-                  <span *ngIf="findByColumnName('EMAIL_ADDRESS').length > 0"
+                  <span *ngIf=" requestedData && requestedData?.user?.email"
                     class="profile-editrequest d-flex align-items-center justify-content-center pointer position-relative">
+
                     <span style="width: 40px !important;" nz-popover [nzPopoverContent]="contentTemplate"
-                      [nzPopoverOverlayStyle]="{'width':'400px'}" nzPopoverPlacement="rightTop">
+                      [nzPopoverOverlayStyle]="{'width':'400px'}" nzPopoverPlacement="leftTop">
                       <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
                         <circle cx="13" cy="13" r="13" fill="#FFF6E9" />
                         <mask id="mask0_6512_3861" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="6" y="6"
@@ -110,13 +388,29 @@
                       </svg>
                     </span>
                     <ng-template #contentTemplate>
+
                       <div class="request-g">
                         <div class="d-flex align-items-center justify-content-between border-bottom p-3">
                           <h5 class="mb-0">Update Request</h5>
-                          <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
+                          <div class="d-flex align-items-center gap-2">
+                            <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
+                            <div
+                              class="icon-info-activity bg-soft-danger pointer d-flex align-items-center justify-content-center"
+                              *ngIf="rbacService.userInfo.role != 'USER'"
+                              (click)="removeField('email', requestedData.user.email)">
+                              <i class="ti ti-x"></i>
+                            </div>
+                            <div
+                              class="icon-info-activity bg-soft-success pointer d-flex align-items-center justify-content-center"
+                              *ngIf="rbacService.userInfo.role != 'USER'"
+                              (click)="approveField('email', requestedData.user.email)">
+                              <i class="ti ti-checks "></i>
+                            </div>
+                          </div>
+
                         </div>
 
-                        <div *ngFor="let item of findByColumnName('EMAIL_ADDRESS')" class="p-3 pt-4">
+                        <div class="p-3 pt-4 pb-4">
                           <div class="d-flex align-items-center justify-content-between mb-3">
                             <h6 class="mb-0">
                               <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19"
@@ -131,9 +425,9 @@
                                     fill="#CF7800" />
                                 </g>
                               </svg>
-                              Email Address
+
                             </h6>
-                            <p class="mb-0 fw-semibold">{{item.createdDate | date:'dd-MM-yyyy'}}</p>
+                            <!-- <p class="mb-0 fw-semibold">{{item.createdDate | date:'dd-MM-yyyy'}}</p> -->
                           </div>
                           <div class="d-flex align-items-center gap-2">
                             <div class="stap-bar position-relative">
@@ -143,21 +437,15 @@
                             <div class="updaaate-log pb-3">
                               <div>
                                 <p class="mb-1 font-14">Updated</p>
-                                <h5 class="mb-0">{{item.value}}</h5>
+                                <h5 class="mb-0 font-15">{{requestedData?.user?.email}}</h5>
                               </div>
                               <div class="mt-3">
                                 <p class="mb-1 font-14">Current </p>
-                                <h5 class="mb-0">{{user.email}}</h5>
+                                <h5 class="mb-0 font-15">{{user.email}}</h5>
                               </div>
                             </div>
 
                           </div>
-                        </div>
-                        <div class="d-flex align-items-center justify-content-end gap-3 p-3 p-3">
-                          <button class="btn font-14 fw-semibold btn-soft-success">
-                            <i class="ti ti-checks font-16"></i> Approve</button>
-                          <button class="btn font-14 fw-semibold btn-soft-danger">
-                            <i class="ti ti-alert-octagon font-16"></i> Reject</button>
                         </div>
 
 
@@ -179,8 +467,9 @@
                 <p class="mb-1">Phone Number</p>
                 <div class="d-flex align-items-center gap-2">
                   <h6 class="profile-email mb-0">{{ user.phoneNumber || '--'}}</h6>
-                  <span *ngIf="findByColumnName('PHONE_NUMBER').length > 0"
+                  <span *ngIf=" requestedData && requestedData?.user?.phoneNumber"
                     class="profile-editrequest d-flex align-items-center justify-content-center pointer position-relative">
+
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
                       <circle cx="13" cy="13" r="13" fill="#FFF6E9" />
                       <mask id="mask0_6512_3861" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="6" y="6"
@@ -196,10 +485,24 @@
                     <div class="request-log">
                       <div class="d-flex align-items-center justify-content-between border-bottom p-3">
                         <h5 class="mb-0">Update Request</h5>
-                        <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
+                        <div class="d-flex align-items-center gap-2">
+                          <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
+                          <div
+                            class="icon-info-activity bg-soft-danger pointer d-flex align-items-center justify-content-center"
+                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            (click)="removeField('phoneNumber', requestedData.user.phoneNumber)">
+                            <i class="ti ti-x"></i>
+                          </div>
+                          <div
+                            class="icon-info-activity bg-soft-success pointer d-flex align-items-center justify-content-center"
+                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            (click)="approveField('phoneNumber', requestedData.user.phoneNumber)">
+                            <i class="ti ti-checks "></i>
+                          </div>
+                        </div>
                       </div>
 
-                      <div *ngFor="let item of findByColumnName('PHONE_NUMBER')" class="p-3 pt-4 pb-4">
+                      <div class="p-3 pt-4 pb-4">
                         <div class="d-flex align-items-center justify-content-between mb-3">
                           <h6 class="mb-0">
                             <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19"
@@ -216,7 +519,7 @@
                             </svg>
                             Phone Number
                           </h6>
-                          <p class="mb-0 fw-semibold">{{item.createdDate | date:'dd-MM-yyyy'}}</p>
+                          <!-- <p class="mb-0 fw-semibold">{{item.createdDate | date:'dd-MM-yyyy'}}</p> -->
                         </div>
                         <div class="d-flex align-items-center gap-2">
                           <div class="stap-bar position-relative">
@@ -230,14 +533,13 @@
                           <div class="updaaate-log pb-3">
                             <div>
                               <p class="mb-1 font-14">Updated</p>
-                              <h5 class="mb-0">{{item.value}}</h5>
+                              <h5 class="mb-0 font-15">{{requestedData?.user?.phoneNumber}}</h5>
                             </div>
 
                             <div class="mt-3">
                               <p class="mb-1 font-14">Current </p>
-                              <h5 class="mb-0">{{user.phoneNumber}}</h5>
+                              <h5 class="mb-0 font-15">{{user.phoneNumber}}</h5>
                             </div>
-
                           </div>
 
                         </div>
@@ -254,7 +556,7 @@
                 <p class="mb-1">Gender</p>
                 <div class="d-flex align-items-center gap-2">
                   <h6 class="profile-email mb-0">{{ user.gender || '--'}}</h6>
-                  <span *ngIf="findByColumnName('GENDER').length > 0"
+                  <span *ngIf="requestedData && requestedData?.user?.gender"
                     class="profile-editrequest d-flex align-items-center justify-content-center pointer position-relative">
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
                       <circle cx="13" cy="13" r="13" fill="#FFF6E9" />
@@ -269,12 +571,28 @@
                       </g>
                     </svg>
                     <div class="request-log">
+
                       <div class="d-flex align-items-center justify-content-between border-bottom p-3">
                         <h5 class="mb-0">Update Request</h5>
-                        <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
+
+                        <div class="d-flex align-items-center gap-2">
+                          <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
+                          <div
+                            class="icon-info-activity bg-soft-danger pointer d-flex align-items-center justify-content-center"
+                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            (click)="removeField('gender', requestedData.user.gender)">
+                            <i class="ti ti-x"></i>
+                          </div>
+                          <div
+                            class="icon-info-activity bg-soft-success pointer d-flex align-items-center justify-content-center"
+                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            (click)="approveField('gender', requestedData.user.gender)">
+                            <i class="ti ti-checks "></i>
+                          </div>
+                        </div>
                       </div>
 
-                      <div *ngFor="let item of findByColumnName('GENDER')" class="p-3 pt-4 pb-4">
+                      <div class="p-3 pt-4 pb-4">
                         <div class="d-flex align-items-center justify-content-between mb-3">
                           <h6 class="mb-0">
                             <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19"
@@ -291,7 +609,7 @@
                             </svg>
                             Gender
                           </h6>
-                          <p class="mb-0 fw-semibold">{{item.createdDate | date:'dd-MM-yyyy'}}</p>
+                          <!-- <p class="mb-0 fw-semibold">{{item.createdDate | date:'dd-MM-yyyy'}}</p> -->
                         </div>
                         <div class="d-flex align-items-center gap-2">
                           <div class="stap-bar position-relative">
@@ -305,12 +623,12 @@
                           <div class="updaaate-log pb-3">
                             <div>
                               <p class="mb-1 font-14">Updated</p>
-                              <h5 class="mb-0">{{item.value}}</h5>
+                              <h5 class="mb-0 font-15">{{requestedData?.user?.gender}}</h5>
                             </div>
 
                             <div class="mt-3">
                               <p class="mb-1 font-14">Current </p>
-                              <h5 class="mb-0">{{user.gender}}</h5>
+                              <h5 class="mb-0 font-15">{{user.gender}}</h5>
                             </div>
 
                           </div>
@@ -330,8 +648,9 @@
                 <h6></h6>
                 <div class="d-flex align-items-center gap-2">
                   <h6 class="profile-email mb-0">{{ (user.dateOfBirth | date:'dd-MM-yyyy' )|| '--'}}</h6>
-                  <span *ngIf="findByColumnName('DATE_OF_BIRTH').length > 0"
+                  <span *ngIf="requestedData && requestedData?.user?.dateOfBirth"
                     class="profile-editrequest d-flex align-items-center justify-content-center position-relative pointer">
+
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
                       <circle cx="13" cy="13" r="13" fill="#FFF6E9" />
                       <mask id="mask0_6512_3861" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="6" y="6"
@@ -347,10 +666,29 @@
                     <div class="request-log">
                       <div class="d-flex align-items-center justify-content-between border-bottom p-3">
                         <h5 class="mb-0">Update Request</h5>
-                        <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
+                        <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                          (click)="removeField('dateOfBirth', requestedData.user.dateOfBirth)">Delete</button>
+                        <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                          (click)="approveField('dateOfBirth', requestedData.user.dateOfBirth)">Approve</button> -->
+                        <!-- <span class="badge rounded-pill badge-soft-warning"> PENDING </span> -->
+                        <div class="d-flex align-items-center gap-2">
+                          <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
+                          <div
+                            class="icon-info-activity bg-soft-danger pointer d-flex align-items-center justify-content-center"
+                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            (click)="removeField('dateOfBirth', requestedData.user.dateOfBirth)">
+                            <i class="ti ti-x"></i>
+                          </div>
+                          <div
+                            class="icon-info-activity bg-soft-success pointer d-flex align-items-center justify-content-center"
+                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            (click)="approveField('dateOfBirth', requestedData.user.dateOfBirth)">
+                            <i class="ti ti-checks "></i>
+                          </div>
+                        </div>
                       </div>
 
-                      <div *ngFor="let item of findByColumnName('DATE_OF_BIRTH')" class="p-3 pt-4 pb-4">
+                      <div class="p-3 pt-4 pb-4">
                         <div class="d-flex align-items-center justify-content-between mb-3">
                           <h6 class="mb-0">
                             <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19"
@@ -367,7 +705,7 @@
                             </svg>
                             Date Of Birth
                           </h6>
-                          <p class="mb-0 fw-semibold">{{item.createdDate | date:'dd-MM-yyyy'}}</p>
+                          <!-- <p class="mb-0 fw-semibold">{{item.createdDate | date:'dd-MM-yyyy'}}</p> -->
                         </div>
                         <div class="d-flex align-items-center gap-2">
                           <div class="stap-bar position-relative">
@@ -381,12 +719,12 @@
                           <div class="updaaate-log pb-3">
                             <div>
                               <p class="mb-1 font-14">Updated</p>
-                              <h5 class="mb-0">{{item.value}}</h5>
+                              <h5 class="mb-0 font-15">{{requestedData?.user?.dateOfBirth | date:'dd-MM-yyyy'}}</h5>
                             </div>
 
                             <div class="mt-3">
                               <p class="mb-1 font-14">Current </p>
-                              <h5 class="mb-0">{{user.dateOfBirth | date:'dd-MM-yyyy'}}</h5>
+                              <h5 class="mb-0 font-15">{{user.dateOfBirth | date:'dd-MM-yyyy'}}</h5>
                             </div>
 
                           </div>
@@ -408,8 +746,9 @@
                 <h6></h6>
                 <div class="d-flex align-items-center gap-2">
                   <h6 class="profile-email mb-0">{{ user.maritalStatus || '--'}}</h6>
-                  <span *ngIf="findByColumnName('MARITAL_STATUS').length > 0"
+                  <span *ngIf="requestedData && requestedData?.user?.maritalStatus"
                     class="profile-editrequest d-flex align-items-center justify-content-center position-relative pointer">
+
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
                       <circle cx="13" cy="13" r="13" fill="#FFF6E9" />
                       <mask id="mask0_6512_3861" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="6" y="6"
@@ -423,12 +762,31 @@
                       </g>
                     </svg>
                     <div class="request-log">
+                      <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                        (click)="removeField('maritalStatus', requestedData.user.maritalStatus)">Delete</button>
+                      <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                        (click)="approveField('maritalStatus', requestedData.user.maritalStatus)">Approve</button> -->
                       <div class="d-flex align-items-center justify-content-between border-bottom p-3">
                         <h5 class="mb-0">Update Request</h5>
-                        <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
+                        <!-- <span class="badge rounded-pill badge-soft-warning"> PENDING </span> -->
+                        <div class="d-flex align-items-center gap-2">
+                          <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
+                          <div
+                            class="icon-info-activity bg-soft-danger pointer d-flex align-items-center justify-content-center"
+                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            (click)="removeField('maritalStatus', requestedData.user.maritalStatus)">
+                            <i class="ti ti-x"></i>
+                          </div>
+                          <div
+                            class="icon-info-activity bg-soft-success pointer d-flex align-items-center justify-content-center"
+                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            (click)="approveField('maritalStatus', requestedData.user.maritalStatus)">
+                            <i class="ti ti-checks "></i>
+                          </div>
+                        </div>
                       </div>
 
-                      <div *ngFor="let item of findByColumnName('MARITAL_STATUS')" class="p-3 pt-4 pb-4">
+                      <div class="p-3 pt-4 pb-4">
                         <div class="d-flex align-items-center justify-content-between mb-3">
                           <h6 class="mb-0">
                             <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19"
@@ -445,7 +803,7 @@
                             </svg>
                             Marital Status
                           </h6>
-                          <p class="mb-0 fw-semibold">{{item.createdDate | date:'dd-MM-yyyy'}}</p>
+                          <!-- <p class="mb-0 fw-semibold">{{item.createdDate | date:'dd-MM-yyyy'}}</p> -->
                         </div>
                         <div class="d-flex align-items-center gap-2">
                           <div class="stap-bar position-relative">
@@ -459,12 +817,12 @@
                           <div class="updaaate-log pb-3">
                             <div>
                               <p class="mb-1 font-14">Updated</p>
-                              <h5 class="mb-0">{{item.value}}</h5>
+                              <h5 class="mb-0 font-15">{{requestedData.user.maritalStatus}}</h5>
                             </div>
 
                             <div class="mt-3">
                               <p class="mb-1 font-14">Current </p>
-                              <h5 class="mb-0">{{user.maritalStatus}}</h5>
+                              <h5 class="mb-0 font-15">{{user.maritalStatus}}</h5>
                             </div>
 
                           </div>
@@ -483,7 +841,7 @@
                 <p class="mb-1">Nationality</p>
                 <div class="d-flex align-items-center gap-2">
                   <h6 class="profile-email mb-0">{{ user.nationality || '--'}}</h6>
-                  <span *ngIf="findByColumnName('NATIONALITY').length > 0"
+                  <span *ngIf="requestedData && requestedData?.user?.nationality"
                     class="profile-editrequest d-flex align-items-center justify-content-center position-relative pointer">
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
                       <circle cx="13" cy="13" r="13" fill="#FFF6E9" />
@@ -498,12 +856,31 @@
                       </g>
                     </svg>
                     <div class="request-log">
+                      <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                        (click)="removeField('nationality', requestedData.user.nationality)">Delete</button>
+                      <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                        (click)="approveField('nationality', requestedData.user.nationality)">Approve</button> -->
                       <div class="d-flex align-items-center justify-content-between border-bottom p-3">
                         <h5 class="mb-0">Update Request</h5>
-                        <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
+                        <!-- <span class="badge rounded-pill badge-soft-warning"> PENDING </span> -->
+                        <div class="d-flex align-items-center gap-2">
+                          <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
+                          <div
+                            class="icon-info-activity bg-soft-danger pointer d-flex align-items-center justify-content-center"
+                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            (click)="removeField('nationality', requestedData.user.nationality)">
+                            <i class="ti ti-x"></i>
+                          </div>
+                          <div
+                            class="icon-info-activity bg-soft-success pointer d-flex align-items-center justify-content-center"
+                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            (click)="approveField('nationality', requestedData.user.nationality)">
+                            <i class="ti ti-checks "></i>
+                          </div>
+                        </div>
                       </div>
 
-                      <div *ngFor="let item of findByColumnName('NATIONALITY')" class="p-3 pt-4 pb-4">
+                      <div class="p-3 pt-4 pb-4">
                         <div class="d-flex align-items-center justify-content-between mb-3">
                           <h6 class="mb-0">
                             <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19"
@@ -520,34 +897,27 @@
                             </svg>
                             Nationality
                           </h6>
-                          <p class="mb-0 fw-semibold">{{item.createdDate | date:'dd-MM-yyyy'}}</p>
+                          <!-- <p class="mb-0 fw-semibold">{{item.createdDate | date:'dd-MM-yyyy'}}</p> -->
                         </div>
                         <div class="d-flex align-items-center gap-2">
                           <div class="stap-bar position-relative">
 
                             <span class="stap-dot"></span>
                             <span class="stap-dot2"></span>
-
-
-
                           </div>
                           <div class="updaaate-log pb-3">
                             <div>
                               <p class="mb-1 font-14">Updated</p>
-                              <h5 class="mb-0">{{item.value}}</h5>
+                              <h5 class="mb-0 font-15">{{requestedData.user.nationality}}</h5>
                             </div>
 
                             <div class="mt-3">
                               <p class="mb-1 font-14">Current </p>
-                              <h5 class="mb-0">{{user.nationality}}</h5>
+                              <h5 class="mb-0 font-15">{{user.nationality}}</h5>
                             </div>
-
                           </div>
-
                         </div>
                       </div>
-
-
                     </div>
                   </span>
                 </div>
@@ -558,8 +928,9 @@
                 <p class="mb-1">Father’s Name</p>
                 <div class="d-flex align-items-center ">
                   <h6 class="profile-email mb-0">{{ user.fatherName || '--'}}</h6>
-                  <span *ngIf="findByColumnName('FATHER_NAME').length > 0"
+                  <span *ngIf="requestedData && requestedData?.user?.fatherName"
                     class="profile-editrequest d-flex align-items-center justify-content-center pointer position-relative">
+
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
                       <circle cx="13" cy="13" r="13" fill="#FFF6E9" />
                       <mask id="mask0_6512_3861" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="6" y="6"
@@ -573,12 +944,31 @@
                       </g>
                     </svg>
                     <div class="request-log">
+                      <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                        (click)="removeField('fatherName', requestedData.user.fatherName)">Delete</button>
+                      <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                        (click)="approveField('fatherName', requestedData.user.fatherName)">Approve</button> -->
                       <div class="d-flex align-items-center justify-content-between border-bottom p-3">
                         <h5 class="mb-0">Update Request</h5>
-                        <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
+                        <!-- <span class="badge rounded-pill badge-soft-warning"> PENDING </span> -->
+                        <div class="d-flex align-items-center gap-2">
+                          <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
+                          <div
+                            class="icon-info-activity bg-soft-danger pointer d-flex align-items-center justify-content-center"
+                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            (click)="removeField('fatherName', requestedData.user.fatherName)">
+                            <i class="ti ti-x"></i>
+                          </div>
+                          <div
+                            class="icon-info-activity bg-soft-success pointer d-flex align-items-center justify-content-center"
+                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            (click)="approveField('fatherName', requestedData.user.fatherName)">
+                            <i class="ti ti-checks "></i>
+                          </div>
+                        </div>
                       </div>
 
-                      <div *ngFor="let item of findByColumnName('FATHER_NAME')" class="p-3 pt-4 pb-4">
+                      <div class="p-3 pt-4 pb-4">
                         <div class="d-flex align-items-center justify-content-between mb-3">
                           <h6 class="mb-0">
                             <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19"
@@ -595,7 +985,7 @@
                             </svg>
                             Father's Name
                           </h6>
-                          <p class="mb-0 fw-semibold">{{item.createdDate | date:'dd-MM-yyyy'}}</p>
+                          <!-- <p class="mb-0 fw-semibold">{{item.createdDate | date:'dd-MM-yyyy'}}</p> -->
                         </div>
                         <div class="d-flex align-items-center gap-2">
                           <div class="stap-bar position-relative">
@@ -609,12 +999,12 @@
                           <div class="updaaate-log pb-3">
                             <div>
                               <p class="mb-1 font-14">Updated</p>
-                              <h5 class="mb-0">{{item.value}}</h5>
+                              <h5 class="mb-0 font-15">{{requestedData.user.fatherName}}</h5>
                             </div>
 
                             <div class="mt-3">
                               <p class="mb-1 font-14">Current </p>
-                              <h5 class="mb-0">{{user.fatherName}}</h5>
+                              <h5 class="mb-0 font-15">{{user.fatherName}}</h5>
                             </div>
 
                           </div>
@@ -654,8 +1044,9 @@
                   addressEmployee?.[0]?.city}} - {{ addressEmployee?.[0]?.pincode}}
 
 
-                  <span
+                  <span *ngIf="hasValidAddress"
                     class="profile-editrequest d-flex align-items-center justify-content-center pointer position-relative">
+
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
                       <circle cx="13" cy="13" r="13" fill="#FFF6E9" />
                       <mask id="mask0_6512_3861" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="6" y="6"
@@ -668,6 +1059,85 @@
                           fill="#CF7800" />
                       </g>
                     </svg>
+                    <div class="request-log">
+                      <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                        (click)="removeField('userAddress',addressEmployee[0])">Delete</button>
+                      <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                        (click)="approveField('userAddress',addressEmployee[0])">Approve</button> -->
+                      <div class="d-flex align-items-center justify-content-between border-bottom p-3">
+                        <h5 class="mb-0">Update Request</h5>
+                        <!-- <span class="badge rounded-pill badge-soft-warning"> PENDING </span> -->
+                        <div class="d-flex align-items-center gap-2">
+                          <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
+                          <div
+                            class="icon-info-activity bg-soft-danger pointer d-flex align-items-center justify-content-center"
+                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            (click)="removeField('userAddress',addressEmployee[0])">
+                            <i class="ti ti-x"></i>
+                          </div>
+                          <div
+                            class="icon-info-activity bg-soft-success pointer d-flex align-items-center justify-content-center"
+                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            (click)="approveField('userAddress',addressEmployee[0])">
+                            <i class="ti ti-checks "></i>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="p-3 pt-4 pb-4">
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                          <h6 class="mb-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19"
+                              fill="none">
+                              <mask id="mask0_6512_4004" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                                width="19" height="19">
+                                <rect x="0.980469" y="0.332031" width="18" height="18" fill="#D9D9D9" />
+                              </mask>
+                              <g mask="url(#mask0_6512_4004)">
+                                <path
+                                  d="M1.73047 16.082L9.98047 1.83203L18.2305 16.082H1.73047ZM4.31797 14.582H15.643L9.98047 4.83203L4.31797 14.582ZM9.98047 13.832C10.193 13.832 10.3711 13.7602 10.5148 13.6164C10.6586 13.4727 10.7305 13.2945 10.7305 13.082C10.7305 12.8695 10.6586 12.6914 10.5148 12.5477C10.3711 12.4039 10.193 12.332 9.98047 12.332C9.76797 12.332 9.58984 12.4039 9.44609 12.5477C9.30234 12.6914 9.23047 12.8695 9.23047 13.082C9.23047 13.2945 9.30234 13.4727 9.44609 13.6164C9.58984 13.7602 9.76797 13.832 9.98047 13.832ZM9.23047 11.582H10.7305V7.83203H9.23047V11.582Z"
+                                  fill="#CF7800" />
+                              </g>
+                            </svg>
+                            Current Address
+                          </h6>
+                          <!-- <p class="mb-0 fw-semibold">{{item.createdDate | date:'dd-MM-yyyy'}}</p> -->
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                          <div class="stap-bar position-relative">
+
+                            <span class="stap-dot"></span>
+                            <span class="stap-dot2"></span>
+
+
+
+                          </div>
+                          <div class="updaaate-log pb-3">
+                            <div>
+                              <p class="mb-1 font-14">Updated</p>
+                              <h5 class="mb-0 font-15" style="line-height: 24px;">
+                                {{requestedData.userAddress[0]?.addressLine1 ||
+                                addressEmployee?.[0]?.addressLine1}} {{requestedData.userAddress[0]?.addressLine2 ||
+                                addressEmployee?.[0]?.addressLine2}} {{requestedData.userAddress[0]?.city ||
+                                addressEmployee?.[0]?.city}} {{requestedData.userAddress[0]?.pincode ||
+                                addressEmployee?.[0]?.pincode}}</h5>
+
+                            </div>
+
+                            <div class="mt-3">
+                              <p class="mb-1 font-14">Current </p>
+                              <h5 class="mb-0 font-15" style="line-height: 24px;">{{addressEmployee?.[0]?.addressLine1}}
+                                {{addressEmployee?.[0]?.addressLine2}} {{addressEmployee?.[0]?.city}}
+                                {{addressEmployee?.[0]?.pincode}}</h5>
+                            </div>
+
+                          </div>
+
+                        </div>
+                      </div>
+
+
+                    </div>
                   </span>
                 </h6>
                 <div class="d-flex align-items-center gap-2">
@@ -682,7 +1152,104 @@
               <div class="profile-imformation mb-3">
                 <p class="mb-1">Permanent Address</p>
                 <h6 class="mb-1">{{ addressEmployee?.[1]?.addressLine1 || '--'}} {{ addressEmployee?.[1]?.addressLine2}}
-                  {{ addressEmployee?.[1]?.city}} - {{ addressEmployee?.[1]?.pincode}}</h6>
+                  {{ addressEmployee?.[1]?.city}} - {{ addressEmployee?.[1]?.pincode}}
+
+                  <span *ngIf="hasValidAddress1"
+                    class="profile-editrequest d-flex align-items-center justify-content-center pointer position-relative">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
+                      <circle cx="13" cy="13" r="13" fill="#FFF6E9" />
+                      <mask id="mask0_6512_3861" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="6" y="6"
+                        width="14" height="14">
+                        <rect x="6" y="6" width="14" height="14" fill="#D9D9D9" />
+                      </mask>
+                      <g mask="url(#mask0_6512_3861)">
+                        <path
+                          d="M10.6673 17.6641H15.334V15.9141C15.334 15.2724 15.1055 14.7231 14.6486 14.2661C14.1916 13.8092 13.6423 13.5807 13.0007 13.5807C12.359 13.5807 11.8097 13.8092 11.3527 14.2661C10.8958 14.7231 10.6673 15.2724 10.6673 15.9141V17.6641ZM8.33398 18.8307V17.6641H9.50065V15.9141C9.50065 15.321 9.63919 14.7644 9.91628 14.2443C10.1934 13.7241 10.5798 13.3085 11.0757 12.9974C10.5798 12.6863 10.1934 12.2707 9.91628 11.7505C9.63919 11.2304 9.50065 10.6738 9.50065 10.0807V8.33073H8.33398V7.16406H17.6673V8.33073H16.5007V10.0807C16.5007 10.6738 16.3621 11.2304 16.085 11.7505C15.8079 12.2707 15.4215 12.6863 14.9257 12.9974C15.4215 13.3085 15.8079 13.7241 16.085 14.2443C16.3621 14.7644 16.5007 15.321 16.5007 15.9141V17.6641H17.6673V18.8307H8.33398Z"
+                          fill="#CF7800" />
+                      </g>
+                    </svg>
+                    <div class="request-log">
+                      <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                        (click)="removeField('userAddress',addressEmployee[1])">Delete</button>
+                      <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                        (click)="approveField('userAddress',addressEmployee[1])">Approve</button> -->
+                      <div class="d-flex align-items-center justify-content-between border-bottom p-3">
+                        <h5 class="mb-0">Update Request</h5>
+                        <!-- <span class="badge rounded-pill badge-soft-warning"> PENDING </span> -->
+                        <div class="d-flex align-items-center gap-2">
+                          <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
+
+
+                          <div
+                            class="icon-info-activity bg-soft-danger pointer d-flex align-items-center justify-content-center"
+                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            (click)="removeField('userAddress',addressEmployee[1])">
+                            <i class="ti ti-x"></i>
+                          </div>
+                          <div
+                            class="icon-info-activity bg-soft-success pointer d-flex align-items-center justify-content-center"
+                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            (click)="approveField('userAddress',addressEmployee[1])">
+                            <i class="ti ti-checks "></i>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="p-3 pt-4 pb-4">
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                          <h6 class="mb-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19"
+                              fill="none">
+                              <mask id="mask0_6512_4004" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                                width="19" height="19">
+                                <rect x="0.980469" y="0.332031" width="18" height="18" fill="#D9D9D9" />
+                              </mask>
+                              <g mask="url(#mask0_6512_4004)">
+                                <path
+                                  d="M1.73047 16.082L9.98047 1.83203L18.2305 16.082H1.73047ZM4.31797 14.582H15.643L9.98047 4.83203L4.31797 14.582ZM9.98047 13.832C10.193 13.832 10.3711 13.7602 10.5148 13.6164C10.6586 13.4727 10.7305 13.2945 10.7305 13.082C10.7305 12.8695 10.6586 12.6914 10.5148 12.5477C10.3711 12.4039 10.193 12.332 9.98047 12.332C9.76797 12.332 9.58984 12.4039 9.44609 12.5477C9.30234 12.6914 9.23047 12.8695 9.23047 13.082C9.23047 13.2945 9.30234 13.4727 9.44609 13.6164C9.58984 13.7602 9.76797 13.832 9.98047 13.832ZM9.23047 11.582H10.7305V7.83203H9.23047V11.582Z"
+                                  fill="#CF7800" />
+                              </g>
+                            </svg>
+                            Permanent Address
+                          </h6>
+                          <!-- <p class="mb-0 fw-semibold">{{item.createdDate | date:'dd-MM-yyyy'}}</p> -->
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                          <div class="stap-bar position-relative">
+
+                            <span class="stap-dot"></span>
+                            <span class="stap-dot2"></span>
+
+
+
+                          </div>
+                          <div class="updaaate-log pb-3">
+                            <div>
+                              <p class="mb-1 font-14">Updated</p>
+                              <h5 class="mb-0 font-15" style="line-height: 24px;">
+                                {{requestedData.userAddress[1].addressLine1 ||
+                                addressEmployee?.[1]?.addressLine1}} {{requestedData.userAddress[1].addressLine2 ||
+                                addressEmployee?.[1]?.addressLine2}} {{requestedData.userAddress[1].city ||
+                                addressEmployee?.[1]?.city}} - {{requestedData.userAddress[1].pincode ||
+                                addressEmployee?.[1]?.pincode}}</h5>
+                            </div>
+
+                            <div class="mt-3">
+                              <p class="mb-1 font-14">Current </p>
+                              <h5 class="mb-0 font-15" style="line-height: 24px;">{{addressEmployee?.[1]?.addressLine1}}
+                                {{addressEmployee?.[1]?.addressLine2}} {{addressEmployee?.[1]?.city}} -
+                                {{addressEmployee?.[1]?.pincode}}</h5>
+                            </div>
+
+                          </div>
+
+                        </div>
+                      </div>
+
+
+                    </div>
+                  </span>
+                </h6>
                 <div class="d-flex align-items-center gap-2">
                   <span class="font-13">State: <b>{{ addressEmployee?.[1]?.state || '--'}}</b></span>
                   <span class="separator-line"></span>
@@ -697,7 +1264,75 @@
       <div *ngIf="routes.includes('/employee-onboarding-form')" class="row border-top pt-4 pb-3">
         <div class="col-md-3">
           <div class="profile-imfo-hedding">
-            <h5>Reference <span class="font-12">(optional)</span></h5>
+            <h5>Reference <span class="font-12">(optional)</span>
+              <span *ngIf="requestedData && findAllGuarantorWithNullId().length > 0"
+                class="profile-editrequest d-flex align-items-center justify-content-center pointer position-relative">
+                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
+                  <circle cx="13" cy="13" r="13" fill="#FFF6E9" />
+                  <mask id="mask0_6512_3861" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="6" y="6" width="14"
+                    height="14">
+                    <rect x="6" y="6" width="14" height="14" fill="#D9D9D9" />
+                  </mask>
+                  <g mask="url(#mask0_6512_3861)">
+                    <path
+                      d="M10.6673 17.6641H15.334V15.9141C15.334 15.2724 15.1055 14.7231 14.6486 14.2661C14.1916 13.8092 13.6423 13.5807 13.0007 13.5807C12.359 13.5807 11.8097 13.8092 11.3527 14.2661C10.8958 14.7231 10.6673 15.2724 10.6673 15.9141V17.6641ZM8.33398 18.8307V17.6641H9.50065V15.9141C9.50065 15.321 9.63919 14.7644 9.91628 14.2443C10.1934 13.7241 10.5798 13.3085 11.0757 12.9974C10.5798 12.6863 10.1934 12.2707 9.91628 11.7505C9.63919 11.2304 9.50065 10.6738 9.50065 10.0807V8.33073H8.33398V7.16406H17.6673V8.33073H16.5007V10.0807C16.5007 10.6738 16.3621 11.2304 16.085 11.7505C15.8079 12.2707 15.4215 12.6863 14.9257 12.9974C15.4215 13.3085 15.8079 13.7241 16.085 14.2443C16.3621 14.7644 16.5007 15.321 16.5007 15.9141V17.6641H17.6673V18.8307H8.33398Z"
+                      fill="#CF7800" />
+                  </g>
+                </svg>
+                <div class="request-log">
+                  <div class="d-flex align-items-center justify-content-between border-bottom p-3">
+                    <h5 class="mb-0">Update Request</h5>
+                    <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
+                  </div>
+
+                  <div class="p-3 pt-4 pb-4">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                      <h6 class="mb-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="none">
+                          <mask id="mask0_6512_4004" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                            width="19" height="19">
+                            <rect x="0.980469" y="0.332031" width="18" height="18" fill="#D9D9D9" />
+                          </mask>
+                          <g mask="url(#mask0_6512_4004)">
+                            <path
+                              d="M1.73047 16.082L9.98047 1.83203L18.2305 16.082H1.73047ZM4.31797 14.582H15.643L9.98047 4.83203L4.31797 14.582ZM9.98047 13.832C10.193 13.832 10.3711 13.7602 10.5148 13.6164C10.6586 13.4727 10.7305 13.2945 10.7305 13.082C10.7305 12.8695 10.6586 12.6914 10.5148 12.5477C10.3711 12.4039 10.193 12.332 9.98047 12.332C9.76797 12.332 9.58984 12.4039 9.44609 12.5477C9.30234 12.6914 9.23047 12.8695 9.23047 13.082C9.23047 13.2945 9.30234 13.4727 9.44609 13.6164C9.58984 13.7602 9.76797 13.832 9.98047 13.832ZM9.23047 11.582H10.7305V7.83203H9.23047V11.582Z"
+                              fill="#CF7800" />
+                          </g>
+                        </svg>
+                        Reference
+                      </h6>
+                      <!-- <p class="mb-0 fw-semibold">{{item.createdDate | date:'dd-MM-yyyy'}}</p> -->
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="stap-bar position-relative">
+
+                        <span class="stap-dot"></span>
+                        <span class="stap-dot2"></span>
+
+
+
+                      </div>
+                      <div *ngFor="let guarantor of findAllGuarantorWithNullId()" class="updaaate-log pb-3">
+                        <div>
+
+                          <p class="mb-1 font-14">New</p>
+                          <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'" (click)="removeField('userGuarantorInformation', guarantor)">Delete</button>
+                        <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'" (click)="approveField('userGuarantorInformation', guarantor)">Approve</button> -->
+                          <h5 class="mb-0">{{guarantor.name}}</h5>
+                          <h5 class="mb-0">{{guarantor.relation}}</h5>
+                          <h5 class="mb-0">{{guarantor.phoneNumber}}</h5>
+                          <h5 class="mb-0">{{guarantor.emailId}}</h5>
+                        </div>
+
+                      </div>
+
+                    </div>
+                  </div>
+
+
+                </div>
+              </span>
+            </h5>
           </div>
         </div>
         <div class="col-md-9">
@@ -709,6 +1344,7 @@
                   <div class="d-flex align-items-center gap-2">
                     <h6 class="profile-email mb-0">{{ refrence.name }}</h6>
                     <span
+                      *ngIf="requestedData && (findGuarantorWithId(refrence.id)?.name || findGuarantorWithId(refrence.id)?.relation || findGuarantorWithId(refrence.id)?.phoneNumber || findGuarantorWithId(refrence.id)?.emailId)"
                       class="profile-editrequest d-flex align-items-center justify-content-center pointer position-relative">
                       <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
                         <circle cx="13" cy="13" r="13" fill="#FFF6E9" />
@@ -722,6 +1358,90 @@
                             fill="#CF7800" />
                         </g>
                       </svg>
+                      <div class="request-log">
+                        <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                          (click)="removeField('userGuarantorInformation', findGuarantorWithId(refrence.id))">Delete</button>
+                        <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                          (click)="approveField('userGuarantorInformation', findGuarantorWithId(refrence.id))">Approve</button> -->
+                        <div class="d-flex align-items-center justify-content-between border-bottom p-3">
+                          <h5 class="mb-0">Update Request</h5>
+                          <!-- <span class="badge rounded-pill badge-soft-warning"> PENDING </span> -->
+                          <div class="d-flex align-items-center gap-2">
+                            <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
+                            <div
+                              class="icon-info-activity bg-soft-danger pointer d-flex align-items-center justify-content-center"
+                              *ngIf="rbacService.userInfo.role != 'USER'"
+                              (click)="removeField('userGuarantorInformation', findGuarantorWithId(refrence.id))">
+                              <i class="ti ti-x"></i>
+                            </div>
+                            <div
+                              class="icon-info-activity bg-soft-success pointer d-flex align-items-center justify-content-center"
+                              *ngIf="rbacService.userInfo.role != 'USER'"
+                              (click)="approveField('userGuarantorInformation', findGuarantorWithId(refrence.id))">
+                              <i class="ti ti-checks "></i>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="p-3 pt-4 pb-4">
+                          <div class="d-flex align-items-center justify-content-between mb-3">
+                            <h6 class="mb-0">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19"
+                                fill="none">
+                                <mask id="mask0_6512_4004" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0"
+                                  y="0" width="19" height="19">
+                                  <rect x="0.980469" y="0.332031" width="18" height="18" fill="#D9D9D9" />
+                                </mask>
+                                <g mask="url(#mask0_6512_4004)">
+                                  <path
+                                    d="M1.73047 16.082L9.98047 1.83203L18.2305 16.082H1.73047ZM4.31797 14.582H15.643L9.98047 4.83203L4.31797 14.582ZM9.98047 13.832C10.193 13.832 10.3711 13.7602 10.5148 13.6164C10.6586 13.4727 10.7305 13.2945 10.7305 13.082C10.7305 12.8695 10.6586 12.6914 10.5148 12.5477C10.3711 12.4039 10.193 12.332 9.98047 12.332C9.76797 12.332 9.58984 12.4039 9.44609 12.5477C9.30234 12.6914 9.23047 12.8695 9.23047 13.082C9.23047 13.2945 9.30234 13.4727 9.44609 13.6164C9.58984 13.7602 9.76797 13.832 9.98047 13.832ZM9.23047 11.582H10.7305V7.83203H9.23047V11.582Z"
+                                    fill="#CF7800" />
+                                </g>
+                              </svg>
+                              Reference
+                            </h6>
+                            <!-- <p class="mb-0 fw-semibold">{{item.createdDate | date:'dd-MM-yyyy'}}</p> -->
+                          </div>
+                          <div class="d-flex align-items-center gap-2">
+                            <div class="stap-bar position-relative">
+
+                              <span class="stap-dot"></span>
+                              <span class="stap-dot2"></span>
+
+
+
+                            </div>
+                            <div class="updaaate-log pb-3">
+                              <div>
+                                <p class="mb-1 font-14">Updated</p>
+                                <h5 class="mb-0 font-15">{{findGuarantorWithId(refrence.id).name}}</h5>
+                                <h5 class="mb-0 font-15">{{findGuarantorWithId(refrence.id).relation}}</h5>
+                                <h5 class="mb-0 font-15">{{findGuarantorWithId(refrence.id).phoneNumber}}</h5>
+                                <h5 class="mb-0 font-15">{{findGuarantorWithId(refrence.id).emailId}}</h5>
+                              </div>
+
+                              <div class="mt-3">
+                                <p class="mb-1 font-14">Current </p>
+                                <h5 class="mb-0 font-15" *ngIf="findGuarantorWithId(refrence.id)?.name">{{refrence.name
+                                  ||
+                                  '--'}}</h5>
+                                <h5 class="mb-0 font-15" *ngIf="findGuarantorWithId(refrence.id)?.relation">
+                                  {{refrence.relation
+                                  || '--'}}</h5>
+                                <h5 class="mb-0" *ngIf="findGuarantorWithId(refrence.id)?.phoneNumber">
+                                  {{refrence.phoneNumber || '--'}}</h5>
+                                <h5 class="mb-0 font-15" *ngIf="findGuarantorWithId(refrence.id)?.emailId">
+                                  {{refrence.emailId ||
+                                  '--'}}</h5>
+                              </div>
+
+                            </div>
+
+                          </div>
+                        </div>
+
+
+                      </div>
                     </span>
                   </div>
                   <span class="text-primary font-12 mb-1">(Relation: {{ refrence.relation || '--' }})</span>
@@ -753,7 +1473,7 @@
                 <p class="mb-1">Higher Qualification</p>
                 <div class="d-flex align-items-center gap-2">
                   <h6 class="profile-email mb-0">{{ academicEmployee.highestEducationalLevel || '--'}}</h6>
-                  <span
+                  <span *ngIf="requestedData && requestedData?.userAcademics?.highestEducationalLevel"
                     class="profile-editrequest d-flex align-items-center justify-content-center pointer position-relative">
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
                       <circle cx="13" cy="13" r="13" fill="#FFF6E9" />
@@ -768,12 +1488,32 @@
                       </g>
                     </svg>
                     <div class="request-log">
+                      <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                        (click)="removeField('highestEducationalLevel', requestedData.userAcademics.highestEducationalLevel)">Delete</button>
+                      <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                        (click)="approveField('highestEducationalLevel', requestedData.userAcademics.highestEducationalLevel)">Approve</button> -->
                       <div class="d-flex align-items-center justify-content-between border-bottom p-3">
                         <h5 class="mb-0">Update Request</h5>
-                        <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
+                        <!-- <span class="badge rounded-pill badge-soft-warning"> PENDING </span> -->
+
+                        <div class="d-flex align-items-center gap-2">
+                          <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
+                          <div
+                            class="icon-info-activity bg-soft-danger pointer d-flex align-items-center justify-content-center"
+                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            (click)="removeField('highestEducationalLevel', requestedData.userAcademics.highestEducationalLevel)">
+                            <i class="ti ti-x"></i>
+                          </div>
+                          <div
+                            class="icon-info-activity bg-soft-success pointer d-flex align-items-center justify-content-center"
+                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            (click)="approveField('highestEducationalLevel', requestedData.userAcademics.highestEducationalLevel)">
+                            <i class="ti ti-checks "></i>
+                          </div>
+                        </div>
                       </div>
 
-                      <div *ngFor="let item of findByColumnName('HIGHER_QUALIFICATION')" class="p-3 pt-4 pb-4">
+                      <div class="p-3 pt-4 pb-4">
                         <div class="d-flex align-items-center justify-content-between mb-3">
                           <h6 class="mb-0">
                             <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19"
@@ -790,7 +1530,7 @@
                             </svg>
                             Higher Qualification
                           </h6>
-                          <p class="mb-0 fw-semibold">{{item.createdDate | date:'dd-MM-yyyy'}}</p>
+                          <!-- <p class="mb-0 fw-semibold">{{item.createdDate | date:'dd-MM-yyyy'}}</p> -->
                         </div>
                         <div class="d-flex align-items-center gap-2">
                           <div class="stap-bar position-relative">
@@ -804,12 +1544,12 @@
                           <div class="updaaate-log pb-3">
                             <div>
                               <p class="mb-1 font-14">Updated</p>
-                              <h5 class="mb-0">{{item.value}}</h5>
+                              <h5 class="mb-0 font-15">{{requestedData.userAcademics.highestEducationalLevel}}</h5>
                             </div>
 
                             <div class="mt-3">
                               <p class="mb-1 font-14">Current </p>
-                              <h5 class="mb-0">{{academicEmployee.highestEducationalLevel || '--'}}</h5>
+                              <h5 class="mb-0 font-15">{{academicEmployee.highestEducationalLevel || '--'}}</h5>
                             </div>
 
                           </div>
@@ -828,7 +1568,7 @@
                 <p class="mb-1">Degree/Diploma</p>
                 <div class="d-flex align-items-center gap-2">
                   <h6 class="profile-email mb-0">{{ academicEmployee.degreeObtained || '--'}}</h6>
-                  <span
+                  <span *ngIf="requestedData && requestedData?.userAcademics?.degreeObtained"
                     class="profile-editrequest d-flex align-items-center justify-content-center pointer position-relative">
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
                       <circle cx="13" cy="13" r="13" fill="#FFF6E9" />
@@ -843,12 +1583,32 @@
                       </g>
                     </svg>
                     <div class="request-log">
+                      <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                        (click)="removeField('degreeObtained', requestedData.userAcademics.degreeObtained)">Delete</button>
+                      <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                        (click)="approveField('degreeObtained', requestedData.userAcademics.degreeObtained)">Approve</button> -->
                       <div class="d-flex align-items-center justify-content-between border-bottom p-3">
                         <h5 class="mb-0">Update Request</h5>
-                        <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
+                        <!-- <span class="badge rounded-pill badge-soft-warning"> PENDING </span> -->
+                        <div class="d-flex align-items-center gap-2">
+                          <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
+                          <div
+                            class="icon-info-activity bg-soft-danger pointer d-flex align-items-center justify-content-center"
+                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            (click)="removeField('degreeObtained', requestedData.userAcademics.degreeObtained)">
+                            <i class="ti ti-x"></i>
+                          </div>
+                          <div
+                            class="icon-info-activity bg-soft-success pointer d-flex align-items-center justify-content-center"
+                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            (click)="approveField('degreeObtained', requestedData.userAcademics.degreeObtained)">
+                            <i class="ti ti-checks "></i>
+                          </div>
+                        </div>
+
                       </div>
 
-                      <div *ngFor="let item of findByColumnName('DEGREE')" class="p-3 pt-4 pb-4">
+                      <div class="p-3 pt-4 pb-4">
                         <div class="d-flex align-items-center justify-content-between mb-3">
                           <h6 class="mb-0">
                             <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19"
@@ -865,26 +1625,22 @@
                             </svg>
                             Degree/Diploma
                           </h6>
-                          <p class="mb-0 fw-semibold">{{item.createdDate | date:'dd-MM-yyyy'}}</p>
+                          <!-- <p class="mb-0 fw-semibold">{{item.createdDate | date:'dd-MM-yyyy'}}</p> -->
                         </div>
                         <div class="d-flex align-items-center gap-2">
                           <div class="stap-bar position-relative">
-
                             <span class="stap-dot"></span>
                             <span class="stap-dot2"></span>
-
-
-
                           </div>
                           <div class="updaaate-log pb-3">
                             <div>
                               <p class="mb-1 font-14">Updated</p>
-                              <h5 class="mb-0">{{item.value}}</h5>
+                              <h5 class="mb-0 font-15">{{requestedData.userAcademics.degreeObtained}}</h5>
                             </div>
 
                             <div class="mt-3">
                               <p class="mb-1 font-14">Current </p>
-                              <h5 class="mb-0">{{academicEmployee.degreeObtained || '--'}}</h5>
+                              <h5 class="mb-0 font-15">{{academicEmployee.degreeObtained || '--'}}</h5>
                             </div>
 
                           </div>
@@ -903,7 +1659,7 @@
                 <p class="mb-1">Field of Study</p>
                 <div class="d-flex align-items-center gap-2">
                   <h6 class="profile-email mb-0">{{ academicEmployee.fieldOfStudy || '--'}}</h6>
-                  <span
+                  <span *ngIf="requestedData && requestedData?.userAcademics?.fieldOfStudy"
                     class="profile-editrequest d-flex align-items-center justify-content-center pointer position-relative">
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
                       <circle cx="13" cy="13" r="13" fill="#FFF6E9" />
@@ -918,12 +1674,31 @@
                       </g>
                     </svg>
                     <div class="request-log">
+                      <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                        (click)="removeField('fieldOfStudy', requestedData.userAcademics.fieldOfStudy)">Delete</button>
+                      <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                        (click)="approveField('fieldOfStudy', requestedData.userAcademics.fieldOfStudy)">Approve</button> -->
                       <div class="d-flex align-items-center justify-content-between border-bottom p-3">
                         <h5 class="mb-0">Update Request</h5>
-                        <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
+                        <!-- <span class="badge rounded-pill badge-soft-warning"> PENDING </span> -->
+                        <div class="d-flex align-items-center gap-2">
+                          <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
+                          <div
+                            class="icon-info-activity bg-soft-danger pointer d-flex align-items-center justify-content-center"
+                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            (click)="removeField('fieldOfStudy', requestedData.userAcademics.fieldOfStudy)">
+                            <i class="ti ti-x"></i>
+                          </div>
+                          <div
+                            class="icon-info-activity bg-soft-success pointer d-flex align-items-center justify-content-center"
+                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            (click)="approveField('fieldOfStudy', requestedData.userAcademics.fieldOfStudy)">
+                            <i class="ti ti-checks "></i>
+                          </div>
+                        </div>
                       </div>
 
-                      <div *ngFor="let item of findByColumnName('FIELD_OF_STUDY')" class="p-3 pt-4 pb-4">
+                      <div class="p-3 pt-4 pb-4">
                         <div class="d-flex align-items-center justify-content-between mb-3">
                           <h6 class="mb-0">
                             <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19"
@@ -940,7 +1715,7 @@
                             </svg>
                             Field of Study
                           </h6>
-                          <p class="mb-0 fw-semibold">{{item.createdDate | date:'dd-MM-yyyy'}}</p>
+                          <!-- <p class="mb-0 fw-semibold">{{item.createdDate | date:'dd-MM-yyyy'}}</p> -->
                         </div>
                         <div class="d-flex align-items-center gap-2">
                           <div class="stap-bar position-relative">
@@ -954,12 +1729,12 @@
                           <div class="updaaate-log pb-3">
                             <div>
                               <p class="mb-1 font-14">Updated</p>
-                              <h5 class="mb-0">{{item.value}}</h5>
+                              <h5 class="mb-0 font-15">{{requestedData.userAcademics.fieldOfStudy}}</h5>
                             </div>
 
                             <div class="mt-3">
                               <p class="mb-1 font-14">Current </p>
-                              <h5 class="mb-0">{{academicEmployee.fieldOfStudy || '--'}}</h5>
+                              <h5 class="mb-0 font-15">{{academicEmployee.fieldOfStudy || '--'}}</h5>
                             </div>
 
                           </div>
@@ -978,7 +1753,7 @@
                 <p class="mb-1">Institution Name</p>
                 <div class="d-flex align-items-center gap-2">
                   <h6 class="profile-email mb-0">{{ academicEmployee.institutionName || '--'}}</h6>
-                  <span
+                  <span *ngIf="requestedData && requestedData?.userAcademics?.institutionName"
                     class="profile-editrequest d-flex align-items-center justify-content-center pointer position-relative">
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
                       <circle cx="13" cy="13" r="13" fill="#FFF6E9" />
@@ -993,12 +1768,31 @@
                       </g>
                     </svg>
                     <div class="request-log">
+                      <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                        (click)="removeField('institutionName', requestedData.userAcademics.institutionName)">Delete</button>
+                      <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                        (click)="approveField('institutionName', requestedData.userAcademics.institutionName)">Approve</button> -->
                       <div class="d-flex align-items-center justify-content-between border-bottom p-3">
                         <h5 class="mb-0">Update Request</h5>
-                        <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
+                        <!-- <span class="badge rounded-pill badge-soft-warning"> PENDING </span> -->
+                        <div class="d-flex align-items-center gap-2">
+                          <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
+                          <div
+                            class="icon-info-activity bg-soft-danger pointer d-flex align-items-center justify-content-center"
+                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            (click)="removeField('institutionName', requestedData.userAcademics.institutionName)">
+                            <i class="ti ti-x"></i>
+                          </div>
+                          <div
+                            class="icon-info-activity bg-soft-success pointer d-flex align-items-center justify-content-center"
+                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            (click)="approveField('institutionName', requestedData.userAcademics.institutionName)">
+                            <i class="ti ti-checks "></i>
+                          </div>
+                        </div>
                       </div>
 
-                      <div *ngFor="let item of findByColumnName('INSTITUTION_NAME')" class="p-3 pt-4 pb-4">
+                      <div class="p-3 pt-4 pb-4">
                         <div class="d-flex align-items-center justify-content-between mb-3">
                           <h6 class="mb-0">
                             <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19"
@@ -1015,26 +1809,23 @@
                             </svg>
                             Father's Name
                           </h6>
-                          <p class="mb-0 fw-semibold">{{item.createdDate | date:'dd-MM-yyyy'}}</p>
+                          <!-- <p class="mb-0 fw-semibold">{{item.createdDate | date:'dd-MM-yyyy'}}</p> -->
                         </div>
                         <div class="d-flex align-items-center gap-2">
                           <div class="stap-bar position-relative">
 
                             <span class="stap-dot"></span>
                             <span class="stap-dot2"></span>
-
-
-
                           </div>
                           <div class="updaaate-log pb-3">
                             <div>
                               <p class="mb-1 font-14">Updated</p>
-                              <h5 class="mb-0">{{item.value}}</h5>
+                              <h5 class="mb-0 fot-15">{{requestedData.userAcademics.institutionName}}</h5>
                             </div>
 
                             <div class="mt-3">
                               <p class="mb-1 font-14">Current </p>
-                              <h5 class="mb-0">{{academicEmployee.institutionName || '--'}}</h5>
+                              <h5 class="mb-0 font-15">{{academicEmployee.institutionName || '--'}}</h5>
                             </div>
 
                           </div>
@@ -1053,7 +1844,7 @@
                 <p class="mb-1">CGPA</p>
                 <div class="d-flex align-items-center gap-2">
                   <h6 class="profile-email mb-0">{{ academicEmployee.grade || '--'}}</h6>
-                  <span
+                  <span *ngIf="requestedData && requestedData?.userAcademics?.grade"
                     class="profile-editrequest d-flex align-items-center justify-content-center pointer position-relative">
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
                       <circle cx="13" cy="13" r="13" fill="#FFF6E9" />
@@ -1068,12 +1859,31 @@
                       </g>
                     </svg>
                     <div class="request-log">
+                      <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                        (click)="removeField('grade', requestedData.userAcademics.grade)">Delete</button>
+                      <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                        (click)="approveField('grade', requestedData.userAcademics.grade)">Approve</button> -->
                       <div class="d-flex align-items-center justify-content-between border-bottom p-3">
                         <h5 class="mb-0">Update Request</h5>
-                        <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
+                        <!-- <span class="badge rounded-pill badge-soft-warning"> PENDING </span> -->
+                        <div class="d-flex align-items-center gap-2">
+                          <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
+                          <div
+                            class="icon-info-activity bg-soft-danger pointer d-flex align-items-center justify-content-center"
+                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            (click)="removeField('grade', requestedData.userAcademics.grade)">
+                            <i class="ti ti-x"></i>
+                          </div>
+                          <div
+                            class="icon-info-activity bg-soft-success pointer d-flex align-items-center justify-content-center"
+                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            (click)="approveField('grade', requestedData.userAcademics.grade)">
+                            <i class="ti ti-checks "></i>
+                          </div>
+                        </div>
                       </div>
 
-                      <div *ngFor="let item of findByColumnName('CGPA')" class="p-3 pt-4 pb-4">
+                      <div class="p-3 pt-4 pb-4">
                         <div class="d-flex align-items-center justify-content-between mb-3">
                           <h6 class="mb-0">
                             <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19"
@@ -1090,7 +1900,7 @@
                             </svg>
                             CGPA
                           </h6>
-                          <p class="mb-0 fw-semibold">{{item.createdDate | date:'dd-MM-yyyy'}}</p>
+                          <!-- <p class="mb-0 fw-semibold">{{item.createdDate | date:'dd-MM-yyyy'}}</p> -->
                         </div>
                         <div class="d-flex align-items-center gap-2">
                           <div class="stap-bar position-relative">
@@ -1104,12 +1914,12 @@
                           <div class="updaaate-log pb-3">
                             <div>
                               <p class="mb-1 font-14">Updated</p>
-                              <h5 class="mb-0">{{item.value}}</h5>
+                              <h5 class="mb-0 font-15">{{requestedData.userAcademics.grade}}</h5>
                             </div>
 
                             <div class="mt-3">
                               <p class="mb-1 font-14">Current </p>
-                              <h5 class="mb-0">{{academicEmployee.grade || '--'}}</h5>
+                              <h5 class="mb-0 font-15">{{academicEmployee.grade || '--'}}</h5>
                             </div>
 
                           </div>
@@ -1128,7 +1938,7 @@
                 <p class="mb-1">Graduating Year</p>
                 <div class="d-flex align-items-center gap-2">
                   <h6 class="profile-email mb-0">{{ academicEmployee.graduationYear || '--'}}</h6>
-                  <span
+                  <span *ngIf="requestedData && requestedData?.userAcademics?.graduationYear"
                     class="profile-editrequest d-flex align-items-center justify-content-center poiter position-relative">
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
                       <circle cx="13" cy="13" r="13" fill="#FFF6E9" />
@@ -1143,12 +1953,31 @@
                       </g>
                     </svg>
                     <div class="request-log">
+                      <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                        (click)="removeField('graduationYear', requestedData.userAcademics.graduationYear)">Delete</button>
+                      <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                        (click)="approveField('graduationYear', requestedData.userAcademics.graduationYear)">Approve</button> -->
                       <div class="d-flex align-items-center justify-content-between border-bottom p-3">
                         <h5 class="mb-0">Update Request</h5>
-                        <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
+                        <!-- <span class="badge rounded-pill badge-soft-warning"> PENDING </span> -->
+                        <div class="d-flex align-items-center gap-2">
+                          <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
+                          <div
+                            class="icon-info-activity bg-soft-danger pointer d-flex align-items-center justify-content-center"
+                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            (click)="removeField('graduationYear', requestedData.userAcademics.graduationYear)">
+                            <i class="ti ti-x"></i>
+                          </div>
+                          <div
+                            class="icon-info-activity bg-soft-success pointer d-flex align-items-center justify-content-center"
+                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            (click)="approveField('graduationYear', requestedData.userAcademics.graduationYear)">
+                            <i class="ti ti-checks "></i>
+                          </div>
+                        </div>
                       </div>
 
-                      <div *ngFor="let item of findByColumnName('GRADUATING_YEAR')" class="p-3 pt-4 pb-4">
+                      <div class="p-3 pt-4 pb-4">
                         <div class="d-flex align-items-center justify-content-between mb-3">
                           <h6 class="mb-0">
                             <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19"
@@ -1165,7 +1994,7 @@
                             </svg>
                             Graduating Year
                           </h6>
-                          <p class="mb-0 fw-semibold">{{item.createdDate | date:'dd-MM-yyyy'}}</p>
+                          <!-- <p class="mb-0 fw-semibold">{{item.createdDate | date:'dd-MM-yyyy'}}</p> -->
                         </div>
                         <div class="d-flex align-items-center gap-2">
                           <div class="stap-bar position-relative">
@@ -1179,12 +2008,12 @@
                           <div class="updaaate-log pb-3">
                             <div>
                               <p class="mb-1 font-14">Updated</p>
-                              <h5 class="mb-0">{{item.value}}</h5>
+                              <h5 class="mb-0 font-15">{{requestedData.userAcademics.graduationYear}}</h5>
                             </div>
 
                             <div class="mt-3">
                               <p class="mb-1 font-14">Current </p>
-                              <h5 class="mb-0">{{academicEmployee.graduationYear || '--'}}</h5>
+                              <h5 class="mb-0 font-15">{{academicEmployee.graduationYear || '--'}}</h5>
                             </div>
 
                           </div>
@@ -1204,7 +2033,78 @@
       <div *ngIf="routes.includes('/employee-experience')" class="row border-top pt-4 pb-3">
         <div class="col-md-3">
           <div class="profile-imfo-hedding">
-            <h5>Experience</h5>
+            <h5>Experience
+              <span *ngIf="requestedData && findAllExperienceWithNullId().length > 0"
+                class="profile-editrequest d-flex align-items-center justify-content-center pointer position-relative">
+                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
+                  <circle cx="13" cy="13" r="13" fill="#FFF6E9" />
+                  <mask id="mask0_6512_3861" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="6" y="6" width="14"
+                    height="14">
+                    <rect x="6" y="6" width="14" height="14" fill="#D9D9D9" />
+                  </mask>
+                  <g mask="url(#mask0_6512_3861)">
+                    <path
+                      d="M10.6673 17.6641H15.334V15.9141C15.334 15.2724 15.1055 14.7231 14.6486 14.2661C14.1916 13.8092 13.6423 13.5807 13.0007 13.5807C12.359 13.5807 11.8097 13.8092 11.3527 14.2661C10.8958 14.7231 10.6673 15.2724 10.6673 15.9141V17.6641ZM8.33398 18.8307V17.6641H9.50065V15.9141C9.50065 15.321 9.63919 14.7644 9.91628 14.2443C10.1934 13.7241 10.5798 13.3085 11.0757 12.9974C10.5798 12.6863 10.1934 12.2707 9.91628 11.7505C9.63919 11.2304 9.50065 10.6738 9.50065 10.0807V8.33073H8.33398V7.16406H17.6673V8.33073H16.5007V10.0807C16.5007 10.6738 16.3621 11.2304 16.085 11.7505C15.8079 12.2707 15.4215 12.6863 14.9257 12.9974C15.4215 13.3085 15.8079 13.7241 16.085 14.2443C16.3621 14.7644 16.5007 15.321 16.5007 15.9141V17.6641H17.6673V18.8307H8.33398Z"
+                      fill="#CF7800" />
+                  </g>
+                </svg>
+                <div class="request-log">
+                  <div class="d-flex align-items-center justify-content-between border-bottom p-3">
+                    <h5 class="mb-0">Update Request</h5>
+                    <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
+                  </div>
+
+                  <div class="p-3 pt-4 pb-4">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                      <h6 class="mb-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="none">
+                          <mask id="mask0_6512_4004" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                            width="19" height="19">
+                            <rect x="0.980469" y="0.332031" width="18" height="18" fill="#D9D9D9" />
+                          </mask>
+                          <g mask="url(#mask0_6512_4004)">
+                            <path
+                              d="M1.73047 16.082L9.98047 1.83203L18.2305 16.082H1.73047ZM4.31797 14.582H15.643L9.98047 4.83203L4.31797 14.582ZM9.98047 13.832C10.193 13.832 10.3711 13.7602 10.5148 13.6164C10.6586 13.4727 10.7305 13.2945 10.7305 13.082C10.7305 12.8695 10.6586 12.6914 10.5148 12.5477C10.3711 12.4039 10.193 12.332 9.98047 12.332C9.76797 12.332 9.58984 12.4039 9.44609 12.5477C9.30234 12.6914 9.23047 12.8695 9.23047 13.082C9.23047 13.2945 9.30234 13.4727 9.44609 13.6164C9.58984 13.7602 9.76797 13.832 9.98047 13.832ZM9.23047 11.582H10.7305V7.83203H9.23047V11.582Z"
+                              fill="#CF7800" />
+                          </g>
+                        </svg>
+                        Experience
+                      </h6>
+                      <!-- <p class="mb-0 fw-semibold">{{item.createdDate | date:'dd-MM-yyyy'}}</p> -->
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="stap-bar position-relative">
+
+                        <span class="stap-dot"></span>
+                        <span class="stap-dot2"></span>
+
+
+
+                      </div>
+                      <div *ngFor="let item of findAllExperienceWithNullId()" class="updaaate-log pb-3">
+                        <div>
+                          <p class="mb-1 font-14">New</p>
+                          <h5 class="mb-0">Company Name: {{item.companyName}}</h5>
+                          <h5 class="mb-0">Employement Duration: {{item.employementDuration}}</h5>
+                          <h5 class="mb-0">Start Date: {{item.startDate}}</h5>
+                          <h5 class="mb-0">End Date: {{item.endDate}}</h5>
+                          <h5 class="mb-0">Last Job Position: {{item.lastJobPosition}}</h5>
+                          <h5 class="mb-0">Salary: {{item.lastSalary}}</h5>
+                          <h5 class="mb-0">Department: {{item.lastJobDepartment}}</h5>
+                          <h5 class="mb-0">Responsibilities: {{item.jobResponisibilities}}</h5>
+                        </div>
+
+
+
+                      </div>
+
+                    </div>
+                  </div>
+
+
+                </div>
+              </span>
+            </h5>
           </div>
 
         </div>
@@ -1218,76 +2118,9 @@
                   <div class="d-flex align-items-center gap-2">
                     <div class="d-flex align-items-center gap-2 mb-1">
                       <h6 class="mb-0">{{ job.companyName }}</h6>
-                      <span
-                        class="profile-editrequest d-flex align-items-center justify-content-center pointer position-relative">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
-                          <circle cx="13" cy="13" r="13" fill="#FFF6E9" />
-                          <mask id="mask0_6512_3861" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="6" y="6"
-                            width="14" height="14">
-                            <rect x="6" y="6" width="14" height="14" fill="#D9D9D9" />
-                          </mask>
-                          <g mask="url(#mask0_6512_3861)">
-                            <path
-                              d="M10.6673 17.6641H15.334V15.9141C15.334 15.2724 15.1055 14.7231 14.6486 14.2661C14.1916 13.8092 13.6423 13.5807 13.0007 13.5807C12.359 13.5807 11.8097 13.8092 11.3527 14.2661C10.8958 14.7231 10.6673 15.2724 10.6673 15.9141V17.6641ZM8.33398 18.8307V17.6641H9.50065V15.9141C9.50065 15.321 9.63919 14.7644 9.91628 14.2443C10.1934 13.7241 10.5798 13.3085 11.0757 12.9974C10.5798 12.6863 10.1934 12.2707 9.91628 11.7505C9.63919 11.2304 9.50065 10.6738 9.50065 10.0807V8.33073H8.33398V7.16406H17.6673V8.33073H16.5007V10.0807C16.5007 10.6738 16.3621 11.2304 16.085 11.7505C15.8079 12.2707 15.4215 12.6863 14.9257 12.9974C15.4215 13.3085 15.8079 13.7241 16.085 14.2443C16.3621 14.7644 16.5007 15.321 16.5007 15.9141V17.6641H17.6673V18.8307H8.33398Z"
-                              fill="#CF7800" />
-                          </g>
-                        </svg>
-                        <div class="request-log">
-                          <div class="d-flex align-items-center justify-content-between border-bottom p-3">
-                            <h5 class="mb-0">Update Request</h5>
-                            <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
-                          </div>
-
-                          <div *ngFor="let item of findByColumnName('FATHER_NAME')" class="p-3 pt-4 pb-4">
-                            <div class="d-flex align-items-center justify-content-between mb-3">
-                              <h6 class="mb-0">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19"
-                                  fill="none">
-                                  <mask id="mask0_6512_4004" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0"
-                                    y="0" width="19" height="19">
-                                    <rect x="0.980469" y="0.332031" width="18" height="18" fill="#D9D9D9" />
-                                  </mask>
-                                  <g mask="url(#mask0_6512_4004)">
-                                    <path
-                                      d="M1.73047 16.082L9.98047 1.83203L18.2305 16.082H1.73047ZM4.31797 14.582H15.643L9.98047 4.83203L4.31797 14.582ZM9.98047 13.832C10.193 13.832 10.3711 13.7602 10.5148 13.6164C10.6586 13.4727 10.7305 13.2945 10.7305 13.082C10.7305 12.8695 10.6586 12.6914 10.5148 12.5477C10.3711 12.4039 10.193 12.332 9.98047 12.332C9.76797 12.332 9.58984 12.4039 9.44609 12.5477C9.30234 12.6914 9.23047 12.8695 9.23047 13.082C9.23047 13.2945 9.30234 13.4727 9.44609 13.6164C9.58984 13.7602 9.76797 13.832 9.98047 13.832ZM9.23047 11.582H10.7305V7.83203H9.23047V11.582Z"
-                                      fill="#CF7800" />
-                                  </g>
-                                </svg>
-                                Father's Name
-                              </h6>
-                              <p class="mb-0 fw-semibold">{{item.createdDate | date:'dd-MM-yyyy'}}</p>
-                            </div>
-                            <div class="d-flex align-items-center gap-2">
-                              <div class="stap-bar position-relative">
-
-                                <span class="stap-dot"></span>
-                                <span class="stap-dot2"></span>
-
-
-
-                              </div>
-                              <div class="updaaate-log pb-3">
-                                <div>
-                                  <p class="mb-1 font-14">Updated</p>
-                                  <h5 class="mb-0">{{item.value}}</h5>
-                                </div>
-
-                                <div class="mt-3">
-                                  <p class="mb-1 font-14">Current </p>
-                                  <h5 class="mb-0">{{user.fatherName}}</h5>
-                                </div>
-
-                              </div>
-
-                            </div>
-                          </div>
-
-
-                        </div>
-                      </span>
                     </div>
                     <span class="text-primary font-12 mb-1">
-                      ({{ job.employementDuration ? job.employementDuration : 'Duration not available' }})
+                      <!-- ({{ job.employementDuration ? job.employementDuration : '' }}) -->
                     </span>
                   </div>
 
@@ -1348,7 +2181,7 @@
                 <p class="mb-1">Account Holder Name</p>
                 <div class="d-flex align-items-center gap-2">
                   <h6 class="mb-0">{{ bankDetailsEmployee?.accountHolderName || '--'}}</h6>
-                  <span
+                  <span *ngIf="requestedData && requestedData?.userBankDetails?.accountHolderName"
                     class="profile-editrequest d-flex align-items-center justify-content-center pointer position-relative">
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
                       <circle cx="13" cy="13" r="13" fill="#FFF6E9" />
@@ -1364,12 +2197,31 @@
                     </svg>
 
                     <div class="request-log">
+                      <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                        (click)="removeField('accountHolderName', requestedData.userBankDetails.accountHolderName)">Delete</button>
+                      <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                        (click)="approveField('accountHolderName', requestedData.userBankDetails.accountHolderName)">Approve</button> -->
                       <div class="d-flex align-items-center justify-content-between border-bottom p-3">
                         <h5 class="mb-0">Update Request</h5>
-                        <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
+                        <!-- <span class="badge rounded-pill badge-soft-warning"> PENDING </span> -->
+                        <div class="d-flex align-items-center gap-2">
+                          <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
+                          <div
+                            class="icon-info-activity bg-soft-danger pointer d-flex align-items-center justify-content-center"
+                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            (click)="removeField('accountHolderName', requestedData.userBankDetails.accountHolderName)">
+                            <i class="ti ti-x"></i>
+                          </div>
+                          <div
+                            class="icon-info-activity bg-soft-success pointer d-flex align-items-center justify-content-center"
+                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            (click)="approveField('accountHolderName', requestedData.userBankDetails.accountHolderName)">
+                            <i class="ti ti-checks "></i>
+                          </div>
+                        </div>
                       </div>
 
-                      <div *ngFor="let item of findByColumnName('ACCOUNT_HOLDER_NAME')" class="p-3 pt-4 pb-4">
+                      <div class="p-3 pt-4 pb-4">
                         <div class="d-flex align-items-center justify-content-between mb-3">
                           <h6 class="mb-0">
                             <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19"
@@ -1386,7 +2238,7 @@
                             </svg>
                             Account Holder Name
                           </h6>
-                          <p class="mb-0 fw-semibold">{{item.createdDate | date:'dd-MM-yyyy'}}</p>
+                          <!-- <p class="mb-0 fw-semibold">{{item.createdDate | date:'dd-MM-yyyy'}}</p> -->
                         </div>
                         <div class="d-flex align-items-center gap-2">
                           <div class="stap-bar position-relative">
@@ -1400,12 +2252,12 @@
                           <div class="updaaate-log pb-3">
                             <div>
                               <p class="mb-1 font-14">Updated</p>
-                              <h5 class="mb-0">{{item.value}}</h5>
+                              <h5 class="mb-0 font-15">{{requestedData.userBankDetails.accountHolderName}}</h5>
                             </div>
 
                             <div class="mt-3">
                               <p class="mb-1 font-14">Current </p>
-                              <h5 class="mb-0">{{bankDetailsEmployee?.accountHolderName || '--'}}</h5>
+                              <h5 class="mb-0 font-15">{{bankDetailsEmployee?.accountHolderName || '--'}}</h5>
                             </div>
 
                           </div>
@@ -1424,7 +2276,7 @@
                 <p class="mb-1">Bank Name</p>
                 <div class="d-flex align-items-center gap-2">
                   <h6 class="mb-0">{{ bankDetailsEmployee?.bankName || '--'}}</h6>
-                  <span
+                  <span *ngIf="requestedData && requestedData?.userBankDetails?.bankName"
                     class="profile-editrequest d-flex align-items-center justify-content-center pointer position-relative">
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
                       <circle cx="13" cy="13" r="13" fill="#FFF6E9" />
@@ -1440,12 +2292,31 @@
                     </svg>
 
                     <div class="request-log">
+                      <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                        (click)="removeField('bankName', requestedData.userBankDetails.bankName)">Delete</button>
+                      <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                        (click)="approveField('bankName', requestedData.userBankDetails.bankName)">Approve</button> -->
                       <div class="d-flex align-items-center justify-content-between border-bottom p-3">
                         <h5 class="mb-0">Update Request</h5>
-                        <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
+                        <!-- <span class="badge rounded-pill badge-soft-warning"> PENDING </span> -->
+                        <div class="d-flex align-items-center gap-2">
+                          <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
+                          <div
+                            class="icon-info-activity bg-soft-danger pointer d-flex align-items-center justify-content-center"
+                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            (click)="removeField('bankName', requestedData.userBankDetails.bankName)">
+                            <i class="ti ti-x"></i>
+                          </div>
+                          <div
+                            class="icon-info-activity bg-soft-success pointer d-flex align-items-center justify-content-center"
+                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            (click)="approveField('bankName', requestedData.userBankDetails.bankName)">
+                            <i class="ti ti-checks "></i>
+                          </div>
+                        </div>
                       </div>
 
-                      <div *ngFor="let item of findByColumnName('BANK_NAME')" class="p-3 pt-4 pb-4">
+                      <div class="p-3 pt-4 pb-4">
                         <div class="d-flex align-items-center justify-content-between mb-3">
                           <h6 class="mb-0">
                             <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19"
@@ -1462,7 +2333,7 @@
                             </svg>
                             Bank Name
                           </h6>
-                          <p class="mb-0 fw-semibold">{{item.createdDate | date:'dd-MM-yyyy'}}</p>
+                          <!-- <p class="mb-0 fw-semibold">{{item.createdDate | date:'dd-MM-yyyy'}}</p> -->
                         </div>
                         <div class="d-flex align-items-center gap-2">
                           <div class="stap-bar position-relative">
@@ -1476,12 +2347,12 @@
                           <div class="updaaate-log pb-3">
                             <div>
                               <p class="mb-1 font-14">Updated</p>
-                              <h5 class="mb-0">{{item.value}}</h5>
+                              <h5 class="mb-0 font-15">{{requestedData.userBankDetails.bankName}}</h5>
                             </div>
 
                             <div class="mt-3">
                               <p class="mb-1 font-14">Current </p>
-                              <h5 class="mb-0">{{bankDetailsEmployee?.bankName || '--'}}</h5>
+                              <h5 class="mb-0 font-15">{{bankDetailsEmployee?.bankName || '--'}}</h5>
                             </div>
 
                           </div>
@@ -1500,7 +2371,7 @@
                 <p class="mb-1">Account Number</p>
                 <div class="d-flex align-items-center gap-2">
                   <h6 class="mb-0">{{ bankDetailsEmployee?.accountNumber || '--'}}</h6>
-                  <span
+                  <span *ngIf="requestedData && requestedData?.userBankDetails?.accountNumber"
                     class="profile-editrequest d-flex align-items-center justify-content-center pointer position-relative">
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
                       <circle cx="13" cy="13" r="13" fill="#FFF6E9" />
@@ -1515,12 +2386,31 @@
                       </g>
                     </svg>
                     <div class="request-log">
+                      <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                        (click)="removeField('accountNumber', requestedData.userBankDetails.accountNumber)">Delete</button>
+                      <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                        (click)="approveField('accountNumber', requestedData.userBankDetails.accountNumber)">Approve</button> -->
                       <div class="d-flex align-items-center justify-content-between border-bottom p-3">
                         <h5 class="mb-0">Update Request</h5>
-                        <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
+                        <!-- <span class="badge rounded-pill badge-soft-warning"> PENDING </span> -->
+                        <div class="d-flex align-items-center gap-2">
+                          <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
+                          <div
+                            class="icon-info-activity bg-soft-danger pointer d-flex align-items-center justify-content-center"
+                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            (click)="removeField('accountNumber', requestedData.userBankDetails.accountNumber)">
+                            <i class="ti ti-x"></i>
+                          </div>
+                          <div
+                            class="icon-info-activity bg-soft-success pointer d-flex align-items-center justify-content-center"
+                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            (click)="approveField('accountNumber', requestedData.userBankDetails.accountNumber)">
+                            <i class="ti ti-checks "></i>
+                          </div>
+                        </div>
                       </div>
 
-                      <div *ngFor="let item of findByColumnName('ACCOUNT_NUMBER')" class="p-3 pt-4 pb-4">
+                      <div class="p-3 pt-4 pb-4">
                         <div class="d-flex align-items-center justify-content-between mb-3">
                           <h6 class="mb-0">
                             <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19"
@@ -1537,7 +2427,7 @@
                             </svg>
                             Account Number
                           </h6>
-                          <p class="mb-0 fw-semibold">{{item.createdDate | date:'dd-MM-yyyy'}}</p>
+                          <!-- <p class="mb-0 fw-semibold">{{item.createdDate | date:'dd-MM-yyyy'}}</p> -->
                         </div>
                         <div class="d-flex align-items-center gap-2">
                           <div class="stap-bar position-relative">
@@ -1551,12 +2441,12 @@
                           <div class="updaaate-log pb-3">
                             <div>
                               <p class="mb-1 font-14">Updated</p>
-                              <h5 class="mb-0">{{item.value}}</h5>
+                              <h5 class="mb-0 font-15">{{requestedData.userBankDetails.accountNumber}}</h5>
                             </div>
 
                             <div class="mt-3">
                               <p class="mb-1 font-14">Current </p>
-                              <h5 class="mb-0">{{bankDetailsEmployee?.accountNumber || '--'}}</h5>
+                              <h5 class="mb-0 font-15">{{bankDetailsEmployee?.accountNumber || '--'}}</h5>
                             </div>
 
                           </div>
@@ -1575,7 +2465,7 @@
                 <p class="mb-1">IFSC Number</p>
                 <div class="d-flex align-items-center gap-2">
                   <h6 class="mb-0">{{ bankDetailsEmployee?.ifsc || '--'}}</h6>
-                  <span
+                  <span *ngIf="requestedData && requestedData?.userBankDetails?.ifsc "
                     class="profile-editrequest d-flex align-items-center justify-content-center pointer position-relative">
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
                       <circle cx="13" cy="13" r="13" fill="#FFF6E9" />
@@ -1591,12 +2481,32 @@
                     </svg>
 
                     <div class="request-log">
+                      <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                        (click)="removeField('ifsc', requestedData.userBankDetails.ifsc)">Delete</button>
+                      <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                        (click)="approveField('ifsc', requestedData.userBankDetails.ifsc)">Approve</button> -->
                       <div class="d-flex align-items-center justify-content-between border-bottom p-3">
                         <h5 class="mb-0">Update Request</h5>
-                        <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
+                        <!-- <span class="badge rounded-pill badge-soft-warning"> PENDING </span> -->
+
+                        <div class="d-flex align-items-center gap-2">
+                          <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
+                          <div
+                            class="icon-info-activity bg-soft-danger pointer d-flex align-items-center justify-content-center"
+                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            (click)="removeField('ifsc', requestedData.userBankDetails.ifsc)">
+                            <i class="ti ti-x"></i>
+                          </div>
+                          <div
+                            class="icon-info-activity bg-soft-success pointer d-flex align-items-center justify-content-center"
+                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            (click)="approveField('ifsc', requestedData.userBankDetails.ifsc)">
+                            <i class="ti ti-checks "></i>
+                          </div>
+                        </div>
                       </div>
 
-                      <div *ngFor="let item of findByColumnName('IFSC_NUMBER')" class="p-3 pt-4 pb-4">
+                      <div class="p-3 pt-4 pb-4">
                         <div class="d-flex align-items-center justify-content-between mb-3">
                           <h6 class="mb-0">
                             <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19"
@@ -1613,7 +2523,7 @@
                             </svg>
                             IFSC Number
                           </h6>
-                          <p class="mb-0 fw-semibold">{{item.createdDate | date:'dd-MM-yyyy'}}</p>
+                          <!-- <p class="mb-0 fw-semibold">{{item.createdDate | date:'dd-MM-yyyy'}}</p> -->
                         </div>
                         <div class="d-flex align-items-center gap-2">
                           <div class="stap-bar position-relative">
@@ -1627,12 +2537,12 @@
                           <div class="updaaate-log pb-3">
                             <div>
                               <p class="mb-1 font-14">Updated</p>
-                              <h5 class="mb-0">{{item.value}}</h5>
+                              <h5 class="mb-0 font-15">{{requestedData.userBankDetails.ifsc}}</h5>
                             </div>
 
                             <div class="mt-3">
                               <p class="mb-1 font-14">Current </p>
-                              <h5 class="mb-0">{{bankDetailsEmployee?.ifsc || '--'}}</h5>
+                              <h5 class="mb-0 font-15">{{bankDetailsEmployee?.ifsc || '--'}}</h5>
                             </div>
 
                           </div>
@@ -1655,6 +2565,69 @@
         <div class="col-md-3">
           <div class="profile-imfo-hedding">
             <h5>Emergency Contact</h5>
+            <span *ngIf="requestedData && findAllEmergencyContactWithNullId().length > 0"
+              class="profile-editrequest d-flex align-items-center justify-content-center pointer position-relative">
+              <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
+                <circle cx="13" cy="13" r="13" fill="#FFF6E9" />
+                <mask id="mask0_6512_3861" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="6" y="6" width="14"
+                  height="14">
+                  <rect x="6" y="6" width="14" height="14" fill="#D9D9D9" />
+                </mask>
+                <g mask="url(#mask0_6512_3861)">
+                  <path
+                    d="M10.6673 17.6641H15.334V15.9141C15.334 15.2724 15.1055 14.7231 14.6486 14.2661C14.1916 13.8092 13.6423 13.5807 13.0007 13.5807C12.359 13.5807 11.8097 13.8092 11.3527 14.2661C10.8958 14.7231 10.6673 15.2724 10.6673 15.9141V17.6641ZM8.33398 18.8307V17.6641H9.50065V15.9141C9.50065 15.321 9.63919 14.7644 9.91628 14.2443C10.1934 13.7241 10.5798 13.3085 11.0757 12.9974C10.5798 12.6863 10.1934 12.2707 9.91628 11.7505C9.63919 11.2304 9.50065 10.6738 9.50065 10.0807V8.33073H8.33398V7.16406H17.6673V8.33073H16.5007V10.0807C16.5007 10.6738 16.3621 11.2304 16.085 11.7505C15.8079 12.2707 15.4215 12.6863 14.9257 12.9974C15.4215 13.3085 15.8079 13.7241 16.085 14.2443C16.3621 14.7644 16.5007 15.321 16.5007 15.9141V17.6641H17.6673V18.8307H8.33398Z"
+                    fill="#CF7800" />
+                </g>
+              </svg>
+              <div class="request-log">
+                <div class="d-flex align-items-center justify-content-between border-bottom p-3">
+                  <h5 class="mb-0">Update Request</h5>
+                  <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
+                </div>
+
+                <div class="p-3 pt-4 pb-4">
+                  <div class="d-flex align-items-center justify-content-between mb-3">
+                    <h6 class="mb-0">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="none">
+                        <mask id="mask0_6512_4004" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                          width="19" height="19">
+                          <rect x="0.980469" y="0.332031" width="18" height="18" fill="#D9D9D9" />
+                        </mask>
+                        <g mask="url(#mask0_6512_4004)">
+                          <path
+                            d="M1.73047 16.082L9.98047 1.83203L18.2305 16.082H1.73047ZM4.31797 14.582H15.643L9.98047 4.83203L4.31797 14.582ZM9.98047 13.832C10.193 13.832 10.3711 13.7602 10.5148 13.6164C10.6586 13.4727 10.7305 13.2945 10.7305 13.082C10.7305 12.8695 10.6586 12.6914 10.5148 12.5477C10.3711 12.4039 10.193 12.332 9.98047 12.332C9.76797 12.332 9.58984 12.4039 9.44609 12.5477C9.30234 12.6914 9.23047 12.8695 9.23047 13.082C9.23047 13.2945 9.30234 13.4727 9.44609 13.6164C9.58984 13.7602 9.76797 13.832 9.98047 13.832ZM9.23047 11.582H10.7305V7.83203H9.23047V11.582Z"
+                            fill="#CF7800" />
+                        </g>
+                      </svg>
+                      Emergency Contact
+                    </h6>
+                    <!-- <p class="mb-0 fw-semibold">{{item.createdDate | date:'dd-MM-yyyy'}}</p> -->
+                  </div>
+                  <div class="d-flex align-items-center gap-2">
+                    <div class="stap-bar position-relative">
+
+                      <span class="stap-dot"></span>
+                      <span class="stap-dot2"></span>
+
+
+
+                    </div>
+                    <div *ngFor="let emergencyContact of findAllEmergencyContactWithNullId()" class="updaaate-log pb-3">
+                      <div>
+                        <p class="mb-1 font-14">New</p>
+                        <h5 class="mb-0">Name: {{emergencyContact.contactName}} </h5>
+                        <h5 class="mb-0">Relation: {{emergencyContact.relationWithEmployee}} </h5>
+                        <h5 class="mb-0">Phone: {{emergencyContact.contactNumber}} </h5>
+                      </div>
+
+                    </div>
+
+                  </div>
+                </div>
+
+
+              </div>
+            </span>
           </div>
 
         </div>
@@ -1681,6 +2654,7 @@
                   <div class="d-flex align-items-center gap-2 mb-1">
                     <h6 class="mb-0">{{ emergencyContact.contactName || '--'}}</h6>
                     <span
+                      *ngIf="requestedData && (findEmergencyContactWithId(emergencyContact.id)?.contactNumber || findEmergencyContactWithId(emergencyContact.id)?.contactName || findEmergencyContactWithId(emergencyContact.id)?.relationWithEmployee)"
                       class="profile-editrequest d-flex align-items-center justify-content-center pointer position-relative">
                       <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
                         <circle cx="13" cy="13" r="13" fill="#FFF6E9" />
@@ -1695,12 +2669,31 @@
                         </g>
                       </svg>
                       <div class="request-log">
+                        <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                          (click)="removeField('userEmergencyContacts', findEmergencyContactWithId(emergencyContact.id))">Delete</button>
+                        <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                          (click)="approveField('userEmergencyContacts', findEmergencyContactWithId(emergencyContact.id))">Approve</button> -->
                         <div class="d-flex align-items-center justify-content-between border-bottom p-3">
                           <h5 class="mb-0">Update Request</h5>
-                          <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
+                          <!-- <span class="badge rounded-pill badge-soft-warning"> PENDING </span> -->
+                          <div class="d-flex align-items-center gap-2">
+                            <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
+                            <div
+                              class="icon-info-activity bg-soft-danger pointer d-flex align-items-center justify-content-center"
+                              *ngIf="rbacService.userInfo.role != 'USER'"
+                              (click)="removeField('userEmergencyContacts', findEmergencyContactWithId(emergencyContact.id))">
+                              <i class="ti ti-x"></i>
+                            </div>
+                            <div
+                              class="icon-info-activity bg-soft-success pointer d-flex align-items-center justify-content-center"
+                              *ngIf="rbacService.userInfo.role != 'USER'"
+                              (click)="approveField('userEmergencyContacts', findEmergencyContactWithId(emergencyContact.id))">
+                              <i class="ti ti-checks "></i>
+                            </div>
+                          </div>
                         </div>
 
-                        <div *ngFor="let item of findByColumnName('FATHER_NAME')" class="p-3 pt-4 pb-4">
+                        <div class="p-3 pt-4 pb-4">
                           <div class="d-flex align-items-center justify-content-between mb-3">
                             <h6 class="mb-0">
                               <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19"
@@ -1715,9 +2708,9 @@
                                     fill="#CF7800" />
                                 </g>
                               </svg>
-                              Father's Name
+                              Emergency Contact
                             </h6>
-                            <p class="mb-0 fw-semibold">{{item.createdDate | date:'dd-MM-yyyy'}}</p>
+                            <!-- <p class="mb-0 fw-semibold">{{item.createdDate | date:'dd-MM-yyyy'}}</p> -->
                           </div>
                           <div class="d-flex align-items-center gap-2">
                             <div class="stap-bar position-relative">
@@ -1731,12 +2724,20 @@
                             <div class="updaaate-log pb-3">
                               <div>
                                 <p class="mb-1 font-14">Updated</p>
-                                <h5 class="mb-0">{{item.value}}</h5>
+                                <h5 class="mb-0">Name: {{findEmergencyContactWithId(emergencyContact.id).contactName}}
+                                </h5>
+                                <h5 class="mb-0  font-15">Relation:
+                                  {{findEmergencyContactWithId(emergencyContact.id).relationWithEmployee}} </h5>
+                                <h5 class="mb-0 font-15">Phone:
+                                  {{findEmergencyContactWithId(emergencyContact.id).contactNumber}} </h5>
                               </div>
 
                               <div class="mt-3">
                                 <p class="mb-1 font-14">Current </p>
-                                <h5 class="mb-0">{{user.fatherName}}</h5>
+                                <h5 class="mb-0 font-15">Name: {{emergencyContact.contactName || '--'}}</h5>
+                                <h5 class="mb-0 font-15">Relation: {{emergencyContact.relationWithEmployee || '--'}}
+                                </h5>
+                                <h5 class="mb-0 font-15s">Phone: {{emergencyContact.contactNumber || '--'}}</h5>
                               </div>
 
                             </div>
@@ -1953,12 +2954,7 @@
                   [(ngModel)]="this.onboardingPreviewDataCopy.user.name" />
                 <label class="form__label">Name</label>
               </div>
-              <div *ngIf="onboardingForm.get('user.name')?.touched || isFormInvalid">
-                <p class="errortxt mt-2 mb-0" style="color:red"
-                  *ngIf="onboardingForm.get('user.name')?.hasError('required')">
-                  <i class="bi bi-exclamation-circle"></i> Name is required.
-                </p>
-              </div>
+
 
             </div>
             <div class="col-md-6 mb-3">
@@ -1973,29 +2969,15 @@
                 <label class="form__label">Marital Status</label>
               </div>
               <!-- Validation message -->
-              <div *ngIf="onboardingForm.get('user.maritalStatus')?.touched || isFormInvalid">
-                <p class="errortxt mt-2 mb-0" style="color:red"
-                  *ngIf="onboardingForm.get('user.maritalStatus')?.hasError('required')">
-                  <i class="bi bi-exclamation-circle"></i> Marital Status is required.
-                </p>
-              </div>
+
             </div>
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
                 <input formControlName="email" type="text" class="form__field"
                   [(ngModel)]="this.onboardingPreviewDataCopy.user.email" />
-                <label class="form__label">Email Address</label>
+                <label class="form__label"></label>
               </div>
-              <div *ngIf="onboardingForm.get('user.email')?.touched || isFormInvalid">
-                <p class="errortxt mt-2 mb-0" style="color:red"
-                  *ngIf="onboardingForm.get('user.email')?.hasError('required')">
-                  <i class="bi bi-exclamation-circle"></i> Email Id is required.
-                </p>
-                <p class="errortxt mt-2 mb-0" style="color:red"
-                  *ngIf="onboardingForm.get('user.email')?.hasError('email')">
-                  <i class="bi bi-exclamation-circle"></i> Please enter a valid email address.
-                </p>
-              </div>
+
 
             </div>
             <div class="col-md-6 mb-3">
@@ -2005,12 +2987,7 @@
                   nzBorderless=true nzPlaceHolder="Select Joining Date"></nz-date-picker>
                 <label class="form__label">Joining Date</label>
               </div>
-              <div *ngIf="onboardingForm.get('user.joiningDate')?.touched || isFormInvalid">
-                <p class="errortxt mt-2 mb-0" style="color:red"
-                  *ngIf="onboardingForm.get('user.joiningDate')?.hasError('required')">
-                  <i class="bi bi-exclamation-circle"></i> DOB is required.
-                </p>
-              </div>
+
             </div>
 
             <div class="col-md-6 mb-3">
@@ -2019,16 +2996,7 @@
                   [(ngModel)]="this.onboardingPreviewDataCopy.user.phoneNumber" />
                 <label class="form__label">Phone Number</label>
               </div>
-              <div *ngIf="onboardingForm.get('user.phoneNumber')?.touched || isFormInvalid">
-                <p class="errortxt mt-2 mb-0" style="color:red"
-                  *ngIf="onboardingForm.get('user.phoneNumber')?.hasError('required')">
-                  <i class="bi bi-exclamation-circle"></i> Phone number is required.
-                </p>
-                <p class="errortxt mt-2 mb-0" style="color:red"
-                  *ngIf="onboardingForm.get('user.phoneNumber')?.hasError('pattern')">
-                  <i class="bi bi-exclamation-circle"></i> Only numeric values are allowed exactly 10 digits.
-                </p>
-              </div>
+
 
             </div>
             <!-- <div class="col-md-6 mb-3">
@@ -2049,12 +3017,7 @@
 
                 <label class="form__label">Gender</label>
               </div>
-              <div *ngIf="onboardingForm.get('user.gender')?.touched || isFormInvalid">
-                <p class="errortxt mt-2 mb-0" style="color:red"
-                  *ngIf="onboardingForm.get('user.gender')?.hasError('required')">
-                  <i class="bi bi-exclamation-circle"></i> Gender is required.
-                </p>
-              </div>
+
             </div>
 
             <div class="col-md-6 mb-3">
@@ -2063,12 +3026,7 @@
                   [(ngModel)]="this.onboardingPreviewDataCopy.user.department" />
                 <label class="form__label">Department</label>
               </div>
-              <div *ngIf="onboardingForm.get('user.department')?.touched || isFormInvalid">
-                <p class="errortxt mt-2 mb-0" style="color:red"
-                  *ngIf="onboardingForm.get('user.department')?.hasError('required')">
-                  <i class="bi bi-exclamation-circle"></i> Department is required.
-                </p>
-              </div>
+
             </div>
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
@@ -2077,12 +3035,7 @@
                   nzPlaceHolder="Select Date of Birth"></nz-date-picker>
                 <label class="form__label">Date of Birth</label>
               </div>
-              <div *ngIf="onboardingForm.get('user.dateOfBirth')?.touched || isFormInvalid">
-                <p class="errortxt mt-2 mb-0" style="color:red"
-                  *ngIf="onboardingForm.get('user.dateOfBirth')?.hasError('required')">
-                  <i class="bi bi-exclamation-circle"></i> DOB is required.
-                </p>
-              </div>
+
 
             </div>
 
@@ -2092,16 +3045,7 @@
                   [(ngModel)]="this.onboardingPreviewDataCopy.user.position" />
                 <label class="form__label">Current Position</label>
               </div>
-              <div *ngIf="onboardingForm.get('user.position')?.touched || isFormInvalid">
-                <p class="errortxt mt-2 mb-0" style="color:red"
-                  *ngIf="onboardingForm.get('user.position')?.hasError('required')">
-                  <i class="bi bi-exclamation-circle"></i> Current Position is required.
-                </p>
-                <p class="errortxt mt-2 mb-0" style="color:red"
-                  *ngIf="onboardingForm.get('user.position')?.hasError('minlength')">
-                  <i class="bi bi-exclamation-circle"></i> Position must be at least 3 characters.
-                </p>
-              </div>
+
             </div>
 
             <div class="col-md-6 mb-3">
@@ -2110,16 +3054,7 @@
                   [(ngModel)]="this.onboardingPreviewDataCopy.user.fatherName" />
                 <label class="form__label">Father’s Name</label>
               </div>
-              <div *ngIf="onboardingForm.get('user.fatherName')?.touched || isFormInvalid">
-                <p class="errortxt mt-2 mb-0" style="color:red"
-                  *ngIf="onboardingForm.get('user.fatherName')?.hasError('required')">
-                  <i class="bi bi-exclamation-circle"></i> Father’s Name is required.
-                </p>
-                <p class="errortxt mt-2 mb-0" style="color:red"
-                  *ngIf="onboardingForm.get('user.fatherName')?.hasError('minlength')">
-                  <i class="bi bi-exclamation-circle"></i> Father’s Name must be at least 3 characters.
-                </p>
-              </div>
+
             </div>
 
             <div class="col-md-6 mb-3">
@@ -2128,16 +3063,7 @@
                   [(ngModel)]="this.onboardingPreviewDataCopy.user.nationality" />
                 <label class="form__label">Nationality</label>
               </div>
-              <div *ngIf="onboardingForm.get('user.nationality')?.touched || isFormInvalid">
-                <p class="errortxt mt-2 mb-0" style="color:red"
-                  *ngIf="onboardingForm.get('user.nationality')?.hasError('required')">
-                  <i class="bi bi-exclamation-circle"></i> Nationality is required.
-                </p>
-                <p class="errortxt mt-2 mb-0" style="color:red"
-                  *ngIf="onboardingForm.get('user.nationality')?.hasError('minlength')">
-                  <i class="bi bi-exclamation-circle"></i> Nationality must be at least 3 characters.
-                </p>
-              </div>
+
             </div>
 
           </div>
@@ -2160,12 +3086,7 @@
                   [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[0].addressLine1" />
                 <label class="form__label">Address</label>
               </div>
-              <div *ngIf="onboardingForm.get('currentAddress.addressLine1')?.touched || isFormInvalid">
-                <p *ngIf="onboardingForm.get('currentAddress.addressLine1')?.hasError('required')"
-                  class="errortxt mt-2 mb-0" style="color:red">
-                  <i class="bi bi-exclamation-circle"></i> Address is required.
-                </p>
-              </div>
+
             </div>
 
             <div class="col-md-6 mb-3">
@@ -2174,16 +3095,7 @@
                   [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[0].pincode" />
                 <label class="form__label">Pincode</label>
               </div>
-              <div *ngIf="onboardingForm.get('currentAddress.pincode')?.touched || isFormInvalid">
-                <p *ngIf="onboardingForm.get('currentAddress.pincode')?.hasError('required')" class="errortxt mt-2 mb-0"
-                  style="color:red">
-                  <i class="bi bi-exclamation-circle"></i> Pincode is required.
-                </p>
-                <p *ngIf="onboardingForm.get('currentAddress.pincode')?.hasError('pattern')" class="errortxt mt-2 mb-0"
-                  style="color:red">
-                  <i class="bi bi-exclamation-circle"></i> Pincode must be exactly 6 digits.
-                </p>
-              </div>
+
             </div>
 
             <div class="col-md-6 mb-3">
@@ -2192,12 +3104,7 @@
                   [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[0].city" />
                 <label class="form__label">City</label>
               </div>
-              <div *ngIf="onboardingForm.get('currentAddress.city')?.touched || isFormInvalid">
-                <p *ngIf="onboardingForm.get('currentAddress.city')?.hasError('required')" class="errortxt mt-2 mb-0"
-                  style="color:red">
-                  <i class="bi bi-exclamation-circle"></i> City is required.
-                </p>
-              </div>
+
             </div>
 
             <div class="col-md-6 mb-3">
@@ -2206,12 +3113,7 @@
                   [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[0].state" />
                 <label class="form__label">State</label>
               </div>
-              <div *ngIf="onboardingForm.get('currentAddress.state')?.touched || isFormInvalid">
-                <p *ngIf="onboardingForm.get('currentAddress.state')?.hasError('required')" class="errortxt mt-2 mb-0"
-                  style="color:red">
-                  <i class="bi bi-exclamation-circle"></i> State is required.
-                </p>
-              </div>
+
             </div>
 
             <div class="col-md-6 mb-3">
@@ -2220,12 +3122,7 @@
                   [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[0].country" />
                 <label class="form__label">Country</label>
               </div>
-              <div *ngIf="onboardingForm.get('currentAddress.country')?.touched || isFormInvalid">
-                <p *ngIf="onboardingForm.get('currentAddress.country')?.hasError('required')" class="errortxt mt-2 mb-0"
-                  style="color:red">
-                  <i class="bi bi-exclamation-circle"></i> Country is required.
-                </p>
-              </div>
+
             </div>
           </div>
 
@@ -2238,12 +3135,7 @@
                   [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[1].addressLine1" />
                 <label class="form__label">Address</label>
               </div>
-              <div *ngIf="onboardingForm.get('permanentAddress.addressLine1')?.touched || isFormInvalid">
-                <p *ngIf="onboardingForm.get('permanentAddress.addressLine1')?.hasError('required')"
-                  class="errortxt mt-2 mb-0" style="color:red">
-                  <i class="bi bi-exclamation-circle"></i> Address is required.
-                </p>
-              </div>
+
             </div>
 
             <div class="col-md-6 mb-3">
@@ -2252,16 +3144,7 @@
                   [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[1].pincode" />
                 <label class="form__label">Pincode</label>
               </div>
-              <div *ngIf="onboardingForm.get('permanentAddress.pincode')?.touched || isFormInvalid">
-                <p *ngIf="onboardingForm.get('permanentAddress.pincode')?.hasError('required')"
-                  class="errortxt mt-2 mb-0" style="color:red">
-                  <i class="bi bi-exclamation-circle"></i> Pincode is required.
-                </p>
-                <p *ngIf="onboardingForm.get('permanentAddress.pincode')?.hasError('pattern')"
-                  class="errortxt mt-2 mb-0" style="color:red">
-                  <i class="bi bi-exclamation-circle"></i> Pincode must be exactly 6 digits.
-                </p>
-              </div>
+
             </div>
 
             <div class="col-md-6 mb-3">
@@ -2270,12 +3153,7 @@
                   [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[1].city" />
                 <label class="form__label">City</label>
               </div>
-              <div *ngIf="onboardingForm.get('permanentAddress.city')?.touched || isFormInvalid">
-                <p *ngIf="onboardingForm.get('permanentAddress.city')?.hasError('required')" class="errortxt mt-2 mb-0"
-                  style="color:red">
-                  <i class="bi bi-exclamation-circle"></i> City is required.
-                </p>
-              </div>
+
             </div>
 
             <div class="col-md-6 mb-3">
@@ -2284,12 +3162,7 @@
                   [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[1].state" />
                 <label class="form__label">State</label>
               </div>
-              <div *ngIf="onboardingForm.get('permanentAddress.state')?.touched || isFormInvalid">
-                <p *ngIf="onboardingForm.get('permanentAddress.state')?.hasError('required')" class="errortxt mt-2 mb-0"
-                  style="color:red">
-                  <i class="bi bi-exclamation-circle"></i> State is required.
-                </p>
-              </div>
+
             </div>
 
             <div class="col-md-6 mb-3">
@@ -2298,12 +3171,7 @@
                   [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[1].country" />
                 <label class="form__label">Country</label>
               </div>
-              <div *ngIf="onboardingForm.get('permanentAddress.country')?.touched || isFormInvalid">
-                <p *ngIf="onboardingForm.get('permanentAddress.country')?.hasError('required')"
-                  class="errortxt mt-2 mb-0" style="color:red">
-                  <i class="bi bi-exclamation-circle"></i> Country is required.
-                </p>
-              </div>
+
             </div>
           </div>
         </div>
@@ -2363,7 +3231,7 @@
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
                 <input type="text" formControlName="emailId" class="form__field" />
-                <label class="form__label">Email Address</label>
+                <label class="form__label"></label>
               </div>
               <div
                 *ngIf="(reference.get('emailId')?.touched || isFormInvalid) && reference.get('emailId')?.hasError('required')"
@@ -2373,7 +3241,7 @@
               <div
                 *ngIf="(reference.get('emailId')?.touched || isFormInvalid) && reference.get('emailId')?.hasError('email')"
                 class="error-text">
-                Please enter a valid email address.
+                Please enter a valid .
               </div>
             </div>
             <div class="d-flex"
@@ -2403,11 +3271,7 @@
                   [(ngModel)]="onboardingPreviewDataCopy.userAcademics.highestEducationalLevel" />
                 <label class="form__label">Qualification</label>
               </div>
-              <div
-                *ngIf="(onboardingForm.get('academicDetails.highestEducationalLevel')?.touched || isFormInvalid) && onboardingForm.get('academicDetails.highestEducationalLevel')?.hasError('required')"
-                class="error-text">
-                Qualification is required.
-              </div>
+
             </div>
 
             <div class="col-md-6 mb-3">
@@ -2416,11 +3280,7 @@
                   [(ngModel)]="onboardingPreviewDataCopy.userAcademics.degreeObtained" />
                 <label class="form__label">Degree/Diploma</label>
               </div>
-              <div
-                *ngIf="(onboardingForm.get('academicDetails.degreeObtained')?.touched || isFormInvalid) && onboardingForm.get('academicDetails.degreeObtained')?.hasError('required')"
-                class="error-text">
-                Degree/Diploma is required.
-              </div>
+
             </div>
 
             <div class="col-md-6 mb-3">
@@ -2429,11 +3289,7 @@
                   [(ngModel)]="onboardingPreviewDataCopy.userAcademics.fieldOfStudy" />
                 <label class="form__label">Field of Study</label>
               </div>
-              <div
-                *ngIf="(onboardingForm.get('academicDetails.fieldOfStudy')?.touched || isFormInvalid) && onboardingForm.get('academicDetails.fieldOfStudy')?.hasError('required')"
-                class="error-text">
-                Field of Study is required.
-              </div>
+
             </div>
 
             <div class="col-md-6 mb-3">
@@ -2442,16 +3298,8 @@
                   [(ngModel)]="onboardingPreviewDataCopy.userAcademics.grade" />
                 <label class="form__label">CGPA</label>
               </div>
-              <div
-                *ngIf="(onboardingForm.get('academicDetails.grade')?.touched || isFormInvalid) && onboardingForm.get('academicDetails.grade')?.hasError('required')"
-                class="error-text">
-                CGPA is required.
-              </div>
-              <div
-                *ngIf="(onboardingForm.get('academicDetails.grade')?.touched || isFormInvalid) && onboardingForm.get('academicDetails.grade')?.hasError('pattern')"
-                class="error-text">
-                Please enter a valid CGPA.
-              </div>
+
+
             </div>
 
             <div class="col-md-6 mb-3">
@@ -2460,11 +3308,7 @@
                   [(ngModel)]="onboardingPreviewDataCopy.userAcademics.institutionName" />
                 <label class="form__label">College Name</label>
               </div>
-              <div
-                *ngIf="(onboardingForm.get('academicDetails.institutionName')?.touched || isFormInvalid) && onboardingForm.get('academicDetails.institutionName')?.hasError('required')"
-                class="error-text">
-                College Name is required.
-              </div>
+
             </div>
 
             <div class="col-md-6 mb-3">
@@ -2473,16 +3317,8 @@
                   [(ngModel)]="onboardingPreviewDataCopy.userAcademics.graduationYear" />
                 <label class="form__label">Graduating Year</label>
               </div>
-              <div
-                *ngIf="(onboardingForm.get('academicDetails.graduationYear')?.touched || isFormInvalid) && onboardingForm.get('academicDetails.graduationYear')?.hasError('required')"
-                class="error-text">
-                Graduation Year is required.
-              </div>
-              <div
-                *ngIf="(onboardingForm.get('academicDetails.graduationYear')?.touched || isFormInvalid) && onboardingForm.get('academicDetails.graduationYear')?.hasError('pattern')"
-                class="error-text">
-                Please enter a valid graduation year (e.g., 2023).
-              </div>
+
+
             </div>
           </div>
         </div>
@@ -2633,11 +3469,7 @@
                   [(ngModel)]="this.onboardingPreviewDataCopy.userBankDetails.accountHolderName" />
                 <label class="form__label">Account Holder Name</label>
               </div>
-              <div
-                *ngIf="(onboardingForm.get('bankDetails.accountHolderName')?.touched || isFormInvalid) && onboardingForm.get('bankDetails.accountHolderName')?.hasError('required')"
-                class="error-text">
-                Account Holder Name is required.
-              </div>
+
             </div>
 
             <!-- Bank Name -->
@@ -2647,11 +3479,7 @@
                   [(ngModel)]="this.onboardingPreviewDataCopy.userBankDetails.bankName" />
                 <label class="form__label">Bank Name</label>
               </div>
-              <div
-                *ngIf="(onboardingForm.get('bankDetails.bankName')?.touched || isFormInvalid) && onboardingForm.get('bankDetails.bankName')?.hasError('required')"
-                class="error-text">
-                Bank Name is required.
-              </div>
+
             </div>
 
             <!-- Account Number -->
@@ -2661,11 +3489,7 @@
                   [(ngModel)]="this.onboardingPreviewDataCopy.userBankDetails.accountNumber" />
                 <label class="form__label">Account Number</label>
               </div>
-              <div
-                *ngIf="(onboardingForm.get('bankDetails.accountNumber')?.touched || isFormInvalid) && onboardingForm.get('bankDetails.accountNumber')?.hasError('required')"
-                class="error-text">
-                Account Number is required.
-              </div>
+
               <div
                 *ngIf="(onboardingForm.get('bankDetails.accountNumber')?.touched || isFormInvalid) && onboardingForm.get('bankDetails.accountNumber')?.hasError('pattern')"
                 class="error-text">

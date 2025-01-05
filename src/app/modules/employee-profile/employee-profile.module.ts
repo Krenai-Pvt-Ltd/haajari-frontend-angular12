@@ -27,6 +27,8 @@ import { EmployeeExpenseComponent } from './employee-expense/employee-expense.co
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { EpmployeeFinanceComponent } from './epmployee-finance/epmployee-finance.component';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
+import { NzRadioModule } from 'ng-zorro-antd/radio';
+import { AgmCoreModule } from '@agm/core';
 
 
 
@@ -43,7 +45,7 @@ import { NzSwitchModule } from 'ng-zorro-antd/switch';
     EmployeeExitComponent,
     EmployeeExpenseComponent,
     DashboardComponent,
-    EpmployeeFinanceComponent
+    EpmployeeFinanceComponent,
   ],
   imports: [
     CommonModule,
@@ -64,7 +66,12 @@ import { NzSwitchModule } from 'ng-zorro-antd/switch';
     NzToolTipModule,
     NzPopoverModule,
     NgxShimmerLoadingModule,
-    NzSwitchModule
+    NzSwitchModule,
+    NzRadioModule,
+    AgmCoreModule.forRoot({
+          apiKey: 'AIzaSyB6SQE_TmOLpGLohpMLl-6FzdwJJAU9MnA',
+          libraries: ['places'],
+        }),
   ]
 })
 export class EmployeeProfileModule { }

@@ -78,6 +78,7 @@
                 </span>
                 <p class="mb-0">{{employeeProfileResponseData?.phoneNumber || 'N/A'}}</p>
             </div>
+            <!-- {{employeeProfileResponseData?.email}} -->
             <div class="d-flex align-items-center gap-2 mb-2">
                 <span class="icon">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="19" viewBox="0 0 18 19" fill="none">
@@ -111,6 +112,9 @@
                 <p class="mb-0">DOB: {{employeeProfileResponseData?.dateOfBirth | date}}</p>
             </div>
         </div>
+
+
+
 
         <span class="separator mt-4 mb-4"></span>
     </div>
@@ -323,11 +327,9 @@
         </div> -->
 
 
-        <div class="mb-3 mt-4 d-flex align-items-center justify-content-between slill-set">
+        <div *ngIf="documents.length>0" class="mb-3 mt-4 d-flex align-items-center justify-content-between slill-set">
             <h5 class="mb-0">EMPLOYEE AGREEMENT</h5>
-            <button type="button" class="btn p-0 text-primary font-13 " data-bs-toggle="modal"
-                data-bs-target="#addDocument">
-                <i class="bi bi-plus"></i> Add Agreement </button>
+
         </div>
         <div *ngFor="let doc of documents"
             class="d-flex align-items-center justify-content-between employee-agreenment p-2 mb-2">
@@ -735,8 +737,8 @@
                                     id="reason" name="inputReason" #inputReason="ngModel" required />
 
                                 <div *ngIf="inputReason.invalid && inputReason.touched" class="text-danger">
-                                    {{userResignationReq.reason.length == 0 ? 'Reason is required' : 'Reason must be
-                                    between 3 and 50 characters'}}
+                                    {{userResignationReq.reason.length == 0 ?
+                                    'Reason is required' : 'Reason must be between 3 and 50 characters'}}
                                 </div>
                             </div>
 
@@ -1319,6 +1321,58 @@
                         <span></span>
                         <span></span>
                     </div>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <ng-template #pdfModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">Agreement</h4>
+    </div>
+    <div class="modal-body p-0">
+        <div #pdfContainer id="pdf-container"></div>
+    </div>
+    <div class="modal-footer d-flex align-content-center justify-content-between ">
+        <div *ngIf="isLastPageRead">
+            <input type="checkbox" id="acceptCheckbox" (change)="onCheckboxChange($event)" />
+            <label for="acceptCheckbox"> I accept the terms and conditions</label>
+        </div>
+        <button *ngIf="isAccepted" type="button" class="btn submitActionBtn" [disabled]="!isLastPageRead"
+            (click)="acceptAgreement(modal)">
+            <span *ngIf="currentPdfIndex < hrPolicyDocuments.length-1 && isAccepted">Next</span>
+            <span *ngIf="currentPdfIndex >= hrPolicyDocuments.length-1 && isAccepted"> Accept Agreement</span>
+        </button>
+    </div>
+</ng-template> -->
+
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#pdfModal" #pdfModalButton>
+    Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="pdfModal" #pdfModal tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+    data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Agreement</h5>
+            </div>
+            <div class="modal-body p-0">
+                <div #pdfContainer id="pdf-container"></div>
+            </div>
+            <div class="modal-footer d-flex align-content-center justify-content-between ">
+                <div *ngIf="isLastPageRead" class="d-flex align-items-center gap-2">
+                    <input type="checkbox" id="acceptCheckbox" (change)="onCheckboxChange($event)" />
+                    <label for="acceptCheckbox"> I accept the terms and conditions</label>
+                </div>
+                <button *ngIf="isAccepted" type="button" class="btn submitActionBtn" [disabled]="!isLastPageRead"
+                    (click)="acceptAgreement(pdfModalButton)">
+                    <span *ngIf="currentPdfIndex < hrPolicyDocuments.length-1 && isAccepted">Next</span>
+                    <span *ngIf="currentPdfIndex >= hrPolicyDocuments.length-1 && isAccepted"> Accept Agreement</span>
                 </button>
             </div>
         </div>

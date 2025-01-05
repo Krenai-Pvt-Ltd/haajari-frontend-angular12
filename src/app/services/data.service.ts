@@ -1057,10 +1057,11 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     userUuid: string,
     selectedTeamIds: number[],
     selectedShift: number,
-    selectedLeaveIds: number[]
+    selectedLeaveIds: number[],
+    invite: boolean,
   ): Observable<any> {
     debugger;
-    let params = new HttpParams().set('userUuid', userUuid).set('selectedShiftId', selectedShift);
+    let params = new HttpParams().set('userUuid', userUuid).set('selectedShiftId', selectedShift).set('invite', invite);
     const requestBody = {
       userPersonalInformationRequest,
       selectedTeamIds,
@@ -2180,6 +2181,15 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     );
   }
 
+  getUserJoiningDate(userUuid: string): Observable<any> {
+    const params = new HttpParams().set('userUuid', userUuid);
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/users/joining/date`, { params }
+    );
+  }
+
+
+
   signInByWhatsapp(phoneNumber: string): Observable<any> {
     const url = `${this.baseUrl}/user/auth/sent/otp-whatsapp?phoneNumber=${phoneNumber}`;
     return this.httpClient.post<any>(url, {});
@@ -2880,6 +2890,18 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     );
   }
 
+  getNextSixHolidays(): Observable<any> {
+    // const params = {
+    //   page: `${page}`,
+    //   itemsPerPage: `${itemsPerPage}`,
+    // };
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/holiday/get-next-six-holidays`
+    );
+  }
+
+
+
   getHolidayCounts(): Observable<any> {
     return this.httpClient.get(
       `${this.baseUrl}/holiday/get-Counts-of-holidays`
@@ -3174,7 +3196,6 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     search: string,
     searchBy: string
   ): Observable<any>{
-
     const params = new HttpParams()
     .set('start_date', startDate)
     .set('end_date', endDate)
@@ -3309,7 +3330,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     return this.httpClient.put<any>(`${this.baseUrl}/salary-slip/update-pay-action-type`,{}, {params});
   }
 
-  
+
 
   sendPayslipViaWhatsapp(
     salaryResponse: any, payslipMonth: string
@@ -4400,6 +4421,13 @@ getHolidayForOrganization(date: string): Observable<any>{
 
     return this.httpClient.get<any[]>(`${this.baseUrl}/documents/documents-by-type`, { params });
   }
+  getHrPolicies(): Observable<any[]> {
+    return this.httpClient.get<any[]>(`${this.baseUrl}/documents/organization/hr-policy-documents`);
+  }
+  deleteDocument(documentId: number | undefined): Observable<string> {
+    const url = `${this.baseUrl}/documents/${documentId}`;
+    return this.httpClient.delete<string>(url);
+  }
 
   getEditedFieldsByUserUuid(uuid: string): Observable<any> {
     const params = new HttpParams().set('uuid', uuid);
@@ -4410,6 +4438,16 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}/asset-requests/pending-requests-counter`);
   }
 
+  acceptAgreement(): Observable<any> {
+    const url = `${this.baseUrl}/users/accept-agreement`;
+    return this.httpClient.post(url,{});
+  }
+
+  getUserAllData(uuid: string): Observable<any> {
+    const params = new HttpParams().set('uuid', uuid);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/get/onboarding/get-user-all-data`, { params });
+  }
 
   checkStepCompletionStatusByStepId(stepId: number): Observable<any[]> {
     const params = new HttpParams()
@@ -4418,6 +4456,72 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.get<any[]>(`${this.baseUrl}/organization/check-status`, { params });
   }
 
+  saveAllUserData(onboardingData: any, userUuid: string): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const params = { userUuid };
+
+    return this.httpClient.post(`${this.baseUrl}/get/onboarding/save-all-user-data`, onboardingData, {
+      headers,
+      params,
+    });
+  }
+
+  getRequestedData(userUuid: string): Observable<any> {
+    const params = { userUuid };
+    return this.httpClient.get(`${this.baseUrl}/get/onboarding/get-requested-data`, {
+      params,
+    });
+  }
+  saveRequestedData(uuid: string): Observable<any> {
+    const params = { uuid };
+    return this.httpClient.post(`${this.baseUrl}/get/onboarding/save-requested-data`,null, {
+      params
+    });
+  }
+  rejectRequestedData(uuid: string): Observable<any> {
+    const endpoint = `${this.baseUrl}/get/onboarding/reject-requested-data`;
+    return this.httpClient.post(endpoint, null, {
+      params: { uuid },
+    });
+  }
+
+
+  getWorkedHourForEachDayOfAWeek(uuid : string, startDate:string, endDate:string, searchString: string): Observable<string[]> {
+    const params = new HttpParams()
+    .set('uuid', uuid)
+    .set('startDate', startDate)
+    .set('endDate', endDate)
+    .set('searchString', searchString);
+    return this.httpClient.get<string[]>(`${this.baseUrl}/attendance/get-worked-hour`, {params});
+  }
+
+
+  getTeamsWithManagerInfo(uuid : string): Observable<string[]> {
+    const params = new HttpParams()
+    .set('userUuid', uuid);
+    return this.httpClient.get<string[]>(`${this.baseUrl}/team/manager-info`, {params});
+  }
+
+  findTeamsMembersInfoByUserUuid(uuid : string, teamString: string, itemPerPage: number, pageNumber: number): Observable<string[]> {
+    const params = new HttpParams()
+    .set('userUuid', uuid)
+    .set('teamName',teamString)
+    .set('limit',itemPerPage)
+    .set('offset',pageNumber);
+    return this.httpClient.get<string[]>(`${this.baseUrl}/team/members-info`, {params});
+  }
+
+  getAllTeamsByUuid(uuid : string): Observable<string[]> {
+    const params = new HttpParams()
+    .set('userUuid', uuid);
+    return this.httpClient.get<string[]>(`${this.baseUrl}/team/all-teams`, {params});
+  }
+
+  getTotalTeamMembers(uuid : string): Observable<string[]> {
+    const params = new HttpParams()
+    .set('userUuid', uuid);
+    return this.httpClient.get<string[]>(`${this.baseUrl}/team/total-team-members`, {params});
+  }
 
   createSubscriptionInquiryRequest(request: any): Observable<any> {
     return this.httpClient.post(`${this.baseUrl}/contact-and-support/save-request`, request);
@@ -4430,8 +4534,41 @@ getHolidayForOrganization(date: string): Observable<any>{
   getSubscriptionRequestStatus(): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/contact-and-support/get-subscription-request-status`);
   }
-  
-  
+
+  sendNotifications(request: { emailUsers: string[]; whatsappUsers: string[] }): Observable<any> {
+    return this.httpClient.post(
+      `${this.baseUrl}/whatsapp-user-onboarding/send-notifications`,
+      request
+    );
+  }
+
+  removeKeyValuePair(key: string, userId: string, value: any): Observable<any> {
+    // Set URL parameters for key and userId
+    const params = new HttpParams()
+      .set('key', key)
+      .set('value', value)
+      .set('userId', userId);
+
+    // Send the DELETE request with parameters and request body (value)
+    return this.httpClient.delete<any>(`${this.baseUrl}/get/onboarding/remove-field-in-requested-data`, {
+      params: params
+    });
+  }
+
+  approveKeyValuePair(key: string, userId: string, value: any): Observable<any> {
+    // Set URL parameters for key and userId
+    const params = new HttpParams()
+      .set('key', key)
+      .set('value', value)
+      .set('userId', userId);
+
+    // Send the DELETE request with parameters and request body (value)
+    return this.httpClient.post<any>(`${this.baseUrl}/get/onboarding/approve-field-in-requested-data`,null, {
+      params: params
+    });
+  }
+
+
 
 }
 

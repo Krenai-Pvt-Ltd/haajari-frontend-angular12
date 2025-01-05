@@ -240,7 +240,6 @@ export class DashboardComponent implements OnInit {
     this.getRoleDetails();
     this.getAttendanceDetailsCountMethodCall();
     this.getAttendanceReportByDateDurationMethodCall();
-
     this.getLateEmployeeAttendanceDetailsMethodCall();
 
     // this.getAttendanceTopPerformerDetails();
@@ -1797,7 +1796,7 @@ this.BILLING_AND_SUBSCRIPTION_MODAL_TOGGLE = false
       queryParams: { userId: uuid },
     };
 
-    // this.router.navigate(['/employee-profile'], navExtra);
+    // this.router.navigate(['/employee'], navExtra);
     // this.router.navigate([Key.EMPLOYEE_PROFILE_ROUTE], navExtra);
     const url = this.router.createUrlTree([Key.EMPLOYEE_PROFILE_ROUTE], navExtra).toString();
     window.open(url, '_blank');

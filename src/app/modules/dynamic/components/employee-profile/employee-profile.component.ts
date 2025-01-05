@@ -2247,11 +2247,11 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
   getEmployeePayslipBreakupResponseByUserUuidMethodCall(){
     this.preRuleForShimmersAndErrorPlaceholdersForEmployeePayslipBreakupResponseMethodCall();
     this.dataService.getEmployeePayslipBreakupResponseByUserUuid(this.userId, this.startDate, this.endDate).subscribe((response) => {
-      if(this.helperService.isListOfObjectNullOrUndefined(response)){
+      if(response.object == null || response.object.length == 0){
         this.dataNotFoundPlaceholderForEmployeePayslipBreakupResponse = true;
         this.employeePayslipBreakupResponseList = [];
       } else{
-        this.employeePayslipBreakupResponseList = response.listOfObject;
+        this.employeePayslipBreakupResponseList = response.object;
       }
 
       this.isShimmerForEmployeePayslipBreakupResponse = true;
@@ -2284,9 +2284,10 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
     this.dataService.getEmployeePayslipLogResponseByUserUuid(this.userId, this.startDate, this.endDate).subscribe((response) => {
       if(this.helperService.isListOfObjectNullOrUndefined(response)){
         this.dataNotFoundPlaceholderForEmployeePayslipLogResponse = true;
+        this.employeePayslipLogResponseList = [];
       } else{
         this.employeePayslipLogResponseList = response.listOfObject;
-        console.log( this.employeePayslipLogResponseList);
+        // console.log( this.employeePayslipLogResponseList);
 
       }
       this.isShimmerForEmployeePayslipLogResponse = false;

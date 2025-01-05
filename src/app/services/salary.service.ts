@@ -249,4 +249,19 @@ export class SalaryService {
 
     return this._http.get<any>(`${this._key.base_url}/salary/month-wise/attendance`, {params});
   }
+
+
+  getEmployeeSalaryRevisionDetail(userUuid : string): Observable<any>{
+
+    const params = new HttpParams()
+    .set('user_uuid', userUuid)
+    return this._http.get<any>(`${this._key.base_url}/salary/user`, {params});
+  }
+
+  getCurrentSalaryDetail(userUuid : string): Observable<any>{
+
+    const params = new HttpParams()
+    .set('user_uuid', userUuid)
+    return this._http.get<any>(`${this._key.base_url}/salary/current`, {params});
+  }
 }

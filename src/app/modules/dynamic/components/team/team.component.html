@@ -17,7 +17,7 @@
                     class="form-control me-2 ng-untouched ng-pristine ng-valid attendance-details-search"
                     (keyup)="searchTeams()" [(ngModel)]="searchText" [ngModelOptions]="{ standalone: true }"
                     style="padding: 10px 35px" />
-                 
+
                   <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px"
                     *ngIf="searchText == ''"></i>
                   <i class="bi bi-x search-icon" style="margin: auto; margin-left: 10px" (click)="reloadPage()"
@@ -103,7 +103,7 @@
           </div>
         </div>
       </div>
-      <div class="row mb-3 mt-3" *ngIf="isShimmer && !slackDataPlaceholderFlag">
+      <div class="row mb-3 mt-4" *ngIf="isShimmer && !slackDataPlaceholderFlag">
         <div class="col-md-4" *ngFor="let item of [].constructor(6)">
           <div class="bg-white p-3 shimmer-box">
             <div class="row">
@@ -135,7 +135,7 @@
         <div class="col-md-4"></div>
         <div class="col-md-4"></div>
       </div>
-     
+
       <div class="empty-file" style="margin-top: 15%" *ngIf="!isShimmer && total == 0 && searchTeamPlaceholderFlag">
         <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
           <ng-template #contentTpl>
@@ -259,7 +259,7 @@
                }
                ">
           <div class="card team-card" style="height: 185px; overflow: hidden">
-          
+
             <div class="card-body">
               <div class="float-end">
                 <div class="dropdown d-inline-block">
@@ -268,7 +268,7 @@
                     <i class="las la-ellipsis-v font-24 text-muted"></i>
                   </a>
                   <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dLabel1">
-                   
+
                     <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" (click)="
                               openDeleteConfirmationModal(team.uuid, logInUserUuid)
                               " *ngIf="team.exitFromTeam">Exit From Team!</a>
@@ -285,7 +285,7 @@
                       }}</span>
                     <span class="avatar-badge online"></span>
                   </a>
-                 
+
                 </div>
                 <div class="media-body ms-2 align-self-center">
                   <div class="d-flex align-items-start" style="gap: 10px">
@@ -345,13 +345,14 @@
                               ">
                     <a class="user-avatar" href="" [ngClass]="i === 0 ? '' : 'ms-n3'" *ngIf="i < 3">
                       <span *ngIf="ul.image !== null">
-                        <img onerror="this.src='./assets/images/broken-image-icon.jpg';" src="{{ ul.image }}" alt="u" class="thumb-xs rounded-circle" />
+                        <img onerror="this.src='./assets/images/broken-image-icon.jpg';" src="{{ ul.image }}" alt="u"
+                          class="thumb-xs rounded-circle" />
                       </span>
                       <span class="members-name" *ngIf="ul.image == null">{{
                         ul.name[0]
                         }}</span>
                     </a>
-                    
+
                   </ng-container>
                   <!-- (click)="openTeamModal(team.id)" -->
                   <a class="user-avatar" *ngIf="
@@ -375,33 +376,34 @@
                 <!-- </div> -->
               </div>
             </div>
-           
+
           </div>
           <!--end card-body-->
         </div>
-       
-        <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top" *ngIf="isShimmer == false && teamsNew.length > 0 && total > 12">
+
+        <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top"
+          *ngIf="isShimmer == false && teamsNew.length > 0 && total > 12">
           <p class="mb-0">
             Showing {{ getStartIndex() }} - {{ getEndIndex() }} of
             {{ total }} teams
           </p>
-              <nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-end">
-                  <li class="page-item" [class.disabled]="pageNumber == 1">
-                    <a class="page-link" href="javascript:void(0);" aria-label="Previous" (click)="changePage('prev')">
-                      <span aria-hidden="true">&laquo;</span>
-                    </a>
-                  </li>
-                  <li class="page-item" *ngFor="let page of getPages()" [class.active]="pageNumber == page">
-                    <a class="page-link" href="javascript:void(0);" (click)="changePage(page)">{{ page }}</a>
-                  </li>
-                  <li class="page-item" [class.disabled]="pageNumber == totalPages">
-                    <a class="page-link" href="javascript:void(0);" aria-label="Next" (click)="changePage('next')">
-                      <span aria-hidden="true">&raquo;</span>
-                    </a>
-                  </li>
-                </ul>
-              </nav>
+          <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-end">
+              <li class="page-item" [class.disabled]="pageNumber == 1">
+                <a class="page-link" href="javascript:void(0);" aria-label="Previous" (click)="changePage('prev')">
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+              <li class="page-item" *ngFor="let page of getPages()" [class.active]="pageNumber == page">
+                <a class="page-link" href="javascript:void(0);" (click)="changePage(page)">{{ page }}</a>
+              </li>
+              <li class="page-item" [class.disabled]="pageNumber == totalPages">
+                <a class="page-link" href="javascript:void(0);" aria-label="Next" (click)="changePage('next')">
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
         </div>
       </div>
       <!--end col-->
@@ -470,7 +472,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <!-- style="color: #111; font-size: 18px" id="exampleModalDefaultLabel" -->
-        <h5 class="modal-title m-0" >
+        <h5 class="modal-title m-0">
           <!-- <div class="back-btns-box" data-bs-dismiss="modal" aria-label="Close">
             <i class="bi bi-chevron-left"></i>
           </div> -->
@@ -481,104 +483,102 @@
       <!--end modal-header-->
       <div class="modal-body">
         <div class="containerhh">
-                  <div class="form-group">
-                    <label for="username" class="mb-2" style="font-size: 13px">Team Name</label>
-                    <div class="input-group mb-3">
-                      <input type="text" class="form-control input-zorro" name="teamname" id="teamname"
-                        placeholder='Enter team name' [(ngModel)]="teamName" />
-                    </div>
+          <div class="form-group">
+            <label for="username" class="mb-2" style="font-size: 13px">Team Name</label>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control input-zorro" name="teamname" id="teamname"
+                placeholder='Enter team name' [(ngModel)]="teamName" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="username" class="mb-2" style="font-size: 13px">Team Description</label>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control input-zorro" name="teamdesc" id="teamdesc"
+                placeholder='Enter team description' [(ngModel)]="teamDescription" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="username" class="mb-2 font-13">
+              Members
+            </label>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control input-zorro" name="members" id="members"
+                placeholder="Add team members by name or email…" [(ngModel)]="searchQuery" (input)="searchUsers()" />
+              <div class="user-dropdown new-membear-list" *ngIf="userList.length > 0">
+                <div id="user-item" class="user-item" *ngFor="let user of userList" (click)="toggleUserSelection(user)">
+                  <div *ngIf="user.image === null">
+                    <span id="user-list-details">
+                      <span class="members-name" id="user-first-name-logo">{{ user.name[0] }}</span>&nbsp;&nbsp;
+                      <span class="user-name-email"><b>{{ user.name }}</b> &nbsp;
+                        {{ user.email }}</span>
+                    </span>
                   </div>
-                  <div class="form-group">
-                    <label for="username" class="mb-2" style="font-size: 13px">Team Description</label>
-                    <div class="input-group mb-3">
-                      <input type="text" class="form-control input-zorro" name="teamdesc" id="teamdesc"
-                        placeholder='Enter team description' [(ngModel)]="teamDescription" />
-                    </div>
+                  <div *ngIf="user.image !== null">
+                    <span id="user-list-details">
+                      <img onerror="this.src='../assets/images/broken-image-icon.jpg';" [src]="user.image"
+                        alt="User Logo" />
+                      &nbsp;&nbsp; <b>{{ user.name }}</b> &nbsp;
+                      {{ user.email }}
+                    </span>
                   </div>
-                  <div class="form-group">
-                    <label for="username" class="mb-2 font-13">
-                      Members
-                    </label>
-                    <div class="input-group mb-3">
-                      <input type="text" class="form-control input-zorro" name="members" id="members"
-                        placeholder="Add team members by name or email…" [(ngModel)]="searchQuery"
-                        (input)="searchUsers()" />
-                      <div class="user-dropdown new-membear-list" *ngIf="userList.length > 0">
-                        <div id="user-item" class="user-item" *ngFor="let user of userList"
-                          (click)="toggleUserSelection(user)">
-                          <div *ngIf="user.image === null">
-                            <span id="user-list-details">
-                              <span class="members-name" id="user-first-name-logo">{{ user.name[0] }}</span>&nbsp;&nbsp;
-                              <span class="user-name-email"><b>{{ user.name }}</b> &nbsp;
-                                {{ user.email }}</span>
-                            </span>
-                          </div>
-                          <div *ngIf="user.image !== null">
-                            <span id="user-list-details">
-                              <img onerror="this.src='../assets/images/broken-image-icon.jpg';" [src]="user.image" alt="User Logo" />
-                              &nbsp;&nbsp; <b>{{ user.name }}</b> &nbsp;
-                              {{ user.email }}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="selected-users">
-                        <div class="d-flex selected-userss align-items-center"
-                          *ngFor="let selectedUser of selectedUsers">
-                          <span class="members-namess">{{
-                            selectedUser.name[0]
-                            }}</span>
-                          <p class="mb-0">{{ selectedUser.name }}</p>
-                          <span class="remove-icon" style="line-height: 0px"
-                            (click)="removeSelectedUser(selectedUser)"><i class="bi bi-x"
-                              style="color: #fff; font-size: 20px"></i></span>
-                        </div>
-                      </div>
-                    </div>
+                </div>
+              </div>
+              <div class="selected-users">
+                <div class="d-flex selected-userss align-items-center" *ngFor="let selectedUser of selectedUsers">
+                  <span class="members-namess">{{
+                    selectedUser.name[0]
+                    }}</span>
+                  <p class="mb-0">{{ selectedUser.name }}</p>
+                  <span class="remove-icon" style="line-height: 0px" (click)="removeSelectedUser(selectedUser)"><i
+                      class="bi bi-x" style="color: #fff; font-size: 20px"></i></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="username" class="mb-2 font-13">
+              Manager
+            </label>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control input-zorro w-100" name="manager" id="manager"
+                placeholder="Add team manager by name or email…" [(ngModel)]="searchQueryManager"
+                (input)="searchUsersManager()" />
+              <div class="user-dropdown new-membear-list" *ngIf="userListManager.length > 0">
+                <div id="manager-item" class="user-item" *ngFor="let user of userListManager"
+                  (click)="toggleUserSelectionManager(user)">
+                  <div *ngIf="user.image === null">
+                    <span id="manager-list-details">
+                      <span class="members-name" id="manager-first-name-logo">{{ user.name[0]
+                        }}</span>&nbsp;&nbsp;
+                      <span class="user-name-email"><b>{{ user.name }}</b> &nbsp;
+                        {{ user.email }}</span>
+                    </span>
                   </div>
-                  <div class="form-group">
-                    <label for="username" class="mb-2 font-13">
-                      Manager
-                    </label>
-                    <div class="input-group mb-3">
-                      <input type="text" class="form-control input-zorro w-100" name="manager" id="manager"
-                        placeholder="Add team manager by name or email…" [(ngModel)]="searchQueryManager"
-                        (input)="searchUsersManager()" />
-                      <div class="user-dropdown new-membear-list" *ngIf="userListManager.length > 0">
-                        <div id="manager-item" class="user-item" *ngFor="let user of userListManager"
-                          (click)="toggleUserSelectionManager(user)">
-                          <div *ngIf="user.image === null">
-                            <span id="manager-list-details">
-                              <span class="members-name" id="manager-first-name-logo">{{ user.name[0]
-                                }}</span>&nbsp;&nbsp;
-                              <span class="user-name-email"><b>{{ user.name }}</b> &nbsp;
-                                {{ user.email }}</span>
-                            </span>
-                          </div>
-                          <div *ngIf="user.image !== null">
-                            <span id="manager-list-details">
-                              <img onerror="this.src='../assets/images/broken-image-icon.jpg';" [src]="user.image" alt="User Logo" />
-                              &nbsp;&nbsp; <b>{{ user.name }}</b> &nbsp;
-                              {{ user.email }}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="selected-users" *ngIf="selectedManager != null">
-                        <div class="d-flex selected-userss align-items-center">
-                          <span class="members-namess">{{
-                            selectedManager!.name[0]
-                            }}</span>
-                          <p class="mb-0">{{ selectedManager!.name }}</p>
-                          <span class="remove-icon" style="line-height: 0px" (click)="
+                  <div *ngIf="user.image !== null">
+                    <span id="manager-list-details">
+                      <img onerror="this.src='../assets/images/broken-image-icon.jpg';" [src]="user.image"
+                        alt="User Logo" />
+                      &nbsp;&nbsp; <b>{{ user.name }}</b> &nbsp;
+                      {{ user.email }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="selected-users" *ngIf="selectedManager != null">
+                <div class="d-flex selected-userss align-items-center">
+                  <span class="members-namess">{{
+                    selectedManager!.name[0]
+                    }}</span>
+                  <p class="mb-0">{{ selectedManager!.name }}</p>
+                  <span class="remove-icon" style="line-height: 0px" (click)="
                                     removeSelectedUserOfSelectionManager(
                                     selectedManager
                                     )
                                     "><i class="bi bi-x" style="color: #fff; font-size: 20px"></i></span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div class="modal-footer">

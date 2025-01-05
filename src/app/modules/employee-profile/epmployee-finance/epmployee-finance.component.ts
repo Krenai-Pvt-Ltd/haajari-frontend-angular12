@@ -11,6 +11,8 @@ import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { SalaryService } from 'src/app/services/salary.service';
 import { EmployeeProfileComponent } from '../employee-profile.component';
+import { UserSalaryRevisionRes } from 'src/app/models/UserSalaryRevisionRes';
+import { CurrentSalaryDetail } from 'src/app/models/CurrentSalaryDetail';
 
 @Component({
   selector: 'app-epmployee-finance',
@@ -20,15 +22,17 @@ import { EmployeeProfileComponent } from '../employee-profile.component';
 export class EpmployeeFinanceComponent implements OnInit {
 
   selectedPayslipUrl!: SafeResourceUrl;
-  userUuid : string ='';
+  userUuid: string = '';
   financeBlur: boolean = true;
+  isLoading: boolean = false;
+  firstTimeLoad:boolean=true;
 
-  constructor(private _dataService : DataService,
-      public _helperService : HelperService,
-      private _salaryService : SalaryService,
-      private sanitizer: DomSanitizer,
-      public employeeProfileComponent: EmployeeProfileComponent
-  ) { 
+  constructor(private _dataService: DataService,
+    public _helperService: HelperService,
+    private _salaryService: SalaryService,
+    private sanitizer: DomSanitizer,
+    public employeeProfileComponent: EmployeeProfileComponent
+  ) {
 
     const userUuidParam = new URLSearchParams(window.location.search).get('userId');
     this.userUuid = userUuidParam?.toString() ?? ''
@@ -36,75 +40,88 @@ export class EpmployeeFinanceComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.getCurrentSalaryDetail();
+  
+
+  }
+
+  ngAfterViewInit() {
+
+  }
+
+
+  callAllInitialMethod(){
     this.getFirstAndLastDateOfMonth();
     this.getEmployeeBankDetail();
     this.getEmployeeStatutory();
+    this.getEmployeeSalaryRevision(); 
   }
 
-  ngAfterViewInit(){
- 
-  }
-
-  callInitialMethod(){
+  callInitialMethod() {
     this.getEmployeePayslipResponseByUserUuidMethodCall();
     this.getEmployeePayslipBreakupResponseByUserUuidMethodCall();
     this.getEmployeePayslipDeductionResponseByUserUuidMethodCall();
     this.getPayoutSummary();
   }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//                                                            CIRCULAR PROGRESS LINE
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  flipView(){
+  convertNumberToStringFormat(value: number) {
+    const formattedValue = value.toLocaleString('en-IN', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+    return formattedValue;
+  }
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //                                                            CIRCULAR PROGRESS LINE
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  flipView() {
     const cards = document.querySelectorAll('.card');
     // Add event listener to flip the card on click
     cards.forEach((card) => {
       card.classList.toggle('is-flipped');
       // card.addEventListener('click', () => {
-       
+
       // });
     });
   }
 
 
-  totalLines = 70; // Number of lines
-  radius = 90;
-  center = 100;
-  lineLength = 18;
-  lineWidth = 3;
-  createCircularPogressLine(){
-    
+  createCircularPogressLine() {
+
+    const totalLines = 70; // Number of lines
+    const radius = 90;
+    const center = 100;
+    const lineLength = 18;
+    const lineWidth = 3;
     const linesGroup = document.getElementById('lines');
-     // Clear existing lines
+    // Clear existing lines
     if (linesGroup) {
       linesGroup.innerHTML = '';
     }
-    for (let i = 0; i < this.totalLines; i++) {
-      const angle = (i * 360 / this.totalLines) * (Math.PI / 180);
-      const x1 = this.center + (this.radius - this.lineLength) * Math.cos(angle);
-      const y1 = this.center + (this.radius - this.lineLength) * Math.sin(angle);
-      const x2 = this.center + this.radius * Math.cos(angle);
-      const y2 = this.center + this.radius * Math.sin(angle);
+    for (let i = 0; i < totalLines; i++) {
+      const angle = (i * 360 / totalLines) * (Math.PI / 180);
+      const x1 = center + (radius - lineLength) * Math.cos(angle);
+      const y1 = center + (radius - lineLength) * Math.sin(angle);
+      const x2 = center + radius * Math.cos(angle);
+      const y2 = center + radius * Math.sin(angle);
 
       const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
       line.setAttribute('x1', x1.toString());
       line.setAttribute('y1', y1.toString());
       line.setAttribute('x2', x2.toString());
       line.setAttribute('y2', y2.toString());
-      line.setAttribute('stroke-width', this.lineWidth.toString());
+      line.setAttribute('stroke-width', lineWidth.toString());
       line.setAttribute('stroke', '#eee');
       line.classList.add('line');
       linesGroup?.appendChild(line);
     }
-    this.setProgress();
-  }
 
-  setProgress() {
-    
     const fractionText = document.querySelector('.fraction');
     const progress = this.totalPayoutDays / this.totalStandardDays;
-    const activeLines = Math.floor(this.totalLines * progress);
+    const activeLines = Math.floor(totalLines * progress);
 
     const lines = document.querySelectorAll('.line');
 
@@ -116,7 +133,6 @@ export class EpmployeeFinanceComponent implements OnInit {
       fractionText.textContent = `${this.totalPayoutDays}/${this.totalStandardDays}`;
     }
   }
-
 
 
   getClass(status: string) {
@@ -134,22 +150,9 @@ export class EpmployeeFinanceComponent implements OnInit {
   }
 
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//                                                                   SUMMARY TAB  
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-  // disableMonths = (date: Date): boolean => {
-  //   const current = new Date();
-  //   const userJoiningDate = new Date(this._helperService.userJoiningDate);
-
-  //   // Disable if the date is outside the range of user joining and current date
-  //   return (
-  //       date < new Date(userJoiningDate.getFullYear(), userJoiningDate.getMonth(), 1) || 
-  //       date > new Date(current.getFullYear(), current.getMonth(), 1)
-  //   );
-  // };
-
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //                                                                   SUMMARY TAB  
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   disableMonths = (date: Date): boolean => {
     const currentYear = new Date().getFullYear();
@@ -184,9 +187,9 @@ export class EpmployeeFinanceComponent implements OnInit {
     return false;
   };
 
-  startDate:string='';
-  endDate:string ='';
-  selectedDate:Date = new Date();
+  startDate: string = '';
+  endDate: string = '';
+  selectedDate: Date = new Date();
   size: 'small' | 'default' | 'large' = 'default';
   //GET START DATE OF MONTH AND END DATE OF MONTH FROM CURRENT DATE
   getFirstAndLastDateOfMonth() {
@@ -200,8 +203,8 @@ export class EpmployeeFinanceComponent implements OnInit {
   }
 
 
-  onMonthChange(): void { 
-    if(this.selectedDate.getMonth() == new Date(this.startDate).getMonth()){
+  onMonthChange(): void {
+    if (this.selectedDate.getMonth() == new Date(this.startDate).getMonth()) {
       return;
     }
     this.getFirstAndLastDateOfMonth();
@@ -212,56 +215,56 @@ export class EpmployeeFinanceComponent implements OnInit {
   }
 
 
-  employeePayslipResponse : EmployeePayslipResponse = new EmployeePayslipResponse();
-  getEmployeePayslipResponseByUserUuidMethodCall(){
+  employeePayslipResponse: EmployeePayslipResponse = new EmployeePayslipResponse();
+  getEmployeePayslipResponseByUserUuidMethodCall() {
     this._salaryService.getEmployeePayslipResponseByUserUuid(this.userUuid, this.startDate, this.endDate).subscribe((response) => {
-      if(response.status){
+      if (response.status) {
         this.employeePayslipResponse = response.object;
-        if( this.employeePayslipResponse ==null ){
+        if (this.employeePayslipResponse == null) {
           this.employeePayslipResponse = new EmployeePayslipResponse();
         }
-      }else{
-         this.employeePayslipResponse = new EmployeePayslipResponse();
+      } else {
+        this.employeePayslipResponse = new EmployeePayslipResponse();
       }
     }, (error) => {
-     
+
     });
   }
 
 
-  monthlySalary:number=0;
-  earningSalary:number=0;
-  employeePayslipBreakupResponseList : EmployeePayslipBreakupResponse[] = [];
-  getEmployeePayslipBreakupResponseByUserUuidMethodCall(){
-    this.monthlySalary =0;
+  monthlySalary: number = 0;
+  earningSalary: number = 0;
+  employeePayslipBreakupResponseList: EmployeePayslipBreakupResponse[] = [];
+  getEmployeePayslipBreakupResponseByUserUuidMethodCall() {
+    this.monthlySalary = 0;
     this.earningSalary = 0;
     this._salaryService.getEmployeePayslipBreakupResponseByUserUuid(this.userUuid, this.startDate, this.endDate).subscribe((response) => {
-      if(response.status){
-          this.employeePayslipBreakupResponseList = response.object;
-          if( this.employeePayslipBreakupResponseList==null){
-            this.employeePayslipBreakupResponseList = [];
-          }else{
-            this.monthlySalary = this.employeePayslipBreakupResponseList.reduce((total, salary) => total + salary.standardAmount, 0);
-            this.earningSalary = this.employeePayslipBreakupResponseList.reduce((total, salary) => total + salary.actualAmount, 0);
-          }
-      }else{
+      if (response.status) {
+        this.employeePayslipBreakupResponseList = response.object;
+        if (this.employeePayslipBreakupResponseList == null) {
+          this.employeePayslipBreakupResponseList = [];
+        } else {
+          this.monthlySalary = this.employeePayslipBreakupResponseList.reduce((total, salary) => total + salary.standardAmount, 0);
+          this.earningSalary = this.employeePayslipBreakupResponseList.reduce((total, salary) => total + salary.actualAmount, 0);
+        }
+      } else {
         this.employeePayslipBreakupResponseList = [];
       }
-      
+
     }, (error) => {
-    
+
     })
   }
 
-  employeePayslipDeductionResponse : EmployeePayslipDeductionResponse = new EmployeePayslipDeductionResponse();
-  getEmployeePayslipDeductionResponseByUserUuidMethodCall(){
+  employeePayslipDeductionResponse: EmployeePayslipDeductionResponse = new EmployeePayslipDeductionResponse();
+  getEmployeePayslipDeductionResponseByUserUuidMethodCall() {
     this._salaryService.getEmployeePayslipDeductionResponseByUserUuid(this.userUuid, this.startDate, this.endDate).subscribe((response) => {
-      if(response.status){
+      if (response.status) {
         this.employeePayslipDeductionResponse = response.object;
-        if( this.employeePayslipDeductionResponse == null){
+        if (this.employeePayslipDeductionResponse == null) {
           this.employeePayslipDeductionResponse = new EmployeePayslipDeductionResponse();
         }
-      }else{
+      } else {
         this.employeePayslipDeductionResponse = new EmployeePayslipDeductionResponse();
       }
     }, (error) => {
@@ -270,61 +273,100 @@ export class EpmployeeFinanceComponent implements OnInit {
   }
 
 
-  totalPayoutDays:number=0;
-  totalStandardDays:number= 0;
-  totalLopDays:number=0;
-  totalArrearDays:number=0;
-  userPaymentDetail : UserPaymentDetail = new UserPaymentDetail();
-  getEmployeeBankDetail(){
+  totalPayoutDays: number = 0;
+  totalStandardDays: number = 0;
+  totalLopDays: number = 0;
+  totalArrearDays: number = 0;
+  userPaymentDetail: UserPaymentDetail = new UserPaymentDetail();
+  getEmployeeBankDetail() {
     this._salaryService.getEmployeePaymentBankDetail(this.userUuid).subscribe((response) => {
-      if(response.status){
+      if (response.status) {
         this.userPaymentDetail = response.object;
-        if( this.userPaymentDetail == null){
+        if (this.userPaymentDetail == null) {
           this.userPaymentDetail = new UserPaymentDetail();
         }
-      }else{
+      } else {
         this.userPaymentDetail = new UserPaymentDetail();
       }
     }, (error) => {
-      
+
     })
   }
 
-  isEPF:boolean=false;
-  isESI:boolean=false;
-  getEmployeeStatutory(){
+  isEPF: boolean = false;
+  isESI: boolean = false;
+  getEmployeeStatutory() {
     this._salaryService.getEmployeeStatutory(this.userUuid).subscribe((response) => {
-      if(response.status){
+      if (response.status) {
         this.isEPF = response.object.EPF;
         this.isESI = response.object.ESI;
       }
     }, (error) => {
-      
+
     })
   }
 
-  payoutDaysSummary : PayoutDaysSummary = new PayoutDaysSummary();
-  dateStatuses:any=[];
-  getPayoutSummary(){
-    this._salaryService.getPayoutSummaryDetail(this.userUuid,this.startDate, this.endDate).subscribe((response) => {
-      if(response.status){
-
+  payoutDaysSummary: PayoutDaysSummary = new PayoutDaysSummary();
+  dateStatuses: any = [];
+  getPayoutSummary() {
+    this.isLoading = true;
+    this._salaryService.getPayoutSummaryDetail(this.userUuid, this.startDate, this.endDate).subscribe((response) => {
+      if (response.status) {
+        this.isLoading = false;
         this.dateStatuses = response.object.dateList;
-        this.payoutDaysSummary =  response.object.statusCount;
+        this.payoutDaysSummary = response.object.statusCount;
         this.totalStandardDays = response.object.standardDays != null ? response.object.standardDays : 0;
         this.totalPayoutDays = response.object.payoutDays != null ? response.object.payoutDays : 0;
         this.totalLopDays = response.object.lopDays != null ? response.object.lopDays : 0;
         this.totalArrearDays = response.object.arrearDays != null ? response.object.arrearDays : 0;
-      } 
+      }
       this.createCircularPogressLine();
     }, (error) => {
-      
+      this.isLoading = false;
+
     })
   }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//                                                               PAYSLIP TAB
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //                                                               PAYMENT TAB
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
+
+  currentSalaryDetail: CurrentSalaryDetail = new CurrentSalaryDetail();
+  getCurrentSalaryDetail() {
+    this._salaryService.getCurrentSalaryDetail(this.userUuid).subscribe((response) => {
+      if (response.status) {
+        this.currentSalaryDetail = response.object;
+        if( this.currentSalaryDetail ==null){
+          this.currentSalaryDetail = new CurrentSalaryDetail();
+        }else{
+          this.callAllInitialMethod();
+        }
+      } else {
+        this.currentSalaryDetail = new CurrentSalaryDetail();
+      }
+      this.firstTimeLoad = false;
+    }, (error) => {
+
+    })
+  }
+
+  userSalaryRevisionResList: UserSalaryRevisionRes[] = new Array();
+  getEmployeeSalaryRevision() {
+    this.userSalaryRevisionResList = [];
+    this._salaryService.getEmployeeSalaryRevisionDetail(this.userUuid).subscribe((response) => {
+      if (response.status) {
+        this.userSalaryRevisionResList = response.object;
+      } else {
+        this.userSalaryRevisionResList = [];
+      }
+    }, (error) => {
+
+    })
+  }
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //                                                               PAYSLIP TAB
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   disableYears = (date: Date): boolean => {
     const currentYear = new Date().getFullYear();
@@ -335,11 +377,11 @@ export class EpmployeeFinanceComponent implements OnInit {
     return dateYear < userJoiningYear || dateYear > currentYear;
   };
 
-  selectedYear:Date = new Date();
-  startYear:string='';
+  selectedYear: Date = new Date();
+  startYear: string = '';
   onYearChange(year: any) {
     // console.log("======year=======",year.getFullYear() )
-    if(year.getFullYear() === this.startYear){
+    if (year.getFullYear() === this.startYear) {
       return; // Do nothing if the year hasn't changed
     }
     this.selectedYear = year;
@@ -347,26 +389,26 @@ export class EpmployeeFinanceComponent implements OnInit {
     this.getEmployeePayslipLog();
   }
 
-  selectedIndex:number=-1;
+  selectedIndex: number = -1;
   selectedPayslip!: EmployeePayslipLogResponse;
-  employeePayslipLogResponseList : EmployeePayslipLogResponse[] = [];
-  getEmployeePayslipLog(){
+  employeePayslipLogResponseList: EmployeePayslipLogResponse[] = [];
+  getEmployeePayslipLog() {
     this._salaryService.getEmployeePayslipLogByUserUuid(this.userUuid, this.startYear).subscribe((response) => {
-      if(response.status){
+      if (response.status) {
         this.employeePayslipLogResponseList = response.object;
-        if(this.employeePayslipLogResponseList == null){
+        if (this.employeePayslipLogResponseList == null) {
           this.employeePayslipLogResponseList = [];
-        }else{
-          if(this.employeePayslipLogResponseList.length > 0){
+        } else {
+          if (this.employeePayslipLogResponseList.length > 0) {
             this.selectedIndex = 0;
-            this.loadPayslip( this.employeePayslipLogResponseList[0]);
+            this.loadPayslip(this.employeePayslipLogResponseList[0]);
           }
         }
-      }else{
+      } else {
         this.employeePayslipLogResponseList = [];
       }
     }, (error) => {
-      
+
     })
   }
 
@@ -381,6 +423,10 @@ export class EpmployeeFinanceComponent implements OnInit {
   // downloadPaySlip(url: string, name: string){
   //   this._helperService.downloadPdf(url, name);
   // }
+
+
+
+
 
 }
 

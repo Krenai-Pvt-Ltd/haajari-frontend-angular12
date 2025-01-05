@@ -1,7 +1,7 @@
 <div class="page-wrapper">
   <div class="page-content-tab">
     <div class="container-fluid">
-      <div class="employee-reports">
+      <div class="employee-reports mt-4">
         <div class="row">
           <div class="col-md-7">
             <div class="employee-report-deta">
@@ -9,15 +9,8 @@
               <div class="">
                 <div class="Attendance-report-deta">
                   <h5>Attendance Summary Report</h5>
-                  <div
-                    class="report-icon"
-                    data-bs-toggle="modal"
-                    data-bs-target="#dateRangeModal"
-                  >
-                    <i
-                      *ngIf="!isLoading; else loadingTemplate"
-                      class="bi bi-chevron-right"
-                    ></i>
+                  <div class="report-icon" data-bs-toggle="modal" data-bs-target="#dateRangeModal">
+                    <i *ngIf="!isLoading; else loadingTemplate" class="bi bi-chevron-right"></i>
                   </div>
                 </div>
                 <ng-template #loadingTemplate>
@@ -26,15 +19,8 @@
 
                 <div class="Attendance-report-deta">
                   <h5>Attendance Report</h5>
-                  <div
-                    class="report-icon"
-                    data-bs-toggle="modal"
-                    data-bs-target="#dateRangeModal2"
-                  >
-                    <i
-                      *ngIf="!isLoading2; else loadingTemplate2"
-                      class="bi bi-chevron-right"
-                    ></i>
+                  <div class="report-icon" data-bs-toggle="modal" data-bs-target="#dateRangeModal2">
+                    <i *ngIf="!isLoading2; else loadingTemplate2" class="bi bi-chevron-right"></i>
                   </div>
                 </div>
                 <ng-template #loadingTemplate2>
@@ -42,15 +28,8 @@
                 </ng-template>
                 <div class="Attendance-report-deta">
                   <h5>Salary Report</h5>
-                  <div
-                    class="report-icon"
-                    data-bs-toggle="modal"
-                    data-bs-target="#dateRangeModal3"
-                  >
-                    <i
-                      *ngIf="!isLoading3; else loadingTemplate3"
-                      class="bi bi-chevron-right"
-                    ></i>
+                  <div class="report-icon" data-bs-toggle="modal" data-bs-target="#dateRangeModal3">
+                    <i *ngIf="!isLoading3; else loadingTemplate3" class="bi bi-chevron-right"></i>
                   </div>
                 </div>
                 <ng-template #loadingTemplate3>
@@ -58,75 +37,44 @@
                 </ng-template>
                 <div class="Attendance-report-deta">
                   <h5>Daily Attendance Report</h5>
-                  <div
-                    class="report-icon"
-                    data-bs-toggle="modal"
-                    data-bs-target="#dateRangeModal4"
-                  >
-                    <i
-                      *ngIf="!isLoading4; else loadingTemplate4"
-                      class="bi bi-chevron-right"
-                    ></i>
+                  <div class="report-icon" data-bs-toggle="modal" data-bs-target="#dateRangeModal4">
+                    <i *ngIf="!isLoading4; else loadingTemplate4" class="bi bi-chevron-right"></i>
                   </div>
-                 
+
                 </div>
                 <ng-template #loadingTemplate4>
                   <div class="loading-icon">Loading...</div>
                 </ng-template>
-               
+
               </div>
             </div>
-           
+
           </div>
           <div class="col-md-5">
             <div class="report-download pl-3 pr-3">
               <h4 class="heading">Reports Logs</h4>
 
               <div class="downlord-report">
-                <div
-                  class=""
-                  style="
+                <div class="" style="
                     text-align: left;
                     border-bottom: 1px solid #f2f2f2;
                     padding-bottom: 15px;
-                  "
-                  *ngIf="!isAttendanceLogsPlaceholder; else placeholderTemplate"
-                >
-                  <div
-                    *ngFor="
+                  " *ngIf="!isAttendanceLogsPlaceholder; else placeholderTemplate">
+                  <div *ngFor="
                       let date of groupedLogs | keyvalue : sortDatesDescending
-                    "
-                    class="scroll-box-logs"
-                    style="margin-top: 30px"
-                  >
+                    " class="scroll-box-logs" style="margin-top: 30px">
                     <h5 class="mb-3">
                       {{ formatDateIn(date.key | date : "mediumDate") }}
                     </h5>
                     <ul class="acitivity-timeline-2 list-unstyled mb-0">
                       <li *ngFor="let log of date.value">
-                        <div
-                          class="d-flex align-items-center justify-content-between"
-                        >
+                        <div class="d-flex align-items-center justify-content-between">
                           <h6 class="fs-md mt-0">{{ log.reportName }}</h6>
-                          <div
-                            class="attendance-log-download d-flex"
-                            style="gap: 20px"
-                          >
-                            <a
-                              href="{{ log.reportExcelLink }}"
-                              target="_blank"
-                              ngbTooltip="DownLoad Excel"
-                              placement="top"
-                              ><img
-                                src="assets/images/excel.svg"
-                                style="width: 20px"
-                            /></a>
-                            <a href="{{ log.reportPdfLink }}" target="_blank"
-                              ><img
-                                src="assets/images/pdf.svg"
-                                style="width: 20px"
-                                *ngIf="log.reportPdfLink"
-                            /></a>
+                          <div class="attendance-log-download d-flex" style="gap: 20px">
+                            <a href="{{ log.reportExcelLink }}" target="_blank" ngbTooltip="DownLoad Excel"
+                              placement="top"><img src="assets/images/excel.svg" style="width: 20px" /></a>
+                            <a href="{{ log.reportPdfLink }}" target="_blank"><img src="assets/images/pdf.svg"
+                                style="width: 20px" *ngIf="log.reportPdfLink" /></a>
                           </div>
                         </div>
                         <div class="d-flex align-items-center mb-2 gap-3">
@@ -137,11 +85,11 @@
                           <p class="mb-0">
                             <i class="bi bi-calendar align-baseline me-1"></i>
                             {{
-                              formatDateIn(formatDate2(log.createdDate)) ||
-                                "N/A"
+                            formatDateIn(formatDate2(log.createdDate)) ||
+                            "N/A"
                             }}&nbsp; - &nbsp;<span>{{
                               formatTime(log.createdDate) || "N/A"
-                            }}</span>
+                              }}</span>
                           </p>
                         </div>
                       </li>
@@ -169,10 +117,7 @@
                   </div> -->
 
                   <div class="empty-file" style="margin-top: 50%">
-                    <nz-empty
-                      nzNotFoundImage="assets/images/report-img.svg"
-                      [nzNotFoundContent]="contentTpl"
-                    >
+                    <nz-empty nzNotFoundImage="assets/images/report-img.svg" [nzNotFoundContent]="contentTpl">
                       <ng-template #contentTpl>
                         <p class="mb-1 empty-detail font-16">
                           No report logs for now
@@ -355,55 +300,32 @@
     </div>
   </div>
 
-  <div
-    class="modal fade"
-    id="dateRangeModal"
-    tabindex="-1"
-    role="dialog"
-    aria-labelledby="dateRangeModalLabel"
-    aria-hidden="true"
-    #dateRangeModal
-  >
+  <div class="modal fade" id="dateRangeModal" tabindex="-1" role="dialog" aria-labelledby="dateRangeModalLabel"
+    aria-hidden="true" #dateRangeModal>
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="dateRangeModalLabel">
             Attendance Summary Report
           </h5>
-          <button
-              type="button"
-              class="btn-close"
-            data-bs-dismiss="modal"
-            ></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
           <div class="row">
             <div class="col-md-12 mb-3">
               <label class="pb-2">Select date range</label>
-              <nz-range-picker
-              [(ngModel)]="selectedDateRange"
-              [nzPlaceHolder]="['Start Date', 'End Date']"
-              [nzDisabledDate]="disableBeforeOnboarding"
-            ></nz-range-picker>
+              <nz-range-picker [(ngModel)]="selectedDateRange" [nzPlaceHolder]="['Start Date', 'End Date']"
+                [nzDisabledDate]="disableBeforeOnboarding"></nz-range-picker>
             </div>
           </div>
-         
+
 
         </div>
         <div class="modal-footer d-flex align-content-center justify-content-end gap-2">
-          <button
-            type="button"
-            class="btn cancel-btn"
-            data-bs-dismiss="modal"
-            #dateRangeModalClose
-          >
+          <button type="button" class="btn cancel-btn" data-bs-dismiss="modal" #dateRangeModalClose>
             Cancel
           </button>
-          <button
-            type="button"
-            class="btn submitActionBtn "
-            (click)="handleOkOfAttendanceSummary()"
-          >
+          <button type="button" class="btn submitActionBtn " (click)="handleOkOfAttendanceSummary()">
             Generate
           </button>
         </div>
@@ -411,111 +333,33 @@
     </div>
   </div>
 
-  <div
-    class="modal fade"
-    id="dateRangeModal2"
-    tabindex="-1"
-    role="dialog"
-    aria-labelledby="dateRangeModalLabel"
-    aria-hidden="true"
-    #dateRangeModal2
-  >
+  <div class="modal fade" id="dateRangeModal2" tabindex="-1" role="dialog" aria-labelledby="dateRangeModalLabel"
+    aria-hidden="true" #dateRangeModal2>
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="dateRangeModalLabel">
             Attendance Report
           </h5>
-          <button
-              type="button"
-              class="btn-close"
-            data-bs-dismiss="modal"
-            ></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
 
           <div class="row">
             <div class="col-md-12 mb-3">
               <label class="pb-2">Select date range</label>
-                <nz-range-picker
-                [(ngModel)]="selectedDateRange"
-                [nzPlaceHolder]="['Start Date', 'End Date']"
-                [nzDisabledDate]="disableBeforeOnboarding"
-              >
-                </nz-range-picker>
+              <nz-range-picker [(ngModel)]="selectedDateRange" [nzPlaceHolder]="['Start Date', 'End Date']"
+                [nzDisabledDate]="disableBeforeOnboarding">
+              </nz-range-picker>
             </div>
           </div>
         </div>
 
         <div class="modal-footer d-flex align-content-center justify-content-end gap-2">
-          <button
-            type="button"
-            class="btn cancel-btn"
-            data-bs-dismiss="modal"
-            #closeDateRangeModal2>
-          Cancel
+          <button type="button" class="btn cancel-btn" data-bs-dismiss="modal" #closeDateRangeModal2>
+            Cancel
           </button>
-          <button
-            type="button"
-            class="btn submitActionBtn"
-            (click)="handleOkOfAttendanceReport()" >
-            Generate
-          </button>
-        </div>
-      </div>
-    </div>
-    </div>
-
-  <div
-    class="modal fade"
-    id="dateRangeModal3"
-    tabindex="-1"
-    role="dialog"
-    aria-labelledby="dateRangeModalLabel"
-    aria-hidden="true"
-    #dateRangeModal3
-  >
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="dateRangeModalLabel">
-            Salary Report
-          </h5>
-          <button
-              type="button"
-              class="btn-close"
-            data-bs-dismiss="modal"
-            ></button>
-        </div>
-        <div class="modal-body">
-          <div class="row">
-            <div class="col-md-12 mb-3">
-              <label class="pb-2">Select Month</label>
-              <nz-date-picker
-              nzMode="month"
-              [(ngModel)]="selectedMonth"
-              nzPlaceHolder="Select Month"
-              [nzDisabledDate]="disableBeforeOnboardingForSalary"
-            >
-          </nz-date-picker>
-            </div>
-          </div>
-          
-        </div>
-        <div class="modal-footer d-flex align-content-center justify-content-end gap-2">
-          <button
-            type="button"
-            class="btn cancel-btn"
-            data-bs-dismiss="modal"
-            #closeDateRangeModal3
-          >
-          Cancel
-          </button>
-          <button
-            type="button"
-            class="btn submitActionBtn"
-            (click)="handleOkOfSalaryReport()"
-          >
+          <button type="button" class="btn submitActionBtn" (click)="handleOkOfAttendanceReport()">
             Generate
           </button>
         </div>
@@ -523,56 +367,65 @@
     </div>
   </div>
 
-<div
-    class="modal fade"
-    id="dateRangeModal4"
-    tabindex="-1"
-    role="dialog"
-    aria-labelledby="dateRangeModalLabel"
-    aria-hidden="true"
-    #dateRangeModal4
-  >
+  <div class="modal fade" id="dateRangeModal3" tabindex="-1" role="dialog" aria-labelledby="dateRangeModalLabel"
+    aria-hidden="true" #dateRangeModal3>
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="dateRangeModalLabel">
+            Salary Report
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12 mb-3">
+              <label class="pb-2">Select Month</label>
+              <nz-date-picker nzMode="month" [(ngModel)]="selectedMonth" nzPlaceHolder="Select Month"
+                [nzDisabledDate]="disableBeforeOnboardingForSalary">
+              </nz-date-picker>
+            </div>
+          </div>
+
+        </div>
+        <div class="modal-footer d-flex align-content-center justify-content-end gap-2">
+          <button type="button" class="btn cancel-btn" data-bs-dismiss="modal" #closeDateRangeModal3>
+            Cancel
+          </button>
+          <button type="button" class="btn submitActionBtn" (click)="handleOkOfSalaryReport()">
+            Generate
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="dateRangeModal4" tabindex="-1" role="dialog" aria-labelledby="dateRangeModalLabel"
+    aria-hidden="true" #dateRangeModal4>
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="dateRangeModalLabel">
             Daily Attendance Report
           </h5>
-          <button
-              type="button"
-              class="btn-close"
-            data-bs-dismiss="modal"
-            ></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
-         <div class="row">
-          <div class="col-md-12 mb-3">
-            <label class="pb-2">Select Day</label>
-            <nz-date-picker
-            nzMode="date"
-            [(ngModel)]="selectedMonthOfDailyReport"
-            nzPlaceHolder="Select Day"
-            [nzDisabledDate]="disableBeforeOnboardingForDailyReport"
-          >
-        </nz-date-picker>
+          <div class="row">
+            <div class="col-md-12 mb-3">
+              <label class="pb-2">Select Day</label>
+              <nz-date-picker nzMode="date" [(ngModel)]="selectedMonthOfDailyReport" nzPlaceHolder="Select Day"
+                [nzDisabledDate]="disableBeforeOnboardingForDailyReport">
+              </nz-date-picker>
+            </div>
           </div>
-         </div>
-         
+
         </div>
         <div class="modal-footer d-flex align-content-center justify-content-end gap-2">
-          <button
-            type="button"
-            class="btn cancel-btn"
-            data-bs-dismiss="modal"
-            #closeDateRangeModal4
-          >
-          Cancel
+          <button type="button" class="btn cancel-btn" data-bs-dismiss="modal" #closeDateRangeModal4>
+            Cancel
           </button>
-          <button
-            type="button"
-            class="btn submitActionBtn"
-            (click)="downloadAttedanceReport()"
-          >
+          <button type="button" class="btn submitActionBtn" (click)="downloadAttedanceReport()">
             Generate
           </button>
         </div>

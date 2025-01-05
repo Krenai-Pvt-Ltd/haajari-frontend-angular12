@@ -162,7 +162,7 @@ export class LoginComponent implements OnInit {
   //         this.UUID = UUID;
 
   //         if (this.ROLE === 'USER') {
-  //           this.router.navigate(['/employee-profile'], {
+  //           this.router.navigate(['/employee'], {
   //             queryParams: { userId: this.UUID, dashboardActive: 'true' },
   //           });
   //         } else if (this.ROLE == 'HR ADMIN') {
@@ -219,7 +219,7 @@ export class LoginComponent implements OnInit {
   //         this.UUID = UUID;
 
   //         if (this.ROLE === 'USER') {
-  //           this.router.navigate(['/employee-profile'], {
+  //           this.router.navigate(['/employee'], {
   //             queryParams: { userId: this.UUID, dashboardActive: 'true' },
   //           });
   //         } else if (this.ROLE == 'HR ADMIN') {

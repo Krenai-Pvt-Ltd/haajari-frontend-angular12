@@ -22,6 +22,7 @@ import { LeaveSettingComponent } from 'src/app/modules/setting/components/leave-
 import { AttendanceSettingComponent } from 'src/app/modules/setting/components/attendance-setting/attendance-setting.component';
 import { TeamComponent } from '../team/team.component';
 import { UserResignation } from 'src/app/models/UserResignation';
+import { OnboardUser } from 'src/app/models/OnboardUser';
 export interface Team {
   label: string;
   value: string;
@@ -91,7 +92,9 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     let navExtra: NavigationExtras = {
       queryParams: { userId: uuid },
     };
-    this.router.navigate(['/employee-profile'], navExtra);
+    // this.router.navigate(['/employee'], navExtra);
+    const url = this.router.createUrlTree([Key.EMPLOYEE_PROFILE_ROUTE], navExtra).toString();
+    window.open(url, '_blank');
   }
 
   // randomUserUrl = 'http://localhost:8080/api/v2/users/fetch-team-list-user';
@@ -398,13 +401,19 @@ export class EmployeeOnboardingDataComponent implements OnInit {
 
   // Define a new flag
   emailAlreadyExists = false;
-  toggle = false;
-  setEmployeePersonalDetailsMethodCall() {
+  toggle1 = false;
+  toggle2 = false;
+  // inviteLoader: boolean = false;
+  setEmployeePersonalDetailsMethodCall(invite: boolean) {
     // Reset the flag
     debugger
+    if(!invite) {
+      this.toggle1 = true;
+    }else {
+      this.toggle2 = true;
+    }
     this.emailAlreadyExists = false;
-
-    this.toggle = true;
+    
     const userUuid = '';
     this.dataService
       .setEmployeePersonalDetails(
@@ -412,16 +421,19 @@ export class EmployeeOnboardingDataComponent implements OnInit {
         userUuid,
         this.selectedTeamIds,
         this.selectedShift,
-        this.selectedLeaveIds
+        this.selectedLeaveIds,
+        invite
       )
       .subscribe(
         (response: UserPersonalInformationRequest) => {
-          this.toggle = false;
+          this.toggle1 = false;
+          this.toggle2 = false;
 
           // Check if the response indicates the email already exists
           if (response.statusResponse === 'existed') {
             this.emailAlreadyExists = true; // Set the flag to display the error message
-            this.toggle = false;
+            this.toggle1 = false;
+            this.toggle2 = false;
           } else {
             this.clearForm();
             this.closeModal();
@@ -431,14 +443,23 @@ export class EmployeeOnboardingDataComponent implements OnInit {
           this.selectedTeams = [];
           this.selectedShift = 0;
           this.getUsersByFiltersFunction();
+          
+          if(invite) {
+            this.helperService.showToast(
+              'Member added and invited successfully.',
+              Key.TOAST_STATUS_SUCCESS
+            );
+        } else {
           this.helperService.showToast(
-            'Email sent successfully.',
+            'Member added successfully.',
             Key.TOAST_STATUS_SUCCESS
           );
+        }
         },
         (error) => {
           console.error(error);
-          this.toggle = false;
+          this.toggle1 = false;
+          this.toggle2 = false;
           this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
         }
       );
@@ -1318,7 +1339,9 @@ console.log(this.data);
     this.networkConnectionErrorPlaceholder = false;
   }
 
-  onboardUserList: any[] = new Array();
+  // onboardUserList: any[] = new Array();
+  onboardUserList: OnboardUser[] = [];
+
   loading: boolean = false;
   getUser() {
     this.preRuleForShimmersAndErrorPlaceholdersMethodCall();
@@ -1342,6 +1365,28 @@ console.log(this.data);
     );
   }
 
+  updateNotification(onboardUser: any) {
+    const payload = {
+      id: onboardUser.id,
+      emailNotificationEnabled: onboardUser.emailNotificationEnabled,
+      whatsappNotificationEnabled: onboardUser.whatsappNotificationEnabled,
+    };
+  
+    // this.dataService.updateNotificationSettings(payload).subscribe(
+    //   (response: any) => {
+    //     if (response.status) {
+    //       console.log('Notification settings updated successfully.');
+    //     } else {
+    //       console.error('Failed to update notification settings.');
+    //     }
+    //   },
+    //   (error) => {
+    //     console.error('Error updating notification settings', error);
+    //   }
+    // );
+  }
+
+
   formatAsCommaSeparated(items: string[]): string {
     return items.join(', ');
   }
@@ -1351,7 +1396,9 @@ console.log(this.data);
     this._onboardingService.deleteOnboardUser(id).subscribe(
       (response: any) => {
         if (response.status) {
+          this.getUsersByFiltersFunction();
           this.getUser();
+          // this.getUser();
         }
       },
       (error) => {}
@@ -1909,7 +1956,98 @@ console.log(this.data);
     );
   }
 
- 
+
+  loadingFlag: boolean = false;
+  enableEmailNotification: boolean = false;
+  enableWhatsAppNotification: boolean = false;
+
+  // sendNotifications(): void {
+  //   this.loadingFlag = true;
+  //   const notifications = this.onboardUserList.map((user) => ({
+  //     id: user.id,
+  //     emailNotificationEnabled: user.emailNotificationEnabled,
+  //     whatsappNotificationEnabled: user.whatsappNotificationEnabled,
+  //   }));
+
+  //   this.dataService.sendNotifications(notifications).subscribe({
+  //     next: (response) => {
+  //         this.closeButtonExcelModal.nativeElement.click();
+  //         this.getUsersByFiltersFunction();
+  //         this.getUser();
+  //         this.helperService.showToast("Notifications sent Successfully.", Key.TOAST_STATUS_SUCCESS);
+  //       // console.log('Notifications sent successfully:', response);
+  //       this.loadingFlag = false;
+  //     },
+  //     error: (err) => {
+  //       this.helperService.showToast("Error While Sending Notification", Key.TOAST_STATUS_ERROR);
+  //       // console.error('Error sending notifications:', err);
+  //       this.loadingFlag = false;
+  //     },
+  //   });
+  // }
+
+  sendNotifications(): void {
+    if (!this.enableEmailNotification && !this.enableWhatsAppNotification) {
+      this.helperService.showToast(
+        'Please select at least one notification type to proceed.',
+        'error'
+      );
+      return;
+    }
+
+    this.loadingFlag = true;
+
+    // Filter users based on toggled notification preferences
+    const emailUsers = this.enableEmailNotification
+      ? this.onboardUserList
+        .filter((user) => user.emailNotificationEnabled && user.email)
+        .map((user) => user.email)
+      : [];
+
+    const whatsappUsers = this.enableWhatsAppNotification
+      ? this.onboardUserList
+        .filter((user) => user.whatsappNotificationEnabled && user.phone)
+        .map((user) => user.phone)
+      : [];
+
+    // Prepare request payload
+    const notificationRequest = {
+      emailUsers,
+      whatsappUsers,
+    };
+
+    this.dataService.sendNotifications(notificationRequest).subscribe({
+      next: () => {
+        this.helperService.showToast(
+          'Notifications sent successfully.',
+          Key.TOAST_STATUS_SUCCESS
+        );
+        this.enableEmailNotification = false;
+        this.enableWhatsAppNotification = false;
+        this.closeButtonExcelModal.nativeElement.click();
+        this.getUsersByFiltersFunction();
+        this.getUser();
+        this.loadingFlag = false;
+      },
+      error: () => {
+        this.helperService.showToast(
+          'Error while sending notifications.',
+          Key.TOAST_STATUS_ERROR
+        );
+        this.loadingFlag = false;
+      },
+    });
+  }
+
+  closeNotificationModalFlag: boolean = false;
+
+  closeNotificationModal() {
+    this.closeNotificationModalFlag = true;
+    this.closeButtonExcelModal.nativeElement.click();
+    this.getUsersByFiltersFunction();
+    this.getUser();
+    this.closeNotificationModalFlag = false;
+  }
 
   
 }
