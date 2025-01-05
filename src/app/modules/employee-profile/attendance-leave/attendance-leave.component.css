@@ -1137,3 +1137,12 @@ div[ngbTooltip] {
     font-weight: 400 !important;
     color: #6B7280;
 }
+
+.scroll-box-logs {
+    height: 300px;
+    overflow-x: auto;
+}
+
+.scroll-box-logs::-webkit-scrollbar {
+    display: none;
+}
