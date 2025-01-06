@@ -273,7 +273,7 @@ i::before {
 
 
 .overview-summary {
-    background: white;
+    background-color: #F9FAFC;
     transform: rotateY(180deg);
 }
 
@@ -283,7 +283,7 @@ i::before {
 }
 
 .total-working-day {
-    border-left: 3px solid #000;
+    border-left: 3`px solid #000;
     height: 40px;
 }
 
@@ -327,9 +327,6 @@ i::before {
     background-color: #e9e4e4;
 }
 
-.overview-summary {
-    background-color: #F9FAFC;
-}
 
 .summary-count {
     width: 10px;
