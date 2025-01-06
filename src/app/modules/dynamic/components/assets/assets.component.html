@@ -436,7 +436,7 @@
                     <td class="text-left">{{ asset.assetType || '--' }}</td>
                     <td class="text-left">{{ asset.assetCategoryName || '--' }}</td>
                     <td class="text-left">
-                      <button class="btn btn-link text-primary p-0" [routerLink]="['/employee-profile']"
+                      <button class="btn btn-link text-primary p-0" [routerLink]="['/employee']"
                         [queryParams]="{ userId: asset.userUuid }">
                         {{ asset.requestedBy || '--'}}
                       </button>
