@@ -1095,7 +1095,8 @@
     aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header">
+            <!-- {{userId === UUID}} -->
+            <div class="modal-header" *ngIf="userRoleFlag">
                 <h5 class="modal-title" id="exampleModalLabel">Initiate Exit</h5>
                 <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeApproveModal>
                     <!-- <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" (click)="clearFormData(resignationForm)" #closeResignationButton> -->

@@ -47,6 +47,9 @@ export class HelperService {
   }
 
   clearHelperService(){
+    // this.orgStepId = 0;
+    // this.stepsData = null;
+    // this.stepId = 0;
     this.subModuleResponseList = [];
   }
   restrictedModules!:RestrictedSubModule[];
