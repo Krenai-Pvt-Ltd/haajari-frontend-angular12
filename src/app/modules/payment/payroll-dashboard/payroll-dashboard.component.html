@@ -300,8 +300,9 @@
                         </div>
                         <div class="col-auto align-self-center">
                           <div class="button-items">
+                            <!-- [disabled]="PAYROLL_PROCESS_STEP < PAYROLL_STEP_COMPLETED"  -->
                             <button type="button" class="btn btn-outline-primary btn-round"
-                              [disabled]="PAYROLL_PROCESS_STEP < PAYROLL_STEP_COMPLETED" (click)="getPayrollReport()">
+                              (click)="getPayrollReport()">
                               <ng-container *ngIf="RUN_PAYROLL_LOADER; else runPayrollLoaderFalseCondition">
                                 <div class="dot-opacity-loader">
                                   <span></span>
