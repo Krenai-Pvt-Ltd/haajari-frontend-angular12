@@ -850,7 +850,7 @@ export class TimetableComponent implements OnInit {
     if (dateString !== null) {
       this.dataService
         .getAtendanceDailyReport(
-          dateString
+          dateString, null
         )
         .subscribe(
           (response) => {
