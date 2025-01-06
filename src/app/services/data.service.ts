@@ -3359,11 +3359,19 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
   }
 
 
-  getAtendanceDailyReport(startDate:string): Observable<any> {
+  getAtendanceDailyReport(startDate:string,userIds: number[] | null ): Observable<any> {
     const url = `${this.baseUrl}/attendance/excel/download/daily/report`;
 
-    const params = new HttpParams()
-      .set('start_date', startDate);
+    let params = new HttpParams();
+     params = params.append('start_date', startDate);
+
+       // Add userIds to the params if not null
+    if (userIds) {
+      params = params.append('userIds', userIds.length > 0 ? userIds.join(',') : '');
+    } else {
+      // Explicitly send an empty value for userIds
+      params = params.append('userIds', '');
+    }
 
     return this.httpClient.get<any>(url,{ params });
   }
