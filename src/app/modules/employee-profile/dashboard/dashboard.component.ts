@@ -95,7 +95,7 @@ export class DashboardComponent implements OnInit {
     // this.getWorkedHourForEachDayOfAWeek();
     this.getAttendanceRequestLogData();
     this.getTeamNames();
-    // this.loadMoreData();
+    this.loadMoreData();
     this.fetchAttendanceSummary();
     // this.loadHolidays();
     this.getTeamsWithManagerInfo();
@@ -183,8 +183,18 @@ export class DashboardComponent implements OnInit {
 
 
   ROLE: any;
+  UUID: string = '';
+  userRoleFlag: boolean = false;
   async getRole() {
     this.ROLE = await this.roleService.getRole();
+    this.UUID = await this.roleService.getUuid();
+
+
+    if (this.userId == this.UUID) {
+      this.userRoleFlag = true;
+    }else {
+      this.userRoleFlag = false;
+    }
   }
 
   userResignationInfo: any;
@@ -775,7 +785,7 @@ export class DashboardComponent implements OnInit {
 
 
   loadMoreData(): void {
-    if (this.isLoadingTeamMembers || !this.hasMoreData) {
+    if (!this.hasMoreData) {
       return;
     }
 

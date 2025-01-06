@@ -19,6 +19,7 @@ import { finalize } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { constant } from 'src/app/constant/constant';
 import * as pdfjsLib from 'pdfjs-dist';
+import { OnboardingService } from 'src/app/services/onboarding.service';
 
 
 @Component({
@@ -42,6 +43,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     private afStorage: AngularFireStorage,
     public rbacService: RoleBasedAccessControlService,
     private sanitizer: DomSanitizer,
+    private onboardingService: OnboardingService,
     private sharedService: HelperService) {
     this.myForm = this.fb.group({
       position: ['', Validators.required],  // Make Position field required
@@ -743,6 +745,9 @@ export class EmployeeProfileSidebarComponent implements OnInit {
 
   onLogout() {
     localStorage.clear();
+    this.helperService.orgStepId = 0;
+    this.helperService.stepId = 0;
+    // this.onboardingService.isLoadingOnboardingStatus = true;
     this.rbacService.clearRbacService();
     this.helperService.clearHelperService();
     this.router.navigate(['/login']);

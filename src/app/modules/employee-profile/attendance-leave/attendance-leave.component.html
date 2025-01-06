@@ -117,14 +117,22 @@
                                                 </svg>
                                             </span> -->
                                             <div>
-                                                <h5 class="mb-0 font-15">
+                                                <div *ngIf="isShimmer">
+                                                    <ngx-shimmer-loading [width]="'50%'"
+                                                        [height]="'10px'"></ngx-shimmer-loading>
+                                                </div>
+                                                <h5 class="mb-0 font-15" *ngIf="!isShimmer">
                                                     {{convertToHourMinuteFormat(totalAttendanceDetails.totalWorkedHours)}}
                                                 </h5>
                                                 <p class="mb-0 font-12">Worked</p>
                                             </div>
                                         </div>
                                         <div>
-                                            <h5 class="mb-0 font-15">
+                                            <div *ngIf="isShimmer">
+                                                <ngx-shimmer-loading [width]="'50%'"
+                                                    [height]="'10px'"></ngx-shimmer-loading>
+                                            </div>
+                                            <h5 class="mb-0 font-15"  *ngIf="!isShimmer">
                                                 {{convertToHourMinuteFormat(totalAttendanceDetails.totalEarlyCheckoutHours)}}
                                                 <span class="lat">({{totalAttendanceDetails.totalEarlyCheckoutCount}}
                                                     early
@@ -140,7 +148,11 @@
                                     <div class="attendance-summery p-3 pt-2 pb-2">
                                         <!-- <h5 class="mb-0 font-15">+ 7 hr 30 min</h5>
                                     <p class="mb-0 font-12">Difference</p> -->
-                                        <h5 class="mb-0 font-15">
+                                    <div *ngIf="isShimmer">
+                                        <ngx-shimmer-loading [width]="'50%'"
+                                            [height]="'10px'"></ngx-shimmer-loading>
+                                    </div>
+                                        <h5 class="mb-0 font-15"  *ngIf="!isShimmer">
                                             {{convertToHourMinuteFormat(totalAttendanceDetails.totalOvertimeHours)}}
                                             <span class="lat">({{totalAttendanceDetails.totalOvertimeCount}}
                                                 overtime)</span>
@@ -151,7 +163,11 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="attendance-summery p-3 pt-2 pb-2">
-                                        <h5 class="mb-0 font-15">
+                                        <div *ngIf="isShimmer">
+                                            <ngx-shimmer-loading [width]="'50%'"
+                                                [height]="'10px'"></ngx-shimmer-loading>
+                                        </div>
+                                        <h5 class="mb-0 font-15"  *ngIf="!isShimmer">
                                             {{convertToHourMinuteFormat(totalAttendanceDetails.totalLateHours)}} <span
                                                 class="lat">({{totalAttendanceDetails.totalLateCount}} late in’s)</span>
                                         </h5>
@@ -160,7 +176,11 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="attendance-summery p-3 pt-2 pb-2">
-                                        <h5 class="mb-0 font-15">
+                                        <div *ngIf="isShimmer">
+                                            <ngx-shimmer-loading [width]="'50%'"
+                                                [height]="'10px'"></ngx-shimmer-loading>
+                                        </div>
+                                        <h5 class="mb-0 font-15"  *ngIf="!isShimmer">
                                             {{convertToHourMinuteFormat(totalAttendanceDetails.totalHalfDayHours)}}
                                             <span class="lat">({{totalAttendanceDetails.totalHalfDayCount}} half day
                                                 in’s)</span>
