@@ -2917,7 +2917,7 @@
     <div class="d-flex align-items-center gap-2">
       <button class="btn profile-cancel-btn" (click)="profileEdit=false;">Cancel</button>
       <button [disabled]="isSaveBtnLoading" class="btn save-btn" (click)="saveOnboardingData()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
+        <svg *ngIf="!isSaveBtnLoading" xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
           <mask id="mask0_5535_3777" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25"
             height="25">
             <rect x="0.46167" y="0.5" width="24" height="24" fill="#D9D9D9" />
@@ -3231,7 +3231,7 @@
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
                 <input type="text" formControlName="emailId" class="form__field" />
-                <label class="form__label"></label>
+                <label class="form__label">Email</label>
               </div>
               <div
                 *ngIf="(reference.get('emailId')?.touched || isFormInvalid) && reference.get('emailId')?.hasError('required')"
@@ -3248,10 +3248,11 @@
               [ngClass]="{'justify-content-end': references.length == 1, 'justify-content-between': references.length >1}">
               <button type="button" class="btn p-0 text-danger" (click)="removeReference(i)"><i class="bi bi-trash"></i>
                 Remove</button>
-              <button class="btn p-0 text-primary add-reference" type="button" (click)="addReference()"><i
-                  class="bi bi-plus-lg"></i> Add Reference</button>
+
             </div>
           </div>
+          <button class="btn p-0 text-primary add-reference" type="button" (click)="addReference()"><i
+            class="bi bi-plus-lg"></i> Add Reference</button>
 
         </div>
       </div>
