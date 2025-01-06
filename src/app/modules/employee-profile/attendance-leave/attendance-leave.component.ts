@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { UserDto } from 'src/app/models/user-dto.model';
+import { AttendanceCheckTimeResponse, AttendanceTimeUpdateRequestDto, UserDto } from 'src/app/models/user-dto.model';
 import { UserLeaveRequest } from 'src/app/models/user-leave-request';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
@@ -13,6 +13,7 @@ import { EmployeeProfileAttendanceResponse, TotalEmployeeProfileAttendanceRespon
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import { AttendanceRequest } from 'src/app/models/AttendanceRequest';
+import { constant } from 'src/app/constant/constant';
 // import { Timeline } from 'vis-timeline'
 // import { Timeline,DataSet, TimelineItem } from 'vis-timeline/standalone';
 
@@ -27,6 +28,11 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
+import { DatePipe } from '@angular/common';
+import moment from 'moment';
+import { AttendanceLogResponse } from 'src/app/models/attendance-log-response';
+import saveAs from 'file-saver';
+
 
 
 Chart.register(
@@ -54,19 +60,49 @@ export class AttendanceLeaveComponent implements OnInit {
   currentUserUuid: any
   userLeaveRequest: UserLeaveRequest = new UserLeaveRequest();
 modal: any;
+UUID:string = '';  
+readonly Constant = constant;
 contentTemplate: string ='You are on the Notice Period, so that you can not apply leave';
 
-  constructor(private dataService: DataService, private activateRoute: ActivatedRoute,
+  constructor(private dataService: DataService, private activateRoute: ActivatedRoute, private datePipe: DatePipe,  private firebaseStorage: AngularFireStorage,  private sanitizer: DomSanitizer,
     private fb: FormBuilder, public helperService: HelperService, public domSanitizer: DomSanitizer,
     private afStorage: AngularFireStorage, private modalService: NgbModal,
+    public roleService: RoleBasedAccessControlService,
     private rbacService: RoleBasedAccessControlService,
   ) {
+    this.getUuid(); 
     if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
       this.userId = this.activateRoute.snapshot.queryParamMap.get('userId');
     }
+    // if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
+    //   this.userId = this.activateRoute.snapshot.queryParamMap.get('userId');
+    // }
+    // this.UUID = await this.roleService.getUuid();
     // this.getFirstAndLastDateOfMonth(this.selectedDate);
 
+    this.attendanceTimeUpdateForm = this.fb.group({
+      requestedDate: [null, Validators.required],
+      attendanceRequestType: ['UPDATE', Validators.required], // Default to 'UPDATE'
+      updateGroup: this.fb.group({
+        requestType: [null, Validators.required],
+        attendanceId: [null, Validators.required],
+        updatedTime: [null, Validators.required],
+      }),
+      createGroup: this.fb.group({ 
+        inRequestTime: [null, Validators.required],
+        outRequestTime: [null, Validators.required],
+      }),
+      managerId: [null, Validators.required],
+      requestReason: ['', [Validators.required, Validators.maxLength(255)]],
+    });
+
    }
+   public async getUuid() {
+    this.UUID = await this.roleService.getUuid();
+    // this.currentUserUuid = await this.roleService.getUuid();
+
+   
+  }
 
   ngOnInit(): void {
     this.userLeaveForm = this.fb.group({
@@ -93,8 +129,26 @@ contentTemplate: string ='You are on the Notice Period, so that you can not appl
     this.getEmployeeProfileAttendanceDetailsData();
     this.currentUserUuid = this.rbacService.getUuid();
 
-    this.calculateDateRange();
+    // this.calculateDateRange();
     // this.getAttendanceRequests();
+
+
+    // this.attendanceTimeUpdateForm = this.fb.group({
+    //   updateGroup: this.fb.group({
+    //     requestType: [null, Validators.required],
+    //     requestedDate: [null, Validators.required],
+    //     attendanceId: [null, Validators.required],
+    //     updatedTime: [null, Validators.required]
+    //   }),
+    //   createGroup: this.fb.group({
+    //     selectedDateAttendance: [null, Validators.required],
+    //     inRequestTime: [null, Validators.required],
+    //     outRequestTime: [null, Validators.required]
+    //   }),
+    //   managerId: [null, Validators.required],
+    //   requestReason: [null, Validators.required]
+    // });
+
 
 
     this.checkUserLeaveTaken();
@@ -1216,6 +1270,7 @@ private chart!: Chart;
 
 searchString = 'WEEK';
 endDateStr : string = '';
+isPlaceholder: boolean = false;
 getWorkedHourForEachDayOfAWeek() {
   debugger
   
@@ -1249,6 +1304,13 @@ getWorkedHourForEachDayOfAWeek() {
       const data = response.listOfObject.map((item: any) =>
         this.formatToDecimalHours(item.totalWorkedHour)
       );
+
+      console.log('response.listOfObject.length:', response.listOfObject.length);
+      if(response.listOfObject.length == 0){
+        this.isPlaceholder = true;
+      }else {
+        this.isPlaceholder = false;
+      }
 
       this.initializeChart(labels, data);
     },
@@ -1366,5 +1428,434 @@ selectedRequest: string = '';
       }
     }
   }
+
+  //  attendance update 
+
+
+
+    //  attendance update fucnionality
+    attendanceCheckTimeResponse : AttendanceCheckTimeResponse[] = [];
+    getAttendanceChecktimeListDate(statusString : string): void {
+      const formattedDate = this.datePipe.transform(this.requestedDate, 'yyyy-MM-dd');
+      this.dataService.getAttendanceChecktimeList(this.userId, formattedDate, statusString).subscribe(response => {
+        this.attendanceCheckTimeResponse = response.listOfObject;
+        // console.log('checktime retrieved successfully', response.listOfObject);
+      }, (error) => {
+        console.log(error);
+      });
+    }
+  
+    attendanceTimeUpdateForm!: FormGroup;
+    requestedDate!: Date;
+    statusString!: string;
+    attendanceRequestType: string= 'UPDATE';
+    selectedDateAttendance!: Date;
+    choosenDateString!: string;
+
+    @ViewChild('closeAttendanceUpdateModal') closeAttendanceUpdateModal!:ElementRef;
+  
+    attendanceUpdateRequestLoader : boolean = false;
+    submitForm(): void {
+      if (this.checkHoliday || this.checkAttendance) {
+        return;
+       }
+        const formValue = this.attendanceTimeUpdateForm.value;
+        let attendanceTimeUpdateRequest: AttendanceTimeUpdateRequestDto = {
+          managerId: formValue.managerId,
+          requestReason: formValue.requestReason
+        };
+  
+        if (this.attendanceTimeUpdateForm.get('attendanceRequestType')?.value === 'UPDATE') {
+          attendanceTimeUpdateRequest = {
+            ...attendanceTimeUpdateRequest,
+            attendanceId: formValue.updateGroup.attendanceId,
+            updatedTime: formValue.updateGroup.updatedTime,
+          };
+        } else if (this.attendanceTimeUpdateForm.get('attendanceRequestType')?.value === 'CREATE') {
+          attendanceTimeUpdateRequest = {
+            ...attendanceTimeUpdateRequest,
+            selectedDateAttendance: formValue.createGroup.selectedDateAttendance,
+            inRequestTime: formValue.createGroup.inRequestTime,
+            outRequestTime: formValue.createGroup.outRequestTime
+          };
+        }
+  
+        this.attendanceUpdateRequestLoader = true;
+        attendanceTimeUpdateRequest.userUuid = this.userId;
+        attendanceTimeUpdateRequest.requestType = this.attendanceTimeUpdateForm.get('attendanceRequestType')?.value;
+        attendanceTimeUpdateRequest.choosenDateString = this.choosenDateString;
+        this.dataService.sendAttendanceTimeUpdateRequest(attendanceTimeUpdateRequest).subscribe(
+          (response) => {
+            // console.log('Request sent successfully', response);
+            this.attendanceUpdateRequestLoader = false;
+            console.log("retrive", response, response.status);
+            if(response.status === true) {
+            this.resetForm();
+            // document.getElementById('attendanceUpdateModal')?.click();
+            this.closeAttendanceUpdateModal.nativeElement.click();
+            // this.attendanceRequestType = 'UPDATE';
+            this.attendanceTimeUpdateForm.get('attendanceRequestType')?.setValue('UPDATE');
+
+            // this.getAttendanceRequestLogData();
+            this.helperService.showToast('Request Sent Successfully.', Key.TOAST_STATUS_SUCCESS);
+            } else if(response.status === false) {
+              // this.resetForm();
+              // document.getElementById('attendanceUpdateModal')?.click();
+              // this.getAttendanceRequestLogData();
+              this.helperService.showToast('Request already registered!', Key.TOAST_STATUS_ERROR);
+              }
+            this.selectedRequest = '';
+          },
+          (error) => {
+            this.attendanceUpdateRequestLoader = false;
+            console.error('Error sending request:', error);
+          }
+        );
+      // }
+    }
+
+    emptySelectRequest() {
+      this.selectedRequest = '';
+    }
+  
+  
+    // submitForm(): void {
+    //   debugger
+    //   if (this.attendanceTimeUpdateForm.valid) {
+    //     const attendanceTimeUpdateRequest: AttendanceTimeUpdateRequestDto = this.attendanceTimeUpdateForm.value;
+    //     this.dataService.sendAttendanceTimeUpdateRequest(this.userId, this.attendanceTimeUpdateForm.value, this.attendanceRequestType).subscribe(
+    //       (response) => {
+    //         console.log('Request sent successfully', response);
+    //         this.resetForm();
+    //         document.getElementById('attendanceUpdateModal')?.click();
+    //         this.getAttendanceRequestLogData();
+    //       },
+    //       (error) => {
+    //         console.error('Error sending request:', error);
+    //       }
+    //     );
+    //   }
+    // }
+  
+    // onDateChange(date: Date | null): void {
+    //   if (date) {
+    //     this.requestedDate = date;
+    //     this.statusString = this.attendanceTimeUpdateForm.get('requestType')?.value || '';
+    //     this.getAttendanceChecktimeListDate();
+    //   }
+    // }
+  
+    onDateChange(date: Date | null): void {
+      if (date && this.attendanceTimeUpdateForm.get('attendanceRequestType')?.value === 'UPDATE') {
+        this.requestedDate = date;
+        this.choosenDateString = this.helperService.formatDateToYYYYMMDD(date);
+        this.statusString = this.attendanceTimeUpdateForm.get('updateGroup.requestType')?.value || '';
+        this.getAttendanceChecktimeListDate(this.attendanceTimeUpdateForm.get('updateGroup.requestType')?.value);
+      }else if (date && this.attendanceTimeUpdateForm.get('attendanceRequestType')?.value === 'CREATE') {
+        this.selectedDateAttendance = date;
+        this.choosenDateString = this.helperService.formatDateToYYYYMMDD(date);
+        console.log(" this.choosenDateString",  this.choosenDateString);
+        this.statusString = this.attendanceTimeUpdateForm.get('createGroup.requestType')?.value || '';
+        this.getHolidayForOrganization(this.selectedDateAttendance);
+        this.getAttendanceExistanceStatus(this.selectedDateAttendance);
+      }
+    }
+  
+    // onDateChangeForCreateAttendance(date: Date | null): void {
+    //   if (date && this.attendanceRequestType === 'CREATE') {
+    //     this.selectedDateAttendance = date;
+    //     this.choosenDateString = this.helperService.formatDateToYYYYMMDD(date);
+    //     console.log(" this.choosenDateString",  this.choosenDateString);
+    //     this.statusString = this.attendanceTimeUpdateForm.get('createGroup.requestType')?.value || '';
+    //     this.getHolidayForOrganization(this.selectedDateAttendance);
+    //     this.getAttendanceExistanceStatus(this.selectedDateAttendance);
+    //   }
+    // }
+
+
+  checkHoliday:boolean = false;
+
+  getHolidayForOrganization(selectedDate:any){
+     debugger
+     this.checkHoliday = false;
+     this.dataService.getHolidayForOrganization(this.helperService.formatDateToYYYYMMDD(selectedDate))
+     .subscribe(
+       (response) => {
+         this.checkHoliday = response.object;
+         console.log(response);
+         console.error("Response", response.object);
+       },
+       (error) =>{
+         console.error('Error details:', error);
+       }
+   )
+   }
+
+
+  checkAttendance:boolean = false;
+  getAttendanceExistanceStatus(selectedDate:any){
+    debugger
+    this.checkAttendance = false;
+    this.dataService.getAttendanceExistanceStatus(this.userId, this.helperService.formatDateToYYYYMMDD(selectedDate))
+    .subscribe(
+      (response) => {
+        this.checkAttendance = response.object;
+        console.log(response);
+        console.error("Response", response.object);
+      },
+      (error) =>{
+        console.error('Error details:', error);
+      }
+  )
+  }
+  
+    // isAttendanceFormValid(): boolean {
+    //   if (this.attendanceRequestType === 'UPDATE') {
+    //     return this.attendanceTimeUpdateForm.get('updateGroup')?.valid && this.attendanceTimeUpdateForm.get('managerId')?.valid && this.attendanceTimeUpdateForm.get('requestReason')?.valid;
+    //   } else if (this.attendanceRequestType === 'CREATE') {
+    //     return this.attendanceTimeUpdateForm.get('createGroup')?.valid && this.attendanceTimeUpdateForm.get('managerId')?.valid && this.attendanceTimeUpdateForm.get('requestReason')?.valid;
+    //   }
+    //   return false;
+    // }
+  
+    isAttendanceFormValid(): boolean {
+  
+      if(this.checkHoliday === true || this.checkAttendance === true) {
+        return false;
+      }
+      if (this.attendanceTimeUpdateForm.get('attendanceRequestType')?.value === 'UPDATE') {
+        const updateGroup = this.attendanceTimeUpdateForm.get('updateGroup');
+        const managerId = this.attendanceTimeUpdateForm.get('managerId');
+        const requestReason = this.attendanceTimeUpdateForm.get('requestReason');
+  
+        return (updateGroup ? updateGroup.valid : false) &&
+               (managerId ? managerId.valid : false) &&
+               (requestReason ? requestReason.valid : false);
+      } else if (this.attendanceTimeUpdateForm.get('attendanceRequestType')?.value === 'CREATE') {
+        const createGroup = this.attendanceTimeUpdateForm.get('createGroup');
+        const managerId = this.attendanceTimeUpdateForm.get('managerId');
+        const requestReason = this.attendanceTimeUpdateForm.get('requestReason');
+  
+        return (createGroup ? createGroup.valid : false) &&
+               (managerId ? managerId.valid : false) &&
+               (requestReason ? requestReason.valid : false);
+      }
+      return false;
+    }
+
+    isAttendanceFormValid2(): boolean {
+      return this.attendanceTimeUpdateForm.valid;
+    }
+  
+  
+  
+  
+    onAttendanceRequestTypeChange(): void {
+      debugger
+      console.log(`Selected Attendance Request Type: ${this.attendanceRequestType}`);
+      this.resetFormFields();
+      this.checkHoliday = false;
+      this.checkAttendance = false;
+    }
+  
+    private resetFormFields(): void {
+      if (this.attendanceTimeUpdateForm.get('attendanceRequestType')?.value === 'UPDATE') {
+        this.attendanceTimeUpdateForm.get('updateGroup')?.reset();
+      } else if (this.attendanceTimeUpdateForm.get('attendanceRequestType')?.value === 'CREATE') {
+        this.attendanceTimeUpdateForm.get('createGroup')?.reset();
+      }
+      // Optionally reset common fields if needed
+      this.attendanceTimeUpdateForm.get('managerId')?.reset();
+      this.attendanceTimeUpdateForm.get('requestReason')?.reset();
+      // this.attendanceTimeUpdateForm.get('attendanceRequestType')?.setValue('UPDATE');
+    }
+  
+  
+  
+  
+    resetForm(): void {
+      this.attendanceTimeUpdateForm.reset();
+    }
+  
+  
+  disabledDate = (current: Date): boolean => {
+    return moment(current).isAfter(moment(), 'day');
+  }
+
+
+  //  logs 
+
+  viewLogs(selectedDate: string) {
+    debugger
+    console.log('Selected Date:', selectedDate);
+    this.attendanceLogResponseList = [];
+    this.getAttendanceLogsMethodCall(selectedDate);
+  }
+
+
+    attendanceLogShimmerFlag: boolean = false;
+    dataNotFoundFlagForAttendanceLog: boolean = false;
+    networkConnectionErrorFlagForAttendanceLog: boolean = false;
+    attendanceLogResponseList: AttendanceLogResponse[] = [];
+    isShimmerLogs:boolean = false;
+    getAttendanceLogsMethodCall(selectedDate: string) {
+      this.isShimmerLogs = true;
+      this.dataService
+        .getAttendanceLogs(
+          this.userId,
+          selectedDate
+        )
+        .subscribe(
+          (response) => {
+            debugger;
+            this.attendanceLogResponseList = response;
+            this.isShimmerLogs = false;
+            // console.log(response);
+            if (
+              response === undefined ||
+              response === null ||
+              response.length === 0
+            ) {
+              this.dataNotFoundFlagForAttendanceLog = true;
+            }
+          },
+          (error) => {
+            // console.log(error);
+            this.isShimmerLogs = false;
+            this.networkConnectionErrorFlagForAttendanceLog = true;
+          }
+        );
+    }
+
+
+  @ViewChild('attendancewithlocationssButton')
+  attendancewithlocationssButton!: ElementRef;
+  lat: number = 0;
+  lng: number = 0;
+  zoom: number = 15;
+
+  openAddressModal(lat: string, long: string) {
+    this.lat = +lat;
+    this.lng = +long;
+    this.attendancewithlocationssButton.nativeElement.click();
+  }
+
+
+
+    url: string = '';
+    imageDownUrl: string = '';
+    openSelfieModal(url: string) {
+      this.url = url;
+      this.imageDownUrl = url;
+      this.updateFileType(url);
+      this.viewlog.nativeElement.click();
+      this.openDocModalButton.nativeElement.click();
+    }
+  
+    previewString: SafeResourceUrl | null = null;
+    isPDF: boolean = false;
+    isImage: boolean = false;
+  
+    @ViewChild('openDocModalButton') openDocModalButton!: ElementRef;
+    getFileName(url: string): string {
+      return url.split('/').pop() || 'Attendance Selfie';
+    }
+  
+    private updateFileType(url: string) {
+      const extension = url.split('?')[0].split('.').pop()?.toLowerCase();
+      this.isImage = ['png', 'jpg', 'jpeg', 'gif'].includes(extension!);
+      this.isPDF = extension === 'pdf';
+      if (this.isPDF) {
+        this.previewString = this.sanitizer.bypassSecurityTrustResourceUrl(`https://docs.google.com/gview?url=${encodeURIComponent(url)}&embedded=true`);
+      } else {
+        this.previewString = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+      }
+    }
+  
+    openViewModal(url: string): void {
+      this.url = url;
+      this.updateFileType(url);
+      this.viewlog.nativeElement.click();
+      this.openDocModalButton.nativeElement.click();
+    }
+  
+    // downloadFile(): void {
+    //   const link = document.createElement('a');
+    //   link.href = this.url;
+    //   link.download = this.getFileName(this.url);
+    //   link.click();
+    // }
+  
+  
+    downloadFile(imageUrl: any) {
+      if (!imageUrl) {
+        // console.error('Image URL is undefined or null');
+        return;
+      }
+  
+      var blob = null;
+      var splittedUrl = imageUrl.split(
+        '/firebasestorage.googleapis.com/v0/b/haajiri.appspot.com/o/'
+      );
+  
+      if (splittedUrl.length < 2) {
+        // console.error('Invalid image URL format');
+        return;
+      }
+  
+      splittedUrl = splittedUrl[1].split('?alt');
+      splittedUrl = splittedUrl[0].replace('https://', '');
+      splittedUrl = decodeURIComponent(splittedUrl);
+  
+      this.firebaseStorage.storage
+        .ref(splittedUrl)
+        .getDownloadURL()
+        .then((url: any) => {
+          // This can be downloaded directly:
+          var xhr = new XMLHttpRequest();
+          xhr.responseType = 'blob';
+          xhr.onload = (event) => {
+            blob = xhr.response;
+            saveAs(blob, 'Selfie');
+          };
+          xhr.open('GET', url);
+          xhr.send();
+        })
+        .catch((error: any) => {
+          // Handle any errors
+        });
+    }
+
+
+  @ViewChild('viewlog') viewlog!: ElementRef;
+  @ViewChild('attendanceLogModal') attendanceLogModal!: ElementRef;
+  reOpenLogsModal() {
+    this.viewLogs(this.userId);
+    this.viewlog.nativeElement.click();
+  }
+  
+  getAddressFromCoords(lat: any, lng: any): string | undefined {
+    // if(!this.Constant.EMPTY_STRINGS.includes(lat) && !this.Constant.EMPTY_STRINGS.includes(lng)){
+    //   lat=Number(lat);
+    //   lng=Number(lng)
+    //   console.log("🚀 ~ getAddressFromCoords ~ lat:", lat,lng)
+    //   // return "Click 'View Location' , to view attendace location on map";
+
+    // this.geocoder.geocode({ location: { lat, lng } }, (results, status) => {
+    //   if (status === google.maps.GeocoderStatus.OK && results && results[0] ) {
+    //     return results[0].formatted_address;
+    //   } else {
+    //     return "Click 'View Location' , to view attendace location on map";
+    //   }
+    // }).catch(error=>{
+    //   return "Click 'View Location' , to view attendace location on map";
+    // });
+    // }else{
+    //   return "Click 'View Location' , to view attendace location on map";
+
+    // }
+    return "Click 'View Location' , to view attendace location on map";
+  }
+  
 
 }

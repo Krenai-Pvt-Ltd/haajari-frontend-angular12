@@ -467,25 +467,27 @@ span.lat {
     width: 150px !important;
     height: 40px !important;
     border-radius: 2px;
-    border: 1px solid #DCDCE4 !important;
+    border: 1px solid #d9d9d9 !important;
 }
 
 .total-worked svg {
     width: 70px;
 }
 
-::ng-deep.request-dropdown .ant-select-selector {
+/* ::ng-deep.request-dropdown .ant-select-selector {
     min-height: 36px !important;
     background-color: transparent !important;
-}
+} */
 
+
+/* 
 ::ng-deep.request-dropdown .ant-select-selection-placeholder {
     line-height: 36px !important;
 }
 
 ::ng-deep.request-dropdown .ant-select-selection-item {
     line-height: 36px !important;
-}
+} */
 
 /* ::ng-deep.ant-picker {
     background-color: rgba(236, 236, 236, 0.21) !important;
@@ -495,9 +497,9 @@ span.lat {
     border: 1px solid #f1f1f1 !important;
 } */
 
-nz-select.request-dropdown .ant-select-selector {
+/* nz-select.request-dropdown .ant-select-selector {
     height: 35px !important;
-}
+} */
 
 .badge-soft-weekoff {
     background-color: #fff;
@@ -706,7 +708,7 @@ nz-select.request-dropdown .ant-select-selector {
     font-size: 12px;
     font-weight: 500;
     border-radius: 2px;
-    width: 100px;
+    min-width: 100px;
 }
 
 .cancel-btn {
@@ -1116,4 +1118,22 @@ div[ngbTooltip] {
     font-weight: 400;
     min-width: 80px;
     text-align: center;
+}
+
+::ng-deep .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled)::before {
+    background-color: var(--primary-background-color) !important;
+}
+
+::ng-deep .placeholder-lines .ant-select-selection-item {
+    line-height: 36px !important;
+    font-size: 13px !important;
+    font-weight: 400 !important;
+    color: #6B7280;
+}
+
+::ng-deep .placeholder-lines .ant-select-selection-placeholder {
+    line-height: 36px !important;
+    font-size: 13px !important;
+    font-weight: 400 !important;
+    color: #6B7280;
 }

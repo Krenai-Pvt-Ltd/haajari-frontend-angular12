@@ -23,7 +23,7 @@
           </button>
       </li>
     </ul> -->
-    <ul id="myTab" role="tablist" class="nav nav-tabs">
+    <ul id="myTab" role="tablist" class="nav nav-tabs ml-2" style="margin-right: 10px;">
       <li role="presentation" class="nav-item">
         <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#company-details-box" type="button" role="tab"
           aria-controls="profile" [attr.aria-selected]="activeTab === 'companySetting'"
@@ -54,9 +54,9 @@
 
       <form #documentsInformationForm="ngForm" *ngIf="activeTab === 'companySetting'"
         (ngSubmit)="checkFormValidation()">
-        <div class="company-setting bg-white">
+        <div class="company-setting bg-white mt-4">
 
-          <div class="row mt-3">
+          <div class="row">
             <div class="col-md-4">
               <div class="company-details-box" id="company-details-box">
                 <h4 class="card-title">Company Details</h4>
@@ -544,8 +544,11 @@
                               ">
                               <i class="bi bi-pencil pointer"></i>
                             </a>
-                            <a style="cursor: pointer" class="delete-rule" (click)="
+                            <!-- (click)="
                                 deleteAddress(item.organizationAddress.id)
+                              "> -->
+                            <a style="cursor: pointer" class="delete-rule" data-bs-toggle="modal" data-bs-target="#delete-address" (click)="
+                                getAddressTemplateId(item.organizationAddress.id)
                               ">
                               <i class="bi bi-trash pointer text-danger"></i>
                             </a>
@@ -812,9 +815,10 @@
                                 <span></span>
                               </div>
                             </a>
-                            <a class="text-primary position-relative" style="top:5px" (click)="openLatLongField()" *ngIf="!isLatLongFieldOpen">
-                              <span *ngIf="!locationLoader"
-                                ><i class="bi bi-plus"></i> Add Location Via Latitude & Longitude
+                            <a class="text-primary position-relative" style="top:5px" (click)="openLatLongField()"
+                              *ngIf="!isLatLongFieldOpen">
+                              <span *ngIf="!locationLoader"><i class="bi bi-plus"></i> Add Location Via Latitude &
+                                Longitude
                               </span>
                             </a>
 
@@ -847,56 +851,30 @@
                             <label for="radius" class="pb-2">
                               Latitude <span class="text-optional">*</span>
                             </label>
-                            <input
-                              type="number"
-                              id="latitude"
-                              placeholder="Enter Latitude"
-                              name="latitude"
-                              class="form-control profile-input"
-                              [(ngModel)]="organizationAddressDetail.latitude"
+                            <input type="number" id="latitude" placeholder="Enter Latitude" name="latitude"
+                              class="form-control profile-input" [(ngModel)]="organizationAddressDetail.latitude"
                               (ngModelChange)="getAddressFromCoords(organizationAddressDetail.latitude, organizationAddressDetail.longitude)"
-                              required
-                              #latitude="ngModel"
-                            />
+                              required #latitude="ngModel" />
                           </div>
-                          <div
-                            *ngIf="(latitude.touched && latitude.invalid) || isFormInvalid"
-                          >
-                            <p
-                              class="errortxt mt-2 mb-0"
-                              style="color: red"
-                              *ngIf="latitude.errors?.required"
-                            >
+                          <div *ngIf="(latitude.touched && latitude.invalid) || isFormInvalid">
+                            <p class="errortxt mt-2 mb-0" style="color: red" *ngIf="latitude.errors?.required">
                               <i class="bi bi-exclamation-circle"></i> Latitude is
                               required.
                             </p>
                           </div>
                         </div>
-                        <div class="col-md-3"  *ngIf="isLatLongFieldOpen">
+                        <div class="col-md-3" *ngIf="isLatLongFieldOpen">
                           <div class="mb-3">
                             <label for="radius" class="pb-2">
                               Longitude<span class="text-optional">*</span>
                             </label>
-                            <input
-                              type="number"
-                              id="longitude"
-                              placeholder="Enter Longitude"
-                              name="longitude"
-                              class="form-control profile-input"
-                              [(ngModel)]="organizationAddressDetail.longitude"
+                            <input type="number" id="longitude" placeholder="Enter Longitude" name="longitude"
+                              class="form-control profile-input" [(ngModel)]="organizationAddressDetail.longitude"
                               (ngModelChange)="getAddressFromCoords(organizationAddressDetail.latitude, organizationAddressDetail.longitude)"
-                              required
-                              #longitude="ngModel"
-                            />
+                              required #longitude="ngModel" />
                           </div>
-                          <div
-                            *ngIf="(longitude.touched && longitude.invalid) || isFormInvalid"
-                          >
-                            <p
-                              class="errortxt mt-2 mb-0"
-                              style="color: red"
-                              *ngIf="longitude.errors?.required"
-                            >
+                          <div *ngIf="(longitude.touched && longitude.invalid) || isFormInvalid">
+                            <p class="errortxt mt-2 mb-0" style="color: red" *ngIf="longitude.errors?.required">
                               <i class="bi bi-exclamation-circle"></i> Longitude is
                               required.
                             </p>
@@ -1039,7 +1017,7 @@
                               {{ option.label }}
                             </nz-auto-option>
                           </nz-autocomplete>
-                          
+
                           <div *ngIf="radius?.touched || isFormInvalid">
                             <p class="errortxt mt-2 mb-0" style="color:red"
                               *ngIf="radius.errors?.required && !minRadius">
@@ -2272,9 +2250,10 @@
                                 <span></span>
                               </div>
                             </a>
-                            <a class="text-primary position-relative" style="top:5px" (click)="openLatLongField()" *ngIf="!isLatLongFieldOpen">
-                              <span *ngIf="!locationLoader"
-                                ><i class="bi bi-plus"></i> Add Location Via Latitude & Longitude
+                            <a class="text-primary position-relative" style="top:5px" (click)="openLatLongField()"
+                              *ngIf="!isLatLongFieldOpen">
+                              <span *ngIf="!locationLoader"><i class="bi bi-plus"></i> Add Location Via Latitude &
+                                Longitude
                               </span>
                             </a>
                             <div *ngIf="
@@ -2306,56 +2285,30 @@
                             <label for="radius" class="pb-2">
                               Latitude <span class="text-optional">*</span>
                             </label>
-                            <input
-                              type="number"
-                              id="latitude"
-                              placeholder="Enter Latitude"
-                              name="latitude"
-                              class="form-control profile-input"
-                              [(ngModel)]="organizationAddressDetail.latitude"
+                            <input type="number" id="latitude" placeholder="Enter Latitude" name="latitude"
+                              class="form-control profile-input" [(ngModel)]="organizationAddressDetail.latitude"
                               (ngModelChange)="getAddressFromCoords(organizationAddressDetail.latitude, organizationAddressDetail.longitude)"
-                              required
-                              #latitude="ngModel"
-                            />
+                              required #latitude="ngModel" />
                           </div>
-                          <div
-                            *ngIf="(latitude.touched && latitude.invalid) || isFormInvalid"
-                          >
-                            <p
-                              class="errortxt mt-2 mb-0"
-                              style="color: red"
-                              *ngIf="latitude.errors?.required"
-                            >
+                          <div *ngIf="(latitude.touched && latitude.invalid) || isFormInvalid">
+                            <p class="errortxt mt-2 mb-0" style="color: red" *ngIf="latitude.errors?.required">
                               <i class="bi bi-exclamation-circle"></i> Latitude is
                               required.
                             </p>
                           </div>
                         </div>
-                        <div class="col-md-3"  *ngIf="isLatLongFieldOpen">
+                        <div class="col-md-3" *ngIf="isLatLongFieldOpen">
                           <div class="mb-3">
                             <label for="radius" class="pb-2">
                               Longitude<span class="text-optional">*</span>
                             </label>
-                            <input
-                              type="number"
-                              id="longitude"
-                              placeholder="Enter Longitude"
-                              name="longitude"
-                              class="form-control profile-input"
-                              [(ngModel)]="organizationAddressDetail.longitude"
+                            <input type="number" id="longitude" placeholder="Enter Longitude" name="longitude"
+                              class="form-control profile-input" [(ngModel)]="organizationAddressDetail.longitude"
                               (ngModelChange)="getAddressFromCoords(organizationAddressDetail.latitude, organizationAddressDetail.longitude)"
-                              required
-                              #longitude="ngModel"
-                            />
+                              required #longitude="ngModel" />
                           </div>
-                          <div
-                            *ngIf="(longitude.touched && longitude.invalid) || isFormInvalid"
-                          >
-                            <p
-                              class="errortxt mt-2 mb-0"
-                              style="color: red"
-                              *ngIf="longitude.errors?.required"
-                            >
+                          <div *ngIf="(longitude.touched && longitude.invalid) || isFormInvalid">
+                            <p class="errortxt mt-2 mb-0" style="color: red" *ngIf="longitude.errors?.required">
                               <i class="bi bi-exclamation-circle"></i> Longitude is
                               required.
                             </p>
@@ -2682,6 +2635,59 @@
             <span></span>
           </div>
         </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!--  delete address -->
+
+<button class="d-none" data-bs-toggle="modal" data-bs-target="#delete-address"></button>
+<div class="modal fade" id="delete-address" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" style="max-width: 500px" role="document">
+    <div class="modal-content">
+      <div class="modal-body p-0 delete-text">
+        <div class="delete-image d-flex align-items-center justify-content-center pt-4 pb-4">
+          <div class="delete-close-btn">
+            <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButtonDeleteAddress>
+              <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+                <mask id="mask0_2031_1331" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="30"
+                  height="30">
+                  <rect width="30" height="30" fill="#D9D9D9" />
+                </mask>
+                <g mask="url(#mask0_2031_1331)">
+                  <path
+                    d="M8 23.75L6.25 22L13.25 15L6.25 8L8 6.25L15 13.25L22 6.25L23.75 8L16.75 15L23.75 22L22 23.75L15 16.75L8 23.75Z"
+                    fill="black" />
+                </g>
+              </svg>
+            </button>
+          </div>
+          <img src="/assets/images/delete-img.svg" style="width: 70px" />
+        </div>
+        <div class="bg-white p-4 text-center">
+
+          <div>
+            <h5 class="alert-heading font-18 mb-2">
+              Are you sure you want to delete <br />
+              this address?
+            </h5>
+            <p class="font-11">You will not be able to recover this</p>
+          </div>
+
+          <div class="mt-4 d-flex align-items-center flex-column">
+            <button [disabled]="deleteToggle" class="btn continue-btn" *ngIf="deleteAddressId > 0"
+              (click)="deleteAddress(deleteAddressId)">
+              Continue
+              <i class="fa fa-spinner fa-spin" *ngIf="deleteToggle"></i>
+            </button>
+            <button class="btn cancel-btn pt-2" type="button" data-bs-dismiss="modal" aria-label="Close">
+              Cancel
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>

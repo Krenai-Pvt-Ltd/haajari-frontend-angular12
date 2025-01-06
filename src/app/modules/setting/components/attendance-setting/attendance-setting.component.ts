@@ -546,37 +546,7 @@ export class AttendanceSettingComponent implements OnInit {
   deleteAttendanceRuleTemplateLoader(id: any): boolean {
     return this.deleteAttendanceRuleLoaderStatus[id] || false;
   }
-
-  deleteAttendanceRuleLoaderStatus: { [key: string]: boolean } = {};
-  deleteAttendanceRuleDefinitionMethodCall(
-    attendanceRuleDefinitionId: number,
-    attendanceRuleTypeId: number
-  ) {
-    this.deleteAttendanceRuleLoaderStatus[attendanceRuleDefinitionId] = true;
-    this.dataService
-      .deleteAttendanceRuleDefinition(
-        attendanceRuleDefinitionId,
-        attendanceRuleTypeId
-      )
-      .subscribe(
-        (response) => {
-          // console.log(response);
-          this.deleteAttendanceRuleLoaderStatus[attendanceRuleDefinitionId] =
-            false;
-          this.helperService.showToast(
-            'Attendance rule settings deleted successfully',
-            Key.TOAST_STATUS_SUCCESS
-          );
-          this.getAttendanceRuleWithAttendanceRuleDefinitionMethodCall();
-        },
-        (error) => {
-          console.log(error);
-          this.deleteAttendanceRuleLoaderStatus[attendanceRuleDefinitionId] =
-            false;
-          this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
-        }
-      );
-  }
+  
 
   customLateDurationValue!: Date | null;
   halfDayLateDurationValue!: Date | null;
@@ -1963,24 +1933,6 @@ formatMinutesToTime(minutes: number): string {
     }, 0);
   }
 
-  deleteOrganizationShiftTimingMethodCall(organizationShiftTimingId: number) {
-    this.dataService
-      .deleteOrganizationShiftTiming(organizationShiftTimingId)
-      .subscribe(
-        (response) => {
-          // console.log(response);
-          this.getAllShiftTimingsMethodCall();
-          this.helperService.showToast(
-            'Shift timing deleted successfully',
-            Key.TOAST_STATUS_SUCCESS
-          );
-        },
-        (error) => {
-          console.log(error);
-          this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
-        }
-      );
-  }
 
   attendanceModeList: AttendanceMode[] = [];
   getAttendanceModeAllMethodCall() {
@@ -3144,6 +3096,92 @@ checkStepCompletionStatusByStepId(stepId: number) {
 }
 
 
+//  delete functionaity
+// deleteOrganizationShiftTimingMethodCall
+deleteShiftTimingId: number = 0;
+deleteToggle: boolean = false;
+getShiftTemplateId(currentShift: number) {
+  this.deleteShiftTimingId = currentShift;
+}
+
+@ViewChild('closeButtonDeleteShift') closeButtonDeleteShift!: ElementRef;
+deleteOrganizationShiftTimingMethodCall(organizationShiftTimingId: number) {
+  this.deleteToggle = true;
+  this.dataService
+    .deleteOrganizationShiftTiming(organizationShiftTimingId)
+    .subscribe(
+      (response) => {
+        // console.log(response);
+        this.getAllShiftTimingsMethodCall();
+        // this.helperService.showToast(
+        //   'Shift timing deleted successfully',
+        //   Key.TOAST_STATUS_SUCCESS
+        // );
+        this.deleteShiftTimingId = 0;
+        this.closeButtonDeleteShift.nativeElement.click();
+        this.deleteToggle = false;
+        this.helperService.showToast(
+          response.message,
+          Key.TOAST_STATUS_SUCCESS
+        );
+      },
+      (error) => {
+        this.deleteToggle = false;
+        console.log(error);
+        this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
+      }
+    );
+}
+
+deleteAutomationTimingId: number = 0;
+deleteAutomationAttendanceRuleTypeId: number =0;
+deleteToggle2: boolean = false;
+getAutomationTemplateId(currentAutomation: number, deleteAutomationAttendanceRuleType:number) {
+  this.deleteAutomationTimingId = currentAutomation;
+  this.deleteAutomationAttendanceRuleTypeId = deleteAutomationAttendanceRuleType;
+}
+
+@ViewChild('closeButtonDeleteAutomation') closeButtonDeleteAutomation!: ElementRef;
+
+
+
+deleteAttendanceRuleLoaderStatus: { [key: string]: boolean } = {};
+
+deleteAttendanceRuleDefinitionMethodCall(
+  attendanceRuleDefinitionId: number,
+  attendanceRuleTypeId: number
+) {
+  this.deleteAttendanceRuleLoaderStatus[attendanceRuleDefinitionId] = true;
+  this.deleteToggle2 = true;
+  this.dataService
+    .deleteAttendanceRuleDefinition(
+      attendanceRuleDefinitionId,
+      attendanceRuleTypeId
+    )
+    .subscribe(
+      (response) => {
+        // console.log(response);
+        this.deleteToggle2 = false;
+        this.deleteAttendanceRuleLoaderStatus[attendanceRuleDefinitionId] =
+          false;
+          this.deleteAutomationAttendanceRuleTypeId = 0;
+          this.deleteAutomationTimingId = 0;
+          this.closeButtonDeleteAutomation.nativeElement.click();
+        this.helperService.showToast(
+          'Attendance rule settings deleted successfully',
+          Key.TOAST_STATUS_SUCCESS
+        );
+        this.getAttendanceRuleWithAttendanceRuleDefinitionMethodCall();
+      },
+      (error) => {
+        this.deleteToggle2 = false;
+        console.log(error);
+        this.deleteAttendanceRuleLoaderStatus[attendanceRuleDefinitionId] =
+          false;
+        this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
+      }
+    );
+}
 
 
 }

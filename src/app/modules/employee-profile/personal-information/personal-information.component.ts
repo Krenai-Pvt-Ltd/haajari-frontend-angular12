@@ -29,9 +29,9 @@ export class PersonalInformationComponent implements OnInit {
   profileLoding: boolean = false;
   userId: any;
   onboardingForm!: FormGroup;
-isFormInvalid: boolean=false;
+  isFormInvalid: boolean = false;
 
-  constructor(private dataService: DataService,private activateRoute: ActivatedRoute, private helperService : HelperService,
+  constructor(private dataService: DataService, private activateRoute: ActivatedRoute, private helperService: HelperService,
     public rbacService: RoleBasedAccessControlService, private fb: FormBuilder,
   ) {
     if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
@@ -51,44 +51,44 @@ isFormInvalid: boolean=false;
         joiningDate: [null, Validators.required],
         phoneNumber: [''],
         // currentSalary: [''],
-        gender: ['', ],
-        department: ['', ],
-        dateOfBirth: [null, ],
+        gender: ['',],
+        department: ['',],
+        dateOfBirth: [null,],
         position: ['',],
-        fatherName: ['', ],
+        fatherName: ['',],
         nationality: ['',],
       }),
       currentAddress: this.fb.group({
-        addressLine1: ['', ],
+        addressLine1: ['',],
         addressLine2: [''],
-        city: ['', ],
-        state: ['', ],
-        country: ['', ],
-        pincode: ['', ],
+        city: ['',],
+        state: ['',],
+        country: ['',],
+        pincode: ['',],
       }),
       permanentAddress: this.fb.group({
-        addressLine1: ['', ],
+        addressLine1: ['',],
         addressLine2: [''],
-        city: ['', ],
-        state: ['', ],
-        country: ['', ],
-        pincode: ['', ],
+        city: ['',],
+        state: ['',],
+        country: ['',],
+        pincode: ['',],
       }),
       refrences: this.fb.array([]),
 
       academicDetails: this.fb.group({
-        highestEducationalLevel: ['', ],
-        degreeObtained: ['', ],
-        fieldOfStudy: ['', ],
-        institutionName: ['', ],
-        grade: ['', ],
-        graduationYear: ['', ],
+        highestEducationalLevel: ['',],
+        degreeObtained: ['',],
+        fieldOfStudy: ['',],
+        institutionName: ['',],
+        grade: ['',],
+        graduationYear: ['',],
       }),
       bankDetails: this.fb.group({
-        accountHolderName: ['', ],
-        bankName: ['', ],
-        accountNumber: ['',  ],
-        ifsc: ['', ],
+        accountHolderName: ['',],
+        bankName: ['',],
+        accountNumber: ['',],
+        ifsc: ['',],
       }),
       userExperience: this.fb.array([]),
       userEmergencyContacts: this.fb.array([]),
@@ -123,10 +123,10 @@ isFormInvalid: boolean=false;
   refrences: any;
 
   onboardingPreviewData: OnboardingFormPreviewResponse =
-  new OnboardingFormPreviewResponse();
+    new OnboardingFormPreviewResponse();
 
   onboardingPreviewDataCopy: OnboardingFormPreviewResponse =
-  new OnboardingFormPreviewResponse();
+    new OnboardingFormPreviewResponse();
 
   requestedData: OnboardingFormPreviewResponse = new OnboardingFormPreviewResponse();
   fetchRequestedData(): void {
@@ -145,7 +145,7 @@ isFormInvalid: boolean=false;
     return this.requestedData.userEmergencyContacts.find(contact => contact.id === id);
   }
   findAllEmergencyContactWithNullId(): any {
-    if(!this.requestedData.userEmergencyContacts){
+    if (!this.requestedData.userEmergencyContacts) {
       return [];
     }
     return this.requestedData.userEmergencyContacts.filter(contact => contact.id === 0 || contact.id === null);
@@ -154,7 +154,7 @@ isFormInvalid: boolean=false;
     return this.requestedData.userExperience.find(experience => experience.id === id);
   }
   findAllExperienceWithNullId(): any {
-    if(!this.requestedData.userExperience){
+    if (!this.requestedData.userExperience) {
       return [];
     }
     return this.requestedData.userExperience.filter(experience => experience.id === 0 || experience.id === null);
@@ -163,7 +163,7 @@ isFormInvalid: boolean=false;
     return this.requestedData.userGuarantorInformation.find(guarantor => guarantor.id === id);
   }
   findAllGuarantorWithNullId(): any {
-    if(!this.requestedData.userGuarantorInformation){
+    if (!this.requestedData.userGuarantorInformation) {
       return [];
     }
     return this.requestedData.userGuarantorInformation.filter(guarantor => guarantor.id === 0 || guarantor.id === null);
@@ -289,32 +289,32 @@ isFormInvalid: boolean=false;
           this.bankDetailsEmployee = this.onboardingPreviewData.userBankDetails;
           this.profileLoding = false;
         },
-      (error: any) => {
-           this.profileLoding = false;
+        (error: any) => {
+          this.profileLoding = false;
           console.error('Error fetching user details:', error);
           this.emergencyContacts = [];
         }
       );
     } else {
-        this.profileLoding = false;
+      this.profileLoding = false;
       console.error('User UUID not found');
       this.emergencyContacts = [];
     }
   }
-  routes: string[] =[];
+  routes: string[] = [];
   loadRoutes(): void {
     this.dataService.getRoutesByOrganization(this.userId).subscribe(
       (routes: string[]) => {
         this.routes = routes;
-        this.dataService.onboardingRoutes=routes;
-        if(!this.routes.includes('/employee-address-detail') ){
+        this.dataService.onboardingRoutes = routes;
+        if (!this.routes.includes('/employee-address-detail')) {
           this.onboardingForm.removeControl('currentAddress');
           this.onboardingForm.removeControl('permanentAddress');
         }
-        if(!this.routes.includes('/acadmic') ){
+        if (!this.routes.includes('/acadmic')) {
           this.onboardingForm.removeControl('academicDetails');
         }
-        if(!this.routes.includes('/bank-details') ){
+        if (!this.routes.includes('/bank-details')) {
           this.onboardingForm.removeControl('bankDetails');
         }
         console.log('Loaded routes:', this.routes);
@@ -325,7 +325,7 @@ isFormInvalid: boolean=false;
     );
   }
 
-  isSaveBtnLoading: boolean=false;
+  isSaveBtnLoading: boolean = false;
   saveOnboardingData() {
     this.userExperience.controls.forEach((control, index) => {
       const experience = control.value;
@@ -362,12 +362,12 @@ isFormInvalid: boolean=false;
       targetReference.phoneNumber = reference.phoneNumber;
       targetReference.emailId = reference.emailId;
     });
-    if(this.onboardingForm.valid){
-      this.isSaveBtnLoading=true;
-      this.dataService.saveAllUserData(this.onboardingPreviewDataCopy,this.userId).subscribe({
+    if (this.onboardingForm.valid) {
+      this.isSaveBtnLoading = true;
+      this.dataService.saveAllUserData(this.onboardingPreviewDataCopy, this.userId).subscribe({
         next: (response) => {
-          this.profileEdit=false;
-          this.isSaveBtnLoading=false;
+          this.profileEdit = false;
+          this.isSaveBtnLoading = false;
           this.helperService.showToast('Data Save successfully.', Key.TOAST_STATUS_SUCCESS);
           this.getOnboardingFormPreviewMethodCall();
           this.fetchRequestedData();
@@ -379,72 +379,72 @@ isFormInvalid: boolean=false;
         }
       });
     }
-    else{
-      this.isFormInvalid=true;
+    else {
+      this.isFormInvalid = true;
       this.helperService.showToast('Some required fields are incorrect or missing. Please fix them', Key.TOAST_STATUS_ERROR);
     }
 
 
   }
 
-  editProfile(){
+  editProfile() {
     this.onboardingPreviewDataCopy = JSON.parse(JSON.stringify(this.onboardingPreviewData));
-    if(this.routes.includes('/employee-address-detail') && this.onboardingPreviewDataCopy.userAddress == null){
+    if (this.routes.includes('/employee-address-detail') && this.onboardingPreviewDataCopy.userAddress == null) {
       this.onboardingPreviewDataCopy.userAddress = [];
     }
-    if(this.routes.includes('/employee-address-detail') && this.onboardingPreviewDataCopy.userAddress.length<2){
-      while(this.onboardingPreviewDataCopy.userAddress.length!=2 && this.onboardingPreviewDataCopy.userAddress.length<3){
+    if (this.routes.includes('/employee-address-detail') && this.onboardingPreviewDataCopy.userAddress.length < 2) {
+      while (this.onboardingPreviewDataCopy.userAddress.length != 2 && this.onboardingPreviewDataCopy.userAddress.length < 3) {
         this.onboardingPreviewDataCopy.userAddress.push(new UserAddressRequest());
       }
     }
-    if(this.onboardingPreviewDataCopy.userGuarantorInformation == null || this.onboardingPreviewDataCopy.userGuarantorInformation.length==0){
-      this.onboardingPreviewDataCopy.userGuarantorInformation= [];
+    if (this.onboardingPreviewDataCopy.userGuarantorInformation == null || this.onboardingPreviewDataCopy.userGuarantorInformation.length == 0) {
+      this.onboardingPreviewDataCopy.userGuarantorInformation = [];
       // this.onboardingPreviewDataCopy.userGuarantorInformation.push(new UserGuarantorRequest());
     }
-    if(this.routes.includes('/acadmic') && !this.onboardingPreviewDataCopy.userAcademics){
-      this.onboardingPreviewDataCopy.userAcademics=new UserAcademicsDetailRequest();
+    if (this.routes.includes('/acadmic') && !this.onboardingPreviewDataCopy.userAcademics) {
+      this.onboardingPreviewDataCopy.userAcademics = new UserAcademicsDetailRequest();
     }
 
-    if(this.routes.includes('/emergency-contact') && (this.onboardingPreviewDataCopy.userEmergencyContacts == null || this.onboardingPreviewDataCopy.userEmergencyContacts.length==0)){
+    if (this.routes.includes('/emergency-contact') && (this.onboardingPreviewDataCopy.userEmergencyContacts == null || this.onboardingPreviewDataCopy.userEmergencyContacts.length == 0)) {
       this.onboardingPreviewDataCopy.userEmergencyContacts = [];
       // this.onboardingPreviewDataCopy.userEmergencyContacts.push(new UserEmergencyContactDetailsRequest());
     }
-    if(this.routes.includes('/employee-experience') && (this.onboardingPreviewDataCopy.userExperience == null || this.onboardingPreviewDataCopy.userExperience.length == 0)){
+    if (this.routes.includes('/employee-experience') && (this.onboardingPreviewDataCopy.userExperience == null || this.onboardingPreviewDataCopy.userExperience.length == 0)) {
       this.onboardingPreviewDataCopy.userExperience = new Array();
       // this.onboardingPreviewDataCopy.userExperience.push(new UserExperience());
     }
-    if(this.routes.includes('/bank-details') && !this.onboardingPreviewDataCopy.userBankDetails){
-      this.onboardingPreviewDataCopy.userBankDetails=new UserBankDetailRequest();
+    if (this.routes.includes('/bank-details') && !this.onboardingPreviewDataCopy.userBankDetails) {
+      this.onboardingPreviewDataCopy.userBankDetails = new UserBankDetailRequest();
     }
 
-    if (!this.references || this.references.length==0) {
+    if (!this.references || this.references.length == 0) {
       this.onboardingForm.setControl('references', this.fb.array([]));
       this.onboardingPreviewDataCopy.userGuarantorInformation.forEach((reference) => {
 
-      this.references.push(this.fb.group({
-        name: [reference.name, Validators.required],
-        relation: [reference.relation, Validators.required],
-        phoneNumber: [reference.phoneNumber, [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
-        emailId: [reference.emailId, [Validators.required, Validators.email]],
-      }));
-     });
-    }
-    if (!this.userExperience || this.userExperience.length==0) {
-      this.onboardingForm.setControl('userExperience', this.fb.array([]));
-      this.onboardingPreviewDataCopy.userExperience.forEach((experience) => {
-      this.userExperience.push(
-        this.fb.group({
-          companyName: [experience.companyName, Validators.required],
-          startDate: [experience.startDate, Validators.required],
-          endDate: [experience.endDate, Validators.required],
-          lastJobPosition: [experience.lastJobPosition, Validators.required],
-          lastSalary: [experience.lastSalary, [Validators.required, Validators.min(0)]],
-          lastJobDepartment: [experience.lastJobDepartment, Validators.required],
-          jobResponsibilities: [experience.jobResponisibilities, Validators.required],
+        this.references.push(this.fb.group({
+          name: [reference.name, Validators.required],
+          relation: [reference.relation, Validators.required],
+          phoneNumber: [reference.phoneNumber, [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
+          emailId: [reference.emailId, [Validators.required, Validators.email]],
         }));
       });
     }
-    if (!this.userEmergencyContacts || this.userEmergencyContacts.length==0) {
+    if (!this.userExperience || this.userExperience.length == 0) {
+      this.onboardingForm.setControl('userExperience', this.fb.array([]));
+      this.onboardingPreviewDataCopy.userExperience.forEach((experience) => {
+        this.userExperience.push(
+          this.fb.group({
+            companyName: [experience.companyName, Validators.required],
+            startDate: [experience.startDate, Validators.required],
+            endDate: [experience.endDate, Validators.required],
+            lastJobPosition: [experience.lastJobPosition, Validators.required],
+            lastSalary: [experience.lastSalary, [Validators.required, Validators.min(0)]],
+            lastJobDepartment: [experience.lastJobDepartment, Validators.required],
+            jobResponsibilities: [experience.jobResponisibilities, Validators.required],
+          }));
+      });
+    }
+    if (!this.userEmergencyContacts || this.userEmergencyContacts.length == 0) {
       debugger;
       this.onboardingForm.setControl('userEmergencyContacts', this.fb.array([]));
       this.onboardingPreviewDataCopy.userEmergencyContacts.forEach((contact) => {
@@ -467,17 +467,17 @@ isFormInvalid: boolean=false;
     if (!this.onboardingPreviewData.userGuarantorInformation) {
       this.onboardingPreviewData.userGuarantorInformation = [];
     }
-    if(this.onboardingPreviewData.userGuarantorInformation.length > this.references.length){
+    if (this.onboardingPreviewData.userGuarantorInformation.length > this.references.length) {
       this.onboardingPreviewDataCopy.userGuarantorInformation.push(this.onboardingPreviewData.userGuarantorInformation[this.references.length]);
     }
-    else{
+    else {
       this.onboardingPreviewDataCopy.userGuarantorInformation.push(new UserGuarantorRequest());
     }
     const referenceGroup = this.fb.group({
-        name: [this.onboardingPreviewDataCopy.userGuarantorInformation[this.onboardingPreviewDataCopy.userGuarantorInformation.length-1].name, Validators.required],
-        relation: [this.onboardingPreviewDataCopy.userGuarantorInformation[this.onboardingPreviewDataCopy.userGuarantorInformation.length-1].relation, Validators.required],
-        phoneNumber: [this.onboardingPreviewDataCopy.userGuarantorInformation[this.onboardingPreviewDataCopy.userGuarantorInformation.length-1].phoneNumber, [Validators.required, Validators.pattern('^[0-9]{10}$')]],
-        emailId: [this.onboardingPreviewDataCopy.userGuarantorInformation[this.onboardingPreviewDataCopy.userGuarantorInformation.length-1].emailId, [Validators.required, Validators.email]],
+      name: [this.onboardingPreviewDataCopy.userGuarantorInformation[this.onboardingPreviewDataCopy.userGuarantorInformation.length - 1].name, Validators.required],
+      relation: [this.onboardingPreviewDataCopy.userGuarantorInformation[this.onboardingPreviewDataCopy.userGuarantorInformation.length - 1].relation, Validators.required],
+      phoneNumber: [this.onboardingPreviewDataCopy.userGuarantorInformation[this.onboardingPreviewDataCopy.userGuarantorInformation.length - 1].phoneNumber, [Validators.required, Validators.pattern('^[0-9]{10}$')]],
+      emailId: [this.onboardingPreviewDataCopy.userGuarantorInformation[this.onboardingPreviewDataCopy.userGuarantorInformation.length - 1].emailId, [Validators.required, Validators.email]],
     });
     this.references.push(referenceGroup);
   }
@@ -498,21 +498,21 @@ isFormInvalid: boolean=false;
     if (!this.onboardingPreviewData.userExperience) {
       this.onboardingPreviewData.userExperience = [];
     }
-    if(this.onboardingPreviewData.userExperience.length > this.references.length){
+    if (this.onboardingPreviewData.userExperience.length > this.references.length) {
       this.onboardingPreviewDataCopy.userExperience.push(this.onboardingPreviewData.userExperience[this.references.length]);
     }
-    else{
+    else {
       this.onboardingPreviewDataCopy.userExperience.push(new UserExperience());
     }
     this.userExperience.push(
       this.fb.group({
-        companyName: [this.onboardingPreviewDataCopy.userExperience[this.onboardingPreviewDataCopy.userExperience.length-1].companyName, Validators.required],
-        startDate: [this.onboardingPreviewDataCopy.userExperience[this.onboardingPreviewDataCopy.userExperience.length-1].startDate, Validators.required],
-        endDate: [this.onboardingPreviewDataCopy.userExperience[this.onboardingPreviewDataCopy.userExperience.length-1].endDate, Validators.required],
-        lastJobPosition: [this.onboardingPreviewDataCopy.userExperience[this.onboardingPreviewDataCopy.userExperience.length-1].lastJobPosition, Validators.required],
-        lastSalary: [this.onboardingPreviewDataCopy.userExperience[this.onboardingPreviewDataCopy.userExperience.length-1].lastSalary, [Validators.required, Validators.min(0)]],
-        lastJobDepartment: [this.onboardingPreviewDataCopy.userExperience[this.onboardingPreviewDataCopy.userExperience.length-1].lastJobDepartment, Validators.required],
-        jobResponsibilities: [this.onboardingPreviewDataCopy.userExperience[this.onboardingPreviewDataCopy.userExperience.length-1].jobResponisibilities, Validators.required],
+        companyName: [this.onboardingPreviewDataCopy.userExperience[this.onboardingPreviewDataCopy.userExperience.length - 1].companyName, Validators.required],
+        startDate: [this.onboardingPreviewDataCopy.userExperience[this.onboardingPreviewDataCopy.userExperience.length - 1].startDate, Validators.required],
+        endDate: [this.onboardingPreviewDataCopy.userExperience[this.onboardingPreviewDataCopy.userExperience.length - 1].endDate, Validators.required],
+        lastJobPosition: [this.onboardingPreviewDataCopy.userExperience[this.onboardingPreviewDataCopy.userExperience.length - 1].lastJobPosition, Validators.required],
+        lastSalary: [this.onboardingPreviewDataCopy.userExperience[this.onboardingPreviewDataCopy.userExperience.length - 1].lastSalary, [Validators.required, Validators.min(0)]],
+        lastJobDepartment: [this.onboardingPreviewDataCopy.userExperience[this.onboardingPreviewDataCopy.userExperience.length - 1].lastJobDepartment, Validators.required],
+        jobResponsibilities: [this.onboardingPreviewDataCopy.userExperience[this.onboardingPreviewDataCopy.userExperience.length - 1].jobResponisibilities, Validators.required],
       })
     );
   }
@@ -533,16 +533,16 @@ isFormInvalid: boolean=false;
     if (!this.onboardingPreviewData.userEmergencyContacts) {
       this.onboardingPreviewData.userEmergencyContacts = [];
     }
-    if(this.onboardingPreviewData.userEmergencyContacts.length > this.userEmergencyContacts.length){
+    if (this.onboardingPreviewData.userEmergencyContacts.length > this.userEmergencyContacts.length) {
       this.onboardingPreviewDataCopy.userEmergencyContacts.push(this.onboardingPreviewData.userEmergencyContacts[this.userEmergencyContacts.length]);
     }
-    else{
+    else {
       this.onboardingPreviewDataCopy.userEmergencyContacts.push(new UserEmergencyContactDetailsRequest());
     }
     this.userEmergencyContacts.push(this.fb.group({
-      relationWithEmployee: [this.onboardingPreviewDataCopy.userEmergencyContacts[this.onboardingPreviewDataCopy.userEmergencyContacts.length-1].relationWithEmployee, Validators.required],
-      contactName: [this.onboardingPreviewDataCopy.userEmergencyContacts[this.onboardingPreviewDataCopy.userEmergencyContacts.length-1].contactName, Validators.required],
-      contactNumber: [this.onboardingPreviewDataCopy.userEmergencyContacts[this.onboardingPreviewDataCopy.userEmergencyContacts.length-1].contactNumber, [Validators.required, Validators.pattern('^[0-9]{10}$')]]
+      relationWithEmployee: [this.onboardingPreviewDataCopy.userEmergencyContacts[this.onboardingPreviewDataCopy.userEmergencyContacts.length - 1].relationWithEmployee, Validators.required],
+      contactName: [this.onboardingPreviewDataCopy.userEmergencyContacts[this.onboardingPreviewDataCopy.userEmergencyContacts.length - 1].contactName, Validators.required],
+      contactNumber: [this.onboardingPreviewDataCopy.userEmergencyContacts[this.onboardingPreviewDataCopy.userEmergencyContacts.length - 1].contactNumber, [Validators.required, Validators.pattern('^[0-9]{10}$')]]
     }));
   }
 
@@ -554,21 +554,21 @@ isFormInvalid: boolean=false;
 
   profileEditRequest: any = null;
   statusMessage: string = '';
-  isEditReqLoading: boolean=false;
-  editStatus:string='';
+  isEditReqLoading: boolean = false;
+  editStatus: string = '';
   @ViewChild('dismissRequestModal') dismissRequestModal!: ElementRef;
 
   createProfileEditRequest() {
-    this.isEditReqLoading=true;
+    this.isEditReqLoading = true;
     this.dataService.createRequest(this.userId).subscribe(
       (response) => {
-          this.editStatus = 'PENDING';
-          this.dismissRequestModal.nativeElement.click();
-          this.isEditReqLoading=false;
+        this.editStatus = 'PENDING';
+        this.dismissRequestModal.nativeElement.click();
+        this.isEditReqLoading = false;
       },
       (error) => {
         console.error('Error creating request:', error);
-        this.isEditReqLoading=false;
+        this.isEditReqLoading = false;
       }
     );
   }
@@ -577,10 +577,10 @@ isFormInvalid: boolean=false;
   getPendingRequest() {
     this.dataService.getPendingRequestForUser(this.userId).subscribe(
       (response) => {
-          this.editStatus = response.status;
-          if(this.editStatus == 'EDITED' && this.rbacService.userInfo.role == 'USER'){
-            this.editStatus = '';
-          }
+        this.editStatus = response.status;
+        if (this.editStatus == 'EDITED' && this.rbacService.userInfo.role == 'USER') {
+          this.editStatus = '';
+        }
 
       },
       (error) => {
@@ -591,16 +591,16 @@ isFormInvalid: boolean=false;
 
   // Set status to pending
   isLoading = false;
-  changeStatus(status:String) {
+  changeStatus(status: String) {
     this.isLoading = true;
-    this.dataService.profileEditStatus(status,this.userId).subscribe(
+    this.dataService.profileEditStatus(status, this.userId).subscribe(
       (response) => {
 
         this.editStatus = 'APPROVED';
         this.isLoading = false;
-        if(status==='approve'){
+        if (status === 'approve') {
           this.helperService.showToast('Request Approved Successfully', Key.TOAST_STATUS_SUCCESS);
-        } else if(status==='reject'){
+        } else if (status === 'reject') {
           this.helperService.showToast('Status Rejected Successfully', Key.TOAST_STATUS_ERROR);
         }
 
@@ -645,7 +645,7 @@ isFormInvalid: boolean=false;
         // location.reload();
         // location.reload();
       },
-      (error) => {}
+      (error) => { }
     );
   }
 
@@ -730,7 +730,7 @@ isFormInvalid: boolean=false;
     );
   }
 
-  findValueByColumnNameAndRowId( columnName: string, rowId: number): string | undefined {
+  findValueByColumnNameAndRowId(columnName: string, rowId: number): string | undefined {
     const record = this.editedFields.find(item => item.columnName === columnName && item.rowId === rowId);
     return record ? record.value : undefined;
   }

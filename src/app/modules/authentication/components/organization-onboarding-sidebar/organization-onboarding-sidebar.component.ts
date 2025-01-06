@@ -218,7 +218,8 @@ export class OrganizationOnboardingSidebarComponent implements OnInit {
   routeToEmployeeProfilePage() {
     // this.router.navigate(["/employee-profile"], { queryParams: {"userId":  this.UUID} });
     // this.activeTab = 'dashboard';
-    this.router.navigate(['/employee-profile'], {
+    
+    this.router.navigate([Key.EMPLOYEE_PROFILE_ROUTE], {
       queryParams: { userId: this.UUID, dashboardActive: 'true' },
     });
   }

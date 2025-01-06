@@ -5,7 +5,7 @@
   </div>
 </div>
 
-<ul class="nav nav-pills mb-3 mt-4" id="pills-tab" role="tablist">
+<ul class="nav nav-pills mb-3 mt-3" id="pills-tab" role="tablist">
   <li class="nav-item" role="presentation">
     <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#leavesPayroll"
       type="button" role="tab" aria-controls="leavesPayroll" aria-selected="true">Leaves</button>
@@ -427,8 +427,9 @@
       <div class="modal-body p-4">
         <ng-container *ngIf="!pendingLeaveDetailFetch">
 
-          <button type="button" class="leave-request-modat-close-btn" data-bs-dismiss="modal"
-            #closePendingLeaveModalButton>
+          <button type="button"
+            class="leave-request-modat-close-btn d-flex align-items-center justify-content-center position-absolute bg-white"
+            data-bs-dismiss="modal" #closePendingLeaveModalButton>
             <i class="bi bi-x" style="line-height: 20px"></i>
           </button>
 
