@@ -479,7 +479,7 @@ handleOkOfAttendanceSummary(): void {
     if(dateString!==null) {
     this.dataService
       .getAtendanceDailyReport(
-        dateString
+        dateString, this.selectedUserIds
       )
       .subscribe(
         (response) => {
@@ -489,6 +489,9 @@ handleOkOfAttendanceSummary(): void {
           'Daily Attendance Report Logs Fetched Successfully!',
           Key.TOAST_STATUS_SUCCESS
         );
+        this.selectedUserIds = [];
+        this.isSelectAllUsers3 = true;
+
         //  const downloadLink = document.createElement('a');
         //   downloadLink.href = response.message;
         //   downloadLink.download = 'attendance.xlsx';
@@ -531,6 +534,7 @@ handleOkOfAttendanceSummary(): void {
   userOptions: { label: string; value: number }[] = [];
   isSelectAllUsers: boolean = true; // Default to Select All Users
   isSelectAllUsers2: boolean = true; // Default to Select All Users
+  isSelectAllUsers3: boolean = true; // Default to Select All Users
   getUsersByFilterMethodCall() {
     this.dataService
       .getUsersByFilter(0, 1, 'asc', 'id', '', 'name',0)
@@ -570,6 +574,18 @@ handleOkOfAttendanceSummary(): void {
       this.selectedUserIds = [];
     }
   }
+
+
+  onToggleSelectAllUsers3(value: boolean): void {
+    this.isSelectAllUsers3 = value;
+
+    // Reset selected users if toggled to "Select All Users"
+    if (value) {
+      this.selectedUserIds = [];
+    }
+  }
+
+  
 
 
   onUsersChange(selectedIds: number[]) {
