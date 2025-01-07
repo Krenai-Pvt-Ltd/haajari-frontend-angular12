@@ -1558,7 +1558,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <div class="request-body">
+        <div *ngIf="!isRequestedDataLoading" class="request-body">
           <div class="d-flex align-items-center justify-content-between request-user p-3">
             <div class="d-flex align-items-center gap-2">
               <img src="assets/images/birthday-img.jpeg">
@@ -1570,11 +1570,12 @@
             <p class="mb-0 font-14 fw-semibold"> 23rd Dec, 2023</p>
           </div>
 
-          <div class="email-update-box mt-3">
+          <div *ngFor="let data of requestedData" class="email-update-box mt-3">
+
             <div class="d-flex align-items-center justify-content-between email-update p-3 mb-3">
               <div class="d-flex align-items-center gap-2">
                 <span></span>
-                <p class="fon-12 mb-0 fw-semibold">Email Update</p>
+                <p class="fon-12 mb-0 fw-semibold">{{data.name}}</p>
               </div>
               <div class="d-flex align-items-center gap-3">
                 <!-- <p class="text-seccess mb-0 font-13 fw-semibold">Approve</p>
@@ -1611,12 +1612,13 @@
               </div>
 
             </div>
+
             <!-- .reject-box reject-class -->
             <div class="p-3 edit-update-box collapse mb-3" id="view-edit-request">
               <div class="d-flex align-items-center justify-content-between border-bottom pb-3">
                 <div class="d-flex align-items-center gap-2">
                   <span></span>
-                  <p class="fon-12 mb-0 fw-semibold">Email Update</p>
+                  <p class="fon-12 mb-0 fw-semibold">{{data.name}} Update</p>
                 </div>
                 <div class="d-flex align-items-center gap-3">
                   <div class="d-flex align-items-center gap-2">
@@ -1670,7 +1672,7 @@
                   <div class="current-box">
                     <p class="mb-2">Current</p>
                     <div class="bg-white p-3" style="border: 1px solid #e9e9e9;">
-                      <p class="mb-0 font-13">yogesh@gmmail.com</p>
+                      <p class="mb-0 font-13">{{data.currentValue}}</p>
                     </div>
                   </div>
                 </div>
@@ -1678,7 +1680,7 @@
                   <div class="updated-box">
                     <p class="mb-2">Updated</p>
                     <div class="bg-white p-3" style="border: 1px solid #e9e9e9;">
-                      <p class="mb-0 font-13">yogesh@krenai.com</p>
+                      <p class="mb-0 font-13">{{data.newValue}}</p>
                     </div>
                   </div>
                 </div>
@@ -1704,7 +1706,7 @@
                 </div>
               </div>
             </div>
-            <div class="d-flex align-items-center justify-content-between email-update p-3 mb-3">
+            <!-- <div class="d-flex align-items-center justify-content-between email-update p-3 mb-3">
               <div class="d-flex align-items-center gap-2">
                 <span></span>
                 <p class="fon-12 mb-0 fw-semibold">Phone Number</p>
@@ -1851,7 +1853,7 @@
                 </div>
               </div>
 
-            </div>
+            </div> -->
           </div>
         </div>
 
