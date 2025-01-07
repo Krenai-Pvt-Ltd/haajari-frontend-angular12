@@ -30,20 +30,20 @@
                   <!-- <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
                   <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER && fieldLoading'"
                     (click)="removeField('name', requestedData.user.name)">Delete</button>
-                  <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER' && fieldLoading"
+                  <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading && fieldLoading"
                     (click)="approveField('name', requestedData.user.name)">Approve</button> -->
 
                   <div class="d-flex align-items-center gap-2">
                     <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
                     <div
                       class="icon-info-activity bg-soft-danger pointer d-flex align-items-center justify-content-center"
-                      *ngIf="rbacService.userInfo.role != 'USER && fieldLoading'"
+                      *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading && !fieldLoading"
                       (click)="removeField('name', requestedData.user.name)">
                       <i class="ti ti-x"></i>
                     </div>
                     <div
                       class="icon-info-activity bg-soft-success pointer d-flex align-items-center justify-content-center"
-                      *ngIf="rbacService.userInfo.role != 'USER' && fieldLoading"
+                      *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading && !fieldLoading"
                       (click)="approveField('name', requestedData.user.name)">
                       <i class="ti ti-checks "></i>
                     </div>
@@ -115,9 +115,9 @@
               </svg>
             </span>
             <ng-template #contentTemplate>
-              <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+              <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                 (click)="removeField('position', requestedData.user.position)">Delete</button>
-              <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+              <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                 (click)="approveField('position', requestedData.user.position)">Approve</button> -->
               <div class="request-g">
                 <div class="d-flex align-items-center justify-content-between border-bottom p-3">
@@ -128,13 +128,13 @@
                     <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
                     <div
                       class="icon-info-activity bg-soft-danger pointer d-flex align-items-center justify-content-center"
-                      *ngIf="rbacService.userInfo.role != 'USER'"
+                      *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                       (click)="removeField('position', requestedData.user.position)">
                       <i class="ti ti-x"></i>
                     </div>
                     <div
                       class="icon-info-activity bg-soft-success pointer d-flex align-items-center justify-content-center"
-                      *ngIf="rbacService.userInfo.role != 'USER'"
+                      *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                       (click)="approveField('position', requestedData.user.position)">
                       <i class="ti ti-checks "></i>
                     </div>
@@ -204,9 +204,9 @@
               </svg>
             </span>
             <ng-template #contentTemplate>
-              <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+              <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                 (click)="removeField('department', requestedData.user.department)">Delete</button>
-              <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+              <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                 (click)="approveField('department', requestedData.user.department)">Approve</button> -->
               <div class="request-g">
                 <div class="d-flex align-items-center justify-content-between border-bottom p-3">
@@ -217,13 +217,13 @@
                     <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
                     <div
                       class="icon-info-activity bg-soft-danger pointer d-flex align-items-center justify-content-center"
-                      *ngIf="rbacService.userInfo.role != 'USER'"
+                      *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                       (click)="removeField('department', requestedData.user.department)">
                       <i class="ti ti-x"></i>
                     </div>
                     <div
                       class="icon-info-activity bg-soft-success pointer d-flex align-items-center justify-content-center"
-                      *ngIf="rbacService.userInfo.role != 'USER'"
+                      *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                       (click)="approveField('department', requestedData.user.department)">
                       <i class="ti ti-checks "></i>
                     </div>
@@ -297,7 +297,7 @@
       <div class="action-btn" *ngIf=" user!.employeeOnboardingStatus?.response != 'PENDING'">
         <div class="d-flex align-items-center gap-3" *ngIf="requestedData && rbacService.userInfo.role != 'USER'">
           <button class="btn text-success bg-soft-success font-14" (click)="approveRequestedData()"
-            [disabled]="isLoading">
+            [disabled]="approveLoading || rejectLoading">
             <i class="ti ti-x font-20" style="position: relative; top: 3px;"></i>
             <ng-container *ngIf="!approveLoading && !rejectLoading">Approve</ng-container>
             <div *ngIf="approveLoading" class="dot-opacity-loader">
@@ -307,7 +307,7 @@
             </div>
           </button>
 
-          <button class="btn text-danger  bg-soft-danger font-14" b (click)="rejectData()" [disabled]="isLoading">
+          <button class="btn text-danger  bg-soft-danger font-14" b (click)="rejectData()" [disabled]="approveLoading || rejectLoading">
             <i class="ti ti-checks font-20" style="position: relative; top: 3px;"></i>
             <ng-container *ngIf="!rejectLoading && !approveLoading">Reject</ng-container>
             <ng-container *ngIf="rejectLoading">
@@ -396,13 +396,13 @@
                             <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
                             <div
                               class="icon-info-activity bg-soft-danger pointer d-flex align-items-center justify-content-center"
-                              *ngIf="rbacService.userInfo.role != 'USER'"
+                              *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                               (click)="removeField('email', requestedData.user.email)">
                               <i class="ti ti-x"></i>
                             </div>
                             <div
                               class="icon-info-activity bg-soft-success pointer d-flex align-items-center justify-content-center"
-                              *ngIf="rbacService.userInfo.role != 'USER'"
+                              *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                               (click)="approveField('email', requestedData.user.email)">
                               <i class="ti ti-checks "></i>
                             </div>
@@ -468,6 +468,7 @@
                 <div class="d-flex align-items-center gap-2">
                   <h6 class="profile-email mb-0">{{ user.phoneNumber || '--'}}</h6>
                   <span *ngIf=" requestedData && requestedData?.user?.phoneNumber"
+
                     class="profile-editrequest d-flex align-items-center justify-content-center pointer position-relative">
 
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
@@ -489,13 +490,13 @@
                           <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
                           <div
                             class="icon-info-activity bg-soft-danger pointer d-flex align-items-center justify-content-center"
-                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                             (click)="removeField('phoneNumber', requestedData.user.phoneNumber)">
                             <i class="ti ti-x"></i>
                           </div>
                           <div
                             class="icon-info-activity bg-soft-success pointer d-flex align-items-center justify-content-center"
-                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                             (click)="approveField('phoneNumber', requestedData.user.phoneNumber)">
                             <i class="ti ti-checks "></i>
                           </div>
@@ -579,13 +580,13 @@
                           <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
                           <div
                             class="icon-info-activity bg-soft-danger pointer d-flex align-items-center justify-content-center"
-                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                             (click)="removeField('gender', requestedData.user.gender)">
                             <i class="ti ti-x"></i>
                           </div>
                           <div
                             class="icon-info-activity bg-soft-success pointer d-flex align-items-center justify-content-center"
-                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                             (click)="approveField('gender', requestedData.user.gender)">
                             <i class="ti ti-checks "></i>
                           </div>
@@ -666,22 +667,22 @@
                     <div class="request-log">
                       <div class="d-flex align-items-center justify-content-between border-bottom p-3">
                         <h5 class="mb-0">Update Request</h5>
-                        <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                        <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                           (click)="removeField('dateOfBirth', requestedData.user.dateOfBirth)">Delete</button>
-                        <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                        <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                           (click)="approveField('dateOfBirth', requestedData.user.dateOfBirth)">Approve</button> -->
                         <!-- <span class="badge rounded-pill badge-soft-warning"> PENDING </span> -->
                         <div class="d-flex align-items-center gap-2">
                           <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
                           <div
                             class="icon-info-activity bg-soft-danger pointer d-flex align-items-center justify-content-center"
-                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                             (click)="removeField('dateOfBirth', requestedData.user.dateOfBirth)">
                             <i class="ti ti-x"></i>
                           </div>
                           <div
                             class="icon-info-activity bg-soft-success pointer d-flex align-items-center justify-content-center"
-                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                             (click)="approveField('dateOfBirth', requestedData.user.dateOfBirth)">
                             <i class="ti ti-checks "></i>
                           </div>
@@ -762,9 +763,9 @@
                       </g>
                     </svg>
                     <div class="request-log">
-                      <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                      <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                         (click)="removeField('maritalStatus', requestedData.user.maritalStatus)">Delete</button>
-                      <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                      <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                         (click)="approveField('maritalStatus', requestedData.user.maritalStatus)">Approve</button> -->
                       <div class="d-flex align-items-center justify-content-between border-bottom p-3">
                         <h5 class="mb-0">Update Request</h5>
@@ -773,13 +774,13 @@
                           <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
                           <div
                             class="icon-info-activity bg-soft-danger pointer d-flex align-items-center justify-content-center"
-                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                             (click)="removeField('maritalStatus', requestedData.user.maritalStatus)">
                             <i class="ti ti-x"></i>
                           </div>
                           <div
                             class="icon-info-activity bg-soft-success pointer d-flex align-items-center justify-content-center"
-                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                             (click)="approveField('maritalStatus', requestedData.user.maritalStatus)">
                             <i class="ti ti-checks "></i>
                           </div>
@@ -856,9 +857,9 @@
                       </g>
                     </svg>
                     <div class="request-log">
-                      <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                      <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                         (click)="removeField('nationality', requestedData.user.nationality)">Delete</button>
-                      <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                      <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                         (click)="approveField('nationality', requestedData.user.nationality)">Approve</button> -->
                       <div class="d-flex align-items-center justify-content-between border-bottom p-3">
                         <h5 class="mb-0">Update Request</h5>
@@ -867,13 +868,13 @@
                           <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
                           <div
                             class="icon-info-activity bg-soft-danger pointer d-flex align-items-center justify-content-center"
-                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                             (click)="removeField('nationality', requestedData.user.nationality)">
                             <i class="ti ti-x"></i>
                           </div>
                           <div
                             class="icon-info-activity bg-soft-success pointer d-flex align-items-center justify-content-center"
-                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                             (click)="approveField('nationality', requestedData.user.nationality)">
                             <i class="ti ti-checks "></i>
                           </div>
@@ -944,9 +945,9 @@
                       </g>
                     </svg>
                     <div class="request-log">
-                      <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                      <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                         (click)="removeField('fatherName', requestedData.user.fatherName)">Delete</button>
-                      <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                      <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                         (click)="approveField('fatherName', requestedData.user.fatherName)">Approve</button> -->
                       <div class="d-flex align-items-center justify-content-between border-bottom p-3">
                         <h5 class="mb-0">Update Request</h5>
@@ -955,13 +956,13 @@
                           <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
                           <div
                             class="icon-info-activity bg-soft-danger pointer d-flex align-items-center justify-content-center"
-                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                             (click)="removeField('fatherName', requestedData.user.fatherName)">
                             <i class="ti ti-x"></i>
                           </div>
                           <div
                             class="icon-info-activity bg-soft-success pointer d-flex align-items-center justify-content-center"
-                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                             (click)="approveField('fatherName', requestedData.user.fatherName)">
                             <i class="ti ti-checks "></i>
                           </div>
@@ -1060,9 +1061,9 @@
                       </g>
                     </svg>
                     <div class="request-log">
-                      <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                      <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                         (click)="removeField('userAddress',addressEmployee[0])">Delete</button>
-                      <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                      <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                         (click)="approveField('userAddress',addressEmployee[0])">Approve</button> -->
                       <div class="d-flex align-items-center justify-content-between border-bottom p-3">
                         <h5 class="mb-0">Update Request</h5>
@@ -1071,13 +1072,13 @@
                           <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
                           <div
                             class="icon-info-activity bg-soft-danger pointer d-flex align-items-center justify-content-center"
-                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                             (click)="removeField('userAddress',addressEmployee[0])">
                             <i class="ti ti-x"></i>
                           </div>
                           <div
                             class="icon-info-activity bg-soft-success pointer d-flex align-items-center justify-content-center"
-                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                             (click)="approveField('userAddress',addressEmployee[0])">
                             <i class="ti ti-checks "></i>
                           </div>
@@ -1169,9 +1170,9 @@
                       </g>
                     </svg>
                     <div class="request-log">
-                      <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                      <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                         (click)="removeField('userAddress',addressEmployee[1])">Delete</button>
-                      <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                      <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                         (click)="approveField('userAddress',addressEmployee[1])">Approve</button> -->
                       <div class="d-flex align-items-center justify-content-between border-bottom p-3">
                         <h5 class="mb-0">Update Request</h5>
@@ -1182,13 +1183,13 @@
 
                           <div
                             class="icon-info-activity bg-soft-danger pointer d-flex align-items-center justify-content-center"
-                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                             (click)="removeField('userAddress',addressEmployee[1])">
                             <i class="ti ti-x"></i>
                           </div>
                           <div
                             class="icon-info-activity bg-soft-success pointer d-flex align-items-center justify-content-center"
-                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                             (click)="approveField('userAddress',addressEmployee[1])">
                             <i class="ti ti-checks "></i>
                           </div>
@@ -1316,8 +1317,8 @@
                         <div>
 
                           <p class="mb-1 font-14">New</p>
-                          <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'" (click)="removeField('userGuarantorInformation', guarantor)">Delete</button>
-                        <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'" (click)="approveField('userGuarantorInformation', guarantor)">Approve</button> -->
+                          <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading" (click)="removeField('userGuarantorInformation', guarantor)">Delete</button>
+                        <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading" (click)="approveField('userGuarantorInformation', guarantor)">Approve</button> -->
                           <h5 class="mb-0">{{guarantor.name}}</h5>
                           <h5 class="mb-0">{{guarantor.relation}}</h5>
                           <h5 class="mb-0">{{guarantor.phoneNumber}}</h5>
@@ -1359,9 +1360,9 @@
                         </g>
                       </svg>
                       <div class="request-log">
-                        <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                        <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                           (click)="removeField('userGuarantorInformation', findGuarantorWithId(refrence.id))">Delete</button>
-                        <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                        <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                           (click)="approveField('userGuarantorInformation', findGuarantorWithId(refrence.id))">Approve</button> -->
                         <div class="d-flex align-items-center justify-content-between border-bottom p-3">
                           <h5 class="mb-0">Update Request</h5>
@@ -1370,13 +1371,13 @@
                             <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
                             <div
                               class="icon-info-activity bg-soft-danger pointer d-flex align-items-center justify-content-center"
-                              *ngIf="rbacService.userInfo.role != 'USER'"
+                              *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                               (click)="removeField('userGuarantorInformation', findGuarantorWithId(refrence.id))">
                               <i class="ti ti-x"></i>
                             </div>
                             <div
                               class="icon-info-activity bg-soft-success pointer d-flex align-items-center justify-content-center"
-                              *ngIf="rbacService.userInfo.role != 'USER'"
+                              *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                               (click)="approveField('userGuarantorInformation', findGuarantorWithId(refrence.id))">
                               <i class="ti ti-checks "></i>
                             </div>
@@ -1488,9 +1489,9 @@
                       </g>
                     </svg>
                     <div class="request-log">
-                      <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                      <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                         (click)="removeField('highestEducationalLevel', requestedData.userAcademics.highestEducationalLevel)">Delete</button>
-                      <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                      <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                         (click)="approveField('highestEducationalLevel', requestedData.userAcademics.highestEducationalLevel)">Approve</button> -->
                       <div class="d-flex align-items-center justify-content-between border-bottom p-3">
                         <h5 class="mb-0">Update Request</h5>
@@ -1500,13 +1501,13 @@
                           <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
                           <div
                             class="icon-info-activity bg-soft-danger pointer d-flex align-items-center justify-content-center"
-                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                             (click)="removeField('highestEducationalLevel', requestedData.userAcademics.highestEducationalLevel)">
                             <i class="ti ti-x"></i>
                           </div>
                           <div
                             class="icon-info-activity bg-soft-success pointer d-flex align-items-center justify-content-center"
-                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                             (click)="approveField('highestEducationalLevel', requestedData.userAcademics.highestEducationalLevel)">
                             <i class="ti ti-checks "></i>
                           </div>
@@ -1583,9 +1584,9 @@
                       </g>
                     </svg>
                     <div class="request-log">
-                      <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                      <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                         (click)="removeField('degreeObtained', requestedData.userAcademics.degreeObtained)">Delete</button>
-                      <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                      <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                         (click)="approveField('degreeObtained', requestedData.userAcademics.degreeObtained)">Approve</button> -->
                       <div class="d-flex align-items-center justify-content-between border-bottom p-3">
                         <h5 class="mb-0">Update Request</h5>
@@ -1594,13 +1595,13 @@
                           <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
                           <div
                             class="icon-info-activity bg-soft-danger pointer d-flex align-items-center justify-content-center"
-                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                             (click)="removeField('degreeObtained', requestedData.userAcademics.degreeObtained)">
                             <i class="ti ti-x"></i>
                           </div>
                           <div
                             class="icon-info-activity bg-soft-success pointer d-flex align-items-center justify-content-center"
-                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                             (click)="approveField('degreeObtained', requestedData.userAcademics.degreeObtained)">
                             <i class="ti ti-checks "></i>
                           </div>
@@ -1674,9 +1675,9 @@
                       </g>
                     </svg>
                     <div class="request-log">
-                      <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                      <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                         (click)="removeField('fieldOfStudy', requestedData.userAcademics.fieldOfStudy)">Delete</button>
-                      <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                      <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                         (click)="approveField('fieldOfStudy', requestedData.userAcademics.fieldOfStudy)">Approve</button> -->
                       <div class="d-flex align-items-center justify-content-between border-bottom p-3">
                         <h5 class="mb-0">Update Request</h5>
@@ -1685,13 +1686,13 @@
                           <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
                           <div
                             class="icon-info-activity bg-soft-danger pointer d-flex align-items-center justify-content-center"
-                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                             (click)="removeField('fieldOfStudy', requestedData.userAcademics.fieldOfStudy)">
                             <i class="ti ti-x"></i>
                           </div>
                           <div
                             class="icon-info-activity bg-soft-success pointer d-flex align-items-center justify-content-center"
-                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                             (click)="approveField('fieldOfStudy', requestedData.userAcademics.fieldOfStudy)">
                             <i class="ti ti-checks "></i>
                           </div>
@@ -1768,9 +1769,9 @@
                       </g>
                     </svg>
                     <div class="request-log">
-                      <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                      <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                         (click)="removeField('institutionName', requestedData.userAcademics.institutionName)">Delete</button>
-                      <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                      <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                         (click)="approveField('institutionName', requestedData.userAcademics.institutionName)">Approve</button> -->
                       <div class="d-flex align-items-center justify-content-between border-bottom p-3">
                         <h5 class="mb-0">Update Request</h5>
@@ -1779,13 +1780,13 @@
                           <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
                           <div
                             class="icon-info-activity bg-soft-danger pointer d-flex align-items-center justify-content-center"
-                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                             (click)="removeField('institutionName', requestedData.userAcademics.institutionName)">
                             <i class="ti ti-x"></i>
                           </div>
                           <div
                             class="icon-info-activity bg-soft-success pointer d-flex align-items-center justify-content-center"
-                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                             (click)="approveField('institutionName', requestedData.userAcademics.institutionName)">
                             <i class="ti ti-checks "></i>
                           </div>
@@ -1859,9 +1860,9 @@
                       </g>
                     </svg>
                     <div class="request-log">
-                      <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                      <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                         (click)="removeField('grade', requestedData.userAcademics.grade)">Delete</button>
-                      <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                      <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                         (click)="approveField('grade', requestedData.userAcademics.grade)">Approve</button> -->
                       <div class="d-flex align-items-center justify-content-between border-bottom p-3">
                         <h5 class="mb-0">Update Request</h5>
@@ -1870,13 +1871,13 @@
                           <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
                           <div
                             class="icon-info-activity bg-soft-danger pointer d-flex align-items-center justify-content-center"
-                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                             (click)="removeField('grade', requestedData.userAcademics.grade)">
                             <i class="ti ti-x"></i>
                           </div>
                           <div
                             class="icon-info-activity bg-soft-success pointer d-flex align-items-center justify-content-center"
-                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                             (click)="approveField('grade', requestedData.userAcademics.grade)">
                             <i class="ti ti-checks "></i>
                           </div>
@@ -1953,9 +1954,9 @@
                       </g>
                     </svg>
                     <div class="request-log">
-                      <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                      <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                         (click)="removeField('graduationYear', requestedData.userAcademics.graduationYear)">Delete</button>
-                      <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                      <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                         (click)="approveField('graduationYear', requestedData.userAcademics.graduationYear)">Approve</button> -->
                       <div class="d-flex align-items-center justify-content-between border-bottom p-3">
                         <h5 class="mb-0">Update Request</h5>
@@ -1964,13 +1965,13 @@
                           <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
                           <div
                             class="icon-info-activity bg-soft-danger pointer d-flex align-items-center justify-content-center"
-                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                             (click)="removeField('graduationYear', requestedData.userAcademics.graduationYear)">
                             <i class="ti ti-x"></i>
                           </div>
                           <div
                             class="icon-info-activity bg-soft-success pointer d-flex align-items-center justify-content-center"
-                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                             (click)="approveField('graduationYear', requestedData.userAcademics.graduationYear)">
                             <i class="ti ti-checks "></i>
                           </div>
@@ -2197,9 +2198,9 @@
                     </svg>
 
                     <div class="request-log">
-                      <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                      <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                         (click)="removeField('accountHolderName', requestedData.userBankDetails.accountHolderName)">Delete</button>
-                      <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                      <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                         (click)="approveField('accountHolderName', requestedData.userBankDetails.accountHolderName)">Approve</button> -->
                       <div class="d-flex align-items-center justify-content-between border-bottom p-3">
                         <h5 class="mb-0">Update Request</h5>
@@ -2208,13 +2209,13 @@
                           <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
                           <div
                             class="icon-info-activity bg-soft-danger pointer d-flex align-items-center justify-content-center"
-                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                             (click)="removeField('accountHolderName', requestedData.userBankDetails.accountHolderName)">
                             <i class="ti ti-x"></i>
                           </div>
                           <div
                             class="icon-info-activity bg-soft-success pointer d-flex align-items-center justify-content-center"
-                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                             (click)="approveField('accountHolderName', requestedData.userBankDetails.accountHolderName)">
                             <i class="ti ti-checks "></i>
                           </div>
@@ -2292,9 +2293,9 @@
                     </svg>
 
                     <div class="request-log">
-                      <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                      <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                         (click)="removeField('bankName', requestedData.userBankDetails.bankName)">Delete</button>
-                      <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                      <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                         (click)="approveField('bankName', requestedData.userBankDetails.bankName)">Approve</button> -->
                       <div class="d-flex align-items-center justify-content-between border-bottom p-3">
                         <h5 class="mb-0">Update Request</h5>
@@ -2303,13 +2304,13 @@
                           <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
                           <div
                             class="icon-info-activity bg-soft-danger pointer d-flex align-items-center justify-content-center"
-                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                             (click)="removeField('bankName', requestedData.userBankDetails.bankName)">
                             <i class="ti ti-x"></i>
                           </div>
                           <div
                             class="icon-info-activity bg-soft-success pointer d-flex align-items-center justify-content-center"
-                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                             (click)="approveField('bankName', requestedData.userBankDetails.bankName)">
                             <i class="ti ti-checks "></i>
                           </div>
@@ -2386,9 +2387,9 @@
                       </g>
                     </svg>
                     <div class="request-log">
-                      <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                      <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                         (click)="removeField('accountNumber', requestedData.userBankDetails.accountNumber)">Delete</button>
-                      <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                      <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                         (click)="approveField('accountNumber', requestedData.userBankDetails.accountNumber)">Approve</button> -->
                       <div class="d-flex align-items-center justify-content-between border-bottom p-3">
                         <h5 class="mb-0">Update Request</h5>
@@ -2397,13 +2398,13 @@
                           <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
                           <div
                             class="icon-info-activity bg-soft-danger pointer d-flex align-items-center justify-content-center"
-                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                             (click)="removeField('accountNumber', requestedData.userBankDetails.accountNumber)">
                             <i class="ti ti-x"></i>
                           </div>
                           <div
                             class="icon-info-activity bg-soft-success pointer d-flex align-items-center justify-content-center"
-                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                             (click)="approveField('accountNumber', requestedData.userBankDetails.accountNumber)">
                             <i class="ti ti-checks "></i>
                           </div>
@@ -2481,9 +2482,9 @@
                     </svg>
 
                     <div class="request-log">
-                      <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                      <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                         (click)="removeField('ifsc', requestedData.userBankDetails.ifsc)">Delete</button>
-                      <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                      <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                         (click)="approveField('ifsc', requestedData.userBankDetails.ifsc)">Approve</button> -->
                       <div class="d-flex align-items-center justify-content-between border-bottom p-3">
                         <h5 class="mb-0">Update Request</h5>
@@ -2493,13 +2494,13 @@
                           <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
                           <div
                             class="icon-info-activity bg-soft-danger pointer d-flex align-items-center justify-content-center"
-                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                             (click)="removeField('ifsc', requestedData.userBankDetails.ifsc)">
                             <i class="ti ti-x"></i>
                           </div>
                           <div
                             class="icon-info-activity bg-soft-success pointer d-flex align-items-center justify-content-center"
-                            *ngIf="rbacService.userInfo.role != 'USER'"
+                            *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                             (click)="approveField('ifsc', requestedData.userBankDetails.ifsc)">
                             <i class="ti ti-checks "></i>
                           </div>
@@ -2669,9 +2670,9 @@
                         </g>
                       </svg>
                       <div class="request-log">
-                        <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                        <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                           (click)="removeField('userEmergencyContacts', findEmergencyContactWithId(emergencyContact.id))">Delete</button>
-                        <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER'"
+                        <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                           (click)="approveField('userEmergencyContacts', findEmergencyContactWithId(emergencyContact.id))">Approve</button> -->
                         <div class="d-flex align-items-center justify-content-between border-bottom p-3">
                           <h5 class="mb-0">Update Request</h5>
@@ -2680,13 +2681,13 @@
                             <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
                             <div
                               class="icon-info-activity bg-soft-danger pointer d-flex align-items-center justify-content-center"
-                              *ngIf="rbacService.userInfo.role != 'USER'"
+                              *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                               (click)="removeField('userEmergencyContacts', findEmergencyContactWithId(emergencyContact.id))">
                               <i class="ti ti-x"></i>
                             </div>
                             <div
                               class="icon-info-activity bg-soft-success pointer d-flex align-items-center justify-content-center"
-                              *ngIf="rbacService.userInfo.role != 'USER'"
+                              *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                               (click)="approveField('userEmergencyContacts', findEmergencyContactWithId(emergencyContact.id))">
                               <i class="ti ti-checks "></i>
                             </div>
@@ -2917,7 +2918,7 @@
     <div class="d-flex align-items-center gap-2">
       <button class="btn profile-cancel-btn" (click)="profileEdit=false;">Cancel</button>
       <button [disabled]="isSaveBtnLoading" class="btn save-btn" (click)="saveOnboardingData()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
+        <svg *ngIf="!isSaveBtnLoading" xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
           <mask id="mask0_5535_3777" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25"
             height="25">
             <rect x="0.46167" y="0.5" width="24" height="24" fill="#D9D9D9" />
@@ -3231,7 +3232,7 @@
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
                 <input type="text" formControlName="emailId" class="form__field" />
-                <label class="form__label"></label>
+                <label class="form__label">Email</label>
               </div>
               <div
                 *ngIf="(reference.get('emailId')?.touched || isFormInvalid) && reference.get('emailId')?.hasError('required')"
@@ -3248,10 +3249,11 @@
               [ngClass]="{'justify-content-end': references.length == 1, 'justify-content-between': references.length >1}">
               <button type="button" class="btn p-0 text-danger" (click)="removeReference(i)"><i class="bi bi-trash"></i>
                 Remove</button>
-              <button class="btn p-0 text-primary add-reference" type="button" (click)="addReference()"><i
-                  class="bi bi-plus-lg"></i> Add Reference</button>
+
             </div>
           </div>
+          <button class="btn p-0 text-primary add-reference" type="button" (click)="addReference()"><i
+            class="bi bi-plus-lg"></i> Add Reference</button>
 
         </div>
       </div>
