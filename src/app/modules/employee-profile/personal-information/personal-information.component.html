@@ -37,13 +37,13 @@
                     <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
                     <div
                       class="icon-info-activity bg-soft-danger pointer d-flex align-items-center justify-content-center"
-                      *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading && !fieldLoading"
+                      *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                       (click)="removeField('name', requestedData.user.name)">
                       <i class="ti ti-x"></i>
                     </div>
                     <div
                       class="icon-info-activity bg-soft-success pointer d-flex align-items-center justify-content-center"
-                      *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading && !fieldLoading"
+                      *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
                       (click)="approveField('name', requestedData.user.name)">
                       <i class="ti ti-checks "></i>
                     </div>

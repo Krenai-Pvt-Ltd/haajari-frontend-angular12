@@ -854,10 +854,17 @@
                                   WFH Category Name
                                 </label>
                                 <nz-form-control nzErrorTip="Please select leave category name">
-                                  <nz-select [nzDisabled]="wfhTemplateToggle" class="placeholder-line w-100"
+                                  <nz-select *ngIf="!wfhTemplateToggle" class="placeholder-line w-100"
                                     nzSize="large" nzPlaceHolder="Select Leave Category Name"
                                     formControlName="leaveCategoryId" required class="form-control">
                                     <nz-option *ngFor="let leaveCategory of filteredLeaveCategories"
+                                      [nzValue]="leaveCategory.id" [nzLabel]="leaveCategory.name">
+                                    </nz-option>
+                                  </nz-select>
+                                  <nz-select *ngIf="wfhTemplateToggle" class="placeholder-line w-100"
+                                    nzSize="large" nzPlaceHolder="Select Leave Category Name"
+                                    formControlName="leaveCategoryId" required class="form-control">
+                                    <nz-option *ngFor="let leaveCategory of onDutyList"
                                       [nzValue]="leaveCategory.id" [nzLabel]="leaveCategory.name">
                                     </nz-option>
                                   </nz-select>
