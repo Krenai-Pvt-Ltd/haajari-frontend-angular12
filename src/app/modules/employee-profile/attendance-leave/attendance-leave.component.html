@@ -93,7 +93,7 @@
                                 <div class="col-md-8 ">
                                     <div
                                         class="attendance-summery p-3 pt-2 pb-2 d-flex align-items-center justify-content-between ">
-                                        <div class="text-end d-flex align-items-center gap-2">
+                                        <div class="d-flex align-items-center gap-2">
                                             <!-- <span class="total-worked">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="108" height="32"
                                                     viewBox="0 0 108 32" fill="none">
@@ -161,7 +161,7 @@
 
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="attendance-summery p-3 pt-2 pb-2">
                                         <div *ngIf="isShimmer">
                                             <ngx-shimmer-loading [width]="'50%'"
@@ -174,7 +174,7 @@
                                         <p class="mb-0 font-12">Total late delay</p>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="attendance-summery p-3 pt-2 pb-2">
                                         <div *ngIf="isShimmer">
                                             <ngx-shimmer-loading [width]="'50%'"
@@ -189,7 +189,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-2">
+                                <div class="col-md-3">
                                     <div class="attendance-summery p-3 pt-2 pb-2">
                                         <div *ngIf="isShimmer">
                                             <ngx-shimmer-loading [width]="'50%'"
@@ -202,7 +202,7 @@
                                         <p class="mb-0 font-12">System checkout</p>
                                     </div>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-3">
                                     <div class="attendance-summery p-3 pt-2 pb-2">
                                         <div *ngIf="isShimmer">
                                             <ngx-shimmer-loading [width]="'40%'"
@@ -865,8 +865,7 @@
 
                                                     <ng-container *ngIf="isUserLeaveTaken == 1">
                                                         <button type="button" class="btn primaryBtnLink leave-request"
-                                                            *ngIf="UUID==currentUserUuid"
-                                                            (click)="applyNewLeaveReq()">
+                                                            *ngIf="UUID==currentUserUuid" (click)="applyNewLeaveReq()">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="20"
                                                                 height="21" viewBox="0 0 20 21" fill="none">
                                                                 <mask id="mask0_5145_1779" style="mask-type:alpha"
@@ -1034,13 +1033,13 @@
 
                                         </td>
                                         <td>
-                                            <span class="team-maneger mb-0 table-font-weight white-space"nz-popover nzPopoverTitle="Note"
-                                            [nzPopoverContent]="leaveNotes"
-                                            [nzPopoverOverlayStyle]="{'width':'300px'}">{{
+                                            <span class="team-maneger mb-0 table-font-weight white-space" nz-popover
+                                                nzPopoverTitle="Note" [nzPopoverContent]="leaveNotes"
+                                                [nzPopoverOverlayStyle]="{'width':'300px'}">{{
                                                 item.optNotes || 'N/A'}}</span>
-                                                <ng-template #leaveNotes>
-                                                    {{ item.optNotes || 'N/A'}}
-                                                  </ng-template>
+                                            <ng-template #leaveNotes>
+                                                {{ item.optNotes || 'N/A'}}
+                                            </ng-template>
                                         </td>
                                         <td>
                                             <span class="team-maneger mb-0 table-font-weight white-space">{{
@@ -1056,7 +1055,8 @@
                                                         </span>
 
                                                         <!-- Delete Button -->
-                                                        <button *ngIf="userId==currentUserUuid" class="icon-button d-none"
+                                                        <button *ngIf="userId==currentUserUuid"
+                                                            class="icon-button d-none"
                                                             (click)="openDeleteConfirmation(item.id)">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="20"
                                                                 height="20" viewBox="0 0 20 20" fill="none">
@@ -2346,7 +2346,7 @@
                                         </div>
                                     </div>
                                     <div class="d-flex align-items-center mb-2 mt-2 gap-3">
-                                        <p class="mb-0" style="font-size: 14px">
+                                        <p class="mb-0 font-14">
                                             <span><b>Notes</b></span><span> : </span>
                                             {{
                                             attendanceLogResponse.additionalNotes
@@ -2355,21 +2355,24 @@
                                     </div>
 
 
-                                    <div class="card" *ngIf="
+                                    <div class="card d-flex align-items-center flex-row justify-content-between" *ngIf="
                                         attendanceLogResponse.latString !=
                                           null &&
                                         attendanceLogResponse.longString != null
                                       ">
-                                        <div class="card-content justify-content-start">
-                                            <div class="image-section" *ngIf="
-                                            attendanceLogResponse.imageUrlString !=
-                                            null
-                                          ">
-                                                <img [src]="
-                                              attendanceLogResponse.imageUrlString
-                                            " alt="User Image" class="user-image" />
+                                        <div
+                                            class="card-content justify-content-start d-flex align-items-center flex-row gap-2 w-100">
+                                            <!-- {{attendanceLogResponse.imageUrlString}} -->
+                                            <div class="image-section"
+                                                *ngIf="attendanceLogResponse.imageUrlString != null">
+                                                <!-- <div *ngIf="">
+                                                    <ngx-shimmer-loading [width]="'100%'"
+                                                        [height]="'70px'"></ngx-shimmer-loading>
+                                                </div> -->
+                                                <img [src]="attendanceLogResponse.imageUrlString" alt="User Image"
+                                                    class="user-image" />
                                             </div>
-                                            <div class="info-section p-3">
+                                            <div class="info-section w-100">
                                                 <div>
                                                     <p class="mb-0 mt-0 location-text">
                                                         <span><b>Location:</b></span>
@@ -2464,60 +2467,59 @@
     #attendancewithlocationssButton id="attendancewithlocationssButton"></button>
 <div class="modal fade" id="attendancewithlocationss" tabindex="-1" role="dialog"
     aria-labelledby="attendancewithlocation" aria-hidden="true">
-    <div class="modal-dialog modal-md" role="document">
-        <form>
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h6 class="modal-title m-0" id="exampleModalDefaultLabel">
-                        Staff Attendance Location
-                    </h6>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                        data-bs-toggle="modal" data-bs-target="#viewlog"></button>
-                </div>
-                <!--end modal-header-->
-                <div class="modal-body">
-                    <div class="mb-10">
-                        <section>
-                            <div class="el-card-item">
-                                <div class="el-card-avatar el-overlay-1">
-                                    <div class="map">
-                                        <agm-map style="height: 350px" [latitude]="lat" [longitude]="lng" [zoom]="zoom"
-                                            [maxZoom]="20" [zoomControl]="true" [disableDefaultUI]="true"
-                                            [keyboardShortcuts]="false">
-                                            <agm-marker *ngIf="lat && lng" [latitude]="lat" [longitude]="lng"
-                                                draggable="true" [agmFitBounds]="true"></agm-marker>
-                                        </agm-map>
-                                        <!--  #placesRef="ngx-places" -->
-                                    </div>
+    <div class="modal-dialog modal-dialog-centered " role="document">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title m-0" id="exampleModalDefaultLabel">
+                    Staff Attendance Location
+                </h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                    data-bs-toggle="modal" data-bs-target="#viewlog"></button>
+            </div>
+            <!--end modal-header-->
+            <div class="modal-body">
+                <div class="mb-10">
+                    <section>
+                        <div class="el-card-item">
+                            <div class="el-card-avatar el-overlay-1">
+                                <div class="map">
+                                    <agm-map style="height: 350px" [latitude]="lat" [longitude]="lng" [zoom]="zoom"
+                                        [maxZoom]="20" [zoomControl]="true" [disableDefaultUI]="true"
+                                        [keyboardShortcuts]="false">
+                                        <agm-marker *ngIf="lat && lng" [latitude]="lat" [longitude]="lng"
+                                            draggable="true" [agmFitBounds]="true"></agm-marker>
+                                    </agm-map>
+                                    <!--  #placesRef="ngx-places" -->
                                 </div>
                             </div>
-                            <!-- </div> -->
-                        </section>
-                    </div>
+                        </div>
+                        <!-- </div> -->
+                    </section>
                 </div>
             </div>
-        </form>
+        </div>
     </div>
 </div>
 <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#showDocModal"
     #openDocModalButton id="openDocModalButton"></button>
 <div class="modal blur-bg-2" id="showDocModal" tabindex="-1" data-bs-keyboard="false"
     aria-labelledby="showDocModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-md">
+    <div class="modal-dialog modal-dialog-centered ">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="showDocModalLabel">Attendance Selfie</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
                     data-bs-toggle="modal" data-bs-target="#viewlog"></button>
             </div>
-            <div class="modal-body text-center" style="overflow: scroll; max-height: 350px">
+            <div class="modal-body text-center" style="overflow: scroll; max-height: 390px">
                 <!-- <iframe *ngIf="previewString" [src]="previewString" style="width: 100%; height: 100vh" frameborder="0"></iframe> -->
                 <img *ngIf="isImage" [src]="previewString" alt="Attendance Selfie"
                     style="max-width: 100%; height: 350px" />
             </div>
-            <div class="modal-footer d-flex align-items-center justify-content-end gap-3">
+            <div class="modal-footer">
                 <!-- <button type="button" class="btn btn-de-secondary" data-bs-dismiss="modal" aria-label="Close">Cancel</button> -->
-                <button class="btn btn-primary btn-sm" *ngIf="imageDownUrl" (click)="downloadFile(imageDownUrl)">
+                <button class="btn submitActionBtn" *ngIf="imageDownUrl" (click)="downloadFile(imageDownUrl)">
                     <span><i class="bi bi-download"></i> Download</span>
                 </button>
             </div>

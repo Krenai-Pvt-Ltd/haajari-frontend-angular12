@@ -273,7 +273,7 @@ i::before {
 
 
 .overview-summary {
-    background: white;
+    background-color: #F9FAFC;
     transform: rotateY(180deg);
 }
 
@@ -327,9 +327,6 @@ i::before {
     background-color: #e9e4e4;
 }
 
-.overview-summary {
-    background-color: #F9FAFC;
-}
 
 .summary-count {
     width: 10px;
