@@ -709,7 +709,7 @@
                   Showing {{ getStartIndex() }} - {{ getEndIndex() }} of
                   {{ total }} items
                 </p>
-                <nav aria-label="Page navigation example">
+                <!-- <nav aria-label="Page navigation example">
                   <ul class="pagination justify-content-end">
                     <li class="page-item" [class.disabled]="pageNumber == 1">
                       <a class="page-link" href="javascript:void(0);" aria-label="Previous"
@@ -726,7 +726,17 @@
                       </a>
                     </li>
                   </ul>
-                </nav>
+                </nav> -->
+
+
+                <div class="pagition-box">
+                  <ngb-pagination [collectionSize]="total" [(page)]="pageNumber" [pageSize]="itemPerPage" [maxSize]="5"
+                    [boundaryLinks]="true" [ellipses]="true" (pageChange)="changePage($event)">
+                  </ngb-pagination>
+                </div>
+
+
+
               </div>
             </div>
           </ng-container>

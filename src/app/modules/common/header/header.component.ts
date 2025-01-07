@@ -9,6 +9,7 @@ import { HelperService } from 'src/app/services/helper.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import { SubscriptionPlanService } from 'src/app/services/subscription-plan.service';
 import { SubscriptionRestrictedComponent } from '../subscription-restricted/subscription-restricted.component';
+import { OnboardingService } from 'src/app/services/onboarding.service';
 
 @Component({
   selector: 'app-header',
@@ -33,7 +34,8 @@ export class HeaderComponent implements OnInit {
     public rbacService: RoleBasedAccessControlService,
     public _subscriptionPlanService: SubscriptionPlanService,
     private db: AngularFireDatabase,
-    private _modalService: NgbModal
+    private _modalService: NgbModal,
+    private onboardingService: OnboardingService
   ) {
     // if (this.route.snapshot.queryParamMap.has('userId')) {
     //     this.activeTab = 'dashboard';
@@ -130,6 +132,9 @@ export class HeaderComponent implements OnInit {
 
   onLogout() {
     localStorage.clear();
+    this.helperService.orgStepId = 0;
+    this.helperService.stepId = 0;
+    // this.onboardingService.isLoadingOnboardingStatus = true;
     this.rbacService.clearRbacService();
     this.helperService.clearHelperService();
     this.router.navigate(['/login']);

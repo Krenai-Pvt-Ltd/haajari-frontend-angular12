@@ -89,7 +89,7 @@ export class SignUpComponent implements OnInit {
   //     this.UUID = await this.rbacService.getUuid();
 
   //     if (this.ROLE === 'USER') {
-  //       this.router.navigate(['/employee-profile'], { queryParams: { userId: this.UUID, dashboardActive: 'true' } });
+  //       this.router.navigate(['/employee'], { queryParams: { userId: this.UUID, dashboardActive: 'true' } });
   //     } else {
   //       const helper = new JwtHelperService();
   //       const onboardingStep = helper.decodeToken(response.tokenResponse.access_token).statusResponse;

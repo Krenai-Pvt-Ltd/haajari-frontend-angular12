@@ -66,7 +66,7 @@
                             </span>
                         </div>
 
-                        <div class="d-flex align-items-center justify-content-end gap-3 w-50">
+                        <div class="d-flex align-items-center justify-content-end gap-3">
                             <div class="btn-group week-data radio-btn" role="group"
                                 aria-label="Basic radio toggle button group">
 
@@ -79,8 +79,9 @@
 
                             </div>
 
-                            <nz-select class="request-dropdown" nzSize="large" nzPlaceHolder="New Request" required
-                                [(ngModel)]="selectedRequest" (ngModelChange)="onRequestChange(selectedRequest)">
+                            <nz-select class="request-dropdown placeholder-lines" nzSize="large"
+                                nzPlaceHolder="New Request" required [(ngModel)]="selectedRequest"
+                                (ngModelChange)="onRequestChange(selectedRequest)">
                                 <nz-option [nzValue]="'Attendance update'" [nzLabel]="'Attendance update'"></nz-option>
                                 <!-- Add other options here if needed -->
                             </nz-select>
@@ -92,7 +93,7 @@
                                 <div class="col-md-8 ">
                                     <div
                                         class="attendance-summery p-3 pt-2 pb-2 d-flex align-items-center justify-content-between ">
-                                        <div class="text-end d-flex align-items-center gap-2">
+                                        <div class="d-flex align-items-center gap-2">
                                             <!-- <span class="total-worked">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="108" height="32"
                                                     viewBox="0 0 108 32" fill="none">
@@ -116,49 +117,70 @@
                                                 </svg>
                                             </span> -->
                                             <div>
-                                                <h5 class="mb-0 font-15">
+                                                <div *ngIf="isShimmer">
+                                                    <ngx-shimmer-loading [width]="'50%'"
+                                                        [height]="'10px'"></ngx-shimmer-loading>
+                                                </div>
+                                                <h5 class="mb-0 font-15" *ngIf="!isShimmer">
                                                     {{convertToHourMinuteFormat(totalAttendanceDetails.totalWorkedHours)}}
                                                 </h5>
                                                 <p class="mb-0 font-12">Worked</p>
                                             </div>
                                         </div>
                                         <div>
-                                            <h5 class="mb-0 font-15">
+                                            <div *ngIf="isShimmer">
+                                                <ngx-shimmer-loading [width]="'50%'"
+                                                    [height]="'10px'"></ngx-shimmer-loading>
+                                            </div>
+                                            <h5 class="mb-0 font-15" *ngIf="!isShimmer">
                                                 {{convertToHourMinuteFormat(totalAttendanceDetails.totalEarlyCheckoutHours)}}
-                                                <span class="lat">({{totalAttendanceDetails.totalEarlyCheckoutCount}} early
+                                                <span class="lat">({{totalAttendanceDetails.totalEarlyCheckoutCount}}
+                                                    early
                                                     out’s)</span>
                                             </h5>
                                             <p class="mb-0 font-12">Total shortage</p>
-                                            
+
                                         </div>
-                                       
+
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="attendance-summery p-3 pt-2 pb-2">
                                         <!-- <h5 class="mb-0 font-15">+ 7 hr 30 min</h5>
                                     <p class="mb-0 font-12">Difference</p> -->
-                                    <h5 class="mb-0 font-15">
-                                        {{convertToHourMinuteFormat(totalAttendanceDetails.totalOvertimeHours)}}
-                                        <span class="lat">({{totalAttendanceDetails.totalOvertimeCount}}
-                                            overtime)</span>
-                                    </h5>
-                                    <p class="mb-0 font-12">Overtime</p>
+                                        <div *ngIf="isShimmer">
+                                            <ngx-shimmer-loading [width]="'50%'"
+                                                [height]="'10px'"></ngx-shimmer-loading>
+                                        </div>
+                                        <h5 class="mb-0 font-15" *ngIf="!isShimmer">
+                                            {{convertToHourMinuteFormat(totalAttendanceDetails.totalOvertimeHours)}}
+                                            <span class="lat">({{totalAttendanceDetails.totalOvertimeCount}}
+                                                overtime)</span>
+                                        </h5>
+                                        <p class="mb-0 font-12">Overtime</p>
 
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="attendance-summery p-3 pt-2 pb-2">
-                                        <h5 class="mb-0 font-15">
+                                        <div *ngIf="isShimmer">
+                                            <ngx-shimmer-loading [width]="'50%'"
+                                                [height]="'10px'"></ngx-shimmer-loading>
+                                        </div>
+                                        <h5 class="mb-0 font-15" *ngIf="!isShimmer">
                                             {{convertToHourMinuteFormat(totalAttendanceDetails.totalLateHours)}} <span
                                                 class="lat">({{totalAttendanceDetails.totalLateCount}} late in’s)</span>
                                         </h5>
                                         <p class="mb-0 font-12">Total late delay</p>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="attendance-summery p-3 pt-2 pb-2">
-                                        <h5 class="mb-0 font-15">
+                                        <div *ngIf="isShimmer">
+                                            <ngx-shimmer-loading [width]="'50%'"
+                                                [height]="'10px'"></ngx-shimmer-loading>
+                                        </div>
+                                        <h5 class="mb-0 font-15" *ngIf="!isShimmer">
                                             {{convertToHourMinuteFormat(totalAttendanceDetails.totalHalfDayHours)}}
                                             <span class="lat">({{totalAttendanceDetails.totalHalfDayCount}} half day
                                                 in’s)</span>
@@ -167,7 +189,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-2">
+                                <div class="col-md-3">
                                     <div class="attendance-summery p-3 pt-2 pb-2">
                                         <div *ngIf="isShimmer">
                                             <ngx-shimmer-loading [width]="'50%'"
@@ -180,7 +202,7 @@
                                         <p class="mb-0 font-12">System checkout</p>
                                     </div>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-3">
                                     <div class="attendance-summery p-3 pt-2 pb-2">
                                         <div *ngIf="isShimmer">
                                             <ngx-shimmer-loading [width]="'40%'"
@@ -202,7 +224,7 @@
                                 <h5 class="mb-3 font-14">Overall Performance</h5>
 
                                 <!-- <img src="assets/images/overall-performance.png" style="width: 100%;"> -->
-                                <div class="chart-container w-100"  *ngIf="!isPlaceholder">
+                                <div class="chart-container w-100" *ngIf="!isPlaceholder">
                                     <canvas #chartCanvas id="workingHoursChart"></canvas>
                                 </div>
 
@@ -211,9 +233,8 @@
                                 </div> -->
 
                                 <div class="empty-file d-flex align-items-center justify-content-center"
-                                style="margin-top: 8%; margin-bottom: 8%"
-                                *ngIf="isPlaceholder">
-                                <p class="mb-1 empty-detail">No data for now</p>
+                                    style="margin-top: 8%; margin-bottom: 8%" *ngIf="isPlaceholder">
+                                    <p class="mb-1 empty-detail">No data for now</p>
                                 </div>
 
 
@@ -386,7 +407,7 @@
                                                 </defs>
                                             </svg>
 
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50"
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                 viewBox="0 0 50 50" fill="none" *ngIf="item.attendanceSource == 'LENS'">
                                                 <g clip-path="url(#clip0_561_5201)">
                                                     <path
@@ -421,7 +442,7 @@
                                                 </defs>
                                             </svg>
 
-                                            <img src="assets/images/hajiri-icon.svg" style="width: 50px; height: 50px;"
+                                            <img src="assets/images/hajiri-icon.svg" style="width: 24px; height: 24px;"
                                                 *ngIf="item.attendanceSource == 'DASHBOARD'">
 
 
@@ -429,7 +450,8 @@
 
                                         </td>
                                         <td class="text-left">
-                                            <div class="team-maneger mb-0 table-font-weight schedule" *ngIf="item.shiftInTime">
+                                            <div class="team-maneger mb-0 table-font-weight schedule"
+                                                *ngIf="item.shiftInTime">
                                                 <h5 class="mb-0 font-12"> {{item.shiftInTime | date:'shortTime'}} -
                                                     {{item.shiftOutTime | date:'shortTime'}} <span
                                                         class="lat">({{convertToHourMinuteFormat(item.totalWorkingHour)}})</span>
@@ -476,20 +498,27 @@
                                                 {{convertToHourMinuteFormat(item.totalWorkedHour)}}</span>
                                         </td>
                                         <td class="text-left">
-                                            <span
-                                            class="team-manager mb-0 table-font-weight"
-                                            [ngClass]="{
+                                            <div class="">
+                                                <div>
+                                                    <span class="team-manager mb-0 table-font-weight" [ngClass]="{
                                               'text-danger': checkTimeNegative(item.workingHourDifference),
                                               'text-success': !checkTimeNegative(item.workingHourDifference)
                                             }" *ngIf="item.workingHourDifference && (item.currentStatus == 'out')">
-                                            {{ convertToHourMinuteFormatNegativeCase(item.workingHourDifference) }}
-                                          </span>
-                                          <span
-                                            class="team-manager mb-0 table-font-weight"
-                                            *ngIf="(item.currentStatus != 'out')"
-                                           >
-                                            --
-                                          </span>
+                                                        {{
+                                                        convertToHourMinuteFormatNegativeCase(item.workingHourDifference)
+                                                        }}
+                                                    </span>
+                                                    <span class="team-manager mb-0 table-font-weight"
+                                                        *ngIf="(item.currentStatus != 'out')">
+                                                        --
+                                                    </span>
+                                                </div>
+
+                                                <button class="text-primary btn p-0 font-13 fw-semibold"
+                                                    data-bs-toggle="modal" data-bs-target="#viewlog"
+                                                    (click)="viewLogs(item.createdDate.toString())">
+                                                    View Logs</button>
+                                            </div>
 
                                         </td>
 
@@ -643,7 +672,7 @@
                                     </tr>
                                     <!-- leave  -->
                                     <tr class="week-leave"
-                                        *ngIf="item.status == 'Paid Leave' || item.status == 'Unpaid Leave'">
+                                        *ngIf="item.status.toLowerCase().includes('paid leave') || item.status.toLowerCase().includes('unpaid leave')">
                                         <td class="text-left">
                                             <span class="team-maneger mb-0 ">
                                                 {{item.createdDate | date:'fullDate'}}</span>
@@ -836,8 +865,7 @@
 
                                                     <ng-container *ngIf="isUserLeaveTaken == 1">
                                                         <button type="button" class="btn primaryBtnLink leave-request"
-                                                            *ngIf="userId==currentUserUuid"
-                                                            (click)="applyNewLeaveReq()">
+                                                            *ngIf="UUID==currentUserUuid" (click)="applyNewLeaveReq()">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="20"
                                                                 height="21" viewBox="0 0 20 21" fill="none">
                                                                 <mask id="mask0_5145_1779" style="mask-type:alpha"
@@ -861,7 +889,7 @@
                                                             [nzPopoverContent]="contentTemplate"
                                                             [nzPopoverOverlayStyle]="{'width':'300px'}"
                                                             class="btn primaryBtnLink leave-request"
-                                                            *ngIf="userId==currentUserUuid">
+                                                            *ngIf="UUID==currentUserUuid">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="20"
                                                                 height="21" viewBox="0 0 20 21" fill="none">
                                                                 <mask id="mask0_5145_1779" style="mask-type:alpha"
@@ -1005,8 +1033,13 @@
 
                                         </td>
                                         <td>
-                                            <span class="team-maneger mb-0 table-font-weight white-space">{{
+                                            <span class="team-maneger mb-0 table-font-weight white-space" nz-popover
+                                                nzPopoverTitle="Note" [nzPopoverContent]="leaveNotes"
+                                                [nzPopoverOverlayStyle]="{'width':'300px'}">{{
                                                 item.optNotes || 'N/A'}}</span>
+                                            <ng-template #leaveNotes>
+                                                {{ item.optNotes || 'N/A'}}
+                                            </ng-template>
                                         </td>
                                         <td>
                                             <span class="team-maneger mb-0 table-font-weight white-space">{{
@@ -1022,7 +1055,8 @@
                                                         </span>
 
                                                         <!-- Delete Button -->
-                                                        <button *ngIf="userId==currentUserUuid" class="icon-button"
+                                                        <button *ngIf="userId==currentUserUuid"
+                                                            class="icon-button d-none"
                                                             (click)="openDeleteConfirmation(item.id)">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="20"
                                                                 height="20" viewBox="0 0 20 20" fill="none">
@@ -1414,206 +1448,206 @@
 
 
                     <div class="obboard-employee-list">
-                      <div class="onboard-add row align-items-center mx-0">
-                          <div class="col-md-12 p-0">
-                              <div class="row justify-content-between align-items-center mx-0">
-                                  <div class="col-lg-12 col-md-12 col-sm-12 ps-0">
-                                      <div class="d-flex justify-content-start align-items-center">
-                                          <!-- Leave Type Filter -->
-                                          <div class="dropdown empFilerDropfilter">
-                                              <button type="button" id="leaveTypeDropdown" data-bs-toggle="dropdown"
-                                                  aria-expanded="false"
-                                                  class="btn btn-secondary dropdown-toggle new-deopdown">
-                                                  {{ attendanceType }} <i class="bi bi-chevron-down"></i>
-                                              </button>
-                                              <ul class="dropdown-menu" aria-labelledby="leaveTypeDropdown">
-                                                  <li *ngFor="let type of attendanceTypeFilter">
-                                                      <a class="dropdown-item"
-                                                          (click)="updateAttendanceTypeFilter(type)"
-                                                          [class.active]="attendanceType === type">
-                                                          {{ type }}
-                                                      </a>
-                                                  </li>
-                                              </ul>
-                                          </div>
+                        <div class="onboard-add row align-items-center mx-0">
+                            <div class="col-md-12 p-0">
+                                <div class="row justify-content-between align-items-center mx-0">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 ps-0">
+                                        <div class="d-flex justify-content-start align-items-center">
+                                            <!-- Leave Type Filter -->
+                                            <div class="dropdown empFilerDropfilter">
+                                                <button type="button" id="leaveTypeDropdown" data-bs-toggle="dropdown"
+                                                    aria-expanded="false"
+                                                    class="btn btn-secondary dropdown-toggle new-deopdown">
+                                                    {{ attendanceType }} <i class="bi bi-chevron-down"></i>
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="leaveTypeDropdown">
+                                                    <li *ngFor="let type of attendanceTypeFilter">
+                                                        <a class="dropdown-item"
+                                                            (click)="updateAttendanceTypeFilter(type)"
+                                                            [class.active]="attendanceType === type">
+                                                            {{ type }}
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
 
-                                          <!-- Status Filter -->
-                                          <div class="dropdown empFilerDropfilter">
-                                              <button type="button" id="statusDropdown" data-bs-toggle="dropdown"
-                                                  aria-expanded="false"
-                                                  class="btn btn-secondary dropdown-toggle new-deopdown">
-                                                  {{ attendanceStatus }} <i class="bi bi-chevron-down"></i>
-                                              </button>
-                                              <ul class="dropdown-menu" aria-labelledby="statusDropdown">
-                                                  <li *ngFor="let status of statuses">
-                                                      <a class="dropdown-item"
-                                                          (click)="updateAttendanceStatusFilter(status)"
-                                                          [class.active]="attendanceStatus === status">
-                                                          {{ status }}
-                                                      </a>
-                                                  </li>
-                                              </ul>
-                                          </div>
+                                            <!-- Status Filter -->
+                                            <div class="dropdown empFilerDropfilter">
+                                                <button type="button" id="statusDropdown" data-bs-toggle="dropdown"
+                                                    aria-expanded="false"
+                                                    class="btn btn-secondary dropdown-toggle new-deopdown">
+                                                    {{ attendanceStatus }} <i class="bi bi-chevron-down"></i>
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="statusDropdown">
+                                                    <li *ngFor="let status of statuses">
+                                                        <a class="dropdown-item"
+                                                            (click)="updateAttendanceStatusFilter(status)"
+                                                            [class.active]="attendanceStatus === status">
+                                                            {{ status }}
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
 
-                                          <div>
-
-
+                                            <div>
 
 
 
-                                          </div>
-                                      </div>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
 
 
-                  <div class="table-responsive bg-white mt-3">
-
-                      <table class="table empOnnoardtable">
-                          <thead class="thead-light">
-                              <tr>
-
-                                  <th class="text-left font-13" style="width: 10%">Date</th>
-                                  <th class="text-left font-13" style="width: 10%">Type</th>
-                                  <th class="text-left font-13" style="width: 10%">Requested To</th>
-                                  <!-- <th class="text-left font-13" style="width: 10%">Approved by</th> -->
-                                  <th *ngIf="attendanceType === 'CREATE'" class="text-left font-13"
-                                      style="width: 10%">In Time</th>
-                                  <th *ngIf="attendanceType === 'CREATE'" class="text-left font-13"
-                                      style="width: 10%">Out Time</th>
-                                  <th *ngIf="attendanceType === 'UPDATE'" class="text-left font-13"
-                                      style="width: 10%">Old Time</th>
-                                  <th *ngIf="attendanceType === 'UPDATE'" class="text-left font-13"
-                                      style="width: 10%">Updated Time</th>
-                                  <th *ngIf="attendanceType === 'UPDATE'" class="text-left font-13"
-                                      style="width: 10%">Requested For</th>
-                                  <th class="text-left font-13" style="width: 10%">Reason</th>
-                                  <th class="text-left font-13" style="width: 10%">Status</th>
-                              </tr>
-                          </thead>
-
-                          <tbody *ngIf="isAttendanceLoading">
-                              <tr *ngFor="let item of [].constructor(7)">
-                                  <td>
-                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                  </td>
-                                  <td>
-                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                  </td>
-                                  <td>
-                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                  </td>
-                                  <td>
-                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                  </td>
-                                  <td>
-                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                  </td>
-                                  <td>
-                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                  </td>
-                                  <td>
-                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                  </td>
-                                  <td *ngIf="attendanceType === 'CREATE'">
-                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                  </td>
-                              </tr>
-                          </tbody>
-
-                          <tbody *ngIf="attendanceRequests.length === 0 && !isAttendanceLoading">
-                              <tr>
-                                  <td colspan="9">
-                                      <div class="empty-filenew" style="margin-top: 7%; margin-bottom: 7%">
-                                          <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
-                                              [nzNotFoundContent]="contentTpl">
-                                              <ng-template #contentTpl>
-                                                  <p class="mb-1 empty-filenew">No data for now</p>
-                                              </ng-template>
-                                          </nz-empty>
-                                      </div>
-                                  </td>
-                              </tr>
-                          </tbody>
-
-                          <tbody *ngIf="!isAttendanceLoading">
-                              <tr *ngFor="let item of attendanceRequests">
-                                  <td>
-                                      <span *ngIf="item?.requestType === 'CREATE'">{{item?.inRequestTime | date:'dd
-                                          MMM yyyy'}}</span>
-                                      <span *ngIf="item?.requestType === 'UPDATE'">{{item?.updatedTime | date:'dd MMM
-                                          yyyy'}}</span>
-                                      <!-- <p class="mb-0 font-12"> 1 Day </p> -->
-                                  </td>
-                                  <td>
-                                      <span>Attendance {{item?.requestType}}</span>
-                                      <p class="mb-0 font-12"> {{item?.createdDate | date:'dd MMM yyyy'}} </p>
-                                  </td>
-                                  <td>
-                                      <span class="table-font-weight">{{ item.managerName }} </span>
-                                  </td>
-                                  <td>
-                                      <span *ngIf="attendanceType === 'CREATE'"
-                                          class="table-font-weight">{{item?.inRequestTime | date:'HH:mm'}}</span>
-                                      <span *ngIf="attendanceType === 'UPDATE'"
-                                          class="table-font-weight">{{item?.oldTime | date:'HH:mm'}}</span>
-                                  </td>
-                                  <td>
-                                      <span *ngIf="attendanceType === 'CREATE'"
-                                          class="table-font-weight">{{item?.outRequestTime | date:'HH:mm'}}</span>
-                                      <span *ngIf="attendanceType === 'UPDATE'"
-                                          class="table-font-weight">{{item?.updatedTime | date:'HH:mm'}}</span>
-                                  </td>
-                                  <td *ngIf="attendanceType === 'UPDATE'">
-                                      <span class="table-font-weight">{{item?.requestedFor}}</span>
-                                  </td>
-                                  <td>
-                                      <span class="table-font-weight">{{item?.requestReason}}</span>
-                                  </td>
-                                  <td>
-                                      <div class="d-flex align-items-center gap-2">
-                                          <span class="badge rounded-pill badge-soft-warning">{{item?.status}}</span>
-                                          <!-- Delete Button -->
-                                          <button *ngIf="item?.status === 'PENDING'" class="icon-button btn p-0"
-                                              (click)="deleteAttendanceRequest(item.id)">
-                                              <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21"
-                                                  viewBox="0 0 21 21" fill="none">
-                                                  <mask id="mask0_6083_5461" style="mask-type:alpha"
-                                                      maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
-                                                      <rect x="0.910156" y="0.910156" width="20" height="20"
-                                                          fill="#D9D9D9" />
-                                                  </mask>
-                                                  <g mask="url(#mask0_6083_5461)">
-                                                      <path
-                                                          d="M6.74353 18.4102C6.2852 18.4102 5.89284 18.247 5.56645 17.9206C5.24006 17.5942 5.07686 17.2018 5.07686 16.7435V5.91016H4.24353V4.24349H8.4102V3.41016H13.4102V4.24349H17.5769V5.91016H16.7435V16.7435C16.7435 17.2018 16.5803 17.5942 16.2539 17.9206C15.9276 18.247 15.5352 18.4102 15.0769 18.4102H6.74353ZM15.0769 5.91016H6.74353V16.7435H15.0769V5.91016ZM8.4102 15.0768H10.0769V7.57682H8.4102V15.0768ZM11.7435 15.0768H13.4102V7.57682H11.7435V15.0768Z"
-                                                          fill="#FF0404" />
-                                                  </g>
-                                              </svg>
-                                          </button>
-                                      </div>
-                                  </td>
-
-                              </tr>
-                              <ngb-pagination *ngIf="pageAttendanceSize<totalAttendanceElements"
-                                  [collectionSize]="totalAttendanceElements" [(page)]="currentAttendancePage"
-                                  [pageSize]="pageAttendanceSize" (pageChange)="onAttendancePageChange($event)">
-
-                              </ngb-pagination>
-
-                          </tbody>
-                      </table>
-                  </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
 
+                    <div class="table-responsive bg-white mt-3">
 
-              </div>
-          </div>
+                        <table class="table empOnnoardtable">
+                            <thead class="thead-light">
+                                <tr>
+
+                                    <th class="text-left font-13" style="width: 10%">Date</th>
+                                    <th class="text-left font-13" style="width: 10%">Type</th>
+                                    <th class="text-left font-13" style="width: 10%">Requested To</th>
+                                    <!-- <th class="text-left font-13" style="width: 10%">Approved by</th> -->
+                                    <th *ngIf="attendanceType === 'CREATE'" class="text-left font-13"
+                                        style="width: 10%">In Time</th>
+                                    <th *ngIf="attendanceType === 'CREATE'" class="text-left font-13"
+                                        style="width: 10%">Out Time</th>
+                                    <th *ngIf="attendanceType === 'UPDATE'" class="text-left font-13"
+                                        style="width: 10%">Old Time</th>
+                                    <th *ngIf="attendanceType === 'UPDATE'" class="text-left font-13"
+                                        style="width: 10%">Updated Time</th>
+                                    <th *ngIf="attendanceType === 'UPDATE'" class="text-left font-13"
+                                        style="width: 10%">Requested For</th>
+                                    <th class="text-left font-13" style="width: 10%">Reason</th>
+                                    <th class="text-left font-13" style="width: 10%">Status</th>
+                                </tr>
+                            </thead>
+
+                            <tbody *ngIf="isAttendanceLoading">
+                                <tr *ngFor="let item of [].constructor(7)">
+                                    <td>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </td>
+                                    <td>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </td>
+                                    <td>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </td>
+                                    <td>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </td>
+                                    <td>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </td>
+                                    <td>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </td>
+                                    <td>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </td>
+                                    <td *ngIf="attendanceType === 'CREATE'">
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                            <tbody *ngIf="attendanceRequests.length === 0 && !isAttendanceLoading">
+                                <tr>
+                                    <td colspan="9">
+                                        <div class="empty-filenew" style="margin-top: 7%; margin-bottom: 7%">
+                                            <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                                [nzNotFoundContent]="contentTpl">
+                                                <ng-template #contentTpl>
+                                                    <p class="mb-1 empty-filenew">No data for now</p>
+                                                </ng-template>
+                                            </nz-empty>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                            <tbody *ngIf="!isAttendanceLoading">
+                                <tr *ngFor="let item of attendanceRequests">
+                                    <td>
+                                        <span *ngIf="item?.requestType === 'CREATE'">
+                                            {{item?.inRequestTime | date:'dd MMM yyyy'}}</span>
+                                        <span *ngIf="item?.requestType === 'UPDATE'">
+                                            {{item?.updatedTime | date:'dd MMM yyyy'}}</span>
+                                        <!-- <p class="mb-0 font-12"> 1 Day </p> -->
+                                    </td>
+                                    <td>
+                                        <span>Attendance {{item?.requestType}}</span>
+                                        <p class="mb-0 font-12"> {{item?.createdDate | date:'dd MMM yyyy'}} </p>
+                                    </td>
+                                    <td>
+                                        <span class="table-font-weight">{{ item.managerName }} </span>
+                                    </td>
+                                    <td>
+                                        <span *ngIf="attendanceType === 'CREATE'"
+                                            class="table-font-weight">{{item?.inRequestTime | date:'HH:mm'}}</span>
+                                        <span *ngIf="attendanceType === 'UPDATE'"
+                                            class="table-font-weight">{{item?.oldTime | date:'HH:mm'}}</span>
+                                    </td>
+                                    <td>
+                                        <span *ngIf="attendanceType === 'CREATE'"
+                                            class="table-font-weight">{{item?.outRequestTime | date:'HH:mm'}}</span>
+                                        <span *ngIf="attendanceType === 'UPDATE'"
+                                            class="table-font-weight">{{item?.updatedTime | date:'HH:mm'}}</span>
+                                    </td>
+                                    <td *ngIf="attendanceType === 'UPDATE'">
+                                        <span class="table-font-weight">{{item?.requestedFor}}</span>
+                                    </td>
+                                    <td>
+                                        <span class="table-font-weight">{{item?.requestReason}}</span>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <span class="badge rounded-pill badge-soft-warning">{{item?.status}}</span>
+                                            <!-- Delete Button -->
+                                            <button *ngIf="item?.status === 'PENDING'" class="icon-button btn p-0"
+                                                (click)="deleteAttendanceRequest(item.id)">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21"
+                                                    viewBox="0 0 21 21" fill="none">
+                                                    <mask id="mask0_6083_5461" style="mask-type:alpha"
+                                                        maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
+                                                        <rect x="0.910156" y="0.910156" width="20" height="20"
+                                                            fill="#D9D9D9" />
+                                                    </mask>
+                                                    <g mask="url(#mask0_6083_5461)">
+                                                        <path
+                                                            d="M6.74353 18.4102C6.2852 18.4102 5.89284 18.247 5.56645 17.9206C5.24006 17.5942 5.07686 17.2018 5.07686 16.7435V5.91016H4.24353V4.24349H8.4102V3.41016H13.4102V4.24349H17.5769V5.91016H16.7435V16.7435C16.7435 17.2018 16.5803 17.5942 16.2539 17.9206C15.9276 18.247 15.5352 18.4102 15.0769 18.4102H6.74353ZM15.0769 5.91016H6.74353V16.7435H15.0769V5.91016ZM8.4102 15.0768H10.0769V7.57682H8.4102V15.0768ZM11.7435 15.0768H13.4102V7.57682H11.7435V15.0768Z"
+                                                            fill="#FF0404" />
+                                                    </g>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </td>
+
+                                </tr>
+                                <ngb-pagination *ngIf="pageAttendanceSize<totalAttendanceElements"
+                                    [collectionSize]="totalAttendanceElements" [(page)]="currentAttendancePage"
+                                    [pageSize]="pageAttendanceSize" (pageChange)="onAttendancePageChange($event)">
+
+                                </ngb-pagination>
+
+                            </tbody>
+                        </table>
+                    </div>
 
 
-      </div>
+
+                </div>
+            </div>
+
+
+        </div>
 
 
 
@@ -1871,7 +1905,7 @@
 
 
 
-<!-- attendance update modal--> 
+<!-- attendance update modal-->
 
 
 <!-- Button trigger modal -->
@@ -1887,7 +1921,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Attendance Update request</h5>
-                <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" (click)="emptySelectRequest()" #closeButton>
+                <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close"
+                    (click)="emptySelectRequest()" #closeButton>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                         <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
                             width="24" height="24">
@@ -1907,7 +1942,7 @@
                         <div class="row register-form-box">
 
                             <!-- TO-DO display only edit conditions -->
-                             <!-- <div class="col-md-12 mb-3">
+                            <!-- <div class="col-md-12 mb-3">
                                     <div class="update-request-date">
                                         <div class="d-flex align-items-center justify-content-between mb-3">
                                             <div class="d-flex align-items-start gap-3">
@@ -1984,13 +2019,17 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="employeeTypeId" class="mb-2">Select Date</label>
-                                            <nz-date-picker formControlName="requestedDate" id="requestedDate" nzFormat="yyyy-MM-dd"
-                                            (ngModelChange)="onDateChange($event); getHolidayForOrganization(requestedDate)" nzPlaceHolder="Choose Date" name="selectDate" [nzDisabledDate]="disabledDate">
+                                            <nz-date-picker formControlName="requestedDate" id="requestedDate"
+                                                nzFormat="yyyy-MM-dd"
+                                                (ngModelChange)="onDateChange($event); getHolidayForOrganization(requestedDate)"
+                                                nzPlaceHolder="Choose Date" name="selectDate"
+                                                [nzDisabledDate]="disabledDate">
                                             </nz-date-picker>
-                                            <small class="text-danger d-block mt-2" *ngIf="checkHoliday">There was holiday on selected date!</small>
-                                            <small class="text-danger d-block mt-2"
-                                                *ngIf="checkAttendance">
-                                                Your attendance is already registered with us for selected date, you can opt for attendance update option inspite of to request new attendance!
+                                            <small class="text-danger d-block mt-2" *ngIf="checkHoliday">There was
+                                                holiday on selected date!</small>
+                                            <small class="text-danger d-block mt-2" *ngIf="checkAttendance">
+                                                Your attendance is already registered with us for selected date, you can
+                                                opt for attendance update option inspite of to request new attendance!
                                             </small>
                                         </div>
                                     </div>
@@ -1998,38 +2037,46 @@
                             </div>
                             <div class="col-md-12 mb-3">
                                 <div class="form-group requesting-half-leave p-2">
-                                    <div class="d-flex align-items-center justify-content-between" style="padding-top: 2px;">
+                                    <div class="d-flex align-items-center justify-content-between"
+                                        style="padding-top: 2px;">
                                         <p class="mb-0">Select What do you want to update</p>
                                     </div>
                                     <hr>
                                     <div class="row mt-3 mb-2">
                                         <div class="col-md-6">
-                                            <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                                                <input class="form-check-input" type="radio" formControlName="attendanceRequestType"
-                                                    [value]="'UPDATE'">
+                                            <label
+                                                class="form-check assets-req d-flex align-items-center justify-content-start">
+                                                <input class="form-check-input" type="radio"
+                                                    formControlName="attendanceRequestType" [value]="'UPDATE'">
                                                 <p class="form-check-label mb-0">Update Timing</p>
                                             </label>
                                         </div>
                                         <div class="col-md-6">
-                                            <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                                                <input class="form-check-input" type="radio" formControlName="attendanceRequestType"
-                                                    [value]="'CREATE'">
+                                            <label
+                                                class="form-check assets-req d-flex align-items-center justify-content-start">
+                                                <input class="form-check-input" type="radio"
+                                                    formControlName="attendanceRequestType" [value]="'CREATE'">
                                                 <p class="form-check-label mb-0">New Request</p>
                                             </label>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-        
+
                             <!-- Update Timing -->
-                            <div *ngIf="attendanceTimeUpdateForm.get('attendanceRequestType')?.value === 'UPDATE'" formGroupName="updateGroup">
-                             <div class="col-md-12 mb-3">
+                            <div *ngIf="attendanceTimeUpdateForm.get('attendanceRequestType')?.value === 'UPDATE'"
+                                formGroupName="updateGroup">
+                                <div class="col-md-12 mb-3">
                                     <div class="form-group">
-                                        <label for="employeeTypeId" class="mb-2">Type<span class="text-danger">*</span></label>
+                                        <label for="employeeTypeId" class="mb-2">Type<span
+                                                class="text-danger">*</span></label>
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <nz-form-control>
-                                                    <nz-select class="form-control" formControlName="requestType" id="requestType" nzPlaceHolder="Select request type"  style="width: 100%" nzSize="large" (ngModelChange)="getAttendanceChecktimeListDate(this.attendanceTimeUpdateForm.get('updateGroup.requestType')?.value)">
+                                                    <nz-select class="form-control" formControlName="requestType"
+                                                        id="requestType" nzPlaceHolder="Select request type"
+                                                        style="width: 100%" nzSize="large"
+                                                        (ngModelChange)="getAttendanceChecktimeListDate(this.attendanceTimeUpdateForm.get('updateGroup.requestType')?.value)">
                                                         <nz-option [nzValue]="'in'" [nzLabel]="'In'"></nz-option>
                                                         <nz-option [nzValue]="'out'" [nzLabel]="'Out'"></nz-option>
                                                         <nz-option [nzValue]="'break'" [nzLabel]="'Break'"></nz-option>
@@ -2038,36 +2085,41 @@
                                                 </nz-form-control>
                                             </div>
 
-                                        <!-- <div class="col-md-6">
+                                            <!-- <div class="col-md-6">
                                             <div class="d-flex align-items-center gap-2 checkin-time">
                                                 <p class="mb-0 font-13"> Check-in Time</p>
                                                 <span class="calendar-separator"></span>
                                                 <span class="font-12">09:40 AM</span>
                                             </div>
                                         </div> -->
-                                        <div class="col-md-6">
-                                            <nz-form-control>
-                                                <nz-select class="form-control" formControlName="attendanceId" id="attendanceId" nzPlaceHolder="Select time to be updated" style="width: 100%" nzSize="large">
-                                                <nz-option *ngFor="let time of attendanceCheckTimeResponse" [nzValue]="time.attendanceId"
-                                                    [nzLabel]="time.checkTime | date: 'shortTime'"></nz-option>
-                                                </nz-select>
-                                            </nz-form-control>   
+                                            <div class="col-md-6">
+                                                <nz-form-control>
+                                                    <nz-select class="form-control" formControlName="attendanceId"
+                                                        id="attendanceId" nzPlaceHolder="Select time to be updated"
+                                                        style="width: 100%" nzSize="large">
+                                                        <nz-option *ngFor="let time of attendanceCheckTimeResponse"
+                                                            [nzValue]="time.attendanceId"
+                                                            [nzLabel]="time.checkTime | date: 'shortTime'"></nz-option>
+                                                    </nz-select>
+                                                </nz-form-control>
                                                 <small class="text-muted d-block mt-2"
-                                                *ngIf="!attendanceTimeUpdateForm.get('updateGroup.requestType')?.value || !attendanceTimeUpdateForm.get('updateGroup.requestedDate')?.value">
-                                                Please select the Date and Type above before choosing a time!
-                                            </small>
+                                                    *ngIf="!attendanceTimeUpdateForm.get('updateGroup.requestType')?.value || !attendanceTimeUpdateForm.get('updateGroup.requestedDate')?.value">
+                                                    Please select the Date and Type above before choosing a time!
+                                                </small>
+                                            </div>
                                         </div>
                                     </div>
-                                    </div>
-                                    </div> 
+                                </div>
 
 
 
-                             <div class="col-md-12 mb-3">
+                                <div class="col-md-12 mb-3">
                                     <div class="form-group updated-timing position-relative">
                                         <label for="employeeTypeId" class="mb-2">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                                <mask id="mask0_5355_3530" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                                viewBox="0 0 20 20" fill="none">
+                                                <mask id="mask0_5355_3530" style="mask-type:alpha"
+                                                    maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
                                                     <rect width="20" height="20" fill="#D9D9D9" />
                                                 </mask>
                                                 <g mask="url(#mask0_5355_3530)">
@@ -2077,48 +2129,50 @@
                                                 </g>
                                             </svg>
                                             Updated Timing</label>
-                                        <nz-time-picker formControlName="updatedTime" id="updatedTime" nzFormat="HH:mm" class="w-100" nzPlaceHolder="Enter the new time" >
+                                        <nz-time-picker formControlName="updatedTime" id="updatedTime" nzFormat="HH:mm"
+                                            class="w-100" nzPlaceHolder="Enter the new time">
                                         </nz-time-picker>
                                         <span class="updated-timing-input-box">In</span>
                                     </div>
-                                </div> 
+                                </div>
                             </div>
                             <!-- Update Timing end -->
                             <!-- New Request -->
-                            <div *ngIf="attendanceTimeUpdateForm.get('attendanceRequestType')?.value === 'CREATE'" formGroupName="createGroup">
-                            <div class="col-md-12 mb-3">
-                                <div class="form-group updated-timing">
-                                    <label for="employeeTypeId" class="mb-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                                            viewBox="0 0 20 20" fill="none">
-                                            <mask id="mask0_5355_3530" style="mask-type:alpha"
-                                                maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
-                                                <rect width="20" height="20" fill="#D9D9D9" />
-                                            </mask>
-                                            <g mask="url(#mask0_5355_3530)">
-                                                <path
-                                                    d="M9.9987 18.3346C7.84592 18.3346 5.97786 17.6194 4.39453 16.1888C2.8112 14.7582 1.91536 12.9735 1.70703 10.8346H3.39453C3.60286 12.5152 4.3355 13.9076 5.59245 15.0117C6.84939 16.1159 8.31814 16.668 9.9987 16.668C11.8598 16.668 13.4362 16.0221 14.7279 14.7305C16.0195 13.4388 16.6654 11.8624 16.6654 10.0013C16.6654 8.14019 16.0195 6.5638 14.7279 5.27214C13.4362 3.98047 11.8598 3.33464 9.9987 3.33464C8.80425 3.33464 7.69661 3.62977 6.67578 4.22005C5.65495 4.81033 4.84592 5.6263 4.2487 6.66797H6.66537V8.33464H1.83203C2.23481 6.39019 3.20009 4.79297 4.72786 3.54297C6.25564 2.29297 8.01259 1.66797 9.9987 1.66797C11.1515 1.66797 12.2348 1.88672 13.2487 2.32422C14.2626 2.76172 15.1445 3.35547 15.8945 4.10547C16.6445 4.85547 17.2383 5.73741 17.6758 6.7513C18.1133 7.76519 18.332 8.84852 18.332 10.0013C18.332 11.1541 18.1133 12.2374 17.6758 13.2513C17.2383 14.2652 16.6445 15.1471 15.8945 15.8971C15.1445 16.6471 14.2626 17.2409 13.2487 17.6784C12.2348 18.1159 11.1515 18.3346 9.9987 18.3346ZM12.332 13.5013L9.16536 10.3346V5.83464H10.832V9.66797L13.4987 12.3346L12.332 13.5013Z"
-                                                    fill="#444444" />
-                                            </g>
-                                        </svg>
-                                        Updated Timing</label>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <nz-time-picker formControlName="inRequestTime" id="inRequestTime"
-                                                nzFormat="HH:mm" class="w-100" nzPlaceHolder="Enter the new time">
-                                            </nz-time-picker>
-                                            <span class="updated-timing-input">In</span>
+                            <div *ngIf="attendanceTimeUpdateForm.get('attendanceRequestType')?.value === 'CREATE'"
+                                formGroupName="createGroup">
+                                <div class="col-md-12 mb-3">
+                                    <div class="form-group updated-timing">
+                                        <label for="employeeTypeId" class="mb-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                                viewBox="0 0 20 20" fill="none">
+                                                <mask id="mask0_5355_3530" style="mask-type:alpha"
+                                                    maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
+                                                    <rect width="20" height="20" fill="#D9D9D9" />
+                                                </mask>
+                                                <g mask="url(#mask0_5355_3530)">
+                                                    <path
+                                                        d="M9.9987 18.3346C7.84592 18.3346 5.97786 17.6194 4.39453 16.1888C2.8112 14.7582 1.91536 12.9735 1.70703 10.8346H3.39453C3.60286 12.5152 4.3355 13.9076 5.59245 15.0117C6.84939 16.1159 8.31814 16.668 9.9987 16.668C11.8598 16.668 13.4362 16.0221 14.7279 14.7305C16.0195 13.4388 16.6654 11.8624 16.6654 10.0013C16.6654 8.14019 16.0195 6.5638 14.7279 5.27214C13.4362 3.98047 11.8598 3.33464 9.9987 3.33464C8.80425 3.33464 7.69661 3.62977 6.67578 4.22005C5.65495 4.81033 4.84592 5.6263 4.2487 6.66797H6.66537V8.33464H1.83203C2.23481 6.39019 3.20009 4.79297 4.72786 3.54297C6.25564 2.29297 8.01259 1.66797 9.9987 1.66797C11.1515 1.66797 12.2348 1.88672 13.2487 2.32422C14.2626 2.76172 15.1445 3.35547 15.8945 4.10547C16.6445 4.85547 17.2383 5.73741 17.6758 6.7513C18.1133 7.76519 18.332 8.84852 18.332 10.0013C18.332 11.1541 18.1133 12.2374 17.6758 13.2513C17.2383 14.2652 16.6445 15.1471 15.8945 15.8971C15.1445 16.6471 14.2626 17.2409 13.2487 17.6784C12.2348 18.1159 11.1515 18.3346 9.9987 18.3346ZM12.332 13.5013L9.16536 10.3346V5.83464H10.832V9.66797L13.4987 12.3346L12.332 13.5013Z"
+                                                        fill="#444444" />
+                                                </g>
+                                            </svg>
+                                            Updated Timing</label>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <nz-time-picker formControlName="inRequestTime" id="inRequestTime"
+                                                    nzFormat="HH:mm" class="w-100" nzPlaceHolder="Enter the new time">
+                                                </nz-time-picker>
+                                                <span class="updated-timing-input">In</span>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <nz-time-picker formControlName="outRequestTime" id="outRequestTime"
+                                                    nzFormat="HH:mm" class="w-100" nzPlaceHolder="Enter the new time">
+                                                </nz-time-picker>
+                                                <span class="updated-timing-input">Out</span>
+                                            </div>
                                         </div>
-                                        <div class="col-md-6">
-                                            <nz-time-picker formControlName="outRequestTime" id="outRequestTime" 
-                                                nzFormat="HH:mm" class="w-100" nzPlaceHolder="Enter the new time">
-                                            </nz-time-picker>
-                                            <span class="updated-timing-input">Out</span>
-                                        </div>
-                                    </div>
 
+                                    </div>
                                 </div>
-                            </div>
                             </div>
                             <!-- New Request end -->
 
@@ -2126,9 +2180,10 @@
                                 <div class="form-group">
                                     <label for="employeeTypeId" class="mb-2">Select manager to request for</label>
                                     <nz-form-control>
-                                        <nz-select formControlName="managerId" id="managerId" class="form-control" style="width: 100%" nzSize="large"
-                                            nzPlaceHolder="Select manager">
-                                            <nz-option *ngFor="let manager of managers" [nzValue]="manager.id" [nzLabel]="manager.name"></nz-option>
+                                        <nz-select formControlName="managerId" id="managerId" class="form-control"
+                                            style="width: 100%" nzSize="large" nzPlaceHolder="Select manager">
+                                            <nz-option *ngFor="let manager of managers" [nzValue]="manager.id"
+                                                [nzLabel]="manager.name"></nz-option>
                                         </nz-select>
                                     </nz-form-control>
                                 </div>
@@ -2136,8 +2191,11 @@
                             <div class="col-md-12 mb-3">
                                 <div class="form-group">
                                     <label for="templateName" class="mb-2"> Reason</label>
-                                    <textarea formControlName="requestReason" id="requestReason" class="form-control nots-section" placeholder="write the reason" rows="3" [maxLength]="255" #maxWords></textarea>
-                                    <small *ngIf="maxWords.value.length > 254" style="color: red">The maximum number of characters allowed in above field is 255!</small>
+                                    <textarea formControlName="requestReason" id="requestReason"
+                                        class="form-control nots-section" placeholder="write the reason" rows="3"
+                                        [maxLength]="255" #maxWords></textarea>
+                                    <small *ngIf="maxWords.value.length > 254" style="color: red">The maximum number of
+                                        characters allowed in above field is 255!</small>
                                 </div>
                             </div>
 
@@ -2160,21 +2218,310 @@
                 </div>
             -->
                 <div class="d-flex align-items-center gap-2">
-                    <button type="button" class="btn cancel-btn mt-0" data-bs-dismiss="modal" (click)="emptySelectRequest()" #closeAttendanceUpdateModal>Cancel</button>
+                    <button type="button" class="btn cancel-btn mt-0" data-bs-dismiss="modal"
+                        (click)="emptySelectRequest()" #closeAttendanceUpdateModal>Cancel</button>
                     <button type="button" class="btn submitActionBtn" [disabled]="!isAttendanceFormValid()"
-                    (click)="submitForm()"> 
-                    <ng-container *ngIf="!attendanceUpdateRequestLoader">
-                        Submit
-                    </ng-container>
-                    <ng-container *ngIf="attendanceUpdateRequestLoader">
-                        <div class="dot-opacity-loader-update-request">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        </div>
-                    </ng-container>
-          </button>
+                        (click)="submitForm()">
+                        <ng-container *ngIf="!attendanceUpdateRequestLoader">
+                            Submit
+                        </ng-container>
+                        <ng-container *ngIf="attendanceUpdateRequestLoader">
+                            <div class="dot-opacity-loader-update-request">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </ng-container>
+                    </button>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- attendance logs -->
+
+<div class="modal fade" id="viewlog" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel"
+    aria-hidden="true" #viewlog>
+    <div class="modal-dialog modal-dialog-centered mx-auto" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title m-0" id="exampleModalDefaultLabel">
+                    Attendance Log
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <!-- modal-header -->
+            <div class="modal-body">
+                <div class="scroll-box-logs">
+                    <ng-container *ngIf="
+                                isShimmer &&
+                                  attendanceLogResponseList.length === 0 &&
+                                  !dataNotFoundFlagForAttendanceLog &&
+                                  !networkConnectionErrorFlagForAttendanceLog;
+                                else attendanceLogResponseData
+                              ">
+                        <ul class="loges-loding" *ngFor="let item of [].constructor(5)">
+                            <li>
+                                <h6>
+                                    <ngx-shimmer-loading [width]="'90%'" [height]="'15px'"></ngx-shimmer-loading>
+                                </h6>
+                                <h6 class="mt-1">
+                                    <ngx-shimmer-loading [width]="'40%'" [height]="'10px'"></ngx-shimmer-loading>
+                                </h6>
+                                <h6 class="mt-1">
+                                    <ngx-shimmer-loading [width]="'60%'" [height]="'10px'"></ngx-shimmer-loading>
+                                </h6>
+                            </li>
+                        </ul>
+                    </ng-container>
+
+                    <ng-template #attendanceLogResponseData>
+                        <ng-container *ngIf="
+                                  attendanceLogResponseList.length !== 0 &&
+                                    !dataNotFoundFlagForAttendanceLog &&
+                                    !networkConnectionErrorFlagForAttendanceLog;
+                                  else errorInFetchingAttendanceLogData
+                                ">
+                            <ul class="acitivity-timeline-2 list-unstyled mb-0" *ngFor="
+                                    let attendanceLogResponse of attendanceLogResponseList
+                                  ">
+                                <li>
+                                    <!-- in-time-color out-time-color break-color break-back-color -->
+                                    <h6 class="fs-md mt-0" *ngIf="
+                                        attendanceLogResponse.operationPerformedBy !==
+                                        null
+                                      ">
+                                        {{ attendanceLogResponse.operationType
+                                        }}<span class="added-by" style="padding-left: 10px">(Added By -
+                                            {{
+                                            attendanceLogResponse.operationPerformedBy
+                                            }})</span>
+                                    </h6>
+                                    <div class="d-flex align-items-center justify-content-between acitivity-box">
+                                        <h6 class="mb-0 attendance-log" *ngIf="
+                                        attendanceLogResponse.operationPerformedBy ===
+                                        null
+                                      " [ngClass]="{
+                                        'in-time-color':
+                                          attendanceLogResponse.operationType ==
+                                          'in',
+                                        'out-time-color':
+                                          attendanceLogResponse.operationType ==
+                                          'out',
+                                        'break-color':
+                                          attendanceLogResponse.operationType ==
+                                          'break',
+                                        'break-back-color':
+                                          attendanceLogResponse.operationType ==
+                                          'back'
+                                      }">
+                                            <span>
+                                                {{
+                                                attendanceLogResponse.operationType
+                                                }}
+                                                |
+                                                {{
+                                                attendanceLogResponse.operationTime
+                                                | date:'shortTime'
+                                                }}
+                                            </span>
+                                        </h6>
+                                        <div>
+                                            <span class="fonnt-13" style="
+                                          font-weight: 600;
+                                          vertical-align: middle;
+                                        ">
+                                                <i class="bi bi-calendar3" style="margin-right: 5px"></i>
+                                                {{
+                                                attendanceLogResponse.operationTime
+                                                | date:'mediumDate'
+                                                }}
+                                                |
+                                                {{
+                                                attendanceLogResponse.operationTime
+                                                | date:'shortTime'
+                                                }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-center mb-2 mt-2 gap-3">
+                                        <p class="mb-0 font-14">
+                                            <span><b>Notes</b></span><span> : </span>
+                                            {{
+                                            attendanceLogResponse.additionalNotes
+                                            }}
+                                        </p>
+                                    </div>
+
+
+                                    <div class="card d-flex align-items-center flex-row justify-content-between" *ngIf="
+                                        attendanceLogResponse.latString !=
+                                          null &&
+                                        attendanceLogResponse.longString != null
+                                      ">
+                                        <div
+                                            class="card-content justify-content-start d-flex align-items-center flex-row gap-2 w-100">
+                                            <!-- {{attendanceLogResponse.imageUrlString}} -->
+                                            <div class="image-section"
+                                                *ngIf="attendanceLogResponse.imageUrlString != null">
+                                                <!-- <div *ngIf="">
+                                                    <ngx-shimmer-loading [width]="'100%'"
+                                                        [height]="'70px'"></ngx-shimmer-loading>
+                                                </div> -->
+                                                <img [src]="attendanceLogResponse.imageUrlString" alt="User Image"
+                                                    class="user-image" />
+                                            </div>
+                                            <div class="info-section w-100">
+                                                <div>
+                                                    <p class="mb-0 mt-0 location-text">
+                                                        <span><b>Location:</b></span>
+                                                        <span class="location-address"
+                                                            *ngIf="Constant.EMPTY_STRINGS.includes( attendanceLogResponse.currentAddress)">{{
+                                                            attendanceLogResponse.currentAddress
+
+                                                            }}</span>
+                                                        <span class="location-address"
+                                                            *ngIf="Constant.EMPTY_STRINGS.includes( attendanceLogResponse.currentAddress)">{{
+
+                                                            getAddressFromCoords(
+                                                            attendanceLogResponse.latString,attendanceLogResponse.longString)
+                                                            }}</span>
+                                                    </p>
+                                                </div>
+                                                <div class="d-flex align-items-center justify-content-end gap-2 mt-3">
+                                                    <button *ngIf="
+                                                attendanceLogResponse.imageUrlString !=
+                                                null
+                                              " (click)="
+                                                openSelfieModal(
+                                                  attendanceLogResponse.imageUrlString
+                                                )
+                                              " class="btn submitActionBtn">
+                                                        View Selfie
+                                                    </button>
+                                                    <button *ngIf="
+                                                attendanceLogResponse.latString !=
+                                                  null &&
+                                                attendanceLogResponse.longString !=
+                                                  null
+                                              " (click)="
+                                                openAddressModal(
+                                                  attendanceLogResponse.latString,
+                                                  attendanceLogResponse.longString
+                                                )
+                                              " class="btn submitActionBtn">
+                                                        View Location
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </ng-container>
+                    </ng-template>
+                    <ng-template #errorInFetchingAttendanceLogData>
+
+
+                        <div class="empty-file" style="margin-top: 20%;" *ngIf="dataNotFoundFlagForAttendanceLog">
+                            <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                [nzNotFoundContent]="contentTpl">
+                                <ng-template #contentTpl>
+                                    <p class="mb-1 empty-detail font-16">No data for now</p>
+                                </ng-template>
+                            </nz-empty>
+                        </div>
+
+                        <div class="empty-file" *ngIf="networkConnectionErrorFlagForAttendanceLog">
+                            <div class="errorboxmain">
+                                <div class="errorboxinner text-center">
+                                    <div class="errorboxplaceholder mb-2">
+                                        <img src="assets/images/signal.svg" style="width: 80px" />
+                                    </div>
+                                    <div class="">
+                                        <h4>Something went wrong</h4>
+                                        <p>
+                                            An error occurred while processing your
+                                            request. Please refresh the page and try
+                                            again.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </div>
+            </div>
+
+            <!-- modal-footer -->
+        </div>
+        <!-- modal-content -->
+    </div>
+    <!-- modal-dialog -->
+</div>
+
+
+
+<button type="button" style="display: none" data-bs-toggle="modal" data-bs-target="#attendancewithlocationss"
+    #attendancewithlocationssButton id="attendancewithlocationssButton"></button>
+<div class="modal fade" id="attendancewithlocationss" tabindex="-1" role="dialog"
+    aria-labelledby="attendancewithlocation" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered " role="document">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title m-0" id="exampleModalDefaultLabel">
+                    Staff Attendance Location
+                </h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                    data-bs-toggle="modal" data-bs-target="#viewlog"></button>
+            </div>
+            <!--end modal-header-->
+            <div class="modal-body">
+                <div class="mb-10">
+                    <section>
+                        <div class="el-card-item">
+                            <div class="el-card-avatar el-overlay-1">
+                                <div class="map">
+                                    <agm-map style="height: 350px" [latitude]="lat" [longitude]="lng" [zoom]="zoom"
+                                        [maxZoom]="20" [zoomControl]="true" [disableDefaultUI]="true"
+                                        [keyboardShortcuts]="false">
+                                        <agm-marker *ngIf="lat && lng" [latitude]="lat" [longitude]="lng"
+                                            draggable="true" [agmFitBounds]="true"></agm-marker>
+                                    </agm-map>
+                                    <!--  #placesRef="ngx-places" -->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- </div> -->
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#showDocModal"
+    #openDocModalButton id="openDocModalButton"></button>
+<div class="modal blur-bg-2" id="showDocModal" tabindex="-1" data-bs-keyboard="false"
+    aria-labelledby="showDocModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="showDocModalLabel">Attendance Selfie</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                    data-bs-toggle="modal" data-bs-target="#viewlog"></button>
+            </div>
+            <div class="modal-body text-center" style="overflow: scroll; max-height: 390px">
+                <!-- <iframe *ngIf="previewString" [src]="previewString" style="width: 100%; height: 100vh" frameborder="0"></iframe> -->
+                <img *ngIf="isImage" [src]="previewString" alt="Attendance Selfie"
+                    style="max-width: 100%; height: 350px" />
+            </div>
+            <div class="modal-footer">
+                <!-- <button type="button" class="btn btn-de-secondary" data-bs-dismiss="modal" aria-label="Close">Cancel</button> -->
+                <button class="btn submitActionBtn" *ngIf="imageDownUrl" (click)="downloadFile(imageDownUrl)">
+                    <span><i class="bi bi-download"></i> Download</span>
+                </button>
             </div>
         </div>
     </div>

@@ -3,6 +3,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import moment from 'moment';
 import { Key } from 'src/app/constant/key';
 import { AttendanceReportLogs } from 'src/app/models/AttendanceReportLogs';
+import { User } from 'src/app/models/user';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
@@ -32,6 +33,7 @@ export class ReportsComponent implements OnInit {
     this.getFullReportLogs();
     this.userUuid = await this.rbacService.getUUID();
     this.getOrganizationOnboardingDateByUuid();
+    this.getUsersByFilterMethodCall();
     // this.helperService.saveOrgSecondaryToDoStepBarData(0);
   }
 
@@ -192,11 +194,13 @@ handleOkOfAttendanceSummary(): void {
   }
 
   generateAttendanceSummary(startDate: string, endDate: string): void {
-    this.dataService.generateAttendanceSummary(startDate, endDate).subscribe({
+    this.dataService.generateAttendanceSummary(startDate, endDate, this.selectedUserIds).subscribe({
       next: (response) => {
         // console.log('Report Generation Successful', response);
         this.isLoading = false;
         this.getFullReportLogs();
+        this.selectedUserIds = [];
+        this.isSelectAllUsers = true;
         this.helperService.showToast(
           'Attendance Records Fetched Successfully!',
           Key.TOAST_STATUS_SUCCESS
@@ -376,11 +380,13 @@ handleOkOfAttendanceSummary(): void {
   // }
 
   generateAttendanceReport(startDate: string, endDate: string): void {
-    this.dataService.generateAttendanceReport(startDate, endDate).subscribe({
+    this.dataService.generateAttendanceReport(startDate, endDate, this.selectedUserIds).subscribe({
       next: (response) => {
         // console.log('Report Generation Successful', response);
         this.isLoading2 = false;
         this.getFullReportLogs();
+        this.selectedUserIds = [];
+        this.isSelectAllUsers2 = true;
         this.helperService.showToast(
           'Attendance Records Fetched Successfully!',
           Key.TOAST_STATUS_SUCCESS
@@ -473,7 +479,7 @@ handleOkOfAttendanceSummary(): void {
     if(dateString!==null) {
     this.dataService
       .getAtendanceDailyReport(
-        dateString
+        dateString, this.selectedUserIds
       )
       .subscribe(
         (response) => {
@@ -483,6 +489,9 @@ handleOkOfAttendanceSummary(): void {
           'Daily Attendance Report Logs Fetched Successfully!',
           Key.TOAST_STATUS_SUCCESS
         );
+        this.selectedUserIds = [];
+        this.isSelectAllUsers3 = true;
+
         //  const downloadLink = document.createElement('a');
         //   downloadLink.href = response.message;
         //   downloadLink.download = 'attendance.xlsx';
@@ -519,6 +528,75 @@ handleOkOfAttendanceSummary(): void {
 
     return isBeforeOnboarding || isAfterCurrentDate;
   };
+
+  users : User[] = [];
+  selectedUserIds: number[] = [];
+  userOptions: { label: string; value: number }[] = [];
+  isSelectAllUsers: boolean = true; // Default to Select All Users
+  isSelectAllUsers2: boolean = true; // Default to Select All Users
+  isSelectAllUsers3: boolean = true; // Default to Select All Users
+  getUsersByFilterMethodCall() {
+    this.dataService
+      .getUsersByFilter(0, 1, 'asc', 'id', '', 'name',0)
+      .subscribe((data) => {
+        this.users = data.users;
+        // this.total = data.count;
+
+          // Map users to userOptions for ngZorro multi-select
+          this.userOptions = data.users.map((user: any) => ({
+            label: `${user.name} (${user.email || 'N/A'})`,
+            value: user.id
+          }));
+
+        // console.log(this.users, this.total);
+      });
+  }
+  selectedUser: any;
+
+  selectUser(user: any) {
+    this.selectedUser = user;
+  }
+
+  onToggleSelectAllUsers(value: boolean): void {
+    this.isSelectAllUsers = value;
+
+    // Reset selected users if toggled to "Select All Users"
+    if (value) {
+      this.selectedUserIds = [];
+    }
+  }
+
+  onToggleSelectAllUsers2(value: boolean): void {
+    this.isSelectAllUsers2 = value;
+
+    // Reset selected users if toggled to "Select All Users"
+    if (value) {
+      this.selectedUserIds = [];
+    }
+  }
+
+
+  onToggleSelectAllUsers3(value: boolean): void {
+    this.isSelectAllUsers3 = value;
+
+    // Reset selected users if toggled to "Select All Users"
+    if (value) {
+      this.selectedUserIds = [];
+    }
+  }
+
+  
+
+
+  onUsersChange(selectedIds: number[]) {
+    this.selectedUserIds = selectedIds; // Update selected user IDs
+    console.log(this.selectedUserIds); // Debug: Check selected user IDs
+  }
+
+  // handleOkOfAttendanceSummary() {
+  //   // Use the selectedUserIds array as needed
+  //   console.log('Generating report for users:', this.selectedUserIds);
+  // }
 
 
 

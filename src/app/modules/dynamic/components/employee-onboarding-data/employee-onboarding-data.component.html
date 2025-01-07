@@ -358,7 +358,7 @@
       <div class="row mt-4" *ngIf="!isMainPlaceholder">
 
         <div class="col-md-12">
-          <ul id="pills-tab" role="tablist" class="nav nav-pills d-none">
+          <ul id="pills-tab" role="tablist" class="nav nav-pills ">
             <li class="nav-item">
               <a id="pills-announcement-tab" data-bs-toggle="pill" href="#employeeList" role="tab"
                 (click)="selectStatus('ACTIVE')" aria-controls="pills-announcement" aria-selected="false"
@@ -1256,8 +1256,7 @@
   Add Employee
 </button>
 <!-- (ngSubmit)="setEmployeePersonalDetailsMethodCall(true)" -->
-<form #personalInformationForm="ngForm" 
-  (shown.bs.modal)="resetForm()">
+<form #personalInformationForm="ngForm" (shown.bs.modal)="resetForm()">
   <div class="form-group">
     <div #inviteModal class="modal fade" id="add-employee" tabindex="-1" role="dialog"
       aria-labelledby="exampleModalDefaultLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
@@ -1445,7 +1444,8 @@
             <button type="button" class="btn cancel-btn" data-bs-dismiss="modal" aria-label="Close" #closeInviteModal>
               Cancel
             </button>
-            <button class="btn submitActionBtn" type="submit" (click)="setEmployeePersonalDetailsMethodCall(false)" [disabled]="
+            <button class="btn submitActionBtn" type="submit" (click)="setEmployeePersonalDetailsMethodCall(false)"
+              [disabled]="
                   personalInformationForm.invalid ||
                   isNumberExist ||
                   isEmailExist
@@ -1457,7 +1457,8 @@
               </div>
               <span *ngIf="!toggle1">Add Only</span>
             </button>
-            <button class="btn submitActionBtn" type="submit" (click)="setEmployeePersonalDetailsMethodCall(true)" [disabled]="
+            <button class="btn submitActionBtn" type="submit" (click)="setEmployeePersonalDetailsMethodCall(true)"
+              [disabled]="
                   personalInformationForm.invalid ||
                   isNumberExist ||
                   isEmailExist

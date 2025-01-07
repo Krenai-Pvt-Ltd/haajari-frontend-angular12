@@ -179,11 +179,6 @@ button.close-btn {
     color: red !important;
 }
 
-.custom-date-picker:focus {
-    outline: none !important;
-    box-shadow: none !important;
-}
-
 .empty-file .ant-empty-image img {
     width: 70px !important;
 }
@@ -280,4 +275,18 @@ button.close-btn {
 .request-g .btn i {
     position: relative;
     top: 2px;
+}
+
+.icon-info-activity {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+}
+
+.icon-info-activity i {
+    font-size: 16px;
+}
+
+.icon-info-activity i::before {
+    font-weight: 600 !important;
 }

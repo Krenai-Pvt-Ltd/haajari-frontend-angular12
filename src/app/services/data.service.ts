@@ -2555,28 +2555,79 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
 
   //  Attendance Report
 
+  // generateAttendanceSummary(
+  //   startDate: string,
+  //   endDate: string
+  // ): Observable<any> {
+  //   let params = new HttpParams();
+  //   params = params.append('startDate', startDate);
+  //   params = params.append('endDate', endDate);
+
+  //   return this.httpClient.post(
+  //     `${this.baseUrl}/generate-reports/save-attendance-summary-logs`,
+  //     null,
+  //     { params }
+  //   );
+  // }
   generateAttendanceSummary(
     startDate: string,
-    endDate: string
+    endDate: string,
+    userIds: number[] | null
   ): Observable<any> {
-    let params = new HttpParams();
-    params = params.append('startDate', startDate);
-    params = params.append('endDate', endDate);
-
+    let params = new HttpParams()
+      .append('startDate', startDate)
+      .append('endDate', endDate);
+  
+    // Add userIds to the params if not null
+    if (userIds) {
+      params = params.append('userIds', userIds.length > 0 ? userIds.join(',') : '');
+    } else {
+      // Explicitly send an empty value for userIds
+      params = params.append('userIds', '');
+    }
+  
     return this.httpClient.post(
       `${this.baseUrl}/generate-reports/save-attendance-summary-logs`,
       null,
       { params }
     );
   }
+  
+
+  // generateAttendanceReport(
+  //   startDate: string,
+  //   endDate: string
+  // ): Observable<any> {
+  //   let params = new HttpParams();
+  //   params = params.append('startDate', startDate);
+  //   params = params.append('endDate', endDate);
+
+  //   return this.httpClient.post(
+  //     `${this.baseUrl}/generate-reports/save-attendance-report-logs`,
+  //     null,
+  //     { params }
+  //   );
+  // }
+
+
 
   generateAttendanceReport(
     startDate: string,
-    endDate: string
+    endDate: string,
+    userIds: number[] | null
   ): Observable<any> {
     let params = new HttpParams();
     params = params.append('startDate', startDate);
     params = params.append('endDate', endDate);
+
+    // Add userIds to the params if not null
+    if (userIds) {
+      params = params.append('userIds', userIds.length > 0 ? userIds.join(',') : '');
+    } else {
+      // Explicitly send an empty value for userIds
+      params = params.append('userIds', '');
+    }
+  
 
     return this.httpClient.post(
       `${this.baseUrl}/generate-reports/save-attendance-report-logs`,
@@ -2584,7 +2635,6 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
       { params }
     );
   }
-
   getAllReportLogs(): Observable<any> {
     return this.httpClient.get(
       `${this.baseUrl}/generate-reports/get-attendance-report-logs`
@@ -3309,11 +3359,19 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
   }
 
 
-  getAtendanceDailyReport(startDate:string): Observable<any> {
+  getAtendanceDailyReport(startDate:string,userIds: number[] | null ): Observable<any> {
     const url = `${this.baseUrl}/attendance/excel/download/daily/report`;
 
-    const params = new HttpParams()
-      .set('start_date', startDate);
+    let params = new HttpParams();
+     params = params.append('start_date', startDate);
+
+       // Add userIds to the params if not null
+    if (userIds) {
+      params = params.append('userIds', userIds.length > 0 ? userIds.join(',') : '');
+    } else {
+      // Explicitly send an empty value for userIds
+      params = params.append('userIds', '');
+    }
 
     return this.httpClient.get<any>(url,{ params });
   }
