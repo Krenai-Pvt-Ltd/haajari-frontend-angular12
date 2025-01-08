@@ -574,6 +574,145 @@
           <!-- Create WFH Request End -->
 
 
+           <!-- Create Week Off Request Start -->
+           <div class="add-shift-main-box mt-4"
+           *ngIf="leaveTemplates.length > 0  && !leaveSettingPlaceholder && !isLeaveErrorPlaceholder && !isLoading">
+
+           <div class="add-shift-box d-flex align-items-center justify-content-between p-3 pt-2 pb-2">
+             <div class="">
+               <h6 class="text-truncate mb-0">Week Off</h6>
+             </div>
+             <div class="" *ngIf="!idFlag">
+
+               <a class="add-shift-time-btn" data-bs-toggle="modal" data-bs-target="#leavemodal" (click)="
+                 emptyAddLeaveSettingRule();
+                 preMethodCallToCreateLeaveTemplate();
+                 enableWeekOff(true)
+               ">
+                 <i class="bi bi-plus"></i> Create another template
+               </a>
+             </div>
+           </div>
+
+           <div *ngIf="weekOffTemplates.length == 0" class="col-md-12">
+             <div class="d-flex justify-content-center p-4">
+               <img src="assets/images/no-data-found-img.svg" alt="" height="20%" width="10%">
+             </div>
+             <div class="d-flex justify-content-center" style="margin-top: -1%; margin-left: 4%; margin-bottom: 5px;">
+               <h6>No Template Created Yet!!</h6>
+             </div>
+           </div>
+
+           <div *ngIf="weekOffTemplates.length > 0">
+             <div class="shift-time p-3 m-3" *ngFor="let newLeaveSetting of weekOffTemplates; let i = index">
+               <div class="">
+                 <div class="d-flex align-items-center justify-content-between">
+                   <div class="d-flex align-items-center gap-3">
+                     <div class="">
+                       <span class="automation-rules-icon d-flex align-items-center justify-content-center">
+                         <img src="assets/images/rule-icon.svg" />
+                       </span>
+                     </div>
+                     <div class="">
+                       <h6 class="text-truncate mb-0">
+                         {{ newLeaveSetting?.templateName }}
+                       </h6>
+                       <small class="text-muted">Define the leave rules for the employees</small>
+                     </div>
+                   </div>
+                   <div class="d-flex align-items-center gap-3">
+                     <div class="d-flex align-items-center gap-3">
+
+                       <a href="" data-bs-toggle="modal" data-bs-target="#leavemodal">
+                         <i class="bi bi-pencil pointer" style="color: #6666f3" (click)="
+                         getLeaveSettingInformationById(
+                           newLeaveSetting.id,
+                           true
+                         )
+                       "></i>
+                       </a>
+                       <a class="delete-rule" data-bs-toggle="modal" data-bs-target="#delete-leave" (click)="
+                       getLeaveTemplateOrCategoryId(newLeaveSetting.id, true, newLeaveSetting.leaveAppliedUserCount)
+                     " *ngIf="!deleteLeaveTemplateLoader(newLeaveSetting.id)">
+                         <i class="bi bi-trash pointer text-danger"></i>
+                       </a>
+
+                       <div class="dot-opacity-loader" *ngIf="deleteLeaveTemplateLoader(newLeaveSetting.id)">
+                         <span></span>
+                         <span></span>
+                         <span></span>
+                       </div>
+                     </div>
+
+                     <span class="staff-leave-setting bg-white">Staff - {{ newLeaveSetting.totalEmployees }}</span>
+                     <span class="automation-rules-toogel-btn pointer" data-bs-toggle="collapse"
+                       [attr.data-bs-target]="'#multiCollapseExample1' + i" role="button"
+                       [attr.aria-controls]="'multiCollapseExample1' + i"
+                       [attr.aria-expanded]="i == wfhActiveIndex ? 'true' : 'false'" (click)="toggleCollapseWFH(i)">
+                       <i class="bi bi-chevron-down"></i>
+                     </span>
+                   </div>
+                 </div>
+
+                 <div class="collapse multi-collapse" [id]="'multiCollapseExample1' + i"
+                   [class.show]="wfhActiveIndex === i">
+                   <div class="row mt-3">
+                     <div [ngClass]="{
+                     'col-md-4':
+                       newLeaveSetting.leaveTemplateCategoryRes.length > 2,
+                     'col-md-6':
+                       newLeaveSetting.leaveTemplateCategoryRes.length == 2,
+                     'col-md-12':
+                       newLeaveSetting.leaveTemplateCategoryRes.length == 1
+                   }" *ngFor="
+                     let category of newLeaveSetting.leaveTemplateCategoryRes
+                   ">
+                       <div class="custom-salary">
+                         <div class="custom-salary-hedding p-3 d-flex align-items-center justify-content-between">
+                           <h4 class="mb-0">
+                             {{ category?.leaveName || "N/A" }}
+                           </h4>
+                           <div class="d-flex align-items-center gap-3">
+
+                             <i *ngIf="
+                             newLeaveSetting.leaveTemplateCategoryRes
+                               .length > 1
+                           " data-bs-toggle="modal" data-bs-target="#delete-leave" (click)="
+                             getLeaveTemplateOrCategoryId(category.id, false, newLeaveSetting.leaveAppliedUserCount)
+                           " class="bi bi-trash pointer text-danger"></i>
+                           </div>
+                         </div>
+                         <div class="custom-salary-para p-3">
+                           <div class="d-flex align-items-center justify-content-between mb-3">
+                             <p class="mb-0">Leave Count</p>
+                             <span style="color: #3f988f">{{
+                               category?.leaveCount || "N/A"
+                               }}</span>
+                           </div>
+                           <div class="d-flex align-items-center justify-content-between mb-3">
+                             <p class="mb-0">Leave Rule</p>
+                             <span style="color: #3f988f">{{
+                               category?.unusedLeaveActionName || "N/A"
+                               }}</span>
+                           </div>
+                           <div class="d-flex align-items-center justify-content-between">
+                             <p class="mb-0">Carry Forward Limit</p>
+                             <span style="color: #3f988f">{{
+                               category?.unusedLeaveActionCount || "N/A"
+                               }}</span>
+                           </div>
+                         </div>
+                       </div>
+                     </div>
+                   </div>
+                 </div>
+               </div>
+             </div>
+           </div>
+
+         </div>
+         <!-- Create Week Off Request End -->
+
           <div class="col-md-1"></div>
         </div>
       </div>
@@ -691,7 +830,7 @@
                             </label>
 
                             <nz-select [disabled]="updateToggle" class="placeholder-line w-100" nzSize="large"
-                              id="leaveFicsalYear" nzPlaceHolder="Select Leave Quota Renew Cycle "
+                              id="leaveFicsalYear" nzPlaceHolder="Select Quota Renew Cycle "
                               [(ngModel)]="leaveTemplateRequest.yearTypeName" (ngModelChange)="
                                 selectDateForLeaveTemplateRequest($event)
                               " name="leaveRenewalCycled" #leaveRenewalCycled="ngModel" required class="form-control">
@@ -854,17 +993,24 @@
                                   WFH Category Name
                                 </label>
                                 <nz-form-control nzErrorTip="Please select leave category name">
-                                  <nz-select *ngIf="!wfhTemplateToggle" class="placeholder-line w-100"
+                                  <nz-select *ngIf="!wfhTemplateToggle && !weekOffTemplateToggle" class="placeholder-line w-100"
                                     nzSize="large" nzPlaceHolder="Select Leave Category Name"
                                     formControlName="leaveCategoryId" required class="form-control">
                                     <nz-option *ngFor="let leaveCategory of filteredLeaveCategories"
                                       [nzValue]="leaveCategory.id" [nzLabel]="leaveCategory.name">
                                     </nz-option>
                                   </nz-select>
-                                  <nz-select *ngIf="wfhTemplateToggle" class="placeholder-line w-100"
+                                  <nz-select *ngIf="wfhTemplateToggle && !weekOffTemplateToggle" class="placeholder-line w-100"
                                     nzSize="large" nzPlaceHolder="Select Leave Category Name"
                                     formControlName="leaveCategoryId" required class="form-control">
                                     <nz-option *ngFor="let leaveCategory of onDutyList"
+                                      [nzValue]="leaveCategory.id" [nzLabel]="leaveCategory.name">
+                                    </nz-option>
+                                  </nz-select>
+                                  <nz-select *ngIf="weekOffTemplateToggle && wfhTemplateToggle" class="placeholder-line w-100"
+                                    nzSize="large" nzPlaceHolder="Select Category Name"
+                                    formControlName="leaveCategoryId" required class="form-control">
+                                    <nz-option *ngFor="let leaveCategory of weekOffCategoryList"
                                       [nzValue]="leaveCategory.id" [nzLabel]="leaveCategory.name">
                                     </nz-option>
                                   </nz-select>
