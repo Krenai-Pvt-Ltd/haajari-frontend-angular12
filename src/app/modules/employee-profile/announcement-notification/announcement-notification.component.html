@@ -558,7 +558,7 @@
                 </ng-template>
             </div>
 
-            <div
+            <div *ngIf="totalMailNotification > databaseHelper.itemPerPage"
                 class="d-flex align-items-center justify-content-between pagination-box-profile w-100 p-3 bg-white border-top">
                 <!-- Ngb Pagination Component -->
                 <p class="mb-0">

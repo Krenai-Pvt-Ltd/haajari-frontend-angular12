@@ -16,7 +16,7 @@ import { RoleBasedAccessControlService } from 'src/app/services/role-based-acces
 })
 export class EmployeeExpenseComponent implements OnInit {
 
-  constructor(private dataService: DataService, private helperService: HelperService, 
+  constructor(private dataService: DataService, private helperService: HelperService,
     private rbacService: RoleBasedAccessControlService, private afStorage: AngularFireStorage) { }
 
   ROLE: any;
@@ -30,7 +30,7 @@ export class EmployeeExpenseComponent implements OnInit {
 
     this.getExpenses();
     this.getExpensesCount();
-    
+
     this.getRole();
 
     this.getExpenseType();
@@ -55,11 +55,17 @@ export class EmployeeExpenseComponent implements OnInit {
    this.loading = true;
    this.expenseList = []
    this.ROLE = await this.rbacService.getRole();
-  
-   if(this.expenseSelectedDate == null){
-     this.startDate = '';
-     this.endDate = '';
-   }
+
+   if (this.expenseSelectedDate == null) {
+    // If expenseSelectedDate is null, set startDate and endDate to first and last date of the current month
+    const currentDate = new Date();
+    this.startDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).toISOString().split('T')[0];
+    this.endDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).toISOString().split('T')[0];
+  } else {
+    // If expenseSelectedDate is not null, set startDate and endDate to first and last date of expenseSelectedDate's month
+    this.startDate = new Date(this.expenseSelectedDate.getFullYear(), this.expenseSelectedDate.getMonth(), 1).toISOString().split('T')[0];
+    this.endDate = new Date(this.expenseSelectedDate.getFullYear(), this.expenseSelectedDate.getMonth() + 1, 0).toISOString().split('T')[0];
+  }
    this.expenseList = []
    this.dataService.getAllExpense(this.ROLE, this.databaseHelper.currentPage, this.databaseHelper.itemPerPage, this.startDate, this.endDate, this.statusIds, this.userId).subscribe((res: any) => {
      if (res.status) {
@@ -88,7 +94,7 @@ export class EmployeeExpenseComponent implements OnInit {
   debugger
   this.expenseCount = []
   this.ROLE = await this.rbacService.getRole();
- 
+
   if(this.expenseSelectedDate == null){
     this.startDate = '';
     this.endDate = '';
@@ -115,7 +121,7 @@ export class EmployeeExpenseComponent implements OnInit {
   this.pastExpenseList = []
   this.expenseList = []
   this.ROLE = await this.rbacService.getRole();
- 
+
   if(this.expenseSelectedDate == null){
     this.startDate = '';
     this.endDate = '';
@@ -155,8 +161,10 @@ export class EmployeeExpenseComponent implements OnInit {
    if(this.pastExpenseToggle){
     this.statusIds.push(41);
     this.getExpenses();
+    this.getExpensesCount();
    }else{
     this.getExpenses();
+    this.getExpensesCount();
    }
  }
 
@@ -208,6 +216,7 @@ updateStartAndEndDates(): void {
     this.statusIds.push(41);
   }
   this.getExpenses();
+  this.getExpensesCount();
 }
 
 organizationRegistrationDate: string = '';
@@ -380,7 +389,7 @@ disableMonths = (date: Date): boolean => {
  createExpense(form: NgForm) {
    debugger
    this.createToggle = true;
-  
+
    this.dataService.createExpense(this.expenseTypeReq).subscribe((res: any) => {
      if (res.status) {
        this.expenseTypeReq = new ExpenseType();
@@ -417,7 +426,7 @@ disableMonths = (date: Date): boolean => {
    // setTimeout(() =>{
    //   this.fetchManagerNames()
    // })
-   
+
    // this.getManagerId(expense.managerId)
 
    this.expenseTypeReq.id = expense.id
@@ -433,7 +442,7 @@ disableMonths = (date: Date): boolean => {
    this.expenseTypeReq.managerId = expense.managerId
    this.expenseTypeId = expense.expenseTypeId
    this.managerId = expense.managerId
-   
+
 
 
  }
@@ -552,7 +561,7 @@ disableMonths = (date: Date): boolean => {
   isFileUploaded: boolean = false;
   onFileSelected(event: Event): void {
     debugger;
-    
+
     const element = event.currentTarget as HTMLInputElement;
     const fileList: FileList | null = element.files;
 

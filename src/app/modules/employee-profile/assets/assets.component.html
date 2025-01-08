@@ -36,7 +36,7 @@
 
                       <div>
 
-                        <button class="btn p-0 text-primary font-14 assets-request-btn" data-bs-toggle="modal"
+                        <button *ngIf="currentUserId===userId" class="btn p-0 text-primary font-14 assets-request-btn" data-bs-toggle="modal"
                           data-bs-target="#assetRequest">
                           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21"
                             fill="none">
@@ -173,7 +173,7 @@
               <span class="empty-details"> Yur assets will be shown here once they have <br> been raised</span>
               <br>
 
-              <button class="btn p-0 text-primary mt-2 font-14 assets-request-btn" data-bs-toggle="modal"
+              <button *ngIf="currentUserId===userId" class="btn p-0 text-primary mt-2 font-14 assets-request-btn" data-bs-toggle="modal"
                 data-bs-target="#assetRequest">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
                   <mask id="mask0_5566_935" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21"
@@ -232,7 +232,7 @@
                       </form>
 
                       <div>
-                        <button class="btn p-0 text-primary font-14 assets-request-btn" data-bs-toggle="modal"
+                        <button *ngIf="currentUserId===userId" class="btn p-0 text-primary font-14 assets-request-btn" data-bs-toggle="modal"
                           data-bs-target="#assetRequest">
                           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21"
                             fill="none">
@@ -395,7 +395,7 @@
                 </span>
                 <br>
 
-                <button class="btn p-0 text-primary mt-2 font-14 assets-request-btn" data-bs-toggle="modal"
+                <button *ngIf="currentUserId===userId" class="btn p-0 text-primary mt-2 font-14 assets-request-btn" data-bs-toggle="modal"
                   data-bs-target="#assetRequest">
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
                     <mask id="mask0_5566_935" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21"
