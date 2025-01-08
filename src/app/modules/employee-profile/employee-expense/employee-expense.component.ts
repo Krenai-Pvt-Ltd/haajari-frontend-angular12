@@ -157,6 +157,7 @@ export class EmployeeExpenseComponent implements OnInit {
     this.getExpenses();
    }else{
     this.getExpenses();
+    this.getExpensesCount();
    }
  }
 
