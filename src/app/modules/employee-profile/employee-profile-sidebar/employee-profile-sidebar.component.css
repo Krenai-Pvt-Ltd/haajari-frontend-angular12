@@ -846,7 +846,7 @@ span.members-namess {
     border: 1.021px solid #e9e9e9 !important;
     background: rgba(236, 236, 236, 0.21) !important;
     height: 45px !important;
-    font-size: 12px !important;
+    font-size: 14px !important;
     font-weight: 400 !important;
 }
 
@@ -1213,6 +1213,13 @@ span.members-namess {
     overflow: scroll;
 }
 
+.user-registration {
+    color: #9196a4 !important;
+    text-align: left;
+    font-size: 14px;
+    font-weight: 400;
+}
+
 .leave-history-box-if-pending-null {
     max-height: 380px;
     overflow: scroll;
@@ -1307,6 +1314,19 @@ i::before {
     top: 40px;
     right: 15px;
     font-weight: 500;
+}
+
+.skill-set-add {
+    height: 290px;
+    overflow: scroll;
+}
+
+.skill-set-add::-webkit-scrollbar {
+    display: none;
+}
+
+::ng-deep .ant-picker-input>input {
+    font-size: 14px !important;
 }
 
 /** Approve Modal end */

@@ -263,7 +263,7 @@
             <button class="btn check-out-btn w-90" *ngIf="employeeProfileResponseData?.isProbation"
                 (click)="openConfirmationModal(confirmationModal)">Complete Probation</button>
         </div>
-        <h5 class="mb-3 mt-5" *ngIf="userPositionDTO?.length && userPositionDTO[userPositionDTO.length - 1]?.startDate">
+        <h5 class="mb-3 mt-4" *ngIf="userPositionDTO?.length && userPositionDTO[userPositionDTO.length - 1]?.startDate">
             Journey With Us
         </h5>
         <div *ngIf="userPositionDTO?.length && userPositionDTO[userPositionDTO.length - 1]?.startDate" class="">
@@ -448,8 +448,8 @@
                                 </svg>
                                 Account Settings</a>
                         </div>
-                        <div *ngIf="employeeProfileResponseData?.resignationStatus == null && userRoleFlag" class="manager-list pointer"
-                            data-bs-toggle="modal" data-bs-target="#initiateExit">
+                        <div *ngIf="employeeProfileResponseData?.resignationStatus == null && userRoleFlag"
+                            class="manager-list pointer" data-bs-toggle="modal" data-bs-target="#initiateExit">
                             <a class="dropdown-item d-flex align-items-center justify-content-start gap-2 btn-setting">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="19" viewBox="0 0 18 19"
                                     fill="none">
@@ -499,7 +499,7 @@
 
 
 <div class="modal fade" id="upgradePosition" tabindex="-1" role="dialog" #upgradepositionModal aria-hidden="true"
-    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -537,8 +537,8 @@
                     <div class="col-md-12 mb-3">
                         <label for="effectiveDate" class="pb-2">Effective Date</label>
 
-                        <nz-date-picker formControlName="effectiveDate" class="form-control" [nzFormat]="'yyyy-MM-dd'"
-                            [nzSize]="'large'" nzId="effectiveDate">
+                        <nz-date-picker nzBorderless formControlName="effectiveDate" class="form-control"
+                            [nzFormat]="'yyyy-MM-dd'" [nzSize]="'large'" nzId="effectiveDate">
                         </nz-date-picker>
 
                         <div *ngIf="myForm.get('effectiveDate')?.touched && myForm.get('effectiveDate')?.invalid">
@@ -549,8 +549,8 @@
                     <div class="col-md-12 mb-3" *ngIf="isPromotion">
                         <label for="endDate" class="pb-2">End Date</label>
 
-                        <nz-date-picker formControlName="endDate" class="form-control" [nzFormat]="'yyyy-MM-dd'"
-                            [nzSize]="'large'" nzId="endDate">
+                        <nz-date-picker nzBorderless formControlName="endDate" class="form-control"
+                            [nzFormat]="'yyyy-MM-dd'" [nzSize]="'large'" nzId="endDate">
                         </nz-date-picker>
                     </div>
 
@@ -561,22 +561,13 @@
                             <option [ngValue]="true">Under Probation</option>
                             <option [ngValue]="false">Confirmed</option>
                         </select>
-
-
-                        <!-- <nz-form-control>
-                            <nz-select class="form-control" style="width: 100%" nzSize="large" nzPlaceHolder="Select termination reason"
-                                required>
-                                <nz-option [nzValue]="'Announcement'" [nzLabel]="'Announcement'"></nz-option>
-                                <nz-option [nzValue]="'Post'" [nzLabel]="'Post'"></nz-option>
-                                <nz-option [nzValue]="'Poll'" [nzLabel]="'Poll'"></nz-option>
-                            </nz-select>
-                        </nz-form-control> -->
                     </div>
 
 
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" [disabled]="isSaving" class="btn btn-primary" [disabled]="myForm.invalid">
+                    <button type="submit" [disabled]="myForm.invalid" class="btn submitActionBtn"
+                        [ngClass]="{'btn-border':!myForm.invalid}">
                         <ng-container *ngIf="saveButtonLoader; else loginButton">
                             <div class="dot-opacity-loader">
                                 <span></span>
@@ -592,72 +583,6 @@
     </div>
 </div>
 
-<!-- <ng-template #formContent let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title">Upgrade Position</h4>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
-      <div class="form-group">
-        <label for="position">Position</label>
-        <input
-          maxlength="50"
-          class="seach-dropdown"
-          id="positionDropdown"
-          name="positionDropdown"
-          placeholder="Select Position"
-          nz-input
-          formControlName="position"
-          [nzAutocomplete]="positionAuto"
-          (ngModelChange)="onChange($event)"
-          (keydown)="preventLeadingWhitespace($event)"
-          required
-        />
-        <nz-autocomplete [nzDataSource]="positionFilteredOptions" #positionAuto></nz-autocomplete>
-        <div *ngIf="myForm.get('position')?.touched && myForm.get('position')?.invalid">
-          <small class="text-danger">Position is required</small>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label for="effectiveDate">Effective Date</label>
-        <input type="date" id="effectiveDate" formControlName="effectiveDate" class="form-control" />
-        <div *ngIf="myForm.get('effectiveDate')?.touched && myForm.get('effectiveDate')?.invalid">
-          <small class="text-danger">Effective Date is required</small>
-        </div>
-      </div>
-
-      <div class="form-group" *ngIf="isPromotion">
-        <label for="endDate">End Date</label>
-        <input type="date" id="endDate" formControlName="endDate" class="form-control" />
-
-      </div>
-
-      <div class="form-group" *ngIf="employeeProfileResponseData?.isProbation">
-        <label for="isProbation">Probation Status</label>
-        <select id="isProbation" formControlName="isProbation" class="form-control">
-          <option [ngValue]="true">Under Probation</option>
-          <option [ngValue]="false">Confirmed</option>
-        </select>
-      </div>
-
-      <button type="submit" [disabled]="isSaving" class="btn btn-primary" [disabled]="myForm.invalid">
-      <ng-container *ngIf="saveButtonLoader; else loginButton">
-        <div class="dot-opacity-loader">
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-      </ng-container>
-      <ng-template #loginButton> Submit </ng-template>
-      </button>
-    </form>
-  </div>
-</ng-template> -->
-
 
 <ng-template #confirmationModal let-modal>
     <div class="modal-header">
@@ -671,7 +596,7 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" (click)="modal.close(false)">Cancel</button>
-        <button type="button" class="btn btn-primary" (click)="modal.close(true)">Confirm</button>
+        <button type="button" class="btn submitActionBtn" (click)="modal.close(true)">Confirm</button>
     </div>
 </ng-template>
 
@@ -713,21 +638,7 @@
                                     final action on the exit request</p>
                             </div>
                         </div>
-                        <!-- <div class="col-md-12">
-                             <div class="reject-status p-3">
-                                <div class="d-flex align-content-center gap-3">
-                                    <p class="mb-0">Status</p>
-                                    <span class="status"></span>
-                                    <h6 class="mb-0 text-danger">Rejected</h6>
-                                </div>
-                                <p class="mb-0 mt-2 font-13" style="color:#000; font-weight: 300;">Lorem ipsum dolor sit amet c Lorem ipsum dolor sit amet consectetur adipiscing elit Ut et.onsectetur adipiscing elit Ut
-                                et.</p>
-                             </div>
-                        </div> -->
-
-
                         <div class="p-4">
-
                             <div class="col-md-12 mb-3">
                                 <label for="templateName" class="pb-2">
                                     What is the reason for initiating the exit?
@@ -741,49 +652,6 @@
                                     'Reason is required' : 'Reason must be between 3 and 50 characters'}}
                                 </div>
                             </div>
-
-                            <!-- <div class="col-md-12 mb-3">
-                            <label for="templateName" class="pb-2">
-                                Select the reason for termination?
-                            </label>
-                            <nz-form-control>
-                                <nz-select class="form-control" style="width: 100%" nzSize="large" nzPlaceHolder="Select termination reason" required>
-                                    <nz-option [nzValue]="'Announcement'" [nzLabel]="'Announcement'"></nz-option>
-                                    <nz-option [nzValue]="'Post'" [nzLabel]="'Post'"></nz-option>
-                                    <nz-option [nzValue]="'Poll'" [nzLabel]="'Poll'"></nz-option>
-                                </nz-select>
-                            </nz-form-control>
-                        </div>
-
-                        <div class="col-md-12 mb-3">
-                            <label for="templateName" class="pb-2">
-                                Do you want them to complete their notice period?
-                            </label>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                                        <input type="radio" name="exampleRadios" id="exampleRadios5" value="option5" checked=""
-                                            class="form-check-input">
-                                        <p for="exampleRadios5" class="form-check-label mb-0"> Complete notice period </p>
-                                    </label>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                                        <input type="radio" name="exampleRadios" id="exampleRadios6" value="option6" class="form-check-input">
-                                        <p for="exampleRadios6" class="form-check-label mb-0"> Imagist Termination </p>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    <div class="col-md-12 mb-3">
-                        <div class="form-group">
-                            <label for="employeeTypeId" class="mb-2">Specify the termination notice date</label>
-                            <nz-date-picker nzPlaceHolder="dd/mm/yyyy" name="startDate" required>
-                            </nz-date-picker>
-                        </div>
-                    </div>
-                    -->
-
                             <div class="col-md-12 mb-3">
                                 <label for="templateName" class="pb-2">
                                     Did you discussed this with the management?
@@ -811,22 +679,8 @@
                                             </p>
                                         </label>
                                     </div>
-                                    <!-- <div *ngIf="discussionType == ''" class="text-danger mt-2">
-                                  Discussion type is required
-                                </div> -->
                                 </div>
                             </div>
-
-                            <!-- <div class="col-md-12 mb-3">
-                            <div class="form-group">
-                                <label for="employeeTypeId" class="mb-2">Select your notice period duration?</label>
-                                <nz-date-picker nzPlaceHolder="dd/mm/yyyy" name="startDate" required>
-                                </nz-date-picker>
-                            </div>
-                        </div> -->
-
-
-
                             <div class="col-md-12 mb-3">
                                 <label for="templateName" class="pb-2">
                                     Do You want to recommend a last woking day?
@@ -858,20 +712,6 @@
                             <div *ngIf="recommendDay == 'Other'" class="col-md-12 mb-3">
                                 <div class="form-group">
                                     <label for="employeeTypeId" class="mb-2">Select your notice period duration?</label>
-                                    <!-- <nz-date-picker nzPlaceHolder="dd/mm/yyyy" id="selectDate" name="otherDate" [(ngModel)]="userResignationReq.lastWorkingDay" required> -->
-
-                                    <!-- now <nz-date-picker *ngIf="userResignationReq.isRecommendLastDay == 1" [(ngModel)]="userResignationReq.lastWorkingDay"
-                                    nzPlaceHolder="dd/mm/yyyy" [nzDisabledDate]="disableFutureDates" id="selLastDate"
-                                    (ngModelChange)="selectLastWorkingDay($event)" name="lastDate" #lastDate="ngModel"
-                                    required class="form-control">
-                                </nz-date-picker>
-
-                                <nz-date-picker *ngIf="userResignationReq.isRecommendLastDay == 0" [(ngModel)]="userResignationReq.lastWorkingDay"
-                                    nzPlaceHolder="dd/mm/yyyy" [nzDisabledDate]="disableFutureDates"  id="selLastDate"
-                                    (ngModelChange)="selectLastWorkingDay($event)" name="lastDate" #lastDate="ngModel"
-                                    required class="form-control">
-                                </nz-date-picker> -->
-
                                     <ng-container *ngIf="noticePeriodDuration == 0">
                                         <nz-date-picker *ngIf="userResignationReq.isRecommendLastDay == 1"
                                             [(ngModel)]="userResignationReq.lastWorkingDay" nzPlaceHolder="dd/mm/yyyy"
@@ -921,8 +761,6 @@
                                     <div *ngIf="userResignationReq.url == ''"
                                         class="d-flex align-items-center justify-content-between  requesting-half-leave p-2">
                                         <p class="mb-0 font-13 " style="font-weight: 400;">Select attachment</p>
-
-                                        <!-- <button class="btn p-0 text-primary font-13"><i class="bi bi-plus-lg"></i> Add File</button> -->
                                         <button *ngIf="!isUploading && userResignationReq.url === ''" type="button"
                                             (click)="fileInput.click()" class="btn p-0 text-primary font-13">
                                             <i class="bi bi-plus-lg"></i> Add File
@@ -937,7 +775,6 @@
                                             accept=".png, .jpg, .jpeg" style="display: none;" />
                                     </div>
 
-                                    <!-- *ngIf="!isUploading && userResignationReq.url != ''" -->
                                     <div *ngIf="userResignationReq.url != ''"
                                         class="hr-policy-file d-flex justify-content-between align-items-center p-3 mt-3 mb-3">
                                         <div class="d-flex align-items-center gap-2">
@@ -965,7 +802,6 @@
                                                 </svg>
                                                 <h5 class="mb-0 font-14">{{fileName}}</h5>
                                             </div><span class="separator"></span>
-                                            <!-- <p class="mb-0 font-13"> Uploaded: 11th Jun 2024 </p> -->
                                             <p class="mb-0 font-13"> Uploaded: {{currentDate | date: 'dd MMM yyyy'}}
                                             </p>
                                         </div>
@@ -1114,12 +950,8 @@
                     <div class="mt-4">
                         <div class="d-flex align-items-center">
                             <div class="Approved rejected-css" *ngIf="userResignationInfo.userExitType != null">
-                                <p class="mb-0" style="color: black"></p>
-                                <span style="
-                                        color: #9196a4 !important;
-                                        text-align: left;
-                                        font-size: 14px;
-                                        font-weight: 400;" class="total-holiday">{{
+                                <p class="mb-0 text-black"></p>
+                                <span class="user-registration" class="total-holiday">{{
                                     userResignationInfo.userExitType.name }}</span>
                             </div>
                         </div>
@@ -1129,7 +961,7 @@
                             *ngIf="userResignationInfo.comment != null && userResignationInfo.comment != ''">{{
                             userResignationInfo.comment }}</p>
 
-                        <div class="d-flex align-items-center justify-content-end" style="gap: 10px">
+                        <div class="d-flex align-items-center justify-content-end gap-2">
                             <!-- Approve Button -->
                             <button class="btn approve-btn" type="button" [disabled]="approveToggle"
                                 (click)="approveOrDeny(userResignationInfo.id)">
@@ -1199,7 +1031,7 @@
                             </div>
                         </div>
                         <div class="col-md-12 mt-3">
-                            <div>
+                            <div class="skill-set-add">
                                 <ul class="skill-set">
                                     <!-- Loop through the skills list dynamically -->
                                     <li *ngFor="let skill of skills">
@@ -1213,7 +1045,8 @@
             </div>
             <div class="modal-footer d-flex align-items-center justify-content-end">
                 <button data-bs-dismiss="modal" aria-label="Close" class="btn submitActionBtn" (click)="saveSkills()"
-                    [disabled]="isSkillsLoading || checkSkillsArraysEqual()">
+                    [disabled]="isSkillsLoading || checkSkillsArraysEqual()"
+                    [ngClass]="{'btn-border':!checkSkillsArraysEqual()}">
                     <span *ngIf="!isSkillsLoading">Save</span>
                     <span *ngIf="isSkillsLoading" class="dot-opacity-loader">
                         <span></span>
