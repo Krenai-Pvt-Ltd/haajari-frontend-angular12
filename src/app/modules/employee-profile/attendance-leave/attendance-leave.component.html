@@ -407,7 +407,7 @@
                                                 </defs>
                                             </svg>
 
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"
                                                 viewBox="0 0 50 50" fill="none" *ngIf="item.attendanceSource == 'LENS'">
                                                 <g clip-path="url(#clip0_561_5201)">
                                                     <path
@@ -442,7 +442,7 @@
                                                 </defs>
                                             </svg>
 
-                                            <img src="assets/images/hajiri-icon.svg" style="width: 24px; height: 24px;"
+                                            <img src="assets/images/hajiri-icon.svg" style="width: 22px; height: 22px;"
                                                 *ngIf="item.attendanceSource == 'DASHBOARD'">
 
 
@@ -1096,12 +1096,11 @@
                             </table>
                         </div>
                         <div *ngIf="totalPages>1"
-                            class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top">
+                            class="d-flex align-items-center justify-content-between pagination-box-profile w-100 p-3 bg-white border-top">
                             <p>
                                 Showing 0 - 0 of {{ totalItems }} users
                             </p>
-                            <!-- Ngb Pagination Component -->
-                            <ngb-pagination [collectionSize]="totalItems" [rotate]="true"
+                            <ngb-pagination class="pagition-box" [collectionSize]="totalItems" [rotate]="true"
                                 (pageChange)="pageChanged($event)" [pageSize]="pageSize" [(page)]="currentPage"
                                 [maxSize]="8" [boundaryLinks]="true">
                             </ngb-pagination>

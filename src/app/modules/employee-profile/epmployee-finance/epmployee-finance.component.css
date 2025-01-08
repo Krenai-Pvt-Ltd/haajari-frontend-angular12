@@ -243,9 +243,8 @@ i::before {
 
 .scene {
     display: inline-block;
-    /* width: 200px;
-    height: 260px; */
     perspective: 600px;
+    width: 100%;
 }
 
 .card {
@@ -266,7 +265,7 @@ i::before {
 .card__face {
     position: absolute;
     width: 100%;
-    height: 100%;
+    /* height: 100%; */
     backface-visibility: hidden;
 }
 
