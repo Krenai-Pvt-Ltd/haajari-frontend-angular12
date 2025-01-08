@@ -126,7 +126,6 @@
             </a>
           </div>
         </div>
-        <!-- enterphone-number box -->
         <div class="whatapp-login-form mt-5">
           <div *ngIf="isWhatsappLogin && !showOtpInput">
             <input type="text" required mask="0000000000" class="form-control whatapp-login-input"
@@ -142,12 +141,6 @@
                 Phone Number is required.
               </p>
             </div>
-
-            <!-- [disabled]="
-                phoneNumber == null ||
-                phoneNumber == '' ||
-                phoneNumber.length != 10
-              " -->
             <button class="btn btn-soft-primary w-100 mt-3 btn-fix-height" type="submit"
               *ngIf="isWhatsappLogin && !showOtpInput" (click)="signInByWhatsapp()" [disabled]="!sendOtpLoader">
               <span *ngIf="!sendOtpLoader">Send OTP</span>
@@ -167,8 +160,6 @@
             </div>
           </div>
         </div>
-        <!-- enterphone-number box -->
-        <!-- otp section -->
 
         <div class="mt-5 otp-box" *ngIf="showOtpInput && verifyOtpButtonFlag">
 
@@ -201,23 +192,14 @@
             </div>
           </div>
 
-          <!-- <div class="otp-input-container">
-            <ng-otp-input
-              (onInputChange)="onOtpChange($event)"
-              [config]="{ length: 6 }"
-            ></ng-otp-input>
-          </div> -->
           <div *ngIf="otpErrorMessage">
             <p class="errortxt mt-3 mb-0 text-danger text-start">
               <i class="bi bi-exclamation-circle"></i> {{ otpErrorMessage }}
             </p>
           </div>
 
-          <!-- {{loading}} -->
-          <!-- [disabled]="(otp == null || otp == '' || otp.length != 6 ) && !loading" -->
           <button class="btn btn-soft-primary w-100 mt-3 btn-fix-height" type="submit"
             *ngIf="showOtpInput && verifyOtpButtonFlag" [disabled]="!loading">
-            <!-- (click)="verifyOtp()" -->
             <span *ngIf="!loading">Verify</span>
             <div class="dot-opacity-loader" *ngIf="loading">
               <span></span>
@@ -227,18 +209,15 @@
           </button>
 
           <div class="d-flex align-items-center justify-content-between mt-3">
-            <a hre="#" class="change-phone-number" (click)="changeNumber()"><img src="assets/images/edit-text.svg"
-                style="width: 14px; margin-right: 8px" />{{ whatsappOtp ? "Change Phone Number" : "Change Email Id"
+            <a hre="#" class="change-phone-number" (click)="changeNumber()"><img src="assets/images/edit-text.svg">{{
+              whatsappOtp ? "Change Phone Number" : "Change Email Id"
               }}</a>
             <button class="resent-otp" (click)="resendOtp()" [disabled]="time > 0">
               Resent OTP <span *ngIf="time > 0">({{ time }})</span>
             </button>
           </div>
         </div>
-        <!-- otp section end -->
-
-        <!-- gmail login box -->
-        <form #loginForm="ngForm" id="signin-with-email-2" style="width: 100%" *ngIf="enableBack">
+        <form #loginForm="ngForm" id="signin-with-email-2 w-100" *ngIf="enableBack">
           <div class="gmail-login-box mt-5" *ngIf="isEmailLogin && !showOtpInput">
             <a href="" class="gmail-login-btn w-100">
               <img src="assets/images/google.png" class="google-logo" /> Use
@@ -277,7 +256,6 @@
                   autocomplete="new-password" name="examplePassword" placeholder="Password" />
               </div>
 
-              <!-- Showing the errors -->
               <div *ngIf="errorMessage">
                 <p class="errortxt mt-3 mb-0 text-danger text-left">
                   <i class="bi bi-exclamation-circle"></i> {{ errorMessage }}
@@ -288,7 +266,6 @@
                 <a class="text-danger forgot-password-btn" (click)="forgotPasswordFun()">Forgot password?</a>
               </div>
 
-              <!-- First page login button -->
               <button class="btn btn-primary w-100 mt-2 btn-fix-height" type="submit" *ngIf="
                   !enterPasswordFlag &&
                   !verifyOtpButtonFlag &&
@@ -306,7 +283,6 @@
                 <ng-template #loginButton> LOG IN </ng-template>
               </button>
 
-              <!-- Second page login button -->
               <button type="submit" class="btn btn-primary w-100 mt-1 btn-fix-height" *ngIf="
                   !verifyOtpButtonFlag && enterPasswordFlag && !isWhatsappLogin
                 " (click)="signIn()">
@@ -320,8 +296,6 @@
                 <ng-template #loginButton> LOG IN </ng-template>
               </button>
 
-              <!-- Send OTP button if password is not set -->
-              <!-- send otp Button shown when Email Login -->
               <button type="submit" class="btn btn-primary w-100 mt-1 btn-fix-height"
                 [disabled]="email == null || email == ''" *ngIf="verifyOtpButtonFlag && isEmailLogin && !showOtpInput"
                 (click)="sendUserOtpToMail()">
@@ -344,7 +318,6 @@
             </div>
           </div>
 
-          <!-- create new password input (Forget Password) -->
           <div *ngIf="createPasswordFlag && isEmailLogin">
             <div class="form-group">
               <input type="password" class="form-control" id="exampleInputPassword3" name="exampleInputPassword3"
@@ -397,12 +370,8 @@
               </div>
             </div>
 
-            <button type="button" class="btn btn-primary d-flex align-items-center justify-content-center mt-4" style="
-                padding: 10px 25px;
-                margin: 0 auto;
-                width: 100%;
-                height: 45px;
-              " *ngIf="
+            <button type="button"
+              class="btn btn-primary d-flex align-items-center justify-content-center mt-4 create-password" *ngIf="
                 createPasswordFlag && !resetPasswordFlag && !isWhatsappLogin
               " [disabled]="
                 passwordInput.invalid ||
@@ -421,10 +390,8 @@
           </div>
 
         </form>
-        <!-- gmail login box -->
 
         <div class="sidebar-footer-text">
-          <!-- </div> -->
           <a class="back-to-login-btn text-primary position-relative" *ngIf="enableBack" (click)="backToLogin()"
             [ngClass]="{'disabled-alink': (sendOtpLoader || loading  && (otp != '' && otp.length < 7))}"><i
               class="bi bi-arrow-left"></i> Back to login</a>

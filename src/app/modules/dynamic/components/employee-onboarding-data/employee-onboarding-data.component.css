@@ -1523,3 +1523,26 @@ span.request-count {
 .reject-request-btn svg {
   width: 16px;
 }
+
+::ng-deep .placeholder-line .ant-select-selection-placeholder {
+  line-height: 45px !important;
+  font-size: 0.875rem !important;
+  font-weight: 400 !important;
+}
+
+::ng-deep .placeholder-line .ant-select-selection-item {
+  line-height: 45px !important;
+  font-size: 0.875rem !important;
+  font-weight: 400 !important;
+}
+
+::ng-deep .ant-select-selection-search-input {
+  height: 45px !important;
+  font-size: 0.875rem !important;
+  font-weight: 400 !important;
+}
+
+::ng-deep .ant-select-selection-placeholder {
+  font-size: 0.875rem !important;
+  font-weight: 400 !important;
+}
