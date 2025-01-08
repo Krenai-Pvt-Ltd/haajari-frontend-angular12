@@ -32,14 +32,14 @@
   padding: 15px;
 }
 
-.form-control {
+/* .form-control {
   display: block;
   width: 100%;
   padding: 0.4rem 1rem;
   font-size: 0.875rem;
   font-weight: 400;
   height: 40px !important;
-}
+} */
 
 .search-icon {
   font-size: 12px;
@@ -720,4 +720,36 @@ button.btn.close-btn {
 
 ::ng-deep.ant-empty-image img {
   width: 90px;
+}
+
+
+.cancel-btn {
+  background-color: #fbfbfb;
+  border: 1px solid #e6e7e9;
+  border-radius: 2px;
+  color: #4a4a4a;
+  font-size: 12px;
+  font-weight: 500;
+  width: 100px;
+}
+
+.submitActionBtn {
+  background-color: var(--primary-background-color);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 2px;
+  width: 100px;
+}
+
+::ng-deep .placeholder-line .ant-select-selection-placeholder {
+  line-height: 45px !important;
+  font-size: 0.875rem !important;
+  font-weight: 400 !important;
+}
+
+::ng-deep .placeholder-line .ant-select-selection-item {
+  line-height: 45px !important;
+  font-size: 0.875rem !important;
+  font-weight: 400 !important;
 }
