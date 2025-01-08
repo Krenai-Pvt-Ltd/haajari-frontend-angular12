@@ -1,7 +1,7 @@
 <div class="page-wrapper">
   <div class="page-content-tab">
     <div class="container-fluid">
-      <div class="pt-2 pb-3">
+      <div class="mt-3 pb-3">
         <div class="">
           <ul id="myTab" role="tablist" class="nav nav-tabs">
             <li role="presentation" class="nav-item">
@@ -42,42 +42,7 @@
                         Assign role to user
                       </button>
                       <hr />
-                      <!-- <span class="mb-0">
-                        By signing, you are creating
-                        <a href="#!">
-                          Learn more about it
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="20"
-                            height="21"
-                            viewBox="0 0 20 21"
-                            fill="none"
-                          >
-                            <mask
-                              id="mask0_4244_1588"
-                              style="mask-type: alpha"
-                              maskUnits="userSpaceOnUse"
-                              x="0"
-                              y="0"
-                              width="20"
-                              height="21"
-                            >
-                              <rect
-                                y="0.546875"
-                                width="20"
-                                height="20"
-                                fill="#6666F2"
-                              />
-                            </mask>
-                            <g mask="url(#mask0_4244_1588)">
-                              <path
-                                d="M4.50016 17.2148L3.3335 16.0482L13.0002 6.38151H7.50016V4.71484H15.8335V13.0482H14.1668V7.54818L4.50016 17.2148Z"
-                                fill="#6666F2"
-                              />
-                            </g>
-                          </svg>
-                        </a>
-                      </span> -->
+
                     </div>
                   </div>
                   <div class="col-md-6">
@@ -114,9 +79,9 @@
                       </div>
                     </form>
                   </div>
-                  <div class="col-md-2 text-center">
-                    <button class="btn p-0 text-primary" data-bs-toggle="modal" data-bs-target="#assignrole" type="btn"
-                      (click)="
+                  <div class="col-md-2 text-end">
+                    <button class="btn p-0 text-primary fw-semibold" data-bs-toggle="modal" data-bs-target="#assignrole"
+                      type="btn" (click)="
                         getUsersByFilterMethodCall();
                         emptyAssignRoleToUserInUserAndControlMethodCall()
                       ">
@@ -144,175 +109,30 @@
                     else userAndControlRolesData
                   ">
                   <div class="row mt-3">
-                    <div class="col-md-4">
-                      <div class="roldefine-box">
-                        <div class="d-flex" style="gap: 10px">
-                          <div class="" style="width: 20%">
-                            <ngx-shimmer-loading [width]="'100%'" [height]="'40px'"
-                              style="border-radius: 50%"></ngx-shimmer-loading>
-                          </div>
-                          <div class="" style="width: 60%">
-                            <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"
-                              style="border-radius: 50%"></ngx-shimmer-loading>
-                            <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"
-                              style="border-radius: 50%"></ngx-shimmer-loading>
-                          </div>
-                        </div>
-                        <div class="mt-1">
-                          <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"
-                            style="border-radius: 50%"></ngx-shimmer-loading>
-                          <ngx-shimmer-loading [width]="'90%'" [height]="'10px'"
-                            style="border-radius: 50%"></ngx-shimmer-loading>
-                          <!-- <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"
-                                                    style="border-radius: 50%"></ngx-shimmer-loading> -->
-                        </div>
-                        <div class="mt-3">
-                          <ngx-shimmer-loading [width]="'50%'" [height]="'15px'"
-                            style="border-radius: 50%"></ngx-shimmer-loading>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="roldefine-box">
-                        <div class="d-flex" style="gap: 10px">
-                          <div class="" style="width: 15%">
-                            <ngx-shimmer-loading [width]="'100%'" [height]="'40px'"
-                              style="border-radius: 50%"></ngx-shimmer-loading>
-                          </div>
-                          <div class="" style="width: 60%">
-                            <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"
-                              style="border-radius: 50%"></ngx-shimmer-loading>
-                            <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"
-                              style="border-radius: 50%"></ngx-shimmer-loading>
-                          </div>
-                        </div>
-                        <div class="mt-1">
-                          <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"
-                            style="border-radius: 50%"></ngx-shimmer-loading>
-                          <ngx-shimmer-loading [width]="'90%'" [height]="'10px'"
-                            style="border-radius: 50%"></ngx-shimmer-loading>
-                          <!-- <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"
-                                                    style="border-radius: 50%"></ngx-shimmer-loading> -->
-                        </div>
-                        <div class="mt-3">
-                          <ngx-shimmer-loading [width]="'50%'" [height]="'15px'"
-                            style="border-radius: 50%"></ngx-shimmer-loading>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="roldefine-box">
-                        <div class="d-flex" style="gap: 10px">
-                          <div class="" style="width: 15%">
-                            <ngx-shimmer-loading [width]="'100%'" [height]="'40px'"
-                              style="border-radius: 50%"></ngx-shimmer-loading>
-                          </div>
-                          <div class="" style="width: 60%">
-                            <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"
-                              style="border-radius: 50%"></ngx-shimmer-loading>
-                            <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"
-                              style="border-radius: 50%"></ngx-shimmer-loading>
-                          </div>
-                        </div>
-                        <div class="mt-1">
-                          <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"
-                            style="border-radius: 50%"></ngx-shimmer-loading>
-                          <ngx-shimmer-loading [width]="'90%'" [height]="'10px'"
-                            style="border-radius: 50%"></ngx-shimmer-loading>
-                          <!-- <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"
-                                                    style="border-radius: 50%"></ngx-shimmer-loading> -->
-                        </div>
-                        <div class="mt-3">
-                          <ngx-shimmer-loading [width]="'50%'" [height]="'15px'"
-                            style="border-radius: 50%"></ngx-shimmer-loading>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="roldefine-box">
-                        <div class="d-flex" style="gap: 10px">
-                          <div class="" style="width: 15%">
-                            <ngx-shimmer-loading [width]="'100%'" [height]="'40px'"
-                              style="border-radius: 50%"></ngx-shimmer-loading>
-                          </div>
-                          <div class="" style="width: 60%">
-                            <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"
-                              style="border-radius: 50%"></ngx-shimmer-loading>
-                            <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"
-                              style="border-radius: 50%"></ngx-shimmer-loading>
-                          </div>
-                        </div>
-                        <div class="mt-1">
-                          <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"
-                            style="border-radius: 50%"></ngx-shimmer-loading>
-                          <ngx-shimmer-loading [width]="'90%'" [height]="'10px'"
-                            style="border-radius: 50%"></ngx-shimmer-loading>
-                          <!-- <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"
-                                                    style="border-radius: 50%"></ngx-shimmer-loading> -->
-                        </div>
-                        <div class="mt-3">
-                          <ngx-shimmer-loading [width]="'50%'" [height]="'15px'"
-                            style="border-radius: 50%"></ngx-shimmer-loading>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="roldefine-box">
-                        <div class="d-flex" style="gap: 10px">
-                          <div class="" style="width: 15%">
-                            <ngx-shimmer-loading [width]="'100%'" [height]="'40px'"
-                              style="border-radius: 50%"></ngx-shimmer-loading>
-                          </div>
-                          <div class="" style="width: 60%">
-                            <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"
-                              style="border-radius: 50%"></ngx-shimmer-loading>
-                            <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"
-                              style="border-radius: 50%"></ngx-shimmer-loading>
-                          </div>
-                        </div>
-                        <div class="mt-1">
-                          <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"
-                            style="border-radius: 50%"></ngx-shimmer-loading>
-                          <ngx-shimmer-loading [width]="'90%'" [height]="'10px'"
-                            style="border-radius: 50%"></ngx-shimmer-loading>
-                          <!-- <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"
-                                                    style="border-radius: 50%"></ngx-shimmer-loading> -->
-                        </div>
-                        <div class="mt-3">
-                          <ngx-shimmer-loading [width]="'50%'" [height]="'15px'"
-                            style="border-radius: 50%"></ngx-shimmer-loading>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="roldefine-box">
-                        <div class="d-flex" style="gap: 10px">
-                          <div class="" style="width: 15%">
-                            <ngx-shimmer-loading [width]="'100%'" [height]="'40px'"
-                              style="border-radius: 50%"></ngx-shimmer-loading>
-                          </div>
-                          <div class="" style="width: 60%">
-                            <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"
-                              style="border-radius: 50%"></ngx-shimmer-loading>
-                            <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"
-                              style="border-radius: 50%"></ngx-shimmer-loading>
-                          </div>
-                        </div>
-                        <div class="mt-1">
-                          <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"
-                            style="border-radius: 50%"></ngx-shimmer-loading>
-                          <ngx-shimmer-loading [width]="'90%'" [height]="'10px'"
-                            style="border-radius: 50%"></ngx-shimmer-loading>
-                          <!-- <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"
-                                                    style="border-radius: 50%"></ngx-shimmer-loading> -->
-                        </div>
-                        <div class="mt-3">
-                          <ngx-shimmer-loading [width]="'50%'" [height]="'15px'"
-                            style="border-radius: 50%"></ngx-shimmer-loading>
-                        </div>
-                      </div>
-                    </div>
+                    <table class="table">
+                      <tr *ngFor="let item of [].constructor(6)">
+                        <td>
+                          <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                        </td>
+                        <td>
+                          <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                        </td>
+                        <td>
+                          <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                        </td>
+                        <td>
+                          <ngx-shimmer-loading [width]="'60%'" [height]="'10px'"></ngx-shimmer-loading>
+                        </td>
+                        <td>
+                          <ngx-shimmer-loading [width]="'60%'" [height]="'10px'"></ngx-shimmer-loading>
+                        </td>
+                        <td class="text-center">
+                          <ngx-shimmer-loading [width]="'50%'" [height]="'10px'"></ngx-shimmer-loading>
+                        </td>
+                      </tr>
+                    </table>
                   </div>
+
                 </ng-container>
 
                 <ng-template #userAndControlRolesData>
@@ -394,7 +214,7 @@
                               </td>
                               <td class="text-left">
                                 <span class="teme-maneger mb-0 table-font-weight">
-                                  {{ userAndControl.updatedDate | date }}</span>
+                                  {{ userAndControl.updatedDate | date: 'dd-MM-yyyy' }}</span>
                               </td>
 
                               <td class="text-center">
@@ -1469,12 +1289,12 @@
 
 <div class="modal fade" id="assignrole" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel"
   aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h6 class="modal-title m-0" id="exampleModalDefaultLabel">
+        <h5 class="modal-title m-0" id="exampleModalDefaultLabel">
           Select user and role
-        </h6>
+        </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
           #assignroleModalClose></button>
       </div>
@@ -1511,72 +1331,52 @@
                   </li>
                 </ul>
               </div>
+
+              <!-- <nz-select name="user" id="user-input" nzPlaceHolder="Select a user"
+                class="w-100 form-control placeholder-line">
+                <nz-option *ngFor="let user of users" [nzValue]="user.name" [nzLabel]="user.name">
+                </nz-option>
+              </nz-select> -->
+
+
             </div>
           </div>
 
-          <!-- <div class="col-md-12">
-                        <div class="mb-3">
-                            <label for="exampleInputEmail1" class="pb-2">Role</label>
-                            <div class="dropdown" style="width: 100%;">
-                                <button class="btn btn-secondary dropdown-toggle new-dropdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: white; color: black; border-color: #ced4da; width: 100%;">
-                                    {{ selectedRole ? selectedRole.name : 'Select a role' }} <i class="bi bi-chevron-down"></i>
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 100%;">
-                                    <li *ngFor="let role of roles">
-                                        <a class="dropdown-item" (click)="selectRole(role)">{{ role.name }}</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div> -->
-
           <div class="col-md-12">
-            <div class="mb-3">
-              <label for="exampleInputEmail1" class="pb-2">Role</label>
-              <div class="dropdown" style="width: 100%">
-                <button class="btn btn-secondary dropdown-toggle new-dropdown" type="button" id="dropdownMenuButton1"
-                  data-bs-toggle="dropdown" aria-expanded="false" style="
+            <label for="exampleInputEmail1" class="pb-2">Role</label>
+            <div class="dropdown" style="width: 100%">
+              <button class="btn btn-secondary dropdown-toggle new-dropdown" type="button" id="dropdownMenuButton1"
+                data-bs-toggle="dropdown" aria-expanded="false" style="
                     background-color: white;
                     color: black;
                     border-color: #ced4da;
                     width: 100%;
                     text-align: left;
                   ">
-                  {{ selectedRole ? selectedRole.name : "Select a role" }}
-                  <i class="bi bi-chevron-down" text-align="right"></i>
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 100%">
-                  <li *ngFor="let role of roles">
-                    <a class="dropdown-item" (click)="selectRole(role)" *ngIf="role.name != 'USER'">{{ role.name }}</a>
-                  </li>
-                </ul>
-              </div>
+                {{ selectedRole ? selectedRole.name : "Select a role" }}
+                <i class="bi bi-chevron-down" text-align="right"></i>
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 100%">
+                <li *ngFor="let role of roles">
+                  <a class="dropdown-item" (click)="selectRole(role)" *ngIf="role.name != 'USER'">{{ role.name }}</a>
+                </li>
+              </ul>
             </div>
+
+            <!-- <nz-select name="role" id="role-input" nzPlaceHolder="Select a role"
+              class="w-100 form-control placeholder-line">
+              <nz-option [nzValue]="role" [nzLabel]="role.name" *ngFor="let role of roles"></nz-option>
+            </nz-select> -->
           </div>
 
-          <!-- <div class="col-md-12">
-                        <div class="mb-3">
-                            <label for="exampleInputEmail1" class="pb-2">Role Description</label>
-                            <input [(ngModel)]="descriptionUserRole" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter role description">
-                        </div>
-                    </div> -->
-
-          <!-- <div class="col-md-12">
-                        <div class="mb-3">
-                            <label for="exampleInputEmail1" class="pb-2">Role</label>
-                            <input type="ematextil" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter role description">
-                        </div>
-                    </div> -->
         </div>
-        <!--end row-->
       </div>
-      <!--end modal-body-->
-      <div class="modal-footer d-flex align-items-center justify-content-end">
-        <button type="button" class="btn btn-de-secondary" data-bs-dismiss="modal">
+      <div class="modal-footer d-flex align-items-center justify-content-end gap-2">
+        <button type="button" class="btn cancel-btn mt-0" data-bs-dismiss="modal">
           Cancel
         </button>
 
-        <button type="button" class="btn btn-primary" (click)="assignRoleToUserInUserAndControlMethodCall()">
+        <button type="button" class="btn submitActionBtn" (click)="assignRoleToUserInUserAndControlMethodCall()">
           <ng-container *ngIf="buttonLoaderToAssignRole; else assignButton">
             <div *ngIf="buttonLoaderToAssignRole" class="dot-opacity-loader">
               <span></span>

@@ -232,7 +232,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   selectedStatus: string | null = null;
 
   selectStatus(status: string) {
-    
+
     this.users = [];
     this.isResignationUser = 0
 
@@ -413,7 +413,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
       this.toggle2 = true;
     }
     this.emailAlreadyExists = false;
-    
+
     const userUuid = '';
     this.dataService
       .setEmployeePersonalDetails(
@@ -443,7 +443,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
           this.selectedTeams = [];
           this.selectedShift = 0;
           this.getUsersByFiltersFunction();
-          
+
           if(invite) {
             this.helperService.showToast(
               'Member added and invited successfully.',
@@ -1371,7 +1371,7 @@ console.log(this.data);
       emailNotificationEnabled: onboardUser.emailNotificationEnabled,
       whatsappNotificationEnabled: onboardUser.whatsappNotificationEnabled,
     };
-  
+
     // this.dataService.updateNotificationSettings(payload).subscribe(
     //   (response: any) => {
     //     if (response.status) {
@@ -1421,6 +1421,35 @@ console.log(this.data);
           this.isEmailExist = response;
         });
     }
+  }
+
+  requestedData: any[] = [];
+  isRequestedDataLoading: boolean = false;
+  getRequestedData(uuid: string) {
+    debugger;
+    this.isRequestedDataLoading = true;
+    this.dataService.getDataComparison(uuid).subscribe(
+      (response: any) => {
+        this.isRequestedDataLoading = false;
+
+          this.requestedData = response.map((item: { key: string; }) => ({
+            ...item,
+            name: this.convertKeyToName(item.key)
+          }));
+          console.log(this.requestedData);
+
+      },
+      (error) => {
+        this.isRequestedDataLoading = false;
+      }
+    );
+  }
+
+  convertKeyToName(key: string): string {
+    // Convert the key by splitting on uppercase letters and joining with spaces
+    return key
+      .replace(/([a-z])([A-Z])/g, '$1 $2')  // Adds a space before uppercase letters
+      .replace(/^./, (str) => str.toUpperCase()); // Capitalizes the first letter
   }
 
   isNumberExist: boolean = false;
@@ -2049,5 +2078,5 @@ console.log(this.data);
     this.closeNotificationModalFlag = false;
   }
 
-  
+
 }

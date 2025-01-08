@@ -355,7 +355,7 @@
         </div>
       </div>
 
-      <div class="row mt-4" *ngIf="!isMainPlaceholder">
+      <div class="row mt-3" *ngIf="!isMainPlaceholder">
 
         <div class="col-md-12">
           <ul id="pills-tab" role="tablist" class="nav nav-pills ">
@@ -367,14 +367,14 @@
             <li class="nav-item d-flex align-items-center">
               <a id="pills-notification-tab" data-bs-toggle="pill" href="#editRequest" role="tab"
                 (click)="selectStatus('EDITPROFILE')" aria-controls="pills-notification" aria-selected="false"
-                class="nav-link">Profile Edit Request</a>
+                class="nav-link">Update Requests</a>
               <span class="request-count d-flex align-items-center justify-content-center"
                 *ngIf="editProfileCount > 0">{{editProfileCount}}</span>
             </li>
             <li class="nav-item d-flex align-items-center">
               <a id="pills-notification-tab" data-bs-toggle="pill" href="#resignationRequest" role="tab"
                 aria-controls="pills-notification" aria-selected="false" class="nav-link"
-                (click)="resignationRequest()">Resignation Request</a>
+                (click)="resignationRequest()">Resignation Requests</a>
               <span class="request-count d-flex align-items-center justify-content-center"
                 *ngIf="resignationCount > 0">{{resignationCount}}</span>
             </li>
@@ -383,7 +383,7 @@
           <div id="pills-tabContent" class="tab-content">
             <div class="tab-pane active show" id="employeeList" role="tabpanel" aria-labelledby="employee-tab">
               <div>
-                <div class="row" *ngIf="!isMainPlaceholder">
+                <div class="row mt-3" *ngIf="!isMainPlaceholder">
                   <div class="col-md-3">
                     <div class="employe-onbording" [ngClass]="{ empSelected: selectedStatus == 'APPROVED' }">
                       <div class="orderpcardinfo d-flex justify-content-between" style="cursor: pointer"
@@ -583,6 +583,9 @@
                           <td>
                             <ngx-shimmer-loading [width]="'50%'" [height]="'10px'"></ngx-shimmer-loading>
                           </td>
+                          <td>
+                            <ngx-shimmer-loading [width]="'50%'" [height]="'10px'"></ngx-shimmer-loading>
+                          </td>
                         </tr>
                       </tbody>
                       <tbody *ngIf="users.length == 0 && !isUserShimer">
@@ -743,7 +746,7 @@
               </div>
             </div>
             <div class="tab-pane fade" id="editRequest" role="tabpanel" aria-labelledby="editrequest-tab">
-              <div class="col-md-12">
+              <div class="col-md-12 mt-3">
                 <div class="table-responsive bg-white">
                   <table class="table empOnnoardtable">
                     <!-- <thead class="thead-light table-design"> -->
@@ -755,13 +758,15 @@
                           Employee Name
                         </th>
                         <!-- <th style="width: 5%">Employee ID</th> -->
-                        <th style="width: 13%">Team</th>
+                        <!-- <th style="width: 13%">Team</th> -->
                         <th style="width: 20%">Email</th>
-                        <th style="width: 23%" class="text-center">
+                        <th style="width: 15%" class="text-left">
                           Phone Number
                         </th>
-                        <th style="width: 10%">Accessibility</th>
-                        <th style="width: 10%" class="text-left">Status</th>
+                        <th style="width: 15%">Requested Date</th>
+                        <th style="width: 10%">Updates</th>
+                        <!-- <th style="width: 10%" class="text-left">Status</th> -->
+                        <!--  -->
                         <th style="width: 4%" class="text-center stickyColThend">
                           Action
                         </th>
@@ -775,14 +780,14 @@
                         <td>
                           <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
                         </td>
-                        <td>
+                        <!-- <td>
                           <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                        </td> -->
+                        <td>
+                          <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
                         </td>
                         <td>
-                          <ngx-shimmer-loading [width]="'70%'" [height]="'30px'"></ngx-shimmer-loading>
-                        </td>
-                        <td>
-                          <ngx-shimmer-loading [width]="'70%'" [height]="'30px'"></ngx-shimmer-loading>
+                          <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
                         </td>
                         <td>
                           <ngx-shimmer-loading [width]="'50%'" [height]="'10px'"></ngx-shimmer-loading>
@@ -848,58 +853,22 @@
                             </div>
                           </ng-template>
                         </td>
-                        <!-- <td>
-                              <p class="mb-0 empID">
-                                #111<span><i class="bi bi-copy"></i></span>
-                              </p>
-                            </td> -->
-                        <td>
-                          <span class="mb-0 weekly-pro-email" *ngIf="user.teamNames.length == 0">
-                            {{ "N/A" }}</span>
-                          <span class="teme-maneger mb-0" *ngIf="user.teamNames.length > 2">
-                            {{ user.teamNames[0] }}...<a class="user-avatar" ngbTooltip="{{ user.teamNames }}"
-                              placement="top"><i class="bi bi-plus"></i>{{ user.teamNames.length - 1 }}</a>
-                          </span>
-                          <span class="teme-maneger mb-0" *ngIf="user.teamNames.length < 3">
-                            {{ user.teamNames }}
-                          </span>
-                          <!-- <span class="mb-0 weekly-pro-team">{{ user.teamNames.join(", ") || "N/A" }}</span> -->
-                          <!-- <a class="mb-0 btn btn-link weekly-pro-name"></a> -->
-                        </td>
-                        <!-- <td>Meeting</td> -->
+
                         <td>
                           <a (click)="routeToUserDetails(user.uuid)" class="mb-0 weekly-pro-email">
                             {{ user.email ? user.email : "N/A" }}
                           </a>
                         </td>
-                        <td class="text-center">
+                        <td class="text-left">
                           <a (click)="routeToUserDetails(user.uuid)" class="mb-0 weekly-pro-email">
                             {{ user.phoneNumber ? user.phoneNumber : "N/A" }}
                           </a>
                         </td>
-                        <td class="text-left">
-                          <div class="material-switch">
-                            <input type="checkbox" id="switch{{ user.uuid }}" [(ngModel)]="user.presenceStatus"
-                              (change)="
-                                    changeStatus(user.presenceStatus, user.uuid)
-                                  " />
-                            <label for="switch{{ user.uuid }}" class="label-success"></label>
-                          </div>
-                        </td>
+
+                        <td><span class="weekly-pro-name">20-12-2025</span></td>
 
 
-                        <td *ngIf="user.resignationStatus == null">
-                          <span class="badge rounded-pill"
-                            [ngClass]="{'badge-soft-success': user.onboardingStatus === 'APPROVED', 'badge-soft-danger': user.onboardingStatus === 'REJECTED', 'badge-soft-warning': user.onboardingStatus === 'PENDING' }">
-                            {{ user.onboardingStatus }}</span>
-                        </td>
-                        <td *ngIf="user.resignationStatus != null">
-                          <span class="badge rounded-pill"
-                            [ngClass]="{'badge-soft-info': user.resignationStatus.id == 13, 'badge-soft-warning': user.resignationStatus.id == 42, 'badge-soft-danger': user.resignationStatus.id == 43 }">{{
-                            user.resignationStatus.response }}</span>
-                        </td>
-
-
+                        <td>4</td>
                         <td class="stickyColTdend text-end">
 
                           <div class="dropdown">
@@ -910,6 +879,7 @@
                             <div class="dropdown-menu actionMenuList">
                               <li>
                                 <a class="dropdown-item text-seccess" data-bs-toggle="modal"
+                                  (click)="getRequestedData(user.uuid)"
                                   data-bs-target="#edit-request"><i class="bi bi-eye"></i>
                                   View Request</a>
                               </li>
@@ -917,10 +887,14 @@
                                 <a class="dropdown-item" data-bs-toggle="modal"
                                   data-bs-target="#deleteConfirmationModal"
                                   (click)="openDeleteConfirmationModal(user.id)"><i class="bi bi-trash3"></i> Delete
-                                  Account</a>
+                                  Request</a>
                               </li>
                             </div>
                           </div>
+
+
+
+
                         </td>
                       </tr>
                     </tbody>
@@ -1002,7 +976,7 @@
 
               </div>
               <div class="col-md-12 mt-3">
-                <div class="table-responsive bg-white">
+                <div class="bg-white">
                   <table class="table empOnnoardtable">
                     <!-- <thead class="thead-light table-design"> -->
                     <thead class="thead-light">
@@ -1043,6 +1017,9 @@
                           <ngx-shimmer-loading [width]="'70%'" [height]="'30px'"></ngx-shimmer-loading>
                         </td>
                         <!-- <td><ngx-shimmer-loading [width]="'30%'" [height]="'10px'"></ngx-shimmer-loading></td> -->
+                        <td>
+                          <ngx-shimmer-loading [width]="'50%'" [height]="'10px'"></ngx-shimmer-loading>
+                        </td>
                         <td>
                           <ngx-shimmer-loading [width]="'50%'" [height]="'10px'"></ngx-shimmer-loading>
                         </td>

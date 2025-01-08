@@ -1696,6 +1696,7 @@ export class LeaveSettingComponent implements OnInit {
   booleanList: string[] = ['Yes', 'No'];
 
   leaveCategoryList: LeaveCategory[] = [];
+  onDutyList: LeaveCategory[] = [];
   getLeaveCategoryListMethodCall() {
     this.dataService.getLeaveCategoryList().subscribe((response) => {
       if (!this.helperService.isListOfObjectNullOrUndefined(response)) {
@@ -1703,9 +1704,11 @@ export class LeaveSettingComponent implements OnInit {
 
         if(!this.wfhTemplateToggle){
           // Assuming this.leaveCategoryList is already populated
-          this.leaveCategoryList = this.leaveCategoryList.filter(category => category.name !== 'WFH');
+          this.leaveCategoryList = this.leaveCategoryList.filter(category => category.category === 'LEAVE');
 
         }
+        this.onDutyList = this.leaveCategoryList.filter(category => category.category === 'ON_DUTY');
+
 
       }
 
@@ -2002,6 +2005,7 @@ export class LeaveSettingComponent implements OnInit {
     this.leaveCategories1 = []
   }
 
+  ON_DUTY_CATEGORY_ID = [8,9];
 
   setFieldsToLeaveTemplateRequest() {
     debugger
@@ -2018,7 +2022,6 @@ export class LeaveSettingComponent implements OnInit {
 
       })
     );
-
     this.leaveTemplateRequest.userIds = [...this.selectedStaffIds, ...this.selectedStaffIdsUser];
     this.leaveTemplateRequest.deselectUserIds = this.deSelectedStaffIdsUser;
 
@@ -2041,6 +2044,14 @@ export class LeaveSettingComponent implements OnInit {
     this.leaveTemplateRequest.leaveTemplateCategoryRequestList.splice(
       this.leaveTemplateRequest.leaveTemplateCategoryRequestList.length - 1, 1
     );
+
+    debugger
+    var isOnDutyTemplate = this.leaveTemplateRequest.leaveTemplateCategoryRequestList.some((category: any) =>
+      this.ON_DUTY_CATEGORY_ID.includes(Number(category.id))
+  );
+    if(isOnDutyTemplate){
+     this.leaveTemplateRequest.isWeekOffIncluded=1;
+    }
 
     this.dataService.registerLeaveTemplate(this.leaveTemplateRequest).subscribe((response) => {
       this.helperService.registerOrganizationRegistratonProcessStepData(Key.LEAVE_TEMPLATE_ID, Key.PROCESS_COMPLETED);
@@ -2138,11 +2149,11 @@ export class LeaveSettingComponent implements OnInit {
   // );
 
   this.wfhLeaveTemplates = response.object.filter((template: any) =>
-      template.leaveTemplateCategoryRes[0].leaveCategoryId === 8
+      template.leaveTemplateCategoryRes[0].leaveCategoryId === 8 || template.leaveTemplateCategoryRes[0].leaveCategoryId === 9
   );
 
   this.leaveTemplates = response.object.filter((template: any) =>
-    template.leaveTemplateCategoryRes[0].leaveCategoryId != 8
+    template.leaveTemplateCategoryRes[0].leaveCategoryId != 8 && template.leaveTemplateCategoryRes[0].leaveCategoryId != 9
 );
 
 console.log('leaveTemplates: ',this.leaveTemplates)
