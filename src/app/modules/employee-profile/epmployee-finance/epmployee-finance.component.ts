@@ -25,7 +25,7 @@ export class EpmployeeFinanceComponent implements OnInit {
   userUuid: string = '';
   financeBlur: boolean = true;
   isLoading: boolean = false;
-  firstTimeLoad:boolean=true;
+  firstTimeLoad: boolean = true;
 
   constructor(private _dataService: DataService,
     public _helperService: HelperService,
@@ -41,7 +41,7 @@ export class EpmployeeFinanceComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCurrentSalaryDetail();
-  
+
 
   }
 
@@ -50,11 +50,11 @@ export class EpmployeeFinanceComponent implements OnInit {
   }
 
 
-  callAllInitialMethod(){
+  callAllInitialMethod() {
     this.getFirstAndLastDateOfMonth();
     this.getEmployeeBankDetail();
     this.getEmployeeStatutory();
-    this.getEmployeeSalaryRevision(); 
+    this.getEmployeeSalaryRevision();
   }
 
   callInitialMethod() {
@@ -79,12 +79,8 @@ export class EpmployeeFinanceComponent implements OnInit {
 
   flipView() {
     const cards = document.querySelectorAll('.card');
-    // Add event listener to flip the card on click
     cards.forEach((card) => {
       card.classList.toggle('is-flipped');
-      // card.addEventListener('click', () => {
-
-      // });
     });
   }
 
@@ -336,9 +332,9 @@ export class EpmployeeFinanceComponent implements OnInit {
     this._salaryService.getCurrentSalaryDetail(this.userUuid).subscribe((response) => {
       if (response.status) {
         this.currentSalaryDetail = response.object;
-        if( this.currentSalaryDetail ==null){
+        if (this.currentSalaryDetail == null) {
           this.currentSalaryDetail = new CurrentSalaryDetail();
-        }else{
+        } else {
           this.callAllInitialMethod();
         }
       } else {
