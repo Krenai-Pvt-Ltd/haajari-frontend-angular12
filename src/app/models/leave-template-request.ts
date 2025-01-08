@@ -17,5 +17,7 @@ export class LeaveTemplateRequest {
     employeeTypeId: number = 1;
     fiscalYearId: number = 0;
     isWeekOffIncluded: number = 0;
+    isRenewed:number=0;
+    renewedCount:number=0;
 
 }

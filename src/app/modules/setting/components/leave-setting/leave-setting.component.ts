@@ -2018,8 +2018,9 @@ export class LeaveSettingComponent implements OnInit {
         unusedLeaveActionId: category.unusedLeaveActionId,
         unusedLeaveActionCount: category.unusedLeaveActionCount,
         accrualTypeId: category.accrualTypeId,
-        gender: category.gender
-
+        gender: category.gender,
+        isRenewed: category.isRenewed,
+        renewedCount: category.renewedCount
       })
     );
     this.leaveTemplateRequest.userIds = [...this.selectedStaffIds, ...this.selectedStaffIdsUser];
@@ -2040,7 +2041,7 @@ export class LeaveSettingComponent implements OnInit {
     this.allselected = false;
     this.setFieldsToLeaveTemplateRequest();
 
-    console.log('CategoryList: ', this.leaveTemplateRequest.leaveTemplateCategoryRequestList)
+    // console.log('CategoryList: ', this.leaveTemplateRequest.leaveTemplateCategoryRequestList)
     this.leaveTemplateRequest.leaveTemplateCategoryRequestList.splice(
       this.leaveTemplateRequest.leaveTemplateCategoryRequestList.length - 1, 1
     );
