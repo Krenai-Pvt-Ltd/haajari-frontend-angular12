@@ -2577,7 +2577,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     let params = new HttpParams()
       .append('startDate', startDate)
       .append('endDate', endDate);
-  
+
     // Add userIds to the params if not null
     if (userIds) {
       params = params.append('userIds', userIds.length > 0 ? userIds.join(',') : '');
@@ -2585,14 +2585,14 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
       // Explicitly send an empty value for userIds
       params = params.append('userIds', '');
     }
-  
+
     return this.httpClient.post(
       `${this.baseUrl}/generate-reports/save-attendance-summary-logs`,
       null,
       { params }
     );
   }
-  
+
 
   // generateAttendanceReport(
   //   startDate: string,
@@ -2627,7 +2627,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
       // Explicitly send an empty value for userIds
       params = params.append('userIds', '');
     }
-  
+
 
     return this.httpClient.post(
       `${this.baseUrl}/generate-reports/save-attendance-report-logs`,
@@ -4527,6 +4527,12 @@ getHolidayForOrganization(date: string): Observable<any>{
   getRequestedData(userUuid: string): Observable<any> {
     const params = { userUuid };
     return this.httpClient.get(`${this.baseUrl}/get/onboarding/get-requested-data`, {
+      params,
+    });
+  }
+  getDataComparison(userUuid: string): Observable<any> {
+    const params = { userUuid };
+    return this.httpClient.get(`${this.baseUrl}/get/onboarding/get-requested-data-compare`, {
       params,
     });
   }
