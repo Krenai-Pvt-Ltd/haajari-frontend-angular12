@@ -1,5 +1,5 @@
 import { constant } from 'src/app/constant/constant';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import {  NgForm } from '@angular/forms';
 import { NavigationExtras, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -232,7 +232,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   selectedStatus: string | null = null;
 
   selectStatus(status: string) {
-    
+
     this.users = [];
     this.isResignationUser = 0
 
@@ -413,7 +413,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
       this.toggle2 = true;
     }
     this.emailAlreadyExists = false;
-    
+
     const userUuid = '';
     this.dataService
       .setEmployeePersonalDetails(
@@ -443,7 +443,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
           this.selectedTeams = [];
           this.selectedShift = 0;
           this.getUsersByFiltersFunction();
-          
+
           if(invite) {
             this.helperService.showToast(
               'Member added and invited successfully.',
@@ -1371,7 +1371,7 @@ console.log(this.data);
       emailNotificationEnabled: onboardUser.emailNotificationEnabled,
       whatsappNotificationEnabled: onboardUser.whatsappNotificationEnabled,
     };
-  
+
     // this.dataService.updateNotificationSettings(payload).subscribe(
     //   (response: any) => {
     //     if (response.status) {
@@ -1421,6 +1421,157 @@ console.log(this.data);
           this.isEmailExist = response;
         });
     }
+  }
+
+  requestedData: any[] = [];
+  isRequestedDataLoading: boolean = false;
+  userId: string = '';
+  editedName: string = '';
+  editedDate: Date = new Date();
+  profilePic: string = '';
+  disabledStates: boolean[] = [];
+  approveStates: string[]=[];
+  @ViewChildren('collapsibleDiv') collapsibleDivs!: QueryList<ElementRef>;
+  getRequestedData(uuid: string) {
+    debugger;
+    this.isRequestedDataLoading = true;
+    this.dataService.getDataComparison(uuid).subscribe(
+      (response: any) => {
+        this.isRequestedDataLoading = false;
+        this.userId = uuid;
+          this.requestedData = response.editedDataDtoList.map((item: { key: string; }) => ({
+            ...item,
+            name: this.convertKeyToName(item.key)
+          }));
+          this.editedName= response.name;
+          this.editedDate= response.createdDate;
+          this.profilePic= response.profilePic;
+          this.approveStates=[];
+          console.log(this.requestedData);
+
+      },
+      (error) => {
+        this.isRequestedDataLoading = false;
+      }
+    );
+  }
+
+  convertKeyToName(key: string): string {
+    // Convert the key by splitting on uppercase letters and joining with spaces
+    return key
+      .replace(/([a-z])([A-Z])/g, '$1 $2')  // Adds a space before uppercase letters
+      .replace(/^./, (str) => str.toUpperCase()); // Capitalizes the first letter
+  }
+
+  @ViewChild('closeReqDataModal') closeReqDataModal!: ElementRef;
+  approveLoading: boolean = false;
+  approveRequestedData(): void {
+    this.approveLoading = true;
+    this.dataService.saveRequestedData(this.userId).subscribe({
+      next: (response) => {
+        this.approveLoading = false;
+        console.log('Response:', response);
+        if (response.success) {
+          this.helperService.showToast('Data saved successfully', Key.TOAST_STATUS_SUCCESS);
+          this.closeReqDataModal.nativeElement.click();
+          this.selectStatus('EDITPROFILE');
+
+        } else {
+          this.helperService.showToast('Failed to save data', Key.TOAST_STATUS_ERROR);
+        }
+      },
+      error: (error) => {
+        this.approveLoading = false;
+        console.error('Error:', error);
+        this.helperService.showToast('An error occurred while saving data', Key.TOAST_STATUS_ERROR);
+      },
+    });
+  }
+
+  rejectLoading: boolean = false;
+  rejectData(): void {
+    this.rejectLoading = true;
+    this.dataService.rejectRequestedData(this.userId).subscribe(
+      (response) => {
+        this.rejectLoading = false;
+        if (response.success) {
+          this.helperService.showToast('Request rejected successfully', Key.TOAST_STATUS_SUCCESS);
+          this.closeReqDataModal.nativeElement.click();
+          this.selectStatus('EDITPROFILE');
+        } else {
+          this.helperService.showToast('Failed to reject request', Key.TOAST_STATUS_ERROR);
+        }
+      },
+      (error) => {
+        this.rejectLoading = false;
+        console.error('API Error:', error);
+      }
+    );
+  }
+
+
+  fieldLoading: boolean = false;
+  removeField(key: string, value: any, index: number) {
+    this.fieldLoading = true;
+    this.dataService.removeKeyValuePair(key,this.userId, value).subscribe({
+      next: (response) => {
+        this.fieldLoading = false;
+        console.log('Response:', response);
+        if (response.success) {
+          this.helperService.showToast('Data Rejected successfully', Key.TOAST_STATUS_SUCCESS);
+          this.disabledStates[index] = true;
+          this.approveStates[index] = 'Rejected';
+          const divToClick = document.getElementById('collapsibleDiv-' + index);
+          if (divToClick) {
+            divToClick.click();
+          }
+
+        } else {
+          this.helperService.showToast('Failed to remove the field', Key.TOAST_STATUS_ERROR);
+        }
+      },
+      error: (err) => {
+        this.fieldLoading = false;
+        console.error('Error:', err);
+        alert('An error occurred while removing the field.');
+      }
+    });
+  }
+  approveField(key: string, value: any, index: number) {
+    this.fieldLoading = true;
+    const stringValue = typeof value === 'object' ? JSON.stringify(value) : String(value);
+    this.dataService.approveKeyValuePair(key, this.userId, stringValue).subscribe({
+      next: (response) => {
+        this.fieldLoading = false;
+        console.log('Response:', response);
+        if (response.success) {
+          this.disabledStates[index] = true;
+          this.approveStates[index] = 'Approved';
+          const divToClick = document.getElementById('collapsibleDiv-' + index);
+          if (divToClick) {
+            divToClick.click();
+          }
+          this.helperService.showToast('Field approve successfully', Key.TOAST_STATUS_SUCCESS);
+
+        } else {
+          this.helperService.showToast('Failed to approve the field', Key.TOAST_STATUS_ERROR);
+        }
+      },
+      error: (err) => {
+        this.fieldLoading = false;
+        console.error('Error:', err);
+        alert('An error occurred while removing the field.');
+      }
+    });
+  }
+
+  closeDataRequestModal() {
+    this.requestedData = [];
+    this.userId = '';
+    this.fieldLoading = false;
+    this.isRequestedDataLoading = false;
+    this.disabledStates = [];
+    this.approveStates = [];
   }
 
   isNumberExist: boolean = false;
@@ -2049,5 +2200,5 @@ console.log(this.data);
     this.closeNotificationModalFlag = false;
   }
 
-  
+
 }
