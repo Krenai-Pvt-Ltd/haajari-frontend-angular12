@@ -28,16 +28,16 @@ import { Observable, of } from 'rxjs';
 export class CreateExpenseComponent implements OnInit {
 
   ROLE: any
-  sampleFileUrl: string =''
+  sampleFileUrl: string = ''
   // isLoading: boolean = false;
 
   constructor(private afStorage: AngularFireStorage,
     private dataService: DataService, private helperService: HelperService, private rbacService: RoleBasedAccessControlService) {
 
-    }
+  }
 
   ngOnInit(): void {
-    this.sampleFileUrl ="assets/samples/ExpenseSettlementSample.xlsx"
+    this.sampleFileUrl = "assets/samples/ExpenseSettlementSample.xlsx"
 
     this.getExpenses();
     this.getAllCompanyExpensePolicy();
@@ -66,8 +66,8 @@ export class CreateExpenseComponent implements OnInit {
         this.expenseList = res.object
         this.expenseTotalItems = res.totalItems
         this.loading = false
-        this.statusIds =[]
-      }else{
+        this.statusIds = []
+      } else {
         this.expenseList = []
         this.expenseTotalItems = 0
         this.loading = false
@@ -76,14 +76,14 @@ export class CreateExpenseComponent implements OnInit {
     })
   }
 
-  expensePageChanged(page:any) {
+  expensePageChanged(page: any) {
     debugger
     this.databaseHelper.currentPage = page;
     this.getExpenses();
   }
 
   /** Expense start **/
-  clearData(){
+  clearData() {
     debugger
     this.companyExpensePolicyId = 0
     this.tempExpPolicyId = 0;
@@ -249,9 +249,9 @@ export class CreateExpenseComponent implements OnInit {
     this.rejectDiv = false;
 
     this.userExpense = expense
-    console.log('dataset: ',this.userExpense)
+    console.log('dataset: ', this.userExpense)
 
-    if(this.userExpense.partiallyPaidAmount != null){
+    if (this.userExpense.partiallyPaidAmount != null) {
       this.expensePaymentType = 'partial'
       this.partiallyPayment = true;
     }
@@ -287,11 +287,11 @@ export class CreateExpenseComponent implements OnInit {
   }
 
   existTransactionId: boolean = false;
-  checkTransactionId(id: number, statusId: number, isCashPayment: number){
+  checkTransactionId(id: number, statusId: number, isCashPayment: number) {
     this.dataService.checkExpenseTransactionId(this.transactionId).subscribe((res: any) => {
-      if(res.status && res.object){
+      if (res.status && res.object) {
         this.existTransactionId = true
-      }else{
+      } else {
         this.existTransactionId = false;
         this.approveOrDeny(id, statusId, isCashPayment);
       }
@@ -311,26 +311,26 @@ export class CreateExpenseComponent implements OnInit {
 
     debugger
 
-    if(statusId == 14){
+    if (statusId == 14) {
       this.approveToggle = true;
-    }else if(statusId == 15){
+    } else if (statusId == 15) {
       this.rejectToggle = true;
-    }else if(statusId == 40){
+    } else if (statusId == 40) {
       this.payrollToggle = true;
-    }else{
+    } else {
       this.expenseCancelToggle = true;
     }
 
-    if(statusId == 41 && isCashPayment == 0){
+    if (statusId == 41 && isCashPayment == 0) {
       this.paymentCashNoToggle = true;
-    }else if(statusId == 41 && isCashPayment == 1){
+    } else if (statusId == 41 && isCashPayment == 1) {
       this.paymentCashYesToggle = true;
     }
 
-    if(isCashPayment == 1){
+    if (isCashPayment == 1) {
       this.approveReq.paymentMethod = 'CASH'
-    }else{
-       this.approveReq.paymentMethod = 'ONLINE'
+    } else {
+      this.approveReq.paymentMethod = 'ONLINE'
     }
 
     this.approveReq.id = id;
@@ -340,7 +340,7 @@ export class CreateExpenseComponent implements OnInit {
     this.approveReq.settledDate = this.settledDate
 
     this.dataService.updateCompanyExpense(this.approveReq).subscribe((res: any) => {
-      if(res.status){
+      if (res.status) {
         this.approveReq = new ApproveReq();
         this.getExpenses();
         this.isCheckboxChecked = false;
@@ -373,7 +373,7 @@ export class CreateExpenseComponent implements OnInit {
 
   showTransactionDiv: boolean = false;
   transactionId: string = ''
-  onlineTransaction(){
+  onlineTransaction() {
     this.showTransactionDiv = true;
   }
 
@@ -381,7 +381,7 @@ export class CreateExpenseComponent implements OnInit {
   selectExpenseSettledDay(startDate: Date) {
     debugger
     // if (this.userResignationReq.isRecommendLastDay == 0 && startDate) {
-      this.settledDate = this.helperService.formatDateToYYYYMMDD(startDate);
+    this.settledDate = this.helperService.formatDateToYYYYMMDD(startDate);
     // }
   }
 
@@ -389,13 +389,13 @@ export class CreateExpenseComponent implements OnInit {
 
     debugger
 
-    if(statusId == 14){
+    if (statusId == 14) {
       this.approveToggle = true;
-    }else if(statusId == 15){
+    } else if (statusId == 15) {
       this.rejectToggle = true;
-    }else if(statusId == 40){
+    } else if (statusId == 40) {
       this.payrollToggle = true;
-    }else{
+    } else {
       this.expenseCancelToggle = true;
     }
 
@@ -403,7 +403,7 @@ export class CreateExpenseComponent implements OnInit {
     this.approveReq.statusId = statusId
     this.approveReq.amount = this.partialAmount
     this.dataService.updateCompanyExpense(this.approveReq).subscribe((res: any) => {
-      if(res.status){
+      if (res.status) {
         this.approveReq = new ApproveReq();
         this.getExpenses();
         this.isCheckboxChecked = false;
@@ -427,12 +427,12 @@ export class CreateExpenseComponent implements OnInit {
   /** Company Expense end **/
 
   rejectDiv: boolean = false;
-  showExpenseRejectDiv(){
+  showExpenseRejectDiv() {
     this.rejectDiv = true;
   }
 
   payCashDiv: boolean = false;
-  showPayCashDiv(){
+  showPayCashDiv() {
     this.payCashDiv = true;
   }
 
@@ -453,13 +453,13 @@ export class CreateExpenseComponent implements OnInit {
     this.partiallyPayment = !this.partiallyPayment
   }
 
-  exportUrl: string =''
+  exportUrl: string = ''
   exportLoading: boolean = false;
   @ViewChild('expenseDownload') expenseDownload!: ElementRef
-  export(){
+  export() {
     this.exportLoading = true;
     this.dataService.exportExpense().subscribe((res: any) => {
-      if(res.status){
+      if (res.status) {
         this.exportUrl = res.object
         this.exportLoading = false;
 
@@ -468,7 +468,7 @@ export class CreateExpenseComponent implements OnInit {
             this.expenseDownload.nativeElement.click();
           }, 500);
         }
-      }else{
+      } else {
         this.exportUrl = ''
         this.exportLoading = false;
       }
@@ -487,7 +487,7 @@ export class CreateExpenseComponent implements OnInit {
   switchTab(tabName: string) {
     this.activeTab = tabName;
 
-    if(tabName === 'allExpense'){
+    if (tabName === 'allExpense') {
       this.getExpenses()
     }
 
@@ -501,14 +501,17 @@ export class CreateExpenseComponent implements OnInit {
     this.activeTab = 'expensePolicy';
   }
 
-  @ViewChild('staffActiveTabInShiftTiming')
-  staffActiveTabInShiftTiming!: ElementRef;
+  @ViewChild('staffSelection') staffSelection!: ElementRef;
   staffActiveTabInShiftTimingMethod() {
     this.getUserByFiltersMethodCall();
     this.getTeamNames();
 
-    this.staffActiveTabInShiftTiming.nativeElement.click();
+    this.staffSelection.nativeElement.click();
   }
+
+  // switchExpenseTab(tab:string){
+
+  // }
 
   /** Create Expense Policy */
 
@@ -521,21 +524,21 @@ export class CreateExpenseComponent implements OnInit {
     // this.expenseTypeName = expense.name
     this.expenseTypeId = expense
 
-//     const selectedExpense = this.expenseTypeList.find(expense => expense.id === expense);
-// console.log('selectedExpense', selectedExpense);
-const selectedExpense = this.getDefaultExpenseType(expense);
-console.log('selectedExpense', selectedExpense);
-this.expenseTypeName = selectedExpense.name
+    //     const selectedExpense = this.expenseTypeList.find(expense => expense.id === expense);
+    // console.log('selectedExpense', selectedExpense);
+    const selectedExpense = this.getDefaultExpenseType(expense);
+    console.log('selectedExpense', selectedExpense);
+    this.expenseTypeName = selectedExpense.name
 
 
     // this.isExpenseTypeSelected = true;
     // this.paymentType = '';
     // this.flexibleAmount = null;
     this.isExpenseTypeSelected = true;
-    if(!this.editIndexPolicyToggle){
-       this.isExpenseTypeSelected = true;
-    this.paymentType = '';
-    this.flexibleAmount = null;
+    if (!this.editIndexPolicyToggle) {
+      this.isExpenseTypeSelected = true;
+      this.paymentType = '';
+      this.flexibleAmount = null;
     }
 
     // console.log('typeId expenseTypeName: ',this.expenseTypeName)
@@ -552,14 +555,14 @@ this.expenseTypeName = selectedExpense.name
     // this.paymentType = '';
     // this.flexibleAmount = null;
     this.isExpenseTypeSelected = true;
-    if(!this.editIndexPolicyToggle){
-       this.isExpenseTypeSelected = true;
-    this.paymentType = '';
-    this.flexibleAmount = null;
+    if (!this.editIndexPolicyToggle) {
+      this.isExpenseTypeSelected = true;
+      this.paymentType = '';
+      this.flexibleAmount = null;
     }
 
-    console.log('typeId: ',this.expenseTypeId)
-    console.log('typeId expenseTypeName: ',this.expenseTypeName)
+    console.log('typeId: ', this.expenseTypeId)
+    console.log('typeId expenseTypeName: ', this.expenseTypeName)
 
   }
 
@@ -631,13 +634,52 @@ this.expenseTypeName = selectedExpense.name
     // this.staffs = [];
     this.staffLoading = true;
     // this.dataService.getUsersByFilter(this.itemPerPage,this.pageNumber,'asc', 'id',this.searchText,'',this.selectedTeamId
-    this.dataService.getUsersByFilter(this.databaseHelper.itemPerPage ,this.databaseHelper.currentPage ,'asc', 'id',this.searchText,'',this.selectedTeamId
-      ).subscribe(
+    this.dataService.getUsersByFilter(this.databaseHelper.itemPerPage, this.databaseHelper.currentPage, 'asc', 'id', this.searchText, '', this.selectedTeamId
+    ).subscribe(
+      (response) => {
+        this.staffs = response.users.map((staff: Staff) => ({
+          ...staff,
+          selected: this.selectedStaffsUuids.includes(staff.uuid),
+        }));
+        if (this.selectedTeamId == 0 && this.searchText == '') {
+          this.totalUserCount = response.count;
+        }
+        this.total = response.count;
+        this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+        this.pageNumber = Math.min(this.pageNumber, this.lastPageNumber);
+        this.isAllSelected = this.staffs.every((staff) => staff.selected);
+        this.staffLoading = false
+        // console.log(this.staffs);
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  }
+
+  getUserByFiltersMethodCall() {
+    debugger
+    this.selectedStaffIds = [];
+    this.staffLoading = true;
+
+    this.dataService.getUsersByFilter(this.databaseHelper.itemPerPage, this.databaseHelper.currentPage, 'asc', 'id', this.searchText, '', this.selectedTeamId)
+      .subscribe(
         (response) => {
-          this.staffs = response.users.map((staff: Staff) => ({
-            ...staff,
-            selected: this.selectedStaffsUuids.includes(staff.uuid),
-          }));
+
+          this.staffs = response.users;
+
+          if (this.staffs != undefined) {
+            this.staffs.forEach((staff, index) => {
+              staff.checked = this.selectedStaffIdsUser.includes(staff.id);
+            });
+          } else {
+            this.staffs = []
+          }
+
+          this.total = response.count;
+
+          this.isAllSelected = this.staffs.every((staff) => staff.selected);
+
           if (this.selectedTeamId == 0 && this.searchText == '') {
             this.totalUserCount = response.count;
           }
@@ -646,52 +688,13 @@ this.expenseTypeName = selectedExpense.name
           this.pageNumber = Math.min(this.pageNumber, this.lastPageNumber);
           this.isAllSelected = this.staffs.every((staff) => staff.selected);
           this.staffLoading = false
-          // console.log(this.staffs);
+
+          // console.log('staffs: ', this.staffs)
         },
         (error) => {
           console.error(error);
         }
       );
-  }
-
-  getUserByFiltersMethodCall(){
-    debugger
-      this.selectedStaffIds = [];
-      this.staffLoading = true;
-
-      this.dataService.getUsersByFilter(this.databaseHelper.itemPerPage ,this.databaseHelper.currentPage ,'asc', 'id',this.searchText,'',this.selectedTeamId)
-        .subscribe(
-          (response) => {
-
-            this.staffs = response.users;
-
-            if (this.staffs != undefined) {
-              this.staffs.forEach((staff, index) => {
-                staff.checked = this.selectedStaffIdsUser.includes(staff.id);
-              });
-            } else {
-              this.staffs = []
-            }
-
-            this.total = response.count;
-
-            this.isAllSelected = this.staffs.every((staff) => staff.selected);
-
-            if (this.selectedTeamId == 0 && this.searchText == '') {
-              this.totalUserCount = response.count;
-            }
-            this.total = response.count;
-            this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
-            this.pageNumber = Math.min(this.pageNumber, this.lastPageNumber);
-            this.isAllSelected = this.staffs.every((staff) => staff.selected);
-            this.staffLoading = false
-
-            // console.log('staffs: ', this.staffs)
-          },
-          (error) => {
-            console.error(error);
-          }
-        );
 
   }
 
@@ -860,7 +863,7 @@ this.expenseTypeName = selectedExpense.name
       //   this.deSelectedStaffIdsUser.push(event.id)
       // }
 
-      if(this.updateToggle && this.oldSelectedStaffIdsUser.includes(event.id)){
+      if (this.updateToggle && this.oldSelectedStaffIdsUser.includes(event.id)) {
         this.deSelectedStaffIdsUser.push(event.id)
       }
 
@@ -889,7 +892,7 @@ this.expenseTypeName = selectedExpense.name
         this.allselected = true;
       }
 
-      if(this.updateToggle){
+      if (this.updateToggle) {
         this.tempCompanyExpenseReq.deSelectedUserIds = this.deSelectedStaffIdsUser
       }
 
@@ -907,7 +910,7 @@ this.expenseTypeName = selectedExpense.name
     if (event.checked) {
       this.allselected = false;
 
-      if(this.updateToggle){
+      if (this.updateToggle) {
         this.deSelectedStaffIdsUser.push(event.id)
       }
 
@@ -1080,31 +1083,31 @@ this.expenseTypeName = selectedExpense.name
   tempPolicyName: string = ''
   policyAmount: string = ''
   isErrorShow: boolean = true;
-  addExpensePolicy(form: NgForm){
+  addExpensePolicy(form: NgForm) {
     debugger
 
     this.tempPolicyName = this.policyName;
-      this.expensePolicyReq.paymentType = this.type
-      this.expensePolicyReq.limitAmount = this.flexibleAmount == null ? 0 : this.flexibleAmount
-      this.expensePolicyReq.expenseTypeId = this.expenseTypeId
-      this.expensePolicyReq.expenseTypeName = this.expenseTypeName
-      this.expensePolicyReq.amount = Number(this.policyAmount)
+    this.expensePolicyReq.paymentType = this.type
+    this.expensePolicyReq.limitAmount = this.flexibleAmount == null ? 0 : this.flexibleAmount
+    this.expensePolicyReq.expenseTypeId = this.expenseTypeId
+    this.expensePolicyReq.expenseTypeName = this.expenseTypeName
+    this.expensePolicyReq.amount = Number(this.policyAmount)
 
-      // this.paymentType = item.isFixed
-      // this.thresholdType = item.isPercent
-      // this.isThresholdSelected = item.isThresold
+    // this.paymentType = item.isFixed
+    // this.thresholdType = item.isPercent
+    // this.isThresholdSelected = item.isThresold
 
-      // this.expensePolicyReq.paymentType = this.paymentType
-      this.expensePolicyReq.isPercent = this.thresholdType == null ? '' : this.thresholdType
-      this.expensePolicyReq.isThresold = this.isThresholdSelected
-      this.expensePolicyReq.isFixed = this.paymentType
-      this.expensePolicyReq.isPercentage = (this.thresholdType === 'value' ? 0 : 1 )
-      this.policyAmount = this.policyAmount
-      this.flexibleAmount = this.flexibleAmount
+    // this.expensePolicyReq.paymentType = this.paymentType
+    this.expensePolicyReq.isPercent = this.thresholdType == null ? '' : this.thresholdType
+    this.expensePolicyReq.isThresold = this.isThresholdSelected
+    this.expensePolicyReq.isFixed = this.paymentType
+    this.expensePolicyReq.isPercentage = (this.thresholdType === 'value' ? 0 : 1)
+    this.policyAmount = this.policyAmount
+    this.flexibleAmount = this.flexibleAmount
 
-    if(!this.editIndexPolicyToggle){
+    if (!this.editIndexPolicyToggle) {
       this.expensePolicyReqList.push(this.expensePolicyReq)
-    }else{
+    } else {
       this.expensePolicyReqList[this.editIndex] = this.expensePolicyReq;
     }
 
@@ -1123,7 +1126,7 @@ this.expenseTypeName = selectedExpense.name
     this.resetThresholdOptions()
   }
 
-  clearForm(form: NgForm){
+  clearForm(form: NgForm) {
     // this.companyExpensePolicyId = 0;
     // this.companyExpenseReq.id = 0
     // this.companyExpenseReq = new CompanyExpense();
@@ -1136,7 +1139,7 @@ this.expenseTypeName = selectedExpense.name
   companyExpenseReq: CompanyExpense = new CompanyExpense();
   registerToggle: boolean = false
   @ViewChild('closeExpensePolicyModal') closeExpensePolicyModal!: ElementRef
-   registerCompanyExpense1(form: NgForm) {
+  registerCompanyExpense1(form: NgForm) {
     debugger
 
     this.registerToggle = true;
@@ -1145,7 +1148,7 @@ this.expenseTypeName = selectedExpense.name
     this.companyExpenseReq.selectedUserIds = this.selectedStaffIdsUser;
     this.companyExpenseReq.deSelectedUserIds = this.deSelectedStaffIdsUser;
 
-    console.log('Create: ',this.companyExpenseReq)
+    console.log('Create: ', this.companyExpenseReq)
 
     // this.dataService.createExpensePolicy(this.companyExpenseReq).subscribe((res: any) => {
     //   if(res.status){
@@ -1170,14 +1173,14 @@ this.expenseTypeName = selectedExpense.name
 
     this.registerToggle = true;
 
-    if(this.isMappedUserModalOpen){
+    if (this.isMappedUserModalOpen) {
       this.companyExpenseReq.policyName = this.tempCompanyExpenseReq.policyName;
       this.companyExpenseReq.expensePolicyList = this.tempCompanyExpenseReq.expensePolicyList
       // this.companyExpenseReq.selectedUserIds = this.tempCompanyExpenseReq.selectedUserIds;
       this.companyExpenseReq.selectedUserIds = this.tempSelectedStaffIdsUser
       this.companyExpenseReq.deSelectedUserIds = this.tempCompanyExpenseReq.deSelectedUserIds;
 
-    }else{
+    } else {
       // this.companyExpenseReq.id = 0
       this.companyExpensePolicyId = 0;
       this.companyExpenseReq.id = 0
@@ -1187,7 +1190,7 @@ this.expenseTypeName = selectedExpense.name
       this.companyExpenseReq.deSelectedUserIds = this.deSelectedStaffIdsUser;
     }
 
-    if(this.updateToggle){
+    if (this.updateToggle) {
       this.companyExpenseReq.id = this.companyExpensePolicyId
       this.companyExpenseReq.policyName = this.pName
       // this.companyExpenseReq.removeUserIds = this.removeUserIds
@@ -1201,7 +1204,7 @@ this.expenseTypeName = selectedExpense.name
       }
     }
 
-    if(this.tempExpPolicyId > 0){
+    if (this.tempExpPolicyId > 0) {
       this.companyExpenseReq.id = this.tempExpPolicyId
     }
 
@@ -1234,7 +1237,7 @@ this.expenseTypeName = selectedExpense.name
 
 
     this.dataService.createExpensePolicy(this.companyExpenseReq).subscribe((res: any) => {
-      if(res.status){
+      if (res.status) {
         this.closeExpensePolicyModal.nativeElement.click()
         form.resetForm()
         this.clearPolicyForm();
@@ -1252,14 +1255,14 @@ this.expenseTypeName = selectedExpense.name
         this.tempPolicyName = ''
         this.tempExpPolicyId = 0
         this.pName = ''
-        if(this.isMappedUserModalOpen){
+        if (this.isMappedUserModalOpen) {
           this.usersAlreadyAssigned?.nativeElement.click();
           this.isMappedUserModalOpen = false
         }
         this.companyExpenseReq = new CompanyExpense();
         this.tempCompanyExpenseReq = new CompanyExpense();
         this.helperService.showToast(res.message, Key.TOAST_STATUS_SUCCESS);
-      }else{
+      } else {
         this.clearPolicyForm();
         this.companyExpensePolicyId = 0
         this.companyExpenseReq.id = 0
@@ -1273,14 +1276,14 @@ this.expenseTypeName = selectedExpense.name
 
     this.registerToggle = true;
 
-    if(this.isMappedUserModalOpen){
+    if (this.isMappedUserModalOpen) {
       this.companyExpenseReq.policyName = this.tempCompanyExpenseReq.policyName;
       this.companyExpenseReq.expensePolicyList = this.tempCompanyExpenseReq.expensePolicyList
       // this.companyExpenseReq.expensePolicyList = this.tempExpensePolicyReqList
       this.companyExpenseReq.selectedUserIds = this.tempCompanyExpenseReq.selectedUserIds;
       this.companyExpenseReq.deSelectedUserIds = this.tempCompanyExpenseReq.deSelectedUserIds;
 
-    }else{
+    } else {
       // this.companyExpenseReq.id = 0
       this.companyExpenseReq.policyName = this.tempPolicyName;
       this.companyExpenseReq.expensePolicyList = this.expensePolicyReqList
@@ -1288,7 +1291,7 @@ this.expenseTypeName = selectedExpense.name
       this.companyExpenseReq.deSelectedUserIds = this.deSelectedStaffIdsUser;
     }
 
-    if(this.updateToggle){
+    if (this.updateToggle) {
       this.companyExpenseReq.id = this.companyExpensePolicyId
       this.companyExpenseReq.policyName = this.pName
       // this.companyExpenseReq.removeUserIds = this.removeUserIds
@@ -1303,29 +1306,29 @@ this.expenseTypeName = selectedExpense.name
 
     }
 
-    console.log('Create: ',this.companyExpenseReq)
-         this.closeExpensePolicyModal.nativeElement.click()
-        form.resetForm()
-        this.clearPolicyForm();
-        this.getAllCompanyExpensePolicy()
-        this.resetThresholdOptions()
-        this.registerToggle = false
-        this.userMappedLoading = false;
-        this.updateToggle = false;
-        this.isValidated = false;
+    console.log('Create: ', this.companyExpenseReq)
+    this.closeExpensePolicyModal.nativeElement.click()
+    form.resetForm()
+    this.clearPolicyForm();
+    this.getAllCompanyExpensePolicy()
+    this.resetThresholdOptions()
+    this.registerToggle = false
+    this.userMappedLoading = false;
+    this.updateToggle = false;
+    this.isValidated = false;
 
-        this.companyExpensePolicyId = 0
-        this.companyExpenseReq.id = 0
-        this.policyName = ''
-        this.tempPolicyName = ''
-        if(this.isMappedUserModalOpen){
-          this.usersAlreadyAssigned?.nativeElement.click();
-          this.isMappedUserModalOpen = false
-        }
+    this.companyExpensePolicyId = 0
+    this.companyExpenseReq.id = 0
+    this.policyName = ''
+    this.tempPolicyName = ''
+    if (this.isMappedUserModalOpen) {
+      this.usersAlreadyAssigned?.nativeElement.click();
+      this.isMappedUserModalOpen = false
+    }
 
-        this.companyExpenseReq = new CompanyExpense();
-        this.tempCompanyExpenseReq = new CompanyExpense();
-        this.helperService.showToast('created', Key.TOAST_STATUS_SUCCESS);
+    this.companyExpenseReq = new CompanyExpense();
+    this.tempCompanyExpenseReq = new CompanyExpense();
+    this.helperService.showToast('created', Key.TOAST_STATUS_SUCCESS);
 
 
     // this.dataService.createExpensePolicy(this.companyExpenseReq).subscribe((res: any) => {
@@ -1361,7 +1364,7 @@ this.expenseTypeName = selectedExpense.name
 
   }
 
-  clearPolicyForm(){
+  clearPolicyForm() {
     this.companyExpenseReq = new CompanyExpense();
     // this.tempCompanyExpenseReq = new CompanyExpense();
 
@@ -1382,7 +1385,7 @@ this.expenseTypeName = selectedExpense.name
 
   }
 
-  deleteExpensePolicy(index: number){
+  deleteExpensePolicy(index: number) {
     this.expensePolicyReqList.splice(index, 1);
 
   }
@@ -1390,13 +1393,13 @@ this.expenseTypeName = selectedExpense.name
   updateToggle: boolean = false
   editIndexPolicyToggle: boolean = false;
   editIndex: number = 0
-  async editExpensePolicy(index: number){
+  async editExpensePolicy(index: number) {
     debugger
     this.editIndexPolicyToggle = true;
     this.editIndex = index;
     const item = this.expensePolicyReqList[index];
 
-    console.log('update item: ',item)
+    console.log('update item: ', item)
 
     const defaultExpenseType = this.getDefaultExpenseType(item.expenseTypeId);
 
@@ -1415,27 +1418,27 @@ this.expenseTypeName = selectedExpense.name
     this.thresholdType = item.isPercent
     this.isThresholdSelected = item.isThresold
 
-    console.log('update expensePolicyReq: ',this.expensePolicyReq)
+    console.log('update expensePolicyReq: ', this.expensePolicyReq)
   }
 
-   getDefaultExpenseType(id: number) {
+  getDefaultExpenseType(id: number) {
     return this.expenseTypeList.find(expense => expense.id === id);
   }
 
   companyExpensePolicyList: CompanyExpensePolicyRes[] = [];
   // companyExpensePolicyList: CompanyExpensePolicyRes = new CompanyExpensePolicyRes();
-  getAllCompanyExpensePolicy(){
+  getAllCompanyExpensePolicy() {
     // this.companyExpensePolicyList =
     this.isLoading = true;
     this.databaseHelper.currentPage = 1;
     this.databaseHelper.itemPerPage = 10;
     this.dataService.getAllCompanyExpensePolicy(this.databaseHelper).subscribe((res: any) => {
-      if(res.status){
+      if (res.status) {
         // this.companyExpensePolicyList = res.object
         this.companyExpensePolicyList = res.object
       }
       this.isLoading = false;
-      console.log('lsit: ',this.companyExpensePolicyList)
+      console.log('lsit: ', this.companyExpensePolicyList)
     })
   }
 
@@ -1459,26 +1462,26 @@ this.expenseTypeName = selectedExpense.name
 
   deletePolicyToggle: boolean = false
   @ViewChild('closeButtonDeleteExpensePolicy') closeButtonDeleteExpensePolicy!: ElementRef
-  deleteExpensePolicyById(){
+  deleteExpensePolicyById() {
     this.deletePolicyToggle = true;
     this.dataService.deleteCompanyExpensePolicy(this.expensePolicyId).subscribe((res: any) => {
-      if(res.status){
-          this.expensePolicyId = 0;
-          this.deletePolicyToggle = false;
-          this.getAllCompanyExpensePolicy();
-          this.closeButtonDeleteExpensePolicy.nativeElement.click()
+      if (res.status) {
+        this.expensePolicyId = 0;
+        this.deletePolicyToggle = false;
+        this.getAllCompanyExpensePolicy();
+        this.closeButtonDeleteExpensePolicy.nativeElement.click()
       }
     })
   }
 
-  deleteExpensePolicyTypeById(){
+  deleteExpensePolicyTypeById() {
     this.deletePolicyToggle = true;
     this.dataService.deleteCompanyExpenseTypePolicy(this.expensePolicyTypeId).subscribe((res: any) => {
-      if(res.status){
-          this.expensePolicyTypeId = 0;
-          this.deletePolicyToggle = false;
-          this.getAllCompanyExpensePolicy();
-          this.closeButtonDeleteExpensePolicy.nativeElement.click()
+      if (res.status) {
+        this.expensePolicyTypeId = 0;
+        this.deletePolicyToggle = false;
+        this.getAllCompanyExpensePolicy();
+        this.closeButtonDeleteExpensePolicy.nativeElement.click()
       }
     })
   }
@@ -1489,14 +1492,14 @@ this.expenseTypeName = selectedExpense.name
 
 
   thresholdType: string | null = null;
-  thresholdAmount: number =0;
+  thresholdAmount: number = 0;
   onThresholdTypeChange(isPercentagFlag: number, type: string): void {
     this.thresholdType = type;
     this.expensePolicyReq.isPercentage = isPercentagFlag
     this.expensePolicyReq.isPercent = type
 
     this.thresholdAmount = 0; // Reset threshold amount when changing type
-    console.log('thresold Type: ',this.expensePolicyReq.isPercentage)
+    console.log('thresold Type: ', this.expensePolicyReq.isPercentage)
   }
 
   private resetThresholdOptions(): void {
@@ -1513,7 +1516,7 @@ this.expenseTypeName = selectedExpense.name
     this.isThresholdSelected = isChecked;
     this.expensePolicyReq.isThresold = isChecked
 
-    if(!isChecked){
+    if (!isChecked) {
       this.resetThresholdOptions()
     }
   }
@@ -1521,12 +1524,12 @@ this.expenseTypeName = selectedExpense.name
 
 
   /** User already mapped  */
-  closeModal(){
+  closeModal() {
 
   }
 
   userNameWithBranchName: any[] = new Array();
-  @ViewChild("closeButton") closeButton!:ElementRef;
+  @ViewChild("closeButton") closeButton!: ElementRef;
 
   @ViewChild('usersAlreadyAssigned') usersAlreadyAssigned!: ElementRef
   tempSelectedStaffIdsUser: number[] = [];
@@ -1536,41 +1539,41 @@ this.expenseTypeName = selectedExpense.name
   tempCompanyExpenseReq: CompanyExpense = new CompanyExpense();
   tempExpensePolicyReqList: ExpensePolicy[] = [];
   pName: string = ''
-  getUserMappedWithPolicy(form: NgForm){
+  getUserMappedWithPolicy(form: NgForm) {
     debugger
     this.userMappedLoading = true;
     this.userNameWithBranchName = []
     this.dataService.getUserMappedWithPolicy(this.selectedStaffIdsUser, this.companyExpensePolicyId).subscribe((response: any) => {
 
-      if(response.status){
+      if (response.status) {
         this.userNameWithBranchName = response.object;
         this.tempSelectedStaffIdsUser = this.selectedStaffIdsUser
 
         // Add temp request for create expense
         // this.tempExpensePolicyReqList = this.expensePolicyReqList
         this.pName = this.policyName
-      this.tempCompanyExpenseReq.policyName = this.tempPolicyName;
-      this.tempCompanyExpenseReq.expensePolicyList = this.expensePolicyReqList
-      this.tempCompanyExpenseReq.selectedUserIds = this.selectedStaffIdsUser
+        this.tempCompanyExpenseReq.policyName = this.tempPolicyName;
+        this.tempCompanyExpenseReq.expensePolicyList = this.expensePolicyReqList
+        this.tempCompanyExpenseReq.selectedUserIds = this.selectedStaffIdsUser
 
-      this.tempCompanyExpenseReq.deSelectedUserIds = this.userNameWithBranchName.map(item => item.id);
+        this.tempCompanyExpenseReq.deSelectedUserIds = this.userNameWithBranchName.map(item => item.id);
 
       }
 
-      console.log('userLen: ',this.userNameWithBranchName.length)
-        if( this.userNameWithBranchName.length != 0) {
-          this.isMappedUserModalOpen = true;
-          // console.log('Opening modal..')
-          this.closeExpensePolicyModal.nativeElement.click();
-          this.usersAlreadyAssigned.nativeElement.click();
-          this.userMappedLoading = false;
-        }else{
-          // console.log('Going to create..')
-          this.registerCompanyExpense(form);
-        }
+      console.log('userLen: ', this.userNameWithBranchName.length)
+      if (this.userNameWithBranchName.length != 0) {
+        this.isMappedUserModalOpen = true;
+        // console.log('Opening modal..')
+        this.closeExpensePolicyModal.nativeElement.click();
+        this.usersAlreadyAssigned.nativeElement.click();
+        this.userMappedLoading = false;
+      } else {
+        // console.log('Going to create..')
+        this.registerCompanyExpense(form);
+      }
 
-      },
-      (error:any) => {
+    },
+      (error: any) => {
         console.log('error');
       }
     );
@@ -1586,7 +1589,7 @@ this.expenseTypeName = selectedExpense.name
     //   this.deSelectedStaffIdsUser = []
     // }
 
-    console.log('temp req: ',this.tempCompanyExpenseReq)
+    console.log('temp req: ', this.tempCompanyExpenseReq)
 
     this.tempSelectedStaffIdsUser = this.tempSelectedStaffIdsUser.filter(
       (id) => id != userId
@@ -1597,16 +1600,16 @@ this.expenseTypeName = selectedExpense.name
       (staff) => staff.id !== userId
     );
 
-  // Create a new list with only the IDs of the remaining items
-   this.remainingIds = this.userNameWithBranchName.map((staff) => staff.id);
+    // Create a new list with only the IDs of the remaining items
+    this.remainingIds = this.userNameWithBranchName.map((staff) => staff.id);
 
     this.selectedStaffIdsUser = this.tempSelectedStaffIdsUser
 
 
-    if(this.updateToggle){
+    if (this.updateToggle) {
       this.removeUserIds = this.remainingIds;
       this.tempCompanyExpenseReq.removeUserIds = this.removeUserIds;
-    }else{
+    } else {
       this.deSelectedStaffIdsUser = this.remainingIds
       this.tempCompanyExpenseReq.deSelectedUserIds = this.deSelectedStaffIdsUser;
     }
@@ -1630,7 +1633,7 @@ this.expenseTypeName = selectedExpense.name
     debugger
     this.deSelectedStaffIdsUser = []
 
-    console.log('temp req: ',this.tempCompanyExpenseReq)
+    console.log('temp req: ', this.tempCompanyExpenseReq)
 
     this.tempSelectedStaffIdsUser = this.tempSelectedStaffIdsUser.filter(
       (id) => id != userId
@@ -1641,13 +1644,13 @@ this.expenseTypeName = selectedExpense.name
       (staff) => staff.id !== userId
     );
 
-  // Create a new list with only the IDs of the remaining items
-   this.remainingIds = this.userNameWithBranchName.map((staff) => staff.id);
+    // Create a new list with only the IDs of the remaining items
+    this.remainingIds = this.userNameWithBranchName.map((staff) => staff.id);
 
     this.selectedStaffIdsUser = this.tempSelectedStaffIdsUser
     this.deSelectedStaffIdsUser = this.remainingIds
 
-    if(this.updateToggle){
+    if (this.updateToggle) {
       this.removeUserIds = this.remainingIds;
     }
 
@@ -1664,75 +1667,75 @@ this.expenseTypeName = selectedExpense.name
   /** User already mapped end */
 
   oldSelectedStaffIdsUser: number[] = []
-  getExpenseInformationById1(companyExpense: CompanyExpensePolicyRes){
+  getExpenseInformationById1(companyExpense: CompanyExpensePolicyRes) {
 
-      debugger
-      this.updateToggle = true;
-      this.expensePolicyReq = new ExpensePolicy()
+    debugger
+    this.updateToggle = true;
+    this.expensePolicyReq = new ExpensePolicy()
 
-      console.log('expense obj: ',companyExpense)
+    console.log('expense obj: ', companyExpense)
 
-      // const item = this.expensePolicyReqList[index];
+    // const item = this.expensePolicyReqList[index];
 
-      // console.log('update item: ',item)
+    // console.log('update item: ',item)
 
-      // const defaultExpenseType = this.getDefaultExpenseType(companyExpense.companyExpensePolicyTypeRes.expenseTypeId);
+    // const defaultExpenseType = this.getDefaultExpenseType(companyExpense.companyExpensePolicyTypeRes.expenseTypeId);
 
-      // this.expensePolicyReqList = companyExpense.companyExpensePolicyTypeRes;
+    // this.expensePolicyReqList = companyExpense.companyExpensePolicyTypeRes;
 
 
-      companyExpense.companyExpensePolicyTypeRes.forEach((expenseType: any) => {
-        this.expensePolicyReq.paymentType = expenseType.isFlexibleAmount
-        this.expensePolicyReq.limitAmount = expenseType.flexibleAmount == null ? 0 : expenseType.flexibleAmount
-        this.expensePolicyReq.expenseTypeId = expenseType.expenseTypeId
-        this.expensePolicyReq.expenseTypeName = expenseType.expenseTypeName
-        this.expensePolicyReq.amount = Number(expenseType.amount)
+    companyExpense.companyExpensePolicyTypeRes.forEach((expenseType: any) => {
+      this.expensePolicyReq.paymentType = expenseType.isFlexibleAmount
+      this.expensePolicyReq.limitAmount = expenseType.flexibleAmount == null ? 0 : expenseType.flexibleAmount
+      this.expensePolicyReq.expenseTypeId = expenseType.expenseTypeId
+      this.expensePolicyReq.expenseTypeName = expenseType.expenseTypeName
+      this.expensePolicyReq.amount = Number(expenseType.amount)
 
-        // this.expensePolicyReq.isPercent = this.thresholdType == null ? '' : this.thresholdType
-        // this.expensePolicyReq.isThresold = this.isThresholdSelected
-        // this.expensePolicyReq.isFixed = this.paymentType
-        this.expensePolicyReq.isPercentage = expenseType.isPercentage
-        // this.expensePolicyReq.isPercentage = (this.thresholdType === 'value' ? 0 : 1 )
+      // this.expensePolicyReq.isPercent = this.thresholdType == null ? '' : this.thresholdType
+      // this.expensePolicyReq.isThresold = this.isThresholdSelected
+      // this.expensePolicyReq.isFixed = this.paymentType
+      this.expensePolicyReq.isPercentage = expenseType.isPercentage
+      // this.expensePolicyReq.isPercentage = (this.thresholdType === 'value' ? 0 : 1 )
 
-        this.expensePolicyReqList.push(this.expensePolicyReq)
-      })
+      this.expensePolicyReqList.push(this.expensePolicyReq)
+    })
 
-      console.log('expensePolicyReqList: ',this.expensePolicyReqList)
+    console.log('expensePolicyReqList: ', this.expensePolicyReqList)
 
-      this.staffs.forEach((staff, index) => {
-        // this.staffs[index].checked = true;
-        staff.checked = companyExpense.userIds.includes(staff.id);
-      });
+    this.staffs.forEach((staff, index) => {
+      // this.staffs[index].checked = true;
+      staff.checked = companyExpense.userIds.includes(staff.id);
+    });
 
-      companyExpense.userIds.forEach((id: number) => {
-        this.selectedStaffIdsUser.push(id)
+    companyExpense.userIds.forEach((id: number) => {
+      this.selectedStaffIdsUser.push(id)
 
-      });
+    });
 
-      this.policyName = companyExpense.policyName
+    this.policyName = companyExpense.policyName
 
-      // set expense type end
+    // set expense type end
 
-      // this.selectExpenseType(defaultExpenseType)
-      // this.expensePolicyReq.paymentType = item.paymentType
-      // this.expensePolicyReq.limitAmount = item.limitAmount
-      // this.expensePolicyReq.expenseTypeId = item.expenseTypeId
-      // this.policyAmount = item.amount.toString()
+    // this.selectExpenseType(defaultExpenseType)
+    // this.expensePolicyReq.paymentType = item.paymentType
+    // this.expensePolicyReq.limitAmount = item.limitAmount
+    // this.expensePolicyReq.expenseTypeId = item.expenseTypeId
+    // this.policyAmount = item.amount.toString()
 
-      // this.flexibleAmount = item.limitAmount
+    // this.flexibleAmount = item.limitAmount
 
-      // this.paymentType = item.isFixed
-      // this.thresholdType = item.isPercent
-      // this.isThresholdSelected = item.isThresold
+    // this.paymentType = item.isFixed
+    // this.thresholdType = item.isPercent
+    // this.isThresholdSelected = item.isThresold
 
-      // this.updateToggle = false;
+    // this.updateToggle = false;
 
-      console.log('update expensePolicyReq: ',this.expensePolicyReq)
+    console.log('update expensePolicyReq: ', this.expensePolicyReq)
   }
 
   companyExpensePolicyId: number = 0;
-  tempExpPolicyId: number =0;
-  getExpenseInformationById(companyExpense: CompanyExpensePolicyRes){
+  tempExpPolicyId: number = 0;
+  getExpenseInformationById(companyExpense: CompanyExpensePolicyRes) {
 
     debugger
     this.updateToggle = true;
@@ -1775,266 +1778,266 @@ this.expenseTypeName = selectedExpense.name
     });
 
     // this.oldSelectedStaffIdsUser = this.selectedStaffIdsUser
-    console.log('old sel IDS: ',this.oldSelectedStaffIdsUser)
+    console.log('old sel IDS: ', this.oldSelectedStaffIdsUser)
 
     this.policyName = companyExpense.policyName
     this.updateToggle = true;
 
     // console.log('update expensePolicyReq: ',this.expensePolicyReq)
-}
+  }
 
 
-/** Set Excel data start */
+  /** Set Excel data start */
 
-isShimmer: boolean = false;
-isProgressToggle: boolean = false;
-isErrorToggle: boolean = false;
-onboardUserList: any[] = new Array();
-errorMessage: string =''
-currentFileUpload: any;
-expectedColumns: string[] = ['Expense Id', 'Settled Amount', 'Transaction Id', 'Payment Method', 'Lapse Remaining Amount'];
-correctColumnName: string[] = ['S.No.', 'Submitted Date', 'Expense Id', 'Employee Name', 'Expense Type', 'Expense Date', 'Notes', 'Bill Snapshot', 'Expense Amount', 'Settled Amount', 'Transaction Id', 'Payment Method', 'Lapse Remaining Amount'];
+  isShimmer: boolean = false;
+  isProgressToggle: boolean = false;
+  isErrorToggle: boolean = false;
+  onboardUserList: any[] = new Array();
+  errorMessage: string = ''
+  currentFileUpload: any;
+  expectedColumns: string[] = ['Expense Id', 'Settled Amount', 'Transaction Id', 'Payment Method', 'Lapse Remaining Amount'];
+  correctColumnName: string[] = ['S.No.', 'Submitted Date', 'Expense Id', 'Employee Name', 'Expense Type', 'Expense Date', 'Notes', 'Bill Snapshot', 'Expense Amount', 'Settled Amount', 'Transaction Id', 'Payment Method', 'Lapse Remaining Amount'];
 
 
-fileColumnName:string[] = [];
-isExcel: string = '';
-data: any[] = new Array();
- dataWithoutHeader:any=[];
-mismatches: string[] = [];
-invalidRows: boolean[] = []; // Track invalid rows
-invalidCells: boolean[][] = []; // Track invalid cells
-isinvalid: boolean=false;
-jsonData:any[]=[];
-validateMap: Map<string, string[]> = new Map();
-@ViewChild('attention') elementToScroll!: ElementRef;
+  fileColumnName: string[] = [];
+  isExcel: string = '';
+  data: any[] = new Array();
+  dataWithoutHeader: any = [];
+  mismatches: string[] = [];
+  invalidRows: boolean[] = []; // Track invalid rows
+  invalidCells: boolean[][] = []; // Track invalid cells
+  isinvalid: boolean = false;
+  jsonData: any[] = [];
+  validateMap: Map<string, string[]> = new Map();
+  @ViewChild('attention') elementToScroll!: ElementRef;
 
-selectFile(event: any) {
-  this.validateMap= new Map();
-  this.isinvalid = true
-  debugger
-  if (event.target.files && event.target.files.length > 0) {
-    const file = event.target.files[0];
-    this.currentFileUpload = file;
-    this.fileName = file.name;
+  selectFile(event: any) {
+    this.validateMap = new Map();
+    this.isinvalid = true
+    debugger
+    if (event.target.files && event.target.files.length > 0) {
+      const file = event.target.files[0];
+      this.currentFileUpload = file;
+      this.fileName = file.name;
 
-    const reader = new FileReader();
-    reader.onload = (e: ProgressEvent<FileReader>) => {
-      const arrayBuffer = e.target?.result as ArrayBuffer;
-      const binaryStr = this.arrayBufferToString(arrayBuffer);
-      const workbook = XLSX.read(binaryStr, { type: 'binary' });
-      const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-      this.jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+      const reader = new FileReader();
+      reader.onload = (e: ProgressEvent<FileReader>) => {
+        const arrayBuffer = e.target?.result as ArrayBuffer;
+        const binaryStr = this.arrayBufferToString(arrayBuffer);
+        const workbook = XLSX.read(binaryStr, { type: 'binary' });
+        const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+        this.jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
 
-      // Reset data and error tracking
-      this.data = [];
-      this.invalidRows = [];
-      this.invalidCells = [];
-      this.validateMap.clear;
+        // Reset data and error tracking
+        this.data = [];
+        this.invalidRows = [];
+        this.invalidCells = [];
+        this.validateMap.clear;
 
-      const columnNames: string[] = this.jsonData[0] as string[];
+        const columnNames: string[] = this.jsonData[0] as string[];
 
-      debugger
-      if (this.validateColumns(columnNames)) {
-        this.data = this.jsonData
-        .map((row: any[]) => {
-          // Ensure each cell is processed
-          return row.map((cell: any, index: number) => {
-            if (this.data.length === 0) {
-              // For the first row, treat all cells as strings
-              return cell ? cell.toString().trim() : '';
-            } else {
-              // Validate date format MM-DD-YYYY
-              const isExactFormat = /^\d{2}-\d{2}-\d{4}$/.test(cell);
+        debugger
+        if (this.validateColumns(columnNames)) {
+          this.data = this.jsonData
+            .map((row: any[]) => {
+              // Ensure each cell is processed
+              return row.map((cell: any, index: number) => {
+                if (this.data.length === 0) {
+                  // For the first row, treat all cells as strings
+                  return cell ? cell.toString().trim() : '';
+                } else {
+                  // Validate date format MM-DD-YYYY
+                  const isExactFormat = /^\d{2}-\d{2}-\d{4}$/.test(cell);
 
-              // Replace '/' with '-' if present
-              if (typeof cell === 'string') {
-                cell = cell.replace(/\//g, '-');
-              }
-
-              if (isExactFormat) {
-                // Parse the date strictly in MM-DD-YYYY format
-                const formattedDate = moment(cell, 'yyyy-MM-dd', true);
-
-                // Check if the date is valid and within the next year
-                if (formattedDate.isValid()) {
-                  const oneYearFromNow = moment().add(1, 'year');
-
-                  if (formattedDate.isBefore(oneYearFromNow)) {
-                    return formattedDate.format('yyyy-MM-dd'); // Standard format
+                  // Replace '/' with '-' if present
+                  if (typeof cell === 'string') {
+                    cell = cell.replace(/\//g, '-');
                   }
+
+                  if (isExactFormat) {
+                    // Parse the date strictly in MM-DD-YYYY format
+                    const formattedDate = moment(cell, 'yyyy-MM-dd', true);
+
+                    // Check if the date is valid and within the next year
+                    if (formattedDate.isValid()) {
+                      const oneYearFromNow = moment().add(1, 'year');
+
+                      if (formattedDate.isBefore(oneYearFromNow)) {
+                        return formattedDate.format('yyyy-MM-dd'); // Standard format
+                      }
+                    }
+                  }
+                  // Convert other cells to string and trim whitespace
+                  return cell ? cell.toString().trim() : '';
                 }
-              }
-              // Convert other cells to string and trim whitespace
-              return cell ? cell.toString().trim() : '';
+              });
+            })
+            .filter((row: any[]) =>
+              // Filter out rows where all cells are empty
+              row.some((cell: any) => cell !== '')
+            );
+
+          this.validateMap.forEach((values, key) => {
+            console.log(`Key: ${key}`);
+            this.mismatches.push(`Repeating values: "${key}" at row no. ${values}`);
+            if (this.elementToScroll) {
+              this.elementToScroll!.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              console.log('Values:', values);
             }
           });
-        })
-        .filter((row: any[]) =>
-          // Filter out rows where all cells are empty
-          row.some((cell: any) => cell !== '')
-        );
+          // this.totalPage = Math.ceil(this.data.length / this.pageSize);
+          this.totalPage = 10;
 
-        this.validateMap.forEach((values, key) => {
-          console.log(`Key: ${key}`);
-          this.mismatches.push(`Repeating values: "${key}" at row no. ${values}`);
-          if(this.elementToScroll){
-          this.elementToScroll!.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          console.log('Values:', values);
-          }
-        });
-        // this.totalPage = Math.ceil(this.data.length / this.pageSize);
-        this.totalPage = 10;
+          // if(this.areAllFalse() && this.mismatches.length===0){
+          //   this.isinvalid=false;
+          //   this.uploadUserFile(file, this.fileName);
+          // }else{
+          //   this.isinvalid=true;
+          // }
 
-        // if(this.areAllFalse() && this.mismatches.length===0){
-        //   this.isinvalid=false;
-        //   this.uploadUserFile(file, this.fileName);
-        // }else{
-        //   this.isinvalid=true;
-        // }
+          this.updatePaginatedData();
 
+        } else {
+          console.error('Invalid column names');
+        }
+      };
+      reader.readAsArrayBuffer(file);
+    }
+  }
+
+  selectAllCurrentPage = false;
+  selectAllPages = false;
+  paginatedData: any[] = [];
+
+  updatePaginatedData() {
+    // Calculate the start index for pagination
+    let start = (this.currentPage - 1) * this.pageSize;
+
+    // Adjust start to consider data indexing
+    start = start + 1;
+
+    // Slice the data based on the calculated start and page size
+    this.paginatedData = this.data.slice(start, start + this.pageSize);
+  }
+
+  // Method to write
+  saveFileWhichCreateExcel(data: any[]): void {
+    // Step 1: Convert data to a worksheet format
+    const worksheet = XLSX.utils.json_to_sheet(data);
+
+    // Step 2: Create a new workbook and append the worksheet
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+
+    // Step 3: Write the workbook as a binary Excel file
+    const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+
+    // Step 4: Create a blob and prompt download
+    const blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
+    saveAs(blob, 'data.xlsx');
+  }
+
+  saveFile() {
+    debugger
+
+    this.validateRowToggle = false
+
+    const stringifiedData = this.data.map((row: any[]) =>
+      row.map(cell => cell !== null && cell !== undefined ? String(cell) : '')
+    );
+    const ws = XLSX.utils.aoa_to_sheet(stringifiedData);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+    const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+
+    const blob = new Blob([wbout], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    // saveAs(blob, 'edited_file.xlsx');
+    this.validateMap.clear;
+
+    const file = new File([blob], 'edited_file.xlsx', { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+
+    const dataTransfer = new DataTransfer();
+    dataTransfer.items.add(file);
+
+    // Create a fake event to pass to selectFile
+    // const event = new Event('change');
+    // Object.defineProperty(event, 'target', { writable: false, value: { files: dataTransfer.files } });
+    // this.selectFile(event);
+
+    this.validateRows(this.data.slice(1));
+
+    // if(this.validateRowToggle){
+    //   this.updatePaginatedData();
+    // }else{
+    //   this.uploadUserFile(file, 'edited_file.xlsx');
+    // }
+
+    setTimeout(() => {
+      if (this.validateRowToggle) {
         this.updatePaginatedData();
-
       } else {
-        console.error('Invalid column names');
+        this.uploadUserFile(file, 'edited_file.xlsx');
       }
-    };
-    reader.readAsArrayBuffer(file);
-  }
-}
+    }, 300)
+    // }, 200)
 
-selectAllCurrentPage = false;
-selectAllPages = false;
-paginatedData: any[] = [];
+    // setTimeout(() =>{
+    //   if(!this.validateRowToggle){
+    //     this.uploadUserFile(file, 'edited_file.xlsx');
+    //   }
+    // },200)
 
-updatePaginatedData() {
-  // Calculate the start index for pagination
-  let start = (this.currentPage - 1) * this.pageSize;
-
-  // Adjust start to consider data indexing
-  start = start + 1;
-
-  // Slice the data based on the calculated start and page size
-  this.paginatedData = this.data.slice(start, start + this.pageSize);
   }
 
-// Method to write
-saveFileWhichCreateExcel(data: any[]): void {
-  // Step 1: Convert data to a worksheet format
-  const worksheet = XLSX.utils.json_to_sheet(data);
+  importToggle: boolean = false;
+  @ViewChild('closeButtonExcelModal') closeButtonExcelModal!: ElementRef
+  uploadUserFile(file: any, fileName: string) {
+    debugger;
+    this.importToggle = true;
+    this.isProgressToggle = true;
+    this.isErrorToggle = false;
+    this.errorMessage = '';
+    this.dataService.importExpense(file, fileName).subscribe(
+      (response: any) => {
+        if (response.status) {
+          this.importToggle = false;
+          this.isProgressToggle = false;
+          this.getExpenses();
+          this.closeButtonExcelModal.nativeElement.click()
 
-  // Step 2: Create a new workbook and append the worksheet
-  const workbook = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+          this.data = []
+          this.isinvalid = false;
+          this.fileColumnName = []
+          this.paginatedData = []
 
-  // Step 3: Write the workbook as a binary Excel file
-  const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-
-  // Step 4: Create a blob and prompt download
-  const blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
-  saveAs(blob, 'data.xlsx');
-}
-
-saveFile() {
-  debugger
-
-  this.validateRowToggle = false
-
-  const stringifiedData = this.data.map((row: any[]) =>
-    row.map(cell => cell !== null && cell !== undefined ? String(cell) : '')
-  );
-  const ws = XLSX.utils.aoa_to_sheet(stringifiedData);
-  const wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-  const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
-
-  const blob = new Blob([wbout], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-  // saveAs(blob, 'edited_file.xlsx');
-  this.validateMap.clear;
-
-  const file = new File([blob], 'edited_file.xlsx', { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-
-  const dataTransfer = new DataTransfer();
-  dataTransfer.items.add(file);
-
-// Create a fake event to pass to selectFile
-// const event = new Event('change');
-// Object.defineProperty(event, 'target', { writable: false, value: { files: dataTransfer.files } });
-// this.selectFile(event);
-
-  this.validateRows(this.data.slice(1));
-
-  // if(this.validateRowToggle){
-  //   this.updatePaginatedData();
-  // }else{
-  //   this.uploadUserFile(file, 'edited_file.xlsx');
-  // }
-
-setTimeout(() => {
-   if(this.validateRowToggle){
-    this.updatePaginatedData();
-  }else{
-    this.uploadUserFile(file, 'edited_file.xlsx');
-  }
-}, 300)
-// }, 200)
-
-// setTimeout(() =>{
-//   if(!this.validateRowToggle){
-//     this.uploadUserFile(file, 'edited_file.xlsx');
-//   }
-// },200)
-
-}
-
-importToggle: boolean = false;
-@ViewChild('closeButtonExcelModal') closeButtonExcelModal!: ElementRef
-uploadUserFile(file: any, fileName: string) {
-  debugger;
-  this.importToggle = true;
-  this.isProgressToggle = true;
-  this.isErrorToggle = false;
-  this.errorMessage = '';
-  this.dataService.importExpense(file, fileName).subscribe(
-    (response: any) => {
-      if (response.status) {
-        this.importToggle = false;
-        this.isProgressToggle = false;
-        this.getExpenses();
-        this.closeButtonExcelModal.nativeElement.click()
-
-        this.data = []
-        this.isinvalid = false;
-        this.fileColumnName = []
-        this.paginatedData = []
-
-      } else {
+        } else {
+          this.importToggle = true;
+          this.isErrorToggle = true;
+          this.isProgressToggle = false;
+          this.errorMessage = response.message;
+        }
+      },
+      (error) => {
         this.importToggle = true;
         this.isErrorToggle = true;
         this.isProgressToggle = false;
-        this.errorMessage = response.message;
+        this.errorMessage = error.error.message;
       }
-    },
-    (error) => {
-      this.importToggle = true;
-      this.isErrorToggle = true;
-      this.isProgressToggle = false;
-      this.errorMessage = error.error.message;
-    }
-  );
-}
+    );
+  }
 
 
-currentPage: number = 1;
-pageSize: number = 10; // Adjust based on your requirements
-totalPage: number = 0;
+  currentPage: number = 1;
+  pageSize: number = 10; // Adjust based on your requirements
+  totalPage: number = 0;
 
-onPageChange(page: number) {
-  // this.bulkShift=null;
-  // this.bulkLeave=[];
-  // this.bulkTeam=[];
-  // this.selectAllCurrentPage=false;
-  this.currentPage = page;
-}
+  onPageChange(page: number) {
+    // this.bulkShift=null;
+    // this.bulkLeave=[];
+    // this.bulkTeam=[];
+    // this.selectAllCurrentPage=false;
+    this.currentPage = page;
+  }
 
   // firstUpload:boolean=true;
   // areAllFalse(): boolean {
@@ -2064,7 +2067,7 @@ onPageChange(page: number) {
     this.mismatches = []; // Reset mismatches
 
     const normalizedColumnNames = columnNames.map(col => col.trim());
-    this.fileColumnName=normalizedColumnNames;
+    this.fileColumnName = normalizedColumnNames;
     const normalizedExpectedColumns = this.expectedColumns.map(col => col.trim());
     const normalizedCorrectColumns = this.correctColumnName.map(col => col.trim());
 
@@ -2079,10 +2082,10 @@ onPageChange(page: number) {
     // Step 4: Check if there are extra or incorrect columns in actual column names
     for (const actualColumn of normalizedColumnNames) {
       if (!normalizedExpectedColumns.includes(actualColumn) && !normalizedCorrectColumns.includes(actualColumn)) {
-          console.error(`Unexpected or incorrect column: "${actualColumn}"`);
-          this.mismatches.push(`Unexpected or incorrect column: "${actualColumn}"`);
+        console.error(`Unexpected or incorrect column: "${actualColumn}"`);
+        this.mismatches.push(`Unexpected or incorrect column: "${actualColumn}"`);
       }
-  }
+    }
 
     // Step 4: Log and return false if there are any mismatches
     if (this.mismatches.length > 0) {
@@ -2140,42 +2143,42 @@ onPageChange(page: number) {
           }
         }
 
-      // Settled amount should be less from Expense amount'
-      if (this.fileColumnName[j] === 'Settled Amount') {
-        // Check if the field is empty or invalid
-        if (!cellValue || cellValue.toString().trim() === '') {
-          this.validateRowToggle = true;
-          this.invalidRows[i] = true;
-          this.invalidCells[i][j] = true;
-        } else {
-          // Ensure the field is a number and greater than 0
-          const numericValue = parseFloat(cellValue);
-          if (isNaN(numericValue) || numericValue <= 0) {
+        // Settled amount should be less from Expense amount'
+        if (this.fileColumnName[j] === 'Settled Amount') {
+          // Check if the field is empty or invalid
+          if (!cellValue || cellValue.toString().trim() === '') {
             this.validateRowToggle = true;
             this.invalidRows[i] = true;
             this.invalidCells[i][j] = true;
           } else {
-            // Validate that "Settled Amount" is less than "Expense Amount"
-            const amountIndex = this.fileColumnName.indexOf('Expense Amount');
-            if (amountIndex !== -1) {
-              const amountValue = parseFloat(rows[i][amountIndex]);
-              if (isNaN(amountValue) || numericValue > amountValue) {
-                this.validateRowToggle = true;
-                this.invalidRows[i] = true;
-                this.invalidCells[i][j] = true; // Mark the "Settled Amount" cell as invalid
+            // Ensure the field is a number and greater than 0
+            const numericValue = parseFloat(cellValue);
+            if (isNaN(numericValue) || numericValue <= 0) {
+              this.validateRowToggle = true;
+              this.invalidRows[i] = true;
+              this.invalidCells[i][j] = true;
+            } else {
+              // Validate that "Settled Amount" is less than "Expense Amount"
+              const amountIndex = this.fileColumnName.indexOf('Expense Amount');
+              if (amountIndex !== -1) {
+                const amountValue = parseFloat(rows[i][amountIndex]);
+                if (isNaN(amountValue) || numericValue > amountValue) {
+                  this.validateRowToggle = true;
+                  this.invalidRows[i] = true;
+                  this.invalidCells[i][j] = true; // Mark the "Settled Amount" cell as invalid
+                }
               }
             }
           }
         }
-      }
 
 
-      // If you have enter here then the values accpet only 'Online', 'Cash' otherwise not
+        // If you have enter here then the values accpet only 'Online', 'Cash' otherwise not
         if (this.fileColumnName[j] === 'Payment Method1') {
           // Validate that the field contains only 'Online' or 'Cash'
           const validPaymentMethods = ['ONLINE', 'CASH'];
           // if (!cellValue || !validPaymentMethods.includes(cellValue.trim())) {
-            if (!cellValue || !validPaymentMethods.includes(cellValue.trim().toUpperCase())) {
+          if (!cellValue || !validPaymentMethods.includes(cellValue.trim().toUpperCase())) {
             this.validateRowToggle = true;
             this.invalidRows[i] = true;
             this.invalidCells[i][j] = true; // Mark the cell as invalid
@@ -2207,7 +2210,7 @@ onPageChange(page: number) {
               this.invalidCells[i][j] = false;
               this.invalidRows[i] = false;
               this.invalidCells[i][j] = false;
-            }else if (paymentMethod.toUpperCase() === 'ONLINE') {
+            } else if (paymentMethod.toUpperCase() === 'ONLINE') {
               // If Payment Method is 'Online', Transaction Id must not be empty
               if (!cellValue || cellValue.toString().trim() === '') {
                 this.validateRowToggle = true;
@@ -2218,8 +2221,8 @@ onPageChange(page: number) {
                 this.invalidCells[i][j] = false;
               }
             }
+          }
         }
-      }
 
         // If you have Entered 'Online' then transactin ID is mandotary, for cash it is not
         if (this.fileColumnName[j] === 'Transaction Id1') {
@@ -2290,59 +2293,59 @@ onPageChange(page: number) {
         }
 
 
-       // Validate Duplicate 'Transaction Id' field (If transaction Id is duplicate from the DATABASE then will show error)
-       if (this.fileColumnName[j] === 'Transaction Id') {
-        const transactionIdIndex = this.fileColumnName.indexOf('Transaction Id');
-        const transactionId = transactionIdIndex !== -1 ? rows[i][transactionIdIndex]?.toString().trim() : null;
+        // Validate Duplicate 'Transaction Id' field (If transaction Id is duplicate from the DATABASE then will show error)
+        if (this.fileColumnName[j] === 'Transaction Id') {
+          const transactionIdIndex = this.fileColumnName.indexOf('Transaction Id');
+          const transactionId = transactionIdIndex !== -1 ? rows[i][transactionIdIndex]?.toString().trim() : null;
 
-        // Await the transaction ID check
-        try {
-          const exists = await this.existTransactionIdExcel(transactionId);
-          // console.log('Transaction ID exists: ', exists);
+          // Await the transaction ID check
+          try {
+            const exists = await this.existTransactionIdExcel(transactionId);
+            // console.log('Transaction ID exists: ', exists);
 
-          if (exists) {
-            this.validateRowToggle = true;
-            // this.duplicateTransactionId = true;
+            if (exists) {
+              this.validateRowToggle = true;
+              // this.duplicateTransactionId = true;
+              this.invalidRows[i] = true;
+              this.invalidCells[i][j] = true; // Mark the cell as invalid
+            }
+          } catch (error) {
+            console.error('Error checking transaction ID:', error);
+            // Handle any errors, you could mark this row as invalid if needed
             this.invalidRows[i] = true;
             this.invalidCells[i][j] = true; // Mark the cell as invalid
           }
-        } catch (error) {
-          console.error('Error checking transaction ID:', error);
-          // Handle any errors, you could mark this row as invalid if needed
-          this.invalidRows[i] = true;
-          this.invalidCells[i][j] = true; // Mark the cell as invalid
         }
-      }
 
-      // Check LOCALLY duplicate transaction Id (which is in the input field) start
+        // Check LOCALLY duplicate transaction Id (which is in the input field) start
 
-      if (this.fileColumnName[j] === 'Transaction Id') {
-        // Validate non-empty and non-whitespace string
-        if (cellValue) {
-          // Track transaction ID occurrences
-          const trimmedValue = cellValue.trim();
-          if (!transactionIdMap[trimmedValue]) {
-            transactionIdMap[trimmedValue] = [];
-          }
-          transactionIdMap[trimmedValue].push(i);
-        }
-      }
-
-      // Second Pass: Mark duplicates
-      for (const [transactionId, rowIndices] of Object.entries(transactionIdMap)) {
-        if (rowIndices.length > 1) {
-          // Mark all rows containing the duplicate transaction ID
-          for (const rowIndex of rowIndices) {
-            this.validateRowToggle = true;
-            this.invalidRows[rowIndex] = true;
-            this.invalidCells[rowIndex][transactionIdIndex] = true; // Mark the specific 'Transaction Id' cell as invalid
+        if (this.fileColumnName[j] === 'Transaction Id') {
+          // Validate non-empty and non-whitespace string
+          if (cellValue) {
+            // Track transaction ID occurrences
+            const trimmedValue = cellValue.trim();
+            if (!transactionIdMap[trimmedValue]) {
+              transactionIdMap[trimmedValue] = [];
+            }
+            transactionIdMap[trimmedValue].push(i);
           }
         }
-      }
-    //end
+
+        // Second Pass: Mark duplicates
+        for (const [transactionId, rowIndices] of Object.entries(transactionIdMap)) {
+          if (rowIndices.length > 1) {
+            // Mark all rows containing the duplicate transaction ID
+            for (const rowIndex of rowIndices) {
+              this.validateRowToggle = true;
+              this.invalidRows[rowIndex] = true;
+              this.invalidCells[rowIndex][transactionIdIndex] = true; // Mark the specific 'Transaction Id' cell as invalid
+            }
+          }
+        }
+        //end
 
 
-      //over all end
+        //over all end
 
       }
 
@@ -2368,9 +2371,9 @@ onPageChange(page: number) {
   }
 
   isDuplicateTrnxId: boolean = false;
-   isDuplicate(value: string, currentRowIndex: number, rows: any) {
+  isDuplicate(value: string, currentRowIndex: number, rows: any) {
     // this.invalidRows = new Array(rows.length).fill(false);
-console.log('calling....')
+    console.log('calling....')
     // if (!value) return false; // Ignore empty values
     let duplicateCount = 0;
 
@@ -2379,7 +2382,7 @@ console.log('calling....')
       if (rows[i]['Transaction Id'] === value) {
         duplicateCount++;
         if (duplicateCount > 1 && i !== currentRowIndex) {
-           this.isDuplicateTrnxId = true; // Duplicate found
+          this.isDuplicateTrnxId = true; // Duplicate found
         }
       }
     }
@@ -2388,6 +2391,6 @@ console.log('calling....')
 
 
 
-/** Set Excel data end */
+  /** Set Excel data end */
 
 }
