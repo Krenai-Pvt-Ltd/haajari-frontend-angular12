@@ -1,5 +1,5 @@
 import { constant } from 'src/app/constant/constant';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import {  NgForm } from '@angular/forms';
 import { NavigationExtras, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -1426,7 +1426,12 @@ console.log(this.data);
   requestedData: any[] = [];
   isRequestedDataLoading: boolean = false;
   userId: string = '';
+  editedName: string = '';
+  editedDate: Date = new Date();
+  profilePic: string = '';
   disabledStates: boolean[] = [];
+  approveStates: string[]=[];
+  @ViewChildren('collapsibleDiv') collapsibleDivs!: QueryList<ElementRef>;
   getRequestedData(uuid: string) {
     debugger;
     this.isRequestedDataLoading = true;
@@ -1434,10 +1439,14 @@ console.log(this.data);
       (response: any) => {
         this.isRequestedDataLoading = false;
         this.userId = uuid;
-          this.requestedData = response.map((item: { key: string; }) => ({
+          this.requestedData = response.editedDataDtoList.map((item: { key: string; }) => ({
             ...item,
             name: this.convertKeyToName(item.key)
           }));
+          this.editedName= response.name;
+          this.editedDate= response.createdDate;
+          this.profilePic= response.profilePic;
+          this.approveStates=[];
           console.log(this.requestedData);
 
       },
@@ -1454,6 +1463,7 @@ console.log(this.data);
       .replace(/^./, (str) => str.toUpperCase()); // Capitalizes the first letter
   }
 
+  @ViewChild('closeReqDataModal') closeReqDataModal!: ElementRef;
   approveLoading: boolean = false;
   approveRequestedData(): void {
     this.approveLoading = true;
@@ -1463,8 +1473,9 @@ console.log(this.data);
         console.log('Response:', response);
         if (response.success) {
           this.helperService.showToast('Data saved successfully', Key.TOAST_STATUS_SUCCESS);
-          this.modalService.dismissAll();
-          this.closeDataRequestModal();
+          this.closeReqDataModal.nativeElement.click();
+          this.selectStatus('EDITPROFILE');
+
         } else {
           this.helperService.showToast('Failed to save data', Key.TOAST_STATUS_ERROR);
         }
@@ -1485,8 +1496,8 @@ console.log(this.data);
         this.rejectLoading = false;
         if (response.success) {
           this.helperService.showToast('Request rejected successfully', Key.TOAST_STATUS_SUCCESS);
-          this.modalService.dismissAll();
-          this.closeDataRequestModal();
+          this.closeReqDataModal.nativeElement.click();
+          this.selectStatus('EDITPROFILE');
         } else {
           this.helperService.showToast('Failed to reject request', Key.TOAST_STATUS_ERROR);
         }
@@ -1509,6 +1520,11 @@ console.log(this.data);
         if (response.success) {
           this.helperService.showToast('Data Rejected successfully', Key.TOAST_STATUS_SUCCESS);
           this.disabledStates[index] = true;
+          this.approveStates[index] = 'Rejected';
+          const divToClick = document.getElementById('collapsibleDiv-' + index);
+          if (divToClick) {
+            divToClick.click();
+          }
 
         } else {
           this.helperService.showToast('Failed to remove the field', Key.TOAST_STATUS_ERROR);
@@ -1530,6 +1546,11 @@ console.log(this.data);
         console.log('Response:', response);
         if (response.success) {
           this.disabledStates[index] = true;
+          this.approveStates[index] = 'Approved';
+          const divToClick = document.getElementById('collapsibleDiv-' + index);
+          if (divToClick) {
+            divToClick.click();
+          }
           this.helperService.showToast('Field approve successfully', Key.TOAST_STATUS_SUCCESS);
 
         } else {
@@ -1550,6 +1571,7 @@ console.log(this.data);
     this.fieldLoading = false;
     this.isRequestedDataLoading = false;
     this.disabledStates = [];
+    this.approveStates = [];
   }
 
   isNumberExist: boolean = false;

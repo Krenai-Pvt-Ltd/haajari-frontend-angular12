@@ -1520,7 +1520,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Update Request</h5>
-        <button (click)="closeDataRequestModal()" type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close">
+        <button #closeReqDataModal (click)="closeDataRequestModal()" type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
             <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24"
               height="24">
@@ -1537,13 +1537,13 @@
         <div *ngIf="!isRequestedDataLoading" class="request-body">
           <div class="d-flex align-items-center justify-content-between request-user p-3">
             <div class="d-flex align-items-center gap-2">
-              <img src="assets/images/birthday-img.jpeg">
+              <img [src]="profilePic">
               <div>
-                <h5 class="mb-0 font-15">Anchal Sharma </h5>
-                <p class="mb-0 font-12">Requested for 3 update </p>
+                <h5 class="mb-0 font-15">{{editedName}} </h5>
+                <p class="mb-0 font-12">Requested for {{requestedData.length}} update </p>
               </div>
             </div>
-            <p class="mb-0 font-14 fw-semibold"> 23rd Dec, 2023</p>
+            <p class="mb-0 font-14 fw-semibold">{{editedDate | date:'MMM d, y'}} </p>
           </div>
 
           <div class="email-update-box mt-3">
@@ -1557,7 +1557,7 @@
                 <!-- <p class="text-seccess mb-0 font-13 fw-semibold">Approve</p>
             <p class="text-danger mb-0 font-13 fw-semibold">Rejected</p> -->
                 <button class="btn p-0 text-black font-13 ">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                  <svg *ngIf="approveStates[i]==='Approved'" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                     <mask id="mask0_6559_7013" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20"
                       height="20">
                       <rect width="20" height="20" fill="#D9D9D9" />
@@ -1568,10 +1568,11 @@
                         fill="black" />
                     </g>
                   </svg>
-                  Approve
+                  <!-- Rejected -->
+                  {{approveStates[i]}}
                 </button>
                 <div class="break-line"></div>
-                <div class="pointer" data-bs-toggle="collapse" [attr.href]="'#view-edit-request-' + i" role="button"
+                <div [attr.id]="'collapsibleDiv-' + i" class="pointer" data-bs-toggle="collapse" [attr.href]="'#view-edit-request-' + i" role="button"
                   aria-expanded="false" aria-controls="view-edit-request">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                     <mask id="mask0_6559_7025" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24"
@@ -1843,8 +1844,22 @@
 
       </div>
       <div class="modal-footer d-flex align-items-center justify-content-end gap-2">
-        <button type="button" (click)="approveRequestedData()" class="btn cancel-btn">Approve All</button>
-        <button type="button" (click)="rejectData()" class="btn submitActionBtn">Reject All</button>
+        <button type="button" (click)="approveRequestedData()" [disabled]="rejectLoading || approveLoading" class="btn cancel-btn">
+          <span *ngIf="!approveLoading">Approve All</span>
+          <div class="dot-opacity-loader" *ngIf="approveLoading">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </button>
+        <button type="button" (click)="rejectData()" [disabled]="rejectLoading || approveLoading" class="btn submitActionBtn">
+          <span *ngIf="!rejectLoading">Reject All</span>
+          <div class="dot-opacity-loader" *ngIf="rejectLoading">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </button>
       </div>
     </div>
   </div>
