@@ -21,8 +21,8 @@ import { AgmCoreModule } from '@agm/core';
     DurationPickerComponent,
     CommonComponent,
     HeaderComponent,
-    NewEmployeeProfileSidebarComponent
-    
+    NewEmployeeProfileSidebarComponent,
+
   ],
   imports: [CommonModule, CommonRoutingModule,
     AgmCoreModule.forRoot({
@@ -32,4 +32,4 @@ import { AgmCoreModule } from '@agm/core';
   ],
   exports: [],
 })
-export class CommonModule {}
+export class CommonModule { }

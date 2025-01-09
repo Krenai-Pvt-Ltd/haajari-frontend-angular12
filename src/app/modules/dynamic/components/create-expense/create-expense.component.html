@@ -1,8 +1,6 @@
 <div class="page-wrapper">
   <div class="page-content-tab">
-
     <div class="d-flex align-items-center justify-content-between border-bottom ml-2" style="margin-right: 10px;">
-
       <ul *ngIf="ROLE == 'ADMIN'" id="myTab" role="tablist" class="nav nav-tabs mt-3 " style="border:none;">
         <li role="presentation" class="nav-item d-flex align-items-center">
           <button id="home-tab" data-bs-toggle="tab" data-bs-target="#company-expense" type="button" role="tab"
@@ -20,8 +18,6 @@
           </button>
         </li>
       </ul>
-
-
       <div class="d-flex align-items-center gap-3 mr-3" *ngIf="activeTab === 'allExpense'">
         <button class="btn p-0 primaryBtnLink d-flex align-items-center gap-2" data-bs-toggle="modal"
           data-bs-target="#sampleFileModal">
@@ -29,31 +25,21 @@
           <span>Import</span>
         </button>
         <span class="calendar-separator"></span>
-
         <button *ngIf="!exportLoading" class="btn p-0 primaryBtnLink d-flex align-items-center gap-2"
           (click)="export()">
           <i class="bi bi-download"></i>
           <span>Export</span>
         </button>
-
         <div class="dot-opacity-loader" *ngIf="exportLoading">
           <span></span>
           <span></span>
           <span></span>
         </div>
-
       </div>
-
     </div>
-
-
     <div class="container-fluid">
-
-      <!-- Create and View Company Expense start -->
       <div class="col-md-12 mt-3 mb-3" *ngIf="activeTab === 'allExpense'">
         <div class="">
-
-
           <div class="row">
             <div class="table-responsive bg-white">
               <table class="table empOnnoardtable">
@@ -68,38 +54,51 @@
                     <th class="text-left" style="width: 10%">
                       Amount
                     </th>
-
                     <th class="text-left" style="width: 10%">
                       Paid Amount
                     </th>
-
                     <th class="text-left" style="width: 15%">
                       Expense Type
                     </th>
-
                     <th class="text-left" style="width: 15%">
                       Notes
                     </th>
-
                     <th class="text-left" style="width: 15%">
                       Status
                     </th>
-
                     <th class="text-left" style="width: 10%">
                       Action
                     </th>
-
                   </tr>
                 </thead>
-
                 <tbody *ngIf="loading">
-                  <tr *ngFor="let i of [1, 2, 3, 4, 5, 6]">
-                    <td *ngFor="let i of [1, 2, 3, 4, 5, 6,7,8]" class="text-center">
-                      <p class="shimmer"></p>
+                  <tr *ngFor="let item of [].constructor(10)">
+                    <td>
+                      <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                    </td>
+                    <td>
+                      <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                    </td>
+                    <td>
+                      <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                    </td>
+                    <td>
+                      <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                    </td>
+                    <td>
+                      <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                    </td>
+                    <td>
+                      <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                    </td>
+                    <td>
+                      <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                    </td>
+                    <td>
+                      <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
                     </td>
                   </tr>
                 </tbody>
-
                 <tbody *ngIf="!loading">
                   <ng-container *ngIf="expenseList.length == 0">
                     <tr>
@@ -108,13 +107,13 @@
                           <div>
                             <img src="assets/images/no-data-found-img.svg" alt="" height="50%" width="50%">
                             <h6 class="p-2" style="margin-left: -40px;">No Expenses Created
-                              Yet!!</h6>
+                              Yet!!
+                            </h6>
                           </div>
                         </div>
                       </td>
                     </tr>
                   </ng-container>
-
                   <ng-container *ngIf="expenseList.length > 0">
                     <tr *ngFor="let expense of expenseList; let i= index">
                       <td class="text-left">
@@ -149,42 +148,34 @@
                           [ngClass]="{ 'badge-soft-warning': expense.status.id == 13,'badge-soft-success':expense.status.id == 14 || expense.status.id == 41, 'badge-soft-danger':expense.status.id == 15, 'badge-soft-primary': expense.status.id == 40, 'badge-soft-info': expense.status.id == 46}"
                           class="badge rounded-pill">{{expense.status.response}}
                         </div>
-
                       </td>
                       <td class="text-left">
                         <div>
                           <button type="button" class="btn p-0 text-primary View-btn fw-semibold" (click)="
-                            getExpense(expense)" data-bs-toggle="modal" data-bs-target="#approveModal">
+                                         getExpense(expense)" data-bs-toggle="modal" data-bs-target="#approveModal">
                             <i class="bi bi-eye"></i> View
                           </button>
                         </div>
                       </td>
                     </tr>
                   </ng-container>
-
                 </tbody>
-
               </table>
-
               <div
                 class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top"
                 *ngIf="expenseTotalItems > 9">
                 <p class="mb-0 font-13">Showing {{ expenseList.length }} of {{ expenseTotalItems }} </p>
-                <ngb-pagination lass="pagination-ul" class="pagition-box" [collectionSize]="expenseTotalItems"
+                <ngb-pagination class="pagination-ul" class="pagition-box" [collectionSize]="expenseTotalItems"
                   [rotate]="true" (pageChange)="expensePageChanged($event)" [pageSize]="databaseHelper.itemPerPage"
                   [(page)]="databaseHelper.currentPage" [maxSize]="7" [boundaryLinks]="true">
                 </ngb-pagination>
               </div>
-
             </div>
           </div>
-
         </div>
       </div>
       <!-- Create and View Company Expense start -->
-
       <div class="col-md-12 mt-3 mb-3" *ngIf="activeTab === 'expensePolicy'">
-
         <div class="row mt-2">
           <div class="col-md-4 mt-3 mb-3">
             <div *ngIf="!isLoading" class="form-roe-data">
@@ -194,7 +185,6 @@
           </div>
           <div class="col-md-8">
             <div class="row mb-3"></div>
-
             <div *ngIf="isLoading">
               <div class="">
                 <div class="text-end">
@@ -203,15 +193,15 @@
                 </div>
               </div>
               <div class="mt-3" style="
-                            border: 1px solid #f5f5f5;
-                            padding: 5px;
-                            border-radius: 6px;
-                          ">
+                       border: 1px solid #f5f5f5;
+                       padding: 5px;
+                       border-radius: 6px;
+                       ">
                 <div class="row" style="
-                              border-bottom: 1px solid #f5f5f5;
-                              padding-top: 10px;
-                              padding-bottom: 10px;
-                            ">
+                          border-bottom: 1px solid #f5f5f5;
+                          padding-top: 10px;
+                          padding-bottom: 10px;
+                          ">
                   <div class="col-md-6">
                     <div class="">
                       <ngx-shimmer-loading [width]="'60%'" [height]="'20px'"
@@ -234,10 +224,10 @@
                   </div>
                 </div>
                 <div class="row mt-2" style="
-                              border-bottom: 1px solid #f5f5f5;
-                              padding-top: 10px;
-                              padding-bottom: 10px;
-                            ">
+                          border-bottom: 1px solid #f5f5f5;
+                          padding-top: 10px;
+                          padding-bottom: 10px;
+                          ">
                   <div class="col-md-4">
                     <div class="">
                       <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
@@ -266,10 +256,10 @@
                   </div>
                 </div>
                 <div class="row mt-2" style="
-                              border-bottom: 1px solid #f5f5f5;
-                              padding-top: 10px;
-                              padding-bottom: 10px;
-                            ">
+                          border-bottom: 1px solid #f5f5f5;
+                          padding-top: 10px;
+                          padding-bottom: 10px;
+                          ">
                   <div class="col-md-4">
                     <div class="">
                       <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
@@ -298,10 +288,10 @@
                   </div>
                 </div>
                 <div class="row mt-2" style="
-                              border-bottom: 1px solid #f5f5f5;
-                              padding-top: 10px;
-                              padding-bottom: 10px;
-                            ">
+                          border-bottom: 1px solid #f5f5f5;
+                          padding-top: 10px;
+                          padding-bottom: 10px;
+                          ">
                   <div class="col-md-4">
                     <div class="">
                       <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
@@ -330,10 +320,10 @@
                   </div>
                 </div>
                 <div class="row mt-2" style="
-                              border-bottom: 1px solid #f5f5f5;
-                              padding-top: 10px;
-                              padding-bottom: 10px;
-                            ">
+                          border-bottom: 1px solid #f5f5f5;
+                          padding-top: 10px;
+                          padding-bottom: 10px;
+                          ">
                   <div class="col-md-4">
                     <div class="">
                       <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
@@ -383,24 +373,20 @@
                 </div>
               </div>
             </div>
-
             <!-- Create Leave Template Start -->
             <!-- <div class="add-shift-main-box" *ngIf="leaveTemplates.length > 0  && !leaveSettingPlaceholder && !isLeaveErrorPlaceholder && !isLoading"> -->
             <div class="add-shift-main-box" *ngIf="!isLoading">
-
               <div class="add-shift-box d-flex align-items-center justify-content-between p-3 pt-2 pb-2">
                 <div class="">
                   <h6 class="text-truncate mb-0">Expense</h6>
                 </div>
                 <div class="">
-
                   <a class="add-shift-time-btn" data-bs-toggle="modal" data-bs-target="#createPolicy"
                     (click)="getExpenseType(); clearData()">
                     <i class="bi bi-plus"></i> Create expense policy
                   </a>
                 </div>
               </div>
-
               <div *ngIf="companyExpensePolicyList.length == 0" class="col-md-12">
                 <div class="d-flex justify-content-center p-4">
                   <img src="assets/images/no-data-found-img.svg" alt="" height="20%" width="10%">
@@ -410,7 +396,6 @@
                   <h6>No Policy Created Yet!!</h6>
                 </div>
               </div>
-
               <!-- View company expense policy list -->
               <div *ngIf="companyExpensePolicyList.length > 0">
                 <div class="shift-time p-3 m-3" *ngFor="let expensePolicy of companyExpensePolicyList; let i = index">
@@ -431,19 +416,15 @@
                       </div>
                       <div class="d-flex align-items-center gap-3">
                         <div class="d-flex align-items-center gap-3">
-
                           <a href="" data-bs-toggle="modal" data-bs-target="#createPolicy" (click)="getExpenseType()">
                             <i class="bi bi-pencil pointer" style="color: #6666f3"
                               (click)="getExpenseInformationById(expensePolicy)"></i>
                           </a>
-
                           <a class="delete-rule" data-bs-toggle="modal" data-bs-target="#delete-policy" (click)="
-                                    getExpensePolicyOrExpensePolicyTypeId(expensePolicy.id, true, 0)">
+                                         getExpensePolicyOrExpensePolicyTypeId(expensePolicy.id, true, 0)">
                             <i class="bi bi-trash pointer text-danger"></i>
                           </a>
-
                         </div>
-
                         <span class="staff-leave-setting bg-white">Staff - {{ expensePolicy.totalEmployees }}</span>
                         <span class="automation-rules-toogel-btn pointer" data-bs-toggle="collapse"
                           [attr.data-bs-target]="'#multiCollapseExample' + i" role="button"
@@ -453,29 +434,27 @@
                         </span>
                       </div>
                     </div>
-
                     <div class="collapse multi-collapse" [id]="'multiCollapseExample' + i"
                       [class.show]="activeIndex === i">
                       <div class="row mt-3">
                         <div [ngClass]="{
-                                    'col-md-4':
-                                    expensePolicy.companyExpensePolicyTypeRes.length > 2,
-                                    'col-md-6':
-                                    expensePolicy.companyExpensePolicyTypeRes.length == 2,
-                                    'col-md-12':
-                                    expensePolicy.companyExpensePolicyTypeRes.length == 1
-                                  }" *ngFor="let expensePolicyType of expensePolicy.companyExpensePolicyTypeRes">
+                                'col-md-4':
+                                expensePolicy.companyExpensePolicyTypeRes.length > 2,
+                                'col-md-6':
+                                expensePolicy.companyExpensePolicyTypeRes.length == 2,
+                                'col-md-12':
+                                expensePolicy.companyExpensePolicyTypeRes.length == 1
+                                }" *ngFor="let expensePolicyType of expensePolicy.companyExpensePolicyTypeRes">
                           <div class="custom-salary">
                             <div class="custom-salary-hedding p-3 d-flex align-items-center justify-content-between">
                               <h4 class="mb-0">
                                 {{ expensePolicyType?.expenseTypeName || "N/A" }}
                               </h4>
                               <div class="d-flex align-items-center gap-3">
-
                                 <i *ngIf="
-                                          expensePolicy.companyExpensePolicyTypeRes.length > 1" data-bs-toggle="modal"
+                                         expensePolicy.companyExpensePolicyTypeRes.length > 1" data-bs-toggle="modal"
                                   data-bs-target="#delete-policy" (click)="
-                                          getExpensePolicyOrExpensePolicyTypeId(expensePolicyType.id, false, 0)"
+                                         getExpensePolicyOrExpensePolicyTypeId(expensePolicyType.id, false, 0)"
                                   class="bi bi-trash pointer text-danger"></i>
                               </div>
                             </div>
@@ -501,25 +480,15 @@
                 </div>
               </div>
               <!-- View company expense policy list end -->
-
             </div>
             <!-- Create Leave Template End -->
-
             <div class="col-md-1"></div>
           </div>
         </div>
-
-
       </div>
-
-
-
     </div>
   </div>
 </div>
-
-
-
 <!-- Create expense modal start -->
 <div class="modal fade" id="createExpense" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
   aria-hidden="true">
@@ -548,7 +517,6 @@
               <div class="col-md-12 mb-3">
                 <div class="form-group">
                   <label for="expenseType" class="mb-2">Expense type</label>
-
                   <nz-select style="width: 100%" nzSize="large" nzPlaceHolder="Select Expense type"
                     [(ngModel)]="expenseTypeId" (ngModelChange)="getExpenseTypeId($event)" required name="expTypeId"
                     #expTypeId="ngModel" class="form-control">
@@ -556,15 +524,11 @@
                       [nzLabel]="expenseType.name">
                     </nz-option>
                   </nz-select>
-
-
                   <div *ngIf="expTypeId?.invalid && expTypeId?.touched" class="error-message">
                     Expense type is required.
                   </div>
-
                 </div>
               </div>
-
               <div class="col-md-12 mb-3" nz-form-item>
                 <label for="expenseDate" class="pb-2 font-12">Expense Date
                 </label>
@@ -575,21 +539,19 @@
                   </nz-date-picker>
                 </div>
                 <div *ngIf="expDate?.touched && expDate?.invalid" style="color: red;">Expense Date is
-                  required</div>
+                  required
+                </div>
               </div>
-
               <div class="col-md-12 mb-3">
                 <div class="form-group">
                   <label for="expenseAmount" class="mb-2"> Amount</label>
                   <input type="number" required min="1" id="amount" name="amount" placeholder="Enter Amount"
                     class="form-control" [(ngModel)]="expenseTypeReq.amount" #amountInput="ngModel" />
-
                   <!-- Required validation message -->
                   <div *ngIf="amountInput.errors?.required && (amountInput.dirty || amountInput.touched)"
                     style="color: red;">
                     Amount is required.
                   </div>
-
                   <!-- Min value validation message for negative values or zero -->
                   <div *ngIf="amountInput.errors?.min && (amountInput.dirty || amountInput.touched)"
                     style="color: red;">
@@ -597,41 +559,32 @@
                   </div>
                 </div>
               </div>
-
               <div class="col-md-12 mb-3">
                 <div class="form-group">
                   <label for="templateName" class="mb-2"> Note</label>
                   <textarea class="form-control nots-section" required placeholder="write the note" id="notes" rows="3"
                     name="notes" [(ngModel)]="expenseTypeReq.notes" #notesInput="ngModel"></textarea>
                 </div>
-
                 <div *ngIf="notesInput.errors?.required && notesInput.touched" style="color: red;">
                   Notes is required.
                 </div>
               </div>
-
               <div class="col-md-12 ">
                 <div class="form-group ">
                   <label for="templateName" class="mb-2"> Proof document <span
                       class="text-primary font-12">(optional)</span></label>
                   <div class="d-flex align-items-center justify-content-between  requesting-half-leave p-2">
                     <p class="mb-0 font-13 " style="font-weight: 400;">Select proof document</p>
-
                     <button *ngIf="!isUploading && expenseTypeReq.url == ''" type="button" (click)="fileInput.click()"
                       class="btn p-0 text-primary font-13">
                       <i class="bi bi-plus-lg"></i> Add File
                     </button>
-
                     <div *ngIf="isUploading" class="spinner-border spinner-border-sm text-primary m-2" role="status">
                       <span class="visually-hidden">Loading...</span>
                     </div>
-
                     <input type="file" #fileInput (change)="onFileSelected($event)" accept=".png, .jpg, .jpeg"
                       style="display: none;" />
-
                   </div>
-
-
                   <div *ngIf="expenseTypeReq.url != ''"
                     class="hr-policy-file d-flex justify-content-between align-items-center p-3 mt-3">
                     <div class="d-flex align-items-center gap-2">
@@ -653,11 +606,9 @@
                               fill="#1C1B1F"></path>
                           </g>
                         </svg>
-
                       </span>
                       <input id="hrpolicies" type="file" name="hrpolicies" accept="application/pdf" class="input"
                         style="display: none;">
-
                       <span>
                         <svg (click)="deleteImage()" xmlns="http://www.w3.org/2000/svg" width="23" height="22"
                           viewBox="0 0 23 22" fill="none">
@@ -675,8 +626,8 @@
                     </div>
                   </div>
                 </div>
-              </div> <!-- proof end -->
-
+              </div>
+              <!-- proof end -->
               <div *ngIf="validatePolicyToggle" class="alert bg-soft-warning border">
                 This Expense is valid for amount: {{limitAmount}}
                 <div>
@@ -685,26 +636,20 @@
                   <button (click)="setValidateToggle()">No</button>
                 </div>
               </div>
-
             </div>
-
             <div *ngIf="!validatePolicyToggle" class="modal-footer">
               <button type="button" class="btn cancel-btn" data-bs-dismiss="modal"
                 (click)="clearExpenseForm(createForm)">Cancel</button>
-
               <button *ngIf="!createToggle" type="submit" class="btn submitActionBtn"
                 [disabled]="expenseTypeReq.expenseTypeId == 0 || expenseTypeReq.expenseDate == undefined || expenseTypeReq.notes == '' || expenseTypeReq.amount == undefined || expenseTypeReq.amount <= 0">
                 {{expenseTypeReq.id == 0 ? 'Submit' : 'Update'}}
               </button>
-
               <div class="dot-opacity-loader" *ngIf="createToggle">
                 <span></span>
                 <span></span>
                 <span></span>
               </div>
-
             </div>
-
           </form>
         </div>
       </div>
@@ -712,8 +657,6 @@
   </div>
 </div>
 <!-- Create expense modal end -->
-
-
 <!-- delete Expense Modal -->
 <div class="modal fade" id="delete-expense" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" style="max-width: 500px" role="document">
@@ -739,20 +682,17 @@
           <img src="/assets/images/delete-img.svg" style="width: 70px" />
         </div>
         <div class="bg-white p-4 text-center">
-
           <div>
             <h5 class="alert-heading font-18 mb-2">
               Are you sure you want to delete <br />
             </h5>
             <p class="font-11">You will not be able to recover this</p>
           </div>
-
           <div class="mt-4 d-flex align-items-center flex-column">
             <button [disabled]="deleteToggle" class="btn continue-btn" (click)="deleteExpense()">
               Continue
               <i class="fa fa-spinner fa-spin" *ngIf="deleteToggle"></i>
             </button>
-
             <button class="btn cancel-btn pt-2" type="button" data-bs-dismiss="modal" aria-label="Close">
               Cancel
             </button>
@@ -763,8 +703,6 @@
   </div>
 </div>
 <!-- delete Expense Modal End -->
-
-
 <!-- Expense Approve/Reject Modal start -->
 <div class="modal fade" id="approveModall" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel"
   aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
@@ -777,21 +715,18 @@
         </button>
         <div *ngIf="userExpense != undefined" class="text-center leave-appervo-modal">
           <div class="d-flex align-items-start justify-content-between">
-            <div class="d-flex align-items-center profile-details" style="gap: 15px">
+            <div class="d-flex align-items-center profile-details gap-3">
               <div class="profile-user-img">
-                <img [src]="userExpense.imageUrl || 'assets/images/user.png'"
-                  style="width: 50px; height: 50px; object-fit: cover" />
+                <img [src]="userExpense.imageUrl || 'assets/images/user.png'" />
               </div>
-
               <div>
-                <!-- <h4 style="cursor: pointer" (click)="routeToUserProfileAfterClosePending(userExpense.uuid)"> -->
-                <h4 style="cursor: pointer">
+                <h4 class="pointer">
                   {{ userExpense.employeeName }}
                 </h4>
-                <p>{{ userExpense.email }}</p>
+                <p class="pointer">{{ userExpense.email }}</p>
               </div>
             </div>
-            <div class="total-holidey-live">
+            <div class="total-holiday-live">
               <h5 class="text-end">
                 {{(userExpense.expenseDate | date : "dd MMM yyyy") || "N/A"}}
               </h5>
@@ -805,25 +740,17 @@
           <div class="mt-4">
             <div class="d-flex align-items-center">
               <div class="Approved rejected-css">
-                <p class="mb-0" style="color: black"></p>
-                <span style="
-                                        color: #9196a4 !important;
-                                        text-align: left;
-                                        font-size: 14px;
-                                        font-weight: 400;" class="total-holiday">{{ userExpense.expenseType }}</span>
+                <p class="mb-0 text-black"></p>
+                <span class="user-expence-type total-holiday">{{ userExpense.expenseType }}</span>
               </div>
-
-
               <div class="">
                 <p class="mb-0" class="fs-5 mb-0 text-black">{{ userExpense.amount }}</p>
               </div>
             </div>
-
             <div *ngIf="userExpense.limitAmount != null && userExpense.amount > userExpense.limitAmount"
               class="alert bg-soft-warning mt-3 ng-star-inserted" style="height: 41px; padding: 8px;">
               This Expense is valid for amount: {{userExpense.limitAmount}}
             </div>
-
             <p class="mt-4 mb-4">{{ userExpense.notes == null ? 'N/A' : userExpense.notes }}</p>
             <div class="row mb-3">
               <!-- Checkbox in Column 4 -->
@@ -836,79 +763,72 @@
                   </label>
                 </div>
               </div>
-
               <!-- Input in Column 8 -->
               <div class="col-md-8">
                 <input type="number" required min="1" id="amount" name="amount" placeholder="Enter Amount"
                   class="form-control" [(ngModel)]="partialAmount" #amountInput="ngModel"
                   [disabled]="!isCheckboxChecked" style="height: 38px !important;" />
               </div>
-
               <div>
                 <p *ngIf="partialAmount > userExpense.amount" class="d-flex justify-content-end"
                   style="color: red !important;"> Flexible amount should be less from expense amount</p>
               </div>
-
             </div>
-
             <!-- *ngIf="userExpense.status.id == 13 || userExpense.status.id == 15" -->
             <div class="d-flex align-items-center justify-content-end" style="gap: 10px">
               <!-- Approve Button -->
               <!-- <button class="btn approve-btn" type="button"
-                [disabled]="(userExpense.status.id != 13 && userExpense.status.id != 15) || (isCheckboxChecked && (partialAmount == '' || partialAmount == null || partialAmount > userExpense.amount))"
-                (click)="approveOrDeny(userExpense.id, 14)">
-                <div *ngIf="approveToggle ; else approveLabel">
-                  <div class="dot-opacity-loader">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                  </div>
-                </div>
-                <ng-template #approveLabel>Approve</ng-template>
-              </button> -->
+                       [disabled]="(userExpense.status.id != 13 && userExpense.status.id != 15) || (isCheckboxChecked && (partialAmount == '' || partialAmount == null || partialAmount > userExpense.amount))"
+                       (click)="approveOrDeny(userExpense.id, 14)">
+                       <div *ngIf="approveToggle ; else approveLabel">
+                         <div class="dot-opacity-loader">
+                           <span></span>
+                           <span></span>
+                           <span></span>
+                         </div>
+                       </div>
+                       <ng-template #approveLabel>Approve</ng-template>
+                       </button> -->
               <!-- Reject Button -->
               <!-- <button
-                [disabled]="userExpense.status.id == 14 || userExpense.status.id == 40 || userExpense.status.id == 41"
-                class="btn reject-btn" type="button" (click)="approveOrDeny(userExpense.id, 15)">
-                <div *ngIf="rejectToggle; else rejectLabel">
-                  <div class="dot-opacity-loader">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                  </div>
-
-                </div>
-                <ng-template #rejectLabel>Reject</ng-template>
-              </button> -->
-
+                       [disabled]="userExpense.status.id == 14 || userExpense.status.id == 40 || userExpense.status.id == 41"
+                       class="btn reject-btn" type="button" (click)="approveOrDeny(userExpense.id, 15)">
+                       <div *ngIf="rejectToggle; else rejectLabel">
+                         <div class="dot-opacity-loader">
+                           <span></span>
+                           <span></span>
+                           <span></span>
+                         </div>
+                       
+                       </div>
+                       <ng-template #rejectLabel>Reject</ng-template>
+                       </button> -->
               <!-- Reject Button -->
               <!-- <button
-                [disabled]="userExpense.status.id == 14 || userExpense.status.id == 40 || userExpense.status.id == 41"
-                class="btn btn-warning" type="button" (click)="approveOrDeny(userExpense.id, 40)">
-                <div *ngIf="payrollToggle; else payrollLabel">
-                  <div class="dot-opacity-loader">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                  </div>
-                </div>
-                <ng-template #payrollLabel>Add To Payroll</ng-template>
-              </button> -->
-
+                       [disabled]="userExpense.status.id == 14 || userExpense.status.id == 40 || userExpense.status.id == 41"
+                       class="btn btn-warning" type="button" (click)="approveOrDeny(userExpense.id, 40)">
+                       <div *ngIf="payrollToggle; else payrollLabel">
+                         <div class="dot-opacity-loader">
+                           <span></span>
+                           <span></span>
+                           <span></span>
+                         </div>
+                       </div>
+                       <ng-template #payrollLabel>Add To Payroll</ng-template>
+                       </button> -->
               <!-- Reject Button -->
               <!-- <button
-                [disabled]="userExpense.status.id == 14 || userExpense.status.id == 40 || userExpense.status.id == 41"
-                class="btn btn-danger" type="button" (click)="approveOrDeny(userExpense.id, 41)">
-                <div *ngIf="expenseCancelToggle; else cancelLabel">
-                  <div class="dot-opacity-loader">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                  </div>
-                </div>
-                <ng-template #cancelLabel>Cancel</ng-template>
-              </button> -->
-
+                       [disabled]="userExpense.status.id == 14 || userExpense.status.id == 40 || userExpense.status.id == 41"
+                       class="btn btn-danger" type="button" (click)="approveOrDeny(userExpense.id, 41)">
+                       <div *ngIf="expenseCancelToggle; else cancelLabel">
+                         <div class="dot-opacity-loader">
+                           <span></span>
+                           <span></span>
+                           <span></span>
+                         </div>
+                       </div>
+                       <ng-template #cancelLabel>Cancel</ng-template>
+                       </button> -->
             </div>
           </div>
         </div>
@@ -917,9 +837,6 @@
   </div>
 </div>
 <!-- Expense Approve/Reject Modal end -->
-
-
-
 <div class="modal fade" id="approveModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel"
   data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
   <div class="modal-dialog modal-xl modal-dialog-centered" style="max-width: 1060px;" role="document">
@@ -930,13 +847,10 @@
         </h6>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="clearApproveModal()"
           #closeApproveModal></button>
-
       </div>
       <div class="modal-body p-0">
         <div class="row">
           <div class="col-md-5 pr-0 mr-0">
-
-
             <ng-container *ngIf="userExpense && userExpense.slipUrls.length > 0">
               <div id="expenseCarousel" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
@@ -959,7 +873,6 @@
                 </button>
               </div>
             </ng-container>
-
             <ng-container *ngIf="userExpense && userExpense.slipUrls.length == 0">
               <div class="empty-file" style="padding-top: 50%; padding-bottom: 50%">
                 <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
@@ -968,10 +881,7 @@
                   </ng-template>
                 </nz-empty>
               </div>
-
-
             </ng-container>
-
           </div>
           <div class="col-md-7 ml-0 pl-0">
             <div class="bill-snapshot-modal p-3" *ngIf="userExpense != undefined">
@@ -985,27 +895,23 @@
                   </div>
                 </div>
                 <div class="text-end">
-
                   <span class="badge rounded-pill" [ngClass]="{'badge-soft-warning' : userExpense.status.id == 13, 
-                    'badge-soft-success' : userExpense.status.id == 14 || userExpense.status.id == 41, 
-                    'badge-soft-danger' : userExpense.status.id == 15, 
-                    'badge-soft-primary' : userExpense.status.id == 40}">
+                          'badge-soft-success' : userExpense.status.id == 14 || userExpense.status.id == 41, 
+                          'badge-soft-danger' : userExpense.status.id == 15, 
+                          'badge-soft-primary' : userExpense.status.id == 40}">
                     {{userExpense.status.response}}
                   </span>
-
-                  <p class="mb-0 mt-2 font-14 expance-date">Date: {{userExpense.expenseDate | date : "dd MMM yyyy" ||
-                    "N/A"}}</p>
+                  <p class="mb-0 mt-2 font-14 expance-date">Date:
+                    {{userExpense.expenseDate | date : "dd MMM yyyy" || "N/A"}}
+                  </p>
                 </div>
               </div>
               <div class="expance-forn-data">
                 <div class="row">
-
                   <div class="col-md-12 mb-3 mt-3">
                     <label for="templateName" class="pb-2">
                       Expense Type
                     </label>
-
-
                     <nz-form-control>
                       <nz-select disabled style="width: 100%" nzSize="large" nzPlaceHolder="Select Expense type"
                         [(ngModel)]="userExpense.expenseTypeId" required id="seleType" name="seleExpType"
@@ -1015,17 +921,15 @@
                         </nz-option>
                       </nz-select>
                     </nz-form-control>
-
                   </div>
-
                   <div class="col-md-12" *ngIf="userExpense.partiallyPaidAmount == null">
                     <div class="row">
                       <label for="employeeTypeId" class="mb-2">Amount </label>
                       <!-- <div class="col-md-6 mb-3"> -->
                       <div class="mb-3" [ngClass]="{
-                          'col-md-12': userExpense.limitAmount == null || userExpense.amount <= userExpense.limitAmount,
-                          'col-md-6': userExpense.limitAmount != null && userExpense.amount > userExpense.limitAmount
-                        }">
+                                'col-md-12': userExpense.limitAmount == null || userExpense.amount <= userExpense.limitAmount,
+                                'col-md-6': userExpense.limitAmount != null && userExpense.amount > userExpense.limitAmount
+                                }">
                         <div class="form-group">
                           <input class="form-control input-zorro" placeholder="Enter amount spend" nzSize="large"
                             minlength="3" maxlength="50" [(ngModel)]="userExpense.amount" id="amount" name="amountInput"
@@ -1044,13 +948,12 @@
                       </div>
                     </div>
                   </div>
-
                   <!-- for partially payment -->
                   <div class="col-md-12" *ngIf="userExpense.partiallyPaidAmount != null">
                     <div class="row">
                       <label for="employeeTypeId" class="mb-2">Amount </label>
                       <div class="mb-3" [ngClass]="{
-                          'col-md-6': userExpense.partiallyPaidAmount != null}">
+                                'col-md-6': userExpense.partiallyPaidAmount != null}">
                         <div class="form-group">
                           <input type="number" class="form-control input-zorro" placeholder="Enter amount spend"
                             nzSize="large" minlength="3" maxlength="50" [(ngModel)]="userExpense.amount" id="amount"
@@ -1066,13 +969,11 @@
                           </div>
                         </div>
                       </div>
-
                       <p *ngIf="fullPartialAmount > 0">Remaining amount is: {{userExpense.amount -
-                        userExpense.partiallyPaidAmount}}</p>
-
+                        userExpense.partiallyPaidAmount}}
+                      </p>
                     </div>
                   </div>
-
                   <div class="col-md-12 mb-3">
                     <label for="templateName" class="pb-2">
                       Note
@@ -1081,7 +982,6 @@
                       placeholder="Write the note" [(ngModel)]="userExpense.notes" name="notesInput"
                       rows="3"></textarea>
                   </div>
-
                   <div class="col-md-12 mb-3" *ngIf="rejectDiv">
                     <label for="templateName" class="pb-2">
                       Reason of Rejection
@@ -1089,9 +989,7 @@
                     <textarea class="form-control nots-section" id="reject" placeholder="Write the reason" rows="3"
                       [(ngModel)]="approveReq.rejectionReason" name="rejectInput"></textarea>
                   </div>
-
                   <div *ngIf="(userExpense.status.id == 14 || userExpense.status.id == 46) && !rejectDiv">
-
                     <div class="row mt-3 mb-2">
                       <div class="col-md-6 mb-3">
                         <label class="form-check assets-req d-flex align-items-center justify-content-start">
@@ -1103,7 +1001,6 @@
                           </p>
                         </label>
                       </div>
-
                       <div class="col-md-6 mb-3">
                         <label class="form-check assets-req d-flex align-items-center justify-content-start">
                           <input class="form-check-input" type="radio" name="expPaymentType" id="partial"
@@ -1114,7 +1011,6 @@
                         </label>
                       </div>
                     </div>
-
                     <div *ngIf="partiallyPayment" class="col-md-12 mb-3">
                       <label for="employeeTypeId" class="mb-2">Enter Amount </label>
                       <div class="form-group">
@@ -1127,45 +1023,38 @@
                         <p *ngIf="userExpense.partiallyPaidAmount == null && partialAmount > userExpense.amount"
                           class="d-flex justify-content-end" style="color: red !important;"> Flexible amount should be
                           less
-                          from expense amount</p>
-
+                          from expense amount
+                        </p>
                         <p *ngIf="userExpense.partiallyPaidAmount != null && partialAmount > fullPartialAmount"
                           class="d-flex justify-content-end" style="color: red !important;"> Flexible amount should be
                           less
-                          from remaining amount</p>
-
+                          from remaining amount
+                        </p>
                       </div>
                     </div>
-
                     <div class="col-md-12 mb-3">
                       <div class="form-group">
                         <label for="employeeTypeId" class="mb-2">Select settlement date?</label>
-
                         <nz-date-picker (ngModelChange)="selectExpenseSettledDay($event)" [(ngModel)]="settledDate"
                           nzPlaceHolder="dd/mm/yyyy" id="selLastDate" name="lastDate" #lastDate="ngModel" required
                           class="form-control">
                         </nz-date-picker>
-
                       </div>
                     </div>
-
                     <div class="col-md-12 mb-3" *ngIf="showTransactionDiv">
                       <label for="employeeTypeId" class="mb-2"> Transaction Id </label>
                       <div class="form-group">
                         <input class="form-control input-zorro" placeholder="Enter transaction id  " nzSize="large"
                           id="tranId" name="tranId" [(ngModel)]="transactionId" #transactionIdInput="ngModel"
                           required />
-
                         <p *ngIf="existTransactionId" class="mt-1 text-danger">Transaction ID already exists</p>
                       </div>
                     </div>
                   </div>
-
                 </div>
               </div>
             </div>
             <div class="modal-footer expense-admin" *ngIf="userExpense != undefined">
-
               <div *ngIf="!rejectDiv && !payCashDiv" class="d-flex align-items-center gap-2">
                 <button class="btn reject-btn"
                   *ngIf="!partiallyPayment && (userExpense.status.id == 13 || userExpense.status.id == 14)"
@@ -1173,31 +1062,23 @@
                 <button class="btn payroll-btn"
                   *ngIf="userExpense && userExpense.status.id == 14 && (!payrollToggle && !partiallyPayment)"
                   (click)="approveOrDeny(userExpense.id, 40, 0)">Settled With Payroll</button>
-
                 <button class="btn approve-btn" *ngIf="userExpense.status.id == 13 && !approveToggle"
                   (click)="approveOrDeny(userExpense.id, 14, 0)">Approved</button>
-
                 <button class="btn approve-btn"
                   [disabled]="partiallyPayment && (!partialAmount || partialAmount > userExpense.amount) || !settledDate"
                   *ngIf="!expenseCancelToggle && userExpense.status.id == 14" (click)="showPayCashDiv()">Pay
                   Now</button>
-
-
                 <button class="btn approve-btn"
                   [disabled]="partiallyPayment && (partialAmount == '' || partialAmount == null || partialAmount > fullPartialAmount) || !settledDate"
                   *ngIf="!expenseCancelToggle && userExpense.status.id == 46"
                   (click)="showPayCashDiv()">Approved</button>
-
                 <div class="dot-opacity-loader" *ngIf="approveToggle || expenseCancelToggle || payrollToggle">
                   <span></span>
                   <span></span>
                   <span></span>
                 </div>
               </div>
-
-
               <div *ngIf="rejectDiv" class="d-flex align-items-center gap-2">
-
                 <button *ngIf="!rejectToggle" [disabled]="approveReq.rejectionReason == '' || rejectToggle"
                   class="btn submitActionBtn" (click)="approveOrDeny(userExpense.id, 15, 0)">Submit</button>
                 <div class="dot-opacity-loader" *ngIf="rejectToggle">
@@ -1205,59 +1086,43 @@
                   <span></span>
                   <span></span>
                 </div>
-
               </div>
-
               <div class="d-flex align-items-center justify-content-start d-none w-100">
                 <p class="font-13 text-success mb-0">This request has been approved, and reimbursement will be made in
                   cash.
                 </p>
               </div>
-
               <div *ngIf="payCashDiv && !showTransactionDiv"
                 class="d-flex align-items-center justify-content-between w-100">
                 <p class="font-13 text-primary mb-0">Would you prefer to settle this in cash?</p>
                 <div class="d-flex align-items-center gap-2">
-
                   <button *ngIf="!paymentCashNoToggle" class="btn btn cancel-btn mt-0"
                     (click)="onlineTransaction()">No</button>
                   <button *ngIf="!paymentCashYesToggle" class="btn submitActionBtn"
                     (click)="approveOrDeny(userExpense.id, 41, 1)">Yes</button>
-
                   <div class="dot-opacity-loader" *ngIf="paymentCashYesToggle || paymentCashNoToggle">
                     <span></span>
                     <span></span>
                     <span></span>
                   </div>
-
                 </div>
               </div>
-
               <div *ngIf="payCashDiv && showTransactionDiv" class="d-flex justify-content-end w-100">
-
                 <button *ngIf="!paymentCashNoToggle" [disabled]="transactionId == ''" class="btn submitActionBtn"
                   (click)="checkTransactionId(userExpense.id, 41, 0)">Submit</button>
-
                 <div class="dot-opacity-loader" *ngIf="paymentCashYesToggle || paymentCashNoToggle">
                   <span></span>
                   <span></span>
                   <span></span>
                 </div>
               </div>
-
             </div>
           </div>
         </div>
-
       </div>
-
     </div>
   </div>
 </div>
-
-
-
-
 <!-- Add policy modal start -->
 <div class="modal fade" id="createPolicy" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel"
   data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
@@ -1272,389 +1137,384 @@
       </div>
       <div class="modal-body modal-height-fix p-0">
         <!-- <div class="">
-          <ul id="myTab" role="tablist" class="nav nav-tabs">
-            <li role="presentation" class="nav-item">
-              <button id="home-tab" data-bs-toggle="tab" data-bs-target="#shiftime" type="button" role="tab"
-                aria-controls="expensePolicy" aria-selected="true" class="nav-link active pt-0"
-                [class.active]="activeTab === 'expensePolicy'" (click)="expenseTypeSelectionTab()" #expenseTypeTab>
-                Select Expense
-              </button>
-            </li>
-
-            <li role="presentation" class="nav-item">
-              <button id="profile-tab" data-bs-toggle="tab" [attr.aria-selected]="!shiftForm.invalid"
-                [attr.tabindex]="shiftForm.invalid ? -1 : null" data-bs-target="#staffselection" type="button"
-                role="tab" aria-controls="staffselection" aria-selected="false" class="nav-link pt-0"
-                #staffActiveTabInShiftTiming [class.active]="activeTab === 'staffselection'"
-                (click)="staffActiveTabInShiftTimingMethod()" [disabled]="expensePolicyReqList.length == 0">
-                Staff selection
-              </button>
-            </li>
-          </ul>
-          <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade show active" id="shiftime" role="tabpanel"
-              [class.show]="activeTab === 'expensePolicy'" [class.active]="activeTab === 'expensePolicy'">
-
-              <form #shiftForm="ngForm" ngNativeValidate (ngSubmit)="submitExpensePolicy()">
-                <div class="row pt-3 pb-3 ">
-                  <div class="col-md-12">
-                    <div class="mb-3">
-                      <label for="policyNameInput" class="pb-2">Policy Name</label>
-                      <input [disabled]="tempPolicyName !== ''" type="text" class="form-control whatapp-login-input"
-                        id="policyNameInput" placeholder="Enter policy name" required [(ngModel)]="policyName"
-                        name="policyNameInput" #policyNameInput="ngModel" />
-                      <div *ngIf="policyNameInput.invalid && policyNameInput.touched" class="text-danger">
-                        Policy name is required.
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-md-6 mb-3">
-                    <div class="form-field">
-                      <label for="expenseTypeDropdown" class="pb-2">Expense Type</label>
-
-                      <nz-form-control>
-
-
-                        <nz-select style="width: 100%" nzSize="large" nzPlaceHolder="Select Expense type"
-                          [(ngModel)]="expenseTypeId" (ngModelChange)="selectExpenseType($event)" required id="seleType"
-                          name="seleExpType" #seleExpType="ngModel" class="form-control">
-                          <nz-option *ngFor=" let expenseType of expenseTypeList" [nzValue]="expenseType.id"
-                            [nzLabel]="expenseType.name">
-                          </nz-option>
-                        </nz-select>
-                      </nz-form-control>
-
-                    </div>
-
-                  </div>
-
-
-
-                  <div class="col-md-6 mb-3">
-                    <div class="form-field">
-                      <label for="expenseAmount" class="pb-2">Amount</label>
-                      <input type="number" class="form-control whatapp-login-input" min="1" id="policyAmountInput"
-                        placeholder="Enter amount" required [(ngModel)]="policyAmount" name="policyAmountInput"
-                        #policyAmountInput="ngModel" />
-                      <div *ngIf="isErrorShow && policyAmountInput.invalid && policyAmountInput.touched"
-                        class="text-danger">
-                        Amount is required.
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-md-12 mb-3 mt-1" *ngIf="isExpenseTypeSelected">
-                    <div class="form-group requesting-half-leave p-2">
-                      <div class="d-flex align-items-center justify-content-between " style="padding-top: 2px;">
-                        <p class="mb-0">Select Your Payment Structure </p>
-                      </div>
-                      <hr>
-
-                      <div class="row mt-3 mb-2">
-                        <div class="col-md-6">
-                          <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                            <input class="form-check-input" type="radio" name="paymentType" id="flexible"
-                              value="flexible" required [(ngModel)]="paymentType"
-                              (change)="onPaymentTypeChange(0, 'flexible')">
-                            <p class="form-check-label mb-0" for="exampleRadios1">
-                              Flexible
-                            </p>
-                          </label>
-                        </div>
-                        <div class="col-md-6">
-                          <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                            <input class="form-check-input" type="radio" name="paymentType" id="fixed" value="fixed"
-                              required [(ngModel)]="paymentType" (change)="onPaymentTypeChange(1, 'fixed')">
-                            <p class="form-check-label mb-0" for="exampleRadios1">
-                              Fixed
-                            </p>
-                          </label>
-                        </div>
-                        <div *ngIf="!paymentType && shiftForm.submitted" class="text-danger mt-2">
-                          Payment type is required
-                        </div>
-                      </div>
-
-                    </div>
-                  </div>
-                  <div class="form-check form-check-inline mb-3" *ngIf="paymentType === 'fixed'"
-                    style="padding-left: 30px;">
-                    <input class="form-check-input" type="checkbox" id="thresholdCheckbox" name="checkThresold"
-                      [(ngModel)]="isThresholdSelected" (ngModelChange)="setThresold($event)">
-                    <label class="form-check-label" for="thresholdCheckbox">Do you want to set threshold?</label>
-                  </div>
-
-                  <div class="row mb-3" *ngIf="isThresholdSelected && paymentType === 'fixed'">
-                    <div class="col-md-4">
-                      <div class="form-field">
-                        <label for="expenseAmount" class="pb-2">Threshold Amount</label>
-                        <input type="number" class="form-control" placeholder="Enter Amount" id="amountFlex"
-                          name="amountFlex" [(ngModel)]="flexibleAmount" #amountFlex="ngModel" min="1" required />
-                        <div *ngIf="amountFlex.invalid && amountFlex.touched" class="text-danger mt-2">
-                          Flexible amount is required
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-4" *ngIf="isThresholdSelected">
-                      <div class="form-field">
-                        <label for="expenseAmount" class="pb-2">Threshold Type</label>
-                        <label class="form-check assets-req d-flex align-items-center justify-content-start"
-                          style="background-color: #ececec36;">
-                          <input class="form-check-input" type="radio" name="thresholdTypeValue" id="valueType"
-                            value="value" [(ngModel)]="thresholdType" required
-                            (change)="onThresholdTypeChange(0, 'value')">
-                          <p class="form-check-label mb-0" for="valueType">
-                            Amount
-                          </p>
-                        </label>
-                      </div>
-                    </div>
-                    <div class="col-md-4" *ngIf="isThresholdSelected">
-                      <div class="form-field">
-                        <label for="expenseAmount" class="pb-2">Threshold Type</label>
-                        <label class="form-check assets-req d-flex align-items-center justify-content-start"
-                          style="background-color: #ececec36;">
-                          <input class="form-check-input" type="radio" name="thresholdTypePercentage"
-                            id="percentageType" value="percentage" [(ngModel)]="thresholdType" required
-                            (change)="onThresholdTypeChange(1, 'percentage')">
-                          <p class="form-check-label mb-0" for="percentageType">
-                            Percentage
-                          </p>
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-
-
-                  <div *ngIf="!editIndexPolicyToggle" class="d-flex justify-content-end add-update-btn">
-                    <button type="button" class="btn p-0 mt-2 text-primary" (click)="addExpensePolicy(shiftForm)"
-                      [disabled]="shiftForm.invalid || expenseTypeId == 0 "><i class="bi bi-plus-lg"></i> Add </button>
-
-                  </div>
-                  <div *ngIf="editIndexPolicyToggle" class="d-flex justify-content-end">
-                    <button type="button" class="btn p-0 mt-2 text-primary" (click)="addExpensePolicy(shiftForm)"
-                      [disabled]="shiftForm.invalid || expenseTypeId == 0 ">Update </button>
-
-                  </div>
-
-                </div>
-
-                <div class="table-responsive bg-white mt-2 leave-category-list" *ngIf="expensePolicyReqList.length > 0">
-                  <table class="table empOnnoardtable">
-                    <thead class="thead-light">
-                      <tr>
-                        <th class="text-center" style="width: 5%">Sr. No</th>
-                        <th class="text-center" style="width: 10%">Expense Type</th>
-                        <th class="text-center" style="width: 10%">Payment Type</th>
-                        <th class="text-center" style="width: 10%">Amount</th>
-                        <th class="text-center" style="width: 10%">Flexible Amount</th>
-                        <th *ngIf="!updateToggle" class="text-center" style="width: 10%">Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr *ngFor="let expensePolicy of expensePolicyReqList; let i = index">
-                        <td class="text-center">{{ i + 1 }}.</td>
-                        <td class="text-center">{{ expensePolicy.expenseTypeName }}</td>
-                        <td class="text-center">
-                          <div class="badge rounded-pill"
-                            [ngClass]="{ 'badge-soft-primary': expensePolicy.paymentType === 0, 'badge-soft-warning': expensePolicy.paymentType === 1 }">
-                            {{ expensePolicy.paymentType === 1 ? 'Fixed' : 'Flexible' }}
-                          </div>
-                        </td>
-                        <td class="text-center">{{ expensePolicy.amount }}</td>
-                        <td class="text-center">{{ expensePolicy.limitAmount }} <span
-                            *ngIf="expensePolicy.isPercentage == 1 && expensePolicy.limitAmount > 0 && expensePolicy.isFixed === 'fixed'">%</span>
-                        </td>
-
-                        <td *ngIf="!updateToggle" class="text-center">
-                          <div class="d-flex align-items-center gap-2">
-                            <button (click)="editExpensePolicy(i)" type="button" class="btn btnAction p-0">
-                              <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19"
-                                fill="none">
-                                <mask id="mask0_4127_1895" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0"
-                                  y="0" width="19" height="19">
-                                  <rect width="18.8342" height="18.8342" fill="#444444" />
-                                </mask>
-                                <g mask="url(#mask0_4127_1895)">
-                                  <path
-                                    d="M3.92372 14.9177H4.91369L12.9469 6.88448L11.9569 5.89451L3.92372 13.9277V14.9177ZM2.74658 16.0948V13.4388L13.0979 3.09194C13.2166 2.98417 13.3476 2.90092 13.4909 2.84219C13.6344 2.78333 13.7848 2.75391 13.9421 2.75391C14.0995 2.75391 14.2519 2.78183 14.3993 2.83768C14.5468 2.89353 14.6774 2.98234 14.791 3.1041L15.7494 4.07446C15.8712 4.18812 15.958 4.31891 16.0098 4.46684C16.0616 4.61476 16.0875 4.76269 16.0875 4.91062C16.0875 5.06848 16.0605 5.21909 16.0066 5.36244C15.9528 5.50592 15.867 5.63698 15.7494 5.75561L5.4026 16.0948H2.74658ZM12.4432 6.39813L11.9569 5.89451L12.9469 6.88448L12.4432 6.39813Z"
-                                    fill="#444444" />
-                                </g>
-                              </svg>
-                            </button>
-
-                            <button (click)="deleteExpensePolicy(i)" type="button" class="btn btnAction p-0">
-                              <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19"
-                                fill="none">
-                                <mask id="mask0_4127_1892" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0"
-                                  y="0" width="19" height="19">
-                                  <rect x="0.165527" y="0.140625" width="18.8342" height="18.8342" fill="#D9D9D9" />
-                                </mask>
-                                <g mask="url(#mask0_4127_1892)">
-                                  <path
-                                    d="M5.90067 16.2346C5.50934 16.2346 5.17503 16.096 4.89775 15.8189C4.6206 15.5416 4.48202 15.2073 4.48202 14.816V4.85563H3.69727V3.67849H7.22868V2.98438H11.9372V3.67849H15.4686V4.85563H14.6839V14.816C14.6839 15.2124 14.5465 15.548 14.2719 15.8226C13.9972 16.0973 13.6617 16.2346 13.2652 16.2346H5.90067ZM13.5067 4.85563H5.65916V14.816C5.65916 14.8865 5.68179 14.9443 5.72704 14.9896C5.7723 15.0349 5.83017 15.0575 5.90067 15.0575H13.2652C13.3257 15.0575 13.381 15.0323 13.4312 14.982C13.4816 14.9317 13.5067 14.8764 13.5067 14.816V4.85563ZM7.54572 13.488H8.72266V6.42515H7.54572V13.488ZM10.4432 13.488H11.6202V6.42515H10.4432V13.488Z"
-                                    fill="#FF0000" />
-                                </g>
-                              </svg>
-                            </button>
-                          </div>
-                        </td>
-
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </form>
-
-
-
-              <div class="modal-footer d-flex align-items-center justify-content-end pb-0">
-                <button type="submit" class="btn btn-primary next-tab-btn" [disabled]="expensePolicyReqList.length == 0"
-                  (click)="staffActiveTabInShiftTimingMethod()">
-                  Next
-                </button>
-              </div>
-            </div>
-
-            <div class="tab-pane fade" id="staffselection" role="tabpanel" [class.show]="activeTab === 'staffselection'"
-              [class.active]="activeTab === 'staffselection'">
-              <div class="staf-list-box mt-3">
-                <div class="row mb-1 mt-3 align-items-center" style="padding-bottom: 15px">
-                  <div class="col-md-12">
-                    <div class="d-flex align-items-center" style="border: 1px solid #f1f1f1">
-                      <div style="width: 30%; position: relative">
-                        <div class="dropdown" style="width: 100%">
-                          <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
-                            class="btn btn-secondary dropdown-toggle new-deopdown">
-                            {{ selectedTeamName }}
-                            <i class="bi bi-chevron-down" style="color: #444; font-size: 15px"></i>
-                          </button>
-                          <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu team-dropdown" style="
-                                                        width: 100%; max-height: 200px; overflow-y: auto;">
-                            <li class="ng-star-inserted" (click)="selectTeam(0)">
-                              <a class="dropdown-item">All</a>
-                            </li>
-                            <li class="ng-star-inserted" *ngFor="let tn of teamNameList"
-                              (click)="selectTeam(tn.teamId)">
-                              <a class="dropdown-item"> {{ tn.teamName }} </a>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                      <div class="" style="width: 70%">
-                        <form novalidate="" role="search" (submit)="searchUsers()"
-                          class="searching ng-untouched ng-pristine ng-valid">
-                          <div class="form-group" style="position: relative">
-                            <input type="text" id="searchText" placeholder="Search by name and role"
-                              class="form-control me-2 ng-untouched ng-pristine ng-valid attendance-details-search"
-                              (keyup)="searchUsers()" [(ngModel)]="searchText" [ngModelOptions]="{ standalone: true }"
-                              style="padding: 10px 50px 10px 40px" />
-                            <button *ngIf="searchText.length !== 0" type="button" class="btn close-btn"
-                              (click)="clearSearchText()">
-                              <i class="bi bi-x mt-auto mb-auto pl-3"></i>
-                            </button>
-                            <i class="bi bi-search search-icon"
-                              style="position: absolute; top: 50%; transform: translateY(-50%); left: 10px; padding-left: 5px;"></i>
-                          </div>
-                        </form>
-                      </div>
-                      <div class="container">
-                        <div class="content-wrapper">
-                          <div class="d-flex filter-wrapper gap-5 justify-content-end">
-                            <a class="info-button" *ngIf="selectedStaffIdsUser.length > 0">
-                              {{ selectedStaffIdsUser.length }} selected of
-                              {{ totalUserCount }}
-                            </a>
-                            <span class="clear-button text-danger pointer" *ngIf="selectedStaffIdsUser.length > 0"
-                              (click)="clearIds()">
-                              Clear all users <i class="bi bi-x"></i>
-                            </span>
-
+              <ul id="myTab" role="tablist" class="nav nav-tabs">
+                <li role="presentation" class="nav-item">
+                  <button id="home-tab" data-bs-toggle="tab" data-bs-target="#shiftime" type="button" role="tab"
+                    aria-controls="expensePolicy" aria-selected="true" class="nav-link active pt-0"
+                    [class.active]="activeTab === 'expensePolicy'" (click)="expenseTypeSelectionTab()" #expenseTypeTab>
+                    Select Expense
+                  </button>
+                </li>
+              
+                <li role="presentation" class="nav-item">
+                  <button id="profile-tab" data-bs-toggle="tab" [attr.aria-selected]="!shiftForm.invalid"
+                    [attr.tabindex]="shiftForm.invalid ? -1 : null" data-bs-target="#staffselection" type="button"
+                    role="tab" aria-controls="staffselection" aria-selected="false" class="nav-link pt-0"
+                    #staffActiveTabInShiftTiming [class.active]="activeTab === 'staffselection'"
+                    (click)="staffActiveTabInShiftTimingMethod()" [disabled]="expensePolicyReqList.length == 0">
+                    Staff selection
+                  </button>
+                </li>
+              </ul>
+              <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="shiftime" role="tabpanel"
+                  [class.show]="activeTab === 'expensePolicy'" [class.active]="activeTab === 'expensePolicy'">
+              
+                  <form #shiftForm="ngForm" ngNativeValidate (ngSubmit)="submitExpensePolicy()">
+                    <div class="row pt-3 pb-3 ">
+                      <div class="col-md-12">
+                        <div class="mb-3">
+                          <label for="policyNameInput" class="pb-2">Policy Name</label>
+                          <input [disabled]="tempPolicyName !== ''" type="text" class="form-control whatapp-login-input"
+                            id="policyNameInput" placeholder="Enter policy name" required [(ngModel)]="policyName"
+                            name="policyNameInput" #policyNameInput="ngModel" />
+                          <div *ngIf="policyNameInput.invalid && policyNameInput.touched" class="text-danger">
+                            Policy name is required.
                           </div>
                         </div>
                       </div>
+              
+                      <div class="col-md-6 mb-3">
+                        <div class="form-field">
+                          <label for="expenseTypeDropdown" class="pb-2">Expense Type</label>
+              
+                          <nz-form-control>
+              
+              
+                            <nz-select style="width: 100%" nzSize="large" nzPlaceHolder="Select Expense type"
+                              [(ngModel)]="expenseTypeId" (ngModelChange)="selectExpenseType($event)" required id="seleType"
+                              name="seleExpType" #seleExpType="ngModel" class="form-control">
+                              <nz-option *ngFor=" let expenseType of expenseTypeList" [nzValue]="expenseType.id"
+                                [nzLabel]="expenseType.name">
+                              </nz-option>
+                            </nz-select>
+                          </nz-form-control>
+              
+                        </div>
+              
+                      </div>
+              
+              
+              
+                      <div class="col-md-6 mb-3">
+                        <div class="form-field">
+                          <label for="expenseAmount" class="pb-2">Amount</label>
+                          <input type="number" class="form-control whatapp-login-input" min="1" id="policyAmountInput"
+                            placeholder="Enter amount" required [(ngModel)]="policyAmount" name="policyAmountInput"
+                            #policyAmountInput="ngModel" />
+                          <div *ngIf="isErrorShow && policyAmountInput.invalid && policyAmountInput.touched"
+                            class="text-danger">
+                            Amount is required.
+                          </div>
+                        </div>
+                      </div>
+              
+                      <div class="col-md-12 mb-3 mt-1" *ngIf="isExpenseTypeSelected">
+                        <div class="form-group requesting-half-leave p-2">
+                          <div class="d-flex align-items-center justify-content-between " style="padding-top: 2px;">
+                            <p class="mb-0">Select Your Payment Structure </p>
+                          </div>
+                          <hr>
+              
+                          <div class="row mt-3 mb-2">
+                            <div class="col-md-6">
+                              <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                                <input class="form-check-input" type="radio" name="paymentType" id="flexible"
+                                  value="flexible" required [(ngModel)]="paymentType"
+                                  (change)="onPaymentTypeChange(0, 'flexible')">
+                                <p class="form-check-label mb-0" for="exampleRadios1">
+                                  Flexible
+                                </p>
+                              </label>
+                            </div>
+                            <div class="col-md-6">
+                              <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                                <input class="form-check-input" type="radio" name="paymentType" id="fixed" value="fixed"
+                                  required [(ngModel)]="paymentType" (change)="onPaymentTypeChange(1, 'fixed')">
+                                <p class="form-check-label mb-0" for="exampleRadios1">
+                                  Fixed
+                                </p>
+                              </label>
+                            </div>
+                            <div *ngIf="!paymentType && shiftForm.submitted" class="text-danger mt-2">
+                              Payment type is required
+                            </div>
+                          </div>
+              
+                        </div>
+                      </div>
+                      <div class="form-check form-check-inline mb-3" *ngIf="paymentType === 'fixed'"
+                        style="padding-left: 30px;">
+                        <input class="form-check-input" type="checkbox" id="thresholdCheckbox" name="checkThresold"
+                          [(ngModel)]="isThresholdSelected" (ngModelChange)="setThresold($event)">
+                        <label class="form-check-label" for="thresholdCheckbox">Do you want to set threshold?</label>
+                      </div>
+              
+                      <div class="row mb-3" *ngIf="isThresholdSelected && paymentType === 'fixed'">
+                        <div class="col-md-4">
+                          <div class="form-field">
+                            <label for="expenseAmount" class="pb-2">Threshold Amount</label>
+                            <input type="number" class="form-control" placeholder="Enter Amount" id="amountFlex"
+                              name="amountFlex" [(ngModel)]="flexibleAmount" #amountFlex="ngModel" min="1" required />
+                            <div *ngIf="amountFlex.invalid && amountFlex.touched" class="text-danger mt-2">
+                              Flexible amount is required
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-4" *ngIf="isThresholdSelected">
+                          <div class="form-field">
+                            <label for="expenseAmount" class="pb-2">Threshold Type</label>
+                            <label class="form-check assets-req d-flex align-items-center justify-content-start"
+                              style="background-color: #ececec36;">
+                              <input class="form-check-input" type="radio" name="thresholdTypeValue" id="valueType"
+                                value="value" [(ngModel)]="thresholdType" required
+                                (change)="onThresholdTypeChange(0, 'value')">
+                              <p class="form-check-label mb-0" for="valueType">
+                                Amount
+                              </p>
+                            </label>
+                          </div>
+                        </div>
+                        <div class="col-md-4" *ngIf="isThresholdSelected">
+                          <div class="form-field">
+                            <label for="expenseAmount" class="pb-2">Threshold Type</label>
+                            <label class="form-check assets-req d-flex align-items-center justify-content-start"
+                              style="background-color: #ececec36;">
+                              <input class="form-check-input" type="radio" name="thresholdTypePercentage"
+                                id="percentageType" value="percentage" [(ngModel)]="thresholdType" required
+                                (change)="onThresholdTypeChange(1, 'percentage')">
+                              <p class="form-check-label mb-0" for="percentageType">
+                                Percentage
+                              </p>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+              
+              
+                      <div *ngIf="!editIndexPolicyToggle" class="d-flex justify-content-end add-update-btn">
+                        <button type="button" class="btn p-0 mt-2 text-primary" (click)="addExpensePolicy(shiftForm)"
+                          [disabled]="shiftForm.invalid || expenseTypeId == 0 "><i class="bi bi-plus-lg"></i> Add </button>
+              
+                      </div>
+                      <div *ngIf="editIndexPolicyToggle" class="d-flex justify-content-end">
+                        <button type="button" class="btn p-0 mt-2 text-primary" (click)="addExpensePolicy(shiftForm)"
+                          [disabled]="shiftForm.invalid || expenseTypeId == 0 ">Update </button>
+              
+                      </div>
+              
+                    </div>
+              
+                    <div class="table-responsive bg-white mt-2 leave-category-list" *ngIf="expensePolicyReqList.length > 0">
+                      <table class="table empOnnoardtable">
+                        <thead class="thead-light">
+                          <tr>
+                            <th class="text-center" style="width: 5%">Sr. No</th>
+                            <th class="text-center" style="width: 10%">Expense Type</th>
+                            <th class="text-center" style="width: 10%">Payment Type</th>
+                            <th class="text-center" style="width: 10%">Amount</th>
+                            <th class="text-center" style="width: 10%">Flexible Amount</th>
+                            <th *ngIf="!updateToggle" class="text-center" style="width: 10%">Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let expensePolicy of expensePolicyReqList; let i = index">
+                            <td class="text-center">{{ i + 1 }}.</td>
+                            <td class="text-center">{{ expensePolicy.expenseTypeName }}</td>
+                            <td class="text-center">
+                              <div class="badge rounded-pill"
+                                [ngClass]="{ 'badge-soft-primary': expensePolicy.paymentType === 0, 'badge-soft-warning': expensePolicy.paymentType === 1 }">
+                                {{ expensePolicy.paymentType === 1 ? 'Fixed' : 'Flexible' }}
+                              </div>
+                            </td>
+                            <td class="text-center">{{ expensePolicy.amount }}</td>
+                            <td class="text-center">{{ expensePolicy.limitAmount }} <span
+                                *ngIf="expensePolicy.isPercentage == 1 && expensePolicy.limitAmount > 0 && expensePolicy.isFixed === 'fixed'">%</span>
+                            </td>
+              
+                            <td *ngIf="!updateToggle" class="text-center">
+                              <div class="d-flex align-items-center gap-2">
+                                <button (click)="editExpensePolicy(i)" type="button" class="btn btnAction p-0">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19"
+                                    fill="none">
+                                    <mask id="mask0_4127_1895" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0"
+                                      y="0" width="19" height="19">
+                                      <rect width="18.8342" height="18.8342" fill="#444444" />
+                                    </mask>
+                                    <g mask="url(#mask0_4127_1895)">
+                                      <path
+                                        d="M3.92372 14.9177H4.91369L12.9469 6.88448L11.9569 5.89451L3.92372 13.9277V14.9177ZM2.74658 16.0948V13.4388L13.0979 3.09194C13.2166 2.98417 13.3476 2.90092 13.4909 2.84219C13.6344 2.78333 13.7848 2.75391 13.9421 2.75391C14.0995 2.75391 14.2519 2.78183 14.3993 2.83768C14.5468 2.89353 14.6774 2.98234 14.791 3.1041L15.7494 4.07446C15.8712 4.18812 15.958 4.31891 16.0098 4.46684C16.0616 4.61476 16.0875 4.76269 16.0875 4.91062C16.0875 5.06848 16.0605 5.21909 16.0066 5.36244C15.9528 5.50592 15.867 5.63698 15.7494 5.75561L5.4026 16.0948H2.74658ZM12.4432 6.39813L11.9569 5.89451L12.9469 6.88448L12.4432 6.39813Z"
+                                        fill="#444444" />
+                                    </g>
+                                  </svg>
+                                </button>
+              
+                                <button (click)="deleteExpensePolicy(i)" type="button" class="btn btnAction p-0">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19"
+                                    fill="none">
+                                    <mask id="mask0_4127_1892" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0"
+                                      y="0" width="19" height="19">
+                                      <rect x="0.165527" y="0.140625" width="18.8342" height="18.8342" fill="#D9D9D9" />
+                                    </mask>
+                                    <g mask="url(#mask0_4127_1892)">
+                                      <path
+                                        d="M5.90067 16.2346C5.50934 16.2346 5.17503 16.096 4.89775 15.8189C4.6206 15.5416 4.48202 15.2073 4.48202 14.816V4.85563H3.69727V3.67849H7.22868V2.98438H11.9372V3.67849H15.4686V4.85563H14.6839V14.816C14.6839 15.2124 14.5465 15.548 14.2719 15.8226C13.9972 16.0973 13.6617 16.2346 13.2652 16.2346H5.90067ZM13.5067 4.85563H5.65916V14.816C5.65916 14.8865 5.68179 14.9443 5.72704 14.9896C5.7723 15.0349 5.83017 15.0575 5.90067 15.0575H13.2652C13.3257 15.0575 13.381 15.0323 13.4312 14.982C13.4816 14.9317 13.5067 14.8764 13.5067 14.816V4.85563ZM7.54572 13.488H8.72266V6.42515H7.54572V13.488ZM10.4432 13.488H11.6202V6.42515H10.4432V13.488Z"
+                                        fill="#FF0000" />
+                                    </g>
+                                  </svg>
+                                </button>
+                              </div>
+                            </td>
+              
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </form>
+              
+              
+              
+                  <div class="modal-footer d-flex align-items-center justify-content-end pb-0">
+                    <button type="submit" class="btn btn-primary next-tab-btn" [disabled]="expensePolicyReqList.length == 0"
+                      (click)="staffActiveTabInShiftTimingMethod()">
+                      Next
+                    </button>
+                  </div>
+                </div>
+              
+                <div class="tab-pane fade" id="staffselection" role="tabpanel" [class.show]="activeTab === 'staffselection'"
+                  [class.active]="activeTab === 'staffselection'">
+                  <div class="staf-list-box mt-3">
+                    <div class="row mb-1 mt-3 align-items-center" style="padding-bottom: 15px">
+                      <div class="col-md-12">
+                        <div class="d-flex align-items-center" style="border: 1px solid #f1f1f1">
+                          <div style="width: 30%; position: relative">
+                            <div class="dropdown" style="width: 100%">
+                              <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
+                                class="btn btn-secondary dropdown-toggle new-deopdown">
+                                {{ selectedTeamName }}
+                                <i class="bi bi-chevron-down" style="color: #444; font-size: 15px"></i>
+                              </button>
+                              <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu team-dropdown" style="
+                                                            width: 100%; max-height: 200px; overflow-y: auto;">
+                                <li class="ng-star-inserted" (click)="selectTeam(0)">
+                                  <a class="dropdown-item">All</a>
+                                </li>
+                                <li class="ng-star-inserted" *ngFor="let tn of teamNameList"
+                                  (click)="selectTeam(tn.teamId)">
+                                  <a class="dropdown-item"> {{ tn.teamName }} </a>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                          <div class="" style="width: 70%">
+                            <form novalidate="" role="search" (submit)="searchUsers()"
+                              class="searching ng-untouched ng-pristine ng-valid">
+                              <div class="form-group" style="position: relative">
+                                <input type="text" id="searchText" placeholder="Search by name and role"
+                                  class="form-control me-2 ng-untouched ng-pristine ng-valid attendance-details-search"
+                                  (keyup)="searchUsers()" [(ngModel)]="searchText" [ngModelOptions]="{ standalone: true }"
+                                  style="padding: 10px 50px 10px 40px" />
+                                <button *ngIf="searchText.length !== 0" type="button" class="btn close-btn"
+                                  (click)="clearSearchText()">
+                                  <i class="bi bi-x mt-auto mb-auto pl-3"></i>
+                                </button>
+                                <i class="bi bi-search search-icon"
+                                  style="position: absolute; top: 50%; transform: translateY(-50%); left: 10px; padding-left: 5px;"></i>
+                              </div>
+                            </form>
+                          </div>
+                          <div class="container">
+                            <div class="content-wrapper">
+                              <div class="d-flex filter-wrapper gap-5 justify-content-end">
+                                <a class="info-button" *ngIf="selectedStaffIdsUser.length > 0">
+                                  {{ selectedStaffIdsUser.length }} selected of
+                                  {{ totalUserCount }}
+                                </a>
+                                <span class="clear-button text-danger pointer" *ngIf="selectedStaffIdsUser.length > 0"
+                                  (click)="clearIds()">
+                                  Clear all users <i class="bi bi-x"></i>
+                                </span>
+              
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <table class="table">
+                      <thead class="thead-light">
+                        <tr>
+                          <th style="width: 0%">
+                            <input type="checkBox" (click)="selectAllEmployee()" [checked]="allselected" />
+                          </th>
+                          <th style="width: 25%; padding: 12px 15px">Name</th>
+                          <th style="width: 25%; padding: 12px 15px">Email</th>
+                          <th style="width: 25%; padding: 12px 15px">Phone</th>
+                        </tr>
+                      </thead>
+              
+                      <tbody *ngIf="staffLoading">
+                        <tr>
+                          <td colspan="9" class="text-center" style="height: 40vh;">
+                            <img src="assets/images/load-8.gif" style="width: 50px;">
+                          </td>
+                        </tr>
+                      </tbody>
+              
+              
+                      <tbody *ngIf="!staffLoading">
+                        <tr *ngFor="let staff of staffs; let i = index">
+                          <td>
+                            <div class="form-check">
+                              <input type="checkBox" name="checkBox{{ i }}" id="checkBoxid{{ i }}"
+                                (click)="selectSingle(staff, i)" [checked]="staff.checked" />
+                            </div>
+                          </td>
+              
+                          <td style="padding: 12px 15px">{{ staff.name }}</td>
+                          <td style="padding: 12px 15px">
+                            {{ staff.email ? staff.email : "N/A" }}
+                          </td>
+                          <td style="padding: 12px 15px">
+                            {{ staff.phoneNumber || "N/A" }}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+              
+                  </div>
+              
+                  <div class="pagination justify-content-between pl-3" *ngIf="staffs.length > 0">
+                    <p class="mb-0" style="padding-left: 15px">
+                      Showing {{ staffs.length }} of {{ total }} members
+                    </p>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <ngb-pagination [collectionSize]="total" [rotate]="true" (pageChange)="pageChanged($event)"
+                          [pageSize]="databaseHelper.itemPerPage" [(page)]="databaseHelper.currentPage" [maxSize]="4"
+                          [boundaryLinks]="true"></ngb-pagination>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <table class="table">
-                  <thead class="thead-light">
-                    <tr>
-                      <th style="width: 0%">
-                        <input type="checkBox" (click)="selectAllEmployee()" [checked]="allselected" />
-                      </th>
-                      <th style="width: 25%; padding: 12px 15px">Name</th>
-                      <th style="width: 25%; padding: 12px 15px">Email</th>
-                      <th style="width: 25%; padding: 12px 15px">Phone</th>
-                    </tr>
-                  </thead>
-
-                  <tbody *ngIf="staffLoading">
-                    <tr>
-                      <td colspan="9" class="text-center" style="height: 40vh;">
-                        <img src="assets/images/load-8.gif" style="width: 50px;">
-                      </td>
-                    </tr>
-                  </tbody>
-
-
-                  <tbody *ngIf="!staffLoading">
-                    <tr *ngFor="let staff of staffs; let i = index">
-                      <td>
-                        <div class="form-check">
-                          <input type="checkBox" name="checkBox{{ i }}" id="checkBoxid{{ i }}"
-                            (click)="selectSingle(staff, i)" [checked]="staff.checked" />
-                        </div>
-                      </td>
-
-                      <td style="padding: 12px 15px">{{ staff.name }}</td>
-                      <td style="padding: 12px 15px">
-                        {{ staff.email ? staff.email : "N/A" }}
-                      </td>
-                      <td style="padding: 12px 15px">
-                        {{ staff.phoneNumber || "N/A" }}
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-
-              </div>
-
-              <div class="pagination justify-content-between pl-3" *ngIf="staffs.length > 0">
-                <p class="mb-0" style="padding-left: 15px">
-                  Showing {{ staffs.length }} of {{ total }} members
-                </p>
-                <div class="row">
-                  <div class="col-md-12">
-                    <ngb-pagination [collectionSize]="total" [rotate]="true" (pageChange)="pageChanged($event)"
-                      [pageSize]="databaseHelper.itemPerPage" [(page)]="databaseHelper.currentPage" [maxSize]="4"
-                      [boundaryLinks]="true"></ngb-pagination>
+              
+                  <div class="modal-footer d-flex align-items-center justify-content-between">
+                    <button *ngIf="!userMappedLoading" type="button" class="btn btn-outline-primary btn-round"
+                      (click)="getUserMappedWithPolicy(shiftForm)"
+                      [disabled]="selectedStaffIdsUser.length == 0 || userMappedLoading">
+                      Submit
+                    </button>
+              
+                    <div class="dot-opacity-loader" *ngIf="userMappedLoading">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </div>
                   </div>
+              
                 </div>
               </div>
-
-              <div class="modal-footer d-flex align-items-center justify-content-between">
-                <button *ngIf="!userMappedLoading" type="button" class="btn btn-outline-primary btn-round"
-                  (click)="getUserMappedWithPolicy(shiftForm)"
-                  [disabled]="selectedStaffIdsUser.length == 0 || userMappedLoading">
-                  Submit
-                </button>
-
-                <div class="dot-opacity-loader" *ngIf="userMappedLoading">
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </div> -->
-
-
-
-
-
+              </div> -->
         <div class="leave-create-modal">
           <div class="row h-100 p-0 m-0">
             <div class="col-md-3 p-0 m-0">
@@ -1675,7 +1535,6 @@
                 <div class="tab-content" id="v-pills-tabContent">
                   <div class="tab-pane fade show active" id="selectExpense" role="tabpanel"
                     aria-labelledby="v-pills-home-tab">
-
                     <form #shiftForm="ngForm" ngNativeValidate (ngSubmit)="submitExpensePolicy()">
                       <div class="row pt-3 pb-3 ">
                         <div class="col-md-12">
@@ -1717,14 +1576,12 @@
                             </div>
                           </div>
                         </div>
-
                         <div class="col-md-12 mb-3 mt-1" *ngIf="isExpenseTypeSelected">
                           <div class="form-group requesting-half-leave p-2">
                             <div class="d-flex align-items-center justify-content-between " style="padding-top: 2px;">
                               <p class="mb-0 font-14 fw-semibold">Select Your Payment Structure </p>
                             </div>
                             <hr>
-
                             <div class="row mt-3 mb-2">
                               <div class="col-md-6">
                                 <label class="form-check assets-req d-flex align-items-center justify-content-start">
@@ -1750,7 +1607,6 @@
                                 Payment type is required
                               </div>
                             </div>
-
                           </div>
                         </div>
                         <div class="form-check form-check-inline mb-3 d-flex align-items-start gap-2"
@@ -1759,7 +1615,6 @@
                             [(ngModel)]="isThresholdSelected" (ngModelChange)="setThresold($event)">
                           <label class="form-check-label" for="thresholdCheckbox">Do you want to set threshold?</label>
                         </div>
-
                         <ng-container *ngIf="isThresholdSelected && paymentType === 'fixed'">
                           <div class="col-md-4">
                             <div class="form-field">
@@ -1801,54 +1656,47 @@
                             </div>
                           </div>
                         </ng-container>
-
-
                         <div *ngIf="!editIndexPolicyToggle" class="d-flex justify-content-end add-update-btn mt-1">
                           <button type="button" class="btn p-0 text-primary" (click)="addExpensePolicy(shiftForm)"
                             [disabled]="shiftForm.invalid || expenseTypeId == 0"
                             [ngClass]="{'btn-border-text': !(shiftForm.invalid || expenseTypeId == 0)}"><i
                               class="bi bi-plus-lg"></i> Add
                           </button>
-
                         </div>
                         <div *ngIf="editIndexPolicyToggle" class="d-flex justify-content-end">
                           <button type="button" class="btn p-0 mt-2 text-primary" (click)="addExpensePolicy(shiftForm)"
                             [disabled]="shiftForm.invalid || expenseTypeId == 0 "
                             [ngClass]="{'btn-border-text': (!shiftForm.invalid || expenseTypeId != 0)}">Update </button>
-
                         </div>
-
                       </div>
-
                       <div class="table-responsive bg-white mt-2 leave-category-list"
                         *ngIf="expensePolicyReqList.length > 0">
                         <table class="table empOnnoardtable">
                           <thead class="thead-light">
                             <tr>
-                              <th class="text-center" style="width: 5%">Sr. No</th>
-                              <th class="text-center" style="width: 10%">Expense Type</th>
-                              <th class="text-center" style="width: 10%">Payment Type</th>
-                              <th class="text-center" style="width: 10%">Amount</th>
-                              <th class="text-center" style="width: 10%">Flexible Amount</th>
-                              <th *ngIf="!updateToggle" class="text-center" style="width: 10%">Action</th>
+                              <th class="text-left" style="width: 5%">Sr. No</th>
+                              <th class="text-left" style="width: 10%">Expense Type</th>
+                              <th class="text-left" style="width: 10%">Payment Type</th>
+                              <th class="text-left" style="width: 10%">Amount</th>
+                              <th class="text-left" style="width: 10%">Flexible Amount</th>
+                              <th *ngIf="!updateToggle" class="text-left" style="width: 10%">Action</th>
                             </tr>
                           </thead>
                           <tbody>
                             <tr *ngFor="let expensePolicy of expensePolicyReqList; let i = index">
-                              <td class="text-center">{{ i + 1 }}.</td>
-                              <td class="text-center">{{ expensePolicy.expenseTypeName }}</td>
-                              <td class="text-center">
+                              <td class="text-left">{{ i + 1 }}.</td>
+                              <td class="text-left">{{ expensePolicy.expenseTypeName }}</td>
+                              <td class="text-left">
                                 <div class="badge rounded-pill"
                                   [ngClass]="{ 'badge-soft-primary': expensePolicy.paymentType === 0, 'badge-soft-warning': expensePolicy.paymentType === 1 }">
                                   {{ expensePolicy.paymentType === 1 ? 'Fixed' : 'Flexible' }}
                                 </div>
                               </td>
-                              <td class="text-center">{{ expensePolicy.amount }}</td>
-                              <td class="text-center">{{ expensePolicy.limitAmount }} <span
+                              <td class="text-left">{{ expensePolicy.amount }}</td>
+                              <td class="text-left">{{ expensePolicy.limitAmount }} <span
                                   *ngIf="expensePolicy.isPercentage == 1 && expensePolicy.limitAmount > 0 && expensePolicy.isFixed === 'fixed'">%</span>
                               </td>
-
-                              <td *ngIf="!updateToggle" class="text-center">
+                              <td *ngIf="!updateToggle" class="text-left">
                                 <div class="d-flex align-items-center gap-2">
                                   <button (click)="editExpensePolicy(i)" type="button" class="btn btnAction p-0">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19"
@@ -1864,7 +1712,6 @@
                                       </g>
                                     </svg>
                                   </button>
-
                                   <button (click)="deleteExpensePolicy(i)" type="button" class="btn btnAction p-0">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19"
                                       fill="none">
@@ -1882,19 +1729,15 @@
                                   </button>
                                 </div>
                               </td>
-
                             </tr>
                           </tbody>
                         </table>
                       </div>
-
                       <div class="modal-footer d-flex align-items-center justify-content-end leave-footer">
-
                         <button type="submit" class="btn p-0 next-btn"
                           [ngClass]="{'btn-border': expensePolicyReqList.length != 0}"
                           [disabled]="expensePolicyReqList.length == 0" (click)="staffActiveTabInShiftTimingMethod()">
                           Next
-
                           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22"
                             fill="none">
                             <path
@@ -1902,10 +1745,8 @@
                               fill="#6666F2" />
                           </svg>
                         </button>
-
                       </div>
                     </form>
-
                   </div>
                   <div class="tab-pane fade" id="staffSelectionTab" #staffSelectionTab role="tabpanel"
                     aria-labelledby="v-pills-home-tab">
@@ -1973,7 +1814,6 @@
                                     </svg>
                                     Clear all users
                                   </button>
-
                                 </div>
                               </div>
                             </div>
@@ -1985,14 +1825,14 @@
                           <thead class="thead-light">
                             <tr>
                               <th style="width: 0%">
-                                <input type="checkBox" (click)="selectAllEmployee()" [checked]="allselected" />
+                                <input class="checkmark" type="checkBox" (click)="selectAllEmployee()"
+                                  [checked]="allselected" />
                               </th>
                               <th style="width: 25%; padding: 12px 15px">Name</th>
                               <th style="width: 25%; padding: 12px 15px">Email</th>
                               <th style="width: 25%; padding: 12px 15px">Phone</th>
                             </tr>
                           </thead>
-
                           <tbody *ngIf="staffLoading">
                             <tr>
                               <td colspan="9" class="text-center" style="height: 40vh;">
@@ -2000,17 +1840,14 @@
                               </td>
                             </tr>
                           </tbody>
-
-
                           <tbody *ngIf="!staffLoading">
                             <tr *ngFor="let staff of staffs; let i = index">
                               <td>
                                 <div class="form-check pl-0">
-                                  <input type="checkBox" name="checkBox{{ i }}" id="checkBoxid{{ i }}"
+                                  <input class="checkmark" type="checkBox" name="checkBox{{ i }}" id="checkBoxid{{ i }}"
                                     (click)="selectSingle(staff, i)" [checked]="staff.checked" />
                                 </div>
                               </td>
-
                               <td style="padding: 12px 15px">{{ staff.name }}</td>
                               <td style="padding: 12px 15px">
                                 {{ staff.email ? staff.email : "N/A" }}
@@ -2022,11 +1859,7 @@
                           </tbody>
                         </table>
                       </div>
-
-
-
                     </div>
-
                     <div class="leave-footer bg-white">
                       <div class="pagination d-flex align-items-center justify-content-between p-3"
                         *ngIf="staffs.length > 0">
@@ -2037,17 +1870,12 @@
                           (pageChange)="pageChanged($event)" [pageSize]="databaseHelper.itemPerPage"
                           [(page)]="databaseHelper.currentPage" [maxSize]="4" [boundaryLinks]="true"></ngb-pagination>
                       </div>
-
-
-
                       <div class="modal-footer d-flex align-items-center justify-content-end">
-
                         <button *ngIf="!userMappedLoading" type="button" class="btn p-0 next-btn"
                           (click)="getUserMappedWithPolicy(shiftForm)"
                           [ngClass]="{'btn-border': selectedStaffIdsUser.length != 0}"
                           [disabled]="selectedStaffIdsUser.length == 0 || userMappedLoading">
                           Submit
-
                           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22"
                             fill="none">
                             <path
@@ -2055,19 +1883,13 @@
                               fill="#6666F2" />
                           </svg>
                         </button>
-
                         <div class="dot-opacity-loader" *ngIf="userMappedLoading">
                           <span></span>
                           <span></span>
                           <span></span>
                         </div>
-
                       </div>
                     </div>
-
-
-
-
                   </div>
                 </div>
               </div>
@@ -2079,8 +1901,6 @@
   </div>
 </div>
 <!-- Add policy modal end -->
-
-
 <!-- delete policy modal -->
 <div class="modal fade" id="delete-policy" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" style="max-width: 500px" role="document">
@@ -2106,7 +1926,6 @@
           <img src="/assets/images/delete-img.svg" style="width: 70px" />
         </div>
         <div class="bg-white p-4 text-center">
-
           <div *ngIf="expenseAppliedCount == 0">
             <h5 class="alert-heading font-18 mb-2">
               Are you sure you want to delete <br />
@@ -2114,23 +1933,21 @@
             </h5>
             <p class="font-11">You will not be able to recover this</p>
           </div>
-
           <div *ngIf="expenseAppliedCount > 0">
             <h5 class="alert-heading font-18 mb-2">
               Are you sure ?
             </h5>
             <p class="font-11">There are <b class="font-13">{{expenseAppliedCount}}</b> users who have submitted expense
               associated with this policy.
-              Deleting this policy will permanently remove all related data and cannot be recovered</p>
+              Deleting this policy will permanently remove all related data and cannot be recovered
+            </p>
           </div>
-
           <div class="mt-4 d-flex align-items-center flex-column">
             <button [disabled]="deletePolicyToggle" class="btn continue-btn" *ngIf="expensePolicyId > 0"
               (click)="deleteExpensePolicyById()">
               Continue
               <i class="fa fa-spinner fa-spin" *ngIf="deletePolicyToggle"></i>
             </button>
-
             <button [disabled]="deletePolicyToggle" class="btn continue-btn" *ngIf="expensePolicyId == 0"
               (click)="deleteExpensePolicyTypeById()">
               Continue
@@ -2146,12 +1963,9 @@
   </div>
 </div>
 <!-- delete policy modal end-->
-
-
 <!-- Alread mapped users with policy -->
 <button class="d-none" data-bs-toggle="modal" data-bs-target="#usersAlreadyAssigned" #usersAlreadyAssigned
   class="d-none"></button>
-
 <div class="modal fade" id="usersAlreadyAssigned" tabindex="-1" role="dialog" aria-hidden="true"
   data-bs-backdrop="static" #usersAlreadyAssigned>
   <div class="modal-dialog modal-dialog-centered" style="max-width: 500px" role="document">
@@ -2173,16 +1987,15 @@
             </svg>
           </button>
         </div>
-
         <div class="row p-3 pb-4 pt-4 align-items-center">
           <div class="col-md-8">
             <div class="manualUploadDetail persnol-details p-0 quickGuideHeading">
               <h5 class="alert-heading text-warning font-16 mb-2">
-                Users Already Assigned to Another Location
+                Users Already Assigned to Another Expense Template
               </h5>
               <p class="mb-0 text-black">
-                Do you want to add them to the new location? Doing so will
-                remove them from the current location.
+                Do you want to add them to the new Expense? Doing so will
+                remove them from the current Expense.
               </p>
             </div>
           </div>
@@ -2190,7 +2003,6 @@
             <div class="side-img" style="background-image: url(../assets/images/user-img.svg)"></div>
           </div>
         </div>
-
         <div class="p-3 employee-list bg-white">
           <h4 class="mb-1">Employee List</h4>
           <div class="manualemployList" *ngIf="userNameWithBranchName.length > 0">
@@ -2200,7 +2012,6 @@
                 <span class="userName">{{
                   list.userName.charAt(0).toUpperCase()
                   }}</span>
-
                 <div>
                   <h5 class="alert-heading font-13 mb-1">
                     {{ list.userName }}
@@ -2232,7 +2043,6 @@
           </div>
         </div>
       </div>
-
       <div class="border-top p-3">
         <div class="form-check d-flex align-items-start" style="padding-left: 0px !important">
           <input type="checkbox" id="validationCheck" style="height: auto !important; position: relative; top: 2px"
@@ -2243,31 +2053,26 @@
           </label>
         </div>
         <div class="d-flex align-items-center justify-content-end gap-3 mt-3">
-
           <button class="btn submit-add-more d-none" data-bs-dismiss="modal" aria-label="Close" #closeButton2>
             Cancel
           </button>
-
           <div>
             <button *ngIf="!registerToggle" type="button" class="btn mannualSubmit" [disabled]="!isValidated"
               (click)="registerCompanyExpense(shiftForm)">
               Add all
             </button>
-
             <div class="dot-opacity-loader" *ngIf="registerToggle">
               <span></span>
               <span></span>
               <span></span>
             </div>
           </div>
-
         </div>
       </div>
     </div>
   </div>
 </div>
 <!-- Alread mapped users with policy end-->
-
 <!-- Expense Import Modal -->
 <div class="modal fade" id="sampleFileModal" tabindex="-1" aria-labelledby="sampleFileModalLabel" aria-hidden="true"
   #sampleFileModal>
@@ -2280,9 +2085,9 @@
       </div>
       <div class="modal-body">
         <ng-container *ngIf="
-            !isShimmer &&
-            onboardUserList.length == 0
-          ">
+              !isShimmer &&
+              onboardUserList.length == 0
+              ">
           <div class="col-md-12">
             <div class="card-body mt-0 p-0">
               <div class="alert alert-light mb-0" role="alert">
@@ -2300,7 +2105,7 @@
                 </p>
                 <p>
                   <span class="text-primary">
-                    <u><a class="text-primary" href="{{ sampleFileUrl }}">Download a sample Excel file</a></u>
+                    <a class="text-primary" href="{{ sampleFileUrl }}">Download a sample Excel file</a>
                   </span>
                   , update its data, and upload it back with the updated content
                   on our platform
@@ -2320,26 +2125,20 @@
               </div>
             </div>
           </div>
-
           <div #attention class="create-password-warning waring-box p-3 mb-0 mt-4 ng-star-inserted text-start"
             *ngIf="mismatches.length > 0">
             <h4 class="alert-heading font-18 text-danger">Attention!!</h4>
             <ul style="padding-left: 15px;">
               <li class="mb-1" *ngIf="this.mismatches.length > 0">
-
                 {{ mismatches }}
               </li>
               <li class="mb-1" *ngIf="isErrorToggle">Error: {{ errorMessage }}</li>
             </ul>
           </div>
-
           <div class="create-password-warning mb-0 mt-4 text-start" *ngIf="data.length > 0">
-
             <div *ngIf="data.length > 0">
               <h3 class="font-18 mb-2">Uploaded Data</h3>
-
               <div class="table-responsive">
-
                 <table class="table excelUploadTable">
                   <thead>
                     <tr>
@@ -2347,25 +2146,14 @@
                     </tr>
                   </thead>
                   <tbody>
-
                     <tr *ngFor="let row of paginatedData; let i = index">
-                      <!-- <td *ngFor="let cell of fileColumnName; let j = index">
-                        <input class="input-zorro p-2" *ngIf="!validateRowToggle" [(ngModel)]="row[j]" />
-                        <input class="input-zorro p-2" *ngIf="validateRowToggle" [(ngModel)]="row[j]"
-                          [ngClass]="{'error-border': invalidCells[i][j]}" />
-                      </td> -->
-
-
                       <!-- Fields with condition -->
                       <td *ngFor="let cell of fileColumnName; let j = index">
-
                         <ng-container *ngIf="cell != 'Payment Method' && cell != 'Lapse Remaining Amount'">
                           <input class="input-zorro p-2" *ngIf="!validateRowToggle" [(ngModel)]="row[j]" />
                           <input class="input-zorro p-2" *ngIf="validateRowToggle" [(ngModel)]="row[j]"
                             [ngClass]="{'error-border': invalidCells[i][j]}" />
-
                         </ng-container>
-
                         <ng-container *ngIf="cell === 'Payment Method'">
                           <nz-select [ngClass]="{'error-border': validateRowToggle && invalidCells[i][j]}"
                             id="paymentMethod" name="payment-method" class="w-100" [(ngModel)]="row[j]"
@@ -2374,7 +2162,6 @@
                             <nz-option [nzValue]="'CASH'" [nzLabel]="'CASH'"></nz-option>
                           </nz-select>
                         </ng-container>
-
                         <ng-container *ngIf="cell === 'Lapse Remaining Amount'">
                           <nz-select [ngClass]="{'error-border': validateRowToggle && invalidCells[i][j]}"
                             id="lapseAmount" name="lapse-amount" class="w-100" [(ngModel)]="row[j]"
@@ -2383,22 +2170,11 @@
                             <nz-option [nzValue]="'NO'" [nzLabel]="'NO'"></nz-option>
                           </nz-select>
                         </ng-container>
-
                       </td>
-
                     </tr>
                   </tbody>
-
                 </table>
-
               </div>
-              <!-- <div class="d-flex justify-content-end align-items-center">
-                  <p class="m-0" *ngIf="data.length-1>pageSize"> Showing {{(currentPage - 1) * pageSize +currentPage}} -
-                    {{(currentPage - 1) * pageSize +(currentPage-1)+(data.length - 1)}} of {{data.length-1}} </p>
-                  <ngb-pagination [rotate]="true" [maxSize]="4" [collectionSize]="data.length - 1" [pageSize]="pageSize"
-                    [(page)]="currentPage" (pageChange)="onPageChange($event)">
-                  </ngb-pagination>
-                </div> -->
               <div class="text-end border-top pt-3">
                 <button *ngIf="!importToggle" type="button" class="btn p-0 next-btn btn-border"
                   (click)="saveFile()">Save Changes</button>
@@ -2407,10 +2183,8 @@
                   <span></span>
                   <span></span>
                 </div>
-
               </div>
             </div>
-
             <!-- <p *ngIf="isErrorToggle">Error: {{ errorMessage }}</p> -->
             <p *ngIf="!isErrorToggle" class="m-0"></p>
           </div>
@@ -2461,7 +2235,5 @@
     </div>
   </div>
 </div>
-
-
 <!-- Chart Data Export -->
 <a *ngIf="exportUrl !=''" href="{{exportUrl}}" id="exportUrlId" #expenseDownload></a>

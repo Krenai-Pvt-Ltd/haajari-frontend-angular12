@@ -1547,13 +1547,15 @@
         <div *ngIf="!isRequestedDataLoading" class="request-body">
           <div class="d-flex align-items-center justify-content-between request-user p-3">
             <div class="d-flex align-items-center gap-2">
-              <img [src]="profilePic">
+              <img onerror="this.src='./assets/images/broken-image-icon.jpg';" [src]="profilePic">
               <div>
                 <h5 class="mb-0 font-15">{{editedName}} </h5>
-                <p class="mb-0 font-12">Requested for {{requestedData.length}} update </p>
+                <p class="mb-0 font-12">Requested for <span
+                    class="text-primary fw-semibold">{{requestedData.length}}</span> update
+                </p>
               </div>
             </div>
-            <p class="mb-0 font-14 fw-semibold">{{editedDate | date:'MMM d, y'}} </p>
+            <p class="mb-0 font-14 fw-semibold">{{editedDate | date:'d MMM, y'}} </p>
           </div>
 
           <div class="email-update-box mt-3">
@@ -1854,19 +1856,20 @@
 
       </div>
       <div class="modal-footer d-flex align-items-center justify-content-end gap-2">
-        <button type="button" (click)="approveRequestedData()" [disabled]="rejectLoading || approveLoading"
+
+        <button type="button" (click)="rejectData()" [disabled]="rejectLoading || approveLoading"
           class="btn cancel-btn">
-          <span *ngIf="!approveLoading">Approve All</span>
-          <div class="dot-opacity-loader" *ngIf="approveLoading">
+          <span *ngIf="!rejectLoading">Reject All</span>
+          <div class="dot-opacity-loader" *ngIf="rejectLoading">
             <span></span>
             <span></span>
             <span></span>
           </div>
         </button>
-        <button type="button" (click)="rejectData()" [disabled]="rejectLoading || approveLoading"
+        <button type="button" (click)="approveRequestedData()" [disabled]="rejectLoading || approveLoading"
           class="btn submitActionBtn">
-          <span *ngIf="!rejectLoading">Reject All</span>
-          <div class="dot-opacity-loader" *ngIf="rejectLoading">
+          <span *ngIf="!approveLoading">Approve All</span>
+          <div class="dot-opacity-loader" *ngIf="approveLoading">
             <span></span>
             <span></span>
             <span></span>

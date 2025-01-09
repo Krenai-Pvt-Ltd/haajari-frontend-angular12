@@ -21,10 +21,10 @@ export class CommonToDoStepsComponent implements OnInit, OnChanges {
     private router: Router,
     private helperService: HelperService,
     private rbacService: RoleBasedAccessControlService,
-    private _subscriptionService:SubscriptionPlanService,
+    private _subscriptionService: SubscriptionPlanService,
     private _onboardingService: OrganizationOnboardingService,
   ) {
-    if(this._subscriptionService.isSubscription !=undefined && this._subscriptionService.isSubscription && !this._subscriptionService.isPlanExpired){
+    if (this._subscriptionService.isSubscription != undefined && this._subscriptionService.isSubscription && !this._subscriptionService.isPlanExpired) {
       this.isToDoStepsCompletedData();
     }
   }
@@ -38,39 +38,37 @@ export class CommonToDoStepsComponent implements OnInit, OnChanges {
     this.getOrganizationInitialToDoStepBar();
     this.getOrganizationRegistratonProcessStepData();
     this.getRoleDetails();
-  
+
   }
 
 
   closeFlg: boolean = false;
-  isSubscriberCalled:boolean=false;
+  isSubscriberCalled: boolean = false;
   @ViewChild('stepCompletionModal') stepCompletionModal!: ElementRef;
 
 
   ngOnChanges(changes: SimpleChanges): void {
-    // console.log("🚀 ~ CommonToDoStepsComponent ~ ngOnChanges ~ changes:", changes);
     if (changes.stepId.currentValue) {
       // const currentObj = changes['obj'].currentValue;
-      // console.log("🚀 ~ CommonToDoStepsComponent ~ ngOnChanges ~ changesvalue:", changes.stepId.currentValue);
-          //  this.STEP_ID = changes.stepId.currentValue;
-            this.showToDoStep();
-            this.getOnboardingStep();
-            this.getStepsData();
-            this.getOrganizationInitialToDoStepBar();
-            this.getRoleDetails();
-            this.getOrganizationRegistratonProcessStepData();
-            this.isToDoStepsCompletedData();
-            if (this.isToDoStepsCompletedFlag == 1) {
-              // console.log(this.isTo)
-              // this.helperService.stepId=5;
-              // this.dataService.isToDoStepCompleted=1;
-              this.stepCompletionModal?.nativeElement.click();
-            }
+      //  this.STEP_ID = changes.stepId.currentValue;
+      this.showToDoStep();
+      this.getOnboardingStep();
+      this.getStepsData();
+      this.getOrganizationInitialToDoStepBar();
+      this.getRoleDetails();
+      this.getOrganizationRegistratonProcessStepData();
+      this.isToDoStepsCompletedData();
+      if (this.isToDoStepsCompletedFlag == 1) {
+        // console.log(this.isTo)
+        // this.helperService.stepId=5;
+        // this.dataService.isToDoStepCompleted=1;
+        this.stepCompletionModal?.nativeElement.click();
+      }
     }
   }
 
 
-  STEP_ID : number = 0;
+  STEP_ID: number = 0;
   getOnboardingStep() {
     debugger;
     this._onboardingService
