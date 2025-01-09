@@ -1696,6 +1696,8 @@ export class LeaveSettingComponent implements OnInit {
   booleanList: string[] = ['Yes', 'No'];
 
   leaveCategoryList: LeaveCategory[] = [];
+  onDutyList: LeaveCategory[] = [];
+  weekOffCategoryList: LeaveCategory[] = [];
   getLeaveCategoryListMethodCall() {
     this.dataService.getLeaveCategoryList().subscribe((response) => {
       if (!this.helperService.isListOfObjectNullOrUndefined(response)) {
@@ -1703,9 +1705,11 @@ export class LeaveSettingComponent implements OnInit {
 
         if(!this.wfhTemplateToggle){
           // Assuming this.leaveCategoryList is already populated
-          this.leaveCategoryList = this.leaveCategoryList.filter(category => category.name !== 'WFH');
+          this.leaveCategoryList = this.leaveCategoryList.filter(category => category.category === 'LEAVE');
 
         }
+        this.onDutyList = this.leaveCategoryList.filter(category => category.category === 'ON_DUTY');
+        this.weekOffCategoryList = this.leaveCategoryList.filter(category => category.category === 'WEEK_OFF');
 
       }
 
@@ -2002,6 +2006,7 @@ export class LeaveSettingComponent implements OnInit {
     this.leaveCategories1 = []
   }
 
+  ON_DUTY_CATEGORY_ID = [8,9];
 
   setFieldsToLeaveTemplateRequest() {
     debugger
@@ -2018,7 +2023,6 @@ export class LeaveSettingComponent implements OnInit {
 
       })
     );
-
     this.leaveTemplateRequest.userIds = [...this.selectedStaffIds, ...this.selectedStaffIdsUser];
     this.leaveTemplateRequest.deselectUserIds = this.deSelectedStaffIdsUser;
 
@@ -2041,6 +2045,14 @@ export class LeaveSettingComponent implements OnInit {
     this.leaveTemplateRequest.leaveTemplateCategoryRequestList.splice(
       this.leaveTemplateRequest.leaveTemplateCategoryRequestList.length - 1, 1
     );
+
+    debugger
+    var isOnDutyTemplate = this.leaveTemplateRequest.leaveTemplateCategoryRequestList.some((category: any) =>
+      this.ON_DUTY_CATEGORY_ID.includes(Number(category.id))
+  );
+    if(isOnDutyTemplate){
+     this.leaveTemplateRequest.isWeekOffIncluded=1;
+    }
 
     this.dataService.registerLeaveTemplate(this.leaveTemplateRequest).subscribe((response) => {
       this.helperService.registerOrganizationRegistratonProcessStepData(Key.LEAVE_TEMPLATE_ID, Key.PROCESS_COMPLETED);
@@ -2120,7 +2132,7 @@ export class LeaveSettingComponent implements OnInit {
   // find all leave template
   leaveTemplates: LeaveTemplateRes[] = []
   wfhLeaveTemplates: LeaveTemplateRes[] = []
-
+  weekOffTemplates: LeaveTemplateRes[] = []
   getAllLeaveTemplate() {
     debugger
     this.isLoading = true;
@@ -2138,11 +2150,14 @@ export class LeaveSettingComponent implements OnInit {
   // );
 
   this.wfhLeaveTemplates = response.object.filter((template: any) =>
-      template.leaveTemplateCategoryRes[0].leaveCategoryId === 8
+      template.leaveTemplateCategoryRes[0].leaveCategoryId === 8 || template.leaveTemplateCategoryRes[0].leaveCategoryId === 9
+  );
+  this.weekOffTemplates = response.object.filter((template: any) =>
+    template.leaveTemplateCategoryRes[0].leaveCategoryId === 10
   );
 
   this.leaveTemplates = response.object.filter((template: any) =>
-    template.leaveTemplateCategoryRes[0].leaveCategoryId != 8
+    template.leaveTemplateCategoryRes[0].leaveCategoryId != 8 && template.leaveTemplateCategoryRes[0].leaveCategoryId != 9 && template.leaveTemplateCategoryRes[0].leaveCategoryId != 10
 );
 
 console.log('leaveTemplates: ',this.leaveTemplates)
@@ -2305,10 +2320,28 @@ console.log('After SET Ids: ',this.selectedStaffIdsUser)
     this.leaveCategories1 = []
     this.leaveCategories2 = []
     this.tempLeaveCategories1 =[]
-
+    this.weekOffTemplateToggle = false;
     this.wfhTemplateToggle = flag;
   }
+  enableWeekOff(flag: boolean){
+    this.form.reset();
+    // this.form.value.reset();
+    // this.categories.clear();
 
+    this.wfhIndex = 0;
+    // this.wfhIndex = this.displayedCategories.length;
+
+    this.clearFormFields();
+
+    this.displayedCategories = []
+    this.leaveCategories1 = []
+    this.leaveCategories2 = []
+    this.tempLeaveCategories1 =[]
+    this.wfhTemplateToggle = true;
+    this.weekOffTemplateToggle = flag;
+  }
+
+  weekOffTemplateToggle: boolean = false;
   wfhTemplateToggle: boolean = false;
   defaultLeaveCategoryId: number = 0
   defaultLeaveActionId: number = 0

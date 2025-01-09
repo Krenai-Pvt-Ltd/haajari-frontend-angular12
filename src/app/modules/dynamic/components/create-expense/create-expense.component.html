@@ -118,7 +118,7 @@
                   <ng-container *ngIf="expenseList.length > 0">
                     <tr *ngFor="let expense of expenseList; let i= index">
                       <td class="text-left">
-                        <span class="table-font-weight">{{expense.expenseDate}}</span>
+                        <span class="table-font-weight">{{expense.expenseDate | date: 'dd-MM-yyyy'}}</span>
                       </td>
                       <td class="text-left">
                         <span class="table-font-weight">{{expense.employeeName}}</span>
