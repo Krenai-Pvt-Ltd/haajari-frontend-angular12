@@ -93,7 +93,7 @@ export class DashboardComponent implements OnInit {
     this.loadHolidays();
     this.getRole();
     this.getUserResignationInfo();
-    // this.getUsersWithUpcomingBirthdays();
+    this.getUsersWithUpcomingBirthdays();
     this.getNewUsersJoinies();
     this.getUsersUpcomingWorkAnniversaries();
     // this.getWorkedHourForEachDayOfAWeek();
@@ -282,7 +282,7 @@ export class DashboardComponent implements OnInit {
       this.userResignationInfo.userLastWorkingDay = ''
       this.calculateLasWorkingDay();
     }else{
-      this.userResignationInfo.userLastWorkingDay = this.userResignationInfo.userLastWorkingDay 
+      this.userResignationInfo.userLastWorkingDay = this.userResignationInfo.userLastWorkingDay
     }
   }
 
@@ -488,7 +488,7 @@ export class DashboardComponent implements OnInit {
   }
 
 
-  // new 
+  // new
 
   // @ViewChild('chartCanvas', { static: false }) chartCanvas!: ElementRef<HTMLCanvasElement>;
   //   private chart!: Chart;
@@ -534,9 +534,9 @@ export class DashboardComponent implements OnInit {
   //               label: 'Total Worked Hours',
   //               data: data,
   //               borderColor: 'rgba(75, 192, 192, 1)',
-  //               backgroundColor: 'rgba(153, 102, 255, 0.2)', 
-  //             tension: 0.4, 
-  //             fill: true, 
+  //               backgroundColor: 'rgba(153, 102, 255, 0.2)',
+  //             tension: 0.4,
+  //             fill: true,
   //             },
   //           ],
   //         },
@@ -737,7 +737,7 @@ export class DashboardComponent implements OnInit {
   // loadHolidays() {
   //     this.dataService.getNextSixHolidays().subscribe({
   //       next: (data: Holiday[]) => {
-  //         this.holidays = data; 
+  //         this.holidays = data;
   //       },
   //       error: (error) => {
   //         console.error('Failed to fetch holidays', error);
