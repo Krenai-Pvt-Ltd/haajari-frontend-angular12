@@ -10,6 +10,7 @@ import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { Key } from 'src/app/constant/key';
 import { HelperService } from 'src/app/services/helper.service';
+import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 
 interface AssetCategory {
   value: string;
@@ -34,14 +35,16 @@ export class AssetsComponent implements OnInit {
   private searchSubject: Subject<string> = new Subject<string>();
   private assetSearchSubject: Subject<string> = new Subject<string>();
   userId : any;
-
+  currentUserId: any;
   contentTemplate: string = "tool tip";
   constructor(private activateRoute: ActivatedRoute, private dataService: DataService,
-    private fb: FormBuilder,private modalService: NgbModal, private helper: HelperService)
+    private fb: FormBuilder,private modalService: NgbModal, private helper: HelperService,
+    public rbacService: RoleBasedAccessControlService,)
   {
     if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
       this.userId = this.activateRoute.snapshot.queryParamMap.get('userId');
     }
+    this.currentUserId = this.rbacService.getUuid();
     this.searchSubject.pipe(
       debounceTime(1000)
     ).subscribe((searchText) => {

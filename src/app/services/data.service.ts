@@ -4532,7 +4532,7 @@ getHolidayForOrganization(date: string): Observable<any>{
   }
   getDataComparison(userUuid: string): Observable<any> {
     const params = { userUuid };
-    return this.httpClient.get(`${this.baseUrl}/get/onboarding/get-requested-data-compare`, {
+    return this.httpClient.get(`${this.baseUrl}/get/onboarding/requested-data-compare`, {
       params,
     });
   }
