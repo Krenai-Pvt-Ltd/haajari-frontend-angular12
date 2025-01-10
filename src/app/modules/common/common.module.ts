@@ -34,4 +34,4 @@ import { HolidayDatePickerComponent } from './holiday-date-picker/holiday-date-p
   ],
   exports: [],
 })
-export class CommonModule {}
+export class CommonModule { }

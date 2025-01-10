@@ -769,12 +769,20 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 
+  // routeToAccountPage(tabName: string) {
+  //   // this.dataService.activeTab = tabName !== 'account';
+  //   this.router.navigate(['/setting/account-settings'], {
+  //     queryParams: { setting: tabName },
+  //   });
+  // }
+
   routeToAccountPage(tabName: string) {
     // this.dataService.activeTab = tabName !== 'account';
     this.router.navigate(['/setting/account-settings'], {
       queryParams: { setting: tabName },
     });
   }
+
   isDocumentLoading: boolean = false;
   doc: EmployeeAdditionalDocument = { fileName: '', name: 'Employee Agreement', url: '', value: '', documentType: 'employee_agreement' };
   uploadDocumentFile(event: Event, doc: EmployeeAdditionalDocument): void {

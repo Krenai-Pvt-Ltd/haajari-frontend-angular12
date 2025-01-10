@@ -710,7 +710,7 @@
                                     Account</a>
                                 </li>
 
-                                <li *ngIf="user?.resignationStatus == null && user?.userExistInExitPolicy == 1">
+                                <li>
                                   <a class="dropdown-item initiate-btn" data-bs-toggle="modal"
                                     data-bs-target="#initiateExit" (click)="getUserUuid(user.uuid);">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 17 16"
@@ -1368,7 +1368,7 @@
               <div class="col-md-6 mb-3">
                 <label for="teamNames" class="pb-2">Select Team<span class="text-optional">
                     (Optional)</span></label>
-                <!-- <nz-select class="form-control placeholder-font" nzMode="multiple" nzPlaceHolder="Select teams"
+                <nz-select class="form-control placeholder-font" nzMode="multiple" nzPlaceHolder="Select teams"
                   nzAllowClear nzShowSearch nzServerSearch [(ngModel)]="selectedTeams"
                   [ngModelOptions]="{ standalone: true }" (ngModelChange)="onTeamSelectionChange($event)"
                   (nzOnSearch)="onSearch($event)">
@@ -1379,41 +1379,15 @@
                     <span nz-icon nzType="loading" class="loading-icon"></span>
                     Loading Data...
                   </nz-option>
-                </nz-select> -->
-
-                <nz-select class="" nzMode="tags" [(ngModel)]="selectedTeams" nzPlaceHolder="Select teams" nzAllowClear
-                  nzShowSearch nzServerSearch (nzOnSearch)="onSearch($event)" style="border: 1px solid #e9e9e9;">
-                  <!-- <nz-option *ngFor="let o of teamNameList" [nzValue]="o.value" [nzLabel]="o.label"></nz-option> -->
-                  <ng-container *ngFor="let o of teamNameList">
-                    <nz-option *ngIf="!isLoadingTeams" [nzValue]="o.value" [nzLabel]="o.label"></nz-option>
-                  </ng-container>
-                  <nz-option *ngIf="isLoadingTeams" nzDisabled nzCustomContent>
-                    <span nz-icon nzType="loading" class="loading-icon"></span>
-                    Loading Data...
-                  </nz-option>
-
-
                 </nz-select>
               </div>
               <div class="col-md-6 mb-3">
                 <label for="teamNames" class="pb-2">Select Leave <span class="text-optional">
                     (Optional)</span></label>
-                <!-- <nz-select class="form-control placeholder-font" nzMode="multiple" nzPlaceHolder="Select leave"
+                <nz-select class="form-control placeholder-font" nzMode="multiple" nzPlaceHolder="Select leave"
                   nzAllowClear nzShowSearch nzServerSearch [(ngModel)]="selectedLeaves"
                   [ngModelOptions]="{ standalone: true }" (ngModelChange)="onLeaveSelectionChange($event)"
                   (nzOnSearch)="onSearchLeave($event)">
-                  <ng-container *ngFor="let o of leaveNameList">
-                    <nz-option *ngIf="!isLoadingLeave" [nzValue]="o.value" [nzLabel]="o.label"></nz-option>
-                  </ng-container>
-                  <nz-option *ngIf="isLoadingLeave" nzDisabled nzCustomContent>
-                    <span nz-icon nzType="loading" class="loading-icon"></span>
-                    Loading Data...
-                  </nz-option>
-                </nz-select> -->
-
-                <nz-select class="" nzMode="tags" nzPlaceHolder="Select leave" [(ngModel)]="selectedLeaves"
-                  style="border: 1px solid #e9e9e9;">
-                  <!-- <nz-option *ngFor="let o of leaveNameList" [nzValue]="o.value" [nzLabel]="o.label"></nz-option> -->
                   <ng-container *ngFor="let o of leaveNameList">
                     <nz-option *ngIf="!isLoadingLeave" [nzValue]="o.value" [nzLabel]="o.label"></nz-option>
                   </ng-container>
@@ -1425,7 +1399,24 @@
               </div>
             </div>
           </div>
-
+          <!-- <div class="modal-footer d-flex align-items-center justify-content-end gap-2">
+            <button type="button" class="btn cancel-btn" data-bs-dismiss="modal" aria-label="Close" #closeInviteModal>
+              Cancel
+            </button>
+            <button class="btn submitActionBtn" type="submit" [disabled]="
+                  personalInformationForm.invalid ||
+                  isNumberExist ||
+                  isEmailExist
+                " [ngClass]="{'btn-border':!personalInformationForm.invalid}" aria-label="Next Step">
+              <div *ngIf="toggle" class="dot-opacity-loader1">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+              <span *ngIf="!toggle">Invite
+                <i class="bi bi-arrow-right" style="padding-left: 8px"></i></span>
+            </button>
+          </div> -->
           <div class="modal-footer d-flex align-items-center justify-content-end gap-2">
             <button type="button" class="btn cancel-btn" data-bs-dismiss="modal" aria-label="Close" #closeInviteModal>
               Cancel
@@ -1875,7 +1866,7 @@
       </div>
     </div>
   </div>
-  </div>
+</div>
 
 <!-- Edit Request Modal End -->
 
