@@ -410,17 +410,17 @@
 
             <span class="members-namess">
                 {{
-                employeeProfileResponseData?.userName?.charAt(0)
+                userInfo?.name?.charAt(0)
                 }}
             </span>
 
             <div>
-                <div class="login-user-name">{{ employeeProfileResponseData?.userName }}</div>
+                <div class="login-user-name">{{ userInfo?.name }}</div>
                 <div class="login-user-phone-numbar">
                     {{
-                    employeeProfileResponseData?.email
-                    ? employeeProfileResponseData?.email
-                    : employeeProfileResponseData?.phoneNumber
+                    userInfo?.email
+                    ? userInfo?.email
+                    : userInfo?.phoneNumber
                     }}
                 </div>
             </div>

@@ -209,9 +209,10 @@ export class PersonalInformationComponent implements OnInit {
   }
 
   rejectLoading: boolean = false;
+  rejectReason: string = '';
   rejectData(): void {
     this.rejectLoading = true;
-    this.dataService.rejectRequestedData(this.userId).subscribe(
+    this.dataService.rejectRequestedData(this.userId,this.rejectReason).subscribe(
       (response) => {
         this.rejectLoading = false;
         if (response.success) {

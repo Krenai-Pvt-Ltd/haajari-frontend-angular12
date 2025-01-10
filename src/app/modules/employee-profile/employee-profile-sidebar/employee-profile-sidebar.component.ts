@@ -80,6 +80,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
   ADMIN = Key.ADMIN;
   MANAGER = Key.MANAGER;
   USER = Key.USER;
+  userInfo: any;
   async ngOnInit(): Promise<void> {
     // this.calculateLasWorkingDay();
     this.getEmployeeProfileData();
@@ -110,7 +111,8 @@ export class EmployeeProfileSidebarComponent implements OnInit {
         this.currentModalRef.close();
       }
     });
-
+    this.userInfo= this.rbacService.userInfo;
+    console.log('User Info:', this.userInfo);
   }
 
   ngOnDestroy() {

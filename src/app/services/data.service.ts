@@ -4597,9 +4597,9 @@ getHolidayForOrganization(date: string): Observable<any>{
       params
     });
   }
-  rejectRequestedData(uuid: string): Observable<any> {
+  rejectRequestedData(uuid: string,rejectedReason:string): Observable<any> {
     const endpoint = `${this.baseUrl}/get/onboarding/reject-requested-data`;
-    return this.httpClient.post(endpoint, null, {
+    return this.httpClient.post(endpoint, rejectedReason, {
       params: { uuid },
     });
   }
