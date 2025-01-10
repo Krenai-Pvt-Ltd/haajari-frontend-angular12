@@ -12,4 +12,9 @@ export class AccountSettingsComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  tab: string = 'account';
+  switchTab(tab: string) {
+    this.tab = tab
+  }
+
 }
