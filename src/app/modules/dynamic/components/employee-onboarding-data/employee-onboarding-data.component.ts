@@ -1585,6 +1585,7 @@ console.log(this.data);
     this.disabledStates = [];
     this.approveStates = [];
     this.isRejectModalOpen = false;
+    this.rejectedReason = '';
   }
 
   isNumberExist: boolean = false;

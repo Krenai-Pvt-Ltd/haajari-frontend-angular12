@@ -1679,6 +1679,9 @@
                 <textarea id="exampleFormControlTextarea1" placeholder="Write the reason of refection.... "
                   name="notesInput" rows="3" [(ngModel)]="rejectedReason" class="form-control nots-section "
                   style="background-color: #fff !important; border: 1px dashed #e9e9e9;"></textarea>
+                  <div class="text-danger mt-2" *ngIf="!rejectedReason || rejectedReason.length < 10">
+                    Reason should be at least 10 characters long.
+                    </div>
                 <!-- <button class="btn p-0 text-primary reject-request-btn font-14 fw-semibold">Done
                   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
                     <mask id="mask0_6578_8367" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
@@ -1855,7 +1858,7 @@
             <span></span>
           </div>
         </button>
-        <button type="button" (click)="rejectData()" [disabled]="rejectLoading || approveLoading" class="btn submitActionBtn">
+        <button type="button" (click)="rejectData()" [disabled]="rejectLoading || approveLoading || (isRejectModalOpen && (!rejectedReason || rejectedReason.length < 10))" class="btn submitActionBtn">
           <span *ngIf="!rejectLoading">Reject All</span>
           <div class="dot-opacity-loader" *ngIf="rejectLoading">
             <span></span>

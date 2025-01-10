@@ -345,7 +345,7 @@
             Edit It
           </button>
 
-          <span *ngIf=" !requestedData && onboardingPreviewData!.reasonOfRejection && userId===rbacService.getUuid()"
+          <span *ngIf=" !requestedData && onboardingPreviewData!.reasonOfRejection"
           class="profile-editrequest d-flex align-items-center justify-content-center pointer position-relative">
 
           <span style="width: 40px !important;" nz-popover [nzPopoverContent]="contentTemplate"
@@ -3776,6 +3776,9 @@
           rows="3"
           placeholder="Write the reason for rejection..."
         ></textarea>
+        <div class="text-danger mt-2" *ngIf="!rejectReason || rejectReason.length < 10">
+          Reason should be at least 10 characters long.
+          </div>
       </div>
       <div class="modal-footer">
         <button
@@ -3788,6 +3791,7 @@
         <button
           type="button"
           class="btn btn-danger"
+          [disabled]="!rejectReason || rejectReason.length < 10"
           (click)="rejectData()"
           data-bs-dismiss="modal"
         >

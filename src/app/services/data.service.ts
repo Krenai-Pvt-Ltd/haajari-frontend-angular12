@@ -1,3 +1,4 @@
+import { url } from 'inspector';
 import {
   HttpClient,
   HttpErrorResponse,
@@ -2228,6 +2229,13 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     const url = `${this.baseUrl}/account-setting/update/profile-picture`;
     return this.httpClient.put<any>(url, userPersonalInformationRequest);
   }
+  updateProfilePic(
+    picUrl: string
+  ): Observable<any> {
+    debugger;
+    const url = `${this.baseUrl}/account-setting/update/profile-pic`;
+    return this.httpClient.put<any>(url,picUrl);
+  }
 
   lat: number = 0;
   lng: number = 0;
@@ -2517,7 +2525,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
       `${this.baseUrl}/holiday/all`
     );
   }
-  
+
   // private holidays$: any = Observable<{ [key: string]: string }>
   // getAllHoliday(): Observable<{ [key: string]: string }> {
   //   if (!this.holidays$) {
