@@ -345,7 +345,7 @@
             Edit It
           </button>
 
-          <span *ngIf=" !requestedData && onboardingPreviewData!.reasonOfRejection"
+          <span *ngIf=" !requestedData && onboardingPreviewData!.reasonOfRejection && userId===rbacService.getUuid()"
           class="profile-editrequest d-flex align-items-center justify-content-center pointer position-relative">
 
           <span style="width: 40px !important;" nz-popover [nzPopoverContent]="contentTemplate"
