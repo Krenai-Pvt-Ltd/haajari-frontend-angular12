@@ -49,7 +49,7 @@ export class EmployeeProfileComponent implements OnInit {
   isLoading: boolean = false;
   getEmployeeProfileData() {
 
-    this.isEmployeeExit = false;
+    this.isEmployeeExit = false; 
     this.isLoading = true;
     this.dataService.getEmployeeProfile(this.UUID).subscribe((response) => {
       // console.log(response.object);
@@ -57,6 +57,7 @@ export class EmployeeProfileComponent implements OnInit {
       if (this.employeeProfileResponseData.resignationStatus != null && this.employeeProfileResponseData.resignationStatus == 43) {
         this.isEmployeeExit = true;
         this.resignationDate = this.employeeProfileResponseData.approvedDate;
+
       }
 
       this.isLoading = false;

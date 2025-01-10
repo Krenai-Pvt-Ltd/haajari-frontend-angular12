@@ -29,6 +29,7 @@ import { EpmployeeFinanceComponent } from './epmployee-finance/epmployee-finance
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { AgmCoreModule } from '@agm/core';
+import { HolidayDatePickerComponent } from '../common/holiday-date-picker/holiday-date-picker.component';
 
 
 
@@ -46,6 +47,8 @@ import { AgmCoreModule } from '@agm/core';
     EmployeeExpenseComponent,
     DashboardComponent,
     EpmployeeFinanceComponent,
+    HolidayDatePickerComponent
+
   ],
   imports: [
     CommonModule,

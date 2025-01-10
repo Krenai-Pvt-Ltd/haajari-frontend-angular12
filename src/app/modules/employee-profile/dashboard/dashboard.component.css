@@ -558,6 +558,12 @@
 }
 
 .dot-opacity-loader {
+  .text-optional {
+    color: grey;
+  }
+  
+
+  .dot-opacity-loader {
     display: flex;
     align-items: center;
     justify-content: center;

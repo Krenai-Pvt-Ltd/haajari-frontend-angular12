@@ -100,6 +100,8 @@ export class EmployeeProfileSidebarComponent implements OnInit {
       this.userRoleFlag = true;
     }
 
+    this.checkUserExist();
+
     this.getNoticePeriodDuration()
 
     this.getUserResignationInfo()
@@ -129,6 +131,8 @@ export class EmployeeProfileSidebarComponent implements OnInit {
   teamString !: any;
   viewTeamsLess: boolean = true;
   hrPolicyDocuments: EmployeeAdditionalDocument[] = [];
+  resigntionStatus: any
+
   getEmployeeProfileData() {
     debugger
     this.dataService.getEmployeeProfile(this.userId).subscribe((response) => {
@@ -541,7 +545,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
   recommendDay: string = ''; // Default selected value
   selectRecommendDay(value: string): void {
 
-    this.userResignationReq.lastWorkingDay = ''
+    this.userResignationReq.userLastWorkingDay = ''
 
     this.userResignationReq.isRecommendLastDay = value == 'Other' ? 1 : 0
 
@@ -573,14 +577,14 @@ export class EmployeeProfileSidebarComponent implements OnInit {
 
     // this.lastWorkingDay = maxDate;
     // this.userResignationReq.lastWorkingDay = maxDate
-    this.userResignationReq.lastWorkingDay = this.helperService.formatDateToYYYYMMDD(maxDate);
+    this.userResignationReq.userLastWorkingDay = this.helperService.formatDateToYYYYMMDD(maxDate);
     // console.log("Max Date: ", this.lastWorkingDay);
   }
 
   selectLastWorkingDay(startDate: Date) {
     debugger
     if (this.userResignationReq.isRecommendLastDay == 0 && startDate) {
-      this.userResignationReq.lastWorkingDay = this.helperService.formatDateToYYYYMMDD(startDate);
+      this.userResignationReq.userLastWorkingDay = this.helperService.formatDateToYYYYMMDD(startDate);
     }
   }
 
@@ -600,6 +604,16 @@ export class EmployeeProfileSidebarComponent implements OnInit {
       if (res.status) {
         this.userResignationInfo = res.object[0]
         console.log('userResignationInfo: ', this.userResignationInfo)
+      }
+    })
+  }
+
+  existExitPolicy: boolean = false;
+  checkUserExist(){
+    this.existExitPolicy = false
+    this.dataService.checkUserExist(this.userId).subscribe((res: any) =>{
+      if(res.status && res.object == 1){
+        this.existExitPolicy = true;
       }
     })
   }

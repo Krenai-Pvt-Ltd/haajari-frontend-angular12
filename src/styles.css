@@ -861,3 +861,9 @@ actionMenuList .dropdown-item i {
 ::ng-deep .ant-empty-image img {
   width: 90px !important;
 }
+/* Add to your global styles or the component styles */
+.holiday-highlight {
+  background-color: red !important;
+  color: white;
+  border-radius: 50%;
+}
