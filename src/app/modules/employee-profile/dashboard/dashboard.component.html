@@ -61,50 +61,50 @@
             && userResignationInfo
             && (ROLE === 'ADMIN' || ROLE === 'USER')
             && userResignationInfo?.status?.id === 13)">
-            <div class="col-md-12">
-                <div class="resignation-request p-3 d-flex align-items-center justify-content-between">
-                    <div class="d-flex align-items-center gap-3">
-                        <img src="assets/images/resign-submit.svg" style="width:50px;">
-                        <div>
-                            <h5 class="mb-2">You have submitted your <br> resignation.</h5>
-                            <p class="mb-0 font-12">HR will finalise the exit request after consulting with
-                                management</p>
+                <div class="col-md-12">
+                    <div class="resignation-request p-3 d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center gap-3">
+                            <img src="assets/images/resign-submit.svg" style="width:50px;">
+                            <div>
+                                <h5 class="mb-2">You have submitted your <br> resignation.</h5>
+                                <p class="mb-0 font-12">HR will finalise the exit request after consulting with
+                                    management</p>
+                            </div>
+                        </div>
+
+                        <div class="">
+                            <button class="btn view-request" data-bs-toggle="modal"
+                                data-bs-target="#initiateExitApprove">View Request
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"
+                                    fill="none">
+                                    <mask id="mask0_6339_5449" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0"
+                                        y="0" width="16" height="16">
+                                        <rect width="16" height="16" fill="#D9D9D9" />
+                                    </mask>
+                                    <g mask="url(#mask0_6339_5449)">
+                                        <path
+                                            d="M5.35033 14.6654L4.16699 13.482L9.65033 7.9987L4.16699 2.51536L5.35033 1.33203L12.017 7.9987L5.35033 14.6654Z"
+                                            fill="black" />
+                                    </g>
+                                </svg>
+                            </button>
+                            <span class="pointer request-close-btn" (click)="requestModal=!requestModal">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none">
+                                    <mask id="mask0_6348_5635" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0"
+                                        y="0" width="24" height="24">
+                                        <rect width="24" height="24" fill="#D9D9D9" />
+                                    </mask>
+                                    <g mask="url(#mask0_6348_5635)">
+                                        <path
+                                            d="M8.4 16.9984L7 15.5984L10.6 11.9984L7 8.42344L8.4 7.02344L12 10.6234L15.575 7.02344L16.975 8.42344L13.375 11.9984L16.975 15.5984L15.575 16.9984L12 13.3984L8.4 16.9984Z"
+                                            fill="black" />
+                                    </g>
+                                </svg>
+                            </span>
                         </div>
                     </div>
-
-                    <div class="">
-                        <button class="btn view-request" data-bs-toggle="modal"
-                            data-bs-target="#initiateExitApprove">View Request
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"
-                                fill="none">
-                                <mask id="mask0_6339_5449" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0"
-                                    y="0" width="16" height="16">
-                                    <rect width="16" height="16" fill="#D9D9D9" />
-                                </mask>
-                                <g mask="url(#mask0_6339_5449)">
-                                    <path
-                                        d="M5.35033 14.6654L4.16699 13.482L9.65033 7.9987L4.16699 2.51536L5.35033 1.33203L12.017 7.9987L5.35033 14.6654Z"
-                                        fill="black" />
-                                </g>
-                            </svg>
-                        </button>
-                        <span class="pointer request-close-btn" (click)="requestModal=!requestModal">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                fill="none">
-                                <mask id="mask0_6348_5635" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0"
-                                    y="0" width="24" height="24">
-                                    <rect width="24" height="24" fill="#D9D9D9" />
-                                </mask>
-                                <g mask="url(#mask0_6348_5635)">
-                                    <path
-                                        d="M8.4 16.9984L7 15.5984L10.6 11.9984L7 8.42344L8.4 7.02344L12 10.6234L15.575 7.02344L16.975 8.42344L13.375 11.9984L16.975 15.5984L15.575 16.9984L12 13.3984L8.4 16.9984Z"
-                                        fill="black" />
-                                </g>
-                            </svg>
-                        </span>
-                    </div>
                 </div>
-            </div>
             </div>
 
             <div class="row">
@@ -293,7 +293,7 @@
                                     <div class="img-group d-flex mt-3"
                                         *ngIf="!isLoadingTeamMembers  && images.length > 0">
                                         <a class="user-avatar " *ngFor="let t of images; let i = index"
-                                            [ngClass]="{'ms-n3': i > 0}">
+                                            [ngClass]="{'user-avatar-icon': i > 0}">
                                             <span class="members-name" *ngIf="!t?.image">{{t?.name?.charAt(0)|
                                                 uppercase}}</span>
                                             <span class="">

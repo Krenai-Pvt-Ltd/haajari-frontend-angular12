@@ -6,6 +6,7 @@
 .employee-dashboard {
   background-color: #F9FAFB;
   border-radius: 2px;
+  height: 100px;
 }
 
 .employee-dashboard p:first-child {
@@ -545,11 +546,11 @@
   0%,
   80%,
   100% {
-      opacity: 0;
+    opacity: 0;
   }
 
   40% {
-      opacity: 1;
+    opacity: 1;
   }
 }
 
@@ -587,11 +588,11 @@
   0%,
   80%,
   100% {
-      opacity: 0;
+    opacity: 0;
   }
 
   40% {
-      opacity: 1;
+    opacity: 1;
   }
 }
 
@@ -715,4 +716,8 @@ span.holiday-initial {
 
 .empty-detail {
   color: #787486;
+}
+
+.user-avatar-icon {
+  margin-left: -10px !important;
 }
