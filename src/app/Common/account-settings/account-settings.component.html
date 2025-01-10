@@ -1,0 +1,401 @@
+<div class="row p-0 m-0 setting-side-menu">
+    <div class="col-md-3 p-0 m-0">
+        <div class="setting-sidebar-menu h-100 bg-transparent">
+            <div id="v-pills-tab" role="tablist" aria-orientation="vertical" class="nav flex-column nav-pills">
+                <button id="v-pills-home-tab" data-bs-toggle="pill" href="#v-pills-home" role="tab"
+                    aria-controls="v-pills-home" aria-selected="true" class="nav-link active"
+                    (click)="switchTab('account')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
+                        <mask id="mask0_6996_3905" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                            width="20" height="21">
+                            <rect y="0.5" width="20" height="20" fill="#D9D9D9" />
+                        </mask>
+                        <g mask="url(#mask0_6996_3905)">
+                            <path *ngIf="tab != 'account'"
+                                d="M9.99998 10.5026C9.08331 10.5026 8.29859 10.1762 7.64581 9.52344C6.99304 8.87066 6.66665 8.08594 6.66665 7.16927C6.66665 6.2526 6.99304 5.46788 7.64581 4.8151C8.29859 4.16233 9.08331 3.83594 9.99998 3.83594C10.9166 3.83594 11.7014 4.16233 12.3541 4.8151C13.0069 5.46788 13.3333 6.2526 13.3333 7.16927C13.3333 8.08594 13.0069 8.87066 12.3541 9.52344C11.7014 10.1762 10.9166 10.5026 9.99998 10.5026ZM3.33331 17.1693V14.8359C3.33331 14.3637 3.45484 13.9297 3.6979 13.5339C3.94095 13.138 4.26387 12.8359 4.66665 12.6276C5.52776 12.197 6.40276 11.8741 7.29165 11.6589C8.18054 11.4436 9.08331 11.3359 9.99998 11.3359C10.9166 11.3359 11.8194 11.4436 12.7083 11.6589C13.5972 11.8741 14.4722 12.197 15.3333 12.6276C15.7361 12.8359 16.059 13.138 16.3021 13.5339C16.5451 13.9297 16.6666 14.3637 16.6666 14.8359V17.1693H3.33331ZM4.99998 15.5026H15V14.8359C15 14.6832 14.9618 14.5443 14.8854 14.4193C14.809 14.2943 14.7083 14.197 14.5833 14.1276C13.8333 13.7526 13.0764 13.4714 12.3125 13.2839C11.5486 13.0964 10.7778 13.0026 9.99998 13.0026C9.2222 13.0026 8.45137 13.0964 7.68748 13.2839C6.92359 13.4714 6.16665 13.7526 5.41665 14.1276C5.29165 14.197 5.19095 14.2943 5.11456 14.4193C5.03817 14.5443 4.99998 14.6832 4.99998 14.8359V15.5026ZM9.99998 8.83594C10.4583 8.83594 10.8507 8.67274 11.1771 8.34635C11.5035 8.01997 11.6666 7.6276 11.6666 7.16927C11.6666 6.71094 11.5035 6.31858 11.1771 5.99219C10.8507 5.6658 10.4583 5.5026 9.99998 5.5026C9.54165 5.5026 9.14929 5.6658 8.8229 5.99219C8.49651 6.31858 8.33331 6.71094 8.33331 7.16927C8.33331 7.6276 8.49651 8.01997 8.8229 8.34635C9.14929 8.67274 9.54165 8.83594 9.99998 8.83594Z"
+                                fill="#444444" />
+                            <path *ngIf="tab == 'account'"
+                                d="M9.99998 10.5026C9.08331 10.5026 8.29859 10.1762 7.64581 9.52344C6.99304 8.87066 6.66665 8.08594 6.66665 7.16927C6.66665 6.2526 6.99304 5.46788 7.64581 4.8151C8.29859 4.16233 9.08331 3.83594 9.99998 3.83594C10.9166 3.83594 11.7014 4.16233 12.3541 4.8151C13.0069 5.46788 13.3333 6.2526 13.3333 7.16927C13.3333 8.08594 13.0069 8.87066 12.3541 9.52344C11.7014 10.1762 10.9166 10.5026 9.99998 10.5026ZM3.33331 17.1693V14.8359C3.33331 14.3637 3.45484 13.9297 3.6979 13.5339C3.94095 13.138 4.26387 12.8359 4.66665 12.6276C5.52776 12.197 6.40276 11.8741 7.29165 11.6589C8.18054 11.4436 9.08331 11.3359 9.99998 11.3359C10.9166 11.3359 11.8194 11.4436 12.7083 11.6589C13.5972 11.8741 14.4722 12.197 15.3333 12.6276C15.7361 12.8359 16.059 13.138 16.3021 13.5339C16.5451 13.9297 16.6666 14.3637 16.6666 14.8359V17.1693H3.33331ZM4.99998 15.5026H15V14.8359C15 14.6832 14.9618 14.5443 14.8854 14.4193C14.809 14.2943 14.7083 14.197 14.5833 14.1276C13.8333 13.7526 13.0764 13.4714 12.3125 13.2839C11.5486 13.0964 10.7778 13.0026 9.99998 13.0026C9.2222 13.0026 8.45137 13.0964 7.68748 13.2839C6.92359 13.4714 6.16665 13.7526 5.41665 14.1276C5.29165 14.197 5.19095 14.2943 5.11456 14.4193C5.03817 14.5443 4.99998 14.6832 4.99998 14.8359V15.5026ZM9.99998 8.83594C10.4583 8.83594 10.8507 8.67274 11.1771 8.34635C11.5035 8.01997 11.6666 7.6276 11.6666 7.16927C11.6666 6.71094 11.5035 6.31858 11.1771 5.99219C10.8507 5.6658 10.4583 5.5026 9.99998 5.5026C9.54165 5.5026 9.14929 5.6658 8.8229 5.99219C8.49651 6.31858 8.33331 6.71094 8.33331 7.16927C8.33331 7.6276 8.49651 8.01997 8.8229 8.34635C9.14929 8.67274 9.54165 8.83594 9.99998 8.83594Z"
+                                fill="#6666F2" />
+                        </g>
+                    </svg>
+                    Account
+                </button>
+                <button id="v-pills-profile-tab" data-bs-toggle="pill" href="#v-pills-profile" role="tab"
+                    aria-controls="v-pills-profile" aria-selected="false" class="nav-link"
+                    (click)="switchTab('notification')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
+                        <mask id="mask0_6989_2840" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                            width="20" height="21">
+                            <rect y="0.5" width="20" height="20" fill="#D9D9D9" />
+                        </mask>
+                        <g mask="url(#mask0_6989_2840)">
+                            <path *ngIf="tab != 'notification'"
+                                d="M5.83333 15.0807C4.56014 15.0807 3.47799 14.6353 2.58687 13.7445C1.69562 12.8536 1.25 11.7719 1.25 10.4993C1.25 9.22663 1.69562 8.14427 2.58687 7.25219C3.47799 6.3601 4.56014 5.91406 5.83333 5.91406H14.1667C15.4399 5.91406 16.522 6.35948 17.4131 7.25031C18.3044 8.14115 18.75 9.22288 18.75 10.4955C18.75 11.7682 18.3044 12.8505 17.4131 13.7426C16.522 14.6347 15.4399 15.0807 14.1667 15.0807H5.83333ZM5.83333 13.8307H14.1667C15.0833 13.8307 15.8681 13.5043 16.5208 12.8516C17.1736 12.1988 17.5 11.4141 17.5 10.4974C17.5 9.58073 17.1736 8.79601 16.5208 8.14323C15.8681 7.49045 15.0833 7.16406 14.1667 7.16406H5.83333C4.91667 7.16406 4.13194 7.49045 3.47917 8.14323C2.82639 8.79601 2.5 9.58073 2.5 10.4974C2.5 11.4141 2.82639 12.1988 3.47917 12.8516C4.13194 13.5043 4.91667 13.8307 5.83333 13.8307ZM14.1656 12.7891C14.802 12.7891 15.3432 12.5664 15.7892 12.1209C16.2353 11.6755 16.4583 11.1347 16.4583 10.4984C16.4583 9.86205 16.2356 9.32087 15.7902 8.8749C15.3448 8.42878 14.804 8.20573 14.1677 8.20573C13.5313 8.20573 12.9901 8.42844 12.5442 8.87385C12.0981 9.31927 11.875 9.8601 11.875 10.4964C11.875 11.1327 12.0977 11.6739 12.5431 12.1199C12.9885 12.566 13.5294 12.7891 14.1656 12.7891Z"
+                                fill="#444444" />
+                            <path *ngIf="tab == 'notification'"
+                                d="M5.83333 15.0807C4.56014 15.0807 3.47799 14.6353 2.58687 13.7445C1.69562 12.8536 1.25 11.7719 1.25 10.4993C1.25 9.22663 1.69562 8.14427 2.58687 7.25219C3.47799 6.3601 4.56014 5.91406 5.83333 5.91406H14.1667C15.4399 5.91406 16.522 6.35948 17.4131 7.25031C18.3044 8.14115 18.75 9.22288 18.75 10.4955C18.75 11.7682 18.3044 12.8505 17.4131 13.7426C16.522 14.6347 15.4399 15.0807 14.1667 15.0807H5.83333ZM5.83333 13.8307H14.1667C15.0833 13.8307 15.8681 13.5043 16.5208 12.8516C17.1736 12.1988 17.5 11.4141 17.5 10.4974C17.5 9.58073 17.1736 8.79601 16.5208 8.14323C15.8681 7.49045 15.0833 7.16406 14.1667 7.16406H5.83333C4.91667 7.16406 4.13194 7.49045 3.47917 8.14323C2.82639 8.79601 2.5 9.58073 2.5 10.4974C2.5 11.4141 2.82639 12.1988 3.47917 12.8516C4.13194 13.5043 4.91667 13.8307 5.83333 13.8307ZM14.1656 12.7891C14.802 12.7891 15.3432 12.5664 15.7892 12.1209C16.2353 11.6755 16.4583 11.1347 16.4583 10.4984C16.4583 9.86205 16.2356 9.32087 15.7902 8.8749C15.3448 8.42878 14.804 8.20573 14.1677 8.20573C13.5313 8.20573 12.9901 8.42844 12.5442 8.87385C12.0981 9.31927 11.875 9.8601 11.875 10.4964C11.875 11.1327 12.0977 11.6739 12.5431 12.1199C12.9885 12.566 13.5294 12.7891 14.1656 12.7891Z"
+                                fill="#6666F2" />
+                        </g>
+                    </svg>
+                    Notification Preferences </button>
+                <button id="v-pills-messages-tab" data-bs-toggle="pill" href="#v-pills-messages" role="tab"
+                    aria-controls="v-pills-messages" aria-selected="false" class="nav-link" (click)="switchTab('help')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
+                        <mask id="mask0_6996_4959" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                            width="20" height="21">
+                            <rect y="0.5" width="20" height="20" fill="#D9D9D9" />
+                        </mask>
+                        <g mask="url(#mask0_6996_4959)">
+                            <path *ngIf="tab != 'help'"
+                                d="M9.48727 17.5807V16.3307H15.5769C15.6463 16.3307 15.7064 16.3093 15.7573 16.2666C15.808 16.2239 15.8333 16.1679 15.8333 16.0984V10.2699C15.8333 8.67684 15.2633 7.33573 14.1233 6.24656C12.9835 5.1574 11.609 4.61281 9.99998 4.61281C8.39095 4.61281 7.01651 5.1574 5.87665 6.24656C4.73665 7.33573 4.16665 8.67684 4.16665 10.2699V15.1768H3.54165C3.14206 15.1768 2.79915 15.0377 2.5129 14.7595C2.22651 14.4811 2.08331 14.1422 2.08331 13.7426V12.1241C2.08331 11.8538 2.16026 11.6061 2.31415 11.3811C2.46804 11.1563 2.66887 10.9755 2.91665 10.8389L2.95519 9.77469C3.02352 8.8676 3.25908 8.02733 3.66185 7.25385C4.06463 6.48038 4.58116 5.80705 5.21144 5.23385C5.84185 4.66066 6.56942 4.21406 7.39415 3.89406C8.21901 3.57406 9.08762 3.41406 9.99998 3.41406C10.9123 3.41406 11.7788 3.57406 12.5994 3.89406C13.4199 4.21406 14.1475 4.65851 14.7821 5.2274C15.4166 5.79628 15.9332 6.46747 16.3316 7.24094C16.7301 8.01455 16.9678 8.85483 17.0448 9.76177L17.0833 10.8051C17.3258 10.9194 17.5253 11.0829 17.6819 11.2955C17.8384 11.5082 17.9166 11.7453 17.9166 12.007V13.8676C17.9166 14.1293 17.8384 14.3664 17.6819 14.5791C17.5253 14.7917 17.3258 14.9552 17.0833 15.0695V16.0984C17.0833 16.5086 16.9362 16.8582 16.6419 17.1472C16.3474 17.4362 15.9924 17.5807 15.5769 17.5807H9.48727ZM7.66019 11.9718C7.45616 11.9718 7.28227 11.9026 7.13852 11.7643C6.99491 11.6259 6.9231 11.4547 6.9231 11.2505C6.9231 11.0465 6.99491 10.874 7.13852 10.733C7.28227 10.5919 7.45616 10.5214 7.66019 10.5214C7.86435 10.5214 8.03824 10.5919 8.18185 10.733C8.3256 10.874 8.39748 11.0465 8.39748 11.2505C8.39748 11.4547 8.3256 11.6259 8.18185 11.7643C8.03824 11.9026 7.86435 11.9718 7.66019 11.9718ZM12.3398 11.9718C12.1356 11.9718 11.9617 11.9026 11.8181 11.7643C11.6744 11.6259 11.6025 11.4547 11.6025 11.2505C11.6025 11.0465 11.6744 10.874 11.8181 10.733C11.9617 10.5919 12.1356 10.5214 12.3398 10.5214C12.5438 10.5214 12.7177 10.5919 12.8614 10.733C13.005 10.874 13.0769 11.0465 13.0769 11.2505C13.0769 11.4547 13.005 11.6259 12.8614 11.7643C12.7177 11.9026 12.5438 11.9718 12.3398 11.9718ZM5.30935 10.6641C5.22283 9.30406 5.64588 8.14031 6.57852 7.17281C7.51116 6.20545 8.66553 5.72177 10.0416 5.72177C11.1976 5.72177 12.2176 6.07941 13.1016 6.79469C13.9858 7.50997 14.5224 8.43594 14.7114 9.5726C13.5277 9.55872 12.4339 9.24788 11.4302 8.6401C10.4264 8.03219 9.65588 7.19885 9.11852 6.1401C8.90699 7.17635 8.46366 8.09247 7.78852 8.88844C7.11324 9.68441 6.28685 10.2763 5.30935 10.6641Z"
+                                fill="#444444" />
+                            <path *ngIf="tab == 'help'"
+                                d="M9.48727 17.5807V16.3307H15.5769C15.6463 16.3307 15.7064 16.3093 15.7573 16.2666C15.808 16.2239 15.8333 16.1679 15.8333 16.0984V10.2699C15.8333 8.67684 15.2633 7.33573 14.1233 6.24656C12.9835 5.1574 11.609 4.61281 9.99998 4.61281C8.39095 4.61281 7.01651 5.1574 5.87665 6.24656C4.73665 7.33573 4.16665 8.67684 4.16665 10.2699V15.1768H3.54165C3.14206 15.1768 2.79915 15.0377 2.5129 14.7595C2.22651 14.4811 2.08331 14.1422 2.08331 13.7426V12.1241C2.08331 11.8538 2.16026 11.6061 2.31415 11.3811C2.46804 11.1563 2.66887 10.9755 2.91665 10.8389L2.95519 9.77469C3.02352 8.8676 3.25908 8.02733 3.66185 7.25385C4.06463 6.48038 4.58116 5.80705 5.21144 5.23385C5.84185 4.66066 6.56942 4.21406 7.39415 3.89406C8.21901 3.57406 9.08762 3.41406 9.99998 3.41406C10.9123 3.41406 11.7788 3.57406 12.5994 3.89406C13.4199 4.21406 14.1475 4.65851 14.7821 5.2274C15.4166 5.79628 15.9332 6.46747 16.3316 7.24094C16.7301 8.01455 16.9678 8.85483 17.0448 9.76177L17.0833 10.8051C17.3258 10.9194 17.5253 11.0829 17.6819 11.2955C17.8384 11.5082 17.9166 11.7453 17.9166 12.007V13.8676C17.9166 14.1293 17.8384 14.3664 17.6819 14.5791C17.5253 14.7917 17.3258 14.9552 17.0833 15.0695V16.0984C17.0833 16.5086 16.9362 16.8582 16.6419 17.1472C16.3474 17.4362 15.9924 17.5807 15.5769 17.5807H9.48727ZM7.66019 11.9718C7.45616 11.9718 7.28227 11.9026 7.13852 11.7643C6.99491 11.6259 6.9231 11.4547 6.9231 11.2505C6.9231 11.0465 6.99491 10.874 7.13852 10.733C7.28227 10.5919 7.45616 10.5214 7.66019 10.5214C7.86435 10.5214 8.03824 10.5919 8.18185 10.733C8.3256 10.874 8.39748 11.0465 8.39748 11.2505C8.39748 11.4547 8.3256 11.6259 8.18185 11.7643C8.03824 11.9026 7.86435 11.9718 7.66019 11.9718ZM12.3398 11.9718C12.1356 11.9718 11.9617 11.9026 11.8181 11.7643C11.6744 11.6259 11.6025 11.4547 11.6025 11.2505C11.6025 11.0465 11.6744 10.874 11.8181 10.733C11.9617 10.5919 12.1356 10.5214 12.3398 10.5214C12.5438 10.5214 12.7177 10.5919 12.8614 10.733C13.005 10.874 13.0769 11.0465 13.0769 11.2505C13.0769 11.4547 13.005 11.6259 12.8614 11.7643C12.7177 11.9026 12.5438 11.9718 12.3398 11.9718ZM5.30935 10.6641C5.22283 9.30406 5.64588 8.14031 6.57852 7.17281C7.51116 6.20545 8.66553 5.72177 10.0416 5.72177C11.1976 5.72177 12.2176 6.07941 13.1016 6.79469C13.9858 7.50997 14.5224 8.43594 14.7114 9.5726C13.5277 9.55872 12.4339 9.24788 11.4302 8.6401C10.4264 8.03219 9.65588 7.19885 9.11852 6.1401C8.90699 7.17635 8.46366 8.09247 7.78852 8.88844C7.11324 9.68441 6.28685 10.2763 5.30935 10.6641Z"
+                                fill="#6666F2" />
+                        </g>
+                    </svg>
+                    Help & Support </button>
+                <!-- TODO : button click open modal initiate exit (modal another component - profile-sidebar)  -->
+                <button class="nav-link text-danger pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
+                        <mask id="mask0_7018_2671" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                            width="20" height="21">
+                            <rect y="0.5" width="20" height="20" fill="#D9D9D9" />
+                        </mask>
+                        <g mask="url(#mask0_7018_2671)">
+                            <path
+                                d="M10 17.1664C10.7404 17.1664 11.4544 17.0493 12.1419 16.8153C12.8294 16.5814 13.4605 16.2391 14.0352 15.7882C13.4498 15.3534 12.816 15.023 12.1338 14.797C11.4516 14.571 10.7402 14.458 9.99982 14.458C9.25954 14.458 8.54566 14.5683 7.85816 14.7889C7.17066 15.0095 6.53954 15.3427 5.96482 15.7882C6.53954 16.2391 7.17066 16.5814 7.85816 16.8153C8.54566 17.0493 9.25961 17.1664 10 17.1664ZM12.0482 10.1968L11.1571 9.30573C11.2532 9.17865 11.3275 9.03747 11.3798 8.88219C11.4322 8.72691 11.4584 8.57163 11.4584 8.41635C11.4584 8.01566 11.3154 7.67247 11.0296 7.38677C10.7439 7.10094 10.4007 6.95802 10 6.95802C9.84475 6.95802 9.68948 6.9842 9.5342 7.03656C9.37892 7.08892 9.23774 7.16316 9.11065 7.25927L8.21961 6.36823C8.46517 6.14823 8.73989 5.98316 9.04378 5.87302C9.34753 5.76302 9.66746 5.70802 10.0036 5.70802C10.7533 5.70802 11.3916 5.97135 11.9184 6.49802C12.445 7.02483 12.7084 7.66309 12.7084 8.41281C12.7084 8.74892 12.6534 9.06886 12.5434 9.37261C12.4332 9.67649 12.2682 9.95121 12.0482 10.1968ZM16.6538 14.8026L15.7421 13.8907C16.0477 13.3714 16.2782 12.827 16.4336 12.2576C16.589 11.6882 16.6667 11.1022 16.6667 10.4997C16.6667 8.63858 16.0209 7.06219 14.7292 5.77052C13.4375 4.47885 11.8611 3.83302 10 3.83302C9.39753 3.83302 8.81156 3.91073 8.24211 4.06615C7.67267 4.22156 7.12829 4.45205 6.60899 4.7576L5.69711 3.84594C6.34031 3.43344 7.02628 3.11983 7.75503 2.9051C8.48392 2.69038 9.23225 2.58302 10 2.58302C11.0952 2.58302 12.1243 2.79087 13.0875 3.20656C14.0507 3.62212 14.8886 4.18615 15.6011 4.89865C16.3136 5.61115 16.8776 6.44899 17.2932 7.41219C17.7089 8.37538 17.9167 9.40455 17.9167 10.4997C17.9167 11.2675 17.8093 12.0158 17.5946 12.7447C17.3799 13.4734 17.0663 14.1594 16.6538 14.8026ZM9.99691 18.4164C8.90302 18.4164 7.87496 18.2083 6.91274 17.7922C5.95065 17.3761 5.11316 16.8118 4.40024 16.0995C3.68732 15.3871 3.12295 14.5495 2.70711 13.5866C2.29128 12.6235 2.08336 11.5945 2.08336 10.4997C2.08336 9.66427 2.20864 8.85233 2.4592 8.06385C2.70975 7.27538 3.08128 6.54191 3.57378 5.86344L1.06732 3.33615L1.95836 2.44531L18.2179 18.7049L17.3269 19.5957L4.49045 6.7801C4.11003 7.33135 3.82211 7.92108 3.6267 8.54927C3.43114 9.17747 3.33336 9.8276 3.33336 10.4997C3.33336 11.3254 3.47732 12.1149 3.76524 12.8682C4.05316 13.6214 4.47114 14.302 5.0192 14.9099C5.75322 14.3725 6.54121 13.9545 7.38316 13.6559C8.2251 13.3573 9.09739 13.208 10 13.208C10.6346 13.208 11.2599 13.293 11.8759 13.4628C12.4918 13.6327 13.0818 13.863 13.6459 14.1536L15.5994 16.107C14.8505 16.8613 13.9932 17.4348 13.0273 17.8274C12.0615 18.22 11.0513 18.4164 9.99691 18.4164Z"
+                                fill="#FF3736" />
+                        </g>
+                    </svg>
+                    Initiate Exit </button>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <div class="tab-content" id="v-pills-tabContent">
+            <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                <div class="account-setting w-90 ">
+
+                    <div class="position-relative">
+                        <span class="profile-image">
+                            <img onerror="this.src='./assets/images/broken-image-icon.jpg';" src="">
+                        </span>
+                        <input type="file" accept="image/jpeg, image/jpg, image/png" style="display: none;">
+                        <span class="image-edit-btn pointer">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"
+                                fill="none">
+                                <path
+                                    d="M2.16667 13.763H3.35417L11.5 5.61719L10.3125 4.42969L2.16667 12.5755V13.763ZM0.5 15.4297V11.888L11.5 0.908854C11.6667 0.756076 11.8507 0.638021 12.0521 0.554688C12.2535 0.471354 12.4653 0.429688 12.6875 0.429688C12.9097 0.429688 13.125 0.471354 13.3333 0.554688C13.5417 0.638021 13.7222 0.763021 13.875 0.929688L15.0208 2.09635C15.1875 2.24913 15.309 2.42969 15.3854 2.63802C15.4618 2.84635 15.5 3.05469 15.5 3.26302C15.5 3.48524 15.4618 3.69705 15.3854 3.89844C15.309 4.09983 15.1875 4.28385 15.0208 4.45052L4.04167 15.4297H0.5ZM10.8958 5.03385L10.3125 4.42969L11.5 5.61719L10.8958 5.03385Z"
+                                    fill="black" />
+                            </svg>
+                        </span>
+                    </div>
+
+                    <div class="acount-name mt-4">
+                        <h5 class="font-22 fw-semibold mb-1">Yogesh Kumar</h5>
+                        <p class="font-13 mb-0">Joining Date: 27/03/2023</p>
+                    </div>
+
+                    <div class="personal-details mt-5">
+                        <h5 class="mb-4 font-18 fw-semibold">Personal Details</h5>
+                        <div class="d-flex align-items-center justify-content-between pb-3">
+                            <div class="">
+                                <p class="mb-1 font-13">Employ ID</p>
+                                <h5 class="mb-0 font-15">Jenny123</h5>
+                                <!-- <h4 class="mb-0 font-13">This will be visible on your profile and for your other team
+                                    members also</h4> -->
+                            </div>
+                            <button class="p-0 btn text-primary font-13 fw-semibold" type="button"
+                                data-bs-toggle="collapse" data-bs-target="#employID" aria-expanded="false"
+                                aria-controls="collapseExample">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21"
+                                    fill="none">
+                                    <mask id="mask0_7018_2088" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0"
+                                        y="0" width="20" height="21">
+                                        <rect y="0.671875" width="20" height="20" fill="#6666F2" />
+                                    </mask>
+                                    <g mask="url(#mask0_7018_2088)">
+                                        <path
+                                            d="M4.16663 16.5026H5.21788L13.7483 7.97219L12.697 6.92094L4.16663 15.4514V16.5026ZM2.91663 17.7526V14.9322L13.9087 3.9449C14.0347 3.83045 14.1738 3.74205 14.326 3.67969C14.4784 3.61719 14.6381 3.58594 14.8052 3.58594C14.9723 3.58594 15.1341 3.61559 15.2906 3.6749C15.4473 3.7342 15.5859 3.82851 15.7066 3.95781L16.7243 4.98823C16.8536 5.10892 16.9458 5.24781 17.0008 5.4049C17.0558 5.56198 17.0833 5.71906 17.0833 5.87615C17.0833 6.04378 17.0547 6.20372 16.9975 6.35594C16.9402 6.5083 16.8492 6.64747 16.7243 6.77344L5.73704 17.7526H2.91663ZM13.2135 7.45573L12.697 6.92094L13.7483 7.97219L13.2135 7.45573Z"
+                                            fill="#6666F2" />
+                                    </g>
+                                </svg>
+                                Edit It</button>
+
+
+
+                        </div>
+                        <div class="collapse pb-4 pt-3" id="employID">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="totalLunchBreakDuration" class="pb-2">Employ ID</label>
+                                    <input type="text" placeholder="Enter Employ ID" class="form-control input-zorro">
+                                    <button class="btn btn submitActionBtn mt-3">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="mb-0 mt-0">
+                        <div class="d-flex align-items-center justify-content-between pb-3 pt-3">
+                            <div class="">
+                                <p class="mb-1 font-13">Email address</p>
+                                <h5 class="mb-0 font-15">jennywilson@teamup.com</h5>
+                                <!-- <h4 class="mb-0 font-13">This will be visible on your profile and for your other team
+                                    members also</h4> -->
+                            </div>
+                            <button class="p-0 btn text-primary font-13 fw-semibold" type="button"
+                                data-bs-toggle="collapse" data-bs-target="#emailId" aria-expanded="false"
+                                aria-controls="collapseExample">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21"
+                                    fill="none">
+                                    <mask id="mask0_7018_2088" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0"
+                                        y="0" width="20" height="21">
+                                        <rect y="0.671875" width="20" height="20" fill="#6666F2" />
+                                    </mask>
+                                    <g mask="url(#mask0_7018_2088)">
+                                        <path
+                                            d="M4.16663 16.5026H5.21788L13.7483 7.97219L12.697 6.92094L4.16663 15.4514V16.5026ZM2.91663 17.7526V14.9322L13.9087 3.9449C14.0347 3.83045 14.1738 3.74205 14.326 3.67969C14.4784 3.61719 14.6381 3.58594 14.8052 3.58594C14.9723 3.58594 15.1341 3.61559 15.2906 3.6749C15.4473 3.7342 15.5859 3.82851 15.7066 3.95781L16.7243 4.98823C16.8536 5.10892 16.9458 5.24781 17.0008 5.4049C17.0558 5.56198 17.0833 5.71906 17.0833 5.87615C17.0833 6.04378 17.0547 6.20372 16.9975 6.35594C16.9402 6.5083 16.8492 6.64747 16.7243 6.77344L5.73704 17.7526H2.91663ZM13.2135 7.45573L12.697 6.92094L13.7483 7.97219L13.2135 7.45573Z"
+                                            fill="#6666F2" />
+                                    </g>
+                                </svg>
+                                Edit It</button>
+
+                        </div>
+
+                        <div class="collapse pb-4 pt-3" id="emailId">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="totalLunchBreakDuration" class="pb-2">Email address</label>
+                                    <input type="email" placeholder="Enter Email address"
+                                        class="form-control input-zorro">
+                                    <button class="btn btn submitActionBtn mt-3">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="mb-0 mt-0">
+                        <div class="d-flex align-items-center justify-content-between pb-3 pt-3">
+                            <div class="">
+                                <p class="mb-1 font-13">Password</p>
+                                <h5 class="mb-0 font-15">*******</h5>
+                                <!-- <h4 class="mb-0 font-13">This will be visible on your profile and for your other team
+                                    members also</h4> -->
+                            </div>
+                            <button class="p-0 btn text-primary font-13 fw-semibold" type="button"
+                                data-bs-toggle="collapse" data-bs-target="#password" aria-expanded="false"
+                                aria-controls="collapseExample">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21"
+                                    fill="none">
+                                    <mask id="mask0_7018_2088" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0"
+                                        y="0" width="20" height="21">
+                                        <rect y="0.671875" width="20" height="20" fill="#6666F2" />
+                                    </mask>
+                                    <g mask="url(#mask0_7018_2088)">
+                                        <path
+                                            d="M4.16663 16.5026H5.21788L13.7483 7.97219L12.697 6.92094L4.16663 15.4514V16.5026ZM2.91663 17.7526V14.9322L13.9087 3.9449C14.0347 3.83045 14.1738 3.74205 14.326 3.67969C14.4784 3.61719 14.6381 3.58594 14.8052 3.58594C14.9723 3.58594 15.1341 3.61559 15.2906 3.6749C15.4473 3.7342 15.5859 3.82851 15.7066 3.95781L16.7243 4.98823C16.8536 5.10892 16.9458 5.24781 17.0008 5.4049C17.0558 5.56198 17.0833 5.71906 17.0833 5.87615C17.0833 6.04378 17.0547 6.20372 16.9975 6.35594C16.9402 6.5083 16.8492 6.64747 16.7243 6.77344L5.73704 17.7526H2.91663ZM13.2135 7.45573L12.697 6.92094L13.7483 7.97219L13.2135 7.45573Z"
+                                            fill="#6666F2" />
+                                    </g>
+                                </svg>
+                                Edit It</button>
+
+                        </div>
+
+                        <div class="collapse pb-4 pt-3" id="password">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="totalLunchBreakDuration" class="pb-2">New password</label>
+                                    <input type="password" placeholder="Enter password"
+                                        class="form-control input-zorro">
+
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="totalLunchBreakDuration" class="pb-2">Repeat password</label>
+                                    <input type="password" placeholder="Repeat password"
+                                        class="form-control input-zorro">
+                                </div>
+                                <div class="col-md-12">
+                                    <button class="btn btn submitActionBtn mt-3">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                <div class="account-setting w-90">
+
+                    <h5 class="font-22 fw-semibold mb-2">Notification</h5>
+                    <p class="mb-0 font-13">Manage and customise how you receive updates on attendance and language
+                        preferences directly through your preferred channels.</p>
+
+
+
+                    <div class="notification mt-5">
+                        <div class="notification-setting p-3 mb-3">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div class="d-flex align-items-center gap-2">
+                                    <img src="assets/images/slack-1.svg" style="width: 35px;">
+                                    <div>
+                                        <h5 class="font-15 mb-0 fw-semibold">Attendance via Slack</h5>
+                                        <p class="mb-0 font-12">Receive attendance notifications by Slack</p>
+                                    </div>
+                                </div>
+                                <span
+                                    class="notification-switch d-flex align-items-center justify-content-center gap-2">
+                                    <nz-switch class="switch" nzSize="small" [ngModel]="true"></nz-switch>
+                                    <p class="mb-0 font-12 fw-semibold">Turn Off</p>
+                                </span>
+                            </div>
+
+
+                            <div class="border-top mt-4 pt-3">
+                                <p class="mb-0 font-13">Select the language in which you would like to receive your
+                                    notifications on WhatsApp.</p>
+                                <div class="row mt-3">
+                                    <div class="col-md-6">
+                                        <label
+                                            class="form-check notifaction-req d-flex align-items-center justify-content-start">
+                                            <input type="radio" name="paymentType" id="english" value="english"
+                                                required=""
+                                                class="form-check-input ng-untouched ng-pristine ng-invalid">
+                                            <p for="exampleRadios1" class="form-check-label mb-0"> English </p>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label
+                                            class="form-check notifaction-req d-flex align-items-center justify-content-start"><input
+                                                type="radio" name="paymentType" id="hindi" value="hindi" required=""
+                                                class="form-check-input ng-untouched ng-pristine ng-invalid"
+                                                ng-reflect-required="" ng-reflect-name="paymentType"
+                                                ng-reflect-value="hindi" ng-reflect-model="">
+                                            <p for="exampleRadios1" class="form-check-label mb-0"> Hindi </p>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="notification-setting p-3 mb-3">
+                            <div class="d-flex align-items-center justify-content-between ">
+                                <div class="d-flex align-items-center gap-2">
+                                    <img src="assets/images/whatsapp-logo.svg" style="width: 35px;">
+                                    <div>
+                                        <h5 class="font-15 mb-0 fw-semibold">Attendance via WhatsApp</h5>
+                                        <p class="mb-0 font-12">Receive attendance notifications by WhatsApp</p>
+                                    </div>
+                                </div>
+                                <span
+                                    class="notification-switch d-flex align-items-center justify-content-center gap-2">
+                                    <nz-switch class="switch" nzSize="small" [ngModel]="true"></nz-switch>
+                                    <p class="mb-0 font-12 fw-semibold">Turn On</p>
+                                </span>
+                            </div>
+
+                            <div class="border-top mt-4 pt-3">
+                                <p class="mb-0 font-13">Select the language in which you would like to receive your
+                                    notifications on WhatsApp.</p>
+                                <div class="row mt-3">
+                                    <div class="col-md-6">
+                                        <label
+                                            class="form-check notifaction-req d-flex align-items-center justify-content-start">
+                                            <input type="radio" name="paymentType" id="english" value="english"
+                                                required=""
+                                                class="form-check-input ng-untouched ng-pristine ng-invalid">
+                                            <p for="exampleRadios1" class="form-check-label mb-0"> English </p>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label
+                                            class="form-check notifaction-req d-flex align-items-center justify-content-start"><input
+                                                type="radio" name="paymentType" id="hindi" value="hindi" required=""
+                                                class="form-check-input ng-untouched ng-pristine ng-invalid"
+                                                ng-reflect-required="" ng-reflect-name="paymentType"
+                                                ng-reflect-value="hindi" ng-reflect-model="">
+                                            <p for="exampleRadios1" class="form-check-label mb-0"> Hindi </p>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
+                <div class="account-setting w-90">
+
+                    <h5 class="font-24 fw-semibold mb-2">How Can We Assist You?</h5>
+
+                    <div class="row mt-5">
+                        <div class="col-md-12 mb-4">
+                            <label for="totalLunchBreakDuration" class="pb-2">Your Email ID</label>
+                            <span CLASS="position-relative">
+                                <input type="text" placeholder="Enter Email ID" class="form-control input-zorro"
+                                    value="samtim@teamup.com">
+                                <button class="btn p-0 text-primary font-13 edit-btn fw-semibold">Edit</button>
+                            </span>
+                        </div>
+                        <div class="col-md-12 mb-4">
+                            <label for="totalLunchBreakDuration" class="pb-2">Your Phone Number</label>
+                            <span class="position-relative">
+                                <input type="text" placeholder="Enter Email ID" class="form-control input-zorro"
+                                    value="9876655443">
+                                <button class="btn p-0 text-primary font-13 edit-btn fw-semibold">Edit</button>
+                            </span>
+                        </div>
+                        <div class="col-md-12 mb-4">
+                            <span class="position-relative">
+
+                                <!-- TODO : shift enter height increase  -->
+                                <textarea class="form-control textarea-zerro" id="exampleFormControlTextarea1" rows="3"
+                                    placeholder="Please describe the specific issue you are experiencing in the system."></textarea>
+                                <span class="file-attech-icon pointer">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="24" viewBox="0 0 18 24"
+                                        fill="none">
+                                        <path
+                                            d="M17.1847 16.2135C17.1847 18.1047 16.3794 19.714 14.7688 21.0414C13.1585 22.369 11.1982 23.0328 8.88787 23.0328C6.57758 23.0328 4.61488 22.369 2.99979 21.0414C1.38469 19.714 0.577148 18.1047 0.577148 16.2135V5.74353C0.577148 4.39982 1.14813 3.25769 2.2901 2.31711C3.43183 1.37654 4.82484 0.90625 6.46915 0.90625C8.11346 0.90625 9.50659 1.37654 10.6486 2.31711C11.7905 3.25769 12.3615 4.39982 12.3615 5.74353V15.6536C12.3615 16.4418 12.0255 17.1147 11.3536 17.6724C10.6815 18.23 9.86251 18.5088 8.89678 18.5088C7.93081 18.5088 7.10664 18.2319 6.42426 17.6782C5.74188 17.1245 5.40069 16.4496 5.40069 15.6536V5.43026H7.53796V15.6536C7.53796 15.9657 7.66634 16.2285 7.92309 16.442C8.17984 16.6555 8.49918 16.7623 8.8811 16.7623C9.26279 16.7623 9.582 16.6555 9.83876 16.442C10.0955 16.2285 10.2239 15.9657 10.2239 15.6536V5.73247C10.2092 4.87244 9.84363 4.1442 9.12728 3.54776C8.41094 2.95131 7.5249 2.65309 6.46915 2.65309C5.41791 2.65309 4.52938 2.95315 3.80353 3.55329C3.07769 4.15362 2.71477 4.8837 2.71477 5.74353V16.2135C2.70005 17.6214 3.29561 18.8188 4.50147 19.8056C5.70733 20.7925 7.17112 21.286 8.89286 21.286C10.5901 21.286 12.0329 20.7925 13.2212 19.8056C14.4092 18.8188 15.0179 17.6214 15.0471 16.2135V5.43026H17.1847V16.2135Z"
+                                            fill="#1C1B1F" />
+                                    </svg>
+                                </span>
+                                <div class="d-flex align-items-center gap-3 support">
+                                    <span class="support-img position-relative">
+                                        <img src="assets/images/shift-timing-stap-img.webp">
+                                        <span
+                                            class="close-btn pointer d-flex align-items-center justify-content-center">
+                                            <i class="bi bi-x"></i>
+                                        </span>
+                                    </span>
+                                    <span class="support-img position-relative">
+                                        <img src="assets/images/video-img.svg">
+                                        <span
+                                            class="close-btn pointer d-flex align-items-center justify-content-center">
+                                            <i class="bi bi-x"></i>
+                                        </span>
+                                    </span>
+                                    <span class="support-img position-relative">
+                                        <img src="assets/images/shift-timing-stap-img.webp">
+                                        <span
+                                            class="close-btn pointer d-flex align-items-center justify-content-center">
+                                            <i class="bi bi-x"></i>
+                                        </span>
+                                    </span>
+                                </div>
+                            </span>
+                        </div>
+                        <div class="col-md-12 mb-4">
+                            <button class="btn btn submitActionBtn">Save</button>
+                        </div>
+
+                        <p class="mb-0 font-13 help-contact">Feel free to reach out to us via <a
+                                class="text-primary">@hajiri.support.com</a> or
+                            <a class="text-primary"> +91-9876543210</a>
+                        </p>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

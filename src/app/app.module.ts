@@ -22,7 +22,7 @@ import { SlackDataLoaderComponent } from './modules/common/slack-data-loader/sla
 import { SettingModule } from './modules/setting/setting.module';
 import { SharedModule } from './shared/shared.module';
 import { Ng2TelInputModule } from 'ng2-tel-input';
-import { NgxMaskModule, IConfig } from 'ngx-mask';
+import { NgxMaskModule } from 'ngx-mask';
 import { UnauthorizedComponent } from './modules/sharable/unauthorized/unauthorized.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ConfirmationDialogComponent } from './modules/sharable/confirmation-dialog/confirmation-dialog.component';
@@ -34,10 +34,7 @@ import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { SubscriptionExpiredComponent } from './modules/common/subscription-expired/subscription-expired.component';
 import { SubscriptionRestrictedComponent } from './modules/common/subscription-restricted/subscription-restricted.component';
 import { AgmCoreModule } from '@agm/core';
-
-
-// import { OnboardingSidebarResponse } from './models/onboarding-sidebar-response';
-
+import { AccountSettingsComponent } from './Common/account-settings/account-settings.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,7 +46,7 @@ import { AgmCoreModule } from '@agm/core';
     HeaderComponent,
     SubscriptionExpiredComponent,
     SubscriptionRestrictedComponent,
-    // AuthenticationComponent,
+
   ],
   imports: [
     CommonModule,
@@ -98,4 +95,4 @@ import { AgmCoreModule } from '@agm/core';
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }
