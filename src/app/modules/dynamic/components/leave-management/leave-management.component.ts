@@ -3,19 +3,15 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import {
   FormBuilder,
-  FormGroup,
-  FormGroupDirective,
-  Validators,
+  FormGroup
 } from '@angular/forms';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Color, ScaleType } from '@swimlane/ngx-charts';
-import moment from 'moment';
 import { Key } from 'src/app/constant/key';
 import {
   PendingLeaveResponse,
 } from 'src/app/models/leave-responses.model';
 import { UserDto } from 'src/app/models/user-dto.model';
-import { UserLeaveRequest } from 'src/app/models/user-leave-request';
 import { UserTeamDetailsReflection } from 'src/app/models/user-team-details-reflection';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
@@ -37,7 +33,7 @@ export class LeaveManagementComponent implements OnInit {
   // pendingLeaves!: PendingLeavesResponse[];
   // approvedRejectedLeaves!: PendingLeavesResponse[];
   specificLeaveRequest!: PendingLeaveResponse;
-  searchString: string = '';
+  // searchString: string = '';
   selectedTeamName: string = '';
   page = 0;
   size = 10;
@@ -51,43 +47,13 @@ export class LeaveManagementComponent implements OnInit {
   constructor(
     private dataService: DataService,
     private helperService: HelperService,
-    private datePipe: DatePipe,
-    private fb: FormBuilder,
     private firebaseStorage: AngularFireStorage,
     private rbacService: RoleBasedAccessControlService,
     public domSanitizer: DomSanitizer,
-    private afStorage: AngularFireStorage,
     private leaveService:LeaveService
-  ) {
-    {
-      this.userLeaveForm = this.fb.group({
-        startDate: ['', Validators.required],
-        endDate: [''],
-        leaveType: ['', Validators.required],
-        managerId: ['', Validators.required],
-        optNotes: ['', Validators.required],
-        halfDayLeave: [false],
-        dayShift: [false],
-        eveningShift: [false],
-      });
-    }
-  }
+  ) {}
 
-  get StartDate() {
-    return this.userLeaveForm.get('startDate');
-  }
-  get EndDate() {
-    return this.userLeaveForm.get('endDate');
-  }
-  get LeaveType() {
-    return this.userLeaveForm.get('leaveType');
-  }
-  get ManagerId() {
-    return this.userLeaveForm.get('managerId');
-  }
-  get OptNotes() {
-    return this.userLeaveForm.get('optNotes');
-  }
+  
 
   onError(event: Event) {
     const target = event.target as HTMLImageElement;
@@ -118,13 +84,13 @@ export class LeaveManagementComponent implements OnInit {
       this.getTeamNames();
     }
 
-    this.fetchManagerNames();
+    // this.fetchManagerNames();
     this.getUserLeaveReq();
-    this.getTotalCountOfPendingLeaves();
+    // this.getTotalCountOfPendingLeaves();
     // this.currentNewDate = moment(this.currentDate).format('yyyy-MM-DD');
-    this.currentNewDate = moment(this.currentDate)
-      .startOf('month')
-      .format('YYYY-MM-DD');
+    // this.currentNewDate = moment(this.currentDate)
+    //   .startOf('month')
+    //   .format('YYYY-MM-DD');
   }
 
   // debounceTimer: any;
@@ -399,7 +365,7 @@ export class LeaveManagementComponent implements OnInit {
     this.page = 0;
     // this.pagePendingLeaves = 0;
     // this.pageApprovedRejected = 0;
-    this.searchString = '';
+    // this.searchString = '';
     this.selectedTeamName = '';
     // this.fullLeaveLogs = [];
     // this.approvedRejectedLeaves = [];
@@ -516,27 +482,27 @@ export class LeaveManagementComponent implements OnInit {
       })
   }
 
-  formatDateIn(newdate: any) {
-    const date = new Date(newdate);
-    const formattedDate = this.datePipe.transform(date, 'dd MMMM, yyyy');
-    return formattedDate;
-  }
-  formatDate(date: Date) {
-    const dateObject = new Date(date);
-    const formattedDate = this.datePipe.transform(dateObject, 'yyyy-MM-dd');
-    return formattedDate;
-  }
+  // formatDateIn(newdate: any) {
+  //   const date = new Date(newdate);
+  //   const formattedDate = this.datePipe.transform(date, 'dd MMMM, yyyy');
+  //   return formattedDate;
+  // }
+  // formatDate(date: Date) {
+  //   const dateObject = new Date(date);
+  //   const formattedDate = this.datePipe.transform(dateObject, 'yyyy-MM-dd');
+  //   return formattedDate;
+  // }
 
-  formatTime(date: Date) {
-    const dateObject = new Date(date);
-    const formattedTime = this.datePipe.transform(dateObject, 'hh:mm a');
-    return formattedTime;
-  }
+  // formatTime(date: Date) {
+  //   const dateObject = new Date(date);
+  //   const formattedTime = this.datePipe.transform(dateObject, 'hh:mm a');
+  //   return formattedTime;
+  // }
 
-  transform(value: string): string {
-    if (!value) return value;
-    return value.charAt(0).toUpperCase() + value.slice(1);
-  }
+  // transform(value: string): string {
+  //   if (!value) return value;
+  //   return value.charAt(0).toUpperCase() + value.slice(1);
+  // }
 
   teamNameList: UserTeamDetailsReflection[] = [];
 
@@ -694,90 +660,90 @@ export class LeaveManagementComponent implements OnInit {
     );
   }
 
-  userLeaveRequest: UserLeaveRequest = new UserLeaveRequest();
+  // userLeaveRequest: UserLeaveRequest = new UserLeaveRequest();
 
-  @ViewChild('requestLeaveCloseModel')
-  requestLeaveCloseModel!: ElementRef;
+  // @ViewChild('requestLeaveCloseModel')
+  // requestLeaveCloseModel!: ElementRef;
 
   // @ViewChild('userLeaveForm') userLeaveForm: NgForm;
 
-  resetUserLeave() {
-    this.userLeaveRequest.startDate = new Date();
-    this.userLeaveRequest.endDate = new Date();
-    this.userLeaveRequest.halfDayLeave = false;
-    this.userLeaveRequest.dayShift = false;
-    this.userLeaveRequest.eveningShift = false;
-    this.userLeaveRequest.leaveType = '';
-    this.userLeaveRequest.managerId = 0;
-    this.userLeaveRequest.optNotes = '';
-    this.selectedManagerId = 0;
-  }
-  @ViewChild(FormGroupDirective)
-  formGroupDirective!: FormGroupDirective;
-  submitLeaveLoader: boolean = false;
-  @ViewChild('fileInput') fileInput!: ElementRef;
-  saveLeaveRequestUser() {
-    if (this.userLeaveForm.invalid || this.isFileUploaded) {
-      return;
-    }
+  // resetUserLeave() {
+  //   this.userLeaveRequest.startDate = new Date();
+  //   this.userLeaveRequest.endDate = new Date();
+  //   this.userLeaveRequest.halfDayLeave = false;
+  //   this.userLeaveRequest.dayShift = false;
+  //   this.userLeaveRequest.eveningShift = false;
+  //   this.userLeaveRequest.leaveType = '';
+  //   this.userLeaveRequest.managerId = 0;
+  //   this.userLeaveRequest.optNotes = '';
+  //   this.selectedManagerId = 0;
+  // }
+  // @ViewChild(FormGroupDirective)
+  // formGroupDirective!: FormGroupDirective;
+  // submitLeaveLoader: boolean = false;
+  // @ViewChild('fileInput') fileInput!: ElementRef;
+  // saveLeaveRequestUser() {
+  //   if (this.userLeaveForm.invalid || this.isFileUploaded) {
+  //     return;
+  //   }
 
-    debugger;
-    this.userLeaveRequest.managerId = this.selectedManagerId;
-    this.userLeaveRequest.dayShift = this.dayShiftToggle;
-    this.userLeaveRequest.eveningShift = this.eveningShiftToggle;
-    this.submitLeaveLoader = true;
+  //   debugger;
+  //   this.userLeaveRequest.managerId = this.selectedManagerId;
+  //   this.userLeaveRequest.dayShift = this.dayShiftToggle;
+  //   this.userLeaveRequest.eveningShift = this.eveningShiftToggle;
+  //   this.submitLeaveLoader = true;
 
-    this.page = 0;
-    // this.pagePendingLeaves = 0;
-    // this.pageApprovedRejected = 0;
-    this.searchString = '';
-    this.selectedTeamName = '';
-    // this.fullLeaveLogs = [];
-    // this.approvedRejectedLeaves = [];
-    // this.pendingLeaves = [];
+  //   this.page = 0;
+  //   // this.pagePendingLeaves = 0;
+  //   // this.pageApprovedRejected = 0;
+  //   // this.searchString = '';
+  //   this.selectedTeamName = '';
+  //   // this.fullLeaveLogs = [];
+  //   // this.approvedRejectedLeaves = [];
+  //   // this.pendingLeaves = [];
 
-    this.dataService
-      .saveLeaveRequestForLeaveManagement(
-        this.userLeaveRequest,
-        this.fileToUpload
-      )
-      .subscribe(
-        (data) => {
-          this.submitLeaveLoader = false;
-          this.resetUserLeave();
-          this.fetchAllData();
-          this.fileToUpload = '';
-          // this.selectedFile = null;
-          this.fileInput.nativeElement.value = '';
-          this.formGroupDirective.resetForm();
-          this.requestLeaveCloseModel.nativeElement.click();
-        },
-        (error) => {
-          this.submitLeaveLoader = false;
-        }
-      );
-  }
+  //   this.dataService
+  //     .saveLeaveRequestForLeaveManagement(
+  //       this.userLeaveRequest,
+  //       this.fileToUpload
+  //     )
+  //     .subscribe(
+  //       (data) => {
+  //         this.submitLeaveLoader = false;
+  //         this.resetUserLeave();
+  //         this.fetchAllData();
+  //         this.fileToUpload = '';
+  //         // this.selectedFile = null;
+  //         this.fileInput.nativeElement.value = '';
+  //         this.formGroupDirective.resetForm();
+  //         this.requestLeaveCloseModel.nativeElement.click();
+  //       },
+  //       (error) => {
+  //         this.submitLeaveLoader = false;
+  //       }
+  //     );
+  // }
 
-  dayShiftToggle: boolean = false;
-  eveningShiftToggle: boolean = false;
+  // dayShiftToggle: boolean = false;
+  // eveningShiftToggle: boolean = false;
 
-  dayShiftToggleFun(shift: string) {
-    if (shift == 'day') {
-      this.dayShiftToggle = true;
-      this.eveningShiftToggle = false;
-    } else if (shift == 'evening') {
-      this.eveningShiftToggle = true;
-      this.dayShiftToggle == false;
-    }
-    // console.log("day" + this.dayShiftToggle + "evening" + this.eveningShiftToggle);
-  }
+  // dayShiftToggleFun(shift: string) {
+  //   if (shift == 'day') {
+  //     this.dayShiftToggle = true;
+  //     this.eveningShiftToggle = false;
+  //   } else if (shift == 'evening') {
+  //     this.eveningShiftToggle = true;
+  //     this.dayShiftToggle == false;
+  //   }
+  //   // console.log("day" + this.dayShiftToggle + "evening" + this.eveningShiftToggle);
+  // }
 
-  halfDayLeaveShiftToggle: boolean = false;
+  // halfDayLeaveShiftToggle: boolean = false;
 
-  halfLeaveShiftToggle() {
-    this.halfDayLeaveShiftToggle =
-      this.halfDayLeaveShiftToggle == true ? false : true;
-  }
+  // halfLeaveShiftToggle() {
+  //   this.halfDayLeaveShiftToggle =
+  //     this.halfDayLeaveShiftToggle == true ? false : true;
+  // }
 
   // activeHomeTabFlag: boolean = false;
   // activeAttendanceTabFlag: boolean = false;
@@ -792,91 +758,91 @@ export class LeaveManagementComponent implements OnInit {
   //   }
   // }
 
-  selectedFile: File | null = null;
-  imagePreviewUrl: string | ArrayBuffer | null = null;
-  pdfPreviewUrl: SafeResourceUrl | null = null;
-  fileToUpload: string = '';
-  isSelecetdFileUploadedToFirebase: boolean = false;
-  isFileUploaded = false;
+  // selectedFile: File | null = null;
+  // imagePreviewUrl: string | ArrayBuffer | null = null;
+  // pdfPreviewUrl: SafeResourceUrl | null = null;
+  // fileToUpload: string = '';
+  // isSelecetdFileUploadedToFirebase: boolean = false;
+  // isFileUploaded = false;
 
   // Function to check if the selected file is an image
-  isImageNew(file: File): boolean {
-    return file.type.startsWith('image');
-  }
+  // isImageNew(file: File): boolean {
+  //   return file.type.startsWith('image');
+  // }
 
   // Function to check if the selected file is a PDF
-  isPdf(file: File): boolean {
-    return file.type === 'application/pdf';
-  }
+  // isPdf(file: File): boolean {
+  //   return file.type === 'application/pdf';
+  // }
 
   // Function to set the preview URL for images
-  setImgPreviewUrl(file: File): void {
-    const reader = new FileReader();
-    reader.onload = (e: any) => {
-      this.imagePreviewUrl = e.target.result;
-    };
-    reader.readAsDataURL(file);
-  }
+  // setImgPreviewUrl(file: File): void {
+  //   const reader = new FileReader();
+  //   reader.onload = (e: any) => {
+  //     this.imagePreviewUrl = e.target.result;
+  //   };
+  //   reader.readAsDataURL(file);
+  // }
 
-  // Function to set the preview URL for PDFs
-  setPdfPreviewUrl(file: File): void {
-    const objectUrl = URL.createObjectURL(file);
-    this.pdfPreviewUrl =
-      this.domSanitizer.bypassSecurityTrustResourceUrl(objectUrl);
-  }
+  // // Function to set the preview URL for PDFs
+  // setPdfPreviewUrl(file: File): void {
+  //   const objectUrl = URL.createObjectURL(file);
+  //   this.pdfPreviewUrl =
+  //     this.domSanitizer.bypassSecurityTrustResourceUrl(objectUrl);
+  // }
 
   // Function to handle file selection
-  onFileSelected(event: Event): void {
-    debugger;
-    const element = event.currentTarget as HTMLInputElement;
-    const fileList: FileList | null = element.files;
+  // onFileSelected(event: Event): void {
+  //   debugger;
+  //   const element = event.currentTarget as HTMLInputElement;
+  //   const fileList: FileList | null = element.files;
 
-    if (fileList && fileList.length > 0) {
-      this.isFileUploaded = true;
-      this.selectedFile = fileList[0];
+  //   if (fileList && fileList.length > 0) {
+  //     this.isFileUploaded = true;
+  //     this.selectedFile = fileList[0];
 
-      if (this.isImageNew(this.selectedFile)) {
-        this.setImgPreviewUrl(this.selectedFile);
-      } else if (this.isPdf(this.selectedFile)) {
-        this.setPdfPreviewUrl(this.selectedFile);
-      }
+  //     if (this.isImageNew(this.selectedFile)) {
+  //       this.setImgPreviewUrl(this.selectedFile);
+  //     } else if (this.isPdf(this.selectedFile)) {
+  //       this.setPdfPreviewUrl(this.selectedFile);
+  //     }
 
-      this.uploadFile(this.selectedFile); // Upload file to Firebase
-    } else {
-      this.isFileUploaded = false;
-    }
-  }
+  //     this.uploadFile(this.selectedFile); // Upload file to Firebase
+  //   } else {
+  //     this.isFileUploaded = false;
+  //   }
+  // }
 
   // Function to upload file to Firebase
-  uploadFile(file: File): void {
-    const filePath = `uploads/${new Date().getTime()}_${file.name}`;
-    const fileRef = this.afStorage.ref(filePath);
-    const task = this.afStorage.upload(filePath, file);
+  // uploadFile(file: File): void {
+  //   const filePath = `uploads/${new Date().getTime()}_${file.name}`;
+  //   const fileRef = this.afStorage.ref(filePath);
+  //   const task = this.afStorage.upload(filePath, file);
 
-    task
-      .snapshotChanges()
-      .toPromise()
-      .then(() => {
-        // console.log('Upload completed');
-        fileRef
-          .getDownloadURL()
-          .toPromise()
-          .then((url) => {
-            // console.log('File URL:', url);
-            this.fileToUpload = url;
-            // console.log('file url : ' + this.fileToUpload);
-            this.isFileUploaded = false;
-          })
-          .catch((error) => {
-            this.isFileUploaded = false;
-            console.error('Failed to get download URL', error);
-          });
-      })
-      .catch((error) => {
-        this.isFileUploaded = false;
-        console.error('Error in upload snapshotChanges:', error);
-      });
-  }
+  //   task
+  //     .snapshotChanges()
+  //     .toPromise()
+  //     .then(() => {
+  //       // console.log('Upload completed');
+  //       fileRef
+  //         .getDownloadURL()
+  //         .toPromise()
+  //         .then((url) => {
+  //           // console.log('File URL:', url);
+  //           this.fileToUpload = url;
+  //           // console.log('file url : ' + this.fileToUpload);
+  //           this.isFileUploaded = false;
+  //         })
+  //         .catch((error) => {
+  //           this.isFileUploaded = false;
+  //           console.error('Failed to get download URL', error);
+  //         });
+  //     })
+  //     .catch((error) => {
+  //       this.isFileUploaded = false;
+  //       console.error('Error in upload snapshotChanges:', error);
+  //     });
+  // }
 
   downloadSingleImage(imageUrl: any) {
     if (!imageUrl) {
@@ -933,9 +899,9 @@ export class LeaveManagementComponent implements OnInit {
   // Track the total number of items for each tab
   totalItems:any = { pending: 0, history: 0, all: 0 };  
   // Track current page number for each tab
-  pageNumber:any  = { pending: 1, approved: 1, all: 1 };
+  pageNumber:any  = { pending: 1, history: 1, all: 1 };
   // Loading state for each tab
-  isLoadingLeaves:any  = { pending: false, approved: false, all: false };
+  isLoadingLeaves:any  = { pending: false, history: false, all: false };
   itemPerPage: number = 5;
   APPROVED: string = 'approved';
   PENDING: string = 'pending';
@@ -943,47 +909,57 @@ export class LeaveManagementComponent implements OnInit {
   HISTORY: string = 'history';
   REQUESTED: string = 'requested';
   ALL: string = 'all';
-  status:string[]= [this.PENDING];
+  // status:string[]= [this.PENDING];
   currentTab =this.PENDING; 
-
+  // Search term for filtering
+  searchTerm = ''; 
 
   // Method to call when switching tabs
-  onTabChange(tab: string) {
+  onTabChange(tab: string,isLoadMore = false) {
+    debugger
     this.currentTab = tab;
-    this.setStatus();
-    if (this.leaves[tab] && !this.leaves[tab].length) {
+    this.setStatus(tab);
+    if ((this.leaves[tab] && !this.leaves[tab].length) || isLoadMore) {
       this.getLeaves(tab); // Only load data if not already loaded
     }
   }
   
-  setStatus() {
-    switch (this.currentTab) {
+  setStatus(tab:string):string[] {
+    var status:string[] = [];
+    switch (tab) {
+
       case this.PENDING:{
-        this.status = [this.PENDING];
+        status = [this.PENDING];
         break;
       }
       case this.HISTORY:{ 
-        this.status = [this.APPROVED,this.REJECTED];
+        status = [this.APPROVED,this.REJECTED];
         break;
       }
       case this.ALL:{
-        this.status = [this.PENDING,this.APPROVED,this.REJECTED,this.REQUESTED];
+        status= [this.PENDING,this.APPROVED,this.REJECTED,this.REQUESTED];
         break;
       }
     }
+    return status;
   }
 
-  getLeaves(status: string) {
-    this.isLoadingLeaves[this.currentTab] = true;
+  getLeaves(tab: string,resetSearch = false) {
+    debugger
+    if(resetSearch){
+      this.resetSearch();
+    }
+    var status = this.setStatus(tab);
+    this.isLoadingLeaves[tab] = true;
   this.leaveService
-  .get({ status: this.status ,itemPerPage: this.itemPerPage, page: this.pageNumber})
+  .get({ status: status ,itemPerPage: this.itemPerPage, currentPage: this.pageNumber[this.currentTab],search: this.searchTerm })
   .pipe(
     tap((response) => {
-      this.leaves[status] = [...this.leaves[status], ...response.object]; // Store data for each status
-      this.totalItems[status] = response.total; // Update total count for the status
+      this.leaves[tab] = [...this.leaves[tab], ...response.object]; // Store data for each tab
+      this.totalItems[tab] = response.totalItems; // Update total count for the status
     }),
     finalize(() => {
-      this.isLoadingLeaves[this.currentTab] = false;
+      this.isLoadingLeaves[tab] = false;
     })
   )
   .subscribe({
@@ -1002,10 +978,22 @@ export class LeaveManagementComponent implements OnInit {
   }
 
 
-  loadMoreLeaves() {
-    this.isLoadingLeaves[this.currentTab] = true;
-    this.pageNumber[this.currentTab]++;
-    this.getLeaves(this.currentTab);
+  loadMoreLeaves(tab: string) {
+    this.currentTab=tab;
+    this.isLoadingLeaves[tab] = true;
+    this.pageNumber[tab]++;
+    this.onTabChange(tab,true);
+  }
+  resetSearch(){
+    this.searchTerm = ''; // Reset search term if flag is set
+    this.pageNumber[this.ALL] = 1; // Reset page number for the active tab
+    this.leaves[this.ALL] = [];
+  }
+
+  searchLeaves(tab: string) {
+    this.currentTab=tab;
+    this.leaves[tab]=[]; 
+    this.getLeaves(tab);
   }
 }
 
