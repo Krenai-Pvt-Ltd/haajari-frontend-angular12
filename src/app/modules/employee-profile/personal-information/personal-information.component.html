@@ -296,9 +296,11 @@
       <!--  -->
       <div class="action-btn" *ngIf=" user!.employeeOnboardingStatus?.response != 'PENDING'">
         <div class="d-flex align-items-center gap-3" *ngIf="requestedData && rbacService.userInfo.role != 'USER'">
-          <button class="btn text-success bg-soft-success font-14" (click)="approveRequestedData()"
-            [disabled]="approveLoading || rejectLoading">
-            <i class="ti ti-x font-20" style="position: relative; top: 3px;"></i>
+          <button
+            class="btn text-success bg-soft-success font-14 d-flex align-items-center gap-1 justify-content-center fw-semibold"
+            (click)="approveRequestedData()" [disabled]="approveLoading || rejectLoading">
+
+            <i class="ti ti-checks font-20"></i>
             <ng-container *ngIf="!approveLoading && !rejectLoading">Approve</ng-container>
             <div *ngIf="approveLoading" class="dot-opacity-loader">
               <span></span>
@@ -308,12 +310,9 @@
           </button>
 
           <button
-            class="btn text-danger bg-soft-danger font-14"
-            data-bs-toggle="modal"
-            data-bs-target="#rejectReasonModal"
-            [disabled]="approveLoading || rejectLoading"
-          >
-            <i class="ti ti-checks font-20" style="position: relative; top: 3px;"></i>
+            class="btn text-danger bg-soft-danger font-14 d-flex align-items-center gap-1 justify-content-center fw-semibold"
+            data-bs-toggle="modal" data-bs-target="#rejectReasonModal" [disabled]="approveLoading || rejectLoading">
+            <i class="ti ti-x font-20"></i>
             <ng-container *ngIf="!rejectLoading && !approveLoading">Reject</ng-container>
             <ng-container *ngIf="rejectLoading">
               <div class="dot-opacity-loader">
@@ -346,53 +345,34 @@
           </button>
 
           <span *ngIf=" !requestedData && onboardingPreviewData!.reasonOfRejection && userId===rbacService.getUuid()"
-          class="profile-editrequest d-flex align-items-center justify-content-center pointer position-relative">
+            class="profile-editrequest d-flex align-items-center justify-content-center pointer position-relative">
 
-          <span style="width: 40px !important;" nz-popover [nzPopoverContent]="contentTemplate"
-            [nzPopoverOverlayStyle]="{'width':'400px'}" nzPopoverPlacement="left">
-            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
-              <circle cx="13" cy="13" r="13" fill="#FFF6E9" />
-              <mask id="mask0_6512_3861" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="6" y="6" width="14"
-                height="14">
-                <rect x="6" y="6" width="14" height="14" fill="#D9D9D9" />
-              </mask>
-              <g mask="url(#mask0_6512_3861)">
-                <path
-                  d="M10.6673 17.6641H15.334V15.9141C15.334 15.2724 15.1055 14.7231 14.6486 14.2661C14.1916 13.8092 13.6423 13.5807 13.0007 13.5807C12.359 13.5807 11.8097 13.8092 11.3527 14.2661C10.8958 14.7231 10.6673 15.2724 10.6673 15.9141V17.6641ZM8.33398 18.8307V17.6641H9.50065V15.9141C9.50065 15.321 9.63919 14.7644 9.91628 14.2443C10.1934 13.7241 10.5798 13.3085 11.0757 12.9974C10.5798 12.6863 10.1934 12.2707 9.91628 11.7505C9.63919 11.2304 9.50065 10.6738 9.50065 10.0807V8.33073H8.33398V7.16406H17.6673V8.33073H16.5007V10.0807C16.5007 10.6738 16.3621 11.2304 16.085 11.7505C15.8079 12.2707 15.4215 12.6863 14.9257 12.9974C15.4215 13.3085 15.8079 13.7241 16.085 14.2443C16.3621 14.7644 16.5007 15.321 16.5007 15.9141V17.6641H17.6673V18.8307H8.33398Z"
-                  fill="#CF7800" />
-              </g>
-            </svg>
-          </span>
-          <ng-template #contentTemplate>
+            <span style="width: 40px !important;" nz-popover [nzPopoverContent]="contentTemplate"
+              [nzPopoverOverlayStyle]="{'width':'400px'}" nzPopoverPlacement="left">
+              <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
+                <circle cx="13" cy="13" r="13" fill="#FFF6E9" />
+                <mask id="mask0_6512_3861" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="6" y="6" width="14"
+                  height="14">
+                  <rect x="6" y="6" width="14" height="14" fill="#D9D9D9" />
+                </mask>
+                <g mask="url(#mask0_6512_3861)">
+                  <path
+                    d="M10.6673 17.6641H15.334V15.9141C15.334 15.2724 15.1055 14.7231 14.6486 14.2661C14.1916 13.8092 13.6423 13.5807 13.0007 13.5807C12.359 13.5807 11.8097 13.8092 11.3527 14.2661C10.8958 14.7231 10.6673 15.2724 10.6673 15.9141V17.6641ZM8.33398 18.8307V17.6641H9.50065V15.9141C9.50065 15.321 9.63919 14.7644 9.91628 14.2443C10.1934 13.7241 10.5798 13.3085 11.0757 12.9974C10.5798 12.6863 10.1934 12.2707 9.91628 11.7505C9.63919 11.2304 9.50065 10.6738 9.50065 10.0807V8.33073H8.33398V7.16406H17.6673V8.33073H16.5007V10.0807C16.5007 10.6738 16.3621 11.2304 16.085 11.7505C15.8079 12.2707 15.4215 12.6863 14.9257 12.9974C15.4215 13.3085 15.8079 13.7241 16.085 14.2443C16.3621 14.7644 16.5007 15.321 16.5007 15.9141V17.6641H17.6673V18.8307H8.33398Z"
+                    fill="#CF7800" />
+                </g>
+              </svg>
+            </span>
+            <ng-template #contentTemplate>
 
-            <div class="request-g">
-              <div class="d-flex align-items-center justify-content-between border-bottom p-3">
-                <h5 class="mb-0"> {{onboardingPreviewData!.reasonOfRejection}}</h5>
-
-
+              <div class="request-g">
+                <div class="d-flex align-items-center justify-content-between border-bottom p-3">
+                  <h5 class="mb-0"> {{onboardingPreviewData!.reasonOfRejection}}</h5>
+                </div>
               </div>
+            </ng-template>
 
-
-
-
-            </div>
-          </ng-template>
-
-        </span>
+          </span>
         </div>
-        <!-- <span></span> -->
-        <!-- <button  *ngIf="(editStatus =='' || editStatus=='REJECTED' || editStatus=='EDITED') && rbacService.userInfo.role == 'USER'"  class="p-0 btn text-primary gont-14" data-bs-toggle="modal" data-bs-target="#profileRequest">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="23" viewBox="0 0 22 23" fill="none">
-                    <mask id="mask0_6348_5644" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="22" height="23">
-                      <rect y="0.5" width="22" height="22" fill="#D9D9D9" />
-                    </mask>
-                    <g mask="url(#mask0_6348_5644)">
-                      <path
-                        d="M13.5897 20.6667C13.2231 20.6667 12.8717 20.5979 12.5356 20.4604C12.1995 20.3229 11.9016 20.1243 11.6418 19.8646L6.96683 15.1667L7.72308 14.3875C7.93697 14.1736 8.19669 14.0285 8.50225 13.9521C8.8078 13.8757 9.11336 13.8757 9.41891 13.9521L11.0002 14.4104V7.83333C11.0002 7.57361 11.088 7.3559 11.2637 7.18021C11.4394 7.00451 11.6571 6.91667 11.9168 6.91667C12.1766 6.91667 12.3943 7.00451 12.57 7.18021C12.7456 7.3559 12.8335 7.57361 12.8335 7.83333V16.8396L10.5877 16.1979L12.9481 18.5583C13.0397 18.65 13.1391 18.7188 13.246 18.7646C13.3529 18.8104 13.4675 18.8333 13.5897 18.8333H17.4168C17.921 18.8333 18.3526 18.6538 18.7116 18.2948C19.0707 17.9358 19.2502 17.5042 19.2502 17V13.3333C19.2502 13.0736 19.338 12.8559 19.5137 12.6802C19.6894 12.5045 19.9071 12.4167 20.1668 12.4167C20.4266 12.4167 20.6443 12.5045 20.82 12.6802C20.9956 12.8559 21.0835 13.0736 21.0835 13.3333V17C21.0835 18.0083 20.7245 18.8715 20.0064 19.5896C19.2884 20.3076 18.4252 20.6667 17.4168 20.6667H13.5897ZM13.7502 14.25V10.5833C13.7502 10.3236 13.838 10.1059 14.0137 9.93021C14.1894 9.75451 14.4071 9.66667 14.6668 9.66667C14.9266 9.66667 15.1443 9.75451 15.32 9.93021C15.4956 10.1059 15.5835 10.3236 15.5835 10.5833V14.25H13.7502ZM16.5002 14.25V11.5C16.5002 11.2403 16.588 11.0226 16.7637 10.8469C16.9394 10.6712 17.1571 10.5833 17.4168 10.5833C17.6766 10.5833 17.8943 10.6712 18.07 10.8469C18.2456 11.0226 18.3335 11.2403 18.3335 11.5V14.25H16.5002ZM3.66683 17.9167C3.16266 17.9167 2.73107 17.7372 2.37204 17.3781C2.01301 17.0191 1.8335 16.5875 1.8335 16.0833V5.08333C1.8335 4.57917 2.01301 4.14757 2.37204 3.78854C2.73107 3.42951 3.16266 3.25 3.66683 3.25H17.4168C17.921 3.25 18.3526 3.42951 18.7116 3.78854C19.0707 4.14757 19.2502 4.57917 19.2502 5.08333V8.75H17.4168V5.08333H3.66683V16.0833H5.31683L7.12725 17.9167H3.66683Z"
-                        fill="#6666F2" />
-                    </g>
-                  </svg>
-                    Profile Edit Request</button> -->
       </div>
     </div>
     <div class="profile-imfo-detail" *ngIf="!profileLoding">
@@ -406,8 +386,8 @@
         <div class="col-md-9">
           <div class="row">
             <div class="col-md-3">
-              <div class="profile-imformation mb-3">
-                <p class="mb-1"></p>
+              <div class="profile-information mb-3">
+                <p class="mb-1">Email</p>
                 <div class="d-flex align-items-center gap-2">
                   <h6 class="profile-email mb-0">{{ user.email || '--'}}</h6>
                   <span *ngIf=" requestedData && requestedData?.user?.email"
@@ -504,12 +484,11 @@
               </div>
             </div>
             <div class="col-md-3">
-              <div class="profile-imformation mb-3">
+              <div class="profile-information mb-3">
                 <p class="mb-1">Phone Number</p>
                 <div class="d-flex align-items-center gap-2">
                   <h6 class="profile-email mb-0">{{ user.phoneNumber || '--'}}</h6>
                   <span *ngIf=" requestedData && requestedData?.user?.phoneNumber"
-
                     class="profile-editrequest d-flex align-items-center justify-content-center pointer position-relative">
 
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
@@ -594,7 +573,7 @@
               </div>
             </div>
             <div class="col-md-3">
-              <div class="profile-imformation mb-3">
+              <div class="profile-information mb-3">
                 <p class="mb-1">Gender</p>
                 <div class="d-flex align-items-center gap-2">
                   <h6 class="profile-email mb-0">{{ user.gender || '--'}}</h6>
@@ -685,7 +664,7 @@
               </div>
             </div>
             <div class="col-md-3">
-              <div class="profile-imformation mb-3">
+              <div class="profile-information mb-3">
                 <p class="mb-1">Date Of Birth</p>
                 <h6></h6>
                 <div class="d-flex align-items-center gap-2">
@@ -783,7 +762,7 @@
               </div>
             </div>
             <div class="col-md-3">
-              <div class="profile-imformation mb-3">
+              <div class="profile-information mb-3">
                 <p class="mb-1">Marital Status</p>
                 <h6></h6>
                 <div class="d-flex align-items-center gap-2">
@@ -879,7 +858,7 @@
               </div>
             </div>
             <div class="col-md-3">
-              <div class="profile-imformation mb-3">
+              <div class="profile-information mb-3">
                 <p class="mb-1">Nationality</p>
                 <div class="d-flex align-items-center gap-2">
                   <h6 class="profile-email mb-0">{{ user.nationality || '--'}}</h6>
@@ -966,7 +945,7 @@
               </div>
             </div>
             <div class="col-md-3">
-              <div class="profile-imformation mb-3">
+              <div class="profile-information mb-3">
                 <p class="mb-1">Father’s Name</p>
                 <div class="d-flex align-items-center ">
                   <h6 class="profile-email mb-0">{{ user.fatherName || '--'}}</h6>
@@ -1075,7 +1054,7 @@
         <div class="col-md-9">
           <div class="row">
             <div *ngIf="addressEmployee[0]" class="col-md-12 ">
-              <div class="profile-imformation mb-3">
+              <div class="profile-information mb-3">
                 <p class="mb-1">Current Address</p>
                 <!-- <h6 class="mb-1">{{ addressEmployee[0].addressLine1}} {{ addressEmployee[0].addressLine2}} {{ addressEmployee[0].city}} - {{ addressEmployee[0].pincode}}</h6> -->
                 <!-- <h6 class="mb-1">{{ addressEmployee?.[0]?.addressLine1 || '--' }} {{ addressEmployee?.[0]?.addressLine2}} {{ addressEmployee?.[0]?.city}} - {{ addressEmployee?.[0]?.pincode}}</h6> -->
@@ -1191,7 +1170,7 @@
               </div>
             </div>
             <div *ngIf="addressEmployee[1]" class="col-md-12">
-              <div class="profile-imformation mb-3">
+              <div class="profile-information mb-3">
                 <p class="mb-1">Permanent Address</p>
                 <h6 class="mb-1">{{ addressEmployee?.[1]?.addressLine1 || '--'}} {{ addressEmployee?.[1]?.addressLine2}}
                   {{ addressEmployee?.[1]?.city}} - {{ addressEmployee?.[1]?.pincode}}
@@ -1380,7 +1359,7 @@
         <div class="col-md-9">
           <div class="row">
             <div *ngFor="let refrence of refrences" class="col-md-12 ">
-              <div class="profile-imformation mb-3">
+              <div class="profile-information mb-3">
                 <p class="mb-1">Name</p>
                 <div class="d-flex align-items-center gap-2">
                   <div class="d-flex align-items-center gap-2">
@@ -1511,7 +1490,7 @@
         <div class="col-md-9">
           <div *ngIf="academicEmployee" class="row">
             <div class="col-md-4">
-              <div class="profile-imformation mb-3">
+              <div class="profile-information mb-3">
                 <p class="mb-1">Higher Qualification</p>
                 <div class="d-flex align-items-center gap-2">
                   <h6 class="profile-email mb-0">{{ academicEmployee.highestEducationalLevel || '--'}}</h6>
@@ -1606,7 +1585,7 @@
               </div>
             </div>
             <div class="col-md-4">
-              <div class="profile-imformation mb-3">
+              <div class="profile-information mb-3">
                 <p class="mb-1">Degree/Diploma</p>
                 <div class="d-flex align-items-center gap-2">
                   <h6 class="profile-email mb-0">{{ academicEmployee.degreeObtained || '--'}}</h6>
@@ -1697,7 +1676,7 @@
               </div>
             </div>
             <div class="col-md-4">
-              <div class="profile-imformation mb-3">
+              <div class="profile-information mb-3">
                 <p class="mb-1">Field of Study</p>
                 <div class="d-flex align-items-center gap-2">
                   <h6 class="profile-email mb-0">{{ academicEmployee.fieldOfStudy || '--'}}</h6>
@@ -1791,7 +1770,7 @@
               </div>
             </div>
             <div class="col-md-4">
-              <div class="profile-imformation mb-3">
+              <div class="profile-information mb-3">
                 <p class="mb-1">Institution Name</p>
                 <div class="d-flex align-items-center gap-2">
                   <h6 class="profile-email mb-0">{{ academicEmployee.institutionName || '--'}}</h6>
@@ -1882,7 +1861,7 @@
               </div>
             </div>
             <div class="col-md-4">
-              <div class="profile-imformation mb-3">
+              <div class="profile-information mb-3">
                 <p class="mb-1">CGPA</p>
                 <div class="d-flex align-items-center gap-2">
                   <h6 class="profile-email mb-0">{{ academicEmployee.grade || '--'}}</h6>
@@ -1976,7 +1955,7 @@
               </div>
             </div>
             <div class="col-md-4">
-              <div class="profile-imformation mb-3">
+              <div class="profile-information mb-3">
                 <p class="mb-1">Graduating Year</p>
                 <div class="d-flex align-items-center gap-2">
                   <h6 class="profile-email mb-0">{{ academicEmployee.graduationYear || '--'}}</h6>
@@ -2157,13 +2136,8 @@
               <div *ngFor="let job of experienceEmployee" class="col-md-12">
                 <div class="profile-information mb-3">
                   <p class="mb-1">Company Name</p>
-                  <div class="d-flex align-items-center gap-2">
-                    <div class="d-flex align-items-center gap-2 mb-1">
-                      <h6 class="mb-0">{{ job.companyName }}</h6>
-                    </div>
-                    <span class="text-primary font-12 mb-1">
-                      <!-- ({{ job.employementDuration ? job.employementDuration : '' }}) -->
-                    </span>
+                  <div class="d-flex align-items-center gap-2 mb-1">
+                    <h6 class="mb-0">{{ job.companyName }}</h6>
                   </div>
 
                   <p class="mb-0">
@@ -2219,7 +2193,7 @@
         <div class="col-md-9">
           <div *ngIf="bankDetailsEmployee" class="row">
             <div class="col-md-3">
-              <div class="profile-imformation mb-3">
+              <div class="profile-information mb-3">
                 <p class="mb-1">Account Holder Name</p>
                 <div class="d-flex align-items-center gap-2">
                   <h6 class="mb-0">{{ bankDetailsEmployee?.accountHolderName || '--'}}</h6>
@@ -2314,7 +2288,7 @@
               </div>
             </div>
             <div class="col-md-3">
-              <div class="profile-imformation mb-3">
+              <div class="profile-information mb-3">
                 <p class="mb-1">Bank Name</p>
                 <div class="d-flex align-items-center gap-2">
                   <h6 class="mb-0">{{ bankDetailsEmployee?.bankName || '--'}}</h6>
@@ -2409,7 +2383,7 @@
               </div>
             </div>
             <div class="col-md-3">
-              <div class="profile-imformation mb-3">
+              <div class="profile-information mb-3">
                 <p class="mb-1">Account Number</p>
                 <div class="d-flex align-items-center gap-2">
                   <h6 class="mb-0">{{ bankDetailsEmployee?.accountNumber || '--'}}</h6>
@@ -2503,7 +2477,7 @@
               </div>
             </div>
             <div class="col-md-3">
-              <div class="profile-imformation mb-3">
+              <div class="profile-information mb-3">
                 <p class="mb-1">IFSC Number</p>
                 <div class="d-flex align-items-center gap-2">
                   <h6 class="mb-0">{{ bankDetailsEmployee?.ifsc || '--'}}</h6>
@@ -2676,21 +2650,12 @@
         <div class="col-md-9">
 
 
-          <!-- <div class="empty-file" style="margin-top: 4%; margin-bottom: 4%;">
-                      <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
-                        <ng-template #contentTpl>
-                          <p class="mb-1 empty-detail font-16">
-                            No data for now
-                          </p>
 
-                        </ng-template>
-                      </nz-empty>
-                    </div> -->
 
 
           <div class="row">
             <div *ngFor="let emergencyContact of emergencyContacts" class="col-md-12 ">
-              <div class="profile-imformation mb-3">
+              <div class="profile-information mb-3">
                 <p class="mb-1"> Name</p>
                 <div class="d-flex align-items-center gap-2">
                   <div class="d-flex align-items-center gap-2 mb-1">
@@ -2959,7 +2924,8 @@
     <div class="d-flex align-items-center gap-2">
       <button class="btn profile-cancel-btn" (click)="profileEdit=false;">Cancel</button>
       <button [disabled]="isSaveBtnLoading" class="btn save-btn" (click)="saveOnboardingData()">
-        <svg *ngIf="!isSaveBtnLoading" xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
+        <svg *ngIf="!isSaveBtnLoading" xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25"
+          fill="none">
           <mask id="mask0_5535_3777" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25"
             height="25">
             <rect x="0.46167" y="0.5" width="24" height="24" fill="#D9D9D9" />
@@ -3017,7 +2983,7 @@
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
                 <input formControlName="email" type="text" class="form__field"
                   [(ngModel)]="this.onboardingPreviewDataCopy.user.email" />
-                <label class="form__label"></label>
+                <label class="form__label">Email</label>
               </div>
 
 
@@ -3072,7 +3038,7 @@
             </div>
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <nz-date-picker formControlName="dateOfBirth" class="form__field custom-date-picker"
+                <nz-date-picker formControlName="dateOfBirth" nzBorderless class="form__field custom-date-picker"
                   [(ngModel)]="this.onboardingPreviewDataCopy.user.dateOfBirth" [nzFormat]="'dd/MM/yyyy'"
                   nzPlaceHolder="Select Date of Birth"></nz-date-picker>
                 <label class="form__label">Date of Birth</label>
@@ -3293,8 +3259,8 @@
 
             </div>
           </div>
-          <button class="btn p-0 text-primary add-reference" type="button" (click)="addReference()"><i
-            class="bi bi-plus-lg"></i> Add Reference</button>
+          <button class="btn p-0 text-primary add-reference fw-semibold" type="button" (click)="addReference()"><i
+              class="bi bi-plus-lg"></i> Add Reference</button>
 
         </div>
       </div>
@@ -3407,7 +3373,7 @@
             <!-- Start Date -->
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <nz-date-picker class="form__field" formControlName="startDate"
+                <nz-date-picker class="form__field custom-date-picker" nzBorderless formControlName="startDate"
                   [nzFormat]="'dd/MM/yyyy'"></nz-date-picker>
                 <label class="form__label">Start Date</label>
               </div>
@@ -3421,7 +3387,7 @@
             <!-- End Date -->
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <nz-date-picker class="form__field" formControlName="endDate"
+                <nz-date-picker class="form__field custom-date-picker" nzBorderless formControlName="endDate"
                   [nzFormat]="'dd/MM/yyyy'"></nz-date-picker>
                 <label class="form__label">End Date</label>
               </div>
@@ -3487,8 +3453,8 @@
             <div class="d-flex align-items-center justify-content-between ">
               <button type="button" class="btn p-0 text-danger" (click)="removeJobExperience(i)"> <i
                   class="bi bi-trash"></i> Remove</button>
-              <button type="button" class="btn p-0 text-primary add-reference" (click)="addJobExperience()"><i
-                  class="bi bi-plus-lg"></i> Add Job Experience</button>
+              <button type="button" class="btn p-0 text-primary add-reference fw-semibold"
+                (click)="addJobExperience()"><i class="bi bi-plus-lg"></i> Add Job Experience</button>
             </div>
           </div>
         </div>
@@ -3638,7 +3604,8 @@
               <button type="button" class="btn p-0 text-danger" (click)="removeEmergencyContact(i)">
                 <i class="bi bi-trash"></i> Remove Contact
               </button>
-              <button type="button" class="btn text-primary p-0 add-reference" (click)="addEmergencyContact()">
+              <button type="button" class="btn text-primary p-0 add-reference fw-semibold"
+                (click)="addEmergencyContact()">
                 <i class="bi bi-plus-lg"></i> Add Contact
               </button>
             </div>
@@ -3751,46 +3718,23 @@
   </div>
 </div>
 
-<div
-  class="modal fade"
-  id="rejectReasonModal"
-  tabindex="-1"
-  aria-labelledby="rejectReasonModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog">
+<div class="modal fade" id="rejectReasonModal" tabindex="-1" aria-labelledby="rejectReasonModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="rejectReasonModalLabel">Reject Reason</h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <textarea
-          class="form-control"
-          [(ngModel)]="rejectReason"
-          rows="3"
-          placeholder="Write the reason for rejection..."
-        ></textarea>
+        <textarea class="form-control nots-section" [(ngModel)]="rejectReason" rows="3"
+          placeholder="Write the reason for rejection..."></textarea>
       </div>
-      <div class="modal-footer">
-        <button
-          type="button"
-          class="btn btn-secondary"
-          data-bs-dismiss="modal"
-        >
+      <div class="modal-footer d-flex align-items-center gap-2">
+        <button type=" button" class="btn cancel-btn" data-bs-dismiss="modal">
           Cancel
         </button>
-        <button
-          type="button"
-          class="btn btn-danger"
-          (click)="rejectData()"
-          data-bs-dismiss="modal"
-        >
+        <button type="button" class="btn btn-danger" (click)="rejectData()" data-bs-dismiss="modal">
           Reject
         </button>
       </div>

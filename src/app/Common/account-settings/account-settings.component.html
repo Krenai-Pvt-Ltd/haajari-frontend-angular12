@@ -2,8 +2,8 @@
     <div class="col-md-3 p-0 m-0">
         <div class="setting-sidebar-menu h-100 bg-transparent">
             <div id="v-pills-tab" role="tablist" aria-orientation="vertical" class="nav flex-column nav-pills">
-                <button id="v-pills-home-tab" data-bs-toggle="pill" href="#v-pills-home" role="tab"
-                    aria-controls="v-pills-home" aria-selected="true" class="nav-link active"
+                <button id="v-pills-account-tab" data-bs-toggle="pill" href="#v-pills-account" role="tab"
+                    aria-controls="v-pills-account" aria-selected="true" class="nav-link active"
                     (click)="switchTab('account')">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
                         <mask id="mask0_6996_3905" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
@@ -21,8 +21,8 @@
                     </svg>
                     Account
                 </button>
-                <button id="v-pills-profile-tab" data-bs-toggle="pill" href="#v-pills-profile" role="tab"
-                    aria-controls="v-pills-profile" aria-selected="false" class="nav-link"
+                <button id="v-pills-notification-tab" data-bs-toggle="pill" href="#v-pills-notification" role="tab"
+                    aria-controls="v-pills-notification" aria-selected="false" class="nav-link"
                     (click)="switchTab('notification')">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
                         <mask id="mask0_6989_2840" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
@@ -39,8 +39,27 @@
                         </g>
                     </svg>
                     Notification Preferences </button>
-                <button id="v-pills-messages-tab" data-bs-toggle="pill" href="#v-pills-messages" role="tab"
-                    aria-controls="v-pills-messages" aria-selected="false" class="nav-link" (click)="switchTab('help')">
+
+                <button id="v-pills-policies-tab" data-bs-toggle="pill" href="#v-pills-policy" role="tab"
+                    aria-controls="v-pills-policy" aria-selected="false" class="nav-link" (click)="switchTab('policy')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
+                        <mask id="mask0_7199_2372" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                            width="20" height="21">
+                            <rect y="0.5" width="20" height="20" fill="#D9D9D9" />
+                        </mask>
+                        <g mask="url(#mask0_7199_2372)">
+                            <path *ngIf="tab != 'policy'"
+                                d="M3.33366 18.8307C2.87533 18.8307 2.48296 18.6675 2.15658 18.3411C1.83019 18.0148 1.66699 17.6224 1.66699 17.1641V7.9974C1.66699 7.53906 1.83019 7.1467 2.15658 6.82031C2.48296 6.49392 2.87533 6.33073 3.33366 6.33073H7.50033V3.83073C7.50033 3.3724 7.66352 2.98003 7.98991 2.65365C8.3163 2.32726 8.70866 2.16406 9.16699 2.16406H10.8337C11.292 2.16406 11.6844 2.32726 12.0107 2.65365C12.3371 2.98003 12.5003 3.3724 12.5003 3.83073V6.33073H16.667C17.1253 6.33073 17.5177 6.49392 17.8441 6.82031C18.1705 7.1467 18.3337 7.53906 18.3337 7.9974V17.1641C18.3337 17.6224 18.1705 18.0148 17.8441 18.3411C17.5177 18.6675 17.1253 18.8307 16.667 18.8307H3.33366ZM3.33366 17.1641H16.667V7.9974H12.5003C12.5003 8.45573 12.3371 8.84809 12.0107 9.17448C11.6844 9.50087 11.292 9.66406 10.8337 9.66406H9.16699C8.70866 9.66406 8.3163 9.50087 7.98991 9.17448C7.66352 8.84809 7.50033 8.45573 7.50033 7.9974H3.33366V17.1641ZM5.00033 15.4974H10.0003V15.1224C10.0003 14.8863 9.93435 14.6675 9.80241 14.4661C9.67046 14.2648 9.48644 14.1085 9.25033 13.9974C8.97255 13.8724 8.6913 13.7786 8.40658 13.7161C8.12185 13.6536 7.81977 13.6224 7.50033 13.6224C7.18088 13.6224 6.8788 13.6536 6.59408 13.7161C6.30935 13.7786 6.0281 13.8724 5.75033 13.9974C5.51421 14.1085 5.33019 14.2648 5.19824 14.4661C5.0663 14.6675 5.00033 14.8863 5.00033 15.1224V15.4974ZM11.667 14.2474H15.0003V12.9974H11.667V14.2474ZM7.50033 12.9974C7.84755 12.9974 8.14269 12.8759 8.38574 12.6328C8.6288 12.3898 8.75033 12.0946 8.75033 11.7474C8.75033 11.4002 8.6288 11.105 8.38574 10.862C8.14269 10.6189 7.84755 10.4974 7.50033 10.4974C7.1531 10.4974 6.85796 10.6189 6.61491 10.862C6.37185 11.105 6.25033 11.4002 6.25033 11.7474C6.25033 12.0946 6.37185 12.3898 6.61491 12.6328C6.85796 12.8759 7.1531 12.9974 7.50033 12.9974ZM11.667 11.7474H15.0003V10.4974H11.667V11.7474ZM9.16699 7.9974H10.8337V3.83073H9.16699V7.9974Z"
+                                fill="#444444" />
+                            <path *ngIf="tab == 'policy'"
+                                d="M3.33366 18.8307C2.87533 18.8307 2.48296 18.6675 2.15658 18.3411C1.83019 18.0148 1.66699 17.6224 1.66699 17.1641V7.9974C1.66699 7.53906 1.83019 7.1467 2.15658 6.82031C2.48296 6.49392 2.87533 6.33073 3.33366 6.33073H7.50033V3.83073C7.50033 3.3724 7.66352 2.98003 7.98991 2.65365C8.3163 2.32726 8.70866 2.16406 9.16699 2.16406H10.8337C11.292 2.16406 11.6844 2.32726 12.0107 2.65365C12.3371 2.98003 12.5003 3.3724 12.5003 3.83073V6.33073H16.667C17.1253 6.33073 17.5177 6.49392 17.8441 6.82031C18.1705 7.1467 18.3337 7.53906 18.3337 7.9974V17.1641C18.3337 17.6224 18.1705 18.0148 17.8441 18.3411C17.5177 18.6675 17.1253 18.8307 16.667 18.8307H3.33366ZM3.33366 17.1641H16.667V7.9974H12.5003C12.5003 8.45573 12.3371 8.84809 12.0107 9.17448C11.6844 9.50087 11.292 9.66406 10.8337 9.66406H9.16699C8.70866 9.66406 8.3163 9.50087 7.98991 9.17448C7.66352 8.84809 7.50033 8.45573 7.50033 7.9974H3.33366V17.1641ZM5.00033 15.4974H10.0003V15.1224C10.0003 14.8863 9.93435 14.6675 9.80241 14.4661C9.67046 14.2648 9.48644 14.1085 9.25033 13.9974C8.97255 13.8724 8.6913 13.7786 8.40658 13.7161C8.12185 13.6536 7.81977 13.6224 7.50033 13.6224C7.18088 13.6224 6.8788 13.6536 6.59408 13.7161C6.30935 13.7786 6.0281 13.8724 5.75033 13.9974C5.51421 14.1085 5.33019 14.2648 5.19824 14.4661C5.0663 14.6675 5.00033 14.8863 5.00033 15.1224V15.4974ZM11.667 14.2474H15.0003V12.9974H11.667V14.2474ZM7.50033 12.9974C7.84755 12.9974 8.14269 12.8759 8.38574 12.6328C8.6288 12.3898 8.75033 12.0946 8.75033 11.7474C8.75033 11.4002 8.6288 11.105 8.38574 10.862C8.14269 10.6189 7.84755 10.4974 7.50033 10.4974C7.1531 10.4974 6.85796 10.6189 6.61491 10.862C6.37185 11.105 6.25033 11.4002 6.25033 11.7474C6.25033 12.0946 6.37185 12.3898 6.61491 12.6328C6.85796 12.8759 7.1531 12.9974 7.50033 12.9974ZM11.667 11.7474H15.0003V10.4974H11.667V11.7474ZM9.16699 7.9974H10.8337V3.83073H9.16699V7.9974Z"
+                                fill="#6666F2" />
+                        </g>
+                    </svg>
+                    Company Policies </button>
+
+                <button id="v-pills-support-tab" data-bs-toggle="pill" href="#v-pills-support" role="tab"
+                    aria-controls="v-pills-support" aria-selected="false" class="nav-link" (click)="switchTab('help')">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
                         <mask id="mask0_6996_4959" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
                             width="20" height="21">
@@ -75,7 +94,8 @@
     </div>
     <div class="col-md-9">
         <div class="tab-content" id="v-pills-tabContent">
-            <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+            <div class="tab-pane fade show active" id="v-pills-account" role="tabpanel"
+                aria-labelledby="v-pills-account-tab">
                 <div class="account-setting w-90 ">
 
                     <div class="position-relative">
@@ -223,7 +243,8 @@
 
                 </div>
             </div>
-            <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+            <div class="tab-pane fade" id="v-pills-notification" role="tabpanel"
+                aria-labelledby="v-pills-notification-tab">
                 <div class="account-setting w-90">
 
                     <h5 class="font-22 fw-semibold mb-2">Notification</h5>
@@ -322,7 +343,13 @@
 
                 </div>
             </div>
-            <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
+            <div class="tab-pane fade" id="v-pills-policy" role="tabpanel" aria-labelledby="v-pills-policies-tab">
+                <div class="account-setting w-90">
+
+
+                </div>
+            </div>
+            <div class="tab-pane fade" id="v-pills-support" role="tabpanel" aria-labelledby="v-pills-support-tab">
                 <div class="account-setting w-90">
 
                     <h5 class="font-24 fw-semibold mb-2">How Can We Assist You?</h5>
