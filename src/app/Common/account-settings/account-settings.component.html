@@ -227,21 +227,22 @@
                         <div class="collapse pb-4 pt-3" id="password">
                             <div class="row">
                                 <input type="password" style="display: none;">
-                                <div class="col-md-6">
-                                    <label for="totalLunchBreakDuration" class="pb-2">Current password</label>
-                                    <input type="password" [(ngModel)]="currentPassword" placeholder="Enter password"
-                                        class="form-control input-zorro" autocomplete="off">
+                                <div class="col-md-4">
+                                    <label for="totalLunchBreakDuration" class="pb-2">Old password</label>
+                                    <input type="password" [(ngModel)]="currentPassword"
+                                        placeholder="Enter old password" class="form-control input-zorro"
+                                        autocomplete="off">
 
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <label for="totalLunchBreakDuration" class="pb-2">New password</label>
                                     <input type="password" [(ngModel)]="userPasswordRequest.newPassword"
-                                        placeholder="Enter password" class="form-control input-zorro">
+                                        placeholder="Enter new password" class="form-control input-zorro">
 
                                 </div>
-                                <div class="col-md-6">
-                                    <label for="totalLunchBreakDuration" class="pb-2">Repeat password</label>
-                                    <input type="password" [(ngModel)]="confirmPassword" placeholder="Repeat password"
+                                <div class="col-md-4">
+                                    <label for="totalLunchBreakDuration" class="pb-2">Confirm password</label>
+                                    <input type="password" [(ngModel)]="confirmPassword" placeholder="Confirm password"
                                         class="form-control input-zorro">
                                 </div>
                                 <div class="col-md-12">
