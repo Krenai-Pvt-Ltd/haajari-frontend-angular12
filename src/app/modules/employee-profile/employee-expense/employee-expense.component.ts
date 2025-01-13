@@ -566,6 +566,7 @@ disableMonths = (date: Date): boolean => {
       //  this.closeButtonDeleteExpense.nativeElement.click()
        this.closeExpenseButton.nativeElement.click()
        this.getExpenses();
+       this.getExpensesCount();
        this.expenseId = 0;
        this.deleteExpenseToggle = false;
        this.deleteToggle = false;
