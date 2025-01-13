@@ -685,6 +685,10 @@
   overflow-y: auto;
 }
 
+.role-list-fix::-webkit-scrollbar {
+  display: none;
+}
+
 .roles-list small {
   color: #858585;
   font-size: 12px !important;
