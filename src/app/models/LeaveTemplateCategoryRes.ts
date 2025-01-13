@@ -12,4 +12,5 @@ export class LeaveTemplateCategoryRes{
     unusedLeaveActionName!: string;
     leaveCycleName!: string;
     accrualTypeName!: string;
+    reset!:boolean;
 }
