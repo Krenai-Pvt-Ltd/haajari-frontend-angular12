@@ -448,8 +448,10 @@
                                 </svg>
                                 Account Settings</a>
                         </div>
-                        <div *ngIf="existExitPolicy && (employeeProfileResponseData?.resignationStatus == null || employeeProfileResponseData?.resignationStatus == 47)"
-                            class="manager-list pointer" data-bs-toggle="modal" data-bs-target="#initiateExit">
+
+                        <!-- existExitPolicy && -->
+                        <div *ngIf=" (employeeProfileResponseData?.resignationStatus == null || employeeProfileResponseData?.resignationStatus == 47)" class="manager-list pointer"
+                            data-bs-toggle="modal" data-bs-target="#initiateExit">
                             <a class="dropdown-item d-flex align-items-center justify-content-start gap-2 btn-setting">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="19" viewBox="0 0 18 19"
                                     fill="none">
@@ -737,8 +739,9 @@
                                 </div>
                             </div>
 
-                            <div *ngIf="recommendDay == 'Other' && (userResignationReq.userLastWorkingDay != null && userResignationReq.userLastWorkingDay != '')"
-                                class="col-md-12 mb-3 ">
+
+                            <div *ngIf="recommendDay == 'Other' && (userResignationReq.userLastWorkingDay != null && userResignationReq.userLastWorkingDay != '')" class="col-md-12 mb-3 ">
+
                                 <div class="notice-period-error p-3">
                                     <div class="d-flex align-items-center gap-3 mb-2">
                                         <p class="mb-0">Notice period</p>
@@ -755,8 +758,9 @@
                                 <div class="form-group ">
                                     <label for="templateName" class="mb-2"> Attachment </label>
 
-                                    <div *ngIf="userResignationReq.url == ''"
-                                        class="d-flex align-items-center justify-content-between  requesting-half-leave p-2">
+
+                                    <div *ngIf="userResignationReq.url == ''" class="d-flex align-items-center justify-content-between  requesting-half-leave p-2">
+
                                         <p class="mb-0 font-13 " style="font-weight: 400;">Select attachment</p>
                                         <button *ngIf="!isUploading && userResignationReq.url === ''" type="button"
                                             (click)="fileInput.click()" class="btn p-0 text-primary font-13">
@@ -837,14 +841,13 @@
                                                     </g>
                                                 </svg>
 
-                                                <div *ngIf="isUploading"
-                                                    class="spinner-border spinner-border-sm text-primary m-2"
-                                                    role="status">
-                                                    <span class="visually-hidden">Loading...</span>
-                                                </div>
 
-                                                <input type="file" #editFileInput (change)="onFileSelected($event)"
-                                                    accept=".png, .jpg, .jpeg" style="display: none;" />
+                                                <div *ngIf="isUploading" class="spinner-border spinner-border-sm text-primary m-2" role="status">
+                                                    <span class="visually-hidden">Loading...</span>
+                                                  </div>
+
+                                                <input type="file" #editFileInput (change)="onFileSelected($event)" accept=".png, .jpg, .jpeg" style="display: none;" />
+
                                             </span>
                                             <span>
                                                 <svg (click)="deleteImage()" xmlns="http://www.w3.org/2000/svg"
@@ -879,14 +882,13 @@
                                     [(ngModel)]="userResignationReq.comment"></textarea>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="modal-footer d-flex align-items-center justify-content-end gap-2">
-                        <button type="button" class="btn cancel-btn" data-bs-dismiss="modal" aria-label="Close"
-                            (click)="clearFormData(resignationForm)" #closeResignationButton>Cancel</button>
 
-                        <button type="submit" class="btn submitActionBtn"
-                            [ngClass]="{'btn-border':!(resignationForm.invalid || isUploading)}"
+                        <div class="modal-footer d-flex align-items-center justify-content-end gap-2">
+                            <button type="button" class="btn cancel-btn" data-bs-dismiss="modal" aria-label="Close" (click)="clearFormData(resignationForm)" #closeResignationButton>Cancel</button>
+
+                            <button type="submit" class="btn submitActionBtn" [ngClass]="{'btn-border':!(resignationForm.invalid || isUploading)}"
+
                             [disabled]="resignationForm.invalid || resignationToggle || isUploading">
                             <span *ngIf="!resignationToggle">Submit</span>
                             <div class="dot-opacity-loader" *ngIf="resignationToggle">
@@ -901,9 +903,11 @@
                                 <span></span>
                                 <span></span>
                               </div> -->
-                    </div>
 
-                </form>
+                        </div>
+
+                    </form>
+
             </div>
             <!-- <div class="modal-footer d-flex align-items-center justify-content-end gap-2">
                 <button class="btn cancel-btn" data-bs-dismiss="modal" aria-label="Close" #closeButton>Cancel</button>

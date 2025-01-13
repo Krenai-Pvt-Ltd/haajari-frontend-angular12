@@ -29,6 +29,7 @@ export class EmployeeProfileComponent implements OnInit {
   }
 
   @ViewChild('settingTab') settingTab!: ElementRef;
+  @ViewChild('firstTab') firstTab!: ElementRef;
   isEmployeeExit: boolean = false;
   UUID: string=''
   currentUserUuid: string='';

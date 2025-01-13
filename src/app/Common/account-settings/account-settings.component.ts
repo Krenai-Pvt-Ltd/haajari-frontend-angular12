@@ -1,4 +1,4 @@
-import { co } from '@fullcalendar/core/internal-common';
+
 import { Component, OnInit } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { Key } from 'src/app/constant/key';
@@ -6,8 +6,6 @@ import { UserPasswordRequest } from 'src/app/models/user-password-request';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
-import { UserPersonalInformationRequest } from 'src/app/models/user-personal-information-request';
-import { NotificationVia } from 'src/app/models/notification-via';
 
 @Component({
   selector: 'app-account-settings',
