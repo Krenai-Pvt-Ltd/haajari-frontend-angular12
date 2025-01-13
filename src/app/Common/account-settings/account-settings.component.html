@@ -100,9 +100,11 @@
 
                     <div class="position-relative">
                         <span class="profile-image">
-                            <img onerror="this.src='./assets/images/broken-image-icon.jpg';" [src]="employeeProfileResponseData?.profilePic">
+                            <img onerror="this.src='./assets/images/broken-image-icon.jpg';"
+                                [src]="employeeProfileResponseData?.profilePic">
                         </span>
-                        <input #fileInput type="file" accept="image/jpeg, image/jpg, image/png" (change)="onFileSelected($event)" style="display: none;">
+                        <input #fileInput type="file" accept="image/jpeg, image/jpg, image/png"
+                            (change)="onFileSelected($event)" style="display: none;">
                         <span (click)="fileInput.click()" class="image-edit-btn pointer">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"
                                 fill="none">
@@ -115,7 +117,8 @@
 
                     <div class="acount-name mt-4">
                         <h5 class="font-22 fw-semibold mb-1">{{employeeProfileResponseData?.userName}}</h5>
-                        <p class="font-13 mb-0">Joining Date: {{employeeProfileResponseData?.joiningDate | date:'dd/MM/yyyy'}}</p>
+                        <p class="font-13 mb-0">Joining Date: {{employeeProfileResponseData?.joiningDate |
+                            date:'dd/MM/yyyy'}}</p>
                     </div>
 
                     <div class="personal-details mt-5">
@@ -222,7 +225,7 @@
 
                         <div class="collapse pb-4 pt-3" id="password">
                             <div class="row">
-                              <input type="password" style="display: none;">
+                                <input type="password" style="display: none;">
                                 <div class="col-md-6">
                                     <label for="totalLunchBreakDuration" class="pb-2">Current password</label>
                                     <input type="password" [(ngModel)]="currentPassword" placeholder="Enter password"
@@ -230,11 +233,11 @@
 
                                 </div>
                                 <div class="col-md-6">
-                                  <label for="totalLunchBreakDuration" class="pb-2">New password</label>
-                                  <input type="password" [(ngModel)]="userPasswordRequest.newPassword" placeholder="Enter password"
-                                      class="form-control input-zorro">
+                                    <label for="totalLunchBreakDuration" class="pb-2">New password</label>
+                                    <input type="password" [(ngModel)]="userPasswordRequest.newPassword"
+                                        placeholder="Enter password" class="form-control input-zorro">
 
-                              </div>
+                                </div>
                                 <div class="col-md-6">
                                     <label for="totalLunchBreakDuration" class="pb-2">Repeat password</label>
                                     <input type="password" [(ngModel)]="confirmPassword" placeholder="Repeat password"
@@ -272,12 +275,14 @@
                                 </div>
                                 <span
                                     class="notification-switch d-flex align-items-center justify-content-center gap-2">
-                                    <nz-switch class="switch" nzSize="small" (ngModelChange)="updateNotificationSetting($event,'SLACK')" [ngModel]="notification.notification==='SLACK'"></nz-switch>
+                                    <nz-switch class="switch" nzSize="small"
+                                        (ngModelChange)="updateNotificationSetting($event,'SLACK')"
+                                        [ngModel]="notification.notification==='SLACK'"></nz-switch>
                                     <ng-container *ngIf="notification.notification === 'SLACK'; else offTemplate">
-                                      <p class="mb-0 font-12 fw-semibold">On</p>
+                                        <p class="mb-0 font-12 fw-semibold">On</p>
                                     </ng-container>
                                     <ng-template #offTemplate>
-                                      <p class="mb-0 font-12 fw-semibold">Off</p>
+                                        <p class="mb-0 font-12 fw-semibold">Off</p>
                                     </ng-template>
 
                                 </span>
@@ -291,8 +296,9 @@
                                     <div class="col-md-6">
                                         <label
                                             class="form-check notifaction-req d-flex align-items-center justify-content-start">
-                                            <input type="radio" name="paymentType" id="english" value="ENGLISH" (ngModelChange)="updateLanguage('ENGLISH')"
-                                                required="" [(ngModel)]="notification.language"
+                                            <input type="radio" name="paymentType" id="english" value="ENGLISH"
+                                                (ngModelChange)="updateLanguage('ENGLISH')" required=""
+                                                [(ngModel)]="notification.language"
                                                 class="form-check-input ng-untouched ng-pristine ng-invalid">
                                             <p for="exampleRadios1" class="form-check-label mb-0"> English </p>
                                         </label>
@@ -300,8 +306,9 @@
                                     <div class="col-md-6">
                                         <label
                                             class="form-check notifaction-req d-flex align-items-center justify-content-start"><input
-                                                [(ngModel)]="notification.language"
-                                                type="radio" name="paymentType" id="hindi" value="HINDI" required="" (ngModelChange)="updateLanguage('HINDI')"
+                                                [(ngModel)]="notification.language" type="radio" name="paymentType"
+                                                id="hindi" value="HINDI" required=""
+                                                (ngModelChange)="updateLanguage('HINDI')"
                                                 class="form-check-input ng-untouched ng-pristine ng-invalid"
                                                 ng-reflect-required="" ng-reflect-name="paymentType"
                                                 ng-reflect-value="hindi" ng-reflect-model="">
@@ -322,13 +329,15 @@
                                 </div>
                                 <span
                                     class="notification-switch d-flex align-items-center justify-content-center gap-2">
-                                    <nz-switch class="switch" nzSize="small" (ngModelChange)="updateNotificationSetting($event,'WHATSAPP')" [ngModel]="notification.notification==='WHATSAPP'"></nz-switch>
+                                    <nz-switch class="switch" nzSize="small"
+                                        (ngModelChange)="updateNotificationSetting($event,'WHATSAPP')"
+                                        [ngModel]="notification.notification==='WHATSAPP'"></nz-switch>
 
                                     <ng-container *ngIf="notification.notification === 'WHATSAPP'; else offTemplate">
-                                      <p class="mb-0 font-12 fw-semibold">On</p>
+                                        <p class="mb-0 font-12 fw-semibold">On</p>
                                     </ng-container>
                                     <ng-template #offTemplate>
-                                      <p class="mb-0 font-12 fw-semibold">Off</p>
+                                        <p class="mb-0 font-12 fw-semibold">Off</p>
                                     </ng-template>
 
                                 </span>
@@ -342,7 +351,8 @@
                                         <label
                                             class="form-check notifaction-req d-flex align-items-center justify-content-start">
                                             <input type="radio" name="paymentType" id="english" value="ENGLISH"
-                                                required="" [(ngModel)]="notification.language" (ngModelChange)="updateLanguage('ENGLISH')"
+                                                required="" [(ngModel)]="notification.language"
+                                                (ngModelChange)="updateLanguage('ENGLISH')"
                                                 class="form-check-input ng-untouched ng-pristine ng-invalid">
                                             <p for="exampleRadios1" class="form-check-label mb-0"> English </p>
                                         </label>
@@ -350,8 +360,9 @@
                                     <div class="col-md-6">
                                         <label
                                             class="form-check notifaction-req d-flex align-items-center justify-content-start"><input
-                                                [(ngModel)]="notification.language" (ngModelChange)="updateLanguage('HINDI')"
-                                                type="radio" name="paymentType" id="hindi" value="HINDI" required=""
+                                                [(ngModel)]="notification.language"
+                                                (ngModelChange)="updateLanguage('HINDI')" type="radio"
+                                                name="paymentType" id="hindi" value="HINDI" required=""
                                                 class="form-check-input ng-untouched ng-pristine ng-invalid"
                                                 ng-reflect-required="" ng-reflect-name="paymentType"
                                                 ng-reflect-value="hindi" ng-reflect-model="">
@@ -366,15 +377,404 @@
                 </div>
             </div>
             <div class="tab-pane fade" id="v-pills-policy" role="tabpanel" aria-labelledby="v-pills-policies-tab">
-                <div class="account-setting w-90">
+                <div class="account-setting w-100">
 
+                    <h5 class="font-22 fw-semibold mb-0">Your Guidelines</h5>
+
+                    <div class="row mt-5 border-bottom pb-4">
+                        <div class="col-md-4">
+                            <h5 class="font-16 fw-semibold">HR Policy</h5>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="guide-policy">
+                                <h5 class="font-15 mb-2 fw-semibold">Guide to Workplace</h5>
+                                <p class="mb-0 font-13">Clear, Consistent, and Legally Sound Guidelines for Effective
+                                    Organizational Management</p>
+
+                                <div class="row mt-3 ">
+                                    <div class="col-md-6">
+                                        <div
+                                            class="d-flex align-items-center justify-content-between employee-agreement p-2 mb-2">
+                                            <div class="d-flex align-items-center gap-2">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30"
+                                                    viewBox="0 0 30 30" fill="none">
+                                                    <path
+                                                        d="M7.5 0C6.46875 0 5.625 0.84375 5.625 1.875V28.125C5.625 29.1562 6.46875 30 7.5 30H26.25C27.2812 30 28.125 29.1562 28.125 28.125V7.5L20.625 0H7.5Z"
+                                                        fill="#E2E5E7"></path>
+                                                    <path
+                                                        d="M22.5 7.5H28.125L20.625 0V5.625C20.625 6.65625 21.4688 7.5 22.5 7.5Z"
+                                                        fill="#B0B7BD"></path>
+                                                    <path d="M28.125 13.125L22.5 7.5H28.125V13.125Z" fill="#CAD1D8">
+                                                    </path>
+                                                    <path
+                                                        d="M24.375 24.375C24.375 24.8906 23.9531 25.3125 23.4375 25.3125H2.8125C2.29688 25.3125 1.875 24.8906 1.875 24.375V15C1.875 14.4844 2.29688 14.0625 2.8125 14.0625H23.4375C23.9531 14.0625 24.375 14.4844 24.375 15V24.375Z"
+                                                        fill="#F15642"></path>
+                                                    <path
+                                                        d="M5.96484 17.7597C5.96484 17.5122 6.15984 17.2422 6.47391 17.2422H8.20547C9.18047 17.2422 10.058 17.8947 10.058 19.1453C10.058 20.3303 9.18047 20.9903 8.20547 20.9903H6.95391V21.9803C6.95391 22.3103 6.74391 22.4969 6.47391 22.4969C6.22641 22.4969 5.96484 22.3103 5.96484 21.9803V17.7597ZM6.95391 18.1863V20.0537H8.20547C8.70797 20.0537 9.10547 19.6103 9.10547 19.1453C9.10547 18.6212 8.70797 18.1863 8.20547 18.1863H6.95391Z"
+                                                        fill="white"></path>
+                                                    <path
+                                                        d="M11.5253 22.4997C11.2778 22.4997 11.0078 22.3647 11.0078 22.0356V17.7775C11.0078 17.5084 11.2778 17.3125 11.5253 17.3125H13.2419C16.6675 17.3125 16.5925 22.4997 13.3094 22.4997H11.5253ZM11.9978 18.2275V21.5856H13.2419C15.2659 21.5856 15.3559 18.2275 13.2419 18.2275H11.9978Z"
+                                                        fill="white"></path>
+                                                    <path
+                                                        d="M17.8088 18.2884V19.48H19.7203C19.9903 19.48 20.2603 19.75 20.2603 20.0116C20.2603 20.2591 19.9903 20.4616 19.7203 20.4616H17.8088V22.0356C17.8088 22.2981 17.6222 22.4997 17.3597 22.4997C17.0297 22.4997 16.8281 22.2981 16.8281 22.0356V17.7775C16.8281 17.5084 17.0306 17.3125 17.3597 17.3125H19.9913C20.3213 17.3125 20.5163 17.5084 20.5163 17.7775C20.5163 18.0175 20.3213 18.2875 19.9913 18.2875H17.8088V18.2884Z"
+                                                        fill="white"></path>
+                                                    <path
+                                                        d="M23.4375 25.3125H5.625V26.25H23.4375C23.9531 26.25 24.375 25.8281 24.375 25.3125V24.375C24.375 24.8906 23.9531 25.3125 23.4375 25.3125Z"
+                                                        fill="#CAD1D8"></path>
+                                                </svg>
+                                                <p class="mb-0">Agreement letter.pdf</p>
+                                            </div>
+                                            <span class="download-icon pointer">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21"
+                                                    viewBox="0 0 21 21" fill="none">
+                                                    <mask id="mask0_4714_1149" maskUnits="userSpaceOnUse" x="0" y="0"
+                                                        width="21" height="21" style="mask-type: alpha;">
+                                                        <rect x="0.5" y="0.5" width="20" height="20" fill="#D9D9D9">
+                                                        </rect>
+                                                    </mask>
+                                                    <g mask="url(#mask0_4714_1149)">
+                                                        <path
+                                                            d="M10.5026 13.832L6.33594 9.66536L7.5026 8.45703L9.66927 10.6237V3.83203H11.3359V10.6237L13.5026 8.45703L14.6693 9.66536L10.5026 13.832ZM5.5026 17.1654C5.04427 17.1654 4.65191 17.0022 4.32552 16.6758C3.99913 16.3494 3.83594 15.957 3.83594 15.4987V12.9987H5.5026V15.4987H15.5026V12.9987H17.1693V15.4987C17.1693 15.957 17.0061 16.3494 16.6797 16.6758C16.3533 17.0022 15.9609 17.1654 15.5026 17.1654H5.5026Z"
+                                                            fill="#1C1B1F"></path>
+                                                    </g>
+                                                </svg>
+                                            </span>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div
+                                            class="d-flex align-items-center justify-content-between employee-agreement p-2 mb-2">
+                                            <div class="d-flex align-items-center gap-2">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="31" height="31"
+                                                    viewBox="0 0 31 31" fill="none">
+                                                    <g clip-path="url(#clip0_7119_2733)">
+                                                        <path
+                                                            d="M19.1797 0.835938H4.98372C4.31311 0.835938 3.76953 1.37951 3.76953 2.04989V29.7858C3.76953 30.4562 4.31311 30.9998 4.98372 30.9998H25.241C25.9114 30.9998 26.4549 30.4562 26.4549 29.7858V7.65733C26.4549 7.31903 26.3136 6.99592 26.0653 6.76625L20.0041 1.15881C19.7799 0.951234 19.4854 0.835938 19.1797 0.835938Z"
+                                                            fill="#E2E5E7" />
+                                                        <path
+                                                            d="M26.4561 7.65812V29.7868C26.4561 30.457 25.9123 31.0008 25.2422 31.0008H23.5332C24.204 31.0008 24.7474 30.457 24.7474 29.7868V5.54688L26.0665 6.76704C26.3148 6.99695 26.4561 7.32005 26.4561 7.65812Z"
+                                                            fill="#C5D3DD" />
+                                                        <path
+                                                            d="M26.0348 6.73555H20.9716C20.3636 6.73555 19.8711 6.24306 19.8711 5.63505V1.04688C19.9176 1.07863 19.9631 1.11453 20.0055 1.15412L24.6238 5.42655L26.0348 6.73555Z"
+                                                            fill="#B0B7BD" />
+                                                        <path
+                                                            d="M20.2437 13.2096C20.2437 16.0437 17.9461 18.3414 15.112 18.3414C12.2779 18.3414 9.98047 16.0437 9.98047 13.2096C9.98047 10.3755 12.2779 8.07812 15.112 8.07812C17.9461 8.07812 20.2437 10.3755 20.2437 13.2096Z"
+                                                            fill="#F15642" />
+                                                        <path
+                                                            d="M20.2446 13.2053C20.2446 16.0396 17.9472 18.337 15.1129 18.337C13.9194 18.337 12.8205 17.9297 11.9492 17.2462C12.4852 17.4363 13.0619 17.5396 13.663 17.5396C16.4967 17.5396 18.7945 15.242 18.7945 12.4081C18.7945 10.7675 18.0247 9.30659 16.8264 8.36719C18.8185 9.07209 20.2446 10.9721 20.2446 13.2053Z"
+                                                            fill="#F15642" />
+                                                        <path
+                                                            d="M17.3711 12.7394L14.4707 11.065C14.1121 10.8581 13.6641 11.1168 13.6641 11.5308V14.8797C13.6641 15.2937 14.1121 15.5524 14.4707 15.3455L17.3711 13.671C17.7294 13.4641 17.7294 12.9466 17.3711 12.7394Z"
+                                                            fill="#D9E7EC" />
+                                                        <path
+                                                            d="M17.3706 13.6723L14.4707 15.3467C14.1124 15.5538 13.6641 15.2949 13.6641 14.8809V14.4455L16.9939 12.5234L17.3704 12.7407C17.7289 12.9478 17.7289 13.4654 17.3706 13.6723Z"
+                                                            fill="#C5D3DD" />
+                                                        <path
+                                                            d="M26.4552 21.4844V29.7853C26.4552 30.4561 25.9118 30.9995 25.241 30.9995H4.98372C4.31357 30.9995 3.76953 30.4561 3.76953 29.7853V21.4844H26.4552Z"
+                                                            fill="#F15642" />
+                                                        <path
+                                                            d="M26.4557 21.4844V29.7851C26.4557 30.4559 25.9123 30.9992 25.2415 30.9992H23.5332C24.204 30.9992 24.7474 30.4559 24.7474 29.7851V21.4844H26.4557Z"
+                                                            fill="#F15642" />
+                                                        <path
+                                                            d="M11.737 26.8388C11.6576 26.9686 11.5565 27.0118 11.4557 27.0118C11.3618 27.0118 11.2608 26.9686 11.1959 26.8388L10.2293 25.0067V28.5123C10.2293 28.6782 10.0418 28.7648 9.8471 28.7648C9.65954 28.7648 9.46484 28.6782 9.46484 28.5123V23.8744C9.46484 23.593 9.6524 23.4922 9.8471 23.4922C10.1212 23.4922 10.2728 23.5859 10.453 23.9248L11.4629 25.8363L12.4872 23.9248C12.6674 23.5859 12.8117 23.4922 13.0858 23.4922C13.2878 23.4922 13.468 23.593 13.468 23.8744V28.5123C13.468 28.6782 13.2805 28.7648 13.0858 28.7648C12.8982 28.7648 12.7035 28.6782 12.7035 28.5123V25.0502L11.737 26.8388Z"
+                                                            fill="#D9E7EC" />
+                                                        <path
+                                                            d="M14.4199 23.7373C14.4199 23.6075 14.5354 23.4922 14.7156 23.4922H16.1222C17.0094 23.4922 17.7019 23.9177 17.7019 25.079V25.1367C17.7019 26.2906 16.9878 26.7306 16.079 26.7306H15.1847V28.5123C15.1847 28.6782 14.9969 28.7648 14.8022 28.7648C14.6148 28.7648 14.4199 28.6782 14.4199 28.5123V23.7373ZM15.1847 24.1702V26.1247H16.079C16.6129 26.1247 16.9374 25.8218 16.9374 25.1871V25.1006C16.9374 24.4659 16.6129 24.1702 16.079 24.1702H15.1847Z"
+                                                            fill="#D9E7EC" />
+                                                        <path
+                                                            d="M19.8223 27.5819H18.048C17.8965 27.5819 17.7812 27.4735 17.7812 27.3004C17.7812 27.25 17.7955 27.1923 17.8245 27.1419L19.5698 23.7014C19.6492 23.55 19.779 23.4922 19.9017 23.4922C20.046 23.4922 20.284 23.6075 20.284 23.7879C20.284 23.824 20.2695 23.8599 20.2481 23.9034L18.7621 26.8678H19.8223V25.8725C19.8223 25.692 20.0099 25.62 20.2046 25.62C20.3921 25.62 20.5868 25.692 20.5868 25.8725V26.8678H20.9403C21.1134 26.8678 21.1999 27.0482 21.1999 27.2284C21.1999 27.4015 21.0772 27.5819 20.9403 27.5819H20.5868V28.5123C20.5868 28.6782 20.3921 28.7648 20.2046 28.7648C20.0099 28.7648 19.8223 28.6782 19.8223 28.5123V27.5819Z"
+                                                            fill="#D9E7EC" />
+                                                    </g>
+                                                    <defs>
+                                                        <clipPath id="clip0_7119_2733">
+                                                            <rect width="30.1641" height="30.1641" fill="white"
+                                                                transform="translate(0 0.835938)" />
+                                                        </clipPath>
+                                                    </defs>
+                                                </svg>
+                                                <p class="mb-0">Briefing.mp4</p>
+                                            </div>
+                                            <span class="download-icon pointer">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21"
+                                                    viewBox="0 0 21 21" fill="none">
+                                                    <mask id="mask0_7119_2750" style="mask-type:alpha"
+                                                        maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
+                                                        <rect width="20" height="20"
+                                                            transform="matrix(-1 0 0 1 20.5 0.5)" fill="#D9D9D9" />
+                                                    </mask>
+                                                    <g mask="url(#mask0_7119_2750)">
+                                                        <path
+                                                            d="M7.16634 16.3307L16.333 10.4974L7.16634 4.66406V16.3307Z"
+                                                            fill="#1C1B1F" />
+                                                    </g>
+                                                </svg>
+                                            </span>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-5 border-bottom pb-4">
+                        <div class="col-md-4">
+                            <h5 class="font-16 fw-semibold">Attendance Rule</h5>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="guide-policy mb-4">
+                                <h5 class="font-15 mb-2 fw-semibold">Shift Allocated</h5>
+                                <p class="mb-0 font-13">You are allocated to the <span class="fw-semibold">day
+                                        shift</span> with a <span class="fw-semibold">5-day on-ground work
+                                        schedule.</span></p>
+                            </div>
+                            <div class="guide-policy mb-4">
+                                <h5 class="font-15 mb-2 fw-semibold">Arrival Time</h5>
+                                <p class="mb-0 font-13">Employees must log their entry into the office by <span
+                                        class="fw-semibold">10:00 AM.</span></p>
+                            </div>
+                            <div class="guide-policy mb-4">
+                                <h5 class="font-15 mb-2 fw-semibold">Departure Time</h5>
+                                <p class="mb-0 font-13">Employees are required to log their departure from the office by
+                                    <span class="fw-semibold"> 7:25 PM.</span>
+                                </p>
+                            </div>
+                            <div class="guide-policy mb-4">
+                                <h5 class="font-15 mb-2 fw-semibold">Break Time </h5>
+                                <p class="mb-0 font-13">Employees are allowed to take a total of 1 hour for breaks
+                                    during the workday.
+                                </p>
+                            </div>
+                            <div class="guide-policy mb-4">
+                                <h5 class="font-15 mb-2 fw-semibold">Back Time</h5>
+                                <p class="mb-0 font-13">Employees must log their return from breaks, ensuring the total
+                                    break duration is within the allocated 1 hour. Breaks can be split into multiple
+                                    shorter breaks, as long as the total break time does
+                                    <span class="fw-semibold"> not exceed 1 hour.</span>
+                                </p>
+                            </div>
+                            <div class="guide-policy mb-4">
+                                <h5 class="font-15 mb-2 fw-semibold">Working Hours</h5>
+                                <p class="mb-0 font-13">Employees must complete <span class="fw-semibold"> 8 hours and
+                                        25 minutes</span> of total working time daily, excluding break hours.
+
+                                </p>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row mt-5 border-bottom pb-4">
+                        <div class="col-md-4">
+                            <h5 class="font-16 fw-semibold">Late Entry Rules</h5>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="guide-policy mb-4">
+                                <h5 class="font-15 mb-2 fw-semibold">Custom Salary Deduction</h5>
+                                <p class="mb-0 font-13">The deduction will apply if you are late by <span
+                                        class="fw-semibold">1 hour</span> A fixed
+                                    amount of <span class="fw-semibold">₹100 will be deducted</span> for each occurrence
+                                    This rule will be <span class="fw-semibold">applied if
+                                        you are late 3 times. </span></p>
+                            </div>
+                            <div class="guide-policy mb-4">
+                                <h5 class="font-15 mb-2 fw-semibold">Half Day Salary Deduction</h5>
+                                <p class="mb-0 font-13">The deduction will apply if you are late by <span
+                                        class="fw-semibold">1 hour </span> A fixed amount of <span
+                                        class="fw-semibold">₹100 will be deducted</span> for each occurrence This rule
+                                    will be <span class="fw-semibold">applied if you are late 3 times.</span> </p>
+                            </div>
+                            <div class="guide-policy mb-4">
+                                <h5 class="font-15 mb-2 fw-semibold">Full Day Salary Deduction</h5>
+                                <p class="mb-0 font-13">The deduction will apply if you are late by <span
+                                        class="fw-semibold">1 hour </span> A fixed amount of <span
+                                        class="fw-semibold">₹100 will be deducted</span> for each occurrence This rule
+                                    will be <span class="fw-semibold">applied if you are late 3 times.</span>
+                                </p>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <div class="row mt-5 border-bottom pb-4">
+                        <div class="col-md-4">
+                            <h5 class="font-16 fw-semibold">Break Rules</h5>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="guide-policy mb-4">
+                                <h5 class="font-15 mb-2 fw-semibold">Custom Salary Deduction</h5>
+                                <p class="mb-0 font-13">The deduction will apply if you are late by <span
+                                        class="fw-semibold">1 hour</span> Salary
+                                    deducted <span class="fw-semibold">per minute if the break exceeds </span> this
+                                    duration. Deduction applies up to <span class="fw-semibold"> 5
+                                        occurrences.</span> </p>
+                            </div>
+                            <div class="guide-policy mb-4">
+                                <h5 class="font-15 mb-2 fw-semibold">Half Day Salary Deduction</h5>
+                                <p class="mb-0 font-13">The break duration limit is set to <span class="fw-semibold">1
+                                        hour and 30 minutes .</span> If
+                                    the break exceeds this limit, a half-day salary deduction will be applied. This
+                                    rule can be enforced for up to 5 occurrences. </p>
+                            </div>
+                            <div class="guide-policy mb-4">
+                                <h5 class="font-15 mb-2 fw-semibold">Full Day Salary Deduction</h5>
+                                <p class="mb-0 font-13">If the break exceeds the limit of <span class="fw-semibold"> 2
+                                        hours,</span> a <span class="fw-semibold">full-day salary
+                                        deduction</span> will be imposed. This rule is applicable for up to <span
+                                        class="fw-semibold">2 occurrences.</span>
+                                </p>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <div class="row mt-5 border-bottom pb-4">
+                        <div class="col-md-4">
+                            <h5 class="font-16 fw-semibold">Early Exit Rules</h5>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="guide-policy mb-4">
+                                <h5 class="font-15 mb-2 fw-semibold">Custom Salary Deduction</h5>
+                                <p class="mb-0 font-13">If an employee leaves <span class=" fw-semibold"> 5
+                                        minutes</span> before the scheduled end time,
+                                    the salary will be deducted per minute of early exit.
+                                    This rule is triggered when the early <span class=" fw-semibold">exit occurs more
+                                        than 2 times</span></p>
+                            </div>
+                            <div class="guide-policy mb-4">
+                                <h5 class="font-15 mb-2 fw-semibold">Half Day Salary Deduction</h5>
+                                <p class="mb-0 font-13">If an employee leaves <span class=" fw-semibold"> 1 hour </span>
+                                    before the scheduled end time, a
+                                    <span class=" fw-semibold"> half-day salary deduction </span> will be applied.. This
+                                    rule is triggered when the early
+                                    exit occurs <span class=" fw-semibold"> more than 2</span> times,
+                                </p>
+                            </div>
+                            <div class="guide-policy mb-4">
+                                <h5 class="font-15 mb-2 fw-semibold">Full Day Salary Deduction</h5>
+                                <p class="mb-0 font-13">If an employee leaves 6 hours before the scheduled end time, a
+                                    <span class=" fw-semibold"> full-day salary deduction </span> will be applied. This
+                                    rule is triggered when the early
+                                    exit occurs more than <span class=" fw-semibold"> 4 times</span>
+                                </p>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <div class="row mt-5 border-bottom pb-4">
+                        <div class="col-md-4">
+                            <h5 class="font-16 fw-semibold">Overtime Rules</h5>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="guide-policy mb-4">
+                                <h5 class="font-15 mb-2 fw-semibold">Custom Salary Deduction</h5>
+                                <p class="mb-0 font-13">If you work <span class="fw-semibold">2 hours </span> of
+                                    overtime, you will receive a fixed payout
+                                    of <span class="fw-semibold"> ₹300 </span> as a token of appreciation for your hard
+                                    work and dedication.</p>
+                            </div>
+                            <div class="guide-policy mb-4">
+                                <h5 class="font-15 mb-2 fw-semibold">Half Day Salary Deduction</h5>
+                                <p class="mb-0 font-13">If you work <span class="fw-semibold"> before your shift starts
+                                        or beyond your regular
+                                        working hours and complete 2 hours 30 minutes of overtime,</span> you will
+                                    receive a fixed
+                                    payout of <span class="fw-semibold"> ₹400</span> to recognize your hard work and
+                                    dedication. times,
+                                </p>
+                            </div>
+                            <div class="guide-policy mb-4">
+                                <h5 class="font-15 mb-2 fw-semibold">Full Day Salary Deduction</h5>
+                                <p class="mb-0 font-13">For extended overtime of <span class="fw-semibold"> 4
+                                        hours,</span> which is considered a full day
+                                    of overtime, you will receive a fixed <span class="fw-semibold">payout of
+                                        ₹1200</span> as recognition for your hard
+                                    work and dedication
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-5 border-bottom pb-4">
+                        <div class="col-md-4">
+                            <h5 class="font-16 fw-semibold">Leaves Rules</h5>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="guide-policy mb-4">
+                                <h5 class="font-15 mb-2 fw-semibold">Paid Leave (PL) Rules</h5>
+                                <p class="mb-0 font-13">Employees are entitled to <span class="fw-semibold">2 paid
+                                        leaves per month, totalling up
+                                        to 24 paid leaves in a calendar year. Unused regular paid leaves can be carried
+                                        forward to the next year, with a maximum limit of 10 days.</span>
+                                </p>
+                            </div>
+                            <div class="guide-policy mb-4">
+                                <h5 class="font-15 mb-2 fw-semibold">Sick Leave (SL)Rules</h5>
+                                <p class="mb-0 font-13">Employees are entitled to <span class="fw-semibold">6 sick
+                                        leaves </span> per year, exclusively
+                                    for medical emergencies. Sick leaves <span class="fw-semibold">cannot be carried
+                                        forward </span>to the next year.
+                                </p>
+                            </div>
+                            <div class="guide-policy mb-4">
+                                <h5 class="font-15 mb-2 fw-semibold">Casual Leave (CL) Rules</h5>
+                                <p class="mb-0 font-13">Employees are entitled to <span class="fw-semibold">8 casual
+                                        leaves </span> annually, usable for <span class="fw-semibold">1
+                                        to 3 days </span> at a time. Unused leaves <span class="fw-semibold"> lapse
+                                        yearly,</span> and applications must be submitted
+                                    2 days in advance, except in emergencies.
+                                </p>
+                            </div>
+                            <div class="guide-policy mb-4">
+                                <h5 class="font-15 mb-2 fw-semibold">Leave Without Pay (LWP) Rules</h5>
+                                <p class="mb-0 font-13">If all leaves are exhausted, employees can take LWP <span
+                                        class="fw-semibold"> with manager
+                                        or HR approval.</span> ₹500 will be deducted per day, and frequent use may lead
+                                    to a
+                                    review.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-5 border-bottom pb-4">
+                        <div class="col-md-4">
+                            <h5 class="font-16 fw-semibold">Exit Policy</h5>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="guide-policy mb-4">
+                                <h5 class="font-15 mb-2 fw-semibold">Resignation Process</h5>
+                                <p class="mb-0 font-13">Need to Submit a formal resignation mail to your manager and
+                                    HR. HR will acknowledge your resignation and provide you with the next steps for the
+                                    exit process.</p>
+                            </div>
+                            <div class="guide-policy mb-4">
+                                <h5 class="font-15 mb-2 fw-semibold">Notice Period</h5>
+                                <p class="mb-0 font-13">Employees need to serve notice of <span class="fw-semibold"> 2
+                                        Months,</span> as per your employment contract. The last working day will be
+                                    determined based on this notice period..
+                                </p>
+                            </div>
+                            <div class="guide-policy mb-4">
+                                <h5 class="font-15 mb-2 fw-semibold">Involuntary Termination</h5>
+                                <p class="mb-0 font-13">he company reserves the right to terminate your employment with
+                                    immediate effect or as per the terms outlined in your employment contract.
+                                </p>
+                            </div>
+                            <div class="guide-policy mb-4">
+                                <h5 class="font-15 mb-2 fw-semibold">Final Settlement</h5>
+                                <p class="mb-0 font-13">You will receive your final salary, unused leave, and applicable
+                                    bonuses. Deductions for unreturned items will be made. Settlement will be processed
+                                    within <span class="fw-semibold">60 Days.</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
             </div>
             <div class="tab-pane fade" id="v-pills-support" role="tabpanel" aria-labelledby="v-pills-support-tab">
                 <div class="account-setting w-90">
 
-                    <h5 class="font-24 fw-semibold mb-2">How Can We Assist You?</h5>
+                    <h5 class="font-22 fw-semibold mb-2">How Can We Assist You?</h5>
 
                     <div class="row mt-5">
                         <div class="col-md-12 mb-4">

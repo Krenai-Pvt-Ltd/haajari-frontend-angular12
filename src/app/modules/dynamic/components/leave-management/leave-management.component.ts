@@ -107,18 +107,8 @@ export class LeaveManagementComponent implements OnInit {
       this.rejecetdLoader = true;
     }
 
-    // Reset page counters and filters before sending the request
     this.page = 0;
-    // this.pagePendingLeaves = 0;
-    // this.pageApprovedRejected = 0;
-    // this.searchString = '';
     this.selectedTeamName = '';
-    // this.fullLeaveLogs = [];
-    // this.approvedRejectedLeaves = [];
-    // this.pendingLeaves = [];
-    // this.consumedLeaveArray = [];
-    // this.monthlyChartData = [];
-    // this.weeklyChartData = [];
 
     this.dataService
       .approveOrRejectLeaveOfUser(requestId, requestedString, this.rejectionReason)
@@ -157,9 +147,6 @@ export class LeaveManagementComponent implements OnInit {
   }
 
   fetchAllData() {
-    // this.getApprovedRejectedLeaveLogs();
-    // this.getFullLeaveLogs();
-    // this.getPendingLeaves();
     this.getTotalConsumedLeaves();
     this.getMonthlyChartData();
     this.getWeeklyChartData();
@@ -228,28 +215,6 @@ export class LeaveManagementComponent implements OnInit {
       })
   }
 
-  // formatDateIn(newdate: any) {
-  //   const date = new Date(newdate);
-  //   const formattedDate = this.datePipe.transform(date, 'dd MMMM, yyyy');
-  //   return formattedDate;
-  // }
-  // formatDate(date: Date) {
-  //   const dateObject = new Date(date);
-  //   const formattedDate = this.datePipe.transform(dateObject, 'yyyy-MM-dd');
-  //   return formattedDate;
-  // }
-
-  // formatTime(date: Date) {
-  //   const dateObject = new Date(date);
-  //   const formattedTime = this.datePipe.transform(dateObject, 'hh:mm a');
-  //   return formattedTime;
-  // }
-
-  // transform(value: string): string {
-  //   if (!value) return value;
-  //   return value.charAt(0).toUpperCase() + value.slice(1);
-  // }
-
   teamNameList: UserTeamDetailsReflection[] = [];
 
   teamId: number = 0;
@@ -277,7 +242,6 @@ export class LeaveManagementComponent implements OnInit {
     domain: ['#FFE082', '#80CBC4', '#FFCCBC'], // Gold, Green, Red
   };
   gradient: boolean = false;
-  // view: [number, number] = [300, 150];
   view: [number, number] = [300, 250];
   weeklyPlaceholderFlag: boolean = true;
   getWeeklyChartData() {
@@ -342,7 +306,6 @@ export class LeaveManagementComponent implements OnInit {
         ],
       }));
       this.dataReady = true;
-      // console.log(this.consumedLeaveData);
     });
   }
 
@@ -353,8 +316,6 @@ export class LeaveManagementComponent implements OnInit {
     }
     return leaveType;
   }
-
-  // ####   new modal code
 
   managers: UserDto[] = [];
   selectedManagerId!: number;
@@ -393,7 +354,6 @@ export class LeaveManagementComponent implements OnInit {
   
   downloadSingleImage(imageUrl: any) {
     if (!imageUrl) {
-      // console.error('Image URL is undefined or null');
       return;
     }
 
@@ -403,7 +363,6 @@ export class LeaveManagementComponent implements OnInit {
     );
 
     if (splittedUrl.length < 2) {
-      // console.error('Invalid image URL format');
       return;
     }
 
