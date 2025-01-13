@@ -24,7 +24,7 @@ export class LeaveSummaryComponent implements OnInit {
   @Input() startDate:any;
   @Input() endDate:any;
   @Output() getData: EventEmitter<boolean> = new EventEmitter<boolean>();
-    
+
   sendBulkDataToComponent() {
     this.getData.emit(true);
   }
@@ -34,7 +34,7 @@ export class LeaveSummaryComponent implements OnInit {
 
   constructor(private _dataService : DataService,
      private _payrollService : PayrollService,
-     private _helperService:HelperService) { 
+     private _helperService:HelperService) {
 
 
   }
@@ -113,6 +113,29 @@ export class LeaveSummaryComponent implements OnInit {
   }
 
 
+  isDownLoading = false;
+  download(category:string){
+    this.isDownLoading = true;
+    this._payrollService
+    .generateReport(this.startDate, this.endDate, category, this.search)
+    .subscribe((response) => {
+      this.isDownLoading = false;
+      this.downloadFile(response);
+    }
+    , (error) => {
+      console.log("Error", error);
+      this.isDownLoading = false;
+    });
+  }
+
+  private downloadFile(response: Blob) {
+    debugger
+    const fileURL = URL.createObjectURL(response);
+    const a = document.createElement('a');
+    a.href = fileURL;
+    a.download = 'report.xlsx';  // You can change the file name
+    a.click();
+  }
 
   pendingLeavesList:any[]=[];
   getUserPendingLeaves(){
@@ -122,17 +145,17 @@ export class LeaveSummaryComponent implements OnInit {
         this.pendingLeavesList = response.object;
         this.total = response.totalItems;
         this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
-      } 
+      }
       this.isShimmerForPayrollLeaveResponse = false;
     }, (error) => {
       this.networkConnectionErrorPlaceHolderForPayrollLeaveResponse = true;
       this.isShimmerForPayrollLeaveResponse = false;
-     
+
     })
   }
 
 
-  
+
 
 @ViewChild('pendingLeaveModalButton') pendingLeaveModalButton!:ElementRef;
   openLeaveLogsModal(leaveId : number, type:string ){
@@ -151,7 +174,7 @@ export class LeaveSummaryComponent implements OnInit {
   getPendingLeaveDetail(leaveId: number, leaveType: string) {
     this.pendingLeaveDetailFetch = true;
     this._dataService.getRequestedUserLeaveByLeaveIdAndLeaveType(leaveId, leaveType).subscribe((response)  => {
-        if(response.status){    
+        if(response.status){
           this.pendingLeaveDetail = response.object;
         }else{
           this.pendingLeaveDetail = null;
@@ -188,18 +211,18 @@ export class LeaveSummaryComponent implements OnInit {
         this.approvedLoader = false;
         this.rejecetdLoader = false;
         this._helperService.showToast('Error processing!',Key.TOAST_STATUS_ERROR);
-      });    
+      });
   }
 
   updatePayrollStep(){
 
     // this._payrollService.updatePayrollProcessStep(this.startDate, this.endDate, this.FINAL_SETTLEMENT).subscribe((response)=>{
-     
-    
+
+
     // }, ((error) => {
-    
+
     // }))
   }
-  
+
 
 }

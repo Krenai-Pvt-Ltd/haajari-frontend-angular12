@@ -1,7 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { Key } from 'src/app/constant/key';
-import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
-import { OvertimeRequestLogResponse } from 'src/app/models/overtime-request-log-response';
+import { UserResignation } from 'src/app/models/UserResignation';
+
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
@@ -21,6 +22,8 @@ import { Holiday } from 'src/app/models/Holiday';
 import { UserNotificationService } from 'src/app/services/user-notification.service';
 import { Notification } from 'src/app/models/Notification';
 import { EmployeeProfileComponent } from '../employee-profile.component';
+import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
+import { OvertimeRequestLogResponse } from 'src/app/models/overtime-request-log-response';
 
 Chart.register(
   LineController,
@@ -39,7 +42,8 @@ Chart.register(
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  requestModal: boolean = true;
+
+  requestModal: boolean = false;
   usersWithUpcomingBirthdays: any;
 
   resignationSubmittedSubscriber: any;
@@ -101,8 +105,11 @@ export class DashboardComponent implements OnInit {
     this.getTeamsWithManagerInfo();
     this.getTotalTeamMembers();
     // this.startCarousel();
+    this.getNoticePeriodDuration()
 
-
+    // this.getAttendanceRequestLogData();
+    // this.fetchAttendanceSummary();
+    // this.getMailNotification(this.userId, 'mail');
   }
 
 
@@ -241,7 +248,115 @@ export class DashboardComponent implements OnInit {
         this.approveToggle = false;
       }
     })
+  }
 
+  // Function to disable future dates
+  disableFutureDates = (current: Date): boolean => {
+    const today = new Date();
+    // const maxDate = new Date();
+    const maxDate = new Date();
+    maxDate.setDate(today.getDate() + this.noticePeriodDuration); // Add 45 days to today's date
+
+    // this.lastWorkingDay = maxDate;
+    // console.log("Max Date: ", this.lastWorkingDay);
+    // Disable dates from today to maxDate (inclusive)
+    return current < today || current > maxDate;
+  };
+
+  noticePeriodDuration: number = 0;
+  getNoticePeriodDuration(){
+    this.dataService.getNoticePeriodDuration(this.userId).subscribe((res: any) => {
+      if(res.status){
+        this.noticePeriodDuration = res.object
+      }
+    })
+  }
+
+  selectRecommendDay(value: string): void {
+
+    // this.userResignationInfo.userLastWorkingDay = ''
+
+    this.userResignationInfo.isRecommendLastDay = value == 'Other' ? 1 : 0
+
+    if(this.userResignationInfo.isRecommendLastDay == 0){
+      this.userResignationInfo.userLastWorkingDay = ''
+      this.calculateLasWorkingDay();
+    }else{
+      this.userResignationInfo.userLastWorkingDay = this.userResignationInfo.userLastWorkingDay
+    }
+  }
+
+  selectManagerDiscussion(value: string): void {
+    this.userResignationInfo.isManagerDiscussion = value == 'Yes' ? 1 : 0
+  }
+
+  calculateLasWorkingDay(){
+    const today = new Date();
+    // const maxDate = new Date();
+    const maxDate = new Date();
+    maxDate.setDate(today.getDate() + this.noticePeriodDuration); // Add 45 days to today's date
+
+    // this.lastWorkingDay = maxDate;
+    // this.userResignationReq.lastWorkingDay = maxDate
+    this.userResignationInfo.userLastWorkingDay = this.helperService.formatDateToYYYYMMDD(maxDate);
+    // console.log("Max Date: ", this.lastWorkingDay);
+  }
+
+
+  showRevokeDiv: boolean = false;
+  revokeReason: string = ''
+  revokeResignation(id: number){
+
+    if(!this.showRevokeDiv){
+      this.showRevokeDiv = true;
+    }else{
+      this.approveToggle = true;
+      this.requestModal = true;
+      // console.log('hitt')
+      // this.approveToggle = false
+      // this.closeApproveModal.nativeElement.click()
+      this.dataService.revokeResignation(id, this.userResignationInfo.revokeReason).subscribe((res: any) => {
+        if(res.status){
+          this.closeApproveModal.nativeElement.click()
+          this.approveToggle = false
+          // this.helperService.profileChangeStatus.next(true);
+          this.helperService.showToast(
+            res.message,
+            Key.TOAST_STATUS_SUCCESS
+          );
+        }else{
+          this.approveToggle = false;
+        }
+      })
+
+    }
+
+  }
+
+  clearForm(){
+    this.userResignationInfo = this.userResignationInfo;
+    this.revokeReason = ''
+    this.userResignationInfo.revokeReason = ''
+    this.showRevokeDiv = false;
+  }
+
+  // @ViewChild('closeResignationButton') closeResignationButton!: ElementRef
+  userResignationReq: UserResignation = new UserResignation();
+  resignationToggle: boolean = false;
+  submitResignation(){
+    this.resignationToggle = true;
+    this.userResignationReq = this.userResignationInfo
+    this.dataService.submitResignation(this.userResignationReq).subscribe((res: any) => {
+        if(res.status){
+          this.resignationToggle =false
+          // this.helperService.resignationSubmitted.next(true);
+          this.closeApproveModal.nativeElement.click()
+          this.getUserResignationInfo()
+          // this.clearForm();
+        }
+    })
+
+    // console.log('reqs: ',this.userResignationReq)
   }
 
   userLeaveLog: any;
@@ -373,7 +488,7 @@ export class DashboardComponent implements OnInit {
   }
 
 
-  // new 
+  // new
 
   // @ViewChild('chartCanvas', { static: false }) chartCanvas!: ElementRef<HTMLCanvasElement>;
   //   private chart!: Chart;
@@ -419,9 +534,9 @@ export class DashboardComponent implements OnInit {
   //               label: 'Total Worked Hours',
   //               data: data,
   //               borderColor: 'rgba(75, 192, 192, 1)',
-  //               backgroundColor: 'rgba(153, 102, 255, 0.2)', 
-  //             tension: 0.4, 
-  //             fill: true, 
+  //               backgroundColor: 'rgba(153, 102, 255, 0.2)',
+  //             tension: 0.4,
+  //             fill: true,
   //             },
   //           ],
   //         },
@@ -622,7 +737,7 @@ export class DashboardComponent implements OnInit {
   // loadHolidays() {
   //     this.dataService.getNextSixHolidays().subscribe({
   //       next: (data: Holiday[]) => {
-  //         this.holidays = data; 
+  //         this.holidays = data;
   //       },
   //       error: (error) => {
   //         console.error('Failed to fetch holidays', error);

@@ -1431,6 +1431,7 @@ console.log(this.data);
   profilePic: string = '';
   disabledStates: boolean[] = [];
   approveStates: string[]=[];
+  rejectedReason: string = '';
   @ViewChildren('collapsibleDiv') collapsibleDivs!: QueryList<ElementRef>;
   getRequestedData(uuid: string) {
     debugger;
@@ -1447,7 +1448,12 @@ console.log(this.data);
           this.editedDate= response.createdDate;
           this.profilePic= response.profilePic;
           this.approveStates=[];
-          console.log(this.requestedData);
+          if(!this.requestedData ||this.requestedData.length==0){
+            this.helperService.showToast('No data found', Key.TOAST_STATUS_ERROR);
+            this.closeReqDataModal.nativeElement.click();
+            this.selectStatus('EDITPROFILE');
+          }
+
 
       },
       (error) => {
@@ -1489,9 +1495,15 @@ console.log(this.data);
   }
 
   rejectLoading: boolean = false;
+  isRejectModalOpen: boolean = false;
   rejectData(): void {
+    if(! this.isRejectModalOpen){
+      this.isRejectModalOpen = true;
+      return;
+    }
+
     this.rejectLoading = true;
-    this.dataService.rejectRequestedData(this.userId).subscribe(
+    this.dataService.rejectRequestedData(this.userId,this.rejectedReason).subscribe(
       (response) => {
         this.rejectLoading = false;
         if (response.success) {
@@ -1572,6 +1584,8 @@ console.log(this.data);
     this.isRequestedDataLoading = false;
     this.disabledStates = [];
     this.approveStates = [];
+    this.isRejectModalOpen = false;
+    this.rejectedReason = '';
   }
 
   isNumberExist: boolean = false;
@@ -1786,6 +1800,16 @@ console.log(this.data);
 
 
   // User Resignation start
+
+  existExitPolicy: boolean = false;
+  checkUserExist(){
+    this.existExitPolicy = false
+    this.dataService.checkUserExist(this.userUuid).subscribe((res: any) =>{
+      if(res.status && res.object == 1){
+        this.existExitPolicy = true;
+      }
+    })
+  }
 
   @ViewChild('closeResignationButton') closeResignationButton!: ElementRef
   userResignationReq: UserResignation = new UserResignation();

@@ -10,6 +10,7 @@ import { HeaderComponent } from './header/header.component';
 import { SubscriptionRestrictedComponent } from './subscription-restricted/subscription-restricted.component';
 import { NewEmployeeProfileSidebarComponent } from './new-employee-profile-sidebar/new-employee-profile-sidebar.component';
 import { AgmCoreModule } from '@agm/core';
+import { HolidayDatePickerComponent } from './holiday-date-picker/holiday-date-picker.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { AgmCoreModule } from '@agm/core';
     DurationPickerComponent,
     CommonComponent,
     HeaderComponent,
-    NewEmployeeProfileSidebarComponent
+    NewEmployeeProfileSidebarComponent,
+    HolidayDatePickerComponent
     
   ],
   imports: [CommonModule, CommonRoutingModule,
@@ -32,4 +34,4 @@ import { AgmCoreModule } from '@agm/core';
   ],
   exports: [],
 })
-export class CommonModule {}
+export class CommonModule { }

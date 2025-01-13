@@ -28,6 +28,8 @@ export class EmployeeProfileComponent implements OnInit {
     this.activeTab = tab;
   }
 
+  @ViewChild('settingTab') settingTab!: ElementRef;
+  @ViewChild('firstTab') firstTab!: ElementRef;
   isEmployeeExit: boolean = false;
   UUID: string=''
   currentUserUuid: string='';
@@ -57,6 +59,7 @@ export class EmployeeProfileComponent implements OnInit {
       if (this.employeeProfileResponseData.resignationStatus != null && this.employeeProfileResponseData.resignationStatus == 43) {
         this.isEmployeeExit = true;
         this.resignationDate = this.employeeProfileResponseData.approvedDate;
+
       }
 
       this.isLoading = false;

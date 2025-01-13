@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { EmployeeProfileRoutingModule } from './employee-profile-routing.module';
 import { EmployeeProfileComponent } from './employee-profile.component';
 import { EmployeeProfileSidebarComponent } from './employee-profile-sidebar/employee-profile-sidebar.component';
@@ -29,7 +28,10 @@ import { EpmployeeFinanceComponent } from './epmployee-finance/epmployee-finance
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { AgmCoreModule } from '@agm/core';
-
+import { HolidayDatePickerComponent } from '../common/holiday-date-picker/holiday-date-picker.component';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { SettingsComponent } from './settings/settings.component';
+import { AccountSettingsComponent } from 'src/app/Common/account-settings/account-settings.component';
 
 
 @NgModule({
@@ -46,6 +48,10 @@ import { AgmCoreModule } from '@agm/core';
     EmployeeExpenseComponent,
     DashboardComponent,
     EpmployeeFinanceComponent,
+    HolidayDatePickerComponent,
+
+    SettingsComponent,
+    AccountSettingsComponent
   ],
   imports: [
     CommonModule,
@@ -68,10 +74,11 @@ import { AgmCoreModule } from '@agm/core';
     NgxShimmerLoadingModule,
     NzSwitchModule,
     NzRadioModule,
+    SharedModule,
     AgmCoreModule.forRoot({
-          apiKey: 'AIzaSyB6SQE_TmOLpGLohpMLl-6FzdwJJAU9MnA',
-          libraries: ['places'],
-        }),
+      apiKey: 'AIzaSyB6SQE_TmOLpGLohpMLl-6FzdwJJAU9MnA',
+      libraries: ['places'],
+    }),
   ]
 })
 export class EmployeeProfileModule { }

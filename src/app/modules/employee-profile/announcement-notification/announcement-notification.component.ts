@@ -72,7 +72,7 @@ export class AnnouncementNotificationComponent implements OnInit {
   }
 
   readNotification(mail: any){
-    if(!mail.isRead){
+    if(!mail.isRead && this.userId == this.currentUserUuid){
       this._notificationService.readNotification(mail.id).subscribe((response) => {
         if (response.status) {
           this.getMailNotification(this.userId, 'mail');

@@ -1,3 +1,4 @@
+import { url } from 'inspector';
 import {
   HttpClient,
   HttpErrorResponse,
@@ -17,7 +18,7 @@ import {
 } from '../models/Attendance.model';
 import { RoleRequest } from '../models/role-request';
 import { UserPersonalInformationRequest } from '../models/user-personal-information-request';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, map, shareReplay, tap } from 'rxjs/operators';
 import { UserAddressDetailsRequest } from '../models/user-address-details-request';
 import { UserAcademicsDetailRequest } from '../models/user-academics-detail-request';
 import { UserExperience } from '../models/user-experience';
@@ -2228,6 +2229,13 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     const url = `${this.baseUrl}/account-setting/update/profile-picture`;
     return this.httpClient.put<any>(url, userPersonalInformationRequest);
   }
+  updateProfilePic(
+    picUrl: string
+  ): Observable<any> {
+    debugger;
+    const url = `${this.baseUrl}/account-setting/update/profile-pic`;
+    return this.httpClient.put<any>(url,picUrl);
+  }
 
   lat: number = 0;
   lng: number = 0;
@@ -2415,6 +2423,33 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     );
   }
 
+  updateLanguageSetting(language: string): Observable<{ [key: string]: string }> {
+
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    // Call the API and pass the language as a query parameter
+    return this.httpClient.put<{ [key: string]: string }>(`${this.baseUrl}/account-setting/user-language`, null, {
+      params: { language },
+      headers,
+    });
+  }
+
+  updateNotificationViaSetting(via: string): Observable<{ [key: string]: string }> {
+
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    // Call the API and pass the language as a query parameter
+    return this.httpClient.put<{ [key: string]: string }>(`${this.baseUrl}/account-setting/user-notification`, null, {
+      params: { via },
+      headers,
+    });
+  }
+  getNotificationSetting(): Observable<any> {
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/account-setting/notification-setting`
+    );
+  }
+
   sendOtptoSavePhoneNumber(phoneNumber: string): Observable<boolean> {
     const params = new HttpParams().set('phoneNumber', phoneNumber);
     return this.httpClient.post<boolean>(
@@ -2511,6 +2546,22 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
       { params }
     );
   }
+
+  getAllHoliday(){
+    return this.httpClient.get<WeekDay[]>(
+      `${this.baseUrl}/holiday/all`
+    );
+  }
+
+  // private holidays$: any = Observable<{ [key: string]: string }>
+  // getAllHoliday(): Observable<{ [key: string]: string }> {
+  //   if (!this.holidays$) {
+  //     this.holidays$ = this.httpClient
+  //       .get<{ [key: string]: string }>(`${this.baseUrl}/holiday/all`) // Replace with actual API
+  //       .pipe(shareReplay(1)); // Cache the result for reuse
+  //   }
+  //   return this.holidays$;
+  // }
 
   // ###############
 
@@ -4219,6 +4270,31 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}/company-expense`, {params});
   }
 
+  getSettlementExpenseLog(role: string, pageNumber: number, itemPerPage: number, startDate: any, endDate: any, statusIds: number[], userUuid: any){
+    var params = new HttpParams()
+    .set('current_page', pageNumber)
+    .set('item_per_page', itemPerPage)
+    .set('sortBy', 'createdDate')
+    .set('sortOrder', 'desc')
+    // .set('role', role)
+
+    // if((startDate != null && startDate != '') && (endDate != '' && endDate != '')){
+    if (startDate && endDate) {
+      params = params.set('startDate', startDate)
+      params = params.set('endDate', endDate)
+    }
+
+    if(statusIds.length > 0){
+      params = params.set("statusIds", statusIds.join(','));
+    }
+
+    if(userUuid){
+      params = params.set("userUuid", userUuid);
+    }
+
+    return this.httpClient.get<any>(`${this.baseUrl}/company-expense-settlement-log`, {params});
+  }
+
 
   getAllExpenseCount(role: string, pageNumber: number, itemPerPage: number, startDate: any, endDate: any, userUuid: any){
     var params = new HttpParams()
@@ -4353,6 +4429,13 @@ getHolidayForOrganization(date: string): Observable<any>{
     );
   }
 
+  checkUserExist(uuid: string) {
+    let params = new HttpParams().set('uuid', uuid);
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/exit-policy/exist`, {params}
+    );
+  }
+
   updateResignation1(id: number) {
     const params = new HttpParams().set('id', id);
     return this.httpClient.patch<any>(
@@ -4365,6 +4448,13 @@ getHolidayForOrganization(date: string): Observable<any>{
   updateResignation(id: number){
     const params = new HttpParams().set('id', id);
   return this.httpClient.patch<any>(`${this.baseUrl}/user-resignation`, {}, {params});
+  }
+
+  revokeResignation(id: number, message: string){
+    const params = new HttpParams()
+    .set('id', id)
+    .set('reason', message);
+  return this.httpClient.patch<any>(`${this.baseUrl}/user-resignation/revoke`, {}, {params});
   }
 
   updateResignation2(id: number) {
@@ -4532,7 +4622,7 @@ getHolidayForOrganization(date: string): Observable<any>{
   }
   getDataComparison(userUuid: string): Observable<any> {
     const params = { userUuid };
-    return this.httpClient.get(`${this.baseUrl}/get/onboarding/get-requested-data-compare`, {
+    return this.httpClient.get(`${this.baseUrl}/get/onboarding/requested-data-compare`, {
       params,
     });
   }
@@ -4542,9 +4632,9 @@ getHolidayForOrganization(date: string): Observable<any>{
       params
     });
   }
-  rejectRequestedData(uuid: string): Observable<any> {
+  rejectRequestedData(uuid: string,rejectedReason:string): Observable<any> {
     const endpoint = `${this.baseUrl}/get/onboarding/reject-requested-data`;
-    return this.httpClient.post(endpoint, null, {
+    return this.httpClient.post(endpoint, rejectedReason, {
       params: { uuid },
     });
   }
