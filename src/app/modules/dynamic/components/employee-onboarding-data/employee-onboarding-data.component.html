@@ -1351,24 +1351,7 @@
               </div>
             </div>
           </div>
-          <!-- <div class="modal-footer d-flex align-items-center justify-content-end gap-2">
-            <button type="button" class="btn cancel-btn" data-bs-dismiss="modal" aria-label="Close" #closeInviteModal>
-              Cancel
-            </button>
-            <button class="btn submitActionBtn" type="submit" [disabled]="
-                  personalInformationForm.invalid ||
-                  isNumberExist ||
-                  isEmailExist
-                " [ngClass]="{'btn-border':!personalInformationForm.invalid}" aria-label="Next Step">
-              <div *ngIf="toggle" class="dot-opacity-loader1">
-                <span></span>
-                <span></span>
-                <span></span>
-              </div>
-              <span *ngIf="!toggle">Invite
-                <i class="bi bi-arrow-right" style="padding-left: 8px"></i></span>
-            </button>
-          </div> -->
+
           <div class="modal-footer d-flex align-items-center justify-content-end gap-2">
             <button type="button" class="btn cancel-btn" data-bs-dismiss="modal" aria-label="Close" #closeInviteModal>
               Cancel
@@ -1493,13 +1476,22 @@
               <img onerror="this.src='./assets/images/broken-image-icon.jpg';" [src]="profilePic">
               <div>
                 <h5 class="mb-0 font-15">{{editedName}} </h5>
-                <p class="mb-0 font-12">Requested for {{requestedData.length}} update </p>
+                <p class="mb-0 font-12">Requested for <span class="text-primary fw-semibold"> {{requestedData.length}}
+                  </span> update </p>
               </div>
             </div>
             <p class="mb-0 font-14 fw-semibold">{{editedDate | date:'d MMM, y'}} </p>
           </div>
 
           <div class="email-update-box mt-3">
+
+            <!-- <div *ngIf="">
+              <div class="mb-2" *ngFor="let item of [].constructor(10)">
+                <ngx-shimmer-loading [width]="'100%'" [height]="'50px'"></ngx-shimmer-loading>
+              </div>
+            </div> -->
+
+
             <span *ngIf="!isRejectModalOpen">
               <span *ngFor="let data of requestedData; let i=index">
                 <div class="d-flex align-items-center justify-content-between email-update p-3 mb-3">
