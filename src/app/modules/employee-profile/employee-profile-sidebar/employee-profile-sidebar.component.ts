@@ -20,6 +20,8 @@ import { Subscription } from 'rxjs';
 import { constant } from 'src/app/constant/constant';
 import * as pdfjsLib from 'pdfjs-dist';
 import { OnboardingService } from 'src/app/services/onboarding.service';
+import { EmployeeProfileComponent } from '../employee-profile.component';
+
 
 
 @Component({
@@ -36,6 +38,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
   constructor(private dataService: DataService, private modalService: NgbModal, private fb: FormBuilder,
     private activateRoute: ActivatedRoute,
     public helperService: HelperService,
+    private employeeProfileComponent: EmployeeProfileComponent,
     private router: Router,
     private cdr: ChangeDetectorRef,
     private roleService: RoleBasedAccessControlService,
@@ -777,6 +780,10 @@ export class EmployeeProfileSidebarComponent implements OnInit {
   // }
 
   routeToAccountPage(tabName: string) {
+    if(this.userId==this.UUID){
+      this.employeeProfileComponent.settingTab.nativeElement.click();
+      return;
+    }
     // this.dataService.activeTab = tabName !== 'account';
     this.router.navigate(['/setting/account-settings'], {
       queryParams: { setting: tabName },
