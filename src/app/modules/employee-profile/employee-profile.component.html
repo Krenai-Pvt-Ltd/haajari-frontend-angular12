@@ -9,7 +9,7 @@
 
 
                 <div class="p-3">
-                    <ul id="pills-tab" role="tablist" class="nav nav-pills">
+                  <ul id="pills-tab" role="tablist" class="nav nav-pills" [ngClass]="{'d-none': activeTab === 'setting'}">
                         <li class="nav-item">
                             <a id="pills-profile-tab" data-bs-toggle="pill" href="#home" role="tab"
                                 aria-controls="pills-home" (click)="setActiveTab('home')" aria-selected="false"
@@ -156,8 +156,8 @@
                                 </svg>
                                 Profile</a>
                         </li>
-                        <li class="nav-item">
-                            <a id="pills-profile-tab" data-bs-toggle="pill" href="#setting" role="tab"
+                        <li class="nav-item d-none">
+                            <a #settingTab id="pills-profile-tab" data-bs-toggle="pill" href="#setting" role="tab"
                                 aria-controls="pills-profile" (click)="setActiveTab('setting')" aria-selected="false"
                                 class="nav-link">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"
@@ -232,7 +232,7 @@
                     </ng-container>
                 </div>
 
-                <div class="tab-pane fade" id="setting" role="tabpanel" aria-labelledby="setting-tab">
+                <div class="tab-pane fade show" id="setting" role="tabpanel" aria-labelledby="setting-tab">
                     <ng-container *ngIf="activeTab === 'setting'">
                         <app-settings></app-settings>
                     </ng-container>
