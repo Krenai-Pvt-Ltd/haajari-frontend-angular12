@@ -234,7 +234,7 @@
                 <div class="account-setting w-90">
 
                     <h5 class="font-22 fw-semibold mb-2">Notification</h5>
-                    <p class="mb-0 font-13">Manage and customise how you receive updates on attendance and language
+                    <p class="mb-0 font-13">Manage and customize how you receive updates on attendance and language
                         preferences directly through your preferred channels.</p>
 
 
@@ -251,21 +251,27 @@
                                 </div>
                                 <span
                                     class="notification-switch d-flex align-items-center justify-content-center gap-2">
-                                    <nz-switch class="switch" nzSize="small" [ngModel]="true"></nz-switch>
-                                    <p class="mb-0 font-12 fw-semibold">Turn Off</p>
+                                    <nz-switch class="switch" nzSize="small" (ngModelChange)="updateNotificationSetting($event,'SLACK')" [ngModel]="notification.notification==='SLACK'"></nz-switch>
+                                    <ng-container *ngIf="notification.notification === 'SLACK'; else offTemplate">
+                                      <p class="mb-0 font-12 fw-semibold">On</p>
+                                    </ng-container>
+                                    <ng-template #offTemplate>
+                                      <p class="mb-0 font-12 fw-semibold">Off</p>
+                                    </ng-template>
+
                                 </span>
                             </div>
 
 
-                            <div class="border-top mt-4 pt-3">
+                            <div *ngIf="notification.notification==='SLACK'" class="border-top mt-4 pt-3">
                                 <p class="mb-0 font-13">Select the language in which you would like to receive your
                                     notifications on WhatsApp.</p>
                                 <div class="row mt-3">
                                     <div class="col-md-6">
                                         <label
                                             class="form-check notifaction-req d-flex align-items-center justify-content-start">
-                                            <input type="radio" name="paymentType" id="english" value="english"
-                                                required=""
+                                            <input type="radio" name="paymentType" id="english" value="ENGLISH" (ngModelChange)="updateLanguage('ENGLISH')"
+                                                required="" [(ngModel)]="notification.language"
                                                 class="form-check-input ng-untouched ng-pristine ng-invalid">
                                             <p for="exampleRadios1" class="form-check-label mb-0"> English </p>
                                         </label>
@@ -273,7 +279,8 @@
                                     <div class="col-md-6">
                                         <label
                                             class="form-check notifaction-req d-flex align-items-center justify-content-start"><input
-                                                type="radio" name="paymentType" id="hindi" value="hindi" required=""
+                                                [(ngModel)]="notification.language"
+                                                type="radio" name="paymentType" id="hindi" value="HINDI" required="" (ngModelChange)="updateLanguage('HINDI')"
                                                 class="form-check-input ng-untouched ng-pristine ng-invalid"
                                                 ng-reflect-required="" ng-reflect-name="paymentType"
                                                 ng-reflect-value="hindi" ng-reflect-model="">
@@ -294,20 +301,27 @@
                                 </div>
                                 <span
                                     class="notification-switch d-flex align-items-center justify-content-center gap-2">
-                                    <nz-switch class="switch" nzSize="small" [ngModel]="true"></nz-switch>
-                                    <p class="mb-0 font-12 fw-semibold">Turn On</p>
+                                    <nz-switch class="switch" nzSize="small" (ngModelChange)="updateNotificationSetting($event,'WHATSAPP')" [ngModel]="notification.notification==='WHATSAPP'"></nz-switch>
+
+                                    <ng-container *ngIf="notification.notification === 'WHATSAPP'; else offTemplate">
+                                      <p class="mb-0 font-12 fw-semibold">On</p>
+                                    </ng-container>
+                                    <ng-template #offTemplate>
+                                      <p class="mb-0 font-12 fw-semibold">Off</p>
+                                    </ng-template>
+
                                 </span>
                             </div>
 
-                            <div class="border-top mt-4 pt-3">
+                            <div *ngIf="notification.notification==='WHATSAPP'" class="border-top mt-4 pt-3">
                                 <p class="mb-0 font-13">Select the language in which you would like to receive your
                                     notifications on WhatsApp.</p>
                                 <div class="row mt-3">
                                     <div class="col-md-6">
                                         <label
                                             class="form-check notifaction-req d-flex align-items-center justify-content-start">
-                                            <input type="radio" name="paymentType" id="english" value="english"
-                                                required=""
+                                            <input type="radio" name="paymentType" id="english" value="ENGLISH"
+                                                required="" [(ngModel)]="notification.language" (ngModelChange)="updateLanguage('ENGLISH')"
                                                 class="form-check-input ng-untouched ng-pristine ng-invalid">
                                             <p for="exampleRadios1" class="form-check-label mb-0"> English </p>
                                         </label>
@@ -315,7 +329,8 @@
                                     <div class="col-md-6">
                                         <label
                                             class="form-check notifaction-req d-flex align-items-center justify-content-start"><input
-                                                type="radio" name="paymentType" id="hindi" value="hindi" required=""
+                                                [(ngModel)]="notification.language" (ngModelChange)="updateLanguage('HINDI')"
+                                                type="radio" name="paymentType" id="hindi" value="HINDI" required=""
                                                 class="form-check-input ng-untouched ng-pristine ng-invalid"
                                                 ng-reflect-required="" ng-reflect-name="paymentType"
                                                 ng-reflect-value="hindi" ng-reflect-model="">

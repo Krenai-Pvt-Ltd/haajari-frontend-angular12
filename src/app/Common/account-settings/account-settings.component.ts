@@ -6,6 +6,8 @@ import { UserPasswordRequest } from 'src/app/models/user-password-request';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
+import { UserPersonalInformationRequest } from 'src/app/models/user-personal-information-request';
+import { NotificationVia } from 'src/app/models/notification-via';
 
 @Component({
   selector: 'app-account-settings',
@@ -24,6 +26,7 @@ export class AccountSettingsComponent implements OnInit {
   ngOnInit(): void {
     this.UUID= this.roleService.getUuid();
     this.getEmployeeProfileData();
+    this.loadNotificationSettings();
   }
 
   tab: string = 'account';
@@ -117,5 +120,52 @@ export class AccountSettingsComponent implements OnInit {
       .catch((error) => {
         console.error('Error in upload snapshotChanges:', error);
       });
+  }
+
+
+  notification:any;
+  updateLanguage(language:string): void {
+    this.dataService.updateLanguageSetting(language).subscribe({
+      next: (response) => {
+        this.notification=response;
+        this.helperService.showToast("Language updated Successfully",Key.TOAST_STATUS_SUCCESS);
+      },
+      error: (error) => {
+        this.helperService.showToast("Error in updating Language", Key.TOAST_STATUS_ERROR);
+      },
+    });
+  }
+
+  updateNotificationSetting(isEnabled: boolean,via:string): void {
+    if(!isEnabled){
+      this.updateNotificationVia('OFF');
+    }else{
+      this.updateNotificationVia(via)
+    }
+  }
+  updateNotificationVia(via:string): void {
+    this.dataService.updateNotificationViaSetting(via).subscribe({
+      next: (response) => {
+        this.notification=response;
+        this.helperService.showToast("Notification updated Successfully",Key.TOAST_STATUS_SUCCESS);
+      },
+      error: (error) => {
+        this.helperService.showToast("Error in updating Notification", Key.TOAST_STATUS_ERROR);
+      },
+    });
+  }
+
+
+
+  loadNotificationSettings(): void {
+    this.dataService.getNotificationSetting().subscribe({
+      next: (data) => {
+        console.log('Notification settings:', data);
+        this.notification = data;
+      },
+      error: (err) => {
+        console.error('Error fetching notification settings:', err);
+      },
+    });
   }
 }
