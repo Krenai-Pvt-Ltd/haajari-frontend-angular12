@@ -28,6 +28,8 @@ export class EmployeeProfileComponent implements OnInit {
     this.activeTab = tab;
   }
 
+  @ViewChild('settingTab') settingTab!: ElementRef;
+  @ViewChild('firstTab') firstTab!: ElementRef;
   isEmployeeExit: boolean = false;
   UUID: string=''
   currentUserUuid: string='';
@@ -49,7 +51,7 @@ export class EmployeeProfileComponent implements OnInit {
   isLoading: boolean = false;
   getEmployeeProfileData() {
 
-    this.isEmployeeExit = false; 
+    this.isEmployeeExit = false;
     this.isLoading = true;
     this.dataService.getEmployeeProfile(this.UUID).subscribe((response) => {
       // console.log(response.object);

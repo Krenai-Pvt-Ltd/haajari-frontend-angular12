@@ -34,7 +34,7 @@
 }
 
 .account-setting {
-    padding: 50px 50px 70px 70px;
+    padding: 50px 50px 50px 50px;
 }
 
 .profile-image img {
@@ -205,4 +205,25 @@
     right: -8px;
     top: -8px;
     color: #fff;
+}
+
+.guide-policy p {
+    color: #444;
+    font-weight: 300;
+    line-height: 22px;
+}
+
+.employee-agreement {
+    border-radius: 2px;
+    border: 1px solid #F2F2F2;
+}
+
+.download-icon {
+    border-radius: 2px;
+    background: #EDEFF5;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
