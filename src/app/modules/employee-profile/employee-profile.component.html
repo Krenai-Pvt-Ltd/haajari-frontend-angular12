@@ -8,8 +8,8 @@
             <div class="employee-profile-menu ">
 
 
-                <div class="p-3">
-                  <ul id="pills-tab" role="tablist" class="nav nav-pills" [ngClass]="{'d-none': activeTab === 'setting'}">
+                <div [ngClass]="{'d-none': activeTab === 'setting'}" class="p-3">
+                  <ul id="pills-tab" role="tablist" class="nav nav-pills" >
                         <li class="nav-item">
                             <a id="pills-profile-tab" data-bs-toggle="pill" href="#home" role="tab"
                                 aria-controls="pills-home" (click)="setActiveTab('home')" aria-selected="false"
