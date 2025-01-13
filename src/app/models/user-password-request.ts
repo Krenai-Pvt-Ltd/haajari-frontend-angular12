@@ -1,4 +1,4 @@
 export class UserPasswordRequest {
     currentPassword: string = '';
-    newpassword: string = '';
+    newPassword: string = '';
 }

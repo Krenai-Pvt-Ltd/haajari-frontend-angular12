@@ -1,3 +1,4 @@
+import { url } from 'inspector';
 import {
   HttpClient,
   HttpErrorResponse,
@@ -2228,6 +2229,13 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     const url = `${this.baseUrl}/account-setting/update/profile-picture`;
     return this.httpClient.put<any>(url, userPersonalInformationRequest);
   }
+  updateProfilePic(
+    picUrl: string
+  ): Observable<any> {
+    debugger;
+    const url = `${this.baseUrl}/account-setting/update/profile-pic`;
+    return this.httpClient.put<any>(url,picUrl);
+  }
 
   lat: number = 0;
   lng: number = 0;
@@ -2415,6 +2423,33 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     );
   }
 
+  updateLanguageSetting(language: string): Observable<{ [key: string]: string }> {
+
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    // Call the API and pass the language as a query parameter
+    return this.httpClient.put<{ [key: string]: string }>(`${this.baseUrl}/account-setting/user-language`, null, {
+      params: { language },
+      headers,
+    });
+  }
+
+  updateNotificationViaSetting(via: string): Observable<{ [key: string]: string }> {
+
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    // Call the API and pass the language as a query parameter
+    return this.httpClient.put<{ [key: string]: string }>(`${this.baseUrl}/account-setting/user-notification`, null, {
+      params: { via },
+      headers,
+    });
+  }
+  getNotificationSetting(): Observable<any> {
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/account-setting/notification-setting`
+    );
+  }
+
   sendOtptoSavePhoneNumber(phoneNumber: string): Observable<boolean> {
     const params = new HttpParams().set('phoneNumber', phoneNumber);
     return this.httpClient.post<boolean>(
@@ -2517,7 +2552,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
       `${this.baseUrl}/holiday/all`
     );
   }
-  
+
   // private holidays$: any = Observable<{ [key: string]: string }>
   // getAllHoliday(): Observable<{ [key: string]: string }> {
   //   if (!this.holidays$) {
