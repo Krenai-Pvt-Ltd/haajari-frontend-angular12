@@ -2229,6 +2229,9 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     const url = `${this.baseUrl}/account-setting/update/profile-picture`;
     return this.httpClient.put<any>(url, userPersonalInformationRequest);
   }
+  getUserGuidelines(): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/account-setting/guidelines`);
+  }
   updateProfilePic(
     picUrl: string
   ): Observable<any> {
