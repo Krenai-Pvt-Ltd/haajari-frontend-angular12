@@ -227,3 +227,8 @@
     align-items: center;
     justify-content: center;
 }
+
+.side-nav {
+    position: sticky;
+    top: 90px;
+}
