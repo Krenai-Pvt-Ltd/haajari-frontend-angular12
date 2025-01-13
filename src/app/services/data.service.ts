@@ -746,6 +746,23 @@ export class DataService {
   //   return this.httpClient.get(this.baseUrl + "/get-token", { params });
   // }
 
+  // old
+  // saveLeaveRequest(
+  //   userUuid: string,
+  //   request: any,
+  //   fileToUpload: string
+  // ): Observable<any> {
+  //   const params = new HttpParams()
+  //     .set('uuid', userUuid)
+  //     .set('fileToUpload', fileToUpload);
+  //   return this.httpClient.post(
+  //     this.baseUrl + '/user-leave/save-users-leave',
+  //     request,
+  //     { params }
+  //   );
+  // }
+
+
   saveLeaveRequest(
     userUuid: string,
     request: any,
@@ -755,11 +772,12 @@ export class DataService {
       .set('uuid', userUuid)
       .set('fileToUpload', fileToUpload);
     return this.httpClient.post(
-      this.baseUrl + '/user-leave/save-users-leave',
+      this.baseUrl + '/user-leave-main/request',
       request,
       { params }
     );
   }
+
 
   saveLeaveRequestForLeaveManagement(
     request: any,
@@ -767,11 +785,41 @@ export class DataService {
   ): Observable<any> {
     const params = new HttpParams().set('fileToUpload', fileToUpload);
     return this.httpClient.post(
-      this.baseUrl + '/user-leave/save-users-leave-leave-management',
+      this.baseUrl + '/user-leave-main/request-leave-management',
       request,
       { params }
     );
   }
+
+  // old
+  // saveLeaveRequestForLeaveManagement(
+  //   request: any,
+  //   fileToUpload: string
+  // ): Observable<any> {
+  //   const params = new HttpParams().set('fileToUpload', fileToUpload);
+  //   return this.httpClient.post(
+  //     this.baseUrl + '/user-leave/save-users-leave-leave-management',
+  //     request,
+  //     { params }
+  //   );
+  // }
+
+  // old 
+  // saveLeaveRequestFromWhatsapp(
+  //   userUuid: string,
+  //   request: any,
+  //   fileToUpload: string
+  // ): Observable<any> {
+  //   const params = new HttpParams()
+  //     .set('userUuid', userUuid)
+  //     .set('fileToUpload', fileToUpload);
+  //   return this.httpClient.post(
+  //     this.baseUrl + '/user-leave/whatsapp/save-users-leave',
+  //     request,
+  //     { params }
+  //   );
+  // }
+
 
   saveLeaveRequestFromWhatsapp(
     userUuid: string,
@@ -782,7 +830,7 @@ export class DataService {
       .set('userUuid', userUuid)
       .set('fileToUpload', fileToUpload);
     return this.httpClient.post(
-      this.baseUrl + '/user-leave/whatsapp/save-users-leave',
+      this.baseUrl + '/user-leave-main/whatsapp/request',
       request,
       { params }
     );
