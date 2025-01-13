@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { AttendanceCheckTimeResponse, AttendanceTimeUpdateRequestDto, UserDto } from 'src/app/models/user-dto.model';
@@ -68,7 +68,6 @@ contentTemplate: string ='You are on the Notice Period, so that you can not appl
     private fb: FormBuilder, public helperService: HelperService, public domSanitizer: DomSanitizer,
     private afStorage: AngularFireStorage, private modalService: NgbModal,
     public roleService: RoleBasedAccessControlService,
-    private rbacService: RoleBasedAccessControlService,
   ) {
     this.getUuid(); 
     if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
@@ -117,8 +116,8 @@ contentTemplate: string ='You are on the Notice Period, so that you can not appl
     this.fetchManagerNames();
     this.getUserLeaveReq();
     this.loadLeaveLogs();
-    // this.getOrganizationRegistrationDateMethodCall();
-    this.getUserJoiningDate();
+    this.getOrganizationRegistrationDateMethodCall();
+    this.getHoliday();
 
     this.selectedDate = new Date();
     this.updateThirtyDaysLabel();
@@ -127,7 +126,7 @@ contentTemplate: string ='You are on the Notice Period, so that you can not appl
     this.setDefaultWeekTab();
     this.calculateDateRange();
     this.getEmployeeProfileAttendanceDetailsData();
-    this.currentUserUuid = this.rbacService.getUuid();
+    this.currentUserUuid = this.roleService.getUuid();
 
     // this.calculateDateRange();
     // this.getAttendanceRequests();
@@ -1268,6 +1267,98 @@ isWeekBeforeJoiningDate(weekIndex: number): boolean {
 @ViewChild('chartCanvas', { static: false }) chartCanvas!: ElementRef<HTMLCanvasElement>;
 private chart!: Chart;
 
+   // List of holiday dates
+  // holidays: string[] = ['2024-12-25', '2024-12-31', '2025-01-01'];
+  // isHoliday(date: Date): boolean {
+  //   const formattedDate = this.formatDate(date);
+  //   console.log(`Checking date: ${formattedDate} - Is holiday: ${this.holidays.includes(formattedDate)}`);
+  //   return this.holidays.includes(formattedDate);
+  // }
+  
+  // private formatDate(date: Date): string {
+  //   const year = date.getFullYear();
+  //   const month = ('0' + (date.getMonth() + 1)).slice(-2); // Month is 0-based
+  //   const day = ('0' + date.getDate()).slice(-2);
+  //   return `${year}-${month}-${day}`;
+  // }
+  
+  // customDateRender = (current: Date): HTMLElement => {
+  //   const div = document.createElement('div');
+  //   div.classList.add('ant-picker-cell-inner');
+  //   div.innerHTML = current.getDate().toString();
+  
+  //   if (this.isHoliday(current)) {
+  //     div.classList.add('holiday-highlight');
+  //   }
+  //   return div;
+  // };
+
+ /* @Input() currentDate: Date = new Date();
+
+  holidays: { [key: string]: string } = {
+    '2024-12-25': 'Christmas Day',
+    '2024-12-31': 'New Year\'s Eve',
+    '2025-01-01': 'New Year\'s Day'
+  };
+
+  // Function to format the date to 'yyyy-MM-dd' for comparison with holidays
+  private formatDate(date: Date): string {
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-indexed
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
+  // Function to get the holiday name
+  getHolidayName(): string {
+    if (!this.currentDate) return '';
+    const formattedDate = this.formatDate(this.currentDate);
+    return this.holidays[formattedDate] || ''; // Return holiday name if found
+  }
+
+  // Function to check if the date is a holiday
+  isHoliday(): boolean {
+    if (!this.currentDate) return false;
+    const formattedDate = this.formatDate(this.currentDate);
+    return !!this.holidays[formattedDate]; // Returns true if holiday exists
+  }*/
+
+    holidays: { [key: string]: { title: string, description: string } } = {};
+    holidayList: any;
+    getHoliday() {
+        this.dataService.getAllHoliday().subscribe((res: any) => {
+          if (res.status) {
+            this.holidayList = res.object;
+    
+            // Clear existing holidays data before populating new data
+            this.holidays = {};
+    
+            // Convert holidayList into the holidays object with title and description
+            this.holidayList.forEach((holiday: any) => {
+              this.holidays[holiday.date] = {
+                title: holiday.title,        // Store the title
+                description: holiday.description  // Store the description
+              };
+            });
+    
+            console.log('Formatted holidays:', this.holidays);
+          }
+        });
+    }
+
+     // Function to disable holiday dates
+  disableHolidayDate = (current: Date): boolean => {
+    const formattedDate = this.formatDate2(current);
+    return !!this.holidays[formattedDate];  // Return true if the date is a holiday
+  }
+
+  private formatDate2(date: Date): string {
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-indexed
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
+
+  }
 searchString = 'WEEK';
 endDateStr : string = '';
 isPlaceholder: boolean = false;

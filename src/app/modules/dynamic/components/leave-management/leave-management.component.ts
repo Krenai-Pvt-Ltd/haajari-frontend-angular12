@@ -3,26 +3,22 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import {
   FormBuilder,
-  FormGroup,
-  FormGroupDirective,
-  Validators,
+  FormGroup
 } from '@angular/forms';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Color, ScaleType } from '@swimlane/ngx-charts';
-import moment from 'moment';
 import { Key } from 'src/app/constant/key';
 import {
-  FullLeaveLogsResponse,
   PendingLeaveResponse,
-  PendingLeavesResponse,
 } from 'src/app/models/leave-responses.model';
 import { UserDto } from 'src/app/models/user-dto.model';
-import { UserLeaveRequest } from 'src/app/models/user-leave-request';
 import { UserTeamDetailsReflection } from 'src/app/models/user-team-details-reflection';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import { saveAs } from 'file-saver';
+import { LeaveService } from 'src/app/services/leave.service';
+import { finalize, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-leave-management',
@@ -31,13 +27,13 @@ import { saveAs } from 'file-saver';
 })
 export class LeaveManagementComponent implements OnInit {
   // fullLeaveLogs!: FullLeaveLogsResponse[];
-  fullLeaveLogs: any[] = [];
-  pendingLeaves: any[] = [];
-  approvedRejectedLeaves: any[] = [];
+  // fullLeaveLogs: any[] = [];
+  // pendingLeaves: any[] = [];
+  // approvedRejectedLeaves: any[] = [];
   // pendingLeaves!: PendingLeavesResponse[];
   // approvedRejectedLeaves!: PendingLeavesResponse[];
   specificLeaveRequest!: PendingLeaveResponse;
-  searchString: string = '';
+  // searchString: string = '';
   selectedTeamName: string = '';
   page = 0;
   size = 10;
@@ -45,46 +41,19 @@ export class LeaveManagementComponent implements OnInit {
   // hasMoreData = true;
   initialLoadDone = false;
   @ViewChild('logContainer') logContainer!: ElementRef<HTMLDivElement>;
-
+/**
+ * remove -activeHomeTabFlag,activeAttendanceTabFlag
+ */
   constructor(
     private dataService: DataService,
     private helperService: HelperService,
-    private datePipe: DatePipe,
-    private fb: FormBuilder,
     private firebaseStorage: AngularFireStorage,
     private rbacService: RoleBasedAccessControlService,
     public domSanitizer: DomSanitizer,
-    private afStorage: AngularFireStorage
-  ) {
-    {
-      this.userLeaveForm = this.fb.group({
-        startDate: ['', Validators.required],
-        endDate: [''],
-        leaveType: ['', Validators.required],
-        managerId: ['', Validators.required],
-        optNotes: ['', Validators.required],
-        halfDayLeave: [false],
-        dayShift: [false],
-        eveningShift: [false],
-      });
-    }
-  }
+    private leaveService:LeaveService
+  ) {}
 
-  get StartDate() {
-    return this.userLeaveForm.get('startDate');
-  }
-  get EndDate() {
-    return this.userLeaveForm.get('endDate');
-  }
-  get LeaveType() {
-    return this.userLeaveForm.get('leaveType');
-  }
-  get ManagerId() {
-    return this.userLeaveForm.get('managerId');
-  }
-  get OptNotes() {
-    return this.userLeaveForm.get('optNotes');
-  }
+  
 
   onError(event: Event) {
     const target = event.target as HTMLImageElement;
@@ -101,9 +70,13 @@ export class LeaveManagementComponent implements OnInit {
     this.logInUserUuid = await this.rbacService.getUUID();
     this.ROLE = await this.rbacService.getRole();
     // this.helperService.saveOrgSecondaryToDoStepBarData(0);
-    this.getFullLeaveLogs();
-    this.getPendingLeaves();
-    this.getApprovedRejectedLeaveLogs();
+    // this.getFullLeaveLogs();
+    //TODO: COMENTED FOR NOW
+    // this.getPendingLeaves();
+    this.getLeaves(this.currentTab);
+    this.getLeaves(this.ALL);
+
+    // this.getApprovedRejectedLeaveLogs();//removed
     this.getWeeklyChartData();
     this.getMonthlyChartData();
     this.getTotalConsumedLeaves();
@@ -111,151 +84,151 @@ export class LeaveManagementComponent implements OnInit {
       this.getTeamNames();
     }
 
-    this.fetchManagerNames();
+    // this.fetchManagerNames();
     this.getUserLeaveReq();
-    this.getTotalCountOfPendingLeaves();
+    // this.getTotalCountOfPendingLeaves();
     // this.currentNewDate = moment(this.currentDate).format('yyyy-MM-DD');
-    this.currentNewDate = moment(this.currentDate)
-      .startOf('month')
-      .format('YYYY-MM-DD');
+    // this.currentNewDate = moment(this.currentDate)
+    //   .startOf('month')
+    //   .format('YYYY-MM-DD');
   }
 
-  debounceTimer: any;
-  fullLeaveLogSize!: number;
-  isFullLeaveLoader: boolean = false;
-  getFullLeaveLogs(debounceTime: number = 300) {
-    return new Promise((resolve, reject) => {
-      this.isFullLeaveLoader = true;
-      if (this.debounceTimer) {
-        clearTimeout(this.debounceTimer);
-      }
-      this.debounceTimer = setTimeout(() => {
-        this.dataService
-          .getFullLeaveLogsRoleWise(
-            this.searchString,
-            this.selectedTeamName,
-            this.page,
-            this.size
-          )
-          .subscribe({
-            next: (response) => {
-              if (Array.isArray(response.object)) {
-                // Check if response.object is an array
-                this.fullLeaveLogs = [
-                  ...this.fullLeaveLogs,
-                  ...response.object,
-                ];
-                // this.hasMoreData = response.object.length === this.size;
-                this.fullLeaveLogSize = this.fullLeaveLogs.length;
-                this.isFullLeaveLoader = false;
-              } else {
-                console.error('Expected an array but got:', response.object);
-              }
-            },
-            error: (error) => {
-              this.isFullLeaveLoader = false;
-              console.error('Failed to fetch full leave logs:', error);
-              this.helperService.showToast(
-                'Failed to load full leave logs.',
-                Key.TOAST_STATUS_ERROR
-              );
-            },
-            // next: (response) => { this.fullLeaveLogs = response.object
-            //   this.fullLeaveLogSize = this.fullLeaveLogs.length;
-            // },
-            // error: (error) => {
-            //   console.error('Failed to fetch full leave logs:', error);
-            //   this.helperService.showToast("Failed to load full leave logs.", Key.TOAST_STATUS_ERROR);
-            // }
-          });
-      }, debounceTime);
-    });
-  }
+  // debounceTimer: any;
+  // fullLeaveLogSize!: number;
+  // isFullLeaveLoader: boolean = false;
+  // getFullLeaveLogs(debounceTime: number = 300) {
+  //   return new Promise((resolve, reject) => {
+  //     this.isFullLeaveLoader = true;
+  //     if (this.debounceTimer) {
+  //       clearTimeout(this.debounceTimer);
+  //     }
+  //     this.debounceTimer = setTimeout(() => {
+  //       this.dataService
+  //         .getFullLeaveLogsRoleWise(
+  //           this.searchString,
+  //           this.selectedTeamName,
+  //           this.page,
+  //           this.size
+  //         )
+  //         .subscribe({
+  //           next: (response) => {
+  //             if (Array.isArray(response.object)) {
+  //               // Check if response.object is an array
+  //               this.fullLeaveLogs = [
+  //                 ...this.fullLeaveLogs,
+  //                 ...response.object,
+  //               ];
+  //               // this.hasMoreData = response.object.length === this.size;
+  //               this.fullLeaveLogSize = this.fullLeaveLogs.length;
+  //               this.isFullLeaveLoader = false;
+  //             } else {
+  //               console.error('Expected an array but got:', response.object);
+  //             }
+  //           },
+  //           error: (error) => {
+  //             this.isFullLeaveLoader = false;
+  //             console.error('Failed to fetch full leave logs:', error);
+  //             this.helperService.showToast(
+  //               'Failed to load full leave logs.',
+  //               Key.TOAST_STATUS_ERROR
+  //             );
+  //           },
+  //           // next: (response) => { this.fullLeaveLogs = response.object
+  //           //   this.fullLeaveLogSize = this.fullLeaveLogs.length;
+  //           // },
+  //           // error: (error) => {
+  //           //   console.error('Failed to fetch full leave logs:', error);
+  //           //   this.helperService.showToast("Failed to load full leave logs.", Key.TOAST_STATUS_ERROR);
+  //           // }
+  //         });
+  //     }, debounceTime);
+  //   });
+  // }
 
-  scrollDownRecentActivity(event: any) {
-    if (!this.initialLoadDone) return;
-    const target = event.target as HTMLElement;
-    const atBottom =
-      target.scrollHeight - (target.scrollTop + target.clientHeight) < 10;
+  // scrollDownRecentActivity(event: any) {
+  //   if (!this.initialLoadDone) return;
+  //   const target = event.target as HTMLElement;
+  //   const atBottom =
+  //     target.scrollHeight - (target.scrollTop + target.clientHeight) < 10;
 
-    if (atBottom) {
-      this.page++;
-      this.getFullLeaveLogs();
-    }
-  }
+  //   if (atBottom) {
+  //     this.page++;
+  //     this.getFullLeaveLogs();
+  //   }
+  // }
 
-  loadMoreLogs() {
-    this.initialLoadDone = true;
-    this.page++;
-    // this.size += 10;
-    this.getFullLeaveLogs();
-    setTimeout(() => {
-      this.scrollToBottom();
-    }, 500);
-  }
+  // loadMoreLogs() {
+  //   this.initialLoadDone = true;
+  //   this.page++;
+  //   // this.size += 10;
+  //   this.getFullLeaveLogs();
+  //   setTimeout(() => {
+  //     this.scrollToBottom();
+  //   }, 500);
+  // }
 
-  scrollToBottom() {
-    if (this.logContainer) {
-      this.logContainer.nativeElement.scrollTop = this.logContainer.nativeElement.scrollHeight;
-    }
-  }
+  // scrollToBottom() {
+  //   if (this.logContainer) {
+  //     this.logContainer.nativeElement.scrollTop = this.logContainer.nativeElement.scrollHeight;
+  //   }
+  // }
 
-  searchLeaves() {
-    this.page = 0;
-    this.size = 10;
-    this.fullLeaveLogs = [];
-    this.getFullLeaveLogs();
-  }
+  // searchLeaves() {
+  //   this.page = 0;
+  //   this.size = 10;
+  //   this.fullLeaveLogs = [];
+  //   this.getFullLeaveLogs();
+  // }
 
-  selectTeam(teamName: string) {
-    this.page = 0;
-    this.size = 10;
-    this.fullLeaveLogs = [];
-    this.selectedTeamName = teamName;
-    this.getFullLeaveLogs();
-  }
-  clearSearchUsers() {
-    this.page = 0;
-    this.size = 10;
-    this.fullLeaveLogs = [];
-    this.searchString = '';
-    this.getFullLeaveLogs();
-  }
+  // selectTeam(teamName: string) {
+  //   this.page = 0;
+  //   this.size = 10;
+  //   this.fullLeaveLogs = [];
+  //   this.selectedTeamName = teamName;
+  //   this.getFullLeaveLogs();
+  // }
+  // clearSearchUsers() {
+  //   this.page = 0;
+  //   this.size = 10;
+  //   this.fullLeaveLogs = [];
+  //   this.searchString = '';
+  //   this.getFullLeaveLogs();
+  // }
 
   //  loadMoreLogs() {
   //   this.size= this.size+10;
   //   this.getFullLeaveLogs();
   // }
-  pagePendingLeaves = 0;
-  sizePendingLeaves = 5;
-  pendingLeavesSize!: number;
-  initialLoadDoneOfPendingLeaves: boolean = false;
-  @ViewChild('logContainerOfPendingLeaves')
-  logContainerOfPendingLeaves!: ElementRef<HTMLDivElement>;
-  isPendingLoader: boolean = false;
+  // pagePendingLeaves = 0;
+  // sizePendingLeaves = 5;
+  // pendingLeavesSize!: number;
+  // initialLoadDoneOfPendingLeaves: boolean = false;
+  // @ViewChild('logContainerOfPendingLeaves')
+  // logContainerOfPendingLeaves!: ElementRef<HTMLDivElement>;
+  // isPendingLoader: boolean = false;
 
-  getPendingLeaves() {
-    this.activeTabs('home');
-    this.isPendingLoader = true;
-    this.dataService
-      .getPendingLeaves(this.pagePendingLeaves, this.sizePendingLeaves)
-      .subscribe({
-        next: (response) => {
-          this.pendingLeaves = [...this.pendingLeaves, ...response.object];
-          this.isPendingLoader = false;
-          // this.pendingLeaves = response.object
-          this.pendingLeavesSize = this.pendingLeaves.length;
-        },
-        error: (error) => {
-          this.isPendingLoader = false;
-          console.error('Failed to fetch pending leaves:', error);
-          this.helperService.showToast(
-            'Failed to load pending leaves.',
-            Key.TOAST_STATUS_ERROR
-          );
-        },
-      });
-  }
+  // getPendingLeaves() {
+  //   // this.activeTabs('home');
+  //   this.isPendingLoader = true;
+  //   this.dataService
+  //     .getPendingLeaves(this.pagePendingLeaves, this.sizePendingLeaves)
+  //     .subscribe({
+  //       next: (response) => {
+  //         this.pendingLeaves = [...this.pendingLeaves, ...response.object];
+  //         this.isPendingLoader = false;
+  //         // this.pendingLeaves = response.object
+  //         this.pendingLeavesSize = this.pendingLeaves.length;
+  //       },
+  //       error: (error) => {
+  //         this.isPendingLoader = false;
+  //         console.error('Failed to fetch pending leaves:', error);
+  //         this.helperService.showToast(
+  //           'Failed to load pending leaves.',
+  //           Key.TOAST_STATUS_ERROR
+  //         );
+  //       },
+  //     });
+  // }
 
   totalCountOfPendingCounts: number = 0;
   getTotalCountOfPendingLeaves() {
@@ -269,101 +242,101 @@ export class LeaveManagementComponent implements OnInit {
     });
   }
 
-  scrollDownRecentActivityOfPendingLeaves(event: any) {
-    if (!this.initialLoadDoneOfPendingLeaves) return;
-    const target = event.target as HTMLElement;
-    const atBottom =
-      target.scrollHeight - (target.scrollTop + target.clientHeight) < 10;
+  // scrollDownRecentActivityOfPendingLeaves(event: any) {
+  //   if (!this.initialLoadDoneOfPendingLeaves) return;
+  //   const target = event.target as HTMLElement;
+  //   const atBottom =
+  //     target.scrollHeight - (target.scrollTop + target.clientHeight) < 10;
 
-    if (atBottom) {
-      this.pagePendingLeaves++;
-      this.getPendingLeaves();
-    }
-  }
+  //   if (atBottom) {
+  //     this.pagePendingLeaves++;
+  //     this.getPendingLeaves();
+  //   }
+  // }
 
-  loadMorePendingLeaves() {
-    this.initialLoadDoneOfPendingLeaves = true;
-    this.pagePendingLeaves++;
-    // this.sizePendingLeaves= this.sizePendingLeaves+5;
-    this.getPendingLeaves();
-    setTimeout(() => {
-      this.scrollToBottomOfPendingLeaves();
-    }, 500);
-  }
+  // loadMorePendingLeaves() {
+  //   this.initialLoadDoneOfPendingLeaves = true;
+  //   this.pagePendingLeaves++;
+  //   // this.sizePendingLeaves= this.sizePendingLeaves+5;
+  //   this.getPendingLeaves();
+  //   setTimeout(() => {
+  //     this.scrollToBottomOfPendingLeaves();
+  //   }, 500);
+  // }
 
-  scrollToBottomOfPendingLeaves() {
-    if (this.logContainerOfPendingLeaves) {
-      this.logContainerOfPendingLeaves.nativeElement.scrollTop =
-        this.logContainerOfPendingLeaves.nativeElement.scrollHeight;
-    }
-  }
+  // scrollToBottomOfPendingLeaves() {
+  //   if (this.logContainerOfPendingLeaves) {
+  //     this.logContainerOfPendingLeaves.nativeElement.scrollTop =
+  //       this.logContainerOfPendingLeaves.nativeElement.scrollHeight;
+  //   }
+  // }
 
-  pageApprovedRejected = 0;
-  sizeApprovedRejected = 5;
-  approvedRejectedLeavesSize!: number;
-  initialLoadDoneOfApprovedRejected: boolean = false;
-  @ViewChild('logContainerOfApprovedRejected')
-  logContainerOfApprovedRejected!: ElementRef<HTMLDivElement>;
-  isApprovedRejectedLoader: boolean = false;
+  // pageApprovedRejected = 0;
+  // sizeApprovedRejected = 5;
+  // approvedRejectedLeavesSize!: number;
+  // initialLoadDoneOfApprovedRejected: boolean = false;
+  // @ViewChild('logContainerOfApprovedRejected')
+  // logContainerOfApprovedRejected!: ElementRef<HTMLDivElement>;
+  // isApprovedRejectedLoader: boolean = false;
 
-  getApprovedRejectedLeaveLogs() {
-    this.isApprovedRejectedLoader = true;
-    this.dataService
-      .getApprovedRejectedLeaveLogs(
-        this.pageApprovedRejected,
-        this.sizeApprovedRejected
-      )
-      .subscribe({
-        next: (response) => {
-          this.isApprovedRejectedLoader = false;
-          this.approvedRejectedLeaves = [
-            ...this.approvedRejectedLeaves,
-            ...response.object,
-          ];
-          // this.approvedRejectedLeaves = response.object
-          this.approvedRejectedLeavesSize = this.approvedRejectedLeaves.length;
-          // this.approvedRejectedLeavesSize = 0;
-        },
+  // getApprovedRejectedLeaveLogs() {
+  //   this.isApprovedRejectedLoader = true;
+  //   this.dataService
+  //     .getApprovedRejectedLeaveLogs(
+  //       this.pageApprovedRejected,
+  //       this.sizeApprovedRejected
+  //     )
+  //     .subscribe({
+  //       next: (response) => {
+  //         this.isApprovedRejectedLoader = false;
+  //         this.approvedRejectedLeaves = [
+  //           ...this.approvedRejectedLeaves,
+  //           ...response.object,
+  //         ];
+  //         // this.approvedRejectedLeaves = response.object
+  //         this.approvedRejectedLeavesSize = this.approvedRejectedLeaves.length;
+  //         // this.approvedRejectedLeavesSize = 0;
+  //       },
 
-        error: (error) => {
-          this.isApprovedRejectedLoader = false;
-          console.error('Failed to fetch approved-rejected leave logs:', error);
-          this.helperService.showToast(
-            'Failed to load approved/rejected leaves.',
-            Key.TOAST_STATUS_ERROR
-          );
-        },
-      });
-  }
+  //       error: (error) => {
+  //         this.isApprovedRejectedLoader = false;
+  //         console.error('Failed to fetch approved-rejected leave logs:', error);
+  //         this.helperService.showToast(
+  //           'Failed to load approved/rejected leaves.',
+  //           Key.TOAST_STATUS_ERROR
+  //         );
+  //       },
+  //     });
+  // }
 
-  scrollDownRecentActivityOfApprovedRejected(event: any) {
-    if (!this.initialLoadDoneOfApprovedRejected) return;
-    const target = event.target as HTMLElement;
-    const atBottom =
-      target.scrollHeight - (target.scrollTop + target.clientHeight) < 10;
+  // scrollDownRecentActivityOfApprovedRejected(event: any) {
+  //   if (!this.initialLoadDoneOfApprovedRejected) return;
+  //   const target = event.target as HTMLElement;
+  //   const atBottom =
+  //     target.scrollHeight - (target.scrollTop + target.clientHeight) < 10;
 
-    if (atBottom) {
-      this.pageApprovedRejected++;
-      this.getApprovedRejectedLeaveLogs();
-    }
-  }
+  //   if (atBottom) {
+  //     this.pageApprovedRejected++;
+  //     this.getApprovedRejectedLeaveLogs();
+  //   }
+  // }
 
-  loadMoreApprovedRejectedLogs() {
-    this.initialLoadDoneOfApprovedRejected = true;
-    // this.sizeApprovedRejected= this.sizeApprovedRejected+5;
-    this.pageApprovedRejected++;
-    this.getApprovedRejectedLeaveLogs();
-    setTimeout(() => {
-      this.scrollToBottomOfApprovedRejected();
-    }, 500);
-  }
+  // loadMoreApprovedRejectedLogs() {
+  //   this.initialLoadDoneOfApprovedRejected = true;
+  //   // this.sizeApprovedRejected= this.sizeApprovedRejected+5;
+  //   this.pageApprovedRejected++;
+  //   this.getApprovedRejectedLeaveLogs();
+  //   setTimeout(() => {
+  //     this.scrollToBottomOfApprovedRejected();
+  //   }, 500);
+  // }
 
-  scrollToBottomOfApprovedRejected() {
-    if (this.logContainerOfApprovedRejected) {
-      this.logContainerOfApprovedRejected.nativeElement.scrollTop =
-        this.logContainerOfApprovedRejected.nativeElement.scrollHeight;
-    }
-  }
+  // scrollToBottomOfApprovedRejected() {
+  //   if (this.logContainerOfApprovedRejected) {
+  //     this.logContainerOfApprovedRejected.nativeElement.scrollTop =
+  //       this.logContainerOfApprovedRejected.nativeElement.scrollHeight;
+  //   }
+  // }
 
   @ViewChild('closeModal') closeModal!: ElementRef;
   approvedLoader: boolean = false;
@@ -390,13 +363,13 @@ export class LeaveManagementComponent implements OnInit {
 
     // Reset page counters and filters before sending the request
     this.page = 0;
-    this.pagePendingLeaves = 0;
-    this.pageApprovedRejected = 0;
-    this.searchString = '';
+    // this.pagePendingLeaves = 0;
+    // this.pageApprovedRejected = 0;
+    // this.searchString = '';
     this.selectedTeamName = '';
-    this.fullLeaveLogs = [];
-    this.approvedRejectedLeaves = [];
-    this.pendingLeaves = [];
+    // this.fullLeaveLogs = [];
+    // this.approvedRejectedLeaves = [];
+    // this.pendingLeaves = [];
     // this.consumedLeaveArray = [];
     // this.monthlyChartData = [];
     // this.weeklyChartData = [];
@@ -438,9 +411,9 @@ export class LeaveManagementComponent implements OnInit {
   }
 
   fetchAllData() {
-    this.getApprovedRejectedLeaveLogs();
-    this.getFullLeaveLogs();
-    this.getPendingLeaves();
+    // this.getApprovedRejectedLeaveLogs();
+    // this.getFullLeaveLogs();
+    // this.getPendingLeaves();
     this.getTotalConsumedLeaves();
     this.getMonthlyChartData();
     this.getWeeklyChartData();
@@ -509,27 +482,27 @@ export class LeaveManagementComponent implements OnInit {
       })
   }
 
-  formatDateIn(newdate: any) {
-    const date = new Date(newdate);
-    const formattedDate = this.datePipe.transform(date, 'dd MMMM, yyyy');
-    return formattedDate;
-  }
-  formatDate(date: Date) {
-    const dateObject = new Date(date);
-    const formattedDate = this.datePipe.transform(dateObject, 'yyyy-MM-dd');
-    return formattedDate;
-  }
+  // formatDateIn(newdate: any) {
+  //   const date = new Date(newdate);
+  //   const formattedDate = this.datePipe.transform(date, 'dd MMMM, yyyy');
+  //   return formattedDate;
+  // }
+  // formatDate(date: Date) {
+  //   const dateObject = new Date(date);
+  //   const formattedDate = this.datePipe.transform(dateObject, 'yyyy-MM-dd');
+  //   return formattedDate;
+  // }
 
-  formatTime(date: Date) {
-    const dateObject = new Date(date);
-    const formattedTime = this.datePipe.transform(dateObject, 'hh:mm a');
-    return formattedTime;
-  }
+  // formatTime(date: Date) {
+  //   const dateObject = new Date(date);
+  //   const formattedTime = this.datePipe.transform(dateObject, 'hh:mm a');
+  //   return formattedTime;
+  // }
 
-  transform(value: string): string {
-    if (!value) return value;
-    return value.charAt(0).toUpperCase() + value.slice(1);
-  }
+  // transform(value: string): string {
+  //   if (!value) return value;
+  //   return value.charAt(0).toUpperCase() + value.slice(1);
+  // }
 
   teamNameList: UserTeamDetailsReflection[] = [];
 
@@ -687,189 +660,189 @@ export class LeaveManagementComponent implements OnInit {
     );
   }
 
-  userLeaveRequest: UserLeaveRequest = new UserLeaveRequest();
+  // userLeaveRequest: UserLeaveRequest = new UserLeaveRequest();
 
-  @ViewChild('requestLeaveCloseModel')
-  requestLeaveCloseModel!: ElementRef;
+  // @ViewChild('requestLeaveCloseModel')
+  // requestLeaveCloseModel!: ElementRef;
 
   // @ViewChild('userLeaveForm') userLeaveForm: NgForm;
 
-  resetUserLeave() {
-    this.userLeaveRequest.startDate = new Date();
-    this.userLeaveRequest.endDate = new Date();
-    this.userLeaveRequest.halfDayLeave = false;
-    this.userLeaveRequest.dayShift = false;
-    this.userLeaveRequest.eveningShift = false;
-    this.userLeaveRequest.leaveType = '';
-    this.userLeaveRequest.managerId = 0;
-    this.userLeaveRequest.optNotes = '';
-    this.selectedManagerId = 0;
-  }
-  @ViewChild(FormGroupDirective)
-  formGroupDirective!: FormGroupDirective;
-  submitLeaveLoader: boolean = false;
-  @ViewChild('fileInput') fileInput!: ElementRef;
-  saveLeaveRequestUser() {
-    if (this.userLeaveForm.invalid || this.isFileUploaded) {
-      return;
-    }
+  // resetUserLeave() {
+  //   this.userLeaveRequest.startDate = new Date();
+  //   this.userLeaveRequest.endDate = new Date();
+  //   this.userLeaveRequest.halfDayLeave = false;
+  //   this.userLeaveRequest.dayShift = false;
+  //   this.userLeaveRequest.eveningShift = false;
+  //   this.userLeaveRequest.leaveType = '';
+  //   this.userLeaveRequest.managerId = 0;
+  //   this.userLeaveRequest.optNotes = '';
+  //   this.selectedManagerId = 0;
+  // }
+  // @ViewChild(FormGroupDirective)
+  // formGroupDirective!: FormGroupDirective;
+  // submitLeaveLoader: boolean = false;
+  // @ViewChild('fileInput') fileInput!: ElementRef;
+  // saveLeaveRequestUser() {
+  //   if (this.userLeaveForm.invalid || this.isFileUploaded) {
+  //     return;
+  //   }
 
-    debugger;
-    this.userLeaveRequest.managerId = this.selectedManagerId;
-    this.userLeaveRequest.dayShift = this.dayShiftToggle;
-    this.userLeaveRequest.eveningShift = this.eveningShiftToggle;
-    this.submitLeaveLoader = true;
+  //   debugger;
+  //   this.userLeaveRequest.managerId = this.selectedManagerId;
+  //   this.userLeaveRequest.dayShift = this.dayShiftToggle;
+  //   this.userLeaveRequest.eveningShift = this.eveningShiftToggle;
+  //   this.submitLeaveLoader = true;
 
-    this.page = 0;
-    this.pagePendingLeaves = 0;
-    this.pageApprovedRejected = 0;
-    this.searchString = '';
-    this.selectedTeamName = '';
-    this.fullLeaveLogs = [];
-    this.approvedRejectedLeaves = [];
-    this.pendingLeaves = [];
+  //   this.page = 0;
+  //   // this.pagePendingLeaves = 0;
+  //   // this.pageApprovedRejected = 0;
+  //   // this.searchString = '';
+  //   this.selectedTeamName = '';
+  //   // this.fullLeaveLogs = [];
+  //   // this.approvedRejectedLeaves = [];
+  //   // this.pendingLeaves = [];
 
-    this.dataService
-      .saveLeaveRequestForLeaveManagement(
-        this.userLeaveRequest,
-        this.fileToUpload
-      )
-      .subscribe(
-        (data) => {
-          this.submitLeaveLoader = false;
-          this.resetUserLeave();
-          this.fetchAllData();
-          this.fileToUpload = '';
-          // this.selectedFile = null;
-          this.fileInput.nativeElement.value = '';
-          this.formGroupDirective.resetForm();
-          this.requestLeaveCloseModel.nativeElement.click();
-        },
-        (error) => {
-          this.submitLeaveLoader = false;
-        }
-      );
-  }
+  //   this.dataService
+  //     .saveLeaveRequestForLeaveManagement(
+  //       this.userLeaveRequest,
+  //       this.fileToUpload
+  //     )
+  //     .subscribe(
+  //       (data) => {
+  //         this.submitLeaveLoader = false;
+  //         this.resetUserLeave();
+  //         this.fetchAllData();
+  //         this.fileToUpload = '';
+  //         // this.selectedFile = null;
+  //         this.fileInput.nativeElement.value = '';
+  //         this.formGroupDirective.resetForm();
+  //         this.requestLeaveCloseModel.nativeElement.click();
+  //       },
+  //       (error) => {
+  //         this.submitLeaveLoader = false;
+  //       }
+  //     );
+  // }
 
-  dayShiftToggle: boolean = false;
-  eveningShiftToggle: boolean = false;
+  // dayShiftToggle: boolean = false;
+  // eveningShiftToggle: boolean = false;
 
-  dayShiftToggleFun(shift: string) {
-    if (shift == 'day') {
-      this.dayShiftToggle = true;
-      this.eveningShiftToggle = false;
-    } else if (shift == 'evening') {
-      this.eveningShiftToggle = true;
-      this.dayShiftToggle == false;
-    }
-    // console.log("day" + this.dayShiftToggle + "evening" + this.eveningShiftToggle);
-  }
+  // dayShiftToggleFun(shift: string) {
+  //   if (shift == 'day') {
+  //     this.dayShiftToggle = true;
+  //     this.eveningShiftToggle = false;
+  //   } else if (shift == 'evening') {
+  //     this.eveningShiftToggle = true;
+  //     this.dayShiftToggle == false;
+  //   }
+  //   // console.log("day" + this.dayShiftToggle + "evening" + this.eveningShiftToggle);
+  // }
 
-  halfDayLeaveShiftToggle: boolean = false;
+  // halfDayLeaveShiftToggle: boolean = false;
 
-  halfLeaveShiftToggle() {
-    this.halfDayLeaveShiftToggle =
-      this.halfDayLeaveShiftToggle == true ? false : true;
-  }
+  // halfLeaveShiftToggle() {
+  //   this.halfDayLeaveShiftToggle =
+  //     this.halfDayLeaveShiftToggle == true ? false : true;
+  // }
 
-  activeHomeTabFlag: boolean = false;
-  activeAttendanceTabFlag: boolean = false;
+  // activeHomeTabFlag: boolean = false;
+  // activeAttendanceTabFlag: boolean = false;
 
-  activeTabs(activeTabString: string) {
-    if (activeTabString === 'home') {
-      this.activeHomeTabFlag = true;
-      this.activeAttendanceTabFlag = false;
-    } else if (activeTabString === 'attendance') {
-      this.activeHomeTabFlag = false;
-      this.activeAttendanceTabFlag = true;
-    }
-  }
+  // activeTabs(activeTabString: string) {
+  //   if (activeTabString === 'home') {
+  //     this.activeHomeTabFlag = true;
+  //     this.activeAttendanceTabFlag = false;
+  //   } else if (activeTabString === 'attendance') {
+  //     this.activeHomeTabFlag = false;
+  //     this.activeAttendanceTabFlag = true;
+  //   }
+  // }
 
-  selectedFile: File | null = null;
-  imagePreviewUrl: string | ArrayBuffer | null = null;
-  pdfPreviewUrl: SafeResourceUrl | null = null;
-  fileToUpload: string = '';
-  isSelecetdFileUploadedToFirebase: boolean = false;
-  isFileUploaded = false;
+  // selectedFile: File | null = null;
+  // imagePreviewUrl: string | ArrayBuffer | null = null;
+  // pdfPreviewUrl: SafeResourceUrl | null = null;
+  // fileToUpload: string = '';
+  // isSelecetdFileUploadedToFirebase: boolean = false;
+  // isFileUploaded = false;
 
   // Function to check if the selected file is an image
-  isImageNew(file: File): boolean {
-    return file.type.startsWith('image');
-  }
+  // isImageNew(file: File): boolean {
+  //   return file.type.startsWith('image');
+  // }
 
   // Function to check if the selected file is a PDF
-  isPdf(file: File): boolean {
-    return file.type === 'application/pdf';
-  }
+  // isPdf(file: File): boolean {
+  //   return file.type === 'application/pdf';
+  // }
 
   // Function to set the preview URL for images
-  setImgPreviewUrl(file: File): void {
-    const reader = new FileReader();
-    reader.onload = (e: any) => {
-      this.imagePreviewUrl = e.target.result;
-    };
-    reader.readAsDataURL(file);
-  }
+  // setImgPreviewUrl(file: File): void {
+  //   const reader = new FileReader();
+  //   reader.onload = (e: any) => {
+  //     this.imagePreviewUrl = e.target.result;
+  //   };
+  //   reader.readAsDataURL(file);
+  // }
 
-  // Function to set the preview URL for PDFs
-  setPdfPreviewUrl(file: File): void {
-    const objectUrl = URL.createObjectURL(file);
-    this.pdfPreviewUrl =
-      this.domSanitizer.bypassSecurityTrustResourceUrl(objectUrl);
-  }
+  // // Function to set the preview URL for PDFs
+  // setPdfPreviewUrl(file: File): void {
+  //   const objectUrl = URL.createObjectURL(file);
+  //   this.pdfPreviewUrl =
+  //     this.domSanitizer.bypassSecurityTrustResourceUrl(objectUrl);
+  // }
 
   // Function to handle file selection
-  onFileSelected(event: Event): void {
-    debugger;
-    const element = event.currentTarget as HTMLInputElement;
-    const fileList: FileList | null = element.files;
+  // onFileSelected(event: Event): void {
+  //   debugger;
+  //   const element = event.currentTarget as HTMLInputElement;
+  //   const fileList: FileList | null = element.files;
 
-    if (fileList && fileList.length > 0) {
-      this.isFileUploaded = true;
-      this.selectedFile = fileList[0];
+  //   if (fileList && fileList.length > 0) {
+  //     this.isFileUploaded = true;
+  //     this.selectedFile = fileList[0];
 
-      if (this.isImageNew(this.selectedFile)) {
-        this.setImgPreviewUrl(this.selectedFile);
-      } else if (this.isPdf(this.selectedFile)) {
-        this.setPdfPreviewUrl(this.selectedFile);
-      }
+  //     if (this.isImageNew(this.selectedFile)) {
+  //       this.setImgPreviewUrl(this.selectedFile);
+  //     } else if (this.isPdf(this.selectedFile)) {
+  //       this.setPdfPreviewUrl(this.selectedFile);
+  //     }
 
-      this.uploadFile(this.selectedFile); // Upload file to Firebase
-    } else {
-      this.isFileUploaded = false;
-    }
-  }
+  //     this.uploadFile(this.selectedFile); // Upload file to Firebase
+  //   } else {
+  //     this.isFileUploaded = false;
+  //   }
+  // }
 
   // Function to upload file to Firebase
-  uploadFile(file: File): void {
-    const filePath = `uploads/${new Date().getTime()}_${file.name}`;
-    const fileRef = this.afStorage.ref(filePath);
-    const task = this.afStorage.upload(filePath, file);
+  // uploadFile(file: File): void {
+  //   const filePath = `uploads/${new Date().getTime()}_${file.name}`;
+  //   const fileRef = this.afStorage.ref(filePath);
+  //   const task = this.afStorage.upload(filePath, file);
 
-    task
-      .snapshotChanges()
-      .toPromise()
-      .then(() => {
-        // console.log('Upload completed');
-        fileRef
-          .getDownloadURL()
-          .toPromise()
-          .then((url) => {
-            // console.log('File URL:', url);
-            this.fileToUpload = url;
-            // console.log('file url : ' + this.fileToUpload);
-            this.isFileUploaded = false;
-          })
-          .catch((error) => {
-            this.isFileUploaded = false;
-            console.error('Failed to get download URL', error);
-          });
-      })
-      .catch((error) => {
-        this.isFileUploaded = false;
-        console.error('Error in upload snapshotChanges:', error);
-      });
-  }
+  //   task
+  //     .snapshotChanges()
+  //     .toPromise()
+  //     .then(() => {
+  //       // console.log('Upload completed');
+  //       fileRef
+  //         .getDownloadURL()
+  //         .toPromise()
+  //         .then((url) => {
+  //           // console.log('File URL:', url);
+  //           this.fileToUpload = url;
+  //           // console.log('file url : ' + this.fileToUpload);
+  //           this.isFileUploaded = false;
+  //         })
+  //         .catch((error) => {
+  //           this.isFileUploaded = false;
+  //           console.error('Failed to get download URL', error);
+  //         });
+  //     })
+  //     .catch((error) => {
+  //       this.isFileUploaded = false;
+  //       console.error('Error in upload snapshotChanges:', error);
+  //     });
+  // }
 
   downloadSingleImage(imageUrl: any) {
     if (!imageUrl) {
@@ -918,4 +891,110 @@ export class LeaveManagementComponent implements OnInit {
     this.helperService.routeToUserProfile(uuid);
   }
 
+  /****************************************************************************************************************************************************************
+   *  GET LEAVES UPDATED METHODS START
+   ****************************************************************************************************************************************************************/
+  // Store leaves for each tab
+  leaves:any = { pending: [], history: [], all: [] };  
+  // Track the total number of items for each tab
+  totalItems:any = { pending: 0, history: 0, all: 0 };  
+  // Track current page number for each tab
+  pageNumber:any  = { pending: 1, history: 1, all: 1 };
+  // Loading state for each tab
+  isLoadingLeaves:any  = { pending: false, history: false, all: false };
+  itemPerPage: number = 5;
+  APPROVED: string = 'approved';
+  PENDING: string = 'pending';
+  REJECTED: string = 'rejected';
+  HISTORY: string = 'history';
+  REQUESTED: string = 'requested';
+  ALL: string = 'all';
+  // status:string[]= [this.PENDING];
+  currentTab =this.PENDING; 
+  // Search term for filtering
+  searchTerm = ''; 
+
+  // Method to call when switching tabs
+  onTabChange(tab: string,isLoadMore = false) {
+    debugger
+    this.currentTab = tab;
+    this.setStatus(tab);
+    if ((this.leaves[tab] && !this.leaves[tab].length) || isLoadMore) {
+      this.getLeaves(tab); // Only load data if not already loaded
+    }
+  }
+  
+  setStatus(tab:string):string[] {
+    var status:string[] = [];
+    switch (tab) {
+
+      case this.PENDING:{
+        status = [this.PENDING];
+        break;
+      }
+      case this.HISTORY:{ 
+        status = [this.APPROVED,this.REJECTED];
+        break;
+      }
+      case this.ALL:{
+        status= [this.PENDING,this.APPROVED,this.REJECTED,this.REQUESTED];
+        break;
+      }
+    }
+    return status;
+  }
+
+  getLeaves(tab: string,resetSearch = false) {
+    debugger
+    if(resetSearch){
+      this.resetSearch();
+    }
+    var status = this.setStatus(tab);
+    this.isLoadingLeaves[tab] = true;
+  this.leaveService
+  .get({ status: status ,itemPerPage: this.itemPerPage, currentPage: this.pageNumber[this.currentTab],search: this.searchTerm })
+  .pipe(
+    tap((response) => {
+      this.leaves[tab] = [...this.leaves[tab], ...response.object]; // Store data for each tab
+      this.totalItems[tab] = response.totalItems; // Update total count for the status
+    }),
+    finalize(() => {
+      this.isLoadingLeaves[tab] = false;
+    })
+  )
+  .subscribe({
+    next: () => {
+      // Subscription for side effects only
+      console.log('Pending leaves loaded successfully.');
+    },
+    error: (error) => {
+      this.helperService.showToast(
+        'Failed to load pending leaves.',
+        Key.TOAST_STATUS_ERROR
+      );
+    },
+  });
+    
+  }
+
+
+  loadMoreLeaves(tab: string) {
+    this.currentTab=tab;
+    this.isLoadingLeaves[tab] = true;
+    this.pageNumber[tab]++;
+    this.onTabChange(tab,true);
+  }
+  resetSearch(){
+    this.searchTerm = ''; // Reset search term if flag is set
+    this.pageNumber[this.ALL] = 1; // Reset page number for the active tab
+    this.leaves[this.ALL] = [];
+  }
+
+  searchLeaves(tab: string) {
+    this.currentTab=tab;
+    this.leaves[tab]=[]; 
+    this.getLeaves(tab);
+  }
 }
+
+

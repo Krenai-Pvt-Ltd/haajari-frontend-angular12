@@ -547,7 +547,8 @@
                             <!-- (click)="
                                 deleteAddress(item.organizationAddress.id)
                               "> -->
-                            <a style="cursor: pointer" class="delete-rule" data-bs-toggle="modal" data-bs-target="#delete-address" (click)="
+                            <a style="cursor: pointer" class="delete-rule" data-bs-toggle="modal"
+                              data-bs-target="#delete-address" (click)="
                                 getAddressTemplateId(item.organizationAddress.id)
                               ">
                               <i class="bi bi-trash pointer text-danger"></i>
@@ -990,7 +991,7 @@
                             (pincode.touched && pincode.invalid) ||
                             isFormInvalidLocation
                           ">
-                            <p class="errortxt mt-2 mb-0" style="color: red" *ngIf="pincode.errors?.required">
+                            <p class="errortxt mt-2 mb-0 text-danger" *ngIf="pincode.errors?.required">
                               <i class="bi bi-exclamation-circle"></i> Pincode
                               is required.
                             </p>
@@ -2651,7 +2652,8 @@
       <div class="modal-body p-0 delete-text">
         <div class="delete-image d-flex align-items-center justify-content-center pt-4 pb-4">
           <div class="delete-close-btn">
-            <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButtonDeleteAddress>
+            <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close"
+              #closeButtonDeleteAddress>
               <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
                 <mask id="mask0_2031_1331" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="30"
                   height="30">

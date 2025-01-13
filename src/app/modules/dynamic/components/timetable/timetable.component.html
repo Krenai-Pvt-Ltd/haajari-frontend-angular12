@@ -11,7 +11,7 @@
                 [ngClass]="{ 'active-tab': ACTIVE_TAB == ATTENDANCE_TAB }" aria-controls="pills-announcement"
                 aria-selected="false" class="nav-link ">Attendance</a>
             </li>
-            <li class="nav-item d-flex align-items-center">
+            <li class="nav-item d-none d-flex align-items-center">
               <a id="pills-notification-tab" role="tab" (click)="changeTab(OVERTIME_TAB)" class="position-relative"
                 [ngClass]="{ 'active-tab': ACTIVE_TAB == OVERTIME_TAB }" aria-controls="pills-notification"
                 aria-selected="false" class="nav-link">Overtime</a>
@@ -200,7 +200,7 @@
 
                 </div>
                 <!-- <div class="col-md-3">
-                
+
               </div> -->
               </div>
             </div>
@@ -1718,7 +1718,7 @@
                         <a class="dropdown-item"> {{ tn.teamName }} </a>
                       </li>
                     </ul>
-                  </div> 
+                  </div>
                    <div class="form-group pb-1" style="width: 65%; position: relative">
                     <input type="text" id="searchText" placeholder="Search by name or email" [(ngModel)]="searchText" class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px; border: none !important" (keyup)="searchOvertimeRequestLogResponse()" />
                     <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px" *ngIf="searchText == ''"></i>

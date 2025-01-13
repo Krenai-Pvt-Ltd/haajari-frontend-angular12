@@ -80,6 +80,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
   ADMIN = Key.ADMIN;
   MANAGER = Key.MANAGER;
   USER = Key.USER;
+  userInfo: any;
   async ngOnInit(): Promise<void> {
     // this.calculateLasWorkingDay();
     this.getEmployeeProfileData();
@@ -100,6 +101,8 @@ export class EmployeeProfileSidebarComponent implements OnInit {
       this.userRoleFlag = true;
     }
 
+    this.checkUserExist();
+
     this.getNoticePeriodDuration()
 
     this.getUserResignationInfo()
@@ -108,7 +111,8 @@ export class EmployeeProfileSidebarComponent implements OnInit {
         this.currentModalRef.close();
       }
     });
-
+    this.userInfo= this.rbacService.userInfo;
+    console.log('User Info:', this.userInfo);
   }
 
   ngOnDestroy() {
@@ -129,6 +133,8 @@ export class EmployeeProfileSidebarComponent implements OnInit {
   teamString !: any;
   viewTeamsLess: boolean = true;
   hrPolicyDocuments: EmployeeAdditionalDocument[] = [];
+  resigntionStatus: any
+
   getEmployeeProfileData() {
     debugger
     this.dataService.getEmployeeProfile(this.userId).subscribe((response) => {
@@ -541,7 +547,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
   recommendDay: string = ''; // Default selected value
   selectRecommendDay(value: string): void {
 
-    this.userResignationReq.lastWorkingDay = ''
+    this.userResignationReq.userLastWorkingDay = ''
 
     this.userResignationReq.isRecommendLastDay = value == 'Other' ? 1 : 0
 
@@ -573,14 +579,14 @@ export class EmployeeProfileSidebarComponent implements OnInit {
 
     // this.lastWorkingDay = maxDate;
     // this.userResignationReq.lastWorkingDay = maxDate
-    this.userResignationReq.lastWorkingDay = this.helperService.formatDateToYYYYMMDD(maxDate);
+    this.userResignationReq.userLastWorkingDay = this.helperService.formatDateToYYYYMMDD(maxDate);
     // console.log("Max Date: ", this.lastWorkingDay);
   }
 
   selectLastWorkingDay(startDate: Date) {
     debugger
     if (this.userResignationReq.isRecommendLastDay == 0 && startDate) {
-      this.userResignationReq.lastWorkingDay = this.helperService.formatDateToYYYYMMDD(startDate);
+      this.userResignationReq.userLastWorkingDay = this.helperService.formatDateToYYYYMMDD(startDate);
     }
   }
 
@@ -600,6 +606,16 @@ export class EmployeeProfileSidebarComponent implements OnInit {
       if (res.status) {
         this.userResignationInfo = res.object[0]
         console.log('userResignationInfo: ', this.userResignationInfo)
+      }
+    })
+  }
+
+  existExitPolicy: boolean = false;
+  checkUserExist(){
+    this.existExitPolicy = false
+    this.dataService.checkUserExist(this.userId).subscribe((res: any) =>{
+      if(res.status && res.object == 1){
+        this.existExitPolicy = true;
       }
     })
   }
@@ -753,12 +769,20 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 
+  // routeToAccountPage(tabName: string) {
+  //   // this.dataService.activeTab = tabName !== 'account';
+  //   this.router.navigate(['/setting/account-settings'], {
+  //     queryParams: { setting: tabName },
+  //   });
+  // }
+
   routeToAccountPage(tabName: string) {
     // this.dataService.activeTab = tabName !== 'account';
     this.router.navigate(['/setting/account-settings'], {
       queryParams: { setting: tabName },
     });
   }
+
   isDocumentLoading: boolean = false;
   doc: EmployeeAdditionalDocument = { fileName: '', name: 'Employee Agreement', url: '', value: '', documentType: 'employee_agreement' };
   uploadDocumentFile(event: Event, doc: EmployeeAdditionalDocument): void {
