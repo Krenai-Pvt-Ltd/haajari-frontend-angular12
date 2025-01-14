@@ -522,174 +522,172 @@
                         <div class="col-md-4">
                             <h5 class="font-16 fw-semibold">Attendance Rule</h5>
                         </div>
-                        <div class="col-md-8">
+                        <div *ngIf="guidelines?.attendanceRule" class="col-md-8">
                             <div class="guide-policy mb-4">
                                 <h5 class="font-15 mb-2 fw-semibold">Shift Allocated</h5>
                                 <p class="mb-0 font-13">You are allocated to the <span class="fw-semibold">day
                                         shift</span> with a <span class="fw-semibold">5-day on-ground work
                                         schedule.</span></p>
                             </div>
-                            <div class="guide-policy mb-4">
+                            <div *ngIf="guidelines?.attendanceRule?.arrivalTime" class="guide-policy mb-4">
                                 <h5 class="font-15 mb-2 fw-semibold">Arrival Time</h5>
                                 <p class="mb-0 font-13">Employees must log their entry into the office by <span
-                                        class="fw-semibold">10:00 AM.</span></p>
+                                        class="fw-semibold">{{ guidelines?.attendanceRule?.arrivalTime | date:'hh:mm a' }}</span></p>
                             </div>
-                            <div class="guide-policy mb-4">
+                            <div *ngIf="guidelines?.attendanceRule?.departureTime" class="guide-policy mb-4">
                                 <h5 class="font-15 mb-2 fw-semibold">Departure Time</h5>
                                 <p class="mb-0 font-13">Employees are required to log their departure from the office by
-                                    <span class="fw-semibold"> 7:25 PM.</span>
+                                    <span class="fw-semibold">{{ guidelines?.attendanceRule?.departureTime | date:'hh:mm a' }}</span>
                                 </p>
                             </div>
-                            <div class="guide-policy mb-4">
+                            <div *ngIf="guidelines?.attendanceRule?.breakTime" class="guide-policy mb-4">
                                 <h5 class="font-15 mb-2 fw-semibold">Break Time </h5>
-                                <p class="mb-0 font-13">Employees are allowed to take a total of 1 hour for breaks
+                                <p class="mb-0 font-13">Employees are allowed to take a total of {{formatTime(guidelines?.attendanceRule?.breakTime) }} for breaks
                                     during the workday.
                                 </p>
                             </div>
-                            <div class="guide-policy mb-4">
+                            <div *ngIf="guidelines?.attendanceRule?.breakTime" class="guide-policy mb-4">
                                 <h5 class="font-15 mb-2 fw-semibold">Back Time</h5>
                                 <p class="mb-0 font-13">Employees must log their return from breaks, ensuring the total
-                                    break duration is within the allocated 1 hour. Breaks can be split into multiple
+                                    break duration is within the allocated {{formatTime(guidelines?.attendanceRule?.breakTime) }}. Breaks can be split into multiple
                                     shorter breaks, as long as the total break time does
-                                    <span class="fw-semibold"> not exceed 1 hour.</span>
+                                    <span class="fw-semibold"> not exceed {{formatTime(guidelines?.attendanceRule?.breakTime) }}.</span>
                                 </p>
                             </div>
-                            <div class="guide-policy mb-4">
+                            <div *ngIf="guidelines?.attendanceRule?.workingHour" class="guide-policy mb-4">
                                 <h5 class="font-15 mb-2 fw-semibold">Working Hours</h5>
-                                <p class="mb-0 font-13">Employees must complete <span class="fw-semibold"> 8 hours and
-                                        25 minutes</span> of total working time daily, excluding break hours.
+                                <p class="mb-0 font-13">Employees must complete <span class="fw-semibold"> {{formatTime(guidelines?.attendanceRule?.workingHour) }}</span>
+                                   of total working time daily, excluding break hours.
 
                                 </p>
                             </div>
 
                         </div>
                     </div>
-                    <div class="row mt-5 border-bottom pb-4">
+                    <div *ngIf="guidelines?.lateEntry" class="row mt-5 border-bottom pb-4">
                         <div class="col-md-4">
                             <h5 class="font-16 fw-semibold">Late Entry Rules</h5>
                         </div>
                         <div class="col-md-8">
-                            <div class="guide-policy mb-4">
+                            <div *ngIf="guidelines?.lateEntry?.customLateDuration?.lateDuration" class="guide-policy mb-4">
                                 <h5 class="font-15 mb-2 fw-semibold">Custom Salary Deduction</h5>
                                 <p class="mb-0 font-13">The deduction will apply if you are late by <span
-                                        class="fw-semibold">1 hour</span> A fixed
-                                    amount of <span class="fw-semibold">₹100 will be deducted</span> for each occurrence
+                                        class="fw-semibold">{{formatTime(guidelines?.lateEntry?.customLateDuration?.lateDuration)}} hour</span> A fixed
+                                    amount of <span class="fw-semibold">₹{{guidelines?.lateEntry?.customLateDuration?.amountInRupees}} will be deducted</span> for each occurrence
                                     This rule will be <span class="fw-semibold">applied if
-                                        you are late 3 times. </span></p>
+                                        you are late {{guidelines?.lateEntry?.customLateDuration?.occurrenceCount}} times. </span></p>
                             </div>
-                            <div class="guide-policy mb-4">
+                            <div *ngIf="guidelines?.lateEntry?.halfDayLate?.lateDuration" class="guide-policy mb-4">
                                 <h5 class="font-15 mb-2 fw-semibold">Half Day Salary Deduction</h5>
                                 <p class="mb-0 font-13">The deduction will apply if you are late by <span
-                                        class="fw-semibold">1 hour </span> A fixed amount of <span
-                                        class="fw-semibold">₹100 will be deducted</span> for each occurrence This rule
-                                    will be <span class="fw-semibold">applied if you are late 3 times.</span> </p>
+                                        class="fw-semibold">{{formatTime(guidelines?.lateEntry?.halfDayLate?.lateDuration)}} </span> A fixed amount of <span
+                                        class="fw-semibold">₹{{guidelines?.lateEntry?.halfDayLate?.occurrenceCount}} will be deducted</span> for each occurrence This rule
+                                    will be <span class="fw-semibold">applied if you are late {{guidelines?.lateEntry?.halfDayLate?.occurrenceCount}} times.</span> </p>
                             </div>
-                            <div class="guide-policy mb-4">
+                            <div *ngIf="guidelines?.lateEntry?.fullDayLate?.lateDuration" class="guide-policy mb-4">
                                 <h5 class="font-15 mb-2 fw-semibold">Full Day Salary Deduction</h5>
                                 <p class="mb-0 font-13">The deduction will apply if you are late by <span
-                                        class="fw-semibold">1 hour </span> A fixed amount of <span
-                                        class="fw-semibold">₹100 will be deducted</span> for each occurrence This rule
-                                    will be <span class="fw-semibold">applied if you are late 3 times.</span>
+                                        class="fw-semibold">{{formatTime(guidelines?.lateEntry?.fullDayLate?.lateDuration)}} </span> A fixed amount of <span
+                                        class="fw-semibold">₹{{guidelines?.lateEntry?.fullDayLate?.occurrenceCount}} will be deducted</span> for each occurrence This rule
+                                    will be <span class="fw-semibold">applied if you are late {{guidelines?.lateEntry?.fullDayLate?.occurrenceCount}} times.</span>
                                 </p>
                             </div>
 
 
                         </div>
                     </div>
-                    <div class="row mt-5 border-bottom pb-4">
+                    <div *ngIf="guidelines?.break" class="row mt-5 border-bottom pb-4">
                         <div class="col-md-4">
                             <h5 class="font-16 fw-semibold">Break Rules</h5>
                         </div>
                         <div class="col-md-8">
-                            <div class="guide-policy mb-4">
+                            <div *ngIf="guidelines?.break?.customLateDuration?.lateDuration" class="guide-policy mb-4">
                                 <h5 class="font-15 mb-2 fw-semibold">Custom Salary Deduction</h5>
                                 <p class="mb-0 font-13">The deduction will apply if you are late by <span
-                                        class="fw-semibold">1 hour</span> Salary
+                                        class="fw-semibold">{{formatTime(guidelines?.break?.customLateDuration?.lateDuration)}} </span> Salary
                                     deducted <span class="fw-semibold">per minute if the break exceeds </span> this
-                                    duration. Deduction applies up to <span class="fw-semibold"> 5
+                                    duration. Deduction applies up to <span class="fw-semibold"> {{guidelines?.break?.customLateDuration?.occurrenceCount}}
                                         occurrences.</span> </p>
                             </div>
-                            <div class="guide-policy mb-4">
+                            <div *ngIf="guidelines?.break?.halfDayLate?.lateDuration" class="guide-policy mb-4">
                                 <h5 class="font-15 mb-2 fw-semibold">Half Day Salary Deduction</h5>
-                                <p class="mb-0 font-13">The break duration limit is set to <span class="fw-semibold">1
-                                        hour and 30 minutes .</span> If
+                                <p class="mb-0 font-13">The break duration limit is set to <span class="fw-semibold">{{formatTime(guidelines?.break?.halfDayLate?.lateDuration)}} .</span> If
                                     the break exceeds this limit, a half-day salary deduction will be applied. This
-                                    rule can be enforced for up to 5 occurrences. </p>
+                                    rule can be enforced for up to {{guidelines?.break?.halfDayLate?.occurrenceCount}} occurrences. </p>
                             </div>
-                            <div class="guide-policy mb-4">
+                            <div *ngIf="guidelines?.break?.fullDayLate?.lateDuration" class="guide-policy mb-4">
                                 <h5 class="font-15 mb-2 fw-semibold">Full Day Salary Deduction</h5>
-                                <p class="mb-0 font-13">If the break exceeds the limit of <span class="fw-semibold"> 2
-                                        hours,</span> a <span class="fw-semibold">full-day salary
+                                <p class="mb-0 font-13">If the break exceeds the limit of <span class="fw-semibold"> {{formatTime(guidelines?.break?.fullDayLate?.lateDuration)}}
+                                        ,</span> a <span class="fw-semibold">full-day salary
                                         deduction</span> will be imposed. This rule is applicable for up to <span
-                                        class="fw-semibold">2 occurrences.</span>
+                                        class="fw-semibold">{{guidelines?.break?.fullDayLate?.occurrenceCount}} occurrences.</span>
                                 </p>
                             </div>
 
 
                         </div>
                     </div>
-                    <div class="row mt-5 border-bottom pb-4">
+                    <div *ngIf="guidelines?.earlyExit" class="row mt-5 border-bottom pb-4">
                         <div class="col-md-4">
                             <h5 class="font-16 fw-semibold">Early Exit Rules</h5>
                         </div>
                         <div class="col-md-8">
-                            <div class="guide-policy mb-4">
+                            <div *ngIf="guidelines?.earlyExit?.customLateDuration?.lateDuration" class="guide-policy mb-4">
                                 <h5 class="font-15 mb-2 fw-semibold">Custom Salary Deduction</h5>
-                                <p class="mb-0 font-13">If an employee leaves <span class=" fw-semibold"> 5
-                                        minutes</span> before the scheduled end time,
+                                <p class="mb-0 font-13">If an employee leaves <span class=" fw-semibold"> {{formatTime(guidelines?.earlyExit?.customLateDuration?.lateDuration)}}
+                                        </span> before the scheduled end time,
                                     the salary will be deducted per minute of early exit.
                                     This rule is triggered when the early <span class=" fw-semibold">exit occurs more
-                                        than 2 times</span></p>
+                                        than {{guidelines?.earlyExit?.customLateDuration?.occurrenceCount}} times</span></p>
                             </div>
-                            <div class="guide-policy mb-4">
+                            <div *ngIf="guidelines?.earlyExit?.halfDayLate?.lateDuration" class="guide-policy mb-4">
                                 <h5 class="font-15 mb-2 fw-semibold">Half Day Salary Deduction</h5>
-                                <p class="mb-0 font-13">If an employee leaves <span class=" fw-semibold"> 1 hour </span>
+                                <p class="mb-0 font-13">If an employee leaves <span class=" fw-semibold"> {{formatTime(guidelines?.earlyExit?.halfDayLate?.lateDuration)}} </span>
                                     before the scheduled end time, a
                                     <span class=" fw-semibold"> half-day salary deduction </span> will be applied.. This
                                     rule is triggered when the early
-                                    exit occurs <span class=" fw-semibold"> more than 2</span> times,
+                                    exit occurs <span class=" fw-semibold"> more than {{guidelines?.earlyExit?.halfDayLate?.occurrenceCount}}</span> times,
                                 </p>
                             </div>
-                            <div class="guide-policy mb-4">
+                            <div *ngIf="guidelines?.earlyExit?.fullDayLate?.lateDuration" class="guide-policy mb-4">
                                 <h5 class="font-15 mb-2 fw-semibold">Full Day Salary Deduction</h5>
-                                <p class="mb-0 font-13">If an employee leaves 6 hours before the scheduled end time, a
+                                <p class="mb-0 font-13">If an employee leaves {{formatTime(guidelines?.earlyExit?.fullDayLate?.lateDuration)}} before the scheduled end time, a
                                     <span class=" fw-semibold"> full-day salary deduction </span> will be applied. This
                                     rule is triggered when the early
-                                    exit occurs more than <span class=" fw-semibold"> 4 times</span>
+                                    exit occurs more than <span class=" fw-semibold"> {{guidelines?.earlyExit?.fullDayLate?.occurrenceCount}} times</span>
                                 </p>
                             </div>
 
 
                         </div>
                     </div>
-                    <div class="row mt-5 border-bottom pb-4">
+                    <div *ngIf="guidelines?.overTimeRule" class="row mt-5 border-bottom pb-4">
                         <div class="col-md-4">
                             <h5 class="font-16 fw-semibold">Overtime Rules</h5>
                         </div>
                         <div class="col-md-8">
                             <div class="guide-policy mb-4">
                                 <h5 class="font-15 mb-2 fw-semibold">Custom Salary Deduction</h5>
-                                <p class="mb-0 font-13">If you work <span class="fw-semibold">2 hours </span> of
+                                <p class="mb-0 font-13">If you work <span class="fw-semibold">{{formatTime(guidelines?.overTimeRule?.customDuration)}}  </span> of
                                     overtime, you will receive a fixed payout
-                                    of <span class="fw-semibold"> ₹300 </span> as a token of appreciation for your hard
+                                    of <span class="fw-semibold"> ₹{{guidelines?.overTimeRule?.customAmount}} </span> as a token of appreciation for your hard
                                     work and dedication.</p>
                             </div>
                             <div class="guide-policy mb-4">
                                 <h5 class="font-15 mb-2 fw-semibold">Half Day Salary Deduction</h5>
                                 <p class="mb-0 font-13">If you work <span class="fw-semibold"> before your shift starts
                                         or beyond your regular
-                                        working hours and complete 2 hours 30 minutes of overtime,</span> you will
+                                        working hours and complete {{formatTime(guidelines?.overTimeRule?.halfDayDuration)}} of overtime,</span> you will
                                     receive a fixed
-                                    payout of <span class="fw-semibold"> ₹400</span> to recognize your hard work and
+                                    payout of <span class="fw-semibold"> ₹{{guidelines?.overTimeRule?.halfDayAmount}}</span> to recognize your hard work and
                                     dedication. times,
                                 </p>
                             </div>
                             <div class="guide-policy mb-4">
                                 <h5 class="font-15 mb-2 fw-semibold">Full Day Salary Deduction</h5>
-                                <p class="mb-0 font-13">For extended overtime of <span class="fw-semibold"> 4
-                                        hours,</span> which is considered a full day
+                                <p class="mb-0 font-13">For extended overtime of <span class="fw-semibold"> {{formatTime(guidelines?.overTimeRule?.fullDayDuration)}},</span> which is considered a full day
                                     of overtime, you will receive a fixed <span class="fw-semibold">payout of
-                                        ₹1200</span> as recognition for your hard
+                                        ₹{{guidelines?.overTimeRule?.fullDayAmount}}</span> as recognition for your hard
                                     work and dedication
                                 </p>
                             </div>
@@ -736,7 +734,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row mt-5 pb-4">
+                    <div *ngIf="guidelines?.exitPolicy" class="row mt-5 pb-4">
                         <div class="col-md-4">
                             <h5 class="font-16 fw-semibold">Exit Policy</h5>
                         </div>
@@ -749,8 +747,8 @@
                             </div>
                             <div class="guide-policy mb-4">
                                 <h5 class="font-15 mb-2 fw-semibold">Notice Period</h5>
-                                <p class="mb-0 font-13">Employees need to serve notice of <span class="fw-semibold"> 2
-                                        Months,</span> as per your employment contract. The last working day will be
+                                <p class="mb-0 font-13">Employees need to serve notice of <span class="fw-semibold"> {{guidelines?.exitPolicy?.noticePeriod}}
+                                        Days,</span> as per your employment contract. The last working day will be
                                     determined based on this notice period..
                                 </p>
                             </div>
@@ -764,7 +762,7 @@
                                 <h5 class="font-15 mb-2 fw-semibold">Final Settlement</h5>
                                 <p class="mb-0 font-13">You will receive your final salary, unused leave, and applicable
                                     bonuses. Deductions for unreturned items will be made. Settlement will be processed
-                                    within <span class="fw-semibold">60 Days.</span>
+                                    within <span class="fw-semibold">{{guidelines?.exitPolicy?.noticePeriod}} Days.</span>
                                 </p>
                             </div>
                         </div>

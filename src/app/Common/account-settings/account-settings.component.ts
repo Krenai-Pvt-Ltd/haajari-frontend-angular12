@@ -180,4 +180,18 @@ export class AccountSettingsComponent implements OnInit {
       },
     });
   }
+
+  formatTime(breakTime: string): string {
+    const [hours, minutes] = breakTime.split(':');
+
+    let result = '';
+    if (+hours > 0) {
+      result += `${hours} hour${+hours > 1 ? 's' : ''} `;
+    }
+    if (+minutes > 0) {
+      result += `${minutes} min${+minutes > 1 ? 's' : ''}`;
+    }
+
+    return result.trim();
+  }
 }
