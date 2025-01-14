@@ -114,7 +114,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
         this.currentModalRef.close();
       }
     });
-    this.userInfo= this.rbacService.userInfo;
+    this.userInfo = this.rbacService.userInfo;
     console.log('User Info:', this.userInfo);
   }
 
@@ -288,6 +288,10 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     this.InOutLoader = true;
     if (command === '/out') {
       this.outLoader = true;
+      this.urlModalTemplate.nativeElement.click();
+    }
+    if (command === '/in') {
+      this.urlModalTemplate.nativeElement.click();
     }
     if (command === '/break') {
       this.breakLoader = true;
@@ -322,7 +326,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
 
   modalUrl: SafeResourceUrl | null = null;
   // @ViewChild('urlModalTemplate', { static: true }) urlModalTemplate!: TemplateRef<any>;
-  @ViewChild('urlModalTemplate') urlModalTemplate!: TemplateRef<any>;
+  @ViewChild('urlModalTemplate') urlModalTemplate!: ElementRef;
   currentModalRef: any;
   private closeModalSubscription!: Subscription;
 
@@ -614,10 +618,10 @@ export class EmployeeProfileSidebarComponent implements OnInit {
   }
 
   existExitPolicy: boolean = false;
-  checkUserExist(){
+  checkUserExist() {
     this.existExitPolicy = false
-    this.dataService.checkUserExist(this.userId).subscribe((res: any) =>{
-      if(res.status && res.object == 1){
+    this.dataService.checkUserExist(this.userId).subscribe((res: any) => {
+      if (res.status && res.object == 1) {
         this.existExitPolicy = true;
       }
     })
@@ -780,7 +784,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
   // }
 
   routeToAccountPage(tabName: string) {
-    if(this.userId==this.UUID){
+    if (this.userId == this.UUID) {
       this.employeeProfileComponent.settingTab.nativeElement.click();
       return;
     }
