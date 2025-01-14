@@ -5,6 +5,7 @@
 .entery-sidebar {
     height: 100vh;
     border-right: 1px solid #f1f1f1;
+    background-color: #F4F4F4;
 }
 
 .entery-stap p {
@@ -33,6 +34,12 @@
     border-radius: 50%;
 }
 
+.step-active {
+    background-color: #00E69C !important;
+    color: #fff !important;
+    border: 1px solid #00E69C;
+}
+
 .entery-stap-one:after {
     content: "";
     width: 2px !important;
@@ -52,6 +59,11 @@
 .help-btn {
     position: absolute;
     bottom: 50px;
+}
+
+.help-btn:hover {
+    color: #000 !important;
+    text-decoration: underline;
 }
 
 .entery-right-box {
@@ -77,4 +89,52 @@
 .linkexpird-img img {
     height: 500px;
     object-fit: cover;
+}
+
+.compay-logo {
+    display: none;
+}
+
+@media screen and (max-width: 2600px) {
+    .entery-sidebar {
+        padding: 3rem;
+    }
+
+    .entery-right-box {
+        padding: 3rem;
+    }
+
+    .entery-right-box h5 {
+        margin-top: 15px;
+    }
+}
+
+@media screen and (max-width: 1440px) {
+    .entery-right-box h5 {
+        margin-top: 1px;
+    }
+}
+
+@media screen and (max-width: 1280px) {
+    .entery-sidebar {
+        padding: 2rem;
+    }
+
+    .entery-right-box {
+        padding: 2rem;
+    }
+
+    .entery-right-box h5 {
+        margin-top: 1px;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .entery-sidebar {
+        display: none;
+    }
+
+    .compay-logo {
+        display: block;
+    }
 }
