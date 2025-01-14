@@ -773,7 +773,7 @@ export class DataService {
       .set('uuid', userUuid)
       .set('fileToUpload', fileToUpload);
     return this.httpClient.post(
-      this.baseUrl + '/user-leave-main/request',
+      this.baseUrl + '/temp/leave/request',
       request,
       { params }
     );
@@ -786,7 +786,7 @@ export class DataService {
   ): Observable<any> {
     const params = new HttpParams().set('fileToUpload', fileToUpload);
     return this.httpClient.post(
-      this.baseUrl + '/user-leave-main/request-leave-management',
+      this.baseUrl + '/temp/leave/request-leave-management',
       request,
       { params }
     );
@@ -831,7 +831,7 @@ export class DataService {
       .set('userUuid', userUuid)
       .set('fileToUpload', fileToUpload);
     return this.httpClient.post(
-      this.baseUrl + '/user-leave-main/whatsapp/request',
+      this.baseUrl + '/temp/leave/whatsapp/request',
       request,
       { params }
     );
@@ -2363,6 +2363,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     );
   }
 
+  
   approveOrRejectLeave(
     requestedLeaveId: number,
     appRejString: string,
@@ -2374,10 +2375,28 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     //   .set('userUuid',logInUserUuid);
 
     return this.httpClient.post<any>(
-      `${this.baseUrl}/central-leave-management/approve-reject-leaves?requestedLeaveId=${requestedLeaveId}&appRejString=${appRejString}&userUuid=${logInUserUuid}`,
+      `${this.baseUrl}/temp/leave/approve-reject-leaves?requestedLeaveId=${requestedLeaveId}&appRejString=${appRejString}&userUuid=${logInUserUuid}`,
       {}
     );
   }
+
+  // approveOrRejectLeave(
+  //   requestedLeaveId: number,
+  //   appRejString: string,
+  //   logInUserUuid: string
+  // ): Observable<any> {
+  //   // let params = new HttpParams()
+  //   //   .set('requestedLeaveId', requestedLeaveId.toString())
+  //   //   .set('appRejString', appRejString)
+  //   //   .set('userUuid',logInUserUuid);
+
+  //   return this.httpClient.post<any>(
+  //     `${this.baseUrl}/central-leave-management/approve-reject-leaves?requestedLeaveId=${requestedLeaveId}&appRejString=${appRejString}&userUuid=${logInUserUuid}`,
+  //     {}
+  //   );
+  // }
+
+  
 
   //Salary module
 
@@ -2780,6 +2799,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
   }
 
   //  central - leave - management
+  
 
   approveOrRejectLeaveOfUser(
     requestedLeaveId: number,
@@ -2791,11 +2811,27 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
       .set('appRejString', appRejString)
       .set('rejectionReason', rejectionReason);
     return this.httpClient.post<any>(
-      `${this.baseUrl}/central-leave-management/approve-reject-leaves`,
+      `${this.baseUrl}/temp/leave/approve-reject-leaves`,
       {},
       { params }
     );
   }
+
+  // approveOrRejectLeaveOfUser(
+  //   requestedLeaveId: number,
+  //   appRejString: string,
+  //   rejectionReason: string
+  // ): Observable<any> {
+  //   const params = new HttpParams()
+  //     .set('requestedLeaveId', requestedLeaveId)
+  //     .set('appRejString', appRejString)
+  //     .set('rejectionReason', rejectionReason);
+  //   return this.httpClient.post<any>(
+  //     `${this.baseUrl}/central-leave-management/approve-reject-leaves`,
+  //     {},
+  //     { params }
+  //   );
+  // }
 
   getFullLeaveLogsRoleWise(
     searchString: string,
