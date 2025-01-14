@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { EmployeeProfileComponent } from '../employee-profile.component';
 
 @Component({
   selector: 'app-settings',
@@ -7,8 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SettingsComponent implements OnInit {
 
-  constructor() { }
+  constructor(private employeeProfileComponent: EmployeeProfileComponent,) { }
 
+  back(): void{
+    this.employeeProfileComponent.firstTab.nativeElement.click();
+  }
   ngOnInit(): void {
   }
 

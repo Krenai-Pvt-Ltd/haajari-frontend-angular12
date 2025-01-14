@@ -161,7 +161,13 @@
                                         <div *ngFor="let hd of holidays; let i = index" class="carousel-item"
                                             [class.active]="i === 0">
                                             <div [ngClass]="getHolidayBoxClass(i)" class="p-3 holidays-box">
-                                                <h6 class="text-white">Holidays</h6>
+                                                <div class="d-flex align-items-center justify-content-between mb-3">
+                                                    <h6 class="text-white mb-0">Holidays</h6>
+                                                    <!-- TO DO: all holiday modal open (calendar view) -->
+                                                    <!-- TO DO: follow NG-ZORRO calendar  https://ng.ant.design/components/calendar/en -->
+                                                    <button class="btn p-0 font-13 text-white fw-semibold">View
+                                                        All</button>
+                                                </div>
                                                 <div
                                                     class="d-flex align-items-center justify-content-between pl-3 pr-3">
                                                     <div>
@@ -170,7 +176,7 @@
                                                         </p>
                                                     </div>
 
-                                                    <div class="position-absolute" style="top: 40px; right: 35px;">
+                                                    <div class="position-absolute" style="top: 50px; right: 35px;">
 
                                                         <ng-container>
                                                             <span class="holiday-initial font-24"

@@ -15,5 +15,9 @@
 }
 
 .topbar {
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+    z-index: 999;
     padding-left: 25px !important;
 }

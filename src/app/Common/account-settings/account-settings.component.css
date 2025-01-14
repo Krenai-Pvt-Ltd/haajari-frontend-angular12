@@ -208,7 +208,9 @@
 }
 
 .guide-policy p {
-    color: #787486;
+    color: #444;
+    font-weight: 300;
+    line-height: 22px;
 }
 
 .employee-agreement {
@@ -224,4 +226,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.side-nav {
+    position: sticky;
+    top: 90px;
 }
