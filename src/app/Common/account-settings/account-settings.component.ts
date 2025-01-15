@@ -1,7 +1,10 @@
 
 import { Component, OnInit } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { finalize } from 'rxjs/operators';
 import { Key } from 'src/app/constant/key';
+import { EmployeeAdditionalDocument } from 'src/app/models/EmployeeAdditionalDocument';
 import { UserPasswordRequest } from 'src/app/models/user-password-request';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
@@ -14,11 +17,20 @@ import { RoleBasedAccessControlService } from 'src/app/services/role-based-acces
 })
 export class AccountSettingsComponent implements OnInit {
 
+  supportForm: FormGroup;
   constructor(private dataService: DataService,
     public roleService: RoleBasedAccessControlService,
+    private fb: FormBuilder,
     private afStorage: AngularFireStorage,
     private helperService: HelperService,
-  ) { }
+  ) {
+    this.supportForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      phone: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
+      description: ['', Validators.required],
+      attachments: [null],
+    });
+  }
 
   UUID: string = '';
   ngOnInit(): void {
@@ -26,6 +38,7 @@ export class AccountSettingsComponent implements OnInit {
     this.getEmployeeProfileData();
     this.loadNotificationSettings();
     this.fetchGuidelines();
+    this.fetchHrPolicies();
   }
 
   tab: string = 'account';
@@ -155,13 +168,17 @@ export class AccountSettingsComponent implements OnInit {
       this.updateNotificationVia(via)
     }
   }
+  isButtonLoading: boolean = false;
   updateNotificationVia(via:string): void {
+    this.isButtonLoading = true;
     this.dataService.updateNotificationViaSetting(via).subscribe({
       next: (response) => {
+        this.isButtonLoading = false;
         this.notification=response;
         this.helperService.showToast("Notification updated Successfully",Key.TOAST_STATUS_SUCCESS);
       },
       error: (error) => {
+        this.isButtonLoading = false;
         this.helperService.showToast("Error in updating Notification", Key.TOAST_STATUS_ERROR);
       },
     });
@@ -193,5 +210,89 @@ export class AccountSettingsComponent implements OnInit {
     }
 
     return result.trim();
+  }
+
+  hrPolicyDocuments: EmployeeAdditionalDocument[] = [];
+  fetchHrPolicies(){
+    this.dataService.getHrPolicies()
+          .subscribe(
+            (data) => {
+              this.hrPolicyDocuments = data;
+            },
+            (error) => {
+              console.error('Error fetching documents:', error);
+            }
+          );
+  }
+
+  isYouTubeUrl(url: string): boolean {
+    const youtubePatterns = [
+        /^https:\/\/(www\.)?youtube\.com\/embed\//, // Embedded YouTube link
+        /^https:\/\/(www\.)?youtube\.com\/watch\?/,  // Regular YouTube watch link
+        /^https:\/\/youtu\.be\//                     // Shortened YouTube link
+    ];
+    return youtubePatterns.some((pattern) => pattern.test(url));
+  }
+
+
+
+  onFileSelect(event: any): void {
+    if (event.target.files) {
+      Array.from(event.target.files).forEach((file) => {
+        if (file instanceof File) {
+          this.uploadFileHnS(file);
+        }
+      });
+    }
+  }
+
+  removeFile(index: number): void {
+    this.attachedHnSFile.splice(index, 1);
+    this.filesString = this.attachedHnSFile.join(',');
+    this.supportForm.get('attachments')?.setValue(this.filesString);
+  }
+
+
+
+  isLoadingHnS: boolean = false;
+  onSubmitHnS(): void {
+    if (this.supportForm.valid) {
+      // const formData = new FormData();
+      var body :{}={'email':this.supportForm.get('email')?.value, 'phone':this.supportForm.get('phone')?.value, 'description':this.supportForm.get('description')?.value, 'attachments':this.filesString}
+
+      this.isLoadingHnS = true;
+      this.dataService.createHelpRequest(body ).subscribe(
+        response => {
+          this.helperService.showToast('Save Successfully', Key.TOAST_STATUS_SUCCESS)
+          this.supportForm.reset();
+          this.attachedHnSFile=[];
+          this.filesString='';
+          this.isLoadingHnS = false;
+        },
+        error => {
+          this.helperService.showToast('Error saving', Key.TOAST_STATUS_ERROR);
+          this.isLoadingHnS = false;
+        }
+      );
+
+    }
+  }
+  attachedHnSFile: string[]=[];
+  filesString: string='';
+  uploadFileHnS(file: File): void {
+    const filePath = `uploads/${new Date().getTime()}_${file.name}`;
+    const fileRef = this.afStorage.ref(filePath);
+    const task = this.afStorage.upload(filePath, file);
+
+
+    task.snapshotChanges().pipe(
+      finalize(() => {
+        fileRef.getDownloadURL().subscribe(url => {
+          this.attachedHnSFile.push(url);
+          this.filesString = this.attachedHnSFile.join(',');
+          this.supportForm.get('attachments')?.setValue(this.filesString);
+        });
+      })
+    ).subscribe();
   }
 }

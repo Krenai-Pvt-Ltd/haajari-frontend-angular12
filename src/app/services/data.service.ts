@@ -4727,6 +4727,12 @@ getHolidayForOrganization(date: string): Observable<any>{
 
 
 
+  createHelpRequest(helpAndSupport:any): Observable<any> {
+
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.httpClient.post(`${this.baseUrl}/help-support`, helpAndSupport, {headers});
+  }
+
 }
 
 
