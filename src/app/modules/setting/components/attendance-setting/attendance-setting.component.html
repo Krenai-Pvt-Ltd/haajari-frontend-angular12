@@ -1621,8 +1621,8 @@
                           <div class="col-md-6 mb-3">
                             <label class="pb-2">Shift Type</label>
                             <nz-form-control>
-                              <nz-select style="width: 100%" nzSize="large" nzPlaceHolder="Select shift type" required
-                                id="expTypeIdInput" name="expTypeId" class="form-control placeholder-line"
+                              <nz-select nzSize="large" nzPlaceHolder="Select shift type" required
+                                id="expTypeIdInput" name="expTypeId" class="form-control w-100 placeholder-line"
                                 [(ngModel)]="selectedShiftType.id" (ngModelChange)="selectShiftType(selectedShiftType)">
                                 <nz-option *ngFor=" let shiftType of shiftTypeList" [nzValue]="shiftType.id"
                                   [nzLabel]="shiftType.name">
@@ -1738,8 +1738,8 @@
 
 
                       <div class="leave-footer">
-                        <p class=" p-3 alreadyMemberBox font-13 text-black m-2">
-                          If a user doesn't mark their checkout after their shift ends, Hajiri will automatically check
+                        <p class=" p-3 alreadyMemberBox fw-saminbold font-13 text-warning mb-0">
+                          <i class="bi bi-info-circle"></i>&nbsp; If a user doesn't mark their checkout after their shift ends, Hajiri will automatically check
                           them out one hour later.
                         </p>
 

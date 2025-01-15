@@ -122,6 +122,9 @@ export class LeaveManagementComponent implements OnInit {
 
           // Fetch all necessary updated data
           this.fetchAllData();
+          this.resetSearch();
+          this.getLeaves(this.currentTab);
+          this.getLeaves(this.ALL);
 
           // Close modal
           this.closeModal.nativeElement.click();
@@ -458,6 +461,8 @@ export class LeaveManagementComponent implements OnInit {
     }
     var status = this.setStatus(tab);
     this.isLoadingLeaves[tab] = true;
+    this.leaves[tab] = [];
+    this.totalItems[tab] = 0;
   this.leaveService
   .get({ status: status ,itemPerPage: this.itemPerPage, currentPage: this.pageNumber[this.currentTab],search: this.searchTerm })
   .pipe(

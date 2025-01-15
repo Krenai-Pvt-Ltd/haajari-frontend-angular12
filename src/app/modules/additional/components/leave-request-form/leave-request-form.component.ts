@@ -43,7 +43,7 @@ export class LeaveRequestFormComponent implements OnInit {
     const userUuidParam = new URLSearchParams(window.location.search).get(
       'userUuid'
     );
-    this.userUuid = userUuidParam?.toString() ?? '';
+    this.userUuid = userUuidParam?.toString() ?? '731a011e-ae1e-11ee-9597-784f4361d885';
     this.getUserLeaveReq();
 
     this.fetchManagerNames();

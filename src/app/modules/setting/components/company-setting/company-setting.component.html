@@ -785,7 +785,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-9">
+            <div class="col-md-9 bg-white">
               <div class="tab-content" id="myTabContent">
 
                 <div class="tab-pane fade show active" id="staffLocation" role="tabpanel" #shifttime>
@@ -1148,46 +1148,48 @@
                       </div>
                     </div>
                     <ng-container *ngIf="total > 0; else noDataFoundPlaceholderInShiftTiming">
-                      <table class="table">
-                        <thead class="thead-light">
-                          <tr>
-                            <th style="width: 0%">
-                              <input type="checkbox" style="cursor: pointer" class="form-check-input"
-                                [(ngModel)]="isAllSelected" (change)="selectAll(isAllSelected)" />
-                            </th>
-                            <!-- <th style="width:25%; padding: 12px 15px;">S. No.</th> -->
-                            <th style="width: 25%; padding: 12px 15px">Name</th>
-                            <th style="width: 25%; padding: 12px 15px">Email</th>
-                            <th style="width: 25%; padding: 12px 15px">Phone</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr *ngFor="
-                            let staff of staffs
-                              | paginate
-                                : {
-                                    itemsPerPage: itemPerPage,
-                                    currentPage: pageNumber,
-                                    totalItems: total
-                                  }
-                          " style="border-bottom: 1px solid #dddddd">
-                            <td>
-                              <div class="form-check">
+                      <div class="location-user-table">
+                        <table class="table">
+                          <thead class="thead-light">
+                            <tr>
+                              <th style="width: 0%">
                                 <input type="checkbox" style="cursor: pointer" class="form-check-input"
-                                  [(ngModel)]="staff.selected" (change)="checkIndividualSelection()" />
-                              </div>
-                            </td>
-                            <!-- <td style="padding: 12px 15px;">{{ i+1 }}</td> -->
-                            <td style="padding: 12px 15px">{{ staff.name }}</td>
-                            <td style="padding: 12px 15px">
-                              {{ staff.email ? staff.email : "N/A" }}
-                            </td>
-                            <td style="padding: 12px 15px">
-                              {{ staff.phoneNumber || "N/A" }}
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
+                                  [(ngModel)]="isAllSelected" (change)="selectAll(isAllSelected)" />
+                              </th>
+                              <!-- <th style="width:25%; padding: 12px 15px;">S. No.</th> -->
+                              <th style="width: 25%; padding: 12px 15px">Name</th>
+                              <th style="width: 25%; padding: 12px 15px">Email</th>
+                              <th style="width: 25%; padding: 12px 15px">Phone</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="
+                              let staff of staffs
+                                | paginate
+                                  : {
+                                      itemsPerPage: itemPerPage,
+                                      currentPage: pageNumber,
+                                      totalItems: total
+                                    }
+                            " style="border-bottom: 1px solid #dddddd">
+                              <td>
+                                <div class="form-check">
+                                  <input type="checkbox" style="cursor: pointer" class="form-check-input"
+                                    [(ngModel)]="staff.selected" (change)="checkIndividualSelection()" />
+                                </div>
+                              </td>
+                              <!-- <td style="padding: 12px 15px;">{{ i+1 }}</td> -->
+                              <td style="padding: 12px 15px">{{ staff.name }}</td>
+                              <td style="padding: 12px 15px">
+                                {{ staff.email ? staff.email : "N/A" }}
+                              </td>
+                              <td style="padding: 12px 15px">
+                                {{ staff.phoneNumber || "N/A" }}
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
                     </ng-container>
                     <ng-template #noDataFoundPlaceholderInShiftTiming>
                       <!-- <div class="errorboxmain">

@@ -7,4 +7,7 @@ export class LeaveTemplateCategoryRequest {
     sandwichLeave : boolean = false;
 
     accrualTypeId: number =0;
+    reset : boolean = true;
+    carryover:number=0;
+    carryoverAction:string='';
 }

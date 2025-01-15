@@ -6,4 +6,5 @@ export class LeaveTemplateCategoryResponse {
     unusedLeaveActionId : number = 0;
     unusedLeaveActionCount : number = 0;
     sandwichLeave : boolean = false;
+
 }

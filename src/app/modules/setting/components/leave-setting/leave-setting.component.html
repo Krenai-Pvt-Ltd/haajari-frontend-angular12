@@ -415,10 +415,16 @@
                                 category?.unusedLeaveActionName || "N/A"
                                 }}</span>
                             </div>
-                            <div class="d-flex align-items-center justify-content-between">
+                            <div class="d-flex align-items-center justify-content-between mb-3">
                               <p class="mb-0">Carry Forward Limit</p>
                               <span style="color: #3f988f">{{
                                 category?.unusedLeaveActionCount || "N/A"
+                                }}</span>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-between">
+                              <p class="mb-0">Quota Renew Cycle</p>
+                              <span style="color: #3f988f">{{
+                                category?.reset ? 'Lapse' : 'Carry Forward'
                                 }}</span>
                             </div>
                           </div>
@@ -806,10 +812,10 @@
 
                             <label for="employeeTypeId" class="pb-2">Employee Type</label>
 
-                            <nz-select [disabled]="updateToggle" class="placeholder-line w-100" nzSize="large"
+                            <nz-select [disabled]="updateToggle" class="form-control placeholder-line w-100" nzSize="large"
                               nzPlaceHolder="Select Employee type" [(ngModel)]="employeeTypeId"
                               (ngModelChange)="onEmployeeTypeChange($event)" name="emplTypeId" #emplTypeId="ngModel"
-                              required class="form-control">
+                              required >
                               <nz-option *ngFor="
                                       let employeeType of employeeTypeList
                                     " [nzValue]="employeeType.id" [nzLabel]="employeeType.name">
@@ -829,11 +835,11 @@
                               Quota Renew Cycle
                             </label>
 
-                            <nz-select [disabled]="updateToggle" class="placeholder-line w-100" nzSize="large"
+                            <nz-select [disabled]="updateToggle" class="form-control placeholder-line w-100" nzSize="large"
                               id="leaveFicsalYear" nzPlaceHolder="Select Quota Renew Cycle "
                               [(ngModel)]="leaveTemplateRequest.yearTypeName" (ngModelChange)="
                                 selectDateForLeaveTemplateRequest($event)
-                              " name="leaveRenewalCycled" #leaveRenewalCycled="ngModel" required class="form-control">
+                              " name="leaveRenewalCycled" #leaveRenewalCycled="ngModel" required>
                               <nz-option *ngFor="let yearType of yearTypeList" [nzValue]="yearType.name"
                                 [nzLabel]="yearType.name">
                               </nz-option>
@@ -863,8 +869,8 @@
                                   <div class="d-flex justify-content-between align-items-center">
                                     <nz-date-picker [(ngModel)]="dateRange[0]" nzPlaceHolder="Start Date"
                                       [disabled]="!isCustomDateRange || updateToggle" (ngModelChange)="
-                                        onStartDateChange($event)
-                                      " name="startDate" #startDate="ngModel" required class="form-control">
+                                        onStartDateChange($event)"  [nzDisabledDate]="disableNonFirstDates"
+                                       name="startDate" #startDate="ngModel" required class="form-control">
                                     </nz-date-picker>
                                   </div>
                                 </nz-form-control>
@@ -876,9 +882,10 @@
                                 <label for="leavePeriod" class="pb-2 font-12">End Date
                                 </label>
                                 <nz-form-control nzErrorTip="Please select valid dates.">
+                                  <!-- [disabled]="!isCustomDateRange || updateToggle -->
                                   <div class="d-flex justify-content-between align-items-center">
                                     <nz-date-picker [(ngModel)]="dateRange[1]" nzPlaceHolder="End Date"
-                                      [disabled]="!isCustomDateRange || updateToggle" name="endDate" #endDate="ngModel"
+                                      [disabled]="true" name="endDate" #endDate="ngModel"
                                       required class="form-control">
                                     </nz-date-picker>
                                   </div>
@@ -933,10 +940,10 @@
                                 <div class="form-group">
                                   <label for="genderId" class="pb-2">Select Gender</label>
                                   <nz-form-control nzErrorTip="All">
-                                    <nz-select class="placeholder-line w-100" nzSize="large"
+                                    <nz-select class="form-control placeholder-line w-100" nzSize="large"
                                       nzPlaceHolder="Select Gender" formControlName="gender" (ngModelChange)="
                                           onGenderChange($event, i)
-                                        " required class="form-control">
+                                        " required>
                                       <nz-option *ngFor="let gender of genders" [nzValue]="gender.name"
                                         [nzLabel]="gender.name">
                                       </nz-option>
@@ -951,9 +958,9 @@
                                     *ngIf="!wfhTemplateToggle">Leave</span> Category Name
                                 </label>
                                 <nz-form-control nzErrorTip="Please select leave category name">
-                                  <nz-select class="placeholder-line w-100" nzSize="large"
+                                  <nz-select class="form-control placeholder-line w-100" nzSize="large"
                                     nzPlaceHolder="Select Leave Category Name" formControlName="leaveCategoryId"
-                                    required class="form-control">
+                                    required>
                                     <nz-option *ngFor="
                                           let leaveCategory of filteredLeaveCategories[
                                             i
@@ -978,8 +985,8 @@
                                   <label for="genderId" class="pb-2">Select Gender</label>
                                   <nz-form-control nzErrorTip="Please select a gender">
                                     <nz-select aria-disabled="true" [nzDisabled]="wfhTemplateToggle"
-                                      class="placeholder-line w-100" nzSize="large" nzPlaceHolder="Select Gender"
-                                      formControlName="gender" required class="form-control" style="cursor: default;">
+                                      class="form-control placeholder-line w-100" nzSize="large" nzPlaceHolder="Select Gender"
+                                      formControlName="gender" required  style="cursor: default;">
                                       <nz-option *ngFor="let gender of genders" [nzValue]="gender.name"
                                         [nzLabel]="gender.name"></nz-option>
                                     </nz-select>
@@ -993,23 +1000,23 @@
                                   WFH Category Name
                                 </label>
                                 <nz-form-control nzErrorTip="Please select leave category name">
-                                  <nz-select *ngIf="!wfhTemplateToggle && !weekOffTemplateToggle" class="placeholder-line w-100"
+                                  <nz-select *ngIf="!wfhTemplateToggle && !weekOffTemplateToggle" class="form-control placeholder-line w-100"
                                     nzSize="large" nzPlaceHolder="Select Leave Category Name"
-                                    formControlName="leaveCategoryId" required class="form-control">
+                                    formControlName="leaveCategoryId" required>
                                     <nz-option *ngFor="let leaveCategory of filteredLeaveCategories"
                                       [nzValue]="leaveCategory.id" [nzLabel]="leaveCategory.name">
                                     </nz-option>
                                   </nz-select>
-                                  <nz-select *ngIf="wfhTemplateToggle && !weekOffTemplateToggle" class="placeholder-line w-100"
+                                  <nz-select *ngIf="wfhTemplateToggle && !weekOffTemplateToggle" class="form-control placeholder-line w-100"
                                     nzSize="large" nzPlaceHolder="Select Leave Category Name"
-                                    formControlName="leaveCategoryId" required class="form-control">
+                                    formControlName="leaveCategoryId" required>
                                     <nz-option *ngFor="let leaveCategory of onDutyList"
                                       [nzValue]="leaveCategory.id" [nzLabel]="leaveCategory.name">
                                     </nz-option>
                                   </nz-select>
-                                  <nz-select *ngIf="weekOffTemplateToggle && wfhTemplateToggle" class="placeholder-line w-100"
+                                  <nz-select *ngIf="weekOffTemplateToggle && wfhTemplateToggle" class="form-control placeholder-line w-100"
                                     nzSize="large" nzPlaceHolder="Select Category Name"
-                                    formControlName="leaveCategoryId" required class="form-control">
+                                    formControlName="leaveCategoryId" required>
                                     <nz-option *ngFor="let leaveCategory of weekOffCategoryList"
                                       [nzValue]="leaveCategory.id" [nzLabel]="leaveCategory.name">
                                     </nz-option>
@@ -1023,9 +1030,8 @@
                                     *ngIf="!wfhTemplateToggle">Leave</span> Cycle
                                 </label>
 
-                                <nz-select class="placeholder-line w-100" nzSize="large"
-                                  nzPlaceHolder="Select Leave Cycle" formControlName="leaveCycleId" required
-                                  class="form-control">
+                                <nz-select class="form-control placeholder-line w-100" nzSize="large"
+                                  nzPlaceHolder="Select Leave Cycle" formControlName="leaveCycleId" required>
                                   <nz-option *ngFor="let leaveCycle of leaveCycleList" [nzValue]="leaveCycle.id"
                                     [nzLabel]="leaveCycle.name">
                                   </nz-option>
@@ -1045,9 +1051,9 @@
                                   Select Accrual Type
                                 </label>
 
-                                <nz-select class="placeholder-line w-100" nzSize="large"
+                                <nz-select class="form-control placeholder-line w-100" nzSize="large"
                                   nzPlaceHolder="Select Accrual Type" formControlName="accrualTypeId"
-                                  (ngModelChange)="onAccrualChange($event)" required class="form-control">
+                                  (ngModelChange)="onAccrualChange($event)" required>
                                   <nz-option *ngFor="let accrualType of accrualTypes" [nzValue]="accrualType.id"
                                     [nzLabel]="accrualType.name">
                                   </nz-option>
@@ -1066,7 +1072,7 @@
                                   (ngModelChange)="generateDaysDropdown($event, i)
                                   " min="1" max="400" step="1" required /> -->
 
-                                <input class="form-control input-zorro" type="number" style="width: 100%"
+                                <input class="form-control w-100 input-zorro" type="number" 
                                   formControlName="leaveCount" placeholder="Day Count" id="inputLeaveCount"
                                   name="inputLeaveCount" [(ngModel)]="tempLeaveCount"
                                   (ngModelChange)="validateAndAdjustLeaveCount($event, i)" min="1" max="400" required />
@@ -1104,9 +1110,9 @@
                                     *ngIf="!wfhTemplateToggle">Leave</span> Action
                                 </label>
 
-                                <nz-select [nzDisabled]="wfhTemplateToggle" style="width: 100%" nzSize="large"
+                                <nz-select [nzDisabled]="wfhTemplateToggle" nzSize="large"
                                   nzPlaceHolder="Unused leave action" formControlName="unusedLeaveActionId" required
-                                  class="form-control">
+                                  class="form-control placeholder-line w-100">
                                   <nz-option *ngFor="
                                       let unusedLeaveAction of unusedLeaveActionList
                                     " [nzValue]="unusedLeaveAction.id" [nzLabel]="unusedLeaveAction.name">>
@@ -1128,26 +1134,65 @@
                                 <div *ngIf="categories.controls[i]!.get('unusedLeaveActionId')?.value != LAPSE"
                                   style="width: 100%">
                                   <input nz-input type="number" [nzAutocomplete]="auto"
-                                    formControlName="unusedLeaveActionCount" required (keyup)="validateMaxValue(i)"
+                                    formControlName="unusedLeaveActionCount" required (keyup)="validateMaxValue(i);changeCarryForwardAccrual(i);"
                                     placeholder="Select Days" [required]="true" nzSize="large" min="1" max="400"
                                     class="form-control input-zorro no-spinner-specific" style="font-size: 13px;" />
 
                                   <nz-autocomplete #auto>
-                                    <nz-auto-option *ngFor="let day of daysCountArray[i]" [nzValue]="day">
+                                    <nz-auto-option (click)="changeCarryForwardAccrual(i)" *ngFor="let day of daysCountArray[i]" [nzValue]="day">
                                       {{ day }}
                                     </nz-auto-option>
                                   </nz-autocomplete>
                                 </div>
 
 
-                                <nz-input-number style="width: 100%" formControlName="unusedLeaveActionCount" *ngIf="
+                                <nz-input-number class="w-100" formControlName="unusedLeaveActionCount" *ngIf="
                                     categories.controls[i]!.get(
                                       'unusedLeaveActionId'
                                     )?.value == LAPSE
                                   " nzPlaceHolder="N/A" (ngModelChange)="
-                                    generateDaysDropdown($event, i)
+                                    generateDaysDropdown($event, i); 
                                   " nzSize="large" [nzMin]="1" [nzMax]="10" [nzStep]="1" [nzDisabled]="true">
                                 </nz-input-number>
+                              </div>
+
+                              <div class="d-flex justify-content-between " *ngIf="categories.controls[i]!.get('unusedLeaveActionId')?.value==CARRY_FORWARD 
+                                    && categories.controls[i]!.get('unusedLeaveActionCount')?.value > 0">
+                                <div class="col-md-3 mb-3" nz-form-item >
+                                  <div class="form-check">
+                                    <input type="checkbox" formControlName="isReset" class="form-check-input" [checked]="categories.controls[i]!.get('isReset')?.value">
+                                    <label class="form-check-label" for="isReset" >Lapse this leave category upon template expiration.</label>
+                                  </div>
+                                </div>
+                                
+                                <div class="col-md-9 mb-3" *ngIf="!categories.controls[i]!.get('isReset')?.value">
+                                  <div class="col-md-3" nz-form-item >  
+                                    <label for="carryoverAction" class="pb-2">
+                                      Carry Over Action
+                                    </label>
+    
+                                    <nz-select class="form-control placeholder-line w-100" nzSize="large" 
+                                    nzPlaceHolder="Select Carry Over Action" formControlName="carryoverAction" class="form-control" required>
+                                    <nz-option *ngFor="let carryoverAction of carryoverActions" [nzValue]="carryoverAction.value"
+                                      [nzLabel]="carryoverAction.name">
+                                    </nz-option>
+                                  </nz-select>
+                                  </div>
+    
+                                  <div class="col-md-3 mb-3" nz-form-item *ngIf="categories.controls[i]!.get('carryoverAction')?.value=='Restricted'">  
+                                    <label for="carryover" class="pb-2">
+                                      Carry Over Quota
+                                    </label>
+    
+                                    <nz-select class="form-control placeholder-line w-100" nzSize="large" 
+                                    nzPlaceHolder="SelectCarry Over Quota" formControlName="carryover"
+                                      [(ngModel)]="tempForwardDaysCount"  class="form-control" required>
+                                    <nz-option *ngFor="let day of forwardDaysCountArray[i]" [nzValue]="day"
+                                      [nzLabel]="day">
+                                    </nz-option>
+                                  </nz-select>
+                                  </div>
+                                </div>
                               </div>
 
                               <!-- Unused action leave count end -->
@@ -1198,7 +1243,16 @@
                                         Unused <span *ngIf="wfhTemplateToggle">WFH</span> <span
                                           *ngIf="!wfhTemplateToggle">Leave</span> Action
                                       </th>
-
+                                 
+                                        <th class="text-center" style="width: 10%" *ngIf="!wfhTemplateToggle">
+                                          Carry Forward On Template Expiry
+                                        </th>
+                                        <th class="text-center" style="width: 10%" *ngIf="!wfhTemplateToggle">
+                                          Carry Forward Policy
+                                        </th>
+                                        <th class="text-center" style="width: 10%" *ngIf="!wfhTemplateToggle">
+                                          Carry Forward Count
+                                        </th>
                                       <th *ngIf="!updateToggle" class="text-center" style="width: 10%">
                                         Action
                                       </th>
@@ -1261,7 +1315,19 @@
                                         </span>
 
                                       </td>
-
+                                      <td class="text-center" *ngIf="!wfhTemplateToggle">
+                                        <span class="teme-maneger mb-0 table-font-weight">
+                                          {{ category.reset? 'Lapse' : 'Carry Forward'}}</span>
+                                      </td>
+                                      <td class="text-center" *ngIf="!wfhTemplateToggle">
+                                        <span class="teme-maneger mb-0 table-font-weight">
+                                          {{  category.reset || category.carryoverAction == ''? 'N/A' : category.carryoverAction }}</span>
+                                      </td>
+                                      <td class="text-center" *ngIf="!wfhTemplateToggle">
+                                        <span class="teme-maneger mb-0 table-font-weight">
+                                          {{ category.carryover > 0  ? ('Upto '+category.carryover ): 'N/A' }}</span>
+                                      </td>
+                            
                                       <td *ngIf="!updateToggle" class="text-center">
                                         <div class="d-flex align-items-center gap-2">
                                           <button (click)="editCategory(i)" type="button" class="btn btnAction p-0">
