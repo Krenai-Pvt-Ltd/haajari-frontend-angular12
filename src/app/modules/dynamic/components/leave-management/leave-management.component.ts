@@ -20,7 +20,7 @@ import { finalize, tap } from 'rxjs/operators';
   styleUrls: ['./leave-management.component.css'],
 })
 export class LeaveManagementComponent implements OnInit {
-  specificLeaveRequest!: PendingLeaveResponse;
+  // specificLeaveRequest!: PendingLeaveResponse;
   selectedTeamName: string = '';
   page = 0;
   size = 10;
@@ -122,6 +122,9 @@ export class LeaveManagementComponent implements OnInit {
 
           // Fetch all necessary updated data
           this.fetchAllData();
+          this.resetSearch();
+          this.getLeaves(this.currentTab);
+          this.getLeaves(this.ALL);
 
           // Close modal
           this.closeModal.nativeElement.click();
@@ -191,33 +194,34 @@ export class LeaveManagementComponent implements OnInit {
   //   });
   // }
 
-  getPendingLeave(leaveId: number, leaveType: string) {
-    this.dataService
-      .getRequestedUserLeaveByLeaveIdAndLeaveType(leaveId, leaveType)
-      .subscribe({
-        next: (response) => (this.specificLeaveRequest = response.object),
-        error: (error) => {
-          console.error('Failed to fetch pending leave:', error);
-          this.helperService.showToast(
-            'Failed to load this pending leave.',
-            Key.TOAST_STATUS_ERROR
-          );
-        },
-      });
-  }
+  // getPendingLeave(leaveId: number, leaveType: string) {
+  //   this.dataService
+  //     .getRequestedUserLeaveByLeaveIdAndLeaveType(leaveId, leaveType)
+  //     .subscribe({
+  //       next: (response) => (this.specificLeaveRequest = response.object),
+  //       error: (error) => {
+  //         console.error('Failed to fetch pending leave:', error);
+  //         this.helperService.showToast(
+  //           'Failed to load this pending leave.',
+  //           Key.TOAST_STATUS_ERROR
+  //         );
+  //       },
+  //     });
+  // }
 
-  getPendingLeave1(leaveId: number, leaveType: string) {
-    this.dataService
-      .getRequestedUserLeaveByLeaveIdAndLeaveType(leaveId, leaveType).subscribe((res: any)  => {
-        if(res.status){
-          this.specificLeaveRequest = res.object;
-        }
-      })
-  }
+  // getPendingLeave1(leaveId: number, leaveType: string) {
+  //   this.dataService
+  //     .getRequestedUserLeaveByLeaveIdAndLeaveType(leaveId, leaveType).subscribe((res: any)  => {
+  //       if(res.status){
+  //         this.specificLeaveRequest = res.object;
+  //       }
+  //     })
+  // }
 
   teamNameList: UserTeamDetailsReflection[] = [];
 
   teamId: number = 0;
+
   getTeamNames() {
     debugger;
     this.dataService.getAllTeamNames().subscribe({
@@ -457,6 +461,8 @@ export class LeaveManagementComponent implements OnInit {
     }
     var status = this.setStatus(tab);
     this.isLoadingLeaves[tab] = true;
+    this.leaves[tab] = [];
+    this.totalItems[tab] = 0;
   this.leaveService
   .get({ status: status ,itemPerPage: this.itemPerPage, currentPage: this.pageNumber[this.currentTab],search: this.searchTerm })
   .pipe(
@@ -505,6 +511,11 @@ export class LeaveManagementComponent implements OnInit {
     this.currentTab=tab;
     this.leaves[tab]=[]; 
     this.getLeaves(tab);
+  }
+
+  leave!: PendingLeaveResponse;
+  viewPendingLeave(leave:any){
+    this.leave = leave;
   }
 }
 
