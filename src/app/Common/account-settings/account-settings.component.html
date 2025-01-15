@@ -905,7 +905,14 @@
 
                       <!-- Submit Button -->
                       <div class="col-md-12 mb-4">
-                        <button type="submit" class="btn btn-primary" [disabled]="supportForm.invalid">Submit</button>
+                        <button type="submit"  class="btn btn-primary" [disabled]="supportForm.invalid || isLoadingHnS">
+                          <span *ngIf="!isLoadingHnS">Submit</span>
+                          <div class="dot-opacity-loader" *ngIf="isLoadingHnS">
+                          <span></span>
+                          <span></span>
+                          <span></span>
+                          </div>
+                        </button>
                       </div>
                     </div>
                   </form>
