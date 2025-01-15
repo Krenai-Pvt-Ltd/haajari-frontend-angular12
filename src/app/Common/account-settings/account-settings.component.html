@@ -1,7 +1,7 @@
 <div class="row p-0 m-0 setting-side-menu h-100">
     <div class="col-md-3 p-0 m-0">
         <div class="setting-sidebar-menu h-100 bg-transparent">
-            <div id="v-pills-tab" role="tablist" aria-orientation="vertical" class="nav flex-column nav-pills">
+            <div id="v-pills-tab" role="tablist" aria-orientation="vertical" class="nav flex-column nav-pills side-nav">
                 <button id="v-pills-account-tab" data-bs-toggle="pill" href="#v-pills-account" role="tab"
                     aria-controls="v-pills-account" aria-selected="true" class="nav-link active"
                     (click)="switchTab('account')">
@@ -76,7 +76,7 @@
                     </svg>
                     Help & Support </button>
                 <!-- TODO : button click open modal initiate exit (modal another component - component name - profile-sidebar)  -->
-                 <!-- below button open modal with id which is in another component employee-profile-sidebar  -->
+                <!-- below button open modal with id which is in another component employee-profile-sidebar  -->
                 <button class="nav-link text-danger pointer" data-bs-toggle="modal" data-bs-target="#initiateExit">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
                         <mask id="mask0_7018_2671" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
@@ -227,21 +227,22 @@
                         <div class="collapse pb-4 pt-3" id="password">
                             <div class="row">
                                 <input type="password" style="display: none;">
-                                <div class="col-md-6">
-                                    <label for="totalLunchBreakDuration" class="pb-2">Current password</label>
-                                    <input type="password" [(ngModel)]="currentPassword" placeholder="Enter password"
-                                        class="form-control input-zorro" autocomplete="off">
+                                <div class="col-md-4">
+                                    <label for="totalLunchBreakDuration" class="pb-2">Old password</label>
+                                    <input type="password" [(ngModel)]="currentPassword"
+                                        placeholder="Enter old password" class="form-control input-zorro"
+                                        autocomplete="off">
 
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <label for="totalLunchBreakDuration" class="pb-2">New password</label>
                                     <input type="password" [(ngModel)]="userPasswordRequest.newPassword"
-                                        placeholder="Enter password" class="form-control input-zorro">
+                                        placeholder="Enter new password" class="form-control input-zorro">
 
                                 </div>
-                                <div class="col-md-6">
-                                    <label for="totalLunchBreakDuration" class="pb-2">Repeat password</label>
-                                    <input type="password" [(ngModel)]="confirmPassword" placeholder="Repeat password"
+                                <div class="col-md-4">
+                                    <label for="totalLunchBreakDuration" class="pb-2">Confirm password</label>
+                                    <input type="password" [(ngModel)]="confirmPassword" placeholder="Confirm password"
                                         class="form-control input-zorro">
                                 </div>
                                 <div class="col-md-12">
