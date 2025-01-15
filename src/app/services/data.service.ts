@@ -799,10 +799,20 @@ export class DataService {
   //   return this.httpClient.post<any>( this.baseUrl+'/user-leave/save-users-leave',request,  {params});
   // }
 
+  // getUserLeaveRequests(uuid: string): Observable<any> {
+  //   const params = new HttpParams().set('userUuid', uuid);
+  //   return this.httpClient.get<any>(
+  //     `${this.baseUrl}/user-leave/get-user-leave`,
+  //     {
+  //       params,
+  //     }
+  //   );
+  // }
+
   getUserLeaveRequests(uuid: string): Observable<any> {
     const params = new HttpParams().set('userUuid', uuid);
     return this.httpClient.get<any>(
-      `${this.baseUrl}/user-leave/get-user-leave`,
+      `${this.baseUrl}/temp/leave/get-user-leave`,
       {
         params,
       }
@@ -2228,6 +2238,9 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     debugger;
     const url = `${this.baseUrl}/account-setting/update/profile-picture`;
     return this.httpClient.put<any>(url, userPersonalInformationRequest);
+  }
+  getUserGuidelines(): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/account-setting/guidelines`);
   }
   updateProfilePic(
     picUrl: string

@@ -760,7 +760,7 @@
                             <div class="col-md-8" style="border-right: 1px solid #f1f1f1;">
                                 <div class="row">
                                     <div *ngFor="let category of userLeave" class="col-md-12">
-                                        <div class="row">
+                                        <div class="row" *ngIf="category.isHidden==0">
                                             <div class="col-md-3">
                                                 <div class="leave-summery-box p-3">
                                                     <h5 class="font-13 mb-0">{{ category.leaveType }}</h5>
