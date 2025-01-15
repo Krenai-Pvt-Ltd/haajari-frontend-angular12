@@ -249,9 +249,7 @@
                                         <div class="d-flex align-items-center gap-2 mb-3"
                                             *ngFor="let tm of teamManagerInfo">
                                             <img onerror="this.src='./assets/images/broken-image-icon.jpg';"
-                                                src="assets/images/birthday-img.jpeg" *ngIf="!tm?.managerLogo">
-                                            <img onerror="this.src='./assets/images/broken-image-icon.jpg';"
-                                                src="{{tm?.managerLogo}}" *ngIf="tm?.managerLogo">
+                                                src="{{tm?.managerLogo}}">
                                             <div>
                                                 <h5 class="mb-1 font-13">{{tm?.managerName}}</h5>
                                                 <p class="mb-0 font-12">

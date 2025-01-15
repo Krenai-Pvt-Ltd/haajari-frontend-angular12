@@ -1047,6 +1047,52 @@
 </div>
 
 
+<!-- TO DO: modal change in bootstrap -->
+
+<!-- <ng-template #urlModalTemplate let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">Mark Attendance</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body p-0">
+        <iframe *ngIf="modalUrl" [src]="modalUrl" style="width: 100%; height: 800px; border: none;"></iframe>
+    </div>
+</ng-template> -->
+
+
+
+<!-- TO DO: Bootstrap modal fix -->
+
+<button type="button" class="d-none btn" id="urlModalTemplate" #urlModalTemplate data-bs-toggle="modal"
+    data-bs-target="#markAttendance">
+</button>
+
+<div class="modal fade" id="markAttendance" tabindex="-1" role="dialog" aria-labelledby="markAttendanceLabel"
+    data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <!-- <div class="modal-header">
+                <h4 class="modal-title">Mark Attendance</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                </button>
+            </div> -->
+            <div class="modal-body p-0">
+                <button type="button" class="btn-close d-flex align-items-center justify-content-center"
+                    data-bs-dismiss="modal" aria-label="Close">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 16 15" fill="none">
+                        <path
+                            d="M2.09533 14.3667L0.619141 12.9707L6.5239 7.38648L0.619141 1.8023L2.09533 0.40625L8.00009 5.99044L13.9049 0.40625L15.381 1.8023L9.47628 7.38648L15.381 12.9707L13.9049 14.3667L8.00009 8.78253L2.09533 14.3667Z"
+                            fill="black" />
+                    </svg>
+                </button>
+                <iframe *ngIf="modalUrl" [src]="modalUrl" style="width: 100%; height: 800px; border: none;">
+                </iframe>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 <div class="modal fade" id="addDocument" name="addDocument" tabindex="-1" role="dialog"
   aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -1145,37 +1191,37 @@
 </button>
 
 <div class="modal fade" id="pdfModal" #pdfModal tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
-  data-bs-backdrop="static" data-bs-keyboard="false">
-  <div class="modal-dialog modal-dialog-centered modal-xl">
-      <div class="modal-content">
-          <!-- <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Agreement</h5>
-          </div> -->
-          <div class="modal-body">
-              <div class="row">
-                  <div class="col-md-3">
-                      <div class="p-4 d-flex align-items-center justify-content-center agreement-sidebar">
+    data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <!-- <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Agreement</h5>
+            </div> -->
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="p-4 d-flex align-items-center justify-content-center agreement-sidebar">
 
-                      </div>
-                  </div>
-                  <div class="col-md-9">
-                      <div #pdfContainer id="pdf-container"></div>
-                      <div class="modal-footer d-flex align-content-center justify-content-between">
-                          <div *ngIf="isLastPageRead" class="d-flex align-items-center gap-2">
-                              <input type="checkbox" id="acceptCheckbox" (change)="onCheckboxChange($event)" />
-                              <label for="acceptCheckbox"> I accept the terms and conditions</label>
-                          </div>
-                          <button *ngIf="isAccepted" type="button" class="btn submitActionBtn"
-                              [disabled]="!isLastPageRead" (click)="acceptAgreement(pdfModalButton)">
-                              <span *ngIf="currentPdfIndex < hrPolicyDocuments.length-1 && isAccepted">Next</span>
-                              <span *ngIf="currentPdfIndex >= hrPolicyDocuments.length-1 && isAccepted"> Accept
-                                  Agreement</span>
-                          </button>
-                      </div>
-                  </div>
-              </div>
-          </div>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div #pdfContainer id="pdf-container"></div>
+                        <div class="modal-footer d-flex align-content-center justify-content-between">
+                            <div *ngIf="isLastPageRead" class="d-flex align-items-center gap-2">
+                                <input type="checkbox" id="acceptCheckbox" (change)="onCheckboxChange($event)" />
+                                <label for="acceptCheckbox"> I accept the terms and conditions</label>
+                            </div>
+                            <button *ngIf="isAccepted" type="button" class="btn submitActionBtn"
+                                [disabled]="!isLastPageRead" (click)="acceptAgreement(pdfModalButton)">
+                                <span *ngIf="currentPdfIndex < hrPolicyDocuments.length-1 && isAccepted">Next</span>
+                                <span *ngIf="currentPdfIndex >= hrPolicyDocuments.length-1 && isAccepted"> Accept
+                                    Agreement</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-      </div>
-  </div>
+        </div>
+    </div>
 </div>
