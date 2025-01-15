@@ -199,7 +199,7 @@ export class DashboardComponent implements OnInit {
 
     if (this.userId == this.UUID) {
       this.userRoleFlag = true;
-    }else {
+    } else {
       this.userRoleFlag = false;
     }
   }
@@ -264,9 +264,9 @@ export class DashboardComponent implements OnInit {
   };
 
   noticePeriodDuration: number = 0;
-  getNoticePeriodDuration(){
+  getNoticePeriodDuration() {
     this.dataService.getNoticePeriodDuration(this.userId).subscribe((res: any) => {
-      if(res.status){
+      if (res.status) {
         this.noticePeriodDuration = res.object
       }
     })
@@ -278,10 +278,10 @@ export class DashboardComponent implements OnInit {
 
     this.userResignationInfo.isRecommendLastDay = value == 'Other' ? 1 : 0
 
-    if(this.userResignationInfo.isRecommendLastDay == 0){
+    if (this.userResignationInfo.isRecommendLastDay == 0) {
       this.userResignationInfo.userLastWorkingDay = ''
       this.calculateLasWorkingDay();
-    }else{
+    } else {
       this.userResignationInfo.userLastWorkingDay = this.userResignationInfo.userLastWorkingDay
     }
   }
@@ -290,7 +290,7 @@ export class DashboardComponent implements OnInit {
     this.userResignationInfo.isManagerDiscussion = value == 'Yes' ? 1 : 0
   }
 
-  calculateLasWorkingDay(){
+  calculateLasWorkingDay() {
     const today = new Date();
     // const maxDate = new Date();
     const maxDate = new Date();
@@ -305,18 +305,18 @@ export class DashboardComponent implements OnInit {
 
   showRevokeDiv: boolean = false;
   revokeReason: string = ''
-  revokeResignation(id: number){
+  revokeResignation(id: number) {
 
-    if(!this.showRevokeDiv){
+    if (!this.showRevokeDiv) {
       this.showRevokeDiv = true;
-    }else{
+    } else {
       this.approveToggle = true;
       this.requestModal = true;
       // console.log('hitt')
       // this.approveToggle = false
       // this.closeApproveModal.nativeElement.click()
       this.dataService.revokeResignation(id, this.userResignationInfo.revokeReason).subscribe((res: any) => {
-        if(res.status){
+        if (res.status) {
           this.closeApproveModal.nativeElement.click()
           this.approveToggle = false
           // this.helperService.profileChangeStatus.next(true);
@@ -324,7 +324,7 @@ export class DashboardComponent implements OnInit {
             res.message,
             Key.TOAST_STATUS_SUCCESS
           );
-        }else{
+        } else {
           this.approveToggle = false;
         }
       })
@@ -333,7 +333,7 @@ export class DashboardComponent implements OnInit {
 
   }
 
-  clearForm(){
+  clearForm() {
     this.userResignationInfo = this.userResignationInfo;
     this.revokeReason = ''
     this.userResignationInfo.revokeReason = ''
@@ -343,17 +343,17 @@ export class DashboardComponent implements OnInit {
   // @ViewChild('closeResignationButton') closeResignationButton!: ElementRef
   userResignationReq: UserResignation = new UserResignation();
   resignationToggle: boolean = false;
-  submitResignation(){
+  submitResignation() {
     this.resignationToggle = true;
     this.userResignationReq = this.userResignationInfo
     this.dataService.submitResignation(this.userResignationReq).subscribe((res: any) => {
-        if(res.status){
-          this.resignationToggle =false
-          // this.helperService.resignationSubmitted.next(true);
-          this.closeApproveModal.nativeElement.click()
-          this.getUserResignationInfo()
-          // this.clearForm();
-        }
+      if (res.status) {
+        this.resignationToggle = false
+        // this.helperService.resignationSubmitted.next(true);
+        this.closeApproveModal.nativeElement.click()
+        this.getUserResignationInfo()
+        // this.clearForm();
+      }
     })
 
     // console.log('reqs: ',this.userResignationReq)
@@ -631,9 +631,9 @@ export class DashboardComponent implements OnInit {
           this.formatToDecimalHours(item.totalWorkedHour)
         );
 
-        if(response.listOfObject.length === 0) {
+        if (response.listOfObject.length === 0) {
           this.isPlaceholder = true;
-        }else {
+        } else {
           this.isPlaceholder = false;
         }
 
@@ -662,72 +662,74 @@ export class DashboardComponent implements OnInit {
   }
 
   initializeChart(labels: string[], data: number[]) {
-    const ctx = this.chartCanvas.nativeElement.getContext('2d');
+    if (this.chartCanvas) {
+      const ctx = this.chartCanvas!.nativeElement.getContext('2d');
 
-    if (ctx) {
-      this.chart = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: labels,
-          datasets: [
-            {
-              label: 'Total Worked Hours',
-              data: data,
-              borderColor: 'rgba(75, 192, 192, 1)',
-              backgroundColor: 'rgba(153, 102, 255, 0.2)',
-              tension: 0.4,
-              fill: true,
-            },
-          ],
-        },
-        options: {
-          responsive: true,
-          plugins: {
-            legend: {
-              display: false,
-              position: 'top',
-            },
-            title: {
-              display: true,
-              text: 'Worked Hours for the Week',
-            },
-            tooltip: {
-              callbacks: {
-                // Custom tooltip label callback
-                label: (tooltipItem: any) => {
-                  // Convert the decimal hours to HH:MM format
-                  const formattedTime = this.formatDecimalToTime(tooltipItem.raw);
-                  return `${tooltipItem.label}: ${formattedTime}`;
-                }
+      if (ctx) {
+        this.chart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: labels,
+            datasets: [
+              {
+                label: 'Total Worked Hours',
+                data: data,
+                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                tension: 0.4,
+                fill: true,
               },
-            },
+            ],
           },
-          scales: {
-            x: {
+          options: {
+            responsive: true,
+            plugins: {
+              legend: {
+                display: false,
+                position: 'top',
+              },
               title: {
                 display: true,
-                text: 'Days of the Week',
+                text: 'Worked Hours for the Week',
               },
-            },
-            y: {
-              title: {
-                display: true,
-                text: 'Worked Hours',
-              },
-              beginAtZero: true,
-              ticks: {
-                // Adjust ticks for Y-axis to handle time correctly
-                callback: (tickValue: string | number) => {
-                  const value = typeof tickValue === 'string' ? parseFloat(tickValue) : tickValue;
-                  return this.formatDecimalToTime(value);
+              tooltip: {
+                callbacks: {
+                  // Custom tooltip label callback
+                  label: (tooltipItem: any) => {
+                    // Convert the decimal hours to HH:MM format
+                    const formattedTime = this.formatDecimalToTime(tooltipItem.raw);
+                    return `${tooltipItem.label}: ${formattedTime}`;
+                  }
                 },
-                stepSize: 0.5,
               },
-              type: 'linear',
+            },
+            scales: {
+              x: {
+                title: {
+                  display: true,
+                  text: 'Days of the Week',
+                },
+              },
+              y: {
+                title: {
+                  display: true,
+                  text: 'Worked Hours',
+                },
+                beginAtZero: true,
+                ticks: {
+                  // Adjust ticks for Y-axis to handle time correctly
+                  callback: (tickValue: string | number) => {
+                    const value = typeof tickValue === 'string' ? parseFloat(tickValue) : tickValue;
+                    return this.formatDecimalToTime(value);
+                  },
+                  stepSize: 0.5,
+                },
+                type: 'linear',
+              },
             },
           },
-        },
-      });
+        });
+      }
     }
   }
 
