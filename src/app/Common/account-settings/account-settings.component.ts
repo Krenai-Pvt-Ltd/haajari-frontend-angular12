@@ -279,15 +279,17 @@ export class AccountSettingsComponent implements OnInit {
   }
   attachedHnSFile: string[]=[];
   filesString: string='';
+  isFileUploading: boolean=false;
   uploadFileHnS(file: File): void {
     const filePath = `uploads/${new Date().getTime()}_${file.name}`;
     const fileRef = this.afStorage.ref(filePath);
     const task = this.afStorage.upload(filePath, file);
-
+    this.isFileUploading=true;
 
     task.snapshotChanges().pipe(
       finalize(() => {
         fileRef.getDownloadURL().subscribe(url => {
+          this.isFileUploading=false;
           this.attachedHnSFile.push(url);
           this.filesString = this.attachedHnSFile.join(',');
           this.supportForm.get('attachments')?.setValue(this.filesString);
