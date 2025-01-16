@@ -83,7 +83,7 @@
               <div class=" tab-pane active pt-3 pb-3" id="pendingLeaves" #pendingLeaves role="tabpanel" >
                 <div class="leave-history-box" #logContainerOfPendingLeaves
                  >
-                  <div class="empty-file" style="margin-top: 25%" *ngIf="totalItems[PENDING]==0">
+                  <div class="empty-file" style="margin-top: 25%" *ngIf="totalItems[PENDING]==0  && !isLoadingLeaves[PENDING]">
                     <nz-empty nzNotFoundImage="assets/images/pending-leave.svg" [nzNotFoundContent]="contentTpl">
                       <ng-template #contentTpl>
                         <p class="mb-1 empty-detail font-16">
@@ -148,7 +148,7 @@
                       Load More <i class="bi bi-chevron-down"></i>
                     </button>
                   </div>
-                  <div class="text-center load-more-btn"  *ngIf="leaves[PENDING]?.length!=totalItems[PENDING] && isLoadingLeaves[PENDING]">
+                  <div class="text-center load-more-btn"  *ngIf="isLoadingLeaves[PENDING]">
                     <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
                     <div>
                       <small>Loading...</small>
@@ -162,7 +162,7 @@
               <!-------------LEAVE HISTORY TAB STARTS ------------------>
               <div class="tab-pane pt-3 pb-3" id="leaveHistory" #leaveHistory role="tabpanel" >
                 <div class="leave-history-box-if-pending-null" #logContainerOfApprovedRejected >
-                  <div class="empty-file" style="margin-top: 25%" *ngIf="totalItems[HISTORY]==0">
+                  <div class="empty-file" style="margin-top: 25%" *ngIf="totalItems[HISTORY]==0 && !isLoadingLeaves[HISTORY]">
                     <nz-empty nzNotFoundImage="assets/images/pending-leave.svg" [nzNotFoundContent]="contentTpl">
                       <ng-template #contentTpl>
                         <p class="mb-1 empty-detail font-16">
@@ -231,7 +231,7 @@
                     Load More <i class="bi bi-chevron-down"></i>
                   </button>
                 </div>
-                <div class="text-center load-more-btn" *ngIf="leaves[HISTORY]?.length!=totalItems[HISTORY] && isLoadingLeaves[HISTORY]">
+                <div class="text-center load-more-btn" *ngIf="isLoadingLeaves[HISTORY]">
                   <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
                   <div>
                     <small>Loading...</small>
@@ -250,7 +250,7 @@
             </div>
             <hr style="margin-bottom: 10px" />
             <div class="mb-3 d-flex align-items-center" style="border: 1px solid #f1f1f1; border-radius: 2px"
-              *ngIf="ROLE != 'USER' && totalItems[ALL]!=0">
+              *ngIf="ROLE != 'USER' && (totalItems[ALL]!=0 || searchTerm != '' )">
               <!-- TEAM FILTER DROPDOWN START -->
               <div class="dropdown" style="width: 35%" *ngIf="ROLE != 'USER' ">
                 <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
@@ -285,7 +285,7 @@
 
             </div>
             <div class="leave-logs" #logContainer >
-              <div class="empty-file" style="margin-top: 25%" *ngIf="totalItems[ALL]==0">
+              <div class="empty-file" style="margin-top: 25%" *ngIf="totalItems[ALL]==0 && !isLoadingLeaves[ALL] ">
                 <nz-empty nzNotFoundImage="assets/images/no-data-found-img-2.svg" [nzNotFoundContent]="contentTpl">
                   <ng-template #contentTpl>
                     <p class="mb-1 empty-detail font-16">No data for now</p>
@@ -429,7 +429,7 @@
                   Load More <i class="bi bi-chevron-down"></i>
                 </button>
               </div>
-              <div class="text-center load-more-btn" *ngIf="isLoadingLeaves[ALL] && leaves[ALL]?.length != totalItems[ALL]">
+              <div class="text-center load-more-btn" *ngIf="isLoadingLeaves[ALL]">
                 <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
                 <div>
                   <small>Loading...</small>
