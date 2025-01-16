@@ -52,6 +52,26 @@
   background-color: #e6f7ff; /* Optional: Add a light background color on hover */
 }
 
+/* Style for holiday date cells */
+nz-calendar .holiday-cell {
+  background-color: #f4a261 !important; /* Use !important if necessary */
+  color: #fff !important;
+  border-radius: 5px;
+}
+
+/* Style for holiday month cells */
+.holiday-month {
+  background-color: #5213da; /* Teal */
+  color: #fff;
+  text-align: center;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.holiday-item {
+  color: #fff;
+}
+
 
 
 
@@ -836,4 +856,18 @@ span.holiday-initial {
 
 ::ng-deep .ant-picker-calendar-mode-switch{
   display: none;
+}
+
+.customDateCellTemplate{
+  background-color: #543AF8;
+}
+::ng-deep .ant-picker-calendar-date{
+  height: 100px !important;
+}
+::ng-deep .ant-picker-content tr td{
+  border: 1px solid #ccc !important;
+}
+
+::ng-deep .ant-picker-calendar-date{
+  border-top: none !important;
 }

@@ -1293,24 +1293,39 @@
 
             </div>
              <div>
-                <nz-calendar (nzValueChange)="onYearChange($event)">
-                   <!-- Date Cell -->
-                   <ul *nzDateCell="let date" class="events">
-                      <ng-container *ngFor="let item of getHolidayEvents(date)">
-                         <!-- Only show holiday name, no badges or dots -->
-                         <li class="holiday-item">
-                            {{ item.content }}
-                         </li>
-                      </ng-container>
-                   </ul>
-                   <!-- Month Cell -->
-                   <ng-container *nzMonthCell="let month">
-                      <div *ngIf="getMonthHolidayCount(month) > 0" class="notes-month">
-                         <section>{{ getMonthHolidayCount(month) }}</section>
-                         <span>Holidays</span>
-                      </div>
-                   </ng-container>
-                </nz-calendar>
+              <nz-calendar (nzValueChange)="onYearChange($event)">
+                <!-- Date Cell -->
+                <ul
+                *nzDateCell="let date"
+                class="events"
+                [ngClass]="{ 'holiday-cell': isHoliday(date) }"
+              >
+                <ng-container *ngFor="let item of getHolidayEvents(date)">
+                  <li class="holiday-item">
+                    {{ item.content }}
+                  </li>
+                </ng-container>
+              </ul>
+
+                <!-- Month Cell -->
+                <ng-container *nzMonthCell="let month">
+                  <div
+                    *ngIf="getMonthHolidayCount(month) > 0"
+                    class="notes-month"
+                    [ngClass]="{'holiday-month': getMonthHolidayCount(month) > 0}"
+                  >
+                    <section>{{ getMonthHolidayCount(month) }}</section>
+                    <span>Holidays</span>
+                  </div>
+                </ng-container>
+              </nz-calendar>
+
+              <!-- Passing TemplateRef -->
+<!-- <ng-template #dateCellTpl let-date><span [ngClass]="{'customDateCellTemplate':isHoliday(date)}">{{ date | date:'d'}}
+  <div  *ngFor="let item of getHolidayEvents(date)">
+<span>{{ item.content }},</span>
+  </div >
+</span></ng-template> -->
              </div>
           </div>
        </div>
