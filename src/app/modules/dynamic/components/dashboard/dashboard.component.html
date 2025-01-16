@@ -2,7 +2,7 @@
 </app-hajiri-page-loader>
 
 
-<app-to-do-step-dashboard *ngIf="!isToDoStepsCompleted"></app-to-do-step-dashboard>
+<app-to-do-step-dashboard *ngIf="!isToDoStepsCompleted && isToDoStepsCompleted != undefined"></app-to-do-step-dashboard>
 
 <div class="page-wrapper" *ngIf="isToDoStepsCompleted">
   <!-- Page Content-->
