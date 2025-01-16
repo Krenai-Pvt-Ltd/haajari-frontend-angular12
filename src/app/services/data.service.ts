@@ -1751,21 +1751,9 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
   getLeaveSettingInformationById(
     leaveSettingId: number
   ): Observable<FullLeaveSettingResponse> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      // Add any additional headers as needed
-    });
-
-    // const params = { leaveSettingId: leaveSettingId.toString() };
     const params = { leaveTemplateId: leaveSettingId.toString() };
-
-    // return this.httpClient.get<FullLeaveSettingResponse>(
-    //   `${this.baseUrl}/user-leave-rule/get/leave-rule-by-Id`,
-    //   { headers, params }
-    // ); amit
     return this.httpClient.get<FullLeaveSettingResponse>(
-      `${this.baseUrl}/user-leave-template`,
-      { headers, params }
+      `${this.baseUrl}/leave-template/id`,{  params }
     );
   }
 
@@ -3212,7 +3200,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
   deleteLeaveTemplateCategory(id: number){
     const params = new HttpParams()
     .set('leaveCategoryId', id)
-    return this.httpClient.delete<void>(`${this.baseUrl}/leave-template-category`, {params});
+    return this.httpClient.delete<void>(`${this.baseUrl}/leave-template/category`, {params});
   }
 
   deleteLeaveTemplate(id: number){
