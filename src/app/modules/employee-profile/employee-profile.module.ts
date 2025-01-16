@@ -32,7 +32,10 @@ import { HolidayDatePickerComponent } from '../common/holiday-date-picker/holida
 import { SharedModule } from 'src/app/shared/shared.module';
 import { SettingsComponent } from './settings/settings.component';
 import { AccountSettingsComponent } from 'src/app/Common/account-settings/account-settings.component';
-
+import { NzCalendarModule } from 'ng-zorro-antd/calendar';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzBadgeModule } from 'ng-zorro-antd/badge';
 
 @NgModule({
   declarations: [
@@ -64,6 +67,7 @@ import { AccountSettingsComponent } from 'src/app/Common/account-settings/accoun
     NzSelectModule,
     NzEmptyModule,
     NzFormModule,
+NzBadgeModule,
     ReactiveFormsModule,
     NzAutocompleteModule,
     NgbPaginationModule,
@@ -74,6 +78,9 @@ import { AccountSettingsComponent } from 'src/app/Common/account-settings/accoun
     NgxShimmerLoadingModule,
     NzSwitchModule,
     NzRadioModule,
+    NzCalendarModule,
+    NzModalModule,  // Importing the modal module
+    NzButtonModule,
     SharedModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyB6SQE_TmOLpGLohpMLl-6FzdwJJAU9MnA',

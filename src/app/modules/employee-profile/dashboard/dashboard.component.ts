@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Key } from 'src/app/constant/key';
 import { UserResignation } from 'src/app/models/UserResignation';
-
+import { NzModalService } from 'ng-zorro-antd/modal';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
@@ -24,6 +24,7 @@ import { Notification } from 'src/app/models/Notification';
 import { EmployeeProfileComponent } from '../employee-profile.component';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { OvertimeRequestLogResponse } from 'src/app/models/overtime-request-log-response';
+import { NzCalendarComponent } from 'ng-zorro-antd/calendar';
 
 Chart.register(
   LineController,
@@ -50,6 +51,7 @@ export class DashboardComponent implements OnInit {
   resignationSubmittedToggle: boolean = false;
   constructor(private roleService: RoleBasedAccessControlService,
     private _notificationService: UserNotificationService,
+    private modalService: NzModalService,
     private dataService: DataService,
     public helperService: HelperService,
     private employeeProfileComponent: EmployeeProfileComponent) {
@@ -105,7 +107,9 @@ export class DashboardComponent implements OnInit {
     this.getTeamsWithManagerInfo();
     this.getTotalTeamMembers();
     // this.startCarousel();
-    this.getNoticePeriodDuration()
+    this.getNoticePeriodDuration();
+    const currentYear = new Date().getFullYear();
+    this.loadYearHolidays(currentYear);
 
     // this.getAttendanceRequestLogData();
     // this.fetchAttendanceSummary();
@@ -787,6 +791,22 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  isYearlyHolidayLoading:boolean=false;
+  loadYearHolidays(year: number): void {
+    this.isYearlyHolidayLoading=true;
+    this.dataService.getCurrentYearHolidays(year).subscribe({
+      next: (data) => {
+        this.holidayss = data;
+        this.updateHolidayMaps();
+        this.isYearlyHolidayLoading=false;
+      },
+      error: (error) => {
+        console.error('Failed to fetch holidays', error);
+        this.isYearlyHolidayLoading=false;
+      },
+    });
+  }
+
   showNextHoliday(): void {
     if (this.holidays.length > 0) {
       this.currentHolidayIndex = (this.currentHolidayIndex + 1) % this.holidays.length;
@@ -952,6 +972,82 @@ export class DashboardComponent implements OnInit {
       );
   }
 
+
+
+
+// Holiday data
+holidayss = [
+  {
+    name: "New Year",
+    id: 72,
+    date: "2025-01-01",
+    holidayType: "Custom",
+    logo: null,
+  }
+];
+
+onYearChange(event: any): void {
+  // You can get the selected year from the event and fetch data for it
+  const selectedYear = event.getFullYear();
+  this.loadYearHolidays(selectedYear);
+
+}
+
+// Transform the holiday data into a map for both date and month views
+listDataMap: { [key: string]: { type: string; content: string }[] } = this.holidayss.reduce((map, holiday) => {
+  const dateKey = this.formatDateToLocal(new Date(holiday.date)); // Use the helper to format the date
+  if (!map[dateKey]) {
+    map[dateKey] = [];
+  }
+  map[dateKey].push({ type: 'success', content: holiday.name });
+  return map;
+}, {} as { [key: string]: { type: string; content: string }[] });
+
+// Month data: counts holidays per month
+monthDataMap: { [key: number]: number } = this.holidayss.reduce((map, holiday) => {
+  const month = new Date(holiday.date).getMonth(); // Get month index (0-based)
+  map[month] = (map[month] || 0) + 1;
+  return map;
+}, {} as { [key: number]: number });
+
+// Helper to get events for a specific date
+getHolidayEvents(date: Date): { type: string; content: string }[] {
+  // Format the date to 'YYYY-MM-DD' using the local timezone
+  const dateKey = this.formatDateToLocal(date);
+  return this.listDataMap[dateKey] || [];
+}
+
+// Helper function to format the date to 'YYYY-MM-DD' without timezone issues
+formatDateToLocal(date: Date): string {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');  // Ensure two-digit month
+  const day = String(date.getDate()).padStart(2, '0');         // Ensure two-digit day
+  return `${year}-${month}-${day}`;
+}
+
+// Helper to get the number of holidays for a specific month
+getMonthHolidayCount(date: Date): number {
+  const month = date.getMonth(); // Get month index (0-based)
+  return this.monthDataMap[month] || 0;
+}
+updateHolidayMaps(): void {
+  // Recalculate listDataMap for date view
+  this.listDataMap = this.holidayss.reduce((map, holiday) => {
+    const dateKey = new Date(holiday.date).toISOString().split('T')[0]; // 'YYYY-MM-DD'
+    if (!map[dateKey]) {
+      map[dateKey] = [];
+    }
+    map[dateKey].push({ type: 'success', content: holiday.name });
+    return map;
+  }, {} as { [key: string]: { type: string; content: string }[] });
+
+  // Recalculate monthDataMap for month view
+  this.monthDataMap = this.holidayss.reduce((map, holiday) => {
+    const month = new Date(holiday.date).getMonth(); // 0-based month index
+    map[month] = (map[month] || 0) + 1;
+    return map;
+  }, {} as { [key: number]: number });
+}
 
 
 }
