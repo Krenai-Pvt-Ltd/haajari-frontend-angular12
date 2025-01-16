@@ -1,20 +1,12 @@
 import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
-import {
-  FormArray,
-  FormBuilder,
-  FormGroup,
-  NgForm,
-  Validators,
-} from '@angular/forms';
-import { isThisWeek } from 'date-fns';
+import {FormArray,FormBuilder,FormGroup,NgForm,Validators,} from '@angular/forms';
 import * as _ from 'lodash';
 import moment from 'moment';
 import { constant } from 'src/app/constant/constant';
 import { Key } from 'src/app/constant/key';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { Employeetype } from 'src/app/models/EmployeeType';
-import { ExpenseType } from 'src/app/models/ExpenseType';
 import { FullLeaveSettingRequest } from 'src/app/models/Full-Leave-Setting-Request';
 import { FullLeaveSettingResponse } from 'src/app/models/full-leave-setting-response';
 import { LeaveCategory } from 'src/app/models/leave-category';
@@ -42,10 +34,8 @@ export class LeaveSettingComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private afStorage: AngularFireStorage,
     private dataService: DataService,
     private helperService: HelperService,
-    private cdr: ChangeDetectorRef
   ) {
     this.form = this.fb.group({
       categories: this.fb.array([]),
