@@ -805,7 +805,7 @@ export class DataService {
   //   );
   // }
 
-  // old 
+  // old
   // saveLeaveRequestFromWhatsapp(
   //   userUuid: string,
   //   request: any,
@@ -2376,7 +2376,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     );
   }
 
-  
+
   approveOrRejectLeave(
     requestedLeaveId: number,
     appRejString: string,
@@ -2409,7 +2409,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
   //   );
   // }
 
-  
+
 
   //Salary module
 
@@ -2812,7 +2812,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
   }
 
   //  central - leave - management
-  
+
 
   approveOrRejectLeaveOfUser(
     requestedLeaveId: number,
@@ -3095,6 +3095,14 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     // };
     return this.httpClient.get<any>(
       `${this.baseUrl}/holiday/get-next-six-holidays`
+    );
+  }
+
+  getCurrentYearHolidays(year: number): Observable<any> {
+    const params = new HttpParams()
+      .set('year', year)
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/holiday/year-holidays`,{params}
     );
   }
 
