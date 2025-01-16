@@ -250,3 +250,10 @@
     position: sticky;
     top: 90px;
 }
+.attendance-border{
+    border-bottom: 1px solid #E7E7E7;
+    width: 100%;
+}
+.notification-settings p{ 
+    color: #444;
+}

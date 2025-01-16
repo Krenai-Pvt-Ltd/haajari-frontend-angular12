@@ -19,8 +19,20 @@
                                 fill="#6666F2" />
                         </g>
                     </svg>
-                    Account
-                </button>
+                    Account </button>
+                <button id="v-pills-notification-tab" data-bs-toggle="pill" href="#v-pills-preferences" role="tab"
+                    aria-controls="v-pills-preferences" aria-selected="false" class="nav-link"
+                    (click)="switchTab('preferences')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
+                        <mask id="mask0_7367_4018" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
+                        <rect y="0.5" width="20" height="20" fill="#D9D9D9"/>
+                        </mask>
+                        <g mask="url(#mask0_7367_4018)">
+                        <path *ngIf="tab != 'preferences'" d="M10.3753 11.9064L14.7951 7.48656L13.917 6.58281L10.3753 10.1245L8.58366 8.35844L7.70553 9.23656L10.3753 11.9064ZM6.71512 15.0859C6.29415 15.0859 5.93783 14.9401 5.64616 14.6484C5.35449 14.3568 5.20866 14.0005 5.20866 13.5795V4.0924C5.20866 3.67142 5.35449 3.3151 5.64616 3.02344C5.93783 2.73177 6.29415 2.58594 6.71512 2.58594H16.2022C16.6232 2.58594 16.9795 2.73177 17.2712 3.02344C17.5628 3.3151 17.7087 3.67142 17.7087 4.0924V13.5795C17.7087 14.0005 17.5628 14.3568 17.2712 14.6484C16.9795 14.9401 16.6232 15.0859 16.2022 15.0859H6.71512ZM6.71512 13.8359H16.2022C16.2664 13.8359 16.3251 13.8092 16.3785 13.7557C16.4319 13.7024 16.4587 13.6436 16.4587 13.5795V4.0924C16.4587 4.02823 16.4319 3.96948 16.3785 3.91615C16.3251 3.86267 16.2664 3.83594 16.2022 3.83594H6.71512C6.65095 3.83594 6.5922 3.86267 6.53887 3.91615C6.4854 3.96948 6.45866 4.02823 6.45866 4.0924V13.5795C6.45866 13.6436 6.4854 13.7024 6.53887 13.7557C6.5922 13.8092 6.65095 13.8359 6.71512 13.8359ZM3.79845 18.0026C3.37748 18.0026 3.02116 17.8568 2.72949 17.5651C2.43783 17.2734 2.29199 16.9171 2.29199 16.4961V5.75906H3.54199V16.4961C3.54199 16.5603 3.56873 16.6191 3.6222 16.6724C3.67553 16.7259 3.73428 16.7526 3.79845 16.7526H14.5355V18.0026H3.79845Z" fill="#444444"/>
+                        <path *ngIf="tab == 'preferences'" d="M10.3753 11.9064L14.7951 7.48656L13.917 6.58281L10.3753 10.1245L8.58366 8.35844L7.70553 9.23656L10.3753 11.9064ZM6.71512 15.0859C6.29415 15.0859 5.93783 14.9401 5.64616 14.6484C5.35449 14.3568 5.20866 14.0005 5.20866 13.5795V4.0924C5.20866 3.67142 5.35449 3.3151 5.64616 3.02344C5.93783 2.73177 6.29415 2.58594 6.71512 2.58594H16.2022C16.6232 2.58594 16.9795 2.73177 17.2712 3.02344C17.5628 3.3151 17.7087 3.67142 17.7087 4.0924V13.5795C17.7087 14.0005 17.5628 14.3568 17.2712 14.6484C16.9795 14.9401 16.6232 15.0859 16.2022 15.0859H6.71512ZM6.71512 13.8359H16.2022C16.2664 13.8359 16.3251 13.8092 16.3785 13.7557C16.4319 13.7024 16.4587 13.6436 16.4587 13.5795V4.0924C16.4587 4.02823 16.4319 3.96948 16.3785 3.91615C16.3251 3.86267 16.2664 3.83594 16.2022 3.83594H6.71512C6.65095 3.83594 6.5922 3.86267 6.53887 3.91615C6.4854 3.96948 6.45866 4.02823 6.45866 4.0924V13.5795C6.45866 13.6436 6.4854 13.7024 6.53887 13.7557C6.5922 13.8092 6.65095 13.8359 6.71512 13.8359ZM3.79845 18.0026C3.37748 18.0026 3.02116 17.8568 2.72949 17.5651C2.43783 17.2734 2.29199 16.9171 2.29199 16.4961V5.75906H3.54199V16.4961C3.54199 16.5603 3.56873 16.6191 3.6222 16.6724C3.67553 16.7259 3.73428 16.7526 3.79845 16.7526H14.5355V18.0026H3.79845Z" fill="#6666f2"/>
+                        </g>
+                    </svg>
+                    Preferences </button>
                 <button id="v-pills-notification-tab" data-bs-toggle="pill" href="#v-pills-notification" role="tab"
                     aria-controls="v-pills-notification" aria-selected="false" class="nav-link"
                     (click)="switchTab('notification')">
@@ -38,8 +50,7 @@
                                 fill="#6666F2" />
                         </g>
                     </svg>
-                    Notification Preferences </button>
-
+                    Notification</button>
                 <button id="v-pills-policies-tab" data-bs-toggle="pill" href="#v-pills-policy" role="tab"
                     aria-controls="v-pills-policy" aria-selected="false" class="nav-link" (click)="switchTab('policy')">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
@@ -57,7 +68,6 @@
                         </g>
                     </svg>
                     Company Policies </button>
-
                 <button id="v-pills-support-tab" data-bs-toggle="pill" href="#v-pills-support" role="tab"
                     aria-controls="v-pills-support" aria-selected="false" class="nav-link" (click)="switchTab('help')">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
@@ -76,7 +86,7 @@
                     </svg>
                     Help & Support </button>
                 <!-- TODO : button click open modal initiate exit (modal another component - component name - profile-sidebar)  -->
-                <!-- below button open modal with id which is in another component employee-profile-sidebar  -->
+                <!-- below button open modal with id which is in another component employee-profile-sidebar  --> 
                 <button class="nav-link text-danger pointer" data-bs-toggle="modal" data-bs-target="#initiateExit">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
                         <mask id="mask0_7018_2671" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
@@ -255,11 +265,11 @@
 
                 </div>
             </div>
-            <div class="tab-pane fade" id="v-pills-notification" role="tabpanel"
+            <div class="tab-pane fade" id="v-pills-preferences" role="tabpanel"
                 aria-labelledby="v-pills-notification-tab">
                 <div class="account-setting w-90">
 
-                    <h5 class="font-22 fw-semibold mb-2">Notification</h5>
+                    <h5 class="font-22 fw-semibold mb-2">Preferences</h5>
                     <p class="mb-0 font-13">Manage and customize how you receive updates on attendance and language
                         preferences directly through your preferred channels.</p>
 
@@ -376,6 +386,175 @@
                         </div>
                     </div>
 
+                </div>
+            </div>
+            <div class="tab-pane fade" id="v-pills-notification" role="tabpanel"
+                aria-labelledby="v-pills-notification-tab">
+                <div class="account-setting w-100">
+                    <h5 class="font-22 fw-semibold mb-2">Your Settings</h5>
+                    <p class="mb-0 font-13">Manage and customize how you receive updates on attendance and language preferences directly through your preferred channels.</p>
+
+
+
+                    <div class="mt-5 notification-settings">
+
+                        <div class="notifaction-heading d-flex align-items-center gap-4 mb-2">
+                            <h5 class="mb-0 font-20 fw-saminbold">Attendance</h5>
+                            <div class="attendance-border"></div>
+                        </div>
+
+                        <div class="mt-5 mb-4 d-flex align-items-center justify-content-between">
+                            <div>
+                                <h5 class="mb-2 font-15">Check-In Reminder</h5>
+                                <!-- <p class="mb-0 font-13">Receive attendance notifications by Slack</p> -->
+                                 <p class="mb-0 font-13"><span class="text-primary">3 Times</span> |  After Every 15 mins</p>
+                            </div>
+                            <div class="d-flex align-items-center gap-3">
+                                <p class="mb-0 fw-semibold font-13">Admin Define</p>
+                                <nz-switch [ngModel]="true"></nz-switch>
+                            </div>
+                        </div>
+                        <div class="mt-4 mb-4 d-flex align-items-center justify-content-between">
+                            <div>
+                                <h5 class="mb-2 font-15">Check-Out Reminder</h5>
+                                <p class="mb-0 font-13">Receive attendance notifications by Slack</p>
+                                 <!-- <p class="mb-0 font-13"><span class="text-primary">3 Times</span> |  After Every 15 mins</p> -->
+                            </div>
+                            <div class="d-flex align-items-center gap-3">
+                                <!-- <p class="mb-0 fw-semibold font-13">Admin Define</p> -->
+                                <nz-switch [ngModel]="true"></nz-switch>
+                            </div>
+                        </div>
+                        <div class="mt-4 mb-4 d-flex align-items-center justify-content-between">
+                            <div>
+                                <h5 class="mb-2 font-15">Break Reminder</h5>
+                                <p class="mb-0 font-13">Receive attendance notifications by Slack</p>
+                                 <!-- <p class="mb-0 font-13"><span class="text-primary">3 Times</span> |  After Every 15 mins</p> -->
+                            </div>
+                            <div class="d-flex align-items-center gap-3">
+                                <!-- <p class="mb-0 fw-semibold font-13">Admin Define</p> -->
+                                <nz-switch [ngModel]="true"></nz-switch>
+                            </div>
+                        </div>
+                        <div class="mt-4 mb-4 d-flex align-items-center justify-content-between">
+                            <div>
+                                <h5 class="mb-2 font-15">Back Reminder</h5>
+                                <p class="mb-0 font-13">Receive attendance notifications by Slack</p>
+                                 <!-- <p class="mb-0 font-13"><span class="text-primary">3 Times</span> |  After Every 15 mins</p> -->
+                            </div>
+                            <div class="d-flex align-items-center gap-3">
+                                <p class="mb-0 fw-semibold font-13">Admin Define</p>
+                                <nz-switch [ngModel]="true"></nz-switch>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="mt-5 notification-settings">
+
+                        <div class="notifaction-heading d-flex align-items-center gap-4 mb-2">
+                            <h5 class="mb-0 font-20 fw-saminbold">Leave</h5>
+                            <div class="attendance-border"></div>
+                        </div>
+
+                        <div class="mt-5 mb-4 d-flex align-items-center justify-content-between">
+                            <div>
+                                <h5 class="mb-2 font-15">Check-In Reminder</h5>
+                                <!-- <p class="mb-0 font-13">Receive attendance notifications by Slack</p> -->
+                                 <p class="mb-0 font-13"><span class="text-primary">3 Times</span> |  After Every 15 mins</p>
+                            </div>
+                            <div class="d-flex align-items-center gap-3">
+                                <p class="mb-0 fw-semibold font-13">Admin Define</p>
+                                <nz-switch [ngModel]="true"></nz-switch>
+                            </div>
+                        </div>
+                        <div class="mt-4 mb-4 d-flex align-items-center justify-content-between">
+                            <div>
+                                <h5 class="mb-2 font-15">Check-Out Reminder</h5>
+                                <p class="mb-0 font-13">Receive attendance notifications by Slack</p>
+                                 <!-- <p class="mb-0 font-13"><span class="text-primary">3 Times</span> |  After Every 15 mins</p> -->
+                            </div>
+                            <div class="d-flex align-items-center gap-3">
+                                <!-- <p class="mb-0 fw-semibold font-13">Admin Define</p> -->
+                                <nz-switch [ngModel]="true"></nz-switch>
+                            </div>
+                        </div>
+                        <div class="mt-4 mb-4 d-flex align-items-center justify-content-between">
+                            <div>
+                                <h5 class="mb-2 font-15">Break Reminder</h5>
+                                <p class="mb-0 font-13">Receive attendance notifications by Slack</p>
+                                 <!-- <p class="mb-0 font-13"><span class="text-primary">3 Times</span> |  After Every 15 mins</p> -->
+                            </div>
+                            <div class="d-flex align-items-center gap-3">
+                                <!-- <p class="mb-0 fw-semibold font-13">Admin Define</p> -->
+                                <nz-switch [ngModel]="true"></nz-switch>
+                            </div>
+                        </div>
+                        <div class="mt-4 mb-4 d-flex align-items-center justify-content-between">
+                            <div>
+                                <h5 class="mb-2 font-15">Back Reminder</h5>
+                                <p class="mb-0 font-13">Receive attendance notifications by Slack</p>
+                                 <!-- <p class="mb-0 font-13"><span class="text-primary">3 Times</span> |  After Every 15 mins</p> -->
+                            </div>
+                            <div class="d-flex align-items-center gap-3">
+                                <p class="mb-0 fw-semibold font-13">Admin Define</p>
+                                <nz-switch [ngModel]="true"></nz-switch>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="mt-5 notification-settings">
+
+                        <div class="notifaction-heading d-flex align-items-center gap-4 mb-2">
+                            <h5 class="mb-0 font-20 fw-saminbold">Assets</h5>
+                            <div class="attendance-border"></div>
+                        </div>
+
+                        <div class="mt-5 mb-4 d-flex align-items-center justify-content-between">
+                            <div>
+                                <h5 class="mb-2 font-15">Check-In Reminder</h5>
+                                <!-- <p class="mb-0 font-13">Receive attendance notifications by Slack</p> -->
+                                 <p class="mb-0 font-13"><span class="text-primary">3 Times</span> |  After Every 15 mins</p>
+                            </div>
+                            <div class="d-flex align-items-center gap-3">
+                                <!-- <p class="mb-0 fw-semibold font-13">Admin Define</p> -->
+                                <nz-switch [ngModel]="true"></nz-switch>
+                            </div>
+                        </div>
+                        <div class="mt-4 mb-4 d-flex align-items-center justify-content-between">
+                            <div>
+                                <h5 class="mb-2 font-15">Check-Out Reminder</h5>
+                                <p class="mb-0 font-13">Receive attendance notifications by Slack</p>
+                                 <!-- <p class="mb-0 font-13"><span class="text-primary">3 Times</span> |  After Every 15 mins</p> -->
+                            </div>
+                            <div class="d-flex align-items-center gap-3">
+                                <!-- <p class="mb-0 fw-semibold font-13">Admin Define</p> -->
+                                <nz-switch [ngModel]="true"></nz-switch>
+                            </div>
+                        </div>
+                        <div class="mt-4 mb-4 d-flex align-items-center justify-content-between">
+                            <div>
+                                <h5 class="mb-2 font-15">Break Reminder</h5>
+                                <p class="mb-0 font-13">Receive attendance notifications by Slack</p>
+                                 <!-- <p class="mb-0 font-13"><span class="text-primary">3 Times</span> |  After Every 15 mins</p> -->
+                            </div>
+                            <div class="d-flex align-items-center gap-3">
+                                <!-- <p class="mb-0 fw-semibold font-13">Admin Define</p> -->
+                                <nz-switch [ngModel]="true"></nz-switch>
+                            </div>
+                        </div>
+                        <div class="mt-4 mb-4 d-flex align-items-center justify-content-between">
+                            <div>
+                                <h5 class="mb-2 font-15">Back Reminder</h5>
+                                <p class="mb-0 font-13">Receive attendance notifications by Slack</p>
+                                 <!-- <p class="mb-0 font-13"><span class="text-primary">3 Times</span> |  After Every 15 mins</p> -->
+                            </div>
+                            <div class="d-flex align-items-center gap-3">
+                                <p class="mb-0 fw-semibold font-13">Admin Define</p>
+                                <nz-switch [ngModel]="true"></nz-switch>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
             </div>
             <div class="tab-pane fade" id="v-pills-policy" role="tabpanel" aria-labelledby="v-pills-policies-tab">
