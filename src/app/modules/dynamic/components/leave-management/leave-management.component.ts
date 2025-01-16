@@ -14,6 +14,7 @@ import { saveAs } from 'file-saver';
 import { LeaveService } from 'src/app/services/leave.service';
 import { finalize, tap } from 'rxjs/operators';
 import { formatDate } from '@angular/common';
+import { TeamService } from 'src/app/services/team.service';
 
 @Component({
   selector: 'app-leave-management',
@@ -34,7 +35,8 @@ export class LeaveManagementComponent implements OnInit {
     private firebaseStorage: AngularFireStorage,
     private rbacService: RoleBasedAccessControlService,
     public domSanitizer: DomSanitizer,
-    private leaveService:LeaveService
+    private leaveService:LeaveService,
+    private teamService:TeamService
   ) {}
 
   
@@ -231,7 +233,7 @@ export class LeaveManagementComponent implements OnInit {
 
   getTeamNames() {
     debugger;
-    this.dataService.getAllTeamNames().subscribe({
+    this.teamService.getAbstract().subscribe({
       next: (response: any) => {
         this.teamNameList = response.object;
       },
