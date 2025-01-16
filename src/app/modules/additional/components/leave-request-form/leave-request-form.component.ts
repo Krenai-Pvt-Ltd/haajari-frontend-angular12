@@ -3,8 +3,10 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import moment from 'moment';
+import { Key } from 'src/app/constant/key';
 import { UserDto } from 'src/app/models/user-dto.model';
 import { DataService } from 'src/app/services/data.service';
+import { HelperService } from 'src/app/services/helper.service';
 
 @Component({
   selector: 'app-leave-request-form',
@@ -24,7 +26,8 @@ export class LeaveRequestFormComponent implements OnInit {
     private fb: FormBuilder,
     private dataService: DataService,
     public domSanitizer: DomSanitizer,
-    private afStorage: AngularFireStorage
+    private afStorage: AngularFireStorage,
+    private helperService: HelperService
   ) {
     this.userLeaveForm = this.fb.group({
       startDate: ['', Validators.required],
@@ -43,18 +46,25 @@ export class LeaveRequestFormComponent implements OnInit {
     const userUuidParam = new URLSearchParams(window.location.search).get(
       'userUuid'
     );
-    this.userUuid = userUuidParam?.toString() ?? '731a011e-ae1e-11ee-9597-784f4361d885';
+
+    // this.userUuid = userUuidParam?.toString() ?? '731a011e-ae1e-11ee-9597-784f4361d885';
+    // uncomment 
+    this.userUuid = userUuidParam?.toString() ?? '';
     this.getUserLeaveReq();
 
     this.fetchManagerNames();
     // this.getUserLeaveReq();
   }
   @ViewChild('fileInput') fileInput!: ElementRef;
+
   saveLeaveRequestForWhatsappUser() {
     if (this.userLeaveForm.invalid) {
+      this.helperService.showToast('Please fill in all required fields.', Key.TOAST_STATUS_ERROR);
       return;
     }
+  
     this.submitLeaveLoader = true;
+  // debugger
     this.dataService
       .saveLeaveRequestFromWhatsapp(
         this.userUuid,
@@ -62,21 +72,61 @@ export class LeaveRequestFormComponent implements OnInit {
         this.fileToUpload
       )
       .subscribe({
-        next: () => {
+        next: (data) => {
           this.submitLeaveLoader = false;
-          this.userLeaveForm.reset();
-          this.fileToUpload = '';
-          // this.selectedFile = null;
-          this.fileInput.nativeElement.value = '';
-          // window.location.href =
-          //   'https://api.whatsapp.com/send/?phone=918700822872&type=phone_number&app_absent=0';
+  
+          if (data.status) {
+            // Reset form and file input
+            this.userLeaveForm.reset();
+            this.fileToUpload = '';
+            this.fileInput.nativeElement.value = '';
+  
+            // Show success message
+            this.helperService.showToast('Leave request submitted successfully.', Key.TOAST_STATUS_SUCCESS);
+          } else {
+            // Show error message based on the response
+            this.helperService.showToast(data.message || 'Failed to submit leave request.', Key.TOAST_STATUS_ERROR);
+          }
         },
         error: (error) => {
           this.submitLeaveLoader = false;
           console.error(error);
+  
+          // Show generic error message
+          this.helperService.showToast('An error occurred while submitting the leave request. Please try again.', Key.TOAST_STATUS_ERROR);
         },
       });
   }
+
+  
+  // saveLeaveRequestForWhatsappUser() {
+  //   if (this.userLeaveForm.invalid) {
+  //     return;
+  //   }
+  //   this.submitLeaveLoader = true;
+  //   this.dataService
+  //     .saveLeaveRequestFromWhatsapp(
+  //       this.userUuid,
+  //       this.userLeaveForm.value,
+  //       this.fileToUpload
+  //     )
+  //     .subscribe({
+  //       next: () => {
+  //         this.submitLeaveLoader = false;
+  //         this.userLeaveForm.reset();
+  //         this.fileToUpload = '';
+  //         // this.selectedFile = null;
+  //         this.fileInput.nativeElement.value = '';
+  //         this.helperService.showToast(data.message, Key.TOAST_STATUS_ERROR);
+  //         // window.location.href =
+  //         //   'https://api.whatsapp.com/send/?phone=918700822872&type=phone_number&app_absent=0';
+  //       },
+  //       error: (error) => {
+  //         this.submitLeaveLoader = false;
+  //         console.error(error);
+  //       },
+  //     });
+  // }
 
   managers: UserDto[] = [];
   selectedManagerId!: number;
