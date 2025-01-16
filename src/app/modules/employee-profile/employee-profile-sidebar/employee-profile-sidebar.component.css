@@ -2,12 +2,6 @@
     border-right: 1px solid #f1f1f1;
 }
 
-#pdf-container {
-    height: 600px;
-    overflow-y: scroll;
-}
-
-
 .company-logo {
     background-color: #F5F5F5;
     height: 130px;
@@ -1256,8 +1250,69 @@ i::before {
     box-shadow: 0px 4.211px 4.211px 0px rgba(0, 0, 0, 0.10);
 }
 
-.agreement-sidebar {
-    height: 70vh;
+
+#pdf-container {
+    height: 600px;
+    overflow-y: scroll;
+}
+
+.policy-terms {
+    background-color: #363A3F;
+}
+
+.policy-name {
+    background-color: #4D5462;
+}
+
+.policy-footer {
+    position: absolute;
+    bottom: 0px;
+    border-radius: 0px;
+    border: 1px solid #EEE;
+    background: #FFF;
+    box-shadow: 0px -2px 4px 0px rgba(111, 111, 111, 0.20);
+    padding: 15px !important;
+}
+
+.agreement-sidebar h5 {
+    line-height: 28px;
+}
+
+.agreement-sidebar p {
+    font-weight: 300;
+    line-height: 24px;
+}
+
+.agreement-sidebar span svg {
+    width: 30px;
+}
+
+.policy-step {
+    position: absolute;
+    bottom: 10px;
+}
+
+.policy-step span {
+    border-radius: 20px;
+    background-color: #D9D9D9;
+    width: 40px;
+    height: 4px;
+}
+
+.active-step {
+    background-color: #6666f2 !important;
+}
+
+.policy-label {
+    line-height: 38px;
+}
+
+input[type=radio], input[type=checkbox] {
+    box-sizing: border-box;
+    padding: 0;
+    accent-color: #6766f3;
+    width: 1rem;
+    height: 1rem;
 }
 
 /** Approve Modal end */

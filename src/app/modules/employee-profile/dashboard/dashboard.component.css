@@ -9,6 +9,71 @@
   height: 100px;
 }
 
+/* Ensure each <li> item is displayed as a block, and stacks vertically */
+.events li.holiday-item {
+  background-color: lightyellow;  /* Set light yellow background */
+  color: green;                   /* Set text color to green */
+  font-weight: bold;              /* Optional: make the text bold */
+  padding: 5px;
+  border-radius: 3px;             /* Optional: rounded corners */
+  list-style-type: none;          /* Remove default list item bullets */
+  margin: 5px 0;                  /* Add vertical margin between items */
+  width: 100%;                    /* Ensure the <li> takes full width of its container */
+  display: block;                 /* Explicitly make the <li> a block element (stack vertically) */
+}
+
+/* Optional: Remove any extra space around the <ul> */
+.events {
+  padding: 0;      /* Remove any padding inside the <ul> */
+  margin: 0;       /* Remove any margin around the <ul> */
+  display: block;  /* Ensure <ul> behaves like a block container */
+  width: 100%;     /* Ensure the <ul> takes full width of the calendar cell */
+}
+
+/* Optional: Target the calendar cell to remove extra space */
+.nz-calendar-cell {
+  padding: 0 !important;  /* Remove any padding */
+  margin: 0 !important;   /* Remove any margin */
+  width: auto;            /* Allow dynamic width based on content */
+}
+
+.nz-calendar-cell {
+  border: 1px solid #d9d9d9 !important; /* Light gray border, with !important to override existing styles */
+  box-sizing: border-box;  /* Ensure padding and border are within the cell */
+}
+
+/* Optional: Add padding and margins to improve spacing */
+.nz-calendar {
+  padding: 10px;  /* Padding around the entire calendar */
+}
+/* Optional: Add hover effect on calendar cells */
+.nz-calendar-cell:hover {
+  border-color: #40a9ff; /* Change border color on hover */
+  background-color: #e6f7ff; /* Optional: Add a light background color on hover */
+}
+
+
+
+
+
+
+.holiday-date {
+  background-color: #fffae6;
+  border-radius: 4px;
+  padding: 5px;
+  text-align: center;
+}
+
+.holiday-name {
+  font-weight: bold;
+  color: #d46b08;
+}
+
+.holiday-type {
+  font-size: 0.85em;
+  color: #8c8c8c;
+}
+
 .employee-dashboard p:first-child {
   color: #424242;
   font-weight: 500;

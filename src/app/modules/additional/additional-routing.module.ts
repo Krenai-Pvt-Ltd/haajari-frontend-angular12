@@ -6,7 +6,7 @@ import { LeaveRequestFormComponent } from './components/leave-request-form/leave
 import { SlackInstallationSuccessfullComponent } from './components/slack-installation-successfull/slack-installation-successfull.component';
 import { EmployeeLocationValidatorComponent } from './components/employee-location-validator/employee-location-validator.component';
 import { EmployeeAttendancePhotoComponent } from './components/employee-attendance-photo/employee-attendance-photo.component';
-import { WorkentryComponent } from './components/workentry/workentry.component';
+import { AttendanceUrlComponent } from './components/attendance-url/attendance-url.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/additional/leave-request', pathMatch: 'full' },
@@ -20,7 +20,7 @@ const routes: Routes = [
       { path: 'internal-server-error', component: InternalServerErrorPageComponent },
       { path: 'location-validator', component: EmployeeLocationValidatorComponent },
       { path: 'attendance-photo', component: EmployeeAttendancePhotoComponent },
-      { path: 'workentry', component: WorkentryComponent },
+      { path: 'attendance-url', component: AttendanceUrlComponent },
     ],
   },
 ];

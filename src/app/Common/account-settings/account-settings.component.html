@@ -277,7 +277,7 @@
                                 </div>
                                 <span
                                     class="notification-switch d-flex align-items-center justify-content-center gap-2">
-                                    <nz-switch class="switch" nzSize="small"
+                                    <nz-switch class="switch" nzSize="small" [nzLoading]="isButtonLoading"
                                         (ngModelChange)="updateNotificationSetting($event,'SLACK')"
                                         [ngModel]="notification.notification==='SLACK'"></nz-switch>
                                     <ng-container *ngIf="notification.notification === 'SLACK'; else offTemplate">
@@ -331,7 +331,7 @@
                                 </div>
                                 <span
                                     class="notification-switch d-flex align-items-center justify-content-center gap-2">
-                                    <nz-switch class="switch" nzSize="small"
+                                    <nz-switch class="switch" nzSize="small" [nzLoading]="isButtonLoading"
                                         (ngModelChange)="updateNotificationSetting($event,'WHATSAPP')"
                                         [ngModel]="notification.notification==='WHATSAPP'"></nz-switch>
 
@@ -393,62 +393,38 @@
                                 <p class="mb-0 font-13">Clear, Consistent, and Legally Sound Guidelines for Effective
                                     Organizational Management</p>
 
-                                <div class="row mt-3 ">
-                                    <div class="col-md-6">
-                                        <div
-                                            class="d-flex align-items-center justify-content-between employee-agreement p-2 mb-2">
-                                            <div class="d-flex align-items-center gap-2">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30"
-                                                    viewBox="0 0 30 30" fill="none">
-                                                    <path
-                                                        d="M7.5 0C6.46875 0 5.625 0.84375 5.625 1.875V28.125C5.625 29.1562 6.46875 30 7.5 30H26.25C27.2812 30 28.125 29.1562 28.125 28.125V7.5L20.625 0H7.5Z"
-                                                        fill="#E2E5E7"></path>
-                                                    <path
-                                                        d="M22.5 7.5H28.125L20.625 0V5.625C20.625 6.65625 21.4688 7.5 22.5 7.5Z"
-                                                        fill="#B0B7BD"></path>
-                                                    <path d="M28.125 13.125L22.5 7.5H28.125V13.125Z" fill="#CAD1D8">
-                                                    </path>
-                                                    <path
-                                                        d="M24.375 24.375C24.375 24.8906 23.9531 25.3125 23.4375 25.3125H2.8125C2.29688 25.3125 1.875 24.8906 1.875 24.375V15C1.875 14.4844 2.29688 14.0625 2.8125 14.0625H23.4375C23.9531 14.0625 24.375 14.4844 24.375 15V24.375Z"
-                                                        fill="#F15642"></path>
-                                                    <path
-                                                        d="M5.96484 17.7597C5.96484 17.5122 6.15984 17.2422 6.47391 17.2422H8.20547C9.18047 17.2422 10.058 17.8947 10.058 19.1453C10.058 20.3303 9.18047 20.9903 8.20547 20.9903H6.95391V21.9803C6.95391 22.3103 6.74391 22.4969 6.47391 22.4969C6.22641 22.4969 5.96484 22.3103 5.96484 21.9803V17.7597ZM6.95391 18.1863V20.0537H8.20547C8.70797 20.0537 9.10547 19.6103 9.10547 19.1453C9.10547 18.6212 8.70797 18.1863 8.20547 18.1863H6.95391Z"
-                                                        fill="white"></path>
-                                                    <path
-                                                        d="M11.5253 22.4997C11.2778 22.4997 11.0078 22.3647 11.0078 22.0356V17.7775C11.0078 17.5084 11.2778 17.3125 11.5253 17.3125H13.2419C16.6675 17.3125 16.5925 22.4997 13.3094 22.4997H11.5253ZM11.9978 18.2275V21.5856H13.2419C15.2659 21.5856 15.3559 18.2275 13.2419 18.2275H11.9978Z"
-                                                        fill="white"></path>
-                                                    <path
-                                                        d="M17.8088 18.2884V19.48H19.7203C19.9903 19.48 20.2603 19.75 20.2603 20.0116C20.2603 20.2591 19.9903 20.4616 19.7203 20.4616H17.8088V22.0356C17.8088 22.2981 17.6222 22.4997 17.3597 22.4997C17.0297 22.4997 16.8281 22.2981 16.8281 22.0356V17.7775C16.8281 17.5084 17.0306 17.3125 17.3597 17.3125H19.9913C20.3213 17.3125 20.5163 17.5084 20.5163 17.7775C20.5163 18.0175 20.3213 18.2875 19.9913 18.2875H17.8088V18.2884Z"
-                                                        fill="white"></path>
-                                                    <path
-                                                        d="M23.4375 25.3125H5.625V26.25H23.4375C23.9531 26.25 24.375 25.8281 24.375 25.3125V24.375C24.375 24.8906 23.9531 25.3125 23.4375 25.3125Z"
-                                                        fill="#CAD1D8"></path>
-                                                </svg>
-                                                <p class="mb-0">Agreement letter.pdf</p>
-                                            </div>
-                                            <span class="download-icon pointer">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21"
-                                                    viewBox="0 0 21 21" fill="none">
-                                                    <mask id="mask0_4714_1149" maskUnits="userSpaceOnUse" x="0" y="0"
-                                                        width="21" height="21" style="mask-type: alpha;">
-                                                        <rect x="0.5" y="0.5" width="20" height="20" fill="#D9D9D9">
-                                                        </rect>
-                                                    </mask>
-                                                    <g mask="url(#mask0_4714_1149)">
-                                                        <path
-                                                            d="M10.5026 13.832L6.33594 9.66536L7.5026 8.45703L9.66927 10.6237V3.83203H11.3359V10.6237L13.5026 8.45703L14.6693 9.66536L10.5026 13.832ZM5.5026 17.1654C5.04427 17.1654 4.65191 17.0022 4.32552 16.6758C3.99913 16.3494 3.83594 15.957 3.83594 15.4987V12.9987H5.5026V15.4987H15.5026V12.9987H17.1693V15.4987C17.1693 15.957 17.0061 16.3494 16.6797 16.6758C16.3533 17.0022 15.9609 17.1654 15.5026 17.1654H5.5026Z"
-                                                            fill="#1C1B1F"></path>
-                                                    </g>
-                                                </svg>
-                                            </span>
-                                        </div>
 
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div
-                                            class="d-flex align-items-center justify-content-between employee-agreement p-2 mb-2">
-                                            <div class="d-flex align-items-center gap-2">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="31" height="31"
+                                <div class="row mt-3">
+                                  <div class="col-md-6" *ngFor="let agreement of hrPolicyDocuments">
+                                    <div class="d-flex align-items-center justify-content-between employee-agreement p-2 mb-2">
+                                      <div class="d-flex align-items-center gap-2">
+                                        <svg *ngIf="!isYouTubeUrl(agreement.url)" xmlns="http://www.w3.org/2000/svg" width="30" height="30"
+                                        viewBox="0 0 30 30" fill="none">
+                                        <path
+                                            d="M7.5 0C6.46875 0 5.625 0.84375 5.625 1.875V28.125C5.625 29.1562 6.46875 30 7.5 30H26.25C27.2812 30 28.125 29.1562 28.125 28.125V7.5L20.625 0H7.5Z"
+                                            fill="#E2E5E7"></path>
+                                        <path
+                                            d="M22.5 7.5H28.125L20.625 0V5.625C20.625 6.65625 21.4688 7.5 22.5 7.5Z"
+                                            fill="#B0B7BD"></path>
+                                        <path d="M28.125 13.125L22.5 7.5H28.125V13.125Z" fill="#CAD1D8">
+                                        </path>
+                                        <path
+                                            d="M24.375 24.375C24.375 24.8906 23.9531 25.3125 23.4375 25.3125H2.8125C2.29688 25.3125 1.875 24.8906 1.875 24.375V15C1.875 14.4844 2.29688 14.0625 2.8125 14.0625H23.4375C23.9531 14.0625 24.375 14.4844 24.375 15V24.375Z"
+                                            fill="#F15642"></path>
+                                        <path
+                                            d="M5.96484 17.7597C5.96484 17.5122 6.15984 17.2422 6.47391 17.2422H8.20547C9.18047 17.2422 10.058 17.8947 10.058 19.1453C10.058 20.3303 9.18047 20.9903 8.20547 20.9903H6.95391V21.9803C6.95391 22.3103 6.74391 22.4969 6.47391 22.4969C6.22641 22.4969 5.96484 22.3103 5.96484 21.9803V17.7597ZM6.95391 18.1863V20.0537H8.20547C8.70797 20.0537 9.10547 19.6103 9.10547 19.1453C9.10547 18.6212 8.70797 18.1863 8.20547 18.1863H6.95391Z"
+                                            fill="white"></path>
+                                        <path
+                                            d="M11.5253 22.4997C11.2778 22.4997 11.0078 22.3647 11.0078 22.0356V17.7775C11.0078 17.5084 11.2778 17.3125 11.5253 17.3125H13.2419C16.6675 17.3125 16.5925 22.4997 13.3094 22.4997H11.5253ZM11.9978 18.2275V21.5856H13.2419C15.2659 21.5856 15.3559 18.2275 13.2419 18.2275H11.9978Z"
+                                            fill="white"></path>
+                                        <path
+                                            d="M17.8088 18.2884V19.48H19.7203C19.9903 19.48 20.2603 19.75 20.2603 20.0116C20.2603 20.2591 19.9903 20.4616 19.7203 20.4616H17.8088V22.0356C17.8088 22.2981 17.6222 22.4997 17.3597 22.4997C17.0297 22.4997 16.8281 22.2981 16.8281 22.0356V17.7775C16.8281 17.5084 17.0306 17.3125 17.3597 17.3125H19.9913C20.3213 17.3125 20.5163 17.5084 20.5163 17.7775C20.5163 18.0175 20.3213 18.2875 19.9913 18.2875H17.8088V18.2884Z"
+                                            fill="white"></path>
+                                        <path
+                                            d="M23.4375 25.3125H5.625V26.25H23.4375C23.9531 26.25 24.375 25.8281 24.375 25.3125V24.375C24.375 24.8906 23.9531 25.3125 23.4375 25.3125Z"
+                                            fill="#CAD1D8"></path>
+                                    </svg>
+                                    <svg *ngIf="isYouTubeUrl(agreement.url)" xmlns="http://www.w3.org/2000/svg" width="31" height="31"
                                                     viewBox="0 0 31 31" fill="none">
                                                     <g clip-path="url(#clip0_7119_2733)">
                                                         <path
@@ -495,10 +471,14 @@
                                                         </clipPath>
                                                     </defs>
                                                 </svg>
-                                                <p class="mb-0">Briefing.mp4</p>
-                                            </div>
-                                            <span class="download-icon pointer">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21"
+                                        <p class="mb-0">{{ agreement.name }}</p>
+                                      </div>
+                                      <span class="download-icon pointer">
+                                        <a [href]="agreement.url" target="_blank">
+                                          <svg *ngIf="!isYouTubeUrl(agreement.url)" xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
+                                            <path d="M10.5026 13.832L6.33594 9.66536L7.5026 8.45703L9.66927 10.6237V3.83203H11.3359V10.6237L13.5026 8.45703L14.6693 9.66536L10.5026 13.832ZM5.5026 17.1654C5.04427 17.1654 4.65191 17.0022 4.32552 16.6758C3.99913 16.3494 3.83594 15.957 3.83594 15.4987V12.9987H5.5026V15.4987H15.5026V12.9987H17.1693V15.4987C17.1693 15.957 17.0061 16.3494 16.6797 16.6758C16.3533 17.0022 15.9609 17.1654 15.5026 17.1654H5.5026Z" fill="#1C1B1F"></path>
+                                          </svg>
+                                          <svg *ngIf="isYouTubeUrl(agreement.url)" xmlns="http://www.w3.org/2000/svg" width="21" height="21"
                                                     viewBox="0 0 21 21" fill="none">
                                                     <mask id="mask0_7119_2750" style="mask-type:alpha"
                                                         maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
@@ -511,11 +491,12 @@
                                                             fill="#1C1B1F" />
                                                     </g>
                                                 </svg>
-                                            </span>
-                                        </div>
-
+                                        </a>
+                                      </span>
                                     </div>
+                                  </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -694,12 +675,12 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row mt-5 border-bottom pb-4">
+                    <div *ngIf="guidelines?.leaveTemplates" class="row mt-5 border-bottom pb-4">
                         <div class="col-md-4">
                             <h5 class="font-16 fw-semibold">Leaves Rules</h5>
                         </div>
                         <div class="col-md-8">
-                            <div class="guide-policy mb-4">
+                            <div *ngIf="guidelines?.leaveTemplates?.SickLeave" class="guide-policy mb-4">
                                 <h5 class="font-15 mb-2 fw-semibold">Paid Leave (PL) Rules</h5>
                                 <p class="mb-0 font-13">Employees are entitled to <span class="fw-semibold">2 paid
                                         leaves per month, totalling up
@@ -707,28 +688,27 @@
                                         forward to the next year, with a maximum limit of 10 days.</span>
                                 </p>
                             </div>
-                            <div class="guide-policy mb-4">
+                            <div *ngIf="guidelines?.leaveTemplates?.SickLeave" class="guide-policy mb-4">
                                 <h5 class="font-15 mb-2 fw-semibold">Sick Leave (SL)Rules</h5>
-                                <p class="mb-0 font-13">Employees are entitled to <span class="fw-semibold">6 sick
-                                        leaves </span> per year, exclusively
-                                    for medical emergencies. Sick leaves <span class="fw-semibold">cannot be carried
-                                        forward </span>to the next year.
+                                <p class="mb-0 font-13">Employees are entitled to <span class="fw-semibold">{{guidelines?.leaveTemplates?.SickLeave?.leaveCount}} sick
+                                        leaves </span> {{guidelines?.leaveTemplates?.SickLeave?.leaveCycle}}, exclusively
+                                    for medical emergencies. Sick leaves <span class="fw-semibold">can be {{guidelines?.leaveTemplates?.SickLeave?.unusedLeaveAction}} </span>to the next {{guidelines?.leaveTemplates?.SickLeave?.leaveCycle}}.
                                 </p>
                             </div>
-                            <div class="guide-policy mb-4">
+                            <div *ngIf="guidelines?.leaveTemplates?.CasualLeave" class="guide-policy mb-4">
                                 <h5 class="font-15 mb-2 fw-semibold">Casual Leave (CL) Rules</h5>
-                                <p class="mb-0 font-13">Employees are entitled to <span class="fw-semibold">8 casual
-                                        leaves </span> annually, usable for <span class="fw-semibold">1
-                                        to 3 days </span> at a time. Unused leaves <span class="fw-semibold"> lapse
-                                        yearly,</span> and applications must be submitted
+                                <p class="mb-0 font-13">Employees are entitled to <span class="fw-semibold">{{guidelines?.leaveTemplates?.CasualLeave?.leaveCount}} casual
+                                        leaves </span> {{guidelines?.leaveTemplates?.CasualLeave?.leaveCycle}}, usable for <span class="fw-semibold">1
+                                        to 3 days </span> at a time. Unused leaves <span class="fw-semibold">{{guidelines?.leaveTemplates?.CasualLeave?.unusedLeaveAction}}
+                                          {{guidelines?.leaveTemplates?.CasualLeave?.leaveCycle}},</span> and applications must be submitted
                                     2 days in advance, except in emergencies.
                                 </p>
                             </div>
-                            <div class="guide-policy mb-4">
+                            <div *ngIf="guidelines?.leaveTemplates?.LeaveWithoutPay" class="guide-policy mb-4">
                                 <h5 class="font-15 mb-2 fw-semibold">Leave Without Pay (LWP) Rules</h5>
                                 <p class="mb-0 font-13">If all leaves are exhausted, employees can take LWP <span
                                         class="fw-semibold"> with manager
-                                        or HR approval.</span> ₹500 will be deducted per day, and frequent use may lead
+                                        or HR approval.</span> Amount will be deducted per day, and frequent use may lead
                                     to a
                                     review.
                                 </p>
@@ -843,6 +823,103 @@
                     </div>
 
 
+                </div>
+
+
+                <div class="account-setting w-90">
+                  <h5 class="font-22 fw-semibold mb-2">How Can We Assist You?</h5>
+                  <form [formGroup]="supportForm" (ngSubmit)="onSubmitHnS()">
+                    <div class="row mt-5">
+                      <!-- Email Field -->
+                      <div class="col-md-12 mb-4">
+                        <label for="email" class="pb-2">Your Email ID</label>
+                        <input
+                          id="email"
+                          type="email"
+                          placeholder="Enter Email ID"
+                          formControlName="email"
+                          class="form-control input-zorro"
+                        />
+                        <div *ngIf="supportForm.get('email')?.invalid && supportForm.get('email')?.touched" class="text-danger">
+                          Valid email is required.
+                        </div>
+                      </div>
+                      <!-- Phone Field -->
+                      <div class="col-md-12 mb-4">
+                        <label for="phone" class="pb-2">Your Phone Number</label>
+                        <input
+                          id="phone"
+                          type="text"
+                          placeholder="Enter Phone Number"
+                          formControlName="phone"
+                          class="form-control input-zorro"
+                        />
+                        <div *ngIf="supportForm.get('phone')?.invalid && supportForm.get('phone')?.touched" class="text-danger">
+                          Valid phone number is required.
+                        </div>
+                      </div>
+                      <!-- Message Field -->
+                      <div class="col-md-12 mb-4">
+                        <label for="message" class="pb-2">Describe Your Issue</label>
+                        <textarea
+                          id="message"
+                          rows="3"
+                          placeholder="Describe your issue..."
+                          formControlName="description"
+                          class="form-control textarea-zerro"
+                        ></textarea>
+
+                        <div *ngIf="supportForm.get('description')?.invalid && supportForm.get('description')?.touched" class="text-danger">
+                          Description is required.
+                        </div>
+                        <span class="file-attach-icon pointer">
+                          <!-- Hidden file input -->
+                          <input id="file" type="file" (change)="onFileSelect($event)" multiple style="display: none;" />
+
+                          <!-- Label that triggers the file input -->
+                          <label for="file" style="cursor: pointer;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="24" viewBox="0 0 18 24" fill="none">
+                              <path
+                                d="M17.1847 16.2135C17.1847 18.1047 16.3794 19.714 14.7688 21.0414C13.1585 22.369 11.1982 23.0328 8.88787 23.0328C6.57758 23.0328 4.61488 22.369 2.99979 21.0414C1.38469 19.714 0.577148 18.1047 0.577148 16.2135V5.74353C0.577148 4.39982 1.14813 3.25769 2.2901 2.31711C3.43183 1.37654 4.82484 0.90625 6.46915 0.90625C8.11346 0.90625 9.50659 1.37654 10.6486 2.31711C11.7905 3.25769 12.3615 4.39982 12.3615 5.74353V15.6536C12.3615 16.4418 12.0255 17.1147 11.3536 17.6724C10.6815 18.23 9.86251 18.5088 8.89678 18.5088C7.93081 18.5088 7.10664 18.2319 6.42426 17.6782C5.74188 17.1245 5.40069 16.4496 5.40069 15.6536V5.43026H7.53796V15.6536C7.53796 15.9657 7.66634 16.2285 7.92309 16.442C8.17984 16.6555 8.49918 16.7623 8.8811 16.7623C9.26279 16.7623 9.582 16.6555 9.83876 16.442C10.0955 16.2285 10.2239 15.9657 10.2239 15.6536V5.73247C10.2092 4.87244 9.84363 4.1442 9.12728 3.54776C8.41094 2.95131 7.5249 2.65309 6.46915 2.65309C5.41791 2.65309 4.52938 2.95315 3.80353 3.55329C3.07769 4.15362 2.71477 4.8837 2.71477 5.74353V16.2135C2.70005 17.6214 3.29561 18.8188 4.50147 19.8056C5.70733 20.7925 7.17112 21.286 8.89286 21.286C10.5901 21.286 12.0329 20.7925 13.2212 19.8056C14.4092 18.8188 15.0179 17.6214 15.0471 16.2135V5.43026H17.1847V16.2135Z"
+                                fill="#1C1B1F" />
+                            </svg>
+                          </label>
+                        </span>
+                        <div class="d-flex align-items-center gap-3 support">
+                          <!-- Dynamic Rendering of Images -->
+                          <span
+                            class="support-img position-relative"
+                            *ngFor="let url of attachedHnSFile; let i = index"
+                          >
+                            <img [src]="url" alt="Preview">
+                            <span
+                              class="close-btn pointer d-flex align-items-center justify-content-center"
+                              (click)="removeFile(i)"
+                            >
+                              <i class="bi bi-x"></i>
+                            </span>
+                          </span>
+
+                          <div *ngIf="isFileUploading" class="spinner"></div>
+
+
+                        </div>
+
+                      </div>
+
+                      <!-- Submit Button -->
+                      <div class="col-md-12 mb-4">
+                        <button type="submit"  class="btn btn-primary" [disabled]="supportForm.invalid || isLoadingHnS || isFileUploading">
+                          <span *ngIf="!isLoadingHnS">Submit</span>
+                          <div class="dot-opacity-loader" *ngIf="isLoadingHnS">
+                          <span></span>
+                          <span></span>
+                          <span></span>
+                          </div>
+                        </button>
+                      </div>
+                    </div>
+                  </form>
                 </div>
             </div>
         </div>

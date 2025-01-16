@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Key } from 'src/app/constant/key';
 import { UserResignation } from 'src/app/models/UserResignation';
-
+import { NzModalService } from 'ng-zorro-antd/modal';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
@@ -24,6 +24,7 @@ import { Notification } from 'src/app/models/Notification';
 import { EmployeeProfileComponent } from '../employee-profile.component';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { OvertimeRequestLogResponse } from 'src/app/models/overtime-request-log-response';
+import { NzCalendarComponent } from 'ng-zorro-antd/calendar';
 
 Chart.register(
   LineController,
@@ -50,6 +51,7 @@ export class DashboardComponent implements OnInit {
   resignationSubmittedToggle: boolean = false;
   constructor(private roleService: RoleBasedAccessControlService,
     private _notificationService: UserNotificationService,
+    private modalService: NzModalService,
     private dataService: DataService,
     public helperService: HelperService,
     private employeeProfileComponent: EmployeeProfileComponent) {
@@ -105,7 +107,9 @@ export class DashboardComponent implements OnInit {
     this.getTeamsWithManagerInfo();
     this.getTotalTeamMembers();
     // this.startCarousel();
-    this.getNoticePeriodDuration()
+    this.getNoticePeriodDuration();
+    const currentYear = new Date().getFullYear();
+    this.loadYearHolidays(currentYear);
 
     // this.getAttendanceRequestLogData();
     // this.fetchAttendanceSummary();
@@ -199,7 +203,7 @@ export class DashboardComponent implements OnInit {
 
     if (this.userId == this.UUID) {
       this.userRoleFlag = true;
-    }else {
+    } else {
       this.userRoleFlag = false;
     }
   }
@@ -264,9 +268,9 @@ export class DashboardComponent implements OnInit {
   };
 
   noticePeriodDuration: number = 0;
-  getNoticePeriodDuration(){
+  getNoticePeriodDuration() {
     this.dataService.getNoticePeriodDuration(this.userId).subscribe((res: any) => {
-      if(res.status){
+      if (res.status) {
         this.noticePeriodDuration = res.object
       }
     })
@@ -278,10 +282,10 @@ export class DashboardComponent implements OnInit {
 
     this.userResignationInfo.isRecommendLastDay = value == 'Other' ? 1 : 0
 
-    if(this.userResignationInfo.isRecommendLastDay == 0){
+    if (this.userResignationInfo.isRecommendLastDay == 0) {
       this.userResignationInfo.userLastWorkingDay = ''
       this.calculateLasWorkingDay();
-    }else{
+    } else {
       this.userResignationInfo.userLastWorkingDay = this.userResignationInfo.userLastWorkingDay
     }
   }
@@ -290,7 +294,7 @@ export class DashboardComponent implements OnInit {
     this.userResignationInfo.isManagerDiscussion = value == 'Yes' ? 1 : 0
   }
 
-  calculateLasWorkingDay(){
+  calculateLasWorkingDay() {
     const today = new Date();
     // const maxDate = new Date();
     const maxDate = new Date();
@@ -305,18 +309,18 @@ export class DashboardComponent implements OnInit {
 
   showRevokeDiv: boolean = false;
   revokeReason: string = ''
-  revokeResignation(id: number){
+  revokeResignation(id: number) {
 
-    if(!this.showRevokeDiv){
+    if (!this.showRevokeDiv) {
       this.showRevokeDiv = true;
-    }else{
+    } else {
       this.approveToggle = true;
       this.requestModal = true;
       // console.log('hitt')
       // this.approveToggle = false
       // this.closeApproveModal.nativeElement.click()
       this.dataService.revokeResignation(id, this.userResignationInfo.revokeReason).subscribe((res: any) => {
-        if(res.status){
+        if (res.status) {
           this.closeApproveModal.nativeElement.click()
           this.approveToggle = false
           // this.helperService.profileChangeStatus.next(true);
@@ -324,7 +328,7 @@ export class DashboardComponent implements OnInit {
             res.message,
             Key.TOAST_STATUS_SUCCESS
           );
-        }else{
+        } else {
           this.approveToggle = false;
         }
       })
@@ -333,7 +337,7 @@ export class DashboardComponent implements OnInit {
 
   }
 
-  clearForm(){
+  clearForm() {
     this.userResignationInfo = this.userResignationInfo;
     this.revokeReason = ''
     this.userResignationInfo.revokeReason = ''
@@ -343,17 +347,17 @@ export class DashboardComponent implements OnInit {
   // @ViewChild('closeResignationButton') closeResignationButton!: ElementRef
   userResignationReq: UserResignation = new UserResignation();
   resignationToggle: boolean = false;
-  submitResignation(){
+  submitResignation() {
     this.resignationToggle = true;
     this.userResignationReq = this.userResignationInfo
     this.dataService.submitResignation(this.userResignationReq).subscribe((res: any) => {
-        if(res.status){
-          this.resignationToggle =false
-          // this.helperService.resignationSubmitted.next(true);
-          this.closeApproveModal.nativeElement.click()
-          this.getUserResignationInfo()
-          // this.clearForm();
-        }
+      if (res.status) {
+        this.resignationToggle = false
+        // this.helperService.resignationSubmitted.next(true);
+        this.closeApproveModal.nativeElement.click()
+        this.getUserResignationInfo()
+        // this.clearForm();
+      }
     })
 
     // console.log('reqs: ',this.userResignationReq)
@@ -631,9 +635,9 @@ export class DashboardComponent implements OnInit {
           this.formatToDecimalHours(item.totalWorkedHour)
         );
 
-        if(response.listOfObject.length === 0) {
+        if (response.listOfObject.length === 0) {
           this.isPlaceholder = true;
-        }else {
+        } else {
           this.isPlaceholder = false;
         }
 
@@ -662,72 +666,74 @@ export class DashboardComponent implements OnInit {
   }
 
   initializeChart(labels: string[], data: number[]) {
-    const ctx = this.chartCanvas.nativeElement.getContext('2d');
+    if (this.chartCanvas) {
+      const ctx = this.chartCanvas!.nativeElement.getContext('2d');
 
-    if (ctx) {
-      this.chart = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: labels,
-          datasets: [
-            {
-              label: 'Total Worked Hours',
-              data: data,
-              borderColor: 'rgba(75, 192, 192, 1)',
-              backgroundColor: 'rgba(153, 102, 255, 0.2)',
-              tension: 0.4,
-              fill: true,
-            },
-          ],
-        },
-        options: {
-          responsive: true,
-          plugins: {
-            legend: {
-              display: false,
-              position: 'top',
-            },
-            title: {
-              display: true,
-              text: 'Worked Hours for the Week',
-            },
-            tooltip: {
-              callbacks: {
-                // Custom tooltip label callback
-                label: (tooltipItem: any) => {
-                  // Convert the decimal hours to HH:MM format
-                  const formattedTime = this.formatDecimalToTime(tooltipItem.raw);
-                  return `${tooltipItem.label}: ${formattedTime}`;
-                }
+      if (ctx) {
+        this.chart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: labels,
+            datasets: [
+              {
+                label: 'Total Worked Hours',
+                data: data,
+                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                tension: 0.4,
+                fill: true,
               },
-            },
+            ],
           },
-          scales: {
-            x: {
+          options: {
+            responsive: true,
+            plugins: {
+              legend: {
+                display: false,
+                position: 'top',
+              },
               title: {
                 display: true,
-                text: 'Days of the Week',
+                text: 'Worked Hours for the Week',
               },
-            },
-            y: {
-              title: {
-                display: true,
-                text: 'Worked Hours',
-              },
-              beginAtZero: true,
-              ticks: {
-                // Adjust ticks for Y-axis to handle time correctly
-                callback: (tickValue: string | number) => {
-                  const value = typeof tickValue === 'string' ? parseFloat(tickValue) : tickValue;
-                  return this.formatDecimalToTime(value);
+              tooltip: {
+                callbacks: {
+                  // Custom tooltip label callback
+                  label: (tooltipItem: any) => {
+                    // Convert the decimal hours to HH:MM format
+                    const formattedTime = this.formatDecimalToTime(tooltipItem.raw);
+                    return `${tooltipItem.label}: ${formattedTime}`;
+                  }
                 },
-                stepSize: 0.5,
               },
-              type: 'linear',
+            },
+            scales: {
+              x: {
+                title: {
+                  display: true,
+                  text: 'Days of the Week',
+                },
+              },
+              y: {
+                title: {
+                  display: true,
+                  text: 'Worked Hours',
+                },
+                beginAtZero: true,
+                ticks: {
+                  // Adjust ticks for Y-axis to handle time correctly
+                  callback: (tickValue: string | number) => {
+                    const value = typeof tickValue === 'string' ? parseFloat(tickValue) : tickValue;
+                    return this.formatDecimalToTime(value);
+                  },
+                  stepSize: 0.5,
+                },
+                type: 'linear',
+              },
             },
           },
-        },
-      });
+        });
+      }
     }
   }
 
@@ -781,6 +787,22 @@ export class DashboardComponent implements OnInit {
       },
       error: (error) => {
         console.error('Failed to fetch holidays', error);
+      },
+    });
+  }
+
+  isYearlyHolidayLoading:boolean=false;
+  loadYearHolidays(year: number): void {
+    this.isYearlyHolidayLoading=true;
+    this.dataService.getCurrentYearHolidays(year).subscribe({
+      next: (data) => {
+        this.holidayss = data;
+        this.updateHolidayMaps();
+        this.isYearlyHolidayLoading=false;
+      },
+      error: (error) => {
+        console.error('Failed to fetch holidays', error);
+        this.isYearlyHolidayLoading=false;
       },
     });
   }
@@ -950,6 +972,82 @@ export class DashboardComponent implements OnInit {
       );
   }
 
+
+
+
+// Holiday data
+holidayss = [
+  {
+    name: "New Year",
+    id: 72,
+    date: "2025-01-01",
+    holidayType: "Custom",
+    logo: null,
+  }
+];
+
+onYearChange(event: any): void {
+  // You can get the selected year from the event and fetch data for it
+  const selectedYear = event.getFullYear();
+  this.loadYearHolidays(selectedYear);
+
+}
+
+// Transform the holiday data into a map for both date and month views
+listDataMap: { [key: string]: { type: string; content: string }[] } = this.holidayss.reduce((map, holiday) => {
+  const dateKey = this.formatDateToLocal(new Date(holiday.date)); // Use the helper to format the date
+  if (!map[dateKey]) {
+    map[dateKey] = [];
+  }
+  map[dateKey].push({ type: 'success', content: holiday.name });
+  return map;
+}, {} as { [key: string]: { type: string; content: string }[] });
+
+// Month data: counts holidays per month
+monthDataMap: { [key: number]: number } = this.holidayss.reduce((map, holiday) => {
+  const month = new Date(holiday.date).getMonth(); // Get month index (0-based)
+  map[month] = (map[month] || 0) + 1;
+  return map;
+}, {} as { [key: number]: number });
+
+// Helper to get events for a specific date
+getHolidayEvents(date: Date): { type: string; content: string }[] {
+  // Format the date to 'YYYY-MM-DD' using the local timezone
+  const dateKey = this.formatDateToLocal(date);
+  return this.listDataMap[dateKey] || [];
+}
+
+// Helper function to format the date to 'YYYY-MM-DD' without timezone issues
+formatDateToLocal(date: Date): string {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');  // Ensure two-digit month
+  const day = String(date.getDate()).padStart(2, '0');         // Ensure two-digit day
+  return `${year}-${month}-${day}`;
+}
+
+// Helper to get the number of holidays for a specific month
+getMonthHolidayCount(date: Date): number {
+  const month = date.getMonth(); // Get month index (0-based)
+  return this.monthDataMap[month] || 0;
+}
+updateHolidayMaps(): void {
+  // Recalculate listDataMap for date view
+  this.listDataMap = this.holidayss.reduce((map, holiday) => {
+    const dateKey = new Date(holiday.date).toISOString().split('T')[0]; // 'YYYY-MM-DD'
+    if (!map[dateKey]) {
+      map[dateKey] = [];
+    }
+    map[dateKey].push({ type: 'success', content: holiday.name });
+    return map;
+  }, {} as { [key: string]: { type: string; content: string }[] });
+
+  // Recalculate monthDataMap for month view
+  this.monthDataMap = this.holidayss.reduce((map, holiday) => {
+    const month = new Date(holiday.date).getMonth(); // 0-based month index
+    map[month] = (map[month] || 0) + 1;
+    return map;
+  }, {} as { [key: number]: number });
+}
 
 
 }

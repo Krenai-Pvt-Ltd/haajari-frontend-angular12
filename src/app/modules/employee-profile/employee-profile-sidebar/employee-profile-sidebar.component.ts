@@ -920,8 +920,10 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     // if (this.pdfModal && this.modalService.hasOpenModals()) {
     //   return;
     // }
-    this.pdfModalButton.nativeElement.click();
-    this.lastIndex++;
+    if (this.pdfModalButton) {
+      this.pdfModalButton.nativeElement.click();
+      this.lastIndex++;
+    }
     // this.modalService.open(this.pdfModal, { backdrop: 'static', keyboard: false });
 
     // Wait for the modal to fully render before loading the PDF
@@ -941,6 +943,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     container.innerHTML = '';
 
     if (this.isYouTubeUrl(contentUrl)) {
+      this.isVideoPolicy=true;
       // Render YouTube content in iframe
       const iframe = document.createElement('iframe');
       iframe.width = '100%';
@@ -951,6 +954,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
       container.appendChild(iframe);
       this.isLastPageRead = true;
     } else {
+      this.isVideoPolicy=false;
       // Render PDF
       this.loadPDF(contentUrl);
     }
@@ -1007,29 +1011,31 @@ export class EmployeeProfileSidebarComponent implements OnInit {
   }
 
 
-
+isVideoPolicy=false;
   setupScrollDetection(container: HTMLElement) {
+    debugger
     container.addEventListener('scroll', () => {
       const maxScroll = container.scrollHeight - container.clientHeight;
-      if (container.scrollTop >= maxScroll) {
+      if ((container.scrollTop + 10) >= maxScroll) {
         this.isLastPageRead = true;
       }
     });
   }
 
-  acceptAgreement(modal: any) {
+  acceptAgreement() {
     debugger
     if (this.isLastPageRead) {
       this.isAgreementAccepted = true;
-      this.moveToNextPdf(modal);
+      this.moveToNextPdf();
 
 
     } else {
+      this.pdfModalButton.nativeElement.click();
       this.helperService.showToast('Please scroll to the last page before accepting.', Key.TOAST_STATUS_ERROR);
     }
   }
 
-  moveToNextPdf(modal: any) {
+  moveToNextPdf() {
     debugger
     this.currentPdfIndex++;
 
@@ -1049,7 +1055,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
           this.helperService.showToast(res.message, Key.TOAST_STATUS_SUCCESS);
         }
       })
-      modal.close();
+      // modal.close();s
     }
   }
 
