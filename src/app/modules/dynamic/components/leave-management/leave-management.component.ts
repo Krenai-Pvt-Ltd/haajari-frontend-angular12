@@ -13,6 +13,7 @@ import { RoleBasedAccessControlService } from 'src/app/services/role-based-acces
 import { saveAs } from 'file-saver';
 import { LeaveService } from 'src/app/services/leave.service';
 import { finalize, tap } from 'rxjs/operators';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-leave-management',
@@ -264,19 +265,19 @@ export class LeaveManagementComponent implements OnInit {
   monthlyChartData: any[] = [];
   count: number = 0;
   monthlyPlaceholderFlag: boolean = true;
-  getMonthlyChartData() {
-    this.dataService.getMonthlyLeaveSummary().subscribe((data) => {
-      this.monthlyChartData = data.map((item) => ({
-        name: this.sliceWord(item.monthName),
-        series: [
-          { name: 'Pending', value: item.pending || 0 },
-          { name: 'Approved', value: item.approved || 0 },
-          { name: 'Rejected', value: item.rejected || 0 },
-        ],
-        // this.count++;
-      }));
-    });
-  }
+  // getMonthlyChartData() {
+  //   this.leaveService.leavesCountReport().subscribe((data) => {
+  //     this.monthlyChartData = data.map((item) => ({
+  //       name: this.sliceWord(item.monthName),
+  //       series: [
+  //         { name: 'Pending', value: item.pending || 0 },
+  //         { name: 'Approved', value: item.approved || 0 },
+  //         { name: 'Rejected', value: item.rejected || 0 },
+  //       ],
+  //       // this.count++;
+  //     }));
+  //   });
+  // }
 
   consumedLeaveData: any[] = [];
   views: [number, number] = [300, 200];
@@ -481,10 +482,9 @@ export class LeaveManagementComponent implements OnInit {
   .subscribe({
     next: () => {
       // Subscription for side effects only
-      console.log('Pending leaves loaded successfully.');
+      // console.log('Pending leaves loaded successfully.');
     },
     error: (error) => {
-      console.log("🚀 ~ LeaveManagementComponent ~ getLeaves ~ error:", error)
       this.helperService.showToast(
         'Failed to load pending leaves.',
         Key.TOAST_STATUS_ERROR
@@ -516,6 +516,47 @@ export class LeaveManagementComponent implements OnInit {
   leave!: PendingLeaveResponse;
   viewPendingLeave(leave:any){
     this.leave = leave;
+  }
+
+  /****************************************************************************************************************************************************************
+   *  GET LEAVES UPDATED METHODS END
+   ****************************************************************************************************************************************************************/
+
+
+
+
+  /****************************************************************************************************************************************************************
+   *  GET LEAVES REPORTS UPDATED METHODS START
+   ****************************************************************************************************************************************************************/
+
+  getMonthlyChartData() {
+   var dateRange:{ startDate: string; endDate: string }= this.getLastMonthsRange(6);
+    this.leaveService.getLeaveCountersByDateRange(dateRange).subscribe((data:any) => {
+      var report = data.object;
+      this.monthlyChartData = report.map((item:any) => ({
+        name: item.monthName.slice(0, 3),
+        series: [
+          { name: 'Pending', value: item.pending || 0 },
+          { name: 'Approved', value: item.approved || 0 },
+          { name: 'Rejected', value: item.rejected || 0 },
+        ],
+        // this.count++;
+      }));
+    });
+  }
+
+  getLastMonthsRange(months: number): { startDate: string; endDate: string } {
+    const currentDate = new Date();
+  
+    // Calculate the start date (First day of the month `months` ago)
+    const startDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - (months - 1), 1);
+    const formattedStartDate = formatDate(startDate, 'yyyy-MM-dd', 'en-US');
+  
+    // Calculate the end date (Last day of the current month)
+    const endDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
+    const formattedEndDate = formatDate(endDate, 'yyyy-MM-dd', 'en-US');
+  
+    return { startDate: formattedStartDate, endDate: formattedEndDate };
   }
 }
 
