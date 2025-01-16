@@ -15,4 +15,10 @@ export class LeaveService {
     return this.http.get(`${API_URLS.base_url}${API_URLS.leaves}`, { params });
 
   }
+
+  getLeaveCountersByDateRange(paramsObj?: Record<string, any>): Observable<any> {
+    const params = new HttpParams({ fromObject: paramsObj || {} });
+    return this.http.get(`${API_URLS.base_url}${API_URLS.leavesCountReport}`, { params });
+
+  }
 }
