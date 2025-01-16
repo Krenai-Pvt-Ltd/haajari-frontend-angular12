@@ -747,6 +747,23 @@ export class DataService {
   //   return this.httpClient.get(this.baseUrl + "/get-token", { params });
   // }
 
+  // old
+  // saveLeaveRequest(
+  //   userUuid: string,
+  //   request: any,
+  //   fileToUpload: string
+  // ): Observable<any> {
+  //   const params = new HttpParams()
+  //     .set('uuid', userUuid)
+  //     .set('fileToUpload', fileToUpload);
+  //   return this.httpClient.post(
+  //     this.baseUrl + '/user-leave/save-users-leave',
+  //     request,
+  //     { params }
+  //   );
+  // }
+
+
   saveLeaveRequest(
     userUuid: string,
     request: any,
@@ -756,11 +773,12 @@ export class DataService {
       .set('uuid', userUuid)
       .set('fileToUpload', fileToUpload);
     return this.httpClient.post(
-      this.baseUrl + '/user-leave/save-users-leave',
+      this.baseUrl + '/temp/leave/request',
       request,
       { params }
     );
   }
+
 
   saveLeaveRequestForLeaveManagement(
     request: any,
@@ -768,11 +786,41 @@ export class DataService {
   ): Observable<any> {
     const params = new HttpParams().set('fileToUpload', fileToUpload);
     return this.httpClient.post(
-      this.baseUrl + '/user-leave/save-users-leave-leave-management',
+      this.baseUrl + '/temp/leave/request-leave-management',
       request,
       { params }
     );
   }
+
+  // old
+  // saveLeaveRequestForLeaveManagement(
+  //   request: any,
+  //   fileToUpload: string
+  // ): Observable<any> {
+  //   const params = new HttpParams().set('fileToUpload', fileToUpload);
+  //   return this.httpClient.post(
+  //     this.baseUrl + '/user-leave/save-users-leave-leave-management',
+  //     request,
+  //     { params }
+  //   );
+  // }
+
+  // old 
+  // saveLeaveRequestFromWhatsapp(
+  //   userUuid: string,
+  //   request: any,
+  //   fileToUpload: string
+  // ): Observable<any> {
+  //   const params = new HttpParams()
+  //     .set('userUuid', userUuid)
+  //     .set('fileToUpload', fileToUpload);
+  //   return this.httpClient.post(
+  //     this.baseUrl + '/user-leave/whatsapp/save-users-leave',
+  //     request,
+  //     { params }
+  //   );
+  // }
+
 
   saveLeaveRequestFromWhatsapp(
     userUuid: string,
@@ -783,7 +831,7 @@ export class DataService {
       .set('userUuid', userUuid)
       .set('fileToUpload', fileToUpload);
     return this.httpClient.post(
-      this.baseUrl + '/user-leave/whatsapp/save-users-leave',
+      this.baseUrl + '/temp/leave/whatsapp/request',
       request,
       { params }
     );
@@ -2239,6 +2287,9 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     const url = `${this.baseUrl}/account-setting/update/profile-picture`;
     return this.httpClient.put<any>(url, userPersonalInformationRequest);
   }
+  getUserGuidelines(): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/account-setting/guidelines`);
+  }
   updateProfilePic(
     picUrl: string
   ): Observable<any> {
@@ -2325,6 +2376,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     );
   }
 
+  
   approveOrRejectLeave(
     requestedLeaveId: number,
     appRejString: string,
@@ -2336,10 +2388,28 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     //   .set('userUuid',logInUserUuid);
 
     return this.httpClient.post<any>(
-      `${this.baseUrl}/central-leave-management/approve-reject-leaves?requestedLeaveId=${requestedLeaveId}&appRejString=${appRejString}&userUuid=${logInUserUuid}`,
+      `${this.baseUrl}/temp/leave/approve-reject-leaves?requestedLeaveId=${requestedLeaveId}&appRejString=${appRejString}&userUuid=${logInUserUuid}`,
       {}
     );
   }
+
+  // approveOrRejectLeave(
+  //   requestedLeaveId: number,
+  //   appRejString: string,
+  //   logInUserUuid: string
+  // ): Observable<any> {
+  //   // let params = new HttpParams()
+  //   //   .set('requestedLeaveId', requestedLeaveId.toString())
+  //   //   .set('appRejString', appRejString)
+  //   //   .set('userUuid',logInUserUuid);
+
+  //   return this.httpClient.post<any>(
+  //     `${this.baseUrl}/central-leave-management/approve-reject-leaves?requestedLeaveId=${requestedLeaveId}&appRejString=${appRejString}&userUuid=${logInUserUuid}`,
+  //     {}
+  //   );
+  // }
+
+  
 
   //Salary module
 
@@ -2742,6 +2812,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
   }
 
   //  central - leave - management
+  
 
   approveOrRejectLeaveOfUser(
     requestedLeaveId: number,
@@ -2753,11 +2824,27 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
       .set('appRejString', appRejString)
       .set('rejectionReason', rejectionReason);
     return this.httpClient.post<any>(
-      `${this.baseUrl}/central-leave-management/approve-reject-leaves`,
+      `${this.baseUrl}/temp/leave/approve-reject-leaves`,
       {},
       { params }
     );
   }
+
+  // approveOrRejectLeaveOfUser(
+  //   requestedLeaveId: number,
+  //   appRejString: string,
+  //   rejectionReason: string
+  // ): Observable<any> {
+  //   const params = new HttpParams()
+  //     .set('requestedLeaveId', requestedLeaveId)
+  //     .set('appRejString', appRejString)
+  //     .set('rejectionReason', rejectionReason);
+  //   return this.httpClient.post<any>(
+  //     `${this.baseUrl}/central-leave-management/approve-reject-leaves`,
+  //     {},
+  //     { params }
+  //   );
+  // }
 
   getFullLeaveLogsRoleWise(
     searchString: string,

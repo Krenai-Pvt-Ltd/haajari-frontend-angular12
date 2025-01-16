@@ -545,7 +545,7 @@
                 ">
                   <!-- Approve Button -->
                    <!-- (click)="approveOrDeny(leave.id, 'approved')" -->
-                  <button class="btn approve-btn" type="button"
+                  <button class="btn approve-btn" type="button" (click)="approveOrDeny(leave.id, 'approved')"
                     >
                     <div *ngIf="approvedLoader; else approveLabel">
                       <div class="dot-opacity-loader">
@@ -569,7 +569,7 @@
                   <ng-template #rejectLabel>Reject</ng-template>
                 </button> -->
 
-                  <button class="btn reject-btn" type="button" (click)="rejectLeave()">
+                  <button class="btn reject-btn" type="button" (click)="approveOrDeny(leave.id, 'rejected')">
                     <div *ngIf="rejecetdLoader; else rejectLabel">
                       <div class="dot-opacity-loader">
                         <span></span>

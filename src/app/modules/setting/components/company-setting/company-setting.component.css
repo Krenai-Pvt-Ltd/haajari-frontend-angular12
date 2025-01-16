@@ -1633,3 +1633,11 @@ a.fetch-location {
   border-radius: 2px;
   font-weight: 500;
 }
+
+.location-user-table{
+  height: 55vh;
+  overflow: scroll;
+}
+.location-user-table::-webkit-scrollbar{
+  display: none;
+}

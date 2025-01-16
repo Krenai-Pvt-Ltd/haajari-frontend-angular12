@@ -25,6 +25,7 @@ export class AccountSettingsComponent implements OnInit {
     this.UUID= this.roleService.getUuid();
     this.getEmployeeProfileData();
     this.loadNotificationSettings();
+    this.fetchGuidelines();
   }
 
   tab: string = 'account';
@@ -45,6 +46,19 @@ export class AccountSettingsComponent implements OnInit {
       console.log(error);
      this.isLoading = false;
     })
+  }
+
+  guidelines:any;
+  fetchGuidelines(): void {
+    this.dataService.getUserGuidelines().subscribe({
+      next: (data) => {
+        this.guidelines = data;
+        console.log('Guidelines:', data);
+      },
+      error: (err) => {
+        console.error('Error fetching guidelines:', err);
+      },
+    });
   }
 
   onFileSelected(event: Event): void {
@@ -165,5 +179,19 @@ export class AccountSettingsComponent implements OnInit {
         console.error('Error fetching notification settings:', err);
       },
     });
+  }
+
+  formatTime(breakTime: string): string {
+    const [hours, minutes] = breakTime.split(':');
+
+    let result = '';
+    if (+hours > 0) {
+      result += `${hours} hour${+hours > 1 ? 's' : ''} `;
+    }
+    if (+minutes > 0) {
+      result += `${minutes} min${+minutes > 1 ? 's' : ''}`;
+    }
+
+    return result.trim();
   }
 }
