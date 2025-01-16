@@ -505,10 +505,11 @@
                             <h5 class="font-16 fw-semibold">Attendance Rule</h5>
                         </div>
                         <div *ngIf="guidelines?.attendanceRule" class="col-md-8">
-                            <div class="guide-policy mb-4">
+                            <div *ngIf="guidelines?.attendanceRule?.weekOff && guidelines?.attendanceRule?.shiftAllocated" class="guide-policy mb-4">
                                 <h5 class="font-15 mb-2 fw-semibold">Shift Allocated</h5>
-                                <p class="mb-0 font-13">You are allocated to the <span class="fw-semibold">day
-                                        shift</span> with a <span class="fw-semibold">5-day on-ground work
+                                <p class="mb-0 font-13">You are allocated to the <span class="fw-semibold">
+                                  {{ guidelines?.attendanceRule?.shiftAllocated }}
+                                </span> with a <span class="fw-semibold">{{7-guidelines?.attendanceRule?.weekOff}}-day on-ground work
                                         schedule.</span></p>
                             </div>
                             <div *ngIf="guidelines?.attendanceRule?.arrivalTime" class="guide-policy mb-4">
@@ -524,14 +525,14 @@
                             </div>
                             <div *ngIf="guidelines?.attendanceRule?.breakTime" class="guide-policy mb-4">
                                 <h5 class="font-15 mb-2 fw-semibold">Break Time </h5>
-                                <p class="mb-0 font-13">Employees are allowed to take a total of {{formatTime(guidelines?.attendanceRule?.breakTime) }} for breaks
+                                <p class="mb-0 font-13">Employees are allowed to take a total of <span class="fw-semibold">{{formatTime(guidelines?.attendanceRule?.breakTime) }}</span> for breaks
                                     during the workday.
                                 </p>
                             </div>
                             <div *ngIf="guidelines?.attendanceRule?.breakTime" class="guide-policy mb-4">
                                 <h5 class="font-15 mb-2 fw-semibold">Back Time</h5>
                                 <p class="mb-0 font-13">Employees must log their return from breaks, ensuring the total
-                                    break duration is within the allocated {{formatTime(guidelines?.attendanceRule?.breakTime) }}. Breaks can be split into multiple
+                                    break duration is within the allocated <span class="fw-semibold">{{formatTime(guidelines?.attendanceRule?.breakTime) }}</span>. Breaks can be split into multiple
                                     shorter breaks, as long as the total break time does
                                     <span class="fw-semibold"> not exceed {{formatTime(guidelines?.attendanceRule?.breakTime) }}.</span>
                                 </p>
@@ -595,7 +596,7 @@
                                 <h5 class="font-15 mb-2 fw-semibold">Half Day Salary Deduction</h5>
                                 <p class="mb-0 font-13">The break duration limit is set to <span class="fw-semibold">{{formatTime(guidelines?.break?.halfDayLate?.lateDuration)}} .</span> If
                                     the break exceeds this limit, a half-day salary deduction will be applied. This
-                                    rule can be enforced for up to {{guidelines?.break?.halfDayLate?.occurrenceCount}} occurrences. </p>
+                                    rule can be enforced for up to <span class="fw-semibold">{{guidelines?.break?.halfDayLate?.occurrenceCount}} occurrences</span>. </p>
                             </div>
                             <div *ngIf="guidelines?.break?.fullDayLate?.lateDuration" class="guide-policy mb-4">
                                 <h5 class="font-15 mb-2 fw-semibold">Full Day Salary Deduction</h5>
@@ -657,9 +658,9 @@
                             </div>
                             <div class="guide-policy mb-4">
                                 <h5 class="font-15 mb-2 fw-semibold">Half Day Salary Deduction</h5>
-                                <p class="mb-0 font-13">If you work <span class="fw-semibold"> before your shift starts
+                                <p class="mb-0 font-13">If you work before your shift starts
                                         or beyond your regular
-                                        working hours and complete {{formatTime(guidelines?.overTimeRule?.halfDayDuration)}} of overtime,</span> you will
+                                        working hours and complete <span class="fw-semibold">{{formatTime(guidelines?.overTimeRule?.halfDayDuration)}}</span> of overtime, you will
                                     receive a fixed
                                     payout of <span class="fw-semibold"> ₹{{guidelines?.overTimeRule?.halfDayAmount}}</span> to recognize your hard work and
                                     dedication. times,
