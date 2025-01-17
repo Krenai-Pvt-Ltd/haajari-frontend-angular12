@@ -1710,7 +1710,12 @@
                                     </div>
 
                                 </div>
-                                <div class="col-md-12 mb-3">
+                                <div class="col-md-12 mb-3" *ngIf = "ROLE === 'ADMIN'">
+                                    <div class="">
+                                        <label class="mb-2">Since you are an Admin, the Manager/Admin selection is not applicable for you. Your team members will see their respective manager or admin when they log in.</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 mb-3" *ngIf = "ROLE !== 'ADMIN'">
                                     <div class="form-group">
                                         <label for="selectUser" class="mb-2">Select user to request the leave
                                             from</label>
@@ -1726,6 +1731,7 @@
                                         </nz-form-control>
                                     </div>
                                 </div>
+
 
                                 <div class="col-md-12 mb-3">
                                     <div class="form-group">

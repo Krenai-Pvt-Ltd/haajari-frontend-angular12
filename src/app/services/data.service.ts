@@ -3140,6 +3140,24 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     );
   }
 
+
+
+  getIsAdminForWhatsappLeave(
+    userUuid: string
+  ): Observable<any> {
+    const params = {
+      userUuid: `${userUuid}`
+    };
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/employee-onboarding-status/check-admin-whatsapp-leave`,
+      {
+        params,
+      }
+    );
+  }
+
+  
+
   setEmployeeCompanyDocuments(
     userUuid: string,
     onboardingPreviewData: OnboardingFormPreviewResponse
