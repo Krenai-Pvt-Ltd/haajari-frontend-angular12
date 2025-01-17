@@ -116,7 +116,13 @@
     </div>
 
     <!-- Manager Selection -->
-    <div class="form-field">
+
+    <div class="form-field" *ngIf = "isAdmin">
+      <div class="">
+          <label class="mb-2">Since you are an Admin, the Manager/Admin selection is not applicable for you. Your team members will see their respective manager or admin when they log in.</label>
+      </div>
+    </div>
+    <div class="form-field" *ngIf = "!isAdmin">
       <label>Select user to request the leave from</label>
       <select formControlName="managerId">
         <option value="">Select Manager</option>

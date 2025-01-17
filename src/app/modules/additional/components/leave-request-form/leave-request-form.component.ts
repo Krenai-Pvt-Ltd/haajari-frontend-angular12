@@ -14,9 +14,10 @@ import { HelperService } from 'src/app/services/helper.service';
   styleUrls: ['./leave-request-form.component.css'],
 })
 export class LeaveRequestFormComponent implements OnInit {
-  userLeaveForm: FormGroup;
+  userLeaveForm!: FormGroup;
   submitLeaveLoader: boolean = false;
   userUuid!: string;
+  ROLE: string = '';
   // currentNewDate = new Date().toISOString().split('T')[0];
   currentDate: Date = new Date();
   currentNewDate = moment(this.currentDate)
@@ -29,32 +30,52 @@ export class LeaveRequestFormComponent implements OnInit {
     private afStorage: AngularFireStorage,
     private helperService: HelperService
   ) {
-    this.userLeaveForm = this.fb.group({
-      startDate: ['', Validators.required],
-      endDate: [''],
-      leaveType: ['', Validators.required],
-      managerId: ['', Validators.required],
-      optNotes: ['', Validators.required],
-      userLeaveTemplateId:[''],
-      halfDayLeave: [false],
-      dayShift: [false],
-      eveningShift: [false],
-    });
-  }
 
-  ngOnInit(): void {
     const userUuidParam = new URLSearchParams(window.location.search).get(
       'userUuid'
     );
 
     // this.userUuid = userUuidParam?.toString() ?? '731a011e-ae1e-11ee-9597-784f4361d885';
     // uncomment 
-    this.userUuid = userUuidParam?.toString() ?? '';
-    this.getUserLeaveReq();
+    this.userUuid = userUuidParam?.toString() ?? '';  
+    
+  }
 
+  ngOnInit(): void {
+    this.getIsAdminForWhatsappLeaveRequest();
+    this.initializeForm();
+    // this.updateManagerIdValidators();
+    this.getUserLeaveReq();
     this.fetchManagerNames();
     // this.getUserLeaveReq();
   }
+
+  initializeForm() {
+    this.userLeaveForm = this.fb.group({
+      startDate: ['', Validators.required],
+      endDate: [''],
+      leaveType: ['', Validators.required],
+      managerId: [''],
+      optNotes: ['', Validators.required],
+      userLeaveTemplateId: [''],
+      halfDayLeave: [false],
+      dayShift: [false],
+      eveningShift: [false],
+    });
+  }
+
+  updateManagerIdValidators() {
+    debugger
+    const managerIdControl = this.userLeaveForm.get('managerId');
+    if (this.isAdmin) {
+      managerIdControl?.clearValidators(); // Remove validators
+      managerIdControl?.setValue(''); // Clear the value
+    } else {
+      managerIdControl?.setValidators(Validators.required); // Apply Validators.required
+    }
+    managerIdControl?.updateValueAndValidity(); // Update the validity of the control
+  }
+
   @ViewChild('fileInput') fileInput!: ElementRef;
 
   saveLeaveRequestForWhatsappUser() {
@@ -80,7 +101,9 @@ export class LeaveRequestFormComponent implements OnInit {
             this.userLeaveForm.reset();
             this.fileToUpload = '';
             this.fileInput.nativeElement.value = '';
-  
+            this.userLeaveForm.get('halfDayLeave')?.setValue(false);
+            this.userLeaveForm.get('dayShift')?.setValue(false);
+            this.userLeaveForm.get('eveningShift')?.setValue(false);
             // Show success message
             this.helperService.showToast('Leave request submitted successfully.', Key.TOAST_STATUS_SUCCESS);
           } else {
@@ -297,5 +320,15 @@ export class LeaveRequestFormComponent implements OnInit {
   goToWhatsappOnCancel() {
     window.location.href =
       'https://api.whatsapp.com/send/?phone=918700822872&type=phone_number&app_absent=0';
+  }
+
+  isAdmin : boolean = false;
+  getIsAdminForWhatsappLeaveRequest() {
+
+    this.dataService.getIsAdminForWhatsappLeave(this.userUuid).subscribe(
+      (isAdminPresent: boolean) => {
+         this.isAdmin = isAdminPresent;
+         this.updateManagerIdValidators();
+      });
   }
 }
