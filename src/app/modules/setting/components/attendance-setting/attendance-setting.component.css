@@ -1740,4 +1740,13 @@ a.fetch-location {
   font-size: 0.875rem !important;
   font-weight: 400 !important;
 }
+
+input[type=radio], input[type=checkbox] {
+  box-sizing: border-box;
+  padding: 0;
+  accent-color: #6766f3;
+  width: 18px;
+  height: 18px;
+  border-radius: 2px;
+}
 /* new side tab for new modal */

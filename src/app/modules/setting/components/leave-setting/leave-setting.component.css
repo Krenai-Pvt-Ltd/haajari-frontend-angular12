@@ -1922,3 +1922,12 @@ i.bi.bi-plus {
   white-space: nowrap;
   width: 250px;
 }
+
+input[type=radio], input[type=checkbox] {
+  box-sizing: border-box;
+  padding: 0;
+  accent-color: #6766f3;
+  width: 18px;
+  height: 18px;
+  border-radius: 2px;
+}

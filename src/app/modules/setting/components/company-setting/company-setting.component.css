@@ -1641,3 +1641,45 @@ a.fetch-location {
 .location-user-table::-webkit-scrollbar{
   display: none;
 }
+
+input[type=checkbox] {
+  box-sizing: border-box;
+  padding: 0;
+  accent-color: #6766f3;
+  width: 18px;
+  height: 18px;
+  border-radius: 2px;
+}
+input[type=radio]{
+  border-radius: 50%;
+}
+
+.notification-checkbox input[type=checkbox]{
+  position: relative;
+  top: -1px;
+  width: 20px;
+  height: 20px;
+}
+.reminder-form{
+  background-color: #F9F9F9;
+  border-radius: 2px;
+}
+.send-reminder{
+  border: 1px solid #f1f1f1;
+    border-radius: 2px;
+    height: 47px;
+    margin-bottom: 0px;
+    background-color: #fff;
+}
+
+.assets-req p {
+  padding-left: 10px;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #000;
+  position: relative;
+  top: 2px;
+}
+.reminder-after{
+  border-left: 1px solid #f2f2f2;
+}
