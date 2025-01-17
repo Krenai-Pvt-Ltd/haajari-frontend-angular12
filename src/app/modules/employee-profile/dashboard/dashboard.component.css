@@ -889,7 +889,7 @@ span.holiday-initial {
 ::ng-deep .ant-picker-calendar-full .ant-picker-panel .ant-picker-calendar-date {
   padding: 5px !important;
   margin: 0px 0px !important;
-  height: 120px !important;
+  height: 100px !important;
 }
 
 ::ng-deep .ant-picker-calendar-full .ant-picker-panel .ant-picker-calendar-date-value {
