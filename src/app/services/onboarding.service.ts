@@ -15,12 +15,17 @@ export class OnboardingService {
   isLoadingOnboardingStatus: boolean = true;
   requestedRoute!: string;
   readonly Routes= Routes;
+  readonly constant =constant;
   constructor(private onboardingService: OrganizationOnboardingService, private router: Router, private helperService: HelperService, private subscriptionService: SubscriptionPlanService, private rbacService: RoleBasedAccessControlService) {
-
+    const token = localStorage.getItem('token');
     this.requestedRoute = decodeURIComponent(window.location.pathname + window.location.search + window.location.hash);
-    if(!constant.PUBLIC_ROUTES.includes(window.location.pathname) && !this.Routes.SLACK_AUTH_ROUTES.includes(window.location.pathname)){
+    if(window.location.pathname==Routes.SIGNUP && constant.EMPTY_STRINGS.includes(token)){
+      this.isLoadingOnboardingStatus = false;
+  }
+   else if(!constant.PUBLIC_ROUTES.includes(window.location.pathname) && !this.Routes.SLACK_AUTH_ROUTES.includes(window.location.pathname)){
     this.checkOnboardingStatus();
-    }else{
+    }
+    else{
       this.isLoadingOnboardingStatus = false;
     }
   }
