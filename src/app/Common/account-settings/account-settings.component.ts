@@ -204,6 +204,12 @@ export class AccountSettingsComponent implements OnInit {
     });
   }
 
+  allowNumbersOnly(event: KeyboardEvent): void {
+    const charCode = event.which ? event.which : event.keyCode;
+    if (charCode < 48 || charCode > 57) {
+      event.preventDefault();
+    }
+  }
 
 
   loadNotificationSettings(): void {

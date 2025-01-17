@@ -1,9 +1,10 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 
 import { DataService } from 'src/app/services/data.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import { HelperService } from 'src/app/services/helper.service';
+import { Key } from 'src/app/constant/key';
 
 @Component({
   selector: 'app-employee-profile',
@@ -13,7 +14,7 @@ import { HelperService } from 'src/app/services/helper.service';
 export class EmployeeProfileComponent implements OnInit {
 
   constructor(public roleService: RoleBasedAccessControlService, private dataService: DataService,
-    private activateRoute: ActivatedRoute, private _helperService: HelperService
+    private activateRoute: ActivatedRoute, private _helperService: HelperService, private router: Router,
   ) {
 
   }
@@ -35,12 +36,17 @@ export class EmployeeProfileComponent implements OnInit {
   currentUserUuid: string='';
   userId: string='';
 
+  _key:Key = new Key();
+  private baseUrl = this._key.base_url;
   public async getUuid() {
     this.UUID = await this.roleService.getUuid();
     // this.currentUserUuid = await this.roleService.getUuid();
 
     if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
       this.userId = String(this.activateRoute.snapshot.queryParamMap.get('userId'));
+    }
+    if(this.roleService.ROLE=='USER' && this.UUID!==this.userId) {
+      this.router.navigate(['/employee'], { queryParams: { userId: this.UUID } });
     }
     this.getEmployeeProfileData();
     this.getUserJoiningDataByUserId();

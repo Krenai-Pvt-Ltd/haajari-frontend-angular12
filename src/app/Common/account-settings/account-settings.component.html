@@ -958,12 +958,16 @@
                       <div class="col-md-12 mb-4">
                         <label for="phone" class="pb-2">Your Phone Number</label>
                         <input
-                          id="phone"
-                          type="number"
-                          placeholder="Enter Phone Number"
-                          formControlName="phone"
-                          class="form-control input-zorro"
-                        />
+                        minlength="10"
+                        maxlength="10"
+                        id="phone"
+                        type="text"
+                        placeholder="Enter Phone Number"
+                        formControlName="phone"
+                        class="form-control input-zorro"
+                        (keypress)="allowNumbersOnly($event)"
+                      />
+
                         <button *ngIf="!isPhoneEditable" (click)="isPhoneEditable=true; enablePhoneNumber()" class="btn p-0 text-primary font-13 edit-btn fw-semibold">Edit</button>
                         <div *ngIf="supportForm.get('phone')?.invalid && supportForm.get('phone')?.touched" class="text-danger">
                           Valid phone number is required.

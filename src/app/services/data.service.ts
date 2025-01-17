@@ -4824,6 +4824,15 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.post(`${this.baseUrl}/help-support`, helpAndSupport, {headers});
   }
 
+
+  getPendingRequests(page: number, size: number): Observable<any> {
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    return this.httpClient.get<any>(`${this.baseUrl}/get/onboarding/pending-requests`, { params });
+  }
+
 }
 
 
