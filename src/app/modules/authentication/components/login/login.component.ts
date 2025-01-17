@@ -28,15 +28,22 @@ export class LoginComponent implements OnInit {
   counter: number = 10;
   tick = 1000;
 
+  readonly constant=constant;
   constructor(
     private dataService: DataService,
     private router: Router,
     private rbacService: RoleBasedAccessControlService,
     private helperService: HelperService,
-    private _onboardingService: OrganizationOnboardingService,
     private _subscriptionService: SubscriptionPlanService,
     private onboardingService: OnboardingService 
   ) {
+    const token = localStorage.getItem('token');
+    if (!constant.EMPTY_STRINGS.includes(token)) {
+      this.router.navigate(['/dashboard']);
+    }else{
+      console.log
+      localStorage.clear();
+    }
     this.countDown = timer(0, this.tick)
       .pipe(take(this.counter))
       .subscribe(() => {
@@ -49,10 +56,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     // this.getSlackAuthUrlForSignInWithSlack();
-    const token = localStorage.getItem('token');
-    if (token) {
-      this.router.navigate(['/dashboard']);
-    }
+    
   }
 
   otp: string = '';
@@ -135,119 +139,7 @@ export class LoginComponent implements OnInit {
   }
 
 
-  // signIn() {
-  //   debugger
-  //   this.loginButtonLoader = true;
-  //   this.dataService
-  //     .loginUser(this.email, this.password)
-  //     .pipe(
-  //       tap(async (response) => {
-  //         console.log(response);
-  //         this.helperService.subModuleResponseList =
-  //           response.subModuleResponseList;
-  //         localStorage.setItem('token', response.tokenResponse.access_token);
-  //         localStorage.setItem(
-  //           'refresh_token',
-  //           response.tokenResponse.refresh_token
-  //         );
-  //        await this.rbacService.initializeUserInfo();
-  //        this.UUID=this.rbacService.userInfo.uuid
-  //       }),
-  //       switchMap(() => this.rbacService.getRole()),
-  //       tap((ROLE) => {
-  //         this.ROLE = ROLE;
-  //       }),
-  //       switchMap(() => this.rbacService!.userInfo!.uuid),
-  //       tap((UUID) => {
-  //         this.UUID = UUID;
-
-  //         if (this.ROLE === 'USER') {
-  //           this.router.navigate(['/employee'], {
-  //             queryParams: { userId: this.UUID, dashboardActive: 'true' },
-  //           });
-  //         } else if (this.ROLE == 'HR ADMIN') {
-  //            this.router.navigate(['/employee-onboarding-data']);
-  //         } else {
-  //           const helper = new JwtHelperService();
-  //           const token = localStorage.getItem('token');
-  //           if (token != null) {
-  //             const onboardingStep = helper.decodeToken(token).statusResponse;
-  //             if (onboardingStep == '5') {
-  //               this.router.navigate(['/dashboard']);
-  //             } else {
-  //               this.router.navigate([
-  //                 '/organization-onboarding/personal-information',
-  //               ]);
-  //             }
-  //           }
-  //         }
-  //       }),
-  //       catchError((error) => {
-  //         console.log(error);
-  //         // this.errorMessage = error.error.message;
-  //         this.loginButtonLoader = false;
-  //         return of(null); // handle error appropriately
-  //       })
-  //     )
-  //     .subscribe();
-  // }
-  // signIn2() {
-  //   debugger
-  //   this.loginButtonLoader = true;
-  //   this.dataService
-  //     .loginUser(this.email, this.password)
-  //     .pipe(
-  //       tap(async (response) => {
-  //         console.log(response);
-  //         this.helperService.subModuleResponseList =
-  //           response.subModuleResponseList;
-
-  //         localStorage.setItem('token', response.tokenResponse.access_token);
-  //         localStorage.setItem(
-  //           'refresh_token',
-  //           response.tokenResponse.refresh_token
-  //         );
-  //         await this.rbacService.initializeUserInfo();
-
-  //       }),
-  //       switchMap(() => this.rbacService.getRole()),
-  //       tap((ROLE) => {
-  //         this.ROLE = ROLE;
-  //       }),
-  //       switchMap(() => this.rbacService.getUUID()),
-  //       tap((UUID) => {
-  //         this.UUID = UUID;
-
-  //         if (this.ROLE === 'USER') {
-  //           this.router.navigate(['/employee'], {
-  //             queryParams: { userId: this.UUID, dashboardActive: 'true' },
-  //           });
-  //         } else if (this.ROLE == 'HR ADMIN') {
-  //            this.router.navigate(['/employee-onboarding-data']);
-  //         } else {
-  //           const helper = new JwtHelperService();
-  //           const token = localStorage.getItem('token');
-  //           if (token != null) {
-  //             const onboardingStep = helper.decodeToken(token).statusResponse;
-  //             if (onboardingStep == '5') {
-  //               this.router.navigate(['/dashboard']);
-  //             } else {
-  //               this.router.navigate([
-  //                 '/organization-onboarding/personal-information',
-  //               ]);
-  //             }
-  //           }
-  //         }
-  //       }),
-  //       catchError((error) => {
-  //         this.errorMessage = error.error.message;
-  //         this.loginButtonLoader = false;
-  //         return of(null); // handle error appropriately
-  //       })
-  //     )
-  //     .subscribe();
-  // }
-
+  
   enableBack: boolean = false;
   signInWithEmail() {
     this.enableBack = true;

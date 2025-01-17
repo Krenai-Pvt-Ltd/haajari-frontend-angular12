@@ -453,8 +453,7 @@ params={ status: status ,itemPerPage: this.itemPerPage, currentPage: this.pageNu
   }
 
   searchLeaves(tab: string) {
-    this.currentTab=tab;
-    this.leaves[tab]=[]; 
+    this.resetValues(tab);
     this.getLeaves(tab);
   }
 
@@ -465,8 +464,15 @@ params={ status: status ,itemPerPage: this.itemPerPage, currentPage: this.pageNu
 
   applyTeamFilter(team:UserTeamDetailsReflection|null,tab:string) {
     this.selectedTeam = team;
-    this.leaves[tab]=[]; 
+    this.resetValues(tab);
     this.getLeaves(tab);
+  }
+
+  resetValues(tab:string){
+    this.currentTab=tab;
+    this.leaves[tab]=[]; 
+    this.totalItems[tab] = 0;
+    this.pageNumber[tab] = 1;
   }
   /****************************************************************************************************************************************************************
    *  GET LEAVES UPDATED METHODS END
