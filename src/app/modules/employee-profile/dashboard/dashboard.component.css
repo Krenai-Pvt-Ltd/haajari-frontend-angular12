@@ -9,51 +9,62 @@
   height: 100px;
 }
 
-/* Ensure each <li> item is displayed as a block, and stacks vertically */
 .events li.holiday-item {
-  background-color: lightyellow;  /* Set light yellow background */
-  color: green;                   /* Set text color to green */
-  font-weight: bold;              /* Optional: make the text bold */
+  background-color: transparent;  
   padding: 5px;
-  border-radius: 3px;             /* Optional: rounded corners */
-  list-style-type: none;          /* Remove default list item bullets */
-  margin: 5px 0;                  /* Add vertical margin between items */
-  width: 100%;                    /* Ensure the <li> takes full width of its container */
-  display: block;                 /* Explicitly make the <li> a block element (stack vertically) */
+  color: #BB6234;
+  font-family: "IBM Plex Sans";
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 18px; 
 }
 
-/* Optional: Remove any extra space around the <ul> */
 .events {
-  padding: 0;      /* Remove any padding inside the <ul> */
-  margin: 0;       /* Remove any margin around the <ul> */
-  display: block;  /* Ensure <ul> behaves like a block container */
-  width: 100%;     /* Ensure the <ul> takes full width of the calendar cell */
-}
-
-/* Optional: Target the calendar cell to remove extra space */
-.nz-calendar-cell {
-  padding: 0 !important;  /* Remove any padding */
-  margin: 0 !important;   /* Remove any margin */
-  width: auto;            /* Allow dynamic width based on content */
+  padding: 0;   
+  margin: 0;  
+  display: block; 
+  width: 100%;
 }
 
 .nz-calendar-cell {
-  border: 1px solid #d9d9d9 !important; /* Light gray border, with !important to override existing styles */
-  box-sizing: border-box;  /* Ensure padding and border are within the cell */
+  padding: 0 !important;  
+  margin: 0 !important;  
+  width: auto;     
 }
 
-/* Optional: Add padding and margins to improve spacing */
+.nz-calendar-cell {
+  border: 1px solid #d9d9d9 !important; 
+  box-sizing: border-box; 
+}
+
+
 .nz-calendar {
-  padding: 10px;  /* Padding around the entire calendar */
+  padding: 10px; 
 }
-/* Optional: Add hover effect on calendar cells */
+
 .nz-calendar-cell:hover {
-  border-color: #40a9ff; /* Change border color on hover */
-  background-color: #e6f7ff; /* Optional: Add a light background color on hover */
+  border-color: #40a9ff; 
+  background-color: #e6f7ff;
 }
 
 
+nz-calendar .holiday-cell {
+  color: #fff !important;
+  border-radius: 5px;
+}
 
+.holiday-month {
+  background-color: #5213da; 
+  color: #fff;
+  text-align: center;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.holiday-item {
+  color: #fff;
+}
 
 
 
@@ -401,6 +412,7 @@
   border: 1px solid #FF8240;
   background: #FFE9DE;
   position: relative;
+  height: 145px;
 }
 
 .resignation-request h5 {
@@ -809,31 +821,103 @@ span.holiday-initial {
   width: 130px;
   border: 1px solid #DCDCE4;
   border-radius: 2px;
+  height: 40px;
 }
 
 ::ng-deep .ant-select-selector{
-  background-color: #fff !important;
+  background-color: white !important;
+  min-height: 38px !important;
 }
 
 ::ng-deep .ant-picker-calendar-month-select{
   width: 130px;
   border: 1px solid #DCDCE4;
   border-radius: 2px;
+  height: 40px;
 }
 
 
 ::ng-deep .ant-select-selection-placeholder {
-  line-height: 45px !important;
+  line-height: 40px !important;
   font-size: 0.875rem !important;
   font-weight: 400 !important;
 }
 
 ::ng-deep .ant-select-selection-item {
-  line-height: 45px !important;
+  line-height: 40px !important;
   font-size: 0.875rem !important;
   font-weight: 400 !important;
 }
 
 ::ng-deep .ant-picker-calendar-mode-switch{
   display: none;
+}
+
+.customDateCellTemplate{
+  background-color: #543AF8;
+}
+::ng-deep .ant-picker-calendar-date{
+  height: 100px !important;
+}
+::ng-deep .ant-picker-content tr td{
+  border: 1px solid #ccc !important;
+}
+
+::ng-deep .ant-picker-calendar-date{
+  border-top: none !important;
+}
+
+::ng-deep .ant-picker-content tr td{
+  border: 1px solid #DCDCDC !important;
+}
+
+::ng-deep .ant-picker-content tr th{
+  padding: 0 7px 15px 0 !important;
+  border: 1px solid #ccc !important;
+  border-top: none !important;
+  border-bottom: none !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #9B9B9B !important;
+  text-align: center;
+}
+
+::ng-deep .ant-picker-calendar .ant-picker-panel .ant-picker-body {
+  padding: 0px 0 !important;
+}
+ 
+::ng-deep .ant-picker-calendar-full .ant-picker-panel .ant-picker-calendar-date {
+  padding: 5px !important;
+  margin: 0px 0px !important;
+  height: 120px !important;
+}
+
+::ng-deep .ant-picker-calendar-full .ant-picker-panel .ant-picker-calendar-date-value {
+  font-size: 13px !important;
+  font-weight: 500 !important;
+}
+
+::ng-deep .ant-picker-panel{
+  margin-top: 15px !important;
+}
+
+::ng-deep .ant-picker-calendar-date:has(.holiday-cell) {
+  background-color: #FFF3E2 !important;
+}
+::ng-deep .ant-picker-calendar-full .ant-picker-panel .ant-picker-calendar-date-content{
+  display: flex;
+  align-items: center;
+
+}
+
+.btn-close {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  position: absolute;
+  right: -15px;
+  top: -15px;
+  background-color: #fff;
+  opacity: 1;
+  box-shadow: 0px 4.211px 4.211px 0px rgba(0, 0, 0, 0.10);
 }

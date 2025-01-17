@@ -67,7 +67,7 @@
 
                                 </div>
 
-                                <nz-select [(ngModel)]="selectedStatus"  (ngModelChange)="filterByStatus($event)" class="request-dropdown" nzSize="large" nzPlaceHolder="Filter" required>
+                                <nz-select [(ngModel)]="selectedStatus"  (ngModelChange)="filterByStatus($event)" class="request-dropdown placeholder-line" nzSize="large" nzPlaceHolder="Filter" required>
                                     <nz-option [nzValue]="''" [nzLabel]="'All'"></nz-option>
                                     <nz-option [nzValue]="14" [nzLabel]="'Approved'"></nz-option>
                                     <nz-option [nzValue]="13" [nzLabel]="'Pending'"></nz-option>

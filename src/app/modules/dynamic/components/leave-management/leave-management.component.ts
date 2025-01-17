@@ -23,7 +23,7 @@ import { TeamService } from 'src/app/services/team.service';
 })
 export class LeaveManagementComponent implements OnInit {
   // specificLeaveRequest!: PendingLeaveResponse;
-  selectedTeamName: string = '';
+ 
   page = 0;
   size = 10;
   userLeaveForm!: FormGroup;
@@ -111,7 +111,7 @@ export class LeaveManagementComponent implements OnInit {
     }
 
     this.page = 0;
-    this.selectedTeamName = '';
+    this.selectedTeam = null;
 
     this.dataService
       .approveOrRejectLeaveOfUser(requestId, requestedString, this.rejectionReason)
@@ -126,8 +126,12 @@ export class LeaveManagementComponent implements OnInit {
           // Fetch all necessary updated data
           this.fetchAllData();
           this.resetSearch();
+          this.leaves[this.ALL] = [];
+          this.totalItems[this.ALL] = 0;
+          this.leaves[this.currentTab] = [];
+          this.totalItems[this.ALL] = 0;
           this.getLeaves(this.currentTab);
-          this.getLeaves(this.ALL);
+          this.getLeaves(this.currentTab);
 
           // Close modal
           this.closeModal.nativeElement.click();
@@ -164,71 +168,10 @@ export class LeaveManagementComponent implements OnInit {
     this.getWeeklyChartData();
   }
 
-  // approveOrDeny(requestId: number, requestedString: string) {
-  //   debugger;
-
-  //   if(requestedString === 'approved'){
-  //     this.approvedLoader = true;
-  //   }else if(requestedString === 'rejected'){
-  //     this.rejecetdLoader = true;
-  //   }
-
-  //   this.page = 0;
-  //   this.pagePendingLeaves = 0;
-  //   this.pageApprovedRejected = 0;
-  //   this.searchString = '';
-  //   this.selectedTeamName = '';
-
-  //   this.dataService.approveOrRejectLeaveOfUser(requestId, requestedString).subscribe({
-  //     next: (logs) => {
-  //       console.log('success!');
-  //       this.approvedLoader = false;
-  //       this.rejecetdLoader = false;
-  //       this.getApprovedRejectedLeaveLogs();
-  //       this.getFullLeaveLogs();
-  //       this.getPendingLeaves();
-  //       this.getTotalConsumedLeaves();
-  //       this.getMonthlyChartData();
-  //       this.getWeeklyChartData();
-  //       this.closeModal.nativeElement.click();
-  //       let message = requestedString === 'approved' ? "Leave approved successfully!" : "Leave rejected successfully!";
-  //       this.helperService.showToast(message, Key.TOAST_STATUS_SUCCESS);
-  //     },
-  //     error: (error) => {
-  //       this.approvedLoader = false;
-  //       this.rejecetdLoader = false;
-  //       console.error('There was an error!', error);
-  //       this.helperService.showToast("Error processing leave request!", Key.TOAST_STATUS_ERROR);
-  //     }
-  //   });
-  // }
-
-  // getPendingLeave(leaveId: number, leaveType: string) {
-  //   this.dataService
-  //     .getRequestedUserLeaveByLeaveIdAndLeaveType(leaveId, leaveType)
-  //     .subscribe({
-  //       next: (response) => (this.specificLeaveRequest = response.object),
-  //       error: (error) => {
-  //         console.error('Failed to fetch pending leave:', error);
-  //         this.helperService.showToast(
-  //           'Failed to load this pending leave.',
-  //           Key.TOAST_STATUS_ERROR
-  //         );
-  //       },
-  //     });
-  // }
-
-  // getPendingLeave1(leaveId: number, leaveType: string) {
-  //   this.dataService
-  //     .getRequestedUserLeaveByLeaveIdAndLeaveType(leaveId, leaveType).subscribe((res: any)  => {
-  //       if(res.status){
-  //         this.specificLeaveRequest = res.object;
-  //       }
-  //     })
-  // }
+  
 
   teamNameList: UserTeamDetailsReflection[] = [];
-
+  selectedTeam!: UserTeamDetailsReflection|null;
   teamId: number = 0;
 
   getTeamNames() {
@@ -273,19 +216,6 @@ export class LeaveManagementComponent implements OnInit {
   monthlyChartData: any[] = [];
   count: number = 0;
   monthlyPlaceholderFlag: boolean = true;
-  // getMonthlyChartData() {
-  //   this.leaveService.leavesCountReport().subscribe((data) => {
-  //     this.monthlyChartData = data.map((item) => ({
-  //       name: this.sliceWord(item.monthName),
-  //       series: [
-  //         { name: 'Pending', value: item.pending || 0 },
-  //         { name: 'Approved', value: item.approved || 0 },
-  //         { name: 'Rejected', value: item.rejected || 0 },
-  //       ],
-  //       // this.count++;
-  //     }));
-  //   });
-  // }
 
   consumedLeaveData: any[] = [];
   views: [number, number] = [300, 200];
@@ -462,7 +392,7 @@ export class LeaveManagementComponent implements OnInit {
     }
     return status;
   }
-
+  teamUuid!:string;
   getLeaves(tab: string,resetSearch = false) {
     debugger
     if(resetSearch){
@@ -470,10 +400,17 @@ export class LeaveManagementComponent implements OnInit {
     }
     var status = this.setStatus(tab);
     this.isLoadingLeaves[tab] = true;
-    this.leaves[tab] = [];
-    this.totalItems[tab] = 0;
+    var uuid=null;
+    var params= null;
+    if(this.selectedTeam?.uuid){
+      uuid = this.selectedTeam.uuid;
+      params=  { status: status ,itemPerPage: this.itemPerPage, currentPage: this.pageNumber[this.currentTab],search: this.searchTerm ,teamUuid:uuid}
+    }else{
+params={ status: status ,itemPerPage: this.itemPerPage, currentPage: this.pageNumber[this.currentTab],search: this.searchTerm };
+    }
+    console.log('uuid',uuid);
   this.leaveService
-  .get({ status: status ,itemPerPage: this.itemPerPage, currentPage: this.pageNumber[this.currentTab],search: this.searchTerm })
+  .get(params)
   .pipe(
     tap((response) => {
       if (Array.isArray(response.object)) {
@@ -526,6 +463,11 @@ export class LeaveManagementComponent implements OnInit {
     this.leave = leave;
   }
 
+  applyTeamFilter(team:UserTeamDetailsReflection|null,tab:string) {
+    this.selectedTeam = team;
+    this.leaves[tab]=[]; 
+    this.getLeaves(tab);
+  }
   /****************************************************************************************************************************************************************
    *  GET LEAVES UPDATED METHODS END
    ****************************************************************************************************************************************************************/

@@ -1258,7 +1258,7 @@
 </div>
 <!-- Initiate Exit (UserResignation) Modal End -->
 
-<div class="modal fade" id="calendarModal" tabindex="-1" aria-labelledby="calendarModalLabel" aria-hidden="true">
+<div class="modal fade" id="calendarModal" tabindex="-1" aria-labelledby="calendarModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered modal-xl">
        <div class="modal-content">
           <!-- <div class="modal-header">
@@ -1266,6 +1266,19 @@
              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div> -->
           <div class="modal-body p-0">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                        width="24" height="24">
+                        <rect width="24" height="24" fill="#D9D9D9" />
+                    </mask>
+                    <g mask="url(#mask0_5037_2014)">
+                        <path
+                            d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z"
+                            fill="black" />
+                    </g>
+                </svg>
+            </button>
             <div class="calendar-date d-flex align-items-center justify-content-between p-4">
                 <div class="d-flex align-items-center gap-2">
                     <span>
@@ -1293,24 +1306,21 @@
 
             </div>
              <div>
-                <nz-calendar (nzValueChange)="onYearChange($event)">
-                   <!-- Date Cell -->
-                   <ul *nzDateCell="let date" class="events">
-                      <ng-container *ngFor="let item of getHolidayEvents(date)">
-                         <!-- Only show holiday name, no badges or dots -->
-                         <li class="holiday-item">
-                            {{ item.content }}
-                         </li>
-                      </ng-container>
-                   </ul>
-                   <!-- Month Cell -->
-                   <ng-container *nzMonthCell="let month">
-                      <div *ngIf="getMonthHolidayCount(month) > 0" class="notes-month">
-                         <section>{{ getMonthHolidayCount(month) }}</section>
-                         <span>Holidays</span>
-                      </div>
-                   </ng-container>
-                </nz-calendar>
+              <nz-calendar (nzValueChange)="onYearChange($event)">
+                <ul *nzDateCell="let date" class="events" [ngClass]="{ 'holiday-cell': isHoliday(date) }" >
+                <ng-container *ngFor="let item of getHolidayEvents(date)">
+                  <li class="holiday-item">
+                    {{ item.content }},
+                  </li>
+                </ng-container>
+              </ul>
+                <ng-container *nzMonthCell="let month">
+                  <div *ngIf="getMonthHolidayCount(month) > 0" class="notes-month" [ngClass]="{'holiday-month': getMonthHolidayCount(month) > 0}">
+                    <section>{{ getMonthHolidayCount(month) }}</section>
+                    <span>Holidays</span>
+                  </div>
+                </ng-container>
+              </nz-calendar>
              </div>
           </div>
        </div>

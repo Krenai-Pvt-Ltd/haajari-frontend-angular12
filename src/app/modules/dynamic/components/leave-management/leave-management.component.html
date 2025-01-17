@@ -255,17 +255,15 @@
               <div class="dropdown" style="width: 35%" *ngIf="ROLE != 'USER' ">
                 <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
                   class="btn btn-secondary dropdown-toggle new-deopdown">
-                  {{ selectedTeamName ? selectedTeamName : "All" }}
+                  {{ selectedTeam ? selectedTeam.teamName : "All" }}
                   <i class="bi bi-chevron-down" style="color: #444; font-size: 15px"></i>
                 </button>
                 <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu team-dropdown" style="width: 100%">
-                  <li class="ng-star-inserted" *ngIf="selectedTeamName" >
-                    <!-- (click)="selectTeam('')" -->
-                    <a class="dropdown-item">All</a>
+                  <li class="ng-star-inserted" *ngIf="selectedTeam" >
+                    <a class="dropdown-item" (click)="applyTeamFilter(null,ALL)">All</a>
                   </li>
-                  <!-- (click)="selectTeam(tn.teamName)" -->
                   <li class="ng-star-inserted" *ngFor="let tn of teamNameList" >
-                    <a class="dropdown-item"> {{ tn.teamName }} </a>
+                    <a (click)="applyTeamFilter(tn,ALL)" class="dropdown-item"> {{ tn.teamName }} </a>
                   </li>
                 </ul>
               </div>

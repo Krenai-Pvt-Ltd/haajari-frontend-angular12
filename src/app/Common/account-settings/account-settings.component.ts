@@ -297,4 +297,30 @@ export class AccountSettingsComponent implements OnInit {
       })
     ).subscribe();
   }
+
+
+  downloadFile(fileUrl: string) {
+    if (!fileUrl) {
+      return;
+    }
+
+    fetch(fileUrl)
+    .then(response => response.blob()) // Convert the image to a Blob
+    .then(blob => {
+      const blobUrl = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      const fileName = fileUrl.split('/').pop()?.split('?')[0] || 'downloaded-file.jpg';
+      link.download = fileName;  // This triggers the download
+
+      link.style.display = 'none';  // Hide the link
+      document.body.appendChild(link); // Append the link to the body
+      link.click(); // Trigger the download
+      document.body.removeChild(link); // Remove the link from the DOM
+      URL.revokeObjectURL(blobUrl); // Release the object URL
+    })
+    .catch(error => {
+      console.error('Error downloading file:', error);
+    });
+  }
 }

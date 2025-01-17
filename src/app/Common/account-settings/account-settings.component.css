@@ -1,14 +1,22 @@
+.setting-side-menu .col-md-3{
+    width:20%;
+}
+.setting-side-menu .col-md-9{
+    width:80%;
+}
+
 .setting-side-menu {
     height: 90vh;
 }
 
 .spinner {
   border: 4px solid rgba(0, 0, 0, 0.1);
-  border-left-color: #3498db;
+  border-left-color: #6666F2;
   border-radius: 50%;
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   animation: spin 1s linear infinite;
+  margin-left: 15px;
 }
 
 @keyframes spin {
@@ -22,6 +30,7 @@
 
 .setting-sidebar-menu {
     border-right: 1px solid #f1f1f1;
+    min-height: 100vh;
 }
 
 .setting-sidebar-menu .nav-pills .nav-link svg {
@@ -111,7 +120,7 @@
     border-radius: 2px !important;
     border: 1.021px solid #e9e9e9 !important;
     background: rgba(236, 236, 236, 0.21) !important;
-    min-height: 200px !important;
+    min-height: 250px !important;
     font-size: 14px !important;
     color: #000;
     font-weight: 400 !important;
@@ -182,7 +191,7 @@
 .file-attech-icon {
     position: absolute;
     bottom: 15px;
-    right: 15px;
+    right: 25px;
     background-color: #fff !important;
     width: 35px;
     height: 35px;
@@ -203,7 +212,7 @@
 
 .support-img img {
     width: 70px;
-    height: 60px;
+    height: 45px;
     object-fit: cover;
     border-radius: 5px;
 }
@@ -211,7 +220,7 @@
 .support {
     position: absolute;
     bottom: 60px;
-    left: 15px;
+    left: 20px;
 }
 
 .close-btn {
