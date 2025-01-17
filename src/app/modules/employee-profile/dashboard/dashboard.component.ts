@@ -1053,5 +1053,20 @@ updateHolidayMaps(): void {
   }, {} as { [key: number]: number });
 }
 
+isHoliday(date: Date): boolean {
+  return this.holidayss.some(holiday => this.isSameDate(holiday.date, date));
+}
+isSameDate(date1: string | Date, date2: Date): boolean {
+  // Ensure both inputs are Date objects
+  const parsedDate1 = typeof date1 === 'string' ? new Date(date1) : date1;
+
+  return (
+    parsedDate1.getFullYear() === date2.getFullYear() &&
+    parsedDate1.getMonth() === date2.getMonth() &&
+    parsedDate1.getDate() === date2.getDate()
+  );
+}
+
+
 
 }
