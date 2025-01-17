@@ -78,7 +78,7 @@
 
                             <nz-select class="request-dropdown placeholder-lines" nzSize="large"
                                 nzPlaceHolder="New Request" required [(ngModel)]="selectedRequest"
-                                (ngModelChange)="onRequestChange(selectedRequest)">
+                                (ngModelChange)="onRequestChange(selectedRequest)" *ngIf="userId==currentUserUuid">
                                 <nz-option [nzValue]="'Attendance update'" [nzLabel]="'Attendance update'"></nz-option>
                                 <!-- Add other options here if needed -->
                             </nz-select>

@@ -136,11 +136,17 @@ export class LeaveManagementComponent implements OnInit {
           // Close modal
           this.closeModal.nativeElement.click();
 
+          let message = '';
+
+          if(logs.message != 'approved' && logs.message != 'rejected'){
+             message = logs.message;
+          }else {
           // Show toast message
-          let message =
+           message =
             requestedString === 'approved'
               ? 'Leave approved successfully!'
               : 'Leave rejected successfully!';
+          }
           this.helperService.showToast(message, Key.TOAST_STATUS_SUCCESS);
           this.getTotalCountOfPendingLeaves();
         },
