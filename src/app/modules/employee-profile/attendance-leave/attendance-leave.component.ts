@@ -32,6 +32,7 @@ import { DatePipe } from '@angular/common';
 import moment from 'moment';
 import { AttendanceLogResponse } from 'src/app/models/attendance-log-response';
 import saveAs from 'file-saver';
+import { BreakTimings } from 'src/app/models/break-timings';
 
 
 
@@ -1967,5 +1968,37 @@ export class AttendanceLeaveComponent implements OnInit {
     return "Click 'View Location' , to view attendace location on map";
   }
 
+
+  //  break timings 
+
+
+   breakTimingsList : BreakTimings[] = [];
+   getUserBreakTimingsReportByDate(date: string) {
+      // this.toggleChevron(show);
+      if (
+        this.breakTimingsList == undefined ||
+        this.breakTimingsList == null ||
+        this.breakTimingsList.length == 0
+      ) {
+        debugger;
+        this.dataService
+          .getAttendanceDetailsBreakTimingsReportByDateByUser(
+            this.userId,
+            date
+          )
+          .subscribe(
+            (response) => {
+              // this.breakTimingsList = response.listOfObject;
+              this.breakTimingsList = response.listOfObject;
+              // console.log(this.breakTimingsList);
+              // this.toggleChevron(false);
+            },
+            (error) => {
+              console.log(error);
+            }
+          );
+      } else {
+      }
+    }
 
 }
