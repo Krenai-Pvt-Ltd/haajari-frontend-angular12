@@ -102,7 +102,7 @@ export class DashboardComponent implements OnInit {
     this.getAttendanceRequestLogData();
     this.getTeamNames();
     // this.teamMembers = [];
-   
+
     this.fetchAttendanceSummary();
     // this.loadHolidays();
     this.getTeamsWithManagerInfo();
@@ -991,11 +991,16 @@ holidayss = [
 ];
 
 onYearChange(event: any): void {
-  // You can get the selected year from the event and fetch data for it
+
   const selectedYear = event.getFullYear();
-  this.loadYearHolidays(selectedYear);
+  const prevYear = this.currentDate.getFullYear();
+  if(selectedYear !== prevYear) {
+    this.loadYearHolidays(selectedYear);
+  }
+  this.currentDate=event;
 
 }
+
 
 // Transform the holiday data into a map for both date and month views
 listDataMap: { [key: string]: { type: string; content: string }[] } = this.holidayss.reduce((map, holiday) => {
@@ -1066,6 +1071,27 @@ isSameDate(date1: string | Date, date2: Date): boolean {
     parsedDate1.getDate() === date2.getDate()
   );
 }
+
+get currentMonthYear(): string {
+  return this.currentDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+}
+
+navigateMonth(direction: 'prev' | 'next'): void {
+  const currentYear = this.currentDate.getFullYear();
+  const currentMonth = this.currentDate.getMonth();
+
+  // Calculate the new date
+  const newDate = new Date(this.currentDate.getFullYear(), currentMonth + (direction === 'next' ? 1 : -1), 1);
+
+  // Check if the year changes
+  if (newDate.getFullYear() !== currentYear) {
+    this.onYearChange(newDate);
+  }
+
+  // Update the current date
+  this.currentDate = newDate;
+}
+
 
 
 

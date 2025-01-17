@@ -675,12 +675,12 @@
                           </td>
                           <td *ngIf="constants.EMPTY_STRINGS.includes(user?.resignationStatus)">
                             <span class="badge rounded-pill"
-                              [ngClass]="{'badge-soft-success': user.onboardingStatus === 'APPROVED'||user.onboardingStatus === 'NEW_USER', 'badge-soft-danger': user.onboardingStatus === 'REJECTED', 'badge-soft-warning': user.onboardingStatus === 'PENDING', 'badge-soft-secondary': user.onboardingStatus === 'REQUESTED' }">
+                              [ngClass]="{'badge-soft-success': user.onboardingStatus === 'APPROVED'||user.onboardingStatus === 'NEW_USER' , 'badge-soft-danger': user.onboardingStatus === 'REJECTED', 'badge-soft-warning': user.onboardingStatus === 'PENDING', 'badge-soft-secondary': user.onboardingStatus === 'REQUESTED' }">
                               {{ user.onboardingStatus }}</span>
                           </td>
                           <td *ngIf="!constants.EMPTY_STRINGS.includes(user?.resignationStatus)">
                             <span class="badge rounded-pill"
-                              [ngClass]="{'badge-soft-info': user.resignationStatus.id == 13, 'badge-soft-warning': user.resignationStatus.id == 42, 'badge-soft-danger': user.resignationStatus.id == 43 }">{{
+                              [ngClass]="{'badge-soft-info': user.resignationStatus.id == 13 || user.resignationStatus.id == 47, 'badge-soft-warning': user.resignationStatus.id == 42, 'badge-soft-danger': user.resignationStatus.id == 43 }">{{
                               user.resignationStatus.response }}</span>
                           </td>
                           <td class="stickyColTdend text-end">
@@ -872,12 +872,12 @@
                                     class="bi bi-eye"></i>
                                   View Request</a>
                               </li>
-                              <li>
+                              <!-- <li>
                                 <a class="dropdown-item" data-bs-toggle="modal"
                                   data-bs-target="#deleteConfirmationModal"
                                   (click)="openDeleteConfirmationModal(user.id)"><i class="bi bi-trash3"></i> Delete
                                   Request</a>
-                              </li>
+                              </li> -->
                             </div>
                           </div>
 
@@ -1082,7 +1082,7 @@
                         </td>
                         <td *ngIf="user.resignationStatus != null">
                           <span class="badge rounded-pill"
-                            [ngClass]="{'badge-soft-info': user.resignationStatus.id == 13, 'badge-soft-warning': user.resignationStatus.id == 42, 'badge-soft-danger': user.resignationStatus.id == 43 }">{{
+                            [ngClass]="{'badge-soft-info': user.resignationStatus.id == 13, 'badge-soft-warning': user.resignationStatus.id == 42, 'badge-soft-danger': user.resignationStatus.id == 43 || user.resignationStatus.id == 47 }">{{
                             user.resignationStatus.response }}</span>
                         </td>
 
@@ -1631,7 +1631,7 @@
                 </button> -->
               </div>
             </div>
-            <!-- <div class="d-flex align-items-center justify-content-between email-update p-3 mb-3">
+             <!-- <div class="d-flex align-items-center justify-content-between email-update p-3 mb-3">
               <div class="d-flex align-items-center gap-2">
                 <span></span>
                 <p class="fon-12 mb-0 fw-semibold">Phone Number</p>
@@ -1725,7 +1725,7 @@
                   </svg>
                   Save</button>
               </div>
-            </div>
+            </div> -->
 
           </div>
         </div>
@@ -1741,7 +1741,7 @@
             <span></span>
           </div>
         </button>
-        <button type="button" (click)="approveRequestedData()" [disabled]="rejectLoading || approveLoading"
+        <button *ngIf="!isRejectModalOpen" type="button" (click)="approveRequestedData()" [disabled]="rejectLoading || approveLoading"
           class="btn  submitActionBtn">
           <span *ngIf="!approveLoading">Approve All</span>
           <div class="dot-opacity-loader" *ngIf="approveLoading">
@@ -1750,13 +1750,19 @@
             <span></span>
           </div>
         </button>
+        <div *ngIf="isRejectModalOpen" class="modal-footer d-flex align-items-center justify-content-end gap-2">
+          <button type="button" (click)="isRejectModalOpen=false" [disabled]="rejectLoading"
+            class="btn cancel-btn">
+            <span>Back</span>
+
+          </button>
 
       </div>
     </div>
   </div>
 </div>
 
-<!-- Edit Request Modal End -->
+Edit Request Modal End
 
 <!-- Trigger Button for Modal -->
 <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#sampleFileModal"

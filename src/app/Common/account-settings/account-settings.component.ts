@@ -2,6 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { finalize } from 'rxjs/operators';
 import { Key } from 'src/app/constant/key';
 import { EmployeeAdditionalDocument } from 'src/app/models/EmployeeAdditionalDocument';
@@ -23,6 +24,7 @@ export class AccountSettingsComponent implements OnInit {
     private fb: FormBuilder,
     private afStorage: AngularFireStorage,
     private helperService: HelperService,
+    private sanitizer: DomSanitizer,
   ) {
     this.supportForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -33,8 +35,17 @@ export class AccountSettingsComponent implements OnInit {
   }
 
   UUID: string = '';
+  userInfo:any;
   ngOnInit(): void {
     this.UUID= this.roleService.getUuid();
+    this.userInfo= this.roleService.userInfo;
+    this.supportForm.patchValue({
+      email: this.userInfo.email,
+      phone: this.dataService.employeeData?.phoneNumber,
+    });
+
+    this.supportForm.get('email')?.disable();
+    this.supportForm.get('phone')?.disable();
     this.getEmployeeProfileData();
     this.loadNotificationSettings();
     this.fetchGuidelines();
@@ -46,6 +57,15 @@ export class AccountSettingsComponent implements OnInit {
     this.tab = tab
   }
 
+  enableEmail(): void {
+    this.supportForm.get('email')?.enable();
+  }
+  enablePhoneNumber(): void {
+    this.supportForm.get('phone')?.enable();
+  }
+
+  isEmailEditable: boolean = false;
+  isPhoneEditable: boolean = false;
 
   employeeProfileResponseData: any;
   resignationDate: any;
@@ -184,6 +204,12 @@ export class AccountSettingsComponent implements OnInit {
     });
   }
 
+  allowNumbersOnly(event: KeyboardEvent): void {
+    const charCode = event.which ? event.which : event.keyCode;
+    if (charCode < 48 || charCode > 57) {
+      event.preventDefault();
+    }
+  }
 
 
   loadNotificationSettings(): void {
@@ -299,6 +325,11 @@ export class AccountSettingsComponent implements OnInit {
   }
 
 
+  previewString: SafeResourceUrl | null = null;
+  setPreviewString(url:string):void {
+    console.log(url);
+    this.previewString = this.sanitizer.bypassSecurityTrustResourceUrl(url);;
+  }
   downloadFile(fileUrl: string) {
     if (!fileUrl) {
       return;

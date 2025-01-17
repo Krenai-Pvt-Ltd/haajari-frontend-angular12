@@ -81,6 +81,7 @@ import { AssetRequestDTO } from '../models/AssetRequestDTO';
 import { ExitPolicy } from '../models/ExitPolicy';
 import { UserResignation } from '../models/UserResignation';
 import { EmployeeAdditionalDocument } from '../models/EmployeeAdditionalDocument';
+import { EmployeeProfileResponse } from '../models/employee-profile-info';
 
 
 @Injectable({
@@ -109,7 +110,7 @@ export class DataService {
   }
 
   private baseUrl = this._key.base_url;
-
+  public employeeData:EmployeeProfileResponse=new EmployeeProfileResponse();
   openSidebar: boolean = true;
 
   markAttendanceModal: boolean = false;
@@ -4839,6 +4840,15 @@ getHolidayForOrganization(date: string): Observable<any>{
 
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.httpClient.post(`${this.baseUrl}/help-support`, helpAndSupport, {headers});
+  }
+
+
+  getPendingRequests(page: number, size: number): Observable<any> {
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    return this.httpClient.get<any>(`${this.baseUrl}/get/onboarding/pending-requests`, { params });
   }
 
 }
