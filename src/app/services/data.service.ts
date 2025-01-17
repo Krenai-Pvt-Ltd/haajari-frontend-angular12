@@ -81,6 +81,7 @@ import { AssetRequestDTO } from '../models/AssetRequestDTO';
 import { ExitPolicy } from '../models/ExitPolicy';
 import { UserResignation } from '../models/UserResignation';
 import { EmployeeAdditionalDocument } from '../models/EmployeeAdditionalDocument';
+import { EmployeeProfileResponse } from '../models/employee-profile-info';
 
 
 @Injectable({
@@ -109,7 +110,7 @@ export class DataService {
   }
 
   private baseUrl = this._key.base_url;
-
+  public employeeData:EmployeeProfileResponse=new EmployeeProfileResponse();
   openSidebar: boolean = true;
 
   markAttendanceModal: boolean = false;
