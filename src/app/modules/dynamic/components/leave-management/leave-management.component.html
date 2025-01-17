@@ -142,7 +142,7 @@
                     </div>
                     <!--end col-->
                   </div>
-                  <div class="align-self-center text-center mt-2" *ngIf="leaves[PENDING]?.length!=totalItems[PENDING] && !isLoadingLeaves[PENDING]">
+                  <div class="align-self-center text-center mt-2" *ngIf="leaves[PENDING]?.length!=totalItems[PENDING] && !isLoadingLeaves[PENDING] &&  totalItems[PENDING]!=0">
                     <button type="button" class="btn btn-xs btn-light btn-round"
                       (click)="loadMoreLeaves(PENDING)">
                       Load More <i class="bi bi-chevron-down"></i>
@@ -225,7 +225,7 @@
                     <!--end col-->
                   </div>
                 </div>
-                <div class="align-self-center text-center mt-2" *ngIf="leaves[HISTORY]?.length!=totalItems[HISTORY] && !isLoadingLeaves[HISTORY]">
+                <div class="align-self-center text-center mt-2" *ngIf="leaves[HISTORY]?.length!=totalItems[HISTORY] && !isLoadingLeaves[HISTORY] &&  totalItems[HISTORY]!=0">
                   <button type="button" class="btn btn-xs btn-light btn-round" 
                     (click)="loadMoreLeaves(HISTORY)">
                     Load More <i class="bi bi-chevron-down"></i>
@@ -250,7 +250,7 @@
             </div>
             <hr style="margin-bottom: 10px" />
             <div class="mb-3 d-flex align-items-center" style="border: 1px solid #f1f1f1; border-radius: 2px"
-              *ngIf="ROLE != 'USER' && (totalItems[ALL]!=0 || searchTerm != '' )">
+              *ngIf="ROLE != 'USER' && (totalItems[ALL]!=0 || searchTerm != '' || this.selectedTeam )">
               <!-- TEAM FILTER DROPDOWN START -->
               <div class="dropdown" style="width: 35%" *ngIf="ROLE != 'USER' ">
                 <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
@@ -421,7 +421,7 @@
                 </div>
               </div>
               <!--end activity-->
-              <div class="align-self-center text-center mt-2" *ngIf="!isLoadingLeaves[ALL] && leaves[ALL]?.length != totalItems[ALL]">
+              <div class="align-self-center text-center mt-2" *ngIf="!isLoadingLeaves[ALL] && leaves[ALL]?.length != totalItems[ALL] && totalItems[ALL]!=0">
                 <button type="button" class="btn btn-xs btn-light btn-round" 
                   (click)="loadMoreLeaves(ALL)">
                   Load More <i class="bi bi-chevron-down"></i>
