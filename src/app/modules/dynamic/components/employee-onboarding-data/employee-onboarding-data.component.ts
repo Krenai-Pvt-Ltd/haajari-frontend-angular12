@@ -1948,14 +1948,18 @@ console.log(this.data);
   // User Resignation end
 
   pendingRequests:any;
-  currentPage1: number = 0;
-  pageSize1: number = 10;
+  currentPage1: number = 1;
+  pageSize1: number = 12;
   totalItems1: number = 0;
+  isEditDataLoading:boolean=false;
   fetchPendingRequests(): void {
+    this.isEditDataLoading=true;
     this.dataService.getPendingRequests(this.currentPage1, this.pageSize1).subscribe(response => {
+      this.isEditDataLoading=false;
       this.pendingRequests = response.content;  // Adjust based on the response structure
       this.totalItems1 = response.totalElements;  // Adjust based on the response structure
-    });
+    }
+  );
   }
 
   // Method to change page

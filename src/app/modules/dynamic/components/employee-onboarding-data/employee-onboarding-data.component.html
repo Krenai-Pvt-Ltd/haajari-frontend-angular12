@@ -366,7 +366,7 @@
             </li>
             <li class="nav-item d-flex align-items-center">
               <a id="pills-notification-tab" data-bs-toggle="pill" href="#editRequest" role="tab"
-                (click)="selectStatus('EDITPROFILE')" aria-controls="pills-notification" aria-selected="false"
+                 aria-controls="pills-notification" aria-selected="false"
                 class="nav-link">Update Requests</a>
               <span class="request-count d-flex align-items-center justify-content-center"
                 *ngIf="editProfileCount > 0">{{editProfileCount}}</span>
@@ -765,7 +765,7 @@
                         </th>
                       </tr>
                     </thead>
-                    <tbody *ngIf="isUserShimer">
+                    <tbody *ngIf="isEditDataLoading">
                       <tr *ngFor="let item of [].constructor(6)">
                         <td>
                           <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
@@ -787,7 +787,7 @@
                         </td>
                       </tr>
                     </tbody>
-                    <tbody *ngIf="users.length == 0 && !isUserShimer">
+                    <tbody *ngIf="pendingRequests.length == 0 && !isEditDataLoading">
                       <tr>
                         <td colspan="8">
                           <div class="empty-filenew" style="margin-top: 7%; margin-bottom: 7%">
@@ -801,17 +801,12 @@
                         </td>
                       </tr>
                     </tbody>
-                    <tbody *ngIf="users.length > 0 && !isUserShimer">
+                    <tbody *ngIf="pendingRequests.length > 0 && !isEditDataLoading">
                       <tr *ngFor="
                               let i = index;
                               let user;
-                              of: users
-                                | paginate
-                                  : {
-                                      itemsPerPage: itemPerPage,
-                                      currentPage: pageNumber,
-                                      totalItems: total
-                                    }
+                              of: pendingRequests
+
                             ">
                         <td>
                           <a (click)="routeToUserDetails(user.uuid)" class="mb-0 weekly-pro-name">{{ user.name }}</a>
@@ -850,14 +845,14 @@
                         </td>
                         <td class="text-left">
                           <a (click)="routeToUserDetails(user.uuid)" class="mb-0 weekly-pro-email">
-                            {{ user.phoneNumber ? user.phoneNumber : "N/A" }}
+                            {{ user.phone ? user.phone : "N/A" }}
                           </a>
                         </td>
 
-                        <td><span class="weekly-pro-name">{{editedDate | date:'dd-MM-yyyy'}}</span></td>
+                        <td><span class="weekly-pro-name">{{user.createdDate | date:'dd-MM-yyyy'}}</span></td>
 
 
-                        <td>4</td>
+                        <td>{{counTDataInString(user?.data)}}</td>
                         <td class="stickyColTdend text-end">
 
                           <div class="dropdown">
@@ -887,48 +882,19 @@
                         </td>
                       </tr>
                     </tbody>
-                    <tbody *ngIf="errorToggleTop && users.length == 0">
-                      <tr>
-                        <td colspan="8">
-                          <div class="mt-3 dashnodata">
-                            <div class="empty-file" style="margin-top: 5%; margin-bottom: 5%">
-                              <nz-empty nzNotFoundImage="assets/images/no-data-found-img-2.svg"
-                                [nzNotFoundContent]="contentTpl">
-                                <ng-template #contentTpl>
-                                  <p class="mb-1 empty-detail font-16">
-                                    Something went wrong
-                                  </p>
-                                </ng-template>
-                              </nz-empty>
-                            </div>
 
-                            <div class="empty-file" style="margin-top: 5%; margin-bottom: 5%"
-                              *ngIf="placeholder && total == 0 && !isUserShimer">
-                              <nz-empty nzNotFoundImage="assets/images/nodate-found-3.svg"
-                                [nzNotFoundContent]="contentTpl">
-                                <ng-template #contentTpl>
-                                  <p class="mb-1 empty-detail font-16">
-                                    No data for now
-                                  </p>
-                                </ng-template>
-                              </nz-empty>
-                            </div>
-                          </div>
-                        </td>
-                      </tr>
-                    </tbody>
                   </table>
                 </div>
                 <div
                   class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top"
-                  *ngIf="!isUserShimer && users.length > 0 && total > 12">
+                  *ngIf="!isEditDataLoading && pendingRequests.length > 0 && totalItems1>pageSize1">
                   <p class="mb-0">
-                    Showing {{ getStartIndex() }} - {{ getEndIndex() }} of {{ total }} users
+                    Showing {{ getStartIndex() }} - {{ getEndIndex() }} of {{ totalItems1 }} users
                   </p>
                   <div class="col-md-12">
-                    <ngb-pagination [collectionSize]="total" [(page)]="pageNumber" [pageSize]="itemPerPage"
+                    <ngb-pagination [collectionSize]="totalItems1" [(page)]="currentPage1" [pageSize]="pageSize1"
                       [maxSize]="5" [boundaryLinks]="true" [ellipses]="true"
-                      (pageChange)="onOnboardingPageChange($event)">
+                      (pageChange)="changePage1($event)">
                     </ngb-pagination>
                   </div>
                 </div>
