@@ -401,6 +401,7 @@
   border: 1px solid #FF8240;
   background: #FFE9DE;
   position: relative;
+  height: 145px;
 }
 
 .resignation-request h5 {
