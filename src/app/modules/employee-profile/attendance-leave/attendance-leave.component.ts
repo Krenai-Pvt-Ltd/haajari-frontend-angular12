@@ -136,7 +136,8 @@ export class AttendanceLeaveComponent implements OnInit {
     this.fetchManagerNames();
     this.getUserLeaveReq();
     this.loadLeaveLogs();
-    this.getOrganizationRegistrationDateMethodCall();
+    // this.getOrganizationRegistrationDateMethodCall();
+    this.getUserJoiningDate();
     this.getHoliday();
 
     this.selectedDate = new Date();
