@@ -32,6 +32,7 @@ import { DatePipe } from '@angular/common';
 import moment from 'moment';
 import { AttendanceLogResponse } from 'src/app/models/attendance-log-response';
 import saveAs from 'file-saver';
+import { BreakTimings } from 'src/app/models/break-timings';
 
 
 
@@ -61,6 +62,7 @@ export class AttendanceLeaveComponent implements OnInit {
   userLeaveRequest: UserLeaveRequest = new UserLeaveRequest();
   modal: any;
   UUID: string = '';
+  ROLE: string = '';
   readonly Constant = constant;
   contentTemplate: string = 'You are on the Notice Period, so that you can not apply leave';
 
@@ -98,19 +100,37 @@ export class AttendanceLeaveComponent implements OnInit {
   }
   public async getUuid() {
     this.UUID = await this.roleService.getUuid();
+   
     // this.currentUserUuid = await this.roleService.getUuid();
-
-
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    // this.userLeaveForm = this.fb.group({
+    //   startDate: [null, Validators.required],
+    //   endDate: [null, Validators.required],
+    //   leaveType: [null, Validators.required],
+    //   selectedUser: [null, Validators.required],
+    //   note: [null, Validators.required],
+    // });
+    this.ROLE = await this.roleService.getRole();
+    
     this.userLeaveForm = this.fb.group({
       startDate: [null, Validators.required],
       endDate: [null, Validators.required],
       leaveType: [null, Validators.required],
-      selectedUser: [null, Validators.required],
+      selectedUser: [null], // Initially not required
       note: [null, Validators.required],
     });
+    console.log('Role:', this.ROLE);
+    if (this.ROLE !== 'ADMIN') {
+      this.userLeaveForm.get('selectedUser')?.setValidators(Validators.required);
+    } else {
+      this.userLeaveForm.get('selectedUser')?.clearValidators();
+    }
+  
+    // Update validity after changing validators
+    this.userLeaveForm.get('selectedUser')?.updateValueAndValidity();
+  
     // this.getAttendanceRequests();
     this.fetchAttendanceRequests();
     this.fetchManagerNames();
@@ -1948,5 +1968,37 @@ export class AttendanceLeaveComponent implements OnInit {
     return "Click 'View Location' , to view attendace location on map";
   }
 
+
+  //  break timings 
+
+
+   breakTimingsList : BreakTimings[] = [];
+   getUserBreakTimingsReportByDate(date: string) {
+      // this.toggleChevron(show);
+      if (
+        this.breakTimingsList == undefined ||
+        this.breakTimingsList == null ||
+        this.breakTimingsList.length == 0
+      ) {
+        debugger;
+        this.dataService
+          .getAttendanceDetailsBreakTimingsReportByDateByUser(
+            this.userId,
+            date
+          )
+          .subscribe(
+            (response) => {
+              // this.breakTimingsList = response.listOfObject;
+              this.breakTimingsList = response.listOfObject;
+              // console.log(this.breakTimingsList);
+              // this.toggleChevron(false);
+            },
+            (error) => {
+              console.log(error);
+            }
+          );
+      } else {
+      }
+    }
 
 }
