@@ -461,15 +461,59 @@
 
                                         <td class="text-center">
                                             <!-- To DO: Make it dynamic break time -->
-                                            <span *ngIf="item.breakCount > 0" class="team-maneger mb-0 table-font-weight" nz-popover
+                                            <!-- <span *ngIf="item.breakCount > 0" class="team-maneger mb-0 table-font-weight" nz-popover
                                             nzPopoverTitle="Break Logs" [nzPopoverContent]=""
                                             [nzPopoverOverlayStyle]="{'width':'250px'}">
                                                 {{item.breakCount}}
+                                            </span> -->
+                                            <span 
+                                                *ngIf="item.breakCount > 0" 
+                                                class="team-manager mb-0 table-font-weight" 
+                                                nz-popover 
+                                                nzPopoverTitle="Break Logs" 
+                                                [nzPopoverContent]="breakLogsContent" 
+                                                [nzPopoverOverlayStyle]="{'width':'250px'}" 
+                                                (mouseover)="getUserBreakTimingsReportByDate(item.createdDate.toString())">
+                                                {{item.breakCount}}
                                             </span>
+                                            <ng-template #breakLogsContent>
+                                                <div class="total-break-time">
+                                                  <div *ngIf="breakTimingsList?.length; else noDataTemplate">
+                                                    <table class="table">
+                                                      <thead class="table-light">
+                                                        <tr>
+                                                          <th class="text-left">Break</th>
+                                                          <th class="text-left">Back</th>
+                                                        </tr>
+                                                      </thead>
+                                                    </table>
+                                                    <div class="break-times-scrollable">
+                                                      <table class="table">
+                                                        <tbody>
+                                                          <tr *ngFor="let breakTiming of breakTimingsList">
+                                                            <td class="text-left">
+                                                              {{ breakTiming.breakTime | date: 'shortTime' }}
+                                                            </td>
+                                                            <td class="text-left">
+                                                              {{ breakTiming.backTime | date: 'shortTime' }}
+                                                            </td>
+                                                          </tr>
+                                                        </tbody>
+                                                      </table>
+                                                    </div>
+                                                  </div>
+                                                  <ng-template #noDataTemplate>
+                                                    <p>No break logs available.</p>
+                                                  </ng-template>
+                                                </div>
+                                              </ng-template>
+                                              
                                             <span *ngIf="item.breakCount == 0" class="team-maneger mb-0 table-font-weight">
                                                 {{item.breakCount}}
                                             </span>
                                         </td>
+                                        
+                                        
                                         <td>
                                             <span class="team-maneger text-center mb-0 table-font-weight">
                                                 {{convertToHourMinuteFormat(item.totalBreakHours)}}</span>
