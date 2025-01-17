@@ -120,7 +120,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     this.getShiftData();
     this.getOnboardingVia();
     this.selectStatus('ACTIVE');
-
+    this.fetchPendingRequests();
     const storedDownloadUrl = localStorage.getItem('downloadUrl');
 
     if (storedDownloadUrl) {
@@ -1946,6 +1946,56 @@ console.log(this.data);
   }
 
   // User Resignation end
+
+  pendingRequests:any;
+  currentPage1: number = 0;
+  pageSize1: number = 10;
+  totalItems1: number = 0;
+  fetchPendingRequests(): void {
+    this.dataService.getPendingRequests(this.currentPage1, this.pageSize1).subscribe(response => {
+      this.pendingRequests = response.content;  // Adjust based on the response structure
+      this.totalItems1 = response.totalElements;  // Adjust based on the response structure
+    });
+  }
+
+  // Method to change page
+  changePage1(page: number): void {
+    this.currentPage1 = page;
+    this.fetchPendingRequests();
+  }
+
+  counTDataInString(jsonString:string):number{
+    const jsonObject = JSON.parse(jsonString);
+    return this.countDataFields(jsonObject);
+  }
+
+  countDataFields(obj: any): number {
+    let count = 0;
+
+    // Loop through the object's properties
+    for (let key in obj) {
+      // Skip 'id' fields
+      if (key === 'id') {
+        continue;
+      }
+
+      // If the property is an object, recursively count its fields
+      if (typeof obj[key] === 'object' && obj[key] !== null) {
+        // If it's an array, loop through each object inside
+        if (Array.isArray(obj[key])) {
+          for (let item of obj[key]) {
+            count += this.countDataFields(item); // Recursively count fields inside the object
+          }
+        } else {
+          count += this.countDataFields(obj[key]); // Recursively count fields inside the object
+        }
+      } else {
+        count += 1; // It's a data field (not 'id' or an object)
+      }
+    }
+
+    return count;
+  }
 
 
   jobTitles: string[] = [

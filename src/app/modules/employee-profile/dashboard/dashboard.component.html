@@ -1259,7 +1259,7 @@
 <!-- Initiate Exit (UserResignation) Modal End -->
 
 <div class="modal fade" id="calendarModal" tabindex="-1" aria-labelledby="calendarModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-    <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-dialog modal-dialog-centered modal-xl" style="max-width: 1000px;">
        <div class="modal-content">
           <!-- <div class="modal-header">
              <h5 class="modal-title" id="calendarModalLabel">Holidays Calendar</h5>
@@ -1280,48 +1280,49 @@
                 </svg>
             </button>
             <div class="calendar-date d-flex align-items-center justify-content-between p-4">
-                <div class="d-flex align-items-center gap-2">
-                    <span>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                            <mask id="mask0_7199_2580" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
-                            <rect width="20" height="20" fill="#D9D9D9"/>
-                            </mask>
-                            <g mask="url(#mask0_7199_2580)">
-                            <path d="M13.3333 18.3307L5 9.9974L13.3333 1.66406L14.8125 3.14323L7.95833 9.9974L14.8125 16.8516L13.3333 18.3307Z" fill="#444444"/>
-                            </g>
-                            </svg>
-                    </span>
-                    <h5 class="mb-0 font-24 fw-bold">January 2025</h5>
-                    <span>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                            <mask id="mask0_7199_2583" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
-                              <rect width="20" height="20" transform="matrix(-1 0 0 1 20 0)" fill="#D9D9D9"/>
-                            </mask>
-                            <g mask="url(#mask0_7199_2583)">
-                              <path d="M6.66667 18.3307L15 9.9974L6.66667 1.66406L5.1875 3.14323L12.0417 9.9974L5.1875 16.8516L6.66667 18.3307Z" fill="#444444"/>
-                            </g>
-                          </svg>
-                    </span>
-                </div>
-
+              <div class="d-flex align-items-center gap-2">
+                <span (click)="navigateMonth('prev')">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <mask id="mask0_7199_2580" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
+                      <rect width="20" height="20" fill="#D9D9D9" />
+                    </mask>
+                    <g mask="url(#mask0_7199_2580)">
+                      <path d="M13.3333 18.3307L5 9.9974L13.3333 1.66406L14.8125 3.14323L7.95833 9.9974L14.8125 16.8516L13.3333 18.3307Z" fill="#444444" />
+                    </g>
+                  </svg>
+                </span>
+                <h5 class="mb-0 font-24 fw-bold">{{ currentMonthYear }}</h5>
+                <span (click)="navigateMonth('next')">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <mask id="mask0_7199_2583" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
+                      <rect width="20" height="20" transform="matrix(-1 0 0 1 20 0)" fill="#D9D9D9" />
+                    </mask>
+                    <g mask="url(#mask0_7199_2583)">
+                      <path d="M6.66667 18.3307L15 9.9974L6.66667 1.66406L5.1875 3.14323L12.0417 9.9974L5.1875 16.8516L6.66667 18.3307Z" fill="#444444" />
+                    </g>
+                  </svg>
+                </span>
+              </div>
             </div>
-             <div>
-              <nz-calendar (nzValueChange)="onYearChange($event)">
-                <ul *nzDateCell="let date" class="events" [ngClass]="{ 'holiday-cell': isHoliday(date) }" >
-                <ng-container *ngFor="let item of getHolidayEvents(date)">
-                  <li class="holiday-item">
-                    {{ item.content }},
-                  </li>
-                </ng-container>
-              </ul>
+
+            <div>
+              <nz-calendar [ngModel]="currentDate" (nzValueChange)="onYearChange($event)" >
+                <ul *nzDateCell="let date" class="events" [ngClass]="{ 'holiday-cell': isHoliday(date) }">
+                  <ng-container *ngFor="let item of getHolidayEvents(date)">
+                    <li class="holiday-item">
+                      {{ item.content }},
+                    </li>
+                  </ng-container>
+                </ul>
                 <ng-container *nzMonthCell="let month">
-                  <div *ngIf="getMonthHolidayCount(month) > 0" class="notes-month" [ngClass]="{'holiday-month': getMonthHolidayCount(month) > 0}">
+                  <div *ngIf="getMonthHolidayCount(month) > 0" class="notes-month" [ngClass]="{ 'holiday-month': getMonthHolidayCount(month) > 0 }">
                     <section>{{ getMonthHolidayCount(month) }}</section>
                     <span>Holidays</span>
                   </div>
                 </ng-container>
               </nz-calendar>
-             </div>
+            </div>
+
           </div>
        </div>
     </div>

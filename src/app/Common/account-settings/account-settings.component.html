@@ -86,7 +86,7 @@
                     </svg>
                     Help & Support </button>
                 <!-- TODO : button click open modal initiate exit (modal another component - component name - profile-sidebar)  -->
-                <!-- below button open modal with id which is in another component employee-profile-sidebar  --> 
+                <!-- below button open modal with id which is in another component employee-profile-sidebar  -->
                 <button class="nav-link text-danger pointer" data-bs-toggle="modal" data-bs-target="#initiateExit">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
                         <mask id="mask0_7018_2671" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
@@ -654,10 +654,10 @@
                                       </div>
                                       <span class="download-icon pointer">
                                         <a target="_blank">
-                                          <svg *ngIf="!isYouTubeUrl(agreement.url)" (click)="downloadFile(agreement.url)" xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
+                                          <svg *ngIf="!isYouTubeUrl(agreement.url)" (click)="setPreviewString(agreement.url);" data-bs-toggle="modal" data-bs-target="#showDocModal" xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
                                             <path d="M10.5026 13.832L6.33594 9.66536L7.5026 8.45703L9.66927 10.6237V3.83203H11.3359V10.6237L13.5026 8.45703L14.6693 9.66536L10.5026 13.832ZM5.5026 17.1654C5.04427 17.1654 4.65191 17.0022 4.32552 16.6758C3.99913 16.3494 3.83594 15.957 3.83594 15.4987V12.9987H5.5026V15.4987H15.5026V12.9987H17.1693V15.4987C17.1693 15.957 17.0061 16.3494 16.6797 16.6758C16.3533 17.0022 15.9609 17.1654 15.5026 17.1654H5.5026Z" fill="#1C1B1F"></path>
                                           </svg>
-                                          <svg *ngIf="isYouTubeUrl(agreement.url)" xmlns="http://www.w3.org/2000/svg" width="21" height="21"
+                                          <svg *ngIf="isYouTubeUrl(agreement.url)" (click)="setPreviewString(agreement.url)" data-bs-toggle="modal" data-bs-target="#showDocModal" xmlns="http://www.w3.org/2000/svg" width="21" height="21"
                                                     viewBox="0 0 21 21" fill="none">
                                                     <mask id="mask0_7119_2750" style="mask-type:alpha"
                                                         maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
@@ -932,7 +932,7 @@
                 </div>
             </div>
             <div class="tab-pane fade" id="v-pills-support" role="tabpanel" aria-labelledby="v-pills-support-tab">
-              
+
                 <div class="account-setting w-90">
                   <h5 class="font-22 fw-semibold mb-2">How Can We Assist You?</h5>
                   <form [formGroup]="supportForm" (ngSubmit)="onSubmitHnS()">
@@ -946,7 +946,10 @@
                           placeholder="Enter Email ID"
                           formControlName="email"
                           class="form-control input-zorro"
+                          [value]="this.userInfo.email"
+                          [disabled]="!isEmailEditable"
                         />
+                        <button *ngIf="!isEmailEditable" (click)="isEmailEditable=true; enableEmail()" class="btn p-0 text-primary font-13 edit-btn fw-semibold">Edit</button>
                         <div *ngIf="supportForm.get('email')?.invalid && supportForm.get('email')?.touched" class="text-danger">
                           Valid email is required.
                         </div>
@@ -955,12 +958,17 @@
                       <div class="col-md-12 mb-4">
                         <label for="phone" class="pb-2">Your Phone Number</label>
                         <input
-                          id="phone"
-                          type="text"
-                          placeholder="Enter Phone Number"
-                          formControlName="phone"
-                          class="form-control input-zorro"
-                        />
+                        minlength="10"
+                        maxlength="10"
+                        id="phone"
+                        type="text"
+                        placeholder="Enter Phone Number"
+                        formControlName="phone"
+                        class="form-control input-zorro"
+                        (keypress)="allowNumbersOnly($event)"
+                      />
+
+                        <button *ngIf="!isPhoneEditable" (click)="isPhoneEditable=true; enablePhoneNumber()" class="btn p-0 text-primary font-13 edit-btn fw-semibold">Edit</button>
                         <div *ngIf="supportForm.get('phone')?.invalid && supportForm.get('phone')?.touched" class="text-danger">
                           Valid phone number is required.
                         </div>
@@ -1034,4 +1042,31 @@
             </div>
         </div>
     </div>
+</div>
+
+
+
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#showDocModal"
+#openDocModalButton id="openDocModalButton"></button>
+<div class="modal blur-bg-2" id="showDocModal" tabindex="-1" data-bs-keyboard="false"
+aria-labelledby="showDocModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-xl">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="showDocModalLabel">Company Policy</h5>
+    </div>
+    <div class="modal-body text-center" style="overflow: scroll; min-height: 450px">
+      <iframe *ngIf="previewString" [src]="previewString" style="width: 100%; height: 100vh"
+        frameborder="0"></iframe>
+    </div>
+    <!-- <div class="modal-footer d-flex align-items-center justify-content-end gap-3">
+      <button type="button" class="btn btn-de-secondary" data-bs-dismiss="modal" aria-label="Close">
+        Cancel
+      </button>
+      <button class="btn btn-primary" (click)="downloadFile('')">
+        <span> <i class="bi bi-download"></i> Download </span>
+      </button>
+    </div> -->
+  </div>
+</div>
 </div>

@@ -143,6 +143,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     this.dataService.getEmployeeProfile(this.userId).subscribe((response) => {
       console.log(response.object);
       this.employeeProfileResponseData = response.object;
+      this.dataService.employeeData=response.object;
       if (!this.employeeProfileResponseData?.agreementAccepted && this.userId === this.UUID) {
         this.dataService.getHrPolicies()
           .subscribe(
