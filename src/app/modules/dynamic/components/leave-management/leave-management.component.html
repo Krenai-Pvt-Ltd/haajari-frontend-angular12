@@ -71,7 +71,7 @@
                  aria-selected="true" (click)="onTabChange(PENDING)">Pending Leave
                 </a>
                 <span class="request-count d-flex align-items-center justify-content-center"
-                  *ngIf="totalCountOfPendingCounts > 0">{{ totalCountOfPendingCounts }}</span>
+                  *ngIf="totalCountOfPendingCounts > 0">{{ totalItems[PENDING] }}</span>
               </li>
               <li class="nav-item" >
                 <a class="nav-link" data-bs-toggle="tab" href="#leaveHistory" role="tab" 
@@ -504,7 +504,7 @@
                 </div>
               </div>
               <div class="mt-4">
-                <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center" *ngIf="!isFetchingQuotaFailed">
                   <div class="Approved rejected-css">
                     <p class="mb-0" style="color: black"></p>
                     <span style="
@@ -554,17 +554,7 @@
                     <ng-template #approveLabel>Approve</ng-template>
                   </button>
                   <!-- Reject Button -->
-                  <!-- <button class="btn reject-btn" type="button"
-                  (click)="approveOrDeny(leave.id, 'rejected')">
-                  <div *ngIf="rejecetdLoader; else rejectLabel">
-                    <div class="dot-opacity-loader">
-                      <span></span>
-                      <span></span>
-                      <span></span>
-                    </div>
-                  </div>
-                  <ng-template #rejectLabel>Reject</ng-template>
-                </button> -->
+          
 
                   <button class="btn reject-btn" type="button" (click)="approveOrDeny(leave.id, 'rejected')">
                     <div *ngIf="rejecetdLoader; else rejectLabel">

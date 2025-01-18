@@ -1436,6 +1436,9 @@
         </button>
       </div>
       <div class="modal-body">
+        <div *ngIf="isRequestedDataLoading" class="d-flex align-items-center justify-content-center">
+          <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
+        </div>
         <div *ngIf="!isRequestedDataLoading" class="request-body">
           <div class="d-flex align-items-center justify-content-between request-user p-3">
             <div class="d-flex align-items-center gap-2">

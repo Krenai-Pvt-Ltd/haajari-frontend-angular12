@@ -69,7 +69,7 @@
 
                                 <nz-radio-group [(ngModel)]="selectedTab" nzButtonStyle="solid" nzSize="large"
                                     (ngModelChange)="onTabChange($event)">
-                                    {{weekLabels|json}}
+                                   
                                     <label nz-radio-button [nzValue]="week"
                                         *ngFor="let week of weekLabels; let i = index">{{week}}</label>
                                     <label nz-radio-button [nzValue]="'30 DAYS'">{{thirtyDaysLabel}}</label>
@@ -1469,7 +1469,7 @@
                                             </div>
                                             <div>
 
-                                                <button type="button" class="btn primaryBtnLink leave-request"
+                                                <button type="button" class="btn primaryBtnLink leave-request"  *ngIf="userId==currentUserUuid"
                                                     data-bs-toggle="modal" data-bs-target="#updateRequest">
 
 

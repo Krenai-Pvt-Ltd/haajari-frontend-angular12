@@ -460,6 +460,7 @@ params={ status: status ,itemPerPage: this.itemPerPage, currentPage: this.pageNu
   leave!: PendingLeaveResponse;
   viewPendingLeave(leave:any){
     this.leave = leave;
+    this.getLeaveQuota(leave);
   }
 
   applyTeamFilter(team:UserTeamDetailsReflection|null,tab:string) {
@@ -473,6 +474,29 @@ params={ status: status ,itemPerPage: this.itemPerPage, currentPage: this.pageNu
     this.leaves[tab]=[]; 
     this.totalItems[tab] = 0;
     this.pageNumber[tab] = 1;
+  }
+
+  isFetchingQuota:boolean = true;
+  isFetchingQuotaFailed:boolean = true;
+
+  getLeaveQuota(leave:any){ 
+    this.isFetchingQuota=true;
+    this.dataService.getUserLeaveRequests(leave.uuid,1,leave.leaveCategoryId).subscribe(
+      (res: any) => {
+        this.isFetchingQuota=false;
+       if(res.status){
+        this.isFetchingQuotaFailed=false;
+       }else{
+        this.isFetchingQuotaFailed=true;
+       }
+        if (res.object) {
+          leave.approved= res.object[0].approved;
+          leave.rejected= res.object[0].rejected;
+          leave.pending= res.object[0].pending;
+        }
+
+
+      });
   }
   /****************************************************************************************************************************************************************
    *  GET LEAVES UPDATED METHODS END
@@ -515,5 +539,3 @@ params={ status: status ,itemPerPage: this.itemPerPage, currentPage: this.pageNu
     return { startDate: formattedStartDate, endDate: formattedEndDate };
   }
 }
-
-
