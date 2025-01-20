@@ -131,7 +131,7 @@ export class LeaveManagementComponent implements OnInit {
           this.leaves[this.currentTab] = [];
           this.totalItems[this.ALL] = 0;
           this.getLeaves(this.currentTab);
-          this.getLeaves(this.currentTab);
+          this.getLeaves(this.ALL);
 
           // Close modal
           this.closeModal.nativeElement.click();
@@ -460,7 +460,8 @@ params={ status: status ,itemPerPage: this.itemPerPage, currentPage: this.pageNu
   leave!: PendingLeaveResponse;
   viewPendingLeave(leave:any){
     this.leave = leave;
-    this.getLeaveQuota(leave);
+    //TODOD: commnetd for now
+    // this.getLeaveQuota(leave);
   }
 
   applyTeamFilter(team:UserTeamDetailsReflection|null,tab:string) {

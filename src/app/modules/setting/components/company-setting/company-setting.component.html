@@ -24,7 +24,7 @@
           Onboarding Setting
         </button>
       </li>
-      <!-- TODO : commented for now -->
+      <!-- TODO : dynamic for now -->
       <li role="presentation" class="nav-item">
         <button id="home-tab" data-bs-toggle="tab" data-bs-target="#notificationsSetting" type="button" role="tab"
           aria-controls="home" [attr.aria-selected]="activeTab === 'notificationsSetting'"
@@ -33,6 +33,8 @@
           Notifications Configuration
         </button>
       </li>
+     
+      
     </ul>
 
 
@@ -1425,6 +1427,11 @@
           </div>
         </div>
         
+        </div>
+
+        <div class="mt-4" *ngIf="activeTab === 'exitPolicy'">
+        
+        <!-- <app-exist-policy></app-exit-policy> -->
         </div>
 
 
