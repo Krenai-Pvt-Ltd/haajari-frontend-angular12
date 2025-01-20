@@ -1641,7 +1641,7 @@ i.bi.bi-plus {
   border: 1.021px solid #e9e9e9 !important;
   background: rgba(236, 236, 236, 0.21) !important;
   height: 45px !important;
-  font-size: 12px !important;
+  font-size: 13px !important;
   font-weight: 400 !important;
 }
 
@@ -1849,7 +1849,17 @@ i.bi.bi-plus {
 }
 
 
+::ng-deep .placeholder-line .ant-select-selection-placeholder {
+  line-height: 45px !important;
+  font-size: 13px !important;
+  font-weight: 400 !important;
+}
 
+::ng-deep .placeholder-line .ant-select-selection-item {
+  line-height: 45px !important;
+  font-size: 13px !important;
+  font-weight: 400 !important;
+}
 
 
 @media screen and (max-width: 2600px) {
@@ -1911,4 +1921,13 @@ i.bi.bi-plus {
   text-overflow: ellipsis;
   white-space: nowrap;
   width: 250px;
+}
+
+input[type=radio], input[type=checkbox] {
+  box-sizing: border-box;
+  padding: 0;
+  accent-color: #6766f3;
+  width: 18px;
+  height: 18px;
+  border-radius: 2px;
 }

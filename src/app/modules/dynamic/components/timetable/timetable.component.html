@@ -11,7 +11,7 @@
                 [ngClass]="{ 'active-tab': ACTIVE_TAB == ATTENDANCE_TAB }" aria-controls="pills-announcement"
                 aria-selected="false" class="nav-link ">Attendance</a>
             </li>
-            <li class="nav-item d-flex align-items-center">
+            <li class="nav-item d-none d-flex align-items-center">
               <a id="pills-notification-tab" role="tab" (click)="changeTab(OVERTIME_TAB)" class="position-relative"
                 [ngClass]="{ 'active-tab': ACTIVE_TAB == OVERTIME_TAB }" aria-controls="pills-notification"
                 aria-selected="false" class="nav-link">Overtime</a>
@@ -192,15 +192,16 @@
                     </form>
                   </div>
                   <div class="d-flex align-items-center justify-content-end w-100" style="padding-right:10px;">
-                    <button class="btn p-0 text-primary fw-semibold" type="button" data-bs-toggle="modal"
+                    <!-- TODO: uncomment -->
+                    <!-- <button class="btn p-0 text-primary fw-semibold" type="button" data-bs-toggle="modal"
                       data-bs-target="#sampleFileModal">
                       <i class="bi bi-upload"></i> Upload Members
-                    </button>
+                    </button> -->
                   </div>
 
                 </div>
                 <!-- <div class="col-md-3">
-                
+
               </div> -->
               </div>
             </div>
@@ -350,6 +351,7 @@
                                 &nbsp; &nbsp;<i style="color: black" id="dropdownMenuButton"
                                   class="bi bi-chevron-down"></i>
                               </p>
+                              
                               <div class="total-braek-time">
                                 <div *ngIf="
                                     attendanceDetailsResponse.breakTimingsList !==
@@ -584,14 +586,14 @@
                                     </span>
                                   </div>
                                 </div>
-                                <!-- <div class="d-flex align-items-center mb-2 mt-2 gap-3">
+                                <div class="d-flex align-items-center mb-2 mt-2 gap-3">
                                   <p class="mb-0" style="font-size: 14px">
                                     <span><b>Notes</b></span><span> : </span>
                                     {{
                                     attendanceLogResponse.additionalNotes
                                     }}
                                   </p>
-                                </div> -->
+                                </div>
 
 
                                 <div class="card" *ngIf="
@@ -709,24 +711,17 @@
                   Showing {{ getStartIndex() }} - {{ getEndIndex() }} of
                   {{ total }} items
                 </p>
-                <nav aria-label="Page navigation example">
-                  <ul class="pagination justify-content-end">
-                    <li class="page-item" [class.disabled]="pageNumber == 1">
-                      <a class="page-link" href="javascript:void(0);" aria-label="Previous"
-                        (click)="changePage('prev')">
-                        <span aria-hidden="true">&laquo;</span>
-                      </a>
-                    </li>
-                    <li class="page-item" *ngFor="let page of getPages()" [class.active]="pageNumber == page">
-                      <a class="page-link" href="javascript:void(0);" (click)="changePage(page)">{{ page }}</a>
-                    </li>
-                    <li class="page-item" [class.disabled]="pageNumber == totalPages">
-                      <a class="page-link" href="javascript:void(0);" aria-label="Next" (click)="changePage('next')">
-                        <span aria-hidden="true">&raquo;</span>
-                      </a>
-                    </li>
-                  </ul>
-                </nav>
+
+
+
+                <div class="pagition-box">
+                  <ngb-pagination [collectionSize]="total" [(page)]="pageNumber" [pageSize]="itemPerPage" [maxSize]="5"
+                    [boundaryLinks]="true" [ellipses]="true" (pageChange)="changePage($event)">
+                  </ngb-pagination>
+                </div>
+
+
+
               </div>
             </div>
           </ng-container>
@@ -1725,7 +1720,7 @@
                         <a class="dropdown-item"> {{ tn.teamName }} </a>
                       </li>
                     </ul>
-                  </div> 
+                  </div>
                    <div class="form-group pb-1" style="width: 65%; position: relative">
                     <input type="text" id="searchText" placeholder="Search by name or email" [(ngModel)]="searchText" class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px; border: none !important" (keyup)="searchOvertimeRequestLogResponse()" />
                     <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px" *ngIf="searchText == ''"></i>

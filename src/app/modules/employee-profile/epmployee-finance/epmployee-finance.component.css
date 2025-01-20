@@ -243,9 +243,8 @@ i::before {
 
 .scene {
     display: inline-block;
-    /* width: 200px;
-    height: 260px; */
     perspective: 600px;
+    width: 100%;
 }
 
 .card {
@@ -266,14 +265,14 @@ i::before {
 .card__face {
     position: absolute;
     width: 100%;
-    height: 100%;
+    /* height: 100%; */
     backface-visibility: hidden;
 }
 
 
 
 .overview-summary {
-    background: white;
+    background-color: #F9FAFC;
     transform: rotateY(180deg);
 }
 
@@ -327,9 +326,6 @@ i::before {
     background-color: #e9e4e4;
 }
 
-.overview-summary {
-    background-color: #F9FAFC;
-}
 
 .summary-count {
     width: 10px;

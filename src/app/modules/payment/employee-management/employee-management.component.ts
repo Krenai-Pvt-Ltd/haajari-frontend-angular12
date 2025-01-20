@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { co } from '@fullcalendar/core/internal-common';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { constant } from 'src/app/constant/constant';
@@ -33,7 +34,7 @@ export class EmployeeManagementComponent implements OnInit {
   @Input() startDate:any;
   @Input() endDate:any;
   @Output() getData: EventEmitter<boolean> = new EventEmitter<boolean>();
-    
+
   sendBulkDataToComponent() {
     this.getData.emit(true);
   }
@@ -47,7 +48,7 @@ export class EmployeeManagementComponent implements OnInit {
   private searchSubject = new Subject<boolean>();
 
   constructor(private _helperService : HelperService,
-  private _payrollService : PayrollService) { 
+  private _payrollService : PayrollService) {
 
 
     this.searchSubject
@@ -109,7 +110,7 @@ export class EmployeeManagementComponent implements OnInit {
     this.isShimmerForNewJoinee = true;
     this.dataNotFoundPlaceholderForNewJoinee = false;
     this.networkConnectionErrorPlaceHolderForNewJoinee = false;
-    this.newJoineeResponseList = []; 
+    this.newJoineeResponseList = [];
   }
 
   isShimmerForUserExit = false;
@@ -137,9 +138,24 @@ export class EmployeeManagementComponent implements OnInit {
     this.resetSearch();
   }
 
-  
+  isDownLoading = false;
+  download(category:string){
+    this.isDownLoading = true;
+    this._payrollService
+    .generateReport(this.startDate, this.endDate, category, this.search)
+    .subscribe((response) => {
+      this.isDownLoading = false;
+      this.downloadFile(response);
+    }
+    , (error) => {
+      console.log("Error", error);
+      this.isDownLoading = false;
+    });
+  }
+
   newJoineeResponseList: NewJoineeResponse[] = [];
   getNewJoinee() {
+
       this.preRuleForShimmersAndErrorPlaceholdersForNewJoinee();
       this._payrollService.getNewJoinee(this.startDate,this.endDate,this.itemPerPage,this.pageNumber,this.search).subscribe((response) => {
             if (response.status) {
@@ -155,7 +171,7 @@ export class EmployeeManagementComponent implements OnInit {
                     }
                   });
                 }
-            } 
+            }
             this.isShimmerForNewJoinee = false;
           },
           (error) => {
@@ -218,7 +234,7 @@ export class EmployeeManagementComponent implements OnInit {
     }
   }
 
-  
+
 
 
 
@@ -227,11 +243,11 @@ export class EmployeeManagementComponent implements OnInit {
     // getUserExitByOrganizationIdMethodCall(debounceTime: number = 300) {
     //   debugger
     //   this.userExitResponseList = [];
-  
+
     //   if (this.debounceTimer) {
     //     clearTimeout(this.debounceTimer);
     //   }
-  
+
     //   this.debounceTimer = setTimeout(() => {
     //     this.preRuleForShimmersAndErrorPlaceholdersForUserExit();
     //     this._payrollService.getUserInExitProcess(
@@ -258,12 +274,12 @@ export class EmployeeManagementComponent implements OnInit {
     //                   exit.payActionType = selectedPayActionType;
     //                 }
     //               }
-  
+
     //               // Apply cached comment if available
     //               if (this.commentCache[exit.uuid]) {
     //                 exit.comment = this.commentCache[exit.uuid];
     //               }
-  
+
     //               return exit;
     //             });
     //             this.total = response.totalItems;
@@ -278,10 +294,10 @@ export class EmployeeManagementComponent implements OnInit {
     //       );
     //   }, debounceTime);
     // }
-  
+
     //Fetching the final settlement data
     finalSettlementResponseList: FinalSettlementResponse[] = [];
-    
+
 
 
 
@@ -290,46 +306,46 @@ export class EmployeeManagementComponent implements OnInit {
     //   this.resetCriteriaFilterMicro();
     //   this.getNewJoineeByOrganizationIdMethodCall();
     // }
-  
+
     // searchUserExit(event: Event) {
     //   this._helperService.ignoreKeysDuringSearch(event);
     //   this.resetCriteriaFilterMicro();
     //   this.getUserExitByOrganizationIdMethodCall();
     // }
-  
+
     searchUsers(event: Event, step: number) {
       this._helperService.ignoreKeysDuringSearch(event);
       // this.resetCriteriaFilterMicro();
-  
+
       // if (step == this.NEW_JOINEE) {
       //   this.getNewJoineeByOrganizationIdMethodCall();
       // }
-  
+
       // if (step == this.USER_EXIT) {
       //   this.getUserExitByOrganizationIdMethodCall();
       // }
-  
+
       // if (step == this.FINAL_SETTLEMENT) {
       //   this.getFinalSettlementByOrganizationIdMethodCall();
       // }
     }
-  
+
     // Clearing search text
     clearSearch(step: number) {
       // this.resetCriteriaFilter();
       // if (step == this.NEW_JOINEE) {
       //   this.getNewJoineeByOrganizationIdMethodCall();
       // }
-  
+
       // if (step == this.USER_EXIT) {
       //   this.getUserExitByOrganizationIdMethodCall();
       // }
-  
+
       // if (step == this.FINAL_SETTLEMENT) {
       //   this.getFinalSettlementByOrganizationIdMethodCall();
       // }
     }
-  
+
     // resetCriteriaFilter() {
     //   this.itemPerPage = 8;
     //   this.pageNumber = 1;
@@ -339,9 +355,9 @@ export class EmployeeManagementComponent implements OnInit {
     //   this.sortBy = 'id';
     //   this.search = '';
     //   this.searchBy = 'name';
-      
+
     // }
-  
+
     // resetCriteriaFilterMicro() {
     //   this.itemPerPage = 8;
     //   this.pageNumber = 1;
@@ -400,10 +416,10 @@ export class EmployeeManagementComponent implements OnInit {
   updatePayrollStep(){
 
     // this._payrollService.updatePayrollProcessStep(this.startDate, this.endDate, this.FINAL_SETTLEMENT).subscribe((response)=>{
-     
-    
+
+
     // }, ((error) => {
-    
+
     // }))
   }
   payActionTypes = [
@@ -413,7 +429,7 @@ export class EmployeeManagementComponent implements OnInit {
 
 
 
-  holdActionIds: number[] = []; 
+  holdActionIds: number[] = [];
   onPayActionTypeChange(data:any){
     console.log("==============log==========",data);
     // Check if the ID exists in the array
@@ -424,6 +440,15 @@ export class EmployeeManagementComponent implements OnInit {
       this.holdActionIds.splice(index, 1); // Remove ID if it exists
     }
     // console.log("==============holdIds==========",this.holdIds);
+  }
+
+  private downloadFile(response: Blob) {
+    debugger
+    const fileURL = URL.createObjectURL(response);
+    const a = document.createElement('a');
+    a.href = fileURL;
+    a.download = 'report.xlsx';  // You can change the file name
+    a.click();
   }
 
 }

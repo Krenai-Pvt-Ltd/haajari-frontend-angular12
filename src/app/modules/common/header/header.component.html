@@ -356,7 +356,7 @@
 
 
             <li [class.active]="5 === activeIndex" (mouseover)="updateSliderStyle4(5)" (mouseout)="resetHoverIndex4()"
-              (click)="setActive4(5);checkRestriction('/exit-policy');" class="pointer d-none"
+              (click)="setActive4(5);checkRestriction('/exit-policy');" class="pointer"
               routerLinkActive="sidebar-menu-active" routerLink="/exit-policy"
               *ngIf="this.rbacService.shouldDisplay('Exit Policy')">
               <a class="sidebar-menu-link">

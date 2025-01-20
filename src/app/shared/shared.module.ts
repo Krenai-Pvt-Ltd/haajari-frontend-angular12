@@ -8,6 +8,7 @@ import { CommonToDoStepsComponent } from '../modules/common/common-to-do-steps/c
 import { MapComponent } from '../modules/common/map/map.component';
 import { AgmCoreModule } from '@agm/core';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
+import { AccountSettingsComponent } from '../Common/account-settings/account-settings.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,7 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
     HajiriPageLoaderComponent,
     NotifactionTostComponent,
     CommonToDoStepsComponent,
-    MapComponent
+    MapComponent,
   ],
 })
-export class SharedModule {}
+export class SharedModule { }

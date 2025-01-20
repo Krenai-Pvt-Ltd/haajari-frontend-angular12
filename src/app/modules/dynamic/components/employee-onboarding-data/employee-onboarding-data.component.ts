@@ -1,5 +1,5 @@
 import { constant } from 'src/app/constant/constant';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import {  NgForm } from '@angular/forms';
 import { NavigationExtras, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -120,7 +120,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     this.getShiftData();
     this.getOnboardingVia();
     this.selectStatus('ACTIVE');
-
+    this.fetchPendingRequests();
     const storedDownloadUrl = localStorage.getItem('downloadUrl');
 
     if (storedDownloadUrl) {
@@ -232,7 +232,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   selectedStatus: string | null = null;
 
   selectStatus(status: string) {
-    
+
     this.users = [];
     this.isResignationUser = 0
 
@@ -413,7 +413,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
       this.toggle2 = true;
     }
     this.emailAlreadyExists = false;
-    
+
     const userUuid = '';
     this.dataService
       .setEmployeePersonalDetails(
@@ -443,7 +443,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
           this.selectedTeams = [];
           this.selectedShift = 0;
           this.getUsersByFiltersFunction();
-          
+
           if(invite) {
             this.helperService.showToast(
               'Member added and invited successfully.',
@@ -1371,7 +1371,7 @@ console.log(this.data);
       emailNotificationEnabled: onboardUser.emailNotificationEnabled,
       whatsappNotificationEnabled: onboardUser.whatsappNotificationEnabled,
     };
-  
+
     // this.dataService.updateNotificationSettings(payload).subscribe(
     //   (response: any) => {
     //     if (response.status) {
@@ -1421,6 +1421,171 @@ console.log(this.data);
           this.isEmailExist = response;
         });
     }
+  }
+
+  requestedData: any[] = [];
+  isRequestedDataLoading: boolean = false;
+  userId: string = '';
+  editedName: string = '';
+  editedDate: Date = new Date();
+  profilePic: string = '';
+  disabledStates: boolean[] = [];
+  approveStates: string[]=[];
+  rejectedReason: string = '';
+  @ViewChildren('collapsibleDiv') collapsibleDivs!: QueryList<ElementRef>;
+  getRequestedData(uuid: string) {
+    debugger;
+    this.isRequestedDataLoading = true;
+    this.dataService.getDataComparison(uuid).subscribe(
+      (response: any) => {
+        this.isRequestedDataLoading = false;
+        this.userId = uuid;
+          this.requestedData = response.editedDataDtoList.map((item: { key: string; }) => ({
+            ...item,
+            name: this.convertKeyToName(item.key)
+          }));
+          this.editedName= response.name;
+          this.editedDate= response.createdDate;
+          this.profilePic= response.profilePic;
+          this.approveStates=[];
+          if(!this.requestedData ||this.requestedData.length==0){
+            this.helperService.showToast('No data found', Key.TOAST_STATUS_ERROR);
+            this.closeReqDataModal.nativeElement.click();
+            this.selectStatus('EDITPROFILE');
+          }
+
+
+      },
+      (error) => {
+        this.isRequestedDataLoading = false;
+      }
+    );
+  }
+
+  convertKeyToName(key: string): string {
+    // Convert the key by splitting on uppercase letters and joining with spaces
+    return key
+      .replace(/([a-z])([A-Z])/g, '$1 $2')  // Adds a space before uppercase letters
+      .replace(/^./, (str) => str.toUpperCase()); // Capitalizes the first letter
+  }
+
+  @ViewChild('closeReqDataModal') closeReqDataModal!: ElementRef;
+  approveLoading: boolean = false;
+  approveRequestedData(): void {
+    this.approveLoading = true;
+    this.dataService.saveRequestedData(this.userId).subscribe({
+      next: (response) => {
+        this.approveLoading = false;
+        console.log('Response:', response);
+        if (response.success) {
+          this.helperService.showToast('Data saved successfully', Key.TOAST_STATUS_SUCCESS);
+          this.closeReqDataModal.nativeElement.click();
+          this.selectStatus('EDITPROFILE');
+
+        } else {
+          this.helperService.showToast('Failed to save data', Key.TOAST_STATUS_ERROR);
+        }
+      },
+      error: (error) => {
+        this.approveLoading = false;
+        console.error('Error:', error);
+        this.helperService.showToast('An error occurred while saving data', Key.TOAST_STATUS_ERROR);
+      },
+    });
+  }
+
+  rejectLoading: boolean = false;
+  isRejectModalOpen: boolean = false;
+  rejectData(): void {
+    if(! this.isRejectModalOpen){
+      this.isRejectModalOpen = true;
+      return;
+    }
+
+    this.rejectLoading = true;
+    this.dataService.rejectRequestedData(this.userId,this.rejectedReason).subscribe(
+      (response) => {
+        this.rejectLoading = false;
+        if (response.success) {
+          this.helperService.showToast('Request rejected successfully', Key.TOAST_STATUS_SUCCESS);
+          this.closeReqDataModal.nativeElement.click();
+          this.selectStatus('EDITPROFILE');
+        } else {
+          this.helperService.showToast('Failed to reject request', Key.TOAST_STATUS_ERROR);
+        }
+      },
+      (error) => {
+        this.rejectLoading = false;
+        console.error('API Error:', error);
+      }
+    );
+  }
+
+
+  fieldLoading: boolean = false;
+  removeField(key: string, value: any, index: number) {
+    this.fieldLoading = true;
+    this.dataService.removeKeyValuePair(key,this.userId, value).subscribe({
+      next: (response) => {
+        this.fieldLoading = false;
+        console.log('Response:', response);
+        if (response.success) {
+          this.helperService.showToast('Data Rejected successfully', Key.TOAST_STATUS_SUCCESS);
+          this.disabledStates[index] = true;
+          this.approveStates[index] = 'Rejected';
+          const divToClick = document.getElementById('collapsibleDiv-' + index);
+          if (divToClick) {
+            divToClick.click();
+          }
+
+        } else {
+          this.helperService.showToast('Failed to remove the field', Key.TOAST_STATUS_ERROR);
+        }
+      },
+      error: (err) => {
+        this.fieldLoading = false;
+        console.error('Error:', err);
+        alert('An error occurred while removing the field.');
+      }
+    });
+  }
+  approveField(key: string, value: any, index: number) {
+    this.fieldLoading = true;
+    const stringValue = typeof value === 'object' ? JSON.stringify(value) : String(value);
+    this.dataService.approveKeyValuePair(key, this.userId, stringValue).subscribe({
+      next: (response) => {
+        this.fieldLoading = false;
+        console.log('Response:', response);
+        if (response.success) {
+          this.disabledStates[index] = true;
+          this.approveStates[index] = 'Approved';
+          const divToClick = document.getElementById('collapsibleDiv-' + index);
+          if (divToClick) {
+            divToClick.click();
+          }
+          this.helperService.showToast('Field approve successfully', Key.TOAST_STATUS_SUCCESS);
+
+        } else {
+          this.helperService.showToast('Failed to approve the field', Key.TOAST_STATUS_ERROR);
+        }
+      },
+      error: (err) => {
+        this.fieldLoading = false;
+        console.error('Error:', err);
+        alert('An error occurred while removing the field.');
+      }
+    });
+  }
+
+  closeDataRequestModal() {
+    this.requestedData = [];
+    this.userId = '';
+    this.fieldLoading = false;
+    this.isRequestedDataLoading = false;
+    this.disabledStates = [];
+    this.approveStates = [];
+    this.isRejectModalOpen = false;
+    this.rejectedReason = '';
   }
 
   isNumberExist: boolean = false;
@@ -1636,6 +1801,16 @@ console.log(this.data);
 
   // User Resignation start
 
+  existExitPolicy: boolean = false;
+  checkUserExist(){
+    this.existExitPolicy = false
+    this.dataService.checkUserExist(this.userUuid).subscribe((res: any) =>{
+      if(res.status && res.object == 1){
+        this.existExitPolicy = true;
+      }
+    })
+  }
+
   @ViewChild('closeResignationButton') closeResignationButton!: ElementRef
   userResignationReq: UserResignation = new UserResignation();
   resignationToggle: boolean = false;
@@ -1771,6 +1946,60 @@ console.log(this.data);
   }
 
   // User Resignation end
+
+  pendingRequests:any;
+  currentPage1: number = 1;
+  pageSize1: number = 12;
+  totalItems1: number = 0;
+  isEditDataLoading:boolean=false;
+  fetchPendingRequests(): void {
+    this.isEditDataLoading=true;
+    this.dataService.getPendingRequests(this.currentPage1, this.pageSize1).subscribe(response => {
+      this.isEditDataLoading=false;
+      this.pendingRequests = response.content;  // Adjust based on the response structure
+      this.totalItems1 = response.totalElements;  // Adjust based on the response structure
+    }
+  );
+  }
+
+  // Method to change page
+  changePage1(page: number): void {
+    this.currentPage1 = page;
+    this.fetchPendingRequests();
+  }
+
+  counTDataInString(jsonString:string):number{
+    const jsonObject = JSON.parse(jsonString);
+    return this.countDataFields(jsonObject);
+  }
+
+  countDataFields(obj: any): number {
+    let count = 0;
+
+    // Loop through the object's properties
+    for (let key in obj) {
+      // Skip 'id' fields
+      if (key === 'id') {
+        continue;
+      }
+
+      // If the property is an object, recursively count its fields
+      if (typeof obj[key] === 'object' && obj[key] !== null) {
+        // If it's an array, loop through each object inside
+        if (Array.isArray(obj[key])) {
+          for (let item of obj[key]) {
+            count += this.countDataFields(item); // Recursively count fields inside the object
+          }
+        } else {
+          count += this.countDataFields(obj[key]); // Recursively count fields inside the object
+        }
+      } else {
+        count += 1; // It's a data field (not 'id' or an object)
+      }
+    }
+
+    return count;
+  }
 
 
   jobTitles: string[] = [
@@ -2049,5 +2278,5 @@ console.log(this.data);
     this.closeNotificationModalFlag = false;
   }
 
-  
+
 }

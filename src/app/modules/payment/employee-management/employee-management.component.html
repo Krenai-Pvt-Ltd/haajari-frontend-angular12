@@ -36,6 +36,16 @@
 
             <i *ngIf="search.length == 0" class="bi bi-search search-icon" style="margin: auto; margin-left: 10px"></i>
           </div>
+          <button class="btn primaryBtnLink" data-bs-toggle="modal"
+                              (click)="download('newjoinee')" type="button">
+                              <i class="bi bi-download"></i>
+                              <span *ngIf="!isDownLoading">Download</span>
+                              <div class="dot-opacity-loader" *ngIf="isDownLoading">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                              </div>
+                            </button>
         </div>
         <table class="table border-dashed mb-0">
           <thead>
@@ -148,6 +158,16 @@
 
             <i *ngIf="search.length == 0" class="bi bi-search search-icon" style="margin: auto; margin-left: 10px"></i>
           </div>
+          <button class="btn primaryBtnLink" data-bs-toggle="modal"
+                              (click)="download('userexit')" type="button">
+                              <i class="bi bi-download"></i>
+                              <span *ngIf="!isDownLoading">Download</span>
+                              <div class="dot-opacity-loader" *ngIf="isDownLoading">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                              </div>
+                            </button>
         </div>
         <table class="table border-dashed mb-0">
           <thead>
@@ -271,6 +291,16 @@
 
             <i *ngIf="search.length == 0" class="bi bi-search search-icon" style="margin: auto; margin-left: 10px"></i>
           </div>
+          <button class="btn primaryBtnLink" data-bs-toggle="modal"
+                              (click)="download('finalsettlement')" type="button">
+                              <i class="bi bi-download"></i>
+                              <span *ngIf="!isDownLoading">Download</span>
+                              <div class="dot-opacity-loader" *ngIf="isDownLoading">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                              </div>
+                            </button>
 
         </div>
         <table class="table border-dashed mb-0">

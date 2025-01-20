@@ -507,7 +507,7 @@
                                     fill="#1C1B1F" />
                             </g>
                         </svg>
-                        Mark All AS Read
+                        Mark All as Read
                     </button>
                     <button class="btn assets-request" (click)="reload('mail')">
                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
@@ -558,7 +558,7 @@
                 </ng-template>
             </div>
 
-            <div
+            <div *ngIf="(totalMailNotification-1)/databaseHelper.itemPerPage > 0"
                 class="d-flex align-items-center justify-content-between pagination-box-profile w-100 p-3 bg-white border-top">
                 <!-- Ngb Pagination Component -->
                 <p class="mb-0">

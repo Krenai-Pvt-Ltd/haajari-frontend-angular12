@@ -9,4 +9,6 @@ export class ApproveReq{
     paymentMethod: string = ''
     transactionId: string = ''
     settledDate: any;
+
+    approvedAmount: any;
 }

@@ -1647,6 +1647,9 @@ a.fetch-location {
   max-height: 50vh;
   overflow: scroll;
 }
+..staff-section-table::-webkit-scrollbar{
+  display: none;
+}
 
 .staff-section-table thead th {
   position: sticky;
@@ -1722,4 +1725,28 @@ a.fetch-location {
   border-radius: 2px;
 }
 
+.bi-info-circle{
+  position: relative;
+  top: -1px;
+}
+::ng-deep .placeholder-line .ant-select-selection-placeholder {
+  line-height: 45px !important;
+  font-size: 0.875rem !important;
+  font-weight: 400 !important;
+}
+
+::ng-deep .placeholder-line .ant-select-selection-item {
+  line-height: 45px !important;
+  font-size: 0.875rem !important;
+  font-weight: 400 !important;
+}
+
+input[type=radio], input[type=checkbox] {
+  box-sizing: border-box;
+  padding: 0;
+  accent-color: #6766f3;
+  width: 18px;
+  height: 18px;
+  border-radius: 2px;
+}
 /* new side tab for new modal */

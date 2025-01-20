@@ -1,3 +1,4 @@
+import { url } from 'inspector';
 import {
   HttpClient,
   HttpErrorResponse,
@@ -17,7 +18,7 @@ import {
 } from '../models/Attendance.model';
 import { RoleRequest } from '../models/role-request';
 import { UserPersonalInformationRequest } from '../models/user-personal-information-request';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, map, shareReplay, tap } from 'rxjs/operators';
 import { UserAddressDetailsRequest } from '../models/user-address-details-request';
 import { UserAcademicsDetailRequest } from '../models/user-academics-detail-request';
 import { UserExperience } from '../models/user-experience';
@@ -80,6 +81,7 @@ import { AssetRequestDTO } from '../models/AssetRequestDTO';
 import { ExitPolicy } from '../models/ExitPolicy';
 import { UserResignation } from '../models/UserResignation';
 import { EmployeeAdditionalDocument } from '../models/EmployeeAdditionalDocument';
+import { EmployeeProfileResponse } from '../models/employee-profile-info';
 
 
 @Injectable({
@@ -108,7 +110,7 @@ export class DataService {
   }
 
   private baseUrl = this._key.base_url;
-
+  public employeeData:EmployeeProfileResponse=new EmployeeProfileResponse();
   openSidebar: boolean = true;
 
   markAttendanceModal: boolean = false;
@@ -746,6 +748,23 @@ export class DataService {
   //   return this.httpClient.get(this.baseUrl + "/get-token", { params });
   // }
 
+  // old
+  // saveLeaveRequest(
+  //   userUuid: string,
+  //   request: any,
+  //   fileToUpload: string
+  // ): Observable<any> {
+  //   const params = new HttpParams()
+  //     .set('uuid', userUuid)
+  //     .set('fileToUpload', fileToUpload);
+  //   return this.httpClient.post(
+  //     this.baseUrl + '/user-leave/save-users-leave',
+  //     request,
+  //     { params }
+  //   );
+  // }
+
+
   saveLeaveRequest(
     userUuid: string,
     request: any,
@@ -755,11 +774,12 @@ export class DataService {
       .set('uuid', userUuid)
       .set('fileToUpload', fileToUpload);
     return this.httpClient.post(
-      this.baseUrl + '/user-leave/save-users-leave',
+      this.baseUrl + '/temp/leave/request',
       request,
       { params }
     );
   }
+
 
   saveLeaveRequestForLeaveManagement(
     request: any,
@@ -767,11 +787,41 @@ export class DataService {
   ): Observable<any> {
     const params = new HttpParams().set('fileToUpload', fileToUpload);
     return this.httpClient.post(
-      this.baseUrl + '/user-leave/save-users-leave-leave-management',
+      this.baseUrl + '/temp/leave/request-leave-management',
       request,
       { params }
     );
   }
+
+  // old
+  // saveLeaveRequestForLeaveManagement(
+  //   request: any,
+  //   fileToUpload: string
+  // ): Observable<any> {
+  //   const params = new HttpParams().set('fileToUpload', fileToUpload);
+  //   return this.httpClient.post(
+  //     this.baseUrl + '/user-leave/save-users-leave-leave-management',
+  //     request,
+  //     { params }
+  //   );
+  // }
+
+  // old
+  // saveLeaveRequestFromWhatsapp(
+  //   userUuid: string,
+  //   request: any,
+  //   fileToUpload: string
+  // ): Observable<any> {
+  //   const params = new HttpParams()
+  //     .set('userUuid', userUuid)
+  //     .set('fileToUpload', fileToUpload);
+  //   return this.httpClient.post(
+  //     this.baseUrl + '/user-leave/whatsapp/save-users-leave',
+  //     request,
+  //     { params }
+  //   );
+  // }
+
 
   saveLeaveRequestFromWhatsapp(
     userUuid: string,
@@ -782,7 +832,7 @@ export class DataService {
       .set('userUuid', userUuid)
       .set('fileToUpload', fileToUpload);
     return this.httpClient.post(
-      this.baseUrl + '/user-leave/whatsapp/save-users-leave',
+      this.baseUrl + '/temp/leave/whatsapp/request',
       request,
       { params }
     );
@@ -798,10 +848,27 @@ export class DataService {
   //   return this.httpClient.post<any>( this.baseUrl+'/user-leave/save-users-leave',request,  {params});
   // }
 
-  getUserLeaveRequests(uuid: string): Observable<any> {
-    const params = new HttpParams().set('userUuid', uuid);
+  // getUserLeaveRequests(uuid: string): Observable<any> {
+  //   const params = new HttpParams().set('userUuid', uuid);
+  //   return this.httpClient.get<any>(
+  //     `${this.baseUrl}/user-leave/get-user-leave`,
+  //     {
+  //       params,
+  //     }
+  //   );
+  // }
+
+  getUserLeaveRequests(uuid: string,isSpecificCategory?:number,leaveTemplateId?:number): Observable<any> {
+    var params = new HttpParams().set('userUuid', uuid)
+    if(isSpecificCategory){
+      params = params.set("isSpecificCategory",isSpecificCategory)
+    }
+    if(leaveTemplateId){
+      params = params.set("leaveTemplateId",leaveTemplateId)
+    }
+    //TODO: remove temp
     return this.httpClient.get<any>(
-      `${this.baseUrl}/user-leave/get-user-leave`,
+      `${this.baseUrl}/temp/leave/get-user-leave`,
       {
         params,
       }
@@ -1692,21 +1759,9 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
   getLeaveSettingInformationById(
     leaveSettingId: number
   ): Observable<FullLeaveSettingResponse> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      // Add any additional headers as needed
-    });
-
-    // const params = { leaveSettingId: leaveSettingId.toString() };
     const params = { leaveTemplateId: leaveSettingId.toString() };
-
-    // return this.httpClient.get<FullLeaveSettingResponse>(
-    //   `${this.baseUrl}/user-leave-rule/get/leave-rule-by-Id`,
-    //   { headers, params }
-    // ); amit
     return this.httpClient.get<FullLeaveSettingResponse>(
-      `${this.baseUrl}/user-leave-template`,
-      { headers, params }
+      `${this.baseUrl}/leave-template/id`,{  params }
     );
   }
 
@@ -2228,6 +2283,16 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     const url = `${this.baseUrl}/account-setting/update/profile-picture`;
     return this.httpClient.put<any>(url, userPersonalInformationRequest);
   }
+  getUserGuidelines(): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/account-setting/guidelines`);
+  }
+  updateProfilePic(
+    picUrl: string
+  ): Observable<any> {
+    debugger;
+    const url = `${this.baseUrl}/account-setting/update/profile-pic`;
+    return this.httpClient.put<any>(url,picUrl);
+  }
 
   lat: number = 0;
   lng: number = 0;
@@ -2307,6 +2372,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     );
   }
 
+
   approveOrRejectLeave(
     requestedLeaveId: number,
     appRejString: string,
@@ -2318,10 +2384,28 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     //   .set('userUuid',logInUserUuid);
 
     return this.httpClient.post<any>(
-      `${this.baseUrl}/central-leave-management/approve-reject-leaves?requestedLeaveId=${requestedLeaveId}&appRejString=${appRejString}&userUuid=${logInUserUuid}`,
+      `${this.baseUrl}/temp/leave/approve-reject-leaves?requestedLeaveId=${requestedLeaveId}&appRejString=${appRejString}&userUuid=${logInUserUuid}`,
       {}
     );
   }
+
+  // approveOrRejectLeave(
+  //   requestedLeaveId: number,
+  //   appRejString: string,
+  //   logInUserUuid: string
+  // ): Observable<any> {
+  //   // let params = new HttpParams()
+  //   //   .set('requestedLeaveId', requestedLeaveId.toString())
+  //   //   .set('appRejString', appRejString)
+  //   //   .set('userUuid',logInUserUuid);
+
+  //   return this.httpClient.post<any>(
+  //     `${this.baseUrl}/central-leave-management/approve-reject-leaves?requestedLeaveId=${requestedLeaveId}&appRejString=${appRejString}&userUuid=${logInUserUuid}`,
+  //     {}
+  //   );
+  // }
+
+
 
   //Salary module
 
@@ -2412,6 +2496,33 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     return this.httpClient.put<any>(
       `${this.baseUrl}/account-setting/update/notification-via`,
       notificationVia
+    );
+  }
+
+  updateLanguageSetting(language: string): Observable<{ [key: string]: string }> {
+
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    // Call the API and pass the language as a query parameter
+    return this.httpClient.put<{ [key: string]: string }>(`${this.baseUrl}/account-setting/user-language`, null, {
+      params: { language },
+      headers,
+    });
+  }
+
+  updateNotificationViaSetting(via: string): Observable<{ [key: string]: string }> {
+
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    // Call the API and pass the language as a query parameter
+    return this.httpClient.put<{ [key: string]: string }>(`${this.baseUrl}/account-setting/user-notification`, null, {
+      params: { via },
+      headers,
+    });
+  }
+  getNotificationSetting(): Observable<any> {
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/account-setting/notification-setting`
     );
   }
 
@@ -2512,6 +2623,22 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     );
   }
 
+  getAllHoliday(){
+    return this.httpClient.get<WeekDay[]>(
+      `${this.baseUrl}/holiday/all`
+    );
+  }
+
+  // private holidays$: any = Observable<{ [key: string]: string }>
+  // getAllHoliday(): Observable<{ [key: string]: string }> {
+  //   if (!this.holidays$) {
+  //     this.holidays$ = this.httpClient
+  //       .get<{ [key: string]: string }>(`${this.baseUrl}/holiday/all`) // Replace with actual API
+  //       .pipe(shareReplay(1)); // Cache the result for reuse
+  //   }
+  //   return this.holidays$;
+  // }
+
   // ###############
 
 
@@ -2555,13 +2682,36 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
 
   //  Attendance Report
 
+  // generateAttendanceSummary(
+  //   startDate: string,
+  //   endDate: string
+  // ): Observable<any> {
+  //   let params = new HttpParams();
+  //   params = params.append('startDate', startDate);
+  //   params = params.append('endDate', endDate);
+
+  //   return this.httpClient.post(
+  //     `${this.baseUrl}/generate-reports/save-attendance-summary-logs`,
+  //     null,
+  //     { params }
+  //   );
+  // }
   generateAttendanceSummary(
     startDate: string,
-    endDate: string
+    endDate: string,
+    userIds: number[] | null
   ): Observable<any> {
-    let params = new HttpParams();
-    params = params.append('startDate', startDate);
-    params = params.append('endDate', endDate);
+    let params = new HttpParams()
+      .append('startDate', startDate)
+      .append('endDate', endDate);
+
+    // Add userIds to the params if not null
+    if (userIds) {
+      params = params.append('userIds', userIds.length > 0 ? userIds.join(',') : '');
+    } else {
+      // Explicitly send an empty value for userIds
+      params = params.append('userIds', '');
+    }
 
     return this.httpClient.post(
       `${this.baseUrl}/generate-reports/save-attendance-summary-logs`,
@@ -2570,13 +2720,41 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     );
   }
 
+
+  // generateAttendanceReport(
+  //   startDate: string,
+  //   endDate: string
+  // ): Observable<any> {
+  //   let params = new HttpParams();
+  //   params = params.append('startDate', startDate);
+  //   params = params.append('endDate', endDate);
+
+  //   return this.httpClient.post(
+  //     `${this.baseUrl}/generate-reports/save-attendance-report-logs`,
+  //     null,
+  //     { params }
+  //   );
+  // }
+
+
+
   generateAttendanceReport(
     startDate: string,
-    endDate: string
+    endDate: string,
+    userIds: number[] | null
   ): Observable<any> {
     let params = new HttpParams();
     params = params.append('startDate', startDate);
     params = params.append('endDate', endDate);
+
+    // Add userIds to the params if not null
+    if (userIds) {
+      params = params.append('userIds', userIds.length > 0 ? userIds.join(',') : '');
+    } else {
+      // Explicitly send an empty value for userIds
+      params = params.append('userIds', '');
+    }
+
 
     return this.httpClient.post(
       `${this.baseUrl}/generate-reports/save-attendance-report-logs`,
@@ -2584,7 +2762,6 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
       { params }
     );
   }
-
   getAllReportLogs(): Observable<any> {
     return this.httpClient.get(
       `${this.baseUrl}/generate-reports/get-attendance-report-logs`
@@ -2632,6 +2809,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
 
   //  central - leave - management
 
+
   approveOrRejectLeaveOfUser(
     requestedLeaveId: number,
     appRejString: string,
@@ -2642,11 +2820,27 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
       .set('appRejString', appRejString)
       .set('rejectionReason', rejectionReason);
     return this.httpClient.post<any>(
-      `${this.baseUrl}/central-leave-management/approve-reject-leaves`,
+      `${this.baseUrl}/temp/leave/approve-reject-leaves`,
       {},
       { params }
     );
   }
+
+  // approveOrRejectLeaveOfUser(
+  //   requestedLeaveId: number,
+  //   appRejString: string,
+  //   rejectionReason: string
+  // ): Observable<any> {
+  //   const params = new HttpParams()
+  //     .set('requestedLeaveId', requestedLeaveId)
+  //     .set('appRejString', appRejString)
+  //     .set('rejectionReason', rejectionReason);
+  //   return this.httpClient.post<any>(
+  //     `${this.baseUrl}/central-leave-management/approve-reject-leaves`,
+  //     {},
+  //     { params }
+  //   );
+  // }
 
   getFullLeaveLogsRoleWise(
     searchString: string,
@@ -2900,6 +3094,14 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     );
   }
 
+  getCurrentYearHolidays(year: number): Observable<any> {
+    const params = new HttpParams()
+      .set('year', year)
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/holiday/year-holidays`,{params}
+    );
+  }
+
 
 
   getHolidayCounts(): Observable<any> {
@@ -2945,6 +3147,24 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
       }
     );
   }
+
+
+
+  getIsAdminForWhatsappLeave(
+    userUuid: string
+  ): Observable<any> {
+    const params = {
+      userUuid: `${userUuid}`
+    };
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/employee-onboarding-status/check-admin-whatsapp-leave`,
+      {
+        params,
+      }
+    );
+  }
+
+  
 
   setEmployeeCompanyDocuments(
     userUuid: string,
@@ -3006,7 +3226,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
   deleteLeaveTemplateCategory(id: number){
     const params = new HttpParams()
     .set('leaveCategoryId', id)
-    return this.httpClient.delete<void>(`${this.baseUrl}/leave-template-category`, {params});
+    return this.httpClient.delete<void>(`${this.baseUrl}/leave-template/category`, {params});
   }
 
   deleteLeaveTemplate(id: number){
@@ -3309,11 +3529,19 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
   }
 
 
-  getAtendanceDailyReport(startDate:string): Observable<any> {
+  getAtendanceDailyReport(startDate:string,userIds: number[] | null ): Observable<any> {
     const url = `${this.baseUrl}/attendance/excel/download/daily/report`;
 
-    const params = new HttpParams()
-      .set('start_date', startDate);
+    let params = new HttpParams();
+     params = params.append('start_date', startDate);
+
+       // Add userIds to the params if not null
+    if (userIds) {
+      params = params.append('userIds', userIds.length > 0 ? userIds.join(',') : '');
+    } else {
+      // Explicitly send an empty value for userIds
+      params = params.append('userIds', '');
+    }
 
     return this.httpClient.get<any>(url,{ params });
   }
@@ -4162,6 +4390,31 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}/company-expense`, {params});
   }
 
+  getSettlementExpenseLog(role: string, pageNumber: number, itemPerPage: number, startDate: any, endDate: any, statusIds: number[], userUuid: any){
+    var params = new HttpParams()
+    .set('current_page', pageNumber)
+    .set('item_per_page', itemPerPage)
+    .set('sortBy', 'createdDate')
+    .set('sortOrder', 'desc')
+    // .set('role', role)
+
+    // if((startDate != null && startDate != '') && (endDate != '' && endDate != '')){
+    if (startDate && endDate) {
+      params = params.set('startDate', startDate)
+      params = params.set('endDate', endDate)
+    }
+
+    if(statusIds.length > 0){
+      params = params.set("statusIds", statusIds.join(','));
+    }
+
+    if(userUuid){
+      params = params.set("userUuid", userUuid);
+    }
+
+    return this.httpClient.get<any>(`${this.baseUrl}/company-expense-settlement-log`, {params});
+  }
+
 
   getAllExpenseCount(role: string, pageNumber: number, itemPerPage: number, startDate: any, endDate: any, userUuid: any){
     var params = new HttpParams()
@@ -4296,6 +4549,13 @@ getHolidayForOrganization(date: string): Observable<any>{
     );
   }
 
+  checkUserExist(uuid: string) {
+    let params = new HttpParams().set('uuid', uuid);
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/exit-policy/exist`, {params}
+    );
+  }
+
   updateResignation1(id: number) {
     const params = new HttpParams().set('id', id);
     return this.httpClient.patch<any>(
@@ -4308,6 +4568,13 @@ getHolidayForOrganization(date: string): Observable<any>{
   updateResignation(id: number){
     const params = new HttpParams().set('id', id);
   return this.httpClient.patch<any>(`${this.baseUrl}/user-resignation`, {}, {params});
+  }
+
+  revokeResignation(id: number, message: string){
+    const params = new HttpParams()
+    .set('id', id)
+    .set('reason', message);
+  return this.httpClient.patch<any>(`${this.baseUrl}/user-resignation/revoke`, {}, {params});
   }
 
   updateResignation2(id: number) {
@@ -4473,15 +4740,21 @@ getHolidayForOrganization(date: string): Observable<any>{
       params,
     });
   }
+  getDataComparison(userUuid: string): Observable<any> {
+    const params = { userUuid };
+    return this.httpClient.get(`${this.baseUrl}/get/onboarding/requested-data-compare`, {
+      params,
+    });
+  }
   saveRequestedData(uuid: string): Observable<any> {
     const params = { uuid };
     return this.httpClient.post(`${this.baseUrl}/get/onboarding/save-requested-data`,null, {
       params
     });
   }
-  rejectRequestedData(uuid: string): Observable<any> {
+  rejectRequestedData(uuid: string,rejectedReason:string): Observable<any> {
     const endpoint = `${this.baseUrl}/get/onboarding/reject-requested-data`;
-    return this.httpClient.post(endpoint, null, {
+    return this.httpClient.post(endpoint, rejectedReason, {
       params: { uuid },
     });
   }
@@ -4570,6 +4843,21 @@ getHolidayForOrganization(date: string): Observable<any>{
   }
 
 
+
+  createHelpRequest(helpAndSupport:any): Observable<any> {
+
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.httpClient.post(`${this.baseUrl}/help-support`, helpAndSupport, {headers});
+  }
+
+
+  getPendingRequests(page: number, size: number): Observable<any> {
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    return this.httpClient.get<any>(`${this.baseUrl}/get/onboarding/pending-requests`, { params });
+  }
 
 }
 

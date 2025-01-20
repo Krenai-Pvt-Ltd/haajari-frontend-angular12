@@ -1,7 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { Key } from 'src/app/constant/key';
-import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
-import { OvertimeRequestLogResponse } from 'src/app/models/overtime-request-log-response';
+import { UserResignation } from 'src/app/models/UserResignation';
+import { NzModalService } from 'ng-zorro-antd/modal';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
@@ -21,6 +22,9 @@ import { Holiday } from 'src/app/models/Holiday';
 import { UserNotificationService } from 'src/app/services/user-notification.service';
 import { Notification } from 'src/app/models/Notification';
 import { EmployeeProfileComponent } from '../employee-profile.component';
+import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
+import { OvertimeRequestLogResponse } from 'src/app/models/overtime-request-log-response';
+import { NzCalendarComponent } from 'ng-zorro-antd/calendar';
 
 Chart.register(
   LineController,
@@ -39,13 +43,15 @@ Chart.register(
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  requestModal: boolean = true;
+
+  requestModal: boolean = false;
   usersWithUpcomingBirthdays: any;
 
   resignationSubmittedSubscriber: any;
   resignationSubmittedToggle: boolean = false;
   constructor(private roleService: RoleBasedAccessControlService,
     private _notificationService: UserNotificationService,
+    private modalService: NzModalService,
     private dataService: DataService,
     public helperService: HelperService,
     private employeeProfileComponent: EmployeeProfileComponent) {
@@ -95,14 +101,20 @@ export class DashboardComponent implements OnInit {
     // this.getWorkedHourForEachDayOfAWeek();
     this.getAttendanceRequestLogData();
     this.getTeamNames();
-    // this.loadMoreData();
+    // this.teamMembers = [];
+
     this.fetchAttendanceSummary();
     // this.loadHolidays();
     this.getTeamsWithManagerInfo();
     this.getTotalTeamMembers();
     // this.startCarousel();
+    this.getNoticePeriodDuration();
+    const currentYear = new Date().getFullYear();
+    this.loadYearHolidays(currentYear);
 
-
+    // this.getAttendanceRequestLogData();
+    // this.fetchAttendanceSummary();
+    // this.getMailNotification(this.userId, 'mail');
   }
 
 
@@ -183,8 +195,18 @@ export class DashboardComponent implements OnInit {
 
 
   ROLE: any;
+  UUID: string = '';
+  userRoleFlag: boolean = false;
   async getRole() {
     this.ROLE = await this.roleService.getRole();
+    this.UUID = await this.roleService.getUuid();
+
+
+    if (this.userId == this.UUID) {
+      this.userRoleFlag = true;
+    } else {
+      this.userRoleFlag = false;
+    }
   }
 
   userResignationInfo: any;
@@ -231,7 +253,115 @@ export class DashboardComponent implements OnInit {
         this.approveToggle = false;
       }
     })
+  }
 
+  // Function to disable future dates
+  disableFutureDates = (current: Date): boolean => {
+    const today = new Date();
+    // const maxDate = new Date();
+    const maxDate = new Date();
+    maxDate.setDate(today.getDate() + this.noticePeriodDuration); // Add 45 days to today's date
+
+    // this.lastWorkingDay = maxDate;
+    // console.log("Max Date: ", this.lastWorkingDay);
+    // Disable dates from today to maxDate (inclusive)
+    return current < today || current > maxDate;
+  };
+
+  noticePeriodDuration: number = 0;
+  getNoticePeriodDuration() {
+    this.dataService.getNoticePeriodDuration(this.userId).subscribe((res: any) => {
+      if (res.status) {
+        this.noticePeriodDuration = res.object
+      }
+    })
+  }
+
+  selectRecommendDay(value: string): void {
+
+    // this.userResignationInfo.userLastWorkingDay = ''
+
+    this.userResignationInfo.isRecommendLastDay = value == 'Other' ? 1 : 0
+
+    if (this.userResignationInfo.isRecommendLastDay == 0) {
+      this.userResignationInfo.userLastWorkingDay = ''
+      this.calculateLasWorkingDay();
+    } else {
+      this.userResignationInfo.userLastWorkingDay = this.userResignationInfo.userLastWorkingDay
+    }
+  }
+
+  selectManagerDiscussion(value: string): void {
+    this.userResignationInfo.isManagerDiscussion = value == 'Yes' ? 1 : 0
+  }
+
+  calculateLasWorkingDay() {
+    const today = new Date();
+    // const maxDate = new Date();
+    const maxDate = new Date();
+    maxDate.setDate(today.getDate() + this.noticePeriodDuration); // Add 45 days to today's date
+
+    // this.lastWorkingDay = maxDate;
+    // this.userResignationReq.lastWorkingDay = maxDate
+    this.userResignationInfo.userLastWorkingDay = this.helperService.formatDateToYYYYMMDD(maxDate);
+    // console.log("Max Date: ", this.lastWorkingDay);
+  }
+
+
+  showRevokeDiv: boolean = false;
+  revokeReason: string = ''
+  revokeResignation(id: number) {
+
+    if (!this.showRevokeDiv) {
+      this.showRevokeDiv = true;
+    } else {
+      this.approveToggle = true;
+      this.requestModal = true;
+      // console.log('hitt')
+      // this.approveToggle = false
+      // this.closeApproveModal.nativeElement.click()
+      this.dataService.revokeResignation(id, this.userResignationInfo.revokeReason).subscribe((res: any) => {
+        if (res.status) {
+          this.closeApproveModal.nativeElement.click()
+          this.approveToggle = false
+          // this.helperService.profileChangeStatus.next(true);
+          this.helperService.showToast(
+            res.message,
+            Key.TOAST_STATUS_SUCCESS
+          );
+        } else {
+          this.approveToggle = false;
+        }
+      })
+
+    }
+
+  }
+
+  clearForm() {
+    this.userResignationInfo = this.userResignationInfo;
+    this.revokeReason = ''
+    this.userResignationInfo.revokeReason = ''
+    this.showRevokeDiv = false;
+  }
+
+  // @ViewChild('closeResignationButton') closeResignationButton!: ElementRef
+  userResignationReq: UserResignation = new UserResignation();
+  resignationToggle: boolean = false;
+  submitResignation() {
+    this.resignationToggle = true;
+    this.userResignationReq = this.userResignationInfo
+    this.dataService.submitResignation(this.userResignationReq).subscribe((res: any) => {
+      if (res.status) {
+        this.resignationToggle = false
+        // this.helperService.resignationSubmitted.next(true);
+        this.closeApproveModal.nativeElement.click()
+        this.getUserResignationInfo()
+        // this.clearForm();
+      }
+    })
+
+    // console.log('reqs: ',this.userResignationReq)
   }
 
   userLeaveLog: any;
@@ -363,7 +493,7 @@ export class DashboardComponent implements OnInit {
   }
 
 
-  // new 
+  // new
 
   // @ViewChild('chartCanvas', { static: false }) chartCanvas!: ElementRef<HTMLCanvasElement>;
   //   private chart!: Chart;
@@ -409,9 +539,9 @@ export class DashboardComponent implements OnInit {
   //               label: 'Total Worked Hours',
   //               data: data,
   //               borderColor: 'rgba(75, 192, 192, 1)',
-  //               backgroundColor: 'rgba(153, 102, 255, 0.2)', 
-  //             tension: 0.4, 
-  //             fill: true, 
+  //               backgroundColor: 'rgba(153, 102, 255, 0.2)',
+  //             tension: 0.4,
+  //             fill: true,
   //             },
   //           ],
   //         },
@@ -506,9 +636,9 @@ export class DashboardComponent implements OnInit {
           this.formatToDecimalHours(item.totalWorkedHour)
         );
 
-        if(response.listOfObject.length === 0) {
+        if (response.listOfObject.length === 0) {
           this.isPlaceholder = true;
-        }else {
+        } else {
           this.isPlaceholder = false;
         }
 
@@ -537,72 +667,74 @@ export class DashboardComponent implements OnInit {
   }
 
   initializeChart(labels: string[], data: number[]) {
-    const ctx = this.chartCanvas.nativeElement.getContext('2d');
+    if (this.chartCanvas) {
+      const ctx = this.chartCanvas!.nativeElement.getContext('2d');
 
-    if (ctx) {
-      this.chart = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: labels,
-          datasets: [
-            {
-              label: 'Total Worked Hours',
-              data: data,
-              borderColor: 'rgba(75, 192, 192, 1)',
-              backgroundColor: 'rgba(153, 102, 255, 0.2)',
-              tension: 0.4,
-              fill: true,
-            },
-          ],
-        },
-        options: {
-          responsive: true,
-          plugins: {
-            legend: {
-              display: false,
-              position: 'top',
-            },
-            title: {
-              display: true,
-              text: 'Worked Hours for the Week',
-            },
-            tooltip: {
-              callbacks: {
-                // Custom tooltip label callback
-                label: (tooltipItem: any) => {
-                  // Convert the decimal hours to HH:MM format
-                  const formattedTime = this.formatDecimalToTime(tooltipItem.raw);
-                  return `${tooltipItem.label}: ${formattedTime}`;
-                }
+      if (ctx) {
+        this.chart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: labels,
+            datasets: [
+              {
+                label: 'Total Worked Hours',
+                data: data,
+                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                tension: 0.4,
+                fill: true,
               },
-            },
+            ],
           },
-          scales: {
-            x: {
+          options: {
+            responsive: true,
+            plugins: {
+              legend: {
+                display: false,
+                position: 'top',
+              },
               title: {
                 display: true,
-                text: 'Days of the Week',
+                text: 'Worked Hours for the Week',
               },
-            },
-            y: {
-              title: {
-                display: true,
-                text: 'Worked Hours',
-              },
-              beginAtZero: true,
-              ticks: {
-                // Adjust ticks for Y-axis to handle time correctly
-                callback: (tickValue: string | number) => {
-                  const value = typeof tickValue === 'string' ? parseFloat(tickValue) : tickValue;
-                  return this.formatDecimalToTime(value);
+              tooltip: {
+                callbacks: {
+                  // Custom tooltip label callback
+                  label: (tooltipItem: any) => {
+                    // Convert the decimal hours to HH:MM format
+                    const formattedTime = this.formatDecimalToTime(tooltipItem.raw);
+                    return `${tooltipItem.label}: ${formattedTime}`;
+                  }
                 },
-                stepSize: 0.5,
               },
-              type: 'linear',
+            },
+            scales: {
+              x: {
+                title: {
+                  display: true,
+                  text: 'Days of the Week',
+                },
+              },
+              y: {
+                title: {
+                  display: true,
+                  text: 'Worked Hours',
+                },
+                beginAtZero: true,
+                ticks: {
+                  // Adjust ticks for Y-axis to handle time correctly
+                  callback: (tickValue: string | number) => {
+                    const value = typeof tickValue === 'string' ? parseFloat(tickValue) : tickValue;
+                    return this.formatDecimalToTime(value);
+                  },
+                  stepSize: 0.5,
+                },
+                type: 'linear',
+              },
             },
           },
-        },
-      });
+        });
+      }
     }
   }
 
@@ -612,7 +744,7 @@ export class DashboardComponent implements OnInit {
   // loadHolidays() {
   //     this.dataService.getNextSixHolidays().subscribe({
   //       next: (data: Holiday[]) => {
-  //         this.holidays = data; 
+  //         this.holidays = data;
   //       },
   //       error: (error) => {
   //         console.error('Failed to fetch holidays', error);
@@ -656,6 +788,22 @@ export class DashboardComponent implements OnInit {
       },
       error: (error) => {
         console.error('Failed to fetch holidays', error);
+      },
+    });
+  }
+
+  isYearlyHolidayLoading:boolean=false;
+  loadYearHolidays(year: number): void {
+    this.isYearlyHolidayLoading=true;
+    this.dataService.getCurrentYearHolidays(year).subscribe({
+      next: (data) => {
+        this.holidayss = data;
+        this.updateHolidayMaps();
+        this.isYearlyHolidayLoading=false;
+      },
+      error: (error) => {
+        console.error('Failed to fetch holidays', error);
+        this.isYearlyHolidayLoading=false;
       },
     });
   }
@@ -713,11 +861,11 @@ export class DashboardComponent implements OnInit {
   getTeamsWithManagerInfo(): void {
     this.dataService.getTeamsWithManagerInfo(this.userId).subscribe({
       next: (response: any) => {
-        this.isLoadingTeamMembers = false;
+        this.isLoadingTeamManager = false;
         this.teamManagerInfo = response.listOfObject;
       },
       error: (error) => {
-        this.isLoadingTeamMembers = false;
+        this.isLoadingTeamManager = false;
         console.error('Failed to fetch holidays', error);
       },
     });
@@ -729,6 +877,7 @@ export class DashboardComponent implements OnInit {
   selectedTeamId: number = 0;
   selectedTeamName: string = 'All';
   isLoadingTeamMembers: boolean = true;
+  isLoadingTeamManager: boolean=true;
   hasMoreData: boolean = true;
   pageNumber: number = 1;
   itemsPerPage: number = 10;
@@ -746,6 +895,7 @@ export class DashboardComponent implements OnInit {
           this.selectedTeamId = this.teamNameList[0].teamId;
           this.teamName = this.teamNameList[0].teamName;
         }
+        // this.isLoadingTeamMembers = true;
         this.loadMoreData();
       },
       error: (error) => {
@@ -775,7 +925,7 @@ export class DashboardComponent implements OnInit {
 
 
   loadMoreData(): void {
-    if (this.isLoadingTeamMembers || !this.hasMoreData) {
+    if (!this.hasMoreData) {
       return;
     }
 
@@ -787,6 +937,7 @@ export class DashboardComponent implements OnInit {
             this.hasMoreData = false;
           }
           this.teamMembers = [...this.teamMembers, ...data.listOfObject];
+          // this.teamMembers = data.listOfObject;
           this.isLoadingTeamMembers = false;
           this.pageNumber++;
         },
@@ -824,6 +975,123 @@ export class DashboardComponent implements OnInit {
         }
       );
   }
+
+
+
+
+// Holiday data
+holidayss = [
+  {
+    name: "New Year",
+    id: 72,
+    date: "2025-01-01",
+    holidayType: "Custom",
+    logo: null,
+  }
+];
+
+onYearChange(event: any): void {
+
+  const selectedYear = event.getFullYear();
+  const prevYear = this.currentDate.getFullYear();
+  if(selectedYear !== prevYear) {
+    this.loadYearHolidays(selectedYear);
+  }
+  this.currentDate=event;
+
+}
+
+
+// Transform the holiday data into a map for both date and month views
+listDataMap: { [key: string]: { type: string; content: string }[] } = this.holidayss.reduce((map, holiday) => {
+  const dateKey = this.formatDateToLocal(new Date(holiday.date)); // Use the helper to format the date
+  if (!map[dateKey]) {
+    map[dateKey] = [];
+  }
+  map[dateKey].push({ type: 'success', content: holiday.name });
+  return map;
+}, {} as { [key: string]: { type: string; content: string }[] });
+
+// Month data: counts holidays per month
+monthDataMap: { [key: number]: number } = this.holidayss.reduce((map, holiday) => {
+  const month = new Date(holiday.date).getMonth(); // Get month index (0-based)
+  map[month] = (map[month] || 0) + 1;
+  return map;
+}, {} as { [key: number]: number });
+
+// Helper to get events for a specific date
+getHolidayEvents(date: Date): { type: string; content: string }[] {
+  // Format the date to 'YYYY-MM-DD' using the local timezone
+  const dateKey = this.formatDateToLocal(date);
+  return this.listDataMap[dateKey] || [];
+}
+
+// Helper function to format the date to 'YYYY-MM-DD' without timezone issues
+formatDateToLocal(date: Date): string {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');  // Ensure two-digit month
+  const day = String(date.getDate()).padStart(2, '0');         // Ensure two-digit day
+  return `${year}-${month}-${day}`;
+}
+
+// Helper to get the number of holidays for a specific month
+getMonthHolidayCount(date: Date): number {
+  const month = date.getMonth(); // Get month index (0-based)
+  return this.monthDataMap[month] || 0;
+}
+updateHolidayMaps(): void {
+  // Recalculate listDataMap for date view
+  this.listDataMap = this.holidayss.reduce((map, holiday) => {
+    const dateKey = new Date(holiday.date).toISOString().split('T')[0]; // 'YYYY-MM-DD'
+    if (!map[dateKey]) {
+      map[dateKey] = [];
+    }
+    map[dateKey].push({ type: 'success', content: holiday.name });
+    return map;
+  }, {} as { [key: string]: { type: string; content: string }[] });
+
+  // Recalculate monthDataMap for month view
+  this.monthDataMap = this.holidayss.reduce((map, holiday) => {
+    const month = new Date(holiday.date).getMonth(); // 0-based month index
+    map[month] = (map[month] || 0) + 1;
+    return map;
+  }, {} as { [key: number]: number });
+}
+
+isHoliday(date: Date): boolean {
+  return this.holidayss.some(holiday => this.isSameDate(holiday.date, date));
+}
+isSameDate(date1: string | Date, date2: Date): boolean {
+  // Ensure both inputs are Date objects
+  const parsedDate1 = typeof date1 === 'string' ? new Date(date1) : date1;
+
+  return (
+    parsedDate1.getFullYear() === date2.getFullYear() &&
+    parsedDate1.getMonth() === date2.getMonth() &&
+    parsedDate1.getDate() === date2.getDate()
+  );
+}
+
+get currentMonthYear(): string {
+  return this.currentDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+}
+
+navigateMonth(direction: 'prev' | 'next'): void {
+  const currentYear = this.currentDate.getFullYear();
+  const currentMonth = this.currentDate.getMonth();
+
+  // Calculate the new date
+  const newDate = new Date(this.currentDate.getFullYear(), currentMonth + (direction === 'next' ? 1 : -1), 1);
+
+  // Check if the year changes
+  if (newDate.getFullYear() !== currentYear) {
+    this.onYearChange(newDate);
+  }
+
+  // Update the current date
+  this.currentDate = newDate;
+}
+
 
 
 

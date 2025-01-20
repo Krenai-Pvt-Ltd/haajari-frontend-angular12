@@ -1,0 +1,14 @@
+
+<div [ngClass]="{ 'holiday-highlight': isHoliday() }" 
+    nz-popover 
+    [nzPopoverTitle]="getHolidayName()" 
+    [nzPopoverContent]="getHolidayDescription()"
+    [nzPopoverOverlayStyle]="{ 'width': '300px' }">
+    <p>{{ currentDate?.getDate() }}</p>
+</div>
+  
+
+
+  
+
+  

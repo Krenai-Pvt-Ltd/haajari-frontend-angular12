@@ -490,3 +490,15 @@
     pointer-events: none;
     opacity: 0.5;
 }
+
+::ng-deep .placeholder-line .ant-select-selection-placeholder {
+    line-height: 45px !important;
+    font-size: 0.875rem !important;
+    font-weight: 400 !important;
+  }
+  
+  ::ng-deep .placeholder-line .ant-select-selection-item {
+    line-height: 45px !important;
+    font-size: 0.875rem !important;
+    font-weight: 400 !important;
+  }

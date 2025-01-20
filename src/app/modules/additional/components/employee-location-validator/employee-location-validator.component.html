@@ -1,112 +1,68 @@
 <div class="staff-location-section">
-    <div class="containernn">
-      <app-link-expired-page *ngIf="isInvalid"></app-link-expired-page>
-      <!--  *ngIf="!isInvalid" -->
-      <div class="row"  *ngIf="!isInvalid">
-        <div class="col-md-3 border-right">
-           <div class="location-sidebar">
-             <div class="d-flex align-items-center justify-content-between loaction-side-div" >
-                <div class="pagnition-list">
-
-                    <ul class="staff-page-list">
-                        <li class="staff-pagnition active-pagnition">1</li>
-                        <li class="staff-pagnition">2</li>
-                    </ul>
-
-                </div>
-                <div class="set-new-location">
-                    <img src="assets/images/specification.svg" style="width: 80px;">
-                    <h4>Set Location</h4>
-                    <p>Be Present, No Matter Where: Mark Attendance with Your Current Spot.</p>
-                    
-                </div>
-                <div class="set-new-location" >
-                    <!-- <h6 style="font-size: 13px;">Save and Exit</h6>
-                    <p class="mb-0" style="font-size: 11px;">Call 0000-000-000</p> -->
-                    
-                </div>
-
-             </div>
-           </div>
-        </div>
-        <div class="col-md-9">
-            <div class="set-loation">
-
-
-
-                <!-- <div class="mb-4 mobile-pagnination">
-                    <div class="cart-steps-blck">
-                        <div class="cart-child d-flex position-relative">
-                            <div class="step-box text-center cartactive">
-                                <span>1</span>
-                            </div>
-                            <div class="step-box text-center">
-                                <span>2</span>
-                            </div>
-                        </div>
-                </div>
-                </div> -->
-
-                  <div class="location-setting border-bottom pb-3">
-                      <h4>Set Location</h4>
-                  </div>
-
-                <div class="d-flex align-items-center justify-content-between mt-4 location-mobile" style="gap:0px;"> 
-                    <div class="location-new-heading">
-                        <h4 style="font-size: 18px;">Current Location</h4>
-                    </div>
-                    <!-- <div class="location-dropdown">
-                        <div class="dropdown " >
-                            <button class="btn btn-secondary dropdown-toggle new-deopdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" >
-                              {{city}} 
-                            </button>
-                          
-                          </div>
-                    </div> -->
-
-                    <div class="position-relative location-searchbar">
-                        <div class="form-group set-location-form">
-                          <input type="text" class="form-control" id="exampleInputText" aria-describedby="emailHelp" [value]="address" disabled placeholder="Fetch your location">
-                          <span class="crosshairs" (click)="locateUser()"><i class="fa fa-crosshairs" style="color: #6666f3"></i></span>
-                        </div>
-                      </div>
-                      
-                    
-                </div>
-
-                <div class="location-map mt-3">
-                   <div class="location-map mt-3">
-                    <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
-                      <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
-                    </agm-map>
-                  </div>
-                  
-                </div>
-
-
-                <!-- {{isFlexible}} -->
-                <div class="set-location-btn d-flex align-items-center justify-content-end mt-4" >
-                    <!-- <button class="btn previous-stap"> <i class="bi bi-chevron-left pl-2"></i> Previous</button> -->
-<!-- {{this.isFlexible}} -->
-                    <button type="button" (click)="calculateDistance()" [disabled]="!enableSubmitToggle || disableButton" class="btn next-stap">
-                      <!-- Conditionally display button text based on attendanceMode -->
-                      <div *ngIf="toggle" class="dot-opacity-loader">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                      </div>
-                      <!-- {{attendanceMode}} -->
-                      <span *ngIf="!toggle">
-                      {{ attendanceMode == 2 ? 'Mark Attendance' : 'Next Step' }} 
-                      <i class="bi bi-chevron-right pl-2"></i>
-                      </span>
-                    </button>
-                    
-                </div>
-
+  <div class="containernn">
+    <!-- <app-link-expired-page *ngIf="isInvalid"></app-link-expired-page> -->
+    <!-- *ngIf="!isInvalid" -->
+    <div class="row">
+      <div class="col-md-3 border-right">
+        <div class="location-sidebar">
+          <div class="d-flex align-items-center justify-content-between loaction-side-div">
+            <div class="pagnition-list">
+              <ul class="staff-page-list">
+                <li class="staff-pagnition active-pagnition">1</li>
+                <li class="staff-pagnition">2</li>
+              </ul>
             </div>
-
+            <div class="set-new-location">
+              <img src="assets/images/specification.svg" style="width: 80px;">
+              <h4>Set Location</h4>
+              <p>Be Present, No Matter Where: Mark Attendance with Your Current Spot.</p>
+            </div>
+            <div class="set-new-location">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-9">
+        <div class="set-loation">
+          <div class="location-setting border-bottom pb-3">
+            <h4>Set Location</h4>
+          </div>
+          <div class="d-flex align-items-center justify-content-between mt-4 location-mobile" style="gap:0px;">
+            <div class="location-new-heading">
+              <h4 style="font-size: 18px;">Current Location</h4>
+            </div>
+            <div class="position-relative location-searchbar">
+              <div class="form-group set-location-form">
+                <input type="text" class="form-control" id="exampleInputText" aria-describedby="emailHelp"
+                  [value]="address" disabled placeholder="Fetch your location">
+                <span class="crosshairs" (click)="locateUser()"><i class="fa fa-crosshairs"
+                    style="color: #6666f3"></i></span>
+              </div>
+            </div>
+          </div>
+          <div class="location-map mt-3">
+            <div class="location-map mt-3">
+              <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+                <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+              </agm-map>
+            </div>
+          </div>
+          <div class="set-location-btn d-flex align-items-center justify-content-end mt-4">
+            <button type="button" (click)="calculateDistance()" [disabled]="!enableSubmitToggle || disableButton"
+              class="btn next-stap">
+              <div *ngIf="toggle" class="dot-opacity-loader">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+              <span *ngIf="!toggle">
+                {{ attendanceMode == 2 ? 'Mark Attendance' : 'Next Step' }}
+                <i class="bi bi-chevron-right pl-2"></i>
+              </span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
+  </div>
 </div>

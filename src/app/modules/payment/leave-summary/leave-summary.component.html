@@ -21,6 +21,16 @@
 </ul>
 <div class="tab-content" id="pills-tabContent">
   <div class="tab-pane fade show active" id="leavesPayroll" role="tabpanel" aria-labelledby="pills-home-tab">
+    <button class="btn primaryBtnLink" data-bs-toggle="modal"
+                              (click)="download('pendingleave')" type="button">
+                              <i class="bi bi-download"></i>
+                              <span *ngIf="!isDownLoading">Download</span>
+                              <div class="dot-opacity-loader" *ngIf="isDownLoading">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                              </div>
+                            </button>
     <div class="table-responsive">
       <table class="table border-dashed mb-0">
         <thead>
@@ -377,9 +387,9 @@
 
 
 
-<!-- <div class="pagination pl-3 align-items-center justify-content-between" *ngIf="(total > itemPerPage - 1 || (pageNumber === lastPageNumber && lastPageNumber !== 1)) && 
-    ((CURRENT_TAB == LEAVES && !dataNotFoundPlaceholderForPayrollLeaveResponse && !networkConnectionErrorPlaceHolderForPayrollLeaveResponse) || 
-      (CURRENT_TAB == LOP_SUMMARY && !dataNotFoundPlaceholderForLopSummary && !networkConnectionErrorPlaceHolderForLopSummary) || 
+<!-- <div class="pagination pl-3 align-items-center justify-content-between" *ngIf="(total > itemPerPage - 1 || (pageNumber === lastPageNumber && lastPageNumber !== 1)) &&
+    ((CURRENT_TAB == LEAVES && !dataNotFoundPlaceholderForPayrollLeaveResponse && !networkConnectionErrorPlaceHolderForPayrollLeaveResponse) ||
+      (CURRENT_TAB == LOP_SUMMARY && !dataNotFoundPlaceholderForLopSummary && !networkConnectionErrorPlaceHolderForLopSummary) ||
       (CURRENT_TAB == LOP_REVERSAL && !dataNotFoundPlaceholderForLopReversal && !networkConnectionErrorPlaceHolderForLopReversal))">
 <p style="padding-left: 15px"> Showing {{ getStartIndex() }} - {{ getEndIndex() }} of {{ total
 }} employees </p>

@@ -19,6 +19,9 @@ import { finalize } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { constant } from 'src/app/constant/constant';
 import * as pdfjsLib from 'pdfjs-dist';
+import { OnboardingService } from 'src/app/services/onboarding.service';
+import { EmployeeProfileComponent } from '../employee-profile.component';
+
 
 
 @Component({
@@ -35,6 +38,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
   constructor(private dataService: DataService, private modalService: NgbModal, private fb: FormBuilder,
     private activateRoute: ActivatedRoute,
     public helperService: HelperService,
+    private employeeProfileComponent: EmployeeProfileComponent,
     private router: Router,
     private cdr: ChangeDetectorRef,
     private roleService: RoleBasedAccessControlService,
@@ -42,6 +46,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     private afStorage: AngularFireStorage,
     public rbacService: RoleBasedAccessControlService,
     private sanitizer: DomSanitizer,
+    private onboardingService: OnboardingService,
     private sharedService: HelperService) {
     this.myForm = this.fb.group({
       position: ['', Validators.required],  // Make Position field required
@@ -78,6 +83,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
   ADMIN = Key.ADMIN;
   MANAGER = Key.MANAGER;
   USER = Key.USER;
+  userInfo: any;
   async ngOnInit(): Promise<void> {
     // this.calculateLasWorkingDay();
     this.getEmployeeProfileData();
@@ -98,6 +104,8 @@ export class EmployeeProfileSidebarComponent implements OnInit {
       this.userRoleFlag = true;
     }
 
+    this.checkUserExist();
+
     this.getNoticePeriodDuration()
 
     this.getUserResignationInfo()
@@ -106,7 +114,8 @@ export class EmployeeProfileSidebarComponent implements OnInit {
         this.currentModalRef.close();
       }
     });
-
+    this.userInfo = this.rbacService.userInfo;
+    console.log('User Info:', this.userInfo);
   }
 
   ngOnDestroy() {
@@ -127,11 +136,14 @@ export class EmployeeProfileSidebarComponent implements OnInit {
   teamString !: any;
   viewTeamsLess: boolean = true;
   hrPolicyDocuments: EmployeeAdditionalDocument[] = [];
+  resigntionStatus: any
+
   getEmployeeProfileData() {
     debugger
     this.dataService.getEmployeeProfile(this.userId).subscribe((response) => {
       console.log(response.object);
       this.employeeProfileResponseData = response.object;
+      this.dataService.employeeData=response.object;
       if (!this.employeeProfileResponseData?.agreementAccepted && this.userId === this.UUID) {
         this.dataService.getHrPolicies()
           .subscribe(
@@ -277,6 +289,10 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     this.InOutLoader = true;
     if (command === '/out') {
       this.outLoader = true;
+      this.urlModalTemplate.nativeElement.click();
+    }
+    if (command === '/in') {
+      this.urlModalTemplate.nativeElement.click();
     }
     if (command === '/break') {
       this.breakLoader = true;
@@ -311,7 +327,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
 
   modalUrl: SafeResourceUrl | null = null;
   // @ViewChild('urlModalTemplate', { static: true }) urlModalTemplate!: TemplateRef<any>;
-  @ViewChild('urlModalTemplate') urlModalTemplate!: TemplateRef<any>;
+  @ViewChild('urlModalTemplate') urlModalTemplate!: ElementRef;
   currentModalRef: any;
   private closeModalSubscription!: Subscription;
 
@@ -539,7 +555,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
   recommendDay: string = ''; // Default selected value
   selectRecommendDay(value: string): void {
 
-    this.userResignationReq.lastWorkingDay = ''
+    this.userResignationReq.userLastWorkingDay = ''
 
     this.userResignationReq.isRecommendLastDay = value == 'Other' ? 1 : 0
 
@@ -571,14 +587,14 @@ export class EmployeeProfileSidebarComponent implements OnInit {
 
     // this.lastWorkingDay = maxDate;
     // this.userResignationReq.lastWorkingDay = maxDate
-    this.userResignationReq.lastWorkingDay = this.helperService.formatDateToYYYYMMDD(maxDate);
+    this.userResignationReq.userLastWorkingDay = this.helperService.formatDateToYYYYMMDD(maxDate);
     // console.log("Max Date: ", this.lastWorkingDay);
   }
 
   selectLastWorkingDay(startDate: Date) {
     debugger
     if (this.userResignationReq.isRecommendLastDay == 0 && startDate) {
-      this.userResignationReq.lastWorkingDay = this.helperService.formatDateToYYYYMMDD(startDate);
+      this.userResignationReq.userLastWorkingDay = this.helperService.formatDateToYYYYMMDD(startDate);
     }
   }
 
@@ -598,6 +614,16 @@ export class EmployeeProfileSidebarComponent implements OnInit {
       if (res.status) {
         this.userResignationInfo = res.object[0]
         console.log('userResignationInfo: ', this.userResignationInfo)
+      }
+    })
+  }
+
+  existExitPolicy: boolean = false;
+  checkUserExist() {
+    this.existExitPolicy = false
+    this.dataService.checkUserExist(this.userId).subscribe((res: any) => {
+      if (res.status && res.object == 1) {
+        this.existExitPolicy = true;
       }
     })
   }
@@ -743,17 +769,32 @@ export class EmployeeProfileSidebarComponent implements OnInit {
 
   onLogout() {
     localStorage.clear();
+    this.helperService.orgStepId = 0;
+    this.helperService.stepId = 0;
+    // this.onboardingService.isLoadingOnboardingStatus = true;
     this.rbacService.clearRbacService();
     this.helperService.clearHelperService();
     this.router.navigate(['/login']);
   }
 
+  // routeToAccountPage(tabName: string) {
+  //   // this.dataService.activeTab = tabName !== 'account';
+  //   this.router.navigate(['/setting/account-settings'], {
+  //     queryParams: { setting: tabName },
+  //   });
+  // }
+
   routeToAccountPage(tabName: string) {
+    if (this.userId == this.UUID) {
+      this.employeeProfileComponent.settingTab.nativeElement.click();
+      return;
+    }
     // this.dataService.activeTab = tabName !== 'account';
     this.router.navigate(['/setting/account-settings'], {
       queryParams: { setting: tabName },
     });
   }
+
   isDocumentLoading: boolean = false;
   doc: EmployeeAdditionalDocument = { fileName: '', name: 'Employee Agreement', url: '', value: '', documentType: 'employee_agreement' };
   uploadDocumentFile(event: Event, doc: EmployeeAdditionalDocument): void {
@@ -880,8 +921,10 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     // if (this.pdfModal && this.modalService.hasOpenModals()) {
     //   return;
     // }
-    this.pdfModalButton.nativeElement.click();
-    this.lastIndex++;
+    if (this.pdfModalButton) {
+      this.pdfModalButton.nativeElement.click();
+      this.lastIndex++;
+    }
     // this.modalService.open(this.pdfModal, { backdrop: 'static', keyboard: false });
 
     // Wait for the modal to fully render before loading the PDF
@@ -901,6 +944,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     container.innerHTML = '';
 
     if (this.isYouTubeUrl(contentUrl)) {
+      this.isVideoPolicy=true;
       // Render YouTube content in iframe
       const iframe = document.createElement('iframe');
       iframe.width = '100%';
@@ -911,6 +955,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
       container.appendChild(iframe);
       this.isLastPageRead = true;
     } else {
+      this.isVideoPolicy=false;
       // Render PDF
       this.loadPDF(contentUrl);
     }
@@ -967,29 +1012,31 @@ export class EmployeeProfileSidebarComponent implements OnInit {
   }
 
 
-
+isVideoPolicy=false;
   setupScrollDetection(container: HTMLElement) {
+    debugger
     container.addEventListener('scroll', () => {
       const maxScroll = container.scrollHeight - container.clientHeight;
-      if (container.scrollTop >= maxScroll) {
+      if ((container.scrollTop + 10) >= maxScroll) {
         this.isLastPageRead = true;
       }
     });
   }
 
-  acceptAgreement(modal: any) {
+  acceptAgreement() {
     debugger
     if (this.isLastPageRead) {
       this.isAgreementAccepted = true;
-      this.moveToNextPdf(modal);
+      this.moveToNextPdf();
 
 
     } else {
+      this.pdfModalButton.nativeElement.click();
       this.helperService.showToast('Please scroll to the last page before accepting.', Key.TOAST_STATUS_ERROR);
     }
   }
 
-  moveToNextPdf(modal: any) {
+  moveToNextPdf() {
     debugger
     this.currentPdfIndex++;
 
@@ -1009,7 +1056,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
           this.helperService.showToast(res.message, Key.TOAST_STATUS_SUCCESS);
         }
       })
-      modal.close();
+      // modal.close();s
     }
   }
 

@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { NgForm } from '@angular/forms';
+import moment from 'moment';
 import { Key } from 'src/app/constant/key';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { ExpenseType } from 'src/app/models/ExpenseType';
@@ -16,7 +17,7 @@ import { RoleBasedAccessControlService } from 'src/app/services/role-based-acces
 })
 export class EmployeeExpenseComponent implements OnInit {
 
-  constructor(private dataService: DataService, private helperService: HelperService, 
+  constructor(private dataService: DataService, private helperService: HelperService,
     private rbacService: RoleBasedAccessControlService, private afStorage: AngularFireStorage) { }
 
   ROLE: any;
@@ -30,7 +31,7 @@ export class EmployeeExpenseComponent implements OnInit {
 
     this.getExpenses();
     this.getExpensesCount();
-    
+
     this.getRole();
 
     this.getExpenseType();
@@ -55,11 +56,17 @@ export class EmployeeExpenseComponent implements OnInit {
    this.loading = true;
    this.expenseList = []
    this.ROLE = await this.rbacService.getRole();
-  
-   if(this.expenseSelectedDate == null){
-     this.startDate = '';
-     this.endDate = '';
-   }
+
+   if (this.expenseSelectedDate == null) {
+    // If expenseSelectedDate is null, set startDate and endDate to first and last date of the current month
+    const currentDate = new Date();
+    this.startDate = (new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).toISOString().split('T')[0])+ " 00:00:00";
+    this.endDate = (new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).toISOString().split('T')[0])+ " 23:59:59";
+  } else {
+    // If expenseSelectedDate is not null, set startDate and endDate to first and last date of expenseSelectedDate's month
+    this.startDate =( new Date(this.expenseSelectedDate.getFullYear(), this.expenseSelectedDate.getMonth(), 1).toISOString().split('T')[0])+ " 00:00:00";
+    this.endDate = (new Date(this.expenseSelectedDate.getFullYear(), this.expenseSelectedDate.getMonth() + 1, 0).toISOString().split('T')[0])+ " 23:59:59";
+  }
    this.expenseList = []
    this.dataService.getAllExpense(this.ROLE, this.databaseHelper.currentPage, this.databaseHelper.itemPerPage, this.startDate, this.endDate, this.statusIds, this.userId).subscribe((res: any) => {
      if (res.status) {
@@ -88,13 +95,28 @@ export class EmployeeExpenseComponent implements OnInit {
   debugger
   this.expenseCount = []
   this.ROLE = await this.rbacService.getRole();
- 
+
   if(this.expenseSelectedDate == null){
     this.startDate = '';
     this.endDate = '';
   }
+  // console.log("date log1: ",this.expenseSelectedDate)
+  // if(!this.startDateStr && !this.endDateStr){
+  //   // this.startDate = '';
+  //   // this.endDate = '';
+  //   this.expenseSelectedDate = new Date();
 
-  this.dataService.getAllExpenseCount(this.ROLE, this.databaseHelper.currentPage, this.databaseHelper.itemPerPage, this.startDate, this.endDate, this.userId).subscribe((res: any) => {
+  //   const startOfMonth = new Date(this.expenseSelectedDate.getFullYear(), this.expenseSelectedDate.getMonth(), 1);
+
+  //   // Calculate the end of the month (last day of the month) and set time to end of the day
+  //   const endOfMonth = new Date(this.expenseSelectedDate.getFullYear(), this.expenseSelectedDate.getMonth() + 1, 0);
+
+  //   const currentDate = moment(startOfMonth); // Use the selected date directly
+  //   const currentEndDate = moment(endOfMonth); // Use the selected date directly
+  //   this.startDateStr = currentDate.startOf('month').format('YYYY-MM-DD 00:00:00');
+  //   this.endDateStr = currentEndDate.endOf('month').format('YYYY-MM-DD 23:59:59');
+
+  this.dataService.getAllExpenseCount(this.ROLE, this.databaseHelper.currentPage, this.databaseHelper.itemPerPage, this.startDateStr, this.endDateStr, this.userId).subscribe((res: any) => {
     if (res.status) {
       this.expenseCount = res.object
 
@@ -115,7 +137,7 @@ export class EmployeeExpenseComponent implements OnInit {
   this.pastExpenseList = []
   this.expenseList = []
   this.ROLE = await this.rbacService.getRole();
- 
+
   if(this.expenseSelectedDate == null){
     this.startDate = '';
     this.endDate = '';
@@ -135,9 +157,13 @@ export class EmployeeExpenseComponent implements OnInit {
 
  startDate: any;
  endDate: any;
+ startDateStr: string =''
+ endDateStr: string =''
+
 //  expenseSelectedDate: Date | null = null;
  expenseSelectedDate: Date = new Date();
  onExpenseMonthChange(month: Date): void {
+  // this.expenseSelectedDate = new Date();
    this.expenseSelectedDate = month;
 
    if(this.expenseSelectedDate){
@@ -149,12 +175,18 @@ export class EmployeeExpenseComponent implements OnInit {
 
      this.startDate = startOfMonth.toDateString() + " 00:00:00"; // Date object
      this.endDate = endOfMonth.toDateString() + " 23:59:59"; // Date object
+
+     const currentDate = moment(startOfMonth); // Use the selected date directly
+     const currentEndDate = moment(endOfMonth); // Use the selected date directly
+     this.startDateStr = currentDate.startOf('month').format('YYYY-MM-DD 00:00:00');
+     this.endDateStr = currentEndDate.endOf('month').format('YYYY-MM-DD 23:59:59');
    }
   //  this.getExpenses();
 
    if(this.pastExpenseToggle){
     this.statusIds.push(41);
     this.getExpenses();
+    this.getExpensesCount();
    }else{
     this.getExpenses();
     this.getExpensesCount();
@@ -205,10 +237,16 @@ updateStartAndEndDates(): void {
   this.startDate = startOfMonth.toDateString() + " 00:00:00"; // Date object
   this.endDate = endOfMonth.toDateString() + " 23:59:59"; // Date object
 
+  const currentDate = moment(startOfMonth); // Use the selected date directly
+  const currentEndDate = moment(endOfMonth); // Use the selected date directly
+  this.startDateStr = currentDate.startOf('month').format('YYYY-MM-DD 00:00:00');
+  this.endDateStr = currentEndDate.endOf('month').format('YYYY-MM-DD 23:59:59');
+
   if (this.pastExpenseToggle) {
     this.statusIds.push(41);
   }
   this.getExpenses();
+  this.getExpensesCount();
 }
 
 organizationRegistrationDate: string = '';
@@ -302,6 +340,45 @@ disableMonths = (date: Date): boolean => {
   this.getExpenses();
  }
 
+ settlementLoading: boolean = false;
+ settlementExpenseList: any[] = new Array();
+ getExpenseSettlementLog(){
+  this.settlementLoading = true;
+  this.settlementExpenseList = []
+  // this.ROLE = await this.rbacService.getRole();
+ 
+  if(!this.startDateStr && !this.endDateStr){
+  
+    this.expenseSelectedDate = new Date();
+
+    const startOfMonth = new Date(this.expenseSelectedDate.getFullYear(), this.expenseSelectedDate.getMonth(), 1);
+
+    // Calculate the end of the month (last day of the month) and set time to end of the day
+    const endOfMonth = new Date(this.expenseSelectedDate.getFullYear(), this.expenseSelectedDate.getMonth() + 1, 0);
+
+    const currentDate = moment(startOfMonth); // Use the selected date directly
+    const currentEndDate = moment(endOfMonth); // Use the selected date directly
+    this.startDateStr = currentDate.startOf('month').format('YYYY-MM-DD 00:00:00');
+    this.endDateStr = currentEndDate.endOf('month').format('YYYY-MM-DD 23:59:59');
+  }
+
+  this.settlementExpenseList = []
+  this.dataService.getSettlementExpenseLog(this.ROLE, this.databaseHelper.currentPage, this.databaseHelper.itemPerPage, this.startDateStr, this.endDateStr, this.statusIds, this.userId).subscribe((res: any) => {
+    if (res.status) {
+      this.settlementExpenseList = res.object
+      this.totalItems = res.totalItems
+
+      console.log('settlementExpenseList: ',this.settlementExpenseList)
+
+      this.settlementLoading = false
+    }else{
+     this.settlementExpenseList = []
+     this.settlementLoading = false
+    }
+    this.statusIds = []
+  })
+ }
+
 
  /** Expense start **/
 
@@ -342,7 +419,7 @@ disableMonths = (date: Date): boolean => {
  limitAmount: any;
  checkExpensePolicy(form: NgForm) {
    debugger
-
+  this.limitAmount = 0;
    this.dataService.checkExpensePolicy(this.expenseTypeReq.expenseTypeId, this.expenseTypeReq.amount).subscribe((res: any) => {
      this.limitAmount = res.object;
 
@@ -352,8 +429,19 @@ disableMonths = (date: Date): boolean => {
        this.createExpense(form);
      }
    })
-
  }
+
+ checkAllocatedAmunt(expenseTypeId: number, amount: number) {
+  debugger
+  this.limitAmount = 0;
+  this.dataService.checkExpensePolicy(expenseTypeId, amount).subscribe((res: any) => {
+    this.limitAmount = res.object;
+
+    // if (this.limitAmount > 0) {
+    //   this.validatePolicyToggle = true;
+    // } 
+  })
+}
 
  cancelExpense(){
   this.validatePolicyToggle = false;
@@ -378,9 +466,11 @@ disableMonths = (date: Date): boolean => {
 
  @ViewChild('closeExpenseButton') closeExpenseButton!: ElementRef
  createToggle: boolean = false;
+ createToggleYes: boolean = false;
  createExpense(form: NgForm) {
    debugger
    this.createToggle = true;
+   this.createToggleYes = true;
   
    this.dataService.createExpense(this.expenseTypeReq).subscribe((res: any) => {
      if (res.status) {
@@ -391,7 +481,9 @@ disableMonths = (date: Date): boolean => {
        this.validatePolicyToggle = false;
        form.resetForm();
        this.getExpenses();
+       this.getExpensesCount()
        this.createToggle = false;
+       this.createToggleYes = false;
        this.closeExpenseButton.nativeElement.click()
        this.helperService.showToast(res.message, Key.TOAST_STATUS_SUCCESS);
      }
@@ -408,17 +500,19 @@ disableMonths = (date: Date): boolean => {
    // this.getExpenses();
 
    // this.closeExpenseButton.nativeElement.click()
-   console.log('Created Successfully')
+  //  console.log('Created Successfully')
  }
 
  async updateExpense(expense: any) {
   debugger
    await this.getExpenseType();
 
+   this.checkAllocatedAmunt(expense.expenseTypeId, expense.amount);
+
    // setTimeout(() =>{
    //   this.fetchManagerNames()
    // })
-   
+
    // this.getManagerId(expense.managerId)
 
    this.expenseTypeReq.id = expense.id
@@ -432,9 +526,10 @@ disableMonths = (date: Date): boolean => {
    this.expenseTypeReq.urls = expense.slipUrls
    this.expenseTypeReq.status = expense.status
    this.expenseTypeReq.managerId = expense.managerId
+   this.expenseTypeReq.approvedAmount = expense.approvedAmount
    this.expenseTypeId = expense.expenseTypeId
    this.managerId = expense.managerId
-   
+
 
 
  }
@@ -443,6 +538,7 @@ disableMonths = (date: Date): boolean => {
    this.expenseTypeReq = new ExpenseType();
    this.expenseTypeId = 0;
    this.validatePolicyToggle = false;
+   this.limitAmount = 0
    this.deleteExpenseToggle = false;
    form.resetForm();
  }
@@ -553,7 +649,7 @@ disableMonths = (date: Date): boolean => {
   isFileUploaded: boolean = false;
   onFileSelected(event: Event): void {
     debugger;
-    
+
     const element = event.currentTarget as HTMLInputElement;
     const fileList: FileList | null = element.files;
 

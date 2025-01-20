@@ -1,28 +1,5 @@
 <div class="page-wrapper">
   <div class="page-content-tab mt-3">
-    <!-- <ul id="myTab" role="tablist" class="nav nav-tabs">
-        <li role="presentation" class="nav-item">
-            <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#company-details-box" type="button"
-                role="tab" aria-controls="profile" aria-selected="false" class="nav-link active" (click)="switchTab('companySetting')"
-                >
-                Company Details
-            </button>
-        </li>
-        <li role="presentation" class="nav-item">
-            <button id="home-tab" data-bs-toggle="tab" data-bs-target="#company-details-box" type="button"
-                role="tab" aria-controls="home" aria-selected="true" class="nav-link" (click)="switchTab('locationSetting')"
-                #rolesAndSecurity>
-                Location Setting
-            </button>
-        </li>
-        <li role="presentation" class="nav-item">
-          <button id="home-tab" data-bs-toggle="tab" data-bs-target="#onboardingSetting" type="button"
-              role="tab" aria-controls="home" aria-selected="true" class="nav-link" (click)="switchTab('onboardingSetting')"
-              #onboardingSetting>
-              Onboarding Setting
-          </button>
-      </li>
-    </ul> -->
     <ul id="myTab" role="tablist" class="nav nav-tabs ml-2" style="margin-right: 10px;">
       <li role="presentation" class="nav-item">
         <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#company-details-box" type="button" role="tab"
@@ -47,18 +24,27 @@
           Onboarding Setting
         </button>
       </li>
+      <!-- TODO : commented for now -->
+      <!-- <li role="presentation" class="nav-item">
+        <button id="home-tab" data-bs-toggle="tab" data-bs-target="#notificationsSetting" type="button" role="tab"
+          aria-controls="home" [attr.aria-selected]="activeTab === 'notificationsSetting'"
+          [ngClass]="{'active': activeTab === 'notificationsSetting'}" class="nav-link"
+          (click)="switchTab('notificationsSetting')">
+          Notifications Configuration
+        </button>
+      </li> -->
     </ul>
 
 
     <div class="container-fluid">
 
-      <form #documentsInformationForm="ngForm" *ngIf="activeTab === 'companySetting'"
+      <form #documentsInformationForm="ngForm" class="mt-4" *ngIf="activeTab === 'companySetting'"
         (ngSubmit)="checkFormValidation()">
         <div class="company-setting bg-white mt-4">
 
           <div class="row">
             <div class="col-md-4">
-              <div class="company-details-box" id="company-details-box">
+              <div class="company-details-box p-3" id="company-details-box">
                 <h4 class="card-title">Company Details</h4>
                 <span class="text-muted font-12 fw-normal">Essential Overview of Company's Core Information</span>
 
@@ -189,7 +175,7 @@
           </div>
           <div class="row mt-3">
             <div class="col-md-4">
-              <div class="company-details-box">
+              <div class="company-details-box p-3">
                 <h4 class="card-title">Tagline</h4>
                 <span class="text-muted font-12 fw-normal">A quick snapshot of your company.
                 </span>
@@ -231,9 +217,7 @@
           </div>
         </div>
       </form>
-      <div class="col-md-11" *ngIf="activeTab === 'companySetting'">
-        <hr class="mt-5 mb-5" />
-      </div>
+    
 
       <div class="row mt-3">
         <div class="col-md-4" *ngIf="activeTab === 'companySetting'">
@@ -338,8 +322,11 @@
 
 
         <!-- multilocation func  -->
-        <div class="col-md-4 mt-3 mb-3" style="padding: 20px;" *ngIf="activeTab === 'locationSetting'">
-          <div class="form-roe-data">
+
+        <div class="mt-4" *ngIf="activeTab === 'locationSetting'">
+          <div class="row">
+        <div class="col-md-4"  >
+          <div class="form-roe-data p-3">
             <h5>Location Setting</h5>
             <p class="font-12">A quick snapshot of your company.</p>
           </div>
@@ -356,7 +343,7 @@
           </div>
         </div>
 
-        <div class="col-md-7 mt-3 mb-3" *ngIf="activeTab === 'locationSetting'">
+        <div class="col-md-7 mt-3 ">
 
           <!-- old -->
           <!-- {{isShimmer}}{{dataNotFoundPlaceholder}}{{networkConnectionErrorPlaceHolder}} -->
@@ -547,7 +534,8 @@
                             <!-- (click)="
                                 deleteAddress(item.organizationAddress.id)
                               "> -->
-                            <a style="cursor: pointer" class="delete-rule" data-bs-toggle="modal" data-bs-target="#delete-address" (click)="
+                            <a style="cursor: pointer" class="delete-rule" data-bs-toggle="modal"
+                              data-bs-target="#delete-address" (click)="
                                 getAddressTemplateId(item.organizationAddress.id)
                               ">
                               <i class="bi bi-trash pointer text-danger"></i>
@@ -681,18 +669,20 @@
 
           <div class="col-md-1"></div>
         </div>
+      </div>
+      </div>
         <!-- onooarding func  -->
 
-        <div class="col-md-4 mt-3 mb-3" *ngIf="activeTab === 'onboardingSetting'" style="padding: 20px;">
-          <div class="form-roe-data">
+        <div class="mt-4" *ngIf="activeTab === 'onboardingSetting'">
+          <div class="row">
+
+        <div class="col-md-4">
+          <div class="form-roe-data p-3">
             <h5>Employee Onboarding Setting</h5>
             <p>A quick snapshot of your company.</p>
           </div>
-
         </div>
-
-
-        <div class="col-md-7 mt-3 mb-3" *ngIf="activeTab === 'onboardingSetting'" style="
+        <div class="col-md-7 mt-3"  style="
         border: 1px solid #f5f5f5;
         padding: 5px;
       ">
@@ -725,6 +715,716 @@
 
             </div>
           </div>
+        </div>
+      </div>
+      </div>
+
+        <div class="mt-4" *ngIf="activeTab === 'notificationsSetting'">
+          <div class="row">
+          <div class="col-md-4">
+            <div class="form-roe-data p-3 ">
+              <h5 class="text-black mb-2">Attendance Notification</h5>
+              <p class="font-13">Manage all your company's attendance-<br> related notifications in one place</p>
+            </div>
+          </div>
+          <div class="col-md-7 mt-3">
+            <div class="attendance-notification form-roe-data border-bottom pb-4">
+              <div class="d-flex align-items-center justify-content-between">
+              <div>
+              <h5 class="font-15">Check in </h5>
+              <p class="mb-0 font-13">Remind employees to mark their attendance promptly at the start of their shift.</p>
+            </div>
+              <div>
+                <nz-switch [ngModel]="true"></nz-switch>
+              </div>
+            </div>
+
+
+              <div class="pt-3 notification-checkbox">
+                <div class="form-check d-flex align-items-center gap-2 mt-3 mb-3">
+                  <input type="checkbox" formControlName="isReset" id="exampleCheck1" class="form-check-input" >
+                  <label class="form-check-label" for="exampleCheck1" >In Notification: Remind employees to mark attendance at shift start.</label>
+                </div>
+
+
+               <!-- TO DO: check box click after open the box  -->
+              <div class="reminder-form mt-4 mb-4 p-3">
+                <div class="row">
+                  <div class="col-md-4">
+                    <label class="form-check-label mb-2 fw-normal">Send Reminder </label>
+                    <div class="send-reminder d-flex align-items-center">
+                      <div class="w-50 pl-2">
+                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                          <input type="radio" name="before" value="before" class="form-check-input">
+                          <p class="form-check-label mb-0">Before</p>
+                        </label>
+                      </div>
+                      <div class="w-50 pl-2 reminder-after">
+                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                          <input type="radio" name="after" value="after" class="form-check-input">
+                          <p class="form-check-label mb-0">After</p>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-check-label mb-2 fw-normal">Set Minutes  </label>
+
+                    <input type="number" placeholder="Set Minutes" id="inputLeaveCount" name="inputLeaveCount" min="1" max="400" required="" class="form-control w-100 input-zorro" style="background-color: #fff !important; height:47px !important;">
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-check-label mb-2 fw-normal">Send Reminder  </label>
+                    <div class="send-reminder d-flex align-items-center">
+                      <div class="w-50 pl-2">
+                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                          <input type="radio" name="forced" value="forced" class="form-check-input">
+                          <p class="form-check-label mb-0">Forced</p>
+                        </label>
+                      </div>
+                      <div class="w-50 pl-2 reminder-after">
+                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                          <input type="radio" name="flexible" value="flexible" class="form-check-input">
+                          <p class="form-check-label mb-0">Flexible</p>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- end box  -->
+
+
+
+                <div class="form-check d-flex align-items-center gap-2 mt-3 mb-3">
+                  <input type="checkbox" formControlName="isReset" id="exampleCheck2" class="form-check-input" >
+                  <label class="form-check-label" for="exampleCheck2" >Half-Day Notification: Alert employees to mark attendance or be marked as Half-Day.</label>
+                </div>
+
+               
+
+                <!-- TO DO: check box click after open the box  -->
+              <div class="reminder-form mt-4 mb-4 p-3">
+                <div class="row">
+                  <div class="col-md-4">
+                    <label class="form-check-label mb-2 fw-normal">Send Reminder </label>
+                    <div class="send-reminder d-flex align-items-center">
+                      <div class="w-50 pl-2">
+                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                          <input type="radio" name="before" value="before" class="form-check-input">
+                          <p class="form-check-label mb-0">Before</p>
+                        </label>
+                      </div>
+                      <div class="w-50 pl-2 reminder-after">
+                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                          <input type="radio" name="after" value="after" class="form-check-input">
+                          <p class="form-check-label mb-0">After</p>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-check-label mb-2 fw-normal">Set Minutes  </label>
+
+                    <input type="number" placeholder="Set Minutes" id="inputLeaveCount" name="inputLeaveCount" min="1" max="400" required="" class="form-control w-100 input-zorro" style="background-color: #fff !important; height:47px !important">
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-check-label mb-2 fw-normal">Send Reminder  </label>
+                    <div class="send-reminder d-flex align-items-center">
+                      <div class="w-50 pl-2">
+                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                          <input type="radio" name="forced" value="forced" class="form-check-input">
+                          <p class="form-check-label mb-0">Forced</p>
+                        </label>
+                      </div>
+                      <div class="w-50 pl-2 reminder-after">
+                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                          <input type="radio" name="flexible" value="flexible" class="form-check-input">
+                          <p class="form-check-label mb-0">Flexible</p>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- end box  -->
+
+
+
+                
+
+
+
+
+
+
+
+                <div class="form-check d-flex align-items-center gap-2 mt-3 mb-3">
+                  <input type="checkbox" formControlName="isReset" id="exampleCheck3" class="form-check-input" >
+                  <label class="form-check-label" for="exampleCheck3" >Final Reminder: Warn employees to mark attendance or be marked as Late.</label>
+                </div>
+
+                
+
+                <!-- TO DO: check box click after open the box  -->
+              <div class="reminder-form mt-4 mb-4 p-3">
+                <div class="row">
+                  <div class="col-md-4">
+                    <label class="form-check-label mb-2 fw-normal">Send Reminder </label>
+                    <div class="send-reminder d-flex align-items-center">
+                      <div class="w-50 pl-2">
+                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                          <input type="radio" name="before" value="before" class="form-check-input">
+                          <p class="form-check-label mb-0">Before</p>
+                        </label>
+                      </div>
+                      <div class="w-50 pl-2 reminder-after">
+                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                          <input type="radio" name="after" value="after" class="form-check-input">
+                          <p class="form-check-label mb-0">After</p>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-check-label mb-2 fw-normal">Set Minutes  </label>
+
+                    <input type="number" placeholder="Set Minutes" id="inputLeaveCount" name="inputLeaveCount" min="1" max="400" required="" class="form-control w-100 input-zorro" style="background-color: #fff !important; height:47px !important;">
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-check-label mb-2 fw-normal">Send Reminder  </label>
+                    <div class="send-reminder d-flex align-items-center">
+                      <div class="w-50 pl-2">
+                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                          <input type="radio" name="forced" value="forced" class="form-check-input">
+                          <p class="form-check-label mb-0">Forced</p>
+                        </label>
+                      </div>
+                      <div class="w-50 pl-2 reminder-after">
+                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                          <input type="radio" name="flexible" value="flexible" class="form-check-input">
+                          <p class="form-check-label mb-0">Flexible</p>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- end box  -->
+
+
+
+
+              </div>
+            </div>
+            <div class="attendance-notification form-roe-data border-bottom pb-4 pt-4">
+              <div class="d-flex align-items-center justify-content-between">
+              <div>
+              <h5 class="font-15">Check OUT </h5>
+              <p class="mb-0 font-13">Remind employees to mark their attendance promptly at the start of their shift.</p>
+            </div>
+              <div>
+                <nz-switch [ngModel]="true"></nz-switch>
+              </div>
+            </div>
+
+
+
+              <div class="pt-3 notification-checkbox">
+                <div class="form-check d-flex align-items-center gap-2 mt-3 mb-3">
+                  <input type="checkbox" formControlName="isReset" id="exampleCheck5" class="form-check-input" >
+                  <label class="form-check-label" for="exampleCheck5" >Users are notified when it’s time to mark Out attendance.</label>
+                </div>
+
+              
+
+                <!-- TO DO: check box click after open the box  -->
+              <div class="reminder-form mt-4 mb-4 p-3">
+                <div class="row">
+                  <div class="col-md-4">
+                    <label class="form-check-label mb-2 fw-normal">Send Reminder </label>
+                    <div class="send-reminder d-flex align-items-center">
+                      <div class="w-50 pl-2">
+                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                          <input type="radio" name="before" value="before" class="form-check-input">
+                          <p class="form-check-label mb-0">Before</p>
+                        </label>
+                      </div>
+                      <div class="w-50 pl-2 reminder-after">
+                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                          <input type="radio" name="after" value="after" class="form-check-input">
+                          <p class="form-check-label mb-0">After</p>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-check-label mb-2 fw-normal">Set Minutes  </label>
+
+                    <input type="number" placeholder="Set Minutes" id="inputLeaveCount" name="inputLeaveCount" min="1" max="400" required="" class="form-control w-100 input-zorro" style="background-color: #fff !important; height:47px !important;">
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-check-label mb-2 fw-normal">Send Reminder  </label>
+                    <div class="send-reminder d-flex align-items-center">
+                      <div class="w-50 pl-2">
+                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                          <input type="radio" name="forced" value="forced" class="form-check-input">
+                          <p class="form-check-label mb-0">Forced</p>
+                        </label>
+                      </div>
+                      <div class="w-50 pl-2 reminder-after">
+                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                          <input type="radio" name="flexible" value="flexible" class="form-check-input">
+                          <p class="form-check-label mb-0">Flexible</p>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- end box  -->
+
+
+                <div class="form-check d-flex align-items-center gap-2 mt-3 mb-3">
+                  <input type="checkbox" formControlName="isReset" id="exampleCheck6" class="form-check-input" >
+                  <label class="form-check-label" for="exampleCheck6" >Final Reminder: Users will be automatically marked Out if no action is taken.</label>
+                </div>
+               
+
+               <!-- TO DO: check box click after open the box  -->
+              <div class="reminder-form mt-4 mb-4 p-3">
+                <div class="row">
+                  <div class="col-md-4">
+                    <label class="form-check-label mb-2 fw-normal">Send Reminder </label>
+                    <div class="send-reminder d-flex align-items-center">
+                      <div class="w-50 pl-2">
+                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                          <input type="radio" name="before" value="before" class="form-check-input">
+                          <p class="form-check-label mb-0">Before</p>
+                        </label>
+                      </div>
+                      <div class="w-50 pl-2 reminder-after">
+                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                          <input type="radio" name="after" value="after" class="form-check-input">
+                          <p class="form-check-label mb-0">After</p>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-check-label mb-2 fw-normal">Set Minutes  </label>
+
+                    <input type="number" placeholder="Set Minutes" id="inputLeaveCount" name="inputLeaveCount" min="1" max="400" required="" class="form-control w-100 input-zorro" style="background-color: #fff !important; height:47px !important;">
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-check-label mb-2 fw-normal">Send Reminder  </label>
+                    <div class="send-reminder d-flex align-items-center">
+                      <div class="w-50 pl-2">
+                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                          <input type="radio" name="forced" value="forced" class="form-check-input">
+                          <p class="form-check-label mb-0">Forced</p>
+                        </label>
+                      </div>
+                      <div class="w-50 pl-2 reminder-after">
+                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                          <input type="radio" name="flexible" value="flexible" class="form-check-input">
+                          <p class="form-check-label mb-0">Flexible</p>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- end box  -->
+
+
+              </div>
+            </div>
+            <div class="attendance-notification form-roe-data border-bottom pb-4  pt-4">
+              <div class="d-flex align-items-center justify-content-between">
+              <div>
+              <h5 class="font-15">Break </h5>
+              <p class="mb-0 font-13">Remind employees to mark their attendance promptly at the start of their shift.</p>
+            </div>
+              <div>
+                <nz-switch [ngModel]="true"></nz-switch>
+              </div>
+              </div>
+
+
+              <div class="pt-3 notification-checkbox">
+                <div class="form-check d-flex align-items-center gap-2 mt-3 mb-3">
+                  <input type="checkbox" formControlName="isReset" id="exampleCheck7" class="form-check-input" >
+                  <label class="form-check-label" for="exampleCheck7" >First reminder to  schedule your break</label>
+                </div>
+               
+
+                <!-- TO DO: check box click after open the box  -->
+              <div class="reminder-form mt-4 mb-4 p-3">
+                <div class="row">
+                  <div class="col-md-4">
+                    <label class="form-check-label mb-2 fw-normal">Send Reminder </label>
+                    <div class="send-reminder d-flex align-items-center">
+                      <div class="w-50 pl-2">
+                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                          <input type="radio" name="before" value="before" class="form-check-input">
+                          <p class="form-check-label mb-0">Before</p>
+                        </label>
+                      </div>
+                      <div class="w-50 pl-2 reminder-after">
+                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                          <input type="radio" name="after" value="after" class="form-check-input">
+                          <p class="form-check-label mb-0">After</p>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-check-label mb-2 fw-normal">Set Minutes  </label>
+
+                    <input type="number" placeholder="Set Minutes" id="inputLeaveCount" name="inputLeaveCount" min="1" max="400" required="" class="form-control w-100 input-zorro" style="background-color: #fff !important; height:47px !important;">
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-check-label mb-2 fw-normal">Send Reminder  </label>
+                    <div class="send-reminder d-flex align-items-center">
+                      <div class="w-50 pl-2">
+                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                          <input type="radio" name="forced" value="forced" class="form-check-input">
+                          <p class="form-check-label mb-0">Forced</p>
+                        </label>
+                      </div>
+                      <div class="w-50 pl-2 reminder-after">
+                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                          <input type="radio" name="flexible" value="flexible" class="form-check-input">
+                          <p class="form-check-label mb-0">Flexible</p>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- end box  -->
+
+                
+                <div class="form-check d-flex align-items-center gap-2 mt-3 mb-3">
+                  <input type="checkbox" formControlName="isReset" id="exampleCheck8" class="form-check-input" >
+                  <label class="form-check-label" for="exampleCheck8" >Final Reminder if they have i missed out</label>
+                </div>
+
+                <!-- TO DO: check box click after open the box  -->
+              <div class="reminder-form mt-4 mb-4 p-3">
+                <div class="row">
+                  <div class="col-md-4">
+                    <label class="form-check-label mb-2 fw-normal">Send Reminder </label>
+                    <div class="send-reminder d-flex align-items-center">
+                      <div class="w-50 pl-2">
+                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                          <input type="radio" name="before" value="before" class="form-check-input">
+                          <p class="form-check-label mb-0">Before</p>
+                        </label>
+                      </div>
+                      <div class="w-50 pl-2 reminder-after">
+                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                          <input type="radio" name="after" value="after" class="form-check-input">
+                          <p class="form-check-label mb-0">After</p>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-check-label mb-2 fw-normal">Set Minutes  </label>
+
+                    <input type="number" placeholder="Set Minutes" id="inputLeaveCount" name="inputLeaveCount" min="1" max="400" required="" class="form-control w-100 input-zorro" style="background-color: #fff !important; height:47px !important;">
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-check-label mb-2 fw-normal">Send Reminder  </label>
+                    <div class="send-reminder d-flex align-items-center">
+                      <div class="w-50 pl-2">
+                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                          <input type="radio" name="forced" value="forced" class="form-check-input">
+                          <p class="form-check-label mb-0">Forced</p>
+                        </label>
+                      </div>
+                      <div class="w-50 pl-2 reminder-after">
+                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                          <input type="radio" name="flexible" value="flexible" class="form-check-input">
+                          <p class="form-check-label mb-0">Flexible</p>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- end box  -->
+
+
+              </div>
+            </div>
+            <div class="attendance-notification form-roe-data pb-4 pt-4">
+
+              <div class="d-flex align-items-center justify-content-between">
+              <div>
+              <h5 class="font-15">Back </h5>
+              <p class="mb-0 font-13">Remind employees to mark their attendance promptly at the start of their shift.</p>
+            </div>
+              <div>
+                <nz-switch [ngModel]="true"></nz-switch>
+              </div>
+            </div>
+
+            <div class="pt-3 notification-checkbox">
+              <div class="form-check d-flex align-items-center gap-2 mt-3 mb-3">
+                <input type="checkbox" formControlName="isReset" id="exampleCheck9" class="form-check-input" >
+                <label class="form-check-label" for="exampleCheck9" >First Notification: It’s time to mark your return from the break</label>
+              </div>
+
+              <!-- TO DO: check box click after open the box  -->
+              <div class="reminder-form mt-4 mb-4 p-3">
+                <div class="row">
+                  <div class="col-md-4">
+                    <label class="form-check-label mb-2 fw-normal">Send Reminder </label>
+                    <div class="send-reminder d-flex align-items-center">
+                      <div class="w-50 pl-2">
+                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                          <input type="radio" name="before" value="before" class="form-check-input">
+                          <p class="form-check-label mb-0">Before</p>
+                        </label>
+                      </div>
+                      <div class="w-50 pl-2 reminder-after">
+                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                          <input type="radio" name="after" value="after" class="form-check-input">
+                          <p class="form-check-label mb-0">After</p>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-check-label mb-2 fw-normal">Set Minutes  </label>
+
+                    <input type="number" placeholder="Set Minutes" id="inputLeaveCount" name="inputLeaveCount" min="1" max="400" required="" class="form-control w-100 input-zorro" style="background-color: #fff !important; height:47px !important;">
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-check-label mb-2 fw-normal">Send Reminder  </label>
+                    <div class="send-reminder d-flex align-items-center">
+                      <div class="w-50 pl-2">
+                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                          <input type="radio" name="forced" value="forced" class="form-check-input">
+                          <p class="form-check-label mb-0">Forced</p>
+                        </label>
+                      </div>
+                      <div class="w-50 pl-2 reminder-after">
+                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                          <input type="radio" name="flexible" value="flexible" class="form-check-input">
+                          <p class="form-check-label mb-0">Flexible</p>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- end box  -->
+
+
+              <div class="form-check d-flex align-items-center gap-2 mt-3 mb-3">
+                <input type="checkbox" formControlName="isReset" id="exampleCheck10" class="form-check-input" >
+                <label class="form-check-label" for="exampleCheck10" >Second Notification: If you mark your return late, deductions will be made on a per-minute basis</label>
+              </div>
+              
+
+              <!-- TO DO: check box click after open the box  -->
+              <div class="reminder-form mt-4 mb-4 p-3">
+                <div class="row">
+                  <div class="col-md-4">
+                    <label class="form-check-label mb-2 fw-normal">Send Reminder </label>
+                    <div class="send-reminder d-flex align-items-center">
+                      <div class="w-50 pl-2">
+                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                          <input type="radio" name="before" value="before" class="form-check-input">
+                          <p class="form-check-label mb-0">Before</p>
+                        </label>
+                      </div>
+                      <div class="w-50 pl-2 reminder-after">
+                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                          <input type="radio" name="after" value="after" class="form-check-input">
+                          <p class="form-check-label mb-0">After</p>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-check-label mb-2 fw-normal">Set Minutes  </label>
+
+                    <input type="number" placeholder="Set Minutes" id="inputLeaveCount" name="inputLeaveCount" min="1" max="400" required="" class="form-control w-100 input-zorro" style="background-color: #fff !important; height:47px !important;">
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-check-label mb-2 fw-normal">Send Reminder  </label>
+                    <div class="send-reminder d-flex align-items-center">
+                      <div class="w-50 pl-2">
+                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                          <input type="radio" name="forced" value="forced" class="form-check-input">
+                          <p class="form-check-label mb-0">Forced</p>
+                        </label>
+                      </div>
+                      <div class="w-50 pl-2 reminder-after">
+                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                          <input type="radio" name="flexible" value="flexible" class="form-check-input">
+                          <p class="form-check-label mb-0">Flexible</p>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- end box  -->
+
+              <div class="form-check d-flex align-items-center gap-2 mt-3 mb-3">
+                <input type="checkbox" formControlName="isReset" id="exampleCheck11" class="form-check-input" >
+                <label class="form-check-label" for="exampleCheck11" >Final Reminder: If you don’t mark your return now, your attendance will be recorded as Half-Day.</label>
+              </div>
+
+              <!-- TO DO: check box click after open the box  -->
+              <div class="reminder-form mt-4 mb-4 p-3">
+                <div class="row">
+                  <div class="col-md-4">
+                    <label class="form-check-label mb-2 fw-normal">Send Reminder </label>
+                    <div class="send-reminder d-flex align-items-center">
+                      <div class="w-50 pl-2">
+                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                          <input type="radio" name="before" value="before" class="form-check-input">
+                          <p class="form-check-label mb-0">Before</p>
+                        </label>
+                      </div>
+                      <div class="w-50 pl-2 reminder-after">
+                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                          <input type="radio" name="after" value="after" class="form-check-input">
+                          <p class="form-check-label mb-0">After</p>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-check-label mb-2 fw-normal">Set Minutes  </label>
+
+                    <input type="number" placeholder="Set Minutes" id="inputLeaveCount" name="inputLeaveCount" min="1" max="400" required="" class="form-control w-100 input-zorro" style="background-color: #fff !important; height:47px !important;">
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-check-label mb-2 fw-normal">Send Reminder  </label>
+                    <div class="send-reminder d-flex align-items-center">
+                      <div class="w-50 pl-2">
+                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                          <input type="radio" name="forced" value="forced" class="form-check-input">
+                          <p class="form-check-label mb-0">Forced</p>
+                        </label>
+                      </div>
+                      <div class="w-50 pl-2 reminder-after">
+                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                          <input type="radio" name="flexible" value="flexible" class="form-check-input">
+                          <p class="form-check-label mb-0">Flexible</p>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- end box  -->
+
+            </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-5">
+          <div class="col-md-4">
+            <div class="form-roe-data p-3">
+              <h5 class="text-black mb-2" >Other Notification</h5>
+              <p class="font-13">Manage all your company's attendance-<br> related notifications in one place</p>
+            </div>
+          </div>
+          <div class="col-md-7 mt-3">
+            <div class="attendance-notification form-roe-data d-flex align-items-center justify-content-between border-bottom pb-4">
+              <div>
+              <h5 class="font-15">leave  </h5>
+              <p class="mb-0 font-13">Users will be notified about their leave requests, approvals, rejections, and remaining balances.</p>
+            </div>
+              <div>
+                <nz-switch [ngModel]="true"></nz-switch>
+              </div>
+            </div>
+            <div class="attendance-notification form-roe-data d-flex align-items-center justify-content-between border-bottom pb-4 pt-4">
+              <div>
+              <h5 class="font-15">Expense </h5>
+              <p class="mb-0 font-13">Users will receive updates on their submitted expenses, approval/rejection status, and reimbursements.</p>
+            </div>
+              <div>
+                <nz-switch [ngModel]="true"></nz-switch>
+              </div>
+            </div>
+            <div class="attendance-notification form-roe-data d-flex align-items-center justify-content-between border-bottom pb-4  pt-4">
+              <div>
+              <h5 class="font-15">Assets  </h5>
+              <p class="mb-0 font-13">Users will be notified about their asset requests, allocation status, and replacements</p>
+            </div>
+              <div>
+                <nz-switch [ngModel]="true"></nz-switch>
+              </div>
+            </div>
+            <div class="attendance-notification form-roe-data d-flex align-items-center justify-content-between border-bottom pb-4 pt-4">
+              <div>
+              <h5 class="font-15">Payroll </h5>
+              <p class="mb-0 font-13">Users will see notifications regarding payroll updates, salary disbursements, and deductions.</p>
+            </div>
+              <div>
+                <nz-switch [ngModel]="true"></nz-switch>
+              </div>
+            </div>
+            <div class="attendance-notification form-roe-data d-flex align-items-center justify-content-between border-bottom pb-4 pt-4">
+              <div>
+              <h5 class="font-15">Onboarding </h5>
+              <p class="mb-0 font-13">Users will get updates on their onboarding process, document verification, and next steps.</p>
+            </div>
+              <div>
+                <nz-switch [ngModel]="true"></nz-switch>
+              </div>
+            </div>
+            <div class="attendance-notification form-roe-data d-flex align-items-center justify-content-between border-bottom pb-4 pt-4">
+              <div>
+              <h5 class="font-15">Policy Update  </h5>
+              <p class="mb-0 font-13">Users will be informed about new policies, updates, and compliance requirements.</p>
+            </div>
+              <div>
+                <nz-switch [ngModel]="true"></nz-switch>
+              </div>
+            </div>
+            <div class="attendance-notification form-roe-data  border-bottom pb-4 pt-4">
+              <div class="d-flex align-items-center justify-content-between">
+              <div>
+              <h5 class="font-15">Holiday </h5>
+              <p class="mb-0 font-13">Users will see notifications about upcoming holidays, schedule changes, and announcements.</p>
+            </div>
+              <div>
+                <nz-switch [ngModel]="true"></nz-switch>
+              </div>
+            </div>
+            </div>
+            <div class="attendance-notification form-roe-data d-flex align-items-center justify-content-between border-bottom pb-4 pt-4">
+              <div>
+              <h5 class="font-15">Overtime </h5>
+              <p class="mb-0 font-13">Users will receive updates on approved overtime, pending requests, and payouts.</p>
+            </div>
+              <div>
+                <nz-switch [ngModel]="true"></nz-switch>
+              </div>
+            </div>
+            <div class="attendance-notification form-roe-data d-flex align-items-center justify-content-between pb-4 pt-4">
+              <div>
+              <h5 class="font-15">Team Updates </h5>
+              <p class="mb-0 font-13">Users will be alerted about team announcements, project updates, and changes in roles.</p>
+            </div>
+              <div>
+                <nz-switch [ngModel]="true"></nz-switch>
+              </div>
+            </div>
+          </div>
+        </div>
+        
         </div>
 
 
@@ -784,7 +1484,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-9">
+            <div class="col-md-9 bg-white">
               <div class="tab-content" id="myTabContent">
 
                 <div class="tab-pane fade show active" id="staffLocation" role="tabpanel" #shifttime>
@@ -990,7 +1690,7 @@
                             (pincode.touched && pincode.invalid) ||
                             isFormInvalidLocation
                           ">
-                            <p class="errortxt mt-2 mb-0" style="color: red" *ngIf="pincode.errors?.required">
+                            <p class="errortxt mt-2 mb-0 text-danger" *ngIf="pincode.errors?.required">
                               <i class="bi bi-exclamation-circle"></i> Pincode
                               is required.
                             </p>
@@ -1147,63 +1847,51 @@
                       </div>
                     </div>
                     <ng-container *ngIf="total > 0; else noDataFoundPlaceholderInShiftTiming">
-                      <table class="table">
-                        <thead class="thead-light">
-                          <tr>
-                            <th style="width: 0%">
-                              <input type="checkbox" style="cursor: pointer" class="form-check-input"
-                                [(ngModel)]="isAllSelected" (change)="selectAll(isAllSelected)" />
-                            </th>
-                            <!-- <th style="width:25%; padding: 12px 15px;">S. No.</th> -->
-                            <th style="width: 25%; padding: 12px 15px">Name</th>
-                            <th style="width: 25%; padding: 12px 15px">Email</th>
-                            <th style="width: 25%; padding: 12px 15px">Phone</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr *ngFor="
-                            let staff of staffs
-                              | paginate
-                                : {
-                                    itemsPerPage: itemPerPage,
-                                    currentPage: pageNumber,
-                                    totalItems: total
-                                  }
-                          " style="border-bottom: 1px solid #dddddd">
-                            <td>
-                              <div class="form-check">
+                      <div class="location-user-table">
+                        <table class="table">
+                          <thead class="thead-light">
+                            <tr>
+                              <th style="width: 0%">
                                 <input type="checkbox" style="cursor: pointer" class="form-check-input"
-                                  [(ngModel)]="staff.selected" (change)="checkIndividualSelection()" />
-                              </div>
-                            </td>
-                            <!-- <td style="padding: 12px 15px;">{{ i+1 }}</td> -->
-                            <td style="padding: 12px 15px">{{ staff.name }}</td>
-                            <td style="padding: 12px 15px">
-                              {{ staff.email ? staff.email : "N/A" }}
-                            </td>
-                            <td style="padding: 12px 15px">
-                              {{ staff.phoneNumber || "N/A" }}
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
+                                  [(ngModel)]="isAllSelected" (change)="selectAll(isAllSelected)" />
+                              </th>
+                              <!-- <th style="width:25%; padding: 12px 15px;">S. No.</th> -->
+                              <th style="width: 25%; padding: 12px 15px">Name</th>
+                              <th style="width: 25%; padding: 12px 15px">Email</th>
+                              <th style="width: 25%; padding: 12px 15px">Phone</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="
+                              let staff of staffs
+                                | paginate
+                                  : {
+                                      itemsPerPage: itemPerPage,
+                                      currentPage: pageNumber,
+                                      totalItems: total
+                                    }
+                            " style="border-bottom: 1px solid #dddddd">
+                              <td>
+                                <div class="form-check">
+                                  <input type="checkbox" style="cursor: pointer" class="form-check-input"
+                                    [(ngModel)]="staff.selected" (change)="checkIndividualSelection()" />
+                                </div>
+                              </td>
+                              <!-- <td style="padding: 12px 15px;">{{ i+1 }}</td> -->
+                              <td style="padding: 12px 15px">{{ staff.name }}</td>
+                              <td style="padding: 12px 15px">
+                                {{ staff.email ? staff.email : "N/A" }}
+                              </td>
+                              <td style="padding: 12px 15px">
+                                {{ staff.phoneNumber || "N/A" }}
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
                     </ng-container>
                     <ng-template #noDataFoundPlaceholderInShiftTiming>
-                      <!-- <div class="errorboxmain">
-                      <div class="errorboxinner text-center">
-                        <div class="errorboxplaceholder mb-2">
-                          <img
-                            src="assets/images/addnewproduct.svg"
-                            style="width: 80px"
-                          />
-                        </div>
-                        <h4>No Data Found</h4>
-                        <p>
-                          We're unable to locate a record associated with the
-                          information you entered.
-                        </p>
-                      </div>
-                    </div> -->
+                    
 
                       <div class="empty-filenew" style="margin-top: 30%; margin-bottom: 7%">
                         <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
@@ -1215,35 +1903,9 @@
                       </div>
                     </ng-template>
                   </div>
-                  <!-- *ngIf="staffs.length > 8" -->
 
                   <div class="leave-footer bg-white">
-                    <!-- <div class="pagination p-3"
-                      *ngIf=" total > itemPerPage - 1 || (pageNumber === lastPageNumber && lastPageNumber !== 1)">
-                      <p class="mb-0" style="padding-left: 15px">
-                        Showing {{ getStartIndex() }} - {{ getEndIndex() }} of
-                        {{ total }} members
-                      </p>
-                      <nav aria-label="Page navigation example">
-                        <ul class="pagination justify-content-end">
-                          <li class="page-item" [class.disabled]="pageNumber == 1">
-                            <a class="page-link" href="javascript:void(0);" aria-label="Previous"
-                              (click)="changePage('prev')">
-                              <span aria-hidden="true">&laquo;</span>
-                            </a>
-                          </li>
-                          <li class="page-item" *ngFor="let page of getPages()" [class.active]="pageNumber == page">
-                            <a class="page-link" href="javascript:void(0);" (click)="changePage(page)">{{ page }}</a>
-                          </li>
-                          <li class="page-item" [class.disabled]="pageNumber == totalPages">
-                            <a class="page-link" href="javascript:void(0);" aria-label="Next"
-                              (click)="changePage('next')">
-                              <span aria-hidden="true">&raquo;</span>
-                            </a>
-                          </li>
-                        </ul>
-                      </nav>
-                    </div> -->
+                    
                     <div class="pagination justify-content-between p-3" *ngIf="staffs.length > 0">
                       <p class="mb-0">
                         Showing {{ 1 + ( databaseHelper.itemPerPage * (databaseHelper.currentPage - 1)) }} - {{
@@ -1267,7 +1929,7 @@
                             d="M19.75 10.6714C19.75 10.8588 19.6914 11.011 19.5743 11.1281C19.4572 11.2452 19.305 11.3038 19.1177 11.3038H3.59011L7.73547 15.4491C7.87599 15.5896 7.94625 15.7536 7.94625 15.9409C7.94625 16.1283 7.87599 16.2805 7.73547 16.3976C7.59495 16.5147 7.43101 16.5733 7.24365 16.5733C7.05628 16.5733 6.89234 16.5264 6.75182 16.4328L1.48229 11.1632C1.38861 11.0227 1.34177 10.8588 1.34177 10.6714C1.34177 10.484 1.38861 10.3201 1.48229 10.1796L6.75182 4.91005C6.89234 4.81637 7.05628 4.76953 7.24365 4.76953C7.43101 4.76953 7.59495 4.82808 7.73547 4.94518C7.87599 5.06228 7.94625 5.21451 7.94625 5.40188C7.94625 5.58924 7.87599 5.75318 7.73547 5.8937L3.59011 10.0391H19.1177C19.305 10.0391 19.4572 10.0976 19.5743 10.2147C19.6914 10.3318 19.75 10.484 19.75 10.6714Z"
                             fill="black"></path>
                         </svg>
-                        Back
+                        Previous
                       </button>
                       <button type="button" class="btn next-btn nextBtn" *ngIf="
                         this.userNameWithBranchName?.length > 0 &&
@@ -1319,757 +1981,6 @@
           </div>
         </div>
         <div>
-          <!-- <ul id="myTab" role="tablist" class="nav nav-tabs">
-            <li role="presentation" class="nav-item">
-              <button
-                id="home-tab"
-                data-bs-toggle="tab"
-                data-bs-target="#shiftime"
-                type="button"
-                role="tab"
-                aria-controls="shiftime"
-                aria-selected="true"
-                class="nav-link active"
-                #locationSettingTab
-              >
-                Location
-              </button>
-            </li>
-            <li role="presentation" class="nav-item">
-              <button
-                id="profile-tab"
-                data-bs-toggle="tab"
-                data-bs-target="#staffselection"
-                type="button"
-                role="tab"
-                aria-controls="staffselection"
-                aria-selected="false"
-                class="nav-link"
-                #staffSelectionTab
-
-                [disabled]="!organizationAddressNgForm.form.valid"
-              >
-                Staff selection
-              </button>
-            </li>
-          </ul>
-          <div class="tab-content" id="myTabContent">
-
-            <div
-              class="tab-pane fade show active"
-              id="shiftime"
-              role="tabpanel"
-              #shifttime
-            >
-              <form #organizationAddressNgForm="ngForm"  (ngSubmit)="submit()">
-                <div class="modal-content">
-                  <div class="modal-body">
-                    <div class="form-group">
-                      <div class="row">
-
-                        <div class="col-md-12">
-                          <div class="mb-3" style="position: relative">
-                            <label for="addressLine1" class="pb-2"
-                              >Address
-                            </label>
-                            <input
-                              type="text"
-                              id="addressLine1"
-                              placeholder="Please Select Address from Address Dropdown Or Fetch Current Location.."
-                              ngx-google-places-autocomplete
-                              #placesRef="ngx-places"
-                              (onAddressChange)="handleAddressChange($event)"
-                              required
-                              #addressLine1="ngModel"
-                              name="addressLine1"
-                              maxlength="200"
-                              class="form-control ng-untouched ng-pristine ng-invalid profile-input"
-                              [(ngModel)]="
-                                organizationAddressDetail.addressLine1
-                              "
-                            />
-                            <a
-                              class="fetch-location text-primary"
-                              (click)="currentLocation()"
-                            >
-                              <span *ngIf="!fetchCurrentLocationLoader"
-                                ><i
-                                  class="ti ti-current-location"
-                                  style="padding-right: 8px"
-                                ></i
-                                >Fetch Current Location
-                              </span>
-                              <div
-                                class="loader-fetching-location"
-                                *ngIf="fetchCurrentLocationLoader"
-                              >
-                                <i
-                                  class="ti ti-current-location"
-                                  style="padding-right: 8px"
-                                ></i>
-                                Fetching
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                              </div>
-                            </a>
-                            <div
-                              *ngIf="
-                                (addressLine1.touched &&
-                                  addressLine1.invalid) ||
-                                isFormInvalidLocation
-                              "
-                            >
-                              <p
-                                class="errortxt mt-2 mb-0"
-                                style="color: red"
-                                *ngIf="addressLine1.errors?.required"
-                              >
-                                <i class="bi bi-exclamation-circle"></i> Address
-                                Line 1 is required.
-                              </p>
-                              <p
-                                class="errortxt mt-2 mb-0"
-                                style="color: red"
-                                *ngIf="addressLine1.errors?.maxlength "
-                              >
-                                <i class="bi bi-exclamation-circle"></i> Maximum
-                                200 characters allowed.
-                              </p>
-                              <p
-                                class="errortxt mt-2 mb-0"
-                                *ngIf="
-                                  !organizationAddressDetail.longitude &&
-                                  !organizationAddressDetail.latitude
-                                "
-                              >
-                                <i class="bi bi-exclamation-circle"></i> Please
-                                Select Address from Address Dropdown only. Do
-                                not type it manually Or Fetch Current Location.
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                        <div
-                          class="col-md-6"
-                          *ngIf="
-                            organizationAddressDetail.longitude &&
-                            organizationAddressDetail.latitude
-                          "
-                        >
-                          <div class="mb-3">
-                            <label for="addressLine2" class="pb-2"
-                              >Street Address</label
-                            >
-                            <input
-                              type="text"
-                              id="addressLine2"
-                              placeholder="Address line 2"
-                              name="addressLine2"
-                              class="form-control ng-untouched ng-pristine ng-invalid profile-input"
-                              [(ngModel)]="
-                                organizationAddressDetail.addressLine2
-                              "
-                            />
-                          </div>
-                        </div>
-                        <div
-                        class="col-md-6"
-                      >
-                        <div class="mb-3">
-                          <label for="branch" class="pb-2"
-                            >Branch Name</label
-                          >
-                          <input
-                            type="text"
-                            id="branch"
-                            placeholder="Enter Branch Name"
-                            name="branch"
-                            required
-                            #branch="ngModel"
-                            class="form-control ng-untouched ng-pristine ng-invalid profile-input"
-                            [(ngModel)]="organizationAddressDetail.branch"
-                          />
-                        </div>
-                        <div
-                            *ngIf="
-                              (branch.touched && branch.invalid) ||
-                              isFormInvalidLocation
-                            "
-                          >
-                            <p
-                              class="errortxt mt-2 mb-0"
-                              style="color: red"
-                              *ngIf="branch.errors?.required"
-                            >
-                              <i class="bi bi-exclamation-circle"></i> Branch Name
-                              is required.
-                            </p>
-                          </div>
-                      </div>
-
-                        <div
-                          class="col-md-4"
-                          *ngIf="
-                            organizationAddressDetail.longitude &&
-                            organizationAddressDetail.latitude
-                          "
-                        >
-                          <div class="mb-3">
-                            <label for="landmark" class="pb-2"
-                              >Landmark
-                              <span class="text-optional"
-                                >(optional)</span
-                              ></label
-                            >
-                            <input
-                              type="text"
-                              id="landmark"
-                              placeholder="Landmark"
-                              name="landmark"
-                              class="form-control ng-untouched ng-pristine ng-invalid profile-input"
-                              [(ngModel)]="organizationAddressDetail.landmark"
-                            />
-                          </div>
-                        </div>
-                        <div
-                          class="col-md-4"
-                          *ngIf="
-                            organizationAddressDetail.longitude &&
-                            organizationAddressDetail.latitude
-                          "
-                        >
-                          <div class="mb-3">
-                            <label for="city" class="pb-2"> City </label>
-                            <input
-                              type="text"
-                              id="city"
-                              placeholder="City"
-                              required
-                              #city="ngModel"
-                              name="city"
-                              class="form-control ng-untouched ng-pristine ng-invalid profile-input"
-                              [(ngModel)]="organizationAddressDetail.city"
-                            />
-                          </div>
-                          <div
-                            *ngIf="
-                              (city.touched && city.invalid) ||
-                              isFormInvalidLocation
-                            "
-                          >
-                            <p
-                              class="errortxt mt-2 mb-0"
-                              style="color: red"
-                              *ngIf="city.errors?.required"
-                            >
-                              <i class="bi bi-exclamation-circle"></i> City Name
-                              is required.
-                            </p>
-                          </div>
-                        </div>
-                        <div
-                          class="col-md-4"
-                          *ngIf="
-                            organizationAddressDetail.longitude &&
-                            organizationAddressDetail.latitude
-                          "
-                        >
-                          <div class="mb-3">
-                            <label for="state" class="pb-2"> State </label>
-                            <input
-                              type="text"
-                              id="state"
-                              placeholder="State"
-                              required
-                              #state="ngModel"
-                              name="state"
-                              class="form-control ng-untouched ng-pristine ng-invalid profile-input"
-                              [(ngModel)]="organizationAddressDetail.state"
-                            />
-                          </div>
-                          <div
-                            *ngIf="
-                              (state.touched && state.invalid) ||
-                              isFormInvalidLocation
-                            "
-                          >
-                            <p
-                              class="errortxt mt-2 mb-0"
-                              style="color: red"
-                              *ngIf="state.errors?.required"
-                            >
-                              <i class="bi bi-exclamation-circle"></i> State
-                              Name is required.
-                            </p>
-                          </div>
-                        </div>
-                        <div
-                          class="col-md-6"
-                          *ngIf="
-                            organizationAddressDetail.longitude &&
-                            organizationAddressDetail.latitude
-                          "
-                        >
-                          <div class="mb-3">
-                            <label for="country" class="pb-2">Country</label>
-                            <input
-                              type="text"
-                              id="country"
-                              placeholder="Country"
-                              required
-                              #country="ngModel"
-                              name="country"
-                              class="form-control ng-untouched ng-pristine ng-invalid profile-input"
-                              [(ngModel)]="organizationAddressDetail.country"
-                            />
-                          </div>
-                          <div
-                            *ngIf="
-                              (country.touched && country.invalid) ||
-                              isFormInvalidLocation
-                            "
-                          >
-                            <p
-                              class="errortxt mt-2 mb-0"
-                              style="color: red"
-                              *ngIf="country.errors?.required"
-                            >
-                              <i class="bi bi-exclamation-circle"></i> Country
-                              Name is required.
-                            </p>
-                          </div>
-                        </div>
-                        <div
-                          class="col-md-6"
-                          *ngIf="
-                            organizationAddressDetail.longitude &&
-                            organizationAddressDetail.latitude
-                          "
-                        >
-                          <div class="mb-3">
-                            <label for="pincode" class="pb-2">Pincode</label>
-                            <input
-                              type="text"
-                              id="pincode"
-                              placeholder="Pincode"
-                              #pincode="ngModel"
-                              required
-                              name="pincode"
-                              class="form-control ng-untouched ng-pristine ng-invalid profile-input"
-                              [(ngModel)]="organizationAddressDetail.pincode"
-                            />
-                          </div>
-                          <div
-                            *ngIf="
-                              (pincode.touched && pincode.invalid) ||
-                              isFormInvalidLocation
-                            "
-                          >
-                            <p
-                              class="errortxt mt-2 mb-0"
-                              style="color: red"
-                              *ngIf="pincode.errors?.required"
-                            >
-                              <i class="bi bi-exclamation-circle"></i> Pincode
-                              is required.
-                            </p>
-                          </div>
-                        </div>
-
-                        <div class="col-md-12">
-                          <div class="mb-3">
-                            <label for="radius" class="pb-2">
-                              Employee location Must be in
-                              <i class="bi bi-exclamation-circle tolltip-icon"
-                                ngbTooltip="Please enter the location range (in meters) within which your employees are allowed to mark their attendance. This ensures that attendance can only be marked when they are within the specified location range."
-                                placement="top">
-                              </i>
-                            </label>
-                                <input
-                                maxlength="5"
-                                class="form-control profile-input"
-                                id="radiusDropdown"
-                                name="radiusDropdown"
-                                placeholder="Enter radius in meters"
-                                nz-input
-                                [(ngModel)]="organizationAddressDetail.radius"
-                                (ngModelChange)="onChange($event)"
-                                [nzAutocomplete]="radiusAuto"
-                                required
-                                #radius="ngModel"
-                                (keydown)="preventLeadingWhitespace($event)"
-                                (keypress)="allowOnlyNumbers($event)"
-                                (focus)="onFocus()"
-                            />
-                            <nz-autocomplete #radiusAuto (select)="onSelect($event)">
-                              <nz-auto-option
-                                *ngFor="let option of radiusFilteredOptions"
-                                [nzValue]="option.value"
-                                [nzLabel]="option.label">
-                                {{ option.label }}
-                              </nz-auto-option>
-                            </nz-autocomplete>
-                            <div *ngIf="radius?.touched || isFormInvalid">
-                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="radius.errors?.required && !minRadius">
-                                    <i class="bi bi-exclamation-circle"></i> Radius selection is required.
-                                </p>
-                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="radius.errors?.maxlength">
-                                    <i class="bi bi-exclamation-circle"></i> Maximum 5 characters allowed.
-                                </p>
-                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="minRadius">
-                                    <i class="bi bi-exclamation-circle"></i> Radius must be at least 10 meters.
-                                </p>
-                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="radius.value > 99000">
-                                    <i class="bi bi-exclamation-circle"></i> Maximum radius is 99,000 meters.
-                                </p>
-                            </div>
-
-
-                          </div>
-
-                        </div>
-                      </div>
-                        <div class="mb-10" *ngIf="isShowMap">
-                          <app-map [lat]="this.organizationAddressDetail.latitude" [lng]="this.organizationAddressDetail.longitude" (getData)="getData($event)"></app-map>
-
-                      </div>
-
-                    </div>
-                  </div>
-
-                  <div
-                    class="modal-footer d-flex align-items-center justify-content-end"
-                  >
-                    <button
-                      class="btn btn-primary"
-                      type="submit"
-                      aria-label="Next Step"
-                    >
-                      <span *ngIf="toggle" class="dot-opacity-loader-new">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                      </span>
-                      <span *ngIf="!toggle">
-                        Next
-                        <i
-                          class="bi bi-arrow-right"
-                          style="padding-left: 8px"
-                        ></i>
-                      </span>
-                    </button>
-                  </div>
-                </div>
-              </form>
-            </div>
-            <div class="tab-pane fade" id="staffselection" role="tabpanel" #staffselection>
-              <div class="staf-list-box mt-3">
-                <div
-                  class="row mb-1 mt-3 align-items-center"
-                  style="padding-bottom: 15px"
-                >
-                  <div class="col-md-12">
-                    <div
-                      class="d-flex align-items-center"
-                      style="border: 1px solid #f1f1f1"
-                    >
-                      <div style="width: 30%; position: relative">
-                        <div class="dropdown" style="width: 100%">
-                          <button
-                            type="button"
-                            id="dropdownMenuButton1"
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false"
-                            class="btn btn-secondary dropdown-toggle new-deopdown"
-                          >
-                            {{ selectedTeamName }}
-                            <i
-                              class="bi bi-chevron-down"
-                              style="color: #444; font-size: 15px"
-                            ></i>
-                          </button>
-                          <ul
-                            aria-labelledby="dropdownMenuButton1"
-                            class="dropdown-menu team-dropdown"
-                            style="
-                              width: 100%;
-                              max-height: 200px;
-                              overflow-y: auto;
-                            "
-                          >
-                            <li
-                              class="ng-star-inserted"
-                              (click)="selectTeam(0)"
-                            >
-                              <a class="dropdown-item">All</a>
-                            </li>
-                            <li
-                              class="ng-star-inserted"
-                              *ngFor="let tn of teamNameList"
-                              (click)="selectTeam(tn.teamId)"
-                            >
-                              <a class="dropdown-item"> {{ tn.teamName }} </a>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-
-                      <div class="" style="width: 70%">
-                        <form
-                          novalidate=""
-                          role="search"
-                          (submit)="searchUsers()"
-                          class="searching ng-untouched ng-pristine ng-valid"
-                        >
-                          <div class="form-group" style="position: relative">
-                            <input
-                              type="text"
-                              id="searchText"
-                              placeholder="Search by name and role"
-                              class="form-control me-2 ng-untouched ng-pristine ng-valid attendance-details-search"
-                              (keyup)="searchUsers()"
-                              [(ngModel)]="searchText"
-                              [ngModelOptions]="{ standalone: true }"
-                              style="padding: 10px 50px 10px 40px"
-                            />
-                            <button
-                              *ngIf="searchText.length !== 0"
-                              type="button"
-                              class="btn close-btn"
-                              (click)="clearSearchText()"
-                            >
-                              <i class="bi bi-x mt-auto mb-auto pl-3"></i>
-                            </button>
-                            <i
-                              class="bi bi-search search-icon"
-                              style="
-                                position: absolute;
-                                top: 50%;
-                                transform: translateY(-50%);
-                                left: 10px;
-                                padding-left: 5px;
-                              "
-                            ></i>
-                          </div>
-                        </form>
-                      </div>
-
-                      <div class="container">
-                        <div class="content-wrapper">
-                          <div class="filter-wrapper">
-                            <a
-                              class="info-button"
-                              *ngIf="selectedStaffsUuids.length > 0"
-                            >
-                              {{ selectedStaffsUuids.length }} selected of
-                              {{ totalUserCount }}
-                            </a>
-                            <span
-                              class="clear-button text-danger"
-                              *ngIf="selectedStaffsUuids.length > 0"
-                              (click)="unselectAllUsers()"
-                            >
-                              Clear all users <i class="bi bi-x"></i>
-                            </span>
-                            <label class="checkbox-label">
-                              <input
-                                type="checkbox"
-                                [(ngModel)]="isAllUsersSelected"
-                                (change)="selectAllUsers($event)"
-                              />
-                              Select all
-                            </label>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <ng-container
-                  *ngIf="total > 0; else noDataFoundPlaceholderInShiftTiming"
-                >
-                  <table class="table">
-                    <thead class="thead-light">
-                      <tr>
-                        <th style="width: 0%">
-                          <input
-                            type="checkbox"
-                            style="cursor: pointer"
-                            class="form-check-input"
-                            [(ngModel)]="isAllSelected"
-                            (change)="selectAll(isAllSelected)"
-                          />
-                        </th>
-                        <th style="width: 25%; padding: 12px 15px">Name</th>
-                        <th style="width: 25%; padding: 12px 15px">Email</th>
-                        <th style="width: 25%; padding: 12px 15px">Phone</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr
-                        *ngFor="
-                          let staff of staffs
-                            | paginate
-                              : {
-                                  itemsPerPage: itemPerPage,
-                                  currentPage: pageNumber,
-                                  totalItems: total
-                                }
-                        "
-                        style="border-bottom: 1px solid #dddddd"
-                      >
-                        <td>
-                          <div class="form-check">
-                            <input
-                              type="checkbox"
-                              style="cursor: pointer"
-                              class="form-check-input"
-                              [(ngModel)]="staff.selected"
-                              (change)="checkIndividualSelection()"
-                            />
-                          </div>
-                        </td>
-                        <td style="padding: 12px 15px">{{ staff.name }}</td>
-                        <td style="padding: 12px 15px">
-                          {{ staff.email ? staff.email : "N/A" }}
-                        </td>
-                        <td style="padding: 12px 15px">
-                          {{ staff.phoneNumber || "N/A" }}
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </ng-container>
-                <ng-template #noDataFoundPlaceholderInShiftTiming>
-                  <div class="errorboxmain">
-                    <div class="errorboxinner text-center">
-                      <div class="errorboxplaceholder mb-2">
-                        <img
-                          src="assets/images/addnewproduct.svg"
-                          style="width: 80px"
-                        />
-                      </div>
-                      <h4>No Data Found</h4>
-                      <p>
-                        We're unable to locate a record associated with the
-                        information you entered.
-                      </p>
-                    </div>
-                  </div>
-                </ng-template>
-              </div>
-              <div
-                class="pagination pl-3"
-                *ngIf="
-                  total > itemPerPage - 1 ||
-                  (pageNumber === lastPageNumber && lastPageNumber !== 1)
-                "
-              >
-                <p class="mb-0" style="padding-left: 15px">
-                  Showing {{ getStartIndex() }} - {{ getEndIndex() }} of
-                  {{ total }} members
-                </p>
-                <div class="row">
-                  <div class="col-md-12">
-                    <nav aria-label="Page navigation example">
-                      <ul class="pagination justify-content-end">
-                        <li
-                          class="page-item"
-                          [class.disabled]="pageNumber == 1"
-                        >
-                          <a
-                            class="page-link"
-                            href="javascript:void(0);"
-                            aria-label="Previous"
-                            (click)="changePage('prev')"
-                          >
-                            <span aria-hidden="true">&laquo;</span>
-                          </a>
-                        </li>
-                        <li
-                          class="page-item"
-                          *ngFor="let page of getPages()"
-                          [class.active]="pageNumber == page"
-                        >
-                          <a
-                            class="page-link"
-                            href="javascript:void(0);"
-                            (click)="changePage(page)"
-                            >{{ page }}</a
-                          >
-                        </li>
-                        <li
-                          class="page-item"
-                          [class.disabled]="pageNumber == totalPages"
-                        >
-                          <a
-                            class="page-link"
-                            href="javascript:void(0);"
-                            aria-label="Next"
-                            (click)="changePage('next')"
-                          >
-                            <span aria-hidden="true">&raquo;</span>
-                          </a>
-                        </li>
-                      </ul>
-                    </nav>
-                  </div>
-                </div>
-              </div>
-              <div id="back-and-submit">
-                <div
-                  class="modal-footer d-flex align-items-center justify-content-end"
-                ></div>
-              </div>
-              <div
-                class="modal-footer d-flex align-items-center justify-content-between"
-              >
-                <button
-                  type="button"
-                  class="btn btn-outline-secondary btn-round"
-                  (click)="openLocationSetting()"
-                >
-                  Back
-                </button>
-
-                <button
-                  type="button"
-                  class="btn btn-primary"
-                  *ngIf="
-                      this.userNameWithBranchName?.length > 0 &&
-                      !this.isValidated
-                    "
-                    data-bs-target="#usersAlreadyAssigned"
-                    data-bs-toggle="modal"
-                    [disabled]="this.selectedStaffsUuids.length < 1
-                    "
-                >
-                <span *ngIf="!loading">Submit</span>
-                <div class="dot-opacity-loader-new" *ngIf="loading">
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                </div>
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-primary"
-                  *ngIf="this.userNameWithBranchName?.length < 1"
-                  (click)="saveStaffAddressDetails()"
-                  [disabled]="this.selectedStaffsUuids.length <div 1
-                    "
-                >
-                  <span *ngIf="!loading">Submit</span>
-                  <div class="dot-opacity-loader-new" *ngIf="loading">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                  </div>
-                </button>
-              </div>
-            </div>
-          </div> -->
         </div>
       </div>
     </div>
@@ -2077,7 +1988,6 @@
 </div>
 
 
-<!-- already registered user in multilocation addressess -->
 
 <button class="d-none" data-bs-toggle="modal" data-bs-target="#usersAlreadyAssigned"></button>
 <div class="modal fade" id="usersAlreadyAssigned" tabindex="-1" role="dialog" aria-hidden="true"
@@ -2163,9 +2073,9 @@
 
       <div class="border-top p-3">
         <div class="form-check d-flex align-items-start" style="padding-left: 0px !important">
-          <input type="checkbox" id="validationCheck" style="height: auto !important; position: relative; top: 2px"
+          <input type="checkbox" id="validationCheck" style="position: relative; top: 2px"
             class="ng-dirty ng-touched" [(ngModel)]="isValidated" (change)="checkValidation()" /><label
-            for="termsAndConditions" class="form-check-label iHaveRead">
+            for="validationCheck" class="form-check-label iHaveRead">
             I have validated the information and will proceed to add users to
             the new location.
           </label>
@@ -2208,14 +2118,7 @@
       </div>
       <div class="modal-body modal-height-fix">
         <div>
-          <!-- <ul id="myTab" role="tablist" class="nav nav-tabs">
-            <li role="presentation" class="nav-item">
-              <button id="home-tab" data-bs-toggle="tab" data-bs-target="#shiftime" type="button" role="tab"
-                aria-controls="shiftime" aria-selected="true" class="nav-link active" #locationSettingTab>
-                Location
-              </button>
-            </li>
-          </ul> -->
+         
           <div class="tab-content" id="myTabContent">
 
             <div class="tab-pane fade show active" id="shiftime" role="tabpanel">
@@ -2468,46 +2371,7 @@
 
                         <app-map [lat]="this.organizationAddressDetail.latitude"
                           [lng]="this.organizationAddressDetail.longitude" (getData)="getData($event)"></app-map>
-                        <!-- <section>
-                          <div class="el-card-item">
-                            <div class="el-card-avatar el-overlay-1">
-                              <div class="map">
-                                <agm-map
-                                  style="height: 350px"
-                                  [latitude]="lat"
-                                  [longitude]="lng"
-                                  [zoom]="zoom"
-                                  [maxZoom]="20"
-                                  [zoomControl]="true"
-                                  (mapClick)="onMapClick($event)"
-                                  [disableDefaultUI]="true"
-                                  [keyboardShortcuts]="false"
-                                >
-                                  <agm-marker
-                                    *ngIf="
-                                      (organizationAddressDetail.latitude &&
-                                        organizationAddressDetail.longitude) ||
-                                      (lat && lng)
-                                    "
-                                    [latitude]="lat"
-                                    [longitude]="lng"
-                                    draggable="true"
-                                    (dragEnd)="onMarkerDragEnd($event)"
-                                  ></agm-marker>
-                                </agm-map>
-                                <div class="map-locate-me">
-                                  <button
-                                    type="button"
-                                    class="locate-btn btn btn-sm text-white"
-                                    (click)="getCurrentLocation()"
-                                  >
-                                    <i class="fa fa-crosshairs"></i> Locate Me
-                                  </button>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </section> -->
+                        
                       </div>
                     </div>
                   </div>
@@ -2651,7 +2515,8 @@
       <div class="modal-body p-0 delete-text">
         <div class="delete-image d-flex align-items-center justify-content-center pt-4 pb-4">
           <div class="delete-close-btn">
-            <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButtonDeleteAddress>
+            <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close"
+              #closeButtonDeleteAddress>
               <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
                 <mask id="mask0_2031_1331" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="30"
                   height="30">

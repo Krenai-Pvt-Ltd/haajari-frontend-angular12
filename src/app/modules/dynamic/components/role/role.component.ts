@@ -23,7 +23,7 @@ export class RoleComponent implements OnInit {
     private dataService: DataService,
     private router: Router,
     private helperService: HelperService
-  ) {}
+  ) { }
 
   roles: Role[] = [];
   itemPerPage: number = 9;
@@ -380,7 +380,7 @@ export class RoleComponent implements OnInit {
 
   getUsersByFilterMethodCall() {
     this.dataService
-      .getUsersByFilter(0, 1, 'asc', 'id', '', 'name',0)
+      .getUsersByFilter(0, 1, 'asc', 'id', '', 'name', 0)
       .subscribe((data) => {
         this.users = data.users;
         // this.total = data.count;
@@ -453,11 +453,11 @@ export class RoleComponent implements OnInit {
             this.userAndControlRoles = data.object;
             this.total = data.totalItems;
 
-            if(data === undefined ||
+            if (data === undefined ||
               data === null ||
               this.userAndControlRoles.length === 0 && this.searchText == '') {
-                this.isPlaceholder = true;
-            }else {
+              this.isPlaceholder = true;
+            } else {
               this.isPlaceholder = false;
             }
             if (

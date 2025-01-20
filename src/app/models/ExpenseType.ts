@@ -12,4 +12,5 @@ export class ExpenseType{
     settledDate: any;
     managerId: number = 0
     status: any;
+    approvedAmount: number = 0
 }

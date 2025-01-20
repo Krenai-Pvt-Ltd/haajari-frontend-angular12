@@ -1,0 +1,140 @@
+.entery-stap {
+    margin-top: 5rem;
+}
+
+.entery-sidebar {
+    height: 100vh;
+    border-right: 1px solid #f1f1f1;
+    background-color: #F4F4F4;
+}
+
+.entery-stap p {
+    color: #6B6B6B;
+    line-height: 22px;
+}
+
+.entery-stap h5 {
+    color: #000;
+    line-height: 26px;
+}
+
+.entery-stap h6 {
+    color: rgba(68, 68, 68, 0.85);
+    line-height: 26px;
+}
+
+.entery-stap-one span svg {
+    width: 28px;
+}
+
+.step-one {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #E5E5E5;
+    border-radius: 50%;
+}
+
+.step-active {
+    background-color: #00E69C !important;
+    color: #fff !important;
+    border: 1px solid #00E69C;
+}
+
+.entery-stap-one:after {
+    content: "";
+    width: 2px !important;
+    height: 100% !important;
+    background-color: transparent;
+    top: 40px !important;
+    left: 13px !important;
+    z-index: 9 !important;
+    position: absolute;
+    border-left: 2px dashed #ebecee;
+}
+
+.entery-stap-one:last-child::after {
+    display: none;
+}
+
+.help-btn {
+    position: absolute;
+    bottom: 50px;
+}
+
+.help-btn:hover {
+    color: #000 !important;
+    text-decoration: underline;
+}
+
+.entery-right-box {
+    height: 100vh;
+}
+
+.crosshairs {
+    cursor: pointer;
+    transition: transform .3s ease, color .3s ease;
+    position: absolute;
+    top: 13px;
+    right: 10px;
+}
+
+.submitActionBtn {
+    background-color: var(--primary-background-color);
+    color: #fff;
+    font-weight: 500;
+    border-radius: 2px;
+    width: 100px;
+}
+
+.linkexpird-img img {
+    height: 500px;
+    object-fit: cover;
+}
+
+.compay-logo {
+    display: none;
+}
+
+@media screen and (max-width: 2600px) {
+    .entery-sidebar {
+        padding: 3rem;
+    }
+
+    .entery-right-box {
+        padding: 3rem;
+    }
+
+    .entery-right-box h5 {
+        margin-top: 15px;
+    }
+}
+
+@media screen and (max-width: 1440px) {
+    .entery-right-box h5 {
+        margin-top: 1px;
+    }
+}
+
+@media screen and (max-width: 1280px) {
+    .entery-sidebar {
+        padding: 2rem;
+    }
+
+    .entery-right-box {
+        padding: 2rem;
+    }
+
+    .entery-right-box h5 {
+        margin-top: 1px;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .entery-sidebar {
+        display: none;
+    }
+
+    .compay-logo {
+        display: block;
+    }
+}

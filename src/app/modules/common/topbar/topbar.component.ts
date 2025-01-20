@@ -12,6 +12,7 @@ import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { Notification } from 'src/app/models/Notification';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
+import { OnboardingService } from 'src/app/services/onboarding.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import { UserNotificationService } from 'src/app/services/user-notification.service';
 
@@ -30,7 +31,8 @@ export class TopbarComponent implements OnInit {
     private _notificationService: UserNotificationService,
     private helperService:HelperService,
     private _router: Router,
-    private db: AngularFireDatabase
+    private db: AngularFireDatabase,
+    private onboardingService: OnboardingService
   ) {
     // this.employeeProfileRoute = Key.EMPLOYEE_PROFILE_ROUTE;
   }
@@ -347,8 +349,11 @@ export class TopbarComponent implements OnInit {
       });
   }
 
-  logout(){
+  logout() {
     localStorage.clear();
+    this.helperService.orgStepId = 0;
+    this.helperService.stepId = 0;
+    // this.onboardingService.isLoadingOnboardingStatus = true;
     this.rbacService.clearRbacService();
     this.helperService.clearHelperService();
     this.router.navigate(['/login']);

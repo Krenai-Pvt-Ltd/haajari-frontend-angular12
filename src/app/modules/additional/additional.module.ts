@@ -13,6 +13,7 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { WebcamModule } from 'ngx-webcam';
 import { AgmCoreModule } from '@agm/core';
 import { LinkExpiredPageComponent } from './components/link-expired-page/link-expired-page.component';
+import { AttendanceUrlComponent } from './components/attendance-url/attendance-url.component';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { LinkExpiredPageComponent } from './components/link-expired-page/link-ex
     InternalServerErrorPageComponent,
     EmployeeAttendancePhotoComponent,
     EmployeeLocationValidatorComponent,
-    LinkExpiredPageComponent
+    LinkExpiredPageComponent,
+    AttendanceUrlComponent,
   ],
   imports: [
     CommonModule,

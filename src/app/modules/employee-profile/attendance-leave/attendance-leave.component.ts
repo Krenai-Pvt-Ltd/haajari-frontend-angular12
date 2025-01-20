@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { AttendanceCheckTimeResponse, AttendanceTimeUpdateRequestDto, UserDto } from 'src/app/models/user-dto.model';
@@ -32,6 +32,7 @@ import { DatePipe } from '@angular/common';
 import moment from 'moment';
 import { AttendanceLogResponse } from 'src/app/models/attendance-log-response';
 import saveAs from 'file-saver';
+import { BreakTimings } from 'src/app/models/break-timings';
 
 
 
@@ -59,18 +60,18 @@ export class AttendanceLeaveComponent implements OnInit {
   count: number = 0;
   currentUserUuid: any
   userLeaveRequest: UserLeaveRequest = new UserLeaveRequest();
-modal: any;
-UUID:string = '';  
-readonly Constant = constant;
-contentTemplate: string ='You are on the Notice Period, so that you can not apply leave';
+  modal: any;
+  UUID: string = '';
+  ROLE: string = '';
+  readonly Constant = constant;
+  contentTemplate: string = 'You are on the Notice Period, so that you can not apply leave';
 
-  constructor(private dataService: DataService, private activateRoute: ActivatedRoute, private datePipe: DatePipe,  private firebaseStorage: AngularFireStorage,  private sanitizer: DomSanitizer,
+  constructor(private dataService: DataService, private activateRoute: ActivatedRoute, private datePipe: DatePipe, private firebaseStorage: AngularFireStorage, private sanitizer: DomSanitizer,
     private fb: FormBuilder, public helperService: HelperService, public domSanitizer: DomSanitizer,
     private afStorage: AngularFireStorage, private modalService: NgbModal,
     public roleService: RoleBasedAccessControlService,
-    private rbacService: RoleBasedAccessControlService,
   ) {
-    this.getUuid(); 
+    this.getUuid();
     if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
       this.userId = this.activateRoute.snapshot.queryParamMap.get('userId');
     }
@@ -88,7 +89,7 @@ contentTemplate: string ='You are on the Notice Period, so that you can not appl
         attendanceId: [null, Validators.required],
         updatedTime: [null, Validators.required],
       }),
-      createGroup: this.fb.group({ 
+      createGroup: this.fb.group({
         inRequestTime: [null, Validators.required],
         outRequestTime: [null, Validators.required],
       }),
@@ -96,22 +97,40 @@ contentTemplate: string ='You are on the Notice Period, so that you can not appl
       requestReason: ['', [Validators.required, Validators.maxLength(255)]],
     });
 
-   }
-   public async getUuid() {
+  }
+  public async getUuid() {
     this.UUID = await this.roleService.getUuid();
-    // this.currentUserUuid = await this.roleService.getUuid();
-
    
+    // this.currentUserUuid = await this.roleService.getUuid();
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    // this.userLeaveForm = this.fb.group({
+    //   startDate: [null, Validators.required],
+    //   endDate: [null, Validators.required],
+    //   leaveType: [null, Validators.required],
+    //   selectedUser: [null, Validators.required],
+    //   note: [null, Validators.required],
+    // });
+    this.ROLE = await this.roleService.getRole();
+    
     this.userLeaveForm = this.fb.group({
       startDate: [null, Validators.required],
       endDate: [null, Validators.required],
       leaveType: [null, Validators.required],
-      selectedUser: [null, Validators.required],
+      selectedUser: [null], // Initially not required
       note: [null, Validators.required],
     });
+    console.log('Role:', this.ROLE);
+    if (this.ROLE !== 'ADMIN') {
+      this.userLeaveForm.get('selectedUser')?.setValidators(Validators.required);
+    } else {
+      this.userLeaveForm.get('selectedUser')?.clearValidators();
+    }
+  
+    // Update validity after changing validators
+    this.userLeaveForm.get('selectedUser')?.updateValueAndValidity();
+  
     // this.getAttendanceRequests();
     this.fetchAttendanceRequests();
     this.fetchManagerNames();
@@ -119,6 +138,7 @@ contentTemplate: string ='You are on the Notice Period, so that you can not appl
     this.loadLeaveLogs();
     // this.getOrganizationRegistrationDateMethodCall();
     this.getUserJoiningDate();
+    this.getHoliday();
 
     this.selectedDate = new Date();
     this.updateThirtyDaysLabel();
@@ -127,7 +147,7 @@ contentTemplate: string ='You are on the Notice Period, so that you can not appl
     this.setDefaultWeekTab();
     this.calculateDateRange();
     this.getEmployeeProfileAttendanceDetailsData();
-    this.currentUserUuid = this.rbacService.getUuid();
+    this.currentUserUuid = this.roleService.getUuid();
 
     // this.calculateDateRange();
     // this.getAttendanceRequests();
@@ -159,11 +179,11 @@ contentTemplate: string ='You are on the Notice Period, so that you can not appl
 
   attendanceTypeFilter: any = ['CREATE', 'UPDATE'];
   attendanceStatusFilter: any = ['PENDING', 'APPROVED', 'REJECTED'];
-  updateAttendanceTypeFilter(type: string){
+  updateAttendanceTypeFilter(type: string) {
     this.attendanceType = type;
     this.fetchAttendanceRequests();
   }
-  updateAttendanceStatusFilter(status: string){
+  updateAttendanceStatusFilter(status: string) {
     this.attendanceStatus = status;
     this.fetchAttendanceRequests();
   }
@@ -191,10 +211,10 @@ contentTemplate: string ='You are on the Notice Period, so that you can not appl
         this.totalAttendanceElements = response.totalElements;
         this.isAttendanceLoading = false;
       },
-      (error) => {
-        this.isAttendanceLoading = false;
-      }
-    );
+        (error) => {
+          this.isAttendanceLoading = false;
+        }
+      );
   }
   onAttendancePageChange(page: number): void {
     this.currentAttendancePage = page;
@@ -209,7 +229,7 @@ contentTemplate: string ='You are on the Notice Period, so that you can not appl
   deleteAttendanceRequest(id: number): void {
     this.dataService.deletePendingAttendance(id).subscribe(
       (response: any) => {
-        this.helperService.showToast(response.message,Key.TOAST_STATUS_INFO);
+        this.helperService.showToast(response.message, Key.TOAST_STATUS_INFO);
         this.fetchAttendanceRequests();
       },
       (error) => {
@@ -220,11 +240,11 @@ contentTemplate: string ='You are on the Notice Period, so that you can not appl
 
 
   isUserLeaveTaken: number = 0;
-  checkUserLeaveTaken(){
+  checkUserLeaveTaken() {
     this.dataService.getUserLeaveTaken().subscribe((res: any) => {
-      if(res.status){
+      if (res.status) {
         this.isUserLeaveTaken = res.object
-      }else{
+      } else {
         this.isUserLeaveTaken = 0
       }
     })
@@ -244,11 +264,11 @@ contentTemplate: string ='You are on the Notice Period, so that you can not appl
 
   selectedUser: number | null = null;
   onUserChange(value: number): void {
-    this.userLeaveRequest.managerId=value;
+    this.userLeaveRequest.managerId = value;
     this.selectedUser = value;
     console.log('Selected User:', this.selectedUser);
   }
-  note: string= '';
+  note: string = '';
 
   uploadedFiles: File[] = [];
 
@@ -259,20 +279,20 @@ contentTemplate: string ='You are on the Notice Period, so that you can not appl
     }
   }
 
-viewFile(file: File): void {
+  viewFile(file: File): void {
     const fileURL = URL.createObjectURL(file);
     window.open(fileURL, '_blank');
-}
-dayShiftToggleFun(shift: string) {
-  debugger
-  if (shift == 'day') {
-    this.userLeaveRequest.dayShift = true;
-    this.userLeaveRequest.eveningShift = false;
-  } else if (shift == 'evening') {
-    this.userLeaveRequest.dayShift = false;
-    this.userLeaveRequest.eveningShift = true;
   }
-}
+  dayShiftToggleFun(shift: string) {
+    debugger
+    if (shift == 'day') {
+      this.userLeaveRequest.dayShift = true;
+      this.userLeaveRequest.eveningShift = false;
+    } else if (shift == 'evening') {
+      this.userLeaveRequest.dayShift = false;
+      this.userLeaveRequest.eveningShift = true;
+    }
+  }
 
 
 
@@ -296,20 +316,20 @@ dayShiftToggleFun(shift: string) {
   totalItems = 0;
   pageSize = 10;
   currentPage = 1;
-  totalPages=0;
-  isLoading=true;
+  totalPages = 0;
+  isLoading = true;
   loadLeaveLogsOld(): void {
     const leaveType = this.selectedLeaveType === 'All' ? undefined : this.selectedLeaveType;
     const status = this.selectedStatus === 'All' ? undefined : this.selectedStatus;
 
-    this.isLoading=true;
+    this.isLoading = true;
     this.dataService
       .getUserLeaveLogFilter(this.userId, this.currentPage, this.pageSize, leaveType, status, this.searchQuery)
       .subscribe((response) => {
         this.userLeaveLog = response.content;
         this.totalItems = response.totalElements;
         this.totalPages = response.totalPages;
-        this.isLoading=false;
+        this.isLoading = false;
       });
   }
 
@@ -317,14 +337,14 @@ dayShiftToggleFun(shift: string) {
     const leaveType = this.selectedLeaveType === 'All' ? undefined : this.selectedLeaveType;
     const status = this.selectedStatus === 'All' ? undefined : this.selectedStatus;
 
-    this.isLoading=true;
+    this.isLoading = true;
     this.dataService
       .getUserLeaveLogFilter(this.userId, this.currentPage, this.pageSize, leaveType, status, this.searchQuery)
       .subscribe((response) => {
         this.userLeaveLog = response.content;
         this.totalItems = response.totalElements;
         this.totalPages = response.totalPages;
-        this.isLoading=false;
+        this.isLoading = false;
       });
   }
 
@@ -383,16 +403,16 @@ dayShiftToggleFun(shift: string) {
   isFileUploaded = false;
   submitLeaveLoader: boolean = false;
   fileToUpload: string = '';
-  isLoadingLeaveForm: boolean= false;
+  isLoadingLeaveForm: boolean = false;
   @ViewChild('fileInput') fileInput!: ElementRef;
   @ViewChild(FormGroupDirective) formGroupDirective!: FormGroupDirective;
   @ViewChild('cancelBtn') cancelBtn!: ElementRef;
   saveLeaveRequestUser() {
     debugger
-    this.isLoadingLeaveForm=true;
+    this.isLoadingLeaveForm = true;
     this.userLeaveRequest.halfDayLeave = this.isHalfLeaveSelected;
     // this.userLeaveRequest.halfDayLeave = false;
-    this.userLeaveRequest.leaveType=this.userLeaveRequest.userLeaveTemplateId.toString();
+    this.userLeaveRequest.leaveType = this.userLeaveRequest.userLeaveTemplateId.toString();
     this.dataService
       .saveLeaveRequest(this.userId, this.userLeaveRequest, this.fileToUpload)
       .subscribe(
@@ -400,66 +420,65 @@ dayShiftToggleFun(shift: string) {
           // console.log(data);
           // console.log(data.body);
 
-          if(data.status){
+          if (data.status) {
             this.submitLeaveLoader = false;
-          this.isLeavePlaceholder = false;
-          this.isFileUploaded = false;
-          this.fileToUpload = '';
-          // this.selectedFile = null;
-          this.fileInput.nativeElement.value = '';
-          // this.getUserLeaveReq();
+            this.isLeavePlaceholder = false;
+            this.isFileUploaded = false;
+            this.fileToUpload = '';
+            // this.selectedFile = null;
+            this.fileInput.nativeElement.value = '';
+            // this.getUserLeaveReq();
 
-          setTimeout(() => {
-            this.getUserLeaveReq();
-          },100);
+            setTimeout(() => {
+              this.getUserLeaveReq();
+            }, 100);
 
-          this.resetUserLeave();
-          this.formGroupDirective.resetForm();
-          this.uploadedFiles=[];
-          this.loadLeaveLogs();
-          this.cancelBtn.nativeElement.click();
-          this.helperService.showToast('Leave Requested successfully', Key.TOAST_STATUS_SUCCESS);
-          // location.reload();
-          } else{
+            this.resetUserLeave();
+            this.formGroupDirective.resetForm();
+            this.uploadedFiles = [];
+            this.loadLeaveLogs();
+            this.cancelBtn.nativeElement.click();
+            this.helperService.showToast('Leave Requested successfully', Key.TOAST_STATUS_SUCCESS);
+            // location.reload();
+          } else {
             this.submitLeaveLoader = false;
             this.isLeavePlaceholder = false;
             this.isFileUploaded = false;
             this.helperService.showToast(data.message, Key.TOAST_STATUS_ERROR);
           }
-          this.isLoadingLeaveForm=false;
+          this.isLoadingLeaveForm = false;
 
         },
         (error) => {
           this.submitLeaveLoader = false;
-          this.isLoadingLeaveForm=false;
+          this.isLoadingLeaveForm = false;
           // console.log(error.body);
         }
       );
   }
   resetUserLeave() {
-    this.userLeaveRequest.startDate ='';
+    this.userLeaveRequest.startDate = '';
     this.userLeaveRequest.endDate = '';
     this.userLeaveRequest.halfDayLeave = false;
     this.userLeaveRequest.dayShift = false;
     this.userLeaveRequest.eveningShift = false;
-    this.isHalfLeaveSelected=false;
+    this.isHalfLeaveSelected = false;
     this.userLeaveRequest.leaveType = '';
     this.userLeaveRequest.managerId = 0;
     this.userLeaveRequest.optNotes = '';
     this.selectedManagerId = 0;
-    this.uploadedFiles=[];
+    this.uploadedFiles = [];
   }
 
 
-  getUserLeaveReq(){
+  getUserLeaveReq() {
     this.leaveCountPlaceholderFlag = false;
-    this.dataService.getUserLeaveRequests(this.userId).subscribe(
+    this.dataService.getUserLeaveRequests(this.userId,0,0).subscribe(
       (res: any) => {
-          this.userLeave = res.object;
-          console.log(this.userLeave);
-          if(this.userLeave == null){
-            this.userLeave = []
-          }
+        this.userLeave = res.object;
+        if (this.userLeave == null) {
+          this.userLeave = []
+        }
 
 
       });
@@ -578,7 +597,7 @@ dayShiftToggleFun(shift: string) {
     );
   }
 
-  onDelete(id:number) {
+  onDelete(id: number) {
     this.dataService.deleteUserLog(id).subscribe({
       next: () => {
         this.isDeleting = false;
@@ -591,7 +610,7 @@ dayShiftToggleFun(shift: string) {
 
   @ViewChild('deleteConfirmation', { static: true }) deleteConfirmation: any;
   private itemIdToDelete: number | null = null;
-   @ViewChild('deletModalButton') deletModalButton!:ElementRef;
+  @ViewChild('deletModalButton') deletModalButton!: ElementRef;
   openDeleteConfirmation(itemId: number): void {
     this.itemIdToDelete = itemId;
     // this.modalService.open(this.deleteConfirmation, { centered: true });
@@ -600,19 +619,19 @@ dayShiftToggleFun(shift: string) {
 
   isDeleting: boolean = false;
 
-   @ViewChild('deleCloseButton') deleCloseButton!:ElementRef;
+  @ViewChild('deleCloseButton') deleCloseButton!: ElementRef;
   confirmDelete(modal: NgbModalRef): void {
     this.isDeleting = true;
     if (this.itemIdToDelete !== null) {
       this.onDelete(this.itemIdToDelete);
     }
-     this.deleCloseButton.nativeElement.click();
+    this.deleCloseButton.nativeElement.click();
 
     // modal.close();
   }
 
   // Handle edit action
-  @ViewChild('leaveApplyButton') leaveApplyButton!:ElementRef;
+  @ViewChild('leaveApplyButton') leaveApplyButton!: ElementRef;
   onEdit(item: any): void {
     // Populate form with selected item data
     this.userLeaveForm.patchValue({
@@ -627,7 +646,7 @@ dayShiftToggleFun(shift: string) {
     this.leaveApplyButton.nativeElement.click();
   }
 
-  applyNewLeaveReq(){
+  applyNewLeaveReq() {
     this.resetUserLeave();
     this.leaveApplyButton.nativeElement.click();
   }
@@ -645,7 +664,7 @@ dayShiftToggleFun(shift: string) {
 
 
   // onMonthChange(month: Date): void {
-   
+
   //   this.selectedDate = month;
   //   this.presentWeek = false;
   //   // this.resetData();
@@ -664,56 +683,56 @@ dayShiftToggleFun(shift: string) {
     this.isShimmer = true;
     this.updateThirtyDaysLabel();
     this.updateWeekLabels();
-  
+
     // Select the first week containing or after the joining date
     const joiningDate = new Date(this.userJoiningDate);
-  
+
     const selectedIndex = this.weekLabels.findIndex((_, index) => {
       const weekStart = new Date(this.selectedDate.getFullYear(), this.selectedDate.getMonth(), index * 7 + 1);
       const weekEnd = new Date(weekStart);
       weekEnd.setDate(weekStart.getDate() + 6);
-  
+
       // Check if the joining date falls in the week
       return weekStart <= joiningDate && joiningDate <= weekEnd;
     });
-  
+
     // Default to Week 1 if no valid week is found
     this.selectedTab = selectedIndex !== -1 ? this.weekLabels[selectedIndex] : this.weekLabels[0];
     console.log('Selected Tab:', this.selectedTab);
-  
+
     this.calculateDateRange();
     this.getEmployeeProfileAttendanceDetailsData();
   }
 
-  
+
   // onMonthChange(month: Date): void {
   //   this.selectedDate = month;
   //   this.presentWeek = false;
   //   this.isShimmer = true;
   //   this.updateThirtyDaysLabel();
   //   this.updateWeekLabels();
-  
+
   //   // Select the week containing or after the joining date
   //   const joiningDate = new Date(this.userJoiningDate);
-  
+
   //   let selectedIndex = 0; // Default to Week 1 if no match is found
   //   this.weekLabels.forEach((_, index) => {
   //     const weekStart = new Date(this.selectedDate.getFullYear(), this.selectedDate.getMonth(), index * 7 + 1);
   //     const weekEnd = new Date(weekStart);
   //     weekEnd.setDate(weekStart.getDate() + 6);
-  
+
   //     if (weekEnd >= joiningDate && joiningDate >= weekStart) {
   //       selectedIndex = index;
   //     }
   //   });
-  
+
   //   this.selectedTab = this.weekLabels[selectedIndex]; // Select the matching week or default to Week 1
   //   console.log('Selected Tab:', this.selectedTab);
   //   this.calculateDateRange();
   //   this.getEmployeeProfileAttendanceDetailsData();
   // }
-  
-  
+
+
 
   updateThirtyDaysLabel(): void {
     const currentDate = new Date();
@@ -762,20 +781,20 @@ dayShiftToggleFun(shift: string) {
     const isCurrentMonth =
       this.selectedDate.getFullYear() === currentDate.getFullYear() &&
       this.selectedDate.getMonth() === currentDate.getMonth();
-  
+
     const lastDay = isCurrentMonth ? currentDate.getDate() : daysInMonth;
     const joiningDate = new Date(this.userJoiningDate);
-  
+
     this.weekLabels = Array.from({ length: Math.ceil(lastDay / 7) }, (_, i) => {
       const weekStart = new Date(this.selectedDate.getFullYear(), this.selectedDate.getMonth(), i * 7 + 1);
       const weekEnd = new Date(weekStart);
       weekEnd.setDate(weekStart.getDate() + 6);
-  
+
       // Include only weeks where the end date is on or after the joining date
       return weekEnd >= joiningDate ? `Week ${i + 1}` : null;
     }).filter(week => week !== null) as string[];
   }
-  
+
 
   calculateDateRange(): void {
     const currentDate = new Date();
@@ -862,9 +881,9 @@ dayShiftToggleFun(shift: string) {
 
   onTabChange(tab: string): void {
     debugger
-    if(tab == '30 DAYS') {
+    if (tab == '30 DAYS') {
       this.searchString = 'ALL';
-    }else {
+    } else {
       this.searchString = 'WEEK';
     }
     this.selectedTab = tab;
@@ -910,11 +929,11 @@ dayShiftToggleFun(shift: string) {
     );
   }
 
-  
+
 
   attendanceDetails: EmployeeProfileAttendanceResponse[] = [];
   totalAttendanceDetails: TotalEmployeeProfileAttendanceResponse = new TotalEmployeeProfileAttendanceResponse();
-  isShimmer : boolean = false;
+  isShimmer: boolean = false;
   getEmployeeProfileAttendanceDetailsData() {
     debugger;
     this.isShimmer = true;
@@ -922,9 +941,9 @@ dayShiftToggleFun(shift: string) {
     // this.totalAttendanceDetails = new TotalEmployeeProfileAttendanceResponse();
     this.dataService.getEmployeeProfileAttendanceDetails(this.userId, this.startDate, this.endDate).subscribe(
       (response) => {
-       this.isShimmer = false;
-       this.attendanceDetails = response.object.employeeProfileAttendanceResponseList;
-       this.totalAttendanceDetails = response.object.totalEmployeeProfileAttendanceResponse
+        this.isShimmer = false;
+        this.attendanceDetails = response.object.employeeProfileAttendanceResponseList;
+        this.totalAttendanceDetails = response.object.totalEmployeeProfileAttendanceResponse
       },
       (error) => {
         this.isShimmer = false;
@@ -1028,89 +1047,89 @@ dayShiftToggleFun(shift: string) {
     return false;
   };
 
-// Navigate to the previous month
-goToPreviousMonth(): void {
-  if (!this.isPreviousDisabled()) {
-    this.searchString = 'WEEK';
-    const previousMonth = new Date(
-      this.selectedDate.getFullYear(),
-      this.selectedDate.getMonth() - 1,
-      1
+  // Navigate to the previous month
+  goToPreviousMonth(): void {
+    if (!this.isPreviousDisabled()) {
+      this.searchString = 'WEEK';
+      const previousMonth = new Date(
+        this.selectedDate.getFullYear(),
+        this.selectedDate.getMonth() - 1,
+        1
+      );
+      this.onMonthChange(previousMonth);
+    }
+  }
+
+  // Navigate to the next month
+  nextMonthDisable: boolean = false;
+  goToNextMonth(): void {
+    if (!this.isNextDisabled()) {
+      this.searchString = 'WEEK';
+      const nextMonth = new Date(
+        this.selectedDate.getFullYear(),
+        this.selectedDate.getMonth() + 1,
+        1
+      );
+      this.onMonthChange(nextMonth);
+    }
+  }
+
+  // Disable previous button logic
+  isPreviousDisabled(): boolean {
+    const userRegistrationDate = new Date(this.userJoiningDate);
+    return (
+      this.selectedDate.getFullYear() === userRegistrationDate.getFullYear() &&
+      this.selectedDate.getMonth() === userRegistrationDate.getMonth()
     );
-    this.onMonthChange(previousMonth);
   }
-}
 
-// Navigate to the next month
-nextMonthDisable: boolean = false;
-goToNextMonth(): void {
-  if (!this.isNextDisabled()) {
-    this.searchString = 'WEEK';
-    const nextMonth = new Date(
-      this.selectedDate.getFullYear(),
-      this.selectedDate.getMonth() + 1,
-      1
+  // Disable next button logic
+  isNextDisabled(): boolean {
+    const currentDate = new Date();
+    return (
+      this.selectedDate.getFullYear() === currentDate.getFullYear() &&
+      this.selectedDate.getMonth() === currentDate.getMonth()
     );
-    this.onMonthChange(nextMonth);
   }
-}
 
-// Disable previous button logic
-isPreviousDisabled(): boolean {
-  const userRegistrationDate = new Date(this.userJoiningDate);
-  return (
-    this.selectedDate.getFullYear() === userRegistrationDate.getFullYear() &&
-    this.selectedDate.getMonth() === userRegistrationDate.getMonth()
-  );
-}
+  presentWeek: boolean = false;
+  setDefaultWeekTab(): void {
+    const currentDate = new Date();
+    const isCurrentMonth =
+      this.selectedDate.getFullYear() === currentDate.getFullYear() &&
+      this.selectedDate.getMonth() === currentDate.getMonth();
 
-// Disable next button logic
-isNextDisabled(): boolean {
-  const currentDate = new Date();
-  return (
-    this.selectedDate.getFullYear() === currentDate.getFullYear() &&
-    this.selectedDate.getMonth() === currentDate.getMonth()
-  );
-}
+    if (isCurrentMonth) {
+      // Determine the current week of the month
+      const currentDay = currentDate.getDate();
+      const currentWeek = Math.ceil(currentDay / 7);
 
-presentWeek : boolean = false;
-setDefaultWeekTab(): void {
-  const currentDate = new Date();
-  const isCurrentMonth =
-    this.selectedDate.getFullYear() === currentDate.getFullYear() &&
-    this.selectedDate.getMonth() === currentDate.getMonth();
-
-  if (isCurrentMonth) {
-    // Determine the current week of the month
-    const currentDay = currentDate.getDate();
-    const currentWeek = Math.ceil(currentDay / 7);
-
-    // Set the selectedTab to the current week
-    this.selectedTab = `Week ${currentWeek}`;
-    this.presentWeek = true;
-    // this.selectedTab = `Current Week`;
-  } else {
-    // Default to Week 1 for other months
-    this.selectedTab = 'Week 1';
-    this.presentWeek = false;
+      // Set the selectedTab to the current week
+      this.selectedTab = `Week ${currentWeek}`;
+      this.presentWeek = true;
+      // this.selectedTab = `Current Week`;
+    } else {
+      // Default to Week 1 for other months
+      this.selectedTab = 'Week 1';
+      this.presentWeek = false;
+    }
   }
-}
 
 
-isWeekBeforeJoiningDate(weekIndex: number): boolean {
-  const joiningDate = new Date(this.userJoiningDate);
-  const joiningWeek = Math.ceil(joiningDate.getDate() / 7);
+  isWeekBeforeJoiningDate(weekIndex: number): boolean {
+    const joiningDate = new Date(this.userJoiningDate);
+    const joiningWeek = Math.ceil(joiningDate.getDate() / 7);
 
-  // Weeks before the joining week should be hidden
-  return weekIndex + 1 < joiningWeek;
-}
-
-
+    // Weeks before the joining week should be hidden
+    return weekIndex + 1 < joiningWeek;
+  }
 
 
 
 
-// timeline: Timeline | undefined;
+
+
+  // timeline: Timeline | undefined;
   options: {} | undefined;
   data: any;
   groups: any;
@@ -1119,53 +1138,53 @@ isWeekBeforeJoiningDate(weekIndex: number): boolean {
 
   staticData = [
     {
-        "groupId": 1,
-        "date": "04-12-2024",
-        "items": [
-            {
-                "id": 1,
-                "start": "2024-12-04 21:33:21.775",
-                "end": "2024-12-04 21:33:21.775",
-                "content": "Request Check-In",
-                "type": null,
-                "className": null
-            },
-            {
-                "id": 2,
-                "start": "2024-12-04 02:33:26.791",
-                "end": "2024-12-04 02:33:26.791",
-                "content": "Request Check-Out",
-                "type": null,
-                "className": null
-            }
-        ]
+      "groupId": 1,
+      "date": "04-12-2024",
+      "items": [
+        {
+          "id": 1,
+          "start": "2024-12-04 21:33:21.775",
+          "end": "2024-12-04 21:33:21.775",
+          "content": "Request Check-In",
+          "type": null,
+          "className": null
+        },
+        {
+          "id": 2,
+          "start": "2024-12-04 02:33:26.791",
+          "end": "2024-12-04 02:33:26.791",
+          "content": "Request Check-Out",
+          "type": null,
+          "className": null
+        }
+      ]
     },
     {
-        "groupId": 2,
-        "date": "01-12-2024",
-        "items": [
-            {
-                "id": 3,
-                "start": "2024-13-01 19:37:04.863",
-                "end": "2024-13-01 19:37:04.863",
-                "content": "Request Check-In",
-                "type": null,
-                "className": null
-            },
-            {
-                "id": 4,
-                "start": "2024-13-01 01:37:07.777",
-                "end": "2024-13-01 01:37:07.777",
-                "content": "Request Check-Out",
-                "type": null,
-                "className": null
-            }
-        ]
+      "groupId": 2,
+      "date": "01-12-2024",
+      "items": [
+        {
+          "id": 3,
+          "start": "2024-13-01 19:37:04.863",
+          "end": "2024-13-01 19:37:04.863",
+          "content": "Request Check-In",
+          "type": null,
+          "className": null
+        },
+        {
+          "id": 4,
+          "start": "2024-13-01 01:37:07.777",
+          "end": "2024-13-01 01:37:07.777",
+          "content": "Request Check-Out",
+          "type": null,
+          "className": null
+        }
+      ]
     }
-];
+  ];
 
-   page = 1;
-   requestSize = 10;
+  page = 1;
+  requestSize = 10;
   // getAttendanceRequests(): void {
   //   debugger;
   //   this.dataService.getUserAttendanceRequests(this.userId, '2024-12-01', this.page, this.requestSize).subscribe(
@@ -1265,159 +1284,251 @@ isWeekBeforeJoiningDate(weekIndex: number): boolean {
   //   };
   // }
 
-@ViewChild('chartCanvas', { static: false }) chartCanvas!: ElementRef<HTMLCanvasElement>;
-private chart!: Chart;
+  @ViewChild('chartCanvas', { static: false }) chartCanvas!: ElementRef<HTMLCanvasElement>;
+  private chart!: Chart;
 
-searchString = 'WEEK';
-endDateStr : string = '';
-isPlaceholder: boolean = false;
-getWorkedHourForEachDayOfAWeek() {
-  debugger
-  
-  /// Get current date and convert to the same format as endDate
-  const currentDate = new Date();
-  const endDate = new Date(this.endDate); // Convert endDate to Date object
-  const dayOfWeek = currentDate.getDay(); // Get the current day of the week (0 = Sunday, 6 = Saturday)
+  // List of holiday dates
+  // holidays: string[] = ['2024-12-25', '2024-12-31', '2025-01-01'];
+  // isHoliday(date: Date): boolean {
+  //   const formattedDate = this.formatDate(date);
+  //   console.log(`Checking date: ${formattedDate} - Is holiday: ${this.holidays.includes(formattedDate)}`);
+  //   return this.holidays.includes(formattedDate);
+  // }
 
-  // Get the last date of the current week (Saturday)
-  const lastDayOfWeek = new Date(currentDate);
-  lastDayOfWeek.setDate(currentDate.getDate() - dayOfWeek + 6); // Set to Saturday of the current week
+  // private formatDate(date: Date): string {
+  //   const year = date.getFullYear();
+  //   const month = ('0' + (date.getMonth() + 1)).slice(-2); // Month is 0-based
+  //   const day = ('0' + date.getDate()).slice(-2);
+  //   return `${year}-${month}-${day}`;
+  // }
 
-  // Normalize currentDate and lastDayOfWeek to remove time component for accurate comparison
-  currentDate.setHours(0, 0, 0, 0);
-  lastDayOfWeek.setHours(0, 0, 0, 0);
-  endDate.setHours(0, 0, 0, 0); // Remove time component from endDate
+  // customDateRender = (current: Date): HTMLElement => {
+  //   const div = document.createElement('div');
+  //   div.classList.add('ant-picker-cell-inner');
+  //   div.innerHTML = current.getDate().toString();
 
-  // If endDate lies within the current week, adjust it to the last day (Saturday)
-  if (endDate >= currentDate && endDate <= lastDayOfWeek) {
-    console.log('End date is within the current week');
-    this.endDateStr = lastDayOfWeek.toISOString().split('T')[0]; // Format the date in YYYY-MM-DD format
-  }else {
-    this.endDateStr = this.endDate;
+  //   if (this.isHoliday(current)) {
+  //     div.classList.add('holiday-highlight');
+  //   }
+  //   return div;
+  // };
+
+  /* @Input() currentDate: Date = new Date();
+ 
+   holidays: { [key: string]: string } = {
+     '2024-12-25': 'Christmas Day',
+     '2024-12-31': 'New Year\'s Eve',
+     '2025-01-01': 'New Year\'s Day'
+   };
+ 
+   // Function to format the date to 'yyyy-MM-dd' for comparison with holidays
+   private formatDate(date: Date): string {
+     const year = date.getFullYear();
+     const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-indexed
+     const day = date.getDate().toString().padStart(2, '0');
+     return `${year}-${month}-${day}`;
+   }
+ 
+   // Function to get the holiday name
+   getHolidayName(): string {
+     if (!this.currentDate) return '';
+     const formattedDate = this.formatDate(this.currentDate);
+     return this.holidays[formattedDate] || ''; // Return holiday name if found
+   }
+ 
+   // Function to check if the date is a holiday
+   isHoliday(): boolean {
+     if (!this.currentDate) return false;
+     const formattedDate = this.formatDate(this.currentDate);
+     return !!this.holidays[formattedDate]; // Returns true if holiday exists
+   }*/
+
+  holidays: { [key: string]: { title: string, description: string } } = {};
+  holidayList: any;
+  getHoliday() {
+    this.dataService.getAllHoliday().subscribe((res: any) => {
+      if (res.status) {
+        this.holidayList = res.object;
+
+        // Clear existing holidays data before populating new data
+        this.holidays = {};
+
+        // Convert holidayList into the holidays object with title and description
+        this.holidayList.forEach((holiday: any) => {
+          this.holidays[holiday.date] = {
+            title: holiday.title,        // Store the title
+            description: holiday.description  // Store the description
+          };
+        });
+
+        console.log('Formatted holidays:', this.holidays);
+      }
+    });
   }
 
-  this.dataService.getWorkedHourForEachDayOfAWeek(this.userId, this.startDate, this.endDateStr, this.searchString).subscribe(
-    (response: any) => {
-      const labels = response.listOfObject.map((item: any) =>
-        this.formatDate(item.workDate)
-      );
-      const data = response.listOfObject.map((item: any) =>
-        this.formatToDecimalHours(item.totalWorkedHour)
-      );
+  // Function to disable holiday dates
+  disableHolidayDate = (current: Date): boolean => {
+    const formattedDate = this.formatDate2(current);
+    return !!this.holidays[formattedDate];  // Return true if the date is a holiday
+  }
 
-      console.log('response.listOfObject.length:', response.listOfObject.length);
-      if(response.listOfObject.length == 0){
-        this.isPlaceholder = true;
-      }else {
-        this.isPlaceholder = false;
+  private formatDate2(date: Date): string {
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-indexed
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
+
+  }
+  searchString = 'WEEK';
+  endDateStr: string = '';
+  isPlaceholder: boolean = false;
+  getWorkedHourForEachDayOfAWeek() {
+    debugger
+
+    /// Get current date and convert to the same format as endDate
+    const currentDate = new Date();
+    const endDate = new Date(this.endDate); // Convert endDate to Date object
+    const dayOfWeek = currentDate.getDay(); // Get the current day of the week (0 = Sunday, 6 = Saturday)
+
+    // Get the last date of the current week (Saturday)
+    const lastDayOfWeek = new Date(currentDate);
+    lastDayOfWeek.setDate(currentDate.getDate() - dayOfWeek + 6); // Set to Saturday of the current week
+
+    // Normalize currentDate and lastDayOfWeek to remove time component for accurate comparison
+    currentDate.setHours(0, 0, 0, 0);
+    lastDayOfWeek.setHours(0, 0, 0, 0);
+    endDate.setHours(0, 0, 0, 0); // Remove time component from endDate
+
+    // If endDate lies within the current week, adjust it to the last day (Saturday)
+    if (endDate >= currentDate && endDate <= lastDayOfWeek) {
+      console.log('End date is within the current week');
+      this.endDateStr = lastDayOfWeek.toISOString().split('T')[0]; // Format the date in YYYY-MM-DD format
+    } else {
+      this.endDateStr = this.endDate;
+    }
+
+    this.dataService.getWorkedHourForEachDayOfAWeek(this.userId, this.startDate, this.endDateStr, this.searchString).subscribe(
+      (response: any) => {
+        const labels = response.listOfObject.map((item: any) =>
+          this.formatDate(item.workDate)
+        );
+        const data = response.listOfObject.map((item: any) =>
+          this.formatToDecimalHours(item.totalWorkedHour)
+        );
+
+        console.log('response.listOfObject.length:', response.listOfObject.length);
+        if (response.listOfObject.length == 0) {
+          this.isPlaceholder = true;
+        } else {
+          this.isPlaceholder = false;
+        }
+
+        this.initializeChart(labels, data);
+      },
+      (error) => {
+        console.error('Error fetching worked hours:', error);
+      }
+    );
+  }
+
+  formatToDecimalHours(time: string): number {
+    const [hours, minutes, seconds] = time.split(':').map(Number);
+    return hours + minutes / 60 + seconds / 3600;
+  }
+
+  // formatDate(date: string): string {
+  //   const options: Intl.DateTimeFormatOptions = { weekday: 'short' };
+  //   return new Date(date).toLocaleDateString('en-US', options);
+  // }
+
+  formatDate(date: string): string {
+    if (this.searchString === 'ALL') {
+      return date;
+    } else {
+      const options: Intl.DateTimeFormatOptions = { weekday: 'short' };
+      return new Date(date).toLocaleDateString('en-US', options);
+    }
+  }
+
+  formatDecimalToTime(decimalHours: number): string {
+    const hours = Math.floor(decimalHours);
+    const minutes = Math.round((decimalHours - hours) * 60);
+    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}hrs`;
+  }
+  initializeChart(labels: string[], data: number[]) {
+    const ctx = this.chartCanvas!.nativeElement.getContext('2d');
+
+    if (ctx) {
+      // Check if there's an existing chart and destroy it
+      if (this.chart) {
+        this.chart.destroy();
       }
 
-      this.initializeChart(labels, data);
-    },
-    (error) => {
-      console.error('Error fetching worked hours:', error);
-    }
-  );
-}
-
-formatToDecimalHours(time: string): number {
-  const [hours, minutes, seconds] = time.split(':').map(Number);
-  return hours + minutes / 60 + seconds / 3600;
-}
-
-// formatDate(date: string): string {
-//   const options: Intl.DateTimeFormatOptions = { weekday: 'short' };
-//   return new Date(date).toLocaleDateString('en-US', options);
-// }
-
-formatDate(date: string): string {
-  if (this.searchString === 'ALL') {
-    return date;
-  } else {
-    const options: Intl.DateTimeFormatOptions = { weekday: 'short' };
-  return new Date(date).toLocaleDateString('en-US', options);
-  }
-}
-
-formatDecimalToTime(decimalHours: number): string {
-  const hours = Math.floor(decimalHours);
-  const minutes = Math.round((decimalHours - hours) * 60);
-  return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}hrs`;
-}
-initializeChart(labels: string[], data: number[]) {
-  const ctx = this.chartCanvas.nativeElement.getContext('2d');
-
-  if (ctx) {
-    // Check if there's an existing chart and destroy it
-    if (this.chart) {
-      this.chart.destroy();
-    }
-
-    // Create the new chart
-    this.chart = new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: labels,
-        datasets: [
-          {
-            label: 'Total Worked Hours',
-            data: data,
-            borderColor: 'rgba(75, 192, 192, 1)',
-            backgroundColor: 'rgba(153, 102, 255, 0.2)',
-            tension: 0.4, 
-            fill: true, 
-          },
-        ],
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          legend: {
-            display: false,
-            position: 'top',
-          },
-          title: {
-            display: true,
-            text: 'Worked Hours',
-          },
-          tooltip: {
-            callbacks: {
-              label: (tooltipItem: any) => {
-                const formattedTime = this.formatDecimalToTime(tooltipItem.raw);
-                return `${tooltipItem.label}: ${formattedTime}`;
-              }
+      // Create the new chart
+      this.chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: 'Total Worked Hours',
+              data: data,
+              borderColor: 'rgba(75, 192, 192, 1)',
+              backgroundColor: 'rgba(153, 102, 255, 0.2)',
+              tension: 0.4,
+              fill: true,
             },
-          },
+          ],
         },
-        scales: {
-          x: {
-            title: {
-              display: true,
-              text: this.searchString === 'ALL' ? 'Weeks' : 'Days',
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              display: false,
+              position: 'top',
             },
-          },
-          y: {
             title: {
               display: true,
               text: 'Worked Hours',
             },
-            beginAtZero: true,
-            ticks: {
-              callback: (tickValue: string | number) => {
-                const value = typeof tickValue === 'string' ? parseFloat(tickValue) : tickValue;
-                return this.formatDecimalToTime(value); 
+            tooltip: {
+              callbacks: {
+                label: (tooltipItem: any) => {
+                  const formattedTime = this.formatDecimalToTime(tooltipItem.raw);
+                  return `${tooltipItem.label}: ${formattedTime}`;
+                }
               },
-              stepSize: 0.5,  
             },
-            type: 'linear', 
+          },
+          scales: {
+            x: {
+              title: {
+                display: true,
+                text: this.searchString === 'ALL' ? 'Weeks' : 'Days',
+              },
+            },
+            y: {
+              title: {
+                display: true,
+                text: 'Worked Hours',
+              },
+              beginAtZero: true,
+              ticks: {
+                callback: (tickValue: string | number) => {
+                  const value = typeof tickValue === 'string' ? parseFloat(tickValue) : tickValue;
+                  return this.formatDecimalToTime(value);
+                },
+                stepSize: 0.5,
+              },
+              type: 'linear',
+            },
           },
         },
-      },
-    });
+      });
+    }
   }
-}
 
-selectedRequest: string = ''; 
+  selectedRequest: string = '';
 
   onRequestChange(value: string) {
     if (value === 'Attendance update') {
@@ -1433,251 +1544,251 @@ selectedRequest: string = '';
 
 
 
-    //  attendance update fucnionality
-    attendanceCheckTimeResponse : AttendanceCheckTimeResponse[] = [];
-    getAttendanceChecktimeListDate(statusString : string): void {
-      const formattedDate = this.datePipe.transform(this.requestedDate, 'yyyy-MM-dd');
-      this.dataService.getAttendanceChecktimeList(this.userId, formattedDate, statusString).subscribe(response => {
-        this.attendanceCheckTimeResponse = response.listOfObject;
-        // console.log('checktime retrieved successfully', response.listOfObject);
-      }, (error) => {
-        console.log(error);
-      });
-    }
-  
-    attendanceTimeUpdateForm!: FormGroup;
-    requestedDate!: Date;
-    statusString!: string;
-    attendanceRequestType: string= 'UPDATE';
-    selectedDateAttendance!: Date;
-    choosenDateString!: string;
+  //  attendance update fucnionality
+  attendanceCheckTimeResponse: AttendanceCheckTimeResponse[] = [];
+  getAttendanceChecktimeListDate(statusString: string): void {
+    const formattedDate = this.datePipe.transform(this.requestedDate, 'yyyy-MM-dd');
+    this.dataService.getAttendanceChecktimeList(this.userId, formattedDate, statusString).subscribe(response => {
+      this.attendanceCheckTimeResponse = response.listOfObject;
+      // console.log('checktime retrieved successfully', response.listOfObject);
+    }, (error) => {
+      console.log(error);
+    });
+  }
 
-    @ViewChild('closeAttendanceUpdateModal') closeAttendanceUpdateModal!:ElementRef;
-  
-    attendanceUpdateRequestLoader : boolean = false;
-    submitForm(): void {
-      if (this.checkHoliday || this.checkAttendance) {
-        return;
-       }
-        const formValue = this.attendanceTimeUpdateForm.value;
-        let attendanceTimeUpdateRequest: AttendanceTimeUpdateRequestDto = {
-          managerId: formValue.managerId,
-          requestReason: formValue.requestReason
-        };
-  
-        if (this.attendanceTimeUpdateForm.get('attendanceRequestType')?.value === 'UPDATE') {
-          attendanceTimeUpdateRequest = {
-            ...attendanceTimeUpdateRequest,
-            attendanceId: formValue.updateGroup.attendanceId,
-            updatedTime: formValue.updateGroup.updatedTime,
-          };
-        } else if (this.attendanceTimeUpdateForm.get('attendanceRequestType')?.value === 'CREATE') {
-          attendanceTimeUpdateRequest = {
-            ...attendanceTimeUpdateRequest,
-            selectedDateAttendance: formValue.createGroup.selectedDateAttendance,
-            inRequestTime: formValue.createGroup.inRequestTime,
-            outRequestTime: formValue.createGroup.outRequestTime
-          };
+  attendanceTimeUpdateForm!: FormGroup;
+  requestedDate!: Date;
+  statusString!: string;
+  attendanceRequestType: string = 'UPDATE';
+  selectedDateAttendance!: Date;
+  choosenDateString!: string;
+
+  @ViewChild('closeAttendanceUpdateModal') closeAttendanceUpdateModal!: ElementRef;
+
+  attendanceUpdateRequestLoader: boolean = false;
+  submitForm(): void {
+    if (this.checkHoliday || this.checkAttendance) {
+      return;
+    }
+    const formValue = this.attendanceTimeUpdateForm.value;
+    let attendanceTimeUpdateRequest: AttendanceTimeUpdateRequestDto = {
+      managerId: formValue.managerId,
+      requestReason: formValue.requestReason
+    };
+
+    if (this.attendanceTimeUpdateForm.get('attendanceRequestType')?.value === 'UPDATE') {
+      attendanceTimeUpdateRequest = {
+        ...attendanceTimeUpdateRequest,
+        attendanceId: formValue.updateGroup.attendanceId,
+        updatedTime: formValue.updateGroup.updatedTime,
+      };
+    } else if (this.attendanceTimeUpdateForm.get('attendanceRequestType')?.value === 'CREATE') {
+      attendanceTimeUpdateRequest = {
+        ...attendanceTimeUpdateRequest,
+        selectedDateAttendance: formValue.createGroup.selectedDateAttendance,
+        inRequestTime: formValue.createGroup.inRequestTime,
+        outRequestTime: formValue.createGroup.outRequestTime
+      };
+    }
+
+    this.attendanceUpdateRequestLoader = true;
+    attendanceTimeUpdateRequest.userUuid = this.userId;
+    attendanceTimeUpdateRequest.requestType = this.attendanceTimeUpdateForm.get('attendanceRequestType')?.value;
+    attendanceTimeUpdateRequest.choosenDateString = this.choosenDateString;
+    this.dataService.sendAttendanceTimeUpdateRequest(attendanceTimeUpdateRequest).subscribe(
+      (response) => {
+        // console.log('Request sent successfully', response);
+        this.attendanceUpdateRequestLoader = false;
+        console.log("retrive", response, response.status);
+        if (response.status === true) {
+          this.resetForm();
+          // document.getElementById('attendanceUpdateModal')?.click();
+          this.closeAttendanceUpdateModal.nativeElement.click();
+          // this.attendanceRequestType = 'UPDATE';
+          this.attendanceTimeUpdateForm.get('attendanceRequestType')?.setValue('UPDATE');
+
+          // this.getAttendanceRequestLogData();
+          this.helperService.showToast('Request Sent Successfully.', Key.TOAST_STATUS_SUCCESS);
+        } else if (response.status === false) {
+          // this.resetForm();
+          // document.getElementById('attendanceUpdateModal')?.click();
+          // this.getAttendanceRequestLogData();
+          this.helperService.showToast('Request already registered!', Key.TOAST_STATUS_ERROR);
         }
-  
-        this.attendanceUpdateRequestLoader = true;
-        attendanceTimeUpdateRequest.userUuid = this.userId;
-        attendanceTimeUpdateRequest.requestType = this.attendanceTimeUpdateForm.get('attendanceRequestType')?.value;
-        attendanceTimeUpdateRequest.choosenDateString = this.choosenDateString;
-        this.dataService.sendAttendanceTimeUpdateRequest(attendanceTimeUpdateRequest).subscribe(
-          (response) => {
-            // console.log('Request sent successfully', response);
-            this.attendanceUpdateRequestLoader = false;
-            console.log("retrive", response, response.status);
-            if(response.status === true) {
-            this.resetForm();
-            // document.getElementById('attendanceUpdateModal')?.click();
-            this.closeAttendanceUpdateModal.nativeElement.click();
-            // this.attendanceRequestType = 'UPDATE';
-            this.attendanceTimeUpdateForm.get('attendanceRequestType')?.setValue('UPDATE');
-
-            // this.getAttendanceRequestLogData();
-            this.helperService.showToast('Request Sent Successfully.', Key.TOAST_STATUS_SUCCESS);
-            } else if(response.status === false) {
-              // this.resetForm();
-              // document.getElementById('attendanceUpdateModal')?.click();
-              // this.getAttendanceRequestLogData();
-              this.helperService.showToast('Request already registered!', Key.TOAST_STATUS_ERROR);
-              }
-            this.selectedRequest = '';
-          },
-          (error) => {
-            this.attendanceUpdateRequestLoader = false;
-            console.error('Error sending request:', error);
-          }
-        );
-      // }
-    }
-
-    emptySelectRequest() {
-      this.selectedRequest = '';
-    }
-  
-  
-    // submitForm(): void {
-    //   debugger
-    //   if (this.attendanceTimeUpdateForm.valid) {
-    //     const attendanceTimeUpdateRequest: AttendanceTimeUpdateRequestDto = this.attendanceTimeUpdateForm.value;
-    //     this.dataService.sendAttendanceTimeUpdateRequest(this.userId, this.attendanceTimeUpdateForm.value, this.attendanceRequestType).subscribe(
-    //       (response) => {
-    //         console.log('Request sent successfully', response);
-    //         this.resetForm();
-    //         document.getElementById('attendanceUpdateModal')?.click();
-    //         this.getAttendanceRequestLogData();
-    //       },
-    //       (error) => {
-    //         console.error('Error sending request:', error);
-    //       }
-    //     );
-    //   }
-    // }
-  
-    // onDateChange(date: Date | null): void {
-    //   if (date) {
-    //     this.requestedDate = date;
-    //     this.statusString = this.attendanceTimeUpdateForm.get('requestType')?.value || '';
-    //     this.getAttendanceChecktimeListDate();
-    //   }
-    // }
-  
-    onDateChange(date: Date | null): void {
-      if (date && this.attendanceTimeUpdateForm.get('attendanceRequestType')?.value === 'UPDATE') {
-        this.requestedDate = date;
-        this.choosenDateString = this.helperService.formatDateToYYYYMMDD(date);
-        this.statusString = this.attendanceTimeUpdateForm.get('updateGroup.requestType')?.value || '';
-        this.getAttendanceChecktimeListDate(this.attendanceTimeUpdateForm.get('updateGroup.requestType')?.value);
-      }else if (date && this.attendanceTimeUpdateForm.get('attendanceRequestType')?.value === 'CREATE') {
-        this.selectedDateAttendance = date;
-        this.choosenDateString = this.helperService.formatDateToYYYYMMDD(date);
-        console.log(" this.choosenDateString",  this.choosenDateString);
-        this.statusString = this.attendanceTimeUpdateForm.get('createGroup.requestType')?.value || '';
-        this.getHolidayForOrganization(this.selectedDateAttendance);
-        this.getAttendanceExistanceStatus(this.selectedDateAttendance);
+        this.selectedRequest = '';
+      },
+      (error) => {
+        this.attendanceUpdateRequestLoader = false;
+        console.error('Error sending request:', error);
       }
-    }
-  
-    // onDateChangeForCreateAttendance(date: Date | null): void {
-    //   if (date && this.attendanceRequestType === 'CREATE') {
-    //     this.selectedDateAttendance = date;
-    //     this.choosenDateString = this.helperService.formatDateToYYYYMMDD(date);
-    //     console.log(" this.choosenDateString",  this.choosenDateString);
-    //     this.statusString = this.attendanceTimeUpdateForm.get('createGroup.requestType')?.value || '';
-    //     this.getHolidayForOrganization(this.selectedDateAttendance);
-    //     this.getAttendanceExistanceStatus(this.selectedDateAttendance);
-    //   }
+    );
     // }
+  }
+
+  emptySelectRequest() {
+    this.selectedRequest = '';
+  }
 
 
-  checkHoliday:boolean = false;
+  // submitForm(): void {
+  //   debugger
+  //   if (this.attendanceTimeUpdateForm.valid) {
+  //     const attendanceTimeUpdateRequest: AttendanceTimeUpdateRequestDto = this.attendanceTimeUpdateForm.value;
+  //     this.dataService.sendAttendanceTimeUpdateRequest(this.userId, this.attendanceTimeUpdateForm.value, this.attendanceRequestType).subscribe(
+  //       (response) => {
+  //         console.log('Request sent successfully', response);
+  //         this.resetForm();
+  //         document.getElementById('attendanceUpdateModal')?.click();
+  //         this.getAttendanceRequestLogData();
+  //       },
+  //       (error) => {
+  //         console.error('Error sending request:', error);
+  //       }
+  //     );
+  //   }
+  // }
 
-  getHolidayForOrganization(selectedDate:any){
-     debugger
-     this.checkHoliday = false;
-     this.dataService.getHolidayForOrganization(this.helperService.formatDateToYYYYMMDD(selectedDate))
-     .subscribe(
-       (response) => {
-         this.checkHoliday = response.object;
-         console.log(response);
-         console.error("Response", response.object);
-       },
-       (error) =>{
-         console.error('Error details:', error);
-       }
-   )
-   }
+  // onDateChange(date: Date | null): void {
+  //   if (date) {
+  //     this.requestedDate = date;
+  //     this.statusString = this.attendanceTimeUpdateForm.get('requestType')?.value || '';
+  //     this.getAttendanceChecktimeListDate();
+  //   }
+  // }
+
+  onDateChange(date: Date | null): void {
+    if (date && this.attendanceTimeUpdateForm.get('attendanceRequestType')?.value === 'UPDATE') {
+      this.requestedDate = date;
+      this.choosenDateString = this.helperService.formatDateToYYYYMMDD(date);
+      this.statusString = this.attendanceTimeUpdateForm.get('updateGroup.requestType')?.value || '';
+      this.getAttendanceChecktimeListDate(this.attendanceTimeUpdateForm.get('updateGroup.requestType')?.value);
+    } else if (date && this.attendanceTimeUpdateForm.get('attendanceRequestType')?.value === 'CREATE') {
+      this.selectedDateAttendance = date;
+      this.choosenDateString = this.helperService.formatDateToYYYYMMDD(date);
+      console.log(" this.choosenDateString", this.choosenDateString);
+      this.statusString = this.attendanceTimeUpdateForm.get('createGroup.requestType')?.value || '';
+      this.getHolidayForOrganization(this.selectedDateAttendance);
+      this.getAttendanceExistanceStatus(this.selectedDateAttendance);
+    }
+  }
+
+  // onDateChangeForCreateAttendance(date: Date | null): void {
+  //   if (date && this.attendanceRequestType === 'CREATE') {
+  //     this.selectedDateAttendance = date;
+  //     this.choosenDateString = this.helperService.formatDateToYYYYMMDD(date);
+  //     console.log(" this.choosenDateString",  this.choosenDateString);
+  //     this.statusString = this.attendanceTimeUpdateForm.get('createGroup.requestType')?.value || '';
+  //     this.getHolidayForOrganization(this.selectedDateAttendance);
+  //     this.getAttendanceExistanceStatus(this.selectedDateAttendance);
+  //   }
+  // }
 
 
-  checkAttendance:boolean = false;
-  getAttendanceExistanceStatus(selectedDate:any){
+  checkHoliday: boolean = false;
+
+  getHolidayForOrganization(selectedDate: any) {
+    debugger
+    this.checkHoliday = false;
+    this.dataService.getHolidayForOrganization(this.helperService.formatDateToYYYYMMDD(selectedDate))
+      .subscribe(
+        (response) => {
+          this.checkHoliday = response.object;
+          console.log(response);
+          console.error("Response", response.object);
+        },
+        (error) => {
+          console.error('Error details:', error);
+        }
+      )
+  }
+
+
+  checkAttendance: boolean = false;
+  getAttendanceExistanceStatus(selectedDate: any) {
     debugger
     this.checkAttendance = false;
     this.dataService.getAttendanceExistanceStatus(this.userId, this.helperService.formatDateToYYYYMMDD(selectedDate))
-    .subscribe(
-      (response) => {
-        this.checkAttendance = response.object;
-        console.log(response);
-        console.error("Response", response.object);
-      },
-      (error) =>{
-        console.error('Error details:', error);
-      }
-  )
+      .subscribe(
+        (response) => {
+          this.checkAttendance = response.object;
+          console.log(response);
+          console.error("Response", response.object);
+        },
+        (error) => {
+          console.error('Error details:', error);
+        }
+      )
   }
-  
-    // isAttendanceFormValid(): boolean {
-    //   if (this.attendanceRequestType === 'UPDATE') {
-    //     return this.attendanceTimeUpdateForm.get('updateGroup')?.valid && this.attendanceTimeUpdateForm.get('managerId')?.valid && this.attendanceTimeUpdateForm.get('requestReason')?.valid;
-    //   } else if (this.attendanceRequestType === 'CREATE') {
-    //     return this.attendanceTimeUpdateForm.get('createGroup')?.valid && this.attendanceTimeUpdateForm.get('managerId')?.valid && this.attendanceTimeUpdateForm.get('requestReason')?.valid;
-    //   }
-    //   return false;
-    // }
-  
-    isAttendanceFormValid(): boolean {
-  
-      if(this.checkHoliday === true || this.checkAttendance === true) {
-        return false;
-      }
-      if (this.attendanceTimeUpdateForm.get('attendanceRequestType')?.value === 'UPDATE') {
-        const updateGroup = this.attendanceTimeUpdateForm.get('updateGroup');
-        const managerId = this.attendanceTimeUpdateForm.get('managerId');
-        const requestReason = this.attendanceTimeUpdateForm.get('requestReason');
-  
-        return (updateGroup ? updateGroup.valid : false) &&
-               (managerId ? managerId.valid : false) &&
-               (requestReason ? requestReason.valid : false);
-      } else if (this.attendanceTimeUpdateForm.get('attendanceRequestType')?.value === 'CREATE') {
-        const createGroup = this.attendanceTimeUpdateForm.get('createGroup');
-        const managerId = this.attendanceTimeUpdateForm.get('managerId');
-        const requestReason = this.attendanceTimeUpdateForm.get('requestReason');
-  
-        return (createGroup ? createGroup.valid : false) &&
-               (managerId ? managerId.valid : false) &&
-               (requestReason ? requestReason.valid : false);
-      }
+
+  // isAttendanceFormValid(): boolean {
+  //   if (this.attendanceRequestType === 'UPDATE') {
+  //     return this.attendanceTimeUpdateForm.get('updateGroup')?.valid && this.attendanceTimeUpdateForm.get('managerId')?.valid && this.attendanceTimeUpdateForm.get('requestReason')?.valid;
+  //   } else if (this.attendanceRequestType === 'CREATE') {
+  //     return this.attendanceTimeUpdateForm.get('createGroup')?.valid && this.attendanceTimeUpdateForm.get('managerId')?.valid && this.attendanceTimeUpdateForm.get('requestReason')?.valid;
+  //   }
+  //   return false;
+  // }
+
+  isAttendanceFormValid(): boolean {
+
+    if (this.checkHoliday === true || this.checkAttendance === true) {
       return false;
     }
+    if (this.attendanceTimeUpdateForm.get('attendanceRequestType')?.value === 'UPDATE') {
+      const updateGroup = this.attendanceTimeUpdateForm.get('updateGroup');
+      const managerId = this.attendanceTimeUpdateForm.get('managerId');
+      const requestReason = this.attendanceTimeUpdateForm.get('requestReason');
 
-    isAttendanceFormValid2(): boolean {
-      return this.attendanceTimeUpdateForm.valid;
+      return (updateGroup ? updateGroup.valid : false) &&
+        (managerId ? managerId.valid : false) &&
+        (requestReason ? requestReason.valid : false);
+    } else if (this.attendanceTimeUpdateForm.get('attendanceRequestType')?.value === 'CREATE') {
+      const createGroup = this.attendanceTimeUpdateForm.get('createGroup');
+      const managerId = this.attendanceTimeUpdateForm.get('managerId');
+      const requestReason = this.attendanceTimeUpdateForm.get('requestReason');
+
+      return (createGroup ? createGroup.valid : false) &&
+        (managerId ? managerId.valid : false) &&
+        (requestReason ? requestReason.valid : false);
     }
-  
-  
-  
-  
-    onAttendanceRequestTypeChange(): void {
-      debugger
-      console.log(`Selected Attendance Request Type: ${this.attendanceRequestType}`);
-      this.resetFormFields();
-      this.checkHoliday = false;
-      this.checkAttendance = false;
+    return false;
+  }
+
+  isAttendanceFormValid2(): boolean {
+    return this.attendanceTimeUpdateForm.valid;
+  }
+
+
+
+
+  onAttendanceRequestTypeChange(): void {
+    debugger
+    console.log(`Selected Attendance Request Type: ${this.attendanceRequestType}`);
+    this.resetFormFields();
+    this.checkHoliday = false;
+    this.checkAttendance = false;
+  }
+
+  private resetFormFields(): void {
+    if (this.attendanceTimeUpdateForm.get('attendanceRequestType')?.value === 'UPDATE') {
+      this.attendanceTimeUpdateForm.get('updateGroup')?.reset();
+    } else if (this.attendanceTimeUpdateForm.get('attendanceRequestType')?.value === 'CREATE') {
+      this.attendanceTimeUpdateForm.get('createGroup')?.reset();
     }
-  
-    private resetFormFields(): void {
-      if (this.attendanceTimeUpdateForm.get('attendanceRequestType')?.value === 'UPDATE') {
-        this.attendanceTimeUpdateForm.get('updateGroup')?.reset();
-      } else if (this.attendanceTimeUpdateForm.get('attendanceRequestType')?.value === 'CREATE') {
-        this.attendanceTimeUpdateForm.get('createGroup')?.reset();
-      }
-      // Optionally reset common fields if needed
-      this.attendanceTimeUpdateForm.get('managerId')?.reset();
-      this.attendanceTimeUpdateForm.get('requestReason')?.reset();
-      // this.attendanceTimeUpdateForm.get('attendanceRequestType')?.setValue('UPDATE');
-    }
-  
-  
-  
-  
-    resetForm(): void {
-      this.attendanceTimeUpdateForm.reset();
-    }
-  
-  
+    // Optionally reset common fields if needed
+    this.attendanceTimeUpdateForm.get('managerId')?.reset();
+    this.attendanceTimeUpdateForm.get('requestReason')?.reset();
+    // this.attendanceTimeUpdateForm.get('attendanceRequestType')?.setValue('UPDATE');
+  }
+
+
+
+
+  resetForm(): void {
+    this.attendanceTimeUpdateForm.reset();
+  }
+
+
   disabledDate = (current: Date): boolean => {
     return moment(current).isAfter(moment(), 'day');
   }
@@ -1693,39 +1804,39 @@ selectedRequest: string = '';
   }
 
 
-    attendanceLogShimmerFlag: boolean = false;
-    dataNotFoundFlagForAttendanceLog: boolean = false;
-    networkConnectionErrorFlagForAttendanceLog: boolean = false;
-    attendanceLogResponseList: AttendanceLogResponse[] = [];
-    isShimmerLogs:boolean = false;
-    getAttendanceLogsMethodCall(selectedDate: string) {
-      this.isShimmerLogs = true;
-      this.dataService
-        .getAttendanceLogs(
-          this.userId,
-          selectedDate
-        )
-        .subscribe(
-          (response) => {
-            debugger;
-            this.attendanceLogResponseList = response;
-            this.isShimmerLogs = false;
-            // console.log(response);
-            if (
-              response === undefined ||
-              response === null ||
-              response.length === 0
-            ) {
-              this.dataNotFoundFlagForAttendanceLog = true;
-            }
-          },
-          (error) => {
-            // console.log(error);
-            this.isShimmerLogs = false;
-            this.networkConnectionErrorFlagForAttendanceLog = true;
+  attendanceLogShimmerFlag: boolean = false;
+  dataNotFoundFlagForAttendanceLog: boolean = false;
+  networkConnectionErrorFlagForAttendanceLog: boolean = false;
+  attendanceLogResponseList: AttendanceLogResponse[] = [];
+  isShimmerLogs: boolean = false;
+  getAttendanceLogsMethodCall(selectedDate: string) {
+    this.isShimmerLogs = true;
+    this.dataService
+      .getAttendanceLogs(
+        this.userId,
+        selectedDate
+      )
+      .subscribe(
+        (response) => {
+          debugger;
+          this.attendanceLogResponseList = response;
+          this.isShimmerLogs = false;
+          // console.log(response);
+          if (
+            response === undefined ||
+            response === null ||
+            response.length === 0
+          ) {
+            this.dataNotFoundFlagForAttendanceLog = true;
           }
-        );
-    }
+        },
+        (error) => {
+          // console.log(error);
+          this.isShimmerLogs = false;
+          this.networkConnectionErrorFlagForAttendanceLog = true;
+        }
+      );
+  }
 
 
   @ViewChild('attendancewithlocationssButton')
@@ -1742,89 +1853,89 @@ selectedRequest: string = '';
 
 
 
-    url: string = '';
-    imageDownUrl: string = '';
-    openSelfieModal(url: string) {
-      this.url = url;
-      this.imageDownUrl = url;
-      this.updateFileType(url);
-      this.viewlog.nativeElement.click();
-      this.openDocModalButton.nativeElement.click();
+  url: string = '';
+  imageDownUrl: string = '';
+  openSelfieModal(url: string) {
+    this.url = url;
+    this.imageDownUrl = url;
+    this.updateFileType(url);
+    this.viewlog.nativeElement.click();
+    this.openDocModalButton.nativeElement.click();
+  }
+
+  previewString: SafeResourceUrl | null = null;
+  isPDF: boolean = false;
+  isImage: boolean = false;
+
+  @ViewChild('openDocModalButton') openDocModalButton!: ElementRef;
+  getFileName(url: string): string {
+    return url.split('/').pop() || 'Attendance Selfie';
+  }
+
+  private updateFileType(url: string) {
+    const extension = url.split('?')[0].split('.').pop()?.toLowerCase();
+    this.isImage = ['png', 'jpg', 'jpeg', 'gif'].includes(extension!);
+    this.isPDF = extension === 'pdf';
+    if (this.isPDF) {
+      this.previewString = this.sanitizer.bypassSecurityTrustResourceUrl(`https://docs.google.com/gview?url=${encodeURIComponent(url)}&embedded=true`);
+    } else {
+      this.previewString = this.sanitizer.bypassSecurityTrustResourceUrl(url);
     }
-  
-    previewString: SafeResourceUrl | null = null;
-    isPDF: boolean = false;
-    isImage: boolean = false;
-  
-    @ViewChild('openDocModalButton') openDocModalButton!: ElementRef;
-    getFileName(url: string): string {
-      return url.split('/').pop() || 'Attendance Selfie';
+  }
+
+  openViewModal(url: string): void {
+    this.url = url;
+    this.updateFileType(url);
+    this.viewlog.nativeElement.click();
+    this.openDocModalButton.nativeElement.click();
+  }
+
+  // downloadFile(): void {
+  //   const link = document.createElement('a');
+  //   link.href = this.url;
+  //   link.download = this.getFileName(this.url);
+  //   link.click();
+  // }
+
+
+  downloadFile(imageUrl: any) {
+    if (!imageUrl) {
+      // console.error('Image URL is undefined or null');
+      return;
     }
-  
-    private updateFileType(url: string) {
-      const extension = url.split('?')[0].split('.').pop()?.toLowerCase();
-      this.isImage = ['png', 'jpg', 'jpeg', 'gif'].includes(extension!);
-      this.isPDF = extension === 'pdf';
-      if (this.isPDF) {
-        this.previewString = this.sanitizer.bypassSecurityTrustResourceUrl(`https://docs.google.com/gview?url=${encodeURIComponent(url)}&embedded=true`);
-      } else {
-        this.previewString = this.sanitizer.bypassSecurityTrustResourceUrl(url);
-      }
+
+    var blob = null;
+    var splittedUrl = imageUrl.split(
+      '/firebasestorage.googleapis.com/v0/b/haajiri.appspot.com/o/'
+    );
+
+    if (splittedUrl.length < 2) {
+      // console.error('Invalid image URL format');
+      return;
     }
-  
-    openViewModal(url: string): void {
-      this.url = url;
-      this.updateFileType(url);
-      this.viewlog.nativeElement.click();
-      this.openDocModalButton.nativeElement.click();
-    }
-  
-    // downloadFile(): void {
-    //   const link = document.createElement('a');
-    //   link.href = this.url;
-    //   link.download = this.getFileName(this.url);
-    //   link.click();
-    // }
-  
-  
-    downloadFile(imageUrl: any) {
-      if (!imageUrl) {
-        // console.error('Image URL is undefined or null');
-        return;
-      }
-  
-      var blob = null;
-      var splittedUrl = imageUrl.split(
-        '/firebasestorage.googleapis.com/v0/b/haajiri.appspot.com/o/'
-      );
-  
-      if (splittedUrl.length < 2) {
-        // console.error('Invalid image URL format');
-        return;
-      }
-  
-      splittedUrl = splittedUrl[1].split('?alt');
-      splittedUrl = splittedUrl[0].replace('https://', '');
-      splittedUrl = decodeURIComponent(splittedUrl);
-  
-      this.firebaseStorage.storage
-        .ref(splittedUrl)
-        .getDownloadURL()
-        .then((url: any) => {
-          // This can be downloaded directly:
-          var xhr = new XMLHttpRequest();
-          xhr.responseType = 'blob';
-          xhr.onload = (event) => {
-            blob = xhr.response;
-            saveAs(blob, 'Selfie');
-          };
-          xhr.open('GET', url);
-          xhr.send();
-        })
-        .catch((error: any) => {
-          // Handle any errors
-        });
-    }
+
+    splittedUrl = splittedUrl[1].split('?alt');
+    splittedUrl = splittedUrl[0].replace('https://', '');
+    splittedUrl = decodeURIComponent(splittedUrl);
+
+    this.firebaseStorage.storage
+      .ref(splittedUrl)
+      .getDownloadURL()
+      .then((url: any) => {
+        // This can be downloaded directly:
+        var xhr = new XMLHttpRequest();
+        xhr.responseType = 'blob';
+        xhr.onload = (event) => {
+          blob = xhr.response;
+          saveAs(blob, 'Selfie');
+        };
+        xhr.open('GET', url);
+        xhr.send();
+      })
+      .catch((error: any) => {
+        // Handle any errors
+      });
+  }
 
 
   @ViewChild('viewlog') viewlog!: ElementRef;
@@ -1833,7 +1944,7 @@ selectedRequest: string = '';
     this.viewLogs(this.userId);
     this.viewlog.nativeElement.click();
   }
-  
+
   getAddressFromCoords(lat: any, lng: any): string | undefined {
     // if(!this.Constant.EMPTY_STRINGS.includes(lat) && !this.Constant.EMPTY_STRINGS.includes(lng)){
     //   lat=Number(lat);
@@ -1856,6 +1967,38 @@ selectedRequest: string = '';
     // }
     return "Click 'View Location' , to view attendace location on map";
   }
-  
+
+
+  //  break timings 
+
+
+   breakTimingsList : BreakTimings[] = [];
+   getUserBreakTimingsReportByDate(date: string) {
+      // this.toggleChevron(show);
+      if (
+        this.breakTimingsList == undefined ||
+        this.breakTimingsList == null ||
+        this.breakTimingsList.length == 0
+      ) {
+        debugger;
+        this.dataService
+          .getAttendanceDetailsBreakTimingsReportByDateByUser(
+            this.userId,
+            date
+          )
+          .subscribe(
+            (response) => {
+              // this.breakTimingsList = response.listOfObject;
+              this.breakTimingsList = response.listOfObject;
+              // console.log(this.breakTimingsList);
+              // this.toggleChevron(false);
+            },
+            (error) => {
+              console.log(error);
+            }
+          );
+      } else {
+      }
+    }
 
 }

@@ -55,7 +55,59 @@
             </div>
         </div>
         <div class="col-md-8">
-            <div class="row" *ngIf="requestModal">
+
+            <div [ngClass]="{'d-none' : requestModal}" class="row mb-3" *ngIf="
+            resignationSubmittedToggle || (!hideResignationModal
+            && userResignationInfo
+            && (ROLE === 'ADMIN' || ROLE === 'USER')
+            && userResignationInfo?.status?.id === 13)">
+                <div class="col-md-12">
+                    <div class="resignation-request p-3 d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center gap-3">
+                            <img src="assets/images/resign-submit.svg" style="width:50px;">
+                            <div>
+                                <h5 class="mb-2">You have submitted your <br> resignation.</h5>
+                                <p class="mb-0 font-12">HR will finalise the exit request after consulting with
+                                    management</p>
+                            </div>
+                        </div>
+
+                        <div class="">
+                            <button class="btn view-request" data-bs-toggle="modal"
+                                data-bs-target="#initiateExitApprove">View Request
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"
+                                    fill="none">
+                                    <mask id="mask0_6339_5449" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0"
+                                        y="0" width="16" height="16">
+                                        <rect width="16" height="16" fill="#D9D9D9" />
+                                    </mask>
+                                    <g mask="url(#mask0_6339_5449)">
+                                        <path
+                                            d="M5.35033 14.6654L4.16699 13.482L9.65033 7.9987L4.16699 2.51536L5.35033 1.33203L12.017 7.9987L5.35033 14.6654Z"
+                                            fill="black" />
+                                    </g>
+                                </svg>
+                            </button>
+                            <span class="pointer request-close-btn" (click)="requestModal=!requestModal">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none">
+                                    <mask id="mask0_6348_5635" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0"
+                                        y="0" width="24" height="24">
+                                        <rect width="24" height="24" fill="#D9D9D9" />
+                                    </mask>
+                                    <g mask="url(#mask0_6348_5635)">
+                                        <path
+                                            d="M8.4 16.9984L7 15.5984L10.6 11.9984L7 8.42344L8.4 7.02344L12 10.6234L15.575 7.02344L16.975 8.42344L13.375 11.9984L16.975 15.5984L15.575 16.9984L12 13.3984L8.4 16.9984Z"
+                                            fill="black" />
+                                    </g>
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
                 <div class="col-md-5">
                     <div class="announcement p-3">
                         <div class="d-flex align-items-start justify-content-between border-bottom pb-3">
@@ -109,7 +161,13 @@
                                         <div *ngFor="let hd of holidays; let i = index" class="carousel-item"
                                             [class.active]="i === 0">
                                             <div [ngClass]="getHolidayBoxClass(i)" class="p-3 holidays-box">
-                                                <h6 class="text-white">Holidays</h6>
+                                                <div class="d-flex align-items-center justify-content-between mb-3">
+                                                    <h6 class="text-white mb-0">Holidays</h6>
+                                                    <!-- TO DO: all holiday modal open (calendar view) -->
+                                                    <!-- TO DO: follow NG-ZORRO calendar  https://ng.ant.design/components/calendar/en -->
+                                                    <button class="btn p-0 font-13 text-white fw-semibold" data-bs-toggle="modal" data-bs-target="#calendarModal">View
+                                                        All</button>
+                                                </div>
                                                 <div
                                                     class="d-flex align-items-center justify-content-between pl-3 pr-3">
                                                     <div>
@@ -118,7 +176,7 @@
                                                         </p>
                                                     </div>
 
-                                                    <div class="position-absolute" style="top: 40px; right: 35px;">
+                                                    <div class="position-absolute" style="top: 50px; right: 35px;">
 
                                                         <ng-container>
                                                             <span class="holiday-initial font-24"
@@ -187,13 +245,11 @@
                             <div class="col-md-5 border-right">
                                 <div class="roles p-3">
                                     <h5 class="mb-0 font-13">Roles</h5>
-                                    <div class="roles-list mt-3 mb-4 role-list-fix" *ngIf="!isLoadingTeamMembers">
+                                    <div class="roles-list mt-3 mb-4 role-list-fix" *ngIf="!isLoadingTeamManager">
                                         <div class="d-flex align-items-center gap-2 mb-3"
                                             *ngFor="let tm of teamManagerInfo">
                                             <img onerror="this.src='./assets/images/broken-image-icon.jpg';"
-                                                src="assets/images/birthday-img.jpeg" *ngIf="!tm?.managerLogo">
-                                            <img onerror="this.src='./assets/images/broken-image-icon.jpg';"
-                                                src="{{tm?.managerLogo}}" *ngIf="tm?.managerLogo">
+                                                src="{{tm?.managerLogo}}">
                                             <div>
                                                 <h5 class="mb-1 font-13">{{tm?.managerName}}</h5>
                                                 <p class="mb-0 font-12">
@@ -207,7 +263,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="mt-3 mb-3 " *ngIf="isLoadingTeamMembers">
+                                    <div class="mt-3 mb-3 " *ngIf="isLoadingTeamManager">
                                         <div class="feat-product-block mb-2" style="position: relative; "
                                             *ngFor="let item of [].constructor(3)">
                                             <div class="feat-bottom">
@@ -228,7 +284,7 @@
                                     </div>
 
                                     <div class="empty-file" style="margin-top: 18%; margin-bottom: 18%"
-                                        *ngIf="teamManagerInfo.length == 0 && !isLoadingTeamMembers">
+                                        *ngIf="teamManagerInfo.length == 0 && !isLoadingTeamManager">
                                         <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
                                             [nzNotFoundContent]="contentTpl">
                                             <ng-template #contentTpl>
@@ -241,7 +297,7 @@
                                     <div class="img-group d-flex mt-3"
                                         *ngIf="!isLoadingTeamMembers  && images.length > 0">
                                         <a class="user-avatar " *ngFor="let t of images; let i = index"
-                                            [ngClass]="{'ms-n3': i > 0}">
+                                            [ngClass]="{'user-avatar-icon': i > 0}">
                                             <span class="members-name" *ngIf="!t?.image">{{t?.name?.charAt(0)|
                                                 uppercase}}</span>
                                             <span class="">
@@ -335,189 +391,11 @@
                                             </ng-template>
                                         </nz-empty>
                                     </div>
-
-
                                 </div>
-
-
-                                <!-- <div class="status-tracter p-3">
-                                    <h5 class="mb-0 font-13">Status Tracker</h5>
-                                    <div class="roles-list status-list mt-3">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <div class="d-flex align-items-center gap-2 mb-3">
-                                                <img onerror="this.src='./assets/images/broken-image-icon.jpg';"
-                                                    src="assets/images/birthday-img.jpeg">
-                                                <div>
-                                                    <h5 class="mb-1 font-14">Anchal</h5>
-                                                    <p class="mb-0 font-13">Team: Hajiri | <span>Project Manager</span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <span class="badge rounded-pill bg-soft-danger">ABSENT</span>
-                                        </div>
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <div class="d-flex align-items-center gap-2 mb-3">
-                                                <img onerror="this.src='./assets/images/broken-image-icon.jpg';"
-                                                    src="assets/images/pushpendra.jpeg">
-                                                <div>
-                                                    <h5 class="mb-1 font-14">Pushpendra</h5>
-                                                    <p class="mb-0 font-13">Team: Hajiri | <span>Administration</span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <span class="badge rounded-pill bg-soft-warning">LEAVE</span>
-                                        </div>
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <div class="d-flex align-items-center gap-2 mb-3">
-                                                <img onerror="this.src='./assets/images/broken-image-icon.jpg';"
-                                                    src="assets/images/user.png">
-                                                <div>
-                                                    <h5 class="mb-1 font-14">Rohit Chaturvedi</h5>
-                                                    <p class="mb-0 font-13">Team: Hajiri | <span>Senior Developer</span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <span class="badge rounded-pill bg-soft-warning">LEAVE</span>
-                                        </div>
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <div class="d-flex align-items-center gap-2 mb-3">
-                                                <img onerror="this.src='./assets/images/broken-image-icon.jpg';"
-                                                    src="assets/images/abhi.jpg">
-                                                <div>
-                                                    <h5 class="mb-1 font-14">Abhijeet</h5>
-                                                    <p class="mb-0 font-13">Team: Hajiri | <span>Senior Developer</span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <span class="badge rounded-pill bg-soft-success">PRESENT</span>
-                                        </div>
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <div class="d-flex align-items-center gap-2 mb-3">
-                                                <img onerror="this.src='./assets/images/broken-image-icon.jpg';"
-                                                    src="assets/images/abhi.jpg">
-                                                <div>
-                                                    <h5 class="mb-1 font-14">Abhijeet</h5>
-                                                    <p class="mb-0 font-13">Team: Hajiri | <span>Senior Developer</span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <span class="badge rounded-pill bg-soft-success">PRESENT</span>
-                                        </div>
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <div class="d-flex align-items-center gap-2 mb-3">
-                                                <img onerror="this.src='./assets/images/broken-image-icon.jpg';"
-                                                    src="assets/images/abhi.jpg">
-                                                <div>
-                                                    <h5 class="mb-1 font-14">Abhijeet</h5>
-                                                    <p class="mb-0 font-13">Team: Hajiri | <span>Senior Developer</span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <span class="badge rounded-pill bg-soft-success">PRESENT</span>
-                                        </div>
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <div class="d-flex align-items-center gap-2 mb-3">
-                                                <img onerror="this.src='./assets/images/broken-image-icon.jpg';"
-                                                    src="assets/images/abhi.jpg">
-                                                <div>
-                                                    <h5 class="mb-1 font-14">Abhijeet</h5>
-                                                    <p class="mb-0 font-13">Team: Hajiri | <span>Senior Developer</span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <span class="badge rounded-pill bg-soft-success">PRESENT</span>
-                                        </div>
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <div class="d-flex align-items-center gap-2 mb-3">
-                                                <img onerror="this.src='./assets/images/broken-image-icon.jpg';"
-                                                    src="assets/images/abhi.jpg">
-                                                <div>
-                                                    <h5 class="mb-1 font-14">Abhijeet</h5>
-                                                    <p class="mb-0 font-13">Team: Hajiri | <span>Senior Developer</span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <span class="badge rounded-pill bg-soft-success">PRESENT</span>
-                                        </div>
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <div class="d-flex align-items-center gap-2 mb-3">
-                                                <img onerror="this.src='./assets/images/broken-image-icon.jpg';"
-                                                    src="assets/images/abhi.jpg">
-                                                <div>
-                                                    <h5 class="mb-1 font-14">Abhijeet</h5>
-                                                    <p class="mb-0 font-13">Team: Hajiri | <span>Senior Developer</span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <span class="badge rounded-pill bg-soft-success">PRESENT</span>
-                                        </div>
-
-                                    </div>
-                                </div> -->
                             </div>
                         </div>
                     </div>
 
-                </div>
-            </div>
-
-            <!-- <div class="row" *ngIf="!requestModal && !hideResignationModal && (userResignationInfo && ROLE == 'ADMIN' || userResignationInfo && ROLE == 'USER') && userResignationInfo?.status?.id == 13" >  -->
-
-            <!-- <div class="row" *ngIf="
-        resignationSubmittedToggle && !requestModal ||
-       ( !hideResignationModal
-        && userResignationInfo
-        && (ROLE === 'ADMIN' || ROLE === 'USER')
-        && userResignationInfo?.status?.id === 13)"  >  -->
-            <div [ngClass]="{'d-none' : requestModal}" class="row" *ngIf="
-        resignationSubmittedToggle ||
-       ( !hideResignationModal
-        && userResignationInfo
-        && (ROLE === 'ADMIN' || ROLE === 'USER')
-        && userResignationInfo?.status?.id === 13)">
-                <div class="col-md-12">
-                    <div class="resignation-request p-3 d-flex align-items-center justify-content-between">
-                        <div class="d-flex align-items-center gap-3">
-                            <img src="assets/images/resign-submit.svg" style="width:50px;">
-                            <div>
-                                <h5 class="mb-2">You have submitted your <br> resignation.</h5>
-                                <p class="mb-0 font-12">HR will finalise the exit request after consulting with
-                                    management</p>
-                            </div>
-                        </div>
-
-                        <div class="">
-                            <button class="btn view-request" data-bs-toggle="modal"
-                                data-bs-target="#initiateExitApprove">View Request
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"
-                                    fill="none">
-                                    <mask id="mask0_6339_5449" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0"
-                                        y="0" width="16" height="16">
-                                        <rect width="16" height="16" fill="#D9D9D9" />
-                                    </mask>
-                                    <g mask="url(#mask0_6339_5449)">
-                                        <path
-                                            d="M5.35033 14.6654L4.16699 13.482L9.65033 7.9987L4.16699 2.51536L5.35033 1.33203L12.017 7.9987L5.35033 14.6654Z"
-                                            fill="black" />
-                                    </g>
-                                </svg>
-                            </button>
-                            <span class="pointer request-close-btn" (click)="requestModal=!requestModal">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                    fill="none">
-                                    <mask id="mask0_6348_5635" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0"
-                                        y="0" width="24" height="24">
-                                        <rect width="24" height="24" fill="#D9D9D9" />
-                                    </mask>
-                                    <g mask="url(#mask0_6348_5635)">
-                                        <path
-                                            d="M8.4 16.9984L7 15.5984L10.6 11.9984L7 8.42344L8.4 7.02344L12 10.6234L15.575 7.02344L16.975 8.42344L13.375 11.9984L16.975 15.5984L15.575 16.9984L12 13.3984L8.4 16.9984Z"
-                                            fill="black" />
-                                    </g>
-                                </svg>
-                            </span>
-                        </div>
-                    </div>
                 </div>
             </div>
 
@@ -1095,7 +973,8 @@
     aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header">
+            <!-- {{userId === UUID}} -->
+            <div class="modal-header" *ngIf="userRoleFlag">
                 <h5 class="modal-title" id="exampleModalLabel">Initiate Exit</h5>
                 <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeApproveModal>
                     <!-- <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" (click)="clearFormData(resignationForm)" #closeResignationButton> -->
@@ -1114,14 +993,14 @@
             </div>
             <div class="modal-body p-0">
                 <!-- <form #resignationForm="ngForm" (ngSubmit)="submitResignation(resignationForm)"> -->
-                <form #resignationForm="ngForm">
+                <form #resignationForm="ngForm" (ngSubmit)="submitResignation()">
 
                     <div class="row register-form-box">
                         <!-- <div class="col-md-12">
-                        <div class="hr-notes p-3">
-                          <p class="mb-0 font-13"> <span class="text-primary"> Note:</span> HR will take the final action on the exit request</p>
-                        </div>
-                    </div> -->
+                                <div class="hr-notes p-3">
+                                  <p class="mb-0 font-13"> <span class="text-primary"> Note:</span> HR will take the final action on the exit request</p>
+                                </div>
+                            </div> -->
 
                         <div class="p-4">
 
@@ -1129,9 +1008,10 @@
                                 <label for="templateName" class="pb-2">
                                     What is the reason for initiating the exit?
                                 </label>
-                                <input class="form-control input-zorro" disabled placeholder="Enter the reason"
-                                    [(ngModel)]="userResignationInfo.reason" nzSize="large" minlength="3" maxlength="50"
-                                    id="reason" name="inputReason" #inputReason="ngModel" required />
+                                <input class="form-control input-zorro" [disabled]="ROLE == 'ADMIN'"
+                                    placeholder="Enter the reason" [(ngModel)]="userResignationInfo.reason"
+                                    nzSize="large" minlength="3" maxlength="50" id="reason" name="inputReason"
+                                    #inputReason="ngModel" required />
                             </div>
 
                             <div class="col-md-12 mb-3">
@@ -1142,9 +1022,9 @@
                                     <div class="col-md-6">
                                         <label
                                             class="form-check assets-req d-flex align-items-center justify-content-start">
-                                            <input disabled class="form-check-input" type="radio"
+                                            <input [disabled]="ROLE == 'ADMIN'" class="form-check-input" type="radio"
                                                 name="managerDiscussionInput" id="yes" value="Yes" required
-                                                [(ngModel)]="discussionType">
+                                                (change)="selectManagerDiscussion('Yes')" [(ngModel)]="discussionType">
                                             <p class="form-check-label mb-0" for="exampleRadios1">
                                                 Yes
                                             </p>
@@ -1153,9 +1033,9 @@
                                     <div class="col-md-6">
                                         <label
                                             class="form-check assets-req d-flex align-items-center justify-content-start">
-                                            <input disabled class="form-check-input" type="radio"
+                                            <input [disabled]="ROLE == 'ADMIN'" class="form-check-input" type="radio"
                                                 name="managerDiscussionInput" id="no" value="No" required
-                                                [(ngModel)]="discussionType">
+                                                (change)="selectManagerDiscussion('No')" [(ngModel)]="discussionType">
                                             <p class="form-check-label mb-0" for="exampleRadios1">
                                                 No
                                             </p>
@@ -1172,8 +1052,9 @@
                                     <div class="col-md-6">
                                         <label
                                             class="form-check assets-req d-flex align-items-center justify-content-start">
-                                            <input disabled type="radio" name="recommendDay" id="complete"
-                                                value="Complete" [(ngModel)]="recommendDay" class="form-check-input">
+                                            <input [disabled]="ROLE == 'ADMIN'" type="radio" name="recommendDay"
+                                                id="complete" value="Complete" [(ngModel)]="recommendDay"
+                                                (change)="selectRecommendDay('Complete')" class="form-check-input">
                                             <p for="exampleRadios3" class="form-check-label mb-0" required> Complete
                                                 notice periodes </p>
                                         </label>
@@ -1181,8 +1062,9 @@
                                     <div class="col-md-6">
                                         <label
                                             class="form-check assets-req d-flex align-items-center justify-content-start">
-                                            <input disabled type="radio" name="recommendDay" id="other" value="Other"
-                                                required [(ngModel)]="recommendDay" class="form-check-input">
+                                            <input [disabled]="ROLE == 'ADMIN'" type="radio" name="recommendDay"
+                                                id="other" value="Other" required [(ngModel)]="recommendDay"
+                                                (change)="selectRecommendDay('Other')" class="form-check-input">
                                             <p for="exampleRadios4" class="form-check-label mb-0"> Other Date </p>
                                         </label>
                                     </div>
@@ -1193,20 +1075,19 @@
                             <div *ngIf="recommendDay == 'Other'" class="col-md-12 mb-3">
                                 <div class="form-group">
                                     <label for="employeeTypeId" class="mb-2">Select your notice period duration?</label>
+                                    <!--
+                                <ng-container *ngIf="noticePeriodDuration == 0">
+                                    <nz-date-picker *ngIf="userResignationInfo.isRecommendLastDay == 1" [(ngModel)]="userResignationInfo.userLastWorkingDay"
+                                    nzPlaceHolder="dd/mm/yyyy"  id="selLastDate" name="lastDate" #lastDate="ngModel"
+                                    required class="form-control">
+                                </nz-date-picker>
+                                </ng-container> -->
 
-                                    <!-- <ng-container *ngIf="noticePeriodDuration == 0">
-                            <nz-date-picker *ngIf="userResignationInfo.isRecommendLastDay == 1" [(ngModel)]="userResignationInfo.lastWorkingDay"
-                            nzPlaceHolder="dd/mm/yyyy"  id="selLastDate" name="lastDate" #lastDate="ngModel"
-                            required class="form-control">
-                        </nz-date-picker>
-                        </ng-container> -->
-
-                                    <!-- <ng-container *ngIf="noticePeriodDuration > 0">
-                            <nz-date-picker *ngIf="userResignationInfo.isRecommendLastDay == 1" [(ngModel)]="userResignationInfo.lastWorkingDay"
-                            nzPlaceHolder="dd/mm/yyyy" [nzDisabledDate]="disableFutureDates"  id="selLastDate" name="lastDate" #lastDate="ngModel"
-                            required class="form-control">
-                        </nz-date-picker>
-                        </ng-container> -->
+                                    <nz-date-picker *ngIf="userResignationInfo.isRecommendLastDay == 1"
+                                        [(ngModel)]="userResignationInfo.userLastWorkingDay" nzPlaceHolder="dd/mm/yyyy"
+                                        [nzDisabledDate]="disableFutureDates" id="selLastDate" name="lastDate"
+                                        #lastDate="ngModel" required class="form-control">
+                                    </nz-date-picker>
 
                                 </div>
                             </div>
@@ -1215,18 +1096,20 @@
                                 <div class="d-flex align-items-center gap-3 p-3 notice-period-date">
                                     <p class="mb-0">Notice period</p>
                                     <span class="calendar-separator"></span>
-                                    <h6 class="mb-0">{{userResignationInfo.lastWorkingDay | date: 'dd MMM yyyy'}}</h6>
+                                    <!-- <h6 class="mb-0">{{userResignationInfo.lastWorkingDay | date: 'dd MMM yyyy'}}</h6> -->
+                                    <h6 class="mb-0">{{userResignationInfo.userLastWorkingDay | date: 'dd MMM yyyy'}}
+                                    </h6>
                                 </div>
                             </div>
 
-                            <div *ngIf="recommendDay == 'Other' && (userResignationInfo.lastWorkingDay != null && userResignationInfo.lastWorkingDay != '')"
+                            <div *ngIf="recommendDay == 'Other' && (userResignationInfo.userLastWorkingDay != null && userResignationInfo.userLastWorkingDay != '')"
                                 class="col-md-12 mb-3 ">
                                 <div class="notice-period-error p-3">
                                     <div class="d-flex align-items-center gap-3 mb-2">
                                         <p class="mb-0">Notice period</p>
                                         <span class="calendar-separator"></span>
-                                        <h6 class="mb-0">{{userResignationInfo.lastWorkingDay | date: 'dd MMM yyyy'}}
-                                        </h6>
+                                        <h6 class="mb-0">
+                                            {{userResignationInfo.userLastWorkingDay | date: 'dd MMM yyyy'}}</h6>
                                     </div>
                                     <p class="mb-0 font-13">Your last working day may change based on Manager/HR's
                                         decision.</p>
@@ -1297,37 +1180,76 @@
                                 <label for="templateName" class="pb-2">
                                     Comment
                                 </label>
-                                <textarea disabled class="form-control nots-section" id="comment" name="inputComment"
-                                    placeholder="Write description" rows="3"
+                                <textarea [disabled]="ROLE == 'ADMIN'" class="form-control nots-section" id="comment"
+                                    name="inputComment" placeholder="Write description" rows="3"
                                     [(ngModel)]="userResignationInfo.comment"></textarea>
                             </div>
+
+                            <div class="col-md-12 mb-3" *ngIf="ROLE != 'ADMIN' && showRevokeDiv">
+                                <label for="templateName" class="pb-2">
+                                    Reason of revoke
+                                </label>
+                                <textarea class="form-control nots-section" id="revoke" name="inputRevoke"
+                                    placeholder="Write description" rows="3"
+                                    [(ngModel)]="userResignationInfo.revokeReason"></textarea>
+                            </div>
+
                         </div>
                     </div>
-
-                    <!-- <div class="modal-footer d-flex align-items-center justify-content-end gap-2">
-                    <button class="btn cancel-btn" data-bs-dismiss="modal" aria-label="Close" #closeResignationButton>Cancel</button>
-
-                    <button *ngIf="!resignationToggle" type="submit" [disabled]="resignationForm.invalid || resignationToggle || isUploading" class="btn submitActionBtn">Submit</button>
-                    <div class="dot-opacity-loader" *ngIf="resignationToggle">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                      </div>
-                </div> -->
 
                     <div class="modal-footer d-flex align-items-center justify-content-end gap-2">
-                        <button class="btn cancel-btn" data-bs-dismiss="modal" aria-label="Close"
+                        <button type="button" class="btn cancel-btn" *ngIf="showRevokeDiv || ROLE == 'ADMIN'"
+                            data-bs-dismiss="modal" (click)="clearForm()" aria-label="Close"
                             #closeApproveModal>Cancel</button>
 
-                        <button *ngIf="!approveToggle && ROLE == 'ADMIN'" type="submit"
-                            (click)="approveOrDenyResignation(userResignationInfo.id)"
-                            class="btn submitActionBtn">Approve</button>
-                        <div class="dot-opacity-loader" *ngIf="approveToggle">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </div>
+                        <button *ngIf="ROLE == 'ADMIN'" type="button" class="btn submitActionBtn"
+                            [disabled]="approveToggle" (click)="approveOrDenyResignation(userResignationInfo.id)">
+                            <span *ngIf="!approveToggle">Approve</span>
+                            <div class="dot-opacity-loader" *ngIf="approveToggle">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </button>
+
+                        <button *ngIf="ROLE != 'ADMIN'" type="button" class="btn submitActionBtn"
+                            [ngClass]="{'btn-border': (showRevokeDiv && userResignationInfo.revokeReason)}"
+                            [disabled]="(showRevokeDiv && !userResignationInfo.revokeReason) || approveToggle || resignationToggle"
+                            (click)="revokeResignation(userResignationInfo.id)">
+                            <span *ngIf="!approveToggle">{{!showRevokeDiv ? 'Revoke' : 'Submit'}}</span>
+                            <div class="dot-opacity-loader" *ngIf="approveToggle">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </button>
+
+                        <button *ngIf="!showRevokeDiv && ROLE != 'ADMIN'" type="submit" class="btn submitActionBtn"
+                            [ngClass]="{'btn-border':!(resignationForm.invalid)}"
+                            [disabled]="resignationForm.invalid || resignationToggle">
+                            <span *ngIf="!resignationToggle">Update</span>
+                            <div class="dot-opacity-loader" *ngIf="resignationToggle">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </button>
+
+                        <!-- <button *ngIf="!approveToggle && ROLE == 'ADMIN'" type="button" (click)="approveOrDenyResignation(userResignationInfo.id)" class="btn submitActionBtn">Approve</button> -->
+                        <!-- <button *ngIf="!approveToggle && ROLE != 'ADMIN'" [disabled]="showRevokeDiv && !userResignationInfo.revokeReason" type="button"
+                            class="btn submitActionBtn" (click)="revokeResignation(userResignationInfo.id)">{{!showRevokeDiv ? 'Revoke' : 'Submit'}}</button> -->
+
+                        <!-- <button *ngIf="!approveToggle && !showRevokeDiv && !resignationToggle && ROLE != 'ADMIN'" type="submit"
+                             class="btn submitActionBtn">Update</button>
+
+                            <div class="dot-opacity-loader" *ngIf="approveToggle || resignationToggle">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                              </div> -->
+
                     </div>
+
 
                 </form>
             </div>
@@ -1335,3 +1257,75 @@
     </div>
 </div>
 <!-- Initiate Exit (UserResignation) Modal End -->
+
+<div class="modal fade" id="calendarModal" tabindex="-1" aria-labelledby="calendarModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-xl" style="max-width: 1000px;">
+       <div class="modal-content">
+          <!-- <div class="modal-header">
+             <h5 class="modal-title" id="calendarModalLabel">Holidays Calendar</h5>
+             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div> -->
+          <div class="modal-body p-0">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                        width="24" height="24">
+                        <rect width="24" height="24" fill="#D9D9D9" />
+                    </mask>
+                    <g mask="url(#mask0_5037_2014)">
+                        <path
+                            d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z"
+                            fill="black" />
+                    </g>
+                </svg>
+            </button>
+            <div class="calendar-date d-flex align-items-center justify-content-between p-4">
+              <div class="d-flex align-items-center gap-2">
+                <span (click)="navigateMonth('prev')">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <mask id="mask0_7199_2580" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
+                      <rect width="20" height="20" fill="#D9D9D9" />
+                    </mask>
+                    <g mask="url(#mask0_7199_2580)">
+                      <path d="M13.3333 18.3307L5 9.9974L13.3333 1.66406L14.8125 3.14323L7.95833 9.9974L14.8125 16.8516L13.3333 18.3307Z" fill="#444444" />
+                    </g>
+                  </svg>
+                </span>
+                <h5 class="mb-0 font-24 fw-bold">{{ currentMonthYear }}</h5>
+                <span (click)="navigateMonth('next')">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <mask id="mask0_7199_2583" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
+                      <rect width="20" height="20" transform="matrix(-1 0 0 1 20 0)" fill="#D9D9D9" />
+                    </mask>
+                    <g mask="url(#mask0_7199_2583)">
+                      <path d="M6.66667 18.3307L15 9.9974L6.66667 1.66406L5.1875 3.14323L12.0417 9.9974L5.1875 16.8516L6.66667 18.3307Z" fill="#444444" />
+                    </g>
+                  </svg>
+                </span>
+              </div>
+            </div>
+
+            <div>
+              <nz-calendar [ngModel]="currentDate" (nzValueChange)="onYearChange($event)" >
+                <ul *nzDateCell="let date" class="events" [ngClass]="{ 'holiday-cell': isHoliday(date) }">
+                  <ng-container *ngFor="let item of getHolidayEvents(date)">
+                    <li class="holiday-item">
+                      {{ item.content }},
+                    </li>
+                  </ng-container>
+                </ul>
+                <ng-container *nzMonthCell="let month">
+                  <div *ngIf="getMonthHolidayCount(month) > 0" class="notes-month" [ngClass]="{ 'holiday-month': getMonthHolidayCount(month) > 0 }">
+                    <section>{{ getMonthHolidayCount(month) }}</section>
+                    <span>Holidays</span>
+                  </div>
+                </ng-container>
+              </nz-calendar>
+            </div>
+
+          </div>
+       </div>
+    </div>
+ </div>
+
+

@@ -2,7 +2,7 @@
 </app-hajiri-page-loader>
 
 
-<app-to-do-step-dashboard *ngIf="!isToDoStepsCompleted"></app-to-do-step-dashboard>
+<app-to-do-step-dashboard *ngIf="!isToDoStepsCompleted && isToDoStepsCompleted != undefined"></app-to-do-step-dashboard>
 
 <div class="page-wrapper" *ngIf="isToDoStepsCompleted">
   <!-- Page Content-->
@@ -93,7 +93,7 @@
                         </p>
                       </div>
                       <div class="Approved pending-css rejected-css text-center border-right pointer"
-                        data-bs-toggle="modal" data-bs-target="#leaveUsersModal">
+                        data-bs-toggle="modal" data-bs-target="#leaveUsersModal" (click)="getLeaveUsers()">
                         <span class="total-holiday pb-2">Leave</span>
 
                         <p class="mb-0">

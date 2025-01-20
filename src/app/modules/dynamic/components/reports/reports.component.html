@@ -317,7 +317,33 @@
               <nz-range-picker [(ngModel)]="selectedDateRange" [nzPlaceHolder]="['Start Date', 'End Date']"
                 [nzDisabledDate]="disableBeforeOnboarding"></nz-range-picker>
             </div>
+
+            <!-- Radio Toggle for Select All Users -->
+            <div class="col-md-12 mb-3 d-flex align-items-center gap-3">
+              <label>Generate a report for all user data</label>
+              <!-- <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="selectAllUsersToggle" [(ngModel)]="isSelectAllUsers"
+                  (change)="onToggleSelectAllUsers(isSelectAllUsers)">
+              
+              </div> -->
+              <nz-switch nzSize="small" id="selectAllUsersToggle" [(ngModel)]="isSelectAllUsers"
+                (change)="onToggleSelectAllUsers(isSelectAllUsers)"></nz-switch>
+            </div>
+
+
+            <!-- Select User Dropdown (visible only if Select All is off) -->
+            <div class="col-md-12 mb-3" *ngIf="!isSelectAllUsers">
+              <label for="selectUser" class="mb-2">Select users</label>
+
+
+              <nz-select class="placeholder-line w-100" nzMode="tags" nzPlaceHolder="Select users"
+                [(ngModel)]="selectedUserIds" style="border: 1px solid #e9e9e9">
+                <nz-option *ngFor="let option of userOptions" [nzLabel]="option.label"
+                  [nzValue]="option.value"></nz-option>
+              </nz-select>
+            </div>
           </div>
+
 
 
         </div>
@@ -352,6 +378,31 @@
                 [nzDisabledDate]="disableBeforeOnboarding">
               </nz-range-picker>
             </div>
+            <!-- Radio Toggle for Select All Users -->
+            <div class="col-md-12 mb-3 d-flex align-items-center gap-3">
+              <label>Generate a report for all user data</label>
+              <!-- <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="selectAllUsersToggle2"
+                [(ngModel)]="isSelectAllUsers2" (change)="onToggleSelectAllUsers2(isSelectAllUsers2)">
+            </div> -->
+
+              <nz-switch nzSize="small" id="selectAllUsersToggle2" [(ngModel)]="isSelectAllUsers2"
+                (change)="onToggleSelectAllUsers2(isSelectAllUsers2)"></nz-switch>
+            </div>
+
+
+            <!-- Select User Dropdown (visible only if Select All is off) -->
+            <div class="col-md-12 mb-3" *ngIf="!isSelectAllUsers2">
+              <label for="selectUser" class="mb-2">Select users</label>
+
+
+              <nz-select class="placeholder-line w-100" nzMode="tags" nzPlaceHolder="Select users"
+                [(ngModel)]="selectedUserIds" style="border: 1px solid #e9e9e9">
+                <nz-option *ngFor="let option of userOptions" [nzLabel]="option.label"
+                  [nzValue]="option.value"></nz-option>
+              </nz-select>
+            </div>
+
           </div>
         </div>
 
@@ -400,6 +451,8 @@
     </div>
   </div>
 
+
+
   <div class="modal fade" id="dateRangeModal4" tabindex="-1" role="dialog" aria-labelledby="dateRangeModalLabel"
     aria-hidden="true" #dateRangeModal4>
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -417,6 +470,45 @@
               <nz-date-picker nzMode="date" [(ngModel)]="selectedMonthOfDailyReport" nzPlaceHolder="Select Day"
                 [nzDisabledDate]="disableBeforeOnboardingForDailyReport">
               </nz-date-picker>
+            </div>
+            <!-- Radio Toggle for Select All Users -->
+            <!-- <div class="col-md-12 mb-3">
+              <label class="pb-2">User Selection Mode</label>
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="selectAllUsersToggle2"
+                  [(ngModel)]="isSelectAllUsers3" (change)="onToggleSelectAllUsers3(isSelectAllUsers3)">
+                <label class="form-check-label" for="selectAllUsersToggle2">
+                  Select All Users
+                </label>
+              </div>
+            </div> -->
+
+            <!-- Radio Toggle for Select All Users -->
+            <div class="col-md-12 mb-3 d-flex align-items-center gap-3">
+              <label>Generate a report for all user data</label>
+
+
+              <nz-switch nzSize="small" id="selectAllUsersToggle2" [(ngModel)]="isSelectAllUsers3"
+                (change)="onToggleSelectAllUsers3(isSelectAllUsers3)"></nz-switch>
+            </div>
+
+
+            <!-- Select User Dropdown (visible only if Select All is off) -->
+            <!-- <div class="col-md-12 mb-3" *ngIf="!isSelectAllUsers3">
+              <label for="selectUser" class="mb-2">Select users</label>
+              <nz-select class="form-control placeholder-line w-100" nzSize="large" nzMode="multiple"
+                nzPlaceHolder="Select users" [(ngModel)]="selectedUserIds" [nzOptions]="userOptions"
+                (ngModelChange)="onUsersChange($event)">
+              </nz-select>
+            </div> -->
+
+            <div class="col-md-12 mb-3" *ngIf="!isSelectAllUsers3">
+              <label for="selectUser" class="mb-2">Select users</label>
+              <nz-select class="placeholder-line w-100" nzMode="tags" nzPlaceHolder="Select users"
+                [(ngModel)]="selectedUserIds" style="border: 1px solid #e9e9e9">
+                <nz-option *ngFor="let option of userOptions" [nzLabel]="option.label"
+                  [nzValue]="option.value"></nz-option>
+              </nz-select>
             </div>
           </div>
 

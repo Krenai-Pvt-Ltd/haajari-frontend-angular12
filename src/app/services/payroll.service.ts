@@ -79,7 +79,7 @@ export class PayrollService {
 
 
   getUserSalaryTemplateNotConfig(): Observable<any> {
-    
+
     return this._http.get<any>(`${this._key.base_url}/payroll/user/template-not-config`);
   }
 
@@ -138,7 +138,7 @@ export class PayrollService {
       .set('search_by', searchBy);
 
       return this._http.get<any>(`${this._key.base_url}/payroll/step/attendance/lop-summary`,{ params });
-  
+
   }
 
   getLopReversalResponseByOrganizationIdAndStartDateAndEndDate(
@@ -198,7 +198,7 @@ export class PayrollService {
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  
+
   getNewJoinee(startDate: string,endDate: string,itemPerPage: number,pageNumber: number,search: string): Observable<any> {
     const params = new HttpParams()
     .set('start_date', startDate)
@@ -230,7 +230,7 @@ getFNFUser(startDate: string,endDate: string,itemPerPage: number,pageNumber: num
   .set('search', search);
 return this._http.get<any>(`${this._key.base_url}/salary/user/change/final-settlement`,{ params });
 }
-  
+
   getPendingLeaves(startDate : string, endDate : string, page: number, size: number): Observable<any> {
     const params = new HttpParams()
     .set('start_date', startDate)
@@ -240,7 +240,7 @@ return this._http.get<any>(`${this._key.base_url}/salary/user/change/final-settl
     return this._http.get<any>(`${this._key.base_url}/payroll/step/attendance/pending-leaves`,{ params });
   }
 
- 
+
 
 
   getUserSalaryChange(startDate: string,endDate: string, itemPerPage: number,pageNumber: number, search:string): Observable<any> {
@@ -272,5 +272,25 @@ return this._http.get<any>(`${this._key.base_url}/salary/user/change/final-settl
     return this._http.get(`${this._key.base_url}/payroll/user`,{ params });
   }
 
-  
+  generateReport(
+    startDateStr: string,
+    endDateStr: string,
+    reportType: string,
+    search?: string
+  ): Observable<Blob> {
+    let params = new HttpParams()
+      .set('startDateStr', startDateStr)
+      .set('endDateStr', endDateStr)
+      .set('reportType', reportType);
+
+    if (search) {
+      params = params.set('search', search);
+    }
+
+    return this._http.get(`${this._key.base_url}/salary/user/change/generate`, {
+      params: params,
+      responseType: 'blob',  // Ensure the response is treated as a file (Excel)
+    });
+  }
+
 }

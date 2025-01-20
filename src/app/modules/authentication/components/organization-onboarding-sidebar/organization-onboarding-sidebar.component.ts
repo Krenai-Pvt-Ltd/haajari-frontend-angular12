@@ -227,6 +227,9 @@ export class OrganizationOnboardingSidebarComponent implements OnInit {
   logoutFunction() {
     localStorage.clear();
     this.rbacService.clearRbacService();
+    this.helperService.orgStepId = 0;
+    this.helperService.stepId = 0;
+    // this.onboardingService.isLoadingOnboardingStatus = true;
     this.helperService.clearHelperService();
     this.router.navigate(['/login']);
   }

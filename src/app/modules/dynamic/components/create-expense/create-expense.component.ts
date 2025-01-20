@@ -17,8 +17,6 @@ import { HelperService } from 'src/app/services/helper.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
-import { map, catchError } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-create-expense',
@@ -253,10 +251,12 @@ export class CreateExpenseComponent implements OnInit {
 
     if(this.userExpense.partiallyPaidAmount != null){
       this.expensePaymentType = 'partial'
+      this.approveReq.isPartiallyPayment = 1
       this.partiallyPayment = true;
     }
 
-    this.fullPartialAmount = this.userExpense.amount - this.userExpense.partiallyPaidAmount
+    // this.fullPartialAmount = this.userExpense.amount - this.userExpense.partiallyPaidAmount
+    this.fullPartialAmount = this.userExpense.approvedAmount - this.userExpense.partiallyPaidAmount
 
     this.getExpenseType();
   }
@@ -274,6 +274,9 @@ export class CreateExpenseComponent implements OnInit {
     this.isCheckboxChecked = false;
     this.partialAmount = '';
 
+    this.approvedAmount = '';
+    this.approveAmountChecked = false;
+
     this.transactionId = ''
     this.settledDate = ''
     this.payCashDiv = false;
@@ -283,6 +286,8 @@ export class CreateExpenseComponent implements OnInit {
     this.expensePaymentType = 'full'
     this.partialAmount = ''
     this.partiallyPayment = false;
+
+    this.approveReq.rejectionReason = ''
 
   }
 
@@ -298,11 +303,22 @@ export class CreateExpenseComponent implements OnInit {
     })
   }
 
+  onApproveAmountCheckboxChange(event: Event): void {
+    const isChecked = (event.target as HTMLInputElement).checked;
+    if (!isChecked) {
+      this.approvedAmount = '';
+    }
+  }
+
   approveReq: ApproveReq = new ApproveReq();
   approveToggle: boolean = false;
   rejectToggle: boolean = false;
   paymentCashYesToggle: boolean = false;
   paymentCashNoToggle: boolean = false;
+
+  approveAmountChecked: boolean = false; // Tracks checkbox state
+  approvedAmount: string = '';          // Holds the approved amount
+
 
   payrollToggle: boolean = false;
   expenseCancelToggle: boolean = false;
@@ -327,10 +343,16 @@ export class CreateExpenseComponent implements OnInit {
       this.paymentCashYesToggle = true;
     }
 
-    if(isCashPayment == 1){
+    if(isCashPayment == 1 && statusId >= 40){
       this.approveReq.paymentMethod = 'CASH'
-    }else{
+    }else if(isCashPayment == 0 && statusId >= 40){
        this.approveReq.paymentMethod = 'ONLINE'
+    }
+
+    if(this.approveAmountChecked && this.approvedAmount){
+      this.approveReq.approvedAmount = this.approvedAmount
+    }else{
+      this.approveReq.approvedAmount = this.userExpense.amount
     }
 
     this.approveReq.id = id;
@@ -359,6 +381,9 @@ export class CreateExpenseComponent implements OnInit {
         this.fullPartialAmount = 0
         this.expensePaymentType = 'full'
         this.partiallyPayment = false;
+
+        this.approvedAmount = ''
+        this.approveAmountChecked = false;
 
         this.payrollToggle = false
         this.expenseCancelToggle = false

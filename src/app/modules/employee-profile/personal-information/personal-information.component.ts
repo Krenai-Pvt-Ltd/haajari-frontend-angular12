@@ -129,11 +129,13 @@ export class PersonalInformationComponent implements OnInit {
     new OnboardingFormPreviewResponse();
 
   requestedData: OnboardingFormPreviewResponse = new OnboardingFormPreviewResponse();
+  previousEditData: any = {};
   fetchRequestedData(): void {
 
     this.dataService.getRequestedData(this.userId).subscribe({
       next: (response) => {
         this.requestedData = response;
+        this.previousEditData = response;
         console.log('Fetched Data:', response);
       },
       error: (error) => {
@@ -207,9 +209,10 @@ export class PersonalInformationComponent implements OnInit {
   }
 
   rejectLoading: boolean = false;
+  rejectReason: string = '';
   rejectData(): void {
     this.rejectLoading = true;
-    this.dataService.rejectRequestedData(this.userId).subscribe(
+    this.dataService.rejectRequestedData(this.userId,this.rejectReason).subscribe(
       (response) => {
         this.rejectLoading = false;
         if (response.success) {
@@ -373,6 +376,7 @@ export class PersonalInformationComponent implements OnInit {
           this.fetchRequestedData();
         },
         error: (error) => {
+          this.isSaveBtnLoading = false;
           this.fetchRequestedData();
           console.error('Error saving data:', error);
           this.helperService.showToast(error, Key.TOAST_STATUS_ERROR);
@@ -429,7 +433,7 @@ export class PersonalInformationComponent implements OnInit {
         }));
       });
     }
-    if (!this.userExperience || this.userExperience.length == 0) {
+    if (this.routes.includes('/employee-experience') &&(!this.userExperience || this.userExperience.length == 0)) {
       this.onboardingForm.setControl('userExperience', this.fb.array([]));
       this.onboardingPreviewDataCopy.userExperience.forEach((experience) => {
         this.userExperience.push(
@@ -444,7 +448,7 @@ export class PersonalInformationComponent implements OnInit {
           }));
       });
     }
-    if (!this.userEmergencyContacts || this.userEmergencyContacts.length == 0) {
+    if (this.routes.includes('/emergency-contact') &&(!this.userEmergencyContacts || this.userEmergencyContacts.length == 0)) {
       debugger;
       this.onboardingForm.setControl('userEmergencyContacts', this.fb.array([]));
       this.onboardingPreviewDataCopy.userEmergencyContacts.forEach((contact) => {
@@ -455,8 +459,86 @@ export class PersonalInformationComponent implements OnInit {
         }));
       });
     }
-
+    this.copyData();
   }
+  copyData() {
+    if (!this.previousEditData || !this.onboardingPreviewDataCopy) return;
+
+    const prevData = this.previousEditData;
+
+    // Handle 'user' object
+    if (prevData.user) {
+      this.onboardingPreviewDataCopy.user = {
+        ...this.onboardingPreviewDataCopy.user,
+        ...prevData.user,
+      };
+    }
+
+    // Handle 'userAddress' array
+    if (prevData.userAddress) {
+      this.onboardingPreviewDataCopy.userAddress = prevData.userAddress.map((prevAddr: UserAddressRequest) => {
+        const existingAddr = this.onboardingPreviewDataCopy.userAddress.find(addr => addr.id === prevAddr.id);
+        return existingAddr ? { ...existingAddr, ...prevAddr } : { ...prevAddr }; // Ensure it creates a new object
+      });
+    }
+
+    // Handle 'userGuarantorInformation' array
+    if (prevData.userGuarantorInformation) {
+      this.onboardingPreviewDataCopy.userGuarantorInformation = prevData.userGuarantorInformation.map((prevGuarantor: UserGuarantorRequest) => {
+        const existingGuarantor = this.onboardingPreviewDataCopy.userGuarantorInformation.find(guarantor => guarantor.id === prevGuarantor.id);
+        return existingGuarantor ? { ...existingGuarantor, ...prevGuarantor } : { ...prevGuarantor }; // Ensure it creates a new object
+      });
+    }
+
+    // Handle 'userAcademics' object
+    if (prevData.userAcademics) {
+      this.onboardingPreviewDataCopy.userAcademics = {
+        ...this.onboardingPreviewDataCopy.userAcademics,
+        ...prevData.userAcademics,
+      };
+    }
+
+    // Handle 'userExperience' array
+    if (prevData.userExperience) {
+      this.onboardingPreviewDataCopy.userExperience = prevData.userExperience.map((prevExp: UserExperience) => {
+        const existingExp = this.onboardingPreviewDataCopy.userExperience.find(exp => exp.id === prevExp.id);
+        return existingExp ? { ...existingExp, ...prevExp } : { ...prevExp }; // Ensure it creates a new object
+      });
+    }
+
+    // Handle 'userBankDetails' object
+    if (prevData.userBankDetails) {
+      this.onboardingPreviewDataCopy.userBankDetails = {
+        ...this.onboardingPreviewDataCopy.userBankDetails,
+        ...prevData.userBankDetails,
+      };
+    }
+
+    // Handle 'userEmergencyContacts' array
+    if (prevData.userEmergencyContacts) {
+      this.onboardingPreviewDataCopy.userEmergencyContacts = prevData.userEmergencyContacts.map((prevContact: UserEmergencyContactDetailsRequest) => {
+        const existingContact = this.onboardingPreviewDataCopy.userEmergencyContacts.find(contact => contact.id === prevContact.id);
+        return existingContact ? { ...existingContact, ...prevContact } : { ...prevContact }; // Ensure it creates a new object
+      });
+    }
+
+    // Handle primitive properties
+    if (prevData.companyLogo !== undefined) {
+      this.onboardingPreviewDataCopy.companyLogo = prevData.companyLogo;
+    }
+
+    if (prevData.fresher !== undefined) {
+      this.onboardingPreviewDataCopy.fresher = prevData.fresher;
+    }
+
+    if (prevData.reasonOfRejection !== undefined) {
+      this.onboardingPreviewDataCopy.reasonOfRejection = prevData.reasonOfRejection;
+    }
+  }
+
+
+
+
   get references(): FormArray {
     return this.onboardingForm.get('references') as FormArray;
   }
@@ -467,12 +549,9 @@ export class PersonalInformationComponent implements OnInit {
     if (!this.onboardingPreviewData.userGuarantorInformation) {
       this.onboardingPreviewData.userGuarantorInformation = [];
     }
-    if (this.onboardingPreviewData.userGuarantorInformation.length > this.references.length) {
-      this.onboardingPreviewDataCopy.userGuarantorInformation.push(this.onboardingPreviewData.userGuarantorInformation[this.references.length]);
-    }
-    else {
+
       this.onboardingPreviewDataCopy.userGuarantorInformation.push(new UserGuarantorRequest());
-    }
+
     const referenceGroup = this.fb.group({
       name: [this.onboardingPreviewDataCopy.userGuarantorInformation[this.onboardingPreviewDataCopy.userGuarantorInformation.length - 1].name, Validators.required],
       relation: [this.onboardingPreviewDataCopy.userGuarantorInformation[this.onboardingPreviewDataCopy.userGuarantorInformation.length - 1].relation, Validators.required],
@@ -498,12 +577,8 @@ export class PersonalInformationComponent implements OnInit {
     if (!this.onboardingPreviewData.userExperience) {
       this.onboardingPreviewData.userExperience = [];
     }
-    if (this.onboardingPreviewData.userExperience.length > this.references.length) {
-      this.onboardingPreviewDataCopy.userExperience.push(this.onboardingPreviewData.userExperience[this.references.length]);
-    }
-    else {
       this.onboardingPreviewDataCopy.userExperience.push(new UserExperience());
-    }
+
     this.userExperience.push(
       this.fb.group({
         companyName: [this.onboardingPreviewDataCopy.userExperience[this.onboardingPreviewDataCopy.userExperience.length - 1].companyName, Validators.required],
@@ -533,12 +608,9 @@ export class PersonalInformationComponent implements OnInit {
     if (!this.onboardingPreviewData.userEmergencyContacts) {
       this.onboardingPreviewData.userEmergencyContacts = [];
     }
-    if (this.onboardingPreviewData.userEmergencyContacts.length > this.userEmergencyContacts.length) {
-      this.onboardingPreviewDataCopy.userEmergencyContacts.push(this.onboardingPreviewData.userEmergencyContacts[this.userEmergencyContacts.length]);
-    }
-    else {
+
       this.onboardingPreviewDataCopy.userEmergencyContacts.push(new UserEmergencyContactDetailsRequest());
-    }
+
     this.userEmergencyContacts.push(this.fb.group({
       relationWithEmployee: [this.onboardingPreviewDataCopy.userEmergencyContacts[this.onboardingPreviewDataCopy.userEmergencyContacts.length - 1].relationWithEmployee, Validators.required],
       contactName: [this.onboardingPreviewDataCopy.userEmergencyContacts[this.onboardingPreviewDataCopy.userEmergencyContacts.length - 1].contactName, Validators.required],

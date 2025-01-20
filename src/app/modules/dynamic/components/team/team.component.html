@@ -467,15 +467,12 @@
 <button type="button" style="display: none" data-bs-toggle="modal" data-bs-target="#createteam2" #createteam
   id="createteam"></button>
 <div class="modal fade" id="createteam2" #createteam2 tabindex="-1" aria-labelledby="exampleModalFullscreenLabel"
-  aria-hidden="true">
+  aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <!-- style="color: #111; font-size: 18px" id="exampleModalDefaultLabel" -->
         <h5 class="modal-title m-0">
-          <!-- <div class="back-btns-box" data-bs-dismiss="modal" aria-label="Close">
-            <i class="bi bi-chevron-left"></i>
-          </div> -->
+
           Create a new team
         </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeCreateTeam></button>
@@ -582,7 +579,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" (click)="registerTeamSubmitButton()" class="btn btn-primary w-100 create-team">
+        <button type="button" (click)="registerTeamSubmitButton()" class="btn submitActionBtn">
           Create new team
         </button>
       </div>

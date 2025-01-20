@@ -1,20 +1,11 @@
-import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { AngularFireStorage } from '@angular/fire/compat/storage';
-import {
-  FormArray,
-  FormBuilder,
-  FormGroup,
-  NgForm,
-  Validators,
-} from '@angular/forms';
-import { isThisWeek } from 'date-fns';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {FormArray,FormBuilder,FormGroup,NgForm,Validators,} from '@angular/forms';
 import * as _ from 'lodash';
 import moment from 'moment';
 import { constant } from 'src/app/constant/constant';
 import { Key } from 'src/app/constant/key';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { Employeetype } from 'src/app/models/EmployeeType';
-import { ExpenseType } from 'src/app/models/ExpenseType';
 import { FullLeaveSettingRequest } from 'src/app/models/Full-Leave-Setting-Request';
 import { FullLeaveSettingResponse } from 'src/app/models/full-leave-setting-response';
 import { LeaveCategory } from 'src/app/models/leave-category';
@@ -42,10 +33,8 @@ export class LeaveSettingComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private afStorage: AngularFireStorage,
     private dataService: DataService,
     private helperService: HelperService,
-    private cdr: ChangeDetectorRef
   ) {
     this.form = this.fb.group({
       categories: this.fb.array([]),
@@ -115,7 +104,10 @@ export class LeaveSettingComponent implements OnInit {
       unusedLeaveActionId: [''],
       unusedLeaveActionCount: [''],
       accrualTypeId: [''],
-      gender: ['']
+      gender: [''],
+      isReset:[true],
+      carryoverAction: [''],
+      carryover:['']
     });
 
     this.categories.push(newRow);
@@ -139,7 +131,10 @@ export class LeaveSettingComponent implements OnInit {
       unusedLeaveActionId: '',
       unusedLeaveActionCount: '',
       accrualTypeId: '',
-      gender: ''
+      gender: '',
+      isReset:true,
+      carryoverAction:'',
+      carryover:''
     });
   }
 
@@ -155,7 +150,10 @@ export class LeaveSettingComponent implements OnInit {
       unusedLeaveActionId: [''],
       unusedLeaveActionCount: [''],
       accrualTypeId: [''],
-      gender: ['']
+      gender: [''],
+      isReset:[true],
+      carryoverAction: [''],
+      carryover:['']
     });
     // this.categories.clear();
     this.categories.push(newRow);
@@ -170,10 +168,10 @@ export class LeaveSettingComponent implements OnInit {
     } else {
 
       this.leaveCategories1.push(this.form.value);
-      console.log('this.leaveCategories1: ', this.leaveCategories1)
+      // console.log('this.leaveCategories1: ', this.leaveCategories1)
 
       this.leaveCategories2.push(this.form.value.categories[0]);
-      console.log('this.leaveCategories2: ', this.leaveCategories2)
+      // console.log('this.leaveCategories2: ', this.leaveCategories2)
 
       // Process leaveCategories2 to include categoryName
       this.displayedCategories = this.leaveCategories2.map((category: any) => {
@@ -239,11 +237,16 @@ export class LeaveSettingComponent implements OnInit {
         unusedLeaveActionId: [''],
         unusedLeaveActionCount: [''],
         accrualTypeId: [''],
-        gender: ['']
+        gender: [''],
+        isReset:[true],
+        carryoverAction:[''],
+        carryover:['']
       });
       this.categories.push(newRow);
 
       this.leaveCategories1.push(this.form.value);
+
+      // console.log('this.leaveCategories1: ',this.leaveCategories1)
 
       this.tempLeaveCategories1 = this.leaveCategories1;
 
@@ -1696,6 +1699,8 @@ export class LeaveSettingComponent implements OnInit {
   booleanList: string[] = ['Yes', 'No'];
 
   leaveCategoryList: LeaveCategory[] = [];
+  onDutyList: LeaveCategory[] = [];
+  weekOffCategoryList: LeaveCategory[] = [];
   getLeaveCategoryListMethodCall() {
     this.dataService.getLeaveCategoryList().subscribe((response) => {
       if (!this.helperService.isListOfObjectNullOrUndefined(response)) {
@@ -1703,9 +1708,11 @@ export class LeaveSettingComponent implements OnInit {
 
         if(!this.wfhTemplateToggle){
           // Assuming this.leaveCategoryList is already populated
-          this.leaveCategoryList = this.leaveCategoryList.filter(category => category.name !== 'WFH');
+          this.leaveCategoryList = this.leaveCategoryList.filter(category => category.category === 'LEAVE');
 
         }
+        this.onDutyList = this.leaveCategoryList.filter(category => category.category === 'ON_DUTY');
+        this.weekOffCategoryList = this.leaveCategoryList.filter(category => category.category === 'WEEK_OFF');
 
       }
 
@@ -1977,6 +1984,12 @@ export class LeaveSettingComponent implements OnInit {
   }
 
 
+  disableNonFirstDates = (current: Date): boolean => {
+    // Disable all dates except the 1st of each month
+    return current.getDate() !== 1;
+  };
+
+
   // custom date select end
 
 
@@ -2002,6 +2015,7 @@ export class LeaveSettingComponent implements OnInit {
     this.leaveCategories1 = []
   }
 
+  ON_DUTY_CATEGORY_ID = [8,9];
 
   setFieldsToLeaveTemplateRequest() {
     debugger
@@ -2014,11 +2028,12 @@ export class LeaveSettingComponent implements OnInit {
         unusedLeaveActionId: category.unusedLeaveActionId,
         unusedLeaveActionCount: category.unusedLeaveActionCount,
         accrualTypeId: category.accrualTypeId,
-        gender: category.gender
-
+        gender: category.gender,
+        reset: category.isReset,
+        carryoverAction: category.carryoverAction,
+        carryover: category.carryover
       })
     );
-
     this.leaveTemplateRequest.userIds = [...this.selectedStaffIds, ...this.selectedStaffIdsUser];
     this.leaveTemplateRequest.deselectUserIds = this.deSelectedStaffIdsUser;
 
@@ -2037,10 +2052,18 @@ export class LeaveSettingComponent implements OnInit {
     this.allselected = false;
     this.setFieldsToLeaveTemplateRequest();
 
-    console.log('CategoryList: ', this.leaveTemplateRequest.leaveTemplateCategoryRequestList)
+    // console.log('CategoryList: ', this.leaveTemplateRequest.leaveTemplateCategoryRequestList)
     this.leaveTemplateRequest.leaveTemplateCategoryRequestList.splice(
       this.leaveTemplateRequest.leaveTemplateCategoryRequestList.length - 1, 1
     );
+
+    debugger
+    var isOnDutyTemplate = this.leaveTemplateRequest.leaveTemplateCategoryRequestList.some((category: any) =>
+      this.ON_DUTY_CATEGORY_ID.includes(Number(category.id))
+  );
+    if(isOnDutyTemplate){
+     this.leaveTemplateRequest.isWeekOffIncluded=1;
+    }
 
     this.dataService.registerLeaveTemplate(this.leaveTemplateRequest).subscribe((response) => {
       this.helperService.registerOrganizationRegistratonProcessStepData(Key.LEAVE_TEMPLATE_ID, Key.PROCESS_COMPLETED);
@@ -2120,6 +2143,10 @@ export class LeaveSettingComponent implements OnInit {
   // find all leave template
   leaveTemplates: LeaveTemplateRes[] = []
   wfhLeaveTemplates: LeaveTemplateRes[] = []
+  weekOffTemplates: LeaveTemplateRes[] = []
+  wfhLeaveTemplatesIds: number[] = [8];
+  weekOffTemplatesIds: number[] = [9];
+  leaveTemplatesIds: number[] = [1, 2, 3, 4, 5, 6, 7, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
 
   getAllLeaveTemplate() {
     debugger
@@ -2138,15 +2165,22 @@ export class LeaveSettingComponent implements OnInit {
   // );
 
   this.wfhLeaveTemplates = response.object.filter((template: any) =>
-      template.leaveTemplateCategoryRes[0].leaveCategoryId === 8
+      // template.leaveTemplateCategoryRes[0].leaveCategoryId === 8 || template.leaveTemplateCategoryRes[0].leaveCategoryId === 9
+  this.wfhLeaveTemplatesIds.includes(template.leaveTemplateCategoryRes[0].leaveCategoryId)
+  );
+  this.weekOffTemplates = response.object.filter((template: any) =>
+    // template.leaveTemplateCategoryRes[0].leaveCategoryId === 10
+  this.weekOffTemplatesIds.includes(template.leaveTemplateCategoryRes[0].leaveCategoryId)
   );
 
   this.leaveTemplates = response.object.filter((template: any) =>
-    template.leaveTemplateCategoryRes[0].leaveCategoryId != 8
+    // template.leaveTemplateCategoryRes[0].leaveCategoryId != 8 && template.leaveTemplateCategoryRes[0].leaveCategoryId != 9 && template.leaveTemplateCategoryRes[0].leaveCategoryId != 10
+  this.leaveTemplatesIds.includes(template.leaveTemplateCategoryRes[0].leaveCategoryId)
+
 );
 
-console.log('leaveTemplates: ',this.leaveTemplates)
-console.log('wfhLeaveTemplates: ',this.wfhLeaveTemplates)
+// console.log('leaveTemplates: ',this.leaveTemplates)
+// console.log('wfhLeaveTemplates: ',this.wfhLeaveTemplates)
     });
   }
 
@@ -2305,10 +2339,28 @@ console.log('After SET Ids: ',this.selectedStaffIdsUser)
     this.leaveCategories1 = []
     this.leaveCategories2 = []
     this.tempLeaveCategories1 =[]
-
+    this.weekOffTemplateToggle = false;
     this.wfhTemplateToggle = flag;
   }
+  enableWeekOff(flag: boolean){
+    this.form.reset();
+    // this.form.value.reset();
+    // this.categories.clear();
 
+    this.wfhIndex = 0;
+    // this.wfhIndex = this.displayedCategories.length;
+
+    this.clearFormFields();
+
+    this.displayedCategories = []
+    this.leaveCategories1 = []
+    this.leaveCategories2 = []
+    this.tempLeaveCategories1 =[]
+    this.wfhTemplateToggle = true;
+    this.weekOffTemplateToggle = flag;
+  }
+
+  weekOffTemplateToggle: boolean = false;
   wfhTemplateToggle: boolean = false;
   defaultLeaveCategoryId: number = 0
   defaultLeaveActionId: number = 0
@@ -2524,6 +2576,7 @@ validateMaxValue(index: number): void {
   setTimeout(() =>{
     if (control && Number(control.value) > Number(this.tempLeaveCount)) {
       control.setValue(this.tempLeaveCount);
+      this.changeCarryForwardAccrual(index);
     }
   });
 }
@@ -2553,5 +2606,45 @@ checkStepCompletionStatusByStepId(stepId: number) {
     }
   );
 }
+
+
+carryoverActions: Array<{id:number,name: string, value: string }> = [
+    {id: 1, name: 'Total', value: 'Total' },
+    {id: 2, name: 'Restricted', value: 'Restricted' },
+  ];
+
+changeCarryForwardAccrual(index: number){
+
+    const leaveCycle = this.categories.controls[index].get('leaveCycleId');
+    const unusedLeaveActionCount = this.categories.controls[index].get('unusedLeaveActionCount');
+    // console.log(leaveCycle,'unusedLeaveActionCount=========',unusedLeaveActionCount);
+    if(leaveCycle && unusedLeaveActionCount){
+      var count = unusedLeaveActionCount.value;
+      var id = leaveCycle.value;
+
+      if(id == 1){
+        count = count * 12; //Monthly
+      }else if(id == 2){
+        count = count * 4;  //Quaterly
+      }else if(id == 3){
+        count = count * 2;  //Half Yearly
+      }
+      this.updateCarryForwardAccrualDaysDropdown(index, count);
+    }
+  }
+
+tempForwardDaysCount:number=0;
+forwardDaysCountArray: number[][] = [];
+updateCarryForwardAccrualDaysDropdown(index: number, count: number): void {
+  while (this.forwardDaysCountArray.length <= index) {
+    this.forwardDaysCountArray.push([]);
+  }
+  this.forwardDaysCountArray[index] = Array.from(
+    { length: count  },
+    (_, i) => count - i
+  );
+  this.tempForwardDaysCount = count;
+}
+
 
 }
