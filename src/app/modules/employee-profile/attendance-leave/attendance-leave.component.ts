@@ -473,10 +473,9 @@ export class AttendanceLeaveComponent implements OnInit {
 
   getUserLeaveReq() {
     this.leaveCountPlaceholderFlag = false;
-    this.dataService.getUserLeaveRequests(this.userId).subscribe(
+    this.dataService.getUserLeaveRequests(this.userId,0,0).subscribe(
       (res: any) => {
         this.userLeave = res.object;
-        console.log(this.userLeave);
         if (this.userLeave == null) {
           this.userLeave = []
         }

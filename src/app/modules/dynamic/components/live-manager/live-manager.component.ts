@@ -104,7 +104,7 @@ export class LiveManagerComponent implements OnInit {
   getUserLeaveReq() {
     debugger;
     this.dataService
-      .getUserLeaveRequests(this.getLoginDetailsOrgRefId())
+      .getUserLeaveRequests(this.getLoginDetailsOrgRefId(),0,0)
       .subscribe(
         (data) => {
           this.userLeave = data.body;

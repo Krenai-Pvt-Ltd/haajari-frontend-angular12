@@ -2144,6 +2144,10 @@ export class LeaveSettingComponent implements OnInit {
   leaveTemplates: LeaveTemplateRes[] = []
   wfhLeaveTemplates: LeaveTemplateRes[] = []
   weekOffTemplates: LeaveTemplateRes[] = []
+  wfhLeaveTemplatesIds: number[] = [8];
+  weekOffTemplatesIds: number[] = [9];
+  leaveTemplatesIds: number[] = [1, 2, 3, 4, 5, 6, 7, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
+
   getAllLeaveTemplate() {
     debugger
     this.isLoading = true;
@@ -2161,18 +2165,22 @@ export class LeaveSettingComponent implements OnInit {
   // );
 
   this.wfhLeaveTemplates = response.object.filter((template: any) =>
-      template.leaveTemplateCategoryRes[0].leaveCategoryId === 8 || template.leaveTemplateCategoryRes[0].leaveCategoryId === 9
+      // template.leaveTemplateCategoryRes[0].leaveCategoryId === 8 || template.leaveTemplateCategoryRes[0].leaveCategoryId === 9
+  this.wfhLeaveTemplatesIds.includes(template.leaveTemplateCategoryRes[0].leaveCategoryId)
   );
   this.weekOffTemplates = response.object.filter((template: any) =>
-    template.leaveTemplateCategoryRes[0].leaveCategoryId === 10
+    // template.leaveTemplateCategoryRes[0].leaveCategoryId === 10
+  this.weekOffTemplatesIds.includes(template.leaveTemplateCategoryRes[0].leaveCategoryId)
   );
 
   this.leaveTemplates = response.object.filter((template: any) =>
-    template.leaveTemplateCategoryRes[0].leaveCategoryId != 8 && template.leaveTemplateCategoryRes[0].leaveCategoryId != 9 && template.leaveTemplateCategoryRes[0].leaveCategoryId != 10
+    // template.leaveTemplateCategoryRes[0].leaveCategoryId != 8 && template.leaveTemplateCategoryRes[0].leaveCategoryId != 9 && template.leaveTemplateCategoryRes[0].leaveCategoryId != 10
+  this.leaveTemplatesIds.includes(template.leaveTemplateCategoryRes[0].leaveCategoryId)
+
 );
 
-console.log('leaveTemplates: ',this.leaveTemplates)
-console.log('wfhLeaveTemplates: ',this.wfhLeaveTemplates)
+// console.log('leaveTemplates: ',this.leaveTemplates)
+// console.log('wfhLeaveTemplates: ',this.wfhLeaveTemplates)
     });
   }
 
