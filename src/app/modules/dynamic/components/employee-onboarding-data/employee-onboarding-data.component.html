@@ -787,7 +787,7 @@
                         </td>
                       </tr>
                     </tbody>
-                    <tbody *ngIf="pendingRequests.length == 0 && !isEditDataLoading">
+                    <tbody *ngIf="pendingRequests?.length == 0 && !isEditDataLoading">
                       <tr>
                         <td colspan="8">
                           <div class="empty-filenew" style="margin-top: 7%; margin-bottom: 7%">
@@ -801,7 +801,7 @@
                         </td>
                       </tr>
                     </tbody>
-                    <tbody *ngIf="pendingRequests.length > 0 && !isEditDataLoading">
+                    <tbody *ngIf="pendingRequests?.length > 0 && !isEditDataLoading">
                       <tr *ngFor="
                               let i = index;
                               let user;
