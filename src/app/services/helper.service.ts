@@ -309,7 +309,7 @@ export class HelperService {
   async registerOrganizationRegistratonProcessStepData(stepId: number, statusId: number): Promise<void> {
     try {
       const response = await this.dataService.registerOrganizationRegistratonProcessStep(statusId, stepId).toPromise();
-      console.log("success", response.status, "stepId", stepId, "statusId", statusId);
+      // console.log("success", response.status, "stepId", stepId, "statusId", statusId);
       if (response.status) {
         this.stepId = stepId;
       }

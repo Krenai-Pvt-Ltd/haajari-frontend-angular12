@@ -858,8 +858,15 @@ export class DataService {
   //   );
   // }
 
-  getUserLeaveRequests(uuid: string): Observable<any> {
-    const params = new HttpParams().set('userUuid', uuid);
+  getUserLeaveRequests(uuid: string,isSpecificCategory?:number,leaveTemplateId?:number): Observable<any> {
+    var params = new HttpParams().set('userUuid', uuid)
+    if(isSpecificCategory){
+      params = params.set("isSpecificCategory",isSpecificCategory)
+    }
+    if(leaveTemplateId){
+      params = params.set("leaveTemplateId",leaveTemplateId)
+    }
+    //TODO: remove temp
     return this.httpClient.get<any>(
       `${this.baseUrl}/temp/leave/get-user-leave`,
       {

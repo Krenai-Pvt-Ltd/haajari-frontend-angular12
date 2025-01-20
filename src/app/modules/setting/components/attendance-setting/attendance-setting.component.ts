@@ -1146,6 +1146,7 @@ export class AttendanceSettingComponent implements OnInit {
         } else {
           this.attendanceRuleWithAttendanceRuleDefinitionResponseList =
             response.listOfObject;
+
         }
         if (this.count === 0) {
           this.activeIndex5 = 0;

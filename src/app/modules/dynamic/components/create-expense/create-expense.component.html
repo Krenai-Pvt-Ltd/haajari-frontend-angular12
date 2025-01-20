@@ -386,8 +386,7 @@
               </div>
             </div>
 
-            <!-- Create Leave Template Start -->
-            <!-- <div class="add-shift-main-box" *ngIf="leaveTemplates.length > 0  && !leaveSettingPlaceholder && !isLeaveErrorPlaceholder && !isLoading"> -->
+          
             <div class="add-shift-main-box" *ngIf="!isLoading">
 
               <div class="add-shift-box d-flex align-items-center justify-content-between p-3 pt-2 pb-2">
@@ -786,7 +785,6 @@
               </div>
 
               <div>
-                <!-- <h4 style="cursor: pointer" (click)="routeToUserProfileAfterClosePending(userExpense.uuid)"> -->
                 <h4 style="cursor: pointer">
                   {{ userExpense.employeeName }}
                 </h4>
@@ -828,7 +826,6 @@
 
             <p class="mt-4 mb-4">{{ userExpense.notes == null ? 'N/A' : userExpense.notes }}</p>
             <div class="row mb-3">
-              <!-- Checkbox in Column 4 -->
               <div class="align-items-center col-md-4 d-flex justify-content-start">
                 <div class="form-check">
                   <input class="form-check-input pointer" type="checkbox" id="flexCheckDefault"
@@ -839,7 +836,6 @@
                 </div>
               </div>
 
-              <!-- Input in Column 8 -->
               <div class="col-md-8">
                 <input type="number" required min="1" id="amount" name="amount" placeholder="Enter Amount"
                   class="form-control" [(ngModel)]="partialAmount" #amountInput="ngModel"
@@ -853,63 +849,8 @@
 
             </div>
 
-            <!-- *ngIf="userExpense.status.id == 13 || userExpense.status.id == 15" -->
             <div class="d-flex align-items-center justify-content-end" style="gap: 10px">
-              <!-- Approve Button -->
-              <!-- <button class="btn approve-btn" type="button"
-                [disabled]="(userExpense.status.id != 13 && userExpense.status.id != 15) || (isCheckboxChecked && (partialAmount == '' || partialAmount == null || partialAmount > userExpense.amount))"
-                (click)="approveOrDeny(userExpense.id, 14)">
-                <div *ngIf="approveToggle ; else approveLabel">
-                  <div class="dot-opacity-loader">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                  </div>
-                </div>
-                <ng-template #approveLabel>Approve</ng-template>
-              </button> -->
-              <!-- Reject Button -->
-              <!-- <button
-                [disabled]="userExpense.status.id == 14 || userExpense.status.id == 40 || userExpense.status.id == 41"
-                class="btn reject-btn" type="button" (click)="approveOrDeny(userExpense.id, 15)">
-                <div *ngIf="rejectToggle; else rejectLabel">
-                  <div class="dot-opacity-loader">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                  </div>
-
-                </div>
-                <ng-template #rejectLabel>Reject</ng-template>
-              </button> -->
-
-              <!-- Reject Button -->
-              <!-- <button
-                [disabled]="userExpense.status.id == 14 || userExpense.status.id == 40 || userExpense.status.id == 41"
-                class="btn btn-warning" type="button" (click)="approveOrDeny(userExpense.id, 40)">
-                <div *ngIf="payrollToggle; else payrollLabel">
-                  <div class="dot-opacity-loader">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                  </div>
-                </div>
-                <ng-template #payrollLabel>Add To Payroll</ng-template>
-              </button> -->
-
-              <!-- Reject Button -->
-              <!-- <button
-                [disabled]="userExpense.status.id == 14 || userExpense.status.id == 40 || userExpense.status.id == 41"
-                class="btn btn-danger" type="button" (click)="approveOrDeny(userExpense.id, 41)">
-                <div *ngIf="expenseCancelToggle; else cancelLabel">
-                  <div class="dot-opacity-loader">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                  </div>
-                </div>
-                <ng-template #cancelLabel>Cancel</ng-template>
-              </button> -->
+             
 
             </div>
           </div>
@@ -995,8 +936,7 @@
                     {{userExpense.status.response}}
                   </span>
 
-                  <p class="mb-0 mt-2 font-14 expance-date">Date: {{userExpense.expenseDate | date : "dd MMM yyyy" ||
-                    "N/A"}}</p>
+                  <p class="mb-0 mt-2 font-14 expance-date">Date: {{userExpense.expenseDate | date : "dd MMM yyyy" || "N/A"}}</p>
                 </div>
               </div>
 
@@ -1052,14 +992,10 @@
                     </div>
 
             
-                   <!-- <p class="text-danger" *ngIf="userExpense?.status?.id != 13 && userExpense?.approvedAmount < userExpense?.amount" >Appoved amount {{userExpense.approvedAmount}} by Manager/HR</p> -->
                    <p class="text-danger" *ngIf="userExpense?.approvedAmount > 0 && userExpense?.approvedAmount < userExpense?.amount" >Appoved amount {{userExpense.approvedAmount}} by Manager/HR</p>
 
-                    <!-- logic for approved-amount when manager approved this expense -->
-                    <!-- <div class="col-md-12 mb-3" *ngIf="!rejectDiv && userExpense.status.id == 13 && userExpense.limitAmount != null && userExpense.amount > userExpense.limitAmount"> -->
-                    <!-- <div class="col-md-12 mb-3" *ngIf="!rejectDiv && userExpense.status.id == 13"> running-->
+                  
                     <div class="col-md-12 mb-3" *ngIf="!rejectDiv && userExpense.status.id == 13">
-                      <!-- Checkbox for 'Approve Amount' -->
                       <div class="form-check">
                         <input 
                           type="checkbox" 
@@ -1072,7 +1008,6 @@
                         <label class="form-check-label" for="approveAmountCheckbox">Modify Amount</label>
                       </div>
                     
-                      <!-- Input field that appears when checkbox is checked -->
                       <div class="mt-2" *ngIf="approveAmountChecked">
                         <input 
                           type="number"
@@ -1090,7 +1025,6 @@
                     </div>
                   </div>
 
-                  <!-- for partially payment -->
                   <div class="col-md-12" *ngIf="userExpense.partiallyPaidAmount != null">
                     <div class="row">
                       <label for="employeeTypeId" class="mb-2">Amount </label>
@@ -1106,7 +1040,6 @@
     
                     <p class="text-danger" *ngIf="userExpense?.status?.id != 13 && userExpense?.approvedAmount < userExpense?.amount" >Appoved amount {{userExpense.approvedAmount}} by Manager/HR</p>
                     <p *ngIf="fullPartialAmount > 0">Remaining amount is: {{userExpense.approvedAmount - userExpense.partiallyPaidAmount}}</p>
-                    <!-- <p *ngIf="fullPartialAmount > 0">Remaining amount is: {{userExpense.amount - userExpense.partiallyPaidAmount}}</p> -->
                       
     
                   </div>
@@ -1128,7 +1061,6 @@
                     [(ngModel)]="approveReq.rejectionReason" name="rejectInput"></textarea>
                 </div>
     
-                <!-- <div *ngIf="(userExpense.status.id == 14 || userExpense.status.id == 46) && !rejectDiv"> now-->
                 <div *ngIf="(userExpense.status.id == 14 || userExpense.status.id == 46 || userExpense.status.id == 53) && !rejectDiv">
     
                   <div class="row mt-3 mb-2">
@@ -1161,16 +1093,7 @@
                         placeholder="Enter the Amount " nzSize="large" minlength="3" maxlength="50" id="amount"
                         name="amount" [(ngModel)]="partialAmount" #amountInput="ngModel" required />
                     </div>
-                    <!-- <div>
-                      <p *ngIf="userExpense.partiallyPaidAmount == null && partialAmount > userExpense.amount"
-                        class="d-flex justify-content-end" style="color: red !important;"> Flexible amount should be less
-                        from expense amount</p>
-    
-                      <p *ngIf="userExpense.partiallyPaidAmount != null && partialAmount > fullPartialAmount"
-                        class="d-flex justify-content-end" style="color: red !important;"> Flexible amount should be less
-                        from remaining amount</p>
-    
-                    </div> -->
+                   
                     <div>
                       <p *ngIf="userExpense.partiallyPaidAmount == null && partialAmount > userExpense.approvedAmount"
                         class="d-flex justify-content-end" style="color: red !important;"> Flexible amount should be less
@@ -1183,17 +1106,6 @@
                     </div>
                   </div>
     
-                  <!-- <div class="col-md-12 mb-3">
-                    <div class="form-group">
-                      <label for="employeeTypeId" class="mb-2">Select settlement date?</label>
-    
-                      <nz-date-picker (ngModelChange)="selectExpenseSettledDay($event)" [(ngModel)]="settledDate"
-                        nzPlaceHolder="dd/mm/yyyy" id="selLastDate" name="lastDate" #lastDate="ngModel" required
-                        class="form-control">
-                      </nz-date-picker>
-    
-                    </div>
-                  </div> -->
     
                   <div class="col-md-12 mb-3" *ngIf="showTransactionDiv">
                     <label for="employeeTypeId" class="mb-2"> Transaction Id </label>
@@ -1210,34 +1122,10 @@
             </div>
             <div class="modal-footer expense-admin" *ngIf="userExpense != undefined">
 
-              <!-- <div *ngIf="!rejectDiv && !payCashDiv" class="d-flex align-items-center gap-2">
-                <button class="btn reject-btn" *ngIf="!partiallyPayment && (userExpense.status.id == 13 || userExpense.status.id == 14)" (click)="showExpenseRejectDiv()">Reject</button>
-                <button class="btn payroll-btn"
-                  *ngIf="userExpense && userExpense.status.id == 14 && (!payrollToggle && !partiallyPayment)"
-                  (click)="approveOrDeny(userExpense.id, 40, 0)">Settled With Payroll</button>
-
-                <button class="btn approve-btn" *ngIf="userExpense.status.id == 13 && !approveToggle"
-                 [disabled]="(approveAmountChecked && approvedAmount == '') || (approveAmountChecked &&!approvedAmount) || approvedAmount > userExpense.amount" (click)="approveOrDeny(userExpense.id, 14, 0)">Approved</button>
-               
-                <button class="btn approve-btn" [disabled]="partiallyPayment && (!partialAmount || partialAmount > userExpense.approvedAmount)"
-                *ngIf="!expenseCancelToggle && userExpense.status.id == 14" (click)="showPayCashDiv()">Settle Now</button>
-      
-                  <button class="btn approve-btn"
-                  [disabled]="partiallyPayment && (partialAmount == '' || partialAmount == null || partialAmount > fullPartialAmount)"
-                  *ngIf="!expenseCancelToggle && userExpense.status.id == 46" (click)="showPayCashDiv()">Approved</button>
-      
-                <div class="dot-opacity-loader" *ngIf="approveToggle || expenseCancelToggle || payrollToggle">
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                </div>
-              </div> -->
-
               <div *ngIf="!rejectDiv && !payCashDiv" class="d-flex align-items-center gap-2">
                 <button class="btn reject-btn" [disabled]="approveToggle || payrollToggle" 
                 *ngIf="!partiallyPayment && (userExpense.status.id == 13 || userExpense.status.id == 14)" (click)="showExpenseRejectDiv()">Reject</button>
             
-                <!-- <button type="button" *ngIf="userExpense && userExpense.status.id == 14"  -->
                 <button type="button" *ngIf="userExpense && userExpense.status.id == 14 && !partiallyPayment" 
                   class="btn payroll-btn" (click)="approveOrDeny(userExpense.id, 40, 0)" [disabled]="payrollToggle" >
                     <span *ngIf="!payrollToggle">Settled With Payroll</span>
@@ -1265,15 +1153,6 @@
                   <button class="btn approve-btn" [ngClass]="{'btn-border': partiallyPayment && partialAmount}"
                   [disabled]="partiallyPayment && (partialAmount == '' || partialAmount == null || partialAmount > fullPartialAmount)"
                   *ngIf="!expenseCancelToggle && userExpense.status.id == 46" (click)="showPayCashDiv()">Approved</button>
-
-                  <!-- <button class="btn approve-btn" [ngClass]="{'btn-border': partiallyPayment && partialAmount}"
-                  [disabled]="partiallyPayment && (partialAmount == '' || partialAmount == null || partialAmount > fullPartialAmount)"
-                  *ngIf="!expenseCancelToggle && userExpense.status.id == 46" (click)="showPayCashDiv()">Approved</button> -->
-
-                  <!-- <button class="btn approve-btn" [ngClass]="{'btn-border': partiallyPayment && partialAmount}"
-                  [disabled]="partiallyPayment && (partialAmount == '' || partialAmount == null || partialAmount > fullPartialAmount)"
-                  *ngIf="!expenseCancelToggle &&  userExpense.status.id == 53" (click)="showPayCashDiv()">Settled Partial</button> -->
-      
               </div>
 
 
@@ -1396,34 +1275,11 @@
                     </div>
                   </div>
 
-                  <!-- Expense Type Dropdown -->
                   <div class="col-md-6 mb-3">
                     <div class="form-field">
                       <label for="expenseTypeDropdown" class="pb-2">Expense Type</label>
 
-                      <!-- <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle new-dropdown" type="button"
-                          id="expenseTypeDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="text-align: left; background-color: white; color: black;
-                                                        border-color: #ced4da; width: 100%;">
-                          {{ expenseTypeName || "Select Expense type" }}
-                          <i class="bi bi-chevron-down"></i>
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="expenseTypeDropdown" style="width: 100%">
-                          <li *ngFor="let expense of expenseTypeList">
-                            <a class="dropdown-item" (click)="selectExpenseType(expense)">
-                              {{ expense.name }}
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
-                      <div *ngIf="!isExpenseTypeSelected && shiftForm.submitted" class="text-danger">
-                        Expense type is required.
-                      </div> -->
-
                       <nz-form-control>
-                        <!-- <nz-select class="form-control" style="width: 100%" nzSize="large" (nzOnChange)="selectExpenseType($event)" nzPlaceHolder="Select expense type" required>
-                          <nz-option [nzValue]="expense.id" [nzLabel]="expense.name" *ngFor="let expense of expenseTypeList"></nz-option>
-                        </nz-select> -->
 
                         <nz-select style="width: 100%" nzSize="large" nzPlaceHolder="Select Expense type"
                           [(ngModel)]="expenseTypeId" (ngModelChange)="selectExpenseType($event)" required id="seleType"
@@ -1440,7 +1296,6 @@
 
 
 
-                  <!-- Expense Type Amount -->
                   <div class="col-md-6 mb-3">
                     <div class="form-field">
                       <label for="expenseAmount" class="pb-2">Amount</label>
@@ -1536,67 +1391,6 @@
                     </div>
                   </div>
 
-                  <!-- <div *ngIf="isExpenseTypeSelected" class="mt-3">
-                    <label>Payment Type</label>
-
-                
-                    <div class="form-check">
-                      <input class="form-check-input" type="radio" name="paymentType" id="flexible" value="flexible"
-                        required [(ngModel)]="paymentType" (change)="onPaymentTypeChange(0, 'flexible')" />
-                      <label class="form-check-label" for="flexible">Flexible</label>
-                    </div>
-                    <div class="form-check">
-                      <input class="form-check-input" type="radio" name="paymentType" id="fixed" value="fixed" required
-                        [(ngModel)]="paymentType" (change)="onPaymentTypeChange(1, 'fixed')" />
-                      <label class="form-check-label" for="fixed">Fixed</label>
-                    </div>
-
-                   
-                    <div *ngIf="!paymentType && shiftForm.submitted" class="text-danger">
-                      Payment type is required
-                    </div>
-
-                
-                    <div *ngIf="paymentType === 'fixed'" class="form-check mt-3">
-                      <input class="form-check-input" type="checkbox" id="thresholdCheckbox" name="checkThresold"
-                        [(ngModel)]="isThresholdSelected" (ngModelChange)="setThresold($event)" />
-                      <label class="form-check-label" for="thresholdCheckbox">
-                        Do you want to set threshold?
-                      </label>
-                    </div>
-
-              
-                    <div *ngIf="isThresholdSelected && paymentType === 'fixed'" class="mt-2">
-                      <input type="number" class="form-control" placeholder="Enter Amount" id="amountFlex"
-                        name="amountFlex" [(ngModel)]="flexibleAmount" #amountFlex="ngModel" min="1" required />
-                      <div *ngIf="amountFlex.invalid && amountFlex.touched" class="text-danger">
-                        Flexible amount is required
-                      </div>
-
-
-
-
-                      <div *ngIf="isThresholdSelected" class="mt-2">
-                        <div class="form-check">
-                          <input class="form-check-input" type="radio" name="thresholdTypeValue" id="valueType"
-                            value="value" [(ngModel)]="thresholdType" required
-                            (change)="onThresholdTypeChange(0, 'value')" />
-                          <label class="form-check-label" for="valueType">Amount</label>
-                        </div>
-                        <div class="form-check">
-                          <input class="form-check-input" type="radio" name="thresholdTypePercentage"
-                            id="percentageType" value="percentage" [(ngModel)]="thresholdType" required
-                            (change)="onThresholdTypeChange(1, 'percentage')" />
-                          <label class="form-check-label" for="percentageType">Percentage</label>
-
-                        </div>
-                      </div>
-
-                    </div>
-                  </div> -->
-
-
-
                   <div *ngIf="!editIndexPolicyToggle" class="d-flex justify-content-end add-update-btn">
                     <button type="button" class="btn p-0 mt-2 text-primary" (click)="addExpensePolicy(shiftForm)"
                       [disabled]="shiftForm.invalid || expenseTypeId == 0 "><i class="bi bi-plus-lg"></i> Add </button>
@@ -1640,7 +1434,6 @@
 
                         <td *ngIf="!updateToggle" class="text-center">
                           <div class="d-flex align-items-center gap-2">
-                            <!-- <button (click)="editExpensePolicy(i)" type="button" class="btn btnAction p-0">Edit</button> -->
                             <button (click)="editExpensePolicy(i)" type="button" class="btn btnAction p-0">
                               <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19"
                                 fill="none">
@@ -1656,7 +1449,6 @@
                               </svg>
                             </button>
 
-                            <!-- <button (click)="deleteExpensePolicy(i)" type="button" class="btn btnAction p-0">Delete</button> -->
                             <button (click)="deleteExpensePolicy(i)" type="button" class="btn btnAction p-0">
                               <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19"
                                 fill="none">
@@ -2103,11 +1895,6 @@
                   <tbody>
 
                     <tr *ngFor="let row of paginatedData; let i = index">
-                      <!-- <td *ngFor="let cell of fileColumnName; let j = index">
-                        <input class="input-zorro p-2" *ngIf="!validateRowToggle" [(ngModel)]="row[j]" />
-                        <input class="input-zorro p-2" *ngIf="validateRowToggle" [(ngModel)]="row[j]"
-                          [ngClass]="{'error-border': invalidCells[i][j]}" />
-                      </td> -->
 
 
                       <!-- Fields with condition -->
@@ -2146,13 +1933,6 @@
                 </table>
 
               </div>
-              <!-- <div class="d-flex justify-content-end align-items-center">
-                  <p class="m-0" *ngIf="data.length-1>pageSize"> Showing {{(currentPage - 1) * pageSize +currentPage}} -
-                    {{(currentPage - 1) * pageSize +(currentPage-1)+(data.length - 1)}} of {{data.length-1}} </p>
-                  <ngb-pagination [rotate]="true" [maxSize]="4" [collectionSize]="data.length - 1" [pageSize]="pageSize"
-                    [(page)]="currentPage" (pageChange)="onPageChange($event)">
-                  </ngb-pagination>
-                </div> -->
               <div class="text-end border-top pt-3">
                 <button *ngIf="!importToggle" type="button" class="btn p-0 next-btn btn-border"
                   (click)="saveFile()">Save Changes</button>

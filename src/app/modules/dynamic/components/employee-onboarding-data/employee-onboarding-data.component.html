@@ -787,7 +787,7 @@
                         </td>
                       </tr>
                     </tbody>
-                    <tbody *ngIf="pendingRequests.length == 0 && !isEditDataLoading">
+                    <tbody *ngIf="pendingRequests?.length == 0 && !isEditDataLoading">
                       <tr>
                         <td colspan="8">
                           <div class="empty-filenew" style="margin-top: 7%; margin-bottom: 7%">
@@ -801,7 +801,7 @@
                         </td>
                       </tr>
                     </tbody>
-                    <tbody *ngIf="pendingRequests.length > 0 && !isEditDataLoading">
+                    <tbody *ngIf="pendingRequests?.length > 0 && !isEditDataLoading">
                       <tr *ngFor="
                               let i = index;
                               let user;
@@ -888,10 +888,10 @@
                 <div
                   class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top"
                   *ngIf="!isEditDataLoading && pendingRequests.length > 0 && totalItems1>pageSize1">
-                  <p class="mb-0">
+                  <p >
                     Showing {{ getStartIndex() }} - {{ getEndIndex() }} of {{ totalItems1 }} users
                   </p>
-                  <div class="col-md-12">
+                  <div >
                     <ngb-pagination [collectionSize]="totalItems1" [(page)]="currentPage1" [pageSize]="pageSize1"
                       [maxSize]="5" [boundaryLinks]="true" [ellipses]="true"
                       (pageChange)="changePage1($event)">
@@ -1436,6 +1436,9 @@
         </button>
       </div>
       <div class="modal-body">
+        <div *ngIf="isRequestedDataLoading" class="d-flex align-items-center justify-content-center">
+          <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
+        </div>
         <div *ngIf="!isRequestedDataLoading" class="request-body">
           <div class="d-flex align-items-center justify-content-between request-user p-3">
             <div class="d-flex align-items-center gap-2">

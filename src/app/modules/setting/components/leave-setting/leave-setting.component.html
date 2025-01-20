@@ -1067,11 +1067,6 @@
                                     *ngIf="!wfhTemplateToggle">Leave</span> Count
                                 </label>
 
-                                <!-- <input class="form-control" type="number" style="width: 100%"
-                                  formControlName="leaveCount" class="form-control input-zorro" placeholder="Day Count"
-                                  (ngModelChange)="generateDaysDropdown($event, i)
-                                  " min="1" max="400" step="1" required /> -->
-
                                 <input class="form-control w-100 input-zorro" type="number" 
                                   formControlName="leaveCount" placeholder="Day Count" id="inputLeaveCount"
                                   name="inputLeaveCount" [(ngModel)]="tempLeaveCount"
@@ -1085,24 +1080,8 @@
                                     Please enter a valid number.</span>
                                 </p>
 
-                                <!-- <div *ngIf="showErrorCount" class="text-danger mt-2" style="color: red;">
-                                  Value has been adjusted to the nearest valid step.
-                                </div> -->
+                              
                               </div>
-
-                              <!-- <div *ngIf="wfhTemplateToggle" class="col-md-3 mb-2" nz-form-item>
-                                <label for="unusedLeaveActionId" class="pb-2">
-                                  Unused Leave Action
-                                </label>
-
-                                <nz-select [ngModel]="defaultLeaveActionId" [nzDisabled]="wfhTemplateToggle" style="width: 100%" nzSize="large" nzPlaceHolder="Unused leave action"
-                                  formControlName="unusedLeaveActionId" required class="form-control">
-                                  <nz-option *ngFor="
-                                      let unusedLeaveAction of unusedLeaveActionList
-                                    " [nzValue]="unusedLeaveAction.id" [nzLabel]="unusedLeaveAction.name">>
-                                  </nz-option>
-                                </nz-select>
-                              </div> -->
 
                               <div class="col-md-3 mb-2" nz-form-item>
                                 <label for="unusedLeaveActionId" class="pb-2">
@@ -1156,17 +1135,18 @@
                                 </nz-input-number>
                               </div>
 
-                              <div class="d-flex justify-content-between " *ngIf="categories.controls[i]!.get('unusedLeaveActionId')?.value==CARRY_FORWARD 
+                              <div class="mt-3" *ngIf="categories.controls[i]!.get('unusedLeaveActionId')?.value==CARRY_FORWARD 
                                     && categories.controls[i]!.get('unusedLeaveActionCount')?.value > 0">
-                                <div class="col-md-3 mb-3" nz-form-item >
-                                  <div class="form-check">
-                                    <input type="checkbox" formControlName="isReset" class="form-check-input" [checked]="categories.controls[i]!.get('isReset')?.value">
-                                    <label class="form-check-label" for="isReset" >Lapse this leave category upon template expiration.</label>
+                                <div class="col-md-12 mb-3" nz-form-item >
+                                  <div class="form-check d-flex align-items-center gap-2">
+                                    <input type="checkbox" formControlName="isReset" id="exampleCheck1" class="form-check-input" [checked]="categories.controls[i]!.get('isReset')?.value">
+                                    <label class="form-check-label" for="exampleCheck1" >Lapse this leave category upon template expiration.</label>
                                   </div>
                                 </div>
                                 
-                                <div class="col-md-9 mb-3" *ngIf="!categories.controls[i]!.get('isReset')?.value">
-                                  <div class="col-md-3" nz-form-item >  
+                                <div class="col-md-12 mb-3" *ngIf="!categories.controls[i]!.get('isReset')?.value">
+                                  <div class="row">
+                                  <div class="col-md-6 mb-3" nz-form-item >  
                                     <label for="carryoverAction" class="pb-2">
                                       Carry Over Action
                                     </label>
@@ -1179,7 +1159,7 @@
                                   </nz-select>
                                   </div>
     
-                                  <div class="col-md-3 mb-3" nz-form-item *ngIf="categories.controls[i]!.get('carryoverAction')?.value=='Restricted'">  
+                                  <div class="col-md-6 mb-3" nz-form-item *ngIf="categories.controls[i]!.get('carryoverAction')?.value=='Restricted'">  
                                     <label for="carryover" class="pb-2">
                                       Carry Over Quota
                                     </label>
@@ -1192,6 +1172,7 @@
                                     </nz-option>
                                   </nz-select>
                                   </div>
+                                </div>
                                 </div>
                               </div>
 
@@ -1373,7 +1354,7 @@
                         </div>
 
                         <div class="modal-footer d-flex align-items-center justify-content-end leave-footer">
-                          <!-- [ngClass]="{'btn-border-text': form.valid}" -->
+                          
                           <button [ngClass]="{'btn-border': displayedCategories.length > 0}"
                             [disabled]="displayedCategories.length == 0" type="submit" class="btn p-0 next-btn"
                             (click)="goToStaffSelectionTab()">
