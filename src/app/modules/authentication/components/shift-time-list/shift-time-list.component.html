@@ -735,7 +735,7 @@
         </div>
         <div class="manualUploadForm p-3">
           <form #shiftForm="ngForm" ngNativeValidate>
-            <div class="row">
+            <div class="row" *ngIf="SHIFT_TIME_STEP_ID == SHIFT_TIME_ID">
               <div class="col-md-12">
                 <div class="form-fild mb-3">
                   <label for="exampleInputEmail1" class="pb-2">Shift Type</label>
@@ -845,10 +845,68 @@
                 </div>
               </div>
             </div>
+            <div class="row mt-3 personalInformationForm" *ngIf="SHIFT_TIME_STEP_ID == WEEK_OFF_ID">
+              <div class="staf-list-box mt-3">
+                <div class="row mb-1 mt-3 align-items-center" style="padding-bottom: 15px">
+                  <div class="col-md-12">
+                    <div class="week-checkbox d-flex align-items-center gap-3"
+                      *ngFor="let day of weekDay; let i = index">
+                      <div class="form-check d-flex align-items-center gap-2">
+                        <input class="form-check-input" type="checkbox" [(ngModel)]="day.selected"
+                          [id]="'weekDay' + i" [name]="'weekDay' + i" (click)="toggleSelection(i)" />
+                        <label class="form-check-label align-label" [for]="'weekDay' + i">{{ day.name }}</label>
+                      </div>
+                      <div *ngIf="day.selected">
+                        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                          <input type="radio" class="btn-check" name="btnradio{{ i }}" id="btnradio1-{{ i }}"
+                            autocomplete="off" (click)="toggleAlternate(i, false)" [value]="false"
+                            [(ngModel)]="day.isAlternate" />
+                          <label class="btn btn-outline-primary" for="btnradio1-{{ i }}">All</label>
+                          <input type="radio" class="btn-check" name="btnradio{{ i }}" id="btnradio2-{{ i }}"
+                            autocomplete="off" (click)="toggleAlternate(i, true)" [value]="true"
+                            [(ngModel)]="day.isAlternate" />
+                          <label class="btn btn-outline-primary" for="btnradio2-{{ i }}">Alternate</label>
+                        </div>
+                        <div class="btn-group radio-btn" role="group"
+                          aria-label="Basic radio toggle button group" *ngIf="day.isAlternate">
+                          <input type="radio" class="btn-check" name="btnradioAlt{{ i }}" id="btnradio3-{{ i }}"
+                            autocomplete="off" (click)="day.weekOffType = 1" [value]="1"
+                            [(ngModel)]="day.weekOffType" />
+                          <label class="btn btn-outline-primary" for="btnradio3-{{ i }}">ODD</label>
+                          <input type="radio" class="btn-check" name="btnradioAlt{{ i }}" id="btnradio4-{{ i }}"
+                            autocomplete="off" (click)="day.weekOffType = 2" [value]="2"
+                            [(ngModel)]="day.weekOffType" />
+                          <label class="btn btn-outline-primary" for="btnradio4-{{ i }}">EVEN</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </form>
         </div>
       </div>
-      <div class="border-top d-flex align-items-center justify-content-end p-3">
+      <div class="border-top d-flex align-items-center justify-content-end p-3" *ngIf="SHIFT_TIME_STEP_ID == SHIFT_TIME_ID">
+        <button class="btn mannualSubmit"  [disabled]="
+            shiftForm.invalid ||
+            !organizationShiftTimingRequest.inTimeDate ||
+            !organizationShiftTimingRequest.outTimeDate ||
+            !organizationShiftTimingRequest.startLunchDate ||
+            !organizationShiftTimingRequest.endLunchDate
+          " (click)="goToWeekOffTab()">
+          <span *ngIf="!editShiftTimeLoader">Next</span>
+          <div class="dot-opacity-white-loader" *ngIf="editShiftTimeLoader">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </button>
+      </div> 
+      <div class="border-top d-flex align-items-center justify-content-between p-3" *ngIf="SHIFT_TIME_STEP_ID == WEEK_OFF_ID">
+          <button class="btn mannualSubmit" (click)="goToShiftTab()">
+        <span >Back</span>
+      </button> 
         <button class="btn mannualSubmit" [disabled]="
             shiftForm.invalid ||
             !organizationShiftTimingRequest.inTimeDate ||
@@ -864,6 +922,7 @@
           </div>
         </button>
       </div>
+     
     </div>
   </div>
 </div>

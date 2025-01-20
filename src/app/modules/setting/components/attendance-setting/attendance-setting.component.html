@@ -764,7 +764,7 @@
                     </div>
                     <div class="">
                       <a class="add-shift-time-btn" data-bs-toggle="modal" data-bs-target="#automation-rules"
-                        id="automationRuless" #automationRuless (click)="skipForNow()">
+                        id="automationRuless" #automationRuless (click)="getAttendanceRuleByOrganizationMethodCall()">
                         <i class="bi bi-plus"></i> Add Automation Rules
                       </a>
 
@@ -1742,6 +1742,7 @@
                           <i class="bi bi-info-circle"></i>&nbsp; If a user doesn't mark their checkout after their shift ends, Hajiri will automatically check
                           them out one hour later.
                         </p>
+
 
                         <div class="modal-footer d-flex align-items-center justify-content-end bg-white ">
                           <button type="submit" class="btn p-0 next-btn nextBtn" (click)="weekOffActiveTabMethod()"

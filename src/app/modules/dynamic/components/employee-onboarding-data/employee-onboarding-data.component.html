@@ -667,9 +667,11 @@
                           <td class="text-left">
                             <div class="material-switch">
                               <input type="checkbox" id="switch{{ user.uuid }}" [(ngModel)]="user.presenceStatus"
-                                (change)="
-                                    changeStatus(user.presenceStatus, user.uuid)
-                                  " />
+                              (change)="changeStatusActive(user.presenceStatus, user.uuid)" *ngIf="!user.presenceStatus"/>
+
+                              <input type="checkbox" id="switch{{ user.uuid }}" [(ngModel)]="user.presenceStatus"
+                              data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"
+                              (click)="openDeleteConfirmationModal(user.id, user.presenceStatus, user.uuid, 'Disable')" *ngIf="user.presenceStatus"/>
                               <label for="switch{{ user.uuid }}" class="label-success"></label>
                             </div>
                           </td>
@@ -706,8 +708,9 @@
                                 <li>
                                   <a class="dropdown-item" data-bs-toggle="modal"
                                     data-bs-target="#deleteConfirmationModal"
-                                    (click)="openDeleteConfirmationModal(user.id)"><i class="bi bi-trash3"></i> Delete
-                                    Account</a>
+                                    (click)="openDeleteConfirmationModal(user.id, false, '', 'Delete')"><i class="bi bi-trash3"></i> Delete
+                                    Account
+                                  </a>
                                 </li>
 
                                 <li>
@@ -787,7 +790,7 @@
                         </td>
                       </tr>
                     </tbody>
-                    <tbody *ngIf="pendingRequests.length == 0 && !isEditDataLoading">
+                    <tbody *ngIf="pendingRequests?.length == 0 && !isEditDataLoading">
                       <tr>
                         <td colspan="8">
                           <div class="empty-filenew" style="margin-top: 7%; margin-bottom: 7%">
@@ -801,7 +804,7 @@
                         </td>
                       </tr>
                     </tbody>
-                    <tbody *ngIf="pendingRequests.length > 0 && !isEditDataLoading">
+                    <tbody *ngIf="pendingRequests?.length > 0 && !isEditDataLoading">
                       <tr *ngFor="
                               let i = index;
                               let user;
@@ -1072,8 +1075,9 @@
                               <li>
                                 <a class="dropdown-item" data-bs-toggle="modal"
                                   data-bs-target="#deleteConfirmationModal"
-                                  (click)="openDeleteConfirmationModal(user.id)"><i class="bi bi-trash3"></i> Delete
-                                  Request</a>
+                                  (click)="openDeleteConfirmationModal(user.id, false, '', 'Delete')"><i class="bi bi-trash3"></i> Delete
+                                  Request
+                                </a>
                               </li>
 
 
@@ -1384,19 +1388,16 @@
         <div class="bg-white p-4 text-center">
           <div class="mb-4">
             <h5 class="alert-heading font-18 mb-2">
-              Are you sure want to delete this account?
+              Are you sure want to {{deleteOrDisableUserString}} this account?
             </h5>
-            <p class="font-13">This action will permanently remove your <br> attendance logs, payment history</p>
+            <p class="font-13" *ngIf="deleteOrDisableUserString === 'Delete'">This action will permanently remove this user.
+            <p class="font-13" *ngIf="deleteOrDisableUserString === 'Disable'">This action will disable this user.
           </div>
 
 
-          <button class="btn continue-btn" (click)="deleteUser()">
-            <span *ngIf="!disableUserLoader">Delete Account</span>
-            <div class="dot-opacity-loader" *ngIf="disableUserLoader">
-              <span></span>
-              <span></span>
-              <span></span>
-            </div>
+          <button class="btn continue-btn" (click)="deleteOrDisable()">
+            <span >{{deleteOrDisableUserString}} Account</span>
+            <i class="fa fa-spinner fa-spin" *ngIf="disableUserLoader"></i>
           </button>
           <br>
           <button class="btn p-0 mt-3 text-black" type="button" data-bs-dismiss="modal" aria-label="Close"
