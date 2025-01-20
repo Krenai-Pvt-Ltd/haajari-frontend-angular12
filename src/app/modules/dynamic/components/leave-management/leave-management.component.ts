@@ -460,7 +460,8 @@ params={ status: status ,itemPerPage: this.itemPerPage, currentPage: this.pageNu
   leave!: PendingLeaveResponse;
   viewPendingLeave(leave:any){
     this.leave = leave;
-    this.getLeaveQuota(leave);
+    //TODOD: commnetd for now
+    // this.getLeaveQuota(leave);
   }
 
   applyTeamFilter(team:UserTeamDetailsReflection|null,tab:string) {
