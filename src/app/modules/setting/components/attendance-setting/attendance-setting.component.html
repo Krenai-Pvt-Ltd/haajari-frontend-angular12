@@ -1486,8 +1486,9 @@
                       Automation Rules Not Found
                     </p>
                     <div class="d-flex align-items-center justify-content-center gap-3">
+
                       <div class="add-filtter">
-                        <button class="btn font-14 text-primary p-0" data-bs-toggle="modal"
+                        <button class="btn font-14 text-primary p-0" data-bs-toggle="modal" id="emptyStateAddRule"
                           data-bs-target="#automation-rules" (click)="getAttendanceRuleByOrganizationMethodCall()">
                           <i class="bi bi-plus"></i> Create Rules
                         </button>
@@ -1560,7 +1561,7 @@
 
 
   <div class="modal fade" id="shiftTime" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel"
-    data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
+    data-bs-backdrop="static" data-bs-keyboard="false" >
     <div class="modal-dialog modal-dialog-centered" style="max-width: 1050px;" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -2528,8 +2529,9 @@
       </div>
     </div>
   </div>
+  
   <div class="modal fade" id="automation-rules" data-bs-backdrop="static" tabindex="-1" role="dialog"
-    aria-labelledby="exampleModalDefaultLabel" aria-hidden="true">
+    aria-labelledby="exampleModalDefaultLabel" >
     <div class="modal-dialog modal-xl" role="document">
       <div class="modal-content">
         <div class="modal-header">
