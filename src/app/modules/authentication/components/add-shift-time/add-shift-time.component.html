@@ -14,6 +14,14 @@
                   are met efficiently.
                 </p>
               </div>
+              <div class="card-header p-0 pb-3 bg-white" *ngIf="SHIFT_TIME_STEP_ID == WEEK_OFF_ID">
+                <h4 class="card-title-headding mb-1">Add Week-off to : {{organizationShiftTimingRequest.name}}</h4>
+                <p class="mb-0 font-14">
+                  Select the week-offs from below that you would like to assign to the chosen shift. Once
+                  added, these week-offs will be applicable to users within this shift.
+                </p>
+              </div>
+           
               <div class="card-header p-0 pb-3 bg-white" *ngIf="SHIFT_TIME_STEP_ID == STAFF_SELECTION_ID">
                 <h4 class="card-title-headding mb-1">Add Employees to : {{organizationShiftTimingRequest.name}}</h4>
                 <p class="mb-0 font-14">
@@ -272,6 +280,45 @@
                                     readonly [(ngModel)]="
                                       organizationShiftTimingRequest.lunchHour
                                     " name="totalLunchBreakDuration" placeholder="Lunch break hours" />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row mt-3 personalInformationForm" *ngIf="SHIFT_TIME_STEP_ID == WEEK_OFF_ID">
+                            <div class="staf-list-box mt-3">
+                              <div class="row mb-1 mt-3 align-items-center" style="padding-bottom: 15px">
+                                <div class="col-md-12">
+                                  <div class="week-checkbox d-flex align-items-center gap-3"
+                                    *ngFor="let day of weekDay; let i = index">
+                                    <div class="form-check d-flex align-items-center gap-2">
+                                      <input class="form-check-input" type="checkbox" [(ngModel)]="day.selected"
+                                        [id]="'weekDay' + i" [name]="'weekDay' + i" (click)="toggleSelection(i)" />
+                                      <label class="form-check-label align-label" [for]="'weekDay' + i">{{ day.name }}</label>
+                                    </div>
+                                    <div *ngIf="day.selected">
+                                      <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                                        <input type="radio" class="btn-check" name="btnradio{{ i }}" id="btnradio1-{{ i }}"
+                                          autocomplete="off" (click)="toggleAlternate(i, false)" [value]="false"
+                                          [(ngModel)]="day.isAlternate" />
+                                        <label class="btn btn-outline-primary" for="btnradio1-{{ i }}">All</label>
+                                        <input type="radio" class="btn-check" name="btnradio{{ i }}" id="btnradio2-{{ i }}"
+                                          autocomplete="off" (click)="toggleAlternate(i, true)" [value]="true"
+                                          [(ngModel)]="day.isAlternate" />
+                                        <label class="btn btn-outline-primary" for="btnradio2-{{ i }}">Alternate</label>
+                                      </div>
+                                      <div class="btn-group radio-btn" role="group"
+                                        aria-label="Basic radio toggle button group" *ngIf="day.isAlternate">
+                                        <input type="radio" class="btn-check" name="btnradioAlt{{ i }}" id="btnradio3-{{ i }}"
+                                          autocomplete="off" (click)="day.weekOffType = 1" [value]="1"
+                                          [(ngModel)]="day.weekOffType" />
+                                        <label class="btn btn-outline-primary" for="btnradio3-{{ i }}">ODD</label>
+                                        <input type="radio" class="btn-check" name="btnradioAlt{{ i }}" id="btnradio4-{{ i }}"
+                                          autocomplete="off" (click)="day.weekOffType = 2" [value]="2"
+                                          [(ngModel)]="day.weekOffType" />
+                                        <label class="btn btn-outline-primary" for="btnradio4-{{ i }}">EVEN</label>
+                                      </div>
+                                    </div>
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -561,7 +608,7 @@
                       !organizationShiftTimingRequest.outTimeDate ||
                       !organizationShiftTimingRequest.startLunchDate ||
                       !organizationShiftTimingRequest.endLunchDate
-                    " (click)="staffActiveTabInShiftTimingMethod()" [ngClass]="{'btn-border':!(shiftForm.invalid ||
+                    " (click)="weekOffActiveTabMethod()" [ngClass]="{'btn-border':!(shiftForm.invalid ||
                       !organizationShiftTimingRequest.inTimeDate ||
                       !organizationShiftTimingRequest.outTimeDate ||
                       !organizationShiftTimingRequest.startLunchDate ||
@@ -589,8 +636,63 @@
                     </button> -->
                 </div>
                 <div class="next-btn-box d-flex align-items-center justify-content-between"
+                *ngIf="SHIFT_TIME_STEP_ID == WEEK_OFF_ID">
+                <button class="btn previousBtn previous-btn p-0" type="button" (click)="shiftTimingActiveTabMethod()">
+                  <!-- routerLink="/organization-onboarding/add-shift-placeholder" -->
+                  <!-- <i
+                      class="bi bi-arrow-left"
+                      style="
+                        padding-right: 3px;
+                        padding-right: 1px;
+                        position: relative;
+                        top: -1px;
+                      "
+                    ></i> -->
+                  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
+                    <path
+                      d="M19.75 10.6714C19.75 10.8588 19.6914 11.011 19.5743 11.1281C19.4572 11.2452 19.305 11.3038 19.1177 11.3038H3.59011L7.73547 15.4491C7.87599 15.5896 7.94625 15.7536 7.94625 15.9409C7.94625 16.1283 7.87599 16.2805 7.73547 16.3976C7.59495 16.5147 7.43101 16.5733 7.24365 16.5733C7.05628 16.5733 6.89234 16.5264 6.75182 16.4328L1.48229 11.1632C1.38861 11.0227 1.34177 10.8588 1.34177 10.6714C1.34177 10.484 1.38861 10.3201 1.48229 10.1796L6.75182 4.91005C6.89234 4.81637 7.05628 4.76953 7.24365 4.76953C7.43101 4.76953 7.59495 4.82808 7.73547 4.94518C7.87599 5.06228 7.94625 5.21451 7.94625 5.40188C7.94625 5.58924 7.87599 5.75318 7.73547 5.8937L3.59011 10.0391H19.1177C19.305 10.0391 19.4572 10.0976 19.5743 10.2147C19.6914 10.3318 19.75 10.484 19.75 10.6714Z"
+                      fill="black" />
+                  </svg>
+                  Previous
+                </button>
+
+                <button type="submit" class="btn nextBtn p-0" [disabled]="
+                    shiftForm.invalid ||
+                    !organizationShiftTimingRequest.inTimeDate ||
+                    !organizationShiftTimingRequest.outTimeDate ||
+                    !organizationShiftTimingRequest.startLunchDate ||
+                    !organizationShiftTimingRequest.endLunchDate
+                  " (click)="staffActiveTabInShiftTimingMethod()" [ngClass]="{'btn-border':!(shiftForm.invalid ||
+                    !organizationShiftTimingRequest.inTimeDate ||
+                    !organizationShiftTimingRequest.outTimeDate ||
+                    !organizationShiftTimingRequest.startLunchDate ||
+                    !organizationShiftTimingRequest.endLunchDate)}">
+                  <span>
+                    Next
+                    <!-- <i class="bi bi-arrow-right" style="padding-left: 8px"></i> -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
+                      <path
+                        d="M2.25293 11.0001C2.25293 11.1875 2.31148 11.3397 2.42858 11.4568C2.54568 11.5739 2.69791 11.6325 2.88527 11.6325H18.4128L14.2675 15.7779C14.1269 15.9184 14.0567 16.0823 14.0567 16.2697C14.0567 16.457 14.1269 16.6093 14.2675 16.7264C14.408 16.8435 14.5719 16.902 14.7593 16.902C14.9466 16.902 15.1106 16.8552 15.2511 16.7615L20.5206 11.492C20.6143 11.3514 20.6612 11.1875 20.6612 11.0001C20.6612 10.8128 20.6143 10.6488 20.5206 10.5083L15.2511 5.23879C15.1106 5.14511 14.9466 5.09827 14.7593 5.09827C14.5719 5.09827 14.408 5.15682 14.2675 5.27392C14.1269 5.39102 14.0567 5.54325 14.0567 5.73061C14.0567 5.91797 14.1269 6.08191 14.2675 6.22243L18.4128 10.3678H2.88527C2.69791 10.3678 2.54568 10.4263 2.42858 10.5434C2.31148 10.6606 2.25293 10.8128 2.25293 11.0001Z"
+                        fill="#6666F2" />
+                    </svg>
+                  </span>
+                </button>
+                <!-- <button
+                    type="submit"
+                    class="btn btn-outline-primary btn-round"
+                    [disabled]="shiftForm.invalid"
+                    (click)="staffActiveTabInShiftTimingMethod()"
+                  >
+                    <span>
+                      Next
+                      <i class="bi bi-arrow-right" style="padding-left: 8px"></i>
+                    </span>
+                  </button> -->
+              </div>
+
+                <div class="next-btn-box d-flex align-items-center justify-content-between"
                   *ngIf="SHIFT_TIME_STEP_ID == STAFF_SELECTION_ID">
-                  <button type="submit" class="btn previousBtn previous-btn" (click)="backToShiftTime()">
+                  <button type="submit" class="btn previousBtn previous-btn" (click)="weekOffActiveTabMethod()">
                     <span>
                       <!-- <i class="bi bi-arrow-left" style="padding-left: 8px"></i> -->
                       <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">

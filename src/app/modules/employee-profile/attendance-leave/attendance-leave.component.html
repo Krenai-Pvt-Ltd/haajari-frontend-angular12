@@ -442,9 +442,15 @@
                                         <td class="text-left">
                                             <span class="team-maneger mb-0 table-font-weight">
                                                 {{item.checkInTime | date:'shortTime'}} &nbsp; <span
-                                                    class="text-danger font-12" *ngIf=" item.status == 'Late'"> Late
+                                                    class="text-danger font-12" *ngIf=" item.status == 'Late'" nz-popover 
+                                                    nzPopoverTitle="Late Recorded By" 
+                                                    [nzPopoverContent]="convertSecondsToHMS(+item.lateMinutes)" 
+                                                    [nzPopoverOverlayStyle]="{'width':'250px'}" > Late
                                                     In</span> <span class="text-danger font-12"
-                                                    *ngIf=" item.status == 'Half Day'"> Half Day</span>
+                                                    *ngIf=" item.status == 'Half Day'" nz-popover 
+                                                    nzPopoverTitle="Half Day Recorded By" 
+                                                    [nzPopoverContent]="convertSecondsToHMS(+item.halfDayMinutes)" 
+                                                    [nzPopoverOverlayStyle]="{'width':'250px'}" > Half Day</span>
                                             </span>
                                         </td>
                                         <td class="text-left">
@@ -468,7 +474,7 @@
                                                 {{item.breakCount}}
                                             </span> -->
                                             <span 
-                                                *ngIf="item.breakCount > 0" 
+                                               
                                                 class="team-manager mb-0 table-font-weight" 
                                                 nz-popover 
                                                 nzPopoverTitle="Break Logs" 
@@ -509,9 +515,9 @@
                                                 </div>
                                               </ng-template>
                                               
-                                            <span *ngIf="item.breakCount == 0" class="team-maneger mb-0 table-font-weight">
+                                            <!-- <span *ngIf="item.breakCount == 0" class="team-maneger mb-0 table-font-weight">
                                                 {{item.breakCount}}
-                                            </span>
+                                            </span> -->
                                         </td>
                                         
                                         
