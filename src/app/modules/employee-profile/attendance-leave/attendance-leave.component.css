@@ -1236,3 +1236,8 @@ div[ngbTooltip] {
     text-transform: capitalize;
     cursor: pointer;
 }
+.requests-btn .active{
+    background-color: #6666F2;
+    border: 1px solid #6666F2;
+    color: #fff;
+}

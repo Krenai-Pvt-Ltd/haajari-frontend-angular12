@@ -527,15 +527,10 @@
             <div class="notification-message mt-3">
                 <div *ngIf="mailLoading; else notificationList" class="shimmer-wrapper">
                     <!-- Shimmer Effect Template -->
-                    <div class="shimmer-item d-flex align-items-center gap-3 p-3 border-bottom">
-                        <div class="shimmer" style="width:15%; height: 20px;"></div>
-                        <div class="shimmer" style="width:75%; height: 20px;"></div>
-                        <div class="shimmer" style="width:10%; height: 20px;"></div>
-                    </div>
-                    <div class="shimmer-item d-flex align-items-center gap-3 p-3 border-bottom">
-                        <div class="shimmer" style="width:15%; height: 20px;"></div>
-                        <div class="shimmer" style="width:75%; height: 20px;"></div>
-                        <div class="shimmer" style="width:10%; height: 20px;"></div>
+                    <div class="shimmer-item d-flex align-items-center gap-3 p-3 border-bottom" *ngFor="let item of [].constructor(10)">
+                        <div class="shimmer" style="width:15%; height: 15px;"></div>
+                        <div class="shimmer" style="width:75%; height: 15px;"></div>
+                        <div class="shimmer" style="width:10%; height: 15px;"></div>
                     </div>
                 </div>
                 <ng-template #notificationList>

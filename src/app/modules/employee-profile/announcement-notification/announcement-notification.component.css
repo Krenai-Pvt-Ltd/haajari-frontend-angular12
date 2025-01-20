@@ -307,7 +307,13 @@
   animation: shimmer-animation 1.5s infinite;
   border-radius: 4px;
 }
-
+.notification-message{
+    max-height: 60vh;
+    overflow: scroll;
+}
+.notification-message::-webkit-scrollbar{
+    display: none;
+}
 @keyframes shimmer-animation {
   0% {
     background-position: -200% 0;
