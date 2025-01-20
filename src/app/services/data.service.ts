@@ -3164,7 +3164,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     );
   }
 
-  
+
 
   setEmployeeCompanyDocuments(
     userUuid: string,
@@ -4856,6 +4856,13 @@ getHolidayForOrganization(date: string): Observable<any>{
       .set('size', size.toString());
 
     return this.httpClient.get<any>(`${this.baseUrl}/get/onboarding/pending-requests`, { params });
+  }
+
+  isUserUnderManager( userId: string): Observable<any> {
+    const params = new HttpParams()
+      .set('userId', userId.toString());
+
+    return this.httpClient.get<any>(`${this.baseUrl}/users/isUserUnderManager`, { params });
   }
 
 }

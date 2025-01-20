@@ -366,7 +366,7 @@
             </li>
             <li class="nav-item d-flex align-items-center">
               <a id="pills-notification-tab" data-bs-toggle="pill" href="#editRequest" role="tab"
-                 aria-controls="pills-notification" aria-selected="false"
+                 aria-controls="pills-notification" aria-selected="false" (click)="fetchPendingRequests()"
                 class="nav-link">Update Requests</a>
               <span class="request-count d-flex align-items-center justify-content-center"
                 *ngIf="editProfileCount > 0">{{editProfileCount}}</span>

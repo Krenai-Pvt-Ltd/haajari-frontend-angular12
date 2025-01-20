@@ -138,7 +138,7 @@ debugger
             this.toggle = false;
             this.helperService.showToast("Information Updated Successfully", Key.TOAST_STATUS_SUCCESS);
           }
-          if(response.employeeOnboardingFormStatus == 'USER_REGISTRATION_SUCCESSFUL' && this.buttonType !='update'){
+          if( this.buttonType !='update'){
           this.getOnboardingFormPreviewMethodCall();
           }
              response.employeeOnboardingStatus;
@@ -410,7 +410,7 @@ saveUserOnboardingFormStatusMethodCall(){
     (response: UserEmergencyContactDetailsRequest) => {
       // console.log('Response:', response);
     this.toggle= false;
-        if(response.employeeOnboardingFormStatus == 'USER_REGISTRATION_SUCCESSFUL' && response.employeeOnboardingStatus == 'PENDING' ){
+        if( response.employeeOnboardingStatus == 'PENDING' ){
           this.handleOnboardingStatus(response.employeeOnboardingStatus);
           this.routeToFormPreview();
         }
