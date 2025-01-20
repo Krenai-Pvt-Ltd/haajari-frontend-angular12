@@ -131,7 +131,7 @@ export class LeaveManagementComponent implements OnInit {
           this.leaves[this.currentTab] = [];
           this.totalItems[this.ALL] = 0;
           this.getLeaves(this.currentTab);
-          this.getLeaves(this.currentTab);
+          this.getLeaves(this.ALL);
 
           // Close modal
           this.closeModal.nativeElement.click();
