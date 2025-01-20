@@ -110,13 +110,22 @@
                 <div class="account-setting w-95 ">
 
                     <div class="position-relative">
+
                         <span class="profile-image">
-                            <img onerror="this.src='./assets/images/broken-image-icon.jpg';"
-                                [src]="employeeProfileResponseData?.profilePic">
-                        </span>
+                          <ng-container *ngIf="isUploading; else imageDisplay">
+                            <div class="spinner"></div>
+                          </ng-container>
+                          <ng-template #imageDisplay>
+                              <img
+                                  [src]="employeeProfileResponseData?.profilePic"
+                                  onerror="this.src='./assets/images/broken-image-icon.jpg';"
+                              >
+                          </ng-template>
+                      </span>
+
                         <input #fileInput type="file" accept="image/jpeg, image/jpg, image/png"
                             (change)="onFileSelected($event)" style="display: none;">
-                        <span (click)="fileInput.click()" class="image-edit-btn pointer">
+                        <span *ngIf="!isUploading" (click)="fileInput.click()" class="image-edit-btn pointer">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"
                                 fill="none">
                                 <path
@@ -562,7 +571,7 @@
 
                     <h5 class="font-22 fw-semibold mb-0">Your Guidelines</h5>
 
-                    <div class="row mt-5 border-bottom pb-4">
+                    <div *ngIf="hrPolicyDocuments.length>0" class="row mt-5 border-bottom pb-4">
                         <div class="col-md-4">
                             <h5 class="font-16 fw-semibold">HR Policy</h5>
                         </div>
@@ -734,7 +743,7 @@
                             <div *ngIf="guidelines?.lateEntry?.customLateDuration?.lateDuration" class="guide-policy mb-4">
                                 <h5 class="font-15 mb-2 fw-semibold">Custom Salary Deduction</h5>
                                 <p class="mb-0 font-13">The deduction will apply if you are late by <span
-                                        class="fw-semibold">{{formatTime(guidelines?.lateEntry?.customLateDuration?.lateDuration)}} hour</span> A fixed
+                                        class="fw-semibold">{{formatTime(guidelines?.lateEntry?.customLateDuration?.lateDuration)}}</span> A fixed
                                     amount of <span class="fw-semibold">₹{{guidelines?.lateEntry?.customLateDuration?.amountInRupees}} will be deducted</span> for each occurrence
                                     This rule will be <span class="fw-semibold">applied if
                                         you are late {{guidelines?.lateEntry?.customLateDuration?.occurrenceCount}} times. </span></p>
@@ -987,7 +996,10 @@
                         <div *ngIf="supportForm.get('description')?.invalid && supportForm.get('description')?.touched" class="text-danger">
                           Description is required.
                         </div>
-                        <span class="file-attech-icon pointer">
+                        <div *ngIf="fileCheck" class="text-danger">
+                          You can upload upto 5 files.
+                        </div>
+                        <span *ngIf="attachedHnSFile.length<5" class="file-attech-icon pointer">
                           <!-- Hidden file input -->
                           <input id="file" type="file" (change)="onFileSelect($event)" multiple style="display: none;" />
                           <!-- Label that triggers the file input -->
