@@ -17,6 +17,8 @@ export class EmployeeProfileAttendanceResponse{
   workingHourDifference!: string;
   status!: string;
   currentStatus!: string;
+  halfDayMinutes!: string;
+  lateMinutes!: string;
 }
 
 export class TotalEmployeeProfileAttendanceResponse {

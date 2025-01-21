@@ -209,3 +209,14 @@ body {
      background-color: #FFEBEA;
      height: 170px;
 }
+.badge-soft-secondary{
+  border-radius: 5px;
+  border: 1px solid #6666f2;
+  background-color: #f1f1fc;
+}
+
+.badge-soft-secondary label{
+  font-weight: 400;
+  color: #6666f2;
+  line-height: 24px;
+}

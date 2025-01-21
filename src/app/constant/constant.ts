@@ -10,6 +10,9 @@ export class constant {
     public static DOC_TYPE_HR_POLICY='hr_policy';
     public static REMOVE_SHIFT_STRING = 'Keep In - ';
     public static USER = 'USER';
+    public static DELETE = 'Delete';
+    public static DISABLE = 'Disable';
+
 
     public static ORG_ONBOARDING_PERSONAL_INFORMATION_STEP_ID = "1";
     public static ORG_ONBOARDING_EMPLOYEE_CREATION_STEP_ID = "2";
@@ -47,6 +50,8 @@ export class constant {
     public static PUBLIC_ROUTES = [constant.PUBLIC_MARK_ATTENDANCE_URL,constant.PUBLIC_APPLY_LEAVE_URL,constant.PUBLIC_MARK_ATTENDANCE_WITH_IMAGE_URL,constant.PUBLIC_SLACK_INSTALL_SUCCESS,
         constant.PUBLIC_SERVER_ERROR   
     ];
+
+
 
 }
 
