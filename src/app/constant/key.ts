@@ -73,8 +73,8 @@ export class Key {
     '/setting/onboarding-setting',
     '/refer-friend',
     '/expense',
-    '/exit-policy'
-
+    '/exit-policy',
+    '/leave-managements',
   ];
 
   public static TOPBAR_ROUTES = [
@@ -119,7 +119,8 @@ export class Key {
     '/setting/onboarding-setting',
     '/refer-friend',
     '/expense',
-    '/exit-policy'
+    '/exit-policy',
+    '/leave-managements',
     // '/to-do-step-dashboard',
   ];
 
@@ -223,7 +224,10 @@ export class Key {
 
   // Shift Time steps
   public static SHIFT_TIME = 1;
-  public static STAFF_SELECTION = 2;
+  public static WEEK_OFF = 2;
+  public static STAFF_SELECTION = 3;
+  
+
 
   // Attendance mode id
   public static MANUAL_ATTENDANCE = 1;

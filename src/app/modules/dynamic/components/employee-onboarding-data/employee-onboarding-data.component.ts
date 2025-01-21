@@ -208,21 +208,6 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     this.getUsersByFiltersFunction();
   }
 
-  text = '';
-  changeStatus(presenceStatus: Boolean, uuid: string) {
-    debugger;
-    this.dataService.changeStatusById(presenceStatus, uuid).subscribe(
-      (data) => {
-        // location.reload();
-        this.getUsersByFiltersFunction();
-        // this.helperService.showToast("User disabled");
-      },
-      (error) => {
-        this.getUsersByFiltersFunction();
-        // location.reload();
-      }
-    );
-  }
 
   onTableDataChange(event: any) {
     this.pageNumber = event;
@@ -591,6 +576,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
           this.pageNumber = this.pageNumber - 1;
         }
         this.disableUserLoader = false;
+        // this.deleteOrDisableString = '';
         this.getEmployeesOnboardingStatus();
         this.getUsersByFiltersFunction();
         this.getEmpLastApprovedAndLastRejecetdStatus();
@@ -608,16 +594,40 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   }
 
   currentUserId: number | null = null;
+  currentUserPresenceStatus: boolean= false;
+  currentUserUuid: string = '';
+  deleteOrDisableUserString: string = '';
+  // deleteOrDisableString: string = '';
 
   // deleteConfirmationModalRef!: NgbModalRef;
 
   @ViewChild('deleteConfirmationModal') deleteConfirmationModal: any;
 
-  openDeleteConfirmationModal(userId: number) {
+  openDeleteConfirmationModal(userId: number, presenceStatus: boolean, uuid: string, stringStr: string) {
+    debugger
     this.currentUserId = userId;
+    this.currentUserPresenceStatus = presenceStatus;
+    this.currentUserUuid = uuid;
+    this.deleteOrDisableUserString = stringStr;
     // this.deleteConfirmationModalRef = this.modalService.open(this.deleteConfirmationModal);
   }
 
+
+  deleteOrDisable() {
+    if(this.deleteOrDisableUserString === constant.DELETE) {
+      // this.deleteOrDisableString = "Delete";
+      if (this.currentUserId !== null) {
+       this.deleteUser();
+      }
+    }else if (this.deleteOrDisableUserString === constant.DISABLE){
+      // this.deleteOrDisableString = "Delete";
+      if(this.currentUserUuid != '') {
+        const statusToSend = !this.currentUserPresenceStatus;
+        this.changeStatusActive(statusToSend, this.currentUserUuid);
+        this.closeUserDeleteModal.nativeElement.click();
+       }
+    }
+  }
   deleteUser() {
     if (this.currentUserId !== null) {
       this.disableUser(this.currentUserId);
@@ -628,6 +638,52 @@ export class EmployeeOnboardingDataComponent implements OnInit {
 
   closeDeleteModal() {
     this.deleteConfirmationModal.nativeElement.click();
+  }
+
+
+  text = '';
+  // changeStatus() {
+  //   debugger;
+  //   this.disableUserLoader = true;
+  //   const statusToSend = !this.currentUserPresenceStatus;
+  //   this.dataService.changeStatusById(statusToSend, this.currentUserUuid).subscribe(
+  //     (data) => {
+  //       // location.reload();
+  //       this.disableUserLoader = false;
+       
+  //       this.getUsersByFiltersFunction();
+       
+  //       this.currentUserPresenceStatus = false;
+  //       this.currentUserUuid = '';
+  //       this.deleteOrDisableString = '';
+  //       this.helperService.showToast("User disabled succefully", Key.TOAST_STATUS_SUCCESS);
+  //     },
+  //     (error) => {
+  //       this.disableUserLoader = false;
+  //       this.getUsersByFiltersFunction();
+  //       // location.reload();
+  //     }
+  //   );
+  // }
+  changeStatusActive(status: boolean, userUuid: string) {
+    debugger;
+    this.disableUserLoader = true;
+    this.dataService.changeStatusById(status, userUuid).subscribe(
+      (data) => {
+        // location.reload();
+        this.disableUserLoader = false;
+        this.getUsersByFiltersFunction();
+        this.currentUserPresenceStatus = false;
+        this.currentUserUuid = '';
+        // this.deleteOrDisableString = '';
+        this.helperService.showToast("User disabled succefully", Key.TOAST_STATUS_SUCCESS);
+      },
+      (error) => {
+        this.disableUserLoader = false;
+        this.getUsersByFiltersFunction();
+        // location.reload();
+      }
+    );
   }
 
   // dismissModal() {

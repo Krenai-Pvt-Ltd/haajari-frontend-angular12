@@ -10,6 +10,7 @@ import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { OrganizationOnboardingService } from 'src/app/services/organization-onboarding.service';
 import { constant } from 'src/app/constant/constant';
+import { WeekDay } from 'src/app/models/WeekDay';
 
 @Component({
   selector: 'app-add-shift-time',
@@ -44,6 +45,7 @@ export class AddShiftTimeComponent implements OnInit {
     }
     this.getOnboardingVia();
     this.getShiftTypeMethodCall();
+    this.getWeekDays();
     this.getUserByFiltersMethodCall();
     this.getAllShiftTimingsMethodCall();
     this.defaultInOpenTime.setHours(0, 0, 0, 0);
@@ -75,6 +77,7 @@ export class AddShiftTimeComponent implements OnInit {
     }
 
   }
+  
 
   shiftTimingExists = false;
   async checkShiftTimingExists(): Promise<void> {
@@ -196,6 +199,16 @@ export class AddShiftTimeComponent implements OnInit {
     this.loading = true;
   
     this.organizationShiftTimingRequest.userUuids = this.selectedStaffsUuids;
+
+    this.organizationShiftTimingRequest.weekdayInfos = this.weekDay
+    .filter((day) => day.selected)
+    .map((day) => ({
+      weeklyOffDay: day.name,
+      isAlternateWeekoff: day.isAlternate,
+      weekOffType: day.weekOffType,
+      userUuids: this.selectedStaffsUuids,
+    }));
+
     // this.organizationShiftTimingRequest.shiftTypeId = 1;
     this.dataService
       .registerShiftTiming(this.organizationShiftTimingRequest)
@@ -260,8 +273,15 @@ export class AddShiftTimeComponent implements OnInit {
   @ViewChild('shiftTimingActiveTab') shiftTimingActiveTab!: ElementRef;
 
   shiftTimingActiveTabMethod() {
-    this.shiftTimingActiveTab.nativeElement.click();
+    // this.shiftTimingActiveTab.nativeElement.click();
+    this.SHIFT_TIME_STEP_ID = this.SHIFT_TIME_ID;
   }
+
+  weekOffActiveTabMethod() {
+    // this.isWeekOffFlag = true;
+    this.SHIFT_TIME_STEP_ID = this.WEEK_OFF_ID;
+  }
+
 
   // ##### Pagination ############
   changePage(page: number | string) {
@@ -412,6 +432,7 @@ export class AddShiftTimeComponent implements OnInit {
 
   SHIFT_TIME_ID = Key.SHIFT_TIME;
   STAFF_SELECTION_ID = Key.STAFF_SELECTION;
+  WEEK_OFF_ID = Key.WEEK_OFF;
 
   SHIFT_TIME_STEP_ID = Key.SHIFT_TIME;
   isAddShiftLastLoading: boolean = false;
@@ -755,6 +776,40 @@ export class AddShiftTimeComponent implements OnInit {
     if (this.youtubeIframe) {
     const iframeElement = this.youtubeIframe.nativeElement as HTMLIFrameElement;
       iframeElement.src = 'https://www.youtube.com/embed/jh7-qF48ANk?si=WJvojNbQucaWaknY';
+    }
+  }
+
+  //  new 
+   weekDay: WeekDay[] = [];
+
+   getWeekDays() {
+    this.dataService.getWeekDays().subscribe((holidays) => {
+      this.weekDay = holidays.map((day) => ({
+        ...day,
+        selected: false, // Explicitly set selected to false
+        isAlternate: false, // Ensure isAlternate is also set to false by default
+        weekOffType: 0, // Set weekOffType to default value, if needed
+      }));
+      // console.log(this.weekDay);
+    });
+  }
+
+
+  toggleSelection(i: number): void {
+    this.weekDay[i].selected = !this.weekDay[i].selected;
+
+    // Automatically set isAlternate to false when a day is selected
+    this.weekDay[i].isAlternate = false;
+  }
+
+  toggleAlternate(i: number, isAlternate: boolean): void {
+    debugger;
+    this.weekDay[i].isAlternate = isAlternate;
+    this.weekDay[i].weekOffType = 1;
+
+    // Reset weekOffType to 0 when "All" is selected
+    if (!isAlternate) {
+      this.weekDay[i].weekOffType = 0;
     }
   }
 }

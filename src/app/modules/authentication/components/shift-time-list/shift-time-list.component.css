@@ -430,3 +430,26 @@
   letter-spacing: 0.152px;
   padding-left: 10px;
 }
+
+
+.week-checkbox {
+  margin-bottom: 15px;
+  border-bottom: 1px solid #f2f2f2;
+  padding-bottom: 15px;
+}
+
+
+.week-day .form-check-input {
+  border-radius: 2px;
+}
+
+.week-day label {
+  position: relative;
+  top: 2px;
+}
+
+.radio-btn {
+  padding-left: 10px;
+}
+
+

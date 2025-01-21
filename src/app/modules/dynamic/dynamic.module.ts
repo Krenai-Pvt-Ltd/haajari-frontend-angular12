@@ -73,6 +73,7 @@ import { NewEmployeeProfileComponent } from './components/new-employee-profile/n
 import { CreateExpenseComponent } from './components/create-expense/create-expense.component';
 import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
 import { ExistPolicyComponent } from './components/exist-policy/exist-policy.component';
+import { LeaveManagementsComponent } from './components/leave-managements/leave-managements.component';
 
 
 @NgModule({
@@ -110,7 +111,8 @@ import { ExistPolicyComponent } from './components/exist-policy/exist-policy.com
     ReferFriendComponent,
     NewEmployeeProfileComponent,
     CreateExpenseComponent,
-    ExistPolicyComponent
+    ExistPolicyComponent,
+    LeaveManagementsComponent
   ],
   imports: [
     CommonModule,
