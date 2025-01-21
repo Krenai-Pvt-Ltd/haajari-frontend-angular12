@@ -6,6 +6,10 @@ import { BulkAction } from '../models/bulkAction';
 import { BonusRequest } from '../models/bonus-request';
 import { BonusAndDeductionData } from '../models/bonus-and-deduction-data';
 import { EmployeeMonthWiseSalaryData } from '../models/employee-month-wise-salary-data';
+import { SalaryComponentRequest } from '../models/salary-component-request';
+import { SalaryComponent } from '../models/salary-component';
+import { SalaryComponentReq } from '../models/SalaryComponetReq';
+import { SalaryComponentResponse } from '../models/salary-component-response';
 
 @Injectable({
   providedIn: 'root'
@@ -263,5 +267,13 @@ export class SalaryService {
     const params = new HttpParams()
     .set('user_uuid', userUuid)
     return this._http.get<any>(`${this._key.base_url}/salary/current`, {params});
+  }
+
+
+  saveCustomSalaryTemplate(userUuid : string, requestList:SalaryComponentResponse[]){
+    const params = new HttpParams()
+    .set('user_uuid', userUuid)
+    return this._http.post<any>(`${this._key.base_url}/salary/current`,requestList, {params});
+
   }
 }
