@@ -273,7 +273,11 @@ export class SalaryService {
   saveCustomSalaryTemplate(userUuid : string, requestList:SalaryComponentResponse[]){
     const params = new HttpParams()
     .set('user_uuid', userUuid)
-    return this._http.post<any>(`${this._key.base_url}/salary/current`,requestList, {params});
+    return this._http.put<any>(`${this._key.base_url}/salary/template/user`,requestList, {params});
 
+  }
+
+  getUserSalaryTemplate(): Observable<any> {
+    return this._http.get<any>(`${this._key.base_url}/salary/template/component/get-by-user-uuid`);
   }
 }

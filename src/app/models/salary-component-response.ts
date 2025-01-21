@@ -11,7 +11,4 @@ export class SalaryComponentResponse {
 
     isFixed:number=0;
     amount:number=0;
-    currentValue:any;
-    previousValue:any;
-
 }
