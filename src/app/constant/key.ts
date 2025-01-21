@@ -73,8 +73,8 @@ export class Key {
     '/setting/onboarding-setting',
     '/refer-friend',
     '/expense',
-    '/exit-policy'
-
+    '/exit-policy',
+    '/leave-managements',
   ];
 
   public static TOPBAR_ROUTES = [
@@ -119,7 +119,8 @@ export class Key {
     '/setting/onboarding-setting',
     '/refer-friend',
     '/expense',
-    '/exit-policy'
+    '/exit-policy',
+    '/leave-managements',
     // '/to-do-step-dashboard',
   ];
 
