@@ -245,7 +245,8 @@ export class CreateExpenseComponent implements OnInit {
 
     this.userExpense = null;
     this.rejectDiv = false;
-
+    this.currentId = expense.id;
+    this.tags=expense.tags;
     this.userExpense = expense
     console.log('dataset: ',this.userExpense)
 
@@ -273,10 +274,10 @@ export class CreateExpenseComponent implements OnInit {
   clearApproveModal() {
     this.isCheckboxChecked = false;
     this.partialAmount = '';
-
+    this.tags = [];
     this.approvedAmount = '';
     this.approveAmountChecked = false;
-
+    this.currentId = 0;
     this.transactionId = ''
     this.settledDate = ''
     this.payCashDiv = false;
@@ -2454,6 +2455,7 @@ removeTag(skill: string): void {
 }
 
 onTagsChange(value: string): void {
+console.log("🚀 ~ onTagsChange ~ value:", value)
 
   this.tagsFilteredOptions = this.fetchedTags.filter((option) =>
     option.toLowerCase().includes(value.toLowerCase()) &&
@@ -2473,21 +2475,26 @@ preventLeadingWhitespace(event: KeyboardEvent): void {
   }
 }
 isTagsLoading:boolean=false;
-saveTags(): void {
-  debugger
+isTagsEditEnabled:boolean=false;
+
+saveTags() {
   this.isTagsLoading = true;
-  // this.dataService.saveSkills(this.userId, this.tags).subscribe(
-  //   (response) => {
-  //     this.isTagsLoading = false;
-  //     this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
-  //     //this.getSkills();
-  //     this.closeButton.nativeElement.click();
-  //   },
-  //   error => {
-  //     this.isTagsLoading = false;
-  //     console.error('Error saving skills', error);
-  //   }
-  // );
+  this.dataService.saveTags(this.currentId, this.tags).subscribe({
+    next: (response) => {
+      this.isTagsLoading = false;
+      this.searchTag = '';
+      this.getExpenses();
+      this.isTagsEditEnabled = false;
+      this.helperService.showToast('Tags saved successfully', Key.TOAST_STATUS_SUCCESS);
+    },
+    error: (error) => {
+      this.isTagsLoading = false;
+      this.searchTag = '';
+      this.getExpenses();
+      this.helperService.showToast('Error saving tags', Key.TOAST_STATUS_ERROR);
+      console.error('Error saving skills:', error);
+    },
+  });
 }
 
 }

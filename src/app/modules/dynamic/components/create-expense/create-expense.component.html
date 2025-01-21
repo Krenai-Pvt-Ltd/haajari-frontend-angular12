@@ -161,13 +161,7 @@
                           </button>
                         </div>
                       </td>
-                      <td class="text-left">
-                        <div>
-                          <button (click)="currentId=expense.id; tags=expense.tags" type="button" class="btn p-0 text-primary View-btn fw-semibold" data-bs-toggle="modal" data-bs-target="#addTags">
-                            <i class="bi bi-eye"></i> Tags
-                          </button>
-                        </div>
-                      </td>
+
                     </tr>
                   </ng-container>
 
@@ -1067,6 +1061,42 @@
                   <textarea class="form-control nots-section" id="reject" placeholder="Write the reason" rows="3"
                     [(ngModel)]="approveReq.rejectionReason" name="rejectInput"></textarea>
                 </div>
+
+                <div *ngIf="isTagsEditEnabled" class="col-md-12 mb-3">
+                  <input type="text" id="tags" name="tags" (keyup.enter)="addTag()" class="form-control input-zorro "
+                                    placeholder="Search Your Tags (Ex: Testing)" style="padding: 10px 70px 10px 40px;"
+                                    [(ngModel)]="searchTag" (ngModelChange)="onTagsChange($event)"
+                                     (keydown)="preventLeadingWhitespace($event)" />
+                                <i class="bi bi-search search-icon"></i>
+                                <nz-autocomplete [nzDataSource]="tagsFilteredOptions" #tagsAuto></nz-autocomplete>
+
+                  <button class="btn submitActionBtn" (click)="saveTags()"
+                  [disabled]="isTagsLoading || checkTagsArraysEqual()"
+                  [ngClass]="{'btn-border':!checkTagsArraysEqual()}">
+                  <span *ngIf="!isTagsLoading">Save</span>
+                  <span *ngIf="isTagsLoading" class="dot-opacity-loader">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </span>
+                </button>
+                </div>
+
+                  <button (click)="isTagsEditEnabled=!isTagsEditEnabled;" class="btn p-0 text-primary add-skill">
+                    <span *ngIf="!isTagsEditEnabled"><i
+                    class="bi bi-plus font-18"></i> Add Tags</span>
+                    <span *ngIf="isTagsEditEnabled"> <i class="bi bi-x"></i> Cancel</span>
+                  </button>
+
+                <div class="row d-flex justify-content-between mt-3">
+                  <div class="skill-set-add">
+                      <ul class="skill-set">
+                          <li *ngFor="let tag of tags">
+                              {{ tag }} <i *ngIf="isTagsEditEnabled" class="bi bi-x" (click)="removeTag(tag)"></i>
+                          </li>
+                      </ul>
+                  </div>
+              </div>
 
                 <div *ngIf="(userExpense.status.id == 14 || userExpense.status.id == 46 || userExpense.status.id == 53) && !rejectDiv">
 
@@ -2008,71 +2038,3 @@
 <a *ngIf="exportUrl !=''" href="{{exportUrl}}" id="exportUrlId" #expenseDownload></a>
 
 
-
-
-<div class="modal" data-bs-toggle="modal" data-bs-target="#addTags" id="addTags" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="exampleModalLabel"
-  aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-          <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Add Tags</h5>
-              <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" id="closeButton"
-                  #closeButton>
-
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                      <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
-                          width="24" height="24">
-                          <rect width="24" height="24" fill="#D9D9D9" />
-                      </mask>
-                      <g mask="url(#mask0_5037_2014)">
-                          <path
-                              d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z"
-                              fill="black" />
-                      </g>
-                  </svg>
-              </button>
-          </div>
-          <div class="modal-body">
-              <div class="skill-set-modal">
-                  <div class="row">
-                      <div class="col-md-12 mb-3">
-                          <div class="form-group position-relative">
-                              <label for="assetName" class="mb-2">Tags</label>
-                              <input type="text" (keyup.enter)="addTag()" class="form-control input-zorro "
-                                  placeholder="Search Your Tags (Ex: Testing)" style="padding: 10px 70px 10px 40px;"
-                                  [(ngModel)]="searchTag" (ngModelChange)="onTagsChange($event)"
-                                   (keydown)="preventLeadingWhitespace($event)" />
-                              <i class="bi bi-search search-icon"></i>
-                              <nz-autocomplete [nzDataSource]="tagsFilteredOptions" #tagsAuto></nz-autocomplete>
-
-                              <button class="btn p-0 text-primary add-skill" (click)="addTag()"><i
-                                      class="bi bi-plus font-18"></i> Add</button>
-                          </div>
-                      </div>
-                      <div class="col-md-12 mt-3">
-                          <div class="skill-set-add">
-                              <ul class="skill-set">
-                                  <li *ngFor="let tag of tags">
-                                      {{ tag }} <i class="bi bi-x" (click)="removeTag(tag)"></i>
-                                  </li>
-                              </ul>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
-          <div class="modal-footer d-flex align-items-center justify-content-end">
-              <button data-bs-dismiss="modal" aria-label="Close" class="btn submitActionBtn" (click)="saveTags()"
-                  [disabled]="isTagsLoading || checkTagsArraysEqual()"
-                  [ngClass]="{'btn-border':!checkTagsArraysEqual()}">
-                  <span *ngIf="!isTagsLoading">Save</span>
-                  <span *ngIf="isTagsLoading" class="dot-opacity-loader">
-                      <span></span>
-                      <span></span>
-                      <span></span>
-                  </span>
-              </button>
-          </div>
-      </div>
-  </div>
-</div>

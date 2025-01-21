@@ -4389,6 +4389,12 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}/company-expense`, {params});
   }
 
+  saveTags(id: number, tags: string[]): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const url = `${this.baseUrl}/company-expense/save-tags?id=${id}`;
+    return this.httpClient.post(url, tags, { headers });
+  }
+
   getSettlementExpenseLog(role: string, pageNumber: number, itemPerPage: number, startDate: any, endDate: any, statusIds: number[], userUuid: any){
     var params = new HttpParams()
     .set('current_page', pageNumber)
