@@ -8,6 +8,9 @@ import { DataService } from 'src/app/services/data.service';
 import { Router } from '@angular/router';
 import { OrganizationOnboardingService } from 'src/app/services/organization-onboarding.service';
 import { constant } from 'src/app/constant/constant';
+import { Key } from 'src/app/constant/key';
+import { WeekDay } from 'src/app/models/WeekDay';
+import { HelperService } from 'src/app/services/helper.service';
 
 @Component({
   selector: 'app-shift-time-list',
@@ -25,10 +28,12 @@ export class ShiftTimeListComponent implements OnInit {
   constructor(
     private dataService: DataService,
     private router: Router,
-    private onboardingService: OrganizationOnboardingService
+    private onboardingService: OrganizationOnboardingService,
+    private helperService: HelperService
   ) {}
 
   ngOnInit(): void {
+    this.getWeekDays();
     this.checkShiftTimingExistsMethodCall();
     this.getAllShiftTimingsMethodCall();
     this.getOnboardingVia();
@@ -217,10 +222,12 @@ export class ShiftTimeListComponent implements OnInit {
     organizationShiftTimingResponse: OrganizationShiftTimingResponse,
     tab: string
   ) {
+    this.SHIFT_TIME_ID = Key.SHIFT_TIME;
     // this.shiftTimingActiveTab.nativeElement.click();
     debugger
     // console.log('inTime ' + this.organizationShiftTimingRequest.inTime);
     this.organizationShiftTimingRequest = organizationShiftTimingResponse;
+    this.weekDay = organizationShiftTimingResponse.weekDayResponse;
 
     const inLocalTime = new Date(organizationShiftTimingResponse.inTime.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
     const outLocalTime = new Date(organizationShiftTimingResponse.outTime.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
@@ -255,6 +262,8 @@ export class ShiftTimeListComponent implements OnInit {
     debugger
 
     this.organizationShiftTimingRequest = organizationShiftTimingResponse;
+    this.weekDay = organizationShiftTimingResponse.weekDayResponse;
+
     this.organizationShiftTimingRequest.shiftTypeId =
       organizationShiftTimingResponse.shiftType.id;
     this.selectedStaffsUuids = organizationShiftTimingResponse.userUuids;
@@ -297,12 +306,21 @@ export class ShiftTimeListComponent implements OnInit {
     debugger;
     this.organizationShiftTimingRequest.userUuids = this.selectedStaffsUuids;
     // this.organizationShiftTimingRequest.shiftTypeId = 1;
-    this.organizationShiftTimingRequest.weekdayInfos = [];
+    // this.organizationShiftTimingRequest.weekdayInfos = [];
+
+    this.organizationShiftTimingRequest.weekdayInfos = this.weekDay
+    .filter((day) => day.selected)
+    .map((day) => ({
+      weeklyOffDay: day.name,
+      isAlternateWeekoff: day.isAlternate,
+      weekOffType: day.weekOffType,
+      userUuids: this.selectedStaffsUuids,
+    }));
 
     this.dataService
       .registerShiftTiming(this.organizationShiftTimingRequest)
       .subscribe(
-        (response) => {
+        async (response) => {
           debugger;
           this.isEditStaffLoader = false;
           this.editShiftTimeLoader = false;
@@ -311,11 +329,11 @@ export class ShiftTimeListComponent implements OnInit {
           if(this.closeShiftTimingModal) {
           this.closeShiftTimingModal.nativeElement.click();
           }
-          this.getAllShiftTimingsMethodCall();
-          // this.helperService.showToast(
-          //   'Shift Timing registered successfully',
-          //   Key.TOAST_STATUS_SUCCESS
-          // );
+          await this.getAllShiftTimingsMethodCall();
+          this.helperService.showToast(
+            response.message,
+            Key.TOAST_STATUS_SUCCESS
+          );
          
           this.dataService.markStepAsCompleted(5);
         },
@@ -794,4 +812,55 @@ calculateTimes(): void {
     this.isValidated = false;
     this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId, "");
   }
+
+  SHIFT_TIME_ID = Key.SHIFT_TIME;
+  // STAFF_SELECTION_ID = Key.STAFF_SELECTION;
+  WEEK_OFF_ID = Key.WEEK_OFF;
+
+  SHIFT_TIME_STEP_ID = Key.SHIFT_TIME;
+
+  goToShiftTab() {
+    // this.shiftTimingActiveTab.nativeElement.click();
+    this.SHIFT_TIME_STEP_ID = this.SHIFT_TIME_ID;
+  }
+
+  goToWeekOffTab() {
+    // this.isWeekOffFlag = true;
+    this.SHIFT_TIME_STEP_ID = this.WEEK_OFF_ID;
+  }
+
+  //  new 
+     weekDay: WeekDay[] = [];
+  
+     getWeekDays() {
+      this.dataService.getWeekDays().subscribe((holidays) => {
+        this.weekDay = holidays.map((day) => ({
+          ...day,
+          selected: false, // Explicitly set selected to false
+          isAlternate: false, // Ensure isAlternate is also set to false by default
+          weekOffType: 0, // Set weekOffType to default value, if needed
+        }));
+        // console.log(this.weekDay);
+      });
+    }
+  
+  
+    toggleSelection(i: number): void {
+      this.weekDay[i].selected = !this.weekDay[i].selected;
+  
+      // Automatically set isAlternate to false when a day is selected
+      this.weekDay[i].isAlternate = false;
+    }
+  
+    toggleAlternate(i: number, isAlternate: boolean): void {
+      debugger;
+      this.weekDay[i].isAlternate = isAlternate;
+      this.weekDay[i].weekOffType = 1;
+  
+      // Reset weekOffType to 0 when "All" is selected
+      if (!isAlternate) {
+        this.weekDay[i].weekOffType = 0;
+      }
+    }
 }
+

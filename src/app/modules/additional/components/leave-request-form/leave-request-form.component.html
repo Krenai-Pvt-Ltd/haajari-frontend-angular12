@@ -118,8 +118,8 @@
     <!-- Manager Selection -->
 
     <div class="form-field" *ngIf = "isAdmin">
-      <div class="">
-          <label class="mb-2">Since you are an Admin, the Manager/Admin selection is not applicable for you. Your team members will see their respective manager or admin when they log in.</label>
+      <div class="badge-soft-secondary p-3">
+          <label class="mb-0 font-14"><i class="bi bi-exclamation-circle"></i> Since you are an Admin, the Manager/Admin selection is not applicable for you. Your team members will see their respective manager or admin when they log in.</label>
       </div>
     </div>
     <div class="form-field" *ngIf = "!isAdmin">
