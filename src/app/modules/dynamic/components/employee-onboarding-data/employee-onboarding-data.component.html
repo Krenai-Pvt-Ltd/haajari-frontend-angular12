@@ -366,7 +366,7 @@
             </li>
             <li class="nav-item d-flex align-items-center">
               <a id="pills-notification-tab" data-bs-toggle="pill" href="#editRequest" role="tab"
-                 aria-controls="pills-notification" aria-selected="false"
+                 aria-controls="pills-notification" aria-selected="false" (click)="fetchPendingRequests()"
                 class="nav-link">Update Requests</a>
               <span class="request-count d-flex align-items-center justify-content-center"
                 *ngIf="editProfileCount > 0">{{editProfileCount}}</span>
@@ -890,7 +890,7 @@
                 </div>
                 <div
                   class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top"
-                  *ngIf="!isEditDataLoading && pendingRequests.length > 0 && totalItems1>pageSize1">
+                  *ngIf="!isEditDataLoading && pendingRequests?.length > 0 && totalItems1>pageSize1">
                   <p >
                     Showing {{ getStartIndex() }} - {{ getEndIndex() }} of {{ totalItems1 }} users
                   </p>

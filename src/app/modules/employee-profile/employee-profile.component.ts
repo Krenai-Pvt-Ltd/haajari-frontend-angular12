@@ -46,8 +46,13 @@ export class EmployeeProfileComponent implements OnInit {
       this.userId = String(this.activateRoute.snapshot.queryParamMap.get('userId'));
     }
     if(this.roleService.ROLE=='USER' && this.UUID!==this.userId) {
-      this.router.navigate(['/employee'], { queryParams: { userId: this.UUID } });
+      // this.router.navigate(['/employee'], { queryParams: { userId: this.UUID } });
+      this.userId = this.UUID;
+      this.router.navigate(['/']);
+    }else if(this.roleService.ROLE!='ADMIN' && this.UUID!==this.userId){
+      this.checkUserUnderManager();
     }
+
     this.getEmployeeProfileData();
     this.getUserJoiningDataByUserId();
   }
@@ -101,6 +106,22 @@ export class EmployeeProfileComponent implements OnInit {
     if (this.profileBtn) {
       this.profileBtn.nativeElement.click();
     }
+  }
+
+  checkUserUnderManager() {
+    this.dataService.isUserUnderManager( this.userId).subscribe(
+      (response) => {
+
+        if(!response.isUserUnderManager){
+          this.userId = this.UUID;
+          this.router.navigate(['/']);
+        }
+      },
+      (error) => {
+        this.userId = this.UUID;
+        this.router.navigate(['/']);
+      }
+    );
   }
 
 

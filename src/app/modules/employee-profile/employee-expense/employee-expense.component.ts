@@ -37,6 +37,7 @@ export class EmployeeExpenseComponent implements OnInit {
     this.getExpenseType();
     this.fetchManagerNames()
     this.getOrganizationRegistrationDateMethodCall();
+    this.getTags('EXPENSE');
   }
 
   async getRole(){
@@ -346,9 +347,9 @@ disableMonths = (date: Date): boolean => {
   this.settlementLoading = true;
   this.settlementExpenseList = []
   // this.ROLE = await this.rbacService.getRole();
- 
+
   if(!this.startDateStr && !this.endDateStr){
-  
+
     this.expenseSelectedDate = new Date();
 
     const startOfMonth = new Date(this.expenseSelectedDate.getFullYear(), this.expenseSelectedDate.getMonth(), 1);
@@ -439,7 +440,7 @@ disableMonths = (date: Date): boolean => {
 
     // if (this.limitAmount > 0) {
     //   this.validatePolicyToggle = true;
-    // } 
+    // }
   })
 }
 
@@ -471,13 +472,15 @@ disableMonths = (date: Date): boolean => {
    debugger
    this.createToggle = true;
    this.createToggleYes = true;
-  
+   this.expenseTypeReq.tags = this.tags;
+
    this.dataService.createExpense(this.expenseTypeReq).subscribe((res: any) => {
      if (res.status) {
        this.expenseTypeReq = new ExpenseType();
        this.expenseTypeId = 0;
        this.managerId = 0
        this.expenseTypeReq.id = 0;
+       this.tags = [];
        this.validatePolicyToggle = false;
        form.resetForm();
        this.getExpenses();
@@ -527,6 +530,7 @@ disableMonths = (date: Date): boolean => {
    this.expenseTypeReq.status = expense.status
    this.expenseTypeReq.managerId = expense.managerId
    this.expenseTypeReq.approvedAmount = expense.approvedAmount
+   this.tags = expense.tags;
    this.expenseTypeId = expense.expenseTypeId
    this.managerId = expense.managerId
 
@@ -739,5 +743,75 @@ disableMonths = (date: Date): boolean => {
   }
 
   /** Image Upload on Firebase End */
+
+
+
+
+tagsFilteredOptions: string[] = [];
+tags: string[] = [];
+fetchedTags: string[] = [];
+searchTag: string = '';
+
+addTag(): void {
+  if (this.searchTag && !this.tags.includes(this.searchTag)) {
+    this.tags.push(this.searchTag);
+    this.searchTag = ''; // Clear input field after adding
+  } else if (this.searchTag) {
+    this.helperService.showToast(this.searchTag + ' is Already Added', Key.TOAST_STATUS_ERROR);
+  } else if (!this.searchTag) {
+    this.helperService.showToast('Empty field cannot be added ', Key.TOAST_STATUS_ERROR);
+  }
+  this.tagsFilteredOptions = [];
+}
+checkTagsArraysEqual(): boolean {
+
+  if (this.tags.length !== this.fetchedTags.length) {
+    return false;
+  }
+
+  // Sort both arrays and compare each element
+  const sortedArr1 = [...this.tags].sort();
+  const sortedArr2 = [...this.fetchedTags].sort();
+
+  return sortedArr1.every((value, index) => value === sortedArr2[index]);
+}
+
+removeTag(skill: string): void {
+  const index = this.tags.indexOf(skill);
+  if (index !== -1) {
+    this.tags.splice(index, 1);
+  }
+}
+
+onTagsChange(value: string): void {
+
+  this.tagsFilteredOptions = this.fetchedTags.filter((option) =>
+    option.toLowerCase().includes(value.toLowerCase()) &&
+    !this.tags.includes(option)
+  );
+
+}
+preventLeadingWhitespace(event: KeyboardEvent): void {
+  const inputElement = event.target as HTMLInputElement;
+
+  // Prevent space if it's the first character
+  if (event.key === ' ' && inputElement.selectionStart === 0) {
+    event.preventDefault();
+  }
+  if (!isNaN(Number(event.key)) && event.key !== ' ') {
+    event.preventDefault();
+  }
+}
+getTags(type: string): void {
+  this.dataService.getTagsByOrganizationIdAndType(type).subscribe({
+    next: (data) => {
+      this.fetchedTags = data?.tagsList;
+      console.log('Tags fetched:', data);
+    },
+    error: (err) => {
+      console.error('Error fetching tags:', err);
+    },
+  });
+}
 
 }
