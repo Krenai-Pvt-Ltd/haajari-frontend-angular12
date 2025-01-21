@@ -1127,7 +1127,7 @@
                                 <input type="text" id="tags" name="tags" (keyup.enter)="addTag()" class="form-control input-zorro "
                                     placeholder="Search Your Tags (Ex: Testing)" style="padding: 10px 70px 10px 40px;"
                                     [(ngModel)]="searchTag" (ngModelChange)="onTagsChange($event)"
-                                     (keydown)="preventLeadingWhitespace($event)" />
+                                     (keydown)="preventLeadingWhitespace($event)" [nzAutocomplete]="tagsAuto" />
                                 <i class="bi bi-search search-icon"></i>
                                 <nz-autocomplete [nzDataSource]="tagsFilteredOptions" #tagsAuto></nz-autocomplete>
 

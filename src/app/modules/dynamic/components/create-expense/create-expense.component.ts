@@ -40,6 +40,7 @@ export class CreateExpenseComponent implements OnInit {
     this.getExpenses();
     this.getAllCompanyExpensePolicy();
     this.switchTab('allExpense');
+    this.getTags('EXPENSE');
 
     // this.check1()
 
@@ -2455,7 +2456,6 @@ removeTag(skill: string): void {
 }
 
 onTagsChange(value: string): void {
-console.log("🚀 ~ onTagsChange ~ value:", value)
 
   this.tagsFilteredOptions = this.fetchedTags.filter((option) =>
     option.toLowerCase().includes(value.toLowerCase()) &&
@@ -2493,6 +2493,19 @@ saveTags() {
       this.getExpenses();
       this.helperService.showToast('Error saving tags', Key.TOAST_STATUS_ERROR);
       console.error('Error saving skills:', error);
+    },
+  });
+}
+
+
+getTags(type: string): void {
+  this.dataService.getTagsByOrganizationIdAndType(type).subscribe({
+    next: (data) => {
+      this.fetchedTags = data?.tagsList;
+      console.log('Tags fetched:', data);
+    },
+    error: (err) => {
+      console.error('Error fetching tags:', err);
     },
   });
 }

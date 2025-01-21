@@ -37,6 +37,7 @@ export class EmployeeExpenseComponent implements OnInit {
     this.getExpenseType();
     this.fetchManagerNames()
     this.getOrganizationRegistrationDateMethodCall();
+    this.getTags('EXPENSE');
   }
 
   async getRole(){
@@ -800,6 +801,17 @@ preventLeadingWhitespace(event: KeyboardEvent): void {
   if (!isNaN(Number(event.key)) && event.key !== ' ') {
     event.preventDefault();
   }
+}
+getTags(type: string): void {
+  this.dataService.getTagsByOrganizationIdAndType(type).subscribe({
+    next: (data) => {
+      this.fetchedTags = data?.tagsList;
+      console.log('Tags fetched:', data);
+    },
+    error: (err) => {
+      console.error('Error fetching tags:', err);
+    },
+  });
 }
 
 }

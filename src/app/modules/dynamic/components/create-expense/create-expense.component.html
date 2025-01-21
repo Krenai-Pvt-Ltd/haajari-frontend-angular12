@@ -51,6 +51,52 @@
 
       <!-- Create and View Company Expense start -->
       <div class="col-md-12 mt-3 mb-3" *ngIf="activeTab === 'allExpense'">
+
+        <div class="d-flex justify-content-start align-items-center">
+          <!-- Leave Type Filter -->
+          <div class="dropdown empFilerDropfilter">
+            <button type="button" id="leaveTypeDropdown"
+                                                        data-bs-toggle="dropdown" aria-expanded="false"
+                                                        class="btn btn-secondary dropdown-toggle new-deopdown">
+                                                         <i class="bi bi-chevron-down"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu" aria-labelledby="leaveTypeDropdown">
+                                                        <li>
+                                                            <a class="dropdown-item" >
+
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+          </div>
+
+          <!-- Status Filter -->
+          <div class="dropdown empFilerDropfilter">
+
+          </div>
+
+          <!-- Search -->
+          <div
+              class="onboarding-date d-flex align-items-center justify-content-between position-relative w-100">
+              <form novalidate
+                  class="searching d-flex align-items-center justify-content-between w-100">
+                  <div class="form-group w-100 position-relative">
+                      <input type="text" id="searchText" #searchInput
+
+                          placeholder="Search by name.."
+                          class="form-control me-2 w-100"
+                          style="padding: 10px 45px;" />
+
+                      <i class="bi bi-search search-icon"></i>
+
+                      <!-- <i class="bi bi-x reset-icon text-primary pointer"></i> -->
+                  </div>
+              </form>
+          </div>
+
+      </div>
+
+
+
         <div class="">
 
 
@@ -1066,7 +1112,7 @@
                   <input type="text" id="tags" name="tags" (keyup.enter)="addTag()" class="form-control input-zorro "
                                     placeholder="Search Your Tags (Ex: Testing)" style="padding: 10px 70px 10px 40px;"
                                     [(ngModel)]="searchTag" (ngModelChange)="onTagsChange($event)"
-                                     (keydown)="preventLeadingWhitespace($event)" />
+                                     (keydown)="preventLeadingWhitespace($event)" [nzAutocomplete]="tagsAuto" />
                                 <i class="bi bi-search search-icon"></i>
                                 <nz-autocomplete [nzDataSource]="tagsFilteredOptions" #tagsAuto></nz-autocomplete>
 
