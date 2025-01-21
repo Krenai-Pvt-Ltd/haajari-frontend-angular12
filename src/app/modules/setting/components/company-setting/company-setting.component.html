@@ -24,15 +24,17 @@
           Onboarding Setting
         </button>
       </li>
-      <!-- TODO : commented for now -->
-      <!-- <li role="presentation" class="nav-item">
+      <!-- TODO : dynamic for now -->
+      <li role="presentation" class="nav-item">
         <button id="home-tab" data-bs-toggle="tab" data-bs-target="#notificationsSetting" type="button" role="tab"
           aria-controls="home" [attr.aria-selected]="activeTab === 'notificationsSetting'"
           [ngClass]="{'active': activeTab === 'notificationsSetting'}" class="nav-link"
           (click)="switchTab('notificationsSetting')">
           Notifications Configuration
         </button>
-      </li> -->
+      </li>
+     
+      
     </ul>
 
 
@@ -330,7 +332,7 @@
             <h5>Location Setting</h5>
             <p class="font-12">A quick snapshot of your company.</p>
           </div>
-          <div class="total-shifts p-3 mt-4" *ngIf="allAddresses?.length > 1">
+          <div class="total-shifts p-3 mt-4 m-3" *ngIf="allAddresses?.length > 1">
             <div class="d-flex align-items-center justify-content-between">
               <div>
                 <h6 class="text-truncate">Total Locations</h6>
@@ -1425,6 +1427,11 @@
           </div>
         </div>
         
+        </div>
+
+        <div class="mt-4" *ngIf="activeTab === 'exitPolicy'">
+        
+        <!-- <app-exist-policy></app-exit-policy> -->
         </div>
 
 

@@ -1403,6 +1403,11 @@
                     <h1>vis-timeline</h1>
                     <div #timeline></div> -->
 
+                    <ul class="requests-btn">
+                        <li [class.active]="attendanceType === 'CREATE'" (click)="updateAttendanceTypeFilter('CREATE')">Create</li>
+                        <li [class.active]="attendanceType === 'UPDATE'" (click)="updateAttendanceTypeFilter('UPDATE')">Update</li>
+                    </ul>
+
 
                     <div class="obboard-employee-list">
                         <div class="onboard-add row align-items-center mx-0">
@@ -1411,7 +1416,7 @@
                                     <div class="col-lg-12 col-md-12 col-sm-12 ps-0">
                                         <div class="d-flex justify-content-start align-items-center">
                                             <!-- Leave Type Filter -->
-                                            <div class="dropdown empFilerDropfilter">
+                                            <!-- <div class="dropdown empFilerDropfilter">
                                                 <button type="button" id="leaveTypeDropdown" data-bs-toggle="dropdown"
                                                     aria-expanded="false"
                                                     class="btn btn-secondary dropdown-toggle new-deopdown">
@@ -1426,7 +1431,7 @@
                                                         </a>
                                                     </li>
                                                 </ul>
-                                            </div>
+                                            </div> -->
 
                                             <!-- Status Filter -->
                                             <div class="dropdown empFilerDropfilter">
@@ -1487,6 +1492,9 @@
                                 </div>
                             </div>
                         </div>
+
+
+                       
 
 
                         <div class="table-responsive bg-white mt-3">

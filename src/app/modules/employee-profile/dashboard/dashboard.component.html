@@ -1281,7 +1281,7 @@
             </button>
             <div class="calendar-date d-flex align-items-center justify-content-between p-4">
               <div class="d-flex align-items-center gap-2">
-                <span (click)="navigateMonth('prev')">
+                <span (click)="navigateMonth('prev')" class="pointer">
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                     <mask id="mask0_7199_2580" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
                       <rect width="20" height="20" fill="#D9D9D9" />
@@ -1292,7 +1292,7 @@
                   </svg>
                 </span>
                 <h5 class="mb-0 font-24 fw-bold">{{ currentMonthYear }}</h5>
-                <span (click)="navigateMonth('next')">
+                <span (click)="navigateMonth('next')" class="pointer">
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                     <mask id="mask0_7199_2583" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
                       <rect width="20" height="20" transform="matrix(-1 0 0 1 20 0)" fill="#D9D9D9" />
