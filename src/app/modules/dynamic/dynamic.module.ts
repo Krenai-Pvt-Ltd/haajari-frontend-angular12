@@ -110,7 +110,7 @@ import { ExistPolicyComponent } from './components/exist-policy/exist-policy.com
     ReferFriendComponent,
     NewEmployeeProfileComponent,
     CreateExpenseComponent,
-    ExistPolicyComponent,
+    ExistPolicyComponent
   ],
   imports: [
     CommonModule,
