@@ -103,11 +103,9 @@ export class SalaryService {
   }
 
 
-  registerBonus(bonusRequest : BonusRequest, userUuid : string): Observable<any>{
-    const params = new HttpParams()
-    .set('user_uuid', userUuid);
+  registerBonus(bonusRequest : BonusRequest): Observable<any>{
 
-    return this._http.post<any>(`${this._key.base_url}/bonus`, bonusRequest, {params});
+    return this._http.post<any>(`${this._key.base_url}/bonus`, bonusRequest);
   }
 
 
@@ -277,7 +275,9 @@ export class SalaryService {
 
   }
 
-  getUserSalaryTemplate(): Observable<any> {
-    return this._http.get<any>(`${this._key.base_url}/salary/template/component/get-by-user-uuid`);
+  getUserSalaryTemplate(userUuid : string): Observable<any> {
+    const params = new HttpParams()
+    .set('user_uuid', userUuid)
+    return this._http.get<any>(`${this._key.base_url}/salary/template/component/get-by-user-uuid`,{params});
   }
 }

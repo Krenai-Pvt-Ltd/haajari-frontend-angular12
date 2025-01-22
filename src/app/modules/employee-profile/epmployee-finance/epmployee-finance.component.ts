@@ -19,6 +19,10 @@ import { SalaryComponentReq } from 'src/app/models/SalaryComponetReq';
 import { SalaryTemplateComponentResponse } from 'src/app/models/salary-template-component-response';
 import { SalaryComponentResponse } from 'src/app/models/salary-component-response';
 import { Key } from 'src/app/constant/key';
+import { AppraisalRequest } from 'src/app/models/appraisal-request';
+import { BonusRequest } from 'src/app/models/bonus-request';
+import { NgForm } from '@angular/forms';
+import { constant } from 'src/app/constant/constant';
 
 @Component({
   selector: 'app-epmployee-finance',
@@ -431,7 +435,7 @@ export class EpmployeeFinanceComponent implements OnInit {
 
 userSalaryTemplate: SalaryTemplateComponentResponse = new SalaryTemplateComponentResponse();
 getUserSalaryTemplate() {
-  this._salaryService.getUserSalaryTemplate().subscribe((response) => {
+  this._salaryService.getUserSalaryTemplate(this.userUuid).subscribe((response) => {
       if(response.status){
         this.userSalaryTemplate = response.object;
       }
@@ -558,9 +562,9 @@ calculateSalaryComponents(): void {
     console.log("=== this.computedSalaryList.====", this.computedSalaryList);
   }
 
-saveTemplateLoader:boolean=false;
+saveLoader:boolean=false;
 saveCustomSalaryTemplate() {
-  this.saveTemplateLoader = true;
+  this.saveLoader = true;
   this._salaryService.saveCustomSalaryTemplate(this.userUuid, this.computedSalaryList).subscribe((response) => {
     if (response.status) {
       this.getEmployeeSalaryRevision();
@@ -569,14 +573,84 @@ saveCustomSalaryTemplate() {
     } else {
        this._helperService.showToast(response.message,Key.TOAST_STATUS_WARNING);
     }
-    this.saveTemplateLoader = false;
+    this.saveLoader = false;
   }, (error) => {
     this._helperService.showToast(error.message,Key.TOAST_STATUS_ERROR);
-    this.saveTemplateLoader = false;
+    this.saveLoader = false;
   })
 }
 
+@ViewChild('appraisalButton')appraisalButton!:ElementRef;
+@ViewChild('appraisalCloseButton')appraisalCloseButton!:ElementRef;
+appraisal:AppraisalRequest = new AppraisalRequest();
+openAppraisal(){
+  this.appraisal = new AppraisalRequest();
+  this.appraisal.userUuid = this.userUuid;
+  this.appraisal.previousCtc =this.currentSalaryDetail.annualCTC;
+  this.appraisalButton.nativeElement.click();
+}
+
+changePositionToggle(appraisal:AppraisalRequest){
+  appraisal.checked = appraisal.checked? false: true;
+  appraisal.position ='';
+}
+
+readonly constant = constant;
+positionFilteredOptions: string[] = [];
+onChange(value: any): void {
+
+  this.positionFilteredOptions = constant.jobTitles.filter((option) =>
+    option.toLowerCase().includes(value.toLowerCase())
+  );
 
 }
 
 
+saveAppraisal() {
+  this.saveLoader = true;
+  this._dataService.saveAppraisalRequest(this.appraisal).subscribe(
+    (response) => {
+      this._helperService.showToast("Appraisal request submitted successfully", Key.TOAST_STATUS_SUCCESS);
+      this.appraisalCloseButton.nativeElement.click();
+      this.saveLoader = false;
+    },
+    (error) => {
+      console.error('Error submitting appraisal request:', error);
+      this._helperService.showToast("Error submitting appraisal request!", Key.TOAST_STATUS_ERROR);
+      this.saveLoader = false;
+
+    }
+  );
+}
+
+@ViewChild('bonusButton')bonusButton!:ElementRef;
+@ViewChild('bonusCloseButton')bonusCloseButton!:ElementRef;
+@ViewChild('bonusForm')bonusForm!:NgForm;
+bonusRequest: BonusRequest = new BonusRequest(); 
+openBonus(){
+  this.bonusRequest = new BonusRequest();
+  this.bonusRequest.userUuid = this.userUuid;
+  this.bonusForm.form.markAsUntouched();
+  this.bonusForm.form.markAsPristine();
+  this.bonusButton.nativeElement.click();
+}
+
+
+saveBonus() {
+  this.saveLoader = true;
+  this._salaryService.registerBonus(this.bonusRequest).subscribe((response) => {
+      if(response.status){
+        this._helperService.showToast("Bonus applied successfully", Key.TOAST_STATUS_SUCCESS);
+        this.bonusCloseButton.nativeElement.click();
+      }else{
+        this._helperService.showToast("Error submitting bonus request", Key.TOAST_STATUS_ERROR);
+      }
+      this.saveLoader = false;
+    },
+    (error) => {
+      this.saveLoader = false;
+    }
+  );
+}
+
+}

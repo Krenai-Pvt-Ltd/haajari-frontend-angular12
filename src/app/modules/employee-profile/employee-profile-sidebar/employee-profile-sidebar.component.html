@@ -522,11 +522,29 @@
                             <option [ngValue]="false">Confirmed</option>
                         </select>
                     </div>
+                    <div class="col-md-12 mb-3" *ngIf="!isPromotion">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="salaryToggle" [checked]="changeSalary" 
+                            (change)="updateSalaryToggle()">
+                            <label class="form-check-label" for="salaryToggle" (change)="updateSalaryToggle()">
+                                Would you like to revise the salary?
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-md-12  mb-3" *ngIf="changeSalary">
+                        <label for="annualCTC" class="pb-2">New Annual CTC</label>
+                        <input type="text" id="annualCTC" formControlName="newCTC" class="form-control" placeholder="Enter the amount here"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/^0+/, '').slice(0, 10);"
+                        pattern="^[1-9][0-9]{0,9}$" maxlength="10">
 
+                       <div *ngIf="myForm.get('newCTC')?.touched && myForm.get('newCTC')?.invalid">
+                        <p class="text-danger">Amount is required</p>
+                        </div>
+                    </div>
 
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" [disabled]="myForm.invalid" class="btn submitActionBtn"
+                    <button type="submit" [disabled]="myForm.invalid || (changeSalary && !myForm.get('newCTC'))" class="btn submitActionBtn"
                         [ngClass]="{'btn-border':!myForm.invalid}">
                         <ng-container *ngIf="saveButtonLoader; else loginButton">
                             <div class="dot-opacity-loader">

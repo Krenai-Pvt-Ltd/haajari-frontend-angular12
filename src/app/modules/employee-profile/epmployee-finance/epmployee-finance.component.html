@@ -688,6 +688,12 @@
                                 <button type="button" class="btn btn-primary" (click)="openSalaryTemplate()">
                                     Update Salary Template
                                 </button>
+                                <button type="button" class="btn btn-primary" (click)="openAppraisal()">
+                                    Appraisal
+                                </button>
+                                <button type="button" class="btn btn-primary" (click)="openBonus()">
+                                    Bonus
+                                </button>
                                 <span class="pointer" (click)="getCurrentSalaryDetail();getEmployeeSalaryRevision(); ">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24"
                                         fill="none">
@@ -894,31 +900,29 @@
 
 
 
-<!-- Button trigger modal -->
+<!-- UPDATE SALARY TEMPLATE MODAL START -->
 <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#salaryTemplate" #salaryTemplateButton>
     Update Salary Template
   </button>
-  
-  <!-- Modal -->
-  <div class="modal fade" id="salaryTemplate" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="salaryTemplate" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
-      <div class="modal-content">
+        <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="staticBackdropLabel">Update Salary Template</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #salaryTemplateCloseButton></button>
+            <h1 class="modal-title fs-5" >Update Salary Template</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #salaryTemplateCloseButton></button>
         </div>
         <div class="modal-body">
             <form #salaryTemplateForm="ngForm" ngNativeValidate (ngSubmit)="saveCustomSalaryTemplate()">
                 <div class="d-flex justify-content-end">
                     <div class="mb-3">
                         <div class="form-check">
-                          <input class="form-check-input" type="checkbox" id="disabledFieldsetCheck" [checked]="editBasicComponentField" 
-                          (change)="editComponent()">
-                          <label class="form-check-label" for="disabledFieldsetCheck" (change)="editComponent()">
+                            <input class="form-check-input" type="checkbox" id="disabledFieldsetCheck" [checked]="editBasicComponentField" 
+                            (change)="editComponent()">
+                            <label class="form-check-label" for="disabledFieldsetCheck" (change)="editComponent()">
                             Edit it
-                          </label>
+                            </label>
                         </div>
-                      </div>
+                    </div>
                 </div>
                     <div class="row">
                         <ng-container *ngIf="editBasicComponentField">
@@ -930,11 +934,11 @@
                             </div>
                             <div class="col-md-3 mb-3">
                                 <label for="disabledTextInput" class="form-label">Adjust Basic Pay</label>
-                              </div>
+                                </div>
                             <div class="col-md-4 mb-3 position-relative" >
                                 <input type="text" id="basic" name="basicSalary" class="form-control" placeholder="Enter Amount" 
-                                oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/^0+/, '').slice(0, 6);" (keyup)="basicAmountFieldTouch=true"
-                                pattern="^[1-9][0-9]{0,5}$" maxlength="6"  
+                                oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/^0+/, '').slice(0, 10);" (keyup)="basicAmountFieldTouch=true"
+                                pattern="^[1-9][0-9]{0,9}$" maxlength="10"  
                                 [(ngModel)]="basicAmount" required>
                                 <button type="button" class="component-btn btn btn-primary position-absolute" (click)="calculateSalaryComponents(); basicAmountFieldTouch=false;" *ngIf="basicAmountFieldTouch">save</button>
                             </div>
@@ -956,19 +960,142 @@
                         </ng-container>
                     </div>
                     <div class="d-flex justify-content-end">
-                        <button type="submit" class="btn btn-primary" [disabled]="salaryTemplateForm.invalid"  *ngIf="editBasicComponentField">
-                            <div class="dot-opacity-loader" *ngIf="saveTemplateLoader">
+                        <button type="submit" class="btn btn-primary" [ngClass]="{'disabled-lnk': salaryTemplateForm.invalid || saveLoader}" *ngIf="editBasicComponentField">
+                            <div class="dot-opacity-loader" *ngIf="saveLoader">
                                 <span></span>
                                 <span></span>
                                 <span></span>
                             </div>
-                            <span *ngIf="!saveTemplateLoader">
-                                Submit
+                            <span *ngIf="!saveLoader">
+                                Update
                             </span> 
                         </button>
                     </div>
-              </form>
+                </form>
         </div>
-      </div>
+        </div>
     </div>
-  </div>
+</div>
+<!-- UPDATE SALARY TEMPLATE MODAL END -->
+
+<!-- APPRAISAL MODAL START -->
+
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#appraisal" #appraisalButton>
+  Appraisal
+  </button>
+<div class="modal fade" id="appraisal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+    <div class="modal-header">
+        <h1 class="modal-title fs-5">Appraise Now</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #appraisalCloseButton></button>
+    </div>
+    <form #appraisalForm="ngForm" ngNativeValidate (ngSubmit)="saveAppraisal()">
+        <div class="modal-body">
+                <div class="mb-3">
+                    <label for="currentCTC" class="form-label">Current Annual CTC</label>
+                    <input type="number" id="currentCTC" name="currentCTC" class="form-control" placeholder="Current CTC"
+                    [(ngModel)]="appraisal.previousCtc" disabled>
+                </div>
+                <div class="mb-3">
+                    <label for="newCTC" class="form-label">New Annual CTC</label>
+                    <input type="text" id="newCTC" name="newCTC" class="form-control" placeholder="Enter the amount here"
+                    oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/^0+/, '').slice(0, 8);"
+                    pattern="^[1-9][0-9]{0,7}$" maxlength="8"  
+                    [(ngModel)]="appraisal.updatedCtc" required>
+                </div>
+                <div class="mb-3">
+                    <label for="effectiveDate" class="form-label">Effective Date</label>
+                    <nz-date-picker nzBorderless class="form-control" name="effectiveDate"
+                    [nzFormat]="'yyyy-MM-dd'" [nzSize]="'large'" nzId="effectiveDate" [(ngModel)]="appraisal.effectiveDate" required>
+                    </nz-date-picker>
+                    <!-- <input type="date" id="effectiveDate" class="form-control" [(ngModel)]="appraisal.effectiveDate" required> -->
+                </div>
+                <div class="mb-3">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="designation" [checked]="appraisal.checked" 
+                        (change)="changePositionToggle(appraisal)">
+                        <label class="form-check-label" for="designation" (change)="changePositionToggle(appraisal)">
+                            Would you like to enhance the designation?
+                        </label>
+                    </div>
+                </div>
+                <div class="mb-3" *ngIf="appraisal.checked">
+                    <label for="positionDropdown" class="form-label">Designation</label>
+                    <input maxlength="50" class="seach-dropdown input-zorro" id="positionDropdown" class="form-control"
+                        name="positionDropdown" placeholder="Search for the Designation" nz-input [(ngModel)]="appraisal.position"
+                        [nzAutocomplete]="positionAuto" (ngModelChange)="onChange($event)" required />
+                    <nz-autocomplete [nzDataSource]="positionFilteredOptions" #positionAuto></nz-autocomplete>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary" [ngClass]="{'disabled-lnk':  saveLoader}">
+                    <div class="dot-opacity-loader" *ngIf="saveLoader">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <span *ngIf="!saveLoader">
+                        Submit
+                    </span>  
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+</div>
+<!-- APPRAISAL MODAL END -->
+
+
+
+
+<!-- BONUS MODAL START -->
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#bonus" #bonusButton>
+    Bonus
+</button>
+<div class="modal fade" id="bonus" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h1 class="modal-title fs-5" >Add Bonus</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #bonusCloseButton></button>
+        </div>
+        <form #bonusForm="ngForm" ngNativeValidate (ngSubmit)="saveBonus()">
+            <div class="modal-body">
+                <div class="mb-3">
+                <label for="amount" class="form-label">Amount</label>
+                <input type="text" id="amount" name="amount" class="form-control" placeholder="Enter the amount here" [(ngModel)]="bonusRequest.amount"
+                    oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/^0+/, '').slice(0, 6);"
+                    pattern="^[1-9][0-9]{0,5}$" maxlength="6"  
+                    required #amount="ngModel">
+    
+                <div *ngIf="amount.touched && amount.invalid">
+                    <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="amount.errors?.required">
+                    <i class="bi bi-exclamation-circle"></i> Amount is required.
+                    </p>
+                </div>
+                </div>
+    
+                <div class="mb-3">
+                <label for="comments" class="form-label">Comments</label>
+                <textarea id="comments" name="comments" class="form-control" placeholder="Please specify the reason"
+                   row="3" [(ngModel)]="bonusRequest.comment"></textarea>
+                </div>
+            </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" [ngClass]="{'disabled-lnk': saveLoader}">
+                    <div class="dot-opacity-loader" *ngIf="saveLoader">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <span *ngIf="!saveLoader">
+                        Submit
+                    </span>                      
+                </button>
+                </div>
+            </form>
+    </div>
+    </div>
+ </div>
+<!-- BONUS MODAL END -->
