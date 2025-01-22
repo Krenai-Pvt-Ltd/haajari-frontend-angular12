@@ -891,8 +891,11 @@
                 <div
                   class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top"
                   *ngIf="!isEditDataLoading && pendingRequests?.length > 0 && totalItems1>pageSize1">
-                  <p >
-                    Showing {{ getStartIndex() }} - {{ getEndIndex() }} of {{ totalItems1 }} users
+                  <p>
+                    Showing
+                    {{ (currentPage1 - 1) * pageSize1 + 1 }} -
+                    {{ currentPage1 * pageSize1 > totalItems1 ? totalItems1 : currentPage1 * pageSize1 }}
+                    of {{ totalItems1 }} users
                   </p>
                   <div >
                     <ngb-pagination [collectionSize]="totalItems1" [(page)]="currentPage1" [pageSize]="pageSize1"
