@@ -608,14 +608,12 @@ onChange(value: any): void {
 
 saveAppraisal() {
   this.saveLoader = true;
-  this._dataService.saveAppraisalRequest(this.appraisal).subscribe(
-    (response) => {
-      this._helperService.showToast("Appraisal request submitted successfully", Key.TOAST_STATUS_SUCCESS);
+  this._dataService.saveAppraisalRequest(this.appraisal).subscribe((response) => {
+      this._helperService.showToast("Appraisal processed successfully", Key.TOAST_STATUS_SUCCESS);
       this.appraisalCloseButton.nativeElement.click();
       this.saveLoader = false;
     },
     (error) => {
-      console.error('Error submitting appraisal request:', error);
       this._helperService.showToast("Error submitting appraisal request!", Key.TOAST_STATUS_ERROR);
       this.saveLoader = false;
 
@@ -640,7 +638,7 @@ saveBonus() {
   this.saveLoader = true;
   this._salaryService.registerBonus(this.bonusRequest).subscribe((response) => {
       if(response.status){
-        this._helperService.showToast("Bonus applied successfully", Key.TOAST_STATUS_SUCCESS);
+        this._helperService.showToast("Bonus added successfully", Key.TOAST_STATUS_SUCCESS);
         this.bonusCloseButton.nativeElement.click();
       }else{
         this._helperService.showToast("Error submitting bonus request", Key.TOAST_STATUS_ERROR);
