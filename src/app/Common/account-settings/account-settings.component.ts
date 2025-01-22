@@ -39,17 +39,20 @@ export class AccountSettingsComponent implements OnInit {
   ngOnInit(): void {
     this.UUID= this.roleService.getUuid();
     this.userInfo= this.roleService.userInfo;
-    this.supportForm.patchValue({
-      email: this.userInfo.email,
-      phone: this.dataService.employeeData?.phoneNumber,
-    });
 
+    this.setFormData();
     this.supportForm.get('email')?.disable();
     this.supportForm.get('phone')?.disable();
     this.getEmployeeProfileData();
     this.loadNotificationSettings();
     this.fetchGuidelines();
     this.fetchHrPolicies();
+  }
+  setFormData(): void {
+    this.supportForm.patchValue({
+      email: this.userInfo.email,
+      phone: this.dataService.employeeData?.phoneNumber,
+    });
   }
 
   tab: string = 'account';
@@ -75,6 +78,7 @@ export class AccountSettingsComponent implements OnInit {
     this.dataService.getEmployeeProfile(this.UUID).subscribe((response) => {
       this.employeeProfileResponseData = response.object;
       this.isLoading = false;
+      this.isUploading = false;
   }, (error) => {
       console.log(error);
      this.isLoading = false;
@@ -136,8 +140,9 @@ export class AccountSettingsComponent implements OnInit {
 
 
 
-
+  isUploading: boolean = false;
   uploadFile(file: File): void {
+    this.isUploading = true;
     debugger;
     const filePath = `uploads/${new Date().getTime()}_${file.name}`;
     const fileRef = this.afStorage.ref(filePath);
@@ -154,8 +159,9 @@ export class AccountSettingsComponent implements OnInit {
           .then((url) => {
             this.dataService
               .updateProfilePic(url)
-              .subscribe((x) => {
-                // console.log(x);
+              .subscribe(() => {
+                this.helperService.showToast('Profile picture updated successfully', Key.TOAST_STATUS_SUCCESS);
+                this.getEmployeeProfileData();
               });
           })
           .catch((error) => {
@@ -261,9 +267,17 @@ export class AccountSettingsComponent implements OnInit {
   }
 
 
-
+  fileCheck:boolean = false;
   onFileSelect(event: any): void {
+    const files = Array.from(event.target.files);
+    const maxFileCount = 5-this.attachedHnSFile.length;
+    // Check the file count
+    if (files.length > maxFileCount) {
+      this.fileCheck = true;
+      return;
+    }
     if (event.target.files) {
+      this.fileCheck = false;
       Array.from(event.target.files).forEach((file) => {
         if (file instanceof File) {
           this.uploadFileHnS(file);
@@ -289,14 +303,15 @@ export class AccountSettingsComponent implements OnInit {
       this.isLoadingHnS = true;
       this.dataService.createHelpRequest(body ).subscribe(
         response => {
-          this.helperService.showToast('Save Successfully', Key.TOAST_STATUS_SUCCESS)
+          this.helperService.showToast('Your query has been successfully submitted. Our team will get back to you as soon as possible.', Key.TOAST_STATUS_SUCCESS)
           this.supportForm.reset();
           this.attachedHnSFile=[];
           this.filesString='';
+          this.setFormData();
           this.isLoadingHnS = false;
         },
         error => {
-          this.helperService.showToast('Error saving', Key.TOAST_STATUS_ERROR);
+          this.helperService.showToast('Unable to raise query at this moment please try again later', Key.TOAST_STATUS_ERROR);
           this.isLoadingHnS = false;
         }
       );

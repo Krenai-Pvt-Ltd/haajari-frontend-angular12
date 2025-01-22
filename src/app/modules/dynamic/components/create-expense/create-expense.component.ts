@@ -40,6 +40,7 @@ export class CreateExpenseComponent implements OnInit {
     this.getExpenses();
     this.getAllCompanyExpensePolicy();
     this.switchTab('allExpense');
+    this.getTags('EXPENSE');
 
     // this.check1()
 
@@ -245,7 +246,8 @@ export class CreateExpenseComponent implements OnInit {
 
     this.userExpense = null;
     this.rejectDiv = false;
-
+    this.currentId = expense.id;
+    this.tags=expense.tags;
     this.userExpense = expense
     console.log('dataset: ',this.userExpense)
 
@@ -273,10 +275,10 @@ export class CreateExpenseComponent implements OnInit {
   clearApproveModal() {
     this.isCheckboxChecked = false;
     this.partialAmount = '';
-
+    this.tags = [];
     this.approvedAmount = '';
     this.approveAmountChecked = false;
-
+    this.currentId = 0;
     this.transactionId = ''
     this.settledDate = ''
     this.payCashDiv = false;
@@ -2414,5 +2416,98 @@ console.log('calling....')
 
 
 /** Set Excel data end */
+
+
+tagsFilteredOptions: string[] = [];
+tags: string[] = [];
+fetchedTags: string[] = [];
+searchTag: string = '';
+currentId:number =0;
+
+addTag(): void {
+  if (this.searchTag && !this.tags.includes(this.searchTag)) {
+    this.tags.push(this.searchTag);
+    this.searchTag = ''; // Clear input field after adding
+  } else if (this.searchTag) {
+    this.helperService.showToast(this.searchTag + ' is Already Added', Key.TOAST_STATUS_ERROR);
+  } else if (!this.searchTag) {
+    this.helperService.showToast('Empty field cannot be added ', Key.TOAST_STATUS_ERROR);
+  }
+  this.tagsFilteredOptions = [];
+}
+checkTagsArraysEqual(): boolean {
+
+  if (this.tags.length !== this.fetchedTags.length) {
+    return false;
+  }
+
+  // Sort both arrays and compare each element
+  const sortedArr1 = [...this.tags].sort();
+  const sortedArr2 = [...this.fetchedTags].sort();
+
+  return sortedArr1.every((value, index) => value === sortedArr2[index]);
+}
+
+removeTag(skill: string): void {
+  const index = this.tags.indexOf(skill);
+  if (index !== -1) {
+    this.tags.splice(index, 1);
+  }
+}
+
+onTagsChange(value: string): void {
+
+  this.tagsFilteredOptions = this.fetchedTags.filter((option) =>
+    option.toLowerCase().includes(value.toLowerCase()) &&
+    !this.tags.includes(option)
+  );
+
+}
+preventLeadingWhitespace(event: KeyboardEvent): void {
+  const inputElement = event.target as HTMLInputElement;
+
+  // Prevent space if it's the first character
+  if (event.key === ' ' && inputElement.selectionStart === 0) {
+    event.preventDefault();
+  }
+  if (!isNaN(Number(event.key)) && event.key !== ' ') {
+    event.preventDefault();
+  }
+}
+isTagsLoading:boolean=false;
+isTagsEditEnabled:boolean=false;
+
+saveTags() {
+  this.isTagsLoading = true;
+  this.dataService.saveTags(this.currentId, this.tags).subscribe({
+    next: (response) => {
+      this.isTagsLoading = false;
+      this.searchTag = '';
+      this.getExpenses();
+      this.isTagsEditEnabled = false;
+      this.helperService.showToast('Tags saved successfully', Key.TOAST_STATUS_SUCCESS);
+    },
+    error: (error) => {
+      this.isTagsLoading = false;
+      this.searchTag = '';
+      this.getExpenses();
+      this.helperService.showToast('Error saving tags', Key.TOAST_STATUS_ERROR);
+      console.error('Error saving skills:', error);
+    },
+  });
+}
+
+
+getTags(type: string): void {
+  this.dataService.getTagsByOrganizationIdAndType(type).subscribe({
+    next: (data) => {
+      this.fetchedTags = data?.tagsList;
+      console.log('Tags fetched:', data);
+    },
+    error: (err) => {
+      console.error('Error fetching tags:', err);
+    },
+  });
+}
 
 }
