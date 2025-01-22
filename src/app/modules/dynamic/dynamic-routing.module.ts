@@ -35,6 +35,7 @@ import { ReferFriendComponent } from './components/refer-friend/refer-friend.com
 import { NewEmployeeProfileComponent } from './components/new-employee-profile/new-employee-profile.component';
 import { CreateExpenseComponent } from './components/create-expense/create-expense.component';
 import { ExistPolicyComponent } from './components/exist-policy/exist-policy.component';
+import { LeaveManagementsComponent } from './components/leave-managements/leave-managements.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -47,7 +48,7 @@ const routes: Routes = [
         component: DashboardComponent,
         canActivate: [AuthGuard,SubscriptionGuard],
         data: { requiredSubmodule: '/dashboard' },
-      }, //canActivate: [AuthGuard] (To activate the auth guard, need to add this under curly braces of this line by seperated commas)
+      },
       {
         path: 'timetable',
         component: TimetableComponent,
@@ -158,12 +159,6 @@ const routes: Routes = [
         component: LeaveManagementComponent, 
         canActivate: [AuthGuard, SubscriptionGuard]
       },
-     
-      // {
-      //   path: 'to-do-step-dashboard',
-      //   component: ToDoStepDashboardComponent,
-      //   canActivate: [AuthGuard, SubscriptionGuard]
-      // },
       {
         path: 'subscription',
         component: SubscriptionComponent,
@@ -187,6 +182,11 @@ const routes: Routes = [
         path: 'exit-policy',
         component: ExistPolicyComponent,
         canActivate: [AuthGuard, SubscriptionGuard]
+      },
+      {
+        path: 'leave-managements',
+        component: LeaveManagementsComponent,
+ 
       },
     ],
   },

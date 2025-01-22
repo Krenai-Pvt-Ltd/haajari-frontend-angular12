@@ -1121,7 +1121,9 @@
                                         #notesInput="ngModel"></textarea>
                             </div>
 
-                            <div class="col-md-12">
+                                            <!-- TODO: remove this d-none -->
+
+                            <div class="col-md-12 d-none">
                               <div class="form-group position-relative">
                                 <label for="tags" class="mb-2">Tags</label>
                                 <input type="text" id="tags" name="tags" (keyup.enter)="addTag()" class="form-control input-zorro "
@@ -1135,8 +1137,8 @@
                                         class="bi bi-plus font-18"></i> Add</button>
                               </div>
                             </div>
-
-                            <div class="col-md-12 mt-3">
+<!-- TODO: remove this d-none -->
+                            <div class="col-md-12 mt-3 d-none">
                               <div class="skill-set-add">
                                   <ul class="skill-set">
                                       <li *ngFor="let tag of tags">

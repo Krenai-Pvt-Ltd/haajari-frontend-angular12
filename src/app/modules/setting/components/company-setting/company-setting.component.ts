@@ -992,7 +992,9 @@ export class CompanySettingComponent implements OnInit {
       });
   }
 
-  getAddressDetails(addressId: number, addressString: string): void {
+  isDefaultAddressSelected: boolean = false;
+  getAddressDetails(addressId: number, addressString: string,isDefaultAddressSelected:boolean=false): void {
+    this.isDefaultAddressSelected=isDefaultAddressSelected;
     this.addressId = addressId;
     debugger
     this.selectedStaffsUuids = [];
@@ -1027,7 +1029,9 @@ export class CompanySettingComponent implements OnInit {
       });
   }
 
-  getUsersOfAddressDeatils(addressId: number, addressString: string) {
+  getUsersOfAddressDeatils(addressId: number, addressString: string,isDefaultAddressSelected:boolean=false): void {
+    debugger
+    this.isDefaultAddressSelected=isDefaultAddressSelected;
      this.organizationAddressDetail = new OrganizationAddressDetail();
     this.clearSearchText();
     this.teamId = 0;
@@ -1036,13 +1040,22 @@ export class CompanySettingComponent implements OnInit {
     this.selectedStaffsUuids = [];
     this.pageNumber = 1;
 
-    this.getAddressDetails(addressId, addressString);
+    this.getAddressDetails(addressId, addressString,isDefaultAddressSelected);
     this.staffSelectionTab.nativeElement.click();
   }
 
-  openEditAddressTab(addressId: number, addressString: string) {
-    this.locationSettingTab.nativeElement.click();
-    this.getAddressDetails(addressId, addressString);
+  openEditAddressTab(addressId: number, addressString: string,isDefaultAddressSelected:boolean=false) {
+    this.isDefaultAddressSelected=isDefaultAddressSelected;
+    if(this.locationSettingTab){
+      this.locationSettingTab.nativeElement.click();
+      
+    }
+    var staffLocation=document.getElementById("staffLocation");
+
+    if(staffLocation){
+      staffLocation.classList.add("show","active")
+    }
+    this.getAddressDetails(addressId, addressString,isDefaultAddressSelected);
   }
 
 
@@ -1057,8 +1070,16 @@ export class CompanySettingComponent implements OnInit {
   }
 
   @ViewChild('organizationAddressNgForm') organizationAddressNgForm!: NgForm;
+  @ViewChild('staffLocation') staffLocation!: ElementRef;
+
   clearLocationModel() {
+    this.staffLocation.nativeElement.click();
     this.locationSettingTab.nativeElement.click();
+    var staffLocation=document.getElementById("staffLocation");
+
+    if(staffLocation){
+      staffLocation.classList.add("show","active")
+    }
     this.organizationAddressDetail = new OrganizationAddressDetail();
     if (this.organizationAddressForm) {
       this.organizationAddressNgForm.resetForm();
@@ -1090,6 +1111,11 @@ export class CompanySettingComponent implements OnInit {
 
    openLocationSetting() {
     this.locationSettingTab.nativeElement.click();
+    var staffLocation=document.getElementById("staffLocation");
+
+    if(staffLocation){
+      staffLocation.classList.add("show","active")
+    }
    }
 
 
@@ -1303,6 +1329,7 @@ export class CompanySettingComponent implements OnInit {
   @ViewChild("closeButtonLocationDefaultAddress") closeButtonLocationDefaultAddress!: ElementRef;
   setOrganizationAddressDetailMethodCall() {
     debugger
+    // this.clearLocationModel();
     this.toggle = true;
     this.dataService
       .setOrganizationAddressDetail(this.organizationAddressDetail)
@@ -1311,9 +1338,10 @@ export class CompanySettingComponent implements OnInit {
           this.toggle = false;
 
           this.getOrganizationAddressDetailMethodCall();
+    
           this.getAllAddressDetails();
-          this.closeButtonLocationDefaultAddress.nativeElement.click();
-
+          // this.closeButtonLocationDefaultAddress.nativeElement.click();
+          this.closeButtonLocation.nativeElement.click();
         },
         (error) => {
           console.error(error);
@@ -1328,12 +1356,22 @@ export class CompanySettingComponent implements OnInit {
   zoom: number = 15;
   markerPosition: any;
 
-  getOrganizationAddressDetailMethodCall() {
-    debugger;
+  getOrganizationAddressDetailMethodCall(isDefaultAddressSelected: boolean = false) {
+    debugger
+    this.isDefaultAddressSelected=isDefaultAddressSelected;
+    if(this.locationSettingTab){
+      this.locationSettingTab.nativeElement.click();
+      
+    }
+    var staffLocation=document.getElementById("staffLocation");
+
+    if(staffLocation){
+      staffLocation.classList.add("show","active")
+    }
     this.dataService.getOrganizationAddressDetail().subscribe(
       (response: OrganizationAddressDetail) => {
         if (response) {
-          // console.log(response);
+          console.log(response);
           this.organizationAddressDetail = response;
           // console.log(this.organizationAddressDetail.latitude);
           if (this.organizationAddressDetail.latitude == null) {
@@ -1640,6 +1678,13 @@ deleteAddress(addressId: number) {
   );
 }
 
+onOrganizationAddressSubmit(){
+  if(this.isDefaultAddressSelected){
+    this.submitDefaultAddress();
+}else{
+  this.submit();
+}
+}
 }
 
 
