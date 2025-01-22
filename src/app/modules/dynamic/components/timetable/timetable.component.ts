@@ -1581,7 +1581,7 @@ export class TimetableComponent implements OnInit {
               this.validateRows(this.data.slice(1));
               this.removeAllSingleEntries();
               this.validateMap.forEach((values, key) => {
-                this.mismatches.push(`Repeating values: "${key}" at row no. ${values}`);
+                // this.mismatches.push(`Repeating values: "${key}" at row no. ${values}`);
                 if (this.elementToScroll) {
                   this.elementToScroll!.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
