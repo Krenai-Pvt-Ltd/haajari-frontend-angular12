@@ -120,7 +120,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     this.getShiftData();
     this.getOnboardingVia();
     this.selectStatus('ACTIVE');
-    this.fetchPendingRequests();
+    //this.fetchPendingRequests();
     const storedDownloadUrl = localStorage.getItem('downloadUrl');
 
     if (storedDownloadUrl) {
@@ -1536,6 +1536,7 @@ console.log(this.data);
         if (response.success) {
           this.helperService.showToast('Data saved successfully', Key.TOAST_STATUS_SUCCESS);
           this.closeReqDataModal.nativeElement.click();
+          this.fetchPendingRequests();
           this.selectStatus('EDITPROFILE');
 
         } else {
@@ -1565,6 +1566,7 @@ console.log(this.data);
         if (response.success) {
           this.helperService.showToast('Request rejected successfully', Key.TOAST_STATUS_SUCCESS);
           this.closeReqDataModal.nativeElement.click();
+          this.fetchPendingRequests();
           this.selectStatus('EDITPROFILE');
         } else {
           this.helperService.showToast('Failed to reject request', Key.TOAST_STATUS_ERROR);
@@ -1579,6 +1581,7 @@ console.log(this.data);
 
 
   fieldLoading: boolean = false;
+  remainingField: number=0;
   removeField(key: string, value: any, index: number) {
     this.fieldLoading = true;
     this.dataService.removeKeyValuePair(key,this.userId, value).subscribe({
@@ -1587,6 +1590,10 @@ console.log(this.data);
         console.log('Response:', response);
         if (response.success) {
           this.helperService.showToast('Data Rejected successfully', Key.TOAST_STATUS_SUCCESS);
+          this.remainingField=response.message;
+          if(this.remainingField==0){
+            this.fetchPendingRequests();
+          }
           this.disabledStates[index] = true;
           this.approveStates[index] = 'Rejected';
           const divToClick = document.getElementById('collapsibleDiv-' + index);
@@ -1615,6 +1622,10 @@ console.log(this.data);
         if (response.success) {
           this.disabledStates[index] = true;
           this.approveStates[index] = 'Approved';
+          this.remainingField=response.message;
+          if(this.remainingField==0){
+            this.fetchPendingRequests();
+          }
           const divToClick = document.getElementById('collapsibleDiv-' + index);
           if (divToClick) {
             divToClick.click();

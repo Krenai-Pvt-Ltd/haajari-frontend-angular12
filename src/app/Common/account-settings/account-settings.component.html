@@ -110,13 +110,22 @@
                 <div class="account-setting w-95 ">
 
                     <div class="position-relative">
+
                         <span class="profile-image">
-                            <img onerror="this.src='./assets/images/broken-image-icon.jpg';"
-                                [src]="employeeProfileResponseData?.profilePic">
-                        </span>
+                          <ng-container *ngIf="isUploading; else imageDisplay">
+                            <div class="spinner"></div>
+                          </ng-container>
+                          <ng-template #imageDisplay>
+                              <img
+                                  [src]="employeeProfileResponseData?.profilePic"
+                                  onerror="this.src='./assets/images/broken-image-icon.jpg';"
+                              >
+                          </ng-template>
+                      </span>
+
                         <input #fileInput type="file" accept="image/jpeg, image/jpg, image/png"
                             (change)="onFileSelected($event)" style="display: none;">
-                        <span (click)="fileInput.click()" class="image-edit-btn pointer">
+                        <span *ngIf="!isUploading" (click)="fileInput.click()" class="image-edit-btn pointer">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"
                                 fill="none">
                                 <path
@@ -562,7 +571,7 @@
 
                     <h5 class="font-22 fw-semibold mb-0">Your Guidelines</h5>
 
-                    <div class="row mt-5 border-bottom pb-4">
+                    <div *ngIf="hrPolicyDocuments.length>0" class="row mt-5 border-bottom pb-4">
                         <div class="col-md-4">
                             <h5 class="font-16 fw-semibold">HR Policy</h5>
                         </div>
@@ -679,7 +688,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row mt-5 border-bottom pb-4">
+                    <div *ngIf="guidelines?.attendanceRule" class="row mt-5 border-bottom pb-4">
                         <div class="col-md-4">
                             <h5 class="font-16 fw-semibold">Attendance Rule</h5>
                         </div>
@@ -734,7 +743,7 @@
                             <div *ngIf="guidelines?.lateEntry?.customLateDuration?.lateDuration" class="guide-policy mb-4">
                                 <h5 class="font-15 mb-2 fw-semibold">Custom Salary Deduction</h5>
                                 <p class="mb-0 font-13">The deduction will apply if you are late by <span
-                                        class="fw-semibold">{{formatTime(guidelines?.lateEntry?.customLateDuration?.lateDuration)}} hour</span> A fixed
+                                        class="fw-semibold">{{formatTime(guidelines?.lateEntry?.customLateDuration?.lateDuration)}}</span> A fixed
                                     amount of <span class="fw-semibold">₹{{guidelines?.lateEntry?.customLateDuration?.amountInRupees}} will be deducted</span> for each occurrence
                                     This rule will be <span class="fw-semibold">applied if
                                         you are late {{guidelines?.lateEntry?.customLateDuration?.occurrenceCount}} times. </span></p>
@@ -860,31 +869,21 @@
                             <h5 class="font-16 fw-semibold">Leaves Rules</h5>
                         </div>
                         <div class="col-md-8">
-                            <div *ngIf="guidelines?.leaveTemplates?.SickLeave" class="guide-policy mb-4">
-                                <h5 class="font-15 mb-2 fw-semibold">Paid Leave (PL) Rules</h5>
-                                <p class="mb-0 font-13">Employees are entitled to <span class="fw-semibold">2 paid
-                                        leaves per month, totalling up
-                                        to 24 paid leaves in a calendar year. Unused regular paid leaves can be carried
-                                        forward to the next year, with a maximum limit of 10 days.</span>
-                                </p>
-                            </div>
-                            <div *ngIf="guidelines?.leaveTemplates?.SickLeave" class="guide-policy mb-4">
-                                <h5 class="font-15 mb-2 fw-semibold">Sick Leave (SL)Rules</h5>
-                                <p class="mb-0 font-13">Employees are entitled to <span class="fw-semibold">{{guidelines?.leaveTemplates?.SickLeave?.leaveCount}} sick
-                                        leaves </span> {{guidelines?.leaveTemplates?.SickLeave?.leaveCycle}}, exclusively
-                                    for medical emergencies. Sick leaves <span class="fw-semibold">can be {{guidelines?.leaveTemplates?.SickLeave?.unusedLeaveAction}} </span>to the next {{guidelines?.leaveTemplates?.SickLeave?.leaveCycle}}.
-                                </p>
-                            </div>
-                            <div *ngIf="guidelines?.leaveTemplates?.CasualLeave" class="guide-policy mb-4">
-                                <h5 class="font-15 mb-2 fw-semibold">Casual Leave (CL) Rules</h5>
-                                <p class="mb-0 font-13">Employees are entitled to <span class="fw-semibold">{{guidelines?.leaveTemplates?.CasualLeave?.leaveCount}} casual
-                                        leaves </span> {{guidelines?.leaveTemplates?.CasualLeave?.leaveCycle}}, usable for <span class="fw-semibold">1
-                                        to 3 days </span> at a time. Unused leaves <span class="fw-semibold">{{guidelines?.leaveTemplates?.CasualLeave?.unusedLeaveAction}}
-                                          {{guidelines?.leaveTemplates?.CasualLeave?.leaveCycle}},</span> and applications must be submitted
-                                    2 days in advance, except in emergencies.
-                                </p>
-                            </div>
-                            <div *ngIf="guidelines?.leaveTemplates?.LeaveWithoutPay" class="guide-policy mb-4">
+
+                          <ng-container *ngFor="let leaveTemplate of guidelines?.leaveTemplates">
+                            <div *ngIf="leaveTemplate.leaveCategory !== 'Leave Without Pay'" class="guide-policy mb-4">
+                         <h5 class="font-15 mb-2 fw-semibold">{{ leaveTemplate.leaveCategory }}  Rules</h5>
+                         <p class="mb-0 font-13">
+                           Employees are entitled to
+                           <span class="fw-semibold">{{ leaveTemplate.leaveCount }} leaves</span>
+                           {{ leaveTemplate.leaveCycle }}, exclusively for medical emergencies. Sick leaves
+                           <span class="fw-semibold">can be {{ leaveTemplate.unusedLeaveAction }}</span>
+                           to the next {{ leaveTemplate.leaveCycle }}.
+                         </p>
+                       </div>
+                       </ng-container>
+
+                            <div class="guide-policy mb-4">
                                 <h5 class="font-15 mb-2 fw-semibold">Leave Without Pay (LWP) Rules</h5>
                                 <p class="mb-0 font-13">If all leaves are exhausted, employees can take LWP <span
                                         class="fw-semibold"> with manager
@@ -987,7 +986,10 @@
                         <div *ngIf="supportForm.get('description')?.invalid && supportForm.get('description')?.touched" class="text-danger">
                           Description is required.
                         </div>
-                        <span class="file-attech-icon pointer">
+                        <div *ngIf="fileCheck" class="text-danger">
+                          You can upload upto 5 files.
+                        </div>
+                        <span *ngIf="attachedHnSFile.length<5" class="file-attech-icon pointer">
                           <!-- Hidden file input -->
                           <input id="file" type="file" (change)="onFileSelect($event)" multiple style="display: none;" />
                           <!-- Label that triggers the file input -->
