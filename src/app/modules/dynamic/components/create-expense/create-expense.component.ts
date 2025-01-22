@@ -17,6 +17,8 @@ import { HelperService } from 'src/app/services/helper.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-create-expense',
@@ -41,7 +43,9 @@ export class CreateExpenseComponent implements OnInit {
     this.getAllCompanyExpensePolicy();
     this.switchTab('allExpense');
     this.getTags('EXPENSE');
-
+    this.searchSubject.pipe(debounceTime(1000)).subscribe((searchTerm) => {
+      this.getExpenses();
+    });
     // this.check1()
 
   }
@@ -60,7 +64,7 @@ export class CreateExpenseComponent implements OnInit {
     this.expenseTotalItems = 0
     this.ROLE = await this.rbacService.getRole();
 
-    this.dataService.getAllExpense(this.ROLE, this.databaseHelper.currentPage, this.databaseHelper.itemPerPage, this.startDate, this.endDate, this.statusIds, '').subscribe((res: any) => {
+    this.dataService.getAllExpense(this.ROLE, this.databaseHelper.currentPage, this.databaseHelper.itemPerPage, this.startDate, this.endDate, this.statusIds, '', this.selectedFilter,this.searchedName).subscribe((res: any) => {
       if (res.status) {
         this.expenseList = res.object
         this.expenseTotalItems = res.totalItems
@@ -2496,6 +2500,28 @@ saveTags() {
     },
   });
 }
+
+filteredOptions: string[] = [];
+  selectedFilter: string = '';
+  private searchSubject: Subject<string> = new Subject<string>();
+  searchedName: string = '';
+  onSearch(value: string): void {
+    this.filteredOptions = this.fetchedTags.filter((option) =>
+      option.toLowerCase().includes(value.toLowerCase())
+    );
+  }
+
+  onOptionSelect(): void {
+    if (this.selectedFilter === null) {
+      this.selectedFilter = '';
+    }
+    this.getExpenses();
+  }
+
+  onExpenseSearch(value: string): void {
+    this.searchedName = value;
+    this.searchSubject.next(value);
+  }
 
 
 getTags(type: string): void {

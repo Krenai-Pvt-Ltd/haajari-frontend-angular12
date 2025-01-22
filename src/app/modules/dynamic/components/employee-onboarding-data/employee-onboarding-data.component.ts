@@ -202,6 +202,23 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     this.getUsersByFiltersFunction();
   }
 
+  currentResignationID: number = 0;
+  deleteResignation(id: number): void {
+      this.disableUserLoader = true;
+      this.dataService.deleteUserResignation(id).subscribe({
+        next: (response) => {
+          this.disableUserLoader = false;
+          this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
+          this.getUsersByFiltersFunction();
+        },
+        error: (error) => {
+          this.disableUserLoader = false;
+          this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
+        },
+      });
+    }
+
+
   allEmployeeRequest(){
     this.users = [];
     this.isResignationUser = 0
@@ -650,9 +667,9 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   //     (data) => {
   //       // location.reload();
   //       this.disableUserLoader = false;
-       
+
   //       this.getUsersByFiltersFunction();
-       
+
   //       this.currentUserPresenceStatus = false;
   //       this.currentUserUuid = '';
   //       this.deleteOrDisableString = '';
@@ -1504,6 +1521,8 @@ console.log(this.data);
           this.editedDate= response.createdDate;
           this.profilePic= response.profilePic;
           this.approveStates=[];
+          this.remainingField=1;
+          this.isModalOpen = new Array(this.requestedData.length).fill(false);
           if(!this.requestedData ||this.requestedData.length==0){
             this.helperService.showToast('No data found', Key.TOAST_STATUS_ERROR);
             this.closeReqDataModal.nativeElement.click();
@@ -1579,9 +1598,10 @@ console.log(this.data);
     );
   }
 
+  @ViewChild('divElement', { static: false }) divElement!: ElementRef;
 
   fieldLoading: boolean = false;
-  remainingField: number=0;
+  remainingField: number=1;
   removeField(key: string, value: any, index: number) {
     this.fieldLoading = true;
     this.dataService.removeKeyValuePair(key,this.userId, value).subscribe({
@@ -1596,6 +1616,7 @@ console.log(this.data);
           }
           this.disabledStates[index] = true;
           this.approveStates[index] = 'Rejected';
+          this.divElement.nativeElement.click();
           const divToClick = document.getElementById('collapsibleDiv-' + index);
           if (divToClick) {
             divToClick.click();
@@ -2029,6 +2050,10 @@ console.log(this.data);
   );
   }
 
+  isModalOpen: boolean[] = [];
+  toggleModal(index: number): void {
+    this.isModalOpen[index] = !this.isModalOpen[index];
+  }
   // Method to change page
   changePage1(page: number): void {
     this.currentPage1 = page;

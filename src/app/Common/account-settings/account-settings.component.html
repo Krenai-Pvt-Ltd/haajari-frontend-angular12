@@ -743,23 +743,22 @@
                             <div *ngIf="guidelines?.lateEntry?.customLateDuration?.lateDuration" class="guide-policy mb-4">
                                 <h5 class="font-15 mb-2 fw-semibold">Custom Salary Deduction</h5>
                                 <p class="mb-0 font-13">The deduction will apply if you are late by <span
-                                        class="fw-semibold">{{formatTime(guidelines?.lateEntry?.customLateDuration?.lateDuration)}}</span> A fixed
-                                    amount of <span class="fw-semibold">₹{{guidelines?.lateEntry?.customLateDuration?.amountInRupees}} will be deducted</span> for each occurrence
+                                        class="fw-semibold">{{formatTime(guidelines?.lateEntry?.customLateDuration?.lateDuration)}}</span>. A fixed
+                                    amount of <span class="fw-semibold">₹{{guidelines?.lateEntry?.customLateDuration?.amountInRupees}} will be deducted</span> for each occurrence.
                                     This rule will be <span class="fw-semibold">applied if
                                         you are late {{guidelines?.lateEntry?.customLateDuration?.occurrenceCount}} times. </span></p>
                             </div>
                             <div *ngIf="guidelines?.lateEntry?.halfDayLate?.lateDuration" class="guide-policy mb-4">
                                 <h5 class="font-15 mb-2 fw-semibold">Half Day Salary Deduction</h5>
                                 <p class="mb-0 font-13">The deduction will apply if you are late by <span
-                                        class="fw-semibold">{{formatTime(guidelines?.lateEntry?.halfDayLate?.lateDuration)}} </span> A fixed amount of <span
-                                        class="fw-semibold">₹{{guidelines?.lateEntry?.halfDayLate?.occurrenceCount}} will be deducted</span> for each occurrence This rule
+                                        class="fw-semibold">{{formatTime(guidelines?.lateEntry?.halfDayLate?.lateDuration)}} </span>. A fixed amount of  will be deducted for each occurrence. This rule
                                     will be <span class="fw-semibold">applied if you are late {{guidelines?.lateEntry?.halfDayLate?.occurrenceCount}} times.</span> </p>
                             </div>
                             <div *ngIf="guidelines?.lateEntry?.fullDayLate?.lateDuration" class="guide-policy mb-4">
                                 <h5 class="font-15 mb-2 fw-semibold">Full Day Salary Deduction</h5>
                                 <p class="mb-0 font-13">The deduction will apply if you are late by <span
-                                        class="fw-semibold">{{formatTime(guidelines?.lateEntry?.fullDayLate?.lateDuration)}} </span> A fixed amount of <span
-                                        class="fw-semibold">₹{{guidelines?.lateEntry?.fullDayLate?.occurrenceCount}} will be deducted</span> for each occurrence This rule
+                                        class="fw-semibold">{{formatTime(guidelines?.lateEntry?.fullDayLate?.lateDuration)}} </span>. A fixed amount of <span
+                                        class="fw-semibold">₹{{guidelines?.lateEntry?.fullDayLate?.occurrenceCount}} will be deducted</span> for each occurrence. This rule
                                     will be <span class="fw-semibold">applied if you are late {{guidelines?.lateEntry?.fullDayLate?.occurrenceCount}} times.</span>
                                 </p>
                             </div>
