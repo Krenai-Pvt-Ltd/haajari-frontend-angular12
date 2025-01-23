@@ -1,4 +1,6 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 import { Key } from 'src/app/constant/key';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
@@ -12,14 +14,11 @@ import { PayrollService } from 'src/app/services/payroll.service';
 export class LeaveSummaryComponent implements OnInit {
 
 
-  itemPerPage: number = 8;
+  itemPerPage: number = 10;
   pageNumber: number = 1;
-  lastPageNumber: number = 0;
-  sort: string = 'asc';
-  sortBy: string = 'id';
+  totalItems:number=0;
   search: string = '';
-  searchBy: string = 'name';
-  total: number = 0;
+
 
   @Input() startDate:any;
   @Input() endDate:any;
@@ -32,11 +31,21 @@ export class LeaveSummaryComponent implements OnInit {
   readonly TOAST_STATUS_SUCCESS = Key.TOAST_STATUS_SUCCESS;
   readonly TOAST_STATUS_ERROR = Key.TOAST_STATUS_ERROR;
 
+  readonly LEAVES = Key.LEAVES;
+  readonly LOP_SUMMARY = Key.LOP_SUMMARY;
+  readonly LOP_REVERSAL = Key.LOP_REVERSAL;
+
+   private searchSubject = new Subject<boolean>();
+
   constructor(private _dataService : DataService,
      private _payrollService : PayrollService,
-     private _helperService:HelperService) {
+     public _helperService:HelperService) {
 
-
+        this.searchSubject
+          .pipe(debounceTime(250)) // Wait for 250ms before emitting the value
+          .subscribe(searchText => {
+            this.searchByInput(searchText);
+          });
   }
 
   ngOnInit(): void {
@@ -143,8 +152,8 @@ export class LeaveSummaryComponent implements OnInit {
     this._payrollService.getPendingLeaves(this.startDate,this.endDate,this.pageNumber, this.itemPerPage).subscribe((response) => {
       if(response.status){
         this.pendingLeavesList = response.object;
-        this.total = response.totalItems;
-        this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+        this.totalItems = response.totalItems;
+
       }
       this.isShimmerForPayrollLeaveResponse = false;
     }, (error) => {
@@ -224,5 +233,70 @@ export class LeaveSummaryComponent implements OnInit {
     // }))
   }
 
+  selectTab(tab:number){
+    this.CURRENT_TAB = tab;
+    this.resetSearch();
+  }
+
+  searchDebounce(event:any){
+    this.searchSubject.next(event)
+  }
+
+
+
+  searchByInput(event: any) {
+    // this.isBeingSearch = true;
+    var inp = String.fromCharCode(event.keyCode);
+    if (event.type == 'paste') {
+      let pastedText = event.clipboardData.getData('text');
+      if (pastedText.length > 2) {
+        this.pageNumber = 1;
+        this.getDataBySelectedTab();
+      }
+
+    }else {
+      if (this.search.length > 2 && /[a-zA-Z0-9.@]/.test(inp)) {
+        this.pageNumber = 1;
+        this.getDataBySelectedTab();
+
+      }else if (event.code == 'Backspace' && (event.target.value.length >= 3)) {
+        this.pageNumber = 1;
+        this.getDataBySelectedTab();
+
+      }else if (this.search.length == 0) {
+        this.pageNumber = 1;
+        this.search = '';
+        this.getDataBySelectedTab();
+      }
+    }
+  }
+
+
+  resetSearch(){
+    this.pageNumber = 1;
+    this.totalItems= 0;
+    this.search = '';
+    this.getDataBySelectedTab();
+  }
+
+  CURRENT_TAB:number= this.LEAVES;
+  getDataBySelectedTab(){
+    if (this.CURRENT_TAB == this.LEAVES) {
+      this.getUserPendingLeaves();
+    }else if (this.CURRENT_TAB == this.LOP_SUMMARY) {
+
+    }else if (this.CURRENT_TAB == this.LOP_REVERSAL) {
+
+    }
+  }
+
+
+  pageChange(page:number){
+    if(page!= this.pageNumber){
+      this.pageNumber = page;
+      this.getDataBySelectedTab();
+    }
+
+  }
 
 }

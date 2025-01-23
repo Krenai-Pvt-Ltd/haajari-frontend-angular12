@@ -8,6 +8,9 @@ export class StatusKeys{
 
 	static PAY_ACTION_PROCESS=1;
 	static PAY_ACTION_HOLD=2;
-
+	static PAYROLL_IN_PROCESS = 55;
+	static PAYROLL_PROCESSED = 54;
+	static PAYSLIP_FINALIZED = 44;
+	static PAYSLIP_DRAFT = 45;
 
 }

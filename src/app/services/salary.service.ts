@@ -134,7 +134,7 @@ export class SalaryService {
     .set('item_per_page', itemPerPage)
     .set('page_number', pageNumber)
     .set('search', search)
-    return this._http.get<any>(`${this._key.base_url}/bonus-deduction`, {params});
+    return this._http.get<any>(`${this._key.base_url}/bonus`, {params});
   }
 
 
@@ -181,7 +181,7 @@ export class SalaryService {
     const params = new HttpParams()
     .set('month_wise_ids', String(monthWiseIds))
     .set('share_via', shareVia);
-    return this._http.post<any>(`${this._key.base_url}/salary-slip/share`,{}, {params});
+    return this._http.post<any>(`${this._key.base_url}/salary/payslip/share`,{}, {params});
   }
 
   generatePaySlip(startDate: string,endDate: string): Observable<any>{

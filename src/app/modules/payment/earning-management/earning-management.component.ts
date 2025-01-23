@@ -1,4 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 import { Key } from 'src/app/constant/key';
 import { PayActionType } from 'src/app/models/pay-action-type';
 import { SalaryChangeBonusResponse } from 'src/app/models/salary-change-bonus-response';
@@ -16,9 +18,8 @@ import { PayrollService } from 'src/app/services/payroll.service';
 export class EarningManagementComponent implements OnInit {
 
 
-  itemPerPage: number = 8;
+  itemPerPage: number = 10;
   pageNumber: number = 1;
-  lastPageNumber: number = 0;
   search: string = '';
   totalItems: number = 0;
 
@@ -38,9 +39,19 @@ export class EarningManagementComponent implements OnInit {
   back(){
     this.sendBulkDataToComponent();
   }
+
+  private searchSubject = new Subject<boolean>();
+
   constructor(private _dataService : DataService, 
-    private _helperService : HelperService,
-    private _payrollService : PayrollService) { }
+    public _helperService : HelperService,
+    private _payrollService : PayrollService) { 
+
+
+    this.searchSubject.pipe(debounceTime(250)) // Wait for 250ms before emitting the value
+        .subscribe(searchText => {
+          this.searchByInput(searchText);
+        });
+    }
 
   ngOnInit(): void {
     this.getUserSalaryChange();
@@ -135,39 +146,71 @@ export class EarningManagementComponent implements OnInit {
     })
   }
 
+  searchDebounce(event:any){
+    this.searchSubject.next(event)
+  }
 
-  pageChange(page:any, section:any){
+  selectTab(tab:number){
+    this.CURRENT_TAB = tab;
+    this.resetSearch();
+  }
+
+
+  searchByInput(event: any) {
+    // this.isBeingSearch = true;
+    var inp = String.fromCharCode(event.keyCode);
+    if (event.type == 'paste') {
+      let pastedText = event.clipboardData.getData('text');
+      if (pastedText.length > 2) {
+        this.pageNumber = 1;
+        this.getDataBySelectedTab();
+      }
+
+    }else {
+      if (this.search.length > 2 && /[a-zA-Z0-9.@]/.test(inp)) {
+        this.pageNumber = 1;
+        this.getDataBySelectedTab();
+
+      }else if (event.code == 'Backspace' && (event.target.value.length >= 3)) {
+        this.pageNumber = 1;
+        this.getDataBySelectedTab();
+
+      }else if (this.search.length == 0) {
+        this.pageNumber = 1;
+        this.search = '';
+        this.getDataBySelectedTab();
+      }
+    }
+  }
+
+
+  resetSearch(){
+    this.pageNumber = 1;
+    this.totalItems= 0;
+    this.search = '';
+    this.getDataBySelectedTab();
+  }
+
+
+  CURRENT_TAB:number= this.SALARY_CHANGE;
+  getDataBySelectedTab(){
+    if(this.CURRENT_TAB == this.SALARY_CHANGE){
+      this.getUserSalaryChange();
+    }else if(this.CURRENT_TAB == this.BONUS){
+      this.getUserBonus();
+    }else if(this.CURRENT_TAB == this.OVERTIME){ 
+      this.getUserOvertime();
+    }
+  }
+
+  pageChange(page:any){
     if(this.pageNumber != page){
       this.pageNumber = page; 
-      if(section == this.SALARY_CHANGE){
-        this.getUserSalaryChange();
-      }else if(section == this.BONUS){
-        this.getUserBonus();
-      }else if(section == this.OVERTIME){ 
-        this.getUserOvertime();
-      }
+      this.getDataBySelectedTab();
     }
     
 
   }
-
-  startIndex(): number {
-    return (this.pageNumber - 1) * this.itemPerPage + 1;
-  }
-
-  lastIndex(): number {
-    return Math.min(this.pageNumber * this.itemPerPage, this.totalItems);
-  }
-
-
-  searching(event:any){
-
-  }
-
-  clearSearch(event:any){
-
-  }
-
 
   getUserBonus(){
     this.preRuleForShimmersAndErrorPlaceholdersForSalaryChangeBonusResponse();
@@ -281,6 +324,8 @@ export class EarningManagementComponent implements OnInit {
     
     // }))
   }
-  
+
+
+
 
 }

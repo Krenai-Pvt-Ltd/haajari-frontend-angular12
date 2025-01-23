@@ -119,24 +119,9 @@
               else attendanceDataCondition
             ">
               <tbody>
-                <tr *ngFor="let item of [].constructor(6)">
-                  <td class="text-center">
+                <tr *ngFor="let item of [].constructor(8)">
+                  <td class="text-center" *ngFor="let item of [].constructor(7)">
                     <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
-                  </td>
-                  <td class="text-center">
-                    <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                  </td>
-                  <td class="text-center">
-                    <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                  </td>
-                  <td class="text-center">
-                    <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                  </td>
-                  <td class="text-center">
-                    <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                  </td>
-                  <td class="text-center">
-                    <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
                   </td>
                 </tr>
               </tbody>
@@ -155,7 +140,7 @@
                       <img onerror="this.src='./assets/images/broken-image-icon.jpg';"
                         [src]=" employee.image ? employee.image : 'assets/images/broken-image-icon.jpg'" alt=""
                         class="rounded-circle thumb-xs me-1" />
-                      {{ employee.name }}
+                      {{ employee.name || 'N/A'}}
                     </td>
                     <td>{{ employee.email || 'N/A'}}</td>
                     <td>{{ employee.phone || 'N/A'}}</td>
@@ -176,31 +161,12 @@
                     </td>
                     <td>
                       <span class="badge rounded-pill" [ngClass]="{
-                        'badge-soft-success': employee.payStatus.id == APPROVED,
-                        'badge-soft-warning': employee.payStatus.id == PENDING
+                        'badge-soft-success': employee.payStatusId ==  StatusKeys.PAYROLL_PROCESSED,
+                        'badge-soft-warning': employee.payStatusId ==  StatusKeys.PAYROLL_IN_PROCESS
                       }">
-                        {{ employee.payStatus.response }}
+                        {{ employee.payStatusId === StatusKeys.PAYROLL_PROCESSED? 'PROCESSED': 'IN PROCESS' }}
                       </span>
                     </td>
-                    <!-- <td>
-                    <div
-                      class="btn-group"
-                      role="group"
-                      aria-label="Basic example"
-                    >
-                      <button
-                        type="button"
-                        class="btn btn-light"
-                        ngbTooltip="Edit"
-                        placement="top"
-
-                        *ngIf="employee.payStatus.id == PENDING"
-                        (click)="openEpfModal(employee)"
-                      >
-                        <i class="ti ti-pencil"></i>
-                      </button>
-                    </div>
-                  </td> -->
                   </tr>
                 </tbody>
               </ng-container>
@@ -236,63 +202,15 @@
           </tbody>
         </ng-template>
       </div>
-      <!-- Pagination -->
-      <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top d-done"
-        *ngIf="totalItems > itemPerPage">
-        <p class="mb-0"> Showing {{startIndex() }} - {{lastIndex()}} of {{ totalItems }} </p>
+      <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top"
+        *ngIf="totalItems > 0">
+        <p class="mb-0"> Showing {{_helperService.startIndex(pageNumber,itemPerPage) }} - {{_helperService.lastIndex(pageNumber,itemPerPage,totalItems)}} of {{ totalItems }} results</p>
         <div class="pagition-box">
           <ngb-pagination [collectionSize]="totalItems" [page]="pageNumber" [pageSize]="itemPerPage" [maxSize]="5"
             [boundaryLinks]="true" [ellipses]="true" (pageChange)="pageChange($event)">
           </ngb-pagination>
         </div>
       </div>
-      <!--  -->
     </div>
   </div>
 </div>
-
-
-<!-- EPF Edit Modal Start -->
-<!-- <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#epfTdsEditModal" #epfTdsEditButton>
-  EPF Edit Modal
-</button>
-<div class="modal fade" id="epfTdsEditModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Update EPF, ESI & TDS</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form #tdsForm="ngForm" (ngSubmit)="updateEmployeeData()">
-        
-          <div class="mb-3">
-            <label for="name" class="form-label">Name</label>
-            <input type="text" id="name" name="name" class="form-control" [(ngModel)]="employeeMonthWiseSalaryData.name" 
-              #name="ngModel" readonly>
-          </div>
-          <div class="mb-3">
-            <label for="amount" class="form-label">EPF</label>
-            <input type="number" id="epf" name="epf" class="form-control" [(ngModel)]="employeeMonthWiseSalaryData.epfAmount"
-               #epf="ngModel">
-          </div>
-          <div class="mb-3">
-            <label for="amount" class="form-label">ESI</label>
-            <input type="number" id="esi" name="esi" class="form-control" [(ngModel)]="employeeMonthWiseSalaryData.esiAmount"
-               #esi="ngModel">
-          </div>
-          <div class="mb-3">
-            <label for="amount" class="form-label">TDS</label>
-            <input type="number" id="tds" name="tds" class="form-control" [(ngModel)]="employeeMonthWiseSalaryData.tdsAmount"
-               #tds="ngModel">
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Submit</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div> -->
-<!-- EPF Edit Modal End -->

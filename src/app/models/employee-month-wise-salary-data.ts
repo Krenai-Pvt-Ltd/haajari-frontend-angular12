@@ -22,4 +22,7 @@ export class EmployeeMonthWiseSalaryData {
   payStatus : Status = new Status();
   isSlipHold:number =0;
   checked:boolean=false;
+  status:string='';
+  payStatusId:number=0;
+  paySlipStatusId:number=0;
 }
