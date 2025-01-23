@@ -774,7 +774,7 @@ export class DataService {
       .set('uuid', userUuid)
       .set('fileToUpload', fileToUpload);
     return this.httpClient.post(
-      this.baseUrl + '/temp/leave/request',
+      this.baseUrl + '/leave/request',
       request,
       { params }
     );
@@ -787,7 +787,7 @@ export class DataService {
   ): Observable<any> {
     const params = new HttpParams().set('fileToUpload', fileToUpload);
     return this.httpClient.post(
-      this.baseUrl + '/temp/leave/request-leave-management',
+      this.baseUrl + '/leave/request-leave-management',
       request,
       { params }
     );
@@ -832,7 +832,7 @@ export class DataService {
       .set('userUuid', userUuid)
       .set('fileToUpload', fileToUpload);
     return this.httpClient.post(
-      this.baseUrl + '/temp/leave/whatsapp/request',
+      this.baseUrl + '/leave/whatsapp/request',
       request,
       { params }
     );
@@ -868,7 +868,7 @@ export class DataService {
     }
     //TODO: remove temp
     return this.httpClient.get<any>(
-      `${this.baseUrl}/temp/leave/get-user-leave`,
+      `${this.baseUrl}/leave/get-user-leave`,
       {
         params,
       }
@@ -2384,7 +2384,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     //   .set('userUuid',logInUserUuid);
 
     return this.httpClient.post<any>(
-      `${this.baseUrl}/temp/leave/approve-reject-leaves?requestedLeaveId=${requestedLeaveId}&appRejString=${appRejString}&userUuid=${logInUserUuid}`,
+      `${this.baseUrl}/leave/approve-reject-leaves?requestedLeaveId=${requestedLeaveId}&appRejString=${appRejString}&userUuid=${logInUserUuid}`,
       {}
     );
   }
@@ -2820,7 +2820,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
       .set('appRejString', appRejString)
       .set('rejectionReason', rejectionReason);
     return this.httpClient.post<any>(
-      `${this.baseUrl}/temp/leave/approve-reject-leaves`,
+      `${this.baseUrl}/leave/approve-reject-leaves`,
       {},
       { params }
     );

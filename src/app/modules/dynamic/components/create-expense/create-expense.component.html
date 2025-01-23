@@ -52,7 +52,8 @@
       <!-- Create and View Company Expense start -->
       <div class="col-md-12 mt-3 mb-3" *ngIf="activeTab === 'allExpense'">
 
-        <div class="d-flex justify-content-start align-items-center">
+        <!-- remove d-none -->
+        <div class="d-flex justify-content-start align-items-center d-none">
           <!-- Leave Type Filter -->
           <div class="dropdown empFilerDropfilter">
             <button type="button" id="leaveTypeDropdown"
@@ -1128,7 +1129,8 @@
                 </button>
                 </div>
 
-                  <button (click)="isTagsEditEnabled=!isTagsEditEnabled;" class="btn p-0 text-primary add-skill">
+                <!-- TODO: remove this d-none -->
+                  <button (click)="isTagsEditEnabled=!isTagsEditEnabled;" class="btn p-0 text-primary add-skill d-none">
                     <span *ngIf="!isTagsEditEnabled"><i
                     class="bi bi-plus font-18"></i> Add Tags</span>
                     <span *ngIf="isTagsEditEnabled"> <i class="bi bi-x"></i> Cancel</span>
