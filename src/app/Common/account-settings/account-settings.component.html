@@ -692,6 +692,9 @@
                         <div class="col-md-4">
                             <h5 class="font-16 fw-semibold">Attendance Rule</h5>
                         </div>
+                        <div *ngIf="guidelines?.newAttendanceRule" class="col-md-8">
+                            New Shift Timing (In Time:{{guidelines?.newAttendanceRule?.arrivalTime | date:'hh:mm a'}}, Out Time: {{guidelines?.newAttendanceRule?.departureTime | date:'hh:mm a'}} ) will be updated on {{guidelines?.newAttendanceRule?.updateTime | date:'dd MMMM'}} At {{guidelines?.newAttendanceRule?.updateTime | date:'hh:mm a'}}
+                        </div>
                         <div *ngIf="guidelines?.attendanceRule" class="col-md-8">
                             <div *ngIf="guidelines?.attendanceRule?.weekOff && guidelines?.attendanceRule?.shiftAllocated" class="guide-policy mb-4">
                                 <h5 class="font-15 mb-2 fw-semibold">Shift Allocated</h5>

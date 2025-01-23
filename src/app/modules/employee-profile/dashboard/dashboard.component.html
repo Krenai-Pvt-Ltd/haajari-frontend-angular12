@@ -108,7 +108,7 @@
             </div>
 
             <div class="row">
-                <div class="col-md-5">
+                <div *ngIf="requestModal" class="col-md-5">
                     <div class="announcement p-3">
                         <div class="d-flex align-items-start justify-content-between border-bottom pb-3">
                             <h5 class="font-14 mb-0 ">Recent Notification</h5>
@@ -151,7 +151,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-7">
+                <div *ngIf="requestModal" class="col-md-7">
                     <div class="holidays-list">
                         <div class="d-flex align-items-center">
                             <div style="width: 75%">

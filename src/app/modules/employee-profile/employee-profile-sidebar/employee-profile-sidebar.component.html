@@ -26,12 +26,12 @@
                 <span class="full-time"
                     *ngIf="employeeProfileResponseData?.resignationStatus == null || (employeeProfileResponseData?.resignationStatus != 42 && employeeProfileResponseData?.resignationStatus != 43)">Full
                     Time</span>
-                <h6 class="mb-0 text-primary font-13" *ngIf="employeeProfileResponseData?.resignationStatus == 42">On
+                <h6 class="mb-0 text-danger font-13" *ngIf="employeeProfileResponseData?.resignationStatus == 42">On
                     notice period</h6>
             </ng-container>
 
             <ng-container *ngIf="toggle">
-                <h6 class="mb-0 text-primary font-13">On notice period</h6>
+                <h6 class="mb-0 text-danger font-13 ">On notice period</h6>
             </ng-container>
 
             <h6 class="mb-0 text-danger font-13" *ngIf="employeeProfileResponseData?.resignationStatus == 43">EXITED

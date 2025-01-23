@@ -46,7 +46,7 @@
                                 </svg>
                                 Attendance & leave</a>
                         </li>
-                        <li class="nav-item" *ngIf="roleService.getRoles()=='ADMIN' || UUID == userId">
+                        <li class="nav-item" *ngIf="(roleService.getRoles()=='ADMIN' || UUID == userId) && !isBasicPlan">
                             <a id="pills-profile-tab" data-bs-toggle="pill" href="#epmployee-finance" role="tab"
                                 aria-controls="pills-profile" (click)="setActiveTab('epmployee-finance')"
                                 aria-selected="false" class="nav-link">
