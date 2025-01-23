@@ -69,7 +69,7 @@ export class EmployeeExpenseComponent implements OnInit {
     this.endDate = (new Date(this.expenseSelectedDate.getFullYear(), this.expenseSelectedDate.getMonth() + 1, 0).toISOString().split('T')[0])+ " 23:59:59";
   }
    this.expenseList = []
-   this.dataService.getAllExpense(this.ROLE, this.databaseHelper.currentPage, this.databaseHelper.itemPerPage, this.startDate, this.endDate, this.statusIds, this.userId).subscribe((res: any) => {
+   this.dataService.getAllExpense(this.ROLE, this.databaseHelper.currentPage, this.databaseHelper.itemPerPage, this.startDate, this.endDate, this.statusIds, this.userId,'','').subscribe((res: any) => {
      if (res.status) {
        this.expenseList = res.object
        this.totalItems = res.totalItems
@@ -144,7 +144,7 @@ export class EmployeeExpenseComponent implements OnInit {
     this.endDate = '';
   }
 
-  this.dataService.getAllExpense(this.ROLE, this.databaseHelper.currentPage, this.databaseHelper.itemPerPage, this.startDate, this.endDate, this.statusIds, this.userId).subscribe((res: any) => {
+  this.dataService.getAllExpense(this.ROLE, this.databaseHelper.currentPage, this.databaseHelper.itemPerPage, this.startDate, this.endDate, this.statusIds, this.userId,'','').subscribe((res: any) => {
     if (res.status) {
       this.pastExpenseList = res.object
       this.pastLoading = false

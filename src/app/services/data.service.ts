@@ -2079,6 +2079,13 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     return this.httpClient.post<any>(url, {});
   }
 
+  deleteUserResignation(id: number): Observable<any> {
+    const url = `${this.baseUrl}/user-resignation`; // Replace with the actual endpoint path
+    return this.httpClient.delete<any>(url, {
+      params: { id: id.toString() },
+    });
+  }
+
   setOrganizationAddressDetail(
     organizationAddressDetail: OrganizationAddressDetail
   ): Observable<any> {
@@ -4369,13 +4376,15 @@ getHolidayForOrganization(date: string): Observable<any>{
     );
   }
 
-  getAllExpense(role: string, pageNumber: number, itemPerPage: number, startDate: any, endDate: any, statusIds: number[], userUuid: any){
+  getAllExpense(role: string, pageNumber: number, itemPerPage: number, startDate: any, endDate: any, statusIds: number[], userUuid: any, tag:string, search: string){
     var params = new HttpParams()
     .set('currentPage', pageNumber)
     .set('itemPerPage', itemPerPage)
     .set('sortBy', 'createdDate')
     .set('sortOrder', 'desc')
     .set('role', role)
+    .set('tag', tag)
+    .set('search', search);
 
     // if((startDate != null && startDate != '') && (endDate != '' && endDate != '')){
     if (startDate && endDate) {
