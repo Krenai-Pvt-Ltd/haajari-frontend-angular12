@@ -1123,7 +1123,8 @@
                 </button>
                 </div>
 
-                  <button (click)="isTagsEditEnabled=!isTagsEditEnabled;" class="btn p-0 text-primary add-skill">
+                <!-- TODO: remove this d-none -->
+                  <button (click)="isTagsEditEnabled=!isTagsEditEnabled;" class="btn p-0 text-primary add-skill d-none">
                     <span *ngIf="!isTagsEditEnabled"><i
                     class="bi bi-plus font-18"></i> Add Tags</span>
                     <span *ngIf="isTagsEditEnabled"> <i class="bi bi-x"></i> Cancel</span>

@@ -1373,7 +1373,7 @@
         <div class="delete-image d-flex align-items-center justify-content-center pt-4 pb-4">
           <div class="delete-close-btn">
             <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButtonDeleteLeave>
-              <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+              <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none" >
                 <mask id="mask0_2031_1331" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="30"
                   height="30">
                   <rect width="30" height="30" fill="#D9D9D9" />
@@ -1384,9 +1384,12 @@
                     fill="black" />
                 </g>
               </svg>
+              <!-- <img src="/assets/images/delete-friend (1) 2.svg" style="width: 70px" *ngIf="deleteOrDisableUserString === 'Disable'"/> -->
+              <!-- <img src="/assets/images/delete-img.svg" style="width: 70px" *ngIf="deleteOrDisableUserString === 'Delete'"/> -->
             </button>
           </div>
-          <img src="/assets/images/delete-img.svg" style="width: 70px" />
+          <img src="/assets/images/delete-img.svg" style="width: 70px" *ngIf="deleteOrDisableUserString === 'Delete'"/>
+          <img src="/assets/images/delete-friend (1) 2.svg" style="width: 70px" *ngIf="deleteOrDisableUserString === 'Disable'"/>
         </div>
         <div class="bg-white p-4 text-center">
           <div class="mb-4">

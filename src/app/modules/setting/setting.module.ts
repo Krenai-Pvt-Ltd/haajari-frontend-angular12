@@ -36,6 +36,8 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
+import { NzAlertModule } from 'ng-zorro-antd/alert';
+
 @NgModule({
   declarations: [
     SettingComponent,
@@ -84,7 +86,7 @@ import { NzEmptyModule } from 'ng-zorro-antd/empty';
     DragDropModule,
     NgbTooltipModule,
     SharedModule,
-
+    NzAlertModule
 
   ],
 })
