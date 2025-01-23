@@ -1985,7 +1985,7 @@
                                                 <label
                                                     class="form-check assets-req d-flex align-items-center justify-content-start">
                                                     <input class="form-check-input" type="radio"
-                                                        formControlName="attendanceRequestType" [value]="'UPDATE'">
+                                                        formControlName="attendanceRequestType" [value]="'UPDATE'" (change)="resetError()">
                                                     <p class="form-check-label mb-0">Update Timing</p>
                                                 </label>
                                             </div>
@@ -1993,7 +1993,7 @@
                                                 <label
                                                     class="form-check assets-req d-flex align-items-center justify-content-start">
                                                     <input class="form-check-input" type="radio"
-                                                        formControlName="attendanceRequestType" [value]="'CREATE'">
+                                                        formControlName="attendanceRequestType" [value]="'CREATE'" (change)="resetError()">
                                                     <p class="form-check-label mb-0">New Request</p>
                                                 </label>
                                             </div>

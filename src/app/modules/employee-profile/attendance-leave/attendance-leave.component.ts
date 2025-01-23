@@ -1570,6 +1570,16 @@ export class AttendanceLeaveComponent implements OnInit {
     });
   }
 
+  resetError() {
+    if (this.attendanceTimeUpdateForm.get('attendanceRequestType')?.value === 'UPDATE') {
+      this.checkAttendance = false;
+    } else if (this.attendanceTimeUpdateForm.get('attendanceRequestType')?.value === 'CREATE') {
+      this.getAttendanceExistanceStatus(this.selectedDateAttendance);    
+    }
+    this.getHolidayForOrganization(this.selectedDateAttendance);
+   
+  }
+
   attendanceTimeUpdateForm!: FormGroup;
   requestedDate!: Date;
   statusString!: string;
