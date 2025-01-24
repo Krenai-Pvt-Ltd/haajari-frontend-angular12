@@ -36,6 +36,8 @@ import { NzCalendarModule } from 'ng-zorro-antd/calendar';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
+import { ExitModalComponent } from '../common/exit-modal/exit-modal.component';
+
 
 @NgModule({
   declarations: [
@@ -52,7 +54,7 @@ import { NzBadgeModule } from 'ng-zorro-antd/badge';
     DashboardComponent,
     EpmployeeFinanceComponent,
     HolidayDatePickerComponent,
-
+    ExitModalComponent,
     SettingsComponent,
     AccountSettingsComponent
   ],

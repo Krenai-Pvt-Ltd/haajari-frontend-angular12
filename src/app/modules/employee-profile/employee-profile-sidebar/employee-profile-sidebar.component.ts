@@ -194,6 +194,11 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     return sortedArr1.every((value, index) => value === sortedArr2[index]);
   }
 
+  isModalVisible = false;
+  openExitModal() {
+    this.isModalVisible = true;
+  }
+
   removeSkill(skill: string): void {
     const index = this.skills.indexOf(skill);
     if (index !== -1) {
