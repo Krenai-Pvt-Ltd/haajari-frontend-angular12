@@ -21,10 +21,15 @@ export class ModalService {
   }
 
 
-  openInitiateExitModal() {
-    this.modalService.open(ExitModalComponent, {
+  openInitiateExitModal(uuid:string) {
+    const modalRef =this.modalService.open(ExitModalComponent, {
       ariaLabelledBy: 'initiateExitModalLabel',
-      centered: true
+      centered: true,
+      size: 'lg', // Optional, for larger modals
+      backdrop: 'static', 
     });
+    modalRef.componentInstance.data = {
+      uuid: uuid
+    };
   }
 }
