@@ -69,7 +69,7 @@
 
                                 <nz-radio-group [(ngModel)]="selectedTab" nzButtonStyle="solid" nzSize="large"
                                     (ngModelChange)="onTabChange($event)">
-                                   
+
                                     <label nz-radio-button [nzValue]="week"
                                         *ngFor="let week of weekLabels; let i = index">{{week}}</label>
                                     <label nz-radio-button [nzValue]="'30 DAYS'">{{thirtyDaysLabel}}</label>
@@ -442,9 +442,16 @@
                                         <td class="text-left">
         
                                             <span class="team-maneger mb-0 table-font-weight">
-                                                {{item.checkInTime | date:'shortTime'}} <br> 
-                                                <span class="text-danger font-11" *ngIf=" item.status == 'Late'" > Late - {{convertSecondsToHMS(+item.lateMinutes)}}</span>
-                                                <span class="text-danger font-11" *ngIf=" item.status == 'Half Day'" > Half Day - {{convertSecondsToHMS(+item.halfDayMinutes)}}</span>
+                                                {{item.checkInTime | date:'shortTime'}} &nbsp; <span
+                                                    class="text-danger font-12" *ngIf=" item.status == 'Late'" nz-popover
+                                                    nzPopoverTitle="Late Recorded By"
+                                                    [nzPopoverContent]="convertSecondsToHMS(+item.lateMinutes)"
+                                                    [nzPopoverOverlayStyle]="{'width':'250px'}" > Late
+                                                    In</span> <span class="text-danger font-12"
+                                                    *ngIf=" item.status == 'Half Day'" nz-popover
+                                                    nzPopoverTitle="Half Day Recorded By"
+                                                    [nzPopoverContent]="convertSecondsToHMS(+item.halfDayMinutes)"
+                                                    [nzPopoverOverlayStyle]="{'width':'250px'}" > Half Day</span>
                                             </span>
                                         </td>
                                         <td class="text-left">
@@ -467,13 +474,13 @@
                                             [nzPopoverOverlayStyle]="{'width':'250px'}">
                                                 {{item.breakCount}}
                                             </span> -->
-                                            <span 
-                                               
-                                                class="team-manager mb-0 table-font-weight" 
-                                                nz-popover 
-                                                nzPopoverTitle="Break Logs" 
-                                                [nzPopoverContent]="breakLogsContent" 
-                                                [nzPopoverOverlayStyle]="{'width':'250px'}" 
+                                            <span
+
+                                                class="team-manager mb-0 table-font-weight"
+                                                nz-popover
+                                                nzPopoverTitle="Break Logs"
+                                                [nzPopoverContent]="breakLogsContent"
+                                                [nzPopoverOverlayStyle]="{'width':'250px'}"
                                                 (mouseover)="getUserBreakTimingsReportByDate(item.createdDate.toString())">
                                                 {{item.breakCount}}
                                             </span>
@@ -508,13 +515,13 @@
                                                   </ng-template>
                                                 </div>
                                               </ng-template>
-                                              
+
                                             <!-- <span *ngIf="item.breakCount == 0" class="team-maneger mb-0 table-font-weight">
                                                 {{item.breakCount}}
                                             </span> -->
                                         </td>
-                                        
-                                        
+
+
                                         <td>
                                             <span class="team-maneger text-center mb-0 table-font-weight">
                                                 {{convertToHourMinuteFormat(item.totalBreakHours)}}</span>
@@ -552,7 +559,7 @@
 
                                     </tr>
 
-                                   
+
                                     <tr class="week-holiday"
                                         *ngIf="(item.status == 'Custom Holiday' || item.status == 'Universal Holiday')">
                                         <td class="text-left">
@@ -1478,7 +1485,7 @@
                                                     data-bs-toggle="modal" data-bs-target="#updateRequest">
 
 
-                                                    Attendance Requests </button>
+                                                    Attendance Request </button>
 
                                             </div>
                                         </div>
@@ -1488,7 +1495,7 @@
                         </div>
 
 
-                       
+
 
 
                         <div class="table-responsive bg-white mt-3">

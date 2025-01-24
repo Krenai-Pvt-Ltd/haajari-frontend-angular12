@@ -16,11 +16,32 @@ export class EmployeeProfileComponent implements OnInit {
   constructor(public roleService: RoleBasedAccessControlService, private dataService: DataService,
     private activateRoute: ActivatedRoute, private _helperService: HelperService, private router: Router,
   ) {
+    this.UUID =  this.roleService.getUuid();
+    // this.currentUserUuid = await this.roleService.getUuid();
 
+    if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
+      this.userId = String(this.activateRoute.snapshot.queryParamMap.get('userId'));
+    }
+    if(this.roleService.ROLE=='USER' && this.UUID!==this.userId) {
+      // this.router.navigate(['/employee'], { queryParams: { userId: this.UUID } });
+      this.userId = this.UUID;
+      this.router.navigate(['/']);
+    }else if(this.roleService.ROLE!='ADMIN' && this.UUID!==this.userId){
+      this.checkUserUnderManager();
+    }else{
+      this.getEmployeeProfileData();
+    this.getUserJoiningDataByUserId();
+    }
+    this._helperService.restrictedModules.forEach((restrictedModule)=>{
+      if(restrictedModule.module=='Payroll'){
+        this.isBasicPlan=true;
+      }
+    });
   }
 
+  isBasicPlan:boolean=false;
   ngOnInit(): void {
-    this.getUuid();
+    // this.getUuid();
   }
 
   activeTab: string = 'attendance-leave';
@@ -39,22 +60,9 @@ export class EmployeeProfileComponent implements OnInit {
   _key:Key = new Key();
   private baseUrl = this._key.base_url;
   public async getUuid() {
-    this.UUID = await this.roleService.getUuid();
-    // this.currentUserUuid = await this.roleService.getUuid();
 
-    if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
-      this.userId = String(this.activateRoute.snapshot.queryParamMap.get('userId'));
-    }
-    if(this.roleService.ROLE=='USER' && this.UUID!==this.userId) {
-      // this.router.navigate(['/employee'], { queryParams: { userId: this.UUID } });
-      this.userId = this.UUID;
-      this.router.navigate(['/']);
-    }else if(this.roleService.ROLE!='ADMIN' && this.UUID!==this.userId){
-      this.checkUserUnderManager();
-    }
 
-    this.getEmployeeProfileData();
-    this.getUserJoiningDataByUserId();
+
   }
 
   employeeProfileResponseData: any;
@@ -108,16 +116,25 @@ export class EmployeeProfileComponent implements OnInit {
     }
   }
 
+  managerCheckLoading: boolean = false;
   checkUserUnderManager() {
+    this.managerCheckLoading = true;
     this.dataService.isUserUnderManager( this.userId).subscribe(
       (response) => {
 
         if(!response.isUserUnderManager){
           this.userId = this.UUID;
           this.router.navigate(['/']);
+
+        }else{
+          this.getEmployeeProfileData();
+          this.getUserJoiningDataByUserId();
+          this.managerCheckLoading = false;
+
         }
       },
       (error) => {
+        this.managerCheckLoading = false;
         this.userId = this.UUID;
         this.router.navigate(['/']);
       }

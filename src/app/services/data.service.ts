@@ -2079,6 +2079,34 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     return this.httpClient.post<any>(url, {});
   }
 
+  deleteUserResignation(id: number): Observable<any> {
+    const url = `${this.baseUrl}/user-resignation`; 
+    return this.httpClient.delete<any>(url, {
+      params: { id: id.toString() },
+    });
+  }
+
+  getUserResignations(
+    status: string | null,
+    name: string | null,
+    page: number = 1,
+    size: number = 10
+  ): Observable<any> {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    if (status) {
+      params = params.set('status', status);
+    }
+
+    if (name) {
+      params = params.set('name', name);
+    }
+
+    return this.httpClient.get(`${this.baseUrl}/user-resignation/get-by-filter`, { params });
+  }
+
   setOrganizationAddressDetail(
     organizationAddressDetail: OrganizationAddressDetail
   ): Observable<any> {
@@ -4369,13 +4397,15 @@ getHolidayForOrganization(date: string): Observable<any>{
     );
   }
 
-  getAllExpense(role: string, pageNumber: number, itemPerPage: number, startDate: any, endDate: any, statusIds: number[], userUuid: any){
+  getAllExpense(role: string, pageNumber: number, itemPerPage: number, startDate: any, endDate: any, statusIds: number[], userUuid: any, tag:string, search: string){
     var params = new HttpParams()
     .set('currentPage', pageNumber)
     .set('itemPerPage', itemPerPage)
     .set('sortBy', 'createdDate')
     .set('sortOrder', 'desc')
     .set('role', role)
+    .set('tag', tag)
+    .set('search', search);
 
     // if((startDate != null && startDate != '') && (endDate != '' && endDate != '')){
     if (startDate && endDate) {

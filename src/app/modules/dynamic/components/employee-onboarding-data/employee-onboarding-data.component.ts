@@ -5,7 +5,7 @@ import { NavigationExtras, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { Key } from 'src/app/constant/key';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { EmployeeOnboardingDataDto } from 'src/app/models/employee-onboarding-data-dto';
@@ -23,6 +23,7 @@ import { AttendanceSettingComponent } from 'src/app/modules/setting/components/a
 import { TeamComponent } from '../team/team.component';
 import { UserResignation } from 'src/app/models/UserResignation';
 import { OnboardUser } from 'src/app/models/OnboardUser';
+import { debounceTime } from 'rxjs/operators';
 export interface Team {
   label: string;
   value: string;
@@ -128,6 +129,10 @@ export class EmployeeOnboardingDataComponent implements OnInit {
       this.downloadFileFromUrl(storedDownloadUrl);
     }
     this._subscriptionService.isSubscriptionPlanExpired();
+
+    this.searchSubject.pipe(debounceTime(1000)).subscribe((resignationSearch) => {
+          this.loadResignations();
+        });
   }
 
   isUserShimer: boolean = true;
@@ -201,6 +206,80 @@ export class EmployeeOnboardingDataComponent implements OnInit {
 
     this.getUsersByFiltersFunction();
   }
+
+  currentResignationID: number = 0;
+  deleteResignation(id: number): void {
+      this.disableUserLoader = true;
+      this.dataService.deleteUserResignation(id).subscribe({
+        next: (response) => {
+          this.disableUserLoader = false;
+          if(response.status){
+            this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
+          }else{
+            this.helperService.showToast(response.message, Key.TOAST_STATUS_ERROR);
+          }
+          this.closeUserDeleteModal.nativeElement.click();
+          this.loadResignations();
+        },
+        error: (error) => {
+          this.disableUserLoader = false;
+          this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
+        },
+      });
+    }
+
+    resignations: any[] = [];
+    page: number = 1;
+    size: number = 10;
+    status: string | null = '13';
+    resignationSearch: string | null = '';
+    totalRequests: number = 0;
+    isResignationLoading: boolean = false;
+    statusLabel:string='PENDING';
+    private searchSubject: Subject<string> = new Subject<string>();
+    statusOptions = [
+      { value: '', label: 'All' },
+      { value: '42', label: 'NOTICE PERIOD' },
+      { value: '13', label: 'PENDING' },
+      { value: '47', label: 'REVOKED' }
+    ];
+    loadResignations(): void {
+      this.isResignationLoading=true;
+      this.dataService
+        .getUserResignations(this.status, this.resignationSearch, this.page, this.size)
+        .subscribe({
+          next: (data) => {
+            this.isResignationLoading=false;
+            this.resignations = data.content;
+            this.totalRequests =data.totalElements;
+          },
+          error: (err) => {
+            this.isResignationLoading=false;
+            console.error('Error fetching resignations', err);
+          },
+        });
+    }
+
+    onResignationSearch(): void {
+      if(this.resignationSearch!=null){
+        this.searchSubject.next(this.resignationSearch);
+      }
+    }
+
+    changeResignationPage(page: number): void {
+      this.page = page;
+      this.loadResignations();
+    }
+    selectResignationStatus(status: string, label:string){
+      if(status=='ALL'){
+        status='';
+      }
+      this.status=status;
+      this.statusLabel=label;
+      this.loadResignations();
+    }
+
+  
 
   allEmployeeRequest(){
     this.users = [];
@@ -650,9 +729,9 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   //     (data) => {
   //       // location.reload();
   //       this.disableUserLoader = false;
-       
+
   //       this.getUsersByFiltersFunction();
-       
+
   //       this.currentUserPresenceStatus = false;
   //       this.currentUserUuid = '';
   //       this.deleteOrDisableString = '';
@@ -1504,6 +1583,8 @@ console.log(this.data);
           this.editedDate= response.createdDate;
           this.profilePic= response.profilePic;
           this.approveStates=[];
+          this.remainingField=1;
+          this.isModalOpen = new Array(this.requestedData.length).fill(false);
           if(!this.requestedData ||this.requestedData.length==0){
             this.helperService.showToast('No data found', Key.TOAST_STATUS_ERROR);
             this.closeReqDataModal.nativeElement.click();
@@ -1579,9 +1660,10 @@ console.log(this.data);
     );
   }
 
+  @ViewChild('divElement', { static: false }) divElement!: ElementRef;
 
   fieldLoading: boolean = false;
-  remainingField: number=0;
+  remainingField: number=1;
   removeField(key: string, value: any, index: number) {
     this.fieldLoading = true;
     this.dataService.removeKeyValuePair(key,this.userId, value).subscribe({
@@ -1596,6 +1678,7 @@ console.log(this.data);
           }
           this.disabledStates[index] = true;
           this.approveStates[index] = 'Rejected';
+          this.divElement.nativeElement.click();
           const divToClick = document.getElementById('collapsibleDiv-' + index);
           if (divToClick) {
             divToClick.click();
@@ -2029,6 +2112,10 @@ console.log(this.data);
   );
   }
 
+  isModalOpen: boolean[] = [];
+  toggleModal(index: number): void {
+    this.isModalOpen[index] = !this.isModalOpen[index];
+  }
   // Method to change page
   changePage1(page: number): void {
     this.currentPage1 = page;
