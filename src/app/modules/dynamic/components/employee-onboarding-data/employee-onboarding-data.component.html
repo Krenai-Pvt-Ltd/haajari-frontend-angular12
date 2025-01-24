@@ -1070,7 +1070,7 @@
                             <div class="dropdown-menu actionMenuList">
 
                               <li>
-                                <a class="dropdown-item" (click)="onInitiateExitClick(user?.uuid)" ><i
+                                <a *ngIf="user.status=='PENDING'" class="dropdown-item" (click)="onInitiateExitClick(user?.uuid)" ><i
                                     class="bi bi-eye"></i>
                                   View Request</a>
                               </li>

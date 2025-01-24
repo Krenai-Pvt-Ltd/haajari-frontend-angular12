@@ -1028,6 +1028,7 @@ isVideoPolicy=false;
     });
   }
 
+  @ViewChild('pdfModal') pdfModal!: ElementRef;
   acceptAgreement() {
     debugger
     if (this.isLastPageRead) {
@@ -1057,7 +1058,9 @@ isVideoPolicy=false;
       }, 200);
     } else {
       this.dataService.acceptAgreement().subscribe((res: any) => {
+        debugger
         if (res.status) {
+          this.modalService.dismissAll();
           this.helperService.showToast(res.message, Key.TOAST_STATUS_SUCCESS);
         }
       })

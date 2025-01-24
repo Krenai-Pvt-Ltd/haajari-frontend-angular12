@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, ElementRef, Input, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, TemplateRef, ViewChild } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { FormBuilder, NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Key } from 'src/app/constant/key';
 import { UserResignation } from 'src/app/models/UserResignation';
 import { DataService } from 'src/app/services/data.service';
@@ -20,12 +20,17 @@ export class ExitModalComponent {
 
   @Input() data: any; 
   userId: any;
-  ROLE: any;
-  constructor(private dataService: DataService, 
+  ROLE: any= 'ADMIN';
+  constructor(private dataService: DataService, private cdr: ChangeDetectorRef,
+    public activeModal: NgbActiveModal,
     private modalService: ModalService, 
      private fb: FormBuilder, public helperService: HelperService, private activateRoute: ActivatedRoute,
     private ngbModal: NgbModal,
       private roleService: RoleBasedAccessControlService, private afStorage: AngularFireStorage,){
+  }
+
+  close() {
+    this.activeModal.close('Modal closed');
   }
 
   ngOnInit(): void {
@@ -34,8 +39,7 @@ export class ExitModalComponent {
     this.getUserResignationInfo();
     // this.startCarousel();
     this.getNoticePeriodDuration();
-    const currentYear = new Date().getFullYear();
-    this.userId='605076c1-8a1f-11ef-8844-8c8590bb364e';
+
   }
 
   userResignationReq: UserResignation = new UserResignation();
@@ -50,6 +54,7 @@ export class ExitModalComponent {
         this.closeApproveModal.nativeElement.click()
         this.getUserResignationInfo()
         // this.clearForm();
+        this.close();
       }
     })
 
@@ -71,7 +76,7 @@ export class ExitModalComponent {
         if (this.userResignationInfo.isRecommendedLastDay == 1) {
           this.recommendDay = 'Other'
         }
-
+        this.cdr.detectChanges();
         console.log('userResignationInfo dashboard : ', this.userResignationInfo)
       }
     })
@@ -95,6 +100,7 @@ export class ExitModalComponent {
             res.message,
             Key.TOAST_STATUS_SUCCESS
           );
+          this.close();
         } else {
           this.approveToggle = false;
         }
