@@ -2,13 +2,9 @@ import { Injectable } from '@angular/core';
 import { Key } from '../constant/key';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { BulkAction } from '../models/bulkAction';
 import { BonusRequest } from '../models/bonus-request';
 import { BonusAndDeductionData } from '../models/bonus-and-deduction-data';
 import { EmployeeMonthWiseSalaryData } from '../models/employee-month-wise-salary-data';
-import { SalaryComponentRequest } from '../models/salary-component-request';
-import { SalaryComponent } from '../models/salary-component';
-import { SalaryComponentReq } from '../models/SalaryComponetReq';
 import { SalaryComponentResponse } from '../models/salary-component-response';
 
 @Injectable({

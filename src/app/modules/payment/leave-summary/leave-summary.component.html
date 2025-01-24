@@ -7,20 +7,35 @@
 
 <ul class="nav nav-pills mb-3 mt-3" id="pills-tab" role="tablist">
   <li class="nav-item" role="presentation">
-    <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#leaves"
-      type="button" role="tab" aria-controls="leavesPayroll" aria-selected="true" (click)="selectTab(LEAVES)">Leaves</button>
+    <button class="nav-link" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#leaves" [class.disabled]="step < LEAVES"
+      type="button" role="tab" aria-controls="leavesPayroll" aria-selected="true" (click)="selectTab(LEAVES)" #step4Tab>Pending Leaves</button>
   </li>
   <li class="nav-item" role="presentation">
-    <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#lopSummary" type="button"
-      role="tab" aria-controls="lopSummary" aria-selected="false" (click)="selectTab(LOP_SUMMARY)">Lop Summary</button>
+    <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#lopSummary" type="button" [class.disabled]="step < LOP_SUMMARY"
+      role="tab" aria-controls="lopSummary" aria-selected="false" (click)="selectTab(LOP_SUMMARY)" #step5Tab>Lop Summary</button>
   </li>
   <li class="nav-item" role="presentation">
-    <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#lopReversal" type="button"
-      role="tab" aria-controls="lopReversal" aria-selected="false" (click)="selectTab(LOP_REVERSAL)">Lop Reversal</button>
+    <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#lopReversal" type="button" [class.disabled]="step < LOP_REVERSAL"
+      role="tab" aria-controls="lopReversal" aria-selected="false" (click)="selectTab(LOP_REVERSAL)" #step6Tab>Lop Reversal</button>
   </li>
+  <button type="button" class="btn btn-primary text-center position-absolute" style="right:20px; width :150px" 
+      *ngIf="step<= LOP_REVERSAL" (click)="updatePayrollStep()">
+    <span *ngIf="!processing">
+      <span *ngIf="LEAVES == CURRENT_TAB">Save & Next</span>
+      <span *ngIf="LOP_SUMMARY == CURRENT_TAB">Save & Next</span>
+      <span *ngIf="LOP_REVERSAL == CURRENT_TAB">Submit</span>
+    </span>
+      <div class="dot-opacity-loader" *ngIf="processing">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+  </button>
 </ul>
+
+
 <div class="tab-content" id="pills-tabContent">
-  <div class="tab-pane fade show active" id="leaves" role="tabpanel" aria-labelledby="pills-home-tab">
+  <div class="tab-pane fade" id="leaves" role="tabpanel" aria-labelledby="pills-home-tab">
     <div class="table-responsive">
       <table class="table border-dashed mb-0">
         <thead>
@@ -56,13 +71,13 @@
                 <td>{{ pendingLeave.leaveType}}</td>
                 <td>{{ pendingLeave.leaveCount}}</td>
                 <td>{{ pendingLeave.managerName}}</td>
-                <td class="text-center">
+                <!-- <td class="text-center">
                   <a>
                     <i class="bi bi-pencil-square"
                       (click)="openLeaveLogsModal(pendingLeave.leaveId,pendingLeave.leaveType)"></i>
 
                   </a>
-                </td>
+                </td> -->
               </tr>
             </tbody>
           </ng-container>
@@ -85,10 +100,7 @@
               </td>
             </tr>
           </tbody>
-          <tbody *ngIf="
-          dataNotFoundPlaceholderForPayrollLeaveResponse &&
-          !networkConnectionErrorPlaceHolderForPayrollLeaveResponse
-        ">
+          <tbody *ngIf="dataNotFoundPlaceholderForPayrollLeaveResponse">
             <tr>
               <td colspan="8">
                 <div class="empty-file" style="margin-top: 8%; margin-bottom: 8%">
@@ -328,36 +340,6 @@
     </div>
   </div>
 </div>
-
-
-
-<!-- <div class="pagination pl-3 align-items-center justify-content-between" *ngIf="(total > itemPerPage - 1 || (pageNumber === lastPageNumber && lastPageNumber !== 1)) &&
-    ((CURRENT_TAB == LEAVES && !dataNotFoundPlaceholderForPayrollLeaveResponse && !networkConnectionErrorPlaceHolderForPayrollLeaveResponse) ||
-      (CURRENT_TAB == LOP_SUMMARY && !dataNotFoundPlaceholderForLopSummary && !networkConnectionErrorPlaceHolderForLopSummary) ||
-      (CURRENT_TAB == LOP_REVERSAL && !dataNotFoundPlaceholderForLopReversal && !networkConnectionErrorPlaceHolderForLopReversal))">
-<p style="padding-left: 15px"> Showing {{ getStartIndex() }} - {{ getEndIndex() }} of {{ total
-}} employees </p>
-<div>
-<nav aria-label="Page navigation example">
-<ul class="pagination justify-content-end">
-<li class="page-item" [class.disabled]="pageNumber == 1">
-  <a class="page-link" href="javascript:void(0);" aria-label="Previous" (click)="changePage('prev', CURRENT_TAB)">
-    <span aria-hidden="true">&laquo;</span>
-  </a>
-</li>
-<li class="page-item" *ngFor="let page of getPages()" [class.active]="pageNumber == page">
-  <a class="page-link" href="javascript:void(0);" (click)="changePage(page, CURRENT_TAB)">{{ page
-    }}</a>
-</li>
-<li class="page-item" [class.disabled]="pageNumber == totalPages">
-  <a class="page-link" href="javascript:void(0);" aria-label="Next" (click)="changePage('next', CURRENT_TAB)">
-    <span aria-hidden="true">&raquo;</span>
-  </a>
-</li>
-</ul>
-</nav>
-</div>
-</div> -->
 
 
 <!-- PENDING LEAVE MODAL START -->

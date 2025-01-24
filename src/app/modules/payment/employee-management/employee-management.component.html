@@ -6,23 +6,37 @@
 </div>
 <ul class="nav nav-pills mb-3 mt-3" id="pills-tab" role="tablist">
   <li class="nav-item" role="presentation">
-    <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#newjoinee" type="button"
-      role="tab" aria-controls="pills-home" aria-selected="true" (click)="selectTab(NEW_JOINEE)">New Joinee</button>
-  </li>
+    <button class="nav-link" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#newjoinee" type="button" [class.disabled]="step < NEW_JOINEE"
+      role="tab" aria-controls="pills-home" aria-selected="true" (click)="selectTab(NEW_JOINEE)"  #step1Tab>New Joinee</button>
+  </li> 
   <li class="nav-item" role="presentation">
-    <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#employeesExit" type="button"
-      role="tab" aria-controls="pills-profile" aria-selected="false" (click)="selectTab(USER_EXIT)">Employees In Exit
+    <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#employeesExit" type="button" [class.disabled]="step < USER_EXIT"
+      role="tab" aria-controls="pills-profile" aria-selected="false" (click)="selectTab(USER_EXIT)"  #step2Tab>Employees In Exit
       Process</button>
   </li>
-  <li class="nav-item" role="presentation">
-    <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="finalSettlement" type="button"
-      role="tab" aria-controls="pills-contact" aria-selected="false" (click)="selectTab(FINAL_SETTLEMENT)">Full And
+  <li class="nav-item" role="presentation" >
+    <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#finalSettlement" type="button" [class.disabled]="step < FINAL_SETTLEMENT"
+      role="tab" aria-controls="pills-contact" aria-selected="false" (click)="selectTab(FINAL_SETTLEMENT)" #step3Tab>Full And
       Final Settlement</button>
   </li>
+  <button type="button" class="btn btn-primary text-center position-absolute" style="right:20px; width :150px" 
+      *ngIf="step <= FINAL_SETTLEMENT" (click)="updatePayrollStep()">
+    <span *ngIf="!processing">
+      <span *ngIf="NEW_JOINEE == CURRENT_TAB">Save & Next</span>
+      <span *ngIf="USER_EXIT == CURRENT_TAB">Save & Next</span>
+      <span *ngIf="FINAL_SETTLEMENT == CURRENT_TAB">Submit</span>
+    </span>
+      <div class="dot-opacity-loader" *ngIf="processing">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+  </button>
 </ul>
+
 <div class="tab-content" id="pills-tabContent">
-  <div class="tab-pane fade show active" id="newjoinee" role="tabpanel" aria-labelledby="pills-home-tab">
-    <div class="tab-pane active" id="step1">
+  <div class="tab-pane fade" id="newjoinee" role="tabpanel" aria-labelledby="pills-home-tab" >
+    <div class="tab-pane" id="step1">
       <div class="table-responsive">
         <div class="col-md-12 mt-2 mb-3">
           <div class="form-group position-relative">

@@ -19,13 +19,17 @@ export class LeaveSummaryComponent implements OnInit {
   totalItems:number=0;
   search: string = '';
 
-
+  @Input() step:any;
   @Input() startDate:any;
   @Input() endDate:any;
-  @Output() getData: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() getData: EventEmitter<number> = new EventEmitter<number>();
 
   sendBulkDataToComponent() {
-    this.getData.emit(true);
+    this.getData.emit(this.step);
+  }
+
+  back(){
+    this.sendBulkDataToComponent();
   }
 
   readonly TOAST_STATUS_SUCCESS = Key.TOAST_STATUS_SUCCESS;
@@ -49,49 +53,60 @@ export class LeaveSummaryComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getUserPendingLeaves();
+    window.scroll(0,0);
+    this.selectTabByProcessStep(this.step);
   }
 
 
-  attendanceAndLeaveSection(PAYROLL_PROCESS_STEP : number){
-
-    // if(PAYROLL_PROCESS_STEP == this.LOP_REVERSAL){
-    //   this.lopReversalTab();
-    //   this.navigateToTab('step6-tab');
-    // } else if(PAYROLL_PROCESS_STEP == this.LOP_SUMMARY){
-    //   this.lopSummaryTab();
-    //   this.navigateToTab('step5-tab');
-    // } else{
-    //   this.leavesTab();
-    // }
+  @ViewChild('step4Tab') step4Tab!: ElementRef;
+  @ViewChild('step5Tab') step5Tab!: ElementRef;
+  @ViewChild('step6Tab') step6Tab!: ElementRef;
+  selectTabByProcessStep(PAYROLL_PROCESS_STEP : number){
+    if(PAYROLL_PROCESS_STEP <= this.LOP_REVERSAL){
+      this.CURRENT_TAB = PAYROLL_PROCESS_STEP;
+    }
+    this.navigateToTab(this.CURRENT_TAB);
   }
 
-  // leavesTab(){
-  //   this.CURRENT_TAB = this.LEAVES;
-  //   this.CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE = this.LEAVES;
-  //   this.resetCriteriaFilter();
-  //   console.log("==========getPendingLeaves==========")
-  //   this.getUserPendingLeaves(); ///ABHIJEET
-  //   // this.getPayrollLeaveResponseMethodCall();
-  // }
 
-  // lopSummaryTab(){
-  //   this.CURRENT_TAB = this.LOP_SUMMARY;
-  //   this.CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE = this.LOP_SUMMARY;
-  //   this.resetCriteriaFilter();
-  //   this.getLopSummaryResponseByOrganizationIdAndStartDateAndEndDateMethodCall();
-  // }
-
-  // lopReversalTab(){
-  //   this.CURRENT_TAB = this.LOP_REVERSAL;
-  //   this.CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE = this.LOP_REVERSAL;
-  //   this.resetCriteriaFilter();
-  //   this.getLopReversalResponseByOrganizationIdAndStartDateAndEndDateMethodCall();
-  // }
-
-  back(){
-    this.sendBulkDataToComponent();
+  navigateToTab(tabId:number){
+    setTimeout(()=>{
+      switch(tabId){
+      case this.LEAVES:
+        this.step4Tab.nativeElement.click();
+        break;
+      case this.LOP_SUMMARY:
+        this.step5Tab.nativeElement.click();
+        break;
+      case this.LOP_REVERSAL:
+        this.step6Tab.nativeElement.click();
+        break;
+      }
+    }, 50);
   }
+
+
+  CURRENT_TAB:number= this.LEAVES;
+  getDataBySelectedTab(){
+    switch(this.CURRENT_TAB){
+      case this.LEAVES:
+        this.getUserPendingLeaves();
+        break;
+      case this.LOP_SUMMARY:
+   
+        break;
+      case this.LOP_REVERSAL:
+     
+        break;
+      }
+  }
+
+
+  selectTab(tab:number){
+    this.CURRENT_TAB = tab;
+    this.resetSearch();
+  }
+
 
   isShimmerForPayrollLeaveResponse = false;
   dataNotFoundPlaceholderForPayrollLeaveResponse = false;
@@ -153,7 +168,9 @@ export class LeaveSummaryComponent implements OnInit {
       if(response.status){
         this.pendingLeavesList = response.object;
         this.totalItems = response.totalItems;
-
+        if(this.pendingLeavesList ==null || this.pendingLeavesList.length==0){
+          this.dataNotFoundPlaceholderForPayrollLeaveResponse = true;
+        }
       }
       this.isShimmerForPayrollLeaveResponse = false;
     }, (error) => {
@@ -223,20 +240,26 @@ export class LeaveSummaryComponent implements OnInit {
       });
   }
 
+  processing:boolean=false;
   updatePayrollStep(){
-
-    // this._payrollService.updatePayrollProcessStep(this.startDate, this.endDate, this.FINAL_SETTLEMENT).subscribe((response)=>{
-
-
-    // }, ((error) => {
-
-    // }))
+    this.processing = true;
+    this._payrollService.updatePayrollProcessStep(this.startDate, this.endDate).subscribe((response)=>{
+      if(response.status){
+        this.step = response.object;
+         if( this.step <= this.LOP_REVERSAL){
+          this.CURRENT_TAB =  this.step;
+          this.navigateToTab(this.CURRENT_TAB);
+         }else{
+          this.back();
+         }
+        }
+      this.processing = false;
+    }, (error) => {
+      this.processing = true;
+    });
   }
 
-  selectTab(tab:number){
-    this.CURRENT_TAB = tab;
-    this.resetSearch();
-  }
+
 
   searchDebounce(event:any){
     this.searchSubject.next(event)
@@ -279,16 +302,7 @@ export class LeaveSummaryComponent implements OnInit {
     this.getDataBySelectedTab();
   }
 
-  CURRENT_TAB:number= this.LEAVES;
-  getDataBySelectedTab(){
-    if (this.CURRENT_TAB == this.LEAVES) {
-      this.getUserPendingLeaves();
-    }else if (this.CURRENT_TAB == this.LOP_SUMMARY) {
 
-    }else if (this.CURRENT_TAB == this.LOP_REVERSAL) {
-
-    }
-  }
 
 
   pageChange(page:number){

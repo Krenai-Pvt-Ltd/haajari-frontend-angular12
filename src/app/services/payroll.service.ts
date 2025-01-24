@@ -44,12 +44,10 @@ export class PayrollService {
   }
 
 
-  updatePayrollProcessStep(startDate: string, endDate: string, payrollProcessStepId: number):Observable<any>{
+  updatePayrollProcessStep(startDate: string, endDate: string):Observable<any>{
     const params = new HttpParams()
     .set('start_date', startDate)
     .set('end_date', endDate)
-    .set('payroll_process_step_id', payrollProcessStepId);
-
     return this._http.put<any>(`${this._key.base_url}/payroll/step`,{}, {params});
   }
 
@@ -265,6 +263,52 @@ return this._http.get<any>(`${this._key.base_url}/payroll/step/final-settlement`
     return this._http.get<any>(`${this._key.base_url}/payroll/step/bonus`, {params});
   }
 
+
+  getUserOvertime(startDate: string,endDate: string, itemPerPage: number,pageNumber: number): Observable<any> {
+
+    const params = new HttpParams()
+    .set('start_date', startDate)
+    .set('end_date', endDate)
+    .set('item_per_page', itemPerPage)
+    .set('page_number', pageNumber)
+    return this._http.get<any>(`${this._key.base_url}/payroll/step/overtime`, {params});
+  }
+
+
+  getEpfDetails(startDate: string,endDate: string, itemPerPage: number,pageNumber: number, search: string,): Observable<any> {
+
+    const params = new HttpParams()
+    .set('start_date', startDate)
+    .set('end_date', endDate)
+    .set('item_per_page', itemPerPage)
+    .set('page_number', pageNumber)
+    .set('search', search)
+    return this._http.get<any>(`${this._key.base_url}/payroll/step/epf`, {params});
+  }
+
+
+  getEsiDetails(startDate: string,endDate: string, itemPerPage: number,pageNumber: number, search: string,): Observable<any> {
+
+    const params = new HttpParams()
+    .set('start_date', startDate)
+    .set('end_date', endDate)
+    .set('item_per_page', itemPerPage)
+    .set('page_number', pageNumber)
+    .set('search', search)
+    return this._http.get<any>(`${this._key.base_url}/payroll/step/esi`, {params});
+  }
+
+
+  getTdsDetails(startDate: string,endDate: string, itemPerPage: number,pageNumber: number, search: string,): Observable<any> {
+
+    const params = new HttpParams()
+    .set('start_date', startDate)
+    .set('end_date', endDate)
+    .set('item_per_page', itemPerPage)
+    .set('page_number', pageNumber)
+    .set('search', search)
+    return this._http.get<any>(`${this._key.base_url}/payroll/step/tds`, {params});
+  }
 
   generatePayrollReport(startDate: string, endDate: string): Observable<any> {
     const params = new HttpParams()

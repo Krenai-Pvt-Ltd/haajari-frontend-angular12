@@ -1,6 +1,5 @@
-import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
 import { EmployeePayslipLogResponse } from 'src/app/employee-payslip-log-response';
 import { EmployeePayslipBreakupResponse } from 'src/app/models/employee-payslip-breakup-response';
 import { EmployeePayslipDeductionResponse } from 'src/app/models/employee-payslip-deduction-response';
@@ -13,9 +12,6 @@ import { SalaryService } from 'src/app/services/salary.service';
 import { EmployeeProfileComponent } from '../employee-profile.component';
 import { UserSalaryRevisionRes } from 'src/app/models/UserSalaryRevisionRes';
 import { CurrentSalaryDetail } from 'src/app/models/CurrentSalaryDetail';
-import { SalaryComponentRequest } from 'src/app/models/salary-component-request';
-import { SalaryComponent } from 'src/app/models/salary-component';
-import { SalaryComponentReq } from 'src/app/models/SalaryComponetReq';
 import { SalaryTemplateComponentResponse } from 'src/app/models/salary-template-component-response';
 import { SalaryComponentResponse } from 'src/app/models/salary-component-response';
 import { Key } from 'src/app/constant/key';
@@ -23,6 +19,8 @@ import { AppraisalRequest } from 'src/app/models/appraisal-request';
 import { BonusRequest } from 'src/app/models/bonus-request';
 import { NgForm } from '@angular/forms';
 import { constant } from 'src/app/constant/constant';
+import { StatutoryRequest } from 'src/app/models/statutory-request';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-epmployee-finance',
@@ -41,7 +39,8 @@ export class EpmployeeFinanceComponent implements OnInit {
     public _helperService: HelperService,
     private _salaryService: SalaryService,
     private sanitizer: DomSanitizer,
-    public employeeProfileComponent: EmployeeProfileComponent
+    public employeeProfileComponent: EmployeeProfileComponent,
+    private _userService: UserService
   ) {
 
     const userUuidParam = new URLSearchParams(window.location.search).get('userId');
@@ -331,6 +330,40 @@ export class EpmployeeFinanceComponent implements OnInit {
 
     })
   }
+
+  readonly EPF_STATUTORY_ID = 1;
+ readonly ESI_STATUTORY_ID = 2;
+  epfLoader:boolean=false;
+  esiLoader:boolean=false;
+  statutoryId:number=0;
+  toggleStatutory(statutoryId:number){
+      if(this.EPF_STATUTORY_ID == statutoryId){
+        this.epfLoader = true;
+      }else{
+        this.esiLoader= true;
+      }
+      this._userService.toggleStatutory(this.userUuid, statutoryId).subscribe((response) => {    
+          if(response.status){
+            if(this.EPF_STATUTORY_ID == statutoryId){
+              this.isEPF =  !this.isEPF;
+            }else{
+              this.isESI =  !this.isESI;
+            }
+            this._helperService.showToast(response.message,Key.TOAST_STATUS_SUCCESS);
+          }else{
+            this._helperService.showToast(response.message,Key.TOAST_STATUS_WARNING);
+          }   
+          this.epfLoader = false;
+          this.esiLoader = false;
+      },
+        (error) => {
+          this.epfLoader = false;
+          this.esiLoader = false; 
+          this._helperService.showToast( 'Error in updating', Key.TOAST_STATUS_ERROR);
+        }
+      );
+
+    }
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   //                                                               PAYMENT TAB

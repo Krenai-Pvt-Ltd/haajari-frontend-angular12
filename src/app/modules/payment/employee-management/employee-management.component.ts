@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { constant } from 'src/app/constant/constant';
@@ -30,12 +30,13 @@ export class EmployeeManagementComponent implements OnInit {
   readonly USER_EXIT = Key.USER_EXIT;
   readonly FINAL_SETTLEMENT = Key.FINAL_SETTLEMENT;
 
+  @Input() step:any;
   @Input() startDate:any;
   @Input() endDate:any;
-  @Output() getData: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() getData: EventEmitter<number> = new EventEmitter<number>();
 
   sendBulkDataToComponent() {
-    this.getData.emit(true);
+    this.getData.emit(this.step);
   }
 
 
@@ -58,7 +59,8 @@ export class EmployeeManagementComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getDataBySelectedTab();
+    window.scroll(0,0);
+    this.selectTabByProcessStep(this.step);
   }
 
 
@@ -66,40 +68,31 @@ export class EmployeeManagementComponent implements OnInit {
     this.searchSubject.complete();
   }
 
-
-  employeeChangesSection(PAYROLL_PROCESS_STEP : number){
-    // if(PAYROLL_PROCESS_STEP == this.FINAL_SETTLEMENT){
-    //   this.finalSettlementTab();
-    //   this.navigateToTab('step3-tab');
-    // } else if(PAYROLL_PROCESS_STEP == this.USER_EXIT){
-    //   this.userExitTab();
-    //   this.navigateToTab('step2-tab');
-    // } else{
-    //   this.newJoineeTab();
-    // }
+  @ViewChild('step1Tab') step1Tab!: ElementRef;
+  @ViewChild('step2Tab') step2Tab!: ElementRef;
+  @ViewChild('step3Tab') step3Tab!: ElementRef;
+  selectTabByProcessStep(PAYROLL_PROCESS_STEP : number){
+    if(PAYROLL_PROCESS_STEP <= this.FINAL_SETTLEMENT){
+      this.CURRENT_TAB = PAYROLL_PROCESS_STEP;
+    }
+    this.navigateToTab(this.CURRENT_TAB);
   }
 
-
-  // newJoineeTab() {
-  //   this.CURRENT_TAB = this.NEW_JOINEE;
-  //   this.CURRENT_TAB_IN_EMPLOYEE_CHANGE = this.NEW_JOINEE;
-  //   this.resetCriteriaFilter();
-  //   this.getNewJoineeByOrganizationIdMethodCall();
-  // }
-
-  // userExitTab() {
-  //   this.CURRENT_TAB = this.USER_EXIT;
-  //   this.CURRENT_TAB_IN_EMPLOYEE_CHANGE = this.USER_EXIT;
-  //   this.resetCriteriaFilter();
-  //   this.getUserExitByOrganizationIdMethodCall();
-  // }
-
-  // finalSettlementTab() {
-  //   this.CURRENT_TAB = this.FINAL_SETTLEMENT;
-  //   this.CURRENT_TAB_IN_EMPLOYEE_CHANGE = this.FINAL_SETTLEMENT;
-  //   this.resetCriteriaFilter();
-  //   this.getFinalSettlementByOrganizationIdMethodCall();
-  // }
+  navigateToTab(tabId:number){
+    setTimeout(()=>{
+      switch(tabId){
+      case this.NEW_JOINEE:
+        this.step1Tab.nativeElement.click();
+        break;
+      case this.USER_EXIT:
+        this.step2Tab.nativeElement.click();
+        break;
+      case this.FINAL_SETTLEMENT:
+        this.step3Tab.nativeElement.click();
+        break;
+      }
+    }, 50)
+  }
 
 
   isShimmerForNewJoinee = false;
@@ -163,12 +156,6 @@ export class EmployeeManagementComponent implements OnInit {
                 }else{
                   this.newJoineeResponseList = response.object;
                   this.totalItems = response.totalItems;
-
-                  // this.newJoineeResponseList .forEach((newJoinee)=>{
-                  //   if(this.holdActionIds.includes(newJoinee.monthId)){
-                  //     newJoinee.payActionId = StatusKeys.PAY_ACTION_HOLD;
-                  //   }
-                  // });
                 }
             }
             this.isShimmerForNewJoinee = false;
@@ -225,13 +212,17 @@ export class EmployeeManagementComponent implements OnInit {
 
   CURRENT_TAB:number= this.NEW_JOINEE;
   getDataBySelectedTab(){
-    if (this.CURRENT_TAB == this.NEW_JOINEE) {
-      this.getNewJoinee();
-    }else if (this.CURRENT_TAB == this.USER_EXIT) {
-      this.getUserInExitProcess();
-    }else if (this.CURRENT_TAB == this.FINAL_SETTLEMENT) {
-      this.getFullNFinalUser();
-    }
+    switch(this.CURRENT_TAB){
+      case this.NEW_JOINEE:
+        this.getNewJoinee();
+        break;
+      case this.USER_EXIT:
+        this.getUserInExitProcess();
+        break;
+      case this.FINAL_SETTLEMENT:
+        this.getFullNFinalUser();
+        break;
+      }
   }
    
 
@@ -245,12 +236,6 @@ export class EmployeeManagementComponent implements OnInit {
               } else {
                 this.userExitResponseList = response.object
                 this.totalItems = response.totalItems;
-
-                // this.userExitResponseList .forEach((exitUser)=>{
-                //   if(this.holdActionIds.includes(exitUser.monthId)){
-                //     exitUser.payActionId = StatusKeys.PAY_ACTION_HOLD;
-                //   }
-                // });
               }
               this.isShimmerForUserExit = false;
             },
@@ -270,11 +255,6 @@ export class EmployeeManagementComponent implements OnInit {
             } else {
               this.finalSettlementResponseList = response.object
               this.totalItems = response.totalItems;
-              // this.finalSettlementResponseList .forEach((fnfUser)=>{
-              //   if(this.holdActionIds.includes(fnfUser.monthId)){
-              //     fnfUser.payActionId = StatusKeys.PAY_ACTION_HOLD;
-              //   }
-              // });
             }
             this.isShimmerForFinalSettlement = false;
           },
@@ -285,14 +265,23 @@ export class EmployeeManagementComponent implements OnInit {
   }
 
 
+  processing:boolean=false;
   updatePayrollStep(){
-
-    // this._payrollService.updatePayrollProcessStep(this.startDate, this.endDate, this.FINAL_SETTLEMENT).subscribe((response)=>{
-
-
-    // }, ((error) => {
-
-    // }))
+    this.processing = true;
+    this._payrollService.updatePayrollProcessStep(this.startDate, this.endDate).subscribe((response)=>{
+      if(response.status){
+      this.step = response.object;
+       if( this.step <= this.FINAL_SETTLEMENT){
+        this.CURRENT_TAB =  this.step;
+        this.navigateToTab(this.CURRENT_TAB);
+       }else{
+        this.back();
+       }
+      }
+      this.processing = false;
+    }, (error) => {
+      this.processing = true;
+    });
   }
 
 

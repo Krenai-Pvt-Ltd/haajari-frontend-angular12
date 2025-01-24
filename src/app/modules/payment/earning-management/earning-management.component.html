@@ -7,21 +7,34 @@
 
 <ul class="nav nav-pills mb-3 mt-3" id="pills-tab" role="tablist">
   <li class="nav-item" role="presentation">
-    <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#salaryChanges"
-      type="button" role="tab" aria-controls="salaryChanges" aria-selected="true">Salary Changes</button>
+    <button class="nav-link" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#salaryChanges" type="button" [class.disabled]="step < SALARY_CHANGE" 
+      role="tab" aria-controls="salaryChanges" aria-selected="true" (click)="selectTab(SALARY_CHANGE)" #step7Tab>Salary Changes</button>
   </li>
   <li class="nav-item" role="presentation">
-    <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#bonus" type="button"
-      role="tab" aria-controls="bonus" aria-selected="false">Bonus</button>
+    <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#bonus" type="button" [class.disabled]="step < BONUS"
+      role="tab" aria-controls="bonus" aria-selected="false" (click)="selectTab(BONUS)" #step8Tab>Bonus</button>
   </li>
   <li class="nav-item" role="presentation">
-    <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#overtime" type="button"
-      role="tab" aria-controls="overtime" aria-selected="false">Overtime</button>
+    <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#overtime" type="button" [class.disabled]="step < OVERTIME"
+      role="tab" aria-controls="overtime" aria-selected="false" (click)="selectTab(OVERTIME)" #step9Tab>Overtime</button>
   </li>
+  <button type="button" class="btn btn-primary text-center position-absolute" style="right:20px; width :150px" 
+      *ngIf="step <= OVERTIME" (click)="updatePayrollStep()">
+    <span *ngIf="!processing">
+      <span *ngIf="SALARY_CHANGE == CURRENT_TAB">Save & Next</span>
+      <span *ngIf="BONUS == CURRENT_TAB">Save & Next</span>
+      <span *ngIf="OVERTIME == CURRENT_TAB">Submit</span>
+    </span>
+      <div class="dot-opacity-loader" *ngIf="processing">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+  </button>
 </ul>
 
 <div class="tab-content" id="pills-tabContent">
-  <div class="tab-pane fade show active" id="salaryChanges" role="tabpanel" aria-labelledby="pills-home-tab">
+  <div class="tab-pane fade" id="salaryChanges" role="tabpanel" aria-labelledby="pills-home-tab">
     <div class="table-responsive">
       <table class="table border-dashed mb-0">
         <thead>
