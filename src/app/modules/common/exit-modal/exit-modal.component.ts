@@ -25,9 +25,7 @@ export class ExitModalComponent {
     private ngbModal: NgbModal,
       private roleService: RoleBasedAccessControlService, private afStorage: AngularFireStorage,){
 
-      if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
-        this.userId = this.activateRoute.snapshot.queryParamMap.get('userId');
-      }
+      this.userId='605076c1-8a1f-11ef-8844-8c8590bb364e';
   }
 
   @ViewChild('initiateExit') initiateExit!: TemplateRef<any>;
@@ -221,5 +219,24 @@ export class ExitModalComponent {
   deleteImage() {
     this.userResignationReq.url = ''
   }
+
+  selectLastWorkingDay(startDate: Date) {
+    debugger
+    if (this.userResignationReq.isRecommendLastDay == 0 && startDate) {
+      this.userResignationReq.userLastWorkingDay = this.helperService.formatDateToYYYYMMDD(startDate);
+    }
+  }
+
+  disableFutureDates = (current: Date): boolean => {
+    const today = new Date();
+    // const maxDate = new Date();
+    const maxDate = new Date();
+    maxDate.setDate(today.getDate() + this.noticePeriodDuration); // Add 45 days to today's date
+
+    // this.lastWorkingDay = maxDate;
+    // console.log("Max Date: ", this.lastWorkingDay);
+    // Disable dates from today to maxDate (inclusive)
+    return current < today || current > maxDate;
+  };
 
 }

@@ -109,7 +109,7 @@
                                     <ng-container *ngIf="noticePeriodDuration > 0">
                                         <nz-date-picker *ngIf="userResignationReq.isRecommendLastDay == 1"
                                             [(ngModel)]="userResignationReq.lastWorkingDay" nzPlaceHolder="dd/mm/yyyy"
-                                            [nzDisabledDate]="disableFutureDates" id="selLastDate"
+                                             id="selLastDate"
                                             (ngModelChange)="selectLastWorkingDay($event)" name="lastDate"
                                             #lastDate="ngModel" required class="form-control">
                                         </nz-date-picker>
