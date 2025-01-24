@@ -120,7 +120,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     this.getShiftData();
     this.getOnboardingVia();
     this.selectStatus('ACTIVE');
-    this.fetchPendingRequests();
+    //this.fetchPendingRequests();
     const storedDownloadUrl = localStorage.getItem('downloadUrl');
 
     if (storedDownloadUrl) {
@@ -201,6 +201,23 @@ export class EmployeeOnboardingDataComponent implements OnInit {
 
     this.getUsersByFiltersFunction();
   }
+
+  currentResignationID: number = 0;
+  deleteResignation(id: number): void {
+      this.disableUserLoader = true;
+      this.dataService.deleteUserResignation(id).subscribe({
+        next: (response) => {
+          this.disableUserLoader = false;
+          this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
+          this.getUsersByFiltersFunction();
+        },
+        error: (error) => {
+          this.disableUserLoader = false;
+          this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
+        },
+      });
+    }
+
 
   allEmployeeRequest(){
     this.users = [];
@@ -650,9 +667,9 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   //     (data) => {
   //       // location.reload();
   //       this.disableUserLoader = false;
-       
+
   //       this.getUsersByFiltersFunction();
-       
+
   //       this.currentUserPresenceStatus = false;
   //       this.currentUserUuid = '';
   //       this.deleteOrDisableString = '';
@@ -1504,6 +1521,8 @@ console.log(this.data);
           this.editedDate= response.createdDate;
           this.profilePic= response.profilePic;
           this.approveStates=[];
+          this.remainingField=1;
+          this.isModalOpen = new Array(this.requestedData.length).fill(false);
           if(!this.requestedData ||this.requestedData.length==0){
             this.helperService.showToast('No data found', Key.TOAST_STATUS_ERROR);
             this.closeReqDataModal.nativeElement.click();
@@ -1536,6 +1555,7 @@ console.log(this.data);
         if (response.success) {
           this.helperService.showToast('Data saved successfully', Key.TOAST_STATUS_SUCCESS);
           this.closeReqDataModal.nativeElement.click();
+          this.fetchPendingRequests();
           this.selectStatus('EDITPROFILE');
 
         } else {
@@ -1565,6 +1585,7 @@ console.log(this.data);
         if (response.success) {
           this.helperService.showToast('Request rejected successfully', Key.TOAST_STATUS_SUCCESS);
           this.closeReqDataModal.nativeElement.click();
+          this.fetchPendingRequests();
           this.selectStatus('EDITPROFILE');
         } else {
           this.helperService.showToast('Failed to reject request', Key.TOAST_STATUS_ERROR);
@@ -1577,8 +1598,10 @@ console.log(this.data);
     );
   }
 
+  @ViewChild('divElement', { static: false }) divElement!: ElementRef;
 
   fieldLoading: boolean = false;
+  remainingField: number=1;
   removeField(key: string, value: any, index: number) {
     this.fieldLoading = true;
     this.dataService.removeKeyValuePair(key,this.userId, value).subscribe({
@@ -1587,8 +1610,13 @@ console.log(this.data);
         console.log('Response:', response);
         if (response.success) {
           this.helperService.showToast('Data Rejected successfully', Key.TOAST_STATUS_SUCCESS);
+          this.remainingField=response.message;
+          if(this.remainingField==0){
+            this.fetchPendingRequests();
+          }
           this.disabledStates[index] = true;
           this.approveStates[index] = 'Rejected';
+          this.divElement.nativeElement.click();
           const divToClick = document.getElementById('collapsibleDiv-' + index);
           if (divToClick) {
             divToClick.click();
@@ -1615,6 +1643,10 @@ console.log(this.data);
         if (response.success) {
           this.disabledStates[index] = true;
           this.approveStates[index] = 'Approved';
+          this.remainingField=response.message;
+          if(this.remainingField==0){
+            this.fetchPendingRequests();
+          }
           const divToClick = document.getElementById('collapsibleDiv-' + index);
           if (divToClick) {
             divToClick.click();
@@ -2018,6 +2050,10 @@ console.log(this.data);
   );
   }
 
+  isModalOpen: boolean[] = [];
+  toggleModal(index: number): void {
+    this.isModalOpen[index] = !this.isModalOpen[index];
+  }
   // Method to change page
   changePage1(page: number): void {
     this.currentPage1 = page;

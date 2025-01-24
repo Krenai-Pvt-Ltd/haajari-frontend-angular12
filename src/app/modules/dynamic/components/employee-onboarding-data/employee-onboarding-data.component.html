@@ -366,7 +366,7 @@
             </li>
             <li class="nav-item d-flex align-items-center">
               <a id="pills-notification-tab" data-bs-toggle="pill" href="#editRequest" role="tab"
-                 aria-controls="pills-notification" aria-selected="false"
+                 aria-controls="pills-notification" aria-selected="false" (click)="fetchPendingRequests()"
                 class="nav-link">Update Requests</a>
               <span class="request-count d-flex align-items-center justify-content-center"
                 *ngIf="editProfileCount > 0">{{editProfileCount}}</span>
@@ -890,9 +890,12 @@
                 </div>
                 <div
                   class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top"
-                  *ngIf="!isEditDataLoading && pendingRequests.length > 0 && totalItems1>pageSize1">
-                  <p >
-                    Showing {{ getStartIndex() }} - {{ getEndIndex() }} of {{ totalItems1 }} users
+                  *ngIf="!isEditDataLoading && pendingRequests?.length > 0 && totalItems1>pageSize1">
+                  <p>
+                    Showing
+                    {{ (currentPage1 - 1) * pageSize1 + 1 }} -
+                    {{ currentPage1 * pageSize1 > totalItems1 ? totalItems1 : currentPage1 * pageSize1 }}
+                    of {{ totalItems1 }} users
                   </p>
                   <div >
                     <ngb-pagination [collectionSize]="totalItems1" [(page)]="currentPage1" [pageSize]="pageSize1"
@@ -1075,7 +1078,7 @@
                               <li>
                                 <a class="dropdown-item" data-bs-toggle="modal"
                                   data-bs-target="#deleteConfirmationModal"
-                                  (click)="openDeleteConfirmationModal(user.id, false, '', 'Delete')"><i class="bi bi-trash3"></i> Delete
+                                  (click)="openDeleteConfirmationModal(user.id, false, '', 'Delete Resignation Request'); currentResignationID=user.id"><i class="bi bi-trash3"></i> Delete
                                   Request
                                 </a>
                               </li>
@@ -1370,7 +1373,7 @@
         <div class="delete-image d-flex align-items-center justify-content-center pt-4 pb-4">
           <div class="delete-close-btn">
             <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButtonDeleteLeave>
-              <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+              <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none" >
                 <mask id="mask0_2031_1331" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="30"
                   height="30">
                   <rect width="30" height="30" fill="#D9D9D9" />
@@ -1381,22 +1384,30 @@
                     fill="black" />
                 </g>
               </svg>
+              <!-- <img src="/assets/images/delete-friend (1) 2.svg" style="width: 70px" *ngIf="deleteOrDisableUserString === 'Disable'"/> -->
+              <!-- <img src="/assets/images/delete-img.svg" style="width: 70px" *ngIf="deleteOrDisableUserString === 'Delete'"/> -->
             </button>
           </div>
-          <img src="/assets/images/delete-img.svg" style="width: 70px" />
+          <img src="/assets/images/delete-img.svg" style="width: 70px" *ngIf="deleteOrDisableUserString === 'Delete'"/>
+          <img src="/assets/images/delete-friend (1) 2.svg" style="width: 70px" *ngIf="deleteOrDisableUserString === 'Disable'"/>
         </div>
         <div class="bg-white p-4 text-center">
           <div class="mb-4">
             <h5 class="alert-heading font-18 mb-2">
               Are you sure want to {{deleteOrDisableUserString}} this account?
             </h5>
-            <p class="font-13" *ngIf="deleteOrDisableUserString === 'Delete'">This action will permanently remove this user.
-            <p class="font-13" *ngIf="deleteOrDisableUserString === 'Disable'">This action will disable this user.
+            <p class="font-13" *ngIf="deleteOrDisableUserString === 'Delete'">This action will permanently remove this user. </p>
+            <p class="font-13" *ngIf="deleteOrDisableUserString === 'Disable'">This action will disable this user. </p>
+            <p class="font-13" *ngIf="deleteOrDisableUserString === 'Delete Resignation Request'">This action will delete Resignation Request.</p>
           </div>
 
 
-          <button class="btn continue-btn" (click)="deleteOrDisable()">
+          <button  *ngIf="deleteOrDisableUserString !== 'Delete Resignation Request'" class="btn continue-btn" (click)="deleteOrDisable()">
             <span >{{deleteOrDisableUserString}} Account</span>
+            <i class="fa fa-spinner fa-spin" *ngIf="disableUserLoader"></i>
+          </button>
+          <button  *ngIf="deleteOrDisableUserString === 'Delete Resignation Request'" class="btn continue-btn" (click)="deleteResignation(currentResignationID)">
+            <span >Delete Resignation Request</span>
             <i class="fa fa-spinner fa-spin" *ngIf="disableUserLoader"></i>
           </button>
           <br>
@@ -1464,7 +1475,7 @@
 
             <span *ngIf="!isRejectModalOpen">
               <span *ngFor="let data of requestedData; let i=index">
-                <div class="d-flex align-items-center justify-content-between email-update p-3 mb-3">
+                <div *ngIf="!isModalOpen[i]" class="d-flex align-items-center justify-content-between email-update p-3 mb-3">
                   <div class="d-flex align-items-center gap-2">
                     <span></span>
                     <p class="fon-12 mb-0 fw-semibold">{{data.name}}</p>
@@ -1478,7 +1489,7 @@
                     <div class="break-line"></div>
                     <div [attr.id]="'collapsibleDiv-' + i" class="pointer" data-bs-toggle="collapse"
                       [attr.href]="'#view-edit-request-' + i" role="button" aria-expanded="false"
-                      aria-controls="view-edit-request">
+                      aria-controls="view-edit-request" (click)="toggleModal(i)">
                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                         <mask id="mask0_6559_7025" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
                           width="24" height="24">
@@ -1540,7 +1551,7 @@
                         </div>
                       </div>
                       <div class="break-line"></div>
-                      <div class="pointer" data-bs-toggle="collapse" [attr.href]="'#view-edit-request-' + i"
+                      <div #divElement (click)="toggleModal(i)" class="pointer" data-bs-toggle="collapse" [attr.href]="'#view-edit-request-' + i"
                         role="button" aria-expanded="false" aria-controls="view-edit-request">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
                           <mask id="mask0_6605_10585" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
@@ -1701,8 +1712,8 @@
         </div>
 
       </div>
-      <div class="modal-footer d-flex align-items-center justify-content-end gap-2">
-        <button type="button" (click)="rejectData()" [disabled]="rejectLoading || approveLoading || (isRejectModalOpen && (!rejectedReason || rejectedReason.length < 10))"
+      <div *ngIf="remainingField!==0" class="modal-footer d-flex align-items-center justify-content-end gap-2">
+        <button type="button" (click)="rejectData()" [disabled]="rejectLoading || fieldLoading || approveLoading || (isRejectModalOpen && (!rejectedReason || rejectedReason.length < 10))"
           class="btn cancel-btn">
           <span *ngIf="!rejectLoading">Reject All</span>
           <div class="dot-opacity-loader" *ngIf="rejectLoading">
@@ -1711,7 +1722,7 @@
             <span></span>
           </div>
         </button>
-        <button *ngIf="!isRejectModalOpen" type="button" (click)="approveRequestedData()" [disabled]="rejectLoading || approveLoading"
+        <button *ngIf="!isRejectModalOpen" type="button" (click)="approveRequestedData()" [disabled]="rejectLoading || approveLoading || fieldLoading"
           class="btn  submitActionBtn">
           <span *ngIf="!approveLoading">Approve All</span>
           <div class="dot-opacity-loader" *ngIf="approveLoading">
@@ -1728,6 +1739,12 @@
           </button>
 
       </div>
+    </div>
+    <div *ngIf="remainingField==0" class="modal-footer d-flex align-items-center justify-content-end gap-2">
+      <button type="button" #closeReqDataModal (click)="closeDataRequestModal()"
+      data-bs-dismiss="modal" aria-label="Close" class="btn cancel-btn">
+        <span >Done</span>
+      </button>
     </div>
   </div>
 </div>

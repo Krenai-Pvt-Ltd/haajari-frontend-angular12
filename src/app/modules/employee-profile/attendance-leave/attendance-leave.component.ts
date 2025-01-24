@@ -961,7 +961,7 @@ export class AttendanceLeaveComponent implements OnInit {
     const mins = Math.floor((seconds % 3600) / 60);
     const secs = seconds % 60;
   
-    return `${hrs}h ${mins}m ${secs}s`;
+    return `${hrs}h ${mins}m`;
   }
   
   
@@ -1570,6 +1570,16 @@ export class AttendanceLeaveComponent implements OnInit {
     });
   }
 
+  resetError() {
+    if (this.attendanceTimeUpdateForm.get('attendanceRequestType')?.value === 'UPDATE') {
+      this.checkAttendance = false;
+    } else if (this.attendanceTimeUpdateForm.get('attendanceRequestType')?.value === 'CREATE') {
+      this.getAttendanceExistanceStatus(this.selectedDateAttendance);    
+    }
+    this.getHolidayForOrganization(this.selectedDateAttendance);
+   
+  }
+
   attendanceTimeUpdateForm!: FormGroup;
   requestedDate!: Date;
   statusString!: string;
@@ -1989,6 +1999,7 @@ export class AttendanceLeaveComponent implements OnInit {
    breakTimingsList : BreakTimings[] = [];
    getUserBreakTimingsReportByDate(date: string) {
       // this.toggleChevron(show);
+      this.breakTimingsList = [];
       if (
         this.breakTimingsList == undefined ||
         this.breakTimingsList == null ||
