@@ -32,8 +32,14 @@ export class EmployeeProfileComponent implements OnInit {
       this.getEmployeeProfileData();
     this.getUserJoiningDataByUserId();
     }
+    this._helperService.restrictedModules.forEach((restrictedModule)=>{
+      if(restrictedModule.module=='Payroll'){
+        this.isBasicPlan=true;
+      }
+    });
   }
 
+  isBasicPlan:boolean=false;
   ngOnInit(): void {
     // this.getUuid();
   }
