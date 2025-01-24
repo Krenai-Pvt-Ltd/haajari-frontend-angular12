@@ -1,4 +1,4 @@
-<div *ngIf="!isLoading" class="emalpyee-profile">
+ <div *ngIf="!isLoading && !managerCheckLoading" class="emalpyee-profile">
     <div class="row">
         <div class="col-md-3 pr-0">
             <app-employee-profile-sidebar></app-employee-profile-sidebar>
@@ -46,7 +46,7 @@
                                 </svg>
                                 Attendance & leave</a>
                         </li>
-                        <li class="nav-item" *ngIf="roleService.getRoles()=='ADMIN' || UUID == userId">
+                        <li class="nav-item" *ngIf="(roleService.getRoles()=='ADMIN' || UUID == userId) && !isBasicPlan">
                             <a id="pills-profile-tab" data-bs-toggle="pill" href="#epmployee-finance" role="tab"
                                 aria-controls="pills-profile" (click)="setActiveTab('epmployee-finance')"
                                 aria-selected="false" class="nav-link">
@@ -246,3 +246,5 @@
         </div>
     </div>
 </div>
+<app-hajiri-page-loader *ngIf="isLoading || managerCheckLoading">
+</app-hajiri-page-loader>
