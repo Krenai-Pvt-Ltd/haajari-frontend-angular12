@@ -714,8 +714,7 @@
                                 </li>
 
                                 <li>
-                                  <a class="dropdown-item initiate-btn" data-bs-toggle="modal"
-                                    data-bs-target="#initiateExit" (click)="getUserUuid(user.uuid);">
+                                  <a class="dropdown-item initiate-btn" (click)="getUserUuid(user.uuid);">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 17 16"
                                       fill="none">
                                       <path
@@ -1071,7 +1070,7 @@
                             <div class="dropdown-menu actionMenuList">
 
                               <li>
-                                <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#initiateExit" ><i
+                                <a class="dropdown-item" (click)="onInitiateExitClick()" ><i
                                     class="bi bi-eye"></i>
                                   View Request</a>
                               </li>
@@ -2305,4 +2304,4 @@ Edit Request Modal End
 
 
 
-<app-exit-modal></app-exit-modal>
+<!-- <app-exit-modal></app-exit-modal> -->

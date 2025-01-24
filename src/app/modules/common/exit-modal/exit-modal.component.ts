@@ -1,16 +1,17 @@
-import { ChangeDetectionStrategy, Component, ElementRef, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, TemplateRef, ViewChild } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { FormBuilder, NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { UserResignation } from 'src/app/models/UserResignation';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
+import { ModalService } from 'src/app/services/modal.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 
 @Component({
   selector: 'app-exit-modal',
-  template: './exit-modal.component.html',
+  templateUrl: './exit-modal.component.html',
   styleUrls: ['./exit-modal.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -18,8 +19,10 @@ export class ExitModalComponent {
 
   userId: any;
   ROLE: any;
-  constructor(private dataService: DataService, private modalService: NgbModal,
+  constructor(private dataService: DataService, 
+    private modalService: ModalService, 
      private fb: FormBuilder, public helperService: HelperService, private activateRoute: ActivatedRoute,
+    private ngbModal: NgbModal,
       private roleService: RoleBasedAccessControlService, private afStorage: AngularFireStorage,){
 
       if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
@@ -27,12 +30,26 @@ export class ExitModalComponent {
       }
   }
 
+  @ViewChild('initiateExit') initiateExit!: TemplateRef<any>;
+  private modalRef!: NgbModalRef;
+  
   ngOnInit(): void{
+
     this.ROLE = this.roleService.getRole();
     this.getNoticePeriodDuration();
   }
 
   userResignationReq: UserResignation = new UserResignation();
+
+  // openModal() {
+  //   this.modalRef = this.ngbModal.open(this.initiateExit, { ariaLabelledBy: 'modal-basic-title', centered: true });
+  // }
+
+  // closeModal() {
+  //   if (this.modalRef) {
+  //     this.modalRef.close();
+  //   }
+  // }
 
   clearFormData(form: NgForm) {
       this.clearForm();

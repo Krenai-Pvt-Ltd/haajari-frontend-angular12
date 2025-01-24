@@ -24,6 +24,7 @@ import { TeamComponent } from '../team/team.component';
 import { UserResignation } from 'src/app/models/UserResignation';
 import { OnboardUser } from 'src/app/models/OnboardUser';
 import { debounceTime } from 'rxjs/operators';
+import { ModalService } from 'src/app/services/modal.service';
 export interface Team {
   label: string;
   value: string;
@@ -47,8 +48,9 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     private _onboardingService: OrganizationOnboardingService,
     private router: Router,
     private helperService: HelperService,
-    private modalService: NgbModal,
+    private ngbModal: NgbModal,
     private _subscriptionService:SubscriptionPlanService,
+    private modalService: ModalService
   ) {}
   // users: EmployeeOnboardingDataDto[] = [];
   users: EmployeeOnboardingDataDto[] = new Array();
@@ -1235,7 +1237,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   }
 
   openAddLeaveModal(): void {
-    const modalRef = this.modalService.open(LeaveSettingComponent, {
+    const modalRef = this.ngbModal.open(LeaveSettingComponent, {
       size: 'xl',
       backdrop: true,
       windowClass: 'custom-modal-width'
@@ -1254,7 +1256,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   }
 
   openAddShiftModal(): void {
-    const modalRef = this.modalService.open(AttendanceSettingComponent, {
+    const modalRef = this.ngbModal.open(AttendanceSettingComponent, {
       size: 'xl', // Adjust size as needed
       backdrop: true, // Allows closing the modal on outside click
       keyboard: true // Allows closing the modal with the Esc key
@@ -1271,7 +1273,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     );
   }
   openAddTeamModal(): void {
-    const modalRef = this.modalService.open(TeamComponent, {
+    const modalRef = this.ngbModal.open(TeamComponent, {
       size: 'xl', // Adjust size as needed
       backdrop: true, // Allows closing the modal on outside click
       keyboard: true // Allows closing the modal with the Esc key
@@ -2093,8 +2095,12 @@ console.log(this.data);
 
     this.getUserExitType()
     this.getNoticePeriodDuration();
+    this.onInitiateExitClick();
   }
 
+  onInitiateExitClick() {
+    this.modalService.openInitiateExitModal();
+  }
   // User Resignation end
 
   pendingRequests:any;
