@@ -442,16 +442,9 @@
                                         <td class="text-left">
         
                                             <span class="team-maneger mb-0 table-font-weight">
-                                                {{item.checkInTime | date:'shortTime'}} &nbsp; <span
-                                                    class="text-danger font-12" *ngIf=" item.status == 'Late'" nz-popover
-                                                    nzPopoverTitle="Late Recorded By"
-                                                    [nzPopoverContent]="convertSecondsToHMS(+item.lateMinutes)"
-                                                    [nzPopoverOverlayStyle]="{'width':'250px'}" > Late
-                                                    In</span> <span class="text-danger font-12"
-                                                    *ngIf=" item.status == 'Half Day'" nz-popover
-                                                    nzPopoverTitle="Half Day Recorded By"
-                                                    [nzPopoverContent]="convertSecondsToHMS(+item.halfDayMinutes)"
-                                                    [nzPopoverOverlayStyle]="{'width':'250px'}" > Half Day</span>
+                                                {{item.checkInTime | date:'shortTime'}} <br> 
+                                                <span class="text-danger font-11" *ngIf=" item.status == 'Late'" > Late - {{convertSecondsToHMS(+item.lateMinutes)}}</span>
+                                                <span class="text-danger font-11" *ngIf=" item.status == 'Half Day'" > Half Day - {{convertSecondsToHMS(+item.halfDayMinutes)}}</span>
                                             </span>
                                         </td>
                                         <td class="text-left">
