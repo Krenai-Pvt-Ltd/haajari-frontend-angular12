@@ -42,13 +42,13 @@ export class constant {
     public static PUBLIC_MARK_ATTENDANCE_WITH_IMAGE_URL="/additional/attendance-photo";
     public static PUBLIC_SLACK_INSTALL_SUCCESS ="/additional/slack-installation-successfull";
     public static PUBLIC_SERVER_ERROR="/additional/internal-server-error";
-
+    public static PUBLIC_ONBOARDING_FORM="/employee-onboarding/employee-onboarding-form"
     public static ONBOARDING_ROUTES = [constant.ORG_ONBOARDING_PERSONAL_INFORMATION_ROUTE, constant.ORG_ONBOARDING_EMPLOYEE_CREATION_ROUTE, constant.ORG_ONBOARDING_SHIFT_TIME_ROUTE,
     constant.ORG_ONBOARDING_ATTENDANCE_MODE_ROUTE
     ]
 
     public static PUBLIC_ROUTES = [constant.PUBLIC_MARK_ATTENDANCE_URL,constant.PUBLIC_APPLY_LEAVE_URL,constant.PUBLIC_MARK_ATTENDANCE_WITH_IMAGE_URL,constant.PUBLIC_SLACK_INSTALL_SUCCESS,
-        constant.PUBLIC_SERVER_ERROR   
+        constant.PUBLIC_SERVER_ERROR, constant.PUBLIC_ONBOARDING_FORM
     ];
 
 

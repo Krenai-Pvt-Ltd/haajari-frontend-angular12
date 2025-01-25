@@ -49,8 +49,13 @@ export class EmployeeOnboardingFormComponent implements OnInit {
     private router: Router,
     private afStorage: AngularFireStorage,
     private helperService: HelperService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private activatedRoute: ActivatedRoute
   ) {
+         // Get the full URL with query parameters
+         const currentPath = this.router.url; // Path without query parameters
+           localStorage.setItem('returnUrl', currentPath);
+
     // DOB Date logic
     const today = new Date();
     const minAge = 18;
