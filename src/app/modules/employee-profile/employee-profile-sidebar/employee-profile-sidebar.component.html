@@ -881,9 +881,10 @@
                             </span>
                             <div class="policy-step d-flex align-items-start gap-2">
                                 <!-- TO DO: class="active-step"  -->
-                                <span class="active-step"></span>
-                                <span></span>
-                                <span></span>
+
+                                    <span *ngFor="let doc of hrPolicyDocuments; let i = index" [ngClass]="{ 'active-step': i == currentPdfIndex, 'inactive-step': i != currentPdfIndex }"></span>
+
+                                
                             </div>
 
                         </div>
@@ -897,7 +898,7 @@
                         <div class="pt-0" [ngClass]="{'policy-terms':!isVideoPolicy}">
                             <div class=" d-flex align-items-center justify-content-between" [ngClass]="{'p-3 policy-name':!isVideoPolicy}">
                                 <!-- TO DO: policy file name dynamic  -->
-                                <h5 class="mb-0 font-14 fw-semibold text-white">Hr Documentation.pdf</h5>
+                                <h5 class="mb-0 font-14 fw-semibold text-white">{{this.hrPolicyDocuments[this.currentPdfIndex]?.name}}</h5>
 
                                 <span class="pointer">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
