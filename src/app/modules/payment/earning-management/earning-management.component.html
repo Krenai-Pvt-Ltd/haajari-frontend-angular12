@@ -7,21 +7,34 @@
 
 <ul class="nav nav-pills mb-3 mt-3" id="pills-tab" role="tablist">
   <li class="nav-item" role="presentation">
-    <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#salaryChanges"
-      type="button" role="tab" aria-controls="salaryChanges" aria-selected="true">Salary Changes</button>
+    <button class="nav-link" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#salaryChanges" type="button" [class.disabled]="step < SALARY_CHANGE" 
+      role="tab" aria-controls="salaryChanges" aria-selected="true" (click)="selectTab(SALARY_CHANGE)" #step7Tab>Salary Changes</button>
   </li>
   <li class="nav-item" role="presentation">
-    <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#bonus" type="button"
-      role="tab" aria-controls="bonus" aria-selected="false">Bonus</button>
+    <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#bonus" type="button" [class.disabled]="step < BONUS"
+      role="tab" aria-controls="bonus" aria-selected="false" (click)="selectTab(BONUS)" #step8Tab>Bonus</button>
   </li>
   <li class="nav-item" role="presentation">
-    <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#overtime" type="button"
-      role="tab" aria-controls="overtime" aria-selected="false">Overtime</button>
+    <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#overtime" type="button" [class.disabled]="step < OVERTIME"
+      role="tab" aria-controls="overtime" aria-selected="false" (click)="selectTab(OVERTIME)" #step9Tab>Overtime</button>
   </li>
+  <button type="button" class="btn btn-primary text-center position-absolute" style="right:20px; width :150px" 
+      *ngIf="step <= OVERTIME" (click)="updatePayrollStep()">
+    <span *ngIf="!processing">
+      <span *ngIf="SALARY_CHANGE == CURRENT_TAB">Save & Next</span>
+      <span *ngIf="BONUS == CURRENT_TAB">Save & Next</span>
+      <span *ngIf="OVERTIME == CURRENT_TAB">Submit</span>
+    </span>
+      <div class="dot-opacity-loader" *ngIf="processing">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+  </button>
 </ul>
 
 <div class="tab-content" id="pills-tabContent">
-  <div class="tab-pane fade show active" id="salaryChanges" role="tabpanel" aria-labelledby="pills-home-tab">
+  <div class="tab-pane fade" id="salaryChanges" role="tabpanel" aria-labelledby="pills-home-tab">
     <div class="table-responsive">
       <table class="table border-dashed mb-0">
         <thead>
@@ -99,17 +112,6 @@
       </table>
       <!--end /table-->
     </div>
-    <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top"
-      *ngIf="totalItems > itemPerPage">
-      <p class="mb-0">
-        Showing {{startIndex() }} - {{lastIndex()}} of {{ totalItems }}
-      </p>
-      <div class="pagition-box">
-        <ngb-pagination [collectionSize]="totalItems" [page]="pageNumber" [pageSize]="itemPerPage" [maxSize]="5"
-          [boundaryLinks]="true" [ellipses]="true" (pageChange)="pageChange($event,SALARY_CHANGE)">
-        </ngb-pagination>
-      </div>
-    </div>
   </div>
   <div class="tab-pane fade" id="bonus" role="tabpanel" aria-labelledby="pills-profile-tab">
     <div class="table-responsive">
@@ -120,7 +122,6 @@
             <th>Email</th>
             <th>Phone</th>
             <th>Amount</th>
-            <th>Action</th>
         </thead>
         <ng-container
           *ngIf="isShimmerForSalaryChangeBonusResponse && salaryChangeBonusResponseList.length == 0; else salaryChangeBonusResponseListCondition">
@@ -194,15 +195,6 @@
       </table>
       <!--end /table-->
     </div>
-    <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top"
-      *ngIf="totalItems > itemPerPage">
-      <p class="mb-0"> Showing {{startIndex() }} - {{lastIndex()}} of {{ totalItems }}</p>
-      <div class="pagition-box">
-        <ngb-pagination [collectionSize]="totalItems" [page]="pageNumber" [pageSize]="itemPerPage" [maxSize]="5"
-          [boundaryLinks]="true" [ellipses]="true" (pageChange)="pageChange($event,BONUS)">
-        </ngb-pagination>
-      </div>
-    </div>
   </div>
   <div class="tab-pane fade" id="overtime" role="tabpanel" aria-labelledby="pills-contact-tab">
     <div class="table-responsive">
@@ -220,32 +212,8 @@
           *ngIf="isShimmerForSalaryChangeOvertimeResponse && salaryChangeOvertimeResponseList.length == 0; else salaryChangeOvertimeResponseListCondition">
           <tbody>
             <tr *ngFor="let item of [].constructor(10)">
-              <td class="text-center">
+              <td class="text-center" *ngFor="let item of [].constructor(8)">
                 <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
-              </td>
-              <td class="text-center">
-                <ngx-shimmer-loading [width]="'%'" [height]="'10px'"></ngx-shimmer-loading>
-              </td>
-              <td class="text-center">
-                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-              </td>
-              <td class="text-center">
-                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-              </td>
-              <td class="text-center">
-                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-              </td>
-              <td class="text-center">
-                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-              </td>
-              <td class="text-center">
-                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-              </td>
-              <td class="text-center">
-                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-              </td>
-              <td class="text-center">
-                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
               </td>
             </tr>
           </tbody>
@@ -303,15 +271,13 @@
       </table>
       <!--end /table-->
     </div>
-    <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top"
-      *ngIf="totalItems > itemPerPage">
-      <p class="mb-0">Showing {{startIndex() }} - {{lastIndex()}} of {{ totalItems }}</p>
+  </div>
+  <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top" *ngIf="totalItems > 0">
+    <p class="mb-0 font-13"> Showing {{_helperService.startIndex(pageNumber,itemPerPage) }} - {{_helperService.lastIndex(pageNumber,itemPerPage,totalItems)}} of {{ totalItems }} results</p>
       <div class="pagition-box">
         <ngb-pagination [collectionSize]="totalItems" [page]="pageNumber" [pageSize]="itemPerPage" [maxSize]="5"
-          [boundaryLinks]="true" [ellipses]="true" (pageChange)="pageChange($event,OVERTIME)">
+          [boundaryLinks]="true" [ellipses]="true" (pageChange)="pageChange($event)">
         </ngb-pagination>
       </div>
     </div>
-
-  </div>
 </div>

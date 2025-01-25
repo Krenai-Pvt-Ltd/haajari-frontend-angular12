@@ -7,30 +7,35 @@
 
 <ul class="nav nav-pills mb-3 mt-3" id="pills-tab" role="tablist">
   <li class="nav-item" role="presentation">
-    <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#leavesPayroll"
-      type="button" role="tab" aria-controls="leavesPayroll" aria-selected="true">Leaves</button>
+    <button class="nav-link" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#leaves" [class.disabled]="step < LEAVES"
+      type="button" role="tab" aria-controls="leavesPayroll" aria-selected="true" (click)="selectTab(LEAVES)" #step4Tab>Pending Leaves</button>
   </li>
   <li class="nav-item" role="presentation">
-    <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#lopSummary" type="button"
-      role="tab" aria-controls="lopSummary" aria-selected="false">Lop Summary</button>
+    <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#lopSummary" type="button" [class.disabled]="step < LOP_SUMMARY"
+      role="tab" aria-controls="lopSummary" aria-selected="false" (click)="selectTab(LOP_SUMMARY)" #step5Tab>Lop Summary</button>
   </li>
   <li class="nav-item" role="presentation">
-    <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#lopReversal" type="button"
-      role="tab" aria-controls="lopReversal" aria-selected="false">Lop Reversal</button>
+    <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#lopReversal" type="button" [class.disabled]="step < LOP_REVERSAL"
+      role="tab" aria-controls="lopReversal" aria-selected="false" (click)="selectTab(LOP_REVERSAL)" #step6Tab>Lop Reversal</button>
   </li>
+  <button type="button" class="btn btn-primary text-center position-absolute" style="right:20px; width :150px" 
+      *ngIf="step<= LOP_REVERSAL" (click)="updatePayrollStep()">
+    <span *ngIf="!processing">
+      <span *ngIf="LEAVES == CURRENT_TAB">Save & Next</span>
+      <span *ngIf="LOP_SUMMARY == CURRENT_TAB">Save & Next</span>
+      <span *ngIf="LOP_REVERSAL == CURRENT_TAB">Submit</span>
+    </span>
+      <div class="dot-opacity-loader" *ngIf="processing">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+  </button>
 </ul>
+
+
 <div class="tab-content" id="pills-tabContent">
-  <div class="tab-pane fade show active" id="leavesPayroll" role="tabpanel" aria-labelledby="pills-home-tab">
-    <button class="btn primaryBtnLink" data-bs-toggle="modal"
-                              (click)="download('pendingleave')" type="button">
-                              <i class="bi bi-download"></i>
-                              <span *ngIf="!isDownLoading">Download</span>
-                              <div class="dot-opacity-loader" *ngIf="isDownLoading">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                              </div>
-                            </button>
+  <div class="tab-pane fade" id="leaves" role="tabpanel" aria-labelledby="pills-home-tab">
     <div class="table-responsive">
       <table class="table border-dashed mb-0">
         <thead>
@@ -42,39 +47,14 @@
             <th>Leave Type</th>
             <th>Leaves Count</th>
             <th>Applied To</th>
-            <th class="text-center">Action</th>
           </tr>
         </thead>
         <ng-container
           *ngIf="isShimmerForPayrollLeaveResponse && pendingLeavesList.length == 0; else payrollLeaveResponseListData">
           <tbody>
             <tr *ngFor="let item of [].constructor(10)">
-              <td class="text-center">
+              <td class="text-center" *ngFor="let item of [].constructor(8)">
                 <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
-              </td>
-              <td class="text-center">
-                <ngx-shimmer-loading [width]="'%'" [height]="'10px'"></ngx-shimmer-loading>
-              </td>
-              <td class="text-center">
-                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-              </td>
-              <td class="text-center">
-                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-              </td>
-              <td class="text-center">
-                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-              </td>
-              <td class="text-center">
-                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-              </td>
-              <td class="text-center">
-                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-              </td>
-              <td class="text-center">
-                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-              </td>
-              <td class="text-center">
-                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
               </td>
             </tr>
           </tbody>
@@ -82,13 +62,7 @@
         <ng-template #payrollLeaveResponseListData>
           <ng-container
             *ngIf="!isShimmerForPayrollLeaveResponse && pendingLeavesList.length != 0; else errorInFetchingPayrollLeaveResponseListData">
-            <tbody *ngFor="let pendingLeave of pendingLeavesList
-                    | paginate
-                      : {
-                          itemsPerPage: itemPerPage,
-                          currentPage: pageNumber,
-                          totalItems: total
-                        }">
+            <tbody *ngFor="let pendingLeave of pendingLeavesList">
               <tr>
                 <td>{{ pendingLeave.userName}}</td>
                 <td>{{ pendingLeave.email || 'N/A'}}</td>
@@ -97,13 +71,13 @@
                 <td>{{ pendingLeave.leaveType}}</td>
                 <td>{{ pendingLeave.leaveCount}}</td>
                 <td>{{ pendingLeave.managerName}}</td>
-                <td class="text-center">
+                <!-- <td class="text-center">
                   <a>
                     <i class="bi bi-pencil-square"
                       (click)="openLeaveLogsModal(pendingLeave.leaveId,pendingLeave.leaveType)"></i>
 
                   </a>
-                </td>
+                </td> -->
               </tr>
             </tbody>
           </ng-container>
@@ -126,10 +100,7 @@
               </td>
             </tr>
           </tbody>
-          <tbody *ngIf="
-          dataNotFoundPlaceholderForPayrollLeaveResponse &&
-          !networkConnectionErrorPlaceHolderForPayrollLeaveResponse
-        ">
+          <tbody *ngIf="dataNotFoundPlaceholderForPayrollLeaveResponse">
             <tr>
               <td colspan="8">
                 <div class="empty-file" style="margin-top: 8%; margin-bottom: 8%">
@@ -144,13 +115,6 @@
           </tbody>
         </ng-template>
       </table>
-
-      <div
-        class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top d-none">
-        <p class="mb-0 font-13">Showing 10 of 15 </p>
-        <ngb-pagination lass="pagination-ul" class="pagition-box">
-        </ngb-pagination>
-      </div>
       <!--end /table-->
     </div>
   </div>
@@ -165,8 +129,6 @@
             <th>Lop Adjustment</th>
             <th>Adjusted Lop</th>
             <th>Final Lop Days</th>
-            <th>Comment(Optional)</th>
-
           </tr>
         </thead>
         <!-- <ng-container *ngIf="
@@ -262,12 +224,7 @@
               </ng-template> -->
       </table>
 
-      <div
-        class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top d-none">
-        <p class="mb-0 font-13">Showing 10 of 15 </p>
-        <ngb-pagination lass="pagination-ul" class="pagition-box">
-        </ngb-pagination>
-      </div>
+     
 
     </div>
   </div>
@@ -281,9 +238,7 @@
             <th>Lop Month</th>
             <th>Lop Days</th>
             <th>Reverse Lop Days</th>
-            <th>Comment(Optional)</th>
-
-          </tr>
+         </tr>
         </thead>
         <!-- <ng-container *ngIf="isShimmerForLopReversal && lopReversalResponseList.length == 0; else lopReversalResponseListData">
                 <tbody>
@@ -374,46 +329,17 @@
 
 
       </table>
-      <div
-        class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top d-none">
-        <p class="mb-0 font-13">Showing 10 of 15 </p>
-        <ngb-pagination lass="pagination-ul" class="pagition-box">
-        </ngb-pagination>
-      </div>
-
+    </div>
+  </div>
+  <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top" *ngIf="totalItems > 0">
+    <p class="mb-0 font-13"> Showing {{_helperService.startIndex(pageNumber,itemPerPage) }} - {{_helperService.lastIndex(pageNumber,itemPerPage,totalItems)}} of {{ totalItems }} results</p>
+    <div class="pagition-box">
+      <ngb-pagination [collectionSize]="totalItems" [page]="pageNumber" [pageSize]="itemPerPage" [maxSize]="5"
+        [boundaryLinks]="true" [ellipses]="true" (pageChange)="pageChange($event)">
+      </ngb-pagination>
     </div>
   </div>
 </div>
-
-
-
-<!-- <div class="pagination pl-3 align-items-center justify-content-between" *ngIf="(total > itemPerPage - 1 || (pageNumber === lastPageNumber && lastPageNumber !== 1)) &&
-    ((CURRENT_TAB == LEAVES && !dataNotFoundPlaceholderForPayrollLeaveResponse && !networkConnectionErrorPlaceHolderForPayrollLeaveResponse) ||
-      (CURRENT_TAB == LOP_SUMMARY && !dataNotFoundPlaceholderForLopSummary && !networkConnectionErrorPlaceHolderForLopSummary) ||
-      (CURRENT_TAB == LOP_REVERSAL && !dataNotFoundPlaceholderForLopReversal && !networkConnectionErrorPlaceHolderForLopReversal))">
-<p style="padding-left: 15px"> Showing {{ getStartIndex() }} - {{ getEndIndex() }} of {{ total
-}} employees </p>
-<div>
-<nav aria-label="Page navigation example">
-<ul class="pagination justify-content-end">
-<li class="page-item" [class.disabled]="pageNumber == 1">
-  <a class="page-link" href="javascript:void(0);" aria-label="Previous" (click)="changePage('prev', CURRENT_TAB)">
-    <span aria-hidden="true">&laquo;</span>
-  </a>
-</li>
-<li class="page-item" *ngFor="let page of getPages()" [class.active]="pageNumber == page">
-  <a class="page-link" href="javascript:void(0);" (click)="changePage(page, CURRENT_TAB)">{{ page
-    }}</a>
-</li>
-<li class="page-item" [class.disabled]="pageNumber == totalPages">
-  <a class="page-link" href="javascript:void(0);" aria-label="Next" (click)="changePage('next', CURRENT_TAB)">
-    <span aria-hidden="true">&raquo;</span>
-  </a>
-</li>
-</ul>
-</nav>
-</div>
-</div> -->
 
 
 <!-- PENDING LEAVE MODAL START -->
@@ -570,55 +496,4 @@
 
 
 
-<!-- <div class="modal fade" id="adjustLop" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" aria-hidden="true" data-bs-backdrop="static">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h6 class="modal-title m-0" id="exampleModalDefaultLabel"> Adjust LOP with remaining Leave quota </h6>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-bs-toggle="modal" data-bs-target="#leaves" #closeLopAdjustmentRequestModal></button>
-        </div>
-        <div class="modal-body">
-          <div class="row">
-            <div class="col-md-12">
-              <div class="mb-3">
-                <label for="exampleInputEmail1" class="pb-2">LOP days count to be adjusted</label>
-                <input id="count-input" class="comment-input p-2" type="number" placeholder="Days count" [(ngModel)]="lopAdjustmentRequest.lopDaysToBeAdjusted" readonly />
-              </div>
-            </div>
-            <div class="col-md-12">
-              <div class="mb-3">
-                <label for="exampleInputEmail1" class="pb-2">Leave Type</label>
-                <div class="dropdown" style="width: 100%">
-                  <button class="btn btn-secondary dropdown-toggle new-dropdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" style="
-                      background-color: white;
-                      color: black;
-                      border-color: #ced4da;
-                      width: 100%;
-                      text-align: left;
-                    ">
-                    {{ selectedLeaveTypeResponse ? selectedLeaveTypeResponse.name : "Select the leave type" }}
-                    <i class="bi bi-chevron-down" text-align="right"></i>
-                  </button>
-                  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 100%">
-                    <li *ngFor="let leaveTypeResponse of leaveTypeResponseList">
-                      <a class="dropdown-item" (click)="selectLeaveType(leaveTypeResponse)">{{ leaveTypeResponse.name }}</a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-12">
-              <div class="mb-3">
-                <label for="exampleInputEmail1" class="pb-2">Select a date where it should be reflected as leave</label>
-                <nz-range-picker [(ngModel)]="dateRange" (ngModelChange)="selectDateForLopAdjustmentRequest($event)" [nzSize]="size"></nz-range-picker>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="modal-footer d-flex align-items-center justify-content-end">
-          <button type="button" class="btn btn-de-secondary" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#leaves"> Cancel </button>
-          <button type="button" class="btn btn-primary" (click)="registerLopAdjustmentRequestMethodCall()">Save</button>
-        </div>
-      </div>
-    </div>
-  </div> -->
+
