@@ -218,7 +218,7 @@ return this._http.get<any>(`${this._key.base_url}/payroll/step/final-settlement`
     .set('start_date', startDate)
     .set('end_date', endDate)
 
-    return this._http.get(`${this._key.base_url}/payroll/user`,{ params });
+    return this._http.get(`${this._key.base_url}/payroll/step/run`,{ params });
   }
 
   generateReport(
