@@ -36,15 +36,28 @@
 <div class="tab-content" id="pills-tabContent">
   <div class="tab-pane fade" id="salaryChanges" role="tabpanel" aria-labelledby="pills-home-tab">
     <div class="table-responsive">
+      <div class="col-md-12 mt-2 mb-3">
+        <div class="form-group position-relative">
+          <input type="text" id="search" placeholder="Search by name and email"
+            class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px"
+            (keyup)="searchDebounce($event)" (paste)="searchDebounce($event)" [(ngModel)]="search"
+            [ngModelOptions]="{ standalone: true }" />
+
+          <i *ngIf="search.length > 0" (click)="resetSearch()" class="bi bi-x search-icon"
+            style="font-size: 20px !important; margin: auto; margin-left: 10px"></i>
+
+          <i *ngIf="search.length == 0" class="bi bi-search search-icon" style="margin: auto; margin-left: 10px"></i>
+        </div>
+      </div>
       <table class="table border-dashed mb-0">
         <thead>
           <tr>
             <th>Employee</th>
             <th>Email</th>
             <th>Phone</th>
+            <th>Effective Date</th>
             <th>Previous CTC</th>
             <th>Updated CTC</th>
-            <th>Effective Date</th>
           </tr>
         </thead>
         <ng-container
@@ -65,10 +78,9 @@
                 <td>{{ salaryChangeResponse.name }}</td>
                 <td>{{ salaryChangeResponse.email || 'N/A'}}</td>
                 <td>{{ salaryChangeResponse.phone || 'N/A'}}</td>
+                <td>{{ salaryChangeResponse.effectiveDate | date: 'fullDate'}}</td>
                 <td>{{ salaryChangeResponse.previousCtc }}</td>
                 <td>{{ salaryChangeResponse.updatedCtc }}</td>
-                <td>{{ salaryChangeResponse.effectiveDate | date: 'fullDate'}}</td>
-
               </tr>
             </tbody>
           </ng-container>
@@ -115,6 +127,19 @@
   </div>
   <div class="tab-pane fade" id="bonus" role="tabpanel" aria-labelledby="pills-profile-tab">
     <div class="table-responsive">
+      <div class="col-md-12 mt-2 mb-3">
+        <div class="form-group position-relative">
+          <input type="text" id="search" placeholder="Search by name and email"
+            class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px"
+            (keyup)="searchDebounce($event)" (paste)="searchDebounce($event)" [(ngModel)]="search"
+            [ngModelOptions]="{ standalone: true }" />
+
+          <i *ngIf="search.length > 0" (click)="resetSearch()" class="bi bi-x search-icon"
+            style="font-size: 20px !important; margin: auto; margin-left: 10px"></i>
+
+          <i *ngIf="search.length == 0" class="bi bi-search search-icon" style="margin: auto; margin-left: 10px"></i>
+        </div>
+      </div>
       <table class="table border-dashed mb-0">
         <thead>
           <tr>
@@ -127,7 +152,7 @@
           *ngIf="isShimmerForSalaryChangeBonusResponse && salaryChangeBonusResponseList.length == 0; else salaryChangeBonusResponseListCondition">
           <tbody>
             <tr *ngFor="let item of [].constructor(10)">
-              <td class="text-center" *ngFor="let e of [].constructor(5)">
+              <td class="text-center" *ngFor="let e of [].constructor(4)">
                 <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
               </td>
             </tr>
@@ -146,14 +171,6 @@
                 <td>{{ salaryChangeBonusResponse.email || 'N/A'}}</td>
                 <td>{{ salaryChangeBonusResponse.phone || 'N/A'}}</td>
                 <td>{{ salaryChangeBonusResponse.totalAmt }}</td>
-                <!-- <td class="text-">
-                        <nz-select style="width: 100%" nzSize="large" 
-                          [(ngModel)]="salaryChangeBonusResponse.payActionTypeId"  id="selePayType{{i}}" name="selectPayType{{i}}"
-                          (ngModelChange)="onPayActionTypeChange(newJoineeResponse)" 
-                          class="form-control">
-                          <nz-option *ngFor="let action of payActionTypes" [nzValue]="action.id" [nzLabel]="action.value"></nz-option>
-                        </nz-select>
-                    </td> -->
               </tr>
             </tbody>
           </ng-container>
@@ -198,21 +215,34 @@
   </div>
   <div class="tab-pane fade" id="overtime" role="tabpanel" aria-labelledby="pills-contact-tab">
     <div class="table-responsive">
+      <div class="col-md-12 mt-2 mb-3">
+        <div class="form-group position-relative">
+          <input type="text" id="search" placeholder="Search by name and email"
+            class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px"
+            (keyup)="searchDebounce($event)" (paste)="searchDebounce($event)" [(ngModel)]="search"
+            [ngModelOptions]="{ standalone: true }" />
+
+          <i *ngIf="search.length > 0" (click)="resetSearch()" class="bi bi-x search-icon"
+            style="font-size: 20px !important; margin: auto; margin-left: 10px"></i>
+
+          <i *ngIf="search.length == 0" class="bi bi-search search-icon" style="margin: auto; margin-left: 10px"></i>
+        </div>
+      </div>
       <table class="table border-dashed mb-0">
         <thead>
           <tr>
             <th>Employee</th>
             <th>Email</th>
+            <th>Phone</th>
             <th>Overtime Count</th>
             <th>Overtime HRS.</th>
-            <th>Pay Action</th>
           </tr>
         </thead>
         <ng-container
           *ngIf="isShimmerForSalaryChangeOvertimeResponse && salaryChangeOvertimeResponseList.length == 0; else salaryChangeOvertimeResponseListCondition">
           <tbody>
             <tr *ngFor="let item of [].constructor(10)">
-              <td class="text-center" *ngFor="let item of [].constructor(8)">
+              <td class="text-center" *ngFor="let item of [].constructor(5)">
                 <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
               </td>
             </tr>
@@ -227,6 +257,7 @@
             <tbody *ngFor="let salaryChangeOvertimeResponse of salaryChangeOvertimeResponseList">
               <tr>
                 <td>{{ salaryChangeOvertimeResponse.name }}</td>
+                <td>{{ salaryChangeOvertimeResponse.email }}</td>
                 <td>{{ salaryChangeOvertimeResponse.email }}</td>
                 <td>{{ salaryChangeOvertimeResponse.overtimeCount }}</td>
                 <td>{{ salaryChangeOvertimeResponse.overtimeHour | durationFormat }}</td>

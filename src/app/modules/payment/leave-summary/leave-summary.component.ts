@@ -2,6 +2,8 @@ import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild }
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { Key } from 'src/app/constant/key';
+import { LopReversalResponse } from 'src/app/models/lop-reversal-response';
+import { LopSummaryResponse } from 'src/app/models/lop-summary-response';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { PayrollService } from 'src/app/services/payroll.service';
@@ -93,10 +95,10 @@ export class LeaveSummaryComponent implements OnInit {
         this.getUserPendingLeaves();
         break;
       case this.LOP_SUMMARY:
-   
+        this.getLOPSummaryDetail();
         break;
       case this.LOP_REVERSAL:
-     
+        this.getLOPReversalDetail();
         break;
       }
   }
@@ -115,6 +117,7 @@ export class LeaveSummaryComponent implements OnInit {
     this.isShimmerForPayrollLeaveResponse = true;
     this.dataNotFoundPlaceholderForPayrollLeaveResponse = false;
     this.networkConnectionErrorPlaceHolderForPayrollLeaveResponse = false;
+    this.pendingLeavesList=[];
   }
 
 
@@ -125,6 +128,7 @@ export class LeaveSummaryComponent implements OnInit {
     this.isShimmerForLopSummary = true;
     this.dataNotFoundPlaceholderForLopSummary = false;
     this.networkConnectionErrorPlaceHolderForLopSummary = false;
+    this.lopSummaryResponseList = [];
   }
 
   isShimmerForLopReversal = false;
@@ -134,6 +138,7 @@ export class LeaveSummaryComponent implements OnInit {
     this.isShimmerForLopReversal = true;
     this.dataNotFoundPlaceholderForLopReversal = false;
     this.networkConnectionErrorPlaceHolderForLopReversal = false;
+    this.lopReversalResponseList=[];
   }
 
 
@@ -243,7 +248,7 @@ export class LeaveSummaryComponent implements OnInit {
   processing:boolean=false;
   updatePayrollStep(){
     this.processing = true;
-    this._payrollService.updatePayrollProcessStep(this.startDate, this.endDate).subscribe((response)=>{
+    this._payrollService.updatePayrollProcessStep(this.startDate, this.endDate, this.CURRENT_TAB).subscribe((response)=>{
       if(response.status){
         this.step = response.object;
          if( this.step <= this.LOP_REVERSAL){
@@ -313,4 +318,41 @@ export class LeaveSummaryComponent implements OnInit {
 
   }
 
+  lopSummaryResponseList : LopSummaryResponse [] = new Array();
+  getLOPSummaryDetail(){
+    this.preRuleForShimmersAndErrorPlaceholdersForLopSummary();
+    this._payrollService.getPendingLeaves(this.startDate,this.endDate,this.pageNumber, this.itemPerPage).subscribe((response) => {
+      if(response.status){
+        this.lopSummaryResponseList = response.object;
+        this.totalItems = response.totalItems;
+        if(this.lopSummaryResponseList ==null || this.lopSummaryResponseList.length==0){
+          this.dataNotFoundPlaceholderForLopSummary = true;
+        }
+      }
+      this.isShimmerForLopSummary = false;
+    }, (error) => {
+      this.networkConnectionErrorPlaceHolderForLopSummary = true;
+      this.isShimmerForLopSummary = false;
+
+    })
+  }
+
+  lopReversalResponseList : LopReversalResponse []= new Array();
+  getLOPReversalDetail(){
+    this.preRuleForShimmersAndErrorPlaceholdersForPayrollLeaveResponse();
+    this._payrollService.getPendingLeaves(this.startDate,this.endDate,this.pageNumber, this.itemPerPage).subscribe((response) => {
+      if(response.status){
+        this.lopReversalResponseList = response.object;
+        this.totalItems = response.totalItems;
+        if(this.lopReversalResponseList ==null || this.lopReversalResponseList.length==0){
+          this.dataNotFoundPlaceholderForLopReversal = true;
+        }
+      }
+      this.isShimmerForLopReversal = false;
+    }, (error) => {
+      this.networkConnectionErrorPlaceHolderForLopReversal = true;
+      this.isShimmerForLopReversal = false;
+
+    })
+  }
 }

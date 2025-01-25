@@ -268,7 +268,7 @@ export class EmployeeManagementComponent implements OnInit {
   processing:boolean=false;
   updatePayrollStep(){
     this.processing = true;
-    this._payrollService.updatePayrollProcessStep(this.startDate, this.endDate).subscribe((response)=>{
+    this._payrollService.updatePayrollProcessStep(this.startDate, this.endDate,this.CURRENT_TAB).subscribe((response)=>{
       if(response.status){
       this.step = response.object;
        if( this.step <= this.FINAL_SETTLEMENT){

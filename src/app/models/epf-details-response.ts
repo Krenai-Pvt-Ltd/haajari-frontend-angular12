@@ -4,7 +4,6 @@ export class EpfDetailsResponse {
     name : string = '';
     email : string = '';
     phone:string='';
-    amount : number = 0;
-    amountToBeAdjusted : number = 0;
-    finalAmount : number = 0;
+    employer:number=0;
+    employee:number=0;
 }
