@@ -108,6 +108,7 @@ export class SalaryDeductionManagementComponent implements OnInit {
     this.isShimmerForEpfDetailsResponse = true;
     this.dataNotFoundPlaceholderForEpfDetailsResponse = false;
     this.networkConnectionErrorPlaceHolderForEpfDetailsResponse = false;
+    this.epfDetailsResponseList = [];
   }
 
   isShimmerForEsiDetailsResponse = false;
@@ -117,6 +118,7 @@ export class SalaryDeductionManagementComponent implements OnInit {
     this.isShimmerForEsiDetailsResponse = true;
     this.dataNotFoundPlaceholderForEsiDetailsResponse = false;
     this.networkConnectionErrorPlaceHolderForEsiDetailsResponse = false;
+    this.esiDetailsResponseList = [];
   }
 
   isShimmerForTdsDetailsResponse = false;
@@ -126,11 +128,12 @@ export class SalaryDeductionManagementComponent implements OnInit {
     this.isShimmerForTdsDetailsResponse = true;
     this.dataNotFoundPlaceholderForTdsDetailsResponse = false;
     this.networkConnectionErrorPlaceHolderForTdsDetailsResponse = false;
+    this.tdsDetailsResponseList = [];
   }
 
   epfDetailsResponseList : EpfDetailsResponse[] = [];
   getEpfDetails() {
-    this.epfDetailsResponseList = [];
+
       this.preRuleForShimmersAndErrorPlaceholdersForEpfDetailsResponse();
       this._payrollService.getEpfDetails(this.startDate,this.endDate,this.itemPerPage,this.pageNumber,this.search).subscribe(
           (response) => {
@@ -153,7 +156,7 @@ export class SalaryDeductionManagementComponent implements OnInit {
   
   esiDetailsResponseList : EsiDetailsResponse[] = [];
   getEsiDetails() {
-    this.esiDetailsResponseList = [];
+
       this.preRuleForShimmersAndErrorPlaceholdersForEsiDetailsResponse();
       this._payrollService.getEsiDetails(this.startDate,this.endDate,this.itemPerPage,this.pageNumber,this.search).subscribe(
         (response) => {
@@ -175,7 +178,6 @@ export class SalaryDeductionManagementComponent implements OnInit {
 
   tdsDetailsResponseList : TdsDetailsResponse[] = [];
   getTdsDetails() {
-    this.tdsDetailsResponseList = [];
       this.preRuleForShimmersAndErrorPlaceholdersForTdsDetailsResponse();
       this._payrollService.getTdsDetails(this.startDate,this.endDate,this.itemPerPage,this.pageNumber,this.search).subscribe(
           (response) => {
@@ -257,7 +259,7 @@ export class SalaryDeductionManagementComponent implements OnInit {
   processing:boolean=false;
   updatePayrollStep(){
     this.processing = true;
-    this._payrollService.updatePayrollProcessStep(this.startDate, this.endDate).subscribe((response)=>{
+    this._payrollService.updatePayrollProcessStep(this.startDate, this.endDate,this.CURRENT_TAB).subscribe((response)=>{
       if(response.status){
         this.step = response.object;
          if( this.step <= this.TDS){

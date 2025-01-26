@@ -37,6 +37,19 @@
 <div class="tab-content" id="pills-tabContent">
   <div class="tab-pane fade" id="leaves" role="tabpanel" aria-labelledby="pills-home-tab">
     <div class="table-responsive">
+      <div class="col-md-12 mt-2 mb-3">
+        <div class="form-group position-relative">
+          <input type="text" id="search" placeholder="Search by name and email"
+            class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px"
+            (keyup)="searchDebounce($event)" (paste)="searchDebounce($event)" [(ngModel)]="search"
+            [ngModelOptions]="{ standalone: true }" />
+
+          <i *ngIf="search.length > 0" (click)="resetSearch()" class="bi bi-x search-icon"
+            style="font-size: 20px !important; margin: auto; margin-left: 10px"></i>
+
+          <i *ngIf="search.length == 0" class="bi bi-search search-icon" style="margin: auto; margin-left: 10px"></i>
+        </div>
+      </div>
       <table class="table border-dashed mb-0">
         <thead>
           <tr>
@@ -120,69 +133,51 @@
   </div>
   <div class="tab-pane fade" id="lopSummary" role="tabpanel" aria-labelledby="pills-profile-tab">
     <div class="table-responsive">
+      <div class="col-md-12 mt-2 mb-3">
+        <div class="form-group position-relative">
+          <input type="text" id="search" placeholder="Search by name and email"
+            class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px"
+            (keyup)="searchDebounce($event)" (paste)="searchDebounce($event)" [(ngModel)]="search"
+            [ngModelOptions]="{ standalone: true }" />
+
+          <i *ngIf="search.length > 0" (click)="resetSearch()" class="bi bi-x search-icon"
+            style="font-size: 20px !important; margin: auto; margin-left: 10px"></i>
+
+          <i *ngIf="search.length == 0" class="bi bi-search search-icon" style="margin: auto; margin-left: 10px"></i>
+        </div>
+      </div>
       <table class="table border-dashed mb-0">
         <thead>
           <tr>
             <th>Employee</th>
             <th>Email</th>
+            <th>Phone</th>
+            <th>Total Working Days</th>
             <th>Lop Days</th>
-            <th>Lop Adjustment</th>
-            <th>Adjusted Lop</th>
-            <th>Final Lop Days</th>
           </tr>
         </thead>
-        <!-- <ng-container *ngIf="
+        <ng-container *ngIf="
                   isShimmerForLopSummary &&
                     lopSummaryResponseList.length == 0;
                   else lopSummaryResponseListData
                 ">
                 <tbody>
                   <tr *ngFor="let item of [].constructor(10)">
-                    <td class="text-center">
+                    <td class="text-center"  *ngFor="let item of [].constructor(5)">
                       <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
-                    </td>
-                    <td class="text-center">
-                      <ngx-shimmer-loading [width]="'%'" [height]="'10px'"></ngx-shimmer-loading>
-                    </td>
-                    <td class="text-center">
-                      <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                    </td>
-                    <td class="text-center">
-                      <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                    </td>
-                    <td class="text-center">
-                      <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                    </td>
-                    <td class="text-center">
-                      <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                    </td>
-                    <td class="text-center">
-                      <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                    </td>
-                    <td class="text-center">
-                      <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                    </td>
-                    <td class="text-center">
-                      <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
                     </td>
                   </tr>
                 </tbody>
               </ng-container>
               <ng-template #lopSummaryResponseListData>
                 <ng-container *ngIf="!isShimmerForLopSummary && lopSummaryResponseList.length != 0; else errorInFetchingLopSummaryResponseListData">
-                  <tbody *ngFor="let lopSummaryResponse of lopSummaryResponseList | paginate : { itemsPerPage: itemPerPage, currentPage: pageNumber, totalItems: total }">
+                  <tbody *ngFor="let lopSummaryResponse of lopSummaryResponseList">
                     <tr>
-                      <td>{{ lopSummaryResponse.name }}</td>
-                      <td>{{ lopSummaryResponse.email }}</td>
+                      <td>{{ lopSummaryResponse.name || 'N/A'}}</td>
+                      <td>{{ lopSummaryResponse.email || 'N/A'}}</td>
+                      <td>{{ lopSummaryResponse.phone || 'N/A'}}</td>
+                      <td></td>
                       <td>{{ lopSummaryResponse.lopDays }}</td>
-                      <td>
-                        <input class="comment-input p-2" type="number" placeholder="Days count" [(ngModel)]="lopSummaryResponse.adjustedLopDays" (ngModelChange)="saveAdjustedLopDaysToCache(lopSummaryResponse.uuid, $event)" [ngModelOptions]="{ standalone: true }" />
-                        <a data-bs-toggle="modal" data-bs-target="#adjustLop" (click)="openLopAdjustmentRequestModal(lopSummaryResponse.uuid, lopSummaryResponse.adjustedLopDays)">Adjust</a>
-                      </td>
-                      <td>{{ lopSummaryResponse.finalLopDays }}</td>
-                      <td>
-                        <input class="comment-input p-2" type="text" placeholder="Write the comment here" [(ngModel)]="lopSummaryResponse.lopSummaryComment" (ngModelChange)="saveLopSummaryCommentToCache(lopSummaryResponse.uuid, $event)" [ngModelOptions]="{ standalone: true }" />
-                      </td>
                     </tr>
                   </tbody>
                 </ng-container>
@@ -206,8 +201,7 @@
                   </tr>
                 </tbody>
                 <tbody *ngIf="
-                          dataNotFoundPlaceholderForLopSummary &&
-                          !networkConnectionErrorPlaceHolderForLopSummary
+                          dataNotFoundPlaceholderForLopSummary 
                         ">
                   <tr>
                     <td colspan="8">
@@ -221,7 +215,7 @@
                     </td>
                   </tr>
                 </tbody>
-              </ng-template> -->
+              </ng-template>
       </table>
 
      
@@ -230,63 +224,47 @@
   </div>
   <div class="tab-pane fade" id="lopReversal" role="tabpanel" aria-labelledby="pills-contact-tab">
     <div class="table-responsive">
+      <div class="col-md-12 mt-2 mb-3">
+        <div class="form-group position-relative">
+          <input type="text" id="search" placeholder="Search by name and email"
+            class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px"
+            (keyup)="searchDebounce($event)" (paste)="searchDebounce($event)" [(ngModel)]="search"
+            [ngModelOptions]="{ standalone: true }" />
+
+          <i *ngIf="search.length > 0" (click)="resetSearch()" class="bi bi-x search-icon"
+            style="font-size: 20px !important; margin: auto; margin-left: 10px"></i>
+
+          <i *ngIf="search.length == 0" class="bi bi-search search-icon" style="margin: auto; margin-left: 10px"></i>
+        </div>
+      </div>
       <table class="table border-dashed mb-0">
         <thead>
           <tr>
             <th>Employee</th>
             <th>Email</th>
+            <th>Phone</th>
             <th>Lop Month</th>
-            <th>Lop Days</th>
             <th>Reverse Lop Days</th>
          </tr>
         </thead>
-        <!-- <ng-container *ngIf="isShimmerForLopReversal && lopReversalResponseList.length == 0; else lopReversalResponseListData">
+        <ng-container *ngIf="isShimmerForLopReversal && lopReversalResponseList.length == 0; else lopReversalResponseListData">
                 <tbody>
                   <tr *ngFor="let item of [].constructor(10)">
-                    <td class="text-center">
+                    <td class="text-center" *ngFor="let item of [].constructor(5)">
                       <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
-                    </td>
-                    <td class="text-center">
-                      <ngx-shimmer-loading [width]="'%'" [height]="'10px'"></ngx-shimmer-loading>
-                    </td>
-                    <td class="text-center">
-                      <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                    </td>
-                    <td class="text-center">
-                      <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                    </td>
-                    <td class="text-center">
-                      <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                    </td>
-                    <td class="text-center">
-                      <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                    </td>
-                    <td class="text-center">
-                      <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                    </td>
-                    <td class="text-center">
-                      <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                    </td>
-                    <td class="text-center">
-                      <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
                     </td>
                   </tr>
                 </tbody>
               </ng-container>
               <ng-template #lopReversalResponseListData>
                 <ng-container *ngIf="!isShimmerForLopReversal && lopReversalResponseList.length != 0; else errorInFetchingLopReversalResponseListData">
-                  <tbody *ngFor="let lopReversalResponse of lopReversalResponseList | paginate : { itemsPerPage: itemPerPage, currentPage: pageNumber, totalItems: total }">
+                  <tbody *ngFor="let lopReversalResponse of lopReversalResponseList">
                     <tr>
-                      <td>{{ lopReversalResponse.name }}</td>
-                      <td>{{ lopReversalResponse.email }}</td>
-                      <td>{{ extractPreviousMonthNameFromDate(startDate) }}</td>
-                      <td>{{ lopReversalResponse?.lopDays || 0}}</td>
-                      <td>
-                        <input class="comment-input p-2" type="number" placeholder="Days count" [(ngModel)]="lopReversalResponse.reversedLopDays" (ngModelChange)="updateReversedLopDays(lopReversalResponse, $event)" [ngModelOptions]="{ standalone: true }" />
-                      </td>
-                      <td>
-                        <input class="comment-input p-2" type="text" placeholder="Write the comment here" [(ngModel)]="lopReversalResponse.comment" (change)="updateLopComment(lopReversalResponse, lopReversalResponse.comment)" [ngModelOptions]="{ standalone: true }" />
-                      </td>
+                      <td>{{ lopReversalResponse.name || 'N/A'}}</td>
+                      <td>{{ lopReversalResponse.email || 'N/A'}}</td>
+                      <td>{{ lopReversalResponse.phone || 'N/A'}}</td>
+                      <td>{{ lopReversalResponse.date | date:'MMMM'}}</td>
+                      <td>{{ lopReversalResponse.count}}</td>
                     </tr>
                   </tbody>
                 </ng-container>
@@ -309,10 +287,7 @@
                     </td>
                   </tr>
                 </tbody>
-                <tbody *ngIf="
-                                  dataNotFoundPlaceholderForLopReversal &&
-                                  !networkConnectionErrorPlaceHolderForLopReversal
-                                ">
+                <tbody *ngIf="dataNotFoundPlaceholderForLopReversal">
                   <tr>
                     <td colspan="8">
                      <div class="empty-file" style="margin-top: 8%; margin-bottom: 8%">
@@ -325,7 +300,7 @@
                     </td>
                   </tr>
                 </tbody>
-              </ng-template>-->
+              </ng-template>
 
 
       </table>

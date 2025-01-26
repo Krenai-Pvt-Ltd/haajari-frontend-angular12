@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Color, ScaleType } from '@swimlane/ngx-charts';
 import { Key } from 'src/app/constant/key';
 import { MonthResponse } from 'src/app/models/month-response';
@@ -424,22 +424,23 @@ export class PayrollDashboardComponent implements OnInit {
 
 
   RUN_PAYROLL_LOADER : boolean = false;
+  @ViewChild('history')history!:ElementRef;
   generateSalaryReportMethodCall(){
     this.RUN_PAYROLL_LOADER = true;
     this.dataService.generateSalaryReport(this.startDate, this.endDate).subscribe((response) => {
-        this.getOrganizationIndividualMonthSalaryDataMethodCall();
-        const downloadLink = document.createElement('a');
-        downloadLink.href = response.object.reportExcelLink;
-        downloadLink.download = 'Report_JULY_1720181370937.xlsx';
-        downloadLink.click();
-        // console.log(response);
+        if(response.status){
+          this.history.nativeElement.click();
+          const downloadLink = document.createElement('a');
+          downloadLink.href = response.object.reportExcelLink;
+          downloadLink.download = 'Report_JULY_1720181370937.xlsx';
+          downloadLink.click();
+          this._helperService.showToast('Payroll generated successfully.', Key.TOAST_STATUS_SUCCESS);
+        }else{
+
+
+        }
         this.RUN_PAYROLL_LOADER = false;
-        this._helperService.showToast('Payroll generated successfully.', Key.TOAST_STATUS_SUCCESS);
-        // this._payrollService.updatePayrollProcessStep(this.startDate, this.endDate, Key.PAYROLL_PORCESSED).subscribe((response)=>{
-        //   this.getPayrollProcessStepByOrganizationIdAndStartDateAndEndDateMethodCall();
-        // }, ((error) => {
-        //   console.log(error);
-        // }))  
+ 
       },(error) => {
         this._helperService.showToast('Error while generating the Payroll!', Key.TOAST_STATUS_ERROR);
         this.RUN_PAYROLL_LOADER = false;
@@ -448,9 +449,9 @@ export class PayrollDashboardComponent implements OnInit {
 
 
 
-  getData(event:any){
-    console.log("====event======",event)
-    this.PAYROLL_PROCESS_STEP = event;
+  getData(step:any){
+    // console.log("====step======",step)
+    this.PAYROLL_PROCESS_STEP = step;
     this.payrollToggleView = false;
     this.showLeaveComponent = false;
     this.showEmployeeComponent = false;

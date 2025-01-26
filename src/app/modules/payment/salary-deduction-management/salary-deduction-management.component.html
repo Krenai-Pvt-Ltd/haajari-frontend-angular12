@@ -34,14 +34,28 @@
 <div class="tab-content" id="pills-tabContent">
   <div class="tab-pane fade" id="EPF" role="tabpanel" aria-labelledby="pills-home-tab">
     <div class="table-responsive">
+      <div class="col-md-12 mt-2 mb-3">
+        <div class="form-group position-relative">
+          <input type="text" id="search" placeholder="Search by name and email"
+            class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px"
+            (keyup)="searchDebounce($event)" (paste)="searchDebounce($event)" [(ngModel)]="search"
+            [ngModelOptions]="{ standalone: true }" />
+
+          <i *ngIf="search.length > 0" (click)="resetSearch()" class="bi bi-x search-icon"
+            style="font-size: 20px !important; margin: auto; margin-left: 10px"></i>
+
+          <i *ngIf="search.length == 0" class="bi bi-search search-icon" style="margin: auto; margin-left: 10px"></i>
+        </div>
+      </div>
       <table class="table border-dashed mb-0">
         <thead>
           <tr>
             <th>Employee</th>
             <th>Email</th>
             <th>Phone</th>
+            <th>Employee's</th>
+            <th>Employer's</th>
             <th>Amount</th>
-            <th>Final Amount</th>
           </tr>
         </thead>
         <ng-container
@@ -60,12 +74,12 @@
             *ngIf="!isShimmerForEpfDetailsResponse && epfDetailsResponseList.length != 0; else errorInFetchingEpfDetailsResponseListCondition">
             <tbody *ngFor="let epfDetailsResponse of epfDetailsResponseList">
               <tr>
-                <td>{{ epfDetailsResponse.name }}</td>
-                <td>{{ epfDetailsResponse.email }}</td>
-                <td>{{ epfDetailsResponse.phone }}</td>
-                <td>{{ epfDetailsResponse.amount }}</td>
-              
-                <td>{{ epfDetailsResponse.finalAmount }}</td>
+                <td>{{ epfDetailsResponse.name || 'N/A'}}</td>
+                <td>{{ epfDetailsResponse.email || 'N/A'}}</td>
+                <td>{{ epfDetailsResponse.phone || 'N/A'}}</td>
+                <td>{{ epfDetailsResponse.employee }}</td>
+                <td>{{ epfDetailsResponse.employer }}</td>
+                <td>{{ epfDetailsResponse.employer  + epfDetailsResponse.employee}}</td>
               </tr>
             </tbody>
           </ng-container>
@@ -111,14 +125,28 @@
   </div>
   <div class="tab-pane fade" id="ESI" role="tabpanel" aria-labelledby="pills-profile-tab">
     <div class="table-responsive">
+      <div class="col-md-12 mt-2 mb-3">
+        <div class="form-group position-relative">
+          <input type="text" id="search" placeholder="Search by name and email"
+            class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px"
+            (keyup)="searchDebounce($event)" (paste)="searchDebounce($event)" [(ngModel)]="search"
+            [ngModelOptions]="{ standalone: true }" />
+
+          <i *ngIf="search.length > 0" (click)="resetSearch()" class="bi bi-x search-icon"
+            style="font-size: 20px !important; margin: auto; margin-left: 10px"></i>
+
+          <i *ngIf="search.length == 0" class="bi bi-search search-icon" style="margin: auto; margin-left: 10px"></i>
+        </div>
+      </div>
       <table class="table border-dashed mb-0">
         <thead>
           <tr>
             <th>Employee</th>
             <th>Email</th>
             <th>Phone</th>
+            <th>Employee's</th>
+            <th>Employer's</th>
             <th>Amount</th>
-            <th>Final Amount</th>
           </tr>
         </thead>
         <ng-container
@@ -136,12 +164,12 @@
             *ngIf="!isShimmerForEsiDetailsResponse && esiDetailsResponseList.length != 0; else errorInFetchingEsiDetailsResponseListCondition">
             <tbody *ngFor="let esiDetailsResponse of esiDetailsResponseList">
               <tr>
-                <td>{{ esiDetailsResponse.name }}</td>
-                <td>{{ esiDetailsResponse.email }}</td>
-                <td>{{ esiDetailsResponse.phone }}</td>
-                <td>{{ esiDetailsResponse.amount }}</td>
-               
-                <td>{{ esiDetailsResponse.finalAmount }}</td>
+                <td>{{ esiDetailsResponse.name || 'N/A'}}</td>
+                <td>{{ esiDetailsResponse.email || 'N/A'}}</td>
+                <td>{{ esiDetailsResponse.phone || 'N/A'}}</td>
+                <td>{{ esiDetailsResponse.employee }}</td>
+                <td>{{ esiDetailsResponse.employer }}</td>
+                <td>{{ esiDetailsResponse.employer  + esiDetailsResponse.employee}}</td>
               </tr>
             </tbody>
           </ng-container>
@@ -185,14 +213,27 @@
   </div>
   <div class="tab-pane fade" id="TDS" role="tabpanel" aria-labelledby="pills-contact-tab">
     <div class="table-responsive">
+      <div class="col-md-12 mt-2 mb-3">
+        <div class="form-group position-relative">
+          <input type="text" id="search" placeholder="Search by name and email"
+            class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px"
+            (keyup)="searchDebounce($event)" (paste)="searchDebounce($event)" [(ngModel)]="search"
+            [ngModelOptions]="{ standalone: true }" />
+
+          <i *ngIf="search.length > 0" (click)="resetSearch()" class="bi bi-x search-icon"
+            style="font-size: 20px !important; margin: auto; margin-left: 10px"></i>
+
+          <i *ngIf="search.length == 0" class="bi bi-search search-icon" style="margin: auto; margin-left: 10px"></i>
+        </div>
+      </div>
       <table class="table border-dashed mb-0">
         <thead>
           <tr>
             <th>Employee</th>
             <th>Email</th>
             <th>Phone</th>
+            <th>Tax Regime</th>
             <th>Amount</th>
-            <th>Final Amount</th>
           </tr>
         </thead>
         <ng-container
@@ -210,11 +251,11 @@
             *ngIf="!isShimmerForTdsDetailsResponse && tdsDetailsResponseList.length != 0; else errorInFetchingTdsDetailsResponseListCondition">
             <tbody *ngFor="let tdsDetailsResponse of tdsDetailsResponseList;">
               <tr>
-                <td>{{ tdsDetailsResponse.name }}</td>
-                <td>{{ tdsDetailsResponse.email }}</td>
-                <td>{{ tdsDetailsResponse.phone }}</td>
+                <td>{{ tdsDetailsResponse.name || 'N/A'}}</td>
+                <td>{{ tdsDetailsResponse.email  || 'N/A'}}</td>
+                <td>{{ tdsDetailsResponse.phone || 'N/A'}}</td>
+                <td>{{ tdsDetailsResponse.tax }}</td>
                 <td>{{ tdsDetailsResponse.amount }}</td>
-                <td>{{ tdsDetailsResponse.finalAmount }}</td>
               </tr>
             </tbody>
           </ng-container>

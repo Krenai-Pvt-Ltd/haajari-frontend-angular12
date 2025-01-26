@@ -135,3 +135,12 @@
     color: #eb5050 !important;
     border: 1px solid #eb5050;
 }
+.search-icon {
+    font-size: 12px !important;
+    position: absolute !important;
+    top: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    color: var(--tb-secondary-color) !important;
+  }
