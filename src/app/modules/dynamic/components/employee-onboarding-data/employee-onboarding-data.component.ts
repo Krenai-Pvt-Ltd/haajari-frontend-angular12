@@ -2095,11 +2095,11 @@ console.log(this.data);
 
     this.getUserExitType()
     this.getNoticePeriodDuration();
-    this.onInitiateExitClick();
+    this.onInitiateExitClick(uuid);
   }
 
-  onInitiateExitClick() {
-    this.modalService.openInitiateExitModal();
+  onInitiateExitClick(uuid:string) {
+    this.modalService.openInitiateExitModal(uuid);
   }
   // User Resignation end
 

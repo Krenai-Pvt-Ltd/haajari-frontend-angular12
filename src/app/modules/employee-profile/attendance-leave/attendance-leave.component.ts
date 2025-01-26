@@ -226,13 +226,23 @@ export class AttendanceLeaveComponent implements OnInit {
     this.fetchAttendanceRequests();
   }
 
-  deleteAttendanceRequest(id: number): void {
-    this.dataService.deletePendingAttendance(id).subscribe(
+  currentId: number=0;
+  requestDeleteLoading: boolean=false;
+  deleteAttendanceRequest(): void {
+    this.requestDeleteLoading=true;
+    this.dataService.deletePendingAttendance(this.currentId).subscribe(
       (response: any) => {
-        this.helperService.showToast(response.message, Key.TOAST_STATUS_INFO);
+        this.requestDeleteLoading=false;
+        this.helperService.showToast('Attendance request deleted successfully', Key.TOAST_STATUS_SUCCESS);
+        const cancelButton = document.getElementById('cancelButton') as HTMLButtonElement;
+
+        if (cancelButton) {
+          cancelButton.click();
+        }
         this.fetchAttendanceRequests();
       },
       (error) => {
+        this.requestDeleteLoading=false;
         this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
       }
     );

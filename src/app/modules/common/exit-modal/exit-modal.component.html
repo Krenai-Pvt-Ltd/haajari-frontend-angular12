@@ -1,12 +1,12 @@
-<ng-template #initiateExit let-modal>
+<div>
 <!-- <div class="modal fade" role="dialog" aria-hidden="true" -->
     <!-- aria-labelledby="exampleModalLabel" aria-hidden="true"> -->
     <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
         <!-- <div class="modal-content"> -->
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Initiate Exit</h5>
-                <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close"
-                    (click)="clearFormData(resignationForm)" #closeResignationButton>
+                <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" (click)="close()"
+                     #closeResignationButton>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                         <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
                             width="24" height="24">
@@ -21,148 +21,135 @@
                 </button>
             </div>
             <div class="modal-body p-0">
-                <form #resignationForm="ngForm" (ngSubmit)="submitResignation(resignationForm)">
-                    <!-- <form> -->
+                <form #resignationForm="ngForm" (ngSubmit)="submitResignation()">
+
                     <div class="row register-form-box">
-                        <div class="col-md-12">
-                            <div class="hr-notes p-3">
-                                <p class="mb-0 font-13"> <span class="text-primary"> Note: </span> HR will take the
-                                    final action on the exit request</p>
-                            </div>
-                        </div>
+                        <!-- <div class="col-md-12">
+                                <div class="hr-notes p-3">
+                                  <p class="mb-0 font-13"> <span class="text-primary"> Note:</span> HR will take the final action on the exit request</p>
+                                </div>
+                            </div> -->
+
                         <div class="p-4">
+
                             <div class="col-md-12 mb-3">
                                 <label for="templateName" class="pb-2">
                                     What is the reason for initiating the exit?
                                 </label>
-                                <input class="form-control input-zorro" placeholder="Enter the reason"
-                                    [(ngModel)]="userResignationReq.reason" nzSize="large" minlength="3" maxlength="50"
-                                    id="reason" name="inputReason" #inputReason="ngModel" required />
-
-                                <div *ngIf="inputReason.invalid && inputReason.touched" class="text-danger">
-                                    {{userResignationReq.reason.length == 0 ?
-                                    'Reason is required' : 'Reason must be between 3 and 50 characters'}}
-                                </div>
+                                <input class="form-control input-zorro" [disabled]="ROLE == 'ADMIN'"
+                                    placeholder="Enter the reason" [(ngModel)]="userResignationInfo.reason"
+                                    nzSize="large" minlength="3" maxlength="50" id="reason" name="inputReason"
+                                    #inputReason="ngModel" required />
                             </div>
+
                             <div class="col-md-12 mb-3">
                                 <label for="templateName" class="pb-2">
-                                    Do you want them to complete their notice period?
+                                    Did you discuss this with the management?
                                 </label>
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <label
-                                            class="form-check assets-req d-flex align-items-center justify-content-start">
-                                            <input type="radio" name="exampleRadios" id="exampleRadios5" value="option5"
-                                                checked="" class="form-check-input">
-                                            <p for="exampleRadios5" class="form-check-label mb-0"> Complete notice
-                                                period </p>
+                                        <label class="form-check assets-req d-flex align-items-center justify-content-start" >
+                                            <input  [attr.disabled]="ROLE == 'ADMIN'" class="form-check-input" type="radio"
+                                                name="managerDiscussionInput" id="yes" value="Yes" required
+                                                (change)="selectManagerDiscussion('Yes')" [(ngModel)]="discussionType">
+                                            <p class="form-check-label mb-0" for="yes">
+                                                Yes
+                                            </p>
                                         </label>
                                     </div>
                                     <div class="col-md-6">
-                                        <label
-                                            class="form-check assets-req d-flex align-items-center justify-content-start">
-                                            <input type="radio" name="exampleRadios" id="exampleRadios6" value="option6"
-                                                class="form-check-input">
-                                            <p for="exampleRadios6" class="form-check-label mb-0"> Imagist Termination
+                                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                                            <input [attr.disabled]="ROLE == 'ADMIN'" class="form-check-input" type="radio"
+                                                name="managerDiscussionInput" id="no" value="No" required
+                                                (change)="selectManagerDiscussion('No')" [(ngModel)]="discussionType">
+                                            <p class="form-check-label mb-0" for="no">
+                                                No
                                             </p>
                                         </label>
                                     </div>
                                 </div>
                             </div>
+                            
                             <div class="col-md-12 mb-3">
                                 <label for="templateName" class="pb-2">
-                                    Do You want to recommend a last woking day?
+                                    Do you want to recommend a last working day?
                                 </label>
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <label
-                                            class="form-check assets-req d-flex align-items-center justify-content-start">
-                                            <input type="radio" name="recommendDay" id="complete" value="Complete"
-                                                [(ngModel)]="recommendDay" (change)="selectRecommendDay('Complete')"
-                                                class="form-check-input">
-                                            <p for="exampleRadios3" class="form-check-label mb-0" required> Complete
-                                                notice periodes </p>
+                                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                                            <input [attr.disabled]="ROLE == 'ADMIN'" class="form-check-input" type="radio"
+                                                name="recommendDay" id="complete" value="Complete" required
+                                                [(ngModel)]="recommendDay" (change)="selectRecommendDay('Complete')">
+                                            <p class="form-check-label mb-0" for="complete">
+                                                Complete notice period
+                                            </p>
                                         </label>
                                     </div>
                                     <div class="col-md-6">
-                                        <label
-                                            class="form-check assets-req d-flex align-items-center justify-content-start">
-                                            <input type="radio" name="recommendDay" id="other" value="Other" required
-                                                [(ngModel)]="recommendDay" (change)="selectRecommendDay('Other')"
-                                                class="form-check-input">
-                                            <p for="exampleRadios4" class="form-check-label mb-0"> Other Date </p>
+                                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                                            <input [attr.disabled]="ROLE == 'ADMIN'" class="form-check-input" type="radio"
+                                                name="recommendDay" id="other" value="Other" required
+                                                [(ngModel)]="recommendDay" (change)="selectRecommendDay('Other')">
+                                            <p class="form-check-label mb-0" for="other">
+                                                Other Date
+                                            </p>
                                         </label>
                                     </div>
                                 </div>
                             </div>
+                            
+
+
                             <div *ngIf="recommendDay == 'Other'" class="col-md-12 mb-3">
                                 <div class="form-group">
                                     <label for="employeeTypeId" class="mb-2">Select your notice period duration?</label>
-                                    <ng-container *ngIf="noticePeriodDuration == 0">
-                                        <nz-date-picker *ngIf="userResignationReq.isRecommendLastDay == 1"
-                                            [(ngModel)]="userResignationReq.lastWorkingDay" nzPlaceHolder="dd/mm/yyyy"
-                                            id="selLastDate" (ngModelChange)="selectLastWorkingDay($event)"
-                                            name="lastDate" #lastDate="ngModel" required class="form-control">
-                                        </nz-date-picker>
-                                    </ng-container>
+                                    <!--
+                                <ng-container *ngIf="noticePeriodDuration == 0">
+                                    <nz-date-picker *ngIf="userResignationInfo.isRecommendLastDay == 1" [(ngModel)]="userResignationInfo.userLastWorkingDay"
+                                    nzPlaceHolder="dd/mm/yyyy"  id="selLastDate" name="lastDate" #lastDate="ngModel"
+                                    required class="form-control">
+                                </nz-date-picker>
+                                </ng-container> -->
 
-                                    <ng-container *ngIf="noticePeriodDuration > 0">
-                                        <nz-date-picker *ngIf="userResignationReq.isRecommendLastDay == 1"
-                                            [(ngModel)]="userResignationReq.lastWorkingDay" nzPlaceHolder="dd/mm/yyyy"
-                                            [nzDisabledDate]="disableFutureDates" id="selLastDate"
-                                            (ngModelChange)="selectLastWorkingDay($event)" name="lastDate"
-                                            #lastDate="ngModel" required class="form-control">
-                                        </nz-date-picker>
-                                    </ng-container>
+                                    <!-- <nz-date-picker *ngIf="userResignationInfo.isRecommendLastDay == 1"
+                                        [(ngModel)]="userResignationInfo.userLastWorkingDay" nzPlaceHolder="dd/mm/yyyy"
+                                        id="selLastDate" name="lastDate"
+                                        #lastDate="ngModel" required class="form-control">
+                                    </nz-date-picker> -->
 
                                 </div>
                             </div>
+
                             <div *ngIf="recommendDay == 'Complete'" class="col-md-12 mb-3">
                                 <div class="d-flex align-items-center gap-3 p-3 notice-period-date">
                                     <p class="mb-0">Notice period</p>
                                     <span class="calendar-separator"></span>
-                                    <h6 class="mb-0">{{userResignationReq.userLastWorkingDay | date: 'dd MMM yyyy'}}
+                                    <!-- <h6 class="mb-0">{{userResignationInfo.lastWorkingDay | date: 'dd MMM yyyy'}}</h6> -->
+                                    <h6 class="mb-0">{{userResignationInfo.userLastWorkingDay | date: 'dd MMM yyyy'}}
                                     </h6>
                                 </div>
                             </div>
-                            <div *ngIf="recommendDay == 'Other' && (userResignationReq.userLastWorkingDay != null && userResignationReq.userLastWorkingDay != '')"
-                                class="col-md-12 mb-3 ">
 
+                            <div *ngIf="recommendDay == 'Other' && (userResignationInfo.userLastWorkingDay != null && userResignationInfo.userLastWorkingDay != '')"
+                                class="col-md-12 mb-3 ">
                                 <div class="notice-period-error p-3">
                                     <div class="d-flex align-items-center gap-3 mb-2">
                                         <p class="mb-0">Notice period</p>
                                         <span class="calendar-separator"></span>
-                                        <h6 class="mb-0">{{userResignationReq.userLastWorkingDay | date: 'dd MMM yyyy'}}
-                                        </h6>
+                                        <h6 class="mb-0">
+                                            {{userResignationInfo.userLastWorkingDay | date: 'dd MMM yyyy'}}</h6>
                                     </div>
                                     <p class="mb-0 font-13">Your last working day may change based on Manager/HR's
                                         decision.</p>
                                 </div>
                             </div>
-                            <div class="col-md-12 mb-3">
+
+                            <div class="col-md-12 mb-3" *ngIf="userResignationInfo.url != null">
                                 <div class="form-group ">
                                     <label for="templateName" class="mb-2"> Attachment </label>
 
-
-                                    <div *ngIf="userResignationReq.url == ''"
-                                        class="d-flex align-items-center justify-content-between  requesting-half-leave p-2">
-
-                                        <p class="mb-0 font-13 " style="font-weight: 400;">Select attachment</p>
-                                        <button *ngIf="!isUploading && userResignationReq.url === ''" type="button"
-                                            (click)="fileInput.click()" class="btn p-0 text-primary font-13">
-                                            <i class="bi bi-plus-lg"></i> Add File
-                                        </button>
-
-                                        <div *ngIf="isUploading"
-                                            class="spinner-border spinner-border-sm text-primary m-2" role="status">
-                                            <span class="visually-hidden">Loading...</span>
-                                        </div>
-
-                                        <input type="file" #fileInput (change)="onFileSelected($event)"
-                                            accept=".png, .jpg, .jpeg" style="display: none;" />
-                                    </div>
-
-                                    <div *ngIf="userResignationReq.url != ''"
+                                    <!-- *ngIf="!isUploading && userResignationReq.url != ''" -->
+                                    <div *ngIf="userResignationInfo.url != ''"
                                         class="hr-policy-file d-flex justify-content-between align-items-center p-3 mt-3 mb-3">
                                         <div class="d-flex align-items-center gap-2">
                                             <div class="d-flex align-items-center gap-2">
@@ -187,14 +174,14 @@
                                                         d="M16.7028 14.0928C16.5843 14.0893 16.4668 14.1161 16.3615 14.1707C16.2562 14.2253 16.1666 14.3059 16.1012 14.4048C15.9451 14.6667 15.8713 14.9695 15.8895 15.2739C15.8895 16.0371 16.1792 16.4215 16.7585 16.4215C16.9319 16.4205 17.1043 16.3962 17.2711 16.3491C17.4382 16.2989 17.6053 16.2377 17.7725 16.1708V17.0789C17.4203 17.2289 17.041 17.3048 16.6583 17.3017C16.4029 17.3213 16.1464 17.2857 15.906 17.1973C15.6657 17.1088 15.4472 16.9696 15.2655 16.7892C14.917 16.3663 14.7436 15.8261 14.7808 15.2794C14.7684 14.8947 14.8486 14.5125 15.0148 14.1652C15.1607 13.8642 15.3936 13.6138 15.6833 13.4466C15.9988 13.2738 16.3544 13.1873 16.714 13.1959C17.14 13.196 17.5606 13.2912 17.9452 13.4744L17.6165 14.3379C17.4744 14.2693 17.3272 14.2116 17.1764 14.1652C17.0235 14.1155 16.8636 14.091 16.7028 14.0928Z"
                                                         fill="#6666F2" />
                                                 </svg>
-                                                <h5 class="mb-0 font-14">{{fileName}}</h5>
+                                                <!-- <h5 class="mb-0 font-14">{{fileName}}</h5> -->
+                                                <h5 class="mb-0 font-14">attachment</h5>
                                             </div><span class="separator"></span>
-                                            <p class="mb-0 font-13"> Uploaded: {{currentDate | date: 'dd MMM yyyy'}}
-                                            </p>
+                                            <!-- <p class="mb-0 font-13"> Uploaded: {{currentDate | date: 'dd MMM yyyy'}} </p> -->
                                         </div>
                                         <div class="d-flex align-items-center gap-2 action-icon-btn">
                                             <span>
-                                                <a [href]="userResignationReq.url" target="_blank" class="svg-link">
+                                                <a [href]="userResignationInfo.url" target="_blank" class="svg-link">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"
                                                         viewBox="0 0 22 22" fill="none">
                                                         <mask id="mask0_4339_1635" maskUnits="userSpaceOnUse" x="0"
@@ -210,79 +197,87 @@
                                                     </svg>
                                                 </a>
                                             </span>
-
-                                            <span class="ng-star-inserted">
-                                                <svg *ngIf="!isUploading" (click)="editFileInput.click()"
-                                                    class="pointer" xmlns="http://www.w3.org/2000/svg" width="23"
-                                                    height="22" viewBox="0 0 23 22" fill="none">
-                                                    <mask id="mask0_4339_1623" maskUnits="userSpaceOnUse" x="0" y="0"
-                                                        width="23" height="22" style="mask-type: alpha;">
-                                                        <rect x="0.267578" width="21.8342" height="21.8342"
-                                                            fill="#444444"></rect>
-                                                    </mask>
-                                                    <g mask="url(#mask0_4339_1623)">
-                                                        <path
-                                                            d="M4.81581 17.2927H5.96347L15.2762 7.97992L14.1285 6.83226L4.81581 16.145V17.2927ZM3.45117 18.6573V15.5782L15.4513 3.58328C15.5889 3.45834 15.7407 3.36183 15.9069 3.29375C16.0732 3.22552 16.2476 3.19141 16.43 3.19141C16.6124 3.19141 16.7891 3.22378 16.9599 3.28852C17.131 3.35327 17.2824 3.45622 17.4141 3.59739L18.5252 4.7223C18.6663 4.85406 18.7669 5.00569 18.827 5.17718C18.887 5.34867 18.9171 5.52016 18.9171 5.69165C18.9171 5.87466 18.8858 6.04926 18.8234 6.21544C18.7609 6.38178 18.6615 6.53371 18.5252 6.67123L6.53025 18.6573H3.45117ZM14.6924 7.4161L14.1285 6.83226L15.2762 7.97992L14.6924 7.4161Z"
-                                                            fill="#444444"></path>
-                                                    </g>
-                                                </svg>
-
-
-                                                <div *ngIf="isUploading"
-                                                    class="spinner-border spinner-border-sm text-primary m-2"
-                                                    role="status">
-                                                    <span class="visually-hidden">Loading...</span>
-                                                </div>
-
-                                                <input type="file" #editFileInput (change)="onFileSelected($event)"
-                                                    accept=".png, .jpg, .jpeg" style="display: none;" />
-
-                                            </span>
-                                            <span>
-                                                <svg (click)="deleteImage()" xmlns="http://www.w3.org/2000/svg"
-                                                    class="pointer" width="23" height="22" viewBox="0 0 23 22"
-                                                    fill="none">
-                                                    <mask id="mask0_4339_1620" maskUnits="userSpaceOnUse" x="0" y="0"
-                                                        width="23" height="22" style="mask-type: alpha;">
-                                                        <rect x="0.535156" width="21.8342" height="21.8342"
-                                                            fill="#D9D9D9"></rect>
-                                                    </mask>
-                                                    <g mask="url(#mask0_4339_1620)">
-                                                        <path
-                                                            d="M7.18328 18.6577C6.72961 18.6577 6.34206 18.497 6.02061 18.1757C5.69931 17.8543 5.53866 17.4667 5.53866 17.0131V5.46619H4.62891V4.10156H8.72282V3.29688H14.1814V4.10156H18.2753V5.46619H17.3655V17.0131C17.3655 17.4726 17.2063 17.8616 16.8879 18.1801C16.5695 18.4985 16.1805 18.6577 15.7209 18.6577H7.18328ZM16.0009 5.46619H6.9033V17.0131C6.9033 17.0948 6.92953 17.1619 6.982 17.2144C7.03446 17.2668 7.10155 17.293 7.18328 17.293H15.7209C15.791 17.293 15.8551 17.2639 15.9133 17.2055C15.9717 17.1473 16.0009 17.0831 16.0009 17.0131V5.46619ZM9.09036 15.4735H10.4548V7.28571H9.09036V15.4735ZM12.4494 15.4735H13.8138V7.28571H12.4494V15.4735Z"
-                                                            fill="#FF0000"></path>
-                                                    </g>
-                                                </svg></span>
                                         </div>
                                     </div>
+
+
                                 </div>
                             </div>
+
                             <div class="col-md-12 mb-3">
                                 <label for="templateName" class="pb-2">
                                     Comment
                                 </label>
-                                <textarea class="form-control nots-section" id="comment" name="inputComment"
-                                    placeholder="Write description" rows="3"
-                                    [(ngModel)]="userResignationReq.comment"></textarea>
+                                <textarea [disabled]="ROLE == 'ADMIN'" class="form-control nots-section" id="comment"
+                                    name="inputComment" placeholder="Write description" rows="3"
+                                    [(ngModel)]="userResignationInfo.comment"></textarea>
                             </div>
+
+                            <div class="col-md-12 mb-3" *ngIf="ROLE != 'ADMIN' && showRevokeDiv">
+                                <label for="templateName" class="pb-2">
+                                    Reason of revoke
+                                </label>
+                                <textarea class="form-control nots-section" id="revoke" name="inputRevoke"
+                                    placeholder="Write description" rows="3"
+                                    [(ngModel)]="userResignationInfo.revokeReason"></textarea>
+                            </div>
+
                         </div>
-
-
                     </div>
+
                     <div class="modal-footer d-flex align-items-center justify-content-end gap-2">
-                        <button type="button" class="btn cancel-btn" data-bs-dismiss="modal" aria-label="Close"
-                            (click)="clearFormData(resignationForm)" #closeResignationButton>Cancel</button>
-                        <button type="submit" class="btn submitActionBtn"
-                            [ngClass]="{'btn-border':!(resignationForm.invalid || isUploading)}"
-                            [disabled]="resignationForm.invalid || resignationToggle || isUploading">
-                            <span *ngIf="!resignationToggle">Submit</span>
+                        <button type="button" class="btn cancel-btn" *ngIf="showRevokeDiv || ROLE == 'ADMIN'"
+                            data-bs-dismiss="modal" (click)="clearForm(); close();" aria-label="Close"
+                            #closeApproveModal>Cancel</button>
+
+                        <button *ngIf="ROLE == 'ADMIN'" type="button" class="btn submitActionBtn"
+                            [disabled]="approveToggle" (click)="approveOrDenyResignation(userResignationInfo.id)">
+                            <span *ngIf="!approveToggle">Approve</span>
+                            <div class="dot-opacity-loader" *ngIf="approveToggle">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </button>
+
+                        <button *ngIf="ROLE != 'ADMIN'" type="button" class="btn submitActionBtn"
+                            [ngClass]="{'btn-border': (showRevokeDiv && userResignationInfo.revokeReason)}"
+                            [disabled]="(showRevokeDiv && !userResignationInfo.revokeReason) || approveToggle || resignationToggle"
+                            (click)="revokeResignation(userResignationInfo.id)">
+                            <span *ngIf="!approveToggle">{{!showRevokeDiv ? 'Revoke' : 'Submit'}}</span>
+                            <div class="dot-opacity-loader" *ngIf="approveToggle">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </button>
+
+                        <button *ngIf="!showRevokeDiv && ROLE != 'ADMIN'" type="submit" class="btn submitActionBtn"
+                            [ngClass]="{'btn-border':!(resignationForm.invalid)}"
+                            [disabled]="resignationForm.invalid || resignationToggle">
+                            <span *ngIf="!resignationToggle">Update</span>
                             <div class="dot-opacity-loader" *ngIf="resignationToggle">
                                 <span></span>
                                 <span></span>
                                 <span></span>
                             </div>
                         </button>
+
+                        <!-- <button *ngIf="!approveToggle && ROLE == 'ADMIN'" type="button" (click)="approveOrDenyResignation(userResignationInfo.id)" class="btn submitActionBtn">Approve</button> -->
+                        <!-- <button *ngIf="!approveToggle && ROLE != 'ADMIN'" [disabled]="showRevokeDiv && !userResignationInfo.revokeReason" type="button"
+                            class="btn submitActionBtn" (click)="revokeResignation(userResignationInfo.id)">{{!showRevokeDiv ? 'Revoke' : 'Submit'}}</button> -->
+
+                        <!-- <button *ngIf="!approveToggle && !showRevokeDiv && !resignationToggle && ROLE != 'ADMIN'" type="submit"
+                             class="btn submitActionBtn">Update</button>
+
+                            <div class="dot-opacity-loader" *ngIf="approveToggle || resignationToggle">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                              </div> -->
+
                     </div>
+
 
                 </form>
 
@@ -291,4 +286,4 @@
         <!-- </div> -->
     <!-- </div> -->
 <!-- </div> -->
-</ng-template>
+</div>

@@ -1614,8 +1614,8 @@
                                                 <span
                                                     class="badge rounded-pill badge-soft-warning">{{item?.status}}</span>
                                                 <!-- Delete Button -->
-                                                <button *ngIf="item?.status === 'PENDING'" class="icon-button btn p-0"
-                                                    (click)="deleteAttendanceRequest(item.id)">
+                                                <button *ngIf="item?.status === 'PENDING'" class="icon-button btn p-0" data-bs-toggle="modal" data-bs-target="#delete-request"
+                                                    (click)="currentId=item.id">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21"
                                                         viewBox="0 0 21 21" fill="none">
                                                         <mask id="mask0_6083_5461" style="mask-type:alpha"
@@ -2470,4 +2470,55 @@
             </div>
         </div>
     </div>
+</div>
+
+
+
+<button class="d-none" data-bs-toggle="modal" data-bs-target="#delete-request"></button>
+<div class="modal fade" id="delete-request" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" style="max-width: 500px" role="document">
+    <div class="modal-content">
+      <div class="modal-body p-0 delete-text">
+        <div class="delete-image d-flex align-items-center justify-content-center pt-4 pb-4">
+          <div class="delete-close-btn">
+            <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButtonDeleteShift>
+              <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+                <mask id="mask0_2031_1331" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="30"
+                  height="30">
+                  <rect width="30" height="30" fill="#D9D9D9" />
+                </mask>
+                <g mask="url(#mask0_2031_1331)">
+                  <path
+                    d="M8 23.75L6.25 22L13.25 15L6.25 8L8 6.25L15 13.25L22 6.25L23.75 8L16.75 15L23.75 22L22 23.75L15 16.75L8 23.75Z"
+                    fill="black" />
+                </g>
+              </svg>
+            </button>
+          </div>
+          <img src="/assets/images/delete-img.svg" style="width: 70px" />
+        </div>
+        <div class="bg-white p-4 text-center">
+
+          <div>
+            <h5 class="alert-heading font-18 mb-2">
+              Are you sure you want to delete <br />
+              this Attendance update request?
+            </h5>
+            <p class="font-11">You will not be able to recover this</p>
+          </div>
+
+          <div class="mt-4 d-flex align-items-center flex-column">
+            <button [disabled]="requestDeleteLoading" class="btn continue-btn" 
+              (click)="deleteAttendanceRequest()">
+              Continue
+              <i class="fa fa-spinner fa-spin" *ngIf="requestDeleteLoading"></i>
+            </button>
+            <button id="cancelButton" class="btn cancel-btn pt-2" type="button" data-bs-dismiss="modal" aria-label="Close">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
