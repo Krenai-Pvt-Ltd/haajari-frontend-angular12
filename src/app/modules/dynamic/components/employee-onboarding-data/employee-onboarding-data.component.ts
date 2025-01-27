@@ -5,7 +5,7 @@ import { NavigationExtras, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { Key } from 'src/app/constant/key';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { EmployeeOnboardingDataDto } from 'src/app/models/employee-onboarding-data-dto';
@@ -23,6 +23,8 @@ import { AttendanceSettingComponent } from 'src/app/modules/setting/components/a
 import { TeamComponent } from '../team/team.component';
 import { UserResignation } from 'src/app/models/UserResignation';
 import { OnboardUser } from 'src/app/models/OnboardUser';
+import { debounceTime } from 'rxjs/operators';
+import { ModalService } from 'src/app/services/modal.service';
 export interface Team {
   label: string;
   value: string;
@@ -46,8 +48,9 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     private _onboardingService: OrganizationOnboardingService,
     private router: Router,
     private helperService: HelperService,
-    private modalService: NgbModal,
+    private ngbModal: NgbModal,
     private _subscriptionService:SubscriptionPlanService,
+    private modalService: ModalService
   ) {}
   // users: EmployeeOnboardingDataDto[] = [];
   users: EmployeeOnboardingDataDto[] = new Array();
@@ -128,6 +131,10 @@ export class EmployeeOnboardingDataComponent implements OnInit {
       this.downloadFileFromUrl(storedDownloadUrl);
     }
     this._subscriptionService.isSubscriptionPlanExpired();
+
+    this.searchSubject.pipe(debounceTime(1000)).subscribe((resignationSearch) => {
+          this.loadResignations();
+        });
   }
 
   isUserShimer: boolean = true;
@@ -208,8 +215,13 @@ export class EmployeeOnboardingDataComponent implements OnInit {
       this.dataService.deleteUserResignation(id).subscribe({
         next: (response) => {
           this.disableUserLoader = false;
-          this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
-          this.getUsersByFiltersFunction();
+          if(response.status){
+            this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
+          }else{
+            this.helperService.showToast(response.message, Key.TOAST_STATUS_ERROR);
+          }
+          this.closeUserDeleteModal.nativeElement.click();
+          this.loadResignations();
         },
         error: (error) => {
           this.disableUserLoader = false;
@@ -218,6 +230,58 @@ export class EmployeeOnboardingDataComponent implements OnInit {
       });
     }
 
+    resignations: any[] = [];
+    page: number = 1;
+    size: number = 10;
+    status: string | null = '13';
+    resignationSearch: string | null = '';
+    totalRequests: number = 0;
+    isResignationLoading: boolean = false;
+    statusLabel:string='PENDING';
+    private searchSubject: Subject<string> = new Subject<string>();
+    statusOptions = [
+      { value: '', label: 'All' },
+      { value: '42', label: 'NOTICE PERIOD' },
+      { value: '13', label: 'PENDING' },
+      { value: '47', label: 'REVOKED' }
+    ];
+    loadResignations(): void {
+      this.isResignationLoading=true;
+      this.dataService
+        .getUserResignations(this.status, this.resignationSearch, this.page, this.size)
+        .subscribe({
+          next: (data) => {
+            this.isResignationLoading=false;
+            this.resignations = data.content;
+            this.totalRequests =data.totalElements;
+          },
+          error: (err) => {
+            this.isResignationLoading=false;
+            console.error('Error fetching resignations', err);
+          },
+        });
+    }
+
+    onResignationSearch(): void {
+      if(this.resignationSearch!=null){
+        this.searchSubject.next(this.resignationSearch);
+      }
+    }
+
+    changeResignationPage(page: number): void {
+      this.page = page;
+      this.loadResignations();
+    }
+    selectResignationStatus(status: string, label:string){
+      if(status=='ALL'){
+        status='';
+      }
+      this.status=status;
+      this.statusLabel=label;
+      this.loadResignations();
+    }
+
+  
 
   allEmployeeRequest(){
     this.users = [];
@@ -1173,7 +1237,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   }
 
   openAddLeaveModal(): void {
-    const modalRef = this.modalService.open(LeaveSettingComponent, {
+    const modalRef = this.ngbModal.open(LeaveSettingComponent, {
       size: 'xl',
       backdrop: true,
       windowClass: 'custom-modal-width'
@@ -1192,7 +1256,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   }
 
   openAddShiftModal(): void {
-    const modalRef = this.modalService.open(AttendanceSettingComponent, {
+    const modalRef = this.ngbModal.open(AttendanceSettingComponent, {
       size: 'xl', // Adjust size as needed
       backdrop: true, // Allows closing the modal on outside click
       keyboard: true // Allows closing the modal with the Esc key
@@ -1209,7 +1273,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     );
   }
   openAddTeamModal(): void {
-    const modalRef = this.modalService.open(TeamComponent, {
+    const modalRef = this.ngbModal.open(TeamComponent, {
       size: 'xl', // Adjust size as needed
       backdrop: true, // Allows closing the modal on outside click
       keyboard: true // Allows closing the modal with the Esc key
@@ -2031,8 +2095,12 @@ console.log(this.data);
 
     this.getUserExitType()
     this.getNoticePeriodDuration();
+    this.onInitiateExitClick(uuid);
   }
 
+  onInitiateExitClick(uuid:string) {
+    this.modalService.openInitiateExitModal(uuid);
+  }
   // User Resignation end
 
   pendingRequests:any;

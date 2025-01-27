@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Key } from 'src/app/constant/key';
+import { StatusKeys } from 'src/app/constant/StatusKeys';
 import { EmployeeMonthWiseSalaryData } from 'src/app/models/employee-month-wise-salary-data';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
@@ -11,15 +11,15 @@ import { SalaryService } from 'src/app/services/salary.service';
   styleUrls: ['./tds.component.css'],
 })
 export class TdsComponent implements OnInit {
-  itemPerPage: number = 8;
-  // lastPageNumber: number = 0;
+
+  
+  itemPerPage: number = 10;
   totalItems : number = 0
   pageNumber: number = 1;
   search: string = '';
 
 
-  readonly PENDING = Key.PENDING;
-  readonly APPROVED = Key.APPROVED;
+ readonly StatusKeys = StatusKeys;
 
   isShimmer = false;
   dataNotFoundPlaceholder = false;

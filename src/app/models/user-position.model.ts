@@ -4,4 +4,5 @@ export interface UserPositionDTO {
   endDate: string;
   userId: string;
   isProbation: boolean;
+  annualCTC:number;
 }

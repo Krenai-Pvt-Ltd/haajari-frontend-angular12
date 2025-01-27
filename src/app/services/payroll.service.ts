@@ -44,12 +44,11 @@ export class PayrollService {
   }
 
 
-  updatePayrollProcessStep(startDate: string, endDate: string, payrollProcessStepId: number):Observable<any>{
+  updatePayrollProcessStep(startDate: string, endDate: string, step:number):Observable<any>{
     const params = new HttpParams()
     .set('start_date', startDate)
     .set('end_date', endDate)
-    .set('payroll_process_step_id', payrollProcessStepId);
-
+    .set('step',step)
     return this._http.put<any>(`${this._key.base_url}/payroll/step`,{}, {params});
   }
 
@@ -83,121 +82,6 @@ export class PayrollService {
     return this._http.get<any>(`${this._key.base_url}/payroll/user/template-not-config`);
   }
 
-  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-  getPayrollLeaveResponse(
-    startDate: any,
-    endDate: any,
-    itemPerPage: number,
-    pageNumber: number,
-    search: string,
-    searchBy: string): Observable<any> {
-
-    const params = new HttpParams()
-    .set('start_date', startDate)
-    .set('end_date', endDate)
-    .set('item_per_page', itemPerPage)
-    .set('page_number', pageNumber)
-    .set('search', search)
-    .set('search_by', searchBy)
-
-    return this._http.get<any>(`${this._key.base_url}/payroll/step/attendance/get-leaves`,{ params });
-  }
-
-
-  getPayrollLeaveLogsResponse(
-    userUuid  : string,
-    startDate: any,
-    endDate: any
-  ): Observable<any> {
-
-    const params = new HttpParams()
-    .set('user_uuid', userUuid)
-    .set('start_date', startDate)
-    .set('end_date', endDate)
-
-    return this._http.get<any>(`${this._key.base_url}/payroll/step/attendance/get-leave-logs`,{ params });
-  }
-
-  getLopSummaryResponseByOrganizationIdAndStartDateAndEndDate(
-    startDate: string,
-    endDate: string,
-    itemPerPage: number,
-    pageNumber: number,
-    search: string,
-    searchBy: string
-  ): Observable<any> {
-    const params = new HttpParams()
-      .set('start_date', startDate)
-      .set('end_date', endDate)
-      .set('item_per_page', itemPerPage)
-      .set('page_number', pageNumber)
-      .set('search', search)
-      .set('search_by', searchBy);
-
-      return this._http.get<any>(`${this._key.base_url}/payroll/step/attendance/lop-summary`,{ params });
-
-  }
-
-  getLopReversalResponseByOrganizationIdAndStartDateAndEndDate(
-    startDate: string,
-    endDate: string,
-    itemPerPage: number,
-    pageNumber: number,
-    search: string,
-    searchBy: string
-  ): Observable<any> {
-    const params = new HttpParams()
-      .set('start_date', startDate)
-      .set('end_date', endDate)
-      .set('item_per_page', itemPerPage)
-      .set('page_number', pageNumber)
-      .set('search', search)
-      .set('search_by', searchBy);
-
-      return this._http.get<any>(`${this._key.base_url}/payroll/step/attendance/lop-reversal`,{ params });
-  }
-
-
-  getPayrollLeaveLogResponse(userUuid : string): Observable<any> {
-    const params = new HttpParams()
-    .set('user_uuid', userUuid);
-
-    return this._http.get<any>(`${this._key.base_url}/payroll/step/attendance/get-leave-logs`,{ params });
-  }
-
-
-  registerLopAdjustmentRequest(lopAdjustmentRequest : LopAdjustmentRequest, startDate : string, endDate : string){
-    const params = new HttpParams()
-    .set('start_date', startDate)
-    .set('end_date', endDate);
-
-    return this._http.post<any>(`${this._key.base_url}/payroll/step/attendance/register-lop-adjustment-request`,lopAdjustmentRequest,{ params });
-
-  }
-
-  registerLopSummaryRequestByOrganizationIdAndStartDateAndEndDate(lopSummaryRequestList : LopSummaryRequest[], startDate : string, endDate : string): Observable<any>{
-    const params = new HttpParams()
-    .set('start_date', startDate)
-    .set('end_date', endDate);
-
-    return this._http.post<any>(`${this._key.base_url}/payroll/step/attendance/register-lop-summary`,lopSummaryRequestList,{ params });
-  }
-
-  registerLopReversalRequestByOrganizationIdAndStartDateAndEndDate(lopReversalRequestList : LopReversalRequest[], startDate : string, endDate : string): Observable<any>{
-    const params = new HttpParams()
-    .set('start_date', startDate)
-    .set('end_date', endDate);
-
-    return this._http.post<any>(`${this._key.base_url}/payroll/step/attendance/register-lop-reversal`,lopReversalRequestList,{ params });
-
-  }
-
-  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   getNewJoinee(startDate: string,endDate: string,itemPerPage: number,pageNumber: number,search: string): Observable<any> {
     const params = new HttpParams()
@@ -206,7 +90,7 @@ export class PayrollService {
     .set('item_per_page', itemPerPage)
     .set('page_number', pageNumber)
     .set('search', search);
-    return this._http.get<any>(`${this._key.base_url}/salary/user/change/new-joinee`,{ params });
+    return this._http.get<any>(`${this._key.base_url}/payroll/step/new-joinee`,{ params });
   }
 
 
@@ -217,7 +101,7 @@ export class PayrollService {
     .set('item_per_page', itemPerPage)
     .set('page_number', pageNumber)
     .set('search', search);
-  return this._http.get<any>(`${this._key.base_url}/salary/user/change/user-exit`,{ params });
+  return this._http.get<any>(`${this._key.base_url}/payroll/step/user-exit`,{ params });
 }
 
 
@@ -228,7 +112,7 @@ getFNFUser(startDate: string,endDate: string,itemPerPage: number,pageNumber: num
   .set('item_per_page', itemPerPage)
   .set('page_number', pageNumber)
   .set('search', search);
-return this._http.get<any>(`${this._key.base_url}/salary/user/change/final-settlement`,{ params });
+return this._http.get<any>(`${this._key.base_url}/payroll/step/final-settlement`,{ params });
 }
 
   getPendingLeaves(startDate : string, endDate : string, page: number, size: number): Observable<any> {
@@ -237,9 +121,26 @@ return this._http.get<any>(`${this._key.base_url}/salary/user/change/final-settl
     .set('end_date', endDate)
     .set('current_page', page)
     .set('items_per_page', size);
-    return this._http.get<any>(`${this._key.base_url}/payroll/step/attendance/pending-leaves`,{ params });
+    return this._http.get<any>(`${this._key.base_url}/payroll/step/pending-leaves`,{ params });
   }
 
+  getLOPSummary(startDate : string, endDate : string, page: number, size: number): Observable<any> {
+    const params = new HttpParams()
+    .set('start_date', startDate)
+    .set('end_date', endDate)
+    .set('current_page', page)
+    .set('items_per_page', size);
+    return this._http.get<any>(`${this._key.base_url}/payroll/step/lop-summary`,{ params });
+  }
+
+  getLOPReversal(startDate : string, endDate : string, page: number, size: number): Observable<any> {
+    const params = new HttpParams()
+    .set('start_date', startDate)
+    .set('end_date', endDate)
+    .set('current_page', page)
+    .set('items_per_page', size);
+    return this._http.get<any>(`${this._key.base_url}/payroll/step/lop-reversal`,{ params });
+  }
 
 
 
@@ -251,7 +152,7 @@ return this._http.get<any>(`${this._key.base_url}/salary/user/change/final-settl
     .set('item_per_page', itemPerPage)
     .set('page_number', pageNumber)
     .set('search', search)
-    return this._http.get<any>(`${this._key.base_url}/salary/payroll-dashboard/salary-change`, {params});
+    return this._http.get<any>(`${this._key.base_url}/payroll/step/salary-change`, {params});
   }
 
 
@@ -262,16 +163,62 @@ return this._http.get<any>(`${this._key.base_url}/salary/user/change/final-settl
     .set('end_date', endDate)
     .set('item_per_page', itemPerPage)
     .set('page_number', pageNumber)
-    return this._http.get<any>(`${this._key.base_url}/salary/payroll-dashboard/bonus`, {params});
+    return this._http.get<any>(`${this._key.base_url}/payroll/step/bonus`, {params});
   }
 
+
+  getUserOvertime(startDate: string,endDate: string, itemPerPage: number,pageNumber: number): Observable<any> {
+
+    const params = new HttpParams()
+    .set('start_date', startDate)
+    .set('end_date', endDate)
+    .set('item_per_page', itemPerPage)
+    .set('page_number', pageNumber)
+    return this._http.get<any>(`${this._key.base_url}/payroll/step/overtime`, {params});
+  }
+
+
+  getEpfDetails(startDate: string,endDate: string, itemPerPage: number,pageNumber: number, search: string,): Observable<any> {
+
+    const params = new HttpParams()
+    .set('start_date', startDate)
+    .set('end_date', endDate)
+    .set('item_per_page', itemPerPage)
+    .set('page_number', pageNumber)
+    .set('search', search)
+    return this._http.get<any>(`${this._key.base_url}/payroll/step/epf`, {params});
+  }
+
+
+  getEsiDetails(startDate: string,endDate: string, itemPerPage: number,pageNumber: number, search: string,): Observable<any> {
+
+    const params = new HttpParams()
+    .set('start_date', startDate)
+    .set('end_date', endDate)
+    .set('item_per_page', itemPerPage)
+    .set('page_number', pageNumber)
+    .set('search', search)
+    return this._http.get<any>(`${this._key.base_url}/payroll/step/esi`, {params});
+  }
+
+
+  getTdsDetails(startDate: string,endDate: string, itemPerPage: number,pageNumber: number, search: string,): Observable<any> {
+
+    const params = new HttpParams()
+    .set('start_date', startDate)
+    .set('end_date', endDate)
+    .set('item_per_page', itemPerPage)
+    .set('page_number', pageNumber)
+    .set('search', search)
+    return this._http.get<any>(`${this._key.base_url}/payroll/step/tds`, {params});
+  }
 
   generatePayrollReport(startDate: string, endDate: string): Observable<any> {
     const params = new HttpParams()
     .set('start_date', startDate)
     .set('end_date', endDate)
 
-    return this._http.get(`${this._key.base_url}/payroll/user`,{ params });
+    return this._http.get(`${this._key.base_url}/payroll/step/run`,{ params });
   }
 
   generateReport(
@@ -289,7 +236,7 @@ return this._http.get<any>(`${this._key.base_url}/salary/user/change/final-settl
       params = params.set('search', search);
     }
 
-    return this._http.get(`${this._key.base_url}/salary/user/change/generate`, {
+    return this._http.get(`${this._key.base_url}/payroll/step/generate`, {
       params: params,
       responseType: 'blob',  // Ensure the response is treated as a file (Excel)
     });

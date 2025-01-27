@@ -63,11 +63,9 @@
           <div class="position-relative" style="width: 20%;">
             <div class="dropdown bonus-payroll">
               <nz-date-picker nzMode="month" [nzSize]="size" [(ngModel)]="selectedDate"
-                (ngModelChange)="onMonthChange()"
-                [nzDisabledDate]="_helperService.disableMonths"></nz-date-picker>
+                (ngModelChange)="onMonthChange()" [nzDisabledDate]="_helperService.disableMonths"></nz-date-picker>
             </div>
           </div>
-
           <div class="search-bar-wrapper d-flex align-items-center w-100">
             <div style="flex-grow: 1">
               <form role="search" class="searching ng-untouched ng-pristine ng-valid" (submit)="searchUsers($event)">
@@ -107,25 +105,25 @@
           <div class="btn-toolbar" role="toolbar" *ngIf="monthWiseIds.length>0">
             <div class="btn-group">
               <button type="button" class="btn btn-de-secondary d-flex align-items-center gap-2 "
-                (click)="updateSalarySlipStatus()">
+                (click)="updatePaySlipStatus()">
                 <i class="fas fa-exclamation-circle"></i>
                 <small>Hold Payslip</small>
               </button>
               <button type="button" class="btn btn-de-secondary d-flex align-items-center gap-2"
-                (click)="shareSalaryPayslipVia('EMAIL')">
+                (click)="sharePayslipVia('EMAIL')">
                 <i class="fas fa-envelope-open"></i>
                 <small>E-MAIL</small>
               </button>
               <button type="button" class="btn btn-de-secondary d-flex align-items-center gap-2"
-                (click)="shareSalaryPayslipVia('WHATSAPP')">
+                (click)="sharePayslipVia('WHATSAPP')">
                 <i class="fab fa-whatsapp"></i>
                 <small>WHATSAPP</small>
               </button>
-              <button type="button" class="btn btn-de-secondary d-flex align-items-center gap-2"
-                (click)="shareSalaryPayslipVia('SLACK')">
+              <!-- <button type="button" class="btn btn-de-secondary d-flex align-items-center gap-2"
+                (click)="sharePayslipVia('SLACK')">
                 <i class="fab fa-whatsapp"></i>
                 <small>SLACK</small>
-              </button>
+              </button> -->
             </div>
           </div>
           <!-- end toolbar -->
@@ -139,6 +137,7 @@
                     <th>Email</th>
                     <th>Phone</th>
                     <th>Payslip Status</th>
+                    <th>Visibility</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -150,8 +149,8 @@
                     else attendanceDataCondition
                   ">
                   <tbody>
-                    <tr *ngFor="let item of [].constructor(6)">
-                      <td class="text-center" *ngFor="let e of [].constructor(5)">
+                    <tr *ngFor="let item of [].constructor(8)">
+                      <td class="text-center" *ngFor="let e of [].constructor(7)">
                         <ngx-shimmer-loading
                           [width]="'100%'"
                           [height]="'10px'"
@@ -178,48 +177,26 @@
                         <td>{{ employee.phone ? employee.phone : "N/A" }}</td>
                         <td>
                           <span class="badge rounded-pill" [ngClass]="{
-                              'badge-soft-success':
-                                employee.isSlipHold == 0,
-                              'badge-soft-warning':
-                                employee.isSlipHold == 1
-                            }">
-                            {{employee.isSlipHold == 1 ? "HOLD" : "ACTIVE"}}
+                              'badge-soft-success':employee.paySlipStatusId === StatusKeys.PAYSLIP_FINALIZED,
+                              'badge-soft-warning':employee.paySlipStatusId === StatusKeys.PAYSLIP_DRAFT}">
+                            {{employee.paySlipStatusId === StatusKeys.PAYSLIP_FINALIZED ? "FINALIZED" : "DRAFT"}}
                           </span>
                         </td>
                         <td>
-                          <div
-                            class="btn-group"
-                            role="group"
-                            aria-label="Basic example"
-                            [ngClass]="{'disabled-lnk': constant.EMPTY_STRINGS.includes(employee.paySlipUrl)}"
-                          >
-                            <button
-                              type="button"
-                              class="btn btn-light"
-                              ngbTooltip="Download"
-                              placement="top"
-                             
-                              (click)="downloadPdf(employee.paySlipUrl)">
-                              <i class="ti ti-download"></i>
-                            </button>
-                            <button
-                              type="button"
-                              class="btn btn-light"
-                              ngbTooltip="View"
-                              placement="top"
-                             
-                              (click)="viewPdf(employee.paySlipUrl)">
-                              <i class="ti ti-eye"></i>
-                            </button>
-                            <button
-                              type="button"
-                              class="btn btn-light"
-                              ngbTooltip="Send"
-                              placement="top"
-                           
-                              (click)="shareIndividualPayslip('EMAIL',employee.id)">
-                              <i class="ti ti-send"></i>
-                            </button>
+                          <span>
+                            <nz-switch class="switch" id="switch{{i}}"
+                            (ngModelChange)="togglePayslipStatus(employee.id)"
+                            [ngModel]="employee.isSlipHold==0"></nz-switch>
+                          </span>
+                        </td>
+                        <td>
+                          <div class="btn-group" *ngIf="employee.paySlipStatusId === StatusKeys.PAYSLIP_FINALIZED">
+                            <button type="button" class="btn btn-light" ngbTooltip="Download" placement="top" (click)="downloadPdf(employee.paySlipUrl)"><i class="ti ti-download"></i></button>
+                            <button type="button" class="btn btn-light" ngbTooltip="View" placement="top" (click)="viewPdf(employee.paySlipUrl)"><i class="ti ti-eye"></i></button>
+                            <button type="button" class="btn btn-light" ngbTooltip="Send" placement="top" (click)="shareIndividualPayslip('EMAIL', employee.id)"><i class="ti ti-send"></i></button>
+                          </div>
+                          <div class="" *ngIf="employee.paySlipStatusId === StatusKeys.PAYSLIP_DRAFT">
+                            <span class="text-center">Yet Not Finalized</span>
                           </div>
                         </td>
                       </tr>
@@ -261,11 +238,10 @@
               </tbody>
             </ng-template>
           </div>
-          <!-- Pagination -->
           <div
-            class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top d-none"
-            *ngIf="totalItems > itemPerPage">
-            <p class="mb-0"> Showing {{startIndex() }} - {{lastIndex()}} of {{ totalItems }} </p>
+            class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top"
+            *ngIf="totalItems > 0">
+            <p class="mb-0"> Showing {{_helperService.startIndex(pageNumber,itemPerPage) }} - {{_helperService.lastIndex(pageNumber,itemPerPage,totalItems)}} of {{ totalItems }} results</p>
             <div class="pagition-box">
               <ngb-pagination [collectionSize]="totalItems" [page]="pageNumber" [pageSize]="itemPerPage" [maxSize]="5"
                 [boundaryLinks]="true" [ellipses]="true" (pageChange)="pageChange($event)">

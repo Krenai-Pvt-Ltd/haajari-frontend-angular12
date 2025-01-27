@@ -1,5 +1,4 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { NzDateMode } from 'ng-zorro-antd/date-picker';
 import { Key } from 'src/app/constant/key';
 import { BonusAndDeductionData } from 'src/app/models/bonus-and-deduction-data';
 import { HelperService } from 'src/app/services/helper.service';
@@ -17,7 +16,7 @@ export class BonusAndDeductionComponent implements OnInit {
               private _salaryService : SalaryService) {
   }
 
-  itemPerPage: number = 5;
+  itemPerPage: number = 10;
   totalItems : number = 0
   pageNumber: number = 1;
   search: string = '';

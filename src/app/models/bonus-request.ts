@@ -1,8 +1,6 @@
 export class BonusRequest {
-
-    startDate !: Date;
-    endDate !: Date;
+    userUuid:string='';
     amount !: number;
-    comment !: string;
+    comment: string='';
     
 }

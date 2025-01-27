@@ -35,6 +35,7 @@ import { SubscriptionExpiredComponent } from './modules/common/subscription-expi
 import { SubscriptionRestrictedComponent } from './modules/common/subscription-restricted/subscription-restricted.component';
 import { AgmCoreModule } from '@agm/core';
 import { AccountSettingsComponent } from './Common/account-settings/account-settings.component';
+import { ExitModalComponent } from './modules/common/exit-modal/exit-modal.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,6 +47,7 @@ import { AccountSettingsComponent } from './Common/account-settings/account-sett
     HeaderComponent,
     SubscriptionExpiredComponent,
     SubscriptionRestrictedComponent,
+    ExitModalComponent
 
   ],
   imports: [

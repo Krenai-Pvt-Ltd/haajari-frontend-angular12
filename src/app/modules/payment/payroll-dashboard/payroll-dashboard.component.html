@@ -180,7 +180,7 @@
                     </li>
                     <li class="nav-item">
                       <a class="nav-link fw-semibold pt-0" data-bs-toggle="tab" href="#payrollHistory" role="tab"
-                        (click)="getPayrollLogs()"> Payroll History </a>
+                        (click)="getPayrollLogs()" #history> Payroll History </a>
                     </li>
                   </ul>
                   <div class="tab-content my-3">
@@ -188,13 +188,14 @@
                       <div class="row" *ngIf="userSalaryTemplateNotConfigCount>0">
                         <div class="col-md-12">
                           <p class="mb-0" style="color : red"> salary template is not mapped with
-                            {{userSalaryTemplateNotConfigCount}} user</p>
+                            {{userSalaryTemplateNotConfigCount}} user <a routerLink="/setting/salary-setting">click to add</a></p>
                         </div>
                       </div>
-                      <div class="row">
-                        <div class="col-md-6" (click)="employeeChangesSection(PAYROLL_PROCESS_STEP)">
+                      <div class="row" [ngClass]="{'disabled-lnk': userSalaryTemplateNotConfigCount>0}">
+                        <div class="col-md-6" (click)="goToSection(CURRENT_TAB_IN_EMPLOYEE_CHANGE)">
                           <div class="card-body mt-3 payroll-step"
-                            [ngClass]="{'bg-soft-success': PAYROLL_PROCESS_STEP > FINAL_SETTLEMENT, 'bg-soft-warning': PAYROLL_PROCESS_STEP <= FINAL_SETTLEMENT}">
+                            [ngClass]="{'bg-soft-success': PAYROLL_PROCESS_STEP > FINAL_SETTLEMENT, 'bg-soft-warning': PAYROLL_PROCESS_STEP <= FINAL_SETTLEMENT}"
+                            [class.disabled]=" userSalaryTemplateNotConfigCount>0">
                             <div class="row">
                               <div class="col-auto">
                                 <img src="assets/images/creative-idea.svg" alt="user" height="50"
@@ -207,16 +208,15 @@
                                     </i>
                                   </span>
                                 </p>
-                                <!-- <small class="text-muted">Nov 19.2023, 05:39 PM - Pushpendra</small> -->
                                 <small class="text-muted">Preview new joiners, FNF, and notice-period employees</small>
                               </div>
                             </div>
                           </div>
                         </div>
-                        <div class="col-md-6" (click)="attendanceAndLeaveSection(PAYROLL_PROCESS_STEP)">
+                        <div class="col-md-6" (click)="goToSection(CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE)">
                           <div class="card-body mt-3 payroll-step"
                             [ngClass]="{'bg-soft-success': PAYROLL_PROCESS_STEP > LOP_REVERSAL, 'bg-soft-warning': PAYROLL_PROCESS_STEP <= LOP_REVERSAL}"
-                            [class.disabled]="PAYROLL_PROCESS_STEP <= FINAL_SETTLEMENT">
+                            [class.disabled]="(PAYROLL_PROCESS_STEP <= FINAL_SETTLEMENT)|| userSalaryTemplateNotConfigCount>0">
                             <div class="row">
                               <div class="col-auto">
                                 <img src="assets/images/schedule.svg" alt="user" height="50"
@@ -230,17 +230,16 @@
                                     </i>
                                   </span>
                                 </p>
-                                <!-- <small class="text-muted">Nov 19.2023, 05:39 PM - Pushpendra</small> -->
                                 <small class="text-muted">Manage pending leaves and LOPs</small>
 
                               </div>
                             </div>
                           </div>
                         </div>
-                        <div class="col-md-6" (click)="salaryChangeSection(PAYROLL_PROCESS_STEP)">
+                        <div class="col-md-6" (click)="goToSection(CURRENT_TAB_IN_SALARY_CHANGE)">
                           <div class="card-body mt-3 payroll-step"
                             [ngClass]="{'bg-soft-success': PAYROLL_PROCESS_STEP > OVERTIME, 'bg-soft-warning': PAYROLL_PROCESS_STEP <= OVERTIME}"
-                            [class.disabled]="PAYROLL_PROCESS_STEP <= LOP_REVERSAL">
+                            [class.disabled]="(PAYROLL_PROCESS_STEP <= LOP_REVERSAL) || userSalaryTemplateNotConfigCount>0">
                             <div class="row">
                               <div class="col-auto">
                                 <img src="assets/images/business-report.svg" alt="user" height="50"
@@ -254,7 +253,6 @@
                                     </i>
                                   </span>
                                 </p>
-                                <!-- <small class="text-muted">Nov 19.2023, 05:39 PM - Pushpendra</small> -->
 
 
                                 <small class="text-muted">Review this month's salary revisions, overtime, and
@@ -263,25 +261,24 @@
                             </div>
                           </div>
                         </div>
-                        <div class="col-md-6" (click)="epfEsiTdsSection(PAYROLL_PROCESS_STEP)">
+                        <div class="col-md-6" (click)="goToSection(CURRENT_TAB_IN_EPF_ESI_TDS)">
                           <div class="card-body mt-3 payroll-step"
                             [ngClass]="{'bg-soft-success': PAYROLL_PROCESS_STEP > TDS, 'bg-soft-warning': PAYROLL_PROCESS_STEP <= TDS}"
-                            [class.disabled]="PAYROLL_PROCESS_STEP <= OVERTIME">
+                            [class.disabled]="(PAYROLL_PROCESS_STEP <= OVERTIME) || userSalaryTemplateNotConfigCount>0">
                             <div class="row">
                               <div class="col-auto">
                                 <img src="assets/images/card-reader.svg" alt="user" height="50"
                                   class="align-self-center mb-3 mb-lg-0" />
                               </div>
                               <div class="col align-self-center">
-                                <p class="font-14 mb-2"> EPF, ESI & TDS (OVERRIDE) <span
+                                <p class="font-14 mb-2"> EPF, ESI & TDS <span
                                     class="task-priority-icon float-end">
                                     <i class="ti"
                                       [ngClass]="{'ti-checkbox text-success': PAYROLL_PROCESS_STEP > TDS,'ti-circle-4': PAYROLL_PROCESS_STEP <= TDS}">
                                     </i>
                                   </span>
                                 </p>
-                                <!-- <small class="text-muted">Nov 19.2023, 05:39 PM - Pushpendra </small> -->
-                                <small class="text-muted">Adjust EPF, ESI, and TDS deductions for this month.</small>
+                                <small class="text-muted">Review EPF, ESI, and TDS deductions for this month.</small>
                               </div>
                             </div>
                           </div>
@@ -293,16 +290,14 @@
                             <div class="media-body align-self-center">
                               <p class="text-muted font-12 mb-0 mt-2"> Last Preview Run On
                                 {{organizationMonthWiseSalaryData?.updatedDate | date: 'dd MMM'}} at
-                                {{organizationMonthWiseSalaryData?.updatedDate | date:'shortTime'}} By
-                                {{organizationMonthWiseSalaryData?.updatedBy}} </p>
+                                {{organizationMonthWiseSalaryData?.updatedDate | date:'shortTime'}}</p>
                             </div>
                           </div>
                         </div>
                         <div class="col-auto align-self-center">
                           <div class="button-items">
-                            <!-- [disabled]="PAYROLL_PROCESS_STEP < PAYROLL_STEP_COMPLETED"  -->
                             <button type="button" class="btn btn-outline-primary btn-round"
-                              (click)="getPayrollReport()">
+                              (click)="getPayrollReport()" [class.disabled]="(PAYROLL_PROCESS_STEP < PAYROLL_STEP_COMPLETED) || userSalaryTemplateNotConfigCount>0">
                               <ng-container *ngIf="RUN_PAYROLL_LOADER; else runPayrollLoaderFalseCondition">
                                 <div class="dot-opacity-loader">
                                   <span></span>
@@ -393,13 +388,13 @@
       </div>
     </div>
     <div class="container-fluid" *ngIf="payrollToggleView">
-      <app-leave-summary [startDate]="startDate" [endDate]="endDate" (getData)="getData()"
+      <app-leave-summary [startDate]="startDate" [endDate]="endDate" [step]="PAYROLL_PROCESS_STEP" (getData)="getData($event)"
         *ngIf="showLeaveComponent"></app-leave-summary>
-      <app-employee-management [startDate]="startDate" [endDate]="endDate" (getData)="getData()"
+      <app-employee-management [startDate]="startDate" [endDate]="endDate" [step]="PAYROLL_PROCESS_STEP" (getData)="getData($event)"
         *ngIf="showEmployeeComponent"></app-employee-management>
-      <app-earning-management [startDate]="startDate" [endDate]="endDate" (getData)="getData()"
+      <app-earning-management [startDate]="startDate" [endDate]="endDate" [step]="PAYROLL_PROCESS_STEP" (getData)="getData($event)"
         *ngIf="showEariningComponent"></app-earning-management>
-      <app-salary-deduction-management [startDate]="startDate" [endDate]="endDate" (getData)="getData()"
+      <app-salary-deduction-management [startDate]="startDate" [endDate]="endDate" [step]="PAYROLL_PROCESS_STEP" (getData)="getData($event)"
         *ngIf="showSalaryComponent"></app-salary-deduction-management>
     </div>
   </div>
