@@ -21,13 +21,14 @@ export class ModalService {
   }
 
 
-  openInitiateExitModal(uuid:string) {
+  openInitiateExitModal(uuid:string, userType: string) {
     const modalRef =this.modalService.open(ExitModalComponent, {
       ariaLabelledBy: 'initiateExitModalLabel',
 
     });
     modalRef.componentInstance.data = {
-      uuid: uuid
+      uuid: uuid,
+      userType: userType
     };
   }
 }
