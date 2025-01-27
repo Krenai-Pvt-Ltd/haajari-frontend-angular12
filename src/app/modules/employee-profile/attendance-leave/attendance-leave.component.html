@@ -831,7 +831,7 @@
                                                 <div>
                                                     <ng-container *ngIf="isUserLeaveTaken == 1">
                                                         <button type="button" class="btn primaryBtnLink leave-request"
-                                                            *ngIf="userId==currentUserUuid" (click)="applyNewLeaveReq()">
+                                                            *ngIf="userId==currentUserUuid && (dataService.resignationInfo==null || dataService.resignationInfo==undefined)" (click)="applyNewLeaveReq()">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="20"
                                                                 height="21" viewBox="0 0 20 21" fill="none">
                                                                 <mask id="mask0_5145_1779" style="mask-type:alpha"

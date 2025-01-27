@@ -617,7 +617,9 @@ export class EmployeeProfileSidebarComponent implements OnInit {
   getUserResignationInfo() {
     this.dataService.getUserResignationInfo(this.userId).subscribe((res: any) => {
       if (res.status) {
+        
         this.userResignationInfo = res.object[0]
+        this.dataService.resignationInfo= this.userResignationInfo;
         console.log('userResignationInfo: ', this.userResignationInfo)
       }
     })

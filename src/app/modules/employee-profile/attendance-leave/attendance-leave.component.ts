@@ -66,7 +66,7 @@ export class AttendanceLeaveComponent implements OnInit {
   readonly Constant = constant;
   contentTemplate: string = 'You are on the Notice Period, so that you can not apply leave';
 
-  constructor(private dataService: DataService, private activateRoute: ActivatedRoute, private datePipe: DatePipe, private firebaseStorage: AngularFireStorage, private sanitizer: DomSanitizer,
+  constructor(public dataService: DataService, private activateRoute: ActivatedRoute, private datePipe: DatePipe, private firebaseStorage: AngularFireStorage, private sanitizer: DomSanitizer,
     private fb: FormBuilder, public helperService: HelperService, public domSanitizer: DomSanitizer,
     private afStorage: AngularFireStorage, private modalService: NgbModal,
     public roleService: RoleBasedAccessControlService,

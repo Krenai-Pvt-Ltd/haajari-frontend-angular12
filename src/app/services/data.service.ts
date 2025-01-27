@@ -4581,7 +4581,7 @@ getHolidayForOrganization(date: string): Observable<any>{
     );
   }
 
-
+  resignationInfo: any;
   getUserResignationInfo(uuid: string) {
     let params = new HttpParams().set('uuid', uuid);
     return this.httpClient.get<any>(
