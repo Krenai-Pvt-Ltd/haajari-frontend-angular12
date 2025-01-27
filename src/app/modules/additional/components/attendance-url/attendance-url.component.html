@@ -116,8 +116,7 @@
 
                         <div class="set-location-btn d-flex align-items-center justify-content-between mt-4">
                             <div>
-                                <button *ngIf="submitButton" class="btn next-step mobile-margin"
-                                    (click)="clickAgain();">Click Again <i class="bi bi-camera pl-2"></i></button>
+                                <button *ngIf="submitButton" class="btn p-0 text-black font-14" (click)="clickAgain();">Click Again <i class="bi bi-camera pl-1"></i></button>
                             </div>
                             <button type="button" *ngIf="!captureImage; else markAttendance"
                                 (click)="triggerSnapshot()" class="btn next-step mobile-margin btn-border">

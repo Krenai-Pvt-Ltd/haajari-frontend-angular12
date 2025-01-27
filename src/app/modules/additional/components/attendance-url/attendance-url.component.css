@@ -94,6 +94,9 @@
 .company-logo {
     display: none;
 }
+.location-searchbar input{
+    color: #6666F2;
+}
 
 @media screen and (max-width: 2600px) {
     .entry-sidebar {
