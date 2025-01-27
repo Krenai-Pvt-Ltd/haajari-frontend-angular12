@@ -1255,15 +1255,17 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="emptyModalLabel">Mark Attendance</h5>
-                <button #closeAttendanceButton type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="getUserAttendanceStatus();"></button>
+                <button #closeAttendanceButton id="closeAttendanceButton" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="getUserAttendanceStatus(); showAttendanceComponent=false;"></button>
             </div>
             <div class="modal-body">
                 <!-- Add your content here -->
+                <ng-container *ngIf="showAttendanceComponent">
                 <app-attendance-url *ngIf="data && data!=null" [data]="data"></app-attendance-url>
+                </ng-container>
             </div>
-            <div class="modal-footer">
+            <!-- <div class="modal-footer">
                 <button type="button" (click)="getUserAttendanceStatus();" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>

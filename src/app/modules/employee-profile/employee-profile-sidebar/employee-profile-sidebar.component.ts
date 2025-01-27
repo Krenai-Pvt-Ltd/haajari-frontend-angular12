@@ -294,6 +294,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
   checkInOutUrl:string = '';
   uniqueId: string | null = null; 
   data:any= null;
+  showAttendanceComponent: boolean=false;
   checkinCheckout(command: string) {
     this.InOutLoader = true;
     if (command === '/out') {
@@ -327,6 +328,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
             'uniqueId' : params.get('uniqueId'),
             'uuid' : params.get('userUuid')
           }
+          this.showAttendanceComponent=true;
         } else {
           // Show toast with success message
           this.helperService.showToast(data.message, Key.TOAST_STATUS_SUCCESS);

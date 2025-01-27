@@ -12,11 +12,11 @@
                         </div>
                         <div>
                             <!-- TO DO: step active text -->
-                            <!-- <h6 class="mb-3 font-13">Confirm Your Location to Mark <br> Attendance</h6> -->
-                            <h5 class="mb-3 font-18 fw-bold">Confirm Your Location <br> to Mark Attendance</h5>
-                            <p class="mb-2 font-12">Ensure your attendance is marked <br> correctly by verifying your
+                            <h6 *ngIf="isSelfieNeeded" class="mb-3 font-13">Confirm Your Location to Mark Attendance</h6>
+                            <h5 *ngIf="!isSelfieNeeded" class="mb-3 font-18 fw-bold">Confirm Your Location <br> to Mark Attendance</h5>
+                            <p *ngIf="!isSelfieNeeded" class="mb-2 font-12">Ensure your attendance is marked <br> correctly by verifying your
                                 current<br> location.</p>
-                            <span>
+                            <span *ngIf="!isSelfieNeeded">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="51" height="26" viewBox="0 0 51 26"
                                     fill="none">
                                     <path
@@ -32,18 +32,18 @@
                                 class="step-one text-primary font-14 d-flex align-items-center justify-content-center fw-semibold">2</span>
                         </div>
                         <div>
-                            <h6 class="mb-3 font-13">Add Your Selfie for Verification</h6>
-                            <!-- <h5 class="mb-3 font-18 fw-bold">Add Your Selfie for <br> Verification</h5>
-                        <p class="mb-2 font-12">Complete the process by uploading <br> your selfie to confirm your
+                            <h6 *ngIf="!isSelfieNeeded" class="mb-3 font-13">Add Your Selfie for Verification</h6>
+                            <h5 *ngIf="isSelfieNeeded" class="mb-3 font-18 fw-bold">Add Your Selfie for <br> Verification</h5>
+                        <p  *ngIf="isSelfieNeeded"class="mb-2 font-12">Complete the process by uploading <br> your selfie to confirm your
                             identity. </p>
-                        <span>
+                        <span *ngIf="isSelfieNeeded">
                             <svg xmlns="http://www.w3.org/2000/svg" width="51" height="26" viewBox="0 0 51 26"
                                 fill="none">
                                 <path
                                     d="M49.7871 11.7885L38.3969 0.398164C37.9877 -0.0796163 37.2686 -0.135313 36.7909 0.273947C36.3131 0.68311 36.2574 1.40218 36.6666 1.87996C36.7048 1.9245 36.7463 1.9661 36.7909 2.00418L46.2334 11.4582H1.139C0.509985 11.4582 0 11.9682 0 12.5973C0 13.2264 0.509985 13.7363 1.139 13.7363H46.2334L36.7909 23.1788C36.3131 23.588 36.2574 24.3071 36.6666 24.7848C37.0759 25.2626 37.7949 25.3183 38.2727 24.9091C38.3172 24.8709 38.3588 24.8294 38.3969 24.7848L49.7872 13.3945C50.2288 12.9503 50.2288 12.2328 49.7871 11.7885Z"
                                     fill="#6666F2" />
                             </svg>
-                        </span> -->
+                        </span>
                         </div>
                     </div>
                 </div>
@@ -67,13 +67,14 @@
                     style="color: #6666f3"></i></span>
                 </div>
                 <div class="location-map mt-4">
-                    <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+                    
+                    <agm-map *ngIf="!isInvalid" [latitude]="lat" [longitude]="lng" [zoom]="zoom">
                         <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
                       </agm-map>
 
-                    <!-- <div class="linkexpird-img">
+                    <div *ngIf="isInvalid" class="linkexpird-img">
                         <img src="assets/images/link-expired.webp" class="w-100">
-                    </div> -->
+                    </div>
                 </div>
                 <div class="mt-4 d-flex align-items-center justify-content-between">
                     <p class="mb-0 font-13 fw-semibold">This link will expire soon if no action is taken.

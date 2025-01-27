@@ -9,7 +9,6 @@ import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { finalize } from 'rxjs/operators';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 declare var google: any;
 
 @Component({
@@ -34,7 +33,6 @@ export class AttendanceUrlComponent implements OnInit {
     constructor(
       private dataService: DataService,
       private router: Router,
-      public activeModal: NgbActiveModal,
       private helper: HelperService,
       private afStorage: AngularFireStorage
     ) {}
@@ -265,8 +263,10 @@ export class AttendanceUrlComponent implements OnInit {
     toggle = false;
     @ViewChild('closeAttendanceButton', { static: true }) closeButton!: ElementRef<HTMLButtonElement>;
 
-    markAttendaceWithLocationMethodCall() {
+    button = document.getElementById('closeAttendanceButton');
 
+    markAttendaceWithLocationMethodCall() {
+      this.toggle=true;
       const userUuid = this.data.uuid || '';
       this.employeeAttendanceLocation.latitude = this.lat.toString();
       this.employeeAttendanceLocation.longitude = this.lng.toString();
@@ -277,7 +277,9 @@ export class AttendanceUrlComponent implements OnInit {
         .subscribe(
           (response: EmployeeAttendanceLocation) => {
             // console.log(response);
-            this.activeModal.close();
+            if (this.button) {
+              this.button.click(); // Trigger the click event
+            }
             this.enableSubmitToggle = true;
             if (response.status == 'Already Checked In') {
               this.helper.showToast(
@@ -322,6 +324,9 @@ export class AttendanceUrlComponent implements OnInit {
             this.toggle = false;
           },
           (error) => {
+            if (this.button) {
+              this.button.click(); // Trigger the click event
+            }
             console.error(error);
           }
         );

@@ -20,7 +20,7 @@ export class ExitModalComponent {
 
   @Input() data: any; 
   userId: any;
-  ROLE: any= 'ADMIN';
+  ROLE: any= '';
   constructor(private dataService: DataService, private cdr: ChangeDetectorRef,
     public activeModal: NgbActiveModal,
     private modalService: ModalService, 
@@ -39,6 +39,7 @@ export class ExitModalComponent {
     this.getUserResignationInfo();
     // this.startCarousel();
     this.getNoticePeriodDuration();
+    this.ROLE= this.data.userType;
 
   }
 
