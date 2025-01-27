@@ -1239,8 +1239,8 @@ i::before {
 }
 
 .btn-close {
-    width: 28px;
-    height: 28px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
     position: absolute;
     right: -15px;

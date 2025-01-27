@@ -1253,11 +1253,11 @@
 <div class="modal fade" id="markAttendance" tabindex="-1" aria-labelledby="emptyModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
-            <div class="modal-header">
+            <!-- <div class="modal-header">
                 <h5 class="modal-title" id="emptyModalLabel">Mark Attendance</h5>
                 <button #closeAttendanceButton id="closeAttendanceButton" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="getUserAttendanceStatus(); showAttendanceComponent=false;"></button>
-            </div>
-            <div class="modal-body">
+            </div> -->
+            <div class="modal-body p-0">
                 <!-- Add your content here -->
                 <ng-container *ngIf="showAttendanceComponent">
                 <app-attendance-url *ngIf="data && data!=null" [data]="data"></app-attendance-url>
