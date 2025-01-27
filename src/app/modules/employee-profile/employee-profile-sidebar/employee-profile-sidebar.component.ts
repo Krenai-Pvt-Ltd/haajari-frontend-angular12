@@ -195,6 +195,11 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     return sortedArr1.every((value, index) => value === sortedArr2[index]);
   }
 
+  isModalVisible = false;
+  openExitModal() {
+    this.isModalVisible = true;
+  }
+
   removeSkill(skill: string): void {
     const index = this.skills.indexOf(skill);
     if (index !== -1) {
@@ -1035,6 +1040,7 @@ isVideoPolicy=false;
     });
   }
 
+  @ViewChild('pdfModal') pdfModal!: ElementRef;
   acceptAgreement() {
     debugger
     if (this.isLastPageRead) {
@@ -1064,11 +1070,21 @@ isVideoPolicy=false;
       }, 200);
     } else {
       this.dataService.acceptAgreement().subscribe((res: any) => {
+        debugger
         if (res.status) {
+          this.modalService.dismissAll();
           this.helperService.showToast(res.message, Key.TOAST_STATUS_SUCCESS);
+          this.dismissModal();
         }
       })
       // modal.close();s
+    }
+  }
+  dismissModal(): void {
+    const dismissBtn = document.getElementById('dismissBtn') as HTMLButtonElement;
+    if (dismissBtn) {
+      dismissBtn.click(); // Programmatically click the hidden button
+      console.log('Modal dismissed programmatically');
     }
   }
 

@@ -584,6 +584,380 @@
     Initiate Exit
 </button>
 
+<!-- <app-exit-modal></app-exit-modal> -->
+
+<div class="modal fade" id="resignApproveModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel"
+    aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 570px" role="document">
+        <div class="modal-content">
+            <div class="modal-body p-4">
+                <button type="button" class="leave-request-modat-close-btn" data-bs-dismiss="modal" aria-label="Close"
+                    (click)="clearApproveModal()" #closeApproveModal>
+                    <i class="bi bi-x" style="line-height: 20px"></i>
+                </button>
+                <div *ngIf="userResignationInfo != undefined" class="text-center leave-appervo-modal">
+                    <div class="d-flex align-items-start justify-content-between">
+                        <div class="d-flex align-items-center profile-details" style="gap: 15px">
+                            <div class="profile-user-img">
+                                <img [src]="userResignationInfo.imageUrl || 'assets/images/user.png'"
+                                    style="width: 50px; height: 50px; object-fit: cover" />
+                            </div>
+
+                            <div>
+                                <h4 style="cursor: pointer">
+                                    {{ userResignationInfo.userName }}
+                                </h4>
+                                <p>{{ userResignationInfo.email }}</p>
+                            </div>
+                        </div>
+                        <div class="total-holidey-live">
+                            <h5 class="text-end">
+                                {{userResignationInfo.userLastWorkingDay | date : "dd MMM yyyy" || "N/A"}}
+                            </h5>
+                            <p *ngIf="userResignationInfo.userExitType != null">
+                                {{ userResignationInfo.userExitType.name }}
+                            </p>
+                            <a *ngIf="userResignationInfo.url != null" [href]="userResignationInfo.url" target="_blank"
+                                rel="noopener noreferrer">View <i class="fas fa-external-link-square-alt me-1"></i></a>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <div class="d-flex align-items-center">
+                            <div class="Approved rejected-css" *ngIf="userResignationInfo.userExitType != null">
+                                <p class="mb-0 text-black"></p>
+                                <span class="user-registration" class="total-holiday">{{
+                                    userResignationInfo.userExitType.name }}</span>
+                            </div>
+                        </div>
+
+                        <p class="mt-4 mb-4">{{ userResignationInfo.reason }}</p>
+                        <p class="mt-4 mb-4"
+                            *ngIf="userResignationInfo.comment != null && userResignationInfo.comment != ''">{{
+                            userResignationInfo.comment }}</p>
+
+                        <div class="d-flex align-items-center justify-content-end gap-2">
+                            <button class="btn approve-btn" type="button" [disabled]="approveToggle"
+                                (click)="approveOrDeny(userResignationInfo.id)">
+                                <div *ngIf="approveToggle ; else approveLabel">
+                                    <div class="dot-opacity-loader">
+                                        <span></span>
+                                        <span></span>
+                                        <span></span>
+                                    </div>
+                                </div>
+                                <ng-template #approveLabel>Approve</ng-template>
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#addSkills">
+    Add Skills
+</button>
+
+<div class="modal" id="addSkills" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Skills</h5>
+                <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" id="closeButton"
+                    #closeButton>
+
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                            width="24" height="24">
+                            <rect width="24" height="24" fill="#D9D9D9" />
+                        </mask>
+                        <g mask="url(#mask0_5037_2014)">
+                            <path
+                                d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z"
+                                fill="black" />
+                        </g>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="skill-set-modal">
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <div class="form-group position-relative">
+                                <label for="assetName" class="mb-2">Skills</label>
+                                <input type="text" (keyup.enter)="addSkill()" class="form-control input-zorro "
+                                    placeholder="Search Your Skills (Ex: Testing)" style="padding: 10px 70px 10px 40px;"
+                                    [(ngModel)]="searchSkill" (ngModelChange)="onSkillsChange($event)"
+                                    [nzAutocomplete]="skillsAuto" (keydown)="preventLeadingWhitespace($event)" />
+                                <i class="bi bi-search search-icon"></i>
+                                <nz-autocomplete [nzDataSource]="skillsFilteredOptions" #skillsAuto></nz-autocomplete>
+
+                                <button class="btn p-0 text-primary add-skill" (click)="addSkill()"><i
+                                        class="bi bi-plus font-18"></i> Add</button>
+                            </div>
+                        </div>
+                        <div class="col-md-12 mt-3">
+                            <div class="skill-set-add">
+                                <ul class="skill-set">
+                                    <li *ngFor="let skill of skills">
+                                        {{ skill }} <i class="bi bi-x" (click)="removeSkill(skill)"></i>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer d-flex align-items-center justify-content-end">
+                <button data-bs-dismiss="modal" aria-label="Close" class="btn submitActionBtn" (click)="saveSkills()"
+                    [disabled]="isSkillsLoading || checkSkillsArraysEqual()"
+                    [ngClass]="{'btn-border':!checkSkillsArraysEqual()}">
+                    <span *ngIf="!isSkillsLoading">Save</span>
+                    <span *ngIf="isSkillsLoading" class="dot-opacity-loader">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- TO DO: modal change in bootstrap -->
+
+<!-- <ng-template #urlModalTemplate let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">Mark Attendance</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body p-0">
+        <iframe *ngIf="modalUrl" [src]="modalUrl" style="width: 100%; height: 800px; border: none;"></iframe>
+    </div>
+</ng-template> -->
+
+
+
+<!-- TO DO: Bootstrap modal fix -->
+
+<button type="button" class="d-none btn" id="urlModalTemplate" #urlModalTemplate data-bs-toggle="modal"
+    data-bs-target="#markAttendance">
+</button>
+
+<div class="modal fade" id="markAttendance" tabindex="-1" role="dialog" aria-labelledby="markAttendanceLabel"
+    data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <!-- <div class="modal-header">
+                <h4 class="modal-title">Mark Attendance</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                </button>
+            </div> -->
+            <div class="modal-body p-0">
+                <button type="button" class="btn-close d-flex align-items-center justify-content-center" (click)="getUserAttendanceStatus();"
+                    data-bs-dismiss="modal" aria-label="Close">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 16 15" fill="none">
+                        <path
+                            d="M2.09533 14.3667L0.619141 12.9707L6.5239 7.38648L0.619141 1.8023L2.09533 0.40625L8.00009 5.99044L13.9049 0.40625L15.381 1.8023L9.47628 7.38648L15.381 12.9707L13.9049 14.3667L8.00009 8.78253L2.09533 14.3667Z"
+                            fill="black" />
+                    </svg>
+                </button>
+                <iframe *ngIf="modalUrl" [src]="modalUrl" style="width: 100%; height: 800px; border: none;">
+                </iframe>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="addDocument" name="addDocument" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Document</h5>
+                <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButton>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                            width="24" height="24">
+                            <rect width="24" height="24" fill="#D9D9D9" />
+                        </mask>
+                        <g mask="url(#mask0_5037_2014)">
+                            <path
+                                d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z"
+                                fill="black" />
+                        </g>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="assets-request-form">
+                    <form>
+                        <div class="row register-form-box">
+                            <div class="col-md-12 mb-3">
+                                <div class="form-group">
+                                    <label for="documentName" class="mb-2">Document Name</label>
+                                    <input type="text" class="form-control" id="documentName"
+                                        placeholder="Enter document name" [(ngModel)]="doc.name" name="documentName" />
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="fileInput" class="mb-2">Attach File</label>
+                                    <div
+                                        class="upload-file-input p-2 d-flex align-items-center justify-content-center flex-column add-other-file">
+                                        <input id="fileInput" type="file" name="file"
+                                            accept=".xlsx,.pdf,.docx,.jpg,.jpeg,.png" class="input"
+                                            (change)="handleFileChange($event)" />
+                                        <span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="46" height="45"
+                                                viewBox="0 0 46 45" fill="none">
+                                                <g clip-path="url(#clip0_4843_1408)">
+                                                    <path
+                                                        d="M12.0151 0H27.0758L39.8253 13.2948V39.1489C39.8253 42.3774 37.2027 45 33.9656 45H12.0152C8.78667 45 6.16406 42.3774 6.16406 39.1489V5.85114C6.16401 2.6226 8.78661 0 12.0151 0Z"
+                                                        fill="#6666F2" />
+                                                    <path opacity="0.302" fill-rule="evenodd" clip-rule="evenodd"
+                                                        d="M27.0625 0V13.191H39.8294L27.0625 0Z" fill="white" />
+                                                    <path
+                                                        d="M28.9285 23.4109H17.0618C16.5165 23.4109 16.0664 22.9695 16.0664 22.4242C16.0664 21.8789 16.5165 21.4375 17.0618 21.4375H28.9285C29.4738 21.4375 29.9152 21.8789 29.9152 22.4242C29.9152 22.9695 29.4738 23.4109 28.9285 23.4109ZM24.9729 35.2776H17.0618C16.5165 35.2776 16.0664 34.8362 16.0664 34.2909C16.0664 33.7456 16.5165 33.3042 17.0618 33.3042H24.9729C25.5183 33.3042 25.9596 33.7456 25.9596 34.2909C25.9596 34.8362 25.5183 35.2776 24.9729 35.2776ZM28.9285 31.322H17.0618C16.5165 31.322 16.0664 30.8806 16.0664 30.3353C16.0664 29.7901 16.5165 29.3486 17.0618 29.3486H28.9285C29.4738 29.3486 29.9152 29.7901 29.9152 30.3353C29.9152 30.8806 29.4738 31.322 28.9285 31.322ZM28.9285 27.3665H17.0618C16.5165 27.3665 16.0664 26.925 16.0664 26.3798C16.0664 25.8345 16.5165 25.3931 17.0618 25.3931H28.9285C29.4738 25.3931 29.9152 25.8345 29.9152 26.3798C29.9152 26.925 29.4738 27.3665 28.9285 27.3665Z"
+                                                        fill="white" />
+                                                </g>
+                                                <defs>
+                                                    <clipPath id="clip0_4843_1408">
+                                                        <rect width="45" height="45" fill="white"
+                                                            transform="translate(0.5)" />
+                                                    </clipPath>
+                                                </defs>
+                                            </svg>
+                                        </span>
+                                        <button type="button" class="btn add-file mt-2 font-14">
+                                            <i *ngIf="doc.fileName===''" class="bi bi-plus-lg"></i>{{doc.fileName!=''?
+                                            doc.fileName : 'Add File' }}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn cancel-btn" data-bs-dismiss="modal">
+                    Cancel
+                </button>
+                <button type="button" class="btn submitActionBtn" [disabled]="isDocumentLoading || doc.name.length<1"
+                    (click)="onDocumentSubmit()">
+                    <span *ngIf="!isDocumentLoading">Submit</span>
+                    <div class="dot-opacity-loader" *ngIf="isDocumentLoading">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#pdfModal" #pdfModalButton
+    id="pdfModalButton">
+    Launch demo modal
+</button>
+
+<div class="modal fade" id="pdfModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+    data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <!-- <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Agreement</h5>
+            </div> -->
+            <div class="modal-body position-relative">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div
+                            class="p-4 d-flex align-items-start justify-content-center agreement-sidebar h-100 flex-column">
+                            <h5 class="font-20 fw-simibold">Review and Accept <br> Applicable Agreements</h5>
+                            <p class="font-12 ">Below are all the agreements that <br> apply to you. Please review them
+                                <br>carefully
+                                before proceeding.
+                            </p>
+                            <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="51" height="26" viewBox="0 0 51 26"
+                                    fill="none">
+                                    <path
+                                        d="M49.7871 11.7885L38.3969 0.398164C37.9877 -0.0796163 37.2686 -0.135313 36.7909 0.273947C36.3131 0.68311 36.2574 1.40218 36.6666 1.87996C36.7048 1.9245 36.7463 1.9661 36.7909 2.00418L46.2334 11.4582H1.139C0.509985 11.4582 0 11.9682 0 12.5973C0 13.2264 0.509985 13.7363 1.139 13.7363H46.2334L36.7909 23.1788C36.3131 23.588 36.2574 24.3071 36.6666 24.7848C37.0759 25.2626 37.7949 25.3183 38.2727 24.9091C38.3172 24.8709 38.3588 24.8294 38.3969 24.7848L49.7872 13.3945C50.2288 12.9503 50.2288 12.2328 49.7871 11.7885Z"
+                                        fill="#6666F2" />
+                                </svg>
+                            </span>
+                            <div class="policy-step d-flex align-items-start gap-2">
+                                <!-- TO DO: class="active-step"  -->
+
+                                    <span *ngFor="let doc of hrPolicyDocuments; let i = index" [ngClass]="{ 'active-step': i == currentPdfIndex, 'inactive-step': i != currentPdfIndex }"></span>
+
+                                
+                            </div>
+
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="dismissBtn" hidden>
+                        Dismiss
+                    </button>
+                    <div class="col-md-9">
+                        <!-- TO DO: policy download btn dynamic  -->
+                         <!-- *ngIf="*ngIf="isVideoPolicy"" -->
+                        <div class="pt-0" [ngClass]="{'policy-terms':!isVideoPolicy}">
+                            <div class=" d-flex align-items-center justify-content-between" [ngClass]="{'p-3 policy-name':!isVideoPolicy}">
+                                <!-- TO DO: policy file name dynamic  -->
+                                <h5 class="mb-0 font-14 fw-semibold text-white">{{this.hrPolicyDocuments[this.currentPdfIndex]?.name}}</h5>
+
+                                <span class="pointer">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none">
+                                        <mask id="mask0_7303_2177" style="mask-type:alpha" maskUnits="userSpaceOnUse"
+                                            x="0" y="0" width="24" height="24">
+                                            <rect width="24" height="24" fill="#D9D9D9" />
+                                        </mask>
+                                        <g mask="url(#mask0_7303_2177)">
+                                            <path
+                                                d="M12 16.459L7 11.3915L8.4 9.92188L11 12.557V4.29688H13V12.557L15.6 9.92188L17 11.3915L12 16.459ZM6 20.5131C5.45 20.5131 4.97917 20.3146 4.5875 19.9177C4.19583 19.5207 4 19.0435 4 18.4861V15.4455H6V18.4861H18V15.4455H20V18.4861C20 19.0435 19.8042 19.5207 19.4125 19.9177C19.0208 20.3146 18.55 20.5131 18 20.5131H6Z"
+                                                fill="white" />
+                                        </g>
+                                    </svg>
+                                </span>
+                            </div>
+                            <div class="p-3 text-center scroll" id="pdf-container" #pdfContainer></div>
+                        </div>
+                        <div class="modal-footer d-flex align-content-center justify-content-between w-100 p-0" style="border-top:none;" [ngClass]="{'policy-footer':!isVideoPolicy}"
+                            *ngIf="isLastPageRead">
+                            <div *ngIf="isLastPageRead" class="d-flex align-items-center gap-2">
+                                <input class="input-check" type="checkbox" id="acceptCheckbox"
+                                    (change)="onCheckboxChange($event)" />
+                                <label class="policy-label" for="acceptCheckbox"> I accept the terms and conditions</label>
+                            </div>
+                            <button *ngIf="isAccepted" type="button" [disabled]="!isLastPageRead"
+                                class="btn submitActionBtn" (click)="acceptAgreement()">
+                                <span *ngIf="currentPdfIndex < hrPolicyDocuments.length-1 && isAccepted">Approve &
+                                    Next</span>
+                                <span *ngIf="currentPdfIndex >= hrPolicyDocuments.length-1 && isAccepted"> Accept
+                                    Agreement</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="initiateExit" tabindex="-1" role="dialog" #assetRequestModal aria-hidden="true"
     aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -877,370 +1251,3 @@
     </div>
 </div>
 
-<div class="modal fade" id="resignApproveModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel"
-    aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-    <div class="modal-dialog modal-dialog-centered" style="max-width: 570px" role="document">
-        <div class="modal-content">
-            <div class="modal-body p-4">
-                <button type="button" class="leave-request-modat-close-btn" data-bs-dismiss="modal" aria-label="Close"
-                    (click)="clearApproveModal()" #closeApproveModal>
-                    <i class="bi bi-x" style="line-height: 20px"></i>
-                </button>
-                <div *ngIf="userResignationInfo != undefined" class="text-center leave-appervo-modal">
-                    <div class="d-flex align-items-start justify-content-between">
-                        <div class="d-flex align-items-center profile-details" style="gap: 15px">
-                            <div class="profile-user-img">
-                                <img [src]="userResignationInfo.imageUrl || 'assets/images/user.png'"
-                                    style="width: 50px; height: 50px; object-fit: cover" />
-                            </div>
-
-                            <div>
-                                <h4 style="cursor: pointer">
-                                    {{ userResignationInfo.userName }}
-                                </h4>
-                                <p>{{ userResignationInfo.email }}</p>
-                            </div>
-                        </div>
-                        <div class="total-holidey-live">
-                            <h5 class="text-end">
-                                {{userResignationInfo.userLastWorkingDay | date : "dd MMM yyyy" || "N/A"}}
-                            </h5>
-                            <p *ngIf="userResignationInfo.userExitType != null">
-                                {{ userResignationInfo.userExitType.name }}
-                            </p>
-                            <a *ngIf="userResignationInfo.url != null" [href]="userResignationInfo.url" target="_blank"
-                                rel="noopener noreferrer">View <i class="fas fa-external-link-square-alt me-1"></i></a>
-                        </div>
-                    </div>
-                    <div class="mt-4">
-                        <div class="d-flex align-items-center">
-                            <div class="Approved rejected-css" *ngIf="userResignationInfo.userExitType != null">
-                                <p class="mb-0 text-black"></p>
-                                <span class="user-registration" class="total-holiday">{{
-                                    userResignationInfo.userExitType.name }}</span>
-                            </div>
-                        </div>
-
-                        <p class="mt-4 mb-4">{{ userResignationInfo.reason }}</p>
-                        <p class="mt-4 mb-4"
-                            *ngIf="userResignationInfo.comment != null && userResignationInfo.comment != ''">{{
-                            userResignationInfo.comment }}</p>
-
-                        <div class="d-flex align-items-center justify-content-end gap-2">
-                            <button class="btn approve-btn" type="button" [disabled]="approveToggle"
-                                (click)="approveOrDeny(userResignationInfo.id)">
-                                <div *ngIf="approveToggle ; else approveLabel">
-                                    <div class="dot-opacity-loader">
-                                        <span></span>
-                                        <span></span>
-                                        <span></span>
-                                    </div>
-                                </div>
-                                <ng-template #approveLabel>Approve</ng-template>
-                            </button>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#addSkills">
-    Add Skills
-</button>
-
-<div class="modal" id="addSkills" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Add Skills</h5>
-                <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" id="closeButton"
-                    #closeButton>
-
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
-                            width="24" height="24">
-                            <rect width="24" height="24" fill="#D9D9D9" />
-                        </mask>
-                        <g mask="url(#mask0_5037_2014)">
-                            <path
-                                d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z"
-                                fill="black" />
-                        </g>
-                    </svg>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="skill-set-modal">
-                    <div class="row">
-                        <div class="col-md-12 mb-3">
-                            <div class="form-group position-relative">
-                                <label for="assetName" class="mb-2">Skills</label>
-                                <input type="text" (keyup.enter)="addSkill()" class="form-control input-zorro "
-                                    placeholder="Search Your Skills (Ex: Testing)" style="padding: 10px 70px 10px 40px;"
-                                    [(ngModel)]="searchSkill" (ngModelChange)="onSkillsChange($event)"
-                                    [nzAutocomplete]="skillsAuto" (keydown)="preventLeadingWhitespace($event)" />
-                                <i class="bi bi-search search-icon"></i>
-                                <nz-autocomplete [nzDataSource]="skillsFilteredOptions" #skillsAuto></nz-autocomplete>
-
-                                <button class="btn p-0 text-primary add-skill" (click)="addSkill()"><i
-                                        class="bi bi-plus font-18"></i> Add</button>
-                            </div>
-                        </div>
-                        <div class="col-md-12 mt-3">
-                            <div class="skill-set-add">
-                                <ul class="skill-set">
-                                    <li *ngFor="let skill of skills">
-                                        {{ skill }} <i class="bi bi-x" (click)="removeSkill(skill)"></i>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer d-flex align-items-center justify-content-end">
-                <button data-bs-dismiss="modal" aria-label="Close" class="btn submitActionBtn" (click)="saveSkills()"
-                    [disabled]="isSkillsLoading || checkSkillsArraysEqual()"
-                    [ngClass]="{'btn-border':!checkSkillsArraysEqual()}">
-                    <span *ngIf="!isSkillsLoading">Save</span>
-                    <span *ngIf="isSkillsLoading" class="dot-opacity-loader">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </span>
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<!-- TO DO: modal change in bootstrap -->
-
-<!-- <ng-template #urlModalTemplate let-modal>
-    <div class="modal-header">
-        <h4 class="modal-title">Mark Attendance</h4>
-        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
-    </div>
-    <div class="modal-body p-0">
-        <iframe *ngIf="modalUrl" [src]="modalUrl" style="width: 100%; height: 800px; border: none;"></iframe>
-    </div>
-</ng-template> -->
-
-
-
-<!-- TO DO: Bootstrap modal fix -->
-
-<button type="button" class="d-none btn" id="urlModalTemplate" #urlModalTemplate data-bs-toggle="modal"
-    data-bs-target="#markAttendance">
-</button>
-
-<div class="modal fade" id="markAttendance" tabindex="-1" role="dialog" aria-labelledby="markAttendanceLabel"
-    data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-        <div class="modal-content">
-            <!-- <div class="modal-header">
-                <h4 class="modal-title">Mark Attendance</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                </button>
-            </div> -->
-            <div class="modal-body p-0">
-                <button type="button" class="btn-close d-flex align-items-center justify-content-center"
-                    data-bs-dismiss="modal" aria-label="Close">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 16 15" fill="none">
-                        <path
-                            d="M2.09533 14.3667L0.619141 12.9707L6.5239 7.38648L0.619141 1.8023L2.09533 0.40625L8.00009 5.99044L13.9049 0.40625L15.381 1.8023L9.47628 7.38648L15.381 12.9707L13.9049 14.3667L8.00009 8.78253L2.09533 14.3667Z"
-                            fill="black" />
-                    </svg>
-                </button>
-                <iframe *ngIf="modalUrl" [src]="modalUrl" style="width: 100%; height: 800px; border: none;">
-                </iframe>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-<div class="modal fade" id="addDocument" name="addDocument" tabindex="-1" role="dialog"
-    aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Add Document</h5>
-                <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButton>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
-                            width="24" height="24">
-                            <rect width="24" height="24" fill="#D9D9D9" />
-                        </mask>
-                        <g mask="url(#mask0_5037_2014)">
-                            <path
-                                d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z"
-                                fill="black" />
-                        </g>
-                    </svg>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="assets-request-form">
-                    <form>
-                        <div class="row register-form-box">
-                            <div class="col-md-12 mb-3">
-                                <div class="form-group">
-                                    <label for="documentName" class="mb-2">Document Name</label>
-                                    <input type="text" class="form-control" id="documentName"
-                                        placeholder="Enter document name" [(ngModel)]="doc.name" name="documentName" />
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="fileInput" class="mb-2">Attach File</label>
-                                    <div
-                                        class="upload-file-input p-2 d-flex align-items-center justify-content-center flex-column add-other-file">
-                                        <input id="fileInput" type="file" name="file"
-                                            accept=".xlsx,.pdf,.docx,.jpg,.jpeg,.png" class="input"
-                                            (change)="handleFileChange($event)" />
-                                        <span>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="46" height="45"
-                                                viewBox="0 0 46 45" fill="none">
-                                                <g clip-path="url(#clip0_4843_1408)">
-                                                    <path
-                                                        d="M12.0151 0H27.0758L39.8253 13.2948V39.1489C39.8253 42.3774 37.2027 45 33.9656 45H12.0152C8.78667 45 6.16406 42.3774 6.16406 39.1489V5.85114C6.16401 2.6226 8.78661 0 12.0151 0Z"
-                                                        fill="#6666F2" />
-                                                    <path opacity="0.302" fill-rule="evenodd" clip-rule="evenodd"
-                                                        d="M27.0625 0V13.191H39.8294L27.0625 0Z" fill="white" />
-                                                    <path
-                                                        d="M28.9285 23.4109H17.0618C16.5165 23.4109 16.0664 22.9695 16.0664 22.4242C16.0664 21.8789 16.5165 21.4375 17.0618 21.4375H28.9285C29.4738 21.4375 29.9152 21.8789 29.9152 22.4242C29.9152 22.9695 29.4738 23.4109 28.9285 23.4109ZM24.9729 35.2776H17.0618C16.5165 35.2776 16.0664 34.8362 16.0664 34.2909C16.0664 33.7456 16.5165 33.3042 17.0618 33.3042H24.9729C25.5183 33.3042 25.9596 33.7456 25.9596 34.2909C25.9596 34.8362 25.5183 35.2776 24.9729 35.2776ZM28.9285 31.322H17.0618C16.5165 31.322 16.0664 30.8806 16.0664 30.3353C16.0664 29.7901 16.5165 29.3486 17.0618 29.3486H28.9285C29.4738 29.3486 29.9152 29.7901 29.9152 30.3353C29.9152 30.8806 29.4738 31.322 28.9285 31.322ZM28.9285 27.3665H17.0618C16.5165 27.3665 16.0664 26.925 16.0664 26.3798C16.0664 25.8345 16.5165 25.3931 17.0618 25.3931H28.9285C29.4738 25.3931 29.9152 25.8345 29.9152 26.3798C29.9152 26.925 29.4738 27.3665 28.9285 27.3665Z"
-                                                        fill="white" />
-                                                </g>
-                                                <defs>
-                                                    <clipPath id="clip0_4843_1408">
-                                                        <rect width="45" height="45" fill="white"
-                                                            transform="translate(0.5)" />
-                                                    </clipPath>
-                                                </defs>
-                                            </svg>
-                                        </span>
-                                        <button type="button" class="btn add-file mt-2 font-14">
-                                            <i *ngIf="doc.fileName===''" class="bi bi-plus-lg"></i>{{doc.fileName!=''?
-                                            doc.fileName : 'Add File' }}
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn cancel-btn" data-bs-dismiss="modal">
-                    Cancel
-                </button>
-                <button type="button" class="btn submitActionBtn" [disabled]="isDocumentLoading || doc.name.length<1"
-                    (click)="onDocumentSubmit()">
-                    <span *ngIf="!isDocumentLoading">Submit</span>
-                    <div class="dot-opacity-loader" *ngIf="isDocumentLoading">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </div>
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-
-<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#pdfModal" #pdfModalButton
-    id="pdfModalButton">
-    Launch demo modal
-</button>
-
-<div class="modal fade" id="pdfModal" #pdfModal tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
-    data-bs-backdrop="static" data-bs-keyboard="false">
-    <div class="modal-dialog modal-dialog-centered modal-xl">
-        <div class="modal-content">
-            <!-- <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Agreement</h5>
-            </div> -->
-            <div class="modal-body position-relative">
-                <div class="row">
-                    <div class="col-md-3">
-                        <div
-                            class="p-4 d-flex align-items-start justify-content-center agreement-sidebar h-100 flex-column">
-                            <h5 class="font-20 fw-simibold">Review and Accept <br> Applicable Agreements</h5>
-                            <p class="font-12 ">Below are all the agreements that <br> apply to you. Please review them
-                                <br>carefully
-                                before proceeding.
-                            </p>
-                            <span>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="51" height="26" viewBox="0 0 51 26"
-                                    fill="none">
-                                    <path
-                                        d="M49.7871 11.7885L38.3969 0.398164C37.9877 -0.0796163 37.2686 -0.135313 36.7909 0.273947C36.3131 0.68311 36.2574 1.40218 36.6666 1.87996C36.7048 1.9245 36.7463 1.9661 36.7909 2.00418L46.2334 11.4582H1.139C0.509985 11.4582 0 11.9682 0 12.5973C0 13.2264 0.509985 13.7363 1.139 13.7363H46.2334L36.7909 23.1788C36.3131 23.588 36.2574 24.3071 36.6666 24.7848C37.0759 25.2626 37.7949 25.3183 38.2727 24.9091C38.3172 24.8709 38.3588 24.8294 38.3969 24.7848L49.7872 13.3945C50.2288 12.9503 50.2288 12.2328 49.7871 11.7885Z"
-                                        fill="#6666F2" />
-                                </svg>
-                            </span>
-                            <div class="policy-step d-flex align-items-start gap-2">
-                                <!-- TO DO: class="active-step"  -->
-                                <span class="active-step"></span>
-                                <span></span>
-                                <span></span>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="col-md-9">
-                        <!-- TO DO: policy download btn dynamic  -->
-                         <!-- *ngIf="*ngIf="isVideoPolicy"" -->
-                        <div class="pt-0" [ngClass]="{'policy-terms':!isVideoPolicy}">
-                            <div class=" d-flex align-items-center justify-content-between" [ngClass]="{'p-3 policy-name':!isVideoPolicy}">
-                                <!-- TO DO: policy file name dynamic  -->
-                                <h5 class="mb-0 font-14 fw-semibold text-white">Hr Documentation.pdf</h5>
-
-                                <span class="pointer">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                        fill="none">
-                                        <mask id="mask0_7303_2177" style="mask-type:alpha" maskUnits="userSpaceOnUse"
-                                            x="0" y="0" width="24" height="24">
-                                            <rect width="24" height="24" fill="#D9D9D9" />
-                                        </mask>
-                                        <g mask="url(#mask0_7303_2177)">
-                                            <path
-                                                d="M12 16.459L7 11.3915L8.4 9.92188L11 12.557V4.29688H13V12.557L15.6 9.92188L17 11.3915L12 16.459ZM6 20.5131C5.45 20.5131 4.97917 20.3146 4.5875 19.9177C4.19583 19.5207 4 19.0435 4 18.4861V15.4455H6V18.4861H18V15.4455H20V18.4861C20 19.0435 19.8042 19.5207 19.4125 19.9177C19.0208 20.3146 18.55 20.5131 18 20.5131H6Z"
-                                                fill="white" />
-                                        </g>
-                                    </svg>
-                                </span>
-                            </div>
-                            <div class="p-3 text-center scroll" id="pdf-container" #pdfContainer></div>
-                        </div>
-                        <div class="modal-footer d-flex align-content-center justify-content-between w-100 p-0" style="border-top:none;" [ngClass]="{'policy-footer':!isVideoPolicy}"
-                            *ngIf="isLastPageRead">
-                            <div *ngIf="isLastPageRead" class="d-flex align-items-center gap-2">
-                                <input class="input-check" type="checkbox" id="acceptCheckbox"
-                                    (change)="onCheckboxChange($event)" />
-                                <label class="policy-label" for="acceptCheckbox"> I accept the terms and conditions</label>
-                            </div>
-                            <button *ngIf="isAccepted" type="button" [disabled]="!isLastPageRead"
-                                class="btn submitActionBtn" (click)="acceptAgreement()">
-                                <span *ngIf="currentPdfIndex < hrPolicyDocuments.length-1 && isAccepted">Approve &
-                                    Next</span>
-                                <span *ngIf="currentPdfIndex >= hrPolicyDocuments.length-1 && isAccepted"> Accept
-                                    Agreement</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</div>
