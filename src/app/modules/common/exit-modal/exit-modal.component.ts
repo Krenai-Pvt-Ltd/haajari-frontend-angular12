@@ -186,6 +186,9 @@ export class ExitModalComponent {
     this.showRevokeDiv = false;
   }
 
-  
+  disableAction(){
+   var isDisabled=  this.ROLE== 'ADMIN'? true : null
+    return isDisabled;
+  }
 
 }

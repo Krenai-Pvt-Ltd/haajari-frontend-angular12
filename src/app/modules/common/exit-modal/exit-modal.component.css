@@ -1,3 +1,143 @@
 :host {
   display: block;
 }
+
+/** initiate exite css */
+
+.cancel-btn {
+  background-color: #fbfbfb;
+  border: 1px solid #e6e7e9;
+  border-radius: 2px;
+  color: #4a4a4a;
+  font-size: 12px;
+  font-weight: 500;
+  width: 100px;
+}
+
+.submitActionBtn {
+  background-color: var(--primary-background-color);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 2px;
+  width: 100px;
+}
+
+.input-zorro {
+  border-radius: 2px !important;
+  border: 1.021px solid #e9e9e9 !important;
+  background: rgba(236, 236, 236, 0.21) !important;
+  height: 45px !important;
+  font-size: 12px !important;
+  font-weight: 400 !important;
+}
+
+.nots-section {
+  background-color: rgba(236, 236, 236, 0.21) !important;
+  width: 100%;
+  height: 80px !important;
+  border: 1px solid #e9e9e9;
+}
+
+.assets-req {
+  border: 1px solid #f1f1f1;
+  border-radius: 2px;
+  height: 47px;
+  margin-bottom: 0px;
+  background-color: rgba(236, 236, 236, 0.21);
+}
+
+.assets-req input {
+  left: 15px !important;
+  position: relative;
+  top: -2px;
+}
+
+.assets-req p {
+  padding-left: 25px;
+  font-size: 13px !important;
+  font-weight: 400 !important;
+}
+
+.register-form-box {
+  height: 450px;
+  overflow: scroll;
+}
+
+.register-form-box::-webkit-scrollbar {
+  display: none;
+}
+
+.requesting-half-leave {
+  background-color: rgba(236, 236, 236, 0.21) !important;
+  min-height: 45px;
+  border: 1px solid #e9e9e9;
+  border-radius: 2px;
+}
+
+.hr-policy-file {
+  border: 1px solid #eee;
+  border-radius: 2px;
+  background-color: rgba(236, 236, 236, 0.21) !important;
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
+}
+
+/* .separator {
+  border-right: 1px solid #d1d1d1;
+  height: 15px;
+} */
+
+.w-90 {
+  width: 90%;
+}
+
+.hr-policy-file p {
+  color: #8d93a1;
+  font-weight: 300 !important;
+}
+
+.action-icon-btn span svg {
+  position: relative;
+  top: -1px;
+  width: 18px;
+}
+
+.hr-policy-file h5 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100px;
+}
+
+.notice-period-date {
+  border-radius: 2px;
+  border-left: 3.775px solid #6666F2;
+  background: #F3F3FF;
+}
+
+.calendar-separator {
+  border-left: 2px solid #D9D9D9;
+  height: 24px;
+}
+
+.notice-period-error {
+  border-radius: 2px;
+  border-left: 3.775px solid #FF3014;
+  background: #FFF2F0;
+}
+
+.hr-notes {
+  background-color: #EAF0FD;
+}
+
+.hr-notes p {
+  color: #000;
+  font-weight: 500;
+}
+
+.exited-background {
+  background-color: #FFF2F0 !important;
+}
+
+/** Initiate exit css end */
