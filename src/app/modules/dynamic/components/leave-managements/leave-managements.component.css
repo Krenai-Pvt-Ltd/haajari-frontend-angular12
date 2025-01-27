@@ -113,22 +113,22 @@
     border-radius: 5px;
 }
 
-::ng-deep .placeholder-line .ant-select-selection-placeholder {
-    line-height: 24px !important;
-    font-size: 0.875rem !important;
-    font-weight: 500 !important;
-  }
-  
-  ::ng-deep .placeholder-line .ant-select-selection-item {
-    line-height: 24px !important;
-    font-size: 0.875rem !important;
-    font-weight: 500 !important;
-  }
-  ::ng-deep  .placeholder-line .ant-select-selector{
-    background-color: transparent !important;
-    min-height: 24px !important;
-    height: 24px !important;
-  }
+  ::ng-deep .week-filter .ant-select-selection-placeholder {
+      line-height: 24px !important;
+      font-size: 0.875rem !important;
+      font-weight: 500 !important;
+    }
+    
+    ::ng-deep .week-filter .ant-select-selection-item {
+      line-height: 24px !important;
+      font-size: 0.875rem !important;
+      font-weight: 500 !important;
+    }
+    ::ng-deep  .week-filter .ant-select-selector{
+      background-color: transparent !important;
+      min-height: 24px !important;
+      height: 24px !important;
+    }
   .earned-leave{
     background-color: #CA365F;
     border-radius: 50%;
@@ -221,4 +221,252 @@
 .defaulter-separator{
     border-left: 2px solid #EDEDED;
     height: 30px;
+}
+.absent-logs svg{
+    width: 10px;
+}
+
+.empFilerDropfilter .new-deopdown {
+    display: block;
+    width: 120px;
+    padding: .4rem .5rem;
+    font-size: 14px !important;
+    background-color: #fff;
+    border: none;
+    border-right: 1px solid #f2f2f2 !important;
+    font-weight: 500;
+    box-shadow: unset;
+}
+
+.onboard-add {
+    border: 1px solid #f1f1f1;
+}
+
+.search-icon {
+    font-size: 13px !important;
+    position: absolute !important;
+    top: 0;
+    color: var(--tb-secondary-color) !important;
+    margin: auto auto auto 15px;
+}
+
+.onboarding-date input[type=text] {
+    border: none;
+    height: 45px !important;
+    border-left: 0;
+    font-weight: 400 !important;
+    font-size: 14px !important;
+    color: #1f1f1f !important;
+}
+.leave-request {
+    min-width: 165px;
+}
+.primaryBtnLink svg{
+    position: relative;
+    top: -1px;
+}
+.empFilerDropfilter svg{
+  width: 18px;
+}
+
+.white-space {
+    white-space: normal;
+    min-width: 215px;
+    max-width: 100px;
+    display: block;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.table td {
+    font-weight: 500;
+    vertical-align: middle;
+    font-size: 12px !important;
+    white-space: nowrap;
+    padding: 10px 15px !important;
+}
+.table-font-weight {
+    font-weight: 400;
+}
+.action-btn{
+    width: 35px;
+    height: 35px;
+    border-radius: 3px;
+    border: 1px solid #EFEFEF;
+    background-color: #F9FAFC;
+}
+.action-btn svg{
+  width: 18px;
+}
+.actionMenuList {
+    box-shadow: 0px 3px 12px -3px #1111111f;
+    overflow: hidden;
+    padding: 7px !important;
+}
+.actionMenuList svg{
+    width: 18px;
+    position: relative;
+    top: -1px;
+}
+.filter-box{
+    width: 400px !important;
+    border-radius: 2px !important;
+    padding: 0px !important;
+    filter: drop-shadow(0px 8px 10px rgba(0, 0, 0, 0.15))
+}
+::ng-deep .ant-picker-input>input {
+    font-size: 14px !important;
+    font-weight: 400 !important;
+}
+
+::ng-deep .placeholder-lines .ant-select-selection-placeholder {
+    line-height: 45px !important;
+    font-size: 0.875rem !important;
+    font-weight: 400 !important;
+  }
+  
+  ::ng-deep .placeholder-lines .ant-select-selection-item {
+    line-height: 45px !important;
+    font-size: 0.875rem !important;
+    font-weight: 400 !important;
+  }
+  ::ng-deep  .placeholder-lines .ant-select-selector{
+    background-color: rgba(236, 236, 236, 0.21);
+    min-height: 45px !important;
+    height: 45px !important;
+  }
+
+.cancel-btn {
+    background-color: #fbfbfb;
+    border: 1px solid #e6e7e9;
+    border-radius: 2px;
+    color: #4a4a4a;
+    font-size: 13px;
+    font-weight: 500;
+    width: 100px;
+}
+.submitActionBtn {
+    background-color: var(--primary-background-color);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 500;
+    border-radius: 2px;
+    min-width: 100px;
+}
+.day-data th {
+    background-color: #f9fafb;
+    border: 1px solid #ccc;
+    padding: 6px !important;
+    font-size: 12px !important;
+    font-weight: 400;
+}
+.day-data td{
+    font-size: 10px  !important;
+    border: 1px solid #ececec;
+    padding: 10px 7px !important;
+}
+.sick-leaves{
+    background-color: rgb(248, 215, 215);
+    color: #eb5050 !important;
+}
+.earned-leaves{
+    background-color: #F4F6FF;
+    color:#6666F2;
+}
+.new-request{
+    background-color: #FBFBFF;
+}
+.dropdown-item:hover {
+    background-color: #f1f1fd;
+}
+.staff-month-sheet{
+    background-color: #6666F2;
+}
+
+.user-detail{
+  background-color: #FAFAFA;
+}
+.user-detail p{
+  color: #6B7280;
+}
+.user-detail img{
+  width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+.input-zorro {
+  width: 100%;
+  background-color: #fbfbfb !important;
+  border: 1px solid #e9e9e9;
+  font-weight: 500;
+}
+.nots-section {
+  background-color: rgba(236, 236, 236, 0.21) !important;
+  width: 100%;
+  height: 80px !important;
+  border: 1px solid #e9e9e9;
+  }
+
+.requested-to {
+  background-color: #fbfbfb !important;
+  border: 1px solid #e9e9e9;
+  padding: 15px;
+  border-radius: 2px;
+  
+}
+.requested-to span{
+  color: #6666F2;
+}
+.total-leave{
+  background-color: #fbfbfb !important;
+  border-left: 3px solid #F3A73D;
+  padding: 5px 15px 5px 15px;
+  border-radius: 2px;
+}
+.leave-footer {
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  left: 0px;
+  border-radius: 0px;
+
+}
+.reject-btn {
+  background-color: #FAECEA;
+  color: #FF3014 !important;
+  border: 1px solid #FF3014;
+  font-size: 13px;
+  border-radius: 2px;
+  min-width: 100px;
+  font-weight: 500;
+}
+.approved-btn{
+  background-color: #E0F4ED;
+  color: #388E3C !important;
+  border: 1px solid #388E3C;
+  font-size: 13px;
+  border-radius: 2px;
+  min-width: 100px;
+  font-weight: 500;
+}
+
+.earned-funds span{
+  color: #388E3C;
+}
+.earned-funds span svg{
+  position: relative;
+  top: -1px;
+}
+
+
+.defaulter-employee img {
+  width: 50px;
+  border-radius: 50px;
+}
+.defaulter{
+  background-color: #F9FAFB;
+  padding: 15px;
+  border-radius: 2px;
 }

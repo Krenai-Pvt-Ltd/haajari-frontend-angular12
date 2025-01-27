@@ -16,4 +16,9 @@ export class LeaveManagementsComponent implements OnInit {
     this.tab = tab
   }
 
+  showCalender:boolean = false;
+  openCloseMonthCalender(){
+    this.showCalender = !this.showCalender;
+  }
+
 }
