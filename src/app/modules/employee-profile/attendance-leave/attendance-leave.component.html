@@ -77,12 +77,12 @@
 
                             </div>
 
-                            <nz-select class="request-dropdown placeholder-lines" nzSize="large"
+                            <!-- <nz-select class="request-dropdown placeholder-lines" nzSize="large"
                                 nzPlaceHolder="New Request" required [(ngModel)]="selectedRequest"
                                 (ngModelChange)="onRequestChange(selectedRequest)" *ngIf="userId==currentUserUuid">
                                 <nz-option [nzValue]="'Attendance update'" [nzLabel]="'Attendance update'"></nz-option>
-                                <!-- Add other options here if needed -->
-                            </nz-select>
+                               
+                            </nz-select> -->
                         </div>
                     </div>
                     <div class="row mt-4">
@@ -1451,8 +1451,6 @@
 
                                                 <button type="button" class="btn primaryBtnLink leave-request"  *ngIf="userId==currentUserUuid"
                                                     data-bs-toggle="modal" data-bs-target="#updateRequest">
-
-
                                                     Attendance Request </button>
 
                                             </div>
@@ -2032,10 +2030,10 @@
                                                     </g>
                                                 </svg>
                                                 Updated Timing</label>
-                                            <nz-time-picker formControlName="updatedTime" id="updatedTime"
+                                            <nz-time-picker nzBorderless formControlName="updatedTime" id="updatedTime"
                                                 nzFormat="HH:mm" class="w-100" nzPlaceHolder="Enter the new time">
                                             </nz-time-picker>
-                                            <span class="updated-timing-input-box">In</span>
+                                            <span class="updated-timing-input-box">{{updateStatusString}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -2059,16 +2057,16 @@
                                                     </g>
                                                 </svg>
                                                 Updated Timing</label>
-                                            <div class="row">
+                                            <div class="row time-update">
                                                 <div class="col-md-6">
-                                                    <nz-time-picker formControlName="inRequestTime" id="inRequestTime"
+                                                    <nz-time-picker nzBorderless formControlName="inRequestTime" id="inRequestTime"
                                                         nzFormat="HH:mm" class="w-100"
                                                         nzPlaceHolder="Enter the new time">
                                                     </nz-time-picker>
                                                     <span class="updated-timing-input">In</span>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <nz-time-picker formControlName="outRequestTime" id="outRequestTime"
+                                                    <nz-time-picker nzBorderless formControlName="outRequestTime" id="outRequestTime"
                                                         nzFormat="HH:mm" class="w-100"
                                                         nzPlaceHolder="Enter the new time">
                                                     </nz-time-picker>
