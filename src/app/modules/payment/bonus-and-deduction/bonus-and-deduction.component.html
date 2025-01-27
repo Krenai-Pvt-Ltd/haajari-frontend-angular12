@@ -113,28 +113,9 @@
               else attendanceDataCondition
             ">
               <tbody>
-                <tr *ngFor="let item of [].constructor(6)">
-                  <td class="text-center">
+                <tr *ngFor="let item of [].constructor(8)">
+                  <td class="text-center" *ngFor="let item of [].constructor(6)">
                     <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
-                  </td>
-
-                  <td class="text-center">
-                    <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                  </td>
-                  <td class="text-center">
-                    <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                  </td>
-                  <td class="text-center">
-                    <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                  </td>
-                  <td class="text-center">
-                    <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                  </td>
-                  <td class="text-center">
-                    <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                  </td>
-                  <td class="text-center">
-                    <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
                   </td>
                 </tr>
               </tbody>
@@ -225,10 +206,8 @@
       </div>
       <!-- Pagination -->
       <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top"
-        *ngIf="totalItems > itemPerPage">
-        <p class="mb-0">
-          Showing {{startIndex() }} - {{lastIndex()}} of {{ totalItems }}
-        </p>
+        *ngIf="totalItems > 0">
+        <p class="mb-0"> Showing {{_helperService.startIndex(pageNumber,itemPerPage) }} - {{_helperService.lastIndex(pageNumber,itemPerPage,totalItems)}} of {{ totalItems }} results</p>
         <div class="pagition-box">
           <ngb-pagination [collectionSize]="totalItems" [page]="pageNumber" [pageSize]="itemPerPage" [maxSize]="5"
             [boundaryLinks]="true" [ellipses]="true" (pageChange)="pageChange($event)">

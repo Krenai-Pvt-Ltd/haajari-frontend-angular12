@@ -3,7 +3,7 @@ export class EsiDetailsResponse {
     uuid : string = '';
     name : string = '';
     email : string = '';
-    amount : number = 0;
-    amountToBeAdjusted : number = 0;
-    finalAmount : number = 0;
+    phone: string='';
+    employer:number=0;
+    employee:number=0;
 }

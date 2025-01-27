@@ -19,6 +19,39 @@ export class Routes {
         '/auth/holiday-setting', '/auth/upload-team', '/auth/attendance-mode',
         '/auth/shift-time-list', '/auth/add-shift-placeholder'];
 
+ /**
+    * DYNAMIC ROUTES START
+    */
+    public static DASHBOARD = "/dashboard";
+    public static EMPLOYEEONBOARDING = "/employee-onboarding-data";
+    public static TIMETABLE = "/timetable"
+    public static TEAM = "/team"
+    public static TEAMDETAIL = "/team-detail"
+    public static LEAVEMANAGEMENT = "/leave-management"
+    public static LEAVEMANAGEMENTS = "/leave-managements"
+    public static EXPENSE = "/expense"
+    public static ASSETS = "/assets"
+    public static REPORTS = "/reports"
+    public static COINS = "/coins"
+    public static PAYROLLDASHBOARD = "/payment/payroll-dashboard"
+    public static BONUSDEDUCTION = "/payment/bonus-and-deduction"
+    public static EPFESITDS = "/payment/epf-esi-tds"
+    public static PAYMENTHISTORY = "/payment/payment-history"
+    public static COMPANYSETTING = "/setting/company-setting"
+    public static ATTENDANCESETTING = "/setting/attendance-setting"
+    public static LEAVESETTING = "/setting/leave-setting"
+    public static SALARYSETTING = "/setting/salary-setting"
+    public static ROLE = "/role"
+    public static EXITPOLICY = "/exit-policy"
+    public static SUBSCRIPTION = "/setting/subscription"
+    public static ACCOUNTSETTINGS = "/setting/account-settings"
+    
+ /**
+    * DYNAMIC ROUTES END
+    */
+
+
+
 
     static LOGIN_ROUTES = [Routes.LOGIN,Routes.SIGNUP,Routes.SLACK_AUTH,Routes.SLACK_SIGN_IN ,Routes.ONBOARDING_WHATSAPP]
 
