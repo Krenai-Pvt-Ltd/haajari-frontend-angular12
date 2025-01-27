@@ -21,6 +21,7 @@ import { constant } from 'src/app/constant/constant';
 import * as pdfjsLib from 'pdfjs-dist';
 import { OnboardingService } from 'src/app/services/onboarding.service';
 import { EmployeeProfileComponent } from '../employee-profile.component';
+import { AttendanceUrlComponent } from '../../additional/components/attendance-url/attendance-url.component';
 
 
 
@@ -290,7 +291,9 @@ export class EmployeeProfileSidebarComponent implements OnInit {
   InOutLoader: boolean = false;
   outLoader: boolean = false;
   breakLoader: boolean = false;
-
+  checkInOutUrl:string = '';
+  uniqueId: string | null = null; 
+  data:any= null;
   checkinCheckout(command: string) {
     this.InOutLoader = true;
     if (command === '/out') {
@@ -314,7 +317,16 @@ export class EmployeeProfileSidebarComponent implements OnInit {
         if (urlPattern.test(data.message)) {
           // Open the URL in a UI popup/modal
           console.log('Opening URL in modal:', data.message);
-          this.openUrlInModal(data.message);
+          // this.openUrlInModal(data.message);
+          this.checkInOutUrl=data.message;
+          const url = new URL(this.checkInOutUrl);
+          const params = new URLSearchParams(url.search);
+          this.uniqueId = params.get('uniqueId');
+          console.log('kkkkk',params.get('userUuid') )
+          this.data={
+            'uniqueId' : params.get('uniqueId'),
+            'uuid' : params.get('userUuid')
+          }
         } else {
           // Show toast with success message
           this.helperService.showToast(data.message, Key.TOAST_STATUS_SUCCESS);
@@ -330,6 +342,14 @@ export class EmployeeProfileSidebarComponent implements OnInit {
       }
     );
   }
+  // @ViewChild('childComponent', { static: false }) childComponent!: AttendanceUrlComponent;
+
+  // // Send data to the child component
+  // sendDataToChild() {
+  //   if (this.childComponent) {
+  //     this.childComponent.data = this.uniqueId;
+  //   }
+  // }
 
   modalUrl: SafeResourceUrl | null = null;
   // @ViewChild('urlModalTemplate', { static: true }) urlModalTemplate!: TemplateRef<any>;

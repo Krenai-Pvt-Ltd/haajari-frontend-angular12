@@ -748,15 +748,11 @@
     data-bs-target="#markAttendance">
 </button>
 
-<div class="modal fade" id="markAttendance" tabindex="-1" role="dialog" aria-labelledby="markAttendanceLabel"
+<!-- <div class="modal fade" id="markAttendance" tabindex="-1" role="dialog" aria-labelledby="markAttendanceLabel"
     data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
-            <!-- <div class="modal-header">
-                <h4 class="modal-title">Mark Attendance</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                </button>
-            </div> -->
+          
             <div class="modal-body p-0">
                 <button type="button" class="btn-close d-flex align-items-center justify-content-center" (click)="getUserAttendanceStatus();"
                     data-bs-dismiss="modal" aria-label="Close">
@@ -771,7 +767,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
 
 
@@ -1251,3 +1247,23 @@
     </div>
 </div>
 
+<!-- Button to open the modal -->
+
+<!-- Empty Modal -->
+<div class="modal fade" id="markAttendance" tabindex="-1" aria-labelledby="emptyModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="emptyModalLabel">Mark Attendance</h5>
+                <button #closeAttendanceButton type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="getUserAttendanceStatus();"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Add your content here -->
+                <app-attendance-url *ngIf="data && data!=null" [data]="data"></app-attendance-url>
+            </div>
+            <div class="modal-footer">
+                <button type="button" (click)="getUserAttendanceStatus();" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
