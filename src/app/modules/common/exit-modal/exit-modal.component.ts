@@ -20,13 +20,16 @@ export class ExitModalComponent {
 
   @Input() data: any; 
   userId: any;
-  ROLE: any= 'ADMIN';
+  ROLE: any= '';
+  userResignationReq: UserResignation = new UserResignation();
+  resignationToggle: boolean = false;
+  userResignationInfo: any;
+  discussionType: string = 'Yes'
+  recommendDay: string = 'Complete'
+
   constructor(private dataService: DataService, private cdr: ChangeDetectorRef,
     public activeModal: NgbActiveModal,
-    private modalService: ModalService, 
-     private fb: FormBuilder, public helperService: HelperService, private activateRoute: ActivatedRoute,
-    private ngbModal: NgbModal,
-      private roleService: RoleBasedAccessControlService, private afStorage: AngularFireStorage,){
+    public helperService: HelperService){
   }
 
   close() {
@@ -39,30 +42,42 @@ export class ExitModalComponent {
     this.getUserResignationInfo();
     // this.startCarousel();
     this.getNoticePeriodDuration();
+    this.ROLE= this.data.userType;
 
   }
 
-  userResignationReq: UserResignation = new UserResignation();
-  resignationToggle: boolean = false;
+ 
+
+/**
+ * Method to handle the submission of a resignation request.
+ * 
+ * This method performs the following steps:
+ * 1. Sets the `resignationToggle` flag to `true` to indicate that the resignation process has started.
+ * 2. Assigns the current user resignation information to the request object (`userResignationReq`).
+ * 3. Sends the resignation request to the server using the `dataService.submitResignation()` method.
+ * 4. Handles the server's response:
+ *    - If the response status indicates success (`res.status`):
+ *      - Resets the `resignationToggle` flag to `false`.
+ *      - Closes the approval modal via a native element reference.
+ *      - Refreshes the user's resignation information by calling `getUserResignationInfo()`.
+ *      - Closes the modal (additional logic for this may be implemented in the `close()` method).
+ *   - If the response status indicates failure:
+ *     - Resets the `resignationToggle` flag to `false`.
+ */
   submitResignation() {
     this.resignationToggle = true;
     this.userResignationReq = this.userResignationInfo
     this.dataService.submitResignation(this.userResignationReq).subscribe((res: any) => {
       if (res.status) {
         this.resignationToggle = false
-        // this.helperService.resignationSubmitted.next(true);
         this.closeApproveModal.nativeElement.click()
         this.getUserResignationInfo()
         // this.clearForm();
         this.close();
       }
     })
-
-    // console.log('reqs: ',this.userResignationReq)
   }
-  userResignationInfo: any;
-  discussionType: string = 'Yes'
-  recommendDay: string = 'Complete'
+
   getUserResignationInfo() {
     this.userResignationInfo = []
     this.dataService.getUserResignationInfo(this.userId).subscribe((res: any) => {
@@ -185,6 +200,9 @@ export class ExitModalComponent {
     this.showRevokeDiv = false;
   }
 
-  
+  disableAction(){
+   var isDisabled=  this.ROLE== 'ADMIN'? true : null
+    return isDisabled;
+  }
 
 }

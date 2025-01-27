@@ -2099,7 +2099,7 @@ console.log(this.data);
   }
 
   onInitiateExitClick(uuid:string) {
-    this.modalService.openInitiateExitModal(uuid);
+    this.modalService.openInitiateExitModal(uuid, 'ADMIN');
   }
   // User Resignation end
 
