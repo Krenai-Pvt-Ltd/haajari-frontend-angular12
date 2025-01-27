@@ -7,8 +7,8 @@
                     <div class="entery-stap-one position-relative d-flex align-items-start gap-3">
                         <div>
                             <!-- TO DO: step active class (step-active)  -->
-                            <span
-                                class="step-one text-primary font-14 d-flex align-items-center justify-content-center fw-semibold">1</span>
+                            <span *ngIf="attendanceMode!=2"
+                                class="step-one text-primary font-14 d-flex align-items-center justify-content-center fw-semibold" [ngClass]="{'step-active' : isSelfieNeeded}">1</span>
                         </div>
                         <div>
                             <!-- TO DO: step active text -->
@@ -26,9 +26,9 @@
                             </span>
                         </div>
                     </div>
-                    <div class="entery-stap-one position-relative mt-5 d-flex align-items-start gap-3">
+                    <div *ngIf="attendanceMode!=2" class="entery-stap-one position-relative mt-5 d-flex align-items-start gap-3">
                         <div>
-                            <span
+                            <span *ngIf="attendanceMode!=2"
                                 class="step-one text-primary font-14 d-flex align-items-center justify-content-center fw-semibold">2</span>
                         </div>
                         <div>
@@ -63,16 +63,15 @@
                 <div class="location-searchbar position-relative mt-4">
                     <input type="text" class="form-control" id="exampleInputText" aria-describedby="emailHelp"
                   [value]="address" disabled placeholder="Fetch your location">
-                <span class="crosshairs" (click)="locateUser()"><i class="fa fa-crosshairs"
+                <span *ngIf="!isInvalid" class="crosshairs" (click)="locateUser()"><i class="fa fa-crosshairs"
                     style="color: #6666f3"></i></span>
                 </div>
                 <div class="location-map mt-4">
-                    
                     <agm-map *ngIf="!isInvalid" [latitude]="lat" [longitude]="lng" [zoom]="zoom">
                         <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
                       </agm-map>
 
-                    <div *ngIf="isInvalid" class="linkexpird-img">
+                    <div (click)="sendNewAttendanceLink()" *ngIf="isInvalid" class="linkexpird-img">
                         <img src="assets/images/link-expired.webp" class="w-100">
                     </div>
                 </div>
@@ -81,8 +80,8 @@
                         Please proceed promptly.</p>
                     <!-- <button class="btn submitActionBtn font-13">Submit</button> -->
 
-                    <button type="button" (click)="calculateDistance()" [disabled]="!enableSubmitToggle || disableButton"
-                        class="btn next-stap">
+                    <button type="button" (click)="calculateDistance()" [disabled]="!enableSubmitToggle || disableButton || isInvalid"
+                    [ngClass]="{'btn-border': (enableSubmitToggle && !isInvalid)}" class="btn next-stap">
                         <div *ngIf="toggle" class="dot-opacity-loader">
                             <span></span>
                             <span></span>
@@ -121,7 +120,7 @@
                                     (click)="clickAgain();">Click Again <i class="bi bi-camera pl-2"></i></button>
                             </div>
                             <button type="button" *ngIf="!captureImage; else markAttendance"
-                                (click)="triggerSnapshot()" class="btn next-stap mobile-margin">
+                                (click)="triggerSnapshot()" class="btn next-stap mobile-margin btn-border">
                                 <div *ngIf="toggle" class="dot-opacity-loader">
                                     <span></span>
                                     <span></span>
@@ -132,7 +131,7 @@
                                 </span>
                             </button>
                             <ng-template #markAttendance>
-                                <button type="submit" class="btn next-stap"
+                                <button type="submit" class="btn next-stap btn-border"
                                     [disabled]="!submitButton || disableButton">
                                     <div *ngIf="toggle" class="dot-opacity-loader">
                                         <span></span>
