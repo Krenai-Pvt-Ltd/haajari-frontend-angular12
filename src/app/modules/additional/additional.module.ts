@@ -38,6 +38,7 @@ import { AttendanceUrlComponent } from './components/attendance-url/attendance-u
       libraries: ['places'],
     }),
     GooglePlaceModule
-  ]
+  ],
+  exports: [AttendanceUrlComponent]
 })
 export class AdditionalModule { }
