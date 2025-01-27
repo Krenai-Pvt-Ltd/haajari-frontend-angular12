@@ -113,22 +113,22 @@
     border-radius: 5px;
 }
 
-::ng-deep .placeholder-line .ant-select-selection-placeholder {
-    line-height: 24px !important;
-    font-size: 0.875rem !important;
-    font-weight: 500 !important;
-  }
-  
-  ::ng-deep .placeholder-line .ant-select-selection-item {
-    line-height: 24px !important;
-    font-size: 0.875rem !important;
-    font-weight: 500 !important;
-  }
-  ::ng-deep  .placeholder-line .ant-select-selector{
-    background-color: transparent !important;
-    min-height: 24px !important;
-    height: 24px !important;
-  }
+  ::ng-deep .week-filter .ant-select-selection-placeholder {
+      line-height: 24px !important;
+      font-size: 0.875rem !important;
+      font-weight: 500 !important;
+    }
+    
+    ::ng-deep .week-filter .ant-select-selection-item {
+      line-height: 24px !important;
+      font-size: 0.875rem !important;
+      font-weight: 500 !important;
+    }
+    ::ng-deep  .week-filter .ant-select-selector{
+      background-color: transparent !important;
+      min-height: 24px !important;
+      height: 24px !important;
+    }
   .earned-leave{
     background-color: #CA365F;
     border-radius: 50%;
@@ -383,4 +383,90 @@
 }
 .staff-month-sheet{
     background-color: #6666F2;
+}
+
+.user-detail{
+  background-color: #FAFAFA;
+}
+.user-detail p{
+  color: #6B7280;
+}
+.user-detail img{
+  width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+.input-zorro {
+  width: 100%;
+  background-color: #fbfbfb !important;
+  border: 1px solid #e9e9e9;
+  font-weight: 500;
+}
+.nots-section {
+  background-color: rgba(236, 236, 236, 0.21) !important;
+  width: 100%;
+  height: 80px !important;
+  border: 1px solid #e9e9e9;
+  }
+
+.requested-to {
+  background-color: #fbfbfb !important;
+  border: 1px solid #e9e9e9;
+  padding: 15px;
+  border-radius: 2px;
+  
+}
+.requested-to span{
+  color: #6666F2;
+}
+.total-leave{
+  background-color: #fbfbfb !important;
+  border-left: 3px solid #F3A73D;
+  padding: 5px 15px 5px 15px;
+  border-radius: 2px;
+}
+.leave-footer {
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  left: 0px;
+  border-radius: 0px;
+
+}
+.reject-btn {
+  background-color: #FAECEA;
+  color: #FF3014 !important;
+  border: 1px solid #FF3014;
+  font-size: 13px;
+  border-radius: 2px;
+  min-width: 100px;
+  font-weight: 500;
+}
+.approved-btn{
+  background-color: #E0F4ED;
+  color: #388E3C !important;
+  border: 1px solid #388E3C;
+  font-size: 13px;
+  border-radius: 2px;
+  min-width: 100px;
+  font-weight: 500;
+}
+
+.earned-funds span{
+  color: #388E3C;
+}
+.earned-funds span svg{
+  position: relative;
+  top: -1px;
+}
+
+
+.defaulter-employee img {
+  width: 50px;
+  border-radius: 50px;
+}
+.defaulter{
+  background-color: #F9FAFB;
+  padding: 15px;
+  border-radius: 2px;
 }
