@@ -1557,10 +1557,11 @@ export class AttendanceLeaveComponent implements OnInit {
   //  attendance update 
 
 
-
+  updateStatusString: string = 'In';
   //  attendance update fucnionality
   attendanceCheckTimeResponse: AttendanceCheckTimeResponse[] = [];
   getAttendanceChecktimeListDate(statusString: string): void {
+    this.updateStatusString = statusString.charAt(0).toUpperCase() + statusString.slice(1).toLowerCase();
     const formattedDate = this.datePipe.transform(this.requestedDate, 'yyyy-MM-dd');
     this.dataService.getAttendanceChecktimeList(this.userId, formattedDate, statusString).subscribe(response => {
       this.attendanceCheckTimeResponse = response.listOfObject;
@@ -1640,6 +1641,7 @@ export class AttendanceLeaveComponent implements OnInit {
           this.helperService.showToast('Request already registered!', Key.TOAST_STATUS_ERROR);
         }
         this.selectedRequest = '';
+        this.updateStatusString = 'In';
       },
       (error) => {
         this.attendanceUpdateRequestLoader = false;
