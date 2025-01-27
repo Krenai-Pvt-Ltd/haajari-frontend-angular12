@@ -49,7 +49,7 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <label class="form-check assets-req d-flex align-items-center justify-content-start" >
-                                            <input  [disabled]="ROLE == 'ADMIN'" class="form-check-input" type="radio"
+                                            <input  [attr.disabled]="disableAction()" class="form-check-input" type="radio"
                                                 name="managerDiscussionInput" id="yes" value="Yes" required
                                                 (change)="selectManagerDiscussion('Yes')" [(ngModel)]="discussionType">
                                             <p class="form-check-label mb-0" for="yes">
@@ -57,10 +57,10 @@
                                             </p>
                                         </label>
                                     </div>
-                                    {{ROLE}}
+                                   
                                     <div class="col-md-6">
                                         <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                                            <input [disabled]="ROLE == 'ADMIN'" class="form-check-input" type="radio"
+                                            <input [attr.disabled]="disableAction()" class="form-check-input" type="radio"
                                                 name="managerDiscussionInput" id="no" value="No" required
                                                 (change)="selectManagerDiscussion('No')" [(ngModel)]="discussionType">
                                             <p class="form-check-label mb-0" for="no">
@@ -78,7 +78,7 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                                            <input [attr.disabled]="ROLE == 'ADMIN'" class="form-check-input" type="radio"
+                                            <input [attr.disabled]="disableAction()" class="form-check-input" type="radio"
                                                 name="recommendDay" id="complete" value="Complete" required
                                                 [(ngModel)]="recommendDay" (change)="selectRecommendDay('Complete')">
                                             <p class="form-check-label mb-0" for="complete">
@@ -88,7 +88,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                                            <input [attr.disabled]="ROLE == 'ADMIN'" class="form-check-input" type="radio"
+                                            <input [attr.disabled]="disableAction()" class="form-check-input" type="radio"
                                                 name="recommendDay" id="other" value="Other" required
                                                 [(ngModel)]="recommendDay" (change)="selectRecommendDay('Other')">
                                             <p class="form-check-label mb-0" for="other">
