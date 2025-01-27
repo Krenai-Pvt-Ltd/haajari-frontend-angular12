@@ -2,8 +2,9 @@
     <div class="row">
         <div class="col-md-3 pr-0 mr-0">
             <div class="entery-sidebar">
-                <img src="assets/images/HAjiRi.svg" alt="logo-" style="height: 40px">
-                <div class="entery-stap position-relative">
+                <img *ngIf="isLogoVisible" src="assets/images/HAjiRi.svg" alt="logo-" style="height: 40px">
+               <!-- mt-0 on logo invisible -->
+                <div class="entery-stap position-relative " [ngClass]="{'mt-0': !isLogoVisible}">
                     <div class="entery-stap-one position-relative d-flex align-items-start gap-3">
                         <div>
                             <!-- TO DO: step active class (step-active)  -->
