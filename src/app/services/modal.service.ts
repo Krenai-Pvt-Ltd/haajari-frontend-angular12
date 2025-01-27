@@ -1,10 +1,14 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { ExitModalComponent } from '../modules/common/exit-modal/exit-modal.component';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ModalService {
+  constructor(private modalService: NgbModal) { }
+
   private modalOpen = new BehaviorSubject<boolean>(false);
   openModal(): void {
     this.modalOpen.next(true);
@@ -14,5 +18,16 @@ export class ModalService {
   }
   getModalState(): Observable<boolean> {
     return this.modalOpen.asObservable();
+  }
+
+
+  openInitiateExitModal(uuid:string) {
+    const modalRef =this.modalService.open(ExitModalComponent, {
+      ariaLabelledBy: 'initiateExitModalLabel',
+
+    });
+    modalRef.componentInstance.data = {
+      uuid: uuid
+    };
   }
 }

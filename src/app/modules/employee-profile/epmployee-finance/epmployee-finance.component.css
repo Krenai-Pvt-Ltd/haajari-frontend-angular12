@@ -454,3 +454,9 @@ i::before {
     width: 3rem !important;
     height: 3rem !important;
 }
+.component-btn{
+    right: 8px;
+    top: 0px;
+    height: 45px;
+    width: 80px;
+}

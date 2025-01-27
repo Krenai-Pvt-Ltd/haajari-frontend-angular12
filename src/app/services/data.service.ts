@@ -3575,42 +3575,42 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
   }
 
 
-  updatePayActionTypeFoUsers(
-    payActionType: string,
-    userUuids: any
-  ): Observable<any>{
-    const params = new HttpParams()
-    .set('pay_action_type', payActionType)
-    .set('user_uuids', userUuids)
-    ;
-    return this.httpClient.put<any>(`${this.baseUrl}/salary-slip/update-pay-action-type`,{}, {params});
-  }
+  // updatePayActionTypeFoUsers(
+  //   payActionType: string,
+  //   userUuids: any
+  // ): Observable<any>{
+  //   const params = new HttpParams()
+  //   .set('pay_action_type', payActionType)
+  //   .set('user_uuids', userUuids)
+  //   ;
+  //   return this.httpClient.put<any>(`${this.baseUrl}/salary-slip/update-pay-action-type`,{}, {params});
+  // }
 
 
 
-  sendPayslipViaWhatsapp(
-    salaryResponse: any, payslipMonth: string
-  ): Observable<any>{
-    const params = new HttpParams()
-    .set('payslip_month', payslipMonth)
-    return this.httpClient.put<any>(`${this.baseUrl}/salary/send-payslip-whatsapp`,salaryResponse, {params});
-  }
+  // sendPayslipViaWhatsapp(
+  //   salaryResponse: any, payslipMonth: string
+  // ): Observable<any>{
+  //   const params = new HttpParams()
+  //   .set('payslip_month', payslipMonth)
+  //   return this.httpClient.put<any>(`${this.baseUrl}/salary/send-payslip-whatsapp`,salaryResponse, {params});
+  // }
 
-  sendPayslipViaEmail(
-    salaryResponse: any, payslipMonth: string
-  ): Observable<any>{
-    const params = new HttpParams()
-    .set('payslip_month', payslipMonth)
-    return this.httpClient.put<any>(`${this.baseUrl}/salary/send-payslip-email`,salaryResponse, {params});
-  }
+  // sendPayslipViaEmail(
+  //   salaryResponse: any, payslipMonth: string
+  // ): Observable<any>{
+  //   const params = new HttpParams()
+  //   .set('payslip_month', payslipMonth)
+  //   return this.httpClient.put<any>(`${this.baseUrl}/salary/send-payslip-email`,salaryResponse, {params});
+  // }
 
-  sendPayslipViaSlack(
-    salaryResponse: any, payslipMonth: string
-  ): Observable<any>{
-    const params = new HttpParams()
-    .set('payslip_month', payslipMonth)
-    return this.httpClient.put<any>(`${this.baseUrl}/salary/send-payslip-slack`,salaryResponse, {params});
-  }
+  // sendPayslipViaSlack(
+  //   salaryResponse: any, payslipMonth: string
+  // ): Observable<any>{
+  //   const params = new HttpParams()
+  //   .set('payslip_month', payslipMonth)
+  //   return this.httpClient.put<any>(`${this.baseUrl}/salary/send-payslip-slack`,salaryResponse, {params});
+  // }
 
 
 

@@ -37,6 +37,7 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
 
+
 @NgModule({
   declarations: [
     EmployeeProfileComponent,
@@ -52,7 +53,6 @@ import { NzBadgeModule } from 'ng-zorro-antd/badge';
     DashboardComponent,
     EpmployeeFinanceComponent,
     HolidayDatePickerComponent,
-
     SettingsComponent,
     AccountSettingsComponent
   ],

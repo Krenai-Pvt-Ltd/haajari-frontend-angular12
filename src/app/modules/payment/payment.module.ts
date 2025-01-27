@@ -23,6 +23,8 @@ import { EarningManagementComponent } from './earning-management/earning-managem
 import { SalaryDeductionManagementComponent } from './salary-deduction-management/salary-deduction-management.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzSwitchModule } from 'ng-zorro-antd/switch';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 
 @NgModule({
   declarations: [
@@ -51,7 +53,9 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
     NgxChartsModule,
     NzEmptyModule,
     NgbModule,
-    NzSelectModule
+    NzSelectModule,
+    NzSwitchModule,
+    NzToolTipModule
   ],
 })
 export class PaymentModule {}

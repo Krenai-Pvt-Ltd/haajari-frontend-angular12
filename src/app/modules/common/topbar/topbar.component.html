@@ -148,7 +148,7 @@
       <ul class="list-unstyled topbar-nav mb-0 krenai-deshboard" *ngIf="ROLE != 'USER'">
         <li>
           <h3 class="mb-1">{{topbarValue}}</h3>
-          <p class="mb-0">Here's what's going on today.</p>
+          <p class="mb-0">{{routeDesc}}</p>
         </li>
       </ul>
       <ul *ngIf="ROLE == 'USER'" (click)="routeToEmployeeProfilePage()">

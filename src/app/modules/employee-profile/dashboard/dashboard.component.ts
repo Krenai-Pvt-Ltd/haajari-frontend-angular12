@@ -65,6 +65,16 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  shouldShowResignationRow(): boolean {
+    return (
+      this.resignationSubmittedToggle ||
+      (!this.hideResignationModal &&
+        this.userResignationInfo &&
+        (this.ROLE === 'ADMIN' || this.ROLE === 'USER') &&
+        this.userResignationInfo?.status?.id === 13)
+    );
+  }
+
   ngOnDestroy() {
     this.resignationSubmittedSubscriber.complete();
     // this.stopCarousel();

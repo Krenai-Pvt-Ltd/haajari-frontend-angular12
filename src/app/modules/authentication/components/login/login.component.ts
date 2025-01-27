@@ -37,6 +37,9 @@ export class LoginComponent implements OnInit {
     private _subscriptionService: SubscriptionPlanService,
     private onboardingService: OnboardingService 
   ) {
+    this.returnUrl = localStorage.getItem('returnUrl') || '/';
+     localStorage.removeItem('returnUrl');
+     console.log('kkkkkkkkkkkkkkk', this.returnUrl);
     const token = localStorage.getItem('token');
     if (!constant.EMPTY_STRINGS.includes(token)) {
       this.router.navigate(['/dashboard']);
@@ -54,9 +57,10 @@ export class LoginComponent implements OnInit {
       });
   }
 
+  returnUrl: string='/' ;
   ngOnInit(): void {
     // this.getSlackAuthUrlForSignInWithSlack();
-    
+     
   }
 
   otp: string = '';
@@ -90,14 +94,14 @@ export class LoginComponent implements OnInit {
           await this.rbacService.initializeUserInfo();
           this.UUID=this.rbacService.userInfo.uuid;
           this.ROLE = this.rbacService.userInfo.role;
- 
+
          if (this.ROLE === 'USER') {
           await this.onboardingService.checkSubscriptionPlan();
           this.helperService.orgStepId = 5;
           this.onboardingService.isLoadingOnboardingStatus = false;
-          this.router.navigate([Key.EMPLOYEE_PROFILE_ROUTE], {
-            queryParams: { userId: this.UUID, dashboardActive: 'true' },
-          });
+          console.log('kkkkkkkkkkkkkkk', this.returnUrl);
+          this.router.navigateByUrl(this.returnUrl);
+          
         } else if (this.ROLE == 'HR ADMIN') {
            this.router.navigate(['/employee-onboarding-data']);
         }
