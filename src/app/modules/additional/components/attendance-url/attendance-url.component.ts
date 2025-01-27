@@ -39,11 +39,19 @@ export class AttendanceUrlComponent implements OnInit {
   
     ngOnInit(): void {
       debugger
-  
+      const userUuid = new URLSearchParams(window.location.search).get('userUuid');
+      const uniqueId = new URLSearchParams(window.location.search).get('uniqueId');
+      if(userUuid && uniqueId && (this.data==null || this.data==undefined)){
+        this.data={
+          'uuid': userUuid,
+          'uniqueId': uniqueId
+        };
+      }
       window.scroll(0, 0);
       this.getFlexibleAttendanceMode()
       this.checkAttendanceLocationLinkStatusMethodCall();
-
+      
+      
       // let navExtra: NavigationExtras = {
       //   queryParams: { userUuid: userUuid },
       // };
@@ -242,6 +250,7 @@ export class AttendanceUrlComponent implements OnInit {
               (response: OrganizationAddressDetail[]) => {
                   if (response && response.length > 0) {
                       this.organizationAddressDetails = response;
+                      this.attendanceMode=response[0].attendanceMode;
                       // console.log("API RESPONSE", this.organizationAddressDetails[0].radius)
   
                       // console.log(response);
@@ -513,6 +522,41 @@ export class AttendanceUrlComponent implements OnInit {
             this.currentDeviceId = frontCamera.deviceId;
           }
         });
+      }
+
+      //send new link
+
+      sendNewAttendanceLink() {
+        debugger;
+        const userUuid = this.data.uuid;
+    
+        if (userUuid) {
+          this.dataService.generateNewAttendanceLinkGupShup(userUuid).subscribe(
+            (response) => {
+              // Handle the response here
+              // console.log('Attendance link generated:', response);
+              this.helper.showToast(
+                'New Link Sent Successfully',
+                Key.TOAST_STATUS_SUCCESS
+              );
+              // window.location.href =
+              //   'https://api.whatsapp.com/send/?phone=918700822872&type=phone_number&app_absent=0';
+              if(response.message === 'WHATSAPP') {
+                window.location.href =
+                  'https://api.whatsapp.com/send/?phone=918700822872&type=phone_number&app_absent=0';
+                } else if(response.message === 'SLACK'){
+                  window.location.href = Key.SLACK_WORKSPACE_URL;
+                }
+              // You might want to do something with the response, like displaying a message or redirecting the user
+            },
+            (error) => {
+              // Handle any errors here
+              console.error('Error generating new attendance link:', error);
+            }
+          );
+        } else {
+          console.error('User UUID not found in the URL');
+        }
       }
   
 }
