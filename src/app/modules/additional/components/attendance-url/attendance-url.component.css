@@ -122,7 +122,10 @@
 .snapshot img{
     height: 600px;
     object-fit: cover;
-    
+}
+
+.mobile-action-btn{
+    display: none;
 }
 
 @media screen and (max-width: 2600px) {
@@ -166,6 +169,20 @@
 
     .company-logo {
         display: block;
+    }
+    .desktop-action-btn{
+        display:none !important;
+    }
+    .location-searchbar input{
+        padding-right: 40px;
+    }
+    .mobile-action-btn{
+        display: block;
+    }
+    .location-map webcam video {
+        width: 100% !important;
+        height: 600px !important;
+        object-fit: cover !important;
     }
 }
 

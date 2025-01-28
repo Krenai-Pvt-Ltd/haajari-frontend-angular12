@@ -392,7 +392,7 @@ button.btn.close-btn {
 
 .empFilerDropfilter .new-deopdown {
   display: block;
-  width: 120px;
+  width: 155px;
   padding: 0.4rem 0.5rem;
   font-size: 14px !important;
   text-align: left;
@@ -411,6 +411,9 @@ button.btn.close-btn {
   position: absolute;
   right: 15px;
   top: 12px;
+  font-size: 18px;
+  color: #78787a;
+  line-height: 24px;
 }
 
 .joining-email {
@@ -638,14 +641,6 @@ textarea {
     opacity: 1;
   }
 }
-
-/*
-.errorboxinner{
-    display: flex;
-    align-items: center;
-    gap:10px
-} */
-
 .errorboxmaintop {
   /* min-height: 20vh; */
   background-color: #fff;
