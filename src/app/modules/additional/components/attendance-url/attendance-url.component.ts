@@ -37,11 +37,13 @@ export class AttendanceUrlComponent implements OnInit {
       private afStorage: AngularFireStorage
     ) {}
   
+    isLogoVisible: boolean=false;
     ngOnInit(): void {
       debugger
       const userUuid = new URLSearchParams(window.location.search).get('userUuid');
       const uniqueId = new URLSearchParams(window.location.search).get('uniqueId');
       if(userUuid && uniqueId && (this.data==null || this.data==undefined)){
+        this.isLogoVisible=true;
         this.data={
           'uuid': userUuid,
           'uniqueId': uniqueId
