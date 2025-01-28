@@ -1244,3 +1244,16 @@ div[ngbTooltip] {
     border: 1px solid #6666F2;
     color: #fff;
 }
+.col-sm-6{
+    width: 50%;
+}
+
+@media screen and (max-width: 500px) {
+    .mobile-filter-section{
+        flex-direction: column;
+        align-items: start !important;
+    }
+    .mobile-filter-section .mobile-week-data{
+        margin-top: 15px;
+    }
+}

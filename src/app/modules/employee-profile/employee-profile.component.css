@@ -455,14 +455,33 @@ span.lat {
 .resignation-box img {
     height: 26px;
 }
+.sidebar-btn{
+    width: 45px;
+    height: 40px;
+    border-radius: 2px;
+    border: 1px solid #444;
+    background-color: #f2f2f2;
+}
 
-/* 
-@media screen and (max-height: 1200px) {
+
+
+@media screen and (max-width: 500px) {
     .col-md-3 {
-        width: 20% !important;
+        width: 100% !important;
     }
-
+    
     .col-md-9 {
-        width: 80% !important;
+        width: 100% !important;
     }
-} */
+    .mobile-menu {
+        display: -webkit-inline-box !important;
+        flex-wrap: nowrap !important;
+    }
+    .employee-profile-menu{
+        overflow: scroll;
+    }
+    .employee-profile-menu::-webkit-scrollbar{
+        display: none;
+    }
+    
+}

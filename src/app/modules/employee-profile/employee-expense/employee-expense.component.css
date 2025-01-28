@@ -490,6 +490,9 @@
     pointer-events: none;
     opacity: 0.5;
 }
+.table tbody {
+    border: 1px solid #f1f1f1;
+}
 
 ::ng-deep .placeholder-line .ant-select-selection-placeholder {
     line-height: 45px !important;
