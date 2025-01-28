@@ -702,16 +702,19 @@
                         <div class="mt-3 salary-simeline-box">
                             <div class="salary-simeline p-3 d-flex align-items-center justify-content-between">
                                 <h5 class="mb-0 font-15">Salary Timeline</h5>
-                                
+                                <!-- <div *ngIf="_roleService.getRoles()=='ADMIN'"> 
+                                    <button type="button" class="btn btn-primary" (click)="openSalaryTemplate()">
+                                        Update Salary Template
+                                    </button>
+                                    <button type="button" class="btn btn-primary" (click)="openAppraisal()">
+                                        Appraisal
+                                    </button>
+                                    <button type="button" class="btn btn-primary" (click)="openBonus()">
+                                        Bonus
+                                    </button>
+                                </div> -->
                                 <div class="d-flex align-items-center gap-3">
-                                    <!-- <span class="pointer">
-                                        <nz-select class="form-control placeholder-line" nzPlaceHolder="New Request" style="width:150px;" ngModel="New Request">
-                                            <nz-option nzValue="Update Salary Template" nzLabel="Update Salary Template" (click)="openSalaryTemplate()"></nz-option>
-                                            <nz-option nzValue="Appraisal" nzLabel="Appraisal" (click)="openAppraisal()"></nz-option>
-                                            <nz-option nzValue="Bonus" nzLabel="Bonus" (click)="openBonus()"></nz-option>
-                                          </nz-select>
-                                    </span> -->
-                                    <span class="d-flex align-items-center gap-3">
+                                    <div class="d-flex align-items-center gap-3" *ngIf="_roleService.getRoles()=='ADMIN'">
                                         <button type="button" class="btn p-0 text-primary font-13 fw-semibold" (click)="openSalaryTemplate()">
                                             Update Salary Template
                                         </button>
@@ -723,8 +726,8 @@
                                         <button type="button" class="btn p-0 text-primary font-13 fw-semibold" (click)="openBonus()">
                                             Bonus
                                         </button>
-                                    </span>
-                                    <span class="pointer">
+                                    </div>
+                                    <span class="pointer" (click)="getCurrentSalaryDetail();getEmployeeSalaryRevision(); ">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24"
                                             fill="none">
                                             <mask id="mask0_6704_1368" style="mask-type:alpha" maskUnits="userSpaceOnUse"
