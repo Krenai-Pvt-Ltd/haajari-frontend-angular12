@@ -1,29 +1,29 @@
-.entery-stap {
+.entry-step {
     margin-top: 5rem;
 }
 
-.entery-sidebar {
-    height: 100vh;
+.entry-sidebar {
+    height: 100%;
     border-right: 1px solid #f1f1f1;
     background-color: #F4F4F4;
 }
 
-.entery-stap p {
+.entry-step p {
     color: #6B6B6B;
     line-height: 22px;
 }
 
-.entery-stap h5 {
+.entry-step h5 {
     color: #000;
     line-height: 26px;
 }
 
-.entery-stap h6 {
+.entry-step h6 {
     color: rgba(68, 68, 68, 0.85);
     line-height: 26px;
 }
 
-.entery-stap-one span svg {
+.entry-step-one span svg {
     width: 28px;
 }
 
@@ -40,7 +40,7 @@
     border: 1px solid #00E69C;
 }
 
-.entery-stap-one:after {
+.entry-step-one:after {
     content: "";
     width: 2px !important;
     height: 100% !important;
@@ -52,7 +52,7 @@
     border-left: 2px dashed #ebecee;
 }
 
-.entery-stap-one:last-child::after {
+.entry-step-one:last-child::after {
     display: none;
 }
 
@@ -66,11 +66,11 @@
     text-decoration: underline;
 }
 
-.entery-right-box {
-    height: 100vh;
+.entry-right-box {
+    overflow: auto;
 }
 
-.crosshairs {
+.location-mark {
     cursor: pointer;
     transition: transform .3s ease, color .3s ease;
     position: absolute;
@@ -86,60 +86,90 @@
     width: 100px;
 }
 
-.linkexpird-img img {
+.link-expired-img img {
     height: 500px;
     object-fit: cover;
 }
 
-.compay-logo {
+.company-logo {
     display: none;
+}
+.location-searchbar input{
+    color: #6666F2;
+    font-size: 13px;
+}
+
+.link-expire-btn{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    text-align: center; 
+}
+.continue-btn {
+    font-size: 14px;
+    font-weight: 500;
+    background-color: #fa2626;
+    border-radius: 2px;
+    color: #fff;
+}
+.next-step-btn i{
+    padding-left: 5px;
+    position: relative;
+    top: 1px;
+}
+.snapshot img{
+    height: 600px;
+    object-fit: cover;
+    
 }
 
 @media screen and (max-width: 2600px) {
-    .entery-sidebar {
+    .entry-sidebar {
+        padding: 2rem;
+    }
+
+    .entry-right-box {
         padding: 3rem;
     }
 
-    .entery-right-box {
-        padding: 3rem;
-    }
-
-    .entery-right-box h5 {
+    .entry-right-box h5 {
         margin-top: 15px;
     }
 }
 
 @media screen and (max-width: 1440px) {
-    .entery-right-box h5 {
+    .entry-right-box h5 {
         margin-top: 1px;
     }
 }
 
 @media screen and (max-width: 1280px) {
-    .entery-sidebar {
+    .entry-sidebar {
         padding: 2rem;
     }
 
-    .entery-right-box {
+    .entry-right-box {
         padding: 2rem;
     }
 
-    .entery-right-box h5 {
+    .entry-right-box h5 {
         margin-top: 1px;
     }
 }
 
 @media screen and (max-width: 500px) {
-    .entery-sidebar {
+    .entry-sidebar {
         display: none;
     }
 
-    .compay-logo {
+    .company-logo {
         display: block;
     }
 }
 
 
 agm-map {
-    height: 450px
+    height: 500px
 }

@@ -36,6 +36,7 @@ import { NewEmployeeProfileComponent } from './components/new-employee-profile/n
 import { CreateExpenseComponent } from './components/create-expense/create-expense.component';
 import { ExistPolicyComponent } from './components/exist-policy/exist-policy.component';
 import { LeaveManagementsComponent } from './components/leave-managements/leave-managements.component';
+import { InboxComponent } from './components/inbox/inbox.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -186,7 +187,10 @@ const routes: Routes = [
       {
         path: 'leave-managements',
         component: LeaveManagementsComponent,
- 
+      },
+      {
+        path: 'inbox',
+        component: InboxComponent,
       },
     ],
   },

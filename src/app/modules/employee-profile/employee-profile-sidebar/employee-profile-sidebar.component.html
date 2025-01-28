@@ -1,4 +1,4 @@
-<div class="emplyee-profile-sidebar-main-box">
+<div class="employee-profile-sidebar-main-box">
     <!--To Do employ exit class="exited-background"  -->
     <div class="company-logo p-4"
         [ngClass]="{'exited-background': employeeProfileResponseData?.resignationStatus === 43}">
@@ -211,7 +211,7 @@
 
 
 
-        <div class="mb-3 mt-4 d-flex align-items-center justify-content-between slill-set">
+        <div class="mb-3 mt-4 d-flex align-items-center justify-content-between skill-set">
             <h5 class="mb-0">Skill Set</h5>
             <button class="btn p-0 text-primary font-13 " data-bs-toggle="modal" data-bs-target="#addSkills">
                 <i class="bi bi-plus"></i> Add Skills</button>
@@ -298,7 +298,7 @@
 
 
 
-        <div *ngIf="documents.length>0" class="mb-3 mt-4 d-flex align-items-center justify-content-between slill-set">
+        <div *ngIf="documents.length>0" class="mb-3 mt-4 d-flex align-items-center justify-content-between skill-set">
             <h5 class="mb-0">EMPLOYEE AGREEMENT</h5>
 
         </div>
@@ -380,7 +380,7 @@
 
             <div>
                 <div class="login-user-name">{{ userInfo?.name }}</div>
-                <div class="login-user-phone-numbar">
+                <div class="login-user-phone-number">
                     {{
                     userInfo?.email
                     ? userInfo?.email
@@ -591,11 +591,11 @@
     <div class="modal-dialog modal-dialog-centered" style="max-width: 570px" role="document">
         <div class="modal-content">
             <div class="modal-body p-4">
-                <button type="button" class="leave-request-modat-close-btn" data-bs-dismiss="modal" aria-label="Close"
+                <button type="button" class="leave-request-modal-close-btn" data-bs-dismiss="modal" aria-label="Close"
                     (click)="clearApproveModal()" #closeApproveModal>
                     <i class="bi bi-x" style="line-height: 20px"></i>
                 </button>
-                <div *ngIf="userResignationInfo != undefined" class="text-center leave-appervo-modal">
+                <div *ngIf="userResignationInfo != undefined" class="text-center leave-approve-modal">
                     <div class="d-flex align-items-start justify-content-between">
                         <div class="d-flex align-items-center profile-details" style="gap: 15px">
                             <div class="profile-user-img">
@@ -610,7 +610,7 @@
                                 <p>{{ userResignationInfo.email }}</p>
                             </div>
                         </div>
-                        <div class="total-holidey-live">
+                        <div class="total-holiday-live">
                             <h5 class="text-end">
                                 {{userResignationInfo.userLastWorkingDay | date : "dd MMM yyyy" || "N/A"}}
                             </h5>
@@ -1253,11 +1253,16 @@
 <div class="modal fade" id="markAttendance" tabindex="-1" aria-labelledby="emptyModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
-            <div class="modal-header">
+            <!-- <div class="modal-header">
                 <h5 class="modal-title" id="emptyModalLabel">Mark Attendance</h5>
-                <button #closeAttendanceButton id="closeAttendanceButton" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="getUserAttendanceStatus(); showAttendanceComponent=false;"></button>
-            </div>
-            <div class="modal-body">
+                
+            </div> -->
+            <div class="modal-body p-0">
+                <button #closeAttendanceButton id="closeAttendanceButton" type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="15" viewBox="0 0 16 15" fill="none">
+                        <path d="M2.09533 14.3667L0.619141 12.9707L6.5239 7.38648L0.619141 1.8023L2.09533 0.40625L8.00009 5.99044L13.9049 0.40625L15.381 1.8023L9.47628 7.38648L15.381 12.9707L13.9049 14.3667L8.00009 8.78253L2.09533 14.3667Z" fill="black"/>
+                    </svg>
+                </button>
                 <!-- Add your content here -->
                 <ng-container *ngIf="showAttendanceComponent">
                 <app-attendance-url *ngIf="data && data!=null" [data]="data"></app-attendance-url>
