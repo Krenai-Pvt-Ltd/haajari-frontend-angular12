@@ -4906,6 +4906,13 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}/users/isUserUnderManager`, { params });
   }
 
+
+  // notification setting
+
+  notificationTypes(): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/notification-setting/notification-types`, { });
+  }
+
 }
 
 

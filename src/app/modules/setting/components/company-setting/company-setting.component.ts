@@ -20,6 +20,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { EmployeeAdditionalDocument } from 'src/app/models/EmployeeAdditionalDocument';
 import { constant } from 'src/app/constant/constant';
+import { NotificationType } from 'src/app/models/NotificationType';
 
 @Component({
   selector: 'app-company-setting',
@@ -1685,6 +1686,89 @@ onOrganizationAddressSubmit(){
   this.submit();
 }
 }
+
+// notification setting 
+
+// notificationTypesList: any;
+
+notifications: { [key: string]: any[] } | null = null;
+notificationKeys: string[] = [];
+selectedTime: Date = new Date(); // Default time
+
+// notificationTypes() {
+//   this.dataService.notificationTypes().subscribe(
+//     (response) => {
+//       // Assign the response object to the component
+//       this.notifications = response.object;
+
+//       // Extract keys for iteration
+//       if (this.notifications) {
+//         this.notificationKeys = Object.keys(this.notifications);
+//       }
+      
+//     },
+//     (error) => {
+//       console.log('error');
+//     }
+//   );
+// }
+
+notificationTypes() {
+  this.dataService.notificationTypes().subscribe(
+    (response) => {
+      // Assign the response object to the component
+      this.notifications = response.object;
+
+      // Extract keys for iteration
+      this.notificationKeys = Object.keys(this.notifications ?? {}); // Default to empty object if null
+
+      // Convert the 'minutes' string to a Date object for each notification
+      this.notificationKeys.forEach(key => {
+        this.notifications?.[key]?.forEach(notification => {
+          if (notification.minutes) {
+            notification.minutes = this.convertTimeStringToDate(notification.minutes);
+          }
+        });
+      });
+    },
+    (error) => {
+      console.log('Error retrieving notification types:', error);
+    }
+  );
+}
+
+
+convertTimeStringToDate(timeString: string): Date {
+  if (timeString == null || timeString == undefined) {
+    return this.convertTimeStringToDate('00:00');
+  }
+
+  const timeParts = timeString.split(':');
+  const hours = parseInt(timeParts[0], 10);
+  const minutes = parseInt(timeParts[1], 10);
+  const seconds = 0;  // Default seconds to 0 if missing
+  
+  const date = new Date();
+  date.setHours(hours);
+  date.setMinutes(minutes);
+  date.setSeconds(seconds);
+
+  return date;
+}
+
+isAttendanceType(type: string): boolean {
+  const attendanceTypes = ['Check in', 'Check Out', 'Break', 'Back', 'Report'];
+  return attendanceTypes.includes(type);
+}
+
+// In company-setting.component.ts
+shouldShowSwitch(type: string): boolean {
+  return this.notifications?.[type]?.some(notification => notification.isEnable === 1) ?? false;
+}
+
+
+
+
 }
 
 
