@@ -1,4 +1,4 @@
-.emplyee-profile-sidebar-main-box {
+.employee-profile-sidebar-main-box {
     border-right: 1px solid #f1f1f1;
 }
 
@@ -393,11 +393,7 @@ span.lat {
     width: 24px;
 }
 
-.teme-maneger p {
-    color: #54545C;
-}
-
-.emplyee-profile-sidebar-main-box {
+.employee-profile-sidebar-main-box {
     height: 100vh;
     overflow: scroll;
     position: sticky;
@@ -405,44 +401,9 @@ span.lat {
     z-index: 999;
 }
 
-.emplyee-profile-sidebar-main-box::-webkit-scrollbar {
+.employee-profile-sidebar-main-box::-webkit-scrollbar {
     display: none;
 }
-
-.checkin-active {
-    border: 1px solid #E0F4ED !important;
-    background-color: #E0F4ED !important;
-    color: #000 !important;
-    font-weight: 400;
-    width: 100%;
-    height: 90px;
-    font-size: 13px;
-    padding: 0px;
-    display: flex;
-    gap: 5px;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-}
-
-.image-edit-btn {
-    background-color: #fff;
-    border: 1px solid #f1f1f1;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    left: 80px;
-    top: 60%;
-}
-
-.image-edit-btn svg {
-    width: 18px;
-}
-
 .check-in {
     background-color: #388E3C;
     color: #fff;
@@ -598,11 +559,6 @@ span.lat {
         letter-spacing: 0.357px;
         text-transform: capitalize;
     }
-
-    .checkin-active {
-        height: 80px !important;
-    }
-
     .break-btn {
         height: 80px !important;
     }
@@ -695,7 +651,6 @@ span.lat {
     bottom: 0px;
     width: 21.7%;
     left: 0px;
-    /* right: 0px; */
     z-index: 999;
 }
 
@@ -734,7 +689,7 @@ span.members-namess {
     width: 115px;
 }
 
-.login-user-phone-numbar {
+.login-user-phone-number {
     color: rgb(75, 88, 101);
     font-size: 0.625rem;
     line-height: 16px;
@@ -895,11 +850,6 @@ span.members-namess {
     padding-bottom: 5px !important;
 }
 
-/* .separator {
-    border-right: 1px solid #d1d1d1;
-    height: 15px;
-} */
-
 .w-90 {
     width: 90%;
 }
@@ -967,21 +917,21 @@ span.members-namess {
     border: 1px solid #eb5050;
 }
 
-.leave-appervo-modal h4 {
+.leave-approve-modal h4 {
     font-size: 18px !important;
     color: #000;
     font-weight: 500;
     padding-bottom: 5px;
 }
 
-.leave-appervo-modal h5 {
+.leave-approve-modal h5 {
     font-size: 14px !important;
     color: #444;
     font-weight: 400;
     padding-bottom: 15px;
 }
 
-.leave-appervo-modal p {
+.leave-approve-modal p {
     color: #8d93a1 !important;
     font-weight: 400;
     font-size: 13px;
@@ -990,7 +940,7 @@ span.members-namess {
     text-align: justify;
 }
 
-.leave-request-modat-close-btn {
+.leave-request-modal-close-btn {
     position: absolute;
     top: -12px;
     right: -12px;
@@ -1037,14 +987,14 @@ span.members-namess {
     padding-left: 5px;
 }
 
-.total-holidey-live h5 {
+.total-holiday-live h5 {
     font-size: 13px !important;
     margin-bottom: 5px;
     padding-bottom: 0px;
     font-weight: 500;
 }
 
-.total-holidey-live p {
+.total-holiday-live p {
     margin-bottom: 0px;
     padding-bottom: 0px;
     font-size: 12px;
@@ -1171,15 +1121,15 @@ span.members-namess {
     font-weight: 600 !important;
 }
 
-.slill-set button {
+.skill-set button {
     font-weight: 500;
 }
 
-.slill-set button i:before {
+.skill-set button i:before {
     font-weight: 600 !important;
 }
 
-.slill-set button i {
+.skill-set button i {
     font-size: 18px;
     top: 1px;
     position: relative;
@@ -1238,9 +1188,9 @@ i::before {
     font-size: 14px !important;
 }
 
-.btn-close {
-    width: 28px;
-    height: 28px;
+.close-btn {
+    width: 35px;
+    height: 35px;
     border-radius: 50%;
     position: absolute;
     right: -15px;
@@ -1248,6 +1198,13 @@ i::before {
     background-color: #fff;
     opacity: 1;
     box-shadow: 0px 4.211px 4.211px 0px rgba(0, 0, 0, 0.10);
+    z-index: 10;
+}
+.close-btn svg{
+    width: 16px;
+    height: 16px;
+    position: relative;
+    top: -1px;
 }
 
 

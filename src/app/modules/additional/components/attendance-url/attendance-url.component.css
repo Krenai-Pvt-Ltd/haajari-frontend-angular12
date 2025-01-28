@@ -67,10 +67,10 @@
 }
 
 .entry-right-box {
-    height: 80vh;
+    overflow: auto;
 }
 
-.crosshairs {
+.location-mark {
     cursor: pointer;
     transition: transform .3s ease, color .3s ease;
     position: absolute;
@@ -86,7 +86,7 @@
     width: 100px;
 }
 
-.linkexpird-img img {
+.link-expired-img img {
     height: 500px;
     object-fit: cover;
 }
@@ -96,6 +96,33 @@
 }
 .location-searchbar input{
     color: #6666F2;
+    font-size: 13px;
+}
+
+.link-expire-btn{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    text-align: center; 
+}
+.continue-btn {
+    font-size: 14px;
+    font-weight: 500;
+    background-color: #fa2626;
+    border-radius: 2px;
+    color: #fff;
+}
+.next-step-btn i{
+    padding-left: 5px;
+    position: relative;
+    top: 1px;
+}
+.snapshot img{
+    height: 600px;
+    object-fit: cover;
+    
 }
 
 @media screen and (max-width: 2600px) {
@@ -144,5 +171,5 @@
 
 
 agm-map {
-    height: 450px
+    height: 500px
 }
