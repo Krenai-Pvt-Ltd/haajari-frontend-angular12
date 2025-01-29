@@ -1339,6 +1339,27 @@ input[type=radio], input[type=checkbox] {
         font-size: 14px !important;
     }
 
+    .close-btn {
+        width: 0px;
+        height: 0px;
+        border-radius: 50%;
+        position: absolute;
+        right: 30px;
+        top: 15px;
+        background-color: transparent;
+        opacity: 1;
+        box-shadow: none;
+        z-index: 10;
+    }
+
+    .log-out-btn-box{
+        position: relative;
+    }
+    .menuVisible .log-out-btn-box{
+        position: fixed;
+    }
+    
+
 }
 
 

@@ -1300,11 +1300,26 @@ div[ngbTooltip] {
     }
 
     .mobile-filter .empFilerDropfilter .new-deopdown {
-        width: 195px;
+        width: 170px;
         padding: 10px 0.5rem;
     }
     .requests-btn {
         margin-bottom: 0px;
+    }
+    .nav-link {
+        margin-right: 10px;
+        font-size: 12px;
+    }
+    .attendance-history{
+        margin-top: -15px !important;
+    }
+    .ant-radio-button-wrapper {
+        color: #6B7280 !important;
+        font-weight: 500;
+        min-width: 55px;
+        text-align: center;
+        font-size: 10px !important;
+        padding: 0px 10px;
     }
 
 
