@@ -1,5 +1,5 @@
 <div class="employee-detail-box">
-    <div class="attendance-history m-3 mt-3">
+    <div class="attendance-history m-3 mt-3 mb-4">
 
         <div class="mt-3">
             <ul id="pills-tab" role="tablist" class="nav nav-pills">
@@ -286,7 +286,7 @@
 
                             </table>
 
-                            <div class="d-flex align-items-center justify-content-between pagination-box-profile w-100 p-3 bg-white border-top" *ngIf="expenseList.length > 0 && totalItems > 9">
+                            <div class="d-flex align-items-center justify-content-between pagination-box-profile p-3 bg-white border-top" *ngIf="expenseList.length > 0 && totalItems > 9">
                                 <p class="mb-0 font-13">Showing {{ expenseList.length }} of {{ totalItems }} </p>
                                 <ngb-pagination class="pagition-box pagination-ul"  [collectionSize]="totalItems" [rotate]="true" (pageChange)="pageChanged($event)"
                                 [pageSize]="databaseHelper.itemPerPage"
@@ -493,7 +493,7 @@
 
                             </table>
 
-                            <div class="d-flex align-items-center justify-content-between pagination-box-profile w-100 p-3 bg-white border-top"  *ngIf="expenseList.length > 0 && totalItems > 9">
+                            <div class="d-flex align-items-center justify-content-between pagination-box-profile p-3 bg-white border-top"  *ngIf="expenseList.length > 0 && totalItems > 9">
                                 <p class="mb-0 font-13">Showing {{ expenseList.length }} of {{ totalItems }} </p>
                                 <ngb-pagination class="pagition-box pagination-ul" [collectionSize]="totalItems" [rotate]="true" (pageChange)="pageChanged($event)"
                                 [pageSize]="databaseHelper.itemPerPage" [(page)]="databaseHelper.currentPage" [maxSize]="4"
@@ -702,7 +702,7 @@
 
                             </table>
 
-                            <div class="d-flex align-items-center justify-content-between pagination-box-profile w-100 p-3 bg-white border-top"  *ngIf="expenseList.length > 0 && totalItems > 9">
+                            <div class="d-flex align-items-center justify-content-between pagination-box-profile p-3 bg-white border-top"  *ngIf="expenseList.length > 0 && totalItems > 9">
                                 <p class="mb-0 font-13">Showing {{ expenseList.length }} of {{ totalItems }} </p>
                                 <ngb-pagination class="pagition-box pagination-ul" [collectionSize]="totalItems" [rotate]="true" (pageChange)="pageChanged($event)"
                                 [pageSize]="databaseHelper.itemPerPage" [(page)]="databaseHelper.currentPage" [maxSize]="4"

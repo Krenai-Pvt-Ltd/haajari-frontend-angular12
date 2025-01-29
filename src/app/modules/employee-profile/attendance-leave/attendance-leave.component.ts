@@ -249,7 +249,7 @@ export class AttendanceLeaveComponent implements OnInit {
   }
 
 
-  isUserLeaveTaken: number = 0;
+  isUserLeaveTaken: number = 1;
   checkUserLeaveTaken() {
     this.dataService.getUserLeaveTaken().subscribe((res: any) => {
       if (res.status) {

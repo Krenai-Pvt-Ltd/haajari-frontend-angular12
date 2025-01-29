@@ -251,7 +251,7 @@
               </a>
             </li>
             <li [class.active]="1 === activeIndex" (mouseover)="updateSliderStyle3(1)" (mouseout)="resetHoverIndex3()"
-              (click)="setActive3(1);checkRestriction('/payment/bonus-and-deduction');" class="pointer"
+              (click)="setActive3(1);checkRestriction('/payment/bonus-and-deduction');" class="pointer  d-none"
               routerLinkActive="sidebar-menu-active" routerLink="/payment/bonus-and-deduction"
               *ngIf="this.rbacService.shouldDisplay('bonous or deduction')">
               <a class="sidebar-menu-link">
