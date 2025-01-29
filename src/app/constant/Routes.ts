@@ -45,6 +45,7 @@ export class Routes {
     public static EXITPOLICY = "/exit-policy"
     public static SUBSCRIPTION = "/setting/subscription"
     public static ACCOUNTSETTINGS = "/setting/account-settings"
+    public static INBOX = "/inbox"
     
  /**
     * DYNAMIC ROUTES END

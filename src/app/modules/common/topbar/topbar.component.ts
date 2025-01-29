@@ -174,6 +174,11 @@ export class TopbarComponent implements OnInit {
       routeDesc="Update and View Personal Information"
       break;
     }
+    case this.Routes.INBOX:{
+      routeValue = 'Inbox';
+      routeDesc="Your Centralize Notifications Hub"
+      break;
+    }
 
    }
 

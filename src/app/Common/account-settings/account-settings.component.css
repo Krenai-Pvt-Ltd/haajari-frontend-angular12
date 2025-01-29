@@ -266,3 +266,11 @@
 .notification-settings p{ 
     color: #444;
 }
+.notification-settings svg{
+    width: 14px;
+    position: relative;
+    top: -2px;
+}
+.notification-heading .w-15{
+    width: 15%;
+}

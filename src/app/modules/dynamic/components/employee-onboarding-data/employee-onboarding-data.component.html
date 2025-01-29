@@ -1,6 +1,6 @@
 <div class="page-wrapper">
   <div class="page-content-tab">
-    <div class="container-fluid">
+    <div class="container-fluid mb-4">
       <div class="row leave-management-settings p-3 mt-4 align-items-center" *ngIf="isMainPlaceholder">
         <div class="col-md-6">
           <div class="leave-management-detail pt-5 pb-5">
@@ -375,7 +375,7 @@
             <li class="nav-item d-flex align-items-center ">
               <a id="pills-notification-tab" data-bs-toggle="pill" href="#resignationRequest" role="tab"
                 aria-controls="pills-notification" aria-selected="false" class="nav-link"
-                (click)="resignationRequest(); loadResignations();">Resignation Requests</a>
+                (click)=" loadResignations();">Resignation Requests</a>
               <span class="request-count d-flex align-items-center justify-content-center"
                 *ngIf="resignationCount > 0">{{resignationCount}}</span>
             </li>
@@ -911,7 +911,7 @@
               <div class="onboard-add row align-items-center mx-0">
                 <!-- <div *ngIf="users.length!=0"> -->
                 <!-- || (searchUserPlaceholderFlag) -->
-                <div class="col-md-12" *ngIf="!errorToggleTop">
+                <div class="col-md-12">
                   <div class="row justify-content-between align-items-center mx-0">
                     <div class="col-lg-12 col-md-12 col-sm-12 ps-0">
                       <div class="d-flex justify-content-start align-items-center">
@@ -1390,7 +1390,7 @@
               </svg>
             </button>
           </div>
-          <img src="/assets/images/delete-img.svg" style="width: 70px" *ngIf="deleteOrDisableUserString === 'Delete'"/>
+          <img src="/assets/images/delete-img.svg" style="width: 70px" *ngIf="deleteOrDisableUserString === 'Delete' || deleteOrDisableUserString === 'Delete Resignation Request'"/>
           <img src="/assets/images/delete-friend (1) 2.svg" style="width: 70px" *ngIf="deleteOrDisableUserString === 'Disable'"/>
         </div>
         <div class="bg-white p-4 text-center">
@@ -1409,7 +1409,7 @@
             <i class="fa fa-spinner fa-spin" *ngIf="disableUserLoader"></i>
           </button>
           <button  *ngIf="deleteOrDisableUserString === 'Delete Resignation Request'" class="btn continue-btn" (click)="deleteResignation(currentResignationID)">
-            <span >Delete Resignation Request</span>
+            <span >Delete</span>
             <i class="fa fa-spinner fa-spin" *ngIf="disableUserLoader"></i>
           </button>
           <br>
@@ -2122,6 +2122,7 @@ Edit Request Modal End
     </div>
   </div>
 </div>
+
 
 
 <!-- Button trigger modal -->

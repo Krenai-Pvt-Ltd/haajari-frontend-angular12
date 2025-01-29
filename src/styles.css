@@ -828,7 +828,8 @@ actionMenuList .dropdown-item i {
   bottom: 0;
   z-index: 99;
   left: 0px;
-  padding-left: 390px !important;
+  margin-left: 21.7% !important;
+  width: 78%;
 }
 
 .badge {
