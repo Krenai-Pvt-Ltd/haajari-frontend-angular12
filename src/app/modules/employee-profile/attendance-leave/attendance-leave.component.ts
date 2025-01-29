@@ -16,6 +16,7 @@ import { AttendanceRequest } from 'src/app/models/AttendanceRequest';
 import { constant } from 'src/app/constant/constant';
 // import { Timeline } from 'vis-timeline'
 // import { Timeline,DataSet, TimelineItem } from 'vis-timeline/standalone';
+// import {ChartComponent,ApexAxisChartSeries,ApexChart,ApexXAxis,ApexTitleSubtitle} from "ng-apexcharts";
 
 import {
   Chart,
@@ -54,6 +55,9 @@ Chart.register(
   styleUrls: ['./attendance-leave.component.css']
 })
 export class AttendanceLeaveComponent implements OnInit {
+
+ 
+
 
   userLeaveForm!: FormGroup;
   userId: any;
@@ -1487,6 +1491,8 @@ export class AttendanceLeaveComponent implements OnInit {
       if (this.chart) {
         this.chart.destroy();
       }
+
+      
 
       // Create the new chart
       this.chart = new Chart(ctx, {
