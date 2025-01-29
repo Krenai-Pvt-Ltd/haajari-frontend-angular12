@@ -5,11 +5,13 @@
         </div>
         <div class="col-md-9 pl-0" *ngIf="!isEmployeeExit">
 
-            <div class="mobile-top-menu d-flex align-items-center justify-content-between p-3 border-bottom">
+            <div class="mobile-top-menu p-3 border-bottom">
+                <div class="d-flex align-items-center justify-content-between">
                 <img src="assets/images/HAjiRi.svg" alt="logo-" style="height: 30px">
                 <span class="pointer d-flex align-items-center justify-content-center" (click)="_helperService.toggleIsShowSidebar()">
                     <i class="bi bi-list text-primary font-26"></i>
                 </span>
+                </div>
             </div>
 
             <div class="employee-profile-menu ">

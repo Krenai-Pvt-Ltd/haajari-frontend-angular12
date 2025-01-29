@@ -462,7 +462,9 @@ span.lat {
     border: 1px solid #444;
     background-color: #f2f2f2;
 }
-
+.mobile-top-menu {
+    display: none;
+}
 
 
 @media screen and (max-width: 500px) {
@@ -482,6 +484,17 @@ span.lat {
     }
     .employee-profile-menu::-webkit-scrollbar{
         display: none;
+    }
+    .mobile-top-menu {
+        display: block;
+        position: sticky;
+        top: 0px;
+        background-color: #fff;
+        z-index: 9;
+    }
+    .employee-profile-menu {
+        position: sticky;
+        top: 74px;
     }
     
 }

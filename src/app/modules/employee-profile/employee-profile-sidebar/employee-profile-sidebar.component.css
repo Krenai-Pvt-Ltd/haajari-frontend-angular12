@@ -1274,6 +1274,9 @@ input[type=radio], input[type=checkbox] {
 .sidebar-close-btn{
     display: none;
     }
+    .logout-btn i{
+       color: #6666F2;
+    }
 
 @media screen and (max-width: 500px) {
    
@@ -1285,6 +1288,7 @@ input[type=radio], input[type=checkbox] {
         left: -110%;
         right: 0;
         top: 0;
+        transition: .2s ease-in;
     }
     .menuVisible {
         left: 0 !important;
@@ -1302,11 +1306,39 @@ input[type=radio], input[type=checkbox] {
     display: block;
     }
     .list-top{
-        right: 188px !important;
+        right: 165px !important;
     }
     .list-top::before {
         left: 78%;
     }
+    span.members-namess {
+        width: 35px;
+        height: 35px;
+        font-size: 14px;
+    }
+    .login-user-name {
+        font-size: 14px;
+        width: 190px;
+    }
+    .login-user-phone-number {
+        font-size: 12px;
+        width: 190px;
+    }
+    .logout-btn i{
+       font-size: 18px;
+     }
+
+     .employee-detail p {
+        font-size: 13px !important;
+    }
+
+    .employe-about p {
+        font-size: 13px !important;
+    }
+    .employe-about h5{
+        font-size: 14px !important;
+    }
+
 }
 
 
