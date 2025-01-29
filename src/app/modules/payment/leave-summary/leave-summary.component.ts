@@ -323,8 +323,10 @@ export class LeaveSummaryComponent implements OnInit {
     this.preRuleForShimmersAndErrorPlaceholdersForLopSummary();
     this._payrollService.getPendingLeaves(this.startDate,this.endDate,this.pageNumber, this.itemPerPage).subscribe((response) => {
       if(response.status){
-        this.lopSummaryResponseList = response.object;
-        this.totalItems = response.totalItems;
+        this.lopSummaryResponseList = []
+        // response.object;
+        this.totalItems = 0;
+        // response.totalItems;
         if(this.lopSummaryResponseList ==null || this.lopSummaryResponseList.length==0){
           this.dataNotFoundPlaceholderForLopSummary = true;
         }
@@ -342,8 +344,10 @@ export class LeaveSummaryComponent implements OnInit {
     this.preRuleForShimmersAndErrorPlaceholdersForPayrollLeaveResponse();
     this._payrollService.getPendingLeaves(this.startDate,this.endDate,this.pageNumber, this.itemPerPage).subscribe((response) => {
       if(response.status){
-        this.lopReversalResponseList = response.object;
-        this.totalItems = response.totalItems;
+        this.lopReversalResponseList = []
+        // response.object;
+        this.totalItems = 0;
+        // response.totalItems;
         if(this.lopReversalResponseList ==null || this.lopReversalResponseList.length==0){
           this.dataNotFoundPlaceholderForLopReversal = true;
         }
