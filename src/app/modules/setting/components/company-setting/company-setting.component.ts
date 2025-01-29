@@ -22,6 +22,7 @@ import { EmployeeAdditionalDocument } from 'src/app/models/EmployeeAdditionalDoc
 import { constant } from 'src/app/constant/constant';
 import { NotificationType } from 'src/app/models/NotificationType';
 import { NotificationTypeInfoRequest } from 'src/app/models/NotificationType';
+import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 
 @Component({
   selector: 'app-company-setting',
@@ -34,6 +35,7 @@ export class CompanySettingComponent implements OnInit {
     roles: Role[] = [];
     onboardingModules: OnboardingModule[] = [];
     pageNumberUser: number = 1;
+    ROLE : string = '';
   constructor(
     private dataService: DataService,
     private afStorage: AngularFireStorage,
@@ -41,12 +43,13 @@ export class CompanySettingComponent implements OnInit {
     private sanitizer: DomSanitizer,
     private placesService: PlacesService,
     private route: ActivatedRoute,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private rbacService: RoleBasedAccessControlService
   ) { }
 
   ngOnInit(): void {
     window.scroll(0, 0);
-
+    this.getROLE();
 
     this.notificationTypes();
     this.getOrganizationDetailsMethodCall();
@@ -58,6 +61,12 @@ export class CompanySettingComponent implements OnInit {
     this.fetchOnboardingModules();
     this.fetchDocuments();
   }
+
+
+  async getROLE() {
+    this.ROLE = await this.rbacService.getRole();
+  }
+
 
   ngAfterViewInit() {
 
