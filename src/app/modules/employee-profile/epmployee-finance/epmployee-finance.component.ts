@@ -22,6 +22,7 @@ import { StatutoryRequest } from 'src/app/models/statutory-request';
 import { UserService } from 'src/app/services/user.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import { PayoutDaysSummary } from 'src/app/models/PayoutDaysSummary';
+import { SalaryDeductionResponse } from 'src/app/models/SalaryDeductionResponse';
 
 @Component({
   selector: 'app-epmployee-finance',
@@ -220,8 +221,8 @@ export class EpmployeeFinanceComponent implements OnInit {
     this.financeBlur = this.financeBlur == true ? false : true;
   }
 
-
   employeePayslipResponse: EmployeePayslipResponse = new EmployeePayslipResponse();
+  
   getEmployeePayslipResponseByUserUuidMethodCall() {
     this._salaryService.getEmployeePayslipResponseByUserUuid(this.userUuid, this.startDate, this.endDate).subscribe((response) => {
       if (response.status) {
@@ -262,16 +263,17 @@ export class EpmployeeFinanceComponent implements OnInit {
     })
   }
 
-  employeePayslipDeductionResponse: EmployeePayslipDeductionResponse = new EmployeePayslipDeductionResponse();
+  salaryDeductionResponse: SalaryDeductionResponse = new SalaryDeductionResponse();
+  // employeePayslipDeductionResponse: EmployeePayslipDeductionResponse = new EmployeePayslipDeductionResponse();
   getEmployeePayslipDeductionResponseByUserUuidMethodCall() {
     this._salaryService.getEmployeePayslipDeductionResponseByUserUuid(this.userUuid, this.startDate, this.endDate).subscribe((response) => {
       if (response.status) {
-        this.employeePayslipDeductionResponse = response.object;
-        if (this.employeePayslipDeductionResponse == null) {
-          this.employeePayslipDeductionResponse = new EmployeePayslipDeductionResponse();
+        this.salaryDeductionResponse = response.object;
+        if (this.salaryDeductionResponse == null) {
+          this.salaryDeductionResponse = new SalaryDeductionResponse();
         }
       } else {
-        this.employeePayslipDeductionResponse = new EmployeePayslipDeductionResponse();
+        this.salaryDeductionResponse = new SalaryDeductionResponse();
       }
     }, (error) => {
 

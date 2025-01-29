@@ -104,10 +104,22 @@
           <!-- end div -->
           <div class="btn-toolbar" role="toolbar" *ngIf="monthWiseIds.length>0">
             <div class="btn-group">
-              <button type="button" class="btn btn-de-secondary d-flex align-items-center gap-2 "
+              <!-- <button type="button" class="btn btn-de-secondary d-flex align-items-center gap-2 "
                 (click)="updatePaySlipStatus()">
                 <i class="fas fa-exclamation-circle"></i>
                 <small>Hold Payslip</small>
+              </button> -->
+                <button type="button" class="btn btn-de-secondary d-flex align-items-center gap-2"
+                (click)="generatePayslip(1)">
+                <span *ngIf="!processing">
+                  <i class="fas fa-exclamation-circle"></i>
+                  <small>Generate Payslip</small>
+                </span>
+                <div class="dot-opacity-loader" *ngIf="processing">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
               </button>
               <button type="button" class="btn btn-de-secondary d-flex align-items-center gap-2"
                 (click)="sharePayslipVia('EMAIL')">
@@ -119,11 +131,6 @@
                 <i class="fab fa-whatsapp"></i>
                 <small>WHATSAPP</small>
               </button>
-              <!-- <button type="button" class="btn btn-de-secondary d-flex align-items-center gap-2"
-                (click)="sharePayslipVia('SLACK')">
-                <i class="fab fa-whatsapp"></i>
-                <small>SLACK</small>
-              </button> -->
             </div>
           </div>
           <!-- end toolbar -->

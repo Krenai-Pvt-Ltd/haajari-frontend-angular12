@@ -180,11 +180,13 @@ export class SalaryService {
     return this._http.post<any>(`${this._key.base_url}/salary/payslip/share`,{}, {params});
   }
 
-  generatePaySlip(startDate: string,endDate: string): Observable<any>{
+  generatePaySlip(startDate: string,endDate: string, monthIds:number[],isAll:number): Observable<any>{
     const params = new HttpParams()
     .set('start_date', startDate)
-    .set('end_date', endDate);
-    return this._http.put<any>(`${this._key.base_url}/salary/generate-slip`, {params});
+    .set('end_date', endDate)
+    .set('month_ids', String(monthIds))
+    .set('is_all', isAll);
+    return this._http.put<any>(`${this._key.base_url}/salary/month-wise/generate-slip`, {params});
   }
 
 

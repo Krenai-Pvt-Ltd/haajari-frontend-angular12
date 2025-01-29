@@ -253,18 +253,27 @@ export class PaymentHistoryComponent implements OnInit {
 
 
 
-  generateSalarySlipMethodCall(){
-    this._salaryService.generatePaySlip(this.startDate, this.endDate).subscribe(
+  isAll:number=0;
+  processing:boolean=false;
+  generatePayslip(isAll:number){
+    this.processing=true;
+    var ids :number[] =[];
+    if(isAll==0){
+      ids = this.monthWiseIds;
+    }
+    this._salaryService.generatePaySlip(this.startDate, this.endDate,ids,isAll).subscribe(
       (response) => {
         if(response.status){
-          this._helperService.showToast('Payslip generated Succesfully', Key.TOAST_STATUS_SUCCESS)
+          this.monthWiseIds =[];
           this.getMonthWiseSalarySlipData();
+          this._helperService.showToast('Payslip generated Successfully', Key.TOAST_STATUS_SUCCESS);
         }else{
-          this._helperService.showToast('Failed to generate pay slip', Key.TOAST_STATUS_ERROR)
+          this._helperService.showToast('Failed to generate pay slip', Key.TOAST_STATUS_ERROR);
         }
+        this.processing=false;
       },
       (error) => {
-    
+        this.processing=false;
       }
     );
   }
