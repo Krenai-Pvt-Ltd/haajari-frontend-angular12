@@ -492,29 +492,48 @@
                                                     <tr>
                                                         <td><span class="fw-semibold">TDS</span></td>
                                                         <td class="text-end"><span
-                                                                class="fw-semibold">₹{{convertNumberToStringFormat(employeePayslipDeductionResponse.tdsAmount
-                                                                )}}</span></td>
+                                                                class="fw-semibold">₹{{convertNumberToStringFormat(salaryDeductionResponse.tds)
+                                                                }}</span></td>
                                                     </tr>
                                                     <tr>
                                                         <td><span class="fw-semibold">EPF</span></td>
                                                         <td class="text-end"><span
-                                                                class="fw-semibold">₹{{convertNumberToStringFormat(employeePayslipDeductionResponse.epfAmount
-                                                                )}}</span></td>
+                                                                class="fw-semibold">₹{{convertNumberToStringFormat(salaryDeductionResponse.employeeEpf)
+                                                                }}</span></td>
                                                     </tr>
                                                     <tr>
                                                         <td><span class="fw-semibold">ESI</span></td>
                                                         <td class="text-end"><span
-                                                                class="fw-semibold">₹{{convertNumberToStringFormat(employeePayslipDeductionResponse.esiAmount
-                                                                )}}</span></td>
+                                                                class="fw-semibold">₹{{convertNumberToStringFormat(salaryDeductionResponse.employeeEsi)
+                                                                }}</span></td>
                                                     </tr>
-                                                    <tr *ngIf="">
-                                                        <td> <span class="fw-semibold">Absent @2 Days</span></td>
-                                                        <td class="text-end"><span class="fw-semibold">₹1700.00</span>
-                                                        </td>
+                                                </tbody>
+                                            </table>
+                                            <table class="table">
+                                                <thead class="thead-light">
+                                                    <tr>
+
+                                                        <th style=" width: 15%; background-color: #F9FAFC !important;">
+                                                            <span class="fw-semibold">Employer Contribution</span>
+                                                        </th>
+                                                        <th style=" width: 15%; background-color: #F9FAFC !important;">
+                                                        </th>
                                                     </tr>
-
-
-
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><span class="fw-semibold">EPF</span></td>
+                                                        <td class="text-end"><span
+                                                                class="fw-semibold">₹{{convertNumberToStringFormat(salaryDeductionResponse.employerEpf)
+                                                                }}</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><span class="fw-semibold">ESI</span></td>
+                                                        <td class="text-end"><span
+                                                                class="fw-semibold">₹{{convertNumberToStringFormat(salaryDeductionResponse.employerEsi)
+                                                                }}</span></td>
+                                                    </tr>
+                         
                                                 </tbody>
                                             </table>
                                         </div>
