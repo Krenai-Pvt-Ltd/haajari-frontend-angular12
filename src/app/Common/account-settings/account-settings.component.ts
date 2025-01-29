@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { Key } from 'src/app/constant/key';
 import { EmployeeAdditionalDocument } from 'src/app/models/EmployeeAdditionalDocument';
@@ -19,13 +20,18 @@ import { RoleBasedAccessControlService } from 'src/app/services/role-based-acces
 export class AccountSettingsComponent implements OnInit {
 
   supportForm: FormGroup;
+  userId: any;
   constructor(private dataService: DataService,
     public roleService: RoleBasedAccessControlService,
     private fb: FormBuilder,
     private afStorage: AngularFireStorage,
     private helperService: HelperService,
     private sanitizer: DomSanitizer,
+    private activateRoute: ActivatedRoute
   ) {
+    if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
+      this.userId = this.activateRoute.snapshot.queryParamMap.get('userId');
+    }
     this.supportForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       phone: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
@@ -40,6 +46,7 @@ export class AccountSettingsComponent implements OnInit {
     this.UUID= this.roleService.getUuid();
     this.userInfo= this.roleService.userInfo;
 
+    this.notificationTypes();
     this.setFormData();
     this.supportForm.get('email')?.disable();
     this.supportForm.get('phone')?.disable();
@@ -374,4 +381,35 @@ export class AccountSettingsComponent implements OnInit {
     const currentDate = new Date();
     return this.guidelines?.newAttendanceRule?.updateTime >= currentDate;
   }
+
+
+notifications: { [key: string]: any[] } | null = null;
+notificationKeys: string[] = [];
+
+notificationTypes(): Promise<void> {
+  return new Promise((resolve) => {
+    this.dataService.notificationTypes(this.userId).subscribe(
+      (response) => {
+        // Assign the response object to the component
+        this.notifications = response.object;
+
+        // Extract keys for iteration
+        this.notificationKeys = Object.keys(this.notifications ?? {}); 
+
+        resolve(); // Resolve after successful execution
+      },
+      (error) => {
+        console.log('Error retrieving notification types:', error);
+        resolve(); // Ensure resolve even on error
+      }
+    );
+  });
+}
+
+
+isAttendanceType(type: string): boolean {
+  const attendanceTypes = ['Check in', 'Check Out', 'Break', 'Back', 'Report'];
+  return attendanceTypes.includes(type);
+}
+
 }

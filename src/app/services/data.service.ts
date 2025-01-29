@@ -4910,8 +4910,18 @@ getHolidayForOrganization(date: string): Observable<any>{
 
   // notification setting
 
-  notificationTypes(): Observable<any> {
-    return this.httpClient.get<any>(`${this.baseUrl}/notification-setting/notification-types`, { });
+  // notificationTypes(): Observable<any> {
+  //   return this.httpClient.get<any>(`${this.baseUrl}/notification-setting/notification-types`, { });
+  // }
+
+  notificationTypes(userUuid?: string): Observable<any> {
+    let params = new HttpParams();
+
+    if (userUuid) {
+      params = params.set('userUuid', userUuid);
+    }
+
+    return this.httpClient.get<any>(`${this.baseUrl}/notification-setting/notification-types`, { params });
   }
 
   saveNotification(notification: NotificationTypeInfoRequest): Observable<any> {
