@@ -4,3 +4,12 @@ export class NotificationType {
     description: string = '';
     name: string = '';
 }
+
+export interface NotificationTypeInfoRequest {
+    id: number;
+    notificationTypeId: number;
+    minutes: string;
+    sendReminderType: string;
+    reminderType: string;
+    status: string;
+  }

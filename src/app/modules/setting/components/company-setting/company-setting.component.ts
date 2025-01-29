@@ -21,6 +21,7 @@ import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { EmployeeAdditionalDocument } from 'src/app/models/EmployeeAdditionalDocument';
 import { constant } from 'src/app/constant/constant';
 import { NotificationType } from 'src/app/models/NotificationType';
+import { NotificationTypeInfoRequest } from 'src/app/models/NotificationType';
 
 @Component({
   selector: 'app-company-setting',
@@ -47,7 +48,7 @@ export class CompanySettingComponent implements OnInit {
     window.scroll(0, 0);
 
 
-
+    this.notificationTypes();
     this.getOrganizationDetailsMethodCall();
     this.getTeamNames();
     this.getUserByFiltersMethodCall();
@@ -1695,47 +1696,38 @@ notifications: { [key: string]: any[] } | null = null;
 notificationKeys: string[] = [];
 selectedTime: Date = new Date(); // Default time
 
-// notificationTypes() {
-//   this.dataService.notificationTypes().subscribe(
-//     (response) => {
-//       // Assign the response object to the component
-//       this.notifications = response.object;
+notificationTypes(): Promise<void> {
+  return new Promise((resolve) => {
+    this.dataService.notificationTypes().subscribe(
+      (response) => {
+        // Assign the response object to the component
+        this.notifications = response.object;
 
-//       // Extract keys for iteration
-//       if (this.notifications) {
-//         this.notificationKeys = Object.keys(this.notifications);
-//       }
-      
-//     },
-//     (error) => {
-//       console.log('error');
-//     }
-//   );
-// }
+        // Extract keys for iteration
+        this.notificationKeys = Object.keys(this.notifications ?? {}); // Default to empty object if null
 
-notificationTypes() {
-  this.dataService.notificationTypes().subscribe(
-    (response) => {
-      // Assign the response object to the component
-      this.notifications = response.object;
-
-      // Extract keys for iteration
-      this.notificationKeys = Object.keys(this.notifications ?? {}); // Default to empty object if null
-
-      // Convert the 'minutes' string to a Date object for each notification
-      this.notificationKeys.forEach(key => {
-        this.notifications?.[key]?.forEach(notification => {
-          if (notification.minutes) {
-            notification.minutes = this.convertTimeStringToDate(notification.minutes);
+        // Convert the 'minutes' string to a Date object for each notification
+        this.notificationKeys.forEach(key => {
+          if (this.notifications?.[key]) {
+            this.notifications[key].forEach(notification => {
+              if (notification.minutes) {
+                notification.minutes = this.convertTimeStringToDate(notification.minutes);
+              }
+            });
           }
         });
-      });
-    },
-    (error) => {
-      console.log('Error retrieving notification types:', error);
-    }
-  );
+
+        this.cdr.detectChanges();
+        resolve(); // Resolve after successful execution
+      },
+      (error) => {
+        console.log('Error retrieving notification types:', error);
+        resolve(); // Ensure resolve even on error
+      }
+    );
+  });
 }
+
 
 
 convertTimeStringToDate(timeString: string): Date {
@@ -1761,12 +1753,129 @@ isAttendanceType(type: string): boolean {
   return attendanceTypes.includes(type);
 }
 
-// In company-setting.component.ts
-shouldShowSwitch(type: string): boolean {
-  return this.notifications?.[type]?.some(notification => notification.isEnable === 1) ?? false;
+
+loadingFlags2: { [key: string]: { [index: number]: boolean } } = {}; // Track loading per notification
+
+toggleNotification(notification: any, type: string, index: number): void {
+  let notificationData: NotificationTypeInfoRequest;
+
+  // Ensure the loading flag object exists for the given type
+  if (!this.loadingFlags2[type]) {
+    this.loadingFlags2[type] = {};
+  }
+  this.loadingFlags2[type][index] = true; // Start loading
+  this.cdr.detectChanges();
+
+  if (type === 'Other') {
+    notificationData = {
+      id: 0, 
+      notificationTypeId: notification.notificationTypeId,
+      minutes: '', 
+      sendReminderType: '', 
+      reminderType: '', 
+      status: notification.isEnable ? 'DISABLE' : 'ENABLE'
+    };
+  } else {
+    notificationData = {
+      id: notification.id ?? 0, 
+      notificationTypeId: notification.notificationTypeId,
+      minutes: notification.minutes ? this.convertDateToTimeString(notification.minutes) : '',
+      sendReminderType: notification.isBefore === 1 ?  'BEFORE' : 'AFTER',
+      reminderType: notification.isForced === 1 ?  'FORCED' : 'FLEXIBLE',
+      status: notification.isEnable ? 'ENABLE' : 'DISABLE'
+    };
+  }
+
+  this.dataService.saveNotification(notificationData).subscribe(
+    response => {
+      console.log('Notification updated successfully', response);
+      this.notificationTypes(); // Refresh notifications list
+    },
+    error => {
+      console.error('Error updating notification', error);
+      this.notificationTypes();
+    },
+    () => {
+      this.loadingFlags2[type][index] = false; // Stop loading
+      this.cdr.detectChanges();
+    }
+  );
 }
 
 
+convertDateToTimeString(date: Date): string {
+  const hours = date.getHours().toString().padStart(2, '0');
+  const minutes = date.getMinutes().toString().padStart(2, '0');
+  return `${hours}:${minutes}`;
+}
+
+
+toggleNotificationValue(notification: any, field: string): void {
+  // Toggle logic based on field
+  if (field === 'isEnable') {
+    // Handle isEnable toggling
+    notification.isEnable = notification.isEnable === 1 ? 0 : 1;
+  } 
+  else if (field === 'isBefore') {
+    // Handle isBefore toggling
+    notification.isBefore = notification.isBefore === 1 ? 0 : 1;
+  } 
+  else if (field === 'isForced') {
+    // Handle isForced toggling (this is already handled by ngModel)
+    notification.isForced = notification.isForced === 1 ? 0 : 1;
+  }
+
+}
+
+
+// shouldShowSwitch(type: string): boolean {
+//   return this.notifications?.[type]?.some(notification => notification.isEnable === 1) ?? false;
+// }
+
+isSwitchEnabled: { [key: string]: boolean } = {};
+loadingFlags: { [key: string]: boolean } = {}; 
+// This function is used to return the value of the switch's state for a specific type
+shouldShowSwitch(type: string): boolean {
+  // Check if the switch is manually enabled or if any notification for the type is enabled
+  return this.isSwitchEnabled[type] ?? this.notifications?.[type]?.some(notification => notification.isEnable === 1) ?? false;
+}
+
+onSwitchChange(event: boolean, type: string): void {
+  // Set loading state to true
+  this.loadingFlags[type] = true;
+  this.cdr.detectChanges(); // Ensure UI updates
+
+  if (event) {
+    this.isSwitchEnabled[type] = true; 
+    this.notificationTypes().finally(() => {
+      this.loadingFlags[type] = false; // Turn off loading after API response
+      this.cdr.detectChanges();
+    });
+  } else {
+    this.isSwitchEnabled[type] = false;
+    this.handleSwitchDisable(type).finally(() => {
+      this.loadingFlags[type] = false; // Turn off loading after API response
+      this.cdr.detectChanges();
+    });
+  }
+}
+
+handleSwitchDisable(type: string): Promise<void> {
+  return new Promise((resolve) => {
+    this.dataService.disableNotification(type).subscribe(
+      response => {
+        console.log('Notification updated successfully', response);
+        this.notificationTypes();
+        resolve();
+      },
+      error => {
+        console.error('Error updating notification', error);
+        this.notificationTypes();
+        resolve();
+      }
+    );
+  });
+}
 
 
 }

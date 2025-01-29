@@ -209,7 +209,7 @@
           </button>
 
           <div class="d-flex align-items-center justify-content-between mt-3">
-            <a hre="#" class="change-phone-number" (click)="changeNumber()"><img src="assets/images/edit-text.svg">{{
+            <a class="change-phone-number" (click)="changeNumber()"><i class="bi bi-pencil-square"></i> {{
               whatsappOtp ? "Change Phone Number" : "Change Email Id"
               }}</a>
             <button class="resent-otp" (click)="resendOtp()" [disabled]="time > 0">

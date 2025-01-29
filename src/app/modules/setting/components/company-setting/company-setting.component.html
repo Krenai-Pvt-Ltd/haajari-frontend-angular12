@@ -29,7 +29,7 @@
         <button id="home-tab" data-bs-toggle="tab" data-bs-target="#notificationsSetting" type="button" role="tab"
           aria-controls="home" [attr.aria-selected]="activeTab === 'notificationsSetting'"
           [ngClass]="{'active': activeTab === 'notificationsSetting'}" class="nav-link"
-          (click)="switchTab('notificationsSetting'); notificationTypes()">
+          (click)="switchTab('notificationsSetting')">
           Notifications Configuration
         </button>
       </li>
@@ -740,104 +740,106 @@
                   <p class="mb-0 font-13">Remind employees to mark their attendance promptly at the start of their shift.</p>
                 </div>
                 <div>
-                  <nz-switch [ngModel]="shouldShowSwitch(type)"></nz-switch>
+                  <nz-switch [ngModel]="shouldShowSwitch(type)" (ngModelChange)="onSwitchChange($event, type)" [nzLoading]="loadingFlags[type]"></nz-switch>
                 </div>
               </div>
               <div *ngIf="shouldShowSwitch(type)">
-              <div class="pt-3 notification-checkbox" *ngFor="let notification of notifications?.[type]; let j = index">
-                <div class="form-check d-flex align-items-center gap-2 mt-3 mb-3">
-                  <!-- Using unique ID for each checkbox and its label -->
-                  <input 
-                    type="checkbox" 
-                    [checked]="notification.isEnable === 1" 
-                    [id]="'checkbox-' + i + '-' + j" 
-                    [name]="'checkbox-' + i + '-' + j" 
-                    class="form-check-input">
-                  <label class="form-check-label" [for]="'checkbox-' + i + '-' + j">{{ notification.description }}</label>
-                </div>
-      
-                <!-- Reminder form with unique ID for radio buttons and names -->
-                <div class="reminder-form mt-4 mb-4 p-3" *ngIf="notification.isEnable">
-                  <div class="row">
-                    <div class="col-md-4">
-                      <label class="form-check-label mb-2 fw-normal">Send Reminder</label>
-                      <div class="send-reminder d-flex align-items-center">
-                        <div class="w-50 pl-2">
-                          <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                            <input 
-                              type="radio" 
-                              [id]="'before-' + i + '-' + j" 
-                              [name]="'before-' + i + '-' + j" 
-                              value="before" 
-                              class="form-check-input"
-                              [checked]="notification.isBefore === 1" 
-                              [disabled]="notification.isEnable === 0">
-                            <p class="form-check-label mb-0">Before</p>
-                          </label>
-                        </div>
-                        <div class="w-50 pl-2 reminder-after">
-                          <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                            <input 
-                              type="radio" 
-                              [id]="'after-' + i + '-' + j" 
-                              [name]="'after-' + i + '-' + j" 
-                              value="after" 
-                              class="form-check-input"
-                              [checked]="notification.isBefore === 0" 
-                              [disabled]="notification.isEnable === 0">
-                            <p class="form-check-label mb-0">After</p>
-                          </label>
+                <div class="pt-3 notification-checkbox" *ngFor="let notification of notifications?.[type]; let j = index">
+                  <div class="form-check d-flex align-items-center gap-2 mt-3 mb-3">
+                    <!-- Using unique ID for each checkbox and its label -->
+                    <input 
+                      type="checkbox" 
+                      [checked]="notification.isEnable === 1" 
+                      [id]="'checkbox-' + i + '-' + j" 
+                      [name]="'checkbox-' + i + '-' + j" 
+                      class="form-check-input" (change)="toggleNotificationValue(notification, 'isEnable')">
+                    <label class="form-check-label" [for]="'checkbox-' + i + '-' + j">{{ notification.description }}</label>
+                    <button (click)="toggleNotification(notification, type, j)">edit</button>
+                  </div>
+        
+                  <!-- Reminder form with unique ID for radio buttons and names -->
+                  <div class="reminder-form mt-4 mb-4 p-3" *ngIf="notification.isEnable">
+                    <div class="row">
+                      <div class="col-md-4">
+                        <label class="form-check-label mb-2 fw-normal">Send Reminder</label>
+                        <div class="send-reminder d-flex align-items-center">
+                          <div class="w-50 pl-2">
+                            <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                              <input 
+                                type="radio" 
+                                id="before-{{i}}{{j}}" 
+                                name="Reminder-{{i}}{{j}}"
+                                value="before" 
+                                class="form-check-input"
+                                [checked]="notification.isBefore === 1"
+                                (change)="toggleNotificationValue(notification, 'isBefore')">
+                              <p class="form-check-label mb-0">Before</p>
+                            </label>
+                          </div>
+                          <div class="w-50 pl-2 reminder-after">
+                            <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                              <input 
+                                type="radio" 
+                                id="after-{{i}}{{j}}" 
+                                name="Reminder-{{i}}{{j}}"
+                                value="after" 
+                                class="form-check-input"
+                                [checked]="notification.isBefore === 0"
+                                (change)="toggleNotificationValue(notification, 'isBefore')">
+                              <p class="form-check-label mb-0">After</p>
+                            </label>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="col-md-4">
-                      <label class="form-check-label mb-2 fw-normal">Set Minutes</label>
-                      <nz-time-picker 
-                        nzFormat="HH:mm"
-                        [(ngModel)]="notification.minutes"
-                        [ngModelOptions]="{ standalone: true }"
-                        nzPlaceHolder="Select Duration"
-                        [id]="'minutes-' + i + '-' + j"
-                        [name]="'minutes-' + i + '-' + j"
-                        [nzDisabled]="notification.isEnable === 0"
-                        style="background-color: #fff !important; height:47px !important;">
-                      </nz-time-picker>
-                    </div>
-                    <div class="col-md-4">
-                      <label class="form-check-label mb-2 fw-normal">Send Reminder</label>
-                      <div class="send-reminder d-flex align-items-center">
-                        <div class="w-50 pl-2">
-                          <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                            <input 
-                              type="radio" 
-                              [id]="'forced-' + i + '-' + j" 
-                              [name]="'forced-' + i + '-' + j" 
-                              value="forced" 
-                              class="form-check-input"
-                              [checked]="notification.isForced === 1" 
-                              [disabled]="notification.isEnable === 0">
-                            <p class="form-check-label mb-0">Forced</p>
-                          </label>
-                        </div>
-                        <div class="w-50 pl-2 reminder-after">
-                          <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                            <input 
-                              type="radio" 
-                              [id]="'flexible-' + i + '-' + j" 
-                              [name]="'flexible-' + i + '-' + j" 
-                              value="flexible" 
-                              class="form-check-input"
-                              [checked]="notification.isForced === 0" 
-                              [disabled]="notification.isEnable === 0">
-                            <p class="form-check-label mb-0">Flexible</p>
-                          </label>
+                      <div class="col-md-4">
+                        <label class="form-check-label mb-2 fw-normal">Set Minutes</label>
+                        <nz-time-picker 
+                          nzFormat="HH:mm"
+                          [(ngModel)]="notification.minutes"
+                          [ngModelOptions]="{ standalone: true }"
+                          nzPlaceHolder="Select Duration"
+                          id="minutes-{{i}}{{j}}" 
+                          name="minutes-{{i}}{{j}}"
+                          
+                          style="background-color: #fff !important; height:47px !important;">
+                        </nz-time-picker>
+                      </div>
+                      <div class="col-md-4">
+                        <label class="form-check-label mb-2 fw-normal">Send Reminder</label>
+                        <div class="send-reminder d-flex align-items-center">
+                          <div class="w-50 pl-2">
+                            <label class="form-check assets-req d-flex align-items-center justify-content-start" (change)="toggleNotificationValue(notification, 'isForced')">
+                              <input 
+                                type="radio" 
+                                id="forced-{{i}}{{j}}" 
+                                name="forcedFlexible-{{i}}{{j}}"
+                                value="forced" 
+                                class="form-check-input"
+                                [checked]="notification.isForced === 1"
+                                
+                                >
+                              <p class="form-check-label mb-0">Forced</p>
+                            </label>
+                          </div>
+                          <div class="w-50 pl-2 reminder-after">
+                            <label class="form-check assets-req d-flex align-items-center justify-content-start" (change)="toggleNotificationValue(notification, 'isForced')">
+                              <input 
+                                type="radio" 
+                                id="flexible-{{i}}{{j}}" 
+                                name="forcedFlexible-{{i}}{{j}}"
+                                value="flexible" 
+                                class="form-check-input"
+                                [checked]="notification.isForced === 0"
+                                >
+                              <p class="form-check-label mb-0">Flexible</p>
+                            </label>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-               </div>
               <!-- end box -->
             </div>
           </div>
@@ -858,7 +860,9 @@
                 <p class="mb-0 font-13">{{notification.description}}</p>
               </div>
               <div>
-                <nz-switch [ngModel]="notification.isEnable"></nz-switch>
+                <nz-switch [ngModel]="notification.isEnable" [ngModelOptions]="{ standalone: true }" 
+                [nzLoading]="loadingFlags2[type]?.[j] || false" 
+                (ngModelChange)="toggleNotification(notification, type, j)"></nz-switch>
               </div>
             </div>
           </div>

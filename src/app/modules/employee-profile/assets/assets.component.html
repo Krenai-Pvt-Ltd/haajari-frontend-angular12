@@ -1,4 +1,4 @@
-<div class="m-3 assets-detail">
+<div class="m-3 assets-detail mb-4">
   <div class="mt-2">
     <ul id="pills-tab" role="tablist" class="nav nav-pills">
       <li class="nav-item">
@@ -147,7 +147,7 @@
             </div>
 
             <div *ngIf="totalPages()>1"
-              class="d-flex align-items-center justify-content-between pagination-box-profile w-100 p-3 bg-white border-top">
+              class="d-flex align-items-center justify-content-between pagination-box-profile p-3 bg-white border-top">
               <!-- Ngb Pagination Component -->
               <p>
                 Showing items
@@ -371,7 +371,7 @@
           </div>
 
           <div *ngIf="this.assetRequestsTotalPage>1"
-            class="d-flex align-items-center justify-content-between pagination-box-profile w-100 p-3 bg-white border-top">
+            class="d-flex align-items-center justify-content-between pagination-box-profile p-3 bg-white border-top">
             <p class="mb-0">
               Showing items
               {{ (assetRequestsPage - 1) * assetRequestsSize + 1 }} –

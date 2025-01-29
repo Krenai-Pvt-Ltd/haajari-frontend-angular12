@@ -82,6 +82,7 @@ import { ExitPolicy } from '../models/ExitPolicy';
 import { UserResignation } from '../models/UserResignation';
 import { EmployeeAdditionalDocument } from '../models/EmployeeAdditionalDocument';
 import { EmployeeProfileResponse } from '../models/employee-profile-info';
+import { NotificationTypeInfoRequest } from '../models/NotificationType';
 
 
 @Injectable({
@@ -4581,7 +4582,7 @@ getHolidayForOrganization(date: string): Observable<any>{
     );
   }
 
-
+  resignationInfo: any;
   getUserResignationInfo(uuid: string) {
     let params = new HttpParams().set('uuid', uuid);
     return this.httpClient.get<any>(
@@ -4912,6 +4913,19 @@ getHolidayForOrganization(date: string): Observable<any>{
   notificationTypes(): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/notification-setting/notification-types`, { });
   }
+
+  saveNotification(notification: NotificationTypeInfoRequest): Observable<any> {
+    return this.httpClient.put(`${this.baseUrl}/notification-setting/save`, notification);
+  }
+
+  disableNotification(key: string): Observable<any> {
+    const params = new HttpParams()
+      .set('key', key);
+    return this.httpClient.put(`${this.baseUrl}/notification-setting/disable/notification`, {}, {params});
+  }
+
+
+  
 
 }
 

@@ -4,7 +4,6 @@ import { EmployeePayslipLogResponse } from 'src/app/employee-payslip-log-respons
 import { EmployeePayslipBreakupResponse } from 'src/app/models/employee-payslip-breakup-response';
 import { EmployeePayslipDeductionResponse } from 'src/app/models/employee-payslip-deduction-response';
 import { EmployeePayslipResponse } from 'src/app/models/employee-payslip-response';
-import { PayoutDaysSummary } from 'src/app/models/payoutDaysSummary';
 import { UserPaymentDetail } from 'src/app/models/UserPaymentDetail';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
@@ -21,6 +20,8 @@ import { NgForm } from '@angular/forms';
 import { constant } from 'src/app/constant/constant';
 import { StatutoryRequest } from 'src/app/models/statutory-request';
 import { UserService } from 'src/app/services/user.service';
+import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
+import { PayoutDaysSummary } from 'src/app/models/PayoutDaysSummary';
 
 @Component({
   selector: 'app-epmployee-finance',
@@ -40,7 +41,8 @@ export class EpmployeeFinanceComponent implements OnInit {
     private _salaryService: SalaryService,
     private sanitizer: DomSanitizer,
     public employeeProfileComponent: EmployeeProfileComponent,
-    private _userService: UserService
+    private _userService: UserService,
+    public _roleService: RoleBasedAccessControlService
   ) {
 
     const userUuidParam = new URLSearchParams(window.location.search).get('userId');

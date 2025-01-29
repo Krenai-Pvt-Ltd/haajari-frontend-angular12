@@ -74,6 +74,7 @@ import { CreateExpenseComponent } from './components/create-expense/create-expen
 import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
 import { ExistPolicyComponent } from './components/exist-policy/exist-policy.component';
 import { LeaveManagementsComponent } from './components/leave-managements/leave-managements.component';
+import { InboxComponent } from './components/inbox/inbox.component';
 
 
 @NgModule({
@@ -112,7 +113,8 @@ import { LeaveManagementsComponent } from './components/leave-managements/leave-
     NewEmployeeProfileComponent,
     CreateExpenseComponent,
     ExistPolicyComponent,
-    LeaveManagementsComponent
+    LeaveManagementsComponent,
+    InboxComponent
   ],
   imports: [
     CommonModule,
