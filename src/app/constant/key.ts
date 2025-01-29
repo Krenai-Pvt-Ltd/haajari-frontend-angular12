@@ -75,6 +75,7 @@ export class Key {
     '/expense',
     '/exit-policy',
     '/leave-managements',
+    '/inbox'
   ];
 
   public static TOPBAR_ROUTES = [
@@ -121,6 +122,7 @@ export class Key {
     '/expense',
     '/exit-policy',
     '/leave-managements',
+    '/inbox'
     // '/to-do-step-dashboard',
   ];
 

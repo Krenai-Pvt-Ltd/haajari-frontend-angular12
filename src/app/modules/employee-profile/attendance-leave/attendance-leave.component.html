@@ -1,5 +1,5 @@
 <div class="employee-detail-box">
-    <div class="attendance-history m-3 mt-3">
+    <div class="attendance-history m-3 mt-3 mb-5">
         <div class="mt-3">
             <ul id="pills-tab" role="tablist" class="nav nav-pills">
                 <li class="nav-item">
@@ -69,7 +69,7 @@
 
                                 <nz-radio-group [(ngModel)]="selectedTab" nzButtonStyle="solid" nzSize="large"
                                     (ngModelChange)="onTabChange($event)">
-                                   
+
                                     <label nz-radio-button [nzValue]="week"
                                         *ngFor="let week of weekLabels; let i = index">{{week}}</label>
                                     <label nz-radio-button [nzValue]="'30 DAYS'">{{thirtyDaysLabel}}</label>
@@ -77,12 +77,12 @@
 
                             </div>
 
-                            <nz-select class="request-dropdown placeholder-lines" nzSize="large"
+                            <!-- <nz-select class="request-dropdown placeholder-lines" nzSize="large"
                                 nzPlaceHolder="New Request" required [(ngModel)]="selectedRequest"
                                 (ngModelChange)="onRequestChange(selectedRequest)" *ngIf="userId==currentUserUuid">
                                 <nz-option [nzValue]="'Attendance update'" [nzLabel]="'Attendance update'"></nz-option>
-                                <!-- Add other options here if needed -->
-                            </nz-select>
+                               
+                            </nz-select> -->
                         </div>
                     </div>
                     <div class="row mt-4">
@@ -467,13 +467,13 @@
                                             [nzPopoverOverlayStyle]="{'width':'250px'}">
                                                 {{item.breakCount}}
                                             </span> -->
-                                            <span 
-                                               
-                                                class="team-manager mb-0 table-font-weight" 
-                                                nz-popover 
-                                                nzPopoverTitle="Break Logs" 
-                                                [nzPopoverContent]="breakLogsContent" 
-                                                [nzPopoverOverlayStyle]="{'width':'250px'}" 
+                                            <span
+
+                                                class="team-manager mb-0 table-font-weight"
+                                                nz-popover
+                                                nzPopoverTitle="Break Logs"
+                                                [nzPopoverContent]="breakLogsContent"
+                                                [nzPopoverOverlayStyle]="{'width':'250px'}"
                                                 (mouseover)="getUserBreakTimingsReportByDate(item.createdDate.toString())">
                                                 {{item.breakCount}}
                                             </span>
@@ -508,13 +508,13 @@
                                                   </ng-template>
                                                 </div>
                                               </ng-template>
-                                              
+
                                             <!-- <span *ngIf="item.breakCount == 0" class="team-maneger mb-0 table-font-weight">
                                                 {{item.breakCount}}
                                             </span> -->
                                         </td>
-                                        
-                                        
+
+
                                         <td>
                                             <span class="team-maneger text-center mb-0 table-font-weight">
                                                 {{convertToHourMinuteFormat(item.totalBreakHours)}}</span>
@@ -552,7 +552,7 @@
 
                                     </tr>
 
-                                   
+
                                     <tr class="week-holiday"
                                         *ngIf="(item.status == 'Custom Holiday' || item.status == 'Universal Holiday')">
                                         <td class="text-left">
@@ -822,9 +822,10 @@
                                                     </form>
                                                 </div>
                                                 <div>
-                                                    <ng-container *ngIf="isUserLeaveTaken == 1">
+                                                    <!--  *ngIf="userId==currentUserUuid && (dataService.resignationInfo==null || dataService.resignationInfo==undefined)" -->
+                                                    <ng-container *ngIf="isUserLeaveTaken && isUserLeaveTaken == 1">
                                                         <button type="button" class="btn primaryBtnLink leave-request"
-                                                            *ngIf="userId==currentUserUuid" (click)="applyNewLeaveReq()">
+                                                            (click)="applyNewLeaveReq()">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="20"
                                                                 height="21" viewBox="0 0 20 21" fill="none">
                                                                 <mask id="mask0_5145_1779" style="mask-type:alpha"
@@ -839,6 +840,7 @@
                                                                         fill="#6666F2" />
                                                                 </g>
                                                             </svg>
+                                                            
                                                             Leave Request
                                                         </button>
                                                     </ng-container>
@@ -1048,7 +1050,7 @@
                             </table>
                         </div>
                         <div *ngIf="totalPages>1"
-                            class="d-flex align-items-center justify-content-between pagination-box-profile w-100 p-3 bg-white border-top">
+                            class="d-flex align-items-center justify-content-between pagination-box-profile p-3 bg-white border-top">
                             <p>
                                 Showing 0 - 0 of {{ totalItems }} users
                             </p>
@@ -1409,23 +1411,7 @@
                                 <div class="row justify-content-between align-items-center mx-0">
                                     <div class="col-lg-12 col-md-12 col-sm-12 ps-0">
                                         <div class="d-flex justify-content-start align-items-center">
-                                            <!-- Leave Type Filter -->
-                                            <!-- <div class="dropdown empFilerDropfilter">
-                                                <button type="button" id="leaveTypeDropdown" data-bs-toggle="dropdown"
-                                                    aria-expanded="false"
-                                                    class="btn btn-secondary dropdown-toggle new-deopdown">
-                                                    {{ attendanceType }} <i class="bi bi-chevron-down"></i>
-                                                </button>
-                                                <ul class="dropdown-menu" aria-labelledby="leaveTypeDropdown">
-                                                    <li *ngFor="let type of attendanceTypeFilter">
-                                                        <a class="dropdown-item"
-                                                            (click)="updateAttendanceTypeFilter(type)"
-                                                            [class.active]="attendanceType === type">
-                                                            {{ type }}
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div> -->
+                                           
 
                                             <!-- Status Filter -->
                                             <div class="dropdown empFilerDropfilter">
@@ -1444,21 +1430,12 @@
                                                     </li>
                                                 </ul>
                                             </div>
-
-                                            <!-- <div>
-
-
-
-
-
-                                            </div> -->
-
                                             <!-- Search -->
                                             <div
                                                 class="onboarding-date d-flex align-items-center justify-content-between position-relative w-100">
                                                 <form novalidate
                                                     class="searching d-flex align-items-center justify-content-between w-100">
-                                                    <div class="form-group ww-100 position-relative">
+                                                    <div class="form-group w-100 position-relative">
                                                         <input type="text" id="searchText" #searchInput
                                                             [value]="searchQuery"
                                                             (input)="updateSearch(searchInput.value)"
@@ -1476,9 +1453,7 @@
 
                                                 <button type="button" class="btn primaryBtnLink leave-request"  *ngIf="userId==currentUserUuid"
                                                     data-bs-toggle="modal" data-bs-target="#updateRequest">
-
-
-                                                    Attendance Requests </button>
+                                                    Attendance Request </button>
 
                                             </div>
                                         </div>
@@ -1486,10 +1461,6 @@
                                 </div>
                             </div>
                         </div>
-
-
-                       
-
 
                         <div class="table-responsive bg-white mt-3">
 
@@ -1607,8 +1578,8 @@
                                                 <span
                                                     class="badge rounded-pill badge-soft-warning">{{item?.status}}</span>
                                                 <!-- Delete Button -->
-                                                <button *ngIf="item?.status === 'PENDING'" class="icon-button btn p-0"
-                                                    (click)="deleteAttendanceRequest(item.id)">
+                                                <button *ngIf="item?.status === 'PENDING'" class="icon-button btn p-0" data-bs-toggle="modal" data-bs-target="#delete-request"
+                                                    (click)="currentId=item.id">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21"
                                                         viewBox="0 0 21 21" fill="none">
                                                         <mask id="mask0_6083_5461" style="mask-type:alpha"
@@ -1985,7 +1956,7 @@
                                                 <label
                                                     class="form-check assets-req d-flex align-items-center justify-content-start">
                                                     <input class="form-check-input" type="radio"
-                                                        formControlName="attendanceRequestType" [value]="'UPDATE'">
+                                                        formControlName="attendanceRequestType" [value]="'UPDATE'" (change)="resetError()">
                                                     <p class="form-check-label mb-0">Update Timing</p>
                                                 </label>
                                             </div>
@@ -1993,7 +1964,7 @@
                                                 <label
                                                     class="form-check assets-req d-flex align-items-center justify-content-start">
                                                     <input class="form-check-input" type="radio"
-                                                        formControlName="attendanceRequestType" [value]="'CREATE'">
+                                                        formControlName="attendanceRequestType" [value]="'CREATE'" (change)="resetError()">
                                                     <p class="form-check-label mb-0">New Request</p>
                                                 </label>
                                             </div>
@@ -2061,10 +2032,10 @@
                                                     </g>
                                                 </svg>
                                                 Updated Timing</label>
-                                            <nz-time-picker formControlName="updatedTime" id="updatedTime"
+                                            <nz-time-picker nzBorderless formControlName="updatedTime" id="updatedTime"
                                                 nzFormat="HH:mm" class="w-100" nzPlaceHolder="Enter the new time">
                                             </nz-time-picker>
-                                            <span class="updated-timing-input-box">In</span>
+                                            <span class="updated-timing-input-box">{{updateStatusString}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -2088,16 +2059,16 @@
                                                     </g>
                                                 </svg>
                                                 Updated Timing</label>
-                                            <div class="row">
+                                            <div class="row time-update">
                                                 <div class="col-md-6">
-                                                    <nz-time-picker formControlName="inRequestTime" id="inRequestTime"
+                                                    <nz-time-picker nzBorderless formControlName="inRequestTime" id="inRequestTime"
                                                         nzFormat="HH:mm" class="w-100"
                                                         nzPlaceHolder="Enter the new time">
                                                     </nz-time-picker>
                                                     <span class="updated-timing-input">In</span>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <nz-time-picker formControlName="outRequestTime" id="outRequestTime"
+                                                    <nz-time-picker nzBorderless formControlName="outRequestTime" id="outRequestTime"
                                                         nzFormat="HH:mm" class="w-100"
                                                         nzPlaceHolder="Enter the new time">
                                                     </nz-time-picker>
@@ -2463,4 +2434,55 @@
             </div>
         </div>
     </div>
+</div>
+
+
+
+<button class="d-none" data-bs-toggle="modal" data-bs-target="#delete-request"></button>
+<div class="modal fade" id="delete-request" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" style="max-width: 500px" role="document">
+    <div class="modal-content">
+      <div class="modal-body p-0 delete-text">
+        <div class="delete-image d-flex align-items-center justify-content-center pt-4 pb-4">
+          <div class="delete-close-btn">
+            <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButtonDeleteShift>
+              <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+                <mask id="mask0_2031_1331" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="30"
+                  height="30">
+                  <rect width="30" height="30" fill="#D9D9D9" />
+                </mask>
+                <g mask="url(#mask0_2031_1331)">
+                  <path
+                    d="M8 23.75L6.25 22L13.25 15L6.25 8L8 6.25L15 13.25L22 6.25L23.75 8L16.75 15L23.75 22L22 23.75L15 16.75L8 23.75Z"
+                    fill="black" />
+                </g>
+              </svg>
+            </button>
+          </div>
+          <img src="/assets/images/delete-img.svg" style="width: 70px" />
+        </div>
+        <div class="bg-white p-4 text-center">
+
+          <div>
+            <h5 class="alert-heading font-18 mb-2">
+              Are you sure you want to delete <br />
+              this Attendance update request?
+            </h5>
+            <p class="font-11">You will not be able to recover this</p>
+          </div>
+
+          <div class="mt-4 d-flex align-items-center flex-column">
+            <button [disabled]="requestDeleteLoading" class="btn continue-btn" 
+              (click)="deleteAttendanceRequest()">
+              Continue
+              <i class="fa fa-spinner fa-spin" *ngIf="requestDeleteLoading"></i>
+            </button>
+            <button id="cancelButton" class="btn cancel-btn pt-2" type="button" data-bs-dismiss="modal" aria-label="Close">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

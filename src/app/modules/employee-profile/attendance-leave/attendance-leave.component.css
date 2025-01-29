@@ -874,10 +874,13 @@ span.lat {
 .updated-timing svg {
     position: relative;
     top: -2px;
-    width: 16px;
+    width: 16px
 }
 
 .updated-timing .ant-picker {
+    padding-left: 90px;
+}
+.time-update .ant-picker {
     padding-left: 50px;
 }
 

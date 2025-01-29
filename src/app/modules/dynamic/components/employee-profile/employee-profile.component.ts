@@ -2422,7 +2422,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
     const onlyDate2 = new Date(date2?.getFullYear(), date2.getMonth(), date2.getDate());
     return onlyDate1 >= onlyDate2;
   }
-  
+
 
   joiningDate!: Date;
   getOnboardingFormPreviewMethodCall() {
@@ -2980,10 +2980,12 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
   }
 
   appraisalRequest: AppraisalRequest = {
-    effectiveDate: new Date(),
+    effectiveDate: '',
     userUuid: '',
     previousCtc: 0,
-    updatedCtc: 0
+    updatedCtc: 0,
+    checked: false,
+    position:''
   };
 
   getEmployeeCtcMethodCall() {
@@ -3023,8 +3025,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
   @ViewChild("bonusRequestModalButton") bonusRequestModalButton !: ElementRef;
 
   bonusRequest: BonusRequest = {
-    startDate: new Date(),
-    endDate: new Date(),
+    userUuid:'',
     amount: 0,
     comment: ""
   };
@@ -3045,7 +3046,7 @@ return
     if(this.isFormInvalid==true){
       return
     } else{
-    this._salaryService.registerBonus(this.bonusRequest, this.userId).subscribe((response) => {
+    this._salaryService.registerBonus(this.bonusRequest).subscribe((response) => {
         if(response.status){
           this.helperService.showToast("Bonus applied successfully", Key.TOAST_STATUS_SUCCESS);
           this.bonusRequestModalButton.nativeElement.click();
@@ -3054,7 +3055,7 @@ return
         }
       },
       (error) => {
-      
+
       }
     );
   }}
@@ -3804,7 +3805,7 @@ closeAttendanceFunc() {
       this.endDate = '';
     }
 
-    this.dataService.getAllExpense(this.ROLE, this.databaseHelper.currentPage, this.databaseHelper.itemPerPage, this.startDate, this.endDate, this.statusIds, this.userId).subscribe((res: any) => {
+    this.dataService.getAllExpense(this.ROLE, this.databaseHelper.currentPage, this.databaseHelper.itemPerPage, this.startDate, this.endDate, this.statusIds, this.userId,'','').subscribe((res: any) => {
       if (res.status) {
         this.expenseList = res.object
         this.loading = false

@@ -1498,8 +1498,8 @@ export class TimetableComponent implements OnInit {
   currentFileUpload: any;
   // expectedColumns: string[] = ['Name*', 'Phone*', 'Email*', 'Date*', 'In-Time*', 'Out-Time*'];
   // correctColumnName: string[] = ['S. NO.*', 'Name*', 'Phone*', 'Email*', 'Date*', 'In-Time*', 'Out-Time*', 'Note'];
-  expectedColumns: string[] = ['Name*', 'Phone*', 'Email*', "Date* ('MM-DD-YYYY')", "In-Time* ('HH:MM:SS')", "Out-Time* ('HH:MM:SS')"];
-  correctColumnName: string[] = ['S. NO.*', 'Name*', 'Phone*', 'Email*', "Date* ('MM-DD-YYYY')", "In-Time* ('HH:MM:SS')", "Out-Time* ('HH:MM:SS')", 'Note'];
+  expectedColumns: string[] = ['Name*', 'Phone*', 'Email*', "Date* ('DD-MM-YYYY')", "In-Time* ('HH:MM:SS')", "Out-Time* ('HH:MM:SS')"];
+  correctColumnName: string[] = ['S. NO.*', 'Name*', 'Phone*', 'Email*', "Date* ('DD-MM-YYYY')", "In-Time* ('HH:MM:SS')", "Out-Time* ('HH:MM:SS')", 'Note'];
   fileColumnName: string[] = [];
   isExcel: string = '';
   data: any[] = [];
@@ -1545,13 +1545,13 @@ export class TimetableComponent implements OnInit {
             if (this.validateColumns(columnNames)) {
               this.data = this.jsonData.map((row: any[]) =>
                 row.map((cell: any, index: number) => {
-                  if (this.fileColumnName[index] === "date* ('mm-dd-yyyy')" && cell !== "date* ('mm-dd-yyyy')") {
+                  if (this.fileColumnName[index] === "date* ('dd-mm-yyyy')" && cell !== "date* ('dd-mm-yyyy')") {
                     // Remove leading/trailing commas and quotes
                     cell = this.cleanCell(cell);
 
                     // Parse Excel date serial or formatted date string
                     if (typeof cell === 'number') {
-                      return moment(XLSX.SSF.parse_date_code(cell)).format('MM-DD-YYYY');
+                      return moment(XLSX.SSF.parse_date_code(cell)).format('DD-MM-YYYY');
                     }
 
                     const formattedCell = this.formatDate1(cell);
@@ -1969,7 +1969,7 @@ export class TimetableComponent implements OnInit {
 
           if (isExactFormat) {
             // Parse with strict format checking
-            const formattedDate = moment(normalizedCell, 'MM-DD-YYYY', true);
+            const formattedDate = moment(normalizedCell, 'DD-MM-YYYY', true);
 
             // Check if the date is valid
             if (formattedDate.isValid()) {
@@ -2045,14 +2045,17 @@ export class TimetableComponent implements OnInit {
           this.importToggle = false;
           this.isProgressToggle = false;
           this.isShimmerModal = false;
-          // this.attendanceUploadCountForUser = response.object.length;
-          // this.attendanceUploadFailedCountForUser = response.object2.length;
-          // this.getReport();
-          // this.getUser();
-          this.attendanceUploadCountForUser = response.object1;
-          this.uploadedExcelLink = response.object2;
-          this.phoneNumberNotFoundArray = response.arrayOfString;
-          this.emailNotFoundArray = response.arrayOfString2;
+
+          this.attendanceUploadCountForUser = response.object.uploadedEntriesSize;
+          this.uploadedExcelLink = response.object.excelUrl;
+          this.phoneNumberNotFoundArray = response.object.phoneNumberNotRegistered;
+          this.emailNotFoundArray = response.object.emailNotRegistered;
+
+
+          // this.attendanceUploadCountForUser = response.object1;
+          // this.uploadedExcelLink = response.object2;
+          // this.phoneNumberNotFoundArray = response.arrayOfString;
+          // this.emailNotFoundArray = response.arrayOfString2;
           this.networkConnectionErrorPlaceholderModal = false;
         } else {
           this.importToggle = true;

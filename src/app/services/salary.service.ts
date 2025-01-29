@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { Key } from '../constant/key';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { BulkAction } from '../models/bulkAction';
 import { BonusRequest } from '../models/bonus-request';
 import { BonusAndDeductionData } from '../models/bonus-and-deduction-data';
 import { EmployeeMonthWiseSalaryData } from '../models/employee-month-wise-salary-data';
+import { SalaryComponentResponse } from '../models/salary-component-response';
 
 @Injectable({
   providedIn: 'root'
@@ -99,11 +99,9 @@ export class SalaryService {
   }
 
 
-  registerBonus(bonusRequest : BonusRequest, userUuid : string): Observable<any>{
-    const params = new HttpParams()
-    .set('user_uuid', userUuid);
+  registerBonus(bonusRequest : BonusRequest): Observable<any>{
 
-    return this._http.post<any>(`${this._key.base_url}/bonus`, bonusRequest, {params});
+    return this._http.post<any>(`${this._key.base_url}/bonus`, bonusRequest);
   }
 
 
@@ -132,7 +130,7 @@ export class SalaryService {
     .set('item_per_page', itemPerPage)
     .set('page_number', pageNumber)
     .set('search', search)
-    return this._http.get<any>(`${this._key.base_url}/bonus-deduction`, {params});
+    return this._http.get<any>(`${this._key.base_url}/bonus`, {params});
   }
 
 
@@ -169,7 +167,7 @@ export class SalaryService {
 
   updateSalarySlipStatus(monthWiseIds:number[]): Observable<any>{
     const params = new HttpParams()
-    .set('month_wise_ids', String(monthWiseIds));
+    .set('monthWiseId', String(monthWiseIds));
 
     return this._http.put<any>(`${this._key.base_url}/salary/month-wise/slip/on-hold`,{},{ params });
   
@@ -179,14 +177,16 @@ export class SalaryService {
     const params = new HttpParams()
     .set('month_wise_ids', String(monthWiseIds))
     .set('share_via', shareVia);
-    return this._http.post<any>(`${this._key.base_url}/salary-slip/share`,{}, {params});
+    return this._http.post<any>(`${this._key.base_url}/salary/payslip/share`,{}, {params});
   }
 
-  generatePaySlip(startDate: string,endDate: string): Observable<any>{
+  generatePaySlip(startDate: string,endDate: string, monthIds:number[],isAll:number): Observable<any>{
     const params = new HttpParams()
     .set('start_date', startDate)
-    .set('end_date', endDate);
-    return this._http.put<any>(`${this._key.base_url}/salary/generate-slip`, {params});
+    .set('end_date', endDate)
+    .set('month_ids', String(monthIds))
+    .set('is_all', isAll);
+    return this._http.put<any>(`${this._key.base_url}/salary/month-wise/generate-slip`,{}, {params});
   }
 
 
@@ -263,5 +263,19 @@ export class SalaryService {
     const params = new HttpParams()
     .set('user_uuid', userUuid)
     return this._http.get<any>(`${this._key.base_url}/salary/current`, {params});
+  }
+
+
+  saveCustomSalaryTemplate(userUuid : string, requestList:SalaryComponentResponse[]){
+    const params = new HttpParams()
+    .set('user_uuid', userUuid)
+    return this._http.put<any>(`${this._key.base_url}/salary/template/user`,requestList, {params});
+
+  }
+
+  getUserSalaryTemplate(userUuid : string): Observable<any> {
+    const params = new HttpParams()
+    .set('user_uuid', userUuid)
+    return this._http.get<any>(`${this._key.base_url}/salary/template/component/get-by-user-uuid`,{params});
   }
 }

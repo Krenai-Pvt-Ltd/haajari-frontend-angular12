@@ -82,6 +82,7 @@ import { ExitPolicy } from '../models/ExitPolicy';
 import { UserResignation } from '../models/UserResignation';
 import { EmployeeAdditionalDocument } from '../models/EmployeeAdditionalDocument';
 import { EmployeeProfileResponse } from '../models/employee-profile-info';
+import { NotificationTypeInfoRequest } from '../models/NotificationType';
 
 
 @Injectable({
@@ -2079,6 +2080,34 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     return this.httpClient.post<any>(url, {});
   }
 
+  deleteUserResignation(id: number): Observable<any> {
+    const url = `${this.baseUrl}/user-resignation`; 
+    return this.httpClient.delete<any>(url, {
+      params: { id: id.toString() },
+    });
+  }
+
+  getUserResignations(
+    status: string | null,
+    name: string | null,
+    page: number = 1,
+    size: number = 10
+  ): Observable<any> {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    if (status) {
+      params = params.set('status', status);
+    }
+
+    if (name) {
+      params = params.set('name', name);
+    }
+
+    return this.httpClient.get(`${this.baseUrl}/user-resignation/get-by-filter`, { params });
+  }
+
   setOrganizationAddressDetail(
     organizationAddressDetail: OrganizationAddressDetail
   ): Observable<any> {
@@ -3547,42 +3576,42 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
   }
 
 
-  updatePayActionTypeFoUsers(
-    payActionType: string,
-    userUuids: any
-  ): Observable<any>{
-    const params = new HttpParams()
-    .set('pay_action_type', payActionType)
-    .set('user_uuids', userUuids)
-    ;
-    return this.httpClient.put<any>(`${this.baseUrl}/salary-slip/update-pay-action-type`,{}, {params});
-  }
+  // updatePayActionTypeFoUsers(
+  //   payActionType: string,
+  //   userUuids: any
+  // ): Observable<any>{
+  //   const params = new HttpParams()
+  //   .set('pay_action_type', payActionType)
+  //   .set('user_uuids', userUuids)
+  //   ;
+  //   return this.httpClient.put<any>(`${this.baseUrl}/salary-slip/update-pay-action-type`,{}, {params});
+  // }
 
 
 
-  sendPayslipViaWhatsapp(
-    salaryResponse: any, payslipMonth: string
-  ): Observable<any>{
-    const params = new HttpParams()
-    .set('payslip_month', payslipMonth)
-    return this.httpClient.put<any>(`${this.baseUrl}/salary/send-payslip-whatsapp`,salaryResponse, {params});
-  }
+  // sendPayslipViaWhatsapp(
+  //   salaryResponse: any, payslipMonth: string
+  // ): Observable<any>{
+  //   const params = new HttpParams()
+  //   .set('payslip_month', payslipMonth)
+  //   return this.httpClient.put<any>(`${this.baseUrl}/salary/send-payslip-whatsapp`,salaryResponse, {params});
+  // }
 
-  sendPayslipViaEmail(
-    salaryResponse: any, payslipMonth: string
-  ): Observable<any>{
-    const params = new HttpParams()
-    .set('payslip_month', payslipMonth)
-    return this.httpClient.put<any>(`${this.baseUrl}/salary/send-payslip-email`,salaryResponse, {params});
-  }
+  // sendPayslipViaEmail(
+  //   salaryResponse: any, payslipMonth: string
+  // ): Observable<any>{
+  //   const params = new HttpParams()
+  //   .set('payslip_month', payslipMonth)
+  //   return this.httpClient.put<any>(`${this.baseUrl}/salary/send-payslip-email`,salaryResponse, {params});
+  // }
 
-  sendPayslipViaSlack(
-    salaryResponse: any, payslipMonth: string
-  ): Observable<any>{
-    const params = new HttpParams()
-    .set('payslip_month', payslipMonth)
-    return this.httpClient.put<any>(`${this.baseUrl}/salary/send-payslip-slack`,salaryResponse, {params});
-  }
+  // sendPayslipViaSlack(
+  //   salaryResponse: any, payslipMonth: string
+  // ): Observable<any>{
+  //   const params = new HttpParams()
+  //   .set('payslip_month', payslipMonth)
+  //   return this.httpClient.put<any>(`${this.baseUrl}/salary/send-payslip-slack`,salaryResponse, {params});
+  // }
 
 
 
@@ -4369,13 +4398,15 @@ getHolidayForOrganization(date: string): Observable<any>{
     );
   }
 
-  getAllExpense(role: string, pageNumber: number, itemPerPage: number, startDate: any, endDate: any, statusIds: number[], userUuid: any){
+  getAllExpense(role: string, pageNumber: number, itemPerPage: number, startDate: any, endDate: any, statusIds: number[], userUuid: any, tag:string, search: string){
     var params = new HttpParams()
     .set('currentPage', pageNumber)
     .set('itemPerPage', itemPerPage)
     .set('sortBy', 'createdDate')
     .set('sortOrder', 'desc')
     .set('role', role)
+    .set('tag', tag)
+    .set('search', search);
 
     // console.log("-------------",startDate, endDate)
     // if((startDate != null && startDate != '') && (endDate != '' && endDate != '')){
@@ -4552,7 +4583,7 @@ getHolidayForOrganization(date: string): Observable<any>{
     );
   }
 
-
+  resignationInfo: any;
   getUserResignationInfo(uuid: string) {
     let params = new HttpParams().set('uuid', uuid);
     return this.httpClient.get<any>(
@@ -4876,6 +4907,26 @@ getHolidayForOrganization(date: string): Observable<any>{
 
     return this.httpClient.get<any>(`${this.baseUrl}/users/isUserUnderManager`, { params });
   }
+
+
+  // notification setting
+
+  notificationTypes(): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/notification-setting/notification-types`, { });
+  }
+
+  saveNotification(notification: NotificationTypeInfoRequest): Observable<any> {
+    return this.httpClient.put(`${this.baseUrl}/notification-setting/save`, notification);
+  }
+
+  disableNotification(key: string): Observable<any> {
+    const params = new HttpParams()
+      .set('key', key);
+    return this.httpClient.put(`${this.baseUrl}/notification-setting/disable/notification`, {}, {params});
+  }
+
+
+  
 
 }
 

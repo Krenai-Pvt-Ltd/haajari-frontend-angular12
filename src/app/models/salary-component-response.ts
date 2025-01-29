@@ -6,4 +6,9 @@ export class SalaryComponentResponse {
     toggle : boolean = false;
     value : any;
     percentageOfBasicPay : boolean = false;
+
+
+
+    isFixed:number=0;
+    amount:number=0;
 }

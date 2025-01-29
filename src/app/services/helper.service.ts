@@ -439,6 +439,12 @@ export class HelperService {
   }
 
 
+  startIndex(pageNumber:number, itemPerPage:number): number {
+    return (pageNumber - 1) * itemPerPage + 1;
+  }
 
+  lastIndex(pageNumber:number, itemPerPage:number,totalItems:number): number {
+    return Math.min(pageNumber * itemPerPage, totalItems);
+  }
 
 }

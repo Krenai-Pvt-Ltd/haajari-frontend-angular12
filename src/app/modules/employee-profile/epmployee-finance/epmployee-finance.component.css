@@ -454,3 +454,24 @@ i::before {
     width: 3rem !important;
     height: 3rem !important;
 }
+.component-btn{
+    right: 8px;
+    top: 0px;
+    height: 45px;
+    width: 80px;
+}
+::ng-deep .placeholder-line .ant-select-selection-placeholder {
+    line-height: 43px !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+  }
+  
+  ::ng-deep .placeholder-line .ant-select-selection-item {
+    line-height: 43px !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+  }
+  .calendar-separator {
+    border-left: 1px solid #DCDCE4;
+    height: 20px;
+}

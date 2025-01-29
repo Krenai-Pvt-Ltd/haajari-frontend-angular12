@@ -56,11 +56,7 @@
         </div>
         <div class="col-md-8">
 
-            <div [ngClass]="{'d-none' : requestModal}" class="row mb-3" *ngIf="
-            resignationSubmittedToggle || (!hideResignationModal
-            && userResignationInfo
-            && (ROLE === 'ADMIN' || ROLE === 'USER')
-            && userResignationInfo?.status?.id === 13)">
+            <div [ngClass]="{'d-none' : requestModal}" class="row mb-3" *ngIf="shouldShowResignationRow()">
                 <div class="col-md-12">
                     <div class="resignation-request p-3 d-flex align-items-center justify-content-between">
                         <div class="d-flex align-items-center gap-3">
@@ -73,8 +69,9 @@
                         </div>
 
                         <div class="">
-                            <button class="btn view-request" data-bs-toggle="modal"
-                                data-bs-target="#initiateExitApprove">View Request
+                            <!-- <button class="btn view-request" data-bs-toggle="modal"
+                                data-bs-target="#initiateExitApprove">View Request -->
+                                <button class="btn view-request" (click)="onInitiateExitClick()">View Request
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"
                                     fill="none">
                                     <mask id="mask0_6339_5449" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0"
@@ -108,7 +105,7 @@
             </div>
 
             <div class="row">
-                <div class="col-md-5">
+                <div *ngIf="!shouldShowResignationRow() || requestModal" class="col-md-5">
                     <div class="announcement p-3">
                         <div class="d-flex align-items-start justify-content-between border-bottom pb-3">
                             <h5 class="font-14 mb-0 ">Recent Notification</h5>
@@ -151,7 +148,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-7">
+                <div *ngIf="!shouldShowResignationRow() || requestModal" class="col-md-7">
                     <div class="holidays-list">
                         <div class="d-flex align-items-center">
                             <div style="width: 75%">
@@ -1327,5 +1324,3 @@
        </div>
     </div>
  </div>
-
-

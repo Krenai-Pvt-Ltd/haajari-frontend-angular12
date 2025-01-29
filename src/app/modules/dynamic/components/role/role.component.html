@@ -1301,10 +1301,10 @@
       <!--end modal-header-->
       <div class="modal-body">
         <div class="row">
-          <div class="col-md-12" [ngClass]="{ 'disabled-div': isDivDisabled }">
+          <div class="col-md-12" >
             <div class="mb-3">
               <label for="exampleInputEmail1" class="pb-2">User</label>
-              <div class="dropdown" style="width: 100%">
+              <!-- <div class="dropdown" style="width: 100%">
                 <button class="btn btn-secondary dropdown-toggle new-dropdown" type="button" id="dropdownMenuButton1"
                   data-bs-toggle="dropdown" aria-expanded="false" style="
                     background-color: white;
@@ -1330,7 +1330,14 @@
                     </a>
                   </li>
                 </ul>
-              </div>
+              </div> -->
+              <nz-select [(ngModel)]="selectedUser" [nzPlaceHolder]="'Select a user'" class="w-100 form-control placeholder-line"
+                 >
+                <nz-option *ngFor="let user of users" [nzValue]="user" [nzLabel]="user.name + ' (' + (user.email || 'N/A') + ')'">
+                  {{ user.name }} ({{ user.email || "N/A" }})
+                </nz-option>
+              </nz-select>
+
 
               <!-- <nz-select name="user" id="user-input" nzPlaceHolder="Select a user"
                 class="w-100 form-control placeholder-line">
@@ -1344,7 +1351,7 @@
 
           <div class="col-md-12">
             <label for="exampleInputEmail1" class="pb-2">Role</label>
-            <div class="dropdown" style="width: 100%">
+            <!-- <div class="dropdown" style="width: 100%">
               <button class="btn btn-secondary dropdown-toggle new-dropdown" type="button" id="dropdownMenuButton1"
                 data-bs-toggle="dropdown" aria-expanded="false" style="
                     background-color: white;
@@ -1361,7 +1368,22 @@
                   <a class="dropdown-item" (click)="selectRole(role)" *ngIf="role.name != 'USER'">{{ role.name }}</a>
                 </li>
               </ul>
-            </div>
+            </div> -->
+
+            <nz-select 
+            [(ngModel)]="selectedRole" 
+            nzPlaceHolder="Select a role" 
+            class="w-100 form-control placeholder-line" 
+            >
+            <ng-container *ngFor="let role of roles">
+              <nz-option 
+                *ngIf="role.name !== 'USER'" 
+                [nzValue]="role" 
+                [nzLabel]="role.name">
+              </nz-option>
+            </ng-container>
+          </nz-select>
+          
 
             <!-- <nz-select name="role" id="role-input" nzPlaceHolder="Select a role"
               class="w-100 form-control placeholder-line">

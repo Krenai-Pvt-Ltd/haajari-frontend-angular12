@@ -1,5 +1,5 @@
 <div class="page-wrapper">
-  <div class="page-content-tab">
+  <div class="page-content-tab mb-4">
 
     <div class="d-flex align-items-center justify-content-between border-bottom">
 
@@ -52,27 +52,16 @@
       <!-- Create and View Company Expense start -->
       <div class="col-md-12 mt-3 mb-3" *ngIf="activeTab === 'allExpense'">
 
-        <!-- remove d-none -->
         <div class="d-flex justify-content-start align-items-center d-none">
-          <!-- Leave Type Filter -->
+
+
+          <!-- Tag Filter -->
           <div class="dropdown empFilerDropfilter">
-            <button type="button" id="leaveTypeDropdown"
-                                                        data-bs-toggle="dropdown" aria-expanded="false"
-                                                        class="btn btn-secondary dropdown-toggle new-deopdown">
-                                                         <i class="bi bi-chevron-down"></i>
-                                                    </button>
-                                                    <ul class="dropdown-menu" aria-labelledby="leaveTypeDropdown">
-                                                        <li>
-                                                            <a class="dropdown-item" >
-
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-          </div>
-
-          <!-- Status Filter -->
-          <div class="dropdown empFilerDropfilter">
-
+            <nz-select [(ngModel)]="selectedFilter" [nzShowSearch]="true" [nzAllowClear]="true"
+              [nzPlaceHolder]="'Please select an option'" [nzDropdownStyle]="{ maxHeight: '200px', overflow: 'auto' }"
+              (nzOnSearch)="onSearch($event)" (ngModelChange)="onOptionSelect()">
+              <nz-option *ngFor="let option of filteredOptions" [nzValue]="option" [nzLabel]="option"></nz-option>
+            </nz-select>
           </div>
 
           <!-- Search -->
@@ -81,13 +70,18 @@
               <form novalidate
                   class="searching d-flex align-items-center justify-content-between w-100">
                   <div class="form-group w-100 position-relative">
-                      <input type="text" id="searchText" #searchInput
+                    <i class="bi bi-search search-icon"></i>
+                    <input
+                    type="text"
+                    id="searchText"
+                    #searchInput
+                    placeholder="Search by name.."
+                    class="form-control me-2 w-100"
+                    style="padding: 10px 45px;"
+                    (input)="onExpenseSearch(searchInput.value)"
+                  />
 
-                          placeholder="Search by name.."
-                          class="form-control me-2 w-100"
-                          style="padding: 10px 45px;" />
 
-                      <i class="bi bi-search search-icon"></i>
 
                       <!-- <i class="bi bi-x reset-icon text-primary pointer"></i> -->
                   </div>

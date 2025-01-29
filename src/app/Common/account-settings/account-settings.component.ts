@@ -369,4 +369,9 @@ export class AccountSettingsComponent implements OnInit {
       console.error('Error downloading file:', error);
     });
   }
+
+  isUpdateTimeValid(): boolean {
+    const currentDate = new Date();
+    return this.guidelines?.newAttendanceRule?.updateTime >= currentDate;
+  }
 }

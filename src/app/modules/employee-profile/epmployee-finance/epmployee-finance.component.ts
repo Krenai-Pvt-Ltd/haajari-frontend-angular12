@@ -1,11 +1,9 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
 import { EmployeePayslipLogResponse } from 'src/app/employee-payslip-log-response';
 import { EmployeePayslipBreakupResponse } from 'src/app/models/employee-payslip-breakup-response';
 import { EmployeePayslipDeductionResponse } from 'src/app/models/employee-payslip-deduction-response';
 import { EmployeePayslipResponse } from 'src/app/models/employee-payslip-response';
-import { PayoutDaysSummary } from 'src/app/models/payoutDaysSummary';
 import { UserPaymentDetail } from 'src/app/models/UserPaymentDetail';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
@@ -13,6 +11,18 @@ import { SalaryService } from 'src/app/services/salary.service';
 import { EmployeeProfileComponent } from '../employee-profile.component';
 import { UserSalaryRevisionRes } from 'src/app/models/UserSalaryRevisionRes';
 import { CurrentSalaryDetail } from 'src/app/models/CurrentSalaryDetail';
+import { SalaryTemplateComponentResponse } from 'src/app/models/salary-template-component-response';
+import { SalaryComponentResponse } from 'src/app/models/salary-component-response';
+import { Key } from 'src/app/constant/key';
+import { AppraisalRequest } from 'src/app/models/appraisal-request';
+import { BonusRequest } from 'src/app/models/bonus-request';
+import { NgForm } from '@angular/forms';
+import { constant } from 'src/app/constant/constant';
+import { StatutoryRequest } from 'src/app/models/statutory-request';
+import { UserService } from 'src/app/services/user.service';
+import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
+import { PayoutDaysSummary } from 'src/app/models/PayoutDaysSummary';
+import { SalaryDeductionResponse } from 'src/app/models/SalaryDeductionResponse';
 
 @Component({
   selector: 'app-epmployee-finance',
@@ -31,7 +41,9 @@ export class EpmployeeFinanceComponent implements OnInit {
     public _helperService: HelperService,
     private _salaryService: SalaryService,
     private sanitizer: DomSanitizer,
-    public employeeProfileComponent: EmployeeProfileComponent
+    public employeeProfileComponent: EmployeeProfileComponent,
+    private _userService: UserService,
+    public _roleService: RoleBasedAccessControlService
   ) {
 
     const userUuidParam = new URLSearchParams(window.location.search).get('userId');
@@ -41,8 +53,7 @@ export class EpmployeeFinanceComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCurrentSalaryDetail();
-
-
+    this.getUserSalaryTemplate();
   }
 
   ngAfterViewInit() {
@@ -210,8 +221,8 @@ export class EpmployeeFinanceComponent implements OnInit {
     this.financeBlur = this.financeBlur == true ? false : true;
   }
 
-
   employeePayslipResponse: EmployeePayslipResponse = new EmployeePayslipResponse();
+  
   getEmployeePayslipResponseByUserUuidMethodCall() {
     this._salaryService.getEmployeePayslipResponseByUserUuid(this.userUuid, this.startDate, this.endDate).subscribe((response) => {
       if (response.status) {
@@ -252,16 +263,17 @@ export class EpmployeeFinanceComponent implements OnInit {
     })
   }
 
-  employeePayslipDeductionResponse: EmployeePayslipDeductionResponse = new EmployeePayslipDeductionResponse();
+  salaryDeductionResponse: SalaryDeductionResponse = new SalaryDeductionResponse();
+  // employeePayslipDeductionResponse: EmployeePayslipDeductionResponse = new EmployeePayslipDeductionResponse();
   getEmployeePayslipDeductionResponseByUserUuidMethodCall() {
     this._salaryService.getEmployeePayslipDeductionResponseByUserUuid(this.userUuid, this.startDate, this.endDate).subscribe((response) => {
       if (response.status) {
-        this.employeePayslipDeductionResponse = response.object;
-        if (this.employeePayslipDeductionResponse == null) {
-          this.employeePayslipDeductionResponse = new EmployeePayslipDeductionResponse();
+        this.salaryDeductionResponse = response.object;
+        if (this.salaryDeductionResponse == null) {
+          this.salaryDeductionResponse = new SalaryDeductionResponse();
         }
       } else {
-        this.employeePayslipDeductionResponse = new EmployeePayslipDeductionResponse();
+        this.salaryDeductionResponse = new SalaryDeductionResponse();
       }
     }, (error) => {
 
@@ -322,6 +334,40 @@ export class EpmployeeFinanceComponent implements OnInit {
 
     })
   }
+
+  readonly EPF_STATUTORY_ID = 1;
+ readonly ESI_STATUTORY_ID = 2;
+  epfLoader:boolean=false;
+  esiLoader:boolean=false;
+  statutoryId:number=0;
+  toggleStatutory(statutoryId:number){
+      if(this.EPF_STATUTORY_ID == statutoryId){
+        this.epfLoader = true;
+      }else{
+        this.esiLoader= true;
+      }
+      this._userService.toggleStatutory(this.userUuid, statutoryId).subscribe((response) => {    
+          if(response.status){
+            if(this.EPF_STATUTORY_ID == statutoryId){
+              this.isEPF =  !this.isEPF;
+            }else{
+              this.isESI =  !this.isESI;
+            }
+            this._helperService.showToast(response.message,Key.TOAST_STATUS_SUCCESS);
+          }else{
+            this._helperService.showToast(response.message,Key.TOAST_STATUS_WARNING);
+          }   
+          this.epfLoader = false;
+          this.esiLoader = false;
+      },
+        (error) => {
+          this.epfLoader = false;
+          this.esiLoader = false; 
+          this._helperService.showToast( 'Error in updating', Key.TOAST_STATUS_ERROR);
+        }
+      );
+
+    }
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   //                                                               PAYMENT TAB
@@ -420,10 +466,226 @@ export class EpmployeeFinanceComponent implements OnInit {
   //   this._helperService.downloadPdf(url, name);
   // }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                                                // SALARY TEMPLATE 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+userSalaryTemplate: SalaryTemplateComponentResponse = new SalaryTemplateComponentResponse();
+getUserSalaryTemplate() {
+  this._salaryService.getUserSalaryTemplate(this.userUuid).subscribe((response) => {
+      if(response.status){
+        this.userSalaryTemplate = response.object;
+      }
+    },
+    (error) => {
+
+    });
+}
+
+editBasicComponentField:boolean=false;
+@ViewChild('salaryTemplateButton')salaryTemplateButton!:ElementRef;
+@ViewChild('salaryTemplateCloseButton')salaryTemplateCloseButton!:ElementRef;
+openSalaryTemplate(){
+  this.editBasicComponentField = false;
+  this.basicAmountFieldTouch = false;
+  this.salaryComponentList = JSON.parse(JSON.stringify(this.userSalaryTemplate.salaryComponentResponseList));
+  this.calculateSalaryComponentFirstTime();
+  this.salaryTemplateButton.nativeElement.click();
+}
 
 
+monthlyCTC: number = 0;
+calculateSalaryComponentFirstTime(){
+  this.monthlyCTC = Math.round(this.currentSalaryDetail.annualCTC / 12);
+  this.salaryComponentList.forEach((component) => {
+    let amount = 0;
+      if (component.id === 2) {
+        // HRA is based on Basic Salary
+        const basicComponent = this.salaryComponentList.find((c) => c.id === 1);
+        amount = basicComponent ? (basicComponent.amount * component.value) / 100 : 0;
+      } else {
+        // Remaining components are based on total salary
+        amount = (this.monthlyCTC * component.value) / 100;
+      }
+      component.amount =Math.round(amount * 100.0)/ 100.0; 
+  });
+  this.computedSalaryList = JSON.parse(JSON.stringify(this.salaryComponentList));
+}
 
+editComponent(){
+  this.editBasicComponentField = this.editBasicComponentField ? false: true;
+  if(!this.editBasicComponentField){
+    this.basicAmountFieldTouch = false;
+    this.basicAmount  =  0;
+    this.salaryComponentList = JSON.parse(JSON.stringify(this.userSalaryTemplate.salaryComponentResponseList));
+    this.calculateSalaryComponentFirstTime();
+  }else{
+    const basicComponent = this.salaryComponentList.find((c) => c.id === 1);
+    if(basicComponent){
+      this.basicAmount  = basicComponent.amount;
+      basicComponent.isFixed=1;
+    }
+  }
+}
+
+basicAmountFieldTouch:boolean=false;
+basicAmount:number=0;
+computedSalaryList:SalaryComponentResponse[] = new Array();
+salaryComponentList: SalaryComponentResponse[] = new Array();
+calculateSalaryComponents(): void {
+  if(this.basicAmount > this.monthlyCTC){
+    return;
+  }
+    let remainingSalary = this.monthlyCTC;
+    let totalAmount=0;
+    this.computedSalaryList = [];
+    this.salaryComponentList.forEach((component) => {
+
+      var computedComponent : SalaryComponentResponse = new SalaryComponentResponse();
+      computedComponent = JSON.parse(JSON.stringify(component));
+        let amount = 0;
+        let percentage =0;
+        // Determine the calculation based on isFixed
+        if (component.isFixed === 1) {
+          amount = this.basicAmount;
+          percentage = (amount/ this.monthlyCTC) * 100;
+        } else if (component.isFixed === 0) {
+            // Percentage-based value
+            if (component.id === 2) {
+                // HRA is based on Basic Salary
+                const basicComponent = this.salaryComponentList.find((c) => c.id === 1);
+                amount = basicComponent ? (basicComponent.amount * component.value) / 100 : 0;
+            } else {
+                // Remaining components are based on total salary
+                amount = (this.monthlyCTC * component.value) / 100;
+            }
+            percentage = component.value;
+        }
+
+        amount= Math.round(amount * 100.0)/ 100.0; 
+        percentage = Math.round(percentage * 100.0)/ 100.0; 
+
+        totalAmount +=amount;
+
+        if(remainingSalary>=1){
+
+          if(totalAmount>this.monthlyCTC){
+            percentage = Math.round(((remainingSalary/ this.monthlyCTC)* 100)* 100.0)/100.0;
+            amount = Math.round(remainingSalary* 100.0)/100.0;
+          }
+          // Deduct the calculated amount from the remaining salary
+          remainingSalary -= amount;
+
+          console.log("========name======",component.name,"=======percentage=======",percentage,"=======amount======",amount,"===========" );
+          computedComponent.value = percentage ;
+          computedComponent.amount = amount;
+
+          this.computedSalaryList.push(computedComponent);
+
+        }
+
+    });
+
+    if(remainingSalary>=1){
+        let component = new SalaryComponentResponse();
+        component.id = 17;
+        component.name = 'Other Allowance'
+        component.isFixed = 0;
+        component.value = Math.round(((remainingSalary/ this.monthlyCTC)* 100)* 100.0)/100.0;
+        component.amount = Math.round(remainingSalary* 100.0)/100.0;
+        this.computedSalaryList.push(component);
+    }
+    console.log("=== this.salaryComponentList.====", this.salaryComponentList);
+    console.log("=== this.computedSalaryList.====", this.computedSalaryList);
+  }
+
+saveLoader:boolean=false;
+saveCustomSalaryTemplate() {
+  this.saveLoader = true;
+  this._salaryService.saveCustomSalaryTemplate(this.userUuid, this.computedSalaryList).subscribe((response) => {
+    if (response.status) {
+      this.getEmployeeSalaryRevision();
+      this.salaryTemplateCloseButton.nativeElement.click();
+       this._helperService.showToast(response.message,Key.TOAST_STATUS_SUCCESS);
+    } else {
+       this._helperService.showToast(response.message,Key.TOAST_STATUS_WARNING);
+    }
+    this.saveLoader = false;
+  }, (error) => {
+    this._helperService.showToast(error.message,Key.TOAST_STATUS_ERROR);
+    this.saveLoader = false;
+  })
+}
+
+@ViewChild('appraisalButton')appraisalButton!:ElementRef;
+@ViewChild('appraisalCloseButton')appraisalCloseButton!:ElementRef;
+appraisal:AppraisalRequest = new AppraisalRequest();
+openAppraisal(){
+  this.appraisal = new AppraisalRequest();
+  this.appraisal.userUuid = this.userUuid;
+  this.appraisal.previousCtc =this.currentSalaryDetail.annualCTC;
+  this.appraisalButton.nativeElement.click();
+}
+
+changePositionToggle(appraisal:AppraisalRequest){
+  appraisal.checked = appraisal.checked? false: true;
+  appraisal.position ='';
+}
+
+readonly constant = constant;
+positionFilteredOptions: string[] = [];
+onChange(value: any): void {
+
+  this.positionFilteredOptions = constant.jobTitles.filter((option) =>
+    option.toLowerCase().includes(value.toLowerCase())
+  );
 
 }
 
 
+saveAppraisal() {
+  this.saveLoader = true;
+  this._dataService.saveAppraisalRequest(this.appraisal).subscribe((response) => {
+      this._helperService.showToast("Appraisal processed successfully", Key.TOAST_STATUS_SUCCESS);
+      this.appraisalCloseButton.nativeElement.click();
+      this.saveLoader = false;
+    },
+    (error) => {
+      this._helperService.showToast("Error submitting appraisal request!", Key.TOAST_STATUS_ERROR);
+      this.saveLoader = false;
+
+    }
+  );
+}
+
+@ViewChild('bonusButton')bonusButton!:ElementRef;
+@ViewChild('bonusCloseButton')bonusCloseButton!:ElementRef;
+@ViewChild('bonusForm')bonusForm!:NgForm;
+bonusRequest: BonusRequest = new BonusRequest(); 
+openBonus(){
+  this.bonusRequest = new BonusRequest();
+  this.bonusRequest.userUuid = this.userUuid;
+  this.bonusForm.form.markAsUntouched();
+  this.bonusForm.form.markAsPristine();
+  this.bonusButton.nativeElement.click();
+}
+
+
+saveBonus() {
+  this.saveLoader = true;
+  this._salaryService.registerBonus(this.bonusRequest).subscribe((response) => {
+      if(response.status){
+        this._helperService.showToast("Bonus added successfully", Key.TOAST_STATUS_SUCCESS);
+        this.bonusCloseButton.nativeElement.click();
+      }else{
+        this._helperService.showToast("Error submitting bonus request", Key.TOAST_STATUS_ERROR);
+      }
+      this.saveLoader = false;
+    },
+    (error) => {
+      this.saveLoader = false;
+    }
+  );
+}
+
+}

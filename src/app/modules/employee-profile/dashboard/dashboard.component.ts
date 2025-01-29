@@ -25,6 +25,7 @@ import { EmployeeProfileComponent } from '../employee-profile.component';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { OvertimeRequestLogResponse } from 'src/app/models/overtime-request-log-response';
 import { NzCalendarComponent } from 'ng-zorro-antd/calendar';
+import { ModalService } from 'src/app/services/modal.service';
 
 Chart.register(
   LineController,
@@ -51,7 +52,7 @@ export class DashboardComponent implements OnInit {
   resignationSubmittedToggle: boolean = false;
   constructor(private roleService: RoleBasedAccessControlService,
     private _notificationService: UserNotificationService,
-    private modalService: NzModalService,
+    private modalService: ModalService,
     private dataService: DataService,
     public helperService: HelperService,
     private employeeProfileComponent: EmployeeProfileComponent) {
@@ -63,6 +64,16 @@ export class DashboardComponent implements OnInit {
         this.resignationSubmittedToggle = false;
       }
     });
+  }
+
+  shouldShowResignationRow(): boolean {
+    return (
+      this.resignationSubmittedToggle ||
+      (!this.hideResignationModal &&
+        this.userResignationInfo &&
+        (this.ROLE === 'ADMIN' || this.ROLE === 'USER') &&
+        this.userResignationInfo?.status?.id === 13)
+    );
   }
 
   ngOnDestroy() {
@@ -1092,6 +1103,9 @@ navigateMonth(direction: 'prev' | 'next'): void {
   this.currentDate = newDate;
 }
 
+onInitiateExitClick() {
+  this.modalService.openInitiateExitModal(this.userId, this.ROLE);
+}
 
 
 

@@ -95,10 +95,14 @@ export class RoleComponent implements OnInit {
   isDivDisabled = false;
 
   selectUserAndControl(userAndControl: UserAndControl) {
-    this.selectedUser = userAndControl.user;
-    this.selectedRole = userAndControl.role;
+    const matchedUser = this.users.find(user => user.id === userAndControl.user.id);
+
+  this.selectedUser = matchedUser || userAndControl.user;
+  const matchedRole = this.roles.find(role => role.id === userAndControl.role.id);
+    this.selectedRole = matchedRole || userAndControl.role;
     this.descriptionUserRole = userAndControl.description;
     this.isDivDisabled = true;
+    this.getUsersByFilterMethodCall();
   }
 
   userAndControlDetailVariable: UserAndControl = new UserAndControl();

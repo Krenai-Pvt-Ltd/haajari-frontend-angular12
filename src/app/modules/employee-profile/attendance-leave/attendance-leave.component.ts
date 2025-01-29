@@ -16,6 +16,7 @@ import { AttendanceRequest } from 'src/app/models/AttendanceRequest';
 import { constant } from 'src/app/constant/constant';
 // import { Timeline } from 'vis-timeline'
 // import { Timeline,DataSet, TimelineItem } from 'vis-timeline/standalone';
+// import {ChartComponent,ApexAxisChartSeries,ApexChart,ApexXAxis,ApexTitleSubtitle} from "ng-apexcharts";
 
 import {
   Chart,
@@ -55,6 +56,9 @@ Chart.register(
 })
 export class AttendanceLeaveComponent implements OnInit {
 
+ 
+
+
   userLeaveForm!: FormGroup;
   userId: any;
   count: number = 0;
@@ -66,7 +70,7 @@ export class AttendanceLeaveComponent implements OnInit {
   readonly Constant = constant;
   contentTemplate: string = 'You are on the Notice Period, so that you can not apply leave';
 
-  constructor(private dataService: DataService, private activateRoute: ActivatedRoute, private datePipe: DatePipe, private firebaseStorage: AngularFireStorage, private sanitizer: DomSanitizer,
+  constructor(public dataService: DataService, private activateRoute: ActivatedRoute, private datePipe: DatePipe, private firebaseStorage: AngularFireStorage, private sanitizer: DomSanitizer,
     private fb: FormBuilder, public helperService: HelperService, public domSanitizer: DomSanitizer,
     private afStorage: AngularFireStorage, private modalService: NgbModal,
     public roleService: RoleBasedAccessControlService,
@@ -226,20 +230,30 @@ export class AttendanceLeaveComponent implements OnInit {
     this.fetchAttendanceRequests();
   }
 
-  deleteAttendanceRequest(id: number): void {
-    this.dataService.deletePendingAttendance(id).subscribe(
+  currentId: number=0;
+  requestDeleteLoading: boolean=false;
+  deleteAttendanceRequest(): void {
+    this.requestDeleteLoading=true;
+    this.dataService.deletePendingAttendance(this.currentId).subscribe(
       (response: any) => {
-        this.helperService.showToast(response.message, Key.TOAST_STATUS_INFO);
+        this.requestDeleteLoading=false;
+        this.helperService.showToast('Attendance request deleted successfully', Key.TOAST_STATUS_SUCCESS);
+        const cancelButton = document.getElementById('cancelButton') as HTMLButtonElement;
+
+        if (cancelButton) {
+          cancelButton.click();
+        }
         this.fetchAttendanceRequests();
       },
       (error) => {
+        this.requestDeleteLoading=false;
         this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
       }
     );
   }
 
 
-  isUserLeaveTaken: number = 0;
+  isUserLeaveTaken: number = 1;
   checkUserLeaveTaken() {
     this.dataService.getUserLeaveTaken().subscribe((res: any) => {
       if (res.status) {
@@ -1478,6 +1492,8 @@ export class AttendanceLeaveComponent implements OnInit {
         this.chart.destroy();
       }
 
+      
+
       // Create the new chart
       this.chart = new Chart(ctx, {
         type: 'line',
@@ -1557,10 +1573,11 @@ export class AttendanceLeaveComponent implements OnInit {
   //  attendance update 
 
 
-
+  updateStatusString: string = 'In';
   //  attendance update fucnionality
   attendanceCheckTimeResponse: AttendanceCheckTimeResponse[] = [];
   getAttendanceChecktimeListDate(statusString: string): void {
+    this.updateStatusString = statusString.charAt(0).toUpperCase() + statusString.slice(1).toLowerCase();
     const formattedDate = this.datePipe.transform(this.requestedDate, 'yyyy-MM-dd');
     this.dataService.getAttendanceChecktimeList(this.userId, formattedDate, statusString).subscribe(response => {
       this.attendanceCheckTimeResponse = response.listOfObject;
@@ -1568,6 +1585,16 @@ export class AttendanceLeaveComponent implements OnInit {
     }, (error) => {
       console.log(error);
     });
+  }
+
+  resetError() {
+    if (this.attendanceTimeUpdateForm.get('attendanceRequestType')?.value === 'UPDATE') {
+      this.checkAttendance = false;
+    } else if (this.attendanceTimeUpdateForm.get('attendanceRequestType')?.value === 'CREATE') {
+      this.getAttendanceExistanceStatus(this.selectedDateAttendance);    
+    }
+    this.getHolidayForOrganization(this.selectedDateAttendance);
+   
   }
 
   attendanceTimeUpdateForm!: FormGroup;
@@ -1630,6 +1657,7 @@ export class AttendanceLeaveComponent implements OnInit {
           this.helperService.showToast('Request already registered!', Key.TOAST_STATUS_ERROR);
         }
         this.selectedRequest = '';
+        this.updateStatusString = 'In';
       },
       (error) => {
         this.attendanceUpdateRequestLoader = false;

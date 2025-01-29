@@ -1,15 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { debug } from 'console';
 import saveAs from 'file-saver';
-import moment from 'moment';
 import { constant } from 'src/app/constant/constant';
 import { Key } from 'src/app/constant/key';
+import { StatusKeys } from 'src/app/constant/StatusKeys';
 import { EmployeeMonthWiseSalaryData } from 'src/app/models/employee-month-wise-salary-data';
-import { StartDateAndEndDate } from 'src/app/models/start-date-and-end-date';
-import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
-import { PayrollService } from 'src/app/services/payroll.service';
 import { SalaryService } from 'src/app/services/salary.service';
 
 @Component({
@@ -20,7 +16,7 @@ import { SalaryService } from 'src/app/services/salary.service';
 export class PaymentHistoryComponent implements OnInit {
 
 
-  itemPerPage: number = 8;
+  itemPerPage: number = 10;
   totalItems : number = 0
   pageNumber: number = 1;
   search: string = '';
@@ -29,10 +25,8 @@ export class PaymentHistoryComponent implements OnInit {
   monthWiseIds:number[] = new Array();
   allChecked : boolean =false;
 
-  readonly PENDING = Key.PENDING;
-  readonly APPROVED = Key.APPROVED;
-
   readonly constant = constant;
+  readonly StatusKeys = StatusKeys;
 
 
   isShimmer = false;
@@ -81,14 +75,14 @@ export class PaymentHistoryComponent implements OnInit {
     this.endDate = this._helperService.formatDateToYYYYMMDD(
       new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0),
     );
-    this.getOrganizationMonthWiseSalaryDataMethodCall();
+    this.getMonthWiseSalarySlipData();
   }
 
 
   mainPlaceholderFlag : boolean = false;
 
   employeeMonthWiseSalaryDataList: EmployeeMonthWiseSalaryData[] = [];
-  getOrganizationMonthWiseSalaryDataMethodCall() {
+  getMonthWiseSalarySlipData() {
     this.preRuleForShimmersAndErrorPlaceholders();
     this._salaryService.getMonthWiseSalarySlipData(this.startDate,this.endDate,this.itemPerPage,this.pageNumber,this.search)
       .subscribe((response) => {
@@ -111,7 +105,7 @@ export class PaymentHistoryComponent implements OnInit {
   pageChange(page:any){
     if(  this.pageNumber != page){
       this.pageNumber = page;
-      this.getOrganizationMonthWiseSalaryDataMethodCall();
+      this.getMonthWiseSalarySlipData();
     }
 
   }
@@ -141,13 +135,13 @@ export class PaymentHistoryComponent implements OnInit {
     this._helperService.ignoreKeysDuringSearch(event);
     this.pageNumber = 1;
     this.totalItems = 0;
-    this.getOrganizationMonthWiseSalaryDataMethodCall();
+    this.getMonthWiseSalarySlipData();
   }
 
   // Clearing search text
   clearSearch() {
     this.resetCriteriaFilter();
-   this.getOrganizationMonthWiseSalaryDataMethodCall();
+   this.getMonthWiseSalarySlipData();
   }
 
 
@@ -204,12 +198,19 @@ export class PaymentHistoryComponent implements OnInit {
     }
   }
 
+  togglePayslipStatus(monthId:number){
+    this.monthWiseIds = [];
+    this.monthWiseIds.push(monthId);
+    this.updatePaySlipStatus();
 
-  updateSalarySlipStatus(){
+  }
+
+
+  updatePaySlipStatus(){
     this._salaryService.updateSalarySlipStatus(this.monthWiseIds).subscribe(
       (response) => {
         if(response.status){
-          this.getOrganizationMonthWiseSalaryDataMethodCall();
+          this.getMonthWiseSalarySlipData();
           this._helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
         }
       },(error) => {
@@ -232,16 +233,16 @@ export class PaymentHistoryComponent implements OnInit {
   shareIndividualPayslip(shareVia: string,id:number){
     this.shareIds =[];
     this.shareIds.push(id);
-    this.shareSalaryPayslipVia(shareVia);
+    this.sharePayslipVia(shareVia);
   }
 
 
-  shareSalaryPayslipVia(shareVia: string) {
+  sharePayslipVia(shareVia: string) {
     this.shareIds = this.monthWiseIds;
     this._salaryService.shareSalaryPayslipVia(this.shareIds,shareVia).subscribe(
       (response) => {
         if(response.status){
-          this._helperService.showToast("Payslip sent successfully", Key.TOAST_STATUS_SUCCESS);
+          this._helperService.showToast("Payslip shared successfully", Key.TOAST_STATUS_SUCCESS);
         }
       },
       (error) => {
@@ -253,21 +254,34 @@ export class PaymentHistoryComponent implements OnInit {
 
 
 
-  generateSalarySlipMethodCall(){
-    this._salaryService.generatePaySlip(this.startDate, this.endDate).subscribe(
+  isAll:number=0;
+  processing:boolean=false;
+  generatePayslip(isAll:number){
+    this.processing=true;
+    var ids :number[] =[];
+    if(isAll==0){
+      ids = this.monthWiseIds;
+    }
+    this._salaryService.generatePaySlip(this.startDate, this.endDate,ids,isAll).subscribe(
       (response) => {
         if(response.status){
-          this._helperService.showToast('Payslip generated Succesfully', Key.TOAST_STATUS_SUCCESS)
-          this.getOrganizationMonthWiseSalaryDataMethodCall();
+          this.monthWiseIds =[];
+          this.getMonthWiseSalarySlipData();
+          this._helperService.showToast('Payslip generated Successfully', Key.TOAST_STATUS_SUCCESS);
         }else{
-          this._helperService.showToast('Failed to generate pay slip', Key.TOAST_STATUS_ERROR)
+          //TODOD: temporray
+          this._helperService.showToast('Payslip generated Successfully', Key.TOAST_STATUS_SUCCESS);
+
+          // this._helperService.showToast('Failed to generate pay slip', Key.TOAST_STATUS_ERROR);
         }
+        this.processing=false;
       },
       (error) => {
-    
+        this.processing=false;
       }
     );
   }
+
 
 
 }

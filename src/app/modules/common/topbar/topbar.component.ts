@@ -8,6 +8,7 @@ import {
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { Router } from '@angular/router';
 import { Key } from 'src/app/constant/key';
+import { Routes } from 'src/app/constant/Routes';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { Notification } from 'src/app/models/Notification';
 import { DataService } from 'src/app/services/data.service';
@@ -24,6 +25,7 @@ import { UserNotificationService } from 'src/app/services/user-notification.serv
 export class TopbarComponent implements OnInit {
   databaseHelper: DatabaseHelper = new DatabaseHelper();
   employeeProfileRoute : string = '';
+  readonly Routes=Routes;
   constructor(
     public dataService: DataService,
     private router: Router,
@@ -51,101 +53,137 @@ export class TopbarComponent implements OnInit {
     });
     this.getUuids();
   }
-
+  routeDesc:any="Here's what's going on today.";
   private updateTopbarValue() {
-    let routeValue = this.extractValueFromRoute(this.router.url);
+    let routeValue = window.location.pathname;
+    var routeDesc=this.routeDesc;
+   switch(routeValue){
 
-    if (routeValue === 'timetable') {
-      routeValue = 'Attendance Details';
+    case this.Routes.DASHBOARD:{
+      routeValue = 'Dashboard';
+      routeDesc="Organizational Performance Overview"
+      break;
     }
-
-    if (routeValue === 'role') {
-      routeValue = 'Roles & Security';
-    }
-
-    if (routeValue.includes('team-detail')) {
-      routeValue = 'Team Details';
-    }
-
-    if (routeValue.includes('employee-profile')) {
-      routeValue = 'Employee Profile';
-    }
-
-    if (routeValue.includes('leave-setting')) {
-      routeValue = 'Leave Setting';
-    }
-    if (routeValue.includes('attendance-setting')) {
-      routeValue = 'Attendance Setting';
-    }
-
-    if (routeValue.includes('company-setting')) {
-      routeValue = 'Company Setting';
-    }
-
-    if (routeValue.includes('salary-setting')) {
-      routeValue = 'Salary Setting';
-    }
-
-    if (routeValue.includes('add-role?roleId')) {
-      routeValue = 'Edit Role';
-    }
-
-    if (routeValue.includes('account-settings?setting=accountDetails')) {
-      routeValue = 'Account Details';
-    }
-
-    if (routeValue.includes('account-settings?setting=security')) {
-      routeValue = 'Security';
-    }
-
-    if (routeValue.includes('account-settings?setting=profilePreferences')) {
-      routeValue = 'Profile Preferences';
-    }
-
-    if (routeValue.includes('account-settings?setting=referralProgram')) {
-      routeValue = 'Referral Program';
-    }
-
-    if (routeValue.includes('billing-payment?id=')) {
-      routeValue = 'Billing & Payment';
-    }
-
-    if (routeValue.includes('setting/billing')) {
-      routeValue = 'Subscription & Plan';
-    }
-
-    if (routeValue.includes('setting/subscription')) {
-      routeValue = 'Billing & Subscription';
-    }
-    if (routeValue.includes('setting/onboarding-setting')) {
-      routeValue = 'Onboarding Setting';
-    }
-
-    if (routeValue.includes('payroll-dashboard/leave-summary')) {
-      routeValue = 'Attendance, Leave & Present Days';
-    }
-
-    if (routeValue.includes('payroll-dashboard')) {
-      routeValue = 'Payroll Dashboard';
-    }
-
-    if (routeValue.includes('payment-history')) {
-      routeValue = 'Generate Salary Slip';
-    }
-
-    if (routeValue.includes('bonus-and-deduction')) {
-      routeValue = 'Bonus And Deduction';
-    }
-
-    if (routeValue.includes('epf-esi-tds')) {
-      routeValue = 'EPF, ESI & TDS';
-    }
-
-    if (routeValue.includes('employee-onboarding-data')) {
+    case this.Routes.EMPLOYEEONBOARDING:{
       routeValue = 'Employee Onboarding';
+      routeDesc="Streamline the Integration of New Hires"
+      break;
     }
+    case this.Routes.TEAM:{
+      routeValue = 'Team';
+      routeDesc="Manage and Organize Employee Groups"
+      break;
+    }
+    case this.Routes.TEAMDETAIL:{
+      routeValue = 'Team Detail';
+      routeDesc="Manage and Organize Employee Groups"
+      break;
+    }
+    case this.Routes.TIMETABLE:{
+      routeValue = 'Attendance Details';
+      routeDesc="Monitor Employee Attendance Records"
+      break;
+    }
+    case this.Routes.LEAVEMANAGEMENT:{
+      routeValue = 'Leave-management';
+      routeDesc="Handle Leave Requests and Approvals"
+      break;
+    }
+    case this.Routes.LEAVEMANAGEMENTS:{
+      routeValue = 'Leave-managements';
+      routeDesc="Handle Leave Requests and Approvals"
+      break;
+    }
+    case this.Routes.EXPENSE:{
+      routeValue = 'Expense';
+      routeDesc="Manage Employee Expense Reimbursements"
+      break;
+    }
+    case this.Routes.ASSETS:{
+      routeValue = 'Assets';
+      routeDesc="Track and Assign Company Assets"
+      break;
+    }
+    case this.Routes.REPORTS:{
+      routeValue = 'Reports';
+      routeDesc="Generate Comprehensive HR Reports"
+      break;
+    }
+    case this.Routes.COINS:{
+      routeValue = 'Super Coins';
+      routeDesc="Employee Rewards and Recognition System"
+      break;
+    }
+    case this.Routes.PAYROLLDASHBOARD:{
+      routeValue = 'Payroll Dashboard';
+      routeDesc="Manage and Review Payroll Processes"
+      break;
+    }
+    case this.Routes.BONUSDEDUCTION:{
+      routeValue = 'Bonus And Deduction';
+      routeDesc="Handle Bonuses and Salary Deductions"
+      break;
+    }
+    case this.Routes.EPFESITDS:{
+      routeValue = 'EPF, ESI & TDS';
+      routeDesc="Manage Statutory Contributions and Taxe"
+      break;
+    }
+    case this.Routes.PAYMENTHISTORY:{
+      routeValue = 'Generate Salary Slip';
+      routeDesc="Create and Distribute Salary Statements"
+      break;
+    }
+    case this.Routes.COMPANYSETTING:{
+      routeValue = 'Company Setting';
+      routeDesc="Configure Organizational Policies"
+      break;
+    }
+    case this.Routes.ATTENDANCESETTING:{
+      routeValue = 'Attendance Setting';
+      routeDesc="Customize Attendance Rules and Policies"
+      break;
+    }
+    case this.Routes.LEAVESETTING:{
+      routeValue = 'Leave Setting';
+      routeDesc="Define and Manage Leave Policies"
+      break;
+    }
+    case this.Routes.SALARYSETTING:{
+      routeValue = 'Salary Setting';
+      routeDesc="Establish Salary Structures and Plans"
+      break;
+    }
+    case this.Routes.ROLE:{
+      routeValue = 'Roles & Security';
+      routeDesc="Control User Roles and Permissions"
+      break;
+    }
+    case this.Routes.EXITPOLICY:{
+      routeValue = 'Exit-policy';
+      routeDesc="Manage Employee Exiting Processes"
+      break;
+    }
+    case this.Routes.SUBSCRIPTION:{
+      routeValue = 'Billing & Subscription';
+      routeDesc="Handle Billing and Subscriptions"
+      break;
+    }
+    case this.Routes.ACCOUNTSETTINGS:{
+      routeValue = 'Account Details';
+      routeDesc="Update and View Personal Information"
+      break;
+    }
+    case this.Routes.INBOX:{
+      routeValue = 'Inbox';
+      routeDesc="Your Centralize Notifications Hub"
+      break;
+    }
+
+   }
 
     this.topbarValue = this.capitalizeFirstLetter(routeValue);
+    this.routeDesc=routeDesc;
   }
 
   private extractValueFromRoute(route: string): string {

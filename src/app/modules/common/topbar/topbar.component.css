@@ -14,3 +14,7 @@ div.scroll {
     max-height: 200px;
     overflow-y: scroll;
   }
+  .krenai-deshboard p{
+    color: #878A9A;
+    
+  }

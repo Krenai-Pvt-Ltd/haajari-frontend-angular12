@@ -36,6 +36,10 @@ import { NzCalendarModule } from 'ng-zorro-antd/calendar';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
+import { AdditionalModule } from '../additional/additional.module';
+// import { NgApexchartsModule } from 'ng-apexcharts';
+
+
 
 @NgModule({
   declarations: [
@@ -52,9 +56,8 @@ import { NzBadgeModule } from 'ng-zorro-antd/badge';
     DashboardComponent,
     EpmployeeFinanceComponent,
     HolidayDatePickerComponent,
-
     SettingsComponent,
-    AccountSettingsComponent
+    AccountSettingsComponent,
   ],
   imports: [
     CommonModule,
@@ -82,10 +85,13 @@ NzBadgeModule,
     NzModalModule,  // Importing the modal module
     NzButtonModule,
     SharedModule,
+    AdditionalModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyB6SQE_TmOLpGLohpMLl-6FzdwJJAU9MnA',
       libraries: ['places'],
-    }),
-  ]
+    })
+    ,
+    // NgApexchartsModule
+    ]
 })
 export class EmployeeProfileModule { }
