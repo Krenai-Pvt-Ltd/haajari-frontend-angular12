@@ -37,7 +37,8 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
 import { AdditionalModule } from '../additional/additional.module';
-import { AttendanceUrlComponent } from '../additional/components/attendance-url/attendance-url.component';
+// import { NgApexchartsModule } from 'ng-apexcharts';
+
 
 
 @NgModule({
@@ -88,7 +89,9 @@ NzBadgeModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyB6SQE_TmOLpGLohpMLl-6FzdwJJAU9MnA',
       libraries: ['places'],
-    }),
-  ]
+    })
+    ,
+    // NgApexchartsModule
+    ]
 })
 export class EmployeeProfileModule { }

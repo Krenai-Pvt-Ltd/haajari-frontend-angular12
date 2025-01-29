@@ -84,17 +84,30 @@
             </div>
             <div class="filter-wrapper d-flex align-items-center" style="margin-left: 20px">
               <!-- Display this only if there are selected staff -->
-              <a class="info-button" *ngIf="monthWiseIds.length > 0">
+              <!-- <a class="info-button" *ngIf="monthWiseIds.length > 0">
                 {{ monthWiseIds.length }} selected of {{ totalItems }}
-              </a>
+              </a> -->
               <!-- Clear button shows only if there are selected staff -->
-              <span class="clear-button text-danger ml-2" (click)="unSelectAll()" *ngIf="monthWiseIds.length>0">
+              <!-- <span class="clear-button text-danger ml-2" (click)="unSelectAll()" *ngIf="monthWiseIds.length>0">
                 Clear all users <i class="bi bi-x"></i>
-              </span>
-              <label class="checkbox-label ml-2">
+              </span> -->
+              <!-- <label class="checkbox-label ml-2">
                 <input type="checkbox" [checked]="allChecked" (click)="selectAll()" />
                 Select all
-              </label>
+              </label> -->
+
+              <button type="button" class="btn btn-primary d-flex align-items-center gap-2 fw-saminbold font-14"
+                (click)="generatePayslip(1)">
+                <span *ngIf="!processing">
+                  <i class="fas fa-exclamation-circle"></i>
+                  <small>Generate All Payslip</small>
+                </span>
+                <div class="dot-opacity-loader" *ngIf="processing">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+              </button>
             </div>
           </div>
         </div>
