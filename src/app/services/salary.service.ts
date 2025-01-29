@@ -167,7 +167,7 @@ export class SalaryService {
 
   updateSalarySlipStatus(monthWiseIds:number[]): Observable<any>{
     const params = new HttpParams()
-    .set('month_wise_ids', String(monthWiseIds));
+    .set('monthWiseId', String(monthWiseIds));
 
     return this._http.put<any>(`${this._key.base_url}/salary/month-wise/slip/on-hold`,{},{ params });
   
@@ -186,7 +186,7 @@ export class SalaryService {
     .set('end_date', endDate)
     .set('month_ids', String(monthIds))
     .set('is_all', isAll);
-    return this._http.put<any>(`${this._key.base_url}/salary/month-wise/generate-slip`, {params});
+    return this._http.put<any>(`${this._key.base_url}/salary/month-wise/generate-slip`,{}, {params});
   }
 
 
