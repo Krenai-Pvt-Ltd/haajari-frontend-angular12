@@ -385,6 +385,7 @@ export class AccountSettingsComponent implements OnInit {
 
 notifications: { [key: string]: any[] } | null = null;
 notificationKeys: string[] = [];
+shouldHideNotificationUpdateTab: boolean = false;
 
 notificationTypes(): Promise<void> {
   return new Promise((resolve) => {
@@ -396,9 +397,15 @@ notificationTypes(): Promise<void> {
         // Extract keys for iteration
         this.notificationKeys = Object.keys(this.notifications ?? {}); 
 
+        // Check if all notification keys have empty arrays
+        this.shouldHideNotificationUpdateTab = this.notificationKeys.every(
+          (key) => this.notifications?.[key]?.length === 0
+        );
+
         resolve(); // Resolve after successful execution
       },
       (error) => {
+        this.shouldHideNotificationUpdateTab = false;
         console.log('Error retrieving notification types:', error);
         resolve(); // Ensure resolve even on error
       }
@@ -411,5 +418,30 @@ isAttendanceType(type: string): boolean {
   const attendanceTypes = ['Check in', 'Check Out', 'Break', 'Back', 'Report'];
   return attendanceTypes.includes(type);
 }
+
+loadingToggles: { [key: string]: boolean } = {};
+
+updateUserNotification(notificationId: number, statusValue: boolean): Promise<void> {
+  const status = statusValue ? 'DISABLE' : 'ENABLE'; // Assign the correct status
+  this.loadingToggles[notificationId] = true;
+  return new Promise((resolve) => {
+    this.dataService.updateUserNotification(notificationId, status).subscribe(
+      () => {
+        console.log("Updated successfully");
+        this.loadingToggles[notificationId] = false;
+        this.notificationTypes(); // Refresh notification types
+        resolve(); // Resolve the promise after successful execution
+      },
+      (error) => {
+        console.error("Error updating notification:", error);
+        this.loadingToggles[notificationId] = false;
+        resolve(); // Ensure resolve even on error to avoid unhandled promises
+      }
+    );
+  });
+}
+
+
+
 
 }
