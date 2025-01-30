@@ -21,7 +21,7 @@ export const RAZOR_PAY_KEY: string = 'rzp_test_Wd1RYd0fng3673';
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-   export const BASE_URL = 'http://localhost:8082/api/v2';
+  //  export const BASE_URL = 'http://localhost:8082/api/v2';
 
 
 // /* ------------------  Staging urls ----------------*/
@@ -29,7 +29,7 @@ export const RAZOR_PAY_KEY: string = 'rzp_test_Wd1RYd0fng3673';
 
 /* ------------------  Production urls ----------------*/
 
-// export const BASE_URL = 'https://production.hajiri.work/api/v2';
+export const BASE_URL = 'https://production.hajiri.work/api/v2';
 /*
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
  *
