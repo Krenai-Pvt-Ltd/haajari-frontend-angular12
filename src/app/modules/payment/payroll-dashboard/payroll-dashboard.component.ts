@@ -237,8 +237,10 @@ export class PayrollDashboardComponent implements OnInit {
         if(response.object!=null){
           this.organizationMonthWiseSalaryData = response.object;
           
-          this.organizationMonthWiseSalaryData.epfAmount = this.organizationMonthWiseSalaryData.epfAmount == null ? 0 : this.organizationMonthWiseSalaryData.epfAmount;
-          this.organizationMonthWiseSalaryData.esiAmount = this.organizationMonthWiseSalaryData.esiAmount == null ? 0 : this.organizationMonthWiseSalaryData.esiAmount;
+          this.organizationMonthWiseSalaryData.employeeEpf = this.organizationMonthWiseSalaryData.employeeEpf == null ? 0 : this.organizationMonthWiseSalaryData.employeeEpf;
+          this.organizationMonthWiseSalaryData.employeeEsi = this.organizationMonthWiseSalaryData.employeeEsi == null ? 0 : this.organizationMonthWiseSalaryData.employeeEsi;
+          this.organizationMonthWiseSalaryData.employerEpf = this.organizationMonthWiseSalaryData.employerEpf == null ? 0 : this.organizationMonthWiseSalaryData.employerEpf;
+          this.organizationMonthWiseSalaryData.employerEsi = this.organizationMonthWiseSalaryData.employerEsi == null ? 0 : this.organizationMonthWiseSalaryData.employerEsi;
           this.organizationMonthWiseSalaryData.tdsAmount = this.organizationMonthWiseSalaryData.tdsAmount == null ? 0 : this.organizationMonthWiseSalaryData.tdsAmount;
           this.organizationMonthWiseSalaryData.grossPay = this.organizationMonthWiseSalaryData.grossPay == null ? 0 : this.organizationMonthWiseSalaryData.grossPay;
           this.organizationMonthWiseSalaryData.netPay = this.organizationMonthWiseSalaryData.netPay == null ? 0 : this.organizationMonthWiseSalaryData.netPay;
@@ -314,17 +316,25 @@ export class PayrollDashboardComponent implements OnInit {
     name: 'custom',
     selectable: true,
     group: ScaleType.Ordinal,
-    domain: [ '#E9E9FF','#FFA500', '#F8D7D7','#EB5050','#888']
+    domain: [ '#E9E9FF','#FFA500','#E9E9FF','#FFA500', '#F8D7D7','#EB5050','#888']
   };
 
   // chart data
   single = [
     {
-      name: 'EPF',
+      name: 'Employee EPF',
       value: 0
     },
     {
-      name: 'ESI',
+      name: 'Employee ESI',
+      value: 0
+    },
+    {
+      name: 'Employer EPF',
+      value: 0
+    },
+    {
+      name: 'Employer ESI',
       value: 0
     },
     {
@@ -345,12 +355,20 @@ export class PayrollDashboardComponent implements OnInit {
   payrollChartMehthodCall(){
     this.single = [ 
       {
-        name: 'EPF',
-        value: this.organizationMonthWiseSalaryData.epfAmount
+        name: 'Employee EPF',
+        value: this.organizationMonthWiseSalaryData.employeeEpf
       },
       {
-        name: 'ESI',
-        value: this.organizationMonthWiseSalaryData.esiAmount
+        name: 'Employee ESI',
+        value: this.organizationMonthWiseSalaryData.employeeEsi
+      },
+      {
+        name: 'Employer EPF',
+        value: this.organizationMonthWiseSalaryData.employerEpf
+      },
+      {
+        name: 'Employer ESI',
+        value: this.organizationMonthWiseSalaryData.employerEsi
       },
       {
         name: 'TDS',
@@ -367,11 +385,19 @@ export class PayrollDashboardComponent implements OnInit {
 
     this.single = [
       {
-        name: 'EPF',
+        name: 'Employee EPF',
         value: 0
       },
       {
-        name: 'ESI',
+        name: 'Employee ESI',
+        value: 0
+      },
+      {
+        name: 'Employer EPF',
+        value: 0
+      },
+      {
+        name: 'Employer ESI',
         value: 0
       },
       {
@@ -422,33 +448,6 @@ export class PayrollDashboardComponent implements OnInit {
       );
   }
 
-
-  RUN_PAYROLL_LOADER : boolean = false;
-  @ViewChild('history')history!:ElementRef;
-  generateSalaryReportMethodCall(){
-    this.RUN_PAYROLL_LOADER = true;
-    this.dataService.generateSalaryReport(this.startDate, this.endDate).subscribe((response) => {
-        if(response.status){
-          this.history.nativeElement.click();
-          const downloadLink = document.createElement('a');
-          downloadLink.href = response.object.reportExcelLink;
-          downloadLink.download = 'Report_JULY_1720181370937.xlsx';
-          downloadLink.click();
-          this._helperService.showToast('Payroll generated successfully.', Key.TOAST_STATUS_SUCCESS);
-        }else{
-
-
-        }
-        this.RUN_PAYROLL_LOADER = false;
- 
-      },(error) => {
-        this._helperService.showToast('Error while generating the Payroll!', Key.TOAST_STATUS_ERROR);
-        this.RUN_PAYROLL_LOADER = false;
-      });
-  } 
-
-
-
   getData(step:any){
     // console.log("====step======",step)
     this.PAYROLL_PROCESS_STEP = step;
@@ -460,17 +459,21 @@ export class PayrollDashboardComponent implements OnInit {
   }
 
 
-
+  RUN_PAYROLL_LOADER : boolean = false;
+  @ViewChild('history')history!:ElementRef;
   getPayrollReport(){
     this.RUN_PAYROLL_LOADER = true;
     this._payrollService.generatePayrollReport(this.startDate, this.endDate).subscribe((response) => {
+      if(response.status){
+        this._helperService.showToast('Payroll generated successfully.', Key.TOAST_STATUS_SUCCESS);
+          const downloadLink = document.createElement('a');
+          downloadLink.href = response.object;
+          downloadLink.download = 'payroll_report.xlsx';
+          downloadLink.click();
+      }else{
+
+      }
       this.RUN_PAYROLL_LOADER = false;
-      this._helperService.showToast('Payroll generated successfully.', Key.TOAST_STATUS_SUCCESS);
-        const downloadLink = document.createElement('a');
-        downloadLink.href = response.object;
-        downloadLink.download = 'payroll_report.xlsx';
-        downloadLink.click();
-   
       },(error) => {
         this._helperService.showToast('Error while generating the Payroll!', Key.TOAST_STATUS_ERROR);
         this.RUN_PAYROLL_LOADER = false;

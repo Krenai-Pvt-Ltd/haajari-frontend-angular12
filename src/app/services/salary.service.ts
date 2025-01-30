@@ -290,4 +290,7 @@ export class SalaryService {
     .set('user_uuid', userUuid)
     return this._http.get<any>(`${this._key.base_url}/salary/template/component/get-by-user-uuid`,{params});
   }
+
+
+
 }

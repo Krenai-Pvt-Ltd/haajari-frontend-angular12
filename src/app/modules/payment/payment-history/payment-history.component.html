@@ -82,7 +82,7 @@
                 </div>
               </form>
             </div>
-            <div class="filter-wrapper d-flex align-items-center" style="margin-left: 20px">
+            <div class="filter-wrapper d-flex align-items-center" style="margin-left: 20px"  *ngIf="totalItems>0">
               <!-- Display this only if there are selected staff -->
               <!-- <a class="info-button" *ngIf="monthWiseIds.length > 0">
                 {{ monthWiseIds.length }} selected of {{ totalItems }}
@@ -95,7 +95,16 @@
                 <input type="checkbox" [checked]="allChecked" (click)="selectAll()" />
                 Select all
               </label> -->
-
+              <!-- <button class="btn primaryBtnLink" type="button"
+                [disabled]="downloading" (click)="downloadBankReport()" >
+                <i class="bi bi-download"></i>
+                <span *ngIf="!downloading">Download</span>
+                <div class="dot-opacity-loader" *ngIf="downloading">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+                </button> -->
               <button type="button" class="btn btn-primary d-flex align-items-center gap-2 fw-saminbold font-14"
                 (click)="generatePayslip(1)">
                 <span *ngIf="!processing">
@@ -117,13 +126,8 @@
           <!-- end div -->
           <div class="btn-toolbar" role="toolbar" *ngIf="monthWiseIds.length>0">
             <div class="btn-group">
-              <!-- <button type="button" class="btn btn-de-secondary d-flex align-items-center gap-2 "
-                (click)="updatePaySlipStatus()">
-                <i class="fas fa-exclamation-circle"></i>
-                <small>Hold Payslip</small>
-              </button> -->
                 <button type="button" class="btn btn-de-secondary d-flex align-items-center gap-2"
-                (click)="generatePayslip(1)">
+                (click)="generatePayslip(0)">
                 <span *ngIf="!processing">
                   <i class="fas fa-exclamation-circle"></i>
                   <small>Generate Payslip</small>
@@ -205,7 +209,7 @@
                         <td>
                           <span>
                             <nz-switch class="switch" id="switch{{i}}"
-                            (ngModelChange)="togglePayslipStatus(employee.id)"
+                            (ngModelChange)="togglePayslipStatus(employee)"
                             [ngModel]="employee.isSlipHold==0"></nz-switch>
                           </span>
                         </td>
