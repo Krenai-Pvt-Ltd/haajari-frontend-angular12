@@ -36,7 +36,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
   userId: any;
   myForm: FormGroup;
   modal: any;
-  constructor(private dataService: DataService, private modalService: NgbModal, private fb: FormBuilder,
+  constructor(public dataService: DataService, private modalService: NgbModal, private fb: FormBuilder,
     private activateRoute: ActivatedRoute,
     public helperService: HelperService,
     private employeeProfileComponent: EmployeeProfileComponent,

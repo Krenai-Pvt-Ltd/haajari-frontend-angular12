@@ -1921,7 +1921,7 @@ Edit Request Modal End
                   Showing {{ (currentPage - 1) * pageSize + 1 }} - 
                   {{ (currentPage * pageSize > data.length ? data.length-1 : currentPage * pageSize) }} of {{ data.length-1 }}
                 </p>
-                <ngb-pagination [rotate]="true" [maxSize]="4" [collectionSize]="data.length - 1" [pageSize]="pageSize"
+                <ngb-pagination *ngIf="data.length > pageSize" [rotate]="true" [maxSize]="4" [collectionSize]="data.length - 1" [pageSize]="pageSize"
                   [(page)]="currentPage" (pageChange)="onPageChange($event)">
                 </ngb-pagination>
               </div>

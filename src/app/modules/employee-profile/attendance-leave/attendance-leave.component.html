@@ -1052,7 +1052,8 @@
                         <div *ngIf="totalPages>1"
                             class="d-flex align-items-center justify-content-between pagination-box-profile p-3 bg-white border-top">
                             <p>
-                                Showing 0 - 0 of {{ totalItems }} users
+                                Showing {{ (currentPage - 1) * pageSize + 1 }} - 
+                                {{ currentPage * pageSize > totalItems ? totalItems : currentPage * pageSize }} of {{ totalItems }} users
                             </p>
                             <ngb-pagination class="pagition-box" [collectionSize]="totalItems" [rotate]="true"
                                 (pageChange)="pageChanged($event)" [pageSize]="pageSize" [(page)]="currentPage"
