@@ -1,0 +1,299 @@
+.nav.nav-pills {
+    background-color: transparent;
+    border-bottom: 1px solid #edeff5;
+  }
+  
+  .nav-pills .nav-item.show .nav-link,
+  .nav-pills .nav-link.active {
+    background: transparent !important;
+    color: var(--primary-color) !important;
+    border-radius: 0;
+    border-bottom: 2px solid var(--primary-color);
+  }
+  
+  .nav-link {
+    display: block;
+    padding: 7px 10px;
+    color: #6B7280;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 500;
+    text-align: left;
+  }
+  
+  .nav-item {
+    margin-right: 20px;
+  }
+  .request-count {
+    background-color: rgb(241 241 253) !important;
+    color: var(--primary-color) !important;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+}
+.date-range {
+    background-color: #F9FAFC;
+    border: 1px solid #DCDCE4;
+    border-radius: 2px;
+}
+.attendance-date {
+    border-radius: 2px;
+    background-color: #fff !important;
+}
+.calendar-back-btn {
+    width: 40px;
+    height: 30px;
+}
+.calendar-separator {
+    border-left: 1px solid #DCDCE4;
+    height: 20px;
+}
+.attendance-date .ant-picker {
+    border: none !important;
+    background-color: transparent !important;
+    height: 40px !important;
+}
+
+.assets-chart {
+    border-radius: 2px;
+    background-color: #F9FAFC;
+}
+.chart-header {
+    border: 1px solid #EAEAEA;
+    background-color: #fff;
+    border-bottom: none;
+}
+::ng-deep .week-filter .ant-select-selection-placeholder {
+    line-height: 24px !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+  }
+  
+  ::ng-deep .week-filter .ant-select-selection-item {
+    line-height: 24px !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+  }
+  ::ng-deep  .week-filter .ant-select-selector{
+    background-color: transparent !important;
+    min-height: 24px !important;
+    height: 24px !important;
+  }
+  .assets-chart p {
+    color: #858585;
+}
+.earned-funds span {
+    color: #388E3C;
+}
+
+.use-funds-separator{
+    border-left: 1px solid #DCDCE4;
+    height: 50px;
+}
+.assets-count{
+    border: 1px solid #F2F2F2;
+    border-radius: 2px;
+}
+.assets-count h6{
+    color: #101F82;
+}
+.assets-count i{
+    position: relative;
+    top: 1px;
+}
+.total-assets{
+    border: 1px solid #EAEAEA;
+    border-radius: 2px;
+}
+.total-assets-icon{
+    width: 40px;
+    height: 40px;
+    border: 1px solid #EBEBEB;
+    border-radius: 5px;
+    background-color: #F6F6F6;
+}
+.total-assets p:first-child{
+    color: #202224;
+}
+.total-assets p:last-child{
+    color: #606060;
+}
+
+.week-count svg {
+    width: 18px;
+}
+
+.assets-categories{
+    border-radius: 2px;
+    border: 1px solid #EAEAEA;
+}
+
+.categories-header {
+    border-bottom: 1px solid #EAEAEA;
+}
+.overview-sidebar-menu{
+    border-right: 1px solid #f2f2f2;
+    height: 100%;
+  }
+  .overview-sidebar-menu .nav-pills{
+    border-bottom: none;
+  }
+
+  .overview-sidebar-menu svg{
+    position: relative;
+    top: -2px;
+    padding-right: 2px;
+  }
+  
+  .overview-sidebar-menu .nav-pills .nav-item.show .nav-link,
+  .overview-sidebar-menu .nav-pills .nav-link.active {
+    background: #f2f3ff !important;
+    color: #6666F2 !important;
+    border-right: 5px solid var(--primary-background-color) !important;
+    border-bottom: none !important;
+  }
+  
+  .overview-sidebar-menu .nav.nav-pills {
+    background-color: transparent;
+  }
+  
+  .overview-sidebar-menu .nav-pills .nav-link {
+    background: transparent;
+    padding: 15px 10px;
+    color: #1C1B1F;
+    border-right: 5px solid transparent;
+    font-size: 14px;
+    font-weight: 400;
+    text-align: left;
+    padding-left: 30px;
+  }
+
+  .assets-overview tr td{
+  color: #444;
+  }
+
+  .assets-overview {
+    overflow: scroll;
+    max-height: 400px;
+    margin-bottom: 20px;
+}
+.border-right{
+    border-right: 1px solid #f2f2f2;
+}
+.new-request{
+    border: 3px solid #CA365F;
+    height: 20px;
+    border-radius: 2px;
+}
+.replacement-requests{
+    border: 3px solid #F3A73D;
+    height: 20px;
+    border-radius: 2px;
+}
+
+.repair-requests{
+    border: 3px solid #47539F;
+    height: 20px;
+    border-radius: 2px;
+}
+.handover-requests{
+    border: 3px solid #3C887C;
+    height: 20px;
+    border-radius: 2px;
+}
+.categories-view{
+    max-height: 320px;
+    overflow: scroll;
+}
+.categories-view::-webkit-scrollbar{
+    display: none;
+}
+.week-count{
+    color: #7C8DB5;
+}
+
+.asset-assigned-search {
+    border: 1px solid #EAEAEA;
+}
+.assigned{
+    background-color: #E9FFEF;
+    border-radius: 20px;
+    padding: 5px 15px;
+    color: #388E3C;
+}
+.search-filter .new-dropdown {
+    display: block;
+    width: 120px;
+    padding: .4rem .5rem;
+    font-size: 14px !important;
+    background-color: #fff;
+    border: none !important;
+    border-right: 1px solid #f2f2f2 !important;
+    font-weight: 500;
+    box-shadow: unset;
+    color: #444;
+}
+.search-filter svg {
+    width: 18px;
+}
+.filter-box {
+    width: 400px !important;
+    border-radius: 2px !important;
+    padding: 0px !important;
+    filter: drop-shadow(0px 8px 10px rgba(0, 0, 0, 0.15));
+}
+.search-date input {
+    border: none;
+    height: 45px !important;
+    border-left: 0;
+    border-right: 1px solid #EAEAEA;
+    font-weight: 400 !important;
+    font-size: 14px !important;
+    color: #1f1f1f !important;
+}
+.search-icon {
+    font-size: 13px !important;
+    position: absolute !important;
+    top: 0;
+    color: var(--tb-secondary-color) !important;
+    margin: auto auto auto 15px;
+}
+.filter-btn {
+    min-width: 150px;
+}
+
+
+::ng-deep .placeholder-lines .ant-select-selection-placeholder {
+    line-height: 45px !important;
+    font-size: 0.875rem !important;
+    font-weight: 400 !important;
+  }
+  
+  ::ng-deep .placeholder-lines .ant-select-selection-item {
+    line-height: 45px !important;
+    font-size: 0.875rem !important;
+    font-weight: 400 !important;
+  }
+  ::ng-deep  .placeholder-lines .ant-select-selector{
+    background-color: rgba(236, 236, 236, 0.21);
+    min-height: 45px !important;
+    height: 45px !important;
+  }
+
+  .cancel-btn {
+    background-color: #fbfbfb;
+    border: 1px solid #e6e7e9;
+    border-radius: 2px;
+    color: #4a4a4a;
+    font-size: 13px;
+    font-weight: 500;
+    width: 100px;
+}
+.submitActionBtn {
+    background-color: var(--primary-background-color);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 500;
+    border-radius: 2px;
+    min-width: 100px;
+}

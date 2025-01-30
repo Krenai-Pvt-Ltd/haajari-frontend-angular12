@@ -128,24 +128,61 @@ export class PayrollDashboardComponent implements OnInit {
 
 
   // Getting month list
-  monthResponseList: MonthResponse[] = new Array();
-  async getMonthResponseListByYearMethodCall(date: Date){
+  monthResponseList: MonthResponse[] = [];
+  currentIndex: number = 0;
+  @ViewChild('monthListContainer', { static: false }) monthListContainer!: ElementRef;
+
+  async getMonthResponseListByYearMethodCall(date: Date) {
     return new Promise((resolve, reject) => {
       this.calendarShimmer = true;
       this.monthResponseList = [];
-      this._payrollService.getMonthResponseListByYear(this._helperService.formatDateToYYYYMMDD(date)).subscribe((response) => {
-        if(response.status){
-          this.monthResponseList = response.object;
+      this._payrollService.getMonthResponseListByYear(this._helperService.formatDateToYYYYMMDD(date)).subscribe(
+        (response) => {
+          if (response.status) {
+            this.monthResponseList = response.object;
+          }
+          this.calendarShimmer = false;
+          resolve(true);
+        },
+        (error) => {
+          this.calendarShimmer = false;
+          resolve(true);
         }
-        this.calendarShimmer = false;
-        resolve(true);
-      }, ((error) => {
-        this.calendarShimmer = false;
-        resolve(true);
-      }))
-    })
+      );
+    });
   }
 
+  moveLeft() {
+    if (this.currentIndex > 0) {
+      this.currentIndex--;
+      this.scrollToCurrentIndex();
+    }
+  }
+
+  moveRight() {
+    if (this.currentIndex < this.monthResponseList.length - 1) {
+      this.currentIndex++;
+      this.scrollToCurrentIndex();
+    }
+  }
+
+  get isLeftDisabled(): boolean {
+    return this.currentIndex === 0;
+  }
+
+  get isRightDisabled(): boolean {
+    return this.currentIndex >= this.monthResponseList.length - 1;
+  }
+
+  scrollToCurrentIndex() {
+    if (this.monthListContainer) {
+      const element = this.monthListContainer.nativeElement;
+      const selectedChild = element.children[this.currentIndex];
+      if (selectedChild) {
+        element.scrollTo({ left: selectedChild.offsetLeft, behavior: 'smooth' });
+      }
+    }
+  }
   
 
 

@@ -1,0 +1,1266 @@
+<div class="page-wrapper">
+    <div class="page-content-tab">
+        <div class="container-fluid ">
+           <div class="row">
+                <div class="col-md-12 mt-3">
+                    <ul id="pills-tab" role="tablist" class="nav nav-pills ">
+                        <li class="nav-item">
+                        <a id="pills-announcement-tab" data-bs-toggle="pill" href="#dashboard" role="tab" 
+                            aria-controls="pills-dashboard" aria-selected="false"
+                            class="nav-link active">Dashboard</a>
+                        </li>
+                        <li class="nav-item d-flex align-items-center">
+                        <a id="pills-notification-tab" data-bs-toggle="pill" href="#assigned-assets" role="tab"
+                            aria-controls="pills-request" aria-selected="false"
+                            class="nav-link">Assigned Assets </a>
+                        </li>
+                        <li class="nav-item d-flex align-items-center">
+                            <a id="pills-notification-tab" data-bs-toggle="pill" href="#request" role="tab"
+                                aria-controls="pills-request" aria-selected="false"
+                                class="nav-link">Request Assets</a>
+                                <span class="request-count d-flex align-items-center justify-content-center">10</span>
+                            </li>
+                    </ul>
+                    <div id="pills-tabContent" class="tab-content">
+                        <div class="tab-pane active show" id="dashboard" role="tabpanel" aria-labelledby="employee-tab">
+                            <div class="row mt-3">
+                                <div class="col-md-3">
+                                    <div class="assets-report">
+                                        <div class="date-range d-flex align-items-center justify-content-between p-2">
+                                            <h5 class="mb-0 font-16 fw-normal">Date Range</h5>
+                                            <div class="d-flex align-items-center attendance-date">
+                                                <span class="d-flex align-items-center justify-content-center pointer calendar-back-btn">
+                                                   <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
+                                                      <mask id="mask0_4719_1625" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21" style="mask-type: alpha;">
+                                                         <rect x="0.5" y="0.5" width="20" height="20" fill="#D9D9D9"></rect>
+                                                      </mask>
+                                                      <g mask="url(#mask0_4719_1625)">
+                                                         <path d="M8.83203 15.5L3.83203 10.5L8.83203 5.5L9.9987 6.70833L7.04036 9.66667H17.1654V11.3333H7.04036L9.9987 14.2917L8.83203 15.5Z" fill="#060606"></path>
+                                                      </g>
+                                                   </svg>
+                                                </span>
+                                                <span class="calendar-separator"></span>
+                                                <div class="dropdown">
+                                                   <nz-date-picker class="ant-picker ant-picker-small ng-valid ng-touched ng-dirty" nzBorderless ng-reflect-nz-mode="month" ng-reflect-nz-format="MMM, yyyy" ng-reflect-nz-size="small" >
+                                                      <div class="ng-tns-c182-14 ant-picker-input">
+                                                         <input autocomplete="off" class="ng-tns-c182-14 ng-pristine ng-valid ng-touched" placeholder="Select month" ng-reflect-is-disabled="false" ng-reflect-model="Jan, 2025" size="12">
+                                                         <div class="ng-tns-c182-14 ant-picker-active-bar" ng-reflect-ng-style="[object Object]" style="position: absolute; width: 0px; left: 0px;"></div>
+                                                         <span class="ng-tns-c182-14 ant-picker-clear">
+                                                            <i nz-icon="" nztype="close-circle" nztheme="fill" class="anticon ng-tns-c182-14 anticon-close-circle" ng-reflect-nz-type="close-circle" ng-reflect-nz-theme="fill">
+                                                               <svg viewBox="64 64 896 896" focusable="false" fill="currentColor" width="1em" height="1em" class="ng-tns-c182-14" data-icon="close-circle" aria-hidden="true">
+                                                                  <path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm165.4 618.2l-66-.3L512 563.4l-99.3 118.4-66.1.3c-4.4 0-8-3.5-8-8 0-1.9.7-3.7 1.9-5.2l130.1-155L340.5 359a8.32 8.32 0 01-1.9-5.2c0-4.4 3.6-8 8-8l66.1.3L512 464.6l99.3-118.4 66-.3c4.4 0 8 3.5 8 8 0 1.9-.7 3.7-1.9 5.2L553.5 514l130 155c1.2 1.5 1.9 3.3 1.9 5.2 0 4.4-3.6 8-8 8z"></path>
+                                                               </svg>
+                                                            </i>
+                                                         </span>
+                                                         <span class="ng-tns-c182-14 ant-picker-suffix">
+                                                            <i nz-icon="" class="anticon ng-tns-c182-14 anticon-calendar" ng-reflect-nz-type="calendar">
+                                                               <svg viewBox="64 64 896 896" focusable="false" fill="currentColor" width="1em" height="1em" class="ng-tns-c182-14" data-icon="calendar" aria-hidden="true">
+                                                                  <path d="M880 184H712v-64c0-4.4-3.6-8-8-8h-56c-4.4 0-8 3.6-8 8v64H384v-64c0-4.4-3.6-8-8-8h-56c-4.4 0-8 3.6-8 8v64H144c-17.7 0-32 14.3-32 32v664c0 17.7 14.3 32 32 32h736c17.7 0 32-14.3 32-32V216c0-17.7-14.3-32-32-32zm-40 656H184V460h656v380zM184 392V256h128v48c0 4.4 3.6 8 8 8h56c4.4 0 8-3.6 8-8v-48h256v48c0 4.4 3.6 8 8 8h56c4.4 0 8-3.6 8-8v-48h128v136H184z"></path>
+                                                               </svg>
+                                                            </i>
+                                                         </span>
+                                                      </div>
+                                                   </nz-date-picker>
+                                                </div>
+                                                <span class="calendar-separator"></span>
+                                                <span class="d-flex align-items-center justify-content-center pointer calendar-back-btn disabled">
+                                                   <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
+                                                      <mask id="mask0_4719_1639" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21" style="mask-type: alpha;">
+                                                         <rect width="20" height="20" transform="matrix(-1 0 0 1 20.5 0.5)" fill="#D9D9D9"></rect>
+                                                      </mask>
+                                                      <g mask="url(#mask0_4719_1639)">
+                                                         <path d="M12.168 15.5L17.168 10.5L12.168 5.5L11.0013 6.70833L13.9596 9.66667H3.83464V11.3333H13.9596L11.0013 14.2917L12.168 15.5Z" fill="#060606"></path>
+                                                      </g>
+                                                   </svg>
+                                                </span>
+                                             </div>
+                                        </div>
+                                        <div class="mt-3 assets-chart">
+                                            <div class="chart-header p-3 d-flex align-items-center justify-content-between">
+                                                <h5 class="mb-0 font-14 fw-semibold">Budget Overview</h5>
+                                                <div>
+                                                    <nz-select class="week-filter" ngModel="Week 1" style="width: 100px;">
+                                                        <nz-option nzValue="Week 1" nzLabel="Week 1"></nz-option>
+                                                        <nz-option nzValue="Week 2" nzLabel="Week 2"></nz-option>
+                                                        <nz-option nzValue="Week 3" nzLabel="Week 3"></nz-option>
+                                                        <nz-option nzValue="Week 4" nzLabel="Week 4"></nz-option>
+                                                      </nz-select>
+                                                </div>
+                                            </div>
+
+                                            <div class="d-flex align-items-center justify-content-between gap-3 p-3 earned-funds">
+                                                <div>
+                                                    <p class="mb-2 font-13">Used Funds </p>
+                                                    <h5 class="mb-0 font-16 fw-normal">₹1,24,420.50 
+                                                        <span class="font-12 fw-semibold">₹12,344 
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="7" height="11" viewBox="0 0 7 11" fill="none">
+                                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M4.52807 10.0159H2.54674V5.8172H0.111328L3.53725 0.984065L6.96318 5.8172H4.52807V10.0159Z" fill="#388E3C"></path>
+                                                            </svg>
+                                                        </span>
+                                                    </h5>
+                                                </div>
+                                                <span class="use-funds-separator"></span>
+                                                <div>
+                                                    <p class="mb-2 font-13">Funds Left </p>
+                                                    <h5 class="mb-0 font-16 fw-normal">₹3,24,420</h5>
+                                                </div>
+                                            </div>
+
+                                            <div class="p-3">
+                                                <img src="assets/images/assets-chart.png" class="w-100">
+                                                <p class="mb-0 font-13 pt-3">This report provides an overview of the total amount expended.</p>
+                                            </div>
+                                            <div class="p-3 pt-0 categories-view">
+                                                <div class="assets-count p-3 bg-white mb-2">
+                                                    <div class="d-flex align-items-center justify-content-between ">
+                                                        <h5 class="mb-0 font-13 fw-semibold">Laptops (12)</h5>
+                                                        <div class="d-flex align-items-center gap-2">
+                                                            <h6 class="mb-0 font-14 fw-semibold">₹53,000</h6>
+                                                            <button  class="p-0 btn" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"><i class="bi bi-caret-down-fill font-13"></i></button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="border-top mt-3 pt-3 collapse" id="collapseExample">
+                                                        <div class="d-flex align-items-center justify-content-between pb-3">
+                                                            <p class="mb-0 font-13">MacBook Air </p>
+                                                            <p class="mb-0 font-13">2 x ₹53,000</p>
+                                                        </div>
+                                                        <div class="d-flex align-items-center justify-content-between pb-3">
+                                                            <p class="mb-0 font-13">MacBook </p>
+                                                            <p class="mb-0 font-13">4 x ₹43,000</p>
+                                                        </div>
+                                                        <div class="d-flex align-items-center justify-content-between pb-3">
+                                                            <p class="mb-0 font-13">MacBook Pro 14 </p>
+                                                            <p class="mb-0 font-13">5 x ₹33,000</p>
+                                                        </div>
+                                                        <div class="d-flex align-items-center justify-content-between pb-3">
+                                                            <p class="mb-0 font-13">Mac Pro </p>
+                                                            <p class="mb-0 font-13">4 x ₹23,000</p>
+                                                        </div>
+                                                        <div class="d-flex align-items-center justify-content-between pb-3">
+                                                            <p class="mb-0 font-13">MacBook Pro New </p>
+                                                            <p class="mb-0 font-13">3 x ₹78,000</p>
+                                                        </div>
+                                                        <div class="d-flex align-items-center justify-content-between">
+                                                            <p class="mb-0 font-13">MacBook Air 16 </p>
+                                                            <p class="mb-0 font-13">4 x ₹1,53,000</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="d-flex align-items-center justify-content-between assets-count p-3 bg-white mb-2">
+                                                    <h5 class="mb-0 font-13 fw-semibold">Desktop (4)</h5>
+                                                    <div class="d-flex align-items-center gap-2">
+                                                        <h6 class="mb-0 font-14 fw-semibold">₹88,000</h6>
+                                                        <button  class="p-0 btn"><i class="bi bi-caret-down-fill font-13"></i></button>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex align-items-center justify-content-between assets-count p-3 bg-white mb-2">
+                                                    <h5 class="mb-0 font-13 fw-semibold">Mobile (3)</h5>
+                                                    <div class="d-flex align-items-center gap-2">
+                                                        <h6 class="mb-0 font-14 fw-semibold">₹99,000</h6>
+                                                        <button  class="p-0 btn"><i class="bi bi-caret-down-fill font-13"></i></button>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex align-items-center justify-content-between assets-count p-3 bg-white mb-2">
+                                                    <h5 class="mb-0 font-13 fw-semibold">Charger (30)</h5>
+                                                    <div class="d-flex align-items-center gap-2">
+                                                        <h6 class="mb-0 font-14 fw-semibold">₹15,000</h6>
+                                                        <button  class="p-0 btn"><i class="bi bi-caret-down-fill font-13"></i></button>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex align-items-center justify-content-between assets-count p-3 bg-white mb-2">
+                                                    <h5 class="mb-0 font-13 fw-semibold">Bottle (150)</h5>
+                                                    <div class="d-flex align-items-center gap-2">
+                                                        <h6 class="mb-0 font-14 fw-semibold">₹9,000</h6>
+                                                        <button  class="p-0 btn"><i class="bi bi-caret-down-fill font-13"></i></button>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex align-items-center justify-content-between assets-count p-3 bg-white mb-2">
+                                                    <h5 class="mb-0 font-13 fw-semibold">Tablet (10)</h5>
+                                                    <div class="d-flex align-items-center gap-2">
+                                                        <h6 class="mb-0 font-14 fw-semibold">₹8,000</h6>
+                                                        <button  class="p-0 btn"><i class="bi bi-caret-down-fill font-13"></i></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="assets-info">
+                                        <div class="total-assets p-3 d-flex align-items-center justify-content-between gap-3 pt-4 pb-4">
+                                            <div>
+                                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                                <div>
+                                                    <p class="mb-2 font-13">Total Assets</p>
+                                                    <h5 class="mb-0 font-15 fw-bold">1,343</h5>
+                                                </div>
+                                                <span class="total-assets-icon d-flex align-items-center justify-content-center">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="23" viewBox="0 0 24 23" fill="none">
+                                                        <mask id="mask0_8104_3342" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="23">
+                                                        <rect x="0.670898" y="0.0898438" width="22.8206" height="22.8206" fill="#D9D9D9"/>
+                                                        </mask>
+                                                        <g mask="url(#mask0_8104_3342)">
+                                                        <path d="M5.71763 20.5331C5.24347 20.5331 4.8384 20.3652 4.50243 20.0294C4.16662 19.6934 3.99871 19.2884 3.99871 18.8142V8.16649C3.71963 8.02259 3.49135 7.81808 3.31385 7.55295C3.13652 7.28782 3.04785 6.98211 3.04785 6.63584V4.18571C3.04785 3.71155 3.21576 3.30649 3.55157 2.97052C3.88754 2.6347 4.29261 2.4668 4.76677 2.4668H19.3953C19.8694 2.4668 20.2745 2.6347 20.6105 2.97052C20.9463 3.30649 21.1142 3.71155 21.1142 4.18571V6.63584C21.1142 6.98211 21.0255 7.28782 20.8482 7.55295C20.6707 7.81808 20.4424 8.02259 20.1633 8.16649V18.8142C20.1633 19.2884 19.9954 19.6934 19.6596 20.0294C19.3236 20.3652 18.9186 20.5331 18.4444 20.5331H5.71763ZM5.425 8.35476V18.7686C5.425 18.866 5.46002 18.9468 5.53007 19.0108C5.60028 19.0748 5.6872 19.1068 5.79084 19.1068H18.4444C18.5298 19.1068 18.6 19.0794 18.6548 19.0246C18.7096 18.9698 18.737 18.8996 18.737 18.8142V8.35476H5.425ZM4.76677 6.92847H19.3953C19.4807 6.92847 19.5508 6.90105 19.6057 6.84622C19.6605 6.79139 19.6879 6.72126 19.6879 6.63584V4.18571C19.6879 4.1003 19.6605 4.03017 19.6057 3.97534C19.5508 3.9205 19.4807 3.89309 19.3953 3.89309H4.76677C4.68135 3.89309 4.61122 3.9205 4.55639 3.97534C4.50156 4.03017 4.47414 4.1003 4.47414 4.18571V6.63584C4.47414 6.72126 4.50156 6.79139 4.55639 6.84622C4.61122 6.90105 4.68135 6.92847 4.76677 6.92847ZM9.41124 12.8623H14.7508V11.5H9.41124V12.8623Z" fill="#1D1D78"/>
+                                                        </g>
+                                                    </svg>
+                                                </span>
+                                            </div>
+                                            <p class="mb-0 font-13 week-count">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                                    <path d="M13.1918 4.94434L15.0661 6.81861L11.072 10.8127L7.79819 7.53886L1.7334 13.6118L2.88743 14.7659L7.79819 9.8551L11.072 13.1289L16.2283 7.98082L18.1026 9.8551V4.94434H13.1918Z" fill="#22b783"/>
+                                                </svg>&nbsp;
+                                                <span class="text-success">1.3%</span> Up from past week</p>
+                                            </div>
+                                            <span class="use-funds-separator"></span>
+                                            <div>
+                                                <div class="d-flex align-items-center justify-content-between mb-3">
+                                                    <div>
+                                                        <p class="mb-2 font-13">Assigned Assets</p>
+                                                        <h5 class="mb-0 font-15 fw-bold">1,100</h5>
+                                                    </div>
+                                                    <span class="total-assets-icon d-flex align-items-center justify-content-center">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23" fill="none">
+                                                            <mask id="mask0_8104_3355" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="23" height="23">
+                                                            <rect x="0.107422" y="0.0898438" width="22.8206" height="22.8206" fill="#D9D9D9"/>
+                                                            </mask>
+                                                            <g mask="url(#mask0_8104_3355)">
+                                                            <path d="M10.1683 15.0402L16.561 8.64756L15.559 7.64559L10.1683 13.0363L7.4584 10.3263L6.45643 11.3283L10.1683 15.0402ZM5.15446 19.5825C4.6803 19.5825 4.27524 19.4145 3.93927 19.0787C3.60345 18.7428 3.43555 18.3377 3.43555 17.8635V5.13675C3.43555 4.66259 3.60345 4.25752 3.93927 3.92155C4.27524 3.58574 4.6803 3.41783 5.15446 3.41783H9.38579C9.44554 2.88995 9.67596 2.44106 10.0771 2.07118C10.478 1.70113 10.9583 1.51611 11.5179 1.51611C12.0835 1.51611 12.5668 1.70113 12.9679 2.07118C13.369 2.44106 13.5964 2.88995 13.6499 3.41783H17.8812C18.3554 3.41783 18.7605 3.58574 19.0964 3.92155C19.4323 4.25752 19.6002 4.66259 19.6002 5.13675V17.8635C19.6002 18.3377 19.4323 18.7428 19.0964 19.0787C18.7605 19.4145 18.3554 19.5825 17.8812 19.5825H5.15446ZM5.15446 18.1562H17.8812C17.9545 18.1562 18.0215 18.1257 18.0824 18.0646C18.1434 18.0038 18.1739 17.9368 18.1739 17.8635V5.13675C18.1739 5.06353 18.1434 4.9965 18.0824 4.93564C18.0215 4.87463 17.9545 4.84412 17.8812 4.84412H5.15446C5.08125 4.84412 5.01421 4.87463 4.95336 4.93564C4.89234 4.9965 4.86184 5.06353 4.86184 5.13675V17.8635C4.86184 17.9368 4.89234 18.0038 4.95336 18.0646C5.01421 18.1257 5.08125 18.1562 5.15446 18.1562ZM11.5179 4.2225C11.7239 4.2225 11.8942 4.15515 12.0289 4.02044C12.1636 3.88574 12.231 3.71537 12.231 3.50935C12.231 3.30333 12.1636 3.13297 12.0289 2.99827C11.8942 2.86356 11.7239 2.79621 11.5179 2.79621C11.3118 2.79621 11.1415 2.86356 11.0068 2.99827C10.8721 3.13297 10.8047 3.30333 10.8047 3.50935C10.8047 3.71537 10.8721 3.88574 11.0068 4.02044C11.1415 4.15515 11.3118 4.2225 11.5179 4.2225Z" fill="#1D1D78"/>
+                                                            </g>
+                                                        </svg>
+                                                    </span>
+                                                </div>
+                                                <p class="mb-0 font-13 week-count">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                                        <path d="M13.1918 4.94434L15.0661 6.81861L11.072 10.8127L7.79819 7.53886L1.7334 13.6118L2.88743 14.7659L7.79819 9.8551L11.072 13.1289L16.2283 7.98082L18.1026 9.8551V4.94434H13.1918Z" fill="#22b783"/>
+                                                    </svg>&nbsp;
+                                                    <span class="text-success">1.3%</span> Up from past week</p>
+                                                </div>
+                                                <span class="use-funds-separator"></span>
+                                                <div>
+                                                    <div class="d-flex align-items-center justify-content-between mb-3">
+                                                        <div>
+                                                            <p class="mb-2 font-13">Not Assigned</p>
+                                                            <h5 class="mb-0 font-15 fw-bold">420</h5>
+                                                        </div>
+                                                        <span class="total-assets-icon d-flex align-items-center justify-content-center">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="23" viewBox="0 0 24 23" fill="none">
+                                                                <mask id="mask0_8104_3370" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="23">
+                                                                <rect x="0.544434" y="0.0898438" width="22.8206" height="22.8206" fill="#D9D9D9"/>
+                                                                </mask>
+                                                                <g mask="url(#mask0_8104_3370)">
+                                                                <path d="M11.8087 3.97559L6.08331 7.2872L11.9549 10.6811L17.8264 7.2872L12.1011 3.97559C12.0524 3.94517 12.0037 3.92995 11.9549 3.92995C11.9061 3.92995 11.8573 3.94517 11.8087 3.97559ZM3.87256 15.1061V7.89433C3.87256 7.58229 3.94776 7.29647 4.09815 7.03689C4.24854 6.7773 4.45987 6.56819 4.73214 6.40956L11.0955 2.74685C11.2418 2.66761 11.3825 2.60881 11.5175 2.57046C11.6525 2.53195 11.7981 2.5127 11.9544 2.5127C12.1108 2.5127 12.2606 2.53195 12.4037 2.57046C12.5469 2.60881 12.6838 2.66761 12.8142 2.74685L19.1776 6.40956C19.4499 6.56819 19.6612 6.7773 19.8116 7.03689C19.962 7.29647 20.0372 7.58229 20.0372 7.89433V11.427H18.6109V8.46841L11.9311 12.3194L5.29885 8.46841V15.0916C5.29885 15.1403 5.31105 15.186 5.33546 15.2288C5.35986 15.2714 5.39639 15.3079 5.44504 15.3384L11.2966 18.7341V20.3632L4.73214 16.5909C4.45987 16.4323 4.24854 16.2231 4.09815 15.9636C3.94776 15.704 3.87256 15.4182 3.87256 15.1061ZM17.66 20.6889C17.7868 20.6889 17.8947 20.6443 17.9838 20.5553C18.0727 20.4664 18.1172 20.3585 18.1172 20.2317C18.1172 20.105 18.0727 19.997 17.9838 19.908C17.8947 19.8191 17.7868 19.7746 17.66 19.7746C17.5332 19.7746 17.4253 19.8191 17.3363 19.908C17.2474 19.997 17.2029 20.105 17.2029 20.2317C17.2029 20.3585 17.2474 20.4664 17.3363 20.5553C17.4253 20.6443 17.5332 20.6889 17.66 20.6889ZM17.2395 18.8237H18.0805V15.3859H17.2395V18.8237ZM17.66 22.3163C16.4727 22.3163 15.4627 21.8999 14.6301 21.0673C13.7975 20.2347 13.3812 19.2247 13.3812 18.0374C13.3812 16.8501 13.7975 15.8401 14.6301 15.0075C15.4627 14.1748 16.4727 13.7585 17.66 13.7585C18.8473 13.7585 19.8573 14.1748 20.6899 15.0075C21.5226 15.8401 21.9389 16.8501 21.9389 18.0374C21.9389 19.2247 21.5226 20.2347 20.6899 21.0673C19.8573 21.8999 18.8473 22.3163 17.66 22.3163Z" fill="#1D1D78"/>
+                                                                </g>
+                                                            </svg>
+                                                        </span>
+                                                    </div>
+                                                    <p class="mb-0 font-13 week-count">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="21" height="20" viewBox="0 0 21 20" fill="none">
+                                                            <path d="M14.0644 14.7659L15.9387 12.8916L11.9446 8.8975L8.67075 12.1713L2.60596 6.09837L3.75999 4.94434L8.67075 9.8551L11.9446 6.58126L17.1009 11.7294L18.9752 9.8551V14.7659H14.0644Z" fill="#F93C65"/>
+                                                        </svg>&nbsp;
+                                                        <span class="text-danger">4.3% </span>Down from yesterday</p>
+                                                    </div>
+                                                    <span class="use-funds-separator"></span>
+                                                    <div>
+                                                        <div class="d-flex align-items-center justify-content-between mb-3">
+                                                            <div>
+                                                                <p class="mb-2 font-13">U maintenance</p>
+                                                                <h5 class="mb-0 font-15 fw-bold">3</h5>
+                                                            </div>
+                                                            <span class="total-assets-icon d-flex align-items-center justify-content-center">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="23" viewBox="0 0 24 23" fill="none">
+                                                                    <mask id="mask0_8104_3383" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="23">
+                                                                    <rect x="0.980957" y="0.0898438" width="22.8206" height="22.8206" fill="#D9D9D9"/>
+                                                                    </mask>
+                                                                    <g mask="url(#mask0_8104_3383)">
+                                                                    <path d="M6.78104 10.9699L6.5873 9.83623C6.3423 9.76301 6.11219 9.66911 5.89698 9.55453C5.68177 9.43996 5.47789 9.29487 5.28534 9.11928L4.18995 9.51079L3.4585 8.29654L4.36015 7.52849C4.29185 7.27382 4.25769 7.01296 4.25769 6.74593C4.25769 6.4789 4.29185 6.21804 4.36015 5.96337L3.4585 5.19532L4.18995 3.98107L5.28534 4.37258C5.47789 4.19699 5.68177 4.05191 5.89698 3.93733C6.11219 3.82275 6.3423 3.72885 6.5873 3.65564L6.78104 2.52197H8.20733L8.40107 3.65564C8.64607 3.72885 8.87618 3.82275 9.09139 3.93733C9.3066 4.05191 9.51048 4.19699 9.70303 4.37258L10.7984 3.98107L11.5299 5.19532L10.6282 5.96337C10.6965 6.21804 10.7307 6.4789 10.7307 6.74593C10.7307 7.01296 10.6965 7.27382 10.6282 7.52849L11.5299 8.29654L10.7984 9.51079L9.70303 9.11928C9.51048 9.29487 9.3066 9.43996 9.09139 9.55453C8.87618 9.66911 8.64607 9.76301 8.40107 9.83623L8.20733 10.9699H6.78104ZM7.49418 8.72087C8.04156 8.72087 8.50756 8.52855 8.89219 8.14393C9.27681 7.75931 9.46912 7.29331 9.46912 6.74593C9.46912 6.19855 9.27681 5.73255 8.89219 5.34793C8.50756 4.96331 8.04156 4.77099 7.49418 4.77099C6.94681 4.77099 6.4808 4.96331 6.09618 5.34793C5.71156 5.73255 5.51925 6.19855 5.51925 6.74593C5.51925 7.29331 5.71156 7.75931 6.09618 8.14393C6.4808 8.52855 6.94681 8.72087 7.49418 8.72087ZM15.4377 21.0179L15.1377 19.5148C14.789 19.4441 14.4648 19.3216 14.1649 19.1473C13.8649 18.973 13.5949 18.756 13.3548 18.4964L11.9378 18.9864L10.9815 17.3625L12.137 16.3789C12.0321 16.0266 11.9796 15.6682 11.9796 15.3037C11.9796 14.9392 12.0321 14.5808 12.137 14.2285L10.9815 13.2448L11.9378 11.621L13.3548 12.1109C13.5949 11.8513 13.8649 11.6344 14.1649 11.4601C14.4648 11.2857 14.789 11.1632 15.1377 11.0925L15.4377 9.58948H17.3318L17.6318 11.0925C17.9804 11.1632 18.3047 11.2857 18.6045 11.4601C18.9045 11.6344 19.1745 11.8513 19.4146 12.1109L20.8317 11.621L21.788 13.2448L20.6325 14.2285C20.7374 14.5808 20.7898 14.9392 20.7898 15.3037C20.7898 15.6682 20.7374 16.0266 20.6325 16.3789L21.788 17.3625L20.8317 18.9864L19.4146 18.4964C19.1745 18.756 18.9045 18.973 18.6045 19.1473C18.3047 19.3216 17.9804 19.4441 17.6318 19.5148L17.3318 21.0179H15.4377ZM16.3847 18.1563C17.1771 18.1563 17.8506 17.8789 18.4053 17.3242C18.96 16.7696 19.2373 16.0961 19.2373 15.3037C19.2373 14.5113 18.96 13.8378 18.4053 13.2831C17.8506 12.7284 17.1771 12.4511 16.3847 12.4511C15.5923 12.4511 14.9188 12.7284 14.3641 13.2831C13.8095 13.8378 13.5321 14.5113 13.5321 15.3037C13.5321 16.0961 13.8095 16.7696 14.3641 17.3242C14.9188 17.8789 15.5923 18.1563 16.3847 18.1563Z" fill="#1D1D78"/>
+                                                                    </g>
+                                                                </svg>
+                                                            </span>
+                                                        </div>
+                                                        <p class="mb-0 font-13 week-count">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                                                <path d="M13.1918 4.94434L15.0661 6.81861L11.072 10.8127L7.79819 7.53886L1.7334 13.6118L2.88743 14.7659L7.79819 9.8551L11.072 13.1289L16.2283 7.98082L18.1026 9.8551V4.94434H13.1918Z" fill="#22b783"/>
+                                                            </svg>&nbsp;
+                                                            <span class="text-success">1.3%</span> Up from past week</p>
+                                                        </div>
+                                                        <span class="use-funds-separator"></span>
+                                                        <div>
+                                                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                                                <div>
+                                                                    <p class="mb-2 font-13">Request </p>
+                                                                    <h5 class="mb-0 font-15 fw-bold">40</h5>
+                                                                </div>
+                                                                <span class="total-assets-icon d-flex align-items-center justify-content-center">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="23" viewBox="0 0 24 23" fill="none">
+                                                                        <mask id="mask0_8104_3396" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="23">
+                                                                        <rect x="0.41748" y="0.0898438" width="22.8206" height="22.8206" fill="#D9D9D9"/>
+                                                                        </mask>
+                                                                        <g mask="url(#mask0_8104_3396)">
+                                                                        <path d="M11.8279 21.2829L9.17644 18.6314H5.46452C4.98418 18.6314 4.57761 18.465 4.24481 18.1322C3.91201 17.7994 3.74561 17.3928 3.74561 16.9125V4.18571C3.74561 3.70537 3.91201 3.2988 4.24481 2.966C4.57761 2.6332 4.98418 2.4668 5.46452 2.4668H18.1913C18.6717 2.4668 19.0782 2.6332 19.411 2.966C19.7438 3.2988 19.9102 3.70537 19.9102 4.18571V16.9125C19.9102 17.3928 19.7438 17.7994 19.411 18.1322C19.0782 18.465 18.6717 18.6314 18.1913 18.6314H14.4794L11.8279 21.2829ZM5.1719 16.2944C6.02767 15.4545 7.02211 14.7929 8.15522 14.3095C9.28833 13.8262 10.5126 13.5845 11.8279 13.5845C13.1433 13.5845 14.3675 13.8262 15.5006 14.3095C16.6337 14.7929 17.6282 15.4545 18.4839 16.2944V4.18571C18.4839 4.1125 18.4534 4.04546 18.3924 3.98461C18.3316 3.92359 18.2645 3.89309 18.1913 3.89309H5.46452C5.39131 3.89309 5.32427 3.92359 5.26342 3.98461C5.2024 4.04546 5.1719 4.1125 5.1719 4.18571V16.2944ZM11.8279 11.5366C12.6861 11.5366 13.4157 11.2361 14.0168 10.6352C14.6177 10.0341 14.9182 9.30443 14.9182 8.44628C14.9182 7.58813 14.6177 6.8585 14.0168 6.2574C13.4157 5.65646 12.6861 5.35598 11.8279 5.35598C10.9698 5.35598 10.2401 5.65646 9.63904 6.2574C9.03809 6.8585 8.73762 7.58813 8.73762 8.44628C8.73762 9.30443 9.03809 10.0341 9.63904 10.6352C10.2401 11.2361 10.9698 11.5366 11.8279 11.5366ZM6.54327 17.2051H17.1126V17.004C16.3615 16.3335 15.5378 15.8337 14.6413 15.5045C13.7446 15.1754 12.8068 15.0108 11.8279 15.0108C10.8612 15.0108 9.92802 15.1739 9.02835 15.5C8.12867 15.8261 7.30032 16.3214 6.54327 16.9857V17.2051ZM11.8279 10.1103C11.3707 10.1103 10.9791 9.94721 10.6531 9.62107C10.327 9.29508 10.1639 8.90348 10.1639 8.44628C10.1639 7.98907 10.327 7.59748 10.6531 7.27149C10.9791 6.94535 11.3707 6.78227 11.8279 6.78227C12.2851 6.78227 12.6767 6.94535 13.0027 7.27149C13.3288 7.59748 13.4919 7.98907 13.4919 8.44628C13.4919 8.90348 13.3288 9.29508 13.0027 9.62107C12.6767 9.94721 12.2851 10.1103 11.8279 10.1103Z" fill="#1D1D78"/>
+                                                                        </g>
+                                                                    </svg>
+                                                                </span>
+                                                            </div>
+                                                            <p class="mb-0 week-count">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                                                    <path d="M13.1918 4.94434L15.0661 6.81861L11.072 10.8127L7.79819 7.53886L1.7334 13.6118L2.88743 14.7659L7.79819 9.8551L11.072 13.1289L16.2283 7.98082L18.1026 9.8551V4.94434H13.1918Z" fill="#22b783"/>
+                                                                </svg>&nbsp;
+                                                                <span class="text-success">1.3%</span> Up from past week</p>
+                                                            </div>
+                                        </div>
+
+                                        <div class="mt-3 assets-categories">
+                                            <div class="categories-header p-3 d-flex align-items-center justify-content-between">
+                                                <h5 class="mb-0 font-15 fw-semibold">Categories</h5>
+                                                <button class="btn p-0 font-14 text-primary fw-semibold"><i class="bi bi-plus-lg"></i>  Add Categories</button>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-3 pr-0">
+                                                    <div class="overview-sidebar-menu">
+                                                        <div id="v-pills-tab" role="tablist" aria-orientation="vertical" class="nav flex-column nav-pills pt-3 pb-5">
+                                                           <button id="v-pills-absent-tab" data-bs-toggle="pill" data-bs-target="#v-pills-laptops" 
+                                                              type="button" role="tab" aria-controls="v-pills-laptops" aria-selected="true" class="nav-link active">
+                                                           Laptops (12) </button>
+                                                           <button id="leave-tab" data-bs-toggle="pill" data-bs-target="#v-pills-desktop" 
+                                                              type="button" role="tab" aria-controls="v-pills-desktop" aria-selected="false" class="nav-link">
+                                                           Desktop (4)  </button>
+                                                           <button id="leave-tab" data-bs-toggle="pill" data-bs-target="#v-pills-mobile" 
+                                                              type="button" role="tab" aria-controls="v-pills-mobile" aria-selected="false" class="nav-link">
+                                                           Mobile (3)  </button>
+                                                           <button id="v-pills-consistent-tab" data-bs-toggle="pill" data-bs-target="#v-pills-charger" 
+                                                              type="button" role="tab" aria-controls="v-pills-charger" aria-selected="false" class="nav-link">           
+                                                           Charger (30) </button>
+                                                           <button id="v-pills-department-tab" data-bs-toggle="pill" data-bs-target="#v-pills-bottle" 
+                                                              type="button" role="tab" aria-controls="v-pills-bottle" aria-selected="false" class="nav-link">
+                                                           Bottle (150) </button>
+                                                           <button id="v-pills-department-tab" data-bs-toggle="pill" data-bs-target="#v-pills-tablet" 
+                                                              type="button" role="tab" aria-controls="v-pills-tablet" aria-selected="false" class="nav-link">
+                                                           Tablet (10) </button>
+                                                        </div>
+                                                     </div>
+                                                </div>
+                                                <div class="col-md-9 pl-0">
+                                                    <div class="leave-templete">
+                                                        <div class="tab-content" id="v-pills-tabContent">
+                                                            <div class="tab-pane fade active show" id="v-pills-laptops" rol="tabpanel">
+                                                                <div class="assets-overview">
+                                                                    <table class="table">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th class="fw-semibold">Name</th>
+                                                                                <th class="fw-normal">Cost</th>
+                                                                                <th class="text-center fw-semibold">Available</th>
+                                                                                <th class="text-center fw-semibold">Assigned</th>
+                                                                                <th class="text-center fw-semibold">Not Assigned</th>
+                                                                                <th class="text-center fw-semibold">Repairing</th>
+                                                                                <th class="fw-semibold">Stock</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td class="fw-normal">MacBook Air.</td>
+                                                                                <td class="fw-normal">₹53,000</td>
+                                                                                <td class="text-center fw-normal">34</td>
+                                                                                <td class="text-center fw-normal">0</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td>
+                                                                                    <span class="text-danger fw-semibold">Low Stock</span>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="fw-normal">MacBook</td>
+                                                                                <td class="fw-normal">₹53,000</td>
+                                                                                <td class="text-center fw-normal">34</td>
+                                                                                <td class="text-center fw-normal">0</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td>
+                                                                                    <span class="text-danger fw-semibold">Low Stock</span>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="fw-normal">MacBook Pro</td>
+                                                                                <td class="fw-normal">₹53,000</td>
+                                                                                <td class="text-center fw-normal">34</td>
+                                                                                <td class="text-center fw-normal">0</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td>
+                                                                                    <span class="text-primary fw-semibold">In stock</span>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="fw-normal">MacBook Pro 14</td>
+                                                                                <td class="fw-normal">₹53,000</td>
+                                                                                <td class="text-center fw-normal">34</td>
+                                                                                <td class="text-center fw-normal">0</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td>
+                                                                                    <span class="text-danger fw-semibold">Low Stock</span>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="fw-normal">MacBook Pro New.</td>
+                                                                                <td class="fw-normal">₹53,000</td>
+                                                                                <td class="text-center fw-normal">34</td>
+                                                                                <td class="text-center fw-normal">0</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td class="text-center" fw-normal>1</td>
+                                                                                <td>
+                                                                                    <span class="text-primary fw-semibold">In stock</span>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="fw-normal">MacBook Air 16</td>
+                                                                                <td class="fw-normal">₹53,000</td>
+                                                                                <td class="text-center fw-normal">34</td>
+                                                                                <td class="text-center fw-normal">0</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td>
+                                                                                    <span class="text-danger fw-semibold">Low Stock</span>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="fw-normal">MacBook Air 16</td>
+                                                                                <td class="fw-normal">₹53,000</td>
+                                                                                <td class="text-center fw-normal">34</td>
+                                                                                <td class="text-center fw-normal">0</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td>
+                                                                                    <span class="text-primary fw-semibold">In stock</span>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="fw-normal">MacBook Air 16</td>
+                                                                                <td class="fw-normal">₹53,000</td>
+                                                                                <td class="text-center fw-normal">34</td>
+                                                                                <td class="text-center fw-normal">0</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td>
+                                                                                    <span class="text-danger fw-semibold">Low Stock</span>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="fw-normal">MacBook Air 16</td>
+                                                                                <td class="fw-normal">₹53,000</td>
+                                                                                <td class="text-center fw-normal">34</td>
+                                                                                <td class="text-center fw-normal">0</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td>
+                                                                                    <span class="text-danger fw-semibold">Low Stock</span>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                            <div class="tab-pane fade" id="v-pills-desktop" rol="tabpanel">
+                                                                <div class="assets-overview">
+                                                                    <table class="table">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th class="fw-semibold">Name</th>
+                                                                                <th class="fw-normal">Cost</th>
+                                                                                <th class="text-center fw-semibold">Available</th>
+                                                                                <th class="text-center fw-semibold">Assigned</th>
+                                                                                <th class="text-center fw-semibold">Not Assigned</th>
+                                                                                <th class="text-center fw-semibold">Repairing</th>
+                                                                                <th class="fw-semibold">Stock</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td class="fw-normal">Desktop</td>
+                                                                                <td class="fw-normal">₹53,000</td>
+                                                                                <td class="text-center fw-normal">34</td>
+                                                                                <td class="text-center fw-normal">0</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td>
+                                                                                    <span class="text-danger fw-semibold">Low Stock</span>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="fw-normal">Desktop</td>
+                                                                                <td class="fw-normal">₹53,000</td>
+                                                                                <td class="text-center fw-normal">34</td>
+                                                                                <td class="text-center fw-normal">0</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td>
+                                                                                    <span class="text-danger fw-semibold">Low Stock</span>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="fw-normal">Desktop</td>
+                                                                                <td class="fw-normal">₹53,000</td>
+                                                                                <td class="text-center fw-normal">34</td>
+                                                                                <td class="text-center fw-normal">0</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td>
+                                                                                    <span class="text-primary fw-semibold">In stock</span>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="fw-normal">Desktop</td>
+                                                                                <td class="fw-normal">₹53,000</td>
+                                                                                <td class="text-center fw-normal">34</td>
+                                                                                <td class="text-center fw-normal">0</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td>
+                                                                                    <span class="text-danger fw-semibold">Low Stock</span>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                            <div class="tab-pane fade" id="v-pills-mobile" rol="tabpanel">
+                                                                <div class="assets-overview">
+                                                                    <table class="table">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th class="fw-semibold">Name</th>
+                                                                                <th class="fw-normal">Cost</th>
+                                                                                <th class="text-center fw-semibold">Available</th>
+                                                                                <th class="text-center fw-semibold">Assigned</th>
+                                                                                <th class="text-center fw-semibold">Not Assigned</th>
+                                                                                <th class="text-center fw-semibold">Repairing</th>
+                                                                                <th class="fw-semibold">Stock</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td class="fw-normal">Realme</td>
+                                                                                <td class="fw-normal">₹53,000</td>
+                                                                                <td class="text-center fw-normal">34</td>
+                                                                                <td class="text-center fw-normal">0</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td>
+                                                                                    <span class="text-danger fw-semibold">Low Stock</span>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="fw-normal">Oppo</td>
+                                                                                <td class="fw-normal">₹53,000</td>
+                                                                                <td class="text-center fw-normal">34</td>
+                                                                                <td class="text-center fw-normal">0</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td>
+                                                                                    <span class="text-danger fw-semibold">Low Stock</span>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="fw-normal">Vivo</td>
+                                                                                <td class="fw-normal">₹53,000</td>
+                                                                                <td class="text-center fw-normal">34</td>
+                                                                                <td class="text-center fw-normal">0</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td>
+                                                                                    <span class="text-primary fw-semibold">In stock</span>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                            <div class="tab-pane fade" id="v-pills-charger" rol="tabpanel">
+                                                                <div class="assets-overview">
+                                                                    <table class="table">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th class="fw-semibold">Name</th>
+                                                                                <th class="fw-normal">Cost</th>
+                                                                                <th class="text-center fw-semibold">Available</th>
+                                                                                <th class="text-center fw-semibold">Assigned</th>
+                                                                                <th class="text-center fw-semibold">Not Assigned</th>
+                                                                                <th class="text-center fw-semibold">Repairing</th>
+                                                                                <th class="fw-semibold">Stock</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td class="fw-normal">MacBook Charger</td>
+                                                                                <td class="fw-normal">₹53,000</td>
+                                                                                <td class="text-center fw-normal">34</td>
+                                                                                <td class="text-center fw-normal">0</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td>
+                                                                                    <span class="text-danger fw-semibold">Low Stock</span>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="fw-normal">MacBook Charger</td>
+                                                                                <td class="fw-normal">₹53,000</td>
+                                                                                <td class="text-center fw-normal">34</td>
+                                                                                <td class="text-center fw-normal">0</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td>
+                                                                                    <span class="text-danger fw-semibold">Low Stock</span>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="fw-normal">Charger</td>
+                                                                                <td class="fw-normal">₹53,000</td>
+                                                                                <td class="text-center fw-normal">34</td>
+                                                                                <td class="text-center fw-normal">0</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td>
+                                                                                    <span class="text-primary fw-semibold">In stock</span>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="fw-normal">Charger</td>
+                                                                                <td class="fw-normal">₹53,000</td>
+                                                                                <td class="text-center fw-normal">34</td>
+                                                                                <td class="text-center fw-normal">0</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td>
+                                                                                    <span class="text-danger fw-semibold">Low Stock</span>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="fw-normal">Charger</td>
+                                                                                <td class="fw-normal">₹53,000</td>
+                                                                                <td class="text-center fw-normal">34</td>
+                                                                                <td class="text-center fw-normal">0</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td class="text-center" fw-normal>1</td>
+                                                                                <td>
+                                                                                    <span class="text-primary fw-semibold">In stock</span>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="fw-normal">Charger</td>
+                                                                                <td class="fw-normal">₹53,000</td>
+                                                                                <td class="text-center fw-normal">34</td>
+                                                                                <td class="text-center fw-normal">0</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td>
+                                                                                    <span class="text-danger fw-semibold">Low Stock</span>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="fw-normal">Charger</td>
+                                                                                <td class="fw-normal">₹53,000</td>
+                                                                                <td class="text-center fw-normal">34</td>
+                                                                                <td class="text-center fw-normal">0</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td>
+                                                                                    <span class="text-primary fw-semibold">In stock</span>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="fw-normal">Charger</td>
+                                                                                <td class="fw-normal">₹53,000</td>
+                                                                                <td class="text-center fw-normal">34</td>
+                                                                                <td class="text-center fw-normal">0</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td>
+                                                                                    <span class="text-danger fw-semibold">Low Stock</span>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="fw-normal">Charger</td>
+                                                                                <td class="fw-normal">₹53,000</td>
+                                                                                <td class="text-center fw-normal">34</td>
+                                                                                <td class="text-center fw-normal">0</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td>
+                                                                                    <span class="text-danger fw-semibold">Low Stock</span>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                            <div class="tab-pane fade" id="v-pills-bottle" rol="tabpanel">
+                                                                <div class="assets-overview">
+                                                                    <table class="table">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th class="fw-semibold">Name</th>
+                                                                                <th class="fw-normal">Cost</th>
+                                                                                <th class="text-center fw-semibold">Available</th>
+                                                                                <th class="text-center fw-semibold">Assigned</th>
+                                                                                <th class="text-center fw-semibold">Not Assigned</th>
+                                                                                <th class="text-center fw-semibold">Repairing</th>
+                                                                                <th class="fw-semibold">Stock</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td class="fw-normal">Bottle</td>
+                                                                                <td class="fw-normal">₹53,000</td>
+                                                                                <td class="text-center fw-normal">34</td>
+                                                                                <td class="text-center fw-normal">0</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td>
+                                                                                    <span class="text-danger fw-semibold">Low Stock</span>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="fw-normal">Bottle</td>
+                                                                                <td class="fw-normal">₹53,000</td>
+                                                                                <td class="text-center fw-normal">34</td>
+                                                                                <td class="text-center fw-normal">0</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td>
+                                                                                    <span class="text-danger fw-semibold">Low Stock</span>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="fw-normal">Bottle</td>
+                                                                                <td class="fw-normal">₹53,000</td>
+                                                                                <td class="text-center fw-normal">34</td>
+                                                                                <td class="text-center fw-normal">0</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td>
+                                                                                    <span class="text-primary fw-semibold">In stock</span>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="fw-normal">Bottle</td>
+                                                                                <td class="fw-normal">₹53,000</td>
+                                                                                <td class="text-center fw-normal">34</td>
+                                                                                <td class="text-center fw-normal">0</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td>
+                                                                                    <span class="text-danger fw-semibold">Low Stock</span>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="fw-normal">Bottle</td>
+                                                                                <td class="fw-normal">₹53,000</td>
+                                                                                <td class="text-center fw-normal">34</td>
+                                                                                <td class="text-center fw-normal">0</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td class="text-center" fw-normal>1</td>
+                                                                                <td>
+                                                                                    <span class="text-primary fw-semibold">In stock</span>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="fw-normal">Bottle</td>
+                                                                                <td class="fw-normal">₹53,000</td>
+                                                                                <td class="text-center fw-normal">34</td>
+                                                                                <td class="text-center fw-normal">0</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td>
+                                                                                    <span class="text-danger fw-semibold">Low Stock</span>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="fw-normal">Bottle</td>
+                                                                                <td class="fw-normal">₹53,000</td>
+                                                                                <td class="text-center fw-normal">34</td>
+                                                                                <td class="text-center fw-normal">0</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td>
+                                                                                    <span class="text-primary fw-semibold">In stock</span>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="fw-normal">Bottle</td>
+                                                                                <td class="fw-normal">₹53,000</td>
+                                                                                <td class="text-center fw-normal">34</td>
+                                                                                <td class="text-center fw-normal">0</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td>
+                                                                                    <span class="text-danger fw-semibold">Low Stock</span>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="fw-normal">Bottle</td>
+                                                                                <td class="fw-normal">₹53,000</td>
+                                                                                <td class="text-center fw-normal">34</td>
+                                                                                <td class="text-center fw-normal">0</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td>
+                                                                                    <span class="text-danger fw-semibold">Low Stock</span>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                            <div class="tab-pane fade" id="v-pills-tablet" rol="tabpanel">
+                                                                <div class="assets-overview">
+                                                                    <table class="table">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th class="fw-semibold">Name</th>
+                                                                                <th class="fw-normal">Cost</th>
+                                                                                <th class="text-center fw-semibold">Available</th>
+                                                                                <th class="text-center fw-semibold">Assigned</th>
+                                                                                <th class="text-center fw-semibold">Not Assigned</th>
+                                                                                <th class="text-center fw-semibold">Repairing</th>
+                                                                                <th class="fw-semibold">Stock</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td class="fw-normal">Tablet</td>
+                                                                                <td class="fw-normal">₹53,000</td>
+                                                                                <td class="text-center fw-normal">34</td>
+                                                                                <td class="text-center fw-normal">0</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td>
+                                                                                    <span class="text-danger fw-semibold">Low Stock</span>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="fw-normal">Tablet</td>
+                                                                                <td class="fw-normal">₹53,000</td>
+                                                                                <td class="text-center fw-normal">34</td>
+                                                                                <td class="text-center fw-normal">0</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td>
+                                                                                    <span class="text-danger fw-semibold">Low Stock</span>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="fw-normal">Tablet</td>
+                                                                                <td class="fw-normal">₹53,000</td>
+                                                                                <td class="text-center fw-normal">34</td>
+                                                                                <td class="text-center fw-normal">0</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td>
+                                                                                    <span class="text-primary fw-semibold">In stock</span>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="fw-normal">Tablet</td>
+                                                                                <td class="fw-normal">₹53,000</td>
+                                                                                <td class="text-center fw-normal">34</td>
+                                                                                <td class="text-center fw-normal">0</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td>
+                                                                                    <span class="text-danger fw-semibold">Low Stock</span>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="fw-normal">Tablet</td>
+                                                                                <td class="fw-normal">₹53,000</td>
+                                                                                <td class="text-center fw-normal">34</td>
+                                                                                <td class="text-center fw-normal">0</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td class="text-center" fw-normal>1</td>
+                                                                                <td>
+                                                                                    <span class="text-primary fw-semibold">In stock</span>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="fw-normal">Tablet</td>
+                                                                                <td class="fw-normal">₹53,000</td>
+                                                                                <td class="text-center fw-normal">34</td>
+                                                                                <td class="text-center fw-normal">0</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td>
+                                                                                    <span class="text-danger fw-semibold">Low Stock</span>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="fw-normal">Tablet</td>
+                                                                                <td class="fw-normal">₹53,000</td>
+                                                                                <td class="text-center fw-normal">34</td>
+                                                                                <td class="text-center fw-normal">0</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td>
+                                                                                    <span class="text-primary fw-semibold">In stock</span>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="fw-normal">Tablet</td>
+                                                                                <td class="fw-normal">₹53,000</td>
+                                                                                <td class="text-center fw-normal">34</td>
+                                                                                <td class="text-center fw-normal">0</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td>
+                                                                                    <span class="text-danger fw-semibold">Low Stock</span>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="fw-normal">Tablet</td>
+                                                                                <td class="fw-normal">₹53,000</td>
+                                                                                <td class="text-center fw-normal">34</td>
+                                                                                <td class="text-center fw-normal">0</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td class="text-center fw-normal">1</td>
+                                                                                <td>
+                                                                                    <span class="text-danger fw-semibold">Low Stock</span>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                            <div class="assets-categories mt-3">                                              
+                                             <div class="row">
+                                            <div class="col-md-9 pr-0  border-right">
+                                               <div class="">
+                                                  <div class="categories-header p-3 d-flex align-items-center justify-content-between">
+                                                     <h5 class="mb-0 font-15 fw-semibold">Asset Support Request</h5>
+                                                  </div>
+                                                  <div class="d-flex align-items-center justify-content-between p-3 pt-5 gap-3">
+                                                    <div class="d-flex align-items-center justify-content-between w-100">
+                                                        <div class="d-flex align-items-center gap-2">
+                                                            <span class="new-request"></span>
+                                                            <p class="mb-0 font-13">New Requests</p>
+                                                        </div>
+                                                       <h5 class="font-14 text-black mb-0 fw-semibold">5</h5>
+                                                    </div>
+                                                    <span class="calendar-separator"></span>
+
+                                                    <div class="d-flex align-items-center justify-content-between w-100">
+                                                        <div class="d-flex align-items-center gap-2">
+                                                            <span class="replacement-requests"></span>
+                                                            <p class="mb-0 font-13">Replacement Requests</p>
+                                                        </div>
+                                                       <h5 class="font-14 text-black mb-0 fw-semibold">5</h5>
+                                                    </div>
+                                                    <span class="calendar-separator"></span>
+
+                                                    <div class="d-flex align-items-center justify-content-between w-100">
+                                                        <div class="d-flex align-items-center gap-2">
+                                                            <span class="repair-requests"></span>
+                                                            <p class="mb-0 font-13">Repair Requests</p>
+                                                        </div>
+                                                       <h5 class="font-14 text-black mb-0 fw-semibold">5</h5>
+                                                    </div>
+                                                    <span class="calendar-separator"></span>
+
+                                                    <div class="d-flex align-items-center justify-content-between w-100">
+                                                        <div class="d-flex align-items-center gap-2">
+                                                            <span class="handover-requests"></span>
+                                                            <p class="mb-0 font-13">Handover Requests</p>
+                                                        </div>
+                                                       <h5 class="font-14 text-black mb-0 fw-semibold">5</h5>
+                                                    </div>
+                                                  </div>
+                                               </div>
+                                            </div>
+                                            <div class="col-md-3 text-center p-4 ">
+                                                <img src="assets/images/asset-request.png" class="w-50">
+                                            </div>
+                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="tab-pane fade" id="assigned-assets" role="tabpanel" aria-labelledby="employee-tab">
+                            <div class="assigned-assets mt-3">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <div class="assigned-assets p-3">
+                                            <div class="d-flex align-items-center gap-3">
+                                                <p class="mb-2 font-12 week-count">Assigned Assets</p>
+                                                <span class="assigned fw-semibold font-13">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 10 10" fill="none">
+                                                        <path d="M5.29834 1.93342L3.50282 3.72952L3.5028 3.72953C3.42537 3.80696 3.32035 3.85047 3.21084 3.85047C3.10134 3.85047 2.99632 3.80696 2.91888 3.72953C2.84145 3.6521 2.79795 3.54708 2.79795 3.43757C2.79795 3.38335 2.80863 3.32966 2.82938 3.27956C2.85013 3.22947 2.88054 3.18395 2.91888 3.14561L2.98944 3.21617L2.91888 3.14561L5.41879 0.645699C5.41881 0.645679 5.41883 0.645658 5.41885 0.645638L5.29834 1.93342ZM5.29834 1.93342V9.06257C5.29834 9.17197 5.3418 9.27689 5.41916 9.35425C5.49652 9.43161 5.60144 9.47507 5.71084 9.47507C5.82025 9.47507 5.92517 9.43161 6.00253 9.35425C6.07988 9.27689 6.12334 9.17197 6.12334 9.06257V1.93342L7.91887 3.72952L7.91888 3.72953C7.99632 3.80696 8.10134 3.85047 8.21084 3.85047C8.32035 3.85047 8.42537 3.80696 8.5028 3.72953C8.58024 3.6521 8.62374 3.54708 8.62374 3.43757C8.62374 3.32806 8.58024 3.22304 8.5028 3.14561L6.00289 0.645699C6.00287 0.645679 6.00285 0.645659 6.00283 0.645639L5.29834 1.93342Z" fill="#388E3C" stroke="#388E3C" stroke-width="0.2"/>
+                                                    </svg>
+                                                    10.0%</span>
+                                            </div>
+                                            
+                                            <h5 class="mb-1 mt-2 font-16 text-black fw-bold">1,100</h5>
+                                            <p  class="mb-0 font-12 ">Quantity </p>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-10">
+
+                                        <div class="total-assets p-3 d-flex align-items-center justify-content-between gap-3">
+                                            <div>
+                                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                                <div>
+                                                    
+                                                    <h5 class="mb-2 font-16 fw-bold">1</h5>
+                                                    <p class="mb-0 font-12">Sales & Marketing</p>
+                                                </div>
+                                               
+                                            </div>
+                                            <p class="mb-0 font-12 week-count">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                                    <path d="M7.21375 4.79651C7.06297 4.94728 6.97061 5.15681 6.97091 5.38692L6.97091 5.48819C6.97091 5.94899 7.34394 6.32203 7.80415 6.32144L12.3571 6.32144L4.65532 14.0232C4.33005 14.3485 4.33005 14.8764 4.65532 15.2017C4.98059 15.527 5.50856 15.527 5.83383 15.2017L13.5356 7.49995V12.0529C13.5356 12.5137 13.9086 12.8867 14.3688 12.8861H14.4701C14.9309 12.8861 15.3039 12.5131 15.3034 12.0529V5.38692C15.3034 4.92612 14.9303 4.55308 14.4701 4.55367L7.80415 4.55367C7.57375 4.55367 7.36452 4.64573 7.21375 4.79651Z" fill="#22b783"/>
+                                                </svg>&nbsp;
+                                                10.2 1 this week</p>
+                                            </div>
+                                            <span class="use-funds-separator"></span>
+                                            <div>
+                                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                                    <div>
+                                                       
+                                                        <h5 class="mb-2 font-16 fw-bold">3</h5>
+                                                        <p class="mb-0 font-12">Operations & Support</p>
+                                                    </div>
+                                                    
+                                                </div>
+                                                <p class="mb-0 font-12 week-count">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                                        <path d="M7.21375 4.79651C7.06297 4.94728 6.97061 5.15681 6.97091 5.38692L6.97091 5.48819C6.97091 5.94899 7.34394 6.32203 7.80415 6.32144L12.3571 6.32144L4.65532 14.0232C4.33005 14.3485 4.33005 14.8764 4.65532 15.2017C4.98059 15.527 5.50856 15.527 5.83383 15.2017L13.5356 7.49995V12.0529C13.5356 12.5137 13.9086 12.8867 14.3688 12.8861H14.4701C14.9309 12.8861 15.3039 12.5131 15.3034 12.0529V5.38692C15.3034 4.92612 14.9303 4.55308 14.4701 4.55367L7.80415 4.55367C7.57375 4.55367 7.36452 4.64573 7.21375 4.79651Z" fill="#22b783"/>
+                                                    </svg>&nbsp;
+                                                    10.2 1 this week</p>
+                                                </div>
+                                                <span class="use-funds-separator"></span>
+                                                <div>
+                                                    <div class="d-flex align-items-center justify-content-between mb-2">
+                                                        <div>
+                                                           
+                                                            <h5 class="mb-2 font-16 fw-bold">8</h5>
+                                                            <p class="mb-0 font-12">HR & Administration</p>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                    <p class="mb-0 font-12 week-count">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                                            <path d="M7.21375 4.79651C7.06297 4.94728 6.97061 5.15681 6.97091 5.38692L6.97091 5.48819C6.97091 5.94899 7.34394 6.32203 7.80415 6.32144L12.3571 6.32144L4.65532 14.0232C4.33005 14.3485 4.33005 14.8764 4.65532 15.2017C4.98059 15.527 5.50856 15.527 5.83383 15.2017L13.5356 7.49995V12.0529C13.5356 12.5137 13.9086 12.8867 14.3688 12.8861H14.4701C14.9309 12.8861 15.3039 12.5131 15.3034 12.0529V5.38692C15.3034 4.92612 14.9303 4.55308 14.4701 4.55367L7.80415 4.55367C7.57375 4.55367 7.36452 4.64573 7.21375 4.79651Z" fill="#22b783"/>
+                                                        </svg>&nbsp;
+                                                        10.2 1 this week</p>
+                                                    </div>
+                                                    <span class="use-funds-separator"></span>
+                                                    <div>
+                                                        <div class="d-flex align-items-center justify-content-between mb-2">
+                                                            <div>
+                                                                
+                                                                <h5 class="mb-2 font-16 fw-bold">2</h5>
+                                                                <p class="mb-0 font-12">Finance & Legal</p>
+                                                            </div>
+                                                          
+                                                        </div>
+                                                        <p class="mb-0 font-12 week-count">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                                                <path d="M7.21375 4.79651C7.06297 4.94728 6.97061 5.15681 6.97091 5.38692L6.97091 5.48819C6.97091 5.94899 7.34394 6.32203 7.80415 6.32144L12.3571 6.32144L4.65532 14.0232C4.33005 14.3485 4.33005 14.8764 4.65532 15.2017C4.98059 15.527 5.50856 15.527 5.83383 15.2017L13.5356 7.49995V12.0529C13.5356 12.5137 13.9086 12.8867 14.3688 12.8861H14.4701C14.9309 12.8861 15.3039 12.5131 15.3034 12.0529V5.38692C15.3034 4.92612 14.9303 4.55308 14.4701 4.55367L7.80415 4.55367C7.57375 4.55367 7.36452 4.64573 7.21375 4.79651Z" fill="#22b783"/>
+                                                            </svg>&nbsp;
+                                                            10.2 1 this week</p>
+                                                        </div>
+                                                        <span class="use-funds-separator"></span>
+                                                        <div>
+                                                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                                                <div>
+                                                                   
+                                                                    <h5 class="mb-2 font-16 fw-bold">40</h5>
+                                                                    <p class="mb-0 font-12">IT & Engineering </p>
+                                                                </div>
+                                                               
+                                                            </div>
+                                                            <p class="mb-0 font-12 week-count">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                                                    <path d="M7.21375 4.79651C7.06297 4.94728 6.97061 5.15681 6.97091 5.38692L6.97091 5.48819C6.97091 5.94899 7.34394 6.32203 7.80415 6.32144L12.3571 6.32144L4.65532 14.0232C4.33005 14.3485 4.33005 14.8764 4.65532 15.2017C4.98059 15.527 5.50856 15.527 5.83383 15.2017L13.5356 7.49995V12.0529C13.5356 12.5137 13.9086 12.8867 14.3688 12.8861H14.4701C14.9309 12.8861 15.3039 12.5131 15.3034 12.0529V5.38692C15.3034 4.92612 14.9303 4.55308 14.4701 4.55367L7.80415 4.55367C7.57375 4.55367 7.36452 4.64573 7.21375 4.79651Z" fill="#22b783"/>
+                                                                </svg>&nbsp;
+                                                                10.2 U1 this week</p>
+                                                            </div>
+                                                            <span class="use-funds-separator"></span>
+                                                        <div>
+                                                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                                                <div>
+                                                                   
+                                                                    <h5 class="mb-2 font-16 fw-bold">40</h5>
+                                                                    <p class="mb-0 font-12">IT & Engineering </p>
+                                                                </div>
+                                                               
+                                                            </div>
+                                                            <p class="mb-0 font-12 week-count">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                                                    <path d="M7.21375 4.79651C7.06297 4.94728 6.97061 5.15681 6.97091 5.38692L6.97091 5.48819C6.97091 5.94899 7.34394 6.32203 7.80415 6.32144L12.3571 6.32144L4.65532 14.0232C4.33005 14.3485 4.33005 14.8764 4.65532 15.2017C4.98059 15.527 5.50856 15.527 5.83383 15.2017L13.5356 7.49995V12.0529C13.5356 12.5137 13.9086 12.8867 14.3688 12.8861H14.4701C14.9309 12.8861 15.3039 12.5131 15.3034 12.0529V5.38692C15.3034 4.92612 14.9303 4.55308 14.4701 4.55367L7.80415 4.55367C7.57375 4.55367 7.36452 4.64573 7.21375 4.79651Z" fill="#22b783"/>
+                                                                </svg>&nbsp;
+                                                                10.2 U1 this week</p>
+                                                            </div>
+                                                            <span class="use-funds-separator"></span>
+                                                        <div>
+                                                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                                                <div>
+                                                                   
+                                                                    <h5 class="mb-2 font-16 fw-bold">40</h5>
+                                                                    <p class="mb-0 font-12">IT & Engineering </p>
+                                                                </div>
+                                                               
+                                                            </div>
+                                                            <p class="mb-0 font-12 week-count">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                                                    <path d="M7.21375 4.79651C7.06297 4.94728 6.97061 5.15681 6.97091 5.38692L6.97091 5.48819C6.97091 5.94899 7.34394 6.32203 7.80415 6.32144L12.3571 6.32144L4.65532 14.0232C4.33005 14.3485 4.33005 14.8764 4.65532 15.2017C4.98059 15.527 5.50856 15.527 5.83383 15.2017L13.5356 7.49995V12.0529C13.5356 12.5137 13.9086 12.8867 14.3688 12.8861H14.4701C14.9309 12.8861 15.3039 12.5131 15.3034 12.0529V5.38692C15.3034 4.92612 14.9303 4.55308 14.4701 4.55367L7.80415 4.55367C7.57375 4.55367 7.36452 4.64573 7.21375 4.79651Z" fill="#22b783"/>
+                                                                </svg>&nbsp;
+                                                                10.2 U1 this week</p>
+                                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="mt-3">
+                                    <div class="asset-assigned-search">
+                                        <div class="d-flex justify-content-start align-items-center">
+                                            <div class="search-filter dropdown">
+                                                <button type="button" id="statusDropdown" class="btn btn-secondary new-dropdown d-flex align-items-center justify-content-between" data-bs-toggle="dropdown">
+                                                    Filters 
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23" fill="none">
+                                                        <mask id="mask0_7808_40" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="23" height="23">
+                                                        <rect x="0.262695" y="0.283112" width="22.4338" height="22.4338" fill="#1C1B1F"/>
+                                                        </mask>
+                                                        <g mask="url(#mask0_7808_40)">
+                                                        <path d="M9.61057 17.1084V15.239H13.3495V17.1084H9.61057ZM5.87161 12.4347V10.5653H17.0885V12.4347H5.87161ZM3.06738 7.76104V5.89156H19.8927V7.76104H3.06738Z" fill="#1C1B1F"/>
+                                                        </g>
+                                                    </svg>
+                                                </button>
+
+                                                <div class="dropdown-menu actionMenuList filter-box p-0">
+                                                    <div class="d-flex align-items-center justify-content-between border-bottom p-3">
+                                                        <h5 class="mb-0 font-14 fw-semibold"> Filter</h5>
+                                                        <span class="pointer">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="19" viewBox="0 0 18 19" fill="none">
+                                                            <g opacity="0.8">
+                                                            <mask id="mask0_7729_258" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="18" height="19">
+                                                            <rect y="0.5" width="18" height="18" fill="#D9D9D9"/>
+                                                            </mask>
+                                                            <g mask="url(#mask0_7729_258)">
+                                                            <path d="M4.8 14.75L3.75 13.7L7.95 9.5L3.75 5.3L4.8 4.25L9 8.45L13.2 4.25L14.25 5.3L10.05 9.5L14.25 13.7L13.2 14.75L9 10.55L4.8 14.75Z" fill="#1C1B1F"/>
+                                                            </g>
+                                                            </g>
+                                                        </svg>
+                                                        </span>
+                                                    </div>
+                                                    <div class="row p-3">
+                                                        <div class="col-md-12 mb-3">
+                                                            <label for="type" class="pb-2">Team/ Department</label>
+                                                            <nz-select ngModel="Earned Leave" class="w-100 form-control placeholder-lines">
+                                                                <nz-option nzValue="Earned Leave" nzLabel="Earned Leave"></nz-option>
+                                                                <nz-option nzValue="Sick Leave" nzLabel="Sick Leave"></nz-option>
+                                                                <nz-option nzValue="Leave Without Pay" nzLabel="Leave Without Pay"></nz-option>
+                                                              </nz-select>
+                                                        </div>
+                                                        <div class="col-md-12 mb-3">
+                                                            <label for="status" class="pb-2">Employee Name</label>
+                                                            <nz-select ngModel="Pending" class="w-100 form-control placeholder-lines">
+                                                                <nz-option nzValue="Pending" nzLabel="Pending"></nz-option>
+                                                                <nz-option nzValue="Approve" nzLabel="Approve"></nz-option>
+                                                                 <nz-option nzValue="Reject" nzLabel="Reject"></nz-option>
+                                                              </nz-select>
+                                                        </div>
+                                                        <div class="col-md-12 mb-3">
+                                                            <label for="status" class="pb-2">Status</label>
+                                                            <nz-select ngModel="Pending" class="w-100 form-control placeholder-lines">
+                                                                <nz-option nzValue="Pending" nzLabel="Pending"></nz-option>
+                                                                <nz-option nzValue="Approve" nzLabel="Approve"></nz-option>
+                                                                 <nz-option nzValue="Reject" nzLabel="Reject"></nz-option>
+                                                              </nz-select>
+                                                        </div>
+                                                        <div class="col-md-6 mb-3">
+                                                            <label for="status" class="pb-2">Assets Categories</label>
+                                                            <nz-select ngModel="Pending" class="w-100 form-control placeholder-lines">
+                                                                <nz-option nzValue="Pending" nzLabel="Pending"></nz-option>
+                                                                <nz-option nzValue="Approve" nzLabel="Approve"></nz-option>
+                                                                 <nz-option nzValue="Reject" nzLabel="Reject"></nz-option>
+                                                              </nz-select>
+                                                        </div>
+                                                        <div class="col-md-6 mb-3">
+                                                            <label for="status" class="pb-2">Assets Name</label>
+                                                            <nz-select ngModel="MacBook Air" class="w-100 form-control placeholder-lines">
+                                                                <nz-option nzValue="MacBook Air" nzLabel="MacBook Air"></nz-option>
+                                                                <nz-option nzValue="MacBook" nzLabel="MacBook"></nz-option>
+                                                                 <nz-option nzValue="MacBook Pro" nzLabel="MacBook Pro"></nz-option>
+                                                              </nz-select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="p-3 border-top d-flex gap-2 align-items-center justify-content-end">
+                                                        <button class="btn cancel-btn mt-0">Reset it</button>
+                                                        <button class="btn submitActionBtn">Apply</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="search-date d-flex align-items-center justify-content-between position-relative w-100">
+                                                    <div class="form-group w-100 position-relative">
+                                                        <input type="text" id="searchText" #searchInput placeholder="Search by name.." class="form-control me-2 w-100" style="padding: 10px 45px;" />
+                                                        <i class="bi bi-search search-icon d-flex align-items-center h-100"></i>
+                                                    </div>
+                                            </div>
+                                            <div>
+                                                <button type="button" class="btn primaryBtnLink filter-btn d-block text-cennter">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
+                                                        <mask id="mask0_8109_4666" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
+                                                        <rect y="0.5" width="20" height="20" fill="#D9D9D9"/>
+                                                        </mask>
+                                                        <g mask="url(#mask0_8109_4666)">
+                                                        <path d="M2.0835 17.1666V11.141H8.10912V17.1666H2.0835ZM3.3335 15.9166H6.85912V12.391H3.3335V15.9166ZM5.25662 8.41661L9.26308 1.84619L13.2693 8.41661H5.25662ZM7.46162 7.16661H11.0643L9.26308 4.26911L7.46162 7.16661ZM17.9954 19.1602L15.8031 16.9679C15.5274 17.1676 15.2247 17.3201 14.8952 17.4254C14.5656 17.5306 14.216 17.5833 13.8464 17.5833C12.8902 17.5833 12.0795 17.2507 11.4145 16.5856C10.7494 15.9206 10.4168 15.1099 10.4168 14.1537C10.4168 13.1976 10.7494 12.387 11.4145 11.7218C12.0795 11.0568 12.8902 10.7243 13.8464 10.7243C14.8025 10.7243 15.6131 11.0568 16.2783 11.7218C16.9433 12.387 17.2758 13.1976 17.2758 14.1537C17.2758 14.5148 17.2232 14.8588 17.1179 15.1858C17.0127 15.5127 16.8672 15.814 16.6812 16.0897L18.8735 18.282L17.9954 19.1602ZM13.846 16.3333C14.4563 16.3333 14.9722 16.1226 15.3937 15.7012C15.8151 15.2799 16.0258 14.7642 16.0258 14.1541C16.0258 13.5438 15.8152 13.0279 15.3939 12.6064C14.9725 12.185 14.4568 11.9743 13.8466 11.9743C13.2363 11.9743 12.7205 12.1849 12.2991 12.6062C11.8776 13.0276 11.6668 13.5433 11.6668 14.1535C11.6668 14.7638 11.8775 15.2796 12.2989 15.701C12.7202 16.1225 13.2359 16.3333 13.846 16.3333Z" fill="#6666F2"/>
+                                                        </g>
+                                                    </svg>
+                                                    Not Assigned
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mt-3">
+                                    <div class="">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Assets Name</th>
+                                                    <th>ID Number</th>
+                                                    <th>Assigned To</th>
+                                                    <th>Purchased Date</th>
+                                                    <th>Warranty Date</th>
+                                                    <th>Category</th>
+                                                    <th>Price</th>
+                                                    <th>Location</th>
+                                                    <th>Vendor Name</th>
+                                                    <th>Status</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="tab-pane fade" id="request" role="tabpanel" aria-labelledby="employee-tab">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+            

@@ -75,7 +75,8 @@ export class Key {
     '/expense',
     '/exit-policy',
     '/leave-managements',
-    '/inbox'
+    '/inbox',
+    '/assets-management'
   ];
 
   public static TOPBAR_ROUTES = [
@@ -122,8 +123,8 @@ export class Key {
     '/expense',
     '/exit-policy',
     '/leave-managements',
-    '/inbox'
-    // '/to-do-step-dashboard',
+    '/inbox',
+    '/assets-management'
   ];
 
   public static ORGANIZATION_ONBOARDING_SIDEBAR_ROUTES = [

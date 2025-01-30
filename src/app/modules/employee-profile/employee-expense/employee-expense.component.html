@@ -41,8 +41,6 @@
                                     </span>
                                     <span class="calendar-separator"></span>
                                     <div class="dropdown ">
-                                        <!-- <nz-date-picker nzMode="month"  nzFormat="MMM, yyyy" [(ngModel)]="expenseSelectedDate"
-                                        (ngModelChange)="onExpenseMonthChange($event)" ></nz-date-picker> -->
                                         <nz-date-picker nzMode="month" nzFormat="MMM, yyyy" [(ngModel)]="expenseSelectedDate"
                                         (ngModelChange)="onExpenseMonthChange($event)" [nzDisabledDate]="disableMonths"></nz-date-picker>
 
@@ -81,19 +79,6 @@
                             <div *ngIf="ROLE != 'ADMIN'">
                                 <button data-bs-toggle="modal" data-bs-target="#apply-expense"
                                     class="btn new-announcement">New Request 
-                                    <!-- <span class="calendar-separator"></span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21"
-                                        fill="none">
-                                        <mask id="mask0_5566_935" maskUnits="userSpaceOnUse" x="0" y="0" width="20"
-                                            height="21" style="mask-type: alpha;">
-                                            <rect y="0.5" width="20" height="20" fill="#D9D9D9"></rect>
-                                        </mask>
-                                        <g mask="url(#mask0_5566_935)">
-                                            <path
-                                                d="M9.16667 18V11.3333H2.5V9.66667H9.16667V3H10.8333V9.66667H17.5V11.3333H10.8333V18H9.16667Z"
-                                                fill="#6666F2"></path>
-                                        </g>
-                                    </svg> -->
                                 </button>
                             </div>
                         </div>
@@ -128,15 +113,6 @@
                                              </div>
                                         </div>
                                     </div>
-                                    <!-- <div class="col-md-3">
-                                        <div class="expense-data p-3">
-                                            <p class="text-primary mb-3 font-13"><span class="paid"></span> Total Paid</p>
-                                            <div class="d-flex align-items-center justify-content-between">
-                                                <h5 class="font-18 mb-0">₹ {{expenseCount.totalPaidAmount}}</h5>
-                                                <p class="mb-0">{{expenseCount.paidCount}} Bill</p>
-                                             </div>
-                                        </div>
-                                    </div> -->
 
                                     <div class="col-md-3">
                                         <div class="expense-data p-3">
@@ -147,11 +123,6 @@
                                              </div>
                                              <div class="d-flex gap-3">
                                                 <p>Settled: {{expenseCount.settledAmount}}</p><br>
-                                                <!-- <p *ngIf="expenseCount.settledAmount == 0">Settled Amount: 0</p>
-                                                <p *ngIf="expenseCount.settledAmount > 0">Settled Amount: {{expenseCount.unSettledAmount - expenseCount.settledAmount}}</p> -->
-
-                                                <!-- <p *ngIf="expenseCount.unSettledAmount == 0">Un-Settled: {{expenseCount.newUnSettledAmount}}</p>
-                                                <p *ngIf="expenseCount.unSettledAmount > 0">Un-Settled: {{expenseCount.unSettledAmount}} + {{expenseCount.newUnSettledAmount}}</p> -->
 
                                                 <p *ngIf="expenseCount.newUnSettledAmount == 0">Un-Settled: {{expenseCount.unSettledAmount}}</p>
                                                 <p *ngIf="expenseCount.unSettledAmount == 0 && expenseCount.newUnSettledAmount > 0">Un-Settled: {{expenseCount.newUnSettledAmount}}</p>
@@ -339,29 +310,12 @@
                                     </span>
 
                                 </div>
-
-                                <!-- <nz-select class="request-dropdown" nzSize="large" nzPlaceHolder="Filter" required>
-                                    <nz-option [nzValue]="'Attendance update'" [nzLabel]="'Attendance update'"></nz-option>
-                                    <nz-option [nzValue]="'Overtime'" [nzLabel]="'Overtime'"></nz-option>
-                                    <nz-option [nzValue]="'Lop reversal'" [nzLabel]="'Lop reversal'"></nz-option>
-                                </nz-select> -->
-
                             </div>
 
 
                             <div *ngIf="ROLE != 'ADMIN'">
                                 <button data-bs-toggle="modal" data-bs-target="#apply-expense" class="btn new-announcement">New Request &nbsp;
-                                    <span class="calendar-separator"></span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
-                                        <mask id="mask0_5566_935" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21"
-                                            style="mask-type: alpha;">
-                                            <rect y="0.5" width="20" height="20" fill="#D9D9D9"></rect>
-                                        </mask>
-                                        <g mask="url(#mask0_5566_935)">
-                                            <path d="M9.16667 18V11.3333H2.5V9.66667H9.16667V3H10.8333V9.66667H17.5V11.3333H10.8333V18H9.16667Z"
-                                                fill="#6666F2"></path>
-                                        </g>
-                                    </svg>
+                                    
                                 </button>
                             </div>
                         </div>
@@ -547,17 +501,7 @@
 
                             <div *ngIf="ROLE != 'ADMIN'">
                                 <button data-bs-toggle="modal" data-bs-target="#apply-expense" class="btn new-announcement">New Request &nbsp;
-                                    <span class="calendar-separator"></span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
-                                        <mask id="mask0_5566_935" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21"
-                                            style="mask-type: alpha;">
-                                            <rect y="0.5" width="20" height="20" fill="#D9D9D9"></rect>
-                                        </mask>
-                                        <g mask="url(#mask0_5566_935)">
-                                            <path d="M9.16667 18V11.3333H2.5V9.66667H9.16667V3H10.8333V9.66667H17.5V11.3333H10.8333V18H9.16667Z"
-                                                fill="#6666F2"></path>
-                                        </g>
-                                    </svg>
+                                    
                                 </button>
                             </div>
                         </div>
@@ -793,9 +737,6 @@
                                 <p class="mb-0">Status</p>
                                 <span class="action-btn"></span>
                                 <p class="mb-0 text-warning">Pending</p>
-                                <!-- <p class="mb-0 text-success">Your request is approved. Please wait a few days for expense reimbursement.</p> -->
-                                <!-- <p class="mb-0 text-success">Your request has been approved, and reimbursement will be made in cash.</p> -->
-                                <!-- <p class="mb-0 text-danger">Your request has been rejected by the admin</p> -->
                             </div>
                             <div class="d-flex align-items-center gap-2">
                                 <button class="btn cancel-btn mt-0" data-bs-dismiss="modal" aria-label="Close"
@@ -803,13 +744,7 @@
                                 <button class="btn submitActionBtn">Edit</button>
                             </div>
 
-                            <!-- <div class="d-flex align-items-center gap-2">
-                                <h5 class="mb-0 text-danger">Are you sure want to delete it</h5>
-                            </div>
-                            <div class="d-flex align-items-center gap-2">
-                                <button class="btn cancel-btn mt-0" >No</button>
-                                <button class="btn submitActionBtn bg-danger">Yes</button>
-                            </div> -->
+                            
 
                         </div>
 
