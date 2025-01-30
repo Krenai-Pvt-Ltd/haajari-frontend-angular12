@@ -242,9 +242,15 @@
     padding: 0px !important;
     filter: drop-shadow(0px 8px 10px rgba(0, 0, 0, 0.15));
 }
+.not-assign-filter {
+    width: 300px !important;
+    border-radius: 2px !important;
+    padding: 0px !important;
+    filter: drop-shadow(0px 8px 10px rgba(0, 0, 0, 0.15));
+}
 .search-date input {
     border: none;
-    height: 45px !important;
+    height: 48px !important;
     border-left: 0;
     border-right: 1px solid #EAEAEA;
     font-weight: 400 !important;
@@ -296,4 +302,47 @@
     font-weight: 500;
     border-radius: 2px;
     min-width: 100px;
+}
+.table tbody {
+    border: 1px solid #f1f1f1;
+}
+.btnAction{
+    background-color: #F9FAFC;
+    width: 30px;
+    height: 33px;
+    border-radius: 2px;
+    border: 1px solid #EFEFEF;
+}
+.actionMenuList .dropdown-item {
+    font-size: 14px;
+    color: #333 !important;
+    border-radius: 6px;
+}
+.actionMenuList{
+    line-height: 35px
+}
+.actionMenuList .dropdown-item:hover{
+    background-color: #F1F1FC;
+}
+.btnAction svg{
+    width: 17px;
+}
+.categories-filter input{
+    position: relative;
+    top: -2px;
+}
+input[type=checkbox] {
+    box-sizing: border-box;
+    padding: 0;
+    accent-color: #6766f3;
+    width: 20px;
+    height: 20px;
+    border-radius: 2px;
+}
+.reset-filter-btn{
+  background-color: #F8F7FF;
+  height: 48px;
+}
+.reset-filter-btn svg{
+    width: 18px;
 }
