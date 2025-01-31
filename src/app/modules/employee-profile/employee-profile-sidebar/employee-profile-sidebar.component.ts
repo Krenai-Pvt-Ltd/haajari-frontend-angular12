@@ -36,7 +36,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
   userId: any;
   myForm: FormGroup;
   modal: any;
-  constructor(private dataService: DataService, private modalService: NgbModal, private fb: FormBuilder,
+  constructor(public dataService: DataService, private modalService: NgbModal, private fb: FormBuilder,
     private activateRoute: ActivatedRoute,
     public helperService: HelperService,
     private employeeProfileComponent: EmployeeProfileComponent,
@@ -299,10 +299,10 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     this.InOutLoader = true;
     if (command === '/out') {
       this.outLoader = true;
-      this.urlModalTemplate.nativeElement.click();
+      
     }
     if (command === '/in') {
-      this.urlModalTemplate.nativeElement.click();
+      
     }
     if (command === '/break') {
       this.breakLoader = true;
@@ -329,6 +329,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
             'uuid' : params.get('userUuid')
           }
           this.showAttendanceComponent=true;
+          this.urlModalTemplate.nativeElement.click();
         } else {
           // Show toast with success message
           this.helperService.showToast(data.message, Key.TOAST_STATUS_SUCCESS);

@@ -84,7 +84,6 @@ export class AttendanceLeaveComponent implements OnInit {
     // }
     // this.UUID = await this.roleService.getUuid();
     // this.getFirstAndLastDateOfMonth(this.selectedDate);
-
     this.attendanceTimeUpdateForm = this.fb.group({
       requestedDate: [null, Validators.required],
       attendanceRequestType: ['UPDATE', Validators.required], // Default to 'UPDATE'
@@ -1579,6 +1578,8 @@ export class AttendanceLeaveComponent implements OnInit {
   getAttendanceChecktimeListDate(statusString: string): void {
     this.updateStatusString = statusString.charAt(0).toUpperCase() + statusString.slice(1).toLowerCase();
     const formattedDate = this.datePipe.transform(this.requestedDate, 'yyyy-MM-dd');
+    // Reset attendanceId field when request type changes
+    this.attendanceTimeUpdateForm.get('updateGroup.attendanceId')?.reset();
     this.dataService.getAttendanceChecktimeList(this.userId, formattedDate, statusString).subscribe(response => {
       this.attendanceCheckTimeResponse = response.listOfObject;
       // console.log('checktime retrieved successfully', response.listOfObject);
@@ -1770,7 +1771,7 @@ export class AttendanceLeaveComponent implements OnInit {
   //   }
   //   return false;
   // }
-
+  
   isAttendanceFormValid(): boolean {
 
     if (this.checkHoliday === true || this.checkAttendance === true) {

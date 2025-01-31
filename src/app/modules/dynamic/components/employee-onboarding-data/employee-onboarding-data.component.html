@@ -1639,18 +1639,18 @@
 Edit Request Modal End
 
 <!-- Trigger Button for Modal -->
-<button type="button" class="btn btn-primary " data-bs-toggle="modal" data-bs-target="#sampleFileModal"
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#sampleFileModal"
   id="uploadMembersModal" #sampleFileModalButton>
   Open Sample File Modal
 </button>
 <!-- Modal -->
-<div class="modal fade" id="sampleFileModal" tabindex="-1" aria-labelledby="sampleFileModalLabel" aria-hidden="true"
+<div class="modal fade" id="sampleFileModal" tabindex="-1" aria-labelledby="sampleFileModalLabel" aria-hidden="true" data-bs-backdrop="static"
   #sampleFileModal>
   <div class="modal-dialog modal-xl modal-dialog-centered" style="max-width: 1400px !important;">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="sampleFileModalLabel">Sample Excel File</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="resetUploadExcelForm()"
           #closeButtonExcelModal></button>
       </div>
       <div class="modal-body">
@@ -1685,7 +1685,7 @@ Edit Request Modal End
             </div>
             <div class="card-body mt-3 p-0">
               <div class="alert alert-light mb-0 excel-uplode-file-box text-center" style="border: 2px dashed #dddd">
-                <input id="fileSelect" type="file" name="img[]" accept=".xlsx" class="input"
+                <input id="fileSelect" type="file" name="img[]" accept=".xlsx, .xls" class="input"
                   (change)="selectFile($event)" />
                 <img src="assets/images/excel.svg" style="width: 50px" class="pb-3" />
                 <p>
@@ -1705,7 +1705,7 @@ Edit Request Modal End
             <ul style="padding-left: 15px;">
               <li class="mb-1" *ngIf="this.mismatches.length > 0">
 
-                {{ this.mismatches }}
+                <div [innerHTML]="mismatches.join('')"></div>
               </li>
               <li class="mb-1" *ngIf="alreadyUsedPhoneNumberArray.length > 0">
                 Phone Numbers:
@@ -1739,7 +1739,7 @@ Edit Request Modal End
                         </nz-select>
                         <ng-template #customDropdownShift>
                           <div class="custom-dropdown-footer">
-                            <button nz-button nzType="link" (click)="openAddShiftModal()">Add Shift</button>
+                            <button nz-button nzType="link"  (click)="openAddShiftModal()" >Add Shift</button>
                           </div>
                         </ng-template>
                       </div>
@@ -1917,9 +1917,11 @@ Edit Request Modal End
 
               </div>
               <div class="d-flex justify-content-end align-items-center">
-                <p class="m-0" *ngIf="data.length-1>pageSize"> Showing {{(currentPage - 1) * pageSize +currentPage}} -
-                  {{(currentPage - 1) * pageSize +(currentPage-1)+(data.length - 1)}} of {{data.length-1}} </p>
-                <ngb-pagination [rotate]="true" [maxSize]="4" [collectionSize]="data.length - 1" [pageSize]="pageSize"
+                <p class="m-0" *ngIf="data.length > pageSize">
+                  Showing {{ (currentPage - 1) * pageSize + 1 }} - 
+                  {{ (currentPage * pageSize > data.length ? data.length-1 : currentPage * pageSize) }} of {{ data.length-1 }}
+                </p>
+                <ngb-pagination *ngIf="data.length > pageSize" [rotate]="true" [maxSize]="4" [collectionSize]="data.length - 1" [pageSize]="pageSize"
                   [(page)]="currentPage" (pageChange)="onPageChange($event)">
                 </ngb-pagination>
               </div>
@@ -2088,7 +2090,7 @@ Edit Request Modal End
                   </button>
 
                   <button type="button" class="btn btn-primary" style="background-color: white; color: black;"
-                    (click)="closeNotificationModal()">
+                    (click)="closeNotificationModal(); sendEmailToUsers(false);">
                     <span *ngIf="!closeNotificationModalFlag">Skip Notification</span>
                     <div class="dot-opacity-loader" *ngIf="closeNotificationModalFlag">
                       <span></span>
@@ -2158,3 +2160,27 @@ Edit Request Modal End
 
 
 <!-- <app-exit-modal></app-exit-modal> -->
+
+
+
+<div class="modal fade" id="addShift" tabindex="-1" aria-labelledby="emptyModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+      <div class="modal-content">
+        
+          <div class="modal-body p-0">
+              <button #closeAddButton id="closeAddButton" type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="15" viewBox="0 0 16 15" fill="none">
+                      <path d="M2.09533 14.3667L0.619141 12.9707L6.5239 7.38648L0.619141 1.8023L2.09533 0.40625L8.00009 5.99044L13.9049 0.40625L15.381 1.8023L9.47628 7.38648L15.381 12.9707L13.9049 14.3667L8.00009 8.78253L2.09533 14.3667Z" fill="black"/>
+                  </svg>
+              </button>
+              <!-- Add your content here -->
+              <ng-container *ngIf="true">
+              <app-attendance-setting></app-attendance-setting>
+              </ng-container>
+          </div>
+          <!-- <div class="modal-footer">
+              <button type="button" (click)="getUserAttendanceStatus();" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div> -->
+      </div>
+  </div>
+</div>

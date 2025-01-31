@@ -277,7 +277,7 @@
         </div>
         <span>Joining Date: {{ (user.joiningDate | date:'dd-MM-yyyy') || '--' }}</span>
       </div>
-      <div class="d-flex align-items-center gap-3 mt-2 gap-2" *ngIf="
+      <!-- <div class="d-flex align-items-center gap-3 mt-2 gap-2" *ngIf="
             user!.employeeOnboardingStatus?.response == 'PENDING' && rbacService.userInfo.role != 'USER'
           ">
         <button [disabled]="approvedToggle" class="btn btn-soft-success btn-round" type="button"
@@ -294,7 +294,7 @@
         <button class="btn btn-soft-danger btn-round" type="button" data-bs-toggle="modal"
           data-bs-target="#showRejectModal">
           <i class="ti ti-alert-octagon font-16"></i> Reject </button>
-      </div>
+      </div> -->
       <!--  -->
       <div class="action-btn" *ngIf=" user!.employeeOnboardingStatus?.response != 'PENDING'">
         <div class="d-flex align-items-center gap-3" *ngIf="requestedData && rbacService.userInfo.role != 'USER'">
@@ -330,7 +330,7 @@
         <div class="d-flex align-items-center gap-3">
           <div *ngIf="requestedData && rbacService.userInfo.role == 'USER'"
             class="badge profile-badge rounded-pill badge-soft-warning">You have requested a profile update.</div>
-          <button *ngIf="(userId===rbacService.getUuid() || rbacService.getRoles()=='ADMIN') && !profileLoding" class="p-0 btn text-primary font-14 fw-semibold edit-btn"
+          <button *ngIf="(userId===rbacService.getUuid() || rbacService.getRoles()=='ADMIN') && !profileLoding && (!requestedData || rbacService.userInfo.role == 'USER')" class="p-0 btn text-primary font-14 fw-semibold edit-btn"
             (click)="profileEdit=true; editProfile()">
             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
               <mask id="mask0_6512_3882" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="22"
