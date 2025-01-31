@@ -22,7 +22,7 @@
             </div>
           </ng-container>
           <ng-template #monthList>
-            <div class="file-box-content d-flex">
+            <div #monthListContainer class="file-box-content d-flex overflow-auto">
               <div class="file-box" *ngFor="let monthResponse of monthResponseList"
                 [class.disabled]="monthResponse.disable" [ngClass]="{
                 'selected-month-color':
@@ -65,13 +65,26 @@
             </div>
 
             <div class="payroll-next-prev-btn">
+              <span class="payroll-next position-absolute d-flex align-items-center justify-content-center"
+                    [class.disabled]="isLeftDisabled"
+                    (click)="moveLeft()">
+                <i class="bi bi-chevron-left position-relative"></i>
+              </span>
+              <span class="payroll-prev position-absolute d-flex align-items-center justify-content-center"
+                    [class.disabled]="isRightDisabled"
+                    (click)="moveRight()">
+                <i class="bi bi-chevron-right position-relative"></i>
+              </span>
+            </div>
+            
+            <!-- <div class="payroll-next-prev-btn">
               <span class="payroll-next position-absolute d-flex align-items-center justify-content-center">
                 <i class="bi bi-chevron-left position-relative"></i>
               </span>
               <span class="payroll-prev position-absolute d-flex align-items-center justify-content-center">
                 <i class="bi bi-chevron-right position-relative"></i>
               </span>
-            </div>
+            </div> -->
           </ng-template>
         </div>
         <div class="mt-4">

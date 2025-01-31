@@ -65,14 +65,15 @@ nz-calendar .holiday-cell {
 .holiday-item {
   color: #fff;
 }
-
-
-
 .holiday-date {
-  background-color: #fffae6;
   border-radius: 4px;
   padding: 5px;
   text-align: center;
+  background-color: #F6F6FF;
+  border-bottom-right-radius: 2px;
+  border-top-right-radius: 2px;
+  width: 25%; 
+  height: 149px;
 }
 
 .holiday-name {
@@ -388,7 +389,7 @@ nz-calendar .holiday-cell {
 }
 
 .holiday-date {
-  background-color: #F6F6FF;
+  
 
 }
 
@@ -397,8 +398,7 @@ nz-calendar .holiday-cell {
 }
 
 .holiday-date {
-  border-bottom-right-radius: 2px;
-  border-top-right-radius: 2px;
+  
 }
 
 .icon-button svg {
@@ -920,4 +920,77 @@ span.holiday-initial {
   background-color: #fff;
   opacity: 1;
   box-shadow: 0px 4.211px 4.211px 0px rgba(0, 0, 0, 0.10);
+}
+
+.attendance-report-height{
+  height: 573px;
+}
+.desktop-attendance-update{
+  height: 418px;
+}
+.holidays-cal-box{
+  width: 75%;
+}
+.mobile-today-date{
+  display: none;
+}
+.desktop-today-date{
+  display: block;
+}
+.mobile-holiday-section{
+  display: none;
+}
+
+@media screen and (max-width: 500px) {
+  .attendance-report-height{
+    height: auto;
+    margin-bottom: 15px;
+    margin-top: 15px;
+  }
+  .desktop-attendance-update{
+    height: auto;
+  }
+  .holidays-list{
+    margin-top: 15px;
+  }
+  .holidays-cal-box{
+    width: 100%;
+  }
+  .holidays-flex-column{
+    flex-direction: column;
+  }
+  .holiday-date {
+    width: 100%;
+    height: 50px;
+  }
+  .mobile-today-date{
+    display: block;
+  }
+  .desktop-today-date{
+    display: none;
+  }
+.mobile-holiday{
+  display: none;
+}
+.employee-dashboard-box{
+  margin-top: 10px !important;
+}
+.desktop-notification{
+  display: none;
+}
+.mobile-holiday-section{
+  display: block;
+  margin-top: -10px;
+}
+.desktop-holiday{
+  display: none;
+}
+
+.team-overview{
+  display: none;
+}
+.desktop-attendance-update{
+  margin-bottom: 15px;
+}
+ 
 }
