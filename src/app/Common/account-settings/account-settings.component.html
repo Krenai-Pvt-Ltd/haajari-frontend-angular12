@@ -114,15 +114,15 @@
                     <div class="position-relative">
 
                         <span class="profile-image">
-                          <ng-container *ngIf="isUploading; else imageDisplay">
-                            <div class="spinner"></div>
-                          </ng-container>
-                          <ng-template #imageDisplay>
+                          
                               <img
                                   [src]="employeeProfileResponseData?.profilePic"
                                   onerror="this.src='./assets/images/broken-image-icon.jpg';"
                               >
-                          </ng-template>
+                              <ng-container *ngIf="isUploading;">
+                                <div class="spinner" style="position: absolute; top: 40%; transform: translate(-50%, -50%);"></div>
+                              </ng-container>
+                         
                       </span>
 
                         <input #fileInput type="file" accept="image/jpeg, image/jpg, image/png"
