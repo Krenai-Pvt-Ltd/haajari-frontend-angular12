@@ -723,7 +723,7 @@ textarea {
   text-transform: capitalize;
 }
 
-.user-avatar {
+/* .user-avatar {
   border-radius: 6px;
   padding: 3px 3px;
   background-color: rgb(241 241 253) !important;
@@ -731,7 +731,7 @@ textarea {
   text-align: center;
   display: inline-block;
   line-height: 1;
-}
+} */
 
 nz-select {
   width: 100%;
@@ -1566,8 +1566,103 @@ span.request-count {
 }
 .total-employee{
   border: 1px solid #f2f2f2;
+  height: 135px;
 }
 .use-funds-separator{
   border-left: 1px solid #DCDCE4;
   height: 50px;
+}
+.verified{
+  background-color: #388E3C;
+}
+.pending{
+  background-color: #E78E13;
+}
+.rejected{
+  background-color: #FF3014;
+}
+.request{
+  background-color: #6666F2;
+}
+
+.employee-request{
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 4px;
+}
+.resignation-request{
+  background-color: #F9FAFC;
+  border-radius: 20px;
+  padding: 5px 15px;
+}
+
+.asset-assigned-search {
+  border: 1px solid #EAEAEA;
+}
+.search-filter .new-dropdown {
+  display: block;
+  width: 120px;
+  padding: .4rem .5rem;
+  font-size: 14px !important;
+  background-color: #fff;
+  border: none !important;
+  border-right: 1px solid #f2f2f2 !important;
+  font-weight: 500;
+  box-shadow: unset;
+  color: #444;
+}
+
+.actionMenuList {
+  line-height: 35px;
+}
+
+.filter-box {
+  width: 300px !important;
+  border-radius: 2px !important;
+  padding: 0px !important;
+  filter: drop-shadow(0px 8px 10px rgba(0, 0, 0, 0.15));
+}
+
+.search-date input {
+  border: none;
+  height: 48px !important;
+  border-left: 0;
+  border-right: 1px solid #EAEAEA;
+  font-weight: 400 !important;
+  font-size: 14px !important;
+  color: #1f1f1f !important;
+}
+
+.search-icon {
+  font-size: 13px !important;
+  position: absolute !important;
+  top: 0;
+  color: var(--tb-secondary-color) !important;
+  margin: auto auto auto 15px;
+}
+
+.filter-btn {
+  min-width: 460px;
+}
+
+.categories-filter input{
+  position: relative;
+  top: -2px;
+  box-sizing: border-box;
+  padding: 0;
+  accent-color: #6766f3;
+  width: 20px;
+  height: 20px;
+  border-radius: 2px;
+}
+
+.filter-btn svg{
+  position: relative;
+  top: -2px;
+}
+.btn-separator {
+  border-left: 1px solid #DCDCE4;
+  height: 20px;
 }

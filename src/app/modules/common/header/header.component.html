@@ -250,24 +250,24 @@
                 <span class=" "><i class="ti ti-apps"></i> Dashboard</span>
               </a>
             </li>
-            <li [class.active]="1 === activeIndex" (mouseover)="updateSliderStyle3(1)" (mouseout)="resetHoverIndex3()"
+            <!-- <li [class.active]="1 === activeIndex" (mouseover)="updateSliderStyle3(1)" (mouseout)="resetHoverIndex3()"
               (click)="setActive3(1);checkRestriction('/payment/bonus-and-deduction');" class="pointer  d-none"
               routerLinkActive="sidebar-menu-active" routerLink="/payment/bonus-and-deduction"
               *ngIf="this.rbacService.shouldDisplay('bonous or deduction')">
               <a class="sidebar-menu-link">
                 <span class=" "><i class="ti ti-gift"></i> Bonus & Deduction</span>
               </a>
-            </li>
-            <li [class.active]="2 === activeIndex" (mouseover)="updateSliderStyle3(2)" (mouseout)="resetHoverIndex3()"
-              (click)="setActive3(2);checkRestriction('/payment/epf-esi-tds');" class="pointer"
+            </li> -->
+            <li [class.active]="1 === activeIndex" (mouseover)="updateSliderStyle3(1)" (mouseout)="resetHoverIndex3()"
+              (click)="setActive3(1);checkRestriction('/payment/epf-esi-tds');" class="pointer"
               routerLinkActive="sidebar-menu-active" routerLink="/payment/epf-esi-tds"
               *ngIf="this.rbacService.shouldDisplay('epf esi tds')">
               <a class="sidebar-menu-link">
                 <span class=" "><i class="ti ti-scissors"></i> EPF, ESI & TDS</span>
               </a>
             </li>
-            <li [class.active]="3 === activeIndex" (mouseover)="updateSliderStyle3(3)" (mouseout)="resetHoverIndex3()"
-              (click)="setActive3(3);checkRestriction('/payment/payment-history');" class="pointer"
+            <li [class.active]="2 === activeIndex" (mouseover)="updateSliderStyle3(2)" (mouseout)="resetHoverIndex3()"
+              (click)="setActive3(2);checkRestriction('/payment/payment-history');" class="pointer"
               routerLinkActive="sidebar-menu-active" routerLink="/payment/payment-history"
               *ngIf="this.rbacService.shouldDisplay('salary slip')">
               <a class="sidebar-menu-link">
