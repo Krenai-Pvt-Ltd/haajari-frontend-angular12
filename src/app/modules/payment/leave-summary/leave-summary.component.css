@@ -1,0 +1,146 @@
+.nav.nav-pills {
+    background-color: transparent;
+    border-bottom: 1px solid #edeff5;
+}
+
+.nav-pills .nav-item.show .nav-link,
+.nav-pills .nav-link.active {
+    background: transparent !important;
+    color: var(--primary-color) !important;
+    border-radius: 0;
+    border-bottom: 2px solid var(--primary-color);
+}
+
+.nav-link {
+    margin-right: 20px;
+    display: block;
+    padding: 7px 10px;
+    color: #000;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 500;
+    text-align: left;
+}
+
+.table tbody {
+    border: 1px solid #f1f1f1;
+}
+
+.profile-user-img img {
+    width: 50px;
+    border: 1px solid #6666f3;
+    border-radius: 50%;
+    padding: 1px;
+}
+
+.leave-request-modat-close-btn {
+    top: -12px;
+    right: -12px;
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+    border: 0px;
+    font-size: 25px;
+}
+
+.leave-appervo-modal h4 {
+    font-size: 18px !important;
+    color: #000;
+    font-weight: 500;
+    padding-bottom: 5px;
+    margin-top: 15px;
+}
+
+.total-holidey-live h5 {
+    font-size: 13px !important;
+    margin-bottom: 5px;
+    padding-bottom: 0px;
+    font-weight: 500;
+    color: #444;
+}
+
+.total-holidey-live p {
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+    font-size: 12px;
+    font-weight: 400;
+    text-align: right;
+    color: #8d93a1 !important;
+    line-height: 24px;
+}
+
+.Approved:first-child {
+    border-right: none;
+    text-align: left;
+}
+
+.Approved:last-child {
+    border-right: none;
+}
+
+.Approved {
+    border-right: 1px solid #f1f1f1;
+    width: 160px;
+}
+
+.Approved span {
+    color: #3e993e !important;
+    text-align: center;
+}
+
+.Approved p {
+    color: #3e993e !important;
+
+}
+
+.Approved p {
+    text-align: center !important;
+}
+
+.pending-css p {
+    color: orange !important;
+}
+
+.pending-css span {
+    color: orange !important;
+}
+
+
+
+.remaining-css p {
+    color: #6666f3 !important;
+}
+
+.remaining-css span {
+    color: #6666f3 !important;
+}
+
+.leave-appervo-modal p {
+    color: #8d93a1;
+    font-weight: 400;
+    font-size: 13px;
+    padding-bottom: 0px;
+    line-height: 23px;
+    text-align: left;
+}
+
+.approve-btn {
+    background-color: #e0ffe0 !important;
+    color: #3e993e !important;
+    border: 1px solid #3e993e;
+}
+
+.reject-btn {
+    background-color: rgb(248, 215, 215);
+    color: #eb5050 !important;
+    border: 1px solid #eb5050;
+}
+.search-icon {
+    font-size: 12px !important;
+    position: absolute !important;
+    top: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    color: var(--tb-secondary-color) !important;
+  }

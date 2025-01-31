@@ -11,10 +11,17 @@
     <app-header></app-header>
   </div> -->
 </div>
+
 <router-outlet
-  *ngIf="this.roleBasedAccessControlService.isUserInfoInitialized"
+  *ngIf="this.roleBasedAccessControlService.isUserInfoInitialized && this.helperService.orgStepId  && !onboardingService.isLoadingOnboardingStatus"
 ></router-outlet>
-<!-- {{isToDoStepsCompletedFlag}} -->
+
+<!-- {{this.roleBasedAccessControlService.isUserInfoInitialized}}
+{{this.helperService.orgStepId}}
+{{!onboardingService.isLoadingOnboardingStatus}} -->
+<app-hajiri-page-loader *ngIf="!(this.roleBasedAccessControlService.isUserInfoInitialized && this.helperService.orgStepId  && !onboardingService.isLoadingOnboardingStatus)">
+</app-hajiri-page-loader>
+ 
 <app-common-to-do-steps
-  *ngIf="isToDoStepsCompleted == 0"
+  *ngIf="isToDoStepsCompleted == 0 && (!this._helperService.isDashboardActive || (this._helperService.isDashboardActive && !isToDoStep))"
 ></app-common-to-do-steps>

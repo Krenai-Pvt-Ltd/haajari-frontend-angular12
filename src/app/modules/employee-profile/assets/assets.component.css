@@ -1,33 +1,33 @@
-.employee-assets{
+.employee-assets {
     border: 1px solid #f1f1f1;
 }
 
 .shimmer-wrapper {
-  height: 300px; /* Adjust height as needed */
-  background: #f6f7f8;
-  background-image: linear-gradient(
-    to right,
-    #f6f7f8 0%,
-    #e9ecef 20%,
-    #f6f7f8 40%,
-    #f6f7f8 100%
-  );
-  background-repeat: no-repeat;
-  background-size: 1000px 100%;
-  animation: shimmer 1.5s infinite;
+    height: 300px;
+    /* Adjust height as needed */
+    background: #f6f7f8;
+    background-image: linear-gradient(to right,
+            #f6f7f8 0%,
+            #e9ecef 20%,
+            #f6f7f8 40%,
+            #f6f7f8 100%);
+    background-repeat: no-repeat;
+    background-size: 1000px 100%;
+    animation: shimmer 1.5s infinite;
 }
 
 @keyframes shimmer {
-  0% {
-    background-position: -1000px 0;
-  }
-  100% {
-    background-position: 1000px 0;
-  }
+    0% {
+        background-position: -1000px 0;
+    }
+
+    100% {
+        background-position: 1000px 0;
+    }
 }
 
 
-.assets-request{
+.assets-request {
     border-radius: 2px;
     border: 1px solid #DCDCE4;
     min-width: 130px;
@@ -35,10 +35,12 @@
     font-weight: 500;
     color: #1C1B1F;
 }
-.assets-request svg{
+
+.assets-request svg {
     width: 24px;
     padding-left: 8px;
 }
+
 .nav.nav-pills {
     background-color: transparent;
     border-bottom: 1px solid #edeff5;
@@ -74,7 +76,8 @@
     margin: auto;
     margin-left: 15px;
 }
-.reset-icon{
+
+.reset-icon {
     font-size: 22px !important;
     position: absolute !important;
     top: 0;
@@ -102,16 +105,8 @@
     font-weight: 400;
 }
 
-.badge {
-    line-height: 12px;
-    padding: 0.55em 10px;
-    font-size: 13px;
-    font-weight: 400;
-    letter-spacing: 0.1px;
-    min-width: 80px;
-}
 
-.table tbody{
+.table tbody {
     border: 1px solid #f1f1f1;
 }
 
@@ -131,12 +126,13 @@
     letter-spacing: 0.1px;
     box-shadow: unset;
 }
+
 /* .onboarding-date{
     border-right: 1px solid #f2f2f2 !important;
 } */
 
 .onboarding-date input[type="text"] {
-    width: 680px;
+    width: 100%;
     border-radius: 0px 10px 10px 0px;
     border: 0px solid #f2f2f2;
     height: 45px !important;
@@ -160,13 +156,14 @@
     overflow: hidden;
 }
 
-.edit-action-btn svg{
+.edit-action-btn svg {
     width: 15px;
 }
 
 .approved-btn svg {
     width: 15px;
 }
+
 .rejected-btn svg {
     width: 12px;
 }
@@ -177,19 +174,19 @@
     font-weight: 500 !important;
 }
 
-.empty-details{
+.empty-details {
     color: #6B7280;
-        line-height: 20px;
-        font-weight: 400 !important;
-        font-size: 12px;
+    line-height: 20px;
+    font-weight: 400 !important;
+    font-size: 12px;
 }
 
 ::ng-deep.ant-empty-image img {
     width: 200px;
 }
 
-.close-btn svg{
-   width: 20px;
+.close-btn svg {
+    width: 20px;
 }
 
 .submitActionBtn {
@@ -198,7 +195,16 @@
     font-size: 12px;
     font-weight: 500;
     border-radius: 2px;
-    min-width: 100px;
+    width: 130px;
+}
+
+.input-zorro {
+    border-radius: 2px !important;
+    border: 1.021px solid #e9e9e9 !important;
+    background: rgba(236, 236, 236, 0.21) !important;
+    height: 45px !important;
+    font-size: 0.875rem !important;
+    font-weight: 400 !important;
 }
 
 .register-form-box label {
@@ -217,14 +223,15 @@
     color: #4a4a4a;
     font-size: 12px;
     font-weight: 500;
-    min-width: 100px;
+    width: 100px;
 }
 
-.assets-req{
+.assets-req {
     border: 1px solid #f1f1f1;
     border-radius: 2px;
     height: 47px;
     margin-bottom: 0px;
+    background-color: rgba(236, 236, 236, 0.21) !important;
 }
 
 .assets-req input {
@@ -233,14 +240,14 @@
     top: -2px;
 }
 
-.assets-req p{
+.assets-req p {
     padding-left: 25px;
-        font-size: 13px;
-            font-weight: 400;
+    font-size: 13px;
+    font-weight: 400;
 }
 
 
-.nots-section{
+.nots-section {
     background-color: rgba(236, 236, 236, 0.21) !important;
     width: 100%;
     height: 100px !important;
@@ -253,15 +260,51 @@
     font-size: 16px;
 }
 
-.assets-request-btn svg{
+.assets-request-btn svg {
     width: 17px;
     position: relative;
     top: -1px;
 }
+
 .assets-request-btn {
     font-weight: 500;
 }
 
-.assets-request-btn{
+.assets-request-btn {
     min-width: 165px;
+}
+
+::ng-deep .placeholder-line .ant-select-selection-placeholder {
+    line-height: 45px !important;
+    font-size: 0.875rem !important;
+    font-weight: 400 !important;
+}
+
+::ng-deep .placeholder-line .ant-select-selection-item {
+    line-height: 45px !important;
+    font-size: 0.875rem !important;
+    font-weight: 400 !important;
+}
+.mobile-filter{
+    display: none;
+}
+
+
+@media screen and (max-width: 500px) {
+.assets-request-btn {
+    min-width: 125px;
+}
+.desktop-filter{
+    display: none;
+}
+.mobile-filter{
+    display: block;
+    border: 1px solid #f2f2f2;
+    height: 45px;
+}
+
+.mobile-filter .empFilerDropfilter .new-deopdown {
+    width: 170px;
+    padding: 10px 0.5rem;
+}
 }

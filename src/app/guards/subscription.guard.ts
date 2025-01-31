@@ -21,27 +21,41 @@ export class SubscriptionGuard implements CanActivate {
       route: ActivatedRouteSnapshot,
       state: RouterStateSnapshot):Promise<boolean>  {
 
-        // console.log("=====isSubscription======",this._subscriptionService.isSubscription)
-        if(this._subscriptionService.isSubscription==undefined){
-         await this._subscriptionService.isSubscriptionPlanExpired();
-        }
+        return this._subscriptionService.verifySubscriptionAndRoute();
 
-        // console.log("=====isSubscription======",this._subscriptionService.isSubscription)
-        if(this._subscriptionService.isSubscription!=undefined && this._rbacService.getRoles()=='ADMIN'){
-          if(this._subscriptionService.isSubscription){
-            if(this._subscriptionService.isPlanExpired){
-              this._router.navigate( ['/subscription/expired']);
-              return false;
-            }else{
-              return true;
-            }
-          }else{
-            this._router.navigate( ['/setting/subscription']);
-            return false;
-          }
-        }
+        // // console.log("=====isSubscription======",this._subscriptionService.isSubscription)
+        // if(this._subscriptionService.isSubscription==undefined){
+        //  await this._subscriptionService.isSubscriptionPlanExpired();
+        // }
 
-        return true;
+        // // console.log("=====isSubscription======",this._subscriptionService.isSubscription)
+        // if(this._subscriptionService.isSubscription!=undefined && this._rbacService.getRoles()=='ADMIN'){
+        //   if(this._subscriptionService.isSubscription){
+        //     if(this._subscriptionService.isPlanExpired){
+        //       this._router.navigate( ['/subscription/expired']);
+        //       return false;
+        //     }else{
+        //       return true;
+        //     }
+        //   }else{
+        //     this._router.navigate( ['/setting/subscription']);
+        //     return false;
+        //   }
+        // }else if(this._subscriptionService.isSubscription!=undefined  && this._rbacService.getRoles()!='USER') {
+        //   if(this._subscriptionService.isSubscription){
+        //     if(this._subscriptionService.isPlanExpired){
+        //       this._router.navigate( ['/subscription/expired']);
+        //       return false;
+        //     }else{
+        //       return true;
+        //     }
+        //   }else{
+        //     // this._router.navigate( ['/setting/subscription']);
+        //     return false;
+        //   }
+        // }
+
+        // return true;
   }
   
 }

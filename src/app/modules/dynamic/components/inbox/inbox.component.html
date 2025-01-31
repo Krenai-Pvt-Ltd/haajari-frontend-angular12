@@ -1,0 +1,356 @@
+<div class="page-wrapper">
+    <div class="page-content-tab">
+      <div class="container-fluid ">
+        <div class="row">
+            <div class="row">
+                <div class="col-md-5">
+                   <div class="pt-3 inbox-list-box">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center inbox-filter">
+                            <span class="d-flex align-items-center justify-content-center pointer calendar-back-btn">
+                               <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
+                                  <mask id="mask0_4719_1625" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21" style="mask-type: alpha;">
+                                     <rect x="0.5" y="0.5" width="20" height="20" fill="#D9D9D9"></rect>
+                                  </mask>
+                                  <g mask="url(#mask0_4719_1625)">
+                                     <path d="M8.83203 15.5L3.83203 10.5L8.83203 5.5L9.9987 6.70833L7.04036 9.66667H17.1654V11.3333H7.04036L9.9987 14.2917L8.83203 15.5Z" fill="#060606"></path>
+                                  </g>
+                               </svg>
+                            </span>
+                            <span class="calendar-separator"></span>
+                            <div class="dropdown">
+                                <nz-date-picker nzBorderless></nz-date-picker>
+                            </div>
+                            <span class="calendar-separator"></span>
+                            <span class="d-flex align-items-center justify-content-center pointer calendar-back-btn disabled">
+                               <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
+                                  <mask id="mask0_4719_1639" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21" style="mask-type: alpha;">
+                                     <rect width="20" height="20" transform="matrix(-1 0 0 1 20.5 0.5)" fill="#D9D9D9"></rect>
+                                  </mask>
+                                  <g mask="url(#mask0_4719_1639)">
+                                     <path d="M12.168 15.5L17.168 10.5L12.168 5.5L11.0013 6.70833L13.9596 9.66667H3.83464V11.3333H13.9596L11.0013 14.2917L12.168 15.5Z" fill="#060606"></path>
+                                  </g>
+                               </svg>
+                            </span>
+                         </div>
+                         <div class="dropdown">
+                         <span class="filter-icon d-flex align-items-center justify-content-center pointer" type="button" data-bs-toggle="dropdown">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <mask id="mask0_7733_521" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
+                                <rect width="20" height="20" fill="#D9D9D9"/>
+                                </mask>
+                                <g mask="url(#mask0_7733_521)">
+                                <path d="M9.16665 16.6666C8.93054 16.6666 8.73262 16.5867 8.5729 16.427C8.41318 16.2673 8.33332 16.0694 8.33332 15.8333V10.8333L3.49999 4.66659C3.29165 4.38881 3.2604 4.09714 3.40624 3.79159C3.55207 3.48603 3.80554 3.33325 4.16665 3.33325H15.8333C16.1944 3.33325 16.4479 3.48603 16.5937 3.79159C16.7396 4.09714 16.7083 4.38881 16.5 4.66659L11.6667 10.8333V15.8333C11.6667 16.0694 11.5868 16.2673 11.4271 16.427C11.2673 16.5867 11.0694 16.6666 10.8333 16.6666H9.16665ZM9.99999 10.2499L14.125 4.99992H5.87499L9.99999 10.2499Z" fill="#1C1B1F"/>
+                                </g>
+                            </svg>
+                         </span>
+
+                         <div class="dropdown-menu actionMenuList">
+                            <li>
+                                <a class="dropdown-item pointer">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="none">
+                                        <mask id="mask0_7816_311" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="19" height="19">
+                                        <rect x="0.243652" y="0.5" width="18" height="18" fill="#D9D9D9"/>
+                                        </mask>
+                                        <g mask="url(#mask0_7816_311)">
+                                        <path d="M4.7609 13.4692C5.3984 12.9962 6.0929 12.6226 6.8444 12.3485C7.59578 12.0745 8.39553 11.9375 9.24365 11.9375C10.0918 11.9375 10.8915 12.0745 11.6429 12.3485C12.3944 12.6226 13.0889 12.9962 13.7264 13.4692C14.1927 12.9567 14.5621 12.3634 14.8347 11.6894C15.1073 11.0154 15.2437 10.2856 15.2437 9.5C15.2437 7.8375 14.6593 6.42188 13.4905 5.25313C12.3218 4.08438 10.9062 3.5 9.24365 3.5C7.58115 3.5 6.16553 4.08438 4.99678 5.25313C3.82803 6.42188 3.24365 7.8375 3.24365 9.5C3.24365 10.2856 3.37996 11.0154 3.65259 11.6894C3.92521 12.3634 4.29465 12.9567 4.7609 13.4692ZM9.24384 10.0625C8.55909 10.0625 7.98165 9.8275 7.51153 9.3575C7.04128 8.88738 6.80615 8.30994 6.80615 7.62519C6.80615 6.94044 7.04115 6.363 7.51115 5.89287C7.98128 5.42262 8.55871 5.1875 9.24346 5.1875C9.92822 5.1875 10.5057 5.4225 10.9758 5.8925C11.446 6.36262 11.6812 6.94006 11.6812 7.62481C11.6812 8.30956 11.4462 8.887 10.9762 9.35713C10.506 9.82738 9.92859 10.0625 9.24384 10.0625ZM9.24365 16.625C8.25428 16.625 7.32615 16.4389 6.45928 16.0668C5.5924 15.6947 4.83834 15.1879 4.19709 14.5466C3.55572 13.9053 3.04896 13.1513 2.67684 12.2844C2.30471 11.4175 2.11865 10.4894 2.11865 9.5C2.11865 8.51062 2.30471 7.5825 2.67684 6.71562C3.04896 5.84875 3.55572 5.09469 4.19709 4.45344C4.83834 3.81206 5.5924 3.30531 6.45928 2.93319C7.32615 2.56106 8.25428 2.375 9.24365 2.375C10.233 2.375 11.1612 2.56106 12.028 2.93319C12.8949 3.30531 13.649 3.81206 14.2902 4.45344C14.9316 5.09469 15.4383 5.84875 15.8105 6.71562C16.1826 7.5825 16.3687 8.51062 16.3687 9.5C16.3687 10.4894 16.1826 11.4175 15.8105 12.2844C15.4383 13.1513 14.9316 13.9053 14.2902 14.5466C13.649 15.1879 12.8949 15.6947 12.028 16.0668C11.1612 16.4389 10.233 16.625 9.24365 16.625ZM9.24365 15.5C9.92053 15.5 10.5732 15.3911 11.2015 15.1734C11.8299 14.9555 12.3878 14.6509 12.8753 14.2597C12.3878 13.8827 11.8372 13.5889 11.2233 13.3784C10.6093 13.1678 9.9494 13.0625 9.24365 13.0625C8.5379 13.0625 7.87684 13.1666 7.26047 13.3747C6.64409 13.5829 6.09459 13.8779 5.61196 14.2597C6.09946 14.6509 6.6574 14.9555 7.28578 15.1734C7.91415 15.3911 8.56678 15.5 9.24365 15.5ZM9.24365 8.9375C9.61678 8.9375 9.92878 8.812 10.1797 8.561C10.4307 8.31012 10.5562 7.99813 10.5562 7.625C10.5562 7.25187 10.4307 6.93988 10.1797 6.689C9.92878 6.438 9.61678 6.3125 9.24365 6.3125C8.87053 6.3125 8.55853 6.438 8.30765 6.689C8.05665 6.93988 7.93115 7.25187 7.93115 7.625C7.93115 7.99813 8.05665 8.31012 8.30765 8.561C8.55853 8.812 8.87053 8.9375 9.24365 8.9375Z" fill="#1C1B1F"/>
+                                        </g>
+                                    </svg>
+                                    Onboarding
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item pointer">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="19" viewBox="0 0 18 19" fill="none">
+                                        <mask id="mask0_7816_245" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="18" height="19">
+                                        <rect y="0.5" width="18" height="18" fill="#D9D9D9"/>
+                                        </mask>
+                                        <g mask="url(#mask0_7816_245)">
+                                        <path d="M3.375 14.9809V13.3135C3.375 12.9462 3.47475 12.6061 3.67425 12.2931C3.87375 11.9801 4.14037 11.7395 4.47412 11.5712C5.21537 11.2078 5.96319 10.9353 6.71756 10.7535C7.47194 10.5718 8.23275 10.4809 9 10.4809C9.4 10.4809 9.79738 10.5054 10.1921 10.5544C10.5868 10.6034 10.9826 10.6784 11.3797 10.7794L10.4409 11.7298C10.1946 11.6945 9.95437 11.665 9.72038 11.6413C9.48637 11.6177 9.24625 11.6059 9 11.6059C8.31625 11.6059 7.63856 11.6878 6.96694 11.8517C6.29544 12.0157 5.63656 12.2568 4.99031 12.5751C4.83944 12.6568 4.72 12.7624 4.632 12.8916C4.544 13.021 4.5 13.1616 4.5 13.3135V13.8559H8.94225V14.9809H3.375ZM10.5866 15.8751V13.8934L14.6582 9.84041C14.7514 9.74716 14.8521 9.68154 14.9603 9.64354C15.0684 9.60566 15.1765 9.58672 15.2846 9.58672C15.4025 9.58672 15.5166 9.60879 15.6268 9.65291C15.7371 9.69716 15.8373 9.76354 15.9274 9.85204L16.6211 10.5529C16.7019 10.6463 16.7644 10.7473 16.8086 10.8559C16.8529 10.9645 16.875 11.0732 16.875 11.1818C16.875 11.2904 16.8548 11.401 16.8144 11.5135C16.7741 11.626 16.7096 11.7288 16.6211 11.8221L12.5683 15.8751H10.5866ZM11.4808 14.9809H12.1933L14.6278 12.5346L14.2832 12.1783L13.9341 11.8266L11.4808 14.2684V14.9809ZM14.2832 12.1783L13.9341 11.8266L14.6278 12.5346L14.2832 12.1783ZM9 9.26929C8.27812 9.26929 7.66019 9.01229 7.14619 8.49829C6.63206 7.98416 6.375 7.36616 6.375 6.64429C6.375 5.92241 6.63206 5.30447 7.14619 4.79047C7.66019 4.27635 8.27812 4.01929 9 4.01929C9.72188 4.01929 10.3398 4.27635 10.8538 4.79047C11.3679 5.30447 11.625 5.92241 11.625 6.64429C11.625 7.36616 11.3679 7.98416 10.8538 8.49829C10.3398 9.01229 9.72188 9.26929 9 9.26929ZM9 8.14429C9.4125 8.14429 9.76563 7.99741 10.0594 7.70366C10.3531 7.40991 10.5 7.05679 10.5 6.64429C10.5 6.23179 10.3531 5.87866 10.0594 5.58491C9.76563 5.29116 9.4125 5.14429 9 5.14429C8.5875 5.14429 8.23438 5.29116 7.94063 5.58491C7.64687 5.87866 7.5 6.23179 7.5 6.64429C7.5 7.05679 7.64687 7.40991 7.94063 7.70366C8.23438 7.99741 8.5875 8.14429 9 8.14429Z" fill="black"/>
+                                        </g>
+                                    </svg>
+                                    Profile Update
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item pointer">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="19" viewBox="0 0 18 19" fill="none">
+                                        <mask id="mask0_7816_281" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="18" height="19">
+                                        <rect y="0.5" width="18" height="18" fill="#D9D9D9"/>
+                                        </mask>
+                                        <g mask="url(#mask0_7816_281)">
+                                        <path d="M7.5 9.26929C6.77812 9.26929 6.16019 9.01229 5.64619 8.49829C5.13206 7.98416 4.875 7.36616 4.875 6.64429C4.875 5.92241 5.13206 5.30447 5.64619 4.79047C6.16019 4.27635 6.77812 4.01929 7.5 4.01929C8.22188 4.01929 8.83981 4.27635 9.35381 4.79047C9.86794 5.30447 10.125 5.92241 10.125 6.64429C10.125 7.36616 9.86794 7.98416 9.35381 8.49829C8.83981 9.01229 8.22188 9.26929 7.5 9.26929ZM1.875 14.9809V13.3135C1.875 12.9347 1.97162 12.5917 2.16487 12.2845C2.35812 11.9772 2.62787 11.7395 2.97412 11.5712C3.59712 11.2607 4.27019 11.0013 4.99331 10.7931C5.71631 10.585 6.55188 10.4809 7.5 10.4809H7.71919C7.77981 10.4809 7.84519 10.4886 7.91531 10.504C7.83944 10.6809 7.77675 10.8611 7.72725 11.0447C7.67763 11.2285 7.6365 11.4155 7.60388 11.6059H7.5C6.6365 11.6059 5.87206 11.7052 5.20669 11.9037C4.54131 12.1023 3.96919 12.3261 3.49031 12.5751C3.32019 12.6665 3.19594 12.7732 3.11756 12.8953C3.03919 13.0175 3 13.1568 3 13.3135V13.8559H7.725C7.78075 14.0463 7.85312 14.2395 7.94212 14.4357C8.031 14.6318 8.12881 14.8135 8.23556 14.9809H1.875ZM12.0793 15.5361L11.9121 14.5408C11.7332 14.488 11.5649 14.4188 11.4071 14.3333C11.2495 14.2477 11.0995 14.1404 10.9571 14.0115L10.0067 14.3419L9.47306 13.4346L10.2491 12.8001C10.1952 12.6059 10.1683 12.4145 10.1683 12.226C10.1683 12.0376 10.1952 11.8463 10.2491 11.652L9.48038 11.0029L10.014 10.0958L10.9571 10.4333C11.0946 10.3044 11.2434 10.1984 11.4036 10.1153C11.5637 10.032 11.7332 9.96397 11.9121 9.9111L12.0793 8.91604H13.1466L13.3067 9.9111C13.4856 9.96397 13.6551 10.034 13.8152 10.1211C13.9752 10.2081 14.1239 10.3198 14.2614 10.4563L15.2048 10.0958L15.7384 11.026L14.9696 11.6751C15.0235 11.8555 15.0504 12.0434 15.0504 12.2387C15.0504 12.4341 15.0235 12.6212 14.9696 12.8001L15.7457 13.4346L15.2121 14.3419L14.2614 14.0115C14.1192 14.1404 13.9692 14.2477 13.8114 14.3333C13.6538 14.4188 13.4856 14.488 13.3067 14.5408L13.1466 15.5361H12.0793ZM12.6064 13.654C12.9993 13.654 13.3353 13.5141 13.6146 13.2343C13.8939 12.9546 14.0336 12.6183 14.0336 12.2254C14.0336 11.8325 13.8938 11.4965 13.614 11.2172C13.3343 10.9378 12.9979 10.7982 12.6051 10.7982C12.2123 10.7982 11.8763 10.938 11.5969 11.2178C11.3175 11.4975 11.1778 11.8338 11.1778 12.2267C11.1778 12.6195 11.3177 12.9555 11.5974 13.2349C11.8772 13.5143 12.2135 13.654 12.6064 13.654ZM7.5 8.14429C7.9125 8.14429 8.26563 7.99741 8.55938 7.70366C8.85313 7.40991 9 7.05679 9 6.64429C9 6.23179 8.85313 5.87866 8.55938 5.58491C8.26563 5.29116 7.9125 5.14429 7.5 5.14429C7.0875 5.14429 6.73438 5.29116 6.44063 5.58491C6.14687 5.87866 6 6.23179 6 6.64429C6 7.05679 6.14687 7.40991 6.44063 7.70366C6.73438 7.99741 7.0875 8.14429 7.5 8.14429Z" fill="#1C1B1F"/>
+                                        </g>
+                                    </svg>
+                                    Attendees Update 
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item pointer">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="19" viewBox="0 0 18 19" fill="none">
+                                        <mask id="mask0_7816_269" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="18" height="19">
+                                        <rect y="0.5" width="18" height="18" fill="#D9D9D9"/>
+                                        </mask>
+                                        <g mask="url(#mask0_7816_269)">
+                                        <path d="M9 13.7259C8.22312 13.7259 7.47506 13.8593 6.75581 14.1262C6.03656 14.3931 5.37356 14.7981 4.76681 15.3414V15.4567C4.78606 15.4712 4.80531 15.482 4.82456 15.4891C4.84369 15.4964 4.86531 15.5 4.88944 15.5H13.0961C13.1203 15.5 13.1407 15.4964 13.1574 15.4891C13.1743 15.482 13.1924 15.4712 13.2116 15.4567V15.3414C12.6145 14.7981 11.9587 14.3931 11.2442 14.1262C10.5298 13.8593 9.78175 13.7259 9 13.7259ZM3.75 14.7386C4.425 14.0761 5.20938 13.5542 6.10313 13.1729C6.99688 12.7917 7.9625 12.6011 9 12.6011C10.0375 12.6011 11.0031 12.7917 11.8969 13.1729C12.7906 13.5542 13.575 14.0761 14.25 14.7386V5.23082C14.25 5.17307 14.2259 5.1202 14.1778 5.0722C14.1298 5.02407 14.0769 5.00001 14.0192 5.00001H3.98081C3.92306 5.00001 3.87019 5.02407 3.82219 5.0722C3.77406 5.1202 3.75 5.17307 3.75 5.23082V14.7386ZM9 10.8125C8.32312 10.8125 7.74763 10.5755 7.2735 10.1015C6.7995 9.62739 6.5625 9.05189 6.5625 8.37501C6.5625 7.69814 6.7995 7.12264 7.2735 6.64851C7.74763 6.17451 8.32312 5.93751 9 5.93751C9.67688 5.93751 10.2524 6.17451 10.7265 6.64851C11.2005 7.12264 11.4375 7.69814 11.4375 8.37501C11.4375 9.05189 11.2005 9.62739 10.7265 10.1015C10.2524 10.5755 9.67688 10.8125 9 10.8125ZM9 9.68751C9.36062 9.68751 9.6695 9.55889 9.92662 9.30164C10.1839 9.04451 10.3125 8.73564 10.3125 8.37501C10.3125 8.01439 10.1839 7.70551 9.92662 7.44839C9.6695 7.19114 9.36062 7.06251 9 7.06251C8.63938 7.06251 8.3305 7.19114 8.07337 7.44839C7.81612 7.70551 7.6875 8.01439 7.6875 8.37501C7.6875 8.73564 7.81612 9.04451 8.07337 9.30164C8.3305 9.55889 8.63938 9.68751 9 9.68751ZM3.98081 16.625C3.60194 16.625 3.28125 16.4938 3.01875 16.2313C2.75625 15.9688 2.625 15.6481 2.625 15.2692V5.23082C2.625 4.85195 2.75625 4.53126 3.01875 4.26876C3.28125 4.00626 3.60194 3.87501 3.98081 3.87501H5.01919V2.28857H6.17306V3.87501H11.8558V2.28857H12.9808V3.87501H14.0192C14.3981 3.87501 14.7188 4.00626 14.9813 4.26876C15.2438 4.53126 15.375 4.85195 15.375 5.23082V15.2692C15.375 15.6481 15.2438 15.9688 14.9813 16.2313C14.7188 16.4938 14.3981 16.625 14.0192 16.625H3.98081Z" fill="black"/>
+                                        </g>
+                                    </svg>
+                                    Leave request 
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item pointer">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="19" viewBox="0 0 18 19" fill="none">
+                                        <mask id="mask0_7816_233" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="18" height="19">
+                                        <rect y="0.5" width="18" height="18" fill="#D9D9D9"/>
+                                        </mask>
+                                        <g mask="url(#mask0_7816_233)">
+                                        <path d="M7.51875 18.125C6.53412 18.125 5.60719 17.9377 4.73794 17.5632C3.86869 17.1887 3.1115 16.6789 2.46637 16.0336C1.82112 15.3885 1.31125 14.6325 0.93675 13.7656C0.56225 12.8987 0.375 11.9769 0.375 11C0.375 10.0154 0.56225 9.08842 0.93675 8.21917C1.31125 7.34992 1.82112 6.59274 2.46637 5.94761C3.1115 5.30236 3.86869 4.79249 4.73794 4.41799C5.60719 4.04349 6.53412 3.85624 7.51875 3.85624C7.61487 3.85624 7.7055 3.85817 7.79062 3.86205C7.87575 3.86592 7.96637 3.87167 8.0625 3.8793V5.0043C7.96637 4.99667 7.87575 4.99092 7.79062 4.98705C7.7055 4.98317 7.61487 4.98124 7.51875 4.98124C5.84375 4.98124 4.42187 5.56561 3.25312 6.73436C2.08438 7.90311 1.5 9.32499 1.5 11C1.5 12.6625 2.08438 14.0781 3.25312 15.2469C4.42187 16.4156 5.84375 17 7.51875 17C9.18125 17 10.5969 16.4156 11.7656 15.2469C12.9344 14.0781 13.5187 12.6625 13.5187 11H14.6437C14.6437 11.9769 14.4565 12.8987 14.082 13.7656C13.7075 14.6325 13.1976 15.3885 12.5524 16.0336C11.9073 16.6789 11.1532 17.1887 10.2902 17.5632C9.42719 17.9377 8.50338 18.125 7.51875 18.125ZM10.1192 14.4024L6.9375 11.2207V7.2933H8.0625V10.7793L10.9024 13.6192L10.1192 14.4024ZM16.3297 9.2043C15.999 7.5158 15.2466 6.05092 14.0726 4.80967C12.8986 3.5683 11.4914 2.72886 9.85106 2.29136V1.13599C11.8106 1.59849 13.4831 2.55886 14.8687 4.01711C16.2542 5.47524 17.1225 7.2043 17.4735 9.2043H16.3297ZM13.2302 9.2043C12.9736 8.3533 12.5501 7.6028 11.9597 6.9528C11.3693 6.3028 10.6664 5.8038 9.85106 5.4558V4.25149C10.9654 4.63699 11.9286 5.26824 12.7406 6.14524C13.5526 7.02211 14.1057 8.0418 14.4 9.2043H13.2302Z" fill="black"/>
+                                        </g>
+                                    </svg>
+                                    Overtime request 
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item pointer">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="19" viewBox="0 0 18 19" fill="none">
+                                        <mask id="mask0_7816_227" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="18" height="19">
+                                        <rect y="0.5" width="18" height="18" fill="#D9D9D9"/>
+                                        </mask>
+                                        <g mask="url(#mask0_7816_227)">
+                                        <path d="M1.875 15.5V10.077H7.29806V15.5H1.875ZM3 14.375H6.17306V11.202H3V14.375ZM4.73081 7.62504L8.33663 1.71167L11.9423 7.62504H4.73081ZM6.71531 6.50004H9.95775L8.33663 3.89229L6.71531 6.50004ZM16.1957 17.2942L14.2226 15.3212C13.9745 15.5009 13.7021 15.6382 13.4055 15.7329C13.1089 15.8277 12.7943 15.875 12.4616 15.875C11.601 15.875 10.8714 15.5757 10.2729 14.9771C9.67431 14.3786 9.375 13.649 9.375 12.7884C9.375 11.9279 9.67431 11.1984 10.2729 10.5997C10.8714 10.0012 11.601 9.70198 12.4616 9.70198C13.3221 9.70198 14.0517 10.0012 14.6503 10.5997C15.2488 11.1984 15.5481 11.9279 15.5481 12.7884C15.5481 13.1134 15.5007 13.423 15.4059 13.7173C15.3113 14.0115 15.1803 14.2827 15.0129 14.5309L16.986 16.5039L16.1957 17.2942ZM12.4613 14.75C13.0105 14.75 13.4748 14.5604 13.8542 14.1812C14.2334 13.802 14.4231 13.3379 14.4231 12.7888C14.4231 12.2395 14.2335 11.7752 13.8544 11.3959C13.4751 11.0166 13.0109 10.827 12.4618 10.827C11.9126 10.827 11.4483 11.0165 11.0691 11.3957C10.6897 11.7749 10.5 12.2391 10.5 12.7882C10.5 13.3375 10.6896 13.8017 11.0689 14.181C11.448 14.5604 11.9121 14.75 12.4613 14.75Z" fill="black"/>
+                                        </g>
+                                    </svg>
+                                    Asset request
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item pointer">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="19" viewBox="0 0 18 19" fill="none">
+                                        <mask id="mask0_7816_221" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="18" height="19">
+                                        <rect y="0.5" width="18" height="18" fill="#D9D9D9"/>
+                                        </mask>
+                                        <g mask="url(#mask0_7816_221)">
+                                        <path d="M10.1004 13.5457H11.4821L11.4894 13.4894L8.48944 10.2862L8.50819 10.2313H8.69569C9.39956 10.2313 9.97819 10.0346 10.4316 9.64138C10.8848 9.24813 11.1519 8.75725 11.2327 8.16875H11.9683V7.42456H11.2129C11.1761 7.19856 11.1024 6.98919 10.9918 6.79644C10.8812 6.60356 10.7428 6.42588 10.5765 6.26338H11.9683V5.51919H6.03169V6.37887H8.68988C9.09663 6.37887 9.43075 6.47456 9.69225 6.66594C9.95387 6.85719 10.1222 7.11006 10.1972 7.42456H6.03169V8.16875H10.2159C10.1506 8.51013 9.98394 8.78825 9.71606 9.00313C9.44831 9.218 9.09469 9.32544 8.65519 9.32544H7.09763V10.2875L10.1004 13.5457ZM9.00131 16.625C8.01581 16.625 7.0895 16.438 6.22237 16.064C5.35525 15.69 4.601 15.1824 3.95962 14.5413C3.31825 13.9002 2.81044 13.1463 2.43619 12.2795C2.06206 11.4128 1.875 10.4867 1.875 9.50131C1.875 8.51581 2.062 7.5895 2.436 6.72237C2.81 5.85525 3.31756 5.101 3.95869 4.45962C4.59981 3.81825 5.35375 3.31044 6.2205 2.93619C7.08725 2.56206 8.01331 2.375 8.99869 2.375C9.98419 2.375 10.9105 2.562 11.7776 2.936C12.6448 3.31 13.399 3.81756 14.0404 4.45869C14.6818 5.09981 15.1896 5.85375 15.5638 6.7205C15.9379 7.58725 16.125 8.51331 16.125 9.49869C16.125 10.4842 15.938 11.4105 15.564 12.2776C15.19 13.1448 14.6824 13.899 14.0413 14.5404C13.4002 15.1818 12.6463 15.6896 11.7795 16.0638C10.9128 16.4379 9.98669 16.625 9.00131 16.625ZM9 15.5C10.675 15.5 12.0938 14.9187 13.2563 13.7563C14.4187 12.5938 15 11.175 15 9.5C15 7.825 14.4187 6.40625 13.2563 5.24375C12.0938 4.08125 10.675 3.5 9 3.5C7.325 3.5 5.90625 4.08125 4.74375 5.24375C3.58125 6.40625 3 7.825 3 9.5C3 11.175 3.58125 12.5938 4.74375 13.7563C5.90625 14.9187 7.325 15.5 9 15.5Z" fill="black"/>
+                                        </g>
+                                    </svg>
+                                    Expense request
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item pointer">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="19" viewBox="0 0 18 19" fill="none">
+                                        <mask id="mask0_7816_215" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="18" height="19">
+                                        <rect y="0.5" width="18" height="18" fill="#D9D9D9"/>
+                                        </mask>
+                                        <g mask="url(#mask0_7816_215)">
+                                        <path d="M14.8527 16.9567L12.8768 14.9808H3.3749V13.3133C3.3749 12.9461 3.47465 12.606 3.67415 12.293C3.87365 11.98 4.14028 11.7393 4.47403 11.5711C5.08453 11.2692 5.69965 11.0332 6.3194 10.8629C6.93915 10.6928 7.56346 10.5808 8.19234 10.5269H8.31121C8.35209 10.5269 8.39178 10.5293 8.43027 10.534L1.54321 3.64715L2.34515 2.84521L15.6547 16.1547L14.8527 16.9567ZM4.4999 13.8558H11.7518L9.53784 11.6418C9.44071 11.6322 9.35109 11.6237 9.26896 11.6165C9.18671 11.6093 9.09703 11.6058 8.9999 11.6058C8.31428 11.6058 7.63615 11.6877 6.96553 11.8516C6.2949 12.0156 5.63646 12.2567 4.99021 12.575C4.83934 12.6567 4.7199 12.7622 4.6319 12.8915C4.5439 13.0208 4.4999 13.1615 4.4999 13.3133V13.8558ZM13.6846 11.6504C13.9076 11.7582 14.0845 11.9217 14.2152 12.1409C14.346 12.36 14.4152 12.5965 14.423 12.8504L12.8768 11.3043C13.0153 11.3582 13.1519 11.412 13.2865 11.4659C13.421 11.5198 13.5537 11.5813 13.6846 11.6504ZM10.4551 8.83209L9.63028 8.00728C9.89365 7.88515 10.1045 7.70078 10.2627 7.45415C10.4208 7.2074 10.4999 6.9374 10.4999 6.64415C10.4999 6.23165 10.353 5.87853 10.0593 5.58478C9.76553 5.29103 9.4124 5.14415 8.9999 5.14415C8.70665 5.14415 8.43671 5.22328 8.19009 5.38153C7.94346 5.53965 7.75909 5.75046 7.63696 6.01396L6.81196 5.18896C7.06096 4.81684 7.37659 4.52884 7.75884 4.32496C8.14109 4.12109 8.55478 4.01915 8.9999 4.01915C9.7239 4.01915 10.3424 4.27565 10.8554 4.78865C11.3684 5.30165 11.6249 5.92015 11.6249 6.64415C11.6249 7.0894 11.523 7.50309 11.3191 7.88521C11.1152 8.26746 10.8272 8.58309 10.4551 8.83209Z" fill="black"/>
+                                        </g>
+                                    </svg>
+                                    Resignation 
+                                </a>
+                            </li>
+                           
+                        </div>
+                    </div>
+                    </div>
+                    <div class="inbox-list mt-2">
+                        <div class="d-flex align-items-center justify-content-between pointer border-bottom p-3 " >
+                            <div class="d-flex align-items-center gap-3">
+                                <span class="attendance-notification notification-name d-flex align-items-center justify-content-center fw-semibold font-16">A</span>
+                                <div>
+                                    <p class="mb-1 font-13 fw-normal">Attendance Update  | 12th Nov,2023</p>
+                                    <h5 class="mb-0 font-15">Meg Griffin has left you a review. Both of your reviews from this trip are now public.</h5>
+                                </div>
+                            </div>
+                            <span class="text-end pointer">
+                                <i class="bi bi-chevron-right font-18"></i>
+                            </span>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between pointer border-bottom pb-3 p-3" >
+                            <div class="d-flex align-items-center gap-3">
+                                <span class="onboarding-notification notification-name d-flex align-items-center justify-content-center fw-semibold font-16">OB</span>
+                                <div>
+                                    <p class="mb-1 font-13 fw-normal">Onboarding | 12th Nov,2023</p>
+                                    <h5 class="mb-0 font-15">Please confirm your email address by clicking on the link we just emailed you. If you cannot find the email, you can request a n...</h5>
+                                </div>
+                            </div>
+                            <span class="text-end pointer">
+                                <i class="bi bi-chevron-right font-18"></i>
+                            </span>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between pointer border-bottom pb-3 p-3" >
+                            <div class="d-flex align-items-center gap-3">
+                                <span class="resignation-notification notification-name d-flex align-items-center justify-content-center fw-semibold font-16">R</span>
+                                <div>
+                                    <p class="mb-1 font-13 fw-normal">Resignation  | 12th Nov,2023</p>
+                                    <h5 class="mb-0 font-15">Meg Griffin has left you a review. Both of your reviews from this trip are now public.</h5>
+                                </div>
+                            </div>
+                            <span class="text-end pointer">
+                                <i class="bi bi-chevron-right font-18"></i>
+                            </span>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between pointer border-bottom pb-3 p-3" >
+                            <div class="d-flex align-items-center gap-3">
+                                <span class="profile-notification notification-name d-flex align-items-center justify-content-center fw-semibold font-16">PU</span>
+                                <div>
+                                    <p class="mb-1 font-13 fw-normal">Profile Update  | 12th Nov,2023</p>
+                                    <h5 class="mb-0 font-15">Please confirm your email address by clicking on the link we just emailed you. If you cannot find the email, you can request a n...</h5>
+                                </div>
+                            </div>
+                            <span class="text-end pointer">
+                                <i class="bi bi-chevron-right font-18"></i>
+                            </span>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between pointer border-bottom pb-3 p-3" >
+                            <div class="d-flex align-items-center gap-3">
+                                <span class="overtime-notification notification-name d-flex align-items-center justify-content-center fw-semibold font-16">OT</span>
+                                <div>
+                                    <p class="mb-1 font-13 fw-normal">Overtime Request  | 12th Nov,2023</p>
+                                    <h5 class="mb-0 font-15">Meg Griffin has left you a review. Both of your reviews from this trip are now public.</h5>
+                                </div>
+                            </div>
+                            <span class="text-end pointer">
+                                <i class="bi bi-chevron-right font-18"></i>
+                            </span>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between pointer border-bottom pb-3 p-3 active" >
+                            <div class="d-flex align-items-center gap-3">
+                                <span class="leave-notification notification-name d-flex align-items-center justify-content-center fw-semibold font-16">LR</span>
+                                <div>
+                                    <p class="mb-1 font-13 fw-normal">Leave Request  | 12th Nov,2023</p>
+                                    <h5 class="mb-0 font-15">Please confirm your email address by clicking on the link we just emailed you. If you cannot find the email, you can request a n...</h5>
+                                </div>
+                            </div>
+                            <span class="text-end pointer">
+                                <i class="bi bi-chevron-right font-18"></i>
+                            </span>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between pointer border-bottom pb-3 p-3" >
+                            <div class="d-flex align-items-center gap-3">
+                                <span class="expense-notification notification-name d-flex align-items-center justify-content-center fw-semibold font-16">EX</span>
+                                <div>
+                                    <p class="mb-1 font-13 fw-normal">Expense Request  | 12th Nov,2023</p>
+                                    <h5 class="mb-0 font-15">Meg Griffin has left you a review. Both of your reviews from this trip are now public.</h5>
+                                </div>
+                            </div>
+                            <span class="text-end pointer">
+                                <i class="bi bi-chevron-right font-18"></i>
+                            </span>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between pointer border-bottom pb-3 p-3" >
+                            <div class="d-flex align-items-center gap-3">
+                                <span class="assets-notification notification-name d-flex align-items-center justify-content-center fw-semibold font-16">AR</span>
+                                <div>
+                                    <p class="mb-1 font-13 fw-normal">Assets Request  | 12th Nov,2023</p>
+                                    <h5 class="mb-0 font-15">Please confirm your email address by clicking on the link we just emailed you. If you cannot find the email, you can request a n...</h5>
+                                </div>
+                            </div>
+                            <span class="text-end pointer">
+                                <i class="bi bi-chevron-right font-18"></i>
+                            </span>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between pointer pb-3 p-3" >
+                            <div class="d-flex align-items-center gap-3">
+                                <span class="attendance-notification notification-name d-flex align-items-center justify-content-center fw-semibold font-16">A</span>
+                                <div>
+                                    <p class="mb-1 font-13 fw-normal">Attendance Update  | 12th Nov,2023</p>
+                                    <h5 class="mb-0 font-15">Meg Griffin has left you a review. Both of your reviews from this trip are now public.</h5>
+                                </div>
+                            </div>
+                            <span class="text-end pointer">
+                                <i class="bi bi-chevron-right font-18"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                   </div>
+                </div>
+                <div class="col-md-7">
+                    <div class="p-3 notification-detail">
+                        <p class="mb-1 font-14">27th January,2025 | 12:30PM</p>
+                        <h5 class="mb-0 font-18x fw-semibold">Please confirm your email address by clicking on the link we just emailed you. If you cannot find the email</h5>
+
+                        <div class="mt-4 leave-request">
+                            <div class="d-flex align-items-center justify-content-between p-3">
+                              <h5 class="mb-0 font-14">Leave Request</h5>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-between p-3 user-detail">
+                                <div class="d-flex align-items-center gap-2">
+                                   <img src="assets/images/user.png">
+                                   <div>
+                                      <h5 class="mb-0 font-15">Yogesh Kumar </h5>
+                                      <p class="mb-0 font-12">yogesh@krenai.com </p>
+                                   </div>
+                                </div>
+                                <p class="mb-0 font-13 fw-semibold text-black"> Date: 6th NOV 2024 </p>
+                             </div>
+                             <div class="row p-3">
+                                <div class="col-md-6 mb-3">
+                                    <label for="leave-type" class="pb-2">Leave Type</label>
+                                    <div class="requested-to">
+                                       <p class="mb-0 fw-semibold"> Casual Leave</p>
+                                    </div>
+                                 </div>
+                                 <div class="col-md-6 mb-3">
+                                    <label for="leave-type" class="pb-2">Total Leave</label>
+                                    <div class="total-leave d-flex align-items-center gap-3">
+                                    <div>
+                                        <p class="mb-1 font-11"> Approved</p>
+                                        <h5 class="mb-0 fot-12 fw-semibold">4</h5>
+                                    </div>
+                                    <div>
+                                        <p class="mb-1 font-11"> Rejected</p>
+                                        <h5 class="mb-0 fot-12 fw-semibold">4</h5>
+                                    </div>
+                                    <div>
+                                        <p class="mb-1 font-11"> Remaining</p>
+                                        <h5 class="mb-0 fot-12 fw-semibold">4</h5>
+                                    </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="starting-date" class="pb-2">Starting Date</label>
+                                    <div class="requested-to">
+                                        <p class="mb-0 fw-semibold"> 12th Jan 2023</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="ending-date" class="pb-2">Ending Date</label>
+                                    <div class="requested-to">
+                                        <p class="mb-0 fw-semibold"> 12th Jan 2023</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 mb-3">
+                                    <label for="ending-date" class="pb-2">Requested To</label>
+                                    <div class="requested-to">
+                                        <p class="mb-0"> You: <span class="fw-semibold"> @Esther Howard </span></p>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 mb-3">
+                                    <div class="form-group">
+                                        <label for="templateName" class="mb-2"> Note</label>
+                                        <textarea id="requestReason" rows="3" class="form-control nots-section" maxlength="255" disabled ></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 mb-3">
+                                    <div class="form-group">
+                                        <label for="templateName" class="mb-2"> Reason of Rejection</label>
+                                        <textarea id="requestReason" rows="3" class="form-control nots-section" maxlength="255" disabled ></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 d-flex align-items-center justify-content-end gap-2">
+                                    <button type="button" class="btn reject-btn">Reject</button>
+                                    <button type="submit" class="btn approved-btn">Approved</button>
+                                </div>
+                             </div>
+                        </div>
+                    </div>
+                   
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

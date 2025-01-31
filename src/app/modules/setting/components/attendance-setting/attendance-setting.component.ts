@@ -1,24 +1,18 @@
 import { DatePipe } from '@angular/common';
 import {
-  Directive,
   Component,
   ElementRef,
   OnInit,
   ViewChild,
-  ANALYZE_FOR_ENTRY_COMPONENTS,
 } from '@angular/core';
 import {
-  FormArray,
   FormBuilder,
-  FormGroup,
   NgForm,
   NgModel,
-  Validators,
 } from '@angular/forms';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { findLastKey } from 'lodash';
+import { ActivatedRoute, Router } from '@angular/router';
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
-import { filter } from 'rxjs/operators';
+import { constant } from 'src/app/constant/constant';
 import { Key } from 'src/app/constant/key';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { Holiday } from 'src/app/models/Holiday';
@@ -49,12 +43,11 @@ import { OvertimeSettingResponse } from 'src/app/models/overtime-setting-respons
 import { OvertimeType } from 'src/app/models/overtime-type';
 import { ShiftType } from 'src/app/models/shift-type';
 import { Staff } from 'src/app/models/staff';
-import { User } from 'src/app/models/user';
 import { UserTeamDetailsReflection } from 'src/app/models/user-team-details-reflection';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { PlacesService } from 'src/app/services/places.service';
-declare var google: any;
+// declare var google: any;
 
 @Component({
   selector: 'app-attendance-setting',
@@ -66,6 +59,7 @@ export class AttendanceSettingComponent implements OnInit {
     new OrganizationAddressDetail();
 
   readonly OVERTIME_RULE = Key.OVERTIME_RULE;
+  readonly  constant = constant;
 
   constructor(
     private dataService: DataService,
@@ -95,6 +89,7 @@ export class AttendanceSettingComponent implements OnInit {
       this.activeModel = true;
     }
 
+    this.checkStepCompletionStatusByStepId(Key.AUTOMATION_RULE_ID);
     this.getUniversalHolidays();
     this.getCustomHolidays();
     this.getWeeklyHolidays();
@@ -510,7 +505,7 @@ export class AttendanceSettingComponent implements OnInit {
     this.dataService
       .registerAttendanceRuleDefinition(this.attendanceRuleDefinitionRequest)
       .subscribe(
-        (response) => {
+        async (response) => {
           localStorage.removeItem('staffSelectionActive');
           this.addAttendanceRuleDefinitionModalClose.nativeElement.click();
           this.activeModel2 = false;
@@ -519,7 +514,7 @@ export class AttendanceSettingComponent implements OnInit {
             'Attendance rule registered successfully',
             Key.TOAST_STATUS_SUCCESS
           );
-          this.helperService.registerOrganizationRegistratonProcessStepData(Key.AUTOMATION_RULE_ID, Key.PROCESS_COMPLETED);
+          await this.helperService.registerOrganizationRegistratonProcessStepData(Key.AUTOMATION_RULE_ID, Key.PROCESS_COMPLETED);
           this.getAttendanceRuleWithAttendanceRuleDefinitionMethodCall();
         },
         (error) => {
@@ -551,37 +546,7 @@ export class AttendanceSettingComponent implements OnInit {
   deleteAttendanceRuleTemplateLoader(id: any): boolean {
     return this.deleteAttendanceRuleLoaderStatus[id] || false;
   }
-
-  deleteAttendanceRuleLoaderStatus: { [key: string]: boolean } = {};
-  deleteAttendanceRuleDefinitionMethodCall(
-    attendanceRuleDefinitionId: number,
-    attendanceRuleTypeId: number
-  ) {
-    this.deleteAttendanceRuleLoaderStatus[attendanceRuleDefinitionId] = true;
-    this.dataService
-      .deleteAttendanceRuleDefinition(
-        attendanceRuleDefinitionId,
-        attendanceRuleTypeId
-      )
-      .subscribe(
-        (response) => {
-          // console.log(response);
-          this.deleteAttendanceRuleLoaderStatus[attendanceRuleDefinitionId] =
-            false;
-          this.helperService.showToast(
-            'Attendance rule settings deleted successfully',
-            Key.TOAST_STATUS_SUCCESS
-          );
-          this.getAttendanceRuleWithAttendanceRuleDefinitionMethodCall();
-        },
-        (error) => {
-          console.log(error);
-          this.deleteAttendanceRuleLoaderStatus[attendanceRuleDefinitionId] =
-            false;
-          this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
-        }
-      );
-  }
+  
 
   customLateDurationValue!: Date | null;
   halfDayLateDurationValue!: Date | null;
@@ -1181,6 +1146,7 @@ export class AttendanceSettingComponent implements OnInit {
         } else {
           this.attendanceRuleWithAttendanceRuleDefinitionResponseList =
             response.listOfObject;
+
         }
         if (this.count === 0) {
           this.activeIndex5 = 0;
@@ -1220,6 +1186,9 @@ export class AttendanceSettingComponent implements OnInit {
   }
 
   searchUsers() {
+   
+      this.databaseHelper.currentPage = 1;
+      this.databaseHelper.itemPerPage = 10;
     this.getUserByFiltersMethodCall();
   }
 
@@ -1552,7 +1521,7 @@ export class AttendanceSettingComponent implements OnInit {
   registerOrganizationShiftTimingMethodCall() {
     debugger;
     // this.submitWeeklyHolidays();
-    this.organizationShiftTimingRequest.shiftTypeId = 1;
+    // this.organizationShiftTimingRequest.shiftTypeId = 1;
     this.organizationShiftTimingRequest.userUuids = this.selectedStaffsUuids;
     // Prepare data for submission
     this.organizationShiftTimingRequest.weekdayInfos = this.weekDay
@@ -1568,7 +1537,7 @@ export class AttendanceSettingComponent implements OnInit {
     this.dataService
       .registerShiftTiming(this.organizationShiftTimingRequest)
       .subscribe(
-        (response) => {
+        async (response) => {
           // console.log(response);
           this.closeShiftTimingModal.nativeElement.click();
           this.getAllShiftTimingsMethodCall();
@@ -1580,12 +1549,14 @@ export class AttendanceSettingComponent implements OnInit {
           );
           this.isEditStaffLoader = false;
           this.isValidated = false;
-          this.helperService.registerOrganizationRegistratonProcessStepData(Key.SHIFT_TIME_ID, Key.PROCESS_COMPLETED);
+          this.isRegisterLoad = false;
+          await this.helperService.registerOrganizationRegistratonProcessStepData(Key.SHIFT_TIME_ID, Key.PROCESS_COMPLETED);
         },
         (error) => {
           console.log(error);
           this.isEditStaffLoader = false;
           this.isValidated = false;
+          this.isRegisterLoad = false;
           this.helperService.showToast(
             'Shift Timing not registered successfully',
             Key.TOAST_STATUS_ERROR
@@ -1963,24 +1934,6 @@ formatMinutesToTime(minutes: number): string {
     }, 0);
   }
 
-  deleteOrganizationShiftTimingMethodCall(organizationShiftTimingId: number) {
-    this.dataService
-      .deleteOrganizationShiftTiming(organizationShiftTimingId)
-      .subscribe(
-        (response) => {
-          // console.log(response);
-          this.getAllShiftTimingsMethodCall();
-          this.helperService.showToast(
-            'Shift timing deleted successfully',
-            Key.TOAST_STATUS_SUCCESS
-          );
-        },
-        (error) => {
-          console.log(error);
-          this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
-        }
-      );
-  }
 
   attendanceModeList: AttendanceMode[] = [];
   getAttendanceModeAllMethodCall() {
@@ -2576,6 +2529,7 @@ getAllAddressDetails(): void {
    databaseHelper: DatabaseHelper = new DatabaseHelper();
    totalItems: number = 0;
    pageChanged(page: any) {
+    debugger;
      if (page != this.databaseHelper.currentPage) {
        this.databaseHelper.currentPage = page;
        this.getUserByFiltersMethodCall();
@@ -3077,6 +3031,8 @@ removeUser(uuid: string) {
   // this.updateSelectedStaffs();
   this.userNameWithShiftName = [];
   this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId, "SHIFT_USER_EDIT");
+  this.isValidated = false;
+  this.isRegisterLoad = false;
 
 
   
@@ -3103,10 +3059,129 @@ closeModal() {
 }
 
 
+// redirectToCompanySetting() {
+//   this.attendancewithlocationssButton.nativeElement.click();
+//   this.router.navigate(['/setting/company-setting']);
+
+// }
+
 redirectToCompanySetting() {
   this.attendancewithlocationssButton.nativeElement.click();
-  this.router.navigate(['/setting/company-setting']);
+  this.router.navigate(['/setting/company-setting'], { queryParams: { activeTab: 'locationSetting' } });
+}
 
+skipLoading : boolean = false;
+  async skipForNow() {
+  this.skipLoading = true;
+  // this.stepCompleted = true;
+  await this.helperService.registerOrganizationRegistratonProcessStepData(Key.AUTOMATION_RULE_ID, Key.PROCESS_COMPLETED);
+  this.checkStepCompletionStatusByStepId(Key.AUTOMATION_RULE_ID);
+  this.skipLoading = false;
+}
+
+
+stepCompleted: boolean = true;
+checkStepCompletionStatusByStepId(stepId: number) {
+  this.dataService.checkStepCompletionStatusByStepId(stepId).subscribe(
+    (response: any) => {
+      if (response.object == 1) {
+         this.stepCompleted = true;
+      }else if (response.object == 0) {
+        this.stepCompleted = false;
+      }
+    },
+    (error) => {
+      console.log('error');
+    }
+  );
+}
+
+
+//  delete functionaity
+// deleteOrganizationShiftTimingMethodCall
+deleteShiftTimingId: number = 0;
+deleteToggle: boolean = false;
+getShiftTemplateId(currentShift: number) {
+  this.deleteShiftTimingId = currentShift;
+}
+
+@ViewChild('closeButtonDeleteShift') closeButtonDeleteShift!: ElementRef;
+deleteOrganizationShiftTimingMethodCall(organizationShiftTimingId: number) {
+  this.deleteToggle = true;
+  this.dataService
+    .deleteOrganizationShiftTiming(organizationShiftTimingId)
+    .subscribe(
+      (response) => {
+        // console.log(response);
+        this.getAllShiftTimingsMethodCall();
+        // this.helperService.showToast(
+        //   'Shift timing deleted successfully',
+        //   Key.TOAST_STATUS_SUCCESS
+        // );
+        this.deleteShiftTimingId = 0;
+        this.closeButtonDeleteShift.nativeElement.click();
+        this.deleteToggle = false;
+        this.helperService.showToast(
+          response.message,
+          Key.TOAST_STATUS_SUCCESS
+        );
+      },
+      (error) => {
+        this.deleteToggle = false;
+        console.log(error);
+        this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
+      }
+    );
+}
+
+deleteAutomationTimingId: number = 0;
+deleteAutomationAttendanceRuleTypeId: number =0;
+deleteToggle2: boolean = false;
+getAutomationTemplateId(currentAutomation: number, deleteAutomationAttendanceRuleType:number) {
+  this.deleteAutomationTimingId = currentAutomation;
+  this.deleteAutomationAttendanceRuleTypeId = deleteAutomationAttendanceRuleType;
+}
+
+@ViewChild('closeButtonDeleteAutomation') closeButtonDeleteAutomation!: ElementRef;
+
+
+
+deleteAttendanceRuleLoaderStatus: { [key: string]: boolean } = {};
+
+deleteAttendanceRuleDefinitionMethodCall(
+  attendanceRuleDefinitionId: number,
+  attendanceRuleTypeId: number
+) {
+  this.deleteAttendanceRuleLoaderStatus[attendanceRuleDefinitionId] = true;
+  this.deleteToggle2 = true;
+  this.dataService
+    .deleteAttendanceRuleDefinition(
+      attendanceRuleDefinitionId,
+      attendanceRuleTypeId
+    )
+    .subscribe(
+      (response) => {
+        // console.log(response);
+        this.deleteToggle2 = false;
+        this.deleteAttendanceRuleLoaderStatus[attendanceRuleDefinitionId] =
+          false;
+          this.deleteAutomationAttendanceRuleTypeId = 0;
+          this.deleteAutomationTimingId = 0;
+          this.closeButtonDeleteAutomation.nativeElement.click();
+        this.helperService.showToast(
+          'Attendance rule settings deleted successfully',
+          Key.TOAST_STATUS_SUCCESS
+        );
+        this.getAttendanceRuleWithAttendanceRuleDefinitionMethodCall();
+      },
+      (error) => {
+        this.deleteToggle2 = false;
+        console.log(error);
+        this.deleteAttendanceRuleLoaderStatus[attendanceRuleDefinitionId] =
+          false;
+        this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
+      }
+    );
 }
 
 

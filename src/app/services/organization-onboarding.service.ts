@@ -48,11 +48,12 @@ export class OrganizationOnboardingService {
     );
   }
 
-  userImportOnboarding(file: any, fileName: string) {
+  userImportOnboarding(file: any, fileName: string, uniqueId: string) {
     debugger;
     const formdata: FormData = new FormData();
     formdata.append('file', file);
-    formdata.append('fileName', fileName);
+    formdata.append('fileName', fileName)
+    formdata.append('uniqueUuid', uniqueId);
     return this._httpClient.post(
       this._key.base_url + this._key.user_import_onboarding,
       formdata,

@@ -30,7 +30,7 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
     HajiriPageLoaderComponent,
     NotifactionTostComponent,
     CommonToDoStepsComponent,
-    MapComponent
+    MapComponent,
   ],
 })
-export class SharedModule {}
+export class SharedModule { }

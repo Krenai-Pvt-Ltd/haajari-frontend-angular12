@@ -1,4 +1,5 @@
 
+import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { finalize } from 'rxjs/operators';
@@ -20,7 +21,8 @@ import { UserTeamDetailsReflection } from 'src/app/models/user-team-details-refl
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { SalaryService } from 'src/app/services/salary.service';
-
+import * as XLSX from 'xlsx';
+import * as saveAs from 'file-saver';
 @Component({
   selector: 'app-salary-setting',
   templateUrl: './salary-setting.component.html',
@@ -31,7 +33,8 @@ export class SalarySettingComponent implements OnInit {
     private dataService: DataService,
     private helperService: HelperService,
     private _afStorage: AngularFireStorage,
-    private _salaryService: SalaryService
+    private _salaryService: SalaryService,
+    private _http: HttpClient
   ) {}
 
   ngOnInit(): void {
@@ -281,8 +284,6 @@ export class SalarySettingComponent implements OnInit {
         if(this.statutoryResponseList == null){
           this.dataNotFoundPlaceholderForStatutory = true;
           this.statutoryResponseList = [];
-        }else{
-          this.setStatutoryVariablesToFalse();
         }
       }
       },
@@ -319,21 +320,188 @@ export class SalarySettingComponent implements OnInit {
     );
   }
 
-
+  uploading:boolean=false;
   selectFile(event: any) {
-    debugger
     let file: File;
     if(event!=undefined){
       if(event.target.files.length > 0){
+        this.uploading =true;
         file = event.target.files[0];   
+        console.log("==file========",file.type)
         if(constant.ALLOWED_BULK_UPLOAD_FORMATS.includes(file.type)){
           this.uploadToFirebase(file); 
         }else{
-          this.helperService.showToast('upload only .xlsx file',Key.TOAST_STATUS_ERROR);
+          this.uploading =false;
+          this.helperService.showToast('You can upload only Excel file',Key.TOAST_STATUS_ERROR);
           return;   
         } 
       }
+      event.target.value = '';
     }    
+  }
+
+
+  currentFileUpload!: File;
+  response!: String;
+  arrayBuffer: any;
+  errormessage: any;
+  errorList: any[] = new Array();
+  uploadJson:any;
+  tempList = [];
+  headerNotAvailList: any[] = [];
+  // excelHeaders:string[]=['Name','Emp Code','Email','Phone','CTC(Yearly)','Effective Date(MM/DD/YYYY)']
+// validation check from frontend side
+  Upload() {
+
+      var errorFound = 0;
+    
+    this.errorList = [];
+    this.tempList = [];
+    this.headerNotAvailList = [];
+    let fileReader = new FileReader();
+    fileReader.onload = (e) => {
+      this.arrayBuffer = fileReader.result;
+      var data = new Uint8Array(this.arrayBuffer);
+      var arr = new Array();
+      for (var i = 0; i != data.length; ++i) arr[i] = String.fromCharCode(data[i]);
+      var bstr = arr.join("");
+      var workbook = XLSX.read(bstr, { type: "binary" });
+      var first_sheet_name = workbook.SheetNames[0];
+      var worksheet = workbook.Sheets[first_sheet_name];
+      var rowCount = 0;
+      var errorCount = 0;
+    
+      // console.log("Json", XLSX.utils.sheet_to_json(worksheet));
+      //@ts-ignore
+      XLSX.utils.sheet_to_json(worksheet,{ raw: true, defval: '', blankrows: false }).forEach((element: ExcelColumns) => {
+        // console.log("element", XLSX.utils.sheet_to_json(worksheet,{ raw: true, defval: '', blankrows: false }));
+        if (rowCount == 0 && this.headerNotAvailList.length==0) {
+          
+        if (element.Name == undefined) { this.headerNotAvailList.push("Name") }
+        if (element.Email == undefined) { this.headerNotAvailList.push("Email") }
+        if (element.Phone == undefined) { this.headerNotAvailList.push("Phone") }
+        if (element.CTC == undefined) { this.headerNotAvailList.push("CTC(Yearly)") }
+        if (element.date == undefined) { this.headerNotAvailList.push("Effective Date(MM/DD/YYYY)") }
+          // console.log(this.headerNotAvailList);
+          if (this.headerNotAvailList.length>0 )  { 
+            ++errorCount;
+            //  this.errorToggle = 1;
+             this.uploading= false;
+             return;
+           }
+        }
+         
+        // }
+        console.log("row Count"+rowCount)
+
+        ++rowCount;
+        /*** VALIDATING CELL VALUES */
+ 
+        this.errormessage = "";
+
+
+        // this.uploadJson = this.trimAll(element);
+
+     //phone number validation
+    //  if (!this.isNullOrEmpty(element.Customer_Phone) ) {
+
+    //   if(element.Customer_Phone.length!=ExcelConstants.CUSTOMER_PHONE_LENGTH ){
+    //     errorCount++;
+    //     this.uploadJson.Customer_Phone = element.Customer_Phone;
+    //     this.errormessage = this.errormessage + "," +ExcelConstants.CUSTOMER_PHONE_LENGTH_ERROR;
+    //   }
+    // }else {
+    //     errorCount++;
+    //     this.uploadJson.Customer_Phone = element.Customer_Phone;
+    //     this.uploadJson.Customer_Phone = "EMPTY Customer_Phone";
+    //     this.errormessage = this.errormessage + "," + ExcelConstants.CUSTOMER_PHONE_ERROR;
+    //   }
+
+
+       //Email validation
+    //  if (!this.isNullOrEmpty(element.Credit_Amount) ) {
+
+    //   if(Number(element.Credit_Amount) < 1 ){
+    //     errorCount++;
+    //     this.uploadJson.Credit_Amount = element.Credit_Amount;
+    //     this.errormessage = this.errormessage + "," +ExcelConstants.AMOUNT_ERROR;
+    //   }
+    // }else {
+    //     errorCount++;
+    //     this.uploadJson.Credit_Amount = element.Credit_Amount;
+    //     this.uploadJson.Customer_Phone = "EMPTY Customer_Phone";
+    //     this.errormessage = this.errormessage + "," + ExcelConstants.CREDIT_AMOUNT_ERROR;
+    //   }
+    
+    
+     //CTC validation
+    //  if (!this.isNullOrEmpty(element.Remarks) ) {
+
+    //   if(element.Remarks.length > ExcelConstants.GROUP_NAME_MAX_LENGTH){
+    //     errorCount++;
+    //     this.uploadJson.Remarks = element.Remarks;
+    //     this.errormessage = this.errormessage + "," +ExcelConstants.REMARKS_MAX_LENGTH_ERROR;       
+    //  }
+    // }else {
+
+    //   errorCount++;
+    //   this.uploadJson.Remarks = element.Remarks;
+    //   this.uploadJson.Remarks = "EMPTY Remarks";
+    //   this.errormessage = this.errormessage + "," + ExcelConstants.REMARKS_ERROR;
+    //    }
+
+
+       //Effective Date validation
+    //  if (!this.isNullOrEmpty(element.Wallet_Type) ) {
+
+    //   if(element.Wallet_Type.trim() != "Main Wallet" && element.Wallet_Type.trim() != "Promo Wallet"){
+    //     errorCount++;
+    //     this.uploadJson.Wallet_Type = element.Wallet_Type;
+    //     this.errormessage = this.errormessage + "," +ExcelConstants.INVALID_WALLET_TYPE;       
+    //  }
+    // }else {
+
+    //   errorCount++;
+    //   this.uploadJson.Wallet_Type = element.Wallet_Type;
+    //   this.uploadJson.Wallet_Type = "EMPTY Wallet_Type";
+    //   this.errormessage = this.errormessage + "," + ExcelConstants.WALLET_TYPE_ERROR;
+    //    }
+     
+    
+
+      let x = this.errormessage.split(",");
+      var name: string = "";
+      x.forEach((element: string) => {
+        name = name + element;
+      });
+      this.uploadJson.S_NO= rowCount+1;
+      this.uploadJson.message = name;
+      if (errorCount > 0 && name!= "" ) {
+      ++errorFound;
+      if(this.headerNotAvailList.length==0){
+        this.errorList.push(this.uploadJson); 
+      }
+      this.uploading =false;
+        // this.errorToggle = 1;
+      }
+
+    
+      });
+      if (errorCount==0  ) {
+        this.uploadToFirebase(this.currentFileUpload);
+      
+      } else if(errorCount > 0 && this.headerNotAvailList.length==0){
+        // this.errorToggle = 1;
+        this.uploading =false;
+        this.helperService.showToast('Resolve csv errors',Key.TOAST_STATUS_ERROR);
+        return;
+      }
+      }      
+
+      fileReader.readAsArrayBuffer(this.currentFileUpload);
+   
+
+
   }
 
 
@@ -359,11 +527,12 @@ export class SalarySettingComponent implements OnInit {
     processToServer(fileName:string,url:string) {
       this._salaryService.updateUserSalaryDetail(url,fileName).subscribe((response) => {
          if(response.status){
-          this.getSalaryUploadBulkAction();
+          this.getSalaryUploadBulkAction();     
           this.helperService.showToast('Uploaded Successfully',Key.TOAST_STATUS_SUCCESS);
          }else{
           this.helperService.showToast('Failed to upload',Key.TOAST_STATUS_ERROR);
          }
+         this.uploading =false;
         },(error) => {
         }
       );
@@ -386,24 +555,28 @@ export class SalarySettingComponent implements OnInit {
     }
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  dowloadLoading:boolean=false;
+  downloading:boolean=false;
   getCurrentSalaryReport(){
-    this.dowloadLoading = true;
-    this._salaryService.getCurrentSalaryReport().subscribe((response) => {
+    this.downloading = true;
+    this._salaryService.exportCurrentSalaryReport().subscribe((response) => {
       if (response.status) {
         if(response.object!=null){
           this.downloadUrl(response.object);
+          // this.downloadExcel(response.object);
         } 
-      }else{
-
-      } 
-      this.dowloadLoading = false;
+      }
+      this.downloading = false; 
     },
     (error) => {
-      this.dowloadLoading = false;
+      this.downloading = false;
     });
   }
 
+  // downloadExcel(url: string) {
+  //   this._http.get(url, { responseType: 'blob' }).subscribe(blob => {
+  //     saveAs(blob, 'User_Salary.xlsx');
+  //   });
+  // }
 
   extractFileName(url: string): string {
     const parts = decodeURIComponent(url).split("/");
@@ -418,67 +591,103 @@ export class SalarySettingComponent implements OnInit {
     document.body.appendChild(anchor);
     anchor.click();
     document.body.removeChild(anchor);
+ 
   }
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   //                                                            SALARY UPLOAD/DOWNLOAD SECTION END                                                    // 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+  @ViewChild('statutoryPFButton')statutoryPFButton!:ElementRef;
+  @ViewChild('statutoryESIButton')statutoryESIButton!:ElementRef;
+  @ViewChild('statutoryProButton')statutoryProButton!:ElementRef;
+  @ViewChild('statutoryOffButton')statutoryOffButton!:ElementRef;
+ 
+  tempStatutoryResp: StatutoryResponse = new StatutoryResponse();
+  async toggleStatutory(statutoryResponse: StatutoryResponse) {
+    this.tempStatutoryResp = statutoryResponse;  
+    if (!statutoryResponse.switchValue) {   
+      await this.getStatutoryAttributeByStatutoryIdMethodCall(statutoryResponse.id);
+      if (statutoryResponse.id == this.EPF_ID) {
+        this.statutoryPFButton.nativeElement.click();
+      } else if (statutoryResponse.id == this.ESI_ID) {
+        this.statutoryESIButton.nativeElement.click();
+      } else if (statutoryResponse.id == this.PROFESSIONAL_TAX_ID) {
+        this.statutoryProButton.nativeElement.click();
+      }   
+    }else {  
+      this.statutoryOffButton.nativeElement.click();
+    }
+}
 
+
+  updateStatutory(){
+    this.statutoryRequest = new StatutoryRequest();
+    this.statutoryRequest.id = this.tempStatutoryResp .id;
+    this.statutoryRequest.name = this.tempStatutoryResp .name;
+    this.statutoryRequest.switchValue = !this.tempStatutoryResp .switchValue;
+    this.statutoryRequest.statutoryAttributeRequestList = this.statutoryAttributeResponseList;
+    this.enableOrDisableStatutoryMethodCall();
+  }
+
+  statutoryRequest: StatutoryRequest = new StatutoryRequest();
+  isUpdating:boolean = false;
+  enableOrDisableStatutoryMethodCall() {
+    this.isUpdating =true;
+    this.dataService.enableOrDisableStatutory(this.statutoryRequest).subscribe((response) => {
+        const item = this.statutoryResponseList.find(x => x.id === this.statutoryRequest.id);
+        if(item) {
+          if(!item.switchValue){
+            item.switchValue = true;
+          }else{
+            item.switchValue = false;
+          }     
+        }
+   
+        this.isUpdating =false;
+        this.helperService.showToast(response.message,Key.TOAST_STATUS_SUCCESS);
+      },
+      (error) => {
+        this.isUpdating =false;
+        this.helperService.showToast( 'Error in updating ' + this.statutoryRequest.name, Key.TOAST_STATUS_ERROR);
+
+      }
+    );
+  }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                             SECTION  END                                                                           // 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  async clickSwitch(statutoryResponse: StatutoryResponse) {
-    debugger;
-    if (!statutoryResponse.loading) {
-      statutoryResponse.loading = true;
-    }
+  // async clickSwitch(statutoryResponse: StatutoryResponse) {
+  //   if (!statutoryResponse.loading) {
+  //     statutoryResponse.loading = true;
+  //   }
 
-    await this.getStatutoryAttributeByStatutoryIdMethodCall(statutoryResponse.id);
+  //   await this.getStatutoryAttributeByStatutoryIdMethodCall(statutoryResponse.id);
 
-    this.statutoryRequest.id = statutoryResponse.id;
-    this.statutoryRequest.name = statutoryResponse.name;
-    this.statutoryRequest.switchValue = !statutoryResponse.switchValue;
-    this.statutoryRequest.statutoryAttributeRequestList =
-      this.statutoryAttributeResponseList;
+  //   this.statutoryRequest.id = statutoryResponse.id;
+  //   this.statutoryRequest.name = statutoryResponse.name;
+  //   this.statutoryRequest.switchValue = !statutoryResponse.switchValue;
+  //   this.statutoryRequest.statutoryAttributeRequestList =
+  //     this.statutoryAttributeResponseList;
 
-    // console.log(this.statutoryAttributeResponseList);
+  //   // console.log(this.statutoryAttributeResponseList);
 
-    if (statutoryResponse.switchValue === false) {
-      if (statutoryResponse.id == this.EPF_ID) {
-        this.switchValueForPF = true;
-      } else if (statutoryResponse.id == this.ESI_ID) {
-        this.switchValueForESI = true;
-      } else if (statutoryResponse.id == this.PROFESSIONAL_TAX_ID) {
-        this.switchValueForProfessionalTax = true;
-      }
-    } else {
-      this.enableOrDisableStatutoryMethodCall();
-    }
-  }
+  //   if (statutoryResponse.switchValue === false) {
+  //     if (statutoryResponse.id == this.EPF_ID) {
+  //       this.switchValueForPF = true;
+  //     } else if (statutoryResponse.id == this.ESI_ID) {
+  //       this.switchValueForESI = true;
+  //     } else if (statutoryResponse.id == this.PROFESSIONAL_TAX_ID) {
+  //       this.switchValueForProfessionalTax = true;
+  //     }
+  //   } else {
+  //     this.enableOrDisableStatutoryMethodCall();
+  //   }
+  // }
 
-  statutoryRequest: StatutoryRequest = new StatutoryRequest();
-  enableOrDisableStatutoryMethodCall() {
-    this.dataService.enableOrDisableStatutory(this.statutoryRequest).subscribe(
-      (response) => {
-        this.setStatutoryVariablesToFalse();
-        this.helperService.showToast(
-          response.message,
-          Key.TOAST_STATUS_SUCCESS
-        );
-        this.getAllStatutoriesMethodCall();
-      },
-      (error) => {
-        this.helperService.showToast(
-          'Error in updating ' + this.statutoryRequest.name,
-          Key.TOAST_STATUS_ERROR
-        );
-        this.getAllStatutoriesMethodCall();
-      }
-    );
-  }
+  
 
   selectedPFContributionRateForEmployees: PFContributionRate = {
     id: 1,
@@ -495,45 +704,29 @@ export class SalarySettingComponent implements OnInit {
   //Fetching statutory's attributes
   statutoryAttributeResponseList: StatutoryAttributeResponse[] = [];
   getStatutoryAttributeByStatutoryIdMethodCall(statutoryId: number) {
-    debugger;
     return new Promise((resolve, reject) => {
-      this.dataService
-        .getStatutoryAttributeByStatutoryId(statutoryId)
-        .subscribe(
-          (response) => {
-            this.statutoryAttributeResponseList = response.listOfObject;
+      this._salaryService.getStatutoryAttributeByStatutoryId(statutoryId).subscribe((response) => {
+        if(response.status){
 
-            if (statutoryId == this.EPF_ID) {
-              if (this.pFContributionRateList.length > 0) {
-                const defaultPFContributionRate =
-                  this.pFContributionRateList[0];
-                this.statutoryAttributeResponseList.forEach((attr) => {
-                  if (
-                    attr.value === undefined ||
-                    attr.value === null ||
-                    attr.value === ''
-                  ) {
-                    attr.value = defaultPFContributionRate.name;
-                  }
-                });
-              }
-            } else if (statutoryId == this.ESI_ID) {
+          this.statutoryAttributeResponseList = response.object;
+
+          if (statutoryId == this.EPF_ID) {
               this.statutoryAttributeResponseList.forEach((attr) => {
-                const matchingESIRate = this.eSIContributionRateList.find(
-                  (iterator) => iterator.statutoryAttribute.id === attr.id
-                );
-                // console.log(this.eSIContributionRateList);
-                if (matchingESIRate) {
-                  if (
-                    attr.value === undefined ||
-                    attr.value === null ||
-                    attr.value === ''
-                  ) {
-                    attr.value = matchingESIRate.name;
-                  }
+                if (attr.value == null) {
+                  attr.value = this.pFContributionRateList[0].name;
                 }
               });
-            }
+          } else if (statutoryId == this.ESI_ID) {
+              this.statutoryAttributeResponseList.forEach((attr) => {
+                if (attr.value == null) {
+                  const matchingESIRate = this.eSIContributionRateList.find((esi) => esi.id == attr.id);        
+                  if (matchingESIRate) {
+                  attr.value = matchingESIRate.percentage;
+                }
+              }
+            });
+          }
+        }
             resolve(response);
           },
           (error) => {
@@ -974,5 +1167,7 @@ export class SalarySettingComponent implements OnInit {
     this.pageNumber = event;
   }
 
-  
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ 
 }

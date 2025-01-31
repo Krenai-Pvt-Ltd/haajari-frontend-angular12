@@ -1,47 +1,56 @@
 <div class="page-wrapper">
-  <div class="page-content-tab">
-    <ul id="myTab" role="tablist" class="nav nav-tabs">
-        <li role="presentation" class="nav-item">
-            <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#company-details-box" type="button"
-                role="tab" aria-controls="profile" aria-selected="false" class="nav-link active" (click)="switchTab('companySetting')"
-                >
-                Company Details
-            </button>
-        </li>
-        <li role="presentation" class="nav-item">
-            <button id="home-tab" data-bs-toggle="tab" data-bs-target="#company-details-box" type="button"
-                role="tab" aria-controls="home" aria-selected="true" class="nav-link" (click)="switchTab('locationSetting')"
-                #rolesAndSecurity>
-                Location Setting
-            </button>
-        </li>
-        <li role="presentation" class="nav-item">
-          <button id="home-tab" data-bs-toggle="tab" data-bs-target="#onboardingSetting" type="button"
-              role="tab" aria-controls="home" aria-selected="true" class="nav-link" (click)="switchTab('onboardingSetting')"
-              #onboardingSetting>
-              Onboarding Setting
-          </button>
+  <div class="page-content-tab mt-3">
+    <ul id="myTab" role="tablist" class="nav nav-tabs ml-2" style="margin-right: 10px;">
+      <li role="presentation" class="nav-item">
+        <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#company-details-box" type="button" role="tab"
+          aria-controls="profile" [attr.aria-selected]="activeTab === 'companySetting'"
+          [ngClass]="{'active': activeTab === 'companySetting'}" class="nav-link" (click)="switchTab('companySetting')">
+          Company Details
+        </button>
       </li>
+      <li role="presentation" class="nav-item">
+        <button id="home-tab" data-bs-toggle="tab" data-bs-target="#company-details-box" type="button" role="tab"
+          aria-controls="home" [attr.aria-selected]="activeTab === 'locationSetting'"
+          [ngClass]="{'active': activeTab === 'locationSetting'}" class="nav-link"
+          (click)="switchTab('locationSetting')">
+          Location Setting
+        </button>
+      </li>
+      <li role="presentation" class="nav-item">
+        <button id="home-tab" data-bs-toggle="tab" data-bs-target="#onboardingSetting" type="button" role="tab"
+          aria-controls="home" [attr.aria-selected]="activeTab === 'onboardingSetting'"
+          [ngClass]="{'active': activeTab === 'onboardingSetting'}" class="nav-link"
+          (click)="switchTab('onboardingSetting')">
+          Onboarding Setting
+        </button>
+      </li>
+      <!-- TODO : dynamic for now -->
+      <li role="presentation" class="nav-item d-none" *ngIf="ROLE === 'ADMIN'">
+        <button id="home-tab" data-bs-toggle="tab" data-bs-target="#notificationsSetting" type="button" role="tab"
+          aria-controls="home" [attr.aria-selected]="activeTab === 'notificationsSetting'"
+          [ngClass]="{'active': activeTab === 'notificationsSetting'}" class="nav-link"
+          (click)="switchTab('notificationsSetting')">
+          Notifications Configuration
+        </button>
+      </li>
+     
+      
     </ul>
 
 
     <div class="container-fluid">
 
-      <form #documentsInformationForm="ngForm" *ngIf="activeTab === 'companySetting'" (ngSubmit)="checkFormValidation()">
-        <div class="company-setting bg-white">
+      <form #documentsInformationForm="ngForm" class="mt-4" *ngIf="activeTab === 'companySetting'"
+        (ngSubmit)="checkFormValidation()">
+        <div class="company-setting bg-white mt-4">
 
-          <div class="row mt-3">
+          <div class="row">
             <div class="col-md-4">
-              <div class="company-details-box" id="company-details-box">
+              <div class="company-details-box p-3" id="company-details-box">
                 <h4 class="card-title">Company Details</h4>
-                <span class="text-muted font-12 fw-normal"
-                  >Essential Overview of Company's Core Information</span
-                >
+                <span class="text-muted font-12 fw-normal">Essential Overview of Company's Core Information</span>
 
-                <div
-                  role="alert"
-                  class="alert alert-light mb-0 mt-4 bg-soft-warning"
-                >
+                <div role="alert" class="alert alert-light mb-0 mt-4 bg-soft-warning">
                   <h4 class="alert-heading font-18">Attention!</h4>
                   <p>
                     All provided information is confidential and for intended
@@ -56,109 +65,54 @@
               </div>
             </div>
             <div class="col-md-7">
-              <div
-                class="origination-logo-box d-flex align-items-center justify-content-center position-relative"
-              >
-                <img
-                  [src]="dbImageUrl ? dbImageUrl : 'assets/images/HAjiRi.svg'"
-                  id="imagePreview"
-                />
-                <span
-                  class="origination-logo-edit-btn position-absolute"
-                  *ngIf="isEditMode"
-                >
-                  <input
-                    id="fileSelect"
-                    name="fileSelect"
-                    type="file"
-                    name="img[]"
-                    accept=".png, .jpeg, .jpg, .svg, .gif, .webp, .ico"
-                    class="input"
-                    [disabled]="!isEditMode"
-                    (change)="onFileSelected($event)"
-                    [(ngModel)]="organizationPersonalInformationRequest.logo"
-                  />
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="15"
-                    viewBox="0 0 16 15"
-                    fill="none"
-                  >
-                    <mask
-                      id="mask0_4198_1249"
-                      style="mask-type: alpha"
-                      maskUnits="userSpaceOnUse"
-                      x="0"
-                      y="0"
-                      width="16"
-                      height="15"
-                    >
-                      <rect
-                        y="0.5"
-                        width="15.7352"
-                        height="14"
-                        fill="#D9D9D9"
-                      />
+              <div class="origination-logo-box d-flex align-items-center justify-content-center position-relative">
+                <img [src]="dbImageUrl ? dbImageUrl : 'assets/images/HAjiRi.svg'" id="imagePreview" />
+                <span class="origination-logo-edit-btn position-absolute" *ngIf="isEditMode">
+                  <input id="fileSelect" name="fileSelect" type="file" name="img[]"
+                    accept=".png, .jpeg, .jpg, .svg, .gif, .webp, .ico" class="input" [disabled]="!isEditMode"
+                    (change)="onFileSelected($event)" [(ngModel)]="organizationPersonalInformationRequest.logo" />
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="15" viewBox="0 0 16 15" fill="none">
+                    <mask id="mask0_4198_1249" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                      width="16" height="15">
+                      <rect y="0.5" width="15.7352" height="14" fill="#D9D9D9" />
                     </mask>
                     <g mask="url(#mask0_4198_1249)">
                       <path
                         d="M3.27806 11.5833H4.21234L10.6211 5.88125L9.68686 5.05L3.27806 10.7521V11.5833ZM1.9668 12.75V10.2708L10.6211 2.58542C10.7523 2.47847 10.8971 2.39583 11.0555 2.3375C11.2139 2.27917 11.3806 2.25 11.5554 2.25C11.7303 2.25 11.8996 2.27917 12.0635 2.3375C12.2274 2.39583 12.3695 2.48333 12.4897 2.6L13.3912 3.41667C13.5223 3.52361 13.6179 3.65 13.678 3.79583C13.7381 3.94167 13.7682 4.0875 13.7682 4.23333C13.7682 4.38889 13.7381 4.53715 13.678 4.67812C13.6179 4.8191 13.5223 4.94792 13.3912 5.06458L4.75323 12.75H1.9668ZM10.1458 5.47292L9.68686 5.05L10.6211 5.88125L10.1458 5.47292Z"
-                        fill="#1C1B1F"
-                      />
+                        fill="#1C1B1F" />
                     </g>
                   </svg>
-                  Edit</span
-                >
+                  Edit</span>
               </div>
 
               <div class="row">
                 <div class="col-md-12 mt-3">
                   <div class="">
-                    <input
-                      type="text"
-                      placeholder="Company name"
-                      name="adminName"
-                      class="form-control whatapp-login-input"
-                      id="name"
-                      name="name"
-                      placeholder="Company name"
-                      #companyName="ngModel"
-                      [disabled]="!isEditMode"
-                      [(ngModel)]="organizationPersonalInformationRequest.name"
-                      required
-                      minlength="2"
-                      maxlength="100"
-                    />
-                    <p
-                      class="errortxt mt-2 mb-0 text-danger"
-                      *ngIf="
+                    <input type="text" placeholder="Company name" name="adminName"
+                      class="form-control whatapp-login-input" id="name" name="name" placeholder="Company name"
+                      #companyName="ngModel" [disabled]="!isEditMode"
+                      [(ngModel)]="organizationPersonalInformationRequest.name" required minlength="2"
+                      maxlength="100" />
+                    <p class="errortxt mt-2 mb-0 text-danger" *ngIf="
                         companyName.errors?.required &&
                         (companyName.dirty ||
                           companyName.touched ||
                           isFormInvalid)
-                      "
-                    >
+                      ">
                       <i class="bi bi-exclamation-circle"></i> Company name is
                       required.
                     </p>
-                    <p
-                      class="errortxt mt-2 mb-0 text-danger"
-                      *ngIf="
+                    <p class="errortxt mt-2 mb-0 text-danger" *ngIf="
                         companyName.errors?.minlength &&
                         (companyName.dirty || companyName.touched)
-                      "
-                    >
+                      ">
                       <i class="bi bi-exclamation-circle"></i> Company name must
                       be at least 2 characters long.
                     </p>
-                    <p
-                      class="errortxt mt-2 mb-0 text-danger"
-                      *ngIf="
+                    <p class="errortxt mt-2 mb-0 text-danger" *ngIf="
                         companyName.errors?.maxlength &&
                         (companyName.dirty || companyName.touched)
-                      "
-                    >
+                      ">
                       <i class="bi bi-exclamation-circle"></i> Company name must
                       not exceed 100 characters.
                     </p>
@@ -166,36 +120,20 @@
                 </div>
                 <div class="col-md-6 mt-3">
                   <div class="">
-                    <input
-                      type="text"
-                      placeholder="Enter your email"
-                      class="form-control whatapp-login-input"
-                      id="email"
-                      name="email"
-                      placeholder="Email Id"
-                      #emailId="ngModel"
-                      [disabled]="!isEditMode"
-                      [(ngModel)]="organizationPersonalInformationRequest.email"
-                      required
-                      email
-                    />
-                    <p
-                      class="errortxt mt-2 mb-0 text-danger"
-                      *ngIf="
+                    <input type="text" placeholder="Enter your email" class="form-control whatapp-login-input"
+                      id="email" name="email" placeholder="Email Id" #emailId="ngModel" [disabled]="!isEditMode"
+                      [(ngModel)]="organizationPersonalInformationRequest.email" required email />
+                    <p class="errortxt mt-2 mb-0 text-danger" *ngIf="
                         emailId.errors?.required &&
                         (emailId.dirty || emailId.touched || isFormInvalid)
-                      "
-                    >
+                      ">
                       <i class="bi bi-exclamation-circle"></i> Email is
                       required.
                     </p>
-                    <p
-                      class="errortxt mt-2 mb-0 text-danger"
-                      *ngIf="
+                    <p class="errortxt mt-2 mb-0 text-danger" *ngIf="
                         emailId.errors?.email &&
                         (emailId.dirty || emailId.touched)
-                      "
-                    >
+                      ">
                       <i class="bi bi-exclamation-circle"></i> Enter a valid
                       email.
                     </p>
@@ -204,50 +142,27 @@
                 <div class="col-md-6 mt-3">
                   <!-- [disabled]="!isEditMode" -->
                   <div class="">
-                    <input
-                      type="text"
-                      required
-                      placeholder="Enter your number"
-                      class="form-control whatapp-login-input"
-                      mask="0000000000"
-                      id="phoneNumber"
-                      name="phoneNumber"
-                      placeholder="Phone number"
-                      #phoneNumber="ngModel"
-
-                      [(ngModel)]="
+                    <input type="text" required placeholder="Enter your number" class="form-control whatapp-login-input"
+                      mask="0000000000" id="phoneNumber" name="phoneNumber" placeholder="Phone number"
+                      #phoneNumber="ngModel" [(ngModel)]="
                         organizationPersonalInformationRequest.phoneNumber
-                      "
-                      minlength="10"
-                      maxlength="10"
-                      pattern="[0-9]*"
-                      disabled
-                    />
+                      " minlength="10" maxlength="10" pattern="[0-9]*" disabled />
 
-                    <p
-                      class="errortxt mt-2 mb-0 text-danger"
-                      *ngIf="
+                    <p class="errortxt mt-2 mb-0 text-danger" *ngIf="
                         phoneNumber.dirty &&
                         (phoneNumber.errors?.minlength ||
                           phoneNumber.errors?.maxlength)
-                      "
-                    >
+                      ">
                       <i class="bi bi-exclamation-circle"></i> Phone number
                       should be of 10 digits.
                     </p>
-                    <p
-                      class="errortxt mt-2 mb-0 text-danger"
-                      *ngIf="phoneNumber.errors?.pattern"
-                    >
+                    <p class="errortxt mt-2 mb-0 text-danger" *ngIf="phoneNumber.errors?.pattern">
                       <i class="bi bi-exclamation-circle"></i> Phone number
                       should in digits.
                     </p>
 
-                    <p
-                      class="errortxt mt-2 mb-0"
-                      style="color: red"
-                      *ngIf="phoneNumber.errors?.required || isFormInvalid"
-                    >
+                    <p class="errortxt mt-2 mb-0" style="color: red"
+                      *ngIf="phoneNumber.errors?.required || isFormInvalid">
                       <i class="bi bi-exclamation-circle"></i> Phone number is
                       required.
                     </p>
@@ -262,10 +177,9 @@
           </div>
           <div class="row mt-3">
             <div class="col-md-4">
-              <div class="company-details-box">
+              <div class="company-details-box p-3">
                 <h4 class="card-title">Tagline</h4>
-                <span class="text-muted font-12 fw-normal"
-                  >A quick snapshot of your company.
+                <span class="text-muted font-12 fw-normal">A quick snapshot of your company.
                 </span>
               </div>
             </div>
@@ -273,20 +187,11 @@
               <div class="row">
                 <div class="col-md-12">
                   <div class="">
-                    <input
-                      type="text"
-                      placeholder="Enter your tagline"
-                      class="form-control whatapp-login-input"
-                      id="tagline"
-                      name="tagline"
-                      rows="3"
-                      placeholder="Tag line"
-                      #tagline="ngModel"
-                      [disabled]="!isEditMode"
-                      [(ngModel)]="
+                    <input type="text" placeholder="Enter your tagline" class="form-control whatapp-login-input"
+                      id="tagline" name="tagline" rows="3" placeholder="Tag line" #tagline="ngModel"
+                      [disabled]="!isEditMode" [(ngModel)]="
                         organizationPersonalInformationRequest.tagline
-                      "
-                    />
+                      " />
                   </div>
                 </div>
               </div>
@@ -295,22 +200,14 @@
           </div>
 
           <div class="col-md-11 mt-3">
-            <div
-              class="edit-submit-btn d-flex align-items-center justify-content-end"
-            >
+            <div class="edit-submit-btn d-flex align-items-center justify-content-end">
               <p class="mb-0 font-14" *ngIf="!isEditMode">
                 All data is pre-filled. Do you want to edit?
                 <a class="edit-action-btn" (click)="enableEditMode()">
-                  Edit it</a
-                >
+                  Edit it</a>
               </p>
 
-              <button
-                type="submit"
-                class="btn detail-save-btn"
-                *ngIf="isEditMode"
-                [disabled]="isUpdating"
-              >
+              <button type="submit" class="btn detail-save-btn" *ngIf="isEditMode" [disabled]="isUpdating">
                 <div *ngIf="isUpdating" class="dot-opacity-loader">
                   <span></span>
                   <span></span>
@@ -322,196 +219,100 @@
           </div>
         </div>
       </form>
-      <div class="col-md-11" *ngIf="activeTab === 'companySetting'">
-        <hr class="mt-5 mb-5" />
-      </div>
+    
 
       <div class="row mt-3">
-        <div class="col-md-4"  *ngIf="activeTab === 'companySetting'">
+        <div class="col-md-4" *ngIf="activeTab === 'companySetting'">
           <div class="company-details-box" style="padding: 15px">
             <h4 class="card-title">HR Policy</h4>
-            <span class="text-muted font-12 fw-normal"
-              >A quick snapshot of your company HR policies.</span
-            >
+            <span class="text-muted font-12 fw-normal">A quick snapshot of your company HR policies.</span>
           </div>
         </div>
-        <div class="col-md-7"  *ngIf="activeTab === 'companySetting'">
-          <div class="row" *ngIf="!fileUrl">
+        <div class="col-md-7" *ngIf="activeTab === 'companySetting'">
+          <div class="row">
             <div class="col-md-12">
-              <div class="p-3 excel-uplode-file-box text-center">
-                <input
-                  id="hrpolicies"
-                  type="file"
-                  name="hrpolicies"
-                  class="input"
-                  accept="application/pdf"
-                  (change)="onFileSelectedHrPolicies($event)"
-                />
-                <!-- <img src="assets/images/documentation.svg" style="width: 50px" class="pb-3" /> -->
-                <p class="mb-0">
-                  Drag file here to upload or,
-                  <a class="text-primary" href="#!"> choose file </a>
-                </p>
-                <div
-                  *ngIf="isUpdatingHrPolicies"
-                  class="spinner-border text-success"
-                  role="status"
-                ></div>
+              <div class="p-3 excel-uplode-file-box text-center poiter" type="button" data-bs-toggle="modal"
+                data-bs-target="#addDocument">
+                <button type="button" class="btn p-0 text-primary font-13 ">
+                  <i class="bi bi-plus"></i> Add HR Policy </button>
               </div>
             </div>
           </div>
           <div>
-            <div *ngIf="fileUrl" class="mt-3">
-              <div
-                class="hr-policy-file d-flex justify-content-between align-items-center p-3"
-              >
+            <div *ngFor="let document of documents" class="mt-3">
+              <div class="hr-policy-file d-flex justify-content-between align-items-center p-3">
                 <div class="d-flex align-items-center gap-2">
                   <div class="d-flex align-items-center gap-2">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="31"
-                      height="37"
-                      viewBox="0 0 31 37"
-                      fill="none"
-                    >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="31" height="37" viewBox="0 0 31 37" fill="none">
                       <path
                         d="M25.5734 0.836118C26.0952 0.833246 26.6124 0.933548 27.0954 1.13126C27.5783 1.32897 28.0174 1.62019 28.3874 1.98817C28.7574 2.35616 29.0511 2.79365 29.2514 3.2755C29.4518 3.75734 29.5549 4.27404 29.5549 4.79588V31.7514C29.5549 32.2732 29.4518 32.7899 29.2514 33.2717C29.0511 33.7536 28.7574 34.1911 28.3874 34.5591C28.0174 34.927 27.5783 35.2183 27.0954 35.416C26.6124 35.6137 26.0952 35.714 25.5734 35.7111H5.41125C4.36105 35.7111 3.35387 35.2939 2.61127 34.5513C1.86867 33.8087 1.45148 32.8015 1.45148 31.7514V9.47495C1.44273 9.00483 1.62035 8.55034 1.94554 8.21073L8.79703 1.35924C8.96541 1.19034 9.16602 1.057 9.38693 0.967138C9.60785 0.877273 9.84457 0.832718 10.083 0.836118H25.5734Z"
-                        fill="#F1F4F9"
-                      />
+                        fill="#F1F4F9" />
                       <path
                         d="M8.82579 1.35992C8.97656 1.20982 9.15396 1.0891 9.34891 1.00391V4.97094C9.34892 5.65594 9.21364 6.33419 8.95084 6.96678C8.68805 7.59936 8.30291 8.17381 7.81753 8.65717C7.33215 9.14052 6.75609 9.52326 6.12241 9.78341C5.48874 10.0436 4.80992 10.176 4.12493 10.1731H1.45118V9.44656C1.45005 8.98647 1.62712 8.5438 1.94524 8.21141L8.82579 1.35992Z"
-                        fill="#DCDFE2"
-                      />
+                        fill="#DCDFE2" />
                       <path
                         d="M1.61816 8.73453C1.70335 8.53958 1.82408 8.36219 1.97418 8.21141L8.82566 1.35992C8.97644 1.20982 9.15384 1.0891 9.34879 1.00391V4.77477C9.34879 5.29538 9.24613 5.81089 9.04668 6.29178C8.84723 6.77268 8.5549 7.20952 8.18643 7.57732C7.81797 7.94511 7.38059 8.23663 6.89933 8.4352C6.41807 8.63377 5.90237 8.73549 5.38176 8.73453H1.61816Z"
-                        fill="#6666F2"
-                      />
+                        fill="#6666F2" />
                       <path
                         d="M12.7194 19.7995C12.7409 20.1645 12.6876 20.53 12.5626 20.8737C12.4377 21.2173 12.2438 21.5317 11.9928 21.7976C11.7233 22.0475 11.4062 22.2407 11.0604 22.3655C10.7146 22.4903 10.3473 22.5443 9.98023 22.5241H8.31641V17.3147H10.111C10.8118 17.2674 11.5031 17.497 12.0364 17.9541C12.2751 18.1953 12.4595 18.4847 12.5773 18.803C12.695 19.1213 12.7435 19.461 12.7194 19.7995ZM11.2662 19.8504C11.2957 19.4748 11.1957 19.1005 10.9829 18.7896C10.8753 18.6714 10.7421 18.5792 10.5936 18.52C10.4451 18.4608 10.285 18.4363 10.1255 18.4481H9.71867V21.3544H10.0311C10.2053 21.3685 10.3804 21.3425 10.5429 21.2782C10.7054 21.214 10.851 21.1133 10.9684 20.9838C11.1907 20.6495 11.2955 20.2508 11.2662 19.8504Z"
-                        fill="#6666F2"
-                      />
+                        fill="#6666F2" />
                       <path
                         d="M18.3215 19.9018C18.3738 20.6276 18.1448 21.3456 17.6822 21.9071C17.433 22.1453 17.137 22.3289 16.8131 22.4465C16.4891 22.5641 16.1442 22.613 15.8004 22.5901C15.4544 22.6072 15.1088 22.5513 14.7858 22.4261C14.4629 22.301 14.1699 22.1093 13.9258 21.8635C13.4573 21.3106 13.2251 20.5955 13.2792 19.8728C13.2258 19.1545 13.4582 18.4443 13.9258 17.8965C14.1737 17.6565 14.4694 17.4716 14.7937 17.3539C15.118 17.2362 15.4636 17.1884 15.8076 17.2136C16.1499 17.1898 16.4933 17.2377 16.816 17.354C17.1388 17.4704 17.4338 17.6526 17.6822 17.8893C18.1507 18.4504 18.3803 19.1731 18.3215 19.9018ZM14.7541 19.9018C14.7541 20.9045 15.1029 21.4058 15.8004 21.4058C15.9512 21.4166 16.1023 21.3889 16.2396 21.3254C16.3768 21.2619 16.4957 21.1645 16.5851 21.0425C16.7846 20.6971 16.8757 20.2997 16.8466 19.9018C16.8758 19.5017 16.7847 19.1019 16.5851 18.7539C16.4972 18.6316 16.3798 18.5335 16.2439 18.4688C16.108 18.404 15.9579 18.3746 15.8076 18.3833C15.1029 18.3833 14.7541 18.8919 14.7541 19.9018Z"
-                        fill="#6666F2"
-                      />
+                        fill="#6666F2" />
                       <path
                         d="M21.3881 18.3893C21.2335 18.3847 21.0802 18.4196 20.9429 18.4908C20.8056 18.562 20.6887 18.6671 20.6034 18.7961C20.3999 19.1377 20.3037 19.5326 20.3273 19.9296C20.3273 20.925 20.7051 21.4263 21.4608 21.4263C21.6868 21.425 21.9116 21.3932 22.1292 21.3318C22.3472 21.2665 22.5651 21.1865 22.7831 21.0993V22.2836C22.3238 22.4793 21.8292 22.5783 21.33 22.5743C20.997 22.5999 20.6624 22.5534 20.3489 22.438C20.0355 22.3227 19.7506 22.1412 19.5136 21.9058C19.0591 21.3543 18.8329 20.6498 18.8815 19.9368C18.8652 19.435 18.9699 18.9366 19.1866 18.4837C19.3769 18.0911 19.6806 17.7646 20.0585 17.5465C20.47 17.3211 20.9336 17.2083 21.4026 17.2195C21.9582 17.2196 22.5068 17.3438 23.0083 17.5828L22.5797 18.709C22.3943 18.6195 22.2024 18.5442 22.0057 18.4837C21.8063 18.4188 21.5977 18.3869 21.3881 18.3893Z"
-                        fill="#6666F2"
-                      />
+                        fill="#6666F2" />
                     </svg>
-                    <h5 class="mb-0 font-14">HR Policy File</h5>
+                    <h5 class="mb-0 font-14">{{document.name}}</h5>
                   </div>
-                  <span class="separator"></span>
-                  <p class="mb-0 font-14">
+
+                  <!-- <p class="mb-0 font-14">
                     Uploaded {{ docsUploadedDate | date }}
-                  </p>
+                  </p> -->
                 </div>
                 <div class="d-flex align-items-center gap-2 action-icon-btn">
-                  <span (click)="openViewModal(fileUrl)">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="22"
-                      height="22"
-                      viewBox="0 0 22 22"
-                      fill="none"
-                    >
-                      <mask
-                        id="mask0_4339_1635"
-                        style="mask-type: alpha"
-                        maskUnits="userSpaceOnUse"
-                        x="0"
-                        y="0"
-                        width="22"
-                        height="22"
-                      >
+                  <span (click)="openViewModal(document.url)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
+                      <mask id="mask0_4339_1635" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                        width="22" height="22">
                         <rect width="21.8342" height="21.8342" fill="#D9D9D9" />
                       </mask>
                       <g mask="url(#mask0_4339_1635)">
                         <path
                           d="M10.9189 14.1711C11.9498 14.1711 12.8254 13.8103 13.5456 13.0888C14.2658 12.3672 14.6259 11.4909 14.6259 10.46C14.6259 9.4291 14.2651 8.55354 13.5435 7.83331C12.822 7.11308 11.9457 6.75297 10.9148 6.75297C9.88389 6.75297 9.00833 7.11377 8.2881 7.83536C7.56788 8.55695 7.20776 9.4332 7.20776 10.4641C7.20776 11.495 7.56856 12.3706 8.29015 13.0908C9.01174 13.811 9.88799 14.1711 10.9189 14.1711ZM10.9168 12.9184C10.2345 12.9184 9.65456 12.6796 9.17694 12.202C8.69931 11.7243 8.4605 11.1444 8.4605 10.4621C8.4605 9.77974 8.69931 9.19977 9.17694 8.72214C9.65456 8.24452 10.2345 8.00571 10.9168 8.00571C11.5992 8.00571 12.1791 8.24452 12.6568 8.72214C13.1344 9.19977 13.3732 9.77974 13.3732 10.4621C13.3732 11.1444 13.1344 11.7243 12.6568 12.202C12.1791 12.6796 11.5992 12.9184 10.9168 12.9184ZM10.918 16.8304C8.826 16.8304 6.91983 16.2533 5.19947 15.0991C3.47912 13.9451 2.21243 12.3994 1.39941 10.4621C2.21243 8.52473 3.47867 6.97905 5.19811 5.82502C6.9177 4.67084 8.82357 4.09375 10.9157 4.09375C13.0077 4.09375 14.9139 4.67084 16.6342 5.82502C18.3546 6.97905 19.6213 8.52473 20.4343 10.4621C19.6213 12.3994 18.355 13.9451 16.6356 15.0991C14.916 16.2533 13.0101 16.8304 10.918 16.8304ZM10.9168 15.4657C12.6302 15.4657 14.2033 15.0146 15.6362 14.1125C17.0691 13.2103 18.1646 11.9935 18.9227 10.4621C18.1646 8.93063 17.0691 7.71383 15.6362 6.81165C14.2033 5.90948 12.6302 5.45839 10.9168 5.45839C9.20347 5.45839 7.63035 5.90948 6.19748 6.81165C4.76461 7.71383 3.66911 8.93063 2.91098 10.4621C3.66911 11.9935 4.76461 13.2103 6.19748 14.1125C7.63035 15.0146 9.20347 15.4657 10.9168 15.4657Z"
-                          fill="#1C1B1F"
-                        />
+                          fill="#1C1B1F" />
                       </g>
                     </svg>
                   </span>
                   <!-- (click)="downloadFile(fileUrl)" -->
-                  <input
-                  id="hrpolicies"
-                  type="file"
-                  name="hrpolicies"
-                  class="input"
-                  accept="application/pdf"
-                  (change)="onFileSelectedHrPolicies($event)"
-                  style="display: none;"
-                />
-                <span>
-                <div
-                *ngIf="isUpdatingHrPolicies"
-                class="spinner-border text-primary"
-                role="status"
-              ></div>
-            </span>
-                  <span (click)="triggerFileInput()" *ngIf="!isUpdatingHrPolicies">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="23"
-                      height="22"
-                      viewBox="0 0 23 22"
-                      fill="none"
-                    >
-                      <mask
-                        id="mask0_4339_1623"
-                        style="mask-type: alpha"
-                        maskUnits="userSpaceOnUse"
-                        x="0"
-                        y="0"
-                        width="23"
-                        height="22"
-                      >
-                        <rect
-                          x="0.267578"
-                          width="21.8342"
-                          height="21.8342"
-                          fill="#444444"
-                        />
+                  <input id="hrpolicies" type="file" name="hrpolicies" class="input" accept="application/pdf"
+                    (change)="onFileSelectedHrPolicies($event)" style="display: none;" />
+                  <!-- <span>
+                    <div *ngIf="isUpdatingHrPolicies" class="spinner-border text-primary" role="status"></div>
+                  </span> -->
+                  <!-- <span (click)="triggerFileInput()" *ngIf="!isUpdatingHrPolicies">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="23" height="22" viewBox="0 0 23 22" fill="none">
+                      <mask id="mask0_4339_1623" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                        width="23" height="22">
+                        <rect x="0.267578" width="21.8342" height="21.8342" fill="#444444" />
                       </mask>
                       <g mask="url(#mask0_4339_1623)">
                         <path
                           d="M4.81581 17.2927H5.96347L15.2762 7.97992L14.1285 6.83226L4.81581 16.145V17.2927ZM3.45117 18.6573V15.5782L15.4513 3.58328C15.5889 3.45834 15.7407 3.36183 15.9069 3.29375C16.0732 3.22552 16.2476 3.19141 16.43 3.19141C16.6124 3.19141 16.7891 3.22378 16.9599 3.28852C17.131 3.35327 17.2824 3.45622 17.4141 3.59739L18.5252 4.7223C18.6663 4.85406 18.7669 5.00569 18.827 5.17718C18.887 5.34867 18.9171 5.52016 18.9171 5.69165C18.9171 5.87466 18.8858 6.04926 18.8234 6.21544C18.7609 6.38178 18.6615 6.53371 18.5252 6.67123L6.53025 18.6573H3.45117ZM14.6924 7.4161L14.1285 6.83226L15.2762 7.97992L14.6924 7.4161Z"
-                          fill="#444444"
-                        />
+                          fill="#444444" />
                       </g>
                     </svg>
-                  </span>
-                  <span>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="23"
-                      height="22"
-                      viewBox="0 0 23 22"
-                      fill="none"
-                    >
-                      <mask
-                        id="mask0_4339_1620"
-                        style="mask-type: alpha"
-                        maskUnits="userSpaceOnUse"
-                        x="0"
-                        y="0"
-                        width="23"
-                        height="22"
-                      >
-                        <rect
-                          x="0.535156"
-                          width="21.8342"
-                          height="21.8342"
-                          fill="#D9D9D9"
-                        />
+                  </span> -->
+                  <span (click)="deleteDocument(document.id)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="23" height="22" viewBox="0 0 23 22" fill="none">
+                      <mask id="mask0_4339_1620" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                        width="23" height="22">
+                        <rect x="0.535156" width="21.8342" height="21.8342" fill="#D9D9D9" />
                       </mask>
                       <g mask="url(#mask0_4339_1620)">
                         <path
                           d="M7.18328 18.6577C6.72961 18.6577 6.34206 18.497 6.02061 18.1757C5.69931 17.8543 5.53866 17.4667 5.53866 17.0131V5.46619H4.62891V4.10156H8.72282V3.29688H14.1814V4.10156H18.2753V5.46619H17.3655V17.0131C17.3655 17.4726 17.2063 17.8616 16.8879 18.1801C16.5695 18.4985 16.1805 18.6577 15.7209 18.6577H7.18328ZM16.0009 5.46619H6.9033V17.0131C6.9033 17.0948 6.92953 17.1619 6.982 17.2144C7.03446 17.2668 7.10155 17.293 7.18328 17.293H15.7209C15.791 17.293 15.8551 17.2639 15.9133 17.2055C15.9717 17.1473 16.0009 17.0831 16.0009 17.0131V5.46619ZM9.09036 15.4735H10.4548V7.28571H9.09036V15.4735ZM12.4494 15.4735H13.8138V7.28571H12.4494V15.4735Z"
-                          fill="#FF0000"
-                        />
+                          fill="#FF0000" />
                       </g>
                     </svg>
                   </span>
@@ -523,27 +324,28 @@
 
 
         <!-- multilocation func  -->
-        <div class="col-md-4 mt-3 mb-3" style="padding: 20px;" *ngIf="activeTab === 'locationSetting'">
-          <div class="form-roe-data">
+
+        <div class="mt-4" *ngIf="activeTab === 'locationSetting'">
+          <div class="row">
+        <div class="col-md-4"  >
+          <div class="form-roe-data p-3">
             <h5>Location Setting</h5>
             <p class="font-12">A quick snapshot of your company.</p>
           </div>
-          <div class="total-shifts p-3 mt-4" *ngIf="allAddresses?.length > 1">
+          <div class="total-shifts p-3 mt-4 m-3" *ngIf="allAddresses?.length > 1">
             <div class="d-flex align-items-center justify-content-between">
               <div>
                 <h6 class="text-truncate">Total Locations</h6>
                 <h4 class="mt-3 fw-bold">{{ allAddresses?.length }}</h4>
               </div>
-              <span
-                class="total-user-icon d-flex align-items-center justify-content-center"
-              >
+              <span class="total-user-icon d-flex align-items-center justify-content-center">
                 <img src="assets/images/total-user-icon.svg" />
               </span>
             </div>
           </div>
         </div>
 
-        <div class="col-md-7 mt-3 mb-3" *ngIf="activeTab === 'locationSetting'">
+        <div class="col-md-7 mt-3 ">
 
           <!-- old -->
           <!-- {{isShimmer}}{{dataNotFoundPlaceholder}}{{networkConnectionErrorPlaceHolder}} -->
@@ -555,150 +357,101 @@
                         ">
             <div class="">
               <div class="text-end">
-                <ngx-shimmer-loading
-                  [width]="'40%'"
-                  [height]="'20px'"
-                  style="border-radius: 50%"
-                ></ngx-shimmer-loading>
+                <ngx-shimmer-loading [width]="'40%'" [height]="'20px'" style="border-radius: 50%"></ngx-shimmer-loading>
               </div>
             </div>
-            <div
-              class="mt-3"
-              style="
+            <div class="mt-3" style="
                 border: 1px solid #f5f5f5;
                 padding: 5px;
                 border-radius: 6px;
-              "
-            >
-              <div
-                class="row"
-                style="
+              ">
+              <div class="row" style="
                   border-bottom: 1px solid #f5f5f5;
                   padding-top: 10px;
                   padding-bottom: 10px;
-                "
-              >
+                ">
                 <div class="col-md-4">
                   <div class="">
-                    <ngx-shimmer-loading
-                      [width]="'100%'"
-                      [height]="'20px'"
-                      style="border-radius: 50%"
-                    ></ngx-shimmer-loading>
+                    <ngx-shimmer-loading [width]="'100%'" [height]="'20px'"
+                      style="border-radius: 50%"></ngx-shimmer-loading>
                   </div>
                 </div>
               </div>
               <div class="row mt-3">
                 <div class="col-md-3">
                   <div class="">
-                    <ngx-shimmer-loading
-                      [width]="'100%'"
-                      [height]="'20px'"
-                      style="border-radius: 50%"
-                    ></ngx-shimmer-loading>
+                    <ngx-shimmer-loading [width]="'100%'" [height]="'20px'"
+                      style="border-radius: 50%"></ngx-shimmer-loading>
                   </div>
                 </div>
               </div>
               <div class="row mt-3">
                 <div class="col-md-4">
                   <div class="">
-                    <ngx-shimmer-loading
-                      [width]="'100%'"
-                      [height]="'30px'"
-                      style="border-radius: 50%"
-                    ></ngx-shimmer-loading>
+                    <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                      style="border-radius: 50%"></ngx-shimmer-loading>
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="">
-                    <ngx-shimmer-loading
-                      [width]="'100%'"
-                      [height]="'30px'"
-                      style="border-radius: 50%"
-                    ></ngx-shimmer-loading>
+                    <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                      style="border-radius: 50%"></ngx-shimmer-loading>
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="">
-                    <ngx-shimmer-loading
-                      [width]="'100%'"
-                      [height]="'30px'"
-                      style="border-radius: 50%"
-                    ></ngx-shimmer-loading>
+                    <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                      style="border-radius: 50%"></ngx-shimmer-loading>
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="">
-                    <ngx-shimmer-loading
-                      [width]="'100%'"
-                      [height]="'30px'"
-                      style="border-radius: 50%"
-                    ></ngx-shimmer-loading>
+                    <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                      style="border-radius: 50%"></ngx-shimmer-loading>
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="">
-                    <ngx-shimmer-loading
-                      [width]="'100%'"
-                      [height]="'30px'"
-                      style="border-radius: 50%"
-                    ></ngx-shimmer-loading>
+                    <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                      style="border-radius: 50%"></ngx-shimmer-loading>
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="">
-                    <ngx-shimmer-loading
-                      [width]="'100%'"
-                      [height]="'30px'"
-                      style="border-radius: 50%"
-                    ></ngx-shimmer-loading>
+                    <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                      style="border-radius: 50%"></ngx-shimmer-loading>
                   </div>
                 </div>
               </div>
             </div>
           </ng-container>
           <ng-template #organizationShiftTimingWithLocationData>
-            <ng-container
-              *ngIf="
+            <ng-container *ngIf="
                 allAddresses.length !== 0 &&
                   !dataNotFoundPlaceholder &&
                   !networkConnectionErrorPlaceHolder;
                 else errorInFetchingOrganizationLocationData
-              "
-            >
+              ">
               <div class="add-shift-main-box">
-                <div
-                  class="add-shift-box d-flex align-items-center justify-content-between p-3 pt-2 pb-2"
-                >
+                <div class="add-shift-box d-flex align-items-center justify-content-between p-3 pt-2 pb-2">
                   <div class="">
                     <h6 class="text-truncate mb-0">Locations</h6>
                   </div>
                   <div class="">
-                    <a
-                      class="add-shift-time-btn"
-                      data-bs-toggle="modal"
-                      data-bs-target="#shiftTime"
-                      (click)="clearLocationModel()"
-                    >
+                    <a class="add-shift-time-btn" data-bs-toggle="modal" data-bs-target="#shiftTime"
+                      (click)="clearLocationModel()">
                       <i class="bi bi-plus"></i> Add New Location
                     </a>
                   </div>
                 </div>
 
                 <div class="shift-set">
-                  <div
-                    class="shift-time p-3 m-3"
-                    *ngFor="let item of allAddresses; let i = index"
-                  >
+                  <div class="shift-time p-3 m-3" *ngFor="let item of allAddresses; let i = index">
                     <div class="">
-                      <div
-                        class="d-flex align-items-center justify-content-between"
-                      >
+                      <div class="d-flex align-items-center justify-content-between">
                         <div class="d-flex align-items-center gap-3">
                           <div class="">
-                            <span
-                              class="automation-rules-icon d-flex align-items-center justify-content-center"
-                            >
+                            <span class="automation-rules-icon d-flex align-items-center justify-content-center">
                               <img src="assets/images/rule-icon.svg" />
                             </span>
                           </div>
@@ -715,117 +468,79 @@
                           ">
                               {{ item.organizationAddress.branch || 'N/A'}}
                             </h6>
-                            <small class="text-muted"
-                              >Define the Location for the staff</small
-                            >
+                            <small class="text-muted">Define the Location for the staff</small>
                           </div>
-                           
+
                         </div>
 
-                        <span
-                          data-bs-toggle="collapse"
-                          role="button"
-                          class="automation-rules-toogel-btn pointer"
+                        <span data-bs-toggle="collapse" role="button" class="automation-rules-toogel-btn pointer"
                           [attr.data-bs-target]="'#multiCollapseExample' + i"
-                          [attr.aria-controls]="'multiCollapseExample' + i"
-                          [attr.aria-expanded]="
+                          [attr.aria-controls]="'multiCollapseExample' + i" [attr.aria-expanded]="
                             activeIndex == i ? 'true' : 'false'
-                          "
-                          (click)="toggleCollapse(i)"
-                        >
+                          " (click)="toggleCollapse(i)">
                           <i class="bi bi-chevron-down"></i>
                         </span>
                       </div>
-                      <div
-                        class="collapse multi-collapse"
-                        [attr.id]="'multiCollapseExample' + i"
-                        [ngClass]="{ show: activeIndex === i }"
-                      >
-                        <div
-                          class="d-flex align-items-center justify-content-between mt-3"
-                        >
+                      <div class="collapse multi-collapse" [attr.id]="'multiCollapseExample' + i"
+                        [ngClass]="{ show: activeIndex === i }">
+                        <div class="d-flex align-items-center justify-content-between mt-3">
                           <div class="">
                             <p class="mb-0">
-                              <i
-                                class="bi bi-arrow-right"
-                                style="padding-right: 10px"
-                              ></i
-                              > <span *ngIf="
+                              <i class="bi bi-arrow-right" style="padding-right: 10px"></i> <span *ngIf="
                               item.organizationAddress.addressStatus !=
                               'Default address'
                             ">{{
                                 item.organizationAddress.branch || "N/A"
-                              }}</span>
+                                }}</span>
                               <span *ngIf="
                               item.organizationAddress.addressStatus ==
                               'Default address'
                             ">{{
                                 item.organizationAddress.addressStatus || "N/A"
-                              }}</span> 
+                                }}</span>
                             </p>
                           </div>
-                          <div
-                            class="d-flex align-items-center gap-4"
-                            *ngIf="
+                          <div class="d-flex align-items-center gap-4" *ngIf="
                               item.organizationAddress.addressStatus ==
                               'Default address'
-                            "
-                          >
+                            ">
                             
-                            <a
-                              style="cursor: pointer"
-                              data-bs-toggle="modal"
-                              data-bs-target="#shifTimeDefaultAddress"
-                              
-                              (click)="getOrganizationAddressDetailMethodCall()"
-                            >
+                            <!-- shifTimeDefaultAddress -->
+                            <a style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#shiftTime"
+                              (click)="getOrganizationAddressDetailMethodCall(true)">
                               <i class="bi bi-pencil pointer"></i>
                             </a>
-                           
+
                           </div>
-                          <div
-                            class="d-flex align-items-center gap-4"
-                            *ngIf="
+                          <div class="d-flex align-items-center gap-4" *ngIf="
                               item.organizationAddress.addressStatus !=
                               'Default address'
-                            "
-                          >
-                            <a
-                              style="cursor: pointer"
-                              data-bs-toggle="modal"
-                              data-bs-target="#shiftTime"
-                              (click)="
+                            ">
+                            <a style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#shiftTime" (click)="
                                 getUsersOfAddressDeatils(
                                   item.organizationAddress.id,
                                   item.organizationAddress.addressStatus
                                 )
-                              "
-                            >
+                              ">
                               <i class="bi bi-people"></i>
                             </a>
                             <!-- getAddressDetails(
                               item.organizationAddress.id,
                               item.organizationAddress.addressStatus
                             ) -->
-                            <a
-                              style="cursor: pointer"
-                              data-bs-toggle="modal"
-                              data-bs-target="#shiftTime"
-                              (click)="openEditAddressTab(item.organizationAddress.id,
-                                  item.organizationAddress.addressStatus)
-                               
-                              "
-                              
-                            >
+                            <a style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#shiftTime" (click)="openEditAddressTab(item.organizationAddress.id,
+                                  item.organizationAddress.addressStatus,false)
+
+                              ">
                               <i class="bi bi-pencil pointer"></i>
                             </a>
-                            <a
-                              style="cursor: pointer"
-                              class="delete-rule"
-                              (click)="
+                            <!-- (click)="
                                 deleteAddress(item.organizationAddress.id)
-                              "
-                            >
+                              "> -->
+                            <a style="cursor: pointer" class="delete-rule" data-bs-toggle="modal"
+                              data-bs-target="#delete-address" (click)="
+                                getAddressTemplateId(item.organizationAddress.id)
+                              ">
                               <i class="bi bi-trash pointer text-danger"></i>
                             </a>
                           </div>
@@ -837,7 +552,7 @@
                                 Address Line 1 :
                                 <span style="color: #009688">{{
                                   item.organizationAddress.addressLine1 || "N/A"
-                                }}</span>
+                                  }}</span>
                               </p>
                             </div>
                           </div>
@@ -847,7 +562,7 @@
                                 Address Line 2 :
                                 <span style="color: #009688">{{
                                   item.organizationAddress.addressLine2 || "N/A"
-                                }}</span>
+                                  }}</span>
                               </p>
                             </div>
                           </div>
@@ -857,7 +572,7 @@
                                 City :
                                 <span style="color: #009688">{{
                                   item.organizationAddress.city || "N/A"
-                                }}</span>
+                                  }}</span>
                               </p>
                             </div>
                           </div>
@@ -867,7 +582,7 @@
                                 State :
                                 <span style="color: #009688">{{
                                   item.organizationAddress.state || "N/A"
-                                }}</span>
+                                  }}</span>
                               </p>
                             </div>
                           </div>
@@ -877,7 +592,7 @@
                                 Country :
                                 <span style="color: #009688">{{
                                   item.organizationAddress.country || "N/A"
-                                }}</span>
+                                  }}</span>
                               </p>
                             </div>
                           </div>
@@ -887,7 +602,7 @@
                                 Range :
                                 <span style="color: #009688">{{
                                   item.organizationAddress.radius || "N/A"
-                                }}</span>
+                                  }}</span>
                               </p>
                             </div>
                           </div>
@@ -903,21 +618,15 @@
           </ng-template>
           <ng-template #errorInFetchingOrganizationLocationData>
             <div class="empty-file" *ngIf="dataNotFoundPlaceholder">
-              <nz-empty
-                nzNotFoundImage="assets/images/location-setting-icon.svg"
-                [nzNotFoundContent]="contentTpl"
-              >
+              <nz-empty nzNotFoundImage="assets/images/location-setting-icon.svg" [nzNotFoundContent]="contentTpl">
                 <ng-template #contentTpl>
                   <p class="mb-1 empty-detail font-14">
                     Enter your work space location
                   </p>
                   <div class="add-filtter">
-                    <a
-                      class="text-primary font-14 text-center"
-                      data-bs-toggle="modal"
-                      data-bs-target="#shiftTime"
-                      (click)="clearLocationModel()"
-                    >
+                    <!-- shifTimeDefaultAddress -->
+                    <a class="text-primary font-14 text-center" data-bs-toggle="modal"
+                      data-bs-target="#shiftTime" (click)="clearLocationModel()">
                       Add Locations
                     </a>
                   </div>
@@ -926,10 +635,7 @@
             </div>
 
             <div class="empty-file" *ngIf="networkConnectionErrorPlaceHolder">
-              <nz-empty
-                nzNotFoundImage="assets/images/location-setting-icon.svg"
-                [nzNotFoundContent]="contentTpl"
-              >
+              <nz-empty nzNotFoundImage="assets/images/location-setting-icon.svg" [nzNotFoundContent]="contentTpl">
                 <ng-template #contentTpl>
                   <p class="mb-1 empty-detail font-14">Something went wrong</p>
                   <!-- <div class="add-filtter">
@@ -967,29 +673,20 @@
 
           <div class="col-md-1"></div>
         </div>
+      </div>
+      </div>
         <!-- onooarding func  -->
 
-        <div class="col-md-4 mt-3 mb-3" *ngIf="activeTab === 'onboardingSetting'" style="padding: 20px;">
-          <div class="form-roe-data">
+        <div class="mt-4" *ngIf="activeTab === 'onboardingSetting'">
+          <div class="row">
+
+        <div class="col-md-4">
+          <div class="form-roe-data p-3">
             <h5>Employee Onboarding Setting</h5>
             <p>A quick snapshot of your company.</p>
           </div>
-          <!-- <div class="total-shifts p-3 mt-4">
-            <div class="d-flex align-items-center justify-content-between">
-              <div>
-                <h6 class="text-truncate">Total Locations</h6>
-                <h4 class="mt-3 fw-bold">{{allAddresses?.length}}</h4>
-              </div>
-              <span class="total-user-icon d-flex align-items-center justify-content-center">
-                <img src="assets/images/total-user-icon.svg" />
-              </span>
-            </div>
-
-          </div> -->
         </div>
-
-
-        <div class="col-md-7 mt-3 mb-3" *ngIf="activeTab === 'onboardingSetting'" style="
+        <div class="col-md-7 mt-3"  style="
         border: 1px solid #f5f5f5;
         padding: 5px;
       ">
@@ -1001,7 +698,7 @@
                   <div class="accordion-body">
                     <div class="d-flex align-items-center justify-content-between">
                       <div class="iyxoZR">
-                        <h5 class="mb-0 font-15" >{{ module.name }}</h5>
+                        <h5 class="mb-0 font-15">{{ module.name }}</h5>
                       </div>
                       <div class="form-check">
                         <!-- <input
@@ -1011,13 +708,8 @@
                           [checked]="module.isFlag"
                           (change)="onModuleSelect(i, $event)"
                         /> -->
-                        <nz-switch
-                      [(ngModel)]="module.isFlag"
-                      [ngModelOptions]="{ standalone: true }"
-                      id="enableModule{{ module.id }}"
-                      (ngModelChange)="onModuleSelect(i)"
-
-                    ></nz-switch>
+                        <nz-switch [(ngModel)]="module.isFlag" [ngModelOptions]="{ standalone: true }"
+                          id="enableModule{{ module.id }}" (ngModelChange)="onModuleSelect(i)"></nz-switch>
 
                       </div>
                     </div>
@@ -1026,7 +718,162 @@
               </div>
 
             </div>
+          </div>
         </div>
+      </div>
+      </div>
+
+    <div class="mt-4" *ngIf="activeTab === 'notificationsSetting' && notifications && notificationKeys.length > 0">
+      <div *ngFor="let type of notificationKeys; let i = index">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-roe-data p-3" *ngIf="i==0">
+              <h5 class="text-black mb-2">Attendance Notification</h5>
+              <p class="font-13">Manage all your company's attendance-related notifications in one place</p>
+            </div>
+          </div>
+          <div class="col-md-7 mt-3">
+            <div class="attendance-notification form-roe-data border-bottom pb-4" *ngIf="isAttendanceType(type)">
+              <div class="d-flex align-items-center justify-content-between">
+                <div>
+                  <h5 class="font-15">{{ type }}</h5>
+                  <p class="mb-0 font-13">Remind employees to mark their attendance promptly at the start of their shift.</p>
+                </div>
+                <div>
+                  <nz-switch [ngModel]="shouldShowSwitch(type)" (ngModelChange)="onSwitchChange($event, type)" [nzLoading]="loadingFlags[type]"></nz-switch>
+                </div>
+              </div>
+              <div *ngIf="shouldShowSwitch(type)">
+                <div class="pt-3 notification-checkbox" *ngFor="let notification of notifications?.[type]; let j = index">
+                  <div class="form-check d-flex align-items-center gap-2 mt-3 mb-3">
+                    <!-- Using unique ID for each checkbox and its label -->
+                    <input 
+                      type="checkbox" 
+                      [checked]="notification.isEnable === 1" 
+                      [id]="'checkbox-' + i + '-' + j" 
+                      [name]="'checkbox-' + i + '-' + j" 
+                      class="form-check-input" (change)="toggleNotificationValue(notification, 'isEnable')">
+                    <label class="form-check-label" [for]="'checkbox-' + i + '-' + j">{{ notification.description }}</label>
+                    <button (click)="toggleNotification(notification, type, j)">edit</button>
+                  </div>
+        
+                  <!-- Reminder form with unique ID for radio buttons and names -->
+                  <div class="reminder-form mt-4 mb-4 p-3" *ngIf="notification.isEnable">
+                    <div class="row">
+                      <div class="col-md-4">
+                        <label class="form-check-label mb-2 fw-normal">Send Reminder</label>
+                        <div class="send-reminder d-flex align-items-center">
+                          <div class="w-50 pl-2">
+                            <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                              <input 
+                                type="radio" 
+                                id="before-{{i}}{{j}}" 
+                                name="Reminder-{{i}}{{j}}"
+                                value="before" 
+                                class="form-check-input"
+                                [checked]="notification.isBefore === 1"
+                                (change)="toggleNotificationValue(notification, 'isBefore')">
+                              <p class="form-check-label mb-0">Before</p>
+                            </label>
+                          </div>
+                          <div class="w-50 pl-2 reminder-after">
+                            <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                              <input 
+                                type="radio" 
+                                id="after-{{i}}{{j}}" 
+                                name="Reminder-{{i}}{{j}}"
+                                value="after" 
+                                class="form-check-input"
+                                [checked]="notification.isBefore === 0"
+                                (change)="toggleNotificationValue(notification, 'isBefore')">
+                              <p class="form-check-label mb-0">After</p>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <label class="form-check-label mb-2 fw-normal">Set Minutes</label>
+                        <nz-time-picker 
+                          nzFormat="HH:mm"
+                          [(ngModel)]="notification.minutes"
+                          [ngModelOptions]="{ standalone: true }"
+                          nzPlaceHolder="Select Duration"
+                          id="minutes-{{i}}{{j}}" 
+                          name="minutes-{{i}}{{j}}"
+                          
+                          style="background-color: #fff !important; height:47px !important;">
+                        </nz-time-picker>
+                      </div>
+                      <div class="col-md-4">
+                        <label class="form-check-label mb-2 fw-normal">Send Reminder</label>
+                        <div class="send-reminder d-flex align-items-center">
+                          <div class="w-50 pl-2">
+                            <label class="form-check assets-req d-flex align-items-center justify-content-start" (change)="toggleNotificationValue(notification, 'isForced')">
+                              <input 
+                                type="radio" 
+                                id="forced-{{i}}{{j}}" 
+                                name="forcedFlexible-{{i}}{{j}}"
+                                value="forced" 
+                                class="form-check-input"
+                                [checked]="notification.isForced === 1"
+                                
+                                >
+                              <p class="form-check-label mb-0">Forced</p>
+                            </label>
+                          </div>
+                          <div class="w-50 pl-2 reminder-after">
+                            <label class="form-check assets-req d-flex align-items-center justify-content-start" (change)="toggleNotificationValue(notification, 'isForced')">
+                              <input 
+                                type="radio" 
+                                id="flexible-{{i}}{{j}}" 
+                                name="forcedFlexible-{{i}}{{j}}"
+                                value="flexible" 
+                                class="form-check-input"
+                                [checked]="notification.isForced === 0"
+                                >
+                              <p class="form-check-label mb-0">Flexible</p>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- end box -->
+            </div>
+          </div>
+        </div>
+      
+        <!-- Handle "Other" type notifications -->
+        <div class="row mt-5" *ngIf="type == 'Other'">
+          <div class="col-md-4">
+            <div class="form-roe-data p-3">
+              <h5 class="text-black mb-2">{{type}} Notification</h5>
+              <p class="font-13">Manage all your company's attendance-related notifications in one place</p>
+            </div>
+          </div>
+          <div class="col-md-7 mt-3">
+            <div class="attendance-notification form-roe-data d-flex align-items-center justify-content-between border-bottom pb-4" *ngFor="let notification of notifications?.[type]; let j = index">
+              <div class="mt-3">
+                <h5 class="font-15">{{notification.name}}</h5>
+                <p class="mb-0 font-13">{{notification.description}}</p>
+              </div>
+              <div>
+                <nz-switch [ngModel]="notification.isEnable" [ngModelOptions]="{ standalone: true }" 
+                [nzLoading]="loadingFlags2[type]?.[j] || false" 
+                (ngModelChange)="toggleNotification(notification, type, j)"></nz-switch>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+         
+    </div>
+
+        <div class="mt-4" *ngIf="activeTab === 'exitPolicy'">
+        
+        <!-- <app-exist-policy></app-exit-policy> -->
         </div>
 
 
@@ -1035,50 +882,24 @@
   </div>
 
   <!-- Modal to view document -->
-  <button
-    type="button"
-    class="btn btn-primary d-none"
-    data-bs-toggle="modal"
-    data-bs-target="#showDocModal"
-    #openDocModalButton
-    id="openDocModalButton"
-  ></button>
-  <div
-    class="modal blur-bg-2"
-    id="showDocModal"
-    tabindex="-1"
-    data-bs-keyboard="false"
-    aria-labelledby="showDocModalLabel"
-    aria-hidden="true"
-  >
+  <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#showDocModal"
+    #openDocModalButton id="openDocModalButton"></button>
+  <div class="modal blur-bg-2" id="showDocModal" tabindex="-1" data-bs-keyboard="false"
+    aria-labelledby="showDocModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="showDocModalLabel">Company Policy Doc</h5>
         </div>
-        <div
-          class="modal-body text-center"
-          style="overflow: scroll; min-height: 450px"
-        >
-          <iframe
-            *ngIf="previewString"
-            [src]="previewString"
-            style="width: 100%; height: 100vh"
-            frameborder="0"
-          ></iframe>
+        <div class="modal-body text-center" style="overflow: scroll; min-height: 450px">
+          <iframe *ngIf="previewString" [src]="previewString" style="width: 100%; height: 100vh"
+            frameborder="0"></iframe>
         </div>
-        <div
-          class="modal-footer d-flex align-items-center justify-content-end gap-3"
-        >
-          <button
-            type="button"
-            class="btn btn-de-secondary"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          >
+        <div class="modal-footer d-flex align-items-center justify-content-end gap-3">
+          <button type="button" class="btn btn-de-secondary" data-bs-dismiss="modal" aria-label="Close">
             Cancel
           </button>
-          <button class="btn btn-primary" (click)="downloadFile(fileUrl)">
+          <button class="btn btn-primary" (click)="downloadFile('')">
             <span> <i class="bi bi-download"></i> Download </span>
           </button>
         </div>
@@ -1086,161 +907,89 @@
     </div>
   </div>
 </div>
-<div
-  class="modal fade"
-  id="shiftTime"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="exampleModalDefaultLabel"
-  aria-hidden="true"
-  data-bs-backdrop="static"
-  #shiftTime
->
-  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+
+<!-----------------------------------  CREATE NEW LOCATION POPUP START-------------------------->
+<div class="modal fade" id="shiftTime" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel"
+  aria-hidden="true" data-bs-backdrop="static" #shiftTime>
+  <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h6 class="modal-title m-0" id="exampleModalDefaultLabel">
-          Assign Location To Staff
-        </h6>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-          #closeButtonLocation
-        ></button>
+        <h5 class="modal-title m-0"> Assign Location To Staff </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+          #closeButtonLocation></button>
       </div>
-      <div class="modal-body modal-height-fix">
-        <div>
-          <ul id="myTab" role="tablist" class="nav nav-tabs">
-            <li role="presentation" class="nav-item">
-              <button
-                id="home-tab"
-                data-bs-toggle="tab"
-                data-bs-target="#shiftime"
-                type="button"
-                role="tab"
-                aria-controls="shiftime"
-                aria-selected="true"
-                class="nav-link active"
-                #locationSettingTab
-              >
-                Location
-              </button>
-            </li>
-            <!-- {{isFormInvalidLocation}}
-            [disabled]="isFormInvalidLocation" -->
-            <li role="presentation" class="nav-item">
-              <button
-                id="profile-tab"
-                data-bs-toggle="tab"
-                data-bs-target="#staffselection"
-                type="button"
-                role="tab"
-                aria-controls="staffselection"
-                aria-selected="false"
-                class="nav-link"
-                #staffSelectionTab
-                
-                [disabled]="!organizationAddressNgForm.form.valid"
-              >
-                Staff selection
-              </button>
-            </li>
-          </ul>
-          <div class="tab-content" id="myTabContent">
-            
-            <div
-              class="tab-pane fade show active"
-              id="shiftime"
-              role="tabpanel"
-              #shifttime
-            >
-            <!-- [formGroup]="organizationAddressDetailForm" -->
-            <!-- #organizationAddressForm="ngForm" -->
-              <form #organizationAddressNgForm="ngForm"  (ngSubmit)="submit()">
-                <div class="modal-content">
-                  <!--end modal-header-->
-                  <div class="modal-body">
-                    <div class="form-group">
+      <div class="modal-body p-0">
+        <div class="shift-time-modal">
+          <div class="row h-100 p-0 m-0">
+            <div class="col-md-3 p-0 m-0" >
+              <div class="shift-time-menu">
+                <div class="nav flex-column nav-pills pt-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                  <button class="nav-link active" id="locationSettingTab" data-bs-toggle="pill" data-bs-target="#staffLocation"
+                    type="button" role="tab" #locationSettingTab>
+                    Staff Location
+                  </button>
+                  <button class="nav-link" id="profile-tab" data-bs-toggle="pill" data-bs-target="#staffselection"
+                    type="button" [disabled]="!organizationAddressNgForm.form.valid" role="tab" #staffSelectionTab>
+                    Staff Selection
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-9 bg-white">
+              <div class="tab-content" id="myTabContent">
+
+                <div class="tab-pane fade show active" id="staffLocation" #staffLocation role="tabpanel" #shifttime>
+                  <form #organizationAddressNgForm="ngForm" (ngSubmit)="onOrganizationAddressSubmit()">
+                    <div class="form-group p-3 staff-location">
                       <div class="row">
-                       
+
                         <div class="col-md-12">
                           <div class="mb-3" style="position: relative">
-                            <label for="addressLine1" class="pb-2"
-                              >Address
+                            <label for="addressLine1" class="pb-2">Address
                             </label>
-                            <input
-                              type="text"
-                              id="addressLine1"
+                            <input type="text" id="addressLine1"
                               placeholder="Please Select Address from Address Dropdown Or Fetch Current Location.."
-                              ngx-google-places-autocomplete
-                              #placesRef="ngx-places"
-                              (onAddressChange)="handleAddressChange($event)"
-                              required
-                              #addressLine1="ngModel"
-                              name="addressLine1"
-                              maxlength="200"
-                              class="form-control ng-untouched ng-pristine ng-invalid profile-input"
-                              [(ngModel)]="
-                                organizationAddressDetail.addressLine1
-                              "
-                            />
-                            <a
-                              class="fetch-location text-primary"
-                              (click)="currentLocation()"
-                            >
-                              <span *ngIf="!fetchCurrentLocationLoader"
-                                ><i
-                                  class="ti ti-current-location"
-                                  style="padding-right: 8px"
-                                ></i
-                                >Fetch Current Location
+                              ngx-google-places-autocomplete #placesRef="ngx-places"
+                              (onAddressChange)="handleAddressChange($event)" required #addressLine1="ngModel"
+                              name="addressLine1" maxlength="200" class="form-control input-zorro" [(ngModel)]="
+                              organizationAddressDetail.addressLine1
+                            " />
+                            <a class="fetch-location text-primary" (click)="currentLocation()">
+                              <span *ngIf="!fetchCurrentLocationLoader"><i class="ti ti-current-location"
+                                  style="padding-right: 8px"></i>Fetch Current Location
                               </span>
-                              <div
-                                class="loader-fetching-location"
-                                *ngIf="fetchCurrentLocationLoader"
-                              >
-                                <i
-                                  class="ti ti-current-location"
-                                  style="padding-right: 8px"
-                                ></i>
+                              <div class="loader-fetching-location" *ngIf="fetchCurrentLocationLoader">
+                                <i class="ti ti-current-location" style="padding-right: 8px"></i>
                                 Fetching
                                 <span></span>
                                 <span></span>
                                 <span></span>
                               </div>
                             </a>
-                            <div
-                              *ngIf="
-                                (addressLine1.touched &&
-                                  addressLine1.invalid) ||
-                                isFormInvalidLocation
-                              "
-                            >
-                              <p
-                                class="errortxt mt-2 mb-0"
-                                style="color: red"
-                                *ngIf="addressLine1.errors?.required"
-                              >
+                            <a class="text-primary position-relative" style="top:5px" (click)="openLatLongField()"
+                              *ngIf="!isLatLongFieldOpen">
+                              <span *ngIf="!locationLoader"><i class="bi bi-plus"></i> Add Location Via Latitude &
+                                Longitude
+                              </span>
+                            </a>
+
+                            <div *ngIf="
+                              (addressLine1.touched &&
+                                addressLine1.invalid) ||
+                              isFormInvalidLocation
+                            ">
+                              <p class="errortxt mt-2 mb-0" style="color: red" *ngIf="addressLine1.errors?.required">
                                 <i class="bi bi-exclamation-circle"></i> Address
                                 Line 1 is required.
                               </p>
-                              <p
-                                class="errortxt mt-2 mb-0"
-                                style="color: red"
-                                *ngIf="addressLine1.errors?.maxlength "
-                              >
+                              <p class="errortxt mt-2 mb-0" style="color: red" *ngIf="addressLine1.errors?.maxlength ">
                                 <i class="bi bi-exclamation-circle"></i> Maximum
                                 200 characters allowed.
                               </p>
-                              <p
-                                class="errortxt mt-2 mb-0"
-                                *ngIf="
-                                  !organizationAddressDetail.longitude &&
-                                  !organizationAddressDetail.latitude 
-                                "
-                              >
+                              <p class="errortxt mt-2 mb-0" *ngIf="
+                                !organizationAddressDetail.longitude &&
+                                !organizationAddressDetail.latitude
+                              ">
                                 <i class="bi bi-exclamation-circle"></i> Please
                                 Select Address from Address Dropdown only. Do
                                 not type it manually Or Fetch Current Location.
@@ -1248,851 +997,481 @@
                             </div>
                           </div>
                         </div>
-                        <div
-                          class="col-md-6"
-                          *ngIf="
-                            organizationAddressDetail.longitude &&
-                            organizationAddressDetail.latitude
-                          "
-                        >
+                        <div class="col-md-3" *ngIf="isLatLongFieldOpen">
                           <div class="mb-3">
-                            <label for="addressLine2" class="pb-2"
-                              >Street Address</label
-                            >
-                            <input
-                              type="text"
-                              id="addressLine2"
-                              placeholder="Address line 2"
-                              name="addressLine2"
-                              class="form-control ng-untouched ng-pristine ng-invalid profile-input"
-                              [(ngModel)]="
-                                organizationAddressDetail.addressLine2
-                              "
-                            />
+                            <label for="radius" class="pb-2">
+                              Latitude <span class="text-optional">*</span>
+                            </label>
+                            <input type="number" id="latitude" placeholder="Enter Latitude" name="latitude"
+                              class="form-control profile-input" [(ngModel)]="organizationAddressDetail.latitude"
+                              (ngModelChange)="getAddressFromCoords(organizationAddressDetail.latitude, organizationAddressDetail.longitude)"
+                              required #latitude="ngModel" />
+                          </div>
+                          <div *ngIf="(latitude.touched && latitude.invalid) || isFormInvalid">
+                            <p class="errortxt mt-2 mb-0" style="color: red" *ngIf="latitude.errors?.required">
+                              <i class="bi bi-exclamation-circle"></i> Latitude is
+                              required.
+                            </p>
                           </div>
                         </div>
-                        <div
-                        class="col-md-6"
-                      >
-                        <div class="mb-3">
-                          <label for="branch" class="pb-2"
-                            >Branch Name</label
-                          >
-                          <input
-                            type="text"
-                            id="branch"
-                            placeholder="Enter Branch Name"
-                            name="branch"
-                            required
-                            #branch="ngModel"
-                            class="form-control ng-untouched ng-pristine ng-invalid profile-input"
-                            [(ngModel)]="organizationAddressDetail.branch"
-                          />
+                        <div class="col-md-3" *ngIf="isLatLongFieldOpen">
+                          <div class="mb-3">
+                            <label for="radius" class="pb-2">
+                              Longitude<span class="text-optional">*</span>
+                            </label>
+                            <input type="number" id="longitude" placeholder="Enter Longitude" name="longitude"
+                              class="form-control profile-input" [(ngModel)]="organizationAddressDetail.longitude"
+                              (ngModelChange)="getAddressFromCoords(organizationAddressDetail.latitude, organizationAddressDetail.longitude)"
+                              required #longitude="ngModel" />
+                          </div>
+                          <div *ngIf="(longitude.touched && longitude.invalid) || isFormInvalid">
+                            <p class="errortxt mt-2 mb-0" style="color: red" *ngIf="longitude.errors?.required">
+                              <i class="bi bi-exclamation-circle"></i> Longitude is
+                              required.
+                            </p>
+                          </div>
                         </div>
-                        <div
-                            *ngIf="
-                              (branch.touched && branch.invalid) ||
-                              isFormInvalidLocation
-                            "
-                          >
-                            <p
-                              class="errortxt mt-2 mb-0"
-                              style="color: red"
-                              *ngIf="branch.errors?.required"
-                            >
+                        <div class="col-md-6 mb-3" *ngIf="
+                          organizationAddressDetail.longitude &&
+                          organizationAddressDetail.latitude
+                        ">
+                          <label for="addressLine2" class="pb-2">Street Address</label>
+                          <input type="text" id="addressLine2" placeholder="Address line 2" name="addressLine2"
+                            class="form-control input-zorro" [(ngModel)]="
+                              organizationAddressDetail.addressLine2
+                            " />
+                        </div>
+                        <div class="col-md-6 mb-3 " *ngIf="!isDefaultAddressSelected">
+                          <label for="branch" class="pb-2">Branch Name</label>
+                          <input type="text" id="branch" placeholder="Enter Branch Name" name="branch" required
+                            #branch="ngModel" class="form-control ng-untouched ng-pristine ng-invalid profile-input"
+                            [(ngModel)]="organizationAddressDetail.branch" />
+                          <div *ngIf="
+                            (branch.touched && branch.invalid) ||
+                            isFormInvalidLocation
+                          ">
+                            <p class="errortxt mt-2 mb-0" style="color: red" *ngIf="branch.errors?.required">
                               <i class="bi bi-exclamation-circle"></i> Branch Name
                               is required.
                             </p>
                           </div>
-                      </div>
-                        
-                        <div
-                          class="col-md-4"
-                          *ngIf="
-                            organizationAddressDetail.longitude &&
-                            organizationAddressDetail.latitude
-                          "
-                        >
+                        </div>
+
+                        <div class="col-md-4 mb-3" *ngIf="
+                          organizationAddressDetail.longitude &&
+                          organizationAddressDetail.latitude
+                        ">
                           <div class="mb-3">
-                            <label for="landmark" class="pb-2"
-                              >Landmark
-                              <span class="text-optional"
-                                >(optional)</span
-                              ></label
-                            >
-                            <input
-                              type="text"
-                              id="landmark"
-                              placeholder="Landmark"
-                              name="landmark"
+                            <label for="landmark" class="pb-2">Landmark
+                              <span class="text-optional">(optional)</span></label>
+                            <input type="text" id="landmark" placeholder="Landmark" name="landmark"
                               class="form-control ng-untouched ng-pristine ng-invalid profile-input"
-                              [(ngModel)]="organizationAddressDetail.landmark"
-                            />
+                              [(ngModel)]="organizationAddressDetail.landmark" />
                           </div>
                         </div>
-                        <div
-                          class="col-md-4"
-                          *ngIf="
-                            organizationAddressDetail.longitude &&
-                            organizationAddressDetail.latitude
-                          "
-                        >
+                        <div class="col-md-4 mb-3" *ngIf="
+                          organizationAddressDetail.longitude &&
+                          organizationAddressDetail.latitude
+                        ">
                           <div class="mb-3">
                             <label for="city" class="pb-2"> City </label>
-                            <input
-                              type="text"
-                              id="city"
-                              placeholder="City"
-                              required
-                              #city="ngModel"
-                              name="city"
+                            <input type="text" id="city" placeholder="City" required #city="ngModel" name="city"
                               class="form-control ng-untouched ng-pristine ng-invalid profile-input"
-                              [(ngModel)]="organizationAddressDetail.city"
-                            />
+                              [(ngModel)]="organizationAddressDetail.city" />
                           </div>
-                          <div
-                            *ngIf="
-                              (city.touched && city.invalid) ||
-                              isFormInvalidLocation
-                            "
-                          >
-                            <p
-                              class="errortxt mt-2 mb-0"
-                              style="color: red"
-                              *ngIf="city.errors?.required"
-                            >
+                          <div *ngIf="
+                            (city.touched && city.invalid) ||
+                            isFormInvalidLocation
+                          ">
+                            <p class="errortxt mt-2 mb-0" style="color: red" *ngIf="city.errors?.required">
                               <i class="bi bi-exclamation-circle"></i> City Name
                               is required.
                             </p>
                           </div>
                         </div>
-                        <div
-                          class="col-md-4"
-                          *ngIf="
-                            organizationAddressDetail.longitude &&
-                            organizationAddressDetail.latitude
-                          "
-                        >
+                        <div class="col-md-4 mb-3" *ngIf="
+                          organizationAddressDetail.longitude &&
+                          organizationAddressDetail.latitude
+                        ">
                           <div class="mb-3">
                             <label for="state" class="pb-2"> State </label>
-                            <input
-                              type="text"
-                              id="state"
-                              placeholder="State"
-                              required
-                              #state="ngModel"
-                              name="state"
+                            <input type="text" id="state" placeholder="State" required #state="ngModel" name="state"
                               class="form-control ng-untouched ng-pristine ng-invalid profile-input"
-                              [(ngModel)]="organizationAddressDetail.state"
-                            />
+                              [(ngModel)]="organizationAddressDetail.state" />
                           </div>
-                          <div
-                            *ngIf="
-                              (state.touched && state.invalid) ||
-                              isFormInvalidLocation
-                            "
-                          >
-                            <p
-                              class="errortxt mt-2 mb-0"
-                              style="color: red"
-                              *ngIf="state.errors?.required"
-                            >
+                          <div *ngIf="
+                            (state.touched && state.invalid) ||
+                            isFormInvalidLocation
+                          ">
+                            <p class="errortxt mt-2 mb-0" style="color: red" *ngIf="state.errors?.required">
                               <i class="bi bi-exclamation-circle"></i> State
                               Name is required.
                             </p>
                           </div>
                         </div>
-                        <div
-                          class="col-md-6"
-                          *ngIf="
-                            organizationAddressDetail.longitude &&
-                            organizationAddressDetail.latitude
-                          "
-                        >
+                        <div class="col-md-4 mb-3" *ngIf="
+                          organizationAddressDetail.longitude &&
+                          organizationAddressDetail.latitude
+                        ">
                           <div class="mb-3">
                             <label for="country" class="pb-2">Country</label>
-                            <input
-                              type="text"
-                              id="country"
-                              placeholder="Country"
-                              required
-                              #country="ngModel"
-                              name="country"
-                              class="form-control ng-untouched ng-pristine ng-invalid profile-input"
-                              [(ngModel)]="organizationAddressDetail.country"
-                            />
+                            <input type="text" id="country" placeholder="Country" required #country="ngModel"
+                              name="country" class="form-control ng-untouched ng-pristine ng-invalid profile-input"
+                              [(ngModel)]="organizationAddressDetail.country" />
                           </div>
-                          <div
-                            *ngIf="
-                              (country.touched && country.invalid) ||
-                              isFormInvalidLocation
-                            "
-                          >
-                            <p
-                              class="errortxt mt-2 mb-0"
-                              style="color: red"
-                              *ngIf="country.errors?.required"
-                            >
+                          <div *ngIf="
+                            (country.touched && country.invalid) ||
+                            isFormInvalidLocation
+                          ">
+                            <p class="errortxt mt-2 mb-0" style="color: red" *ngIf="country.errors?.required">
                               <i class="bi bi-exclamation-circle"></i> Country
                               Name is required.
                             </p>
                           </div>
                         </div>
-                        <div
-                          class="col-md-6"
-                          *ngIf="
-                            organizationAddressDetail.longitude &&
-                            organizationAddressDetail.latitude
-                          "
-                        >
-                          <div class="mb-3">
-                            <label for="pincode" class="pb-2">Pincode</label>
-                            <input
-                              type="text"
-                              id="pincode"
-                              placeholder="Pincode"
-                              #pincode="ngModel"
-                              required
-                              name="pincode"
-                              class="form-control ng-untouched ng-pristine ng-invalid profile-input"
-                              [(ngModel)]="organizationAddressDetail.pincode"
-                            />
-                          </div>
-                          <div
-                            *ngIf="
-                              (pincode.touched && pincode.invalid) ||
-                              isFormInvalidLocation
-                            "
-                          >
-                            <p
-                              class="errortxt mt-2 mb-0"
-                              style="color: red"
-                              *ngIf="pincode.errors?.required"
-                            >
+                        <div class="col-md-4 mb-3" *ngIf="
+                          organizationAddressDetail.longitude &&
+                          organizationAddressDetail.latitude
+                        ">
+                          <label for="pincode" class="pb-2">Pincode</label>
+                          <input type="text" id="pincode" placeholder="Pincode" #pincode="ngModel" required
+                            name="pincode" class="form-control ng-untouched ng-pristine ng-invalid profile-input"
+                            [(ngModel)]="organizationAddressDetail.pincode" />
+                          <div *ngIf="
+                            (pincode.touched && pincode.invalid) ||
+                            isFormInvalidLocation
+                          ">
+                            <p class="errortxt mt-2 mb-0 text-danger" *ngIf="pincode.errors?.required">
                               <i class="bi bi-exclamation-circle"></i> Pincode
                               is required.
                             </p>
                           </div>
                         </div>
+                        <div class="col-md-4 mb-3">
+                          <label for="radius" class="pb-2">
+                            Employee location Must be in
+                            <i class="bi bi-exclamation-circle tolltip-icon"
+                              ngbTooltip="Please enter the location range (in meters) within which your employees are allowed to mark their attendance. This ensures that attendance can only be marked when they are within the specified location range."
+                              placement="top">
+                            </i>
+                          </label>
+                          <input maxlength="5" class="form-control input-zorro" id="radiusDropdown"
+                            name="radiusDropdown" placeholder="Enter radius in meters" nz-input
+                            [(ngModel)]="organizationAddressDetail.radius" (ngModelChange)="onChange($event)"
+                            [nzAutocomplete]="radiusAuto" required #radius="ngModel"
+                            (keydown)="preventLeadingWhitespace($event)" (keypress)="allowOnlyNumbers($event)"
+                            (focus)="onFocus()" />
+                          <!-- <nz-autocomplete [nzDataSource]="radiusFilteredOptions" #radiusAuto></nz-autocomplete> -->
+                          <nz-autocomplete #radiusAuto (select)="onSelect($event)">
+                            <nz-auto-option *ngFor="let option of radiusFilteredOptions" [nzValue]="option.value"
+                              [nzLabel]="option.label">
+                              {{ option.label }}
+                            </nz-auto-option>
+                          </nz-autocomplete>
 
-                        <!-- <div
-                          class="col-md-6"
-                          *ngIf="
-                            organizationAddressDetail.longitude &&
-                            organizationAddressDetail.latitude
-                          "
-                        >
-                          <div class="mb-3">
-                            <label for="branch" class="pb-2">Branch</label>
-                            <input
-                              type="text"
-                              id="branch"
-                              placeholder="Branch"
-                              #branch="ngModel"
-                              required
-                              name="branch"
-                              class="form-control ng-untouched ng-pristine ng-invalid profile-input"
-                              [(ngModel)]="organizationAddressDetail.branch"
-                            />
-                          </div>
-                          <div
-                            *ngIf="
-                              (branch.touched && branch.invalid) ||
-                              isFormInvalidLocation
-                            "
-                          >
-                            <p
-                              class="errortxt mt-2 mb-0"
-                              style="color: red"
-                              *ngIf="branch.errors?.required"
-                            >
-                              <i class="bi bi-exclamation-circle"></i> Branch
-                              is required.
+                          <div *ngIf="radius?.touched || isFormInvalid">
+                            <p class="errortxt mt-2 mb-0" style="color:red"
+                              *ngIf="radius.errors?.required && !minRadius">
+                              <i class="bi bi-exclamation-circle"></i> Radius selection is required.
+                            </p>
+                            <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="radius.errors?.maxlength">
+                              <i class="bi bi-exclamation-circle"></i> Maximum 5 characters allowed.
+                            </p>
+                            <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="minRadius">
+                              <i class="bi bi-exclamation-circle"></i> Radius must be at least 10 meters.
+                            </p>
+                            <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="radius.value > 99000">
+                              <i class="bi bi-exclamation-circle"></i> Maximum radius is 99,000 meters.
                             </p>
                           </div>
-                        </div>
- -->
 
-                        <div class="col-md-12">
-                          <div class="mb-3">
-                            <label for="radius" class="pb-2">
-                              Employee location Must be in
-                              <i class="bi bi-exclamation-circle tolltip-icon"
-                                ngbTooltip="Please enter the location range (in meters) within which your employees are allowed to mark their attendance. This ensures that attendance can only be marked when they are within the specified location range."
-                                placement="top">
-                              </i>
-                            </label>
-                                <input
-                                maxlength="5"
-                                class="form-control profile-input"
-                                id="radiusDropdown"
-                                name="radiusDropdown"
-                                placeholder="Enter radius in meters"
-                                nz-input
-                                [(ngModel)]="organizationAddressDetail.radius"
-                                (ngModelChange)="onChange($event)"
-                                [nzAutocomplete]="radiusAuto"
-                                required
-                                #radius="ngModel"
-                                (keydown)="preventLeadingWhitespace($event)"
-                                (keypress)="allowOnlyNumbers($event)"
-                                (focus)="onFocus()"
-                            />
-                            <!-- <nz-autocomplete [nzDataSource]="radiusFilteredOptions" #radiusAuto></nz-autocomplete> -->
-                            <nz-autocomplete #radiusAuto (select)="onSelect($event)">
-                              <nz-auto-option
-                                *ngFor="let option of radiusFilteredOptions"
-                                [nzValue]="option.value"  
-                                [nzLabel]="option.label"> 
-                                {{ option.label }}         
-                              </nz-auto-option>
-                            </nz-autocomplete>
-                            <div *ngIf="radius?.touched || isFormInvalid">
-                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="radius.errors?.required && !minRadius">
-                                    <i class="bi bi-exclamation-circle"></i> Radius selection is required.
-                                </p>
-                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="radius.errors?.maxlength">
-                                    <i class="bi bi-exclamation-circle"></i> Maximum 5 characters allowed.
-                                </p>
-                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="minRadius">
-                                    <i class="bi bi-exclamation-circle"></i> Radius must be at least 10 meters.
-                                </p>
-                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="radius.value > 99000">
-                                    <i class="bi bi-exclamation-circle"></i> Maximum radius is 99,000 meters.
-                                </p>
-                            </div>
-                      
-                      
-                          </div>
-                          <!-- <div class="mb-3">
-                            <label for="radius" class="pb-2">
-                              Employee Location Must be in
-                              <i
-                                class="bi bi-exclamation-circle tolltip-icon"
-                                ngbTooltip="Please enter the location range (in meters) within which your employees are allowed to mark their attendance. This ensures that attendance can only be marked when they are within the specified location range."
-                                placement="top"
-                              ></i>
-                            </label>
-                            <input
-                              type="text"
-                              id="radius"
-                              placeholder="in meters"
-                              required
-                              #radius="ngModel"
-                              name="radius"
-                              class="form-control ng-untouched ng-pristine ng-invalid profile-input"
-                              [(ngModel)]="organizationAddressDetail.radius"
-                            />
-                          </div>
-                          <div
-                            *ngIf="
-                              (radius.touched && radius.invalid) ||
-                              isFormInvalidLocation
-                            "
-                          >
-                            <p
-                              class="errortxt mt-2 mb-0"
-                              style="color: red"
-                              *ngIf="radius.errors?.required"
-                            >
-                              <i class="bi bi-exclamation-circle"></i> Location
-                              Radius is required.
-                            </p>
-                          </div> -->
+
+
                         </div>
                       </div>
-                        <div class="mb-10" *ngIf="isShowMap">
-                          <app-map [lat]="this.organizationAddressDetail.latitude" [lng]="this.organizationAddressDetail.longitude" (getData)="getData($event)"></app-map>
-                        <!-- <section>
-                          <div class="el-card-item">
-                            <div class="el-card-avatar el-overlay-1">
-                              <div class="map">
-                                <agm-map
-                                  style="height: 350px"
-                                  [latitude]="lat"
-                                  [longitude]="lng"
-                                  [zoom]="zoom"
-                                  [maxZoom]="20"
-                                  [zoomControl]="true"
-                                  (mapClick)="onMapClick($event)"
-                                  [disableDefaultUI]="true"
-                                  [keyboardShortcuts]="false"
-                                >
-                                  <agm-marker
-                                    *ngIf="
-                                      (organizationAddressDetail.latitude &&
-                                        organizationAddressDetail.longitude) ||
-                                      (lat && lng)
-                                    "
-                                    [latitude]="lat"
-                                    [longitude]="lng"
-                                    draggable="true"
-                                    (dragEnd)="onMarkerDragEnd($event)"
-                                  ></agm-marker>
-                                </agm-map>
-                                <div class="map-locate-me">
-                                  <button
-                                    type="button"
-                                    class="locate-btn btn btn-sm text-white"
-                                    (click)="getCurrentLocation()"
-                                  >
-                                    <i class="fa fa-crosshairs"></i> Locate Me
-                                  </button>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </section> -->
-                        <!-- <section>
-                          <div class="el-card-item">
-                            <div class="el-card-avatar el-overlay-1">
-                              <div class="map">
-                                <agm-map
-                                  style="height: 350px"
-                                  [latitude]="lat"
-                                  [longitude]="lng"
-                                  [zoom]="zoom"
-                                  [maxZoom]="20"
-                                  [minZoom]="14"
-                                  [disableDefaultUI]="true"
-                                  [keyboardShortcuts]="false"
-                                  [usePanning]="true"
-                                  (centerChange)="centerChanged($event)"
-                                  (zoomChange)="onZoomChange($event)"
-                                  (mapReady)="mapReady($event)"
-                                >
-                                </agm-map>
-                            
-                                <div class="map-center-overlay">
-                                  <img src="../assets/images/location.svg" width="70" height="70" />
-                                </div>
-                               
-                              </div>
-                            </div>
-                          </div>
-                         
-                        </section> -->
+                      <div *ngIf="isShowMap">
+                        <app-map [lat]="this.organizationAddressDetail.latitude"
+                          [lng]="this.organizationAddressDetail.longitude" (getData)="getData($event)"></app-map>
                       </div>
-            
+
                     </div>
-                  </div>
-                  <!-- {{isFormInvalidLocation}} -->
-                  <div
-                    class="modal-footer d-flex align-items-center justify-content-end"
-                  >
-                    <button
-                      class="btn btn-primary"
-                      type="submit"
-                      aria-label="Next Step"
-                    >
-                      <span *ngIf="toggle" class="dot-opacity-loader-new">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                      </span>
-                      <span *ngIf="!toggle">
-                        Next
-                        <i
-                          class="bi bi-arrow-right"
-                          style="padding-left: 8px"
-                        ></i>
-                      </span>
-                    </button>
-                  </div>
+                    <!-- NEXT BUTTON FOR NORMAL ADDRESS(other than DEFAULT) START-->
+                    <div class="modal-footer d-flex align-items-center justify-content-end bg-white leave-footer" >
+                      <button type="submit" class="btn p-0 next-btn nextBtn"
+                        [ngClass]="{'btn-border': (organizationAddressNgForm.form.valid)}">
+                        <span *ngIf="toggle" class="dot-opacity-loader-new">
+                          <span></span>
+                          <span></span>
+                          <span></span>
+                        </span>
+
+                        <span *ngIf="!toggle">
+                          <span *ngIf="!isDefaultAddressSelected">Next</span>
+                          <span *ngIf="isDefaultAddressSelected">Save</span>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22"
+                            fill="none">
+                            <path
+                              d="M1.95801 11.0005C1.95801 10.8131 2.01656 10.6609 2.13366 10.5438C2.25076 10.4267 2.40299 10.3681 2.59035 10.3681H18.1179L13.9725 6.22276C13.832 6.08224 13.7618 5.9183 13.7618 5.73094C13.7618 5.54358 13.832 5.39135 13.9725 5.27424C14.1131 5.15714 14.277 5.09859 14.4644 5.09859C14.6517 5.09859 14.8157 5.14543 14.9562 5.23911L20.2257 10.5086C20.3194 10.6492 20.3662 10.8131 20.3662 11.0005C20.3662 11.1878 20.3194 11.3518 20.2257 11.4923L14.9562 16.7618C14.8157 16.8555 14.6517 16.9023 14.4644 16.9023C14.277 16.9023 14.1131 16.8438 13.9725 16.7267C13.832 16.6096 13.7618 16.4574 13.7618 16.27C13.7618 16.0826 13.832 15.9187 13.9725 15.7782L18.1179 11.6328H2.59035C2.40299 11.6328 2.25076 11.5743 2.13366 11.4572C2.01656 11.3401 1.95801 11.1878 1.95801 11.0005Z"
+                              fill="#6666F2">
+                            </path>
+                          </svg>
+                        </span>
+                      </button>
+                    </div>
+                     <!-- NEXT BUTTON FOR NORMAL ADDRESS(other than DEFAULT) END-->
+                  </form>
                 </div>
-              </form>
-            </div>
-            <div class="tab-pane fade" id="staffselection" role="tabpanel" #staffselection>
-              <div class="staf-list-box mt-3">
-                <div
-                  class="row mb-1 mt-3 align-items-center"
-                  style="padding-bottom: 15px"
-                >
-                  <div class="col-md-12">
-                    <div
-                      class="d-flex align-items-center"
-                      style="border: 1px solid #f1f1f1"
-                    >
-                      <div style="width: 30%; position: relative">
-                        <div class="dropdown" style="width: 100%">
-                          <button
-                            type="button"
-                            id="dropdownMenuButton1"
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false"
-                            class="btn btn-secondary dropdown-toggle new-deopdown"
-                          >
-                            {{ selectedTeamName }}
-                            <i
-                              class="bi bi-chevron-down"
-                              style="color: #444; font-size: 15px"
-                            ></i>
-                          </button>
-                          <ul
-                            aria-labelledby="dropdownMenuButton1"
-                            class="dropdown-menu team-dropdown"
-                            style="
-                              width: 100%;
-                              max-height: 200px;
-                              overflow-y: auto;
-                            "
-                          >
-                            <li
-                              class="ng-star-inserted"
-                              (click)="selectTeam(0)"
-                            >
-                              <a class="dropdown-item">All</a>
-                            </li>
-                            <li
-                              class="ng-star-inserted"
-                              *ngFor="let tn of teamNameList"
-                              (click)="selectTeam(tn.teamId)"
-                            >
-                              <a class="dropdown-item"> {{ tn.teamName }} </a>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
+                <div class="tab-pane fade" id="staffselection" role="tabpanel" #staffselection   *ngIf="isDefaultAddressSelected">
+                  <nz-alert class="pt-3 mt-3"
+      nzType="info"
+      nzMessage="No Staff Selection Needed"
+      nzDescription="This is the default address for your organization. Every employee can mark their attendance directly from this location. If a user is not mapped to any location, they can still mark their attendance from the default location."
+      nzShowIcon
+    ></nz-alert>
 
-                      <div class="" style="width: 70%">
-                        <form
-                          novalidate=""
-                          role="search"
-                          (submit)="searchUsers()"
-                          class="searching ng-untouched ng-pristine ng-valid"
-                        >
-                          <div class="form-group" style="position: relative">
-                            <input
-                              type="text"
-                              id="searchText"
-                              placeholder="Search by name and role"
-                              class="form-control me-2 ng-untouched ng-pristine ng-valid attendance-details-search"
-                              (keyup)="searchUsers()"
-                              [(ngModel)]="searchText"
-                              [ngModelOptions]="{ standalone: true }"
-                              style="padding: 10px 50px 10px 40px"
-                            />
-                            <button
-                              *ngIf="searchText.length !== 0"
-                              type="button"
-                              class="btn close-btn"
-                              (click)="clearSearchText()"
-                            >
-                              <i class="bi bi-x mt-auto mb-auto pl-3"></i>
-                            </button>
-                            <i
-                              class="bi bi-search search-icon"
-                              style="
-                                position: absolute;
-                                top: 50%;
-                                transform: translateY(-50%);
-                                left: 10px;
-                                padding-left: 5px;
-                              "
-                            ></i>
+                </div>
+                <div class="tab-pane fade" id="staffselection" role="tabpanel" #staffselection   *ngIf="!isDefaultAddressSelected">
+                  <div class="staf-list-box p-3">
+                    <div class="row align-items-center pb-3">
+                      <div class="col-md-12">
+                        <div class="d-flex align-items-center" style="border: 1px solid #f1f1f1">
+                          <div class="position-relative" style="width: 20%;">
+                            <div class="dropdown w-100">
+                              <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                                aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown">
+                                {{ selectedTeamName }}
+                                <i class="bi bi-chevron-down" style="color: #444; font-size: 15px"></i>
+                              </button>
+                              <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu team-dropdown" style="
+                                width: 100%;
+                                max-height: 200px;
+                                overflow-y: auto;
+                              ">
+                                <li class="ng-star-inserted" (click)="selectTeam(0)">
+                                  <a class="dropdown-item">All</a>
+                                </li>
+                                <li class="ng-star-inserted" *ngFor="let tn of teamNameList"
+                                  (click)="selectTeam(tn.teamId)">
+                                  <a class="dropdown-item"> {{ tn.teamName }} </a>
+                                </li>
+                              </ul>
+                            </div>
                           </div>
-                        </form>
-                      </div>
 
-                      <div class="container">
-                        <div class="content-wrapper">
-                          <div class="filter-wrapper">
-                            <!-- Display this only if there are selected staff -->
-                            <a
-                              class="info-button"
-                              *ngIf="selectedStaffsUuids.length > 0"
-                            >
-                              {{ selectedStaffsUuids.length }} selected of
-                              {{ totalUserCount }}
-                            </a>
-                            <!-- Clear button shows only if there are selected staff -->
-                            <span
-                              class="clear-button text-danger"
-                              *ngIf="selectedStaffsUuids.length > 0"
-                              (click)="unselectAllUsers()"
-                            >
-                              Clear all users <i class="bi bi-x"></i>
+                          <div class="" style="width: 53%">
+                            <form novalidate="" role="search" (submit)="searchUsers()"
+                              class="searching ng-untouched ng-pristine ng-valid">
+                              <div class="form-group position-relative">
+                                <input type="text" id="searchText" placeholder="Search by name and role"
+                                  class="form-control me-2 ng-untouched ng-pristine ng-valid attendance-details-search"
+                                  (keyup)="searchUsers()" [(ngModel)]="searchText"
+                                  [ngModelOptions]="{ standalone: true }" style="padding: 10px 50px 10px 40px" />
+
+                                <!-- <button *ngIf="searchText.length !== 0" type="button" class="btn close-btn p-0"
+                                  (click)="clearSearchText()">
+                                  <i class="bi bi-x mt-auto mb-auto pl-3" ></i>
+                                </button> -->
+                                <i class="bi bi-x search-icon position-absolute font-20 close-icon text-primary"
+                                  *ngIf="searchText != ''" (click)="clearSearchText()"></i>
+                                <i class="bi bi-search search-icon position-absolute" *ngIf="searchText == ''"></i>
+                              </div>
+                            </form>
+                          </div>
+
+                          <div class="d-flex align-items-center justify-content-end gap-2 w-100 search-list"
+                            *ngIf="selectedStaffsUuids.length > 0">
+                            <span class="text-black font-13 pointer">
+                              <span class="text-primary">{{ selectedStaffsUuids.length }} </span> Selected of
+                              <span class="text-primary"> {{ totalUserCount }} </span>
                             </span>
+                            <span class="separator"></span>
+                            <span class="text-danger fw-semibold pointer" (click)="unselectAllUsers()">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19"
+                                fill="none">
+                                <mask id="mask0_4127_2858" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0"
+                                  y="0" width="20" height="19">
+                                  <rect x="0.927246" y="0.460938" width="18.1564" height="18.1564" fill="#dc3545" />
+                                </mask>
+                                <g mask="url(#mask0_4127_2858)">
+                                  <path
+                                    d="M5.7642 14.8373L4.70508 13.7782L8.94157 9.54171L4.70508 5.30522L5.7642 4.24609L10.0007 8.48259L14.2372 4.24609L15.2963 5.30522L11.0598 9.54171L15.2963 13.7782L14.2372 14.8373L10.0007 10.6008L5.7642 14.8373Z"
+                                    fill="#dc3545" />
+                                </g>
+                              </svg>
+                              Clear Selection
+                            </span>
+                            <span class="separator"></span>
                             <label class="checkbox-label">
-                              <input
-                                type="checkbox"
-                                [(ngModel)]="isAllUsersSelected"
-                                (change)="selectAllUsers($event)"
-                              />
+                              <input type="checkbox" [(ngModel)]="isAllUsersSelected"
+                                (change)="selectAllUsers($event)" />&nbsp;
                               Select all
                             </label>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-                <ng-container
-                  *ngIf="total > 0; else noDataFoundPlaceholderInShiftTiming"
-                >
-                  <table class="table">
-                    <thead class="thead-light">
-                      <tr>
-                        <th style="width: 0%">
-                          <input
-                            type="checkbox"
-                            style="cursor: pointer"
-                            class="form-check-input"
-                            [(ngModel)]="isAllSelected"
-                            (change)="selectAll(isAllSelected)"
-                          />
-                        </th>
-                        <!-- <th style="width:25%; padding: 12px 15px;">S. No.</th> -->
-                        <th style="width: 25%; padding: 12px 15px">Name</th>
-                        <th style="width: 25%; padding: 12px 15px">Email</th>
-                        <th style="width: 25%; padding: 12px 15px">Phone</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr
-                        *ngFor="
-                          let staff of staffs
-                            | paginate
-                              : {
-                                  itemsPerPage: itemPerPage,
-                                  currentPage: pageNumber,
-                                  totalItems: total
-                                }
-                        "
-                        style="border-bottom: 1px solid #dddddd"
-                      >
-                        <td>
-                          <div class="form-check">
-                            <input
-                              type="checkbox"
-                              style="cursor: pointer"
-                              class="form-check-input"
-                              [(ngModel)]="staff.selected"
-                              (change)="checkIndividualSelection()"
-                            />
-                          </div>
-                        </td>
-                        <!-- <td style="padding: 12px 15px;">{{ i+1 }}</td> -->
-                        <td style="padding: 12px 15px">{{ staff.name }}</td>
-                        <td style="padding: 12px 15px">
-                          {{ staff.email ? staff.email : "N/A" }}
-                        </td>
-                        <td style="padding: 12px 15px">
-                          {{ staff.phoneNumber || "N/A" }}
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </ng-container>
-                <ng-template #noDataFoundPlaceholderInShiftTiming>
-                  <div class="errorboxmain">
-                    <div class="errorboxinner text-center">
-                      <div class="errorboxplaceholder mb-2">
-                        <img
-                          src="assets/images/addnewproduct.svg"
-                          style="width: 80px"
-                        />
+                    <ng-container *ngIf="total > 0; else noDataFoundPlaceholderInShiftTiming">
+                      <div class="location-user-table">
+                        <table class="table">
+                          <thead class="thead-light">
+                            <tr>
+                              <th style="width: 0%">
+                                <input type="checkbox" style="cursor: pointer" class="form-check-input"
+                                  [(ngModel)]="isAllSelected" (change)="selectAll(isAllSelected)" />
+                              </th>
+                              <!-- <th style="width:25%; padding: 12px 15px;">S. No.</th> -->
+                              <th style="width: 25%; padding: 12px 15px">Name</th>
+                              <th style="width: 25%; padding: 12px 15px">Email</th>
+                              <th style="width: 25%; padding: 12px 15px">Phone</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="
+                              let staff of staffs
+                                | paginate
+                                  : {
+                                      itemsPerPage: itemPerPage,
+                                      currentPage: pageNumber,
+                                      totalItems: total
+                                    }
+                            " style="border-bottom: 1px solid #dddddd">
+                              <td>
+                                <div class="form-check">
+                                  <input type="checkbox" style="cursor: pointer" class="form-check-input"
+                                    [(ngModel)]="staff.selected" (change)="checkIndividualSelection()" />
+                                </div>
+                              </td>
+                              <!-- <td style="padding: 12px 15px;">{{ i+1 }}</td> -->
+                              <td style="padding: 12px 15px">{{ staff.name }}</td>
+                              <td style="padding: 12px 15px">
+                                {{ staff.email ? staff.email : "N/A" }}
+                              </td>
+                              <td style="padding: 12px 15px">
+                                {{ staff.phoneNumber || "N/A" }}
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
-                      <h4>No Data Found</h4>
-                      <p>
-                        We're unable to locate a record associated with the
-                        information you entered.
+                    </ng-container>
+                    <ng-template #noDataFoundPlaceholderInShiftTiming>
+                    
+
+                      <div class="empty-filenew" style="margin-top: 30%; margin-bottom: 7%">
+                        <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                          [nzNotFoundContent]="contentTpl">
+                          <ng-template #contentTpl>
+                            <p class="mb-1 empty-detail">No data for now</p>
+                          </ng-template>
+                        </nz-empty>
+                      </div>
+                    </ng-template>
+                  </div>
+
+                  <div class="leave-footer bg-white">
+                    
+                    <div class="pagination justify-content-between p-3" *ngIf="staffs.length > 0">
+                      <p class="mb-0">
+                        Showing {{ 1 + ( databaseHelper.itemPerPage * (databaseHelper.currentPage - 1)) }} - {{
+                        staffs.length + ( databaseHelper.itemPerPage * (databaseHelper.currentPage - 1)) }} of {{ total
+                        }} members
                       </p>
+                      <div class="row">
+                        <div class="col-md-12">
+                          <ngb-pagination class="pagition-box" [collectionSize]="total" [rotate]="true"
+                            (pageChange)="pageChanged($event)" [pageSize]="databaseHelper.itemPerPage"
+                            [(page)]="databaseHelper.currentPage" [maxSize]="4" [boundaryLinks]="true"></ngb-pagination>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="modal-footer d-flex align-items-center justify-content-between">
+                      <button type="button" class="btn p-0 text-black next-btn previousBtn"
+                        (click)="openLocationSetting()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
+                          <path
+                            d="M19.75 10.6714C19.75 10.8588 19.6914 11.011 19.5743 11.1281C19.4572 11.2452 19.305 11.3038 19.1177 11.3038H3.59011L7.73547 15.4491C7.87599 15.5896 7.94625 15.7536 7.94625 15.9409C7.94625 16.1283 7.87599 16.2805 7.73547 16.3976C7.59495 16.5147 7.43101 16.5733 7.24365 16.5733C7.05628 16.5733 6.89234 16.5264 6.75182 16.4328L1.48229 11.1632C1.38861 11.0227 1.34177 10.8588 1.34177 10.6714C1.34177 10.484 1.38861 10.3201 1.48229 10.1796L6.75182 4.91005C6.89234 4.81637 7.05628 4.76953 7.24365 4.76953C7.43101 4.76953 7.59495 4.82808 7.73547 4.94518C7.87599 5.06228 7.94625 5.21451 7.94625 5.40188C7.94625 5.58924 7.87599 5.75318 7.73547 5.8937L3.59011 10.0391H19.1177C19.305 10.0391 19.4572 10.0976 19.5743 10.2147C19.6914 10.3318 19.75 10.484 19.75 10.6714Z"
+                            fill="black"></path>
+                        </svg>
+                        Previous
+                      </button>
+                      <button type="button" class="btn next-btn nextBtn" *ngIf="
+                        this.userNameWithBranchName?.length > 0 &&
+                        !this.isValidated
+                      " data-bs-target="#usersAlreadyAssigned" data-bs-toggle="modal"
+                        [ngClass]="{'btn-border': (this.selectedStaffsUuids.length > 0)}" [disabled]="this.selectedStaffsUuids.length < 1
+                      ">
+                        <span *ngIf="!loading">Submit
+                          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22"
+                            fill="none">
+                            <path
+                              d="M1.95801 11.0005C1.95801 10.8131 2.01656 10.6609 2.13366 10.5438C2.25076 10.4267 2.40299 10.3681 2.59035 10.3681H18.1179L13.9725 6.22276C13.832 6.08224 13.7618 5.9183 13.7618 5.73094C13.7618 5.54358 13.832 5.39135 13.9725 5.27424C14.1131 5.15714 14.277 5.09859 14.4644 5.09859C14.6517 5.09859 14.8157 5.14543 14.9562 5.23911L20.2257 10.5086C20.3194 10.6492 20.3662 10.8131 20.3662 11.0005C20.3662 11.1878 20.3194 11.3518 20.2257 11.4923L14.9562 16.7618C14.8157 16.8555 14.6517 16.9023 14.4644 16.9023C14.277 16.9023 14.1131 16.8438 13.9725 16.7267C13.832 16.6096 13.7618 16.4574 13.7618 16.27C13.7618 16.0826 13.832 15.9187 13.9725 15.7782L18.1179 11.6328H2.59035C2.40299 11.6328 2.25076 11.5743 2.13366 11.4572C2.01656 11.3401 1.95801 11.1878 1.95801 11.0005Z"
+                              fill="#6666F2">
+                            </path>
+                          </svg>
+
+                        </span>
+                        <div class="dot-opacity-loader-new" *ngIf="loading">
+                          <span></span>
+                          <span></span>
+                          <span></span>
+                        </div>
+                      </button>
+                      <button type="button" class="btn next-btn nextBtn"
+                        [ngClass]="{'btn-border': (this.selectedStaffsUuids.length > 0)}"
+                        *ngIf="this.userNameWithBranchName?.length < 1" (click)="saveStaffAddressDetails()" [disabled]="this.selectedStaffsUuids.length < 1
+                      ">
+                        <span *ngIf="!loading">Submit
+                          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22"
+                            fill="none">
+                            <path
+                              d="M1.95801 11.0005C1.95801 10.8131 2.01656 10.6609 2.13366 10.5438C2.25076 10.4267 2.40299 10.3681 2.59035 10.3681H18.1179L13.9725 6.22276C13.832 6.08224 13.7618 5.9183 13.7618 5.73094C13.7618 5.54358 13.832 5.39135 13.9725 5.27424C14.1131 5.15714 14.277 5.09859 14.4644 5.09859C14.6517 5.09859 14.8157 5.14543 14.9562 5.23911L20.2257 10.5086C20.3194 10.6492 20.3662 10.8131 20.3662 11.0005C20.3662 11.1878 20.3194 11.3518 20.2257 11.4923L14.9562 16.7618C14.8157 16.8555 14.6517 16.9023 14.4644 16.9023C14.277 16.9023 14.1131 16.8438 13.9725 16.7267C13.832 16.6096 13.7618 16.4574 13.7618 16.27C13.7618 16.0826 13.832 15.9187 13.9725 15.7782L18.1179 11.6328H2.59035C2.40299 11.6328 2.25076 11.5743 2.13366 11.4572C2.01656 11.3401 1.95801 11.1878 1.95801 11.0005Z"
+                              fill="#6666F2">
+                            </path>
+                          </svg>
+
+                        </span>
+                        <div class="dot-opacity-loader-new" *ngIf="loading">
+                          <span></span>
+                          <span></span>
+                          <span></span>
+                        </div>
+                      </button>
                     </div>
                   </div>
-                </ng-template>
-              </div>
-              <!-- *ngIf="staffs.length > 8" -->
-              <div
-                class="pagination pl-3"
-                *ngIf="
-                  total > itemPerPage - 1 ||
-                  (pageNumber === lastPageNumber && lastPageNumber !== 1)
-                "
-              >
-                <p class="mb-0" style="padding-left: 15px">
-                  Showing {{ getStartIndex() }} - {{ getEndIndex() }} of
-                  {{ total }} members
-                </p>
-                <div class="row">
-                  <div class="col-md-12">
-                    <nav aria-label="Page navigation example">
-                      <ul class="pagination justify-content-end">
-                        <li
-                          class="page-item"
-                          [class.disabled]="pageNumber == 1"
-                        >
-                          <a
-                            class="page-link"
-                            href="javascript:void(0);"
-                            aria-label="Previous"
-                            (click)="changePage('prev')"
-                          >
-                            <span aria-hidden="true">&laquo;</span>
-                          </a>
-                        </li>
-                        <li
-                          class="page-item"
-                          *ngFor="let page of getPages()"
-                          [class.active]="pageNumber == page"
-                        >
-                          <a
-                            class="page-link"
-                            href="javascript:void(0);"
-                            (click)="changePage(page)"
-                            >{{ page }}</a
-                          >
-                        </li>
-                        <li
-                          class="page-item"
-                          [class.disabled]="pageNumber == totalPages"
-                        >
-                          <a
-                            class="page-link"
-                            href="javascript:void(0);"
-                            aria-label="Next"
-                            (click)="changePage('next')"
-                          >
-                            <span aria-hidden="true">&raquo;</span>
-                          </a>
-                        </li>
-                      </ul>
-                    </nav>
-                  </div>
                 </div>
-              </div>
-              <div id="back-and-submit">
-                <div
-                  class="modal-footer d-flex align-items-center justify-content-end"
-                ></div>
-              </div>
-              <div
-                class="modal-footer d-flex align-items-center justify-content-between"
-              >
-                <button
-                  type="button"
-                  class="btn btn-outline-secondary btn-round"
-                  (click)="openLocationSetting()"
-                >
-                  Back
-                </button>
-
-                <!-- userNameWithBranchName -->
-                <!-- class="btn btn-outline-primary btn-round" -->
-                <!-- {{this.selectedStaffsUuids.length}} -->
-                <button
-                  type="button"
-                  class="btn btn-primary"
-                  *ngIf="
-                      this.userNameWithBranchName?.length > 0 &&
-                      !this.isValidated
-                    "
-                    data-bs-target="#usersAlreadyAssigned"
-                    data-bs-toggle="modal"
-                    [disabled]="this.selectedStaffsUuids.length < 1
-                    "
-                >
-                <span *ngIf="!loading">Submit</span>
-                <div class="dot-opacity-loader-new" *ngIf="loading">
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                </div>
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-primary"
-                  *ngIf="this.userNameWithBranchName?.length < 1"
-                  (click)="saveStaffAddressDetails()"
-                  [disabled]="this.selectedStaffsUuids.length < 1
-                    "
-                >
-                  <span *ngIf="!loading">Submit</span>
-                  <div class="dot-opacity-loader-new" *ngIf="loading">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                  </div>
-                </button>
               </div>
             </div>
           </div>
+        </div>
+        <div>
         </div>
       </div>
     </div>
   </div>
 </div>
+<!-----------------------------------  CREATE NEW LOCATION POPUP END-------------------------->
 
 
-<!-- already registered user in multilocation addressess -->
-
-<button
-  class="d-none"
-  data-bs-toggle="modal"
-  data-bs-target="#usersAlreadyAssigned"
-></button>
-<div
-  class="modal fade"
-  id="usersAlreadyAssigned"
-  tabindex="-1"
-  role="dialog"
-  aria-hidden="true"
-  data-bs-backdrop="static"
-  #usersAlreadyAssigned
->
-  <div
-    class="modal-dialog modal-dialog-centered"
-    style="max-width: 500px"
-    role="document"
-  >
+<!----------------------------------- REMOVE DUPLICATE USER POPUP START-------------------------->
+<button class="d-none" data-bs-toggle="modal" data-bs-target="#usersAlreadyAssigned"></button>
+<div class="modal fade" id="usersAlreadyAssigned" tabindex="-1" role="dialog" aria-hidden="true"
+  data-bs-backdrop="static" #usersAlreadyAssigned>
+  <div class="modal-dialog modal-dialog-centered" style="max-width: 500px" role="document">
     <div class="modal-content">
-      <div
-        class="modal-body manualUpload p-0"
-        style="background-image: url(../assets/images/user-alredy-img.svg)"
-      >
-        <div
-          class="d-flex align-items-center justify-content-end pt-2 close-icon-btn"
-          style="padding-right: 10px"
-        >
-          <button
-            type="button"
-            class="close-btn"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-            #closeButton
-            (click)="closeModal()"
-            data-bs-toggle="modal"
-            data-bs-target="#shiftTime"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="32"
-              height="31"
-              viewBox="0 0 32 31"
-              fill="none"
-            >
-              <mask
-                id="mask0_3479_11687"
-                style="mask-type: alpha"
-                maskUnits="userSpaceOnUse"
-                x="0"
-                y="0"
-                width="32"
-                height="31"
-              >
-                <rect
-                  x="0.972656"
-                  y="0.505066"
-                  width="30.0938"
-                  height="30.075"
-                  fill="#D9D9D9"
-                />
+      <div class="modal-body manualUpload p-0" style="background-image: url(../assets/images/user-alredy-img.svg)">
+        <div class="d-flex align-items-center justify-content-end pt-2 close-icon-btn" style="padding-right: 10px">
+          <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButton
+            (click)="closeModal()" data-bs-toggle="modal" data-bs-target="#shiftTime">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="31" viewBox="0 0 32 31" fill="none">
+              <mask id="mask0_3479_11687" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="32"
+                height="31">
+                <rect x="0.972656" y="0.505066" width="30.0938" height="30.075" fill="#D9D9D9" />
               </mask>
               <g mask="url(#mask0_3479_11687)">
                 <path
                   d="M8.99766 24.3144L7.24219 22.5601L14.2641 15.5426L7.24219 8.52507L8.99766 6.77069L16.0195 13.7882L23.0414 6.77069L24.7969 8.52507L17.775 15.5426L24.7969 22.5601L23.0414 24.3144L16.0195 17.2969L8.99766 24.3144Z"
-                  fill="#181818"
-                />
+                  fill="#181818" />
               </g>
             </svg>
           </button>
@@ -2100,9 +1479,7 @@
 
         <div class="row p-3 pb-4 pt-4 align-items-center">
           <div class="col-md-8">
-            <div
-              class="manualUploadDetail persnol-details p-0 quickGuideHeading"
-            >
+            <div class="manualUploadDetail persnol-details p-0 quickGuideHeading">
               <h5 class="alert-heading text-warning font-16 mb-2">
                 Users Already Assigned to Another Location
               </h5>
@@ -2113,27 +1490,19 @@
             </div>
           </div>
           <div class="col-md-4">
-            <div
-              class="side-img"
-              style="background-image: url(../assets/images/user-img.svg)"
-            ></div>
+            <div class="side-img" style="background-image: url(../assets/images/user-img.svg)"></div>
           </div>
         </div>
 
         <div class="p-3 employee-list bg-white">
           <h4 class="mb-1">Employee List</h4>
-          <div
-            class="manualemployList"
-            *ngIf="userNameWithBranchName?.length > 0"
-          >
-            <div
-              class="d-flex align-items-center justify-content-between persnol-details userList p-0 pt-2 pb-2"
-              *ngFor="let list of userNameWithBranchName"
-            >
+          <div class="manualemployList" *ngIf="userNameWithBranchName?.length > 0">
+            <div class="d-flex align-items-center justify-content-between persnol-details userList p-0 pt-2 pb-2"
+              *ngFor="let list of userNameWithBranchName">
               <div class="d-flex align-items-center gap-3">
                 <span class="userName">{{
                   list.userName.charAt(0).toUpperCase()
-                }}</span>
+                  }}</span>
 
                 <div>
                   <h5 class="alert-heading font-13 mb-1">
@@ -2147,39 +1516,16 @@
                 </div>
               </div>
               <div>
-                <button
-                  class="btn p-0 addUserRemvo"
-                  (click)="removeUser(list.userUuid)"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="22"
-                    height="23"
-                    viewBox="0 0 22 23"
-                    fill="none"
-                  >
-                    <mask
-                      id="mask0_3479_11708"
-                      style="mask-type: alpha"
-                      maskUnits="userSpaceOnUse"
-                      x="0"
-                      y="0"
-                      width="22"
-                      height="23"
-                    >
-                      <rect
-                        x="0.015625"
-                        y="0.57843"
-                        width="21.8948"
-                        height="21.8948"
-                        fill="white"
-                      />
+                <button class="btn p-0 addUserRemvo" (click)="removeUser(list.userUuid)">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="23" viewBox="0 0 22 23" fill="none">
+                    <mask id="mask0_3479_11708" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                      width="22" height="23">
+                      <rect x="0.015625" y="0.57843" width="21.8948" height="21.8948" fill="white" />
                     </mask>
                     <g mask="url(#mask0_3479_11708)">
                       <path
                         d="M6.40482 19.7378C5.90306 19.7378 5.47353 19.5592 5.11622 19.2019C4.75891 18.8446 4.58025 18.415 4.58025 17.9133V6.05359H3.66797V4.22903H8.22939V3.31674H13.7031V4.22903H18.2645V6.05359H17.3522V17.9133C17.3522 18.415 17.1736 18.8446 16.8163 19.2019C16.4589 19.5592 16.0294 19.7378 15.5277 19.7378H6.40482ZM15.5277 6.05359H6.40482V17.9133H15.5277V6.05359ZM8.22939 16.0887H10.054V7.87816H8.22939V16.0887ZM11.8785 16.0887H13.7031V7.87816H11.8785V16.0887Z"
-                        fill="#FF0404"
-                      />
+                        fill="#FF0404" />
                     </g>
                   </svg>
                   Remove
@@ -2192,14 +1538,9 @@
 
       <div class="border-top p-3">
         <div class="form-check d-flex align-items-start" style="padding-left: 0px !important">
-          <input
-            type="checkbox"
-            id="validationCheck"
-            style="height: auto !important; position: relative; top: 2px"
-            class="ng-dirty ng-touched"
-            [(ngModel)]="isValidated"
-            (change)="checkValidation()"
-          /><label for="termsAndConditions" class="form-check-label iHaveRead">
+          <input type="checkbox" id="validationCheck" style="position: relative; top: 2px"
+            class="ng-dirty ng-touched" [(ngModel)]="isValidated" (change)="checkValidation()" /><label
+            for="validationCheck" class="form-check-label iHaveRead">
             I have validated the information and will proceed to add users to
             the new location.
           </label>
@@ -2207,19 +1548,11 @@
         <div class="d-flex align-items-center justify-content-end gap-3 mt-3">
           <!-- <button class="btn submit-add-more">Cancel</button> -->
 
-          <button
-          class="btn submit-add-more d-none"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-          #closeButton2
-        >
-          Cancel
-        </button>
-          <button
-            class="btn mannualSubmit"
-            [disabled]="!isValidated"
-            (click)="registerAddress()"
-          >
+          <button class="btn submit-add-more d-none" data-bs-dismiss="modal" aria-label="Close" #closeButton2>
+            Cancel
+          </button>
+          <button class="btn mannualSubmit" [ngClass]="{'btn-border': isValidated}" [disabled]="!isValidated"
+            (click)="registerAddress()">
             <span *ngIf="!isRegisterLoad">Add all</span>
             <div class="dot-opacity-loader-new" *ngIf="isRegisterLoad">
               <span></span>
@@ -2232,144 +1565,95 @@
     </div>
   </div>
 </div>
+<!-----------------------------------  REMOVE DUPLICATE USER POPUP  END-------------------------->
 
 
-<!-- save default address  -->
 
-
-<div
-  class="modal fade"
-  id="shifTimeDefaultAddress"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="exampleModalDefaultLabel"
-  aria-hidden="true"
-  data-bs-backdrop="static"
-  #shifTimeDefaultAddress
->
+<!-----------------------------------  ADD DEFAULT SHIFT POPUP START-------------------------->
+<div class="modal fade" id="shifTimeDefaultAddress" tabindex="-1" role="dialog"
+  aria-labelledby="exampleModalDefaultLabel" aria-hidden="true" data-bs-backdrop="static" #shifTimeDefaultAddress>
   <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h6 class="modal-title m-0" id="exampleModalDefaultLabel">
+        <h5 class="modal-title">
           Assign Location To Staff
-        </h6>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-          #closeButtonLocationDefaultAddress
-        ></button>
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+          #closeButtonLocationDefaultAddress></button>
       </div>
       <div class="modal-body modal-height-fix">
         <div>
-          <ul id="myTab" role="tablist" class="nav nav-tabs">
-            <li role="presentation" class="nav-item">
-              <button
-                id="home-tab"
-                data-bs-toggle="tab"
-                data-bs-target="#shiftime"
-                type="button"
-                role="tab"
-                aria-controls="shiftime"
-                aria-selected="true"
-                class="nav-link active"
-                #locationSettingTab
-              >
-                Location
-              </button>
-            </li>
-          </ul>
+          <div class="col-md-3 p-0 m-0">
+            <div class="shift-time-menu">
+              <div class="nav flex-column nav-pills pt-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                <button class="nav-link active" id="home-tab" data-bs-toggle="pill" data-bs-target="#staffLocation"
+                  type="button" role="tab" #locationSettingTab>
+                  Staff Location
+                </button>
+                <button class="nav-link" id="profile-tab" data-bs-toggle="pill" data-bs-target="#staffselection"
+                  type="button" [disabled]="!organizationAddressNgForm.form.valid" role="tab" #staffSelectionTab>
+                  Staff Selection
+                </button>
+              </div>
+            </div>
+          </div>
           <div class="tab-content" id="myTabContent">
 
-            <div
-              class="tab-pane fade show active"
-              id="shiftime"
-              role="tabpanel"
-            >
+            <div class="tab-pane fade show active" id="staffLocation" role="tabpanel">
               <form #organizationAddressForm="ngForm" (ngSubmit)="submitDefaultAddress()">
                 <div class="modal-content">
                   <!--end modal-header-->
                   <div class="modal-body">
                     <div class="form-group">
                       <div class="row">
-                       
+
                         <div class="col-md-12">
                           <div class="mb-3" style="position: relative">
-                            <label for="addressLine1" class="pb-2"
-                              >Address
+                            <label for="addressLine1" class="pb-2">Address
                             </label>
-                            <input
-                              type="text"
-                              id="addressLine1"
+                            <input type="text" id="addressLine1"
                               placeholder="Please Select Address from Address Dropdown Or Fetch Current Location.."
-                              ngx-google-places-autocomplete
-                              #placesRef="ngx-places"
-                              (onAddressChange)="handleAddressChange($event)"
-                              required
-                              #addressLine1="ngModel"
-                              name="addressLine1"
-                              maxlength="200"
-                              class="form-control ng-untouched ng-pristine ng-invalid profile-input"
-                              [(ngModel)]="
+                              ngx-google-places-autocomplete #placesRef="ngx-places"
+                              (onAddressChange)="handleAddressChange($event)" required #addressLine1="ngModel"
+                              name="addressLine1" maxlength="200"
+                              class="form-control ng-untouched ng-pristine ng-invalid profile-input" [(ngModel)]="
                                 organizationAddressDetail.addressLine1
-                              "
-                            />
-                            <a
-                              class="fetch-location text-primary"
-                              (click)="currentLocation()"
-                            >
-                              <span *ngIf="!fetchCurrentLocationLoader"
-                                ><i
-                                  class="ti ti-current-location"
-                                  style="padding-right: 8px"
-                                ></i
-                                >Fetch Current Location
+                              " />
+                            <a class="fetch-location text-primary" (click)="currentLocation()">
+                              <span *ngIf="!fetchCurrentLocationLoader"><i class="ti ti-current-location"
+                                  style="padding-right: 8px"></i>Fetch Current Location
                               </span>
-                              <div
-                                class="loader-fetching-location"
-                                *ngIf="fetchCurrentLocationLoader"
-                              >
-                                <i
-                                  class="ti ti-current-location"
-                                  style="padding-right: 8px"
-                                ></i>
+                              <div class="loader-fetching-location" *ngIf="fetchCurrentLocationLoader">
+                                <i class="ti ti-current-location" style="padding-right: 8px"></i>
                                 Fetching
                                 <span></span>
                                 <span></span>
                                 <span></span>
                               </div>
                             </a>
-                            <div
-                              *ngIf="
+                            <a class="text-primary position-relative" style="top:5px" (click)="openLatLongField()"
+                              *ngIf="!isLatLongFieldOpen">
+                              <span *ngIf="!locationLoader"><i class="bi bi-plus"></i> Add Location Via Latitude &
+                                Longitude
+                              </span>
+                            </a>
+                            <div *ngIf="
                                 (addressLine1.touched &&
                                   addressLine1.invalid) ||
                                 isFormInvalidLocation
-                              "
-                            >
-                              <p
-                                class="errortxt mt-2 mb-0"
-                                style="color: red"
-                                *ngIf="addressLine1.errors?.required"
-                              >
+                              ">
+                              <p class="errortxt mt-2 mb-0" style="color: red" *ngIf="addressLine1.errors?.required">
                                 <i class="bi bi-exclamation-circle"></i> Address
                                 Line 1 is required.
                               </p>
-                              <p
-                                class="errortxt mt-2 mb-0"
-                                style="color: red"
-                                *ngIf="addressLine1.errors?.maxlength"
-                              >
+                              <p class="errortxt mt-2 mb-0" style="color: red" *ngIf="addressLine1.errors?.maxlength">
                                 <i class="bi bi-exclamation-circle"></i> Maximum
                                 200 characters allowed.
                               </p>
-                              <p
-                                class="errortxt mt-2 mb-0"
-                                *ngIf="
+                              <p class="errortxt mt-2 mb-0" *ngIf="
                                   !organizationAddressDetail.longitude &&
                                   !organizationAddressDetail.latitude
-                                "
-                              >
+                                ">
                                 <i class="bi bi-exclamation-circle"></i> Please
                                 Select Address from Address Dropdown only. Do
                                 not type it manually Or Fetch Current Location.
@@ -2377,193 +1661,140 @@
                             </div>
                           </div>
                         </div>
-                        <div
-                          class="col-md-12"
-                          *ngIf="
+                        <div class="col-md-3" *ngIf="isLatLongFieldOpen">
+                          <div class="mb-3">
+                            <label for="radius" class="pb-2">
+                              Latitude <span class="text-optional">*</span>
+                            </label>
+                            <input type="number" id="latitude" placeholder="Enter Latitude" name="latitude"
+                              class="form-control profile-input" [(ngModel)]="organizationAddressDetail.latitude"
+                              (ngModelChange)="getAddressFromCoords(organizationAddressDetail.latitude, organizationAddressDetail.longitude)"
+                              required #latitude="ngModel" />
+                          </div>
+                          <div *ngIf="(latitude.touched && latitude.invalid) || isFormInvalid">
+                            <p class="errortxt mt-2 mb-0" style="color: red" *ngIf="latitude.errors?.required">
+                              <i class="bi bi-exclamation-circle"></i> Latitude is
+                              required.
+                            </p>
+                          </div>
+                        </div>
+                        <div class="col-md-3" *ngIf="isLatLongFieldOpen">
+                          <div class="mb-3">
+                            <label for="radius" class="pb-2">
+                              Longitude<span class="text-optional">*</span>
+                            </label>
+                            <input type="number" id="longitude" placeholder="Enter Longitude" name="longitude"
+                              class="form-control profile-input" [(ngModel)]="organizationAddressDetail.longitude"
+                              (ngModelChange)="getAddressFromCoords(organizationAddressDetail.latitude, organizationAddressDetail.longitude)"
+                              required #longitude="ngModel" />
+                          </div>
+                          <div *ngIf="(longitude.touched && longitude.invalid) || isFormInvalid">
+                            <p class="errortxt mt-2 mb-0" style="color: red" *ngIf="longitude.errors?.required">
+                              <i class="bi bi-exclamation-circle"></i> Longitude is
+                              required.
+                            </p>
+                          </div>
+                        </div>
+                        <div class="col-md-12" *ngIf="
                             organizationAddressDetail.longitude &&
                             organizationAddressDetail.latitude
-                          "
-                        >
+                          ">
                           <div class="mb-3">
-                            <label for="addressLine2" class="pb-2"
-                              >Street Address</label
-                            >
-                            <input
-                              type="text"
-                              id="addressLine2"
-                              placeholder="Address line 2"
-                              name="addressLine2"
-                              class="form-control ng-untouched ng-pristine ng-invalid profile-input"
-                              [(ngModel)]="
+                            <label for="addressLine2" class="pb-2">Street Address</label>
+                            <input type="text" id="addressLine2" placeholder="Address line 2" name="addressLine2"
+                              class="form-control ng-untouched ng-pristine ng-invalid profile-input" [(ngModel)]="
                                 organizationAddressDetail.addressLine2
-                              "
-                            />
+                              " />
                           </div>
                         </div>
-                        
-                        <div
-                          class="col-md-4"
-                          *ngIf="
+
+                        <div class="col-md-4" *ngIf="
                             organizationAddressDetail.longitude &&
                             organizationAddressDetail.latitude
-                          "
-                        >
+                          ">
                           <div class="mb-3">
-                            <label for="landmark" class="pb-2"
-                              >Landmark
-                              <span class="text-optional"
-                                >(optional)</span
-                              ></label
-                            >
-                            <input
-                              type="text"
-                              id="landmark"
-                              placeholder="Landmark"
-                              name="landmark"
+                            <label for="landmark" class="pb-2">Landmark
+                              <span class="text-optional">(optional)</span></label>
+                            <input type="text" id="landmark" placeholder="Landmark" name="landmark"
                               class="form-control ng-untouched ng-pristine ng-invalid profile-input"
-                              [(ngModel)]="organizationAddressDetail.landmark"
-                            />
+                              [(ngModel)]="organizationAddressDetail.landmark" />
                           </div>
                         </div>
-                        <div
-                          class="col-md-4"
-                          *ngIf="
+                        <div class="col-md-4" *ngIf="
                             organizationAddressDetail.longitude &&
                             organizationAddressDetail.latitude
-                          "
-                        >
+                          ">
                           <div class="mb-3">
                             <label for="city" class="pb-2"> City </label>
-                            <input
-                              type="text"
-                              id="city"
-                              placeholder="City"
-                              required
-                              #city="ngModel"
-                              name="city"
+                            <input type="text" id="city" placeholder="City" required #city="ngModel" name="city"
                               class="form-control ng-untouched ng-pristine ng-invalid profile-input"
-                              [(ngModel)]="organizationAddressDetail.city"
-                            />
+                              [(ngModel)]="organizationAddressDetail.city" />
                           </div>
-                          <div
-                            *ngIf="
+                          <div *ngIf="
                               (city.touched && city.invalid) ||
                               isFormInvalidLocation
-                            "
-                          >
-                            <p
-                              class="errortxt mt-2 mb-0"
-                              style="color: red"
-                              *ngIf="city.errors?.required"
-                            >
+                            ">
+                            <p class="errortxt mt-2 mb-0" style="color: red" *ngIf="city.errors?.required">
                               <i class="bi bi-exclamation-circle"></i> City Name
                               is required.
                             </p>
                           </div>
                         </div>
-                        <div
-                          class="col-md-4"
-                          *ngIf="
+                        <div class="col-md-4" *ngIf="
                             organizationAddressDetail.longitude &&
                             organizationAddressDetail.latitude
-                          "
-                        >
+                          ">
                           <div class="mb-3">
                             <label for="state" class="pb-2"> State </label>
-                            <input
-                              type="text"
-                              id="state"
-                              placeholder="State"
-                              required
-                              #state="ngModel"
-                              name="state"
+                            <input type="text" id="state" placeholder="State" required #state="ngModel" name="state"
                               class="form-control ng-untouched ng-pristine ng-invalid profile-input"
-                              [(ngModel)]="organizationAddressDetail.state"
-                            />
+                              [(ngModel)]="organizationAddressDetail.state" />
                           </div>
-                          <div
-                            *ngIf="
+                          <div *ngIf="
                               (state.touched && state.invalid) ||
                               isFormInvalidLocation
-                            "
-                          >
-                            <p
-                              class="errortxt mt-2 mb-0"
-                              style="color: red"
-                              *ngIf="state.errors?.required"
-                            >
+                            ">
+                            <p class="errortxt mt-2 mb-0" style="color: red" *ngIf="state.errors?.required">
                               <i class="bi bi-exclamation-circle"></i> State
                               Name is required.
                             </p>
                           </div>
                         </div>
-                        <div
-                          class="col-md-6"
-                          *ngIf="
+                        <div class="col-md-6" *ngIf="
                             organizationAddressDetail.longitude &&
                             organizationAddressDetail.latitude
-                          "
-                        >
+                          ">
                           <div class="mb-3">
                             <label for="country" class="pb-2">Country</label>
-                            <input
-                              type="text"
-                              id="country"
-                              placeholder="Country"
-                              required
-                              #country="ngModel"
-                              name="country"
-                              class="form-control ng-untouched ng-pristine ng-invalid profile-input"
-                              [(ngModel)]="organizationAddressDetail.country"
-                            />
+                            <input type="text" id="country" placeholder="Country" required #country="ngModel"
+                              name="country" class="form-control ng-untouched ng-pristine ng-invalid profile-input"
+                              [(ngModel)]="organizationAddressDetail.country" />
                           </div>
-                          <div
-                            *ngIf="
+                          <div *ngIf="
                               (country.touched && country.invalid) ||
                               isFormInvalidLocation
-                            "
-                          >
-                            <p
-                              class="errortxt mt-2 mb-0"
-                              style="color: red"
-                              *ngIf="country.errors?.required"
-                            >
+                            ">
+                            <p class="errortxt mt-2 mb-0" style="color: red" *ngIf="country.errors?.required">
                               <i class="bi bi-exclamation-circle"></i> Country
                               Name is required.
                             </p>
                           </div>
                         </div>
-                        <div
-                          class="col-md-6"
-                          *ngIf="
+                        <div class="col-md-6" *ngIf="
                             organizationAddressDetail.longitude &&
                             organizationAddressDetail.latitude
-                          "
-                        >
+                          ">
                           <div class="mb-3">
                             <label for="pincode" class="pb-2">Pincode</label>
-                            <input
-                              type="text"
-                              id="pincode"
-                              placeholder="Pincode"
-                              #pincode="ngModel"
-                              required
-                              name="pincode"
-                              class="form-control ng-untouched ng-pristine ng-invalid profile-input"
-                              [(ngModel)]="organizationAddressDetail.pincode"
-                            />
+                            <input type="text" id="pincode" placeholder="Pincode" #pincode="ngModel" required
+                              name="pincode" class="form-control ng-untouched ng-pristine ng-invalid profile-input"
+                              [(ngModel)]="organizationAddressDetail.pincode" />
                           </div>
-                          <div
-                            *ngIf="
+                          <div *ngIf="
                               (pincode.touched && pincode.invalid) ||
                               isFormInvalidLocation
-                            "
-                          >
-                            <p
-                              class="errortxt mt-2 mb-0"
-                              style="color: red"
-                              *ngIf="pincode.errors?.required"
-                            >
+                            ">
+                            <p class="errortxt mt-2 mb-0" style="color: red" *ngIf="pincode.errors?.required">
                               <i class="bi bi-exclamation-circle"></i> Pincode
                               is required.
                             </p>
@@ -2579,107 +1810,52 @@
                                 placement="top">
                               </i>
                             </label>
-                                <input
-                                maxlength="5"
-                                class="form-control profile-input"
-                                id="radiusDropdown"
-                                name="radiusDropdown"
-                                placeholder="Enter radius in meters"
-                                nz-input
-                                [(ngModel)]="organizationAddressDetail.radius"
-                                (ngModelChange)="onChange($event)"
-                                [nzAutocomplete]="radiusAuto"
-                                required
-                                #radius="ngModel"
-                                (keydown)="preventLeadingWhitespace($event)"
-                                (keypress)="allowOnlyNumbers($event)"
-                                (focus)="onFocus()"
-                            />
+                            <input maxlength="5" class="form-control profile-input" id="radiusDropdown"
+                              name="radiusDropdown" placeholder="Enter radius in meters" nz-input
+                              [(ngModel)]="organizationAddressDetail.radius" (ngModelChange)="onChange($event)"
+                              [nzAutocomplete]="radiusAuto" required #radius="ngModel"
+                              (keydown)="preventLeadingWhitespace($event)" (keypress)="allowOnlyNumbers($event)"
+                              (focus)="onFocus()" />
                             <!-- <nz-autocomplete [nzDataSource]="radiusFilteredOptions" #radiusAuto></nz-autocomplete> -->
                             <nz-autocomplete #radiusAuto (select)="onSelect($event)">
-                              <nz-auto-option
-                                *ngFor="let option of radiusFilteredOptions"
-                                [nzValue]="option.value"  
-                                [nzLabel]="option.label"> 
-                                {{ option.label }}         
+                              <nz-auto-option *ngFor="let option of radiusFilteredOptions" [nzValue]="option.value"
+                                [nzLabel]="option.label">
+                                {{ option.label }}
                               </nz-auto-option>
                             </nz-autocomplete>
                             <div *ngIf="radius?.touched || isFormInvalidLocation">
-                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="radius.errors?.required && !minRadius">
-                                    <i class="bi bi-exclamation-circle"></i> Radius selection is required.
-                                </p>
-                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="radius.errors?.maxlength">
-                                    <i class="bi bi-exclamation-circle"></i> Maximum 5 characters allowed.
-                                </p>
-                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="minRadius">
-                                    <i class="bi bi-exclamation-circle"></i> Radius must be at least 10 meters.
-                                </p>
-                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="radius.value > 99000">
-                                    <i class="bi bi-exclamation-circle"></i> Maximum radius is 99,000 meters.
-                                </p>
+                              <p class="errortxt mt-2 mb-0" style="color:red"
+                                *ngIf="radius.errors?.required && !minRadius">
+                                <i class="bi bi-exclamation-circle"></i> Radius selection is required.
+                              </p>
+                              <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="radius.errors?.maxlength">
+                                <i class="bi bi-exclamation-circle"></i> Maximum 5 characters allowed.
+                              </p>
+                              <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="minRadius">
+                                <i class="bi bi-exclamation-circle"></i> Radius must be at least 10 meters.
+                              </p>
+                              <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="radius.value > 99000">
+                                <i class="bi bi-exclamation-circle"></i> Maximum radius is 99,000 meters.
+                              </p>
                             </div>
-                      
-                      
+
+
                           </div>
-                          
+
                         </div>
                       </div>
 
                       <div class="mb-10" *ngIf="isShowMap">
-                      
-                         <app-map [lat]="this.organizationAddressDetail.latitude" [lng]="this.organizationAddressDetail.longitude" (getData)="getData($event)"></app-map>
-                        <!-- <section>
-                          <div class="el-card-item">
-                            <div class="el-card-avatar el-overlay-1">
-                              <div class="map">
-                                <agm-map
-                                  style="height: 350px"
-                                  [latitude]="lat"
-                                  [longitude]="lng"
-                                  [zoom]="zoom"
-                                  [maxZoom]="20"
-                                  [zoomControl]="true"
-                                  (mapClick)="onMapClick($event)"
-                                  [disableDefaultUI]="true"
-                                  [keyboardShortcuts]="false"
-                                >
-                                  <agm-marker
-                                    *ngIf="
-                                      (organizationAddressDetail.latitude &&
-                                        organizationAddressDetail.longitude) ||
-                                      (lat && lng)
-                                    "
-                                    [latitude]="lat"
-                                    [longitude]="lng"
-                                    draggable="true"
-                                    (dragEnd)="onMarkerDragEnd($event)"
-                                  ></agm-marker>
-                                </agm-map>
-                                <div class="map-locate-me">
-                                  <button
-                                    type="button"
-                                    class="locate-btn btn btn-sm text-white"
-                                    (click)="getCurrentLocation()"
-                                  >
-                                    <i class="fa fa-crosshairs"></i> Locate Me
-                                  </button>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </section> -->
+
+                        <app-map [lat]="this.organizationAddressDetail.latitude"
+                          [lng]="this.organizationAddressDetail.longitude" (getData)="getData($event)"></app-map>
+                        
                       </div>
                     </div>
                   </div>
                   <!-- {{isFormInvalidLocation}} -->
-                  <div
-                    class="modal-footer d-flex align-items-center justify-content-end"
-                  >
-                    <button
-                      class="btn btn-primary"
-                      type="submit"
-                      aria-label="Next Step"
-                    >
+                  <div class="modal-footer d-flex align-items-center justify-content-end">
+                    <button class="btn btn-primary" type="submit" aria-label="Next Step">
                       <span *ngIf="toggle" class="dot-opacity-loader-new">
                         <span></span>
                         <span></span>
@@ -2687,20 +1863,182 @@
                       </span>
                       <span *ngIf="!toggle">
                         Submit
-                        <i
-                          class="bi bi-arrow-right"
-                          style="padding-left: 8px"
-                        ></i>
+                        <i class="bi bi-arrow-right" style="padding-left: 8px"></i>
                       </span>
                     </button>
                   </div>
                 </div>
               </form>
             </div>
+
+            <div class="tab-pane fade show active" id="staffselection" role="tabpanel">
+              All users can mark their attendance from this location.
+              </div>
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+<!----------------------------------- ADD DEFAULT SHIFT POPUP  END-------------------------->
 
+<!-----------------------------------  UPLOAD HR POLICY  POPUP START-------------------------->
+<div class="modal fade" id="addDocument" name="addDocument" tabindex="-1" role="dialog"
+  aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Document</h5>
+        <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButtonHrPolicies>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24"
+              height="24">
+              <rect width="24" height="24" fill="#D9D9D9" />
+            </mask>
+            <g mask="url(#mask0_5037_2014)">
+              <path d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z"
+                fill="black" />
+            </g>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="assets-request-form">
+          <form>
+            <div class="row register-form-box">
+              <div class="col-md-12 mb-3">
+                <div class="form-group">
+                  <label for="documentName" class="mb-2">Document Name</label>
+                  <input [maxlength]="50" type="text" class="form-control input-zorro" id="documentName"
+                    placeholder="Enter document name" [(ngModel)]="doc.name" name="documentName" />
+                </div>
+              </div>
+              <div class="d-flex align-items-center justify-content-between mb-3" style="padding-top: 2px;">
+                <p class="mb-0">Upload Youtube Video Url <span class="font-12 text-primary">(optional)</span></p>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="defaultCheck1" [(ngModel)]="isYouTubeVideo"
+                    (change)="toggleVideoSelection($event)" />
+                </div>
+              </div>
+              <div class="col-md-12 mb-3" *ngIf="isYouTubeVideo">
+                <div class="form-group">
+                  <label for="youtubeUrl" class="mb-2">Youtube Video Url</label>
+                  <input type="text" class="form-control input-zorro" id="youtubeUrl"
+                    placeholder="Enter youtube video url" [(ngModel)]="doc.url" name="youtubeUrl" />
+                </div>
+                <div>
+                  <p *ngIf="isInvalidUrl" class="mb-0 font-12 text-primary">Note: Please enter the youtube video url in
+                    the format
+                    https://www.youtube.com/watch?v=videoId</p>
+                </div>
+              </div>
+              <div class="col-md-12" *ngIf="!isYouTubeVideo">
+                <div class="form-group">
+                  <label for="fileInput" class="mb-2">Attach File</label>
+                  <div
+                    class="upload-file-input p-2 d-flex align-items-center justify-content-center flex-column add-other-file">
+                    <input id="fileInput" type="file" name="file" accept=".pdf" class="input" [(ngModel)]="selectedFile"
+                      (change)="handleFileChange($event)" />
+                    <span>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="46" height="45" viewBox="0 0 46 45" fill="none">
+                        <g clip-path="url(#clip0_4843_1408)">
+                          <path
+                            d="M12.0151 0H27.0758L39.8253 13.2948V39.1489C39.8253 42.3774 37.2027 45 33.9656 45H12.0152C8.78667 45 6.16406 42.3774 6.16406 39.1489V5.85114C6.16401 2.6226 8.78661 0 12.0151 0Z"
+                            fill="#6666F2" />
+                          <path opacity="0.302" fill-rule="evenodd" clip-rule="evenodd"
+                            d="M27.0625 0V13.191H39.8294L27.0625 0Z" fill="white" />
+                          <path
+                            d="M28.9285 23.4109H17.0618C16.5165 23.4109 16.0664 22.9695 16.0664 22.4242C16.0664 21.8789 16.5165 21.4375 17.0618 21.4375H28.9285C29.4738 21.4375 29.9152 21.8789 29.9152 22.4242C29.9152 22.9695 29.4738 23.4109 28.9285 23.4109ZM24.9729 35.2776H17.0618C16.5165 35.2776 16.0664 34.8362 16.0664 34.2909C16.0664 33.7456 16.5165 33.3042 17.0618 33.3042H24.9729C25.5183 33.3042 25.9596 33.7456 25.9596 34.2909C25.9596 34.8362 25.5183 35.2776 24.9729 35.2776ZM28.9285 31.322H17.0618C16.5165 31.322 16.0664 30.8806 16.0664 30.3353C16.0664 29.7901 16.5165 29.3486 17.0618 29.3486H28.9285C29.4738 29.3486 29.9152 29.7901 29.9152 30.3353C29.9152 30.8806 29.4738 31.322 28.9285 31.322ZM28.9285 27.3665H17.0618C16.5165 27.3665 16.0664 26.925 16.0664 26.3798C16.0664 25.8345 16.5165 25.3931 17.0618 25.3931H28.9285C29.4738 25.3931 29.9152 25.8345 29.9152 26.3798C29.9152 26.925 29.4738 27.3665 28.9285 27.3665Z"
+                            fill="white" />
+                        </g>
+                        <defs>
+                          <clipPath id="clip0_4843_1408">
+                            <rect width="45" height="45" fill="white" transform="translate(0.5)" />
+                          </clipPath>
+                        </defs>
+                      </svg>
+                    </span>
+                    <button type="button" class="btn add-file mt-2 font-14">
+                      <i *ngIf="doc.fileName===''" class="bi bi-plus-lg position-relative" style="top:-1px;"></i>
+                      {{doc.fileName!=''?
+                      doc.fileName : 'Add File' }}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer d-flex align-content-center justify-content-end gap-2">
+        <button type="button" (click)="onCancel()" class="btn cancel-btn" data-bs-dismiss="modal">
+          Cancel
+        </button>
+        <button type="button" class="btn submitActionBtn" [disabled]="isUpdatingHrPolicies || doc.name.length<1"
+          (click)="onDocumentSubmit()">
+          <span *ngIf="!isUpdatingHrPolicies">Submit</span>
+          <div class="dot-opacity-loader" *ngIf="isUpdatingHrPolicies">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!----------------------------------- UPLOAD HR POLICY  POPUP END-------------------------->
+
+
+
+<!----------------------------------- DELETE ADDRESS POPUP START-------------------------->
+<button class="d-none" data-bs-toggle="modal" data-bs-target="#delete-address"></button>
+<div class="modal fade" id="delete-address" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" style="max-width: 500px" role="document">
+    <div class="modal-content">
+      <div class="modal-body p-0 delete-text">
+        <div class="delete-image d-flex align-items-center justify-content-center pt-4 pb-4">
+          <div class="delete-close-btn">
+            <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close"
+              #closeButtonDeleteAddress>
+              <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+                <mask id="mask0_2031_1331" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="30"
+                  height="30">
+                  <rect width="30" height="30" fill="#D9D9D9" />
+                </mask>
+                <g mask="url(#mask0_2031_1331)">
+                  <path
+                    d="M8 23.75L6.25 22L13.25 15L6.25 8L8 6.25L15 13.25L22 6.25L23.75 8L16.75 15L23.75 22L22 23.75L15 16.75L8 23.75Z"
+                    fill="black" />
+                </g>
+              </svg>
+            </button>
+          </div>
+          <img src="/assets/images/delete-img.svg" style="width: 70px" />
+        </div>
+        <div class="bg-white p-4 text-center">
+
+          <div>
+            <h5 class="alert-heading font-18 mb-2">
+              Are you sure you want to delete <br />
+              this address?
+            </h5>
+            <p class="font-11">You will not be able to recover this</p>
+          </div>
+
+          <div class="mt-4 d-flex align-items-center flex-column">
+            <button [disabled]="deleteToggle" class="btn continue-btn" *ngIf="deleteAddressId > 0"
+              (click)="deleteAddress(deleteAddressId)">
+              Continue
+              <i class="fa fa-spinner fa-spin" *ngIf="deleteToggle"></i>
+            </button>
+            <button class="btn cancel-btn pt-2" type="button" data-bs-dismiss="modal" aria-label="Close">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!----------------------------------- DELETE ADDRESS POPUP END-------------------------->

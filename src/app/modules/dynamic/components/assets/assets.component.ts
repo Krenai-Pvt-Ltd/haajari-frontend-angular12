@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Color, LegendPosition, ScaleType } from '@swimlane/ngx-charts';
-import * as moment from 'moment';
+import moment from 'moment';
 import { Key } from 'src/app/constant/key';
 import { AssetCategoryRequest, AssetCategoryResponse, OrganizationAssetRequest, OrganizationAssetResponse, StatusWiseTotalAssetsResponse } from 'src/app/models/asset-category-respose';
 import { AssetRequestDTO } from 'src/app/models/AssetRequestDTO';
@@ -51,6 +51,7 @@ export class AssetsComponent implements OnInit {
     this.getAssetUserListData();
     this.getCategoryCounts();
     this.getAssetDataById();
+    this.getPendingRequestsCounter();
     // this.helperService.saveOrgSecondaryToDoStepBarData(0);
   }
 
@@ -122,10 +123,12 @@ export class AssetsComponent implements OnInit {
 
   assetIdToUpdate:number = 0;
   getAssetDataById(): void {
+    this.asset = null;
     this.dataService.getAssetById(this.assetIdToUpdate)
       .subscribe(
         (response) => {
           const assetData = response.object;
+          if(assetData!=null){
           this.assetForm.patchValue({
             assetName: assetData.assetName,
             serialNumber: assetData.serialNumber,
@@ -138,6 +141,7 @@ export class AssetsComponent implements OnInit {
             assignedDate: assetData.assignedDate ? new Date(assetData.assignedDate) : null,
             categoryId: assetData.categoryId
           });
+          }
 
           this.cdr.detectChanges();
         },
@@ -347,6 +351,7 @@ getAssetUserListData(): void {
 
 
  assignAssetId(assetId: number) {
+  this.selectedAsset = null;
   this.assetIdToUpdate = assetId;
   if(assetId>0) {
     this.getAssetDataById();
@@ -397,10 +402,13 @@ saveAsset(): void {
   }
 
   const newAsset = this.assetForm.value;
+  if(this.asset){
+    newAsset.assetRequestedId = this.asset.id;
+  }
 
   this.dataService.createAsset(newAsset).subscribe(
     (response) => {
-
+        this.selectedAsset = null;
         // console.log('Asset created successfully.');
         this.assetForm.reset();
         this.getAssetData();
@@ -411,15 +419,18 @@ saveAsset(): void {
         document.getElementById('createAssetModal')?.click();
         this.helperService.showToast('Asset created successfully.', Key.TOAST_STATUS_SUCCESS);
 
+
     },
     (error) => {
       // console.error('Error creating asset:', error);
       // console.log('Failed to create asset. Please try again.');
+      this.selectedAsset = null;
       if(error.error.message == 'Serial Number Already Registered') {
         this.helperService.showToast('Serial Number Already Registered.', Key.TOAST_STATUS_ERROR);
       } else {
       this.helperService.showToast('Failed to create asset.', Key.TOAST_STATUS_ERROR);
       }
+      this.asset = null;
     }
   );
 }
@@ -736,14 +747,20 @@ private formatDataForChart(data: any[]): any[] {
   }
   newStatus: string = 'Pending';
   selectedAsset: any;
-  statuses: string[] = ['Approved', 'Rejected'];
+  statuses: string[] = ['APPROVED', 'REJECTED'];
   openStatusChangeModal(asset: any, statusChangeModal: TemplateRef<any>) {
     this.selectedAsset = asset;
+    if(asset.status == 'APPROVED'){
+      this.openCreateAssetModal(asset);
+      return;
+    }
     this.modalService.open(statusChangeModal);
   }
 
   changeStatus(asset: any) {
+    this.asset=null;
     asset.status = this.newStatus;
+    this.modalService.dismissAll();
     this.dataService.changeAssetRequestStatus(asset.id, this.newStatus)
     .subscribe(
       (response) => {
@@ -756,8 +773,34 @@ private formatDataForChart(data: any[]): any[] {
       (error) => {
         console.error('Error updating status:', error);
         // Handle error response, e.g., show an error message
+        this.getAssetRequests();
       }
     );
+  }
+
+  @ViewChild('createAssetButton', { static: false }) createAssetButton!: ElementRef;
+  asset: any;
+  openCreateAssetModal(asset: any) {
+    debugger
+    // Close any open modals first
+    this.modalService.dismissAll();
+    console.log(this.createAssetButton);
+    if(this.createAssetButton){
+    this.createAssetButton.nativeElement.click();
+    this.selectedAsset = asset;
+    this.allAssetCategoryData.forEach((category: any) => {
+      if (category.categoryName === asset.assetCategoryName) {
+      this.assetForm.patchValue({
+        categoryId: category.categoryId
+      });
+    }
+    });
+    this.assetForm.patchValue({
+      assetName: asset.assetName,
+      userId: asset.userId,
+    });
+    this.asset = asset;
+    }
   }
 
   downloadFlag: boolean=false;
@@ -782,7 +825,17 @@ private formatDataForChart(data: any[]): any[] {
     );
   }
 
-
+  pendingRequestsCounter: number = 0;
+  getPendingRequestsCounter(): void {
+    this.dataService.getPendingRequestsCounter().subscribe(
+      (response) => {
+        this.pendingRequestsCounter = response.pendingRequestsCounter;
+      },
+      (error) => {
+        console.error('Error fetching pending requests counter', error);
+      }
+    );
+  }
 
 
 }

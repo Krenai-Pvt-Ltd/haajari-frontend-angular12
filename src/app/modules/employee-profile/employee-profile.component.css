@@ -297,7 +297,7 @@
     border-radius: 3px;
 }
 
-.nav-link:hover{
+.nav-link:hover {
     color: #060606 !important;
 }
 
@@ -309,15 +309,6 @@
 
 .table-font-weight {
     font-weight: 400;
-}
-
-.badge {
-    line-height: 12px;
-    padding: 0.55em 10px;
-    font-size: 13px;
-    font-weight: 400;
-    letter-spacing: 0.1px;
-    min-width: 80px;
 }
 
 .table tr {
@@ -381,11 +372,11 @@ span.lat {
 }
 
 .col-md-3 {
-    width: 22% !important;
+    width: 22%;
 }
 
 .col-md-9 {
-    width: 78% !important;
+    width: 78%;
 }
 
 .break-notifaction {
@@ -437,7 +428,7 @@ span.lat {
     text-align: left;
 } */
 
-.nav-link svg{
+.nav-link svg {
     width: 15px;
     position: relative;
     top: -2px;
@@ -451,14 +442,59 @@ span.lat {
     /* padding-bottom: 15px; */
 }
 
-.resignation-box{
+.resignation-box {
     background: linear-gradient(97deg, #2F2F2F -22.99%, #6666F2 169.69%);
 }
-.resignation-box button{
+
+.resignation-box button {
     text-decoration: underline;
     font-weight: 500;
     font-size: 15px;
 }
-.resignation-box img{
+
+.resignation-box img {
     height: 26px;
+}
+.sidebar-btn{
+    width: 45px;
+    height: 40px;
+    border-radius: 2px;
+    border: 1px solid #444;
+    background-color: #f2f2f2;
+}
+.mobile-top-menu {
+    display: none;
+}
+
+
+@media screen and (max-width: 500px) {
+    .col-md-3 {
+        width: 100% !important;
+    }
+    
+    .col-md-9 {
+        width: 100% !important;
+    }
+    .mobile-menu {
+        display: -webkit-inline-box !important;
+        flex-wrap: nowrap !important;
+    }
+    .employee-profile-menu{
+        overflow: scroll;
+    }
+    .employee-profile-menu::-webkit-scrollbar{
+        display: none;
+    }
+    .mobile-top-menu {
+        display: block;
+        position: sticky;
+        top: 0px;
+        background-color: #fff;
+        z-index: 9;
+    }
+    .employee-profile-menu {
+        position: sticky;
+        top: 74px;
+    }
+    
 }

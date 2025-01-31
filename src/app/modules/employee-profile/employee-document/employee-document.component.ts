@@ -8,6 +8,8 @@ import { HelperService } from 'src/app/services/helper.service';
 import { EmployeeAdditionalDocument } from 'src/app/models/EmployeeAdditionalDocument';
 import { finalize } from 'rxjs/operators';
 import { Key } from 'src/app/constant/key';
+import { constant } from 'src/app/constant/constant';
+import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 
 @Component({
   selector: 'app-employee-document',
@@ -15,14 +17,17 @@ import { Key } from 'src/app/constant/key';
   styleUrls: ['./employee-document.component.css']
 })
 export class EmployeeDocumentComponent implements OnInit {
+  readonly constant=constant;
 
   uploadDoucument: boolean = false;
+  documentLoading: boolean = false;
   userId: any;
   docType: string= 'employee_doc';
 
   setDocType(type: string) {
     debugger;
     this.docType = type;
+    this.doc.documentType=type;
     console.log('dc type------'+this.docType);
   }
 
@@ -30,14 +35,17 @@ export class EmployeeDocumentComponent implements OnInit {
   constructor(private dataService: DataService,private activateRoute: ActivatedRoute,
     public domSanitizer: DomSanitizer, private firebaseStorage: AngularFireStorage,
     private afStorage: AngularFireStorage, private helperService : HelperService,
+    private roleService: RoleBasedAccessControlService,
   ) {
     if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
       this.userId = this.activateRoute.snapshot.queryParamMap.get('userId');
     }
   }
 
-  ngOnInit(): void {
+  ROLE: string = '';
+  async ngOnInit(): Promise<void> {
     this.getEmployeeDocumentsDetailsByUuid();
+    this.ROLE = await this.roleService.getRole();
   }
 
   isDocsPlaceholder: boolean = false;
@@ -51,43 +59,35 @@ export class EmployeeDocumentComponent implements OnInit {
 
   documents: EmployeeAdditionalDocument[] = [];
   getEmployeeDocumentsDetailsByUuid() {
-
+    this.documentLoading = true;
+    this.documents = [];
     this.dataService.getDocumentsByUserId(this.userId).subscribe({
       next: (docs) => {
         this.documents = docs;
-        console.log('Documents:', this.documents);
+         this.documentLoading = false;
       },
       error: (err) => {
+         this.documentLoading = false;
         console.error('Error fetching documents:', err);
       },
     });
   }
 
-  // private mapDocumentUrls() {
-  //   for (let doc of this.documentsEmployee) {
-  //     switch (doc.documentName) {
-  //       case 'highSchool':
-  //         this.highSchoolCertificate = doc.documentUrl;
-  //         break;
-  //       case 'highestQualification':
-  //         this.degreeCert = doc.documentUrl;
-  //         break;
-  //       case 'secondarySchool':
-  //         this.intermediateCertificate = doc.documentUrl;
-  //         break;
-  //       case 'testimonial':
-  //         this.testimonialsString = doc.documentUrl;
-  //         break;
-  //       case 'aadhaarCard':
-  //         this.aadhaarCardString = doc.documentUrl;
-  //         break;
-  //       case 'pancard':
-  //         this.pancardString = doc.documentUrl;
-  //         break;
-  //     }
-  //   }
-  // }
+  disableStartDates = (current: Date): boolean => {
+    if (!this.doc.endDate) {
+      return false;
+    }
+    // Disable dates after the selected end date
+    return current.getTime() > new Date(this.doc.endDate).getTime();
+  };
 
+  disableEndDates = (current: Date): boolean => {
+    if (!this.doc.startDate) {
+      return false;
+    }
+    // Disable dates before the selected start date
+    return current.getTime() < new Date(this.doc.startDate).getTime();
+  };
 
   previewString: SafeResourceUrl = '';
   downloadString!: string;
@@ -209,7 +209,7 @@ export class EmployeeDocumentComponent implements OnInit {
         finalize(() => {
           fileRef.getDownloadURL().subscribe((url) => {
             this.doc.url=url;
-            if(this.doc.documentType!='employee_doc' && this.doc.documentType!='company_doc'){
+            if(this.doc.documentType!='employee_doc' && this.doc.documentType!='company_doc' && this.doc.documentType!='employee_agreement'){
               this.doc.documentType=this.docType;
             }
             this.dataService.saveDocumentForUser(this.userId, this.doc).subscribe({
@@ -221,7 +221,7 @@ export class EmployeeDocumentComponent implements OnInit {
                 this.getEmployeeDocumentsDetailsByUuid();
               },
               error: (err) => {
-                this.helperService.showToast('Some problem in saving Document:',Key.TOAST_STATUS_ERROR);
+                this.helperService.showToast('Some problem in saving Document',Key.TOAST_STATUS_ERROR);
                 this.isLoading=false;
               },
             });
@@ -248,4 +248,38 @@ export class EmployeeDocumentComponent implements OnInit {
     }
   }
 
+  isEmployeeAgreementChecked: boolean = false;
+  isEmployeeAgreement(event: any): void {
+    if(event.target.checked){
+      this.isEmployeeAgreementChecked=true;
+      this.doc.documentType=constant.DOC_TYPE_EMPLOYEE_AGREEMENT;
+    }else{
+      this.isEmployeeAgreementChecked=false;
+      this.doc.documentType=constant.DOC_TYPE_COMPANY;
+    }
+  }
+
+  @ViewChild('checkBox') checkBox!: ElementRef;
+  onCloseModal(): void {
+    this.doc = {fileName: '', name: '', url: '', value: ''};
+    this.isEmployeeAgreementChecked = false;
+    if (this.checkBox && this.checkBox.nativeElement) {
+      this.checkBox.nativeElement.checked = false;
+    }
+  }
+
+  ngAfterViewInit() {
+    const modal = document.getElementById('addDocumentt');
+    if (modal) {
+      modal.addEventListener('hidden.bs.modal', () => {
+        this.onCloseModal();
+      });
+    }
+  }
+
+  isCompanyDocsExist(){
+    return this.documents.some(
+      doc => doc.documentType === constant.DOC_TYPE_COMPANY || doc.documentType === constant.DOC_TYPE_EMPLOYEE_AGREEMENT
+  );
+  }
 }

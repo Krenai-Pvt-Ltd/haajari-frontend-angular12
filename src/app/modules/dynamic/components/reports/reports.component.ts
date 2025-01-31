@@ -1,8 +1,9 @@
 import { DatePipe, KeyValue } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import * as moment from 'moment';
+import moment from 'moment';
 import { Key } from 'src/app/constant/key';
 import { AttendanceReportLogs } from 'src/app/models/AttendanceReportLogs';
+import { User } from 'src/app/models/user';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
@@ -32,6 +33,7 @@ export class ReportsComponent implements OnInit {
     this.getFullReportLogs();
     this.userUuid = await this.rbacService.getUUID();
     this.getOrganizationOnboardingDateByUuid();
+    this.getUsersByFilterMethodCall();
     // this.helperService.saveOrgSecondaryToDoStepBarData(0);
   }
 
@@ -60,24 +62,32 @@ export class ReportsComponent implements OnInit {
 
   // organizationOnboardingDate: Date = new Date('2023-11-01');
 
+  // disableBeforeOnboarding = (current: Date): boolean => {
+  //   const onboardingMonth = new Date(
+  //     this.organizationOnboardingDate.getFullYear(),
+  //     this.organizationOnboardingDate.getMonth(),
+  //     1
+  //   );
+  //   const currentMonth = new Date(current.getFullYear(), current.getMonth(), 1);
+  //   const now = new Date();
+  //   const currentEndOfMonth = new Date(
+  //     current.getFullYear(),
+  //     current.getMonth() + 1,
+  //     0
+  //   );
+  //   return (
+  //     currentMonth < onboardingMonth ||
+  //     currentEndOfMonth > new Date(now.getFullYear(), now.getMonth() + 1, 0)
+  //   );
+  // };
+
   disableBeforeOnboarding = (current: Date): boolean => {
-    const onboardingMonth = new Date(
-      this.organizationOnboardingDate.getFullYear(),
-      this.organizationOnboardingDate.getMonth(),
-      1
-    );
-    const currentMonth = new Date(current.getFullYear(), current.getMonth(), 1);
+    const onboardingDate = this.organizationOnboardingDate;
     const now = new Date();
-    const currentEndOfMonth = new Date(
-      current.getFullYear(),
-      current.getMonth() + 1,
-      0
-    );
-    return (
-      currentMonth < onboardingMonth ||
-      currentEndOfMonth > new Date(now.getFullYear(), now.getMonth() + 1, 0)
-    );
+
+    return current < onboardingDate || current > now;
   };
+
 
   disableBeforeOnboardingForSalary = (current: Date): boolean => {
     const onboardingYear = this.organizationOnboardingDate.getFullYear();
@@ -98,41 +108,74 @@ export class ReportsComponent implements OnInit {
     );
   };
 
-  handleOkOfAttendanceSummary(): void {
-    if (this.selectedMonth) {
-      const startOfMonth = new Date(
-        this.selectedMonth.getFullYear(),
-        this.selectedMonth.getMonth(),
-        1
+  // handleOkOfAttendanceSummary(): void {
+  //   if (this.selectedMonth) {
+  //     const startOfMonth = new Date(
+  //       this.selectedMonth.getFullYear(),
+  //       this.selectedMonth.getMonth(),
+  //       1
+  //     );
+  //     const endOfMonth = new Date(
+  //       this.selectedMonth.getFullYear(),
+  //       this.selectedMonth.getMonth() + 1,
+  //       0
+  //     ); // Sets day as the last day of the month
+
+  //     this.startDate = startOfMonth;
+  //     this.endDate = endOfMonth;
+
+  //     // console.log('Start Date:', this.startDate);
+  //     // console.log('End Date:', this.endDate);
+
+  //     this.isModalVisible = false;
+  //     if (this.startDate && this.endDate) {
+  //       this.isLoading = true;
+  //       this.helperService.showToast(
+  //         "Please Wait! We're loading your Attendance Records.",
+  //         Key.TOAST_STATUS_SUCCESS
+  //       );
+  //       let formattedStartDate = this.formatDate(this.startDate);
+  //       let formattedEndDate = this.formatDate(this.endDate);
+  //       this.generateAttendanceSummary(formattedStartDate, formattedEndDate);
+
+  //       this.closeModal();
+  //     }
+  //     this.selectedMonth = '';
+  //   }
+  // }
+
+  selectedDateRange: Date[] = []; // To hold the selected date range
+// startDate: Date | null = null; // Start date
+// endDate: Date | null = null;  // End date
+
+handleOkOfAttendanceSummary(): void {
+  if (this.selectedDateRange && this.selectedDateRange.length === 2) {
+    const [startOfRange, endOfRange] = this.selectedDateRange;
+
+    this.startDate = new Date(startOfRange);
+    this.endDate = new Date(endOfRange);
+
+    this.isModalVisible = false;
+
+    if (this.startDate && this.endDate) {
+      this.isLoading = true;
+      this.helperService.showToast(
+        "Please Wait! We're loading your Attendance Records.",
+        Key.TOAST_STATUS_SUCCESS
       );
-      const endOfMonth = new Date(
-        this.selectedMonth.getFullYear(),
-        this.selectedMonth.getMonth() + 1,
-        0
-      ); // Sets day as the last day of the month
 
-      this.startDate = startOfMonth;
-      this.endDate = endOfMonth;
+      const formattedStartDate = this.formatDate(this.startDate);
+      const formattedEndDate = this.formatDate(this.endDate);
+      this.generateAttendanceSummary(formattedStartDate, formattedEndDate);
 
-      // console.log('Start Date:', this.startDate);
-      // console.log('End Date:', this.endDate);
-
-      this.isModalVisible = false;
-      if (this.startDate && this.endDate) {
-        this.isLoading = true;
-        this.helperService.showToast(
-          "Please Wait! We're loading your Attendance Records.",
-          Key.TOAST_STATUS_SUCCESS
-        );
-        let formattedStartDate = this.formatDate(this.startDate);
-        let formattedEndDate = this.formatDate(this.endDate);
-        this.generateAttendanceSummary(formattedStartDate, formattedEndDate);
-
-        this.closeModal();
-      }
-      this.selectedMonth = '';
+      this.closeModal();
     }
+
+    // Clear the selected range after processing
+    this.selectedDateRange = [];
   }
+}
+
 
   // handleOk(): void {
   //   this.isModalVisible = false;
@@ -151,11 +194,13 @@ export class ReportsComponent implements OnInit {
   }
 
   generateAttendanceSummary(startDate: string, endDate: string): void {
-    this.dataService.generateAttendanceSummary(startDate, endDate).subscribe({
+    this.dataService.generateAttendanceSummary(startDate, endDate, this.selectedUserIds).subscribe({
       next: (response) => {
         // console.log('Report Generation Successful', response);
         this.isLoading = false;
         this.getFullReportLogs();
+        this.selectedUserIds = [];
+        this.isSelectAllUsers = true;
         this.helperService.showToast(
           'Attendance Records Fetched Successfully!',
           Key.TOAST_STATUS_SUCCESS
@@ -272,47 +317,76 @@ export class ReportsComponent implements OnInit {
   isLoading2: boolean = false;
 
   handleOkOfAttendanceReport(): void {
-    if (this.selectedMonth) {
-      const startOfMonth = new Date(
-        this.selectedMonth.getFullYear(),
-        this.selectedMonth.getMonth(),
-        1
-      );
-      const endOfMonth = new Date(
-        this.selectedMonth.getFullYear(),
-        this.selectedMonth.getMonth() + 1,
-        0
-      ); // Sets day as the last day of the month
+    if (this.selectedDateRange && this.selectedDateRange.length === 2) {
+      const [startOfRange, endOfRange] = this.selectedDateRange;
 
-      this.startDate = startOfMonth;
-      this.endDate = endOfMonth;
+      this.startDate = new Date(startOfRange);
+      this.endDate = new Date(endOfRange);
 
-      // console.log('Start Date:', this.startDate);
-      // console.log('End Date:', this.endDate);
-
-      // this.isModalVisible = false;
       if (this.startDate && this.endDate) {
         this.isLoading2 = true;
         this.helperService.showToast(
           "Please Wait! We're loading your Attendance Records.",
           Key.TOAST_STATUS_SUCCESS
         );
-        let formattedStartDate = this.formatDate(this.startDate);
-        let formattedEndDate = this.formatDate(this.endDate);
+
+        const formattedStartDate = this.formatDate(this.startDate);
+        const formattedEndDate = this.formatDate(this.endDate);
         this.generateAttendanceReport(formattedStartDate, formattedEndDate);
 
         this.closeModal2();
       }
-      this.selectedMonth = '';
+
+      // Clear the selected range after processing
+      this.selectedDateRange = [];
     }
   }
 
+
+  // handleOkOfAttendanceReport(): void {
+  //   if (this.selectedMonth) {
+  //     const startOfMonth = new Date(
+  //       this.selectedMonth.getFullYear(),
+  //       this.selectedMonth.getMonth(),
+  //       1
+  //     );
+  //     const endOfMonth = new Date(
+  //       this.selectedMonth.getFullYear(),
+  //       this.selectedMonth.getMonth() + 1,
+  //       0
+  //     ); // Sets day as the last day of the month
+
+  //     this.startDate = startOfMonth;
+  //     this.endDate = endOfMonth;
+
+  //     // console.log('Start Date:', this.startDate);
+  //     // console.log('End Date:', this.endDate);
+
+  //     // this.isModalVisible = false;
+  //     if (this.startDate && this.endDate) {
+  //       this.isLoading2 = true;
+  //       this.helperService.showToast(
+  //         "Please Wait! We're loading your Attendance Records.",
+  //         Key.TOAST_STATUS_SUCCESS
+  //       );
+  //       let formattedStartDate = this.formatDate(this.startDate);
+  //       let formattedEndDate = this.formatDate(this.endDate);
+  //       this.generateAttendanceReport(formattedStartDate, formattedEndDate);
+
+  //       this.closeModal2();
+  //     }
+  //     this.selectedMonth = '';
+  //   }
+  // }
+
   generateAttendanceReport(startDate: string, endDate: string): void {
-    this.dataService.generateAttendanceReport(startDate, endDate).subscribe({
+    this.dataService.generateAttendanceReport(startDate, endDate, this.selectedUserIds).subscribe({
       next: (response) => {
         // console.log('Report Generation Successful', response);
         this.isLoading2 = false;
         this.getFullReportLogs();
+        this.selectedUserIds = [];
+        this.isSelectAllUsers2 = true;
         this.helperService.showToast(
           'Attendance Records Fetched Successfully!',
           Key.TOAST_STATUS_SUCCESS
@@ -392,4 +466,138 @@ export class ReportsComponent implements OnInit {
   closeModal3(): void {
     this.closeDateRangeModal3.nativeElement.click();
   }
+
+
+  dailyReportLog : string = '';
+  isLoading4: boolean = false;
+  selectedMonthOfDailyReport : any
+
+  downloadAttedanceReport() {
+    this.closeModal4();
+    let dateString:string | null  = this.datePipe.transform(this.selectedMonthOfDailyReport, 'yyyy-MM-dd');
+    this.isLoading4 = true;
+    if(dateString!==null) {
+    this.dataService
+      .getAtendanceDailyReport(
+        dateString, this.selectedUserIds
+      )
+      .subscribe(
+        (response) => {
+         this.dailyReportLog = response.message;
+         this.getFullReportLogs();
+         this.helperService.showToast(
+          'Daily Attendance Report Logs Fetched Successfully!',
+          Key.TOAST_STATUS_SUCCESS
+        );
+        this.selectedUserIds = [];
+        this.isSelectAllUsers3 = true;
+
+        //  const downloadLink = document.createElement('a');
+        //   downloadLink.href = response.message;
+        //   downloadLink.download = 'attendance.xlsx';
+        //   downloadLink.click();
+
+          this.isLoading4 = false;
+        },
+        (error) => {
+          this.isLoading4 = false;
+          this.helperService.showToast(
+            'Error In Fetching Daily Attendance Report Logs!',
+            Key.TOAST_STATUS_SUCCESS
+          );
+        }
+      );
+    }
+  }
+
+  @ViewChild('closeDateRangeModal4') closeDateRangeModal4!: ElementRef;
+
+  closeModal4(): void {
+    this.closeDateRangeModal4.nativeElement.click();
+  }
+
+  disableBeforeOnboardingForDailyReport = (current: Date): boolean => {
+    const onboardingDate = this.organizationOnboardingDate;
+    const now = new Date();
+
+    // Disable dates before the organization onboarding date
+    const isBeforeOnboarding = current < onboardingDate;
+
+    // Disable dates after the current date
+    const isAfterCurrentDate = current > now;
+
+    return isBeforeOnboarding || isAfterCurrentDate;
+  };
+
+  users : User[] = [];
+  selectedUserIds: number[] = [];
+  userOptions: { label: string; value: number }[] = [];
+  isSelectAllUsers: boolean = true; // Default to Select All Users
+  isSelectAllUsers2: boolean = true; // Default to Select All Users
+  isSelectAllUsers3: boolean = true; // Default to Select All Users
+  getUsersByFilterMethodCall() {
+    this.dataService
+      .getUsersByFilter(0, 1, 'asc', 'id', '', 'name',0)
+      .subscribe((data) => {
+        this.users = data.users;
+        // this.total = data.count;
+
+          // Map users to userOptions for ngZorro multi-select
+          this.userOptions = data.users.map((user: any) => ({
+            label: `${user.name} (${user.email || 'N/A'})`,
+            value: user.id
+          }));
+
+        // console.log(this.users, this.total);
+      });
+  }
+  selectedUser: any;
+
+  selectUser(user: any) {
+    this.selectedUser = user;
+  }
+
+  onToggleSelectAllUsers(value: boolean): void {
+    this.isSelectAllUsers = value;
+
+    // Reset selected users if toggled to "Select All Users"
+    if (value) {
+      this.selectedUserIds = [];
+    }
+  }
+
+  onToggleSelectAllUsers2(value: boolean): void {
+    this.isSelectAllUsers2 = value;
+
+    // Reset selected users if toggled to "Select All Users"
+    if (value) {
+      this.selectedUserIds = [];
+    }
+  }
+
+
+  onToggleSelectAllUsers3(value: boolean): void {
+    this.isSelectAllUsers3 = value;
+
+    // Reset selected users if toggled to "Select All Users"
+    if (value) {
+      this.selectedUserIds = [];
+    }
+  }
+
+  
+
+
+  onUsersChange(selectedIds: number[]) {
+    this.selectedUserIds = selectedIds; // Update selected user IDs
+    console.log(this.selectedUserIds); // Debug: Check selected user IDs
+  }
+
+  // handleOkOfAttendanceSummary() {
+  //   // Use the selectedUserIds array as needed
+  //   console.log('Generating report for users:', this.selectedUserIds);
+  // }
+
+
+
 }

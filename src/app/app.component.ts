@@ -3,6 +3,7 @@ import { NavigationEnd, RouteConfigLoadStart, Router } from '@angular/router';
 import { Key } from './constant/key';
 import { HelperService } from './services/helper.service';
 import { RoleBasedAccessControlService } from './services/role-based-access-control.service';
+import { OnboardingService } from './services/onboarding.service';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +20,8 @@ export class AppComponent implements OnInit {
   constructor(
     private router: Router,
     public rbacService: RoleBasedAccessControlService,
-    private _helperService: HelperService
+    private _helperService: HelperService,
+    public onboardingService : OnboardingService
   ) {
 
     this.router.events.subscribe((event:any) => {
@@ -37,6 +39,7 @@ export class AppComponent implements OnInit {
     this._router = router;
   }
   ngOnInit(): void {
+    console.log(this.rbacService.isUserInfoInitialized, "-------", this.onboardingService.isLoadingOnboardingStatus);
     // this._helperService.showToast("Successfully generated.", "Success");
   }
 

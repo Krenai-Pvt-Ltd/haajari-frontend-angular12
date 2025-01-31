@@ -214,9 +214,9 @@
                   <div class="">
   
                     <!-- <a class="add-shift-time-btn" data-bs-toggle="modal" data-bs-target="#createPolicy" (click)="getExpenseType(); clearData()"> -->
-                    <a class="add-shift-time-btn" (click)="clearData()" data-bs-toggle="modal" data-bs-target="#createPolicy" >
+                    <!-- <a class="add-shift-time-btn" (click)="clearData()" data-bs-toggle="modal" data-bs-target="#createPolicy" >
                       <i class="bi bi-plus"></i> Create exit policy
-                    </a>
+                    </a> -->
 
                     <a class="add-shift-time-btn" data-bs-toggle="modal" data-bs-target="#create-exit-policy">
                       <i class="bi bi-plus"></i> Create exit policy
@@ -252,14 +252,14 @@
 
                             <p class="text-truncate mb-0">Notice Period Duration: {{exitPolicy.noticePeriodDuration}}</p>
 
-                            <small class="text-muted">Define the leave rules for the employees</small>
+                            <small class="text-muted">Define the exit policy rules for the employees</small>
                           </div>
                         </div>
                         <div class="d-flex align-items-center gap-3">
                           <div class="d-flex align-items-center gap-3">
   
                             <!-- <a href="" data-bs-toggle="modal" data-bs-target="#createPolicy" (click)="getExpenseType()"> -->
-                            <a href="" data-bs-toggle="modal" data-bs-target="#createPolicy" >
+                            <a href="" data-bs-toggle="modal" data-bs-target="#create-exit-policy" >
                               <i class="bi bi-pencil pointer" style="color: #6666f3" (click)="getExitPolicyInformationById(exitPolicy)"></i>
                             </a>
   
@@ -347,233 +347,6 @@
 
 
 
-  <!-- Add policy modal start -->
-<div class="modal fade" id="createPolicy" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel"
-data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h6 class="modal-title m-0" id="exampleModalDefaultLabel">
-          Exit Policy
-        </h6>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-        (click)="clearForm(exitForm)" #closeExitPolicyModal></button>
-          <!-- (click)="clearForm(exitForm)" #closeExitPolicyModal></button> -->
-      </div>
-      <div class="modal-body modal-height-fix">
-        <div class="">
-          <ul id="myTab" role="tablist" class="nav nav-tabs">
-            <li role="presentation" class="nav-item">
-              <button id="home-tab" data-bs-toggle="tab" data-bs-target="#shiftime" type="button" role="tab"
-                aria-controls="expensePolicy" aria-selected="true" class="nav-link active pt-0"
-                [class.active]="activeTab === 'exitPolicy'" (click)="exitPolicySelectionTab()" #exitPolicyTab>
-                Policy
-              </button>
-            </li>
-
-            <li role="presentation" class="nav-item">
-              <button id="profile-tab" data-bs-toggle="tab" [attr.aria-selected]="!exitForm.invalid"
-                [attr.tabindex]="exitForm.invalid ? -1 : null" data-bs-target="#staffselection" type="button"
-                role="tab" aria-controls="staffselection" aria-selected="false" class="nav-link pt-0"
-                #staffActiveTabInShiftTiming [class.active]="activeTab === 'staffselection'"
-                (click)="staffActiveTabInShiftTimingMethod()" [disabled]="policyName == '' || noticePeriodDuration == ''" >
-                <!-- (click)="staffActiveTabInShiftTimingMethod()" [disabled]="expensePolicyReqList.length == 0"> -->
-                Staff selection
-              </button>
-            </li>
-          </ul>
-          <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade show active" id="shiftime" role="tabpanel"
-              [class.show]="activeTab === 'exitPolicy'" [class.active]="activeTab === 'exitPolicy'">
-
-              <form #exitForm="ngForm" ngNativeValidate >
-               
-                <div class="row pt-3 pb-3 ">
-                  <!-- Policy Name -->
-                  <div class="col-md-12">
-                    <div class="mb-3">
-                      <label for="policyNameInput" class="pb-2">Policy Name</label>
-                      <input [disabled]="tempPolicyName !== ''" type="text" class="form-control whatapp-login-input"
-                        id="policyNameInput" placeholder="Enter policy name" required [(ngModel)]="policyName"
-                        name="policyNameInput" #policyNameInput="ngModel" />
-                      <div *ngIf="policyNameInput.invalid && policyNameInput.touched" class="text-danger">
-                        Policy name is required.
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="row pt-3 pb-3 ">
-                    <!-- Notice Period Date -->
-                    <div class="col-md-12">
-                      <div class="mb-3">
-                        <label for="noticePeriodInput" class="pb-2">Notice Period</label>
-                        <input type="number" class="form-control whatapp-login-input" min="1" 
-                          id="noticePeriod" placeholder="Enter notice period" required [(ngModel)]="noticePeriodDuration" 
-                          name="noticePeriodInput" #noticePeriodInput="ngModel" />
-                        <div *ngIf="noticePeriodInput.invalid && noticePeriodInput.touched" class="text-danger">
-                            Notice Period is required.
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-              </form>
-
-              <div class="modal-footer d-flex align-items-center justify-content-end pb-0">
-                <!-- <button type="submit" class="btn btn-primary next-tab-btn" [disabled]="expensePolicyReqList.length == 0" -->
-                <button type="submit" [disabled]="policyName == '' || noticePeriodDuration == '' || exitForm.invalid" class="btn btn-primary next-tab-btn" 
-                  (click)="staffActiveTabInShiftTimingMethod()">
-                  Next
-                </button>
-              </div>
-            </div>
-
-            <!-- Staff selection start -->
-            <div class="tab-pane fade" id="staffselection" role="tabpanel" [class.show]="activeTab === 'staffselection'"
-              [class.active]="activeTab === 'staffselection'">
-              <div class="staf-list-box mt-3">
-                <div class="row mb-1 mt-3 align-items-center" style="padding-bottom: 15px">
-                  <div class="col-md-12">
-                    <div class="d-flex align-items-center" style="border: 1px solid #f1f1f1">
-                      <div style="width: 30%; position: relative">
-                        <div class="dropdown" style="width: 100%">
-                          <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
-                            class="btn btn-secondary dropdown-toggle new-deopdown">
-                            {{ selectedTeamName }}
-                            <i class="bi bi-chevron-down" style="color: #444; font-size: 15px"></i>
-                          </button>
-                          <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu team-dropdown" style="
-                                                        width: 100%; max-height: 200px; overflow-y: auto;">
-                            <li class="ng-star-inserted" (click)="selectTeam(0)">
-                              <a class="dropdown-item">All</a>
-                            </li>
-                            <li class="ng-star-inserted" *ngFor="let tn of teamNameList"
-                              (click)="selectTeam(tn.teamId)">
-                              <a class="dropdown-item"> {{ tn.teamName }} </a>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                      <div class="" style="width: 70%">
-                        <form novalidate="" role="search" (submit)="searchUsers()"
-                          class="searching ng-untouched ng-pristine ng-valid">
-                          <div class="form-group" style="position: relative">
-                            <input type="text" id="searchText" placeholder="Search by name and role"
-                              class="form-control me-2 ng-untouched ng-pristine ng-valid attendance-details-search"
-                              (keyup)="searchUsers()" [(ngModel)]="searchText" [ngModelOptions]="{ standalone: true }"
-                              style="padding: 10px 50px 10px 40px" />
-                            <button *ngIf="searchText.length !== 0" type="button" class="btn close-btn"
-                              (click)="clearSearchText()">
-                              <i class="bi bi-x mt-auto mb-auto pl-3"></i>
-                            </button>
-                            <i class="bi bi-search search-icon"
-                              style="position: absolute; top: 50%; transform: translateY(-50%); left: 10px; padding-left: 5px;"></i>
-                          </div>
-                        </form>
-                      </div>
-                      <div class="container">
-                        <div class="content-wrapper">
-                          <div class="d-flex filter-wrapper gap-5 justify-content-end">
-                            <!-- Display this only if there are selected staff -->
-                            <a class="info-button" *ngIf="selectedStaffIdsUser.length > 0">
-                              {{ selectedStaffIdsUser.length }} selected of
-                              {{ totalUserCount }}
-                            </a>
-                            <!-- Clear button shows only if there are selected staff -->
-                            <span class="clear-button text-danger pointer" *ngIf="selectedStaffIdsUser.length > 0"
-                              (click)="clearIds()">
-                              Clear all users <i class="bi bi-x"></i>
-                            </span>
-
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <table class="table">
-                  <thead class="thead-light">
-                    <tr>
-                      <th style="width: 0%">
-                        <input type="checkBox" (click)="selectAllEmployee()" [checked]="allselected" />
-                      </th>
-                      <th style="width: 25%; padding: 12px 15px">Name</th>
-                      <th style="width: 25%; padding: 12px 15px">Email</th>
-                      <th style="width: 25%; padding: 12px 15px">Phone</th>
-                    </tr>
-                  </thead>
-
-                  <tbody *ngIf="staffLoading">
-                    <tr>
-                      <td colspan="9" class="text-center" style="height: 40vh;">
-                        <img src="assets/images/load-8.gif" style="width: 50px;">
-                      </td>
-                    </tr>
-                  </tbody>
-
-
-                  <tbody *ngIf="!staffLoading">
-                    <tr *ngFor="let staff of staffs; let i = index">
-                      <td>
-                        <div class="form-check">
-                          <input type="checkBox" name="checkBox{{ i }}" id="checkBoxid{{ i }}"
-                            (click)="selectSingle(staff, i)" [checked]="staff.checked" />
-                        </div>
-                      </td>
-
-                      <td style="padding: 12px 15px">{{ staff.name }}</td>
-                      <td style="padding: 12px 15px">
-                        {{ staff.email ? staff.email : "N/A" }}
-                      </td>
-                      <td style="padding: 12px 15px">
-                        {{ staff.phoneNumber || "N/A" }}
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-                <!-- </ng-container> -->
-
-              </div>
-
-              <!-- staff pagination start -->
-              <div class="pagination justify-content-between pl-3" *ngIf="staffs.length > 0">
-                <p class="mb-0" style="padding-left: 15px">
-                  Showing {{ staffs.length }} of {{ total }} members
-                </p>
-                <div class="row">
-                  <div class="col-md-12">
-                    <ngb-pagination [collectionSize]="total" [rotate]="true" (pageChange)="pageChanged($event)"
-                      [pageSize]="databaseHelper.itemPerPage" [(page)]="databaseHelper.currentPage" [maxSize]="4"
-                      [boundaryLinks]="true"></ngb-pagination>
-                  </div>
-                </div>
-              </div>
-
-              <div class="modal-footer d-flex align-items-center justify-content-between">
-                <button *ngIf="!userMappedLoading" type="button" class="btn btn-outline-primary btn-round"
-                  (click)="getUserMappedWithPolicy(exitForm)"
-                  [disabled]="selectedStaffIdsUser.length == 0 || userMappedLoading">
-                  {{this.exitPolicyReq.id == 0 ? 'Submit' : 'Update'}}
-                </button>
-
-                <div class="dot-opacity-loader" *ngIf="userMappedLoading">
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- Add policy modal end -->
-
-
 
 <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#create-exit-policy">
   Apply for expense
@@ -586,7 +359,7 @@ data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Create another template</h5>
-        <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButton>
+        <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" (click)="clearForm(exitForm)" #closeExitPolicyModal>
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
             <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24"
               height="24">
@@ -607,47 +380,85 @@ data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
               <div class="exit-policy-sidebar-menu">
                 <div class="nav flex-column nav-pills pt-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                 
-                  <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#policy-creation" type="button"
-                    role="tab" aria-controls="policy-creatio" aria-selected="false">
+                  <button class="nav-link active" id="home-tab" data-bs-toggle="pill" data-bs-target="#shiftime" type="button"
+                    role="tab" aria-controls="policy-creatio" aria-selected="false" 
+                    [class.active]="activeTab === 'exitPolicy'" (click)="exitPolicySelectionTab()" #exitPolicyTab>
                     Policy Creation
                   </button>
                 
-                  <button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill" data-bs-target="#staff-selection"
-                    type="button" role="tab" aria-controls="staff-selection" aria-selected="false">
+                  <!-- <button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill" data-bs-target="#staffselection"
+                  [attr.tabindex]="exitForm.invalid ? -1 : null" [attr.aria-selected]="!exitForm.invalid"
+                    type="button" role="tab" aria-controls="staffselection" aria-selected="false" 
+                    #staffActiveTabInShiftTiming [class.active]="activeTab === 'staffselection'"
+                    (click)="staffActiveTabInShiftTimingMethod()" [disabled]="policyName == '' || noticePeriodDuration == ''">
+                    Staff selection
+                  </button> -->
+                  <button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill" data-bs-target="#staffselection"
+                  [attr.tabindex]="exitForm.invalid ? -1 : null" [attr.aria-selected]="!exitForm.invalid"
+                    type="button" role="tab" aria-controls="staffselection" aria-selected="false" 
+                    #staffActiveTabInShiftTiming [class.active]="activeTab === 'staffselection'"
+                    (click)="staffActiveTabInShiftTimingMethod()" [disabled]="policyName == '' || noticePeriodDuration == ''">
                     Staff selection
                   </button>
+
                 </div>
               </div>
             </div>
             <div class="col-md-9 p-0 m-0">
               <div class="policy-templete p-3 bg-white">
                 <div class="tab-content" id="v-pills-tabContent">
-                  <div class="tab-pane fade show active" id="policy-creation" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                  <div class="tab-pane fade show active" id="shiftime" role="tabpanel"
+                  [class.show]="activeTab === 'exitPolicy'" [class.active]="activeTab === 'exitPolicy'"  aria-labelledby="v-pills-home-tab">
+                    
+                  <form #exitForm="ngForm" ngNativeValidate >
+
                     <div class="row register-form-box">
                       <div class="col-md-12 mb-3">
                         <label for="templateName" class="pb-2">
                           Policy Name
                         </label>
-                        <input type="" class="form-control input-zorro" placeholder="Enter the Policy name here" name="tempNamed" required />
+                        <!-- <input type="" class="form-control input-zorro" placeholder="Enter the Policy name here" name="tempNamed" required /> -->
+                        <input [disabled]="tempPolicyName !== ''" type="text" class="form-control whatapp-login-input"
+                        id="policyNameInput" placeholder="Enter policy name" required [(ngModel)]="policyName"
+                        name="policyNameInput" #policyNameInput="ngModel" />
+                      <div *ngIf="policyNameInput.invalid && policyNameInput.touched" class="text-danger">
+                        Policy name is required.
+                      </div>
+
                       </div>
                       <div class="col-md-6 mb-3">
                         <label for="templateName" class="pb-2">
                           Notice Duration
                         </label>
-                        <input type="number" class="form-control input-zorro" placeholder="Enter notice duration" name="tempNamed" required />
+                        <!-- <input type="number" class="form-control input-zorro" placeholder="Enter notice duration" name="tempNamed" required /> -->
+                        <input type="number" class="form-control whatapp-login-input" min="1" 
+                        id="noticePeriod" placeholder="Enter notice period" required [(ngModel)]="noticePeriodDuration" 
+                        name="noticePeriodInput" #noticePeriodInput="ngModel" />
+                      <div *ngIf="noticePeriodInput.invalid && noticePeriodInput.touched" class="text-danger">
+                          Notice Period is required.
+                      </div>
                       </div>
                       <div class="col-md-6 mb-3">
                         <label for="templateName" class="pb-2">
                           FNF Duration
                         </label>
-                        <input type="number" class="form-control input-zorro" placeholder="Enter FNF duration" name="tempNamed" required />
+                        <!-- <input type="number" class="form-control input-zorro" placeholder="Enter FNF duration" name="tempNamed" required /> -->
+                        <input type="number" class="form-control whatapp-login-input" min="1" 
+                        id="fnfPeriod" placeholder="Enter FNF duration" required [(ngModel)]="fnfPeriodDuration" 
+                        name="fnfPeriodInput" #fnfPeriodInput="ngModel" />
+                        <div *ngIf="fnfPeriodInput.invalid && fnfPeriodInput.touched" class="text-danger">
+                            FNF duration is required.
+                        </div>
+
                       </div>
+                     
                       <!-- <div class="form-check policy-checkbox">
                         <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
                         <label class="form-check-label" for="defaultCheck1">
                           Dou Want to set threshold
                         </label>
                       </div> -->
+
                       <div class="col-md-12">
                         <label for="templateName" class="pb-2">
                           Can leave be taken during the notice period?
@@ -655,14 +466,17 @@ data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
                         <div class="row">
                           <div class="col-md-6">
                             <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                              <input type="radio" name="halfLeave" value="firstHalf" class="form-check-input">
+                              <!-- <input type="radio" name="halfLeave" value="firstHalf" class="form-check-input"> -->
+                              <input type="radio" id="yes" name="leaveType" value="yes" class="form-check-input"
+                              [(ngModel)]="exitLeaveType" (change)="onExitLeaveChange(1)">
                               <p class="form-check-label mb-0">Certainly, Yes</p>
                             </label>
 
                           </div>
                           <div class="col-md-6">
                             <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                              <input type="radio" name="halfLeave" value="firstHalf" class="form-check-input">
+                              <input type="radio" id="no" name="leaveType" value="no" class="form-check-input"
+                              [(ngModel)]="exitLeaveType" (change)="onExitLeaveChange(0)">
                               <p class="form-check-label mb-0">Not in this case</p>
                             </label>
                           
@@ -670,6 +484,8 @@ data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
                         </div>
                       </div>
                     </div>
+
+                  </form>
                     <div class="leave-footer">
                       <div class="p-3">
                       <h5 class="font-14 mb-1">
@@ -683,12 +499,12 @@ data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
                               fill="#6666F2" />
                           </g>
                         </svg>
-                        Lorem ipsum dolor sit amet</h5>
-                      <p class="mb-0 font-12">Lorem ipsum dolor sit amet consectetur adipiscing elit Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet
-                      sapien fringilla, mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis tellus..</p>
+                        Information</h5>
+                      <p class="mb-0 font-12">A notice period template outlines the required working days, leave utilization policy, and schedule for final settlements during an employee's notice period.</p>
                       </div>
                       <div class="modal-footer d-flex align-items-center justify-content-end bg-white">
-                        <button type="submit" class="btn p-0 next-btn">
+                        <button type="submit" class="btn p-0 next-btn" (click)="staffActiveTabInShiftTimingMethod()"
+                        [disabled]="policyName == '' || noticePeriodDuration == '' || fnfPeriodDuration == '' || exitLeaveType == '' || exitForm.invalid">
                           Next 
                           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
                             <path d="M1.95801 11.0005C1.95801 10.8131 2.01656 10.6609 2.13366 10.5438C2.25076 10.4267 2.40299 10.3681 2.59035 10.3681H18.1179L13.9725 6.22276C13.832 6.08224 13.7618 5.9183 13.7618 5.73094C13.7618 5.54358 13.832 5.39135 13.9725 5.27424C14.1131 5.15714 14.277 5.09859 14.4644 5.09859C14.6517 5.09859 14.8157 5.14543 14.9562 5.23911L20.2257 10.5086C20.3194 10.6492 20.3662 10.8131 20.3662 11.0005C20.3662 11.1878 20.3194 11.3518 20.2257 11.4923L14.9562 16.7618C14.8157 16.8555 14.6517 16.9023 14.4644 16.9023C14.277 16.9023 14.1131 16.8438 13.9725 16.7267C13.832 16.6096 13.7618 16.4574 13.7618 16.27C13.7618 16.0826 13.832 15.9187 13.9725 15.7782L18.1179 11.6328H2.59035C2.40299 11.6328 2.25076 11.5743 2.13366 11.4572C2.01656 11.3401 1.95801 11.1878 1.95801 11.0005Z"
@@ -698,8 +514,13 @@ data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
                         </button>
                       </div>
                     </div>
+
                   </div>
-                  <div class="tab-pane fade" id="staff-selection" role="tabpanel" ria-labelledby="v-pills-profile-tab">
+
+                   <!-- Staff selection start -->
+                  <!-- <div class="tab-pane fade" id="staff-selection" role="tabpanel" ria-labelledby="v-pills-profile-tab"> -->
+                  <div class="tab-pane fade" id="staffselection" role="tabpanel" [class.show]="activeTab === 'staffselection'"
+                  [class.active]="activeTab === 'staffselection'">
 
                     <div class="staff-selection-box">
                       <div class="obboard-employee-list">
@@ -721,22 +542,18 @@ data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
                                         <path d="M10 18.5V16.5H14V18.5H10ZM6 13.5V11.5H18V13.5H6ZM3 8.5V6.5H21V8.5H3Z" fill="#1C1B1F" />
                                       </g>
                                     </svg>&nbsp;
-                                      Filter <i class="bi bi-caret-down-fill"></i>
+                                      <!-- Filter <i class="bi bi-caret-down-fill"></i> -->
+                                      {{ selectedTeamName }} <i class="bi bi-caret-down-fill"></i>
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="statusDropdown">
-                                      <li>
+                                      <li (click)="selectTeam(0)">
                                         <a class="dropdown-item" >
                                           All
                                         </a>
                                       </li>
-                                      <li>
+                                      <li *ngFor="let tn of teamNameList" (click)="selectTeam(tn.teamId)">
                                         <a class="dropdown-item">
-                                          Random
-                                        </a>
-                                      </li>
-                                      <li>
-                                        <a class="dropdown-item">
-                                         Ondc-4
+                                          {{ tn.teamName }}
                                         </a>
                                       </li>
                                     </ul>
@@ -746,17 +563,19 @@ data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
                                   <div class="onboarding-date d-flex align-items-center justify-content-between position-relative w-100">
                                     <form novalidate class="searching d-flex align-items-center justify-content-between" style="width: 100%;">
                                       <div class="form-group" style="width: 100%; position: relative;">
-                                        <input type="text" id="searchText" placeholder="Search by name .."
+                                        <input type="text"id="searchText" placeholder="Search by name and role"
+                                        (keyup)="searchUsers()" [(ngModel)]="searchText" [ngModelOptions]="{ standalone: true }"
                                           class="form-control me-2" style="padding: 10px 45px;" />
                       
-                                        <i class="bi bi-search search-icon"></i>
+                                        <i class="bi bi-search search-icon" *ngIf="searchText.length == 0"></i>
                       
-                                        <!-- <i class="bi bi-x reset-icon text-primary pointer"></i> -->
+                                        <i *ngIf="searchText.length !== 0" class="bi bi-x pointer search-icon" style="font-size: 20px !important; color:#6666f3 !important;"  (click)="clearSearchText()"></i>
                                       </div>
 
-                                      <div class="d-flex align-items-center gap-3 w-100 ">
-                                         <a class="text-primary all-select">10 selected of 171</a>
-                                         <a class="text-danger close-all-select">Clear all users</a>
+                                      <div class="d-flex align-items-center gap-3 w-100 justify-content-end">
+                                         <a class="text-primary all-select">{{ selectedStaffIdsUser.length }} selected of
+                                          {{ totalUserCount }}</a>
+                                         <a *ngIf="selectedStaffIdsUser.length > 0" class="text-danger close-all-select" (click)="clearIds()">Clear all users</a>
                                       </div>
                                     </form>
                       
@@ -776,7 +595,8 @@ data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
                             <tr>
                               <th class="text-left font-13" style="width: 10%">
                                 <div class="form-check policy-checkbox">
-                                  <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                  <!-- <input class="form-check-input" type="checkbox" value="" id="defaultCheck1"> -->
+                                  <input class="form-check-input" type="checkBox" (click)="selectAllEmployee()" [checked]="allselected" />
                                 </div>
                               </th>
                               <th class="text-left font-13" style="width: 30%">Name</th>
@@ -784,21 +604,33 @@ data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
                               <th class="text-left font-13" style="width: 30%">Phone Number</th>
                             </tr>
                           </thead>
-                          <tbody>
-                            <tr *ngFor="let item of [].constructor(10)">
+
+                          <tbody *ngIf="staffLoading">
+                            <tr>
+                              <td colspan="9" class="text-center" style="height: 40vh;">
+                                <img src="assets/images/load-8.gif" style="width: 50px;">
+                              </td>
+                            </tr>
+                          </tbody>
+
+                            <!-- <tr *ngFor="let item of [].constructor(10)"> -->
+                          <tbody *ngIf="!staffLoading">
+                            <tr *ngFor="let staff of staffs; let i = index">
                               <td>
                                 <div class="form-check policy-checkbox">
-                                  <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                  <!-- <input class="form-check-input" type="checkbox" value="" id="defaultCheck1"> -->
+                                  <input class="form-check-input" type="checkBox" name="checkBox{{ i }}" id="checkBoxid{{ i }}"
+                                  (click)="selectSingle(staff, i)" [checked]="staff.checked" />
                                 </div>
                               </td>
                               <td>
-                                <span class="table-font-weight">Savannah Howard</span>
+                                <span class="table-font-weight">{{ staff.name }}</span>
                               </td>
                               <td>
-                                <span class="table-font-weight">jeff.brown@example.com</span>
+                                <span class="table-font-weight">{{ staff.email ? staff.email : "N/A" }}</span>
                               </td>
                               <td>
-                                <span class="table-font-weight">2345689753</span>
+                                <span class="table-font-weight">{{ staff.phoneNumber || "N/A" }}</span>
                               </td>
                             </tr>
                           </tbody>
@@ -809,19 +641,24 @@ data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
                     <div class="leave-footer">
                       <div class="p-3 d-flex align-items-center justify-content-between bg-white">
 
-                        <p class="mb-0 font-13"><span class="text-primary">1523 </span> Employees Add</p>
+                        <!-- <p class="mb-0 font-13"><span class="text-primary">1523 </span> Employees Add</p> -->
+                        <p class="mb-0 font-13">Showing {{ staffs.length }} of {{ total }} members</p>
 
-                        <ngb-pagination class="pagination-ul" [collectionSize]="total" [rotate]="true" (pageChange)="pageChanged($event)"
+                        <!-- <ngb-pagination class="pagination-ul" [collectionSize]="total" [rotate]="true" (pageChange)="pageChanged($event)"
                           [pageSize]="databaseHelper.itemPerPage" [(page)]="databaseHelper.currentPage" [maxSize]="4"
                           [boundaryLinks]="true">
-                        </ngb-pagination>
+                        </ngb-pagination> -->
+                        <ngb-pagination lass="pagination-ul" [collectionSize]="total" [rotate]="true" (pageChange)="pageChanged($event)"
+                        [pageSize]="databaseHelper.itemPerPage" [(page)]="databaseHelper.currentPage" [maxSize]="4"
+                        [boundaryLinks]="true"></ngb-pagination>
 
 
 
                       </div>
                       <div class="modal-footer d-flex align-items-center justify-content-end bg-white">
-                        <button type="submit" class="btn p-0 next-btn">
-                          Next
+                        <button *ngIf="!userMappedLoading" type="button" (click)="getUserMappedWithPolicy(exitForm)"
+                        [disabled]="selectedStaffIdsUser.length == 0 || userMappedLoading" class="btn p-0 next-btn">
+                        {{this.exitPolicyReq.id == 0 ? 'Submit' : 'Update'}}
                           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
                             <path
                               d="M1.95801 11.0005C1.95801 10.8131 2.01656 10.6609 2.13366 10.5438C2.25076 10.4267 2.40299 10.3681 2.59035 10.3681H18.1179L13.9725 6.22276C13.832 6.08224 13.7618 5.9183 13.7618 5.73094C13.7618 5.54358 13.832 5.39135 13.9725 5.27424C14.1131 5.15714 14.277 5.09859 14.4644 5.09859C14.6517 5.09859 14.8157 5.14543 14.9562 5.23911L20.2257 10.5086C20.3194 10.6492 20.3662 10.8131 20.3662 11.0005C20.3662 11.1878 20.3194 11.3518 20.2257 11.4923L14.9562 16.7618C14.8157 16.8555 14.6517 16.9023 14.4644 16.9023C14.277 16.9023 14.1131 16.8438 13.9725 16.7267C13.832 16.6096 13.7618 16.4574 13.7618 16.27C13.7618 16.0826 13.832 15.9187 13.9725 15.7782L18.1179 11.6328H2.59035C2.40299 11.6328 2.25076 11.5743 2.13366 11.4572C2.01656 11.3401 1.95801 11.1878 1.95801 11.0005Z"
@@ -829,6 +666,13 @@ data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
                             </path>
                           </svg>
                         </button>
+
+                        <div class="dot-opacity-loader" *ngIf="userMappedLoading">
+                          <span></span>
+                          <span></span>
+                          <span></span>
+                        </div>
+
                       </div>
                     </div>
 

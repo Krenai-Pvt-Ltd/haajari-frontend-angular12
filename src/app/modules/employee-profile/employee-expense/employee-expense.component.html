@@ -1,15 +1,19 @@
 <div class="employee-detail-box">
-    <div class="attendance-history m-3 mt-3">
+    <div class="attendance-history m-3 mt-3 mb-4">
 
         <div class="mt-3">
             <ul id="pills-tab" role="tablist" class="nav nav-pills">
-                <li class="nav-item">
+                <li class="nav-item" (click)="getAllExpenses()">
                     <a id="pills-home-tab" data-bs-toggle="pill" href="#pending-expense" role="tab"
                         aria-controls="pills-home" aria-selected="true" class="nav-link active">All Expense</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" (click)="getPastExpense()">
                     <a id="pills-profile-tab" data-bs-toggle="pill" href="#past-expense" role="tab"
                         aria-controls="pills-profile" aria-selected="false" class="nav-link">Past Expense</a>
+                </li>
+                <li class="nav-item" (click)="getExpenseSettlementLog()">
+                    <a id="pills-profile-tab" data-bs-toggle="pill" href="#settlement-expense-log" role="tab"
+                        aria-controls="pills-profile" aria-selected="false" class="nav-link">Settlement Expense Log</a>
                 </li>
             </ul>
 
@@ -20,8 +24,8 @@
                         <div class="d-flex align-items-center justify-content-between">
                             <div class="d-flex align-items-center gap-3">
                                 <div class="d-flex align-items-center attendance-date">
-                                    <span
-                                        class=" d-flex align-items-center justify-content-center pointer calendar-back-btn">
+                                    <span class=" d-flex align-items-center justify-content-center pointer calendar-back-btn"
+                                        [class.disabled]="isPreviousDisabled()" (click)="goToPreviousMonth()">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21"
                                             viewBox="0 0 21 21" fill="none">
                                             <mask id="mask0_4719_1625" style="mask-type:alpha"
@@ -37,11 +41,13 @@
                                     </span>
                                     <span class="calendar-separator"></span>
                                     <div class="dropdown ">
-                                        <nz-date-picker nzMode="month" nzFormat="MMM, yyyy"></nz-date-picker>
+                                        <nz-date-picker nzMode="month" nzFormat="MMM, yyyy" [(ngModel)]="expenseSelectedDate"
+                                        (ngModelChange)="onExpenseMonthChange($event)" [nzDisabledDate]="disableMonths"></nz-date-picker>
+
                                     </div>
                                     <span class="calendar-separator"></span>
-                                    <span
-                                        class=" d-flex align-items-center justify-content-center pointer calendar-back-btn">
+                                    <span class=" d-flex align-items-center justify-content-center pointer calendar-back-btn"
+                                    [class.disabled]="isNextDisabled()" (click)="goToNextMonth()">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21"
                                             viewBox="0 0 21 21" fill="none">
                                             <mask id="mask0_4719_1639" style="mask-type:alpha"
@@ -52,40 +58,27 @@
                                             <g mask="url(#mask0_4719_1639)">
                                                 <path
                                                     d="M12.168 15.5L17.168 10.5L12.168 5.5L11.0013 6.70833L13.9596 9.66667H3.83464V11.3333H13.9596L11.0013 14.2917L12.168 15.5Z"
-                                                    fill="#060606" />
+                                                     fill="#060606" />
                                             </g>
                                         </svg>
                                     </span>
 
                                 </div>
 
-                                <nz-select class="request-dropdown" nzSize="large" nzPlaceHolder="Filter" required>
-                                    <nz-option [nzValue]="'Approved'" [nzLabel]="'Approved'"></nz-option>
-                                    <nz-option [nzValue]="'Pending'" [nzLabel]="'Pending'"></nz-option>
-                                    <nz-option [nzValue]="'Rejected'" [nzLabel]="'Rejected'"></nz-option>
-                                    <nz-option [nzValue]="'Settled With Payroll'"
-                                        [nzLabel]="'Settled With Payroll'"></nz-option>
+                                <nz-select [(ngModel)]="selectedStatus"  (ngModelChange)="filterByStatus($event)" class="request-dropdown placeholder-line desktop-filter" nzSize="large" nzPlaceHolder="Filter" required>
+                                    <nz-option [nzValue]="''" [nzLabel]="'All'"></nz-option>
+                                    <nz-option [nzValue]="14" [nzLabel]="'Approved'"></nz-option>
+                                    <nz-option [nzValue]="13" [nzLabel]="'Pending'"></nz-option>
+                                    <nz-option [nzValue]="15" [nzLabel]="'Rejected'"></nz-option>
+                                    <nz-option [nzValue]="40" [nzLabel]="'Settled With Payroll'"></nz-option>
                                 </nz-select>
 
                             </div>
 
 
-                            <div>
+                            <div *ngIf="ROLE != 'ADMIN'">
                                 <button data-bs-toggle="modal" data-bs-target="#apply-expense"
-                                    class="btn new-announcement">New Request &nbsp;
-                                    <span class="calendar-separator"></span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21"
-                                        fill="none">
-                                        <mask id="mask0_5566_935" maskUnits="userSpaceOnUse" x="0" y="0" width="20"
-                                            height="21" style="mask-type: alpha;">
-                                            <rect y="0.5" width="20" height="20" fill="#D9D9D9"></rect>
-                                        </mask>
-                                        <g mask="url(#mask0_5566_935)">
-                                            <path
-                                                d="M9.16667 18V11.3333H2.5V9.66667H9.16667V3H10.8333V9.66667H17.5V11.3333H10.8333V18H9.16667Z"
-                                                fill="#6666F2"></path>
-                                        </g>
-                                    </svg>
+                                    class="btn new-announcement">New Request 
                                 </button>
                             </div>
                         </div>
@@ -96,61 +89,52 @@
                                         <div class="expense-data p-3">
                                             <p class="text-success mb-3 font-13"><span class="approved"></span> Approved
                                             </p>
-                                            <h5 class="font-18 mb-1">₹24,344</h5>
-                                            <p class="mb-0">12 Bill</p>
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <h5 class="font-18 mb-0">₹ {{expenseCount.totalApprovedAmount}}</h5>
+                                                <p class="mb-0">{{expenseCount.approveCount}} Bill</p>
+                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="expense-data p-3">
-                                            <p class="text-warning mb-3 font-13"><span class="pending"></span> Pending
-                                            </p>
-                                            <h5 class="font-18 mb-1">₹4,344</h5>
-                                            <p class="mb-0">02 Bill</p>
+                                            <p class="text-warning mb-3 font-13"><span class="pending"></span> Pending  </p>
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <h5 class="font-18 mb-0">₹ {{expenseCount.totalPendingAmount}}</h5>
+                                                <p class="mb-0">{{expenseCount.pendingCount}} Bill</p>
+                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="expense-data p-3">
-                                            <p class="text-danger mb-3 font-13"><span class="canceled"></span> Rejected
-                                            </p>
-                                            <h5 class="font-18 mb-1">₹24,344</h5>
-                                            <p class="mb-0">02 Bill</p>
+                                            <p class="text-danger mb-3 font-13"><span class="canceled"></span> Rejected</p>
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <h5 class="font-18 mb-0">₹ {{expenseCount.totalRejectedAmount}}</h5>
+                                                <p class="mb-0">{{expenseCount.rejectCount}} Bill</p>
+                                             </div>
                                         </div>
                                     </div>
+
                                     <div class="col-md-3">
                                         <div class="expense-data p-3">
-                                            <p class="text-primary mb-3 font-13"><span class="paid"></span> Total Paid
-                                            </p>
-                                            <h5 class="font-18 mb-1">₹24,344</h5>
-                                            <p class="mb-0">02 Bill</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- <div class="col-md-5">
-                                <div class="expense-data p-3 d-flex align-items-center gap-3">
-                                    <div style="width:30%">
-                                        <img src="assets/images/expance-chart.webp" style="width:100px">
-                                    </div>
-                                    <div class="" style="width:70%">
-                                        <div
-                                            class="d-flex align-items-center justify-content-between border-bottom pb-2 mb-2">
-                                            <p class="mb-0 font-12">Most Expense on</p>
-                                            <p class="mb-0 font-12 text-black"> <span class="food"></span> Food</p>
-                                        </div>
-                                        <div
-                                            class="d-flex align-items-center justify-content-between border-bottom pb-2 mb-2">
-                                            <p class="mb-0 font-12">Least Expense on</p>
-                                            <p class="mb-0 font-12 text-black"> <span class="transport"></span>
-                                                Transport</p>
-                                        </div>
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <p class="mb-0 font-12">Today Expense</p>
-                                            <p class="mb-0 font-12 text-black">₹47,344</p>
+                                            <p class="text-primary mb-3 font-13"><span class="paid"></span> Total Paid</p>
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <h5 class="font-18 mb-0">₹ {{expenseCount.totalPaidAmount}}</h5>
+                                                <p class="mb-0">{{expenseCount.paidCount}} Bill</p>
+                                             </div>
+                                             <div class="d-flex gap-3">
+                                                <p>Settled: {{expenseCount.settledAmount}}</p><br>
+
+                                                <p *ngIf="expenseCount.newUnSettledAmount == 0">Un-Settled: {{expenseCount.unSettledAmount}}</p>
+                                                <p *ngIf="expenseCount.unSettledAmount == 0 && expenseCount.newUnSettledAmount > 0">Un-Settled: {{expenseCount.newUnSettledAmount}}</p>
+                                                <p *ngIf="expenseCount.unSettledAmount > 0 && expenseCount.newUnSettledAmount > 0">Un-Settled: {{expenseCount.unSettledAmount}} + {{expenseCount.newUnSettledAmount}}</p>
+
+                                            </div>
                                         </div>
                                     </div>
 
                                 </div>
-                            </div> -->
+                            </div>
+
                         </div>
                         <div class="table-responsive bg-white mt-3">
                             <table class="table empOnnoardtable">
@@ -160,6 +144,7 @@
                                         <th class="text-left font-13" style="width: 10%">Employee Name</th>
                                         <th class="text-left font-13" style="width: 10%">Expense Type</th>
                                         <th class="text-left font-13" style="width: 10%">Amount</th>
+                                        <th class="text-left font-13" style="width: 10%">Approved Amount</th>
                                         <th class="text-left font-13" style="width: 10%">Paid Amount</th>
                                         <th class="text-left font-13" style="width: 10%">Note</th>
                                         <th class="text-left font-13" style="width: 10%">Status</th>
@@ -167,7 +152,7 @@
                                     </tr>
                                 </thead>
 
-                                <!-- <tbody>
+                                <tbody *ngIf="loading">
                                     <tr *ngFor="let item of [].constructor(7)">
                                     <td>
                                         <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
@@ -193,191 +178,93 @@
                                     <td>
                                         <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
                                     </td>
-                                    </tr>
-                                </tbody> -->
-
-                                <!-- <tbody>
-                                    <tr>
-                                        <td colspan="8">
-                                            <div class="empty-filenew" style="margin-top: 7%; margin-bottom: 7%">
-                                                <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
-                                                    [nzNotFoundContent]="contentTpl">
-                                                    <ng-template #contentTpl>
-                                                        <p class="mb-1 empty-filenew">No data for now</p>
-                                                    </ng-template>
-                                                </nz-empty>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody> -->
-                                <tbody>
-                                    <!-- *ngFor="let item of [].constructor(7)" -->
-                                    <tr>
-                                        <td class="text-left">
-                                            <span class="table-font-weight">Tue, June 12 2022</span>
-                                        </td>
-                                        <td class="text-left">
-                                            <span> Albert Flores</span>
-                                        </td>
-                                        <td class="text-left">
-                                            <span class="table-font-weight">Office Supplies </span>
-                                        </td>
-                                        <td class="text-left">
-                                            <span class="table-font-weight"> ₹4,344 </span>
-                                        </td>
-                                        <td class="text-left">
-                                            <span class="table-font-weight"> ₹0 </span>
-                                        </td>
-                                        <td class="text-left">
-                                            <span class="table-font-weight white-space"> Lorem ipsum dolor sit amet
-                                                consectetur adipiscing elit ... </span>
-                                        </td>
-                                        <td class="text-left">
-                                           <span class="badge rounded-pill badge-soft-warning"> Pending </span>
-                                        </td>
-
-                                        <td class="text-center">
-                                            <button class="btn p-0 text-primary font-14 view-btn" data-bs-toggle="modal"
-                                                data-bs-target="#bill-snapshot">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
-                                                    <mask id="mask0_5908_672" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
-                                                        <rect x="0.708618" y="0.601562" width="20" height="20" fill="#D9D9D9" />
-                                                    </mask>
-                                                    <g mask="url(#mask0_5908_672)">
-                                                        <path
-                                                            d="M10.7085 13.9297C11.7502 13.9297 12.6356 13.5651 13.3648 12.8359C14.094 12.1068 14.4585 11.2214 14.4585 10.1797C14.4585 9.13802 14.094 8.2526 13.3648 7.52344C12.6356 6.79427 11.7502 6.42969 10.7085 6.42969C9.66687 6.42969 8.78145 6.79427 8.05229 7.52344C7.32312 8.2526 6.95854 9.13802 6.95854 10.1797C6.95854 11.2214 7.32312 12.1068 8.05229 12.8359C8.78145 13.5651 9.66687 13.9297 10.7085 13.9297ZM10.7085 12.4297C10.0835 12.4297 9.55229 12.2109 9.11479 11.7734C8.67729 11.3359 8.45854 10.8047 8.45854 10.1797C8.45854 9.55469 8.67729 9.02344 9.11479 8.58594C9.55229 8.14844 10.0835 7.92969 10.7085 7.92969C11.3335 7.92969 11.8648 8.14844 12.3023 8.58594C12.7398 9.02344 12.9585 9.55469 12.9585 10.1797C12.9585 10.8047 12.7398 11.3359 12.3023 11.7734C11.8648 12.2109 11.3335 12.4297 10.7085 12.4297ZM10.7085 16.4297C8.68076 16.4297 6.83354 15.8637 5.16687 14.7318C3.5002 13.5998 2.29187 12.0825 1.54187 10.1797C2.29187 8.27691 3.5002 6.75955 5.16687 5.6276C6.83354 4.49566 8.68076 3.92969 10.7085 3.92969C12.7363 3.92969 14.5835 4.49566 16.2502 5.6276C17.9169 6.75955 19.1252 8.27691 19.8752 10.1797C19.1252 12.0825 17.9169 13.5998 16.2502 14.7318C14.5835 15.8637 12.7363 16.4297 10.7085 16.4297ZM10.7085 14.763C12.278 14.763 13.719 14.3498 15.0315 13.5234C16.344 12.697 17.3474 11.5825 18.0419 10.1797C17.3474 8.77691 16.344 7.66233 15.0315 6.83594C13.719 6.00955 12.278 5.59635 10.7085 5.59635C9.13909 5.59635 7.69812 6.00955 6.38562 6.83594C5.07312 7.66233 4.06965 8.77691 3.3752 10.1797C4.06965 11.5825 5.07312 12.697 6.38562 13.5234C7.69812 14.3498 9.13909 14.763 10.7085 14.763Z"
-                                                            fill="#6666f3" />
-                                                    </g>
-                                                </svg>
-                                                View
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-left">
-                                            <span class="table-font-weight">Tue, June 12 2022</span>
-                                        </td>
-                                        <td class="text-left">
-                                            <span> Albert Flores</span>
-                                        </td>
-                                        <td class="text-left">
-                                            <span class="table-font-weight">Office Supplies </span>
-                                        </td>
-                                        <td class="text-left">
-                                            <span class="table-font-weight"> ₹4,344 </span>
-                                        </td>
-                                        <td class="text-left">
-                                            <span class="table-font-weight"> ₹0 </span>
-                                        </td>
-                                        <td class="text-left">
-                                            <span class="table-font-weight white-space"> Lorem ipsum dolor sit amet
-                                                consectetur adipiscing elit ... </span>
-                                        </td>
-                                        <td class="text-left">
-                                            <span class="badge rounded-pill badge-soft-success"> Approved </span>
-                                        </td>
-
-                                        <td class="text-center">
-                                            <button class="btn p-0 text-primary font-14 view-btn" data-bs-toggle="modal"
-                                                data-bs-target="#bill-snapshot">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
-                                                    <mask id="mask0_5908_672" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
-                                                        <rect x="0.708618" y="0.601562" width="20" height="20" fill="#D9D9D9" />
-                                                    </mask>
-                                                    <g mask="url(#mask0_5908_672)">
-                                                        <path
-                                                            d="M10.7085 13.9297C11.7502 13.9297 12.6356 13.5651 13.3648 12.8359C14.094 12.1068 14.4585 11.2214 14.4585 10.1797C14.4585 9.13802 14.094 8.2526 13.3648 7.52344C12.6356 6.79427 11.7502 6.42969 10.7085 6.42969C9.66687 6.42969 8.78145 6.79427 8.05229 7.52344C7.32312 8.2526 6.95854 9.13802 6.95854 10.1797C6.95854 11.2214 7.32312 12.1068 8.05229 12.8359C8.78145 13.5651 9.66687 13.9297 10.7085 13.9297ZM10.7085 12.4297C10.0835 12.4297 9.55229 12.2109 9.11479 11.7734C8.67729 11.3359 8.45854 10.8047 8.45854 10.1797C8.45854 9.55469 8.67729 9.02344 9.11479 8.58594C9.55229 8.14844 10.0835 7.92969 10.7085 7.92969C11.3335 7.92969 11.8648 8.14844 12.3023 8.58594C12.7398 9.02344 12.9585 9.55469 12.9585 10.1797C12.9585 10.8047 12.7398 11.3359 12.3023 11.7734C11.8648 12.2109 11.3335 12.4297 10.7085 12.4297ZM10.7085 16.4297C8.68076 16.4297 6.83354 15.8637 5.16687 14.7318C3.5002 13.5998 2.29187 12.0825 1.54187 10.1797C2.29187 8.27691 3.5002 6.75955 5.16687 5.6276C6.83354 4.49566 8.68076 3.92969 10.7085 3.92969C12.7363 3.92969 14.5835 4.49566 16.2502 5.6276C17.9169 6.75955 19.1252 8.27691 19.8752 10.1797C19.1252 12.0825 17.9169 13.5998 16.2502 14.7318C14.5835 15.8637 12.7363 16.4297 10.7085 16.4297ZM10.7085 14.763C12.278 14.763 13.719 14.3498 15.0315 13.5234C16.344 12.697 17.3474 11.5825 18.0419 10.1797C17.3474 8.77691 16.344 7.66233 15.0315 6.83594C13.719 6.00955 12.278 5.59635 10.7085 5.59635C9.13909 5.59635 7.69812 6.00955 6.38562 6.83594C5.07312 7.66233 4.06965 8.77691 3.3752 10.1797C4.06965 11.5825 5.07312 12.697 6.38562 13.5234C7.69812 14.3498 9.13909 14.763 10.7085 14.763Z"
-                                                            fill="#6666f3" />
-                                                    </g>
-                                                </svg>
-                                                View
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-left">
-                                            <span class="table-font-weight">Tue, June 12 2022</span>
-                                        </td>
-                                        <td class="text-left">
-                                            <span> Albert Flores</span>
-                                        </td>
-                                        <td class="text-left">
-                                            <span class="table-font-weight">Office Supplies </span>
-                                        </td>
-                                        <td class="text-left">
-                                            <span class="table-font-weight"> ₹4,344 </span>
-                                        </td>
-                                        <td class="text-left">
-                                            <span class="table-font-weight text-danger"> -₹10,344 </span>
-                                        </td>
-                                        <td class="text-left">
-                                            <span class="table-font-weight white-space"> Lorem ipsum dolor sit amet
-                                                consectetur adipiscing elit ... </span>
-                                        </td>
-                                        <td class="text-left">
-                                            <span class="badge rounded-pill badge-soft-danger"> Rejected </span>
-                                        </td>
-
-                                        <td class="text-center">
-                                            <button class="btn p-0 text-primary font-14 view-btn" data-bs-toggle="modal"
-                                                data-bs-target="#bill-snapshot">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
-                                                    <mask id="mask0_5908_672" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
-                                                        <rect x="0.708618" y="0.601562" width="20" height="20" fill="#D9D9D9" />
-                                                    </mask>
-                                                    <g mask="url(#mask0_5908_672)">
-                                                        <path
-                                                            d="M10.7085 13.9297C11.7502 13.9297 12.6356 13.5651 13.3648 12.8359C14.094 12.1068 14.4585 11.2214 14.4585 10.1797C14.4585 9.13802 14.094 8.2526 13.3648 7.52344C12.6356 6.79427 11.7502 6.42969 10.7085 6.42969C9.66687 6.42969 8.78145 6.79427 8.05229 7.52344C7.32312 8.2526 6.95854 9.13802 6.95854 10.1797C6.95854 11.2214 7.32312 12.1068 8.05229 12.8359C8.78145 13.5651 9.66687 13.9297 10.7085 13.9297ZM10.7085 12.4297C10.0835 12.4297 9.55229 12.2109 9.11479 11.7734C8.67729 11.3359 8.45854 10.8047 8.45854 10.1797C8.45854 9.55469 8.67729 9.02344 9.11479 8.58594C9.55229 8.14844 10.0835 7.92969 10.7085 7.92969C11.3335 7.92969 11.8648 8.14844 12.3023 8.58594C12.7398 9.02344 12.9585 9.55469 12.9585 10.1797C12.9585 10.8047 12.7398 11.3359 12.3023 11.7734C11.8648 12.2109 11.3335 12.4297 10.7085 12.4297ZM10.7085 16.4297C8.68076 16.4297 6.83354 15.8637 5.16687 14.7318C3.5002 13.5998 2.29187 12.0825 1.54187 10.1797C2.29187 8.27691 3.5002 6.75955 5.16687 5.6276C6.83354 4.49566 8.68076 3.92969 10.7085 3.92969C12.7363 3.92969 14.5835 4.49566 16.2502 5.6276C17.9169 6.75955 19.1252 8.27691 19.8752 10.1797C19.1252 12.0825 17.9169 13.5998 16.2502 14.7318C14.5835 15.8637 12.7363 16.4297 10.7085 16.4297ZM10.7085 14.763C12.278 14.763 13.719 14.3498 15.0315 13.5234C16.344 12.697 17.3474 11.5825 18.0419 10.1797C17.3474 8.77691 16.344 7.66233 15.0315 6.83594C13.719 6.00955 12.278 5.59635 10.7085 5.59635C9.13909 5.59635 7.69812 6.00955 6.38562 6.83594C5.07312 7.66233 4.06965 8.77691 3.3752 10.1797C4.06965 11.5825 5.07312 12.697 6.38562 13.5234C7.69812 14.3498 9.13909 14.763 10.7085 14.763Z"
-                                                            fill="#6666f3" />
-                                                    </g>
-                                                </svg>
-                                                View
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-left">
-                                            <span class="table-font-weight">Tue, June 12 2022</span>
-                                        </td>
-                                        <td class="text-left">
-                                            <span> Robert Fox</span>
-                                        </td>
-                                        <td class="text-left">
-                                            <span class="table-font-weight">Office Compliance </span>
-                                        </td>
-                                        <td class="text-left">
-                                            <span class="table-font-weight"> ₹4,344 </span>
-                                        </td>
-                                        <td class="text-left">
-                                            <span class="table-font-weight"> ₹4,344 </span>
-                                        </td>
-                                        <td class="text-left">
-                                            <span class="table-font-weight white-space"> Lorem ipsum dolor sit amet
-                                                consectetur adipiscing elit ... </span>
-                                        </td>
-                                        <td class="text-left">
-                                            <span class="badge rounded-pill badge-soft-primary"> Settled With Payroll </span>
-                                        </td>
-
-                                        <td class="text-center">
-                                            <button class="btn p-0 text-primary font-14 view-btn " data-bs-toggle="modal"
-                                                data-bs-target="#bill-snapshot">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
-                                                    <mask id="mask0_5908_672" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
-                                                        <rect x="0.708618" y="0.601562" width="20" height="20" fill="#D9D9D9" />
-                                                    </mask>
-                                                    <g mask="url(#mask0_5908_672)">
-                                                        <path
-                                                            d="M10.7085 13.9297C11.7502 13.9297 12.6356 13.5651 13.3648 12.8359C14.094 12.1068 14.4585 11.2214 14.4585 10.1797C14.4585 9.13802 14.094 8.2526 13.3648 7.52344C12.6356 6.79427 11.7502 6.42969 10.7085 6.42969C9.66687 6.42969 8.78145 6.79427 8.05229 7.52344C7.32312 8.2526 6.95854 9.13802 6.95854 10.1797C6.95854 11.2214 7.32312 12.1068 8.05229 12.8359C8.78145 13.5651 9.66687 13.9297 10.7085 13.9297ZM10.7085 12.4297C10.0835 12.4297 9.55229 12.2109 9.11479 11.7734C8.67729 11.3359 8.45854 10.8047 8.45854 10.1797C8.45854 9.55469 8.67729 9.02344 9.11479 8.58594C9.55229 8.14844 10.0835 7.92969 10.7085 7.92969C11.3335 7.92969 11.8648 8.14844 12.3023 8.58594C12.7398 9.02344 12.9585 9.55469 12.9585 10.1797C12.9585 10.8047 12.7398 11.3359 12.3023 11.7734C11.8648 12.2109 11.3335 12.4297 10.7085 12.4297ZM10.7085 16.4297C8.68076 16.4297 6.83354 15.8637 5.16687 14.7318C3.5002 13.5998 2.29187 12.0825 1.54187 10.1797C2.29187 8.27691 3.5002 6.75955 5.16687 5.6276C6.83354 4.49566 8.68076 3.92969 10.7085 3.92969C12.7363 3.92969 14.5835 4.49566 16.2502 5.6276C17.9169 6.75955 19.1252 8.27691 19.8752 10.1797C19.1252 12.0825 17.9169 13.5998 16.2502 14.7318C14.5835 15.8637 12.7363 16.4297 10.7085 16.4297ZM10.7085 14.763C12.278 14.763 13.719 14.3498 15.0315 13.5234C16.344 12.697 17.3474 11.5825 18.0419 10.1797C17.3474 8.77691 16.344 7.66233 15.0315 6.83594C13.719 6.00955 12.278 5.59635 10.7085 5.59635C9.13909 5.59635 7.69812 6.00955 6.38562 6.83594C5.07312 7.66233 4.06965 8.77691 3.3752 10.1797C4.06965 11.5825 5.07312 12.697 6.38562 13.5234C7.69812 14.3498 9.13909 14.763 10.7085 14.763Z"
-                                                            fill="#6666f3" />
-                                                    </g>
-                                                </svg>
-                                                View
-                                            </button>
-                                        </td>
+                                    <td>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </td>
                                     </tr>
                                 </tbody>
+
+                                <tbody *ngIf="!loading">
+                                    <ng-container *ngIf="expenseList.length == 0">
+                                        <tr>
+                                            <td colspan="8">
+                                                <div class="empty-filenew" style="margin-top: 7%; margin-bottom: 7%">
+                                                    <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                                        [nzNotFoundContent]="contentTpl">
+                                                        <ng-template #contentTpl>
+                                                            <p class="mb-1 empty-filenew">No data for now</p>
+                                                        </ng-template>
+                                                    </nz-empty>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </ng-container>
+
+                                <ng-container *ngIf="expenseList.length > 0">
+                                    <tr *ngFor="let expense of expenseList; let i= index">
+                                        <td class="text-left">
+                                            <!-- <span class="table-font-weight">Tue, June 12 2022</span> -->
+                                            <span class="table-font-weight">{{expense.createdDate | date: 'dd MMM yyyy'}}</span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span> {{expense.employeeName}}</span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span class="table-font-weight">{{expense.expenseType}} </span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span class="table-font-weight"> ₹ {{expense.amount}} </span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span class="table-font-weight"> ₹ {{expense.approvedAmount == null ? 0 : expense.approvedAmount }} </span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span class="table-font-weight"> ₹ {{expense.paidAmount == null ? 0 : expense.paidAmount}} </span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span class="table-font-weight white-space"> {{expense.notes}}  </span>
+                                        </td>
+                                        <!-- <td class="text-left">
+                                           <span class="badge rounded-pill badge-soft-warning"> Pending </span>
+                                        </td> -->
+                                        <td class="text-left">
+                                            <span class="badge rounded-pill "
+                                                [ngClass]="{'badge-soft-warning': expense.status.id == 13 || expense.status.id == 46, 'badge-soft-success': expense.status.id == 14,
+                                                'badge-soft-danger': expense.status.id == 15, 'badge-soft-primary': expense.status.id == 40 || expense.status.id == 48}" >
+                                                {{expense.status.response}}
+                                            </span>
+                                        </td>
+
+                                        <td class="text-center">
+                                            <!-- <button (click)="updateExpense(expense)" class="btn p-0 text-primary font-14 view-btn" data-bs-toggle="modal" data-bs-target="#bill-snapshot"> -->
+                                            <button (click)="updateExpense(expense)" class="btn p-0 text-primary font-14 view-btn" data-bs-toggle="modal" data-bs-target="#apply-expense">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
+                                                    <mask id="mask0_5908_672" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
+                                                        <rect x="0.708618" y="0.601562" width="20" height="20" fill="#D9D9D9" />
+                                                    </mask>
+                                                    <g mask="url(#mask0_5908_672)">
+                                                        <path
+                                                            d="M10.7085 13.9297C11.7502 13.9297 12.6356 13.5651 13.3648 12.8359C14.094 12.1068 14.4585 11.2214 14.4585 10.1797C14.4585 9.13802 14.094 8.2526 13.3648 7.52344C12.6356 6.79427 11.7502 6.42969 10.7085 6.42969C9.66687 6.42969 8.78145 6.79427 8.05229 7.52344C7.32312 8.2526 6.95854 9.13802 6.95854 10.1797C6.95854 11.2214 7.32312 12.1068 8.05229 12.8359C8.78145 13.5651 9.66687 13.9297 10.7085 13.9297ZM10.7085 12.4297C10.0835 12.4297 9.55229 12.2109 9.11479 11.7734C8.67729 11.3359 8.45854 10.8047 8.45854 10.1797C8.45854 9.55469 8.67729 9.02344 9.11479 8.58594C9.55229 8.14844 10.0835 7.92969 10.7085 7.92969C11.3335 7.92969 11.8648 8.14844 12.3023 8.58594C12.7398 9.02344 12.9585 9.55469 12.9585 10.1797C12.9585 10.8047 12.7398 11.3359 12.3023 11.7734C11.8648 12.2109 11.3335 12.4297 10.7085 12.4297ZM10.7085 16.4297C8.68076 16.4297 6.83354 15.8637 5.16687 14.7318C3.5002 13.5998 2.29187 12.0825 1.54187 10.1797C2.29187 8.27691 3.5002 6.75955 5.16687 5.6276C6.83354 4.49566 8.68076 3.92969 10.7085 3.92969C12.7363 3.92969 14.5835 4.49566 16.2502 5.6276C17.9169 6.75955 19.1252 8.27691 19.8752 10.1797C19.1252 12.0825 17.9169 13.5998 16.2502 14.7318C14.5835 15.8637 12.7363 16.4297 10.7085 16.4297ZM10.7085 14.763C12.278 14.763 13.719 14.3498 15.0315 13.5234C16.344 12.697 17.3474 11.5825 18.0419 10.1797C17.3474 8.77691 16.344 7.66233 15.0315 6.83594C13.719 6.00955 12.278 5.59635 10.7085 5.59635C9.13909 5.59635 7.69812 6.00955 6.38562 6.83594C5.07312 7.66233 4.06965 8.77691 3.3752 10.1797C4.06965 11.5825 5.07312 12.697 6.38562 13.5234C7.69812 14.3498 9.13909 14.763 10.7085 14.763Z"
+                                                            fill="#6666f3" />
+                                                    </g>
+                                                </svg>
+                                                View
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </ng-container>
+                            </tbody>
+
                             </table>
+
+                            <div class="d-flex align-items-center justify-content-between pagination-box-profile p-3 bg-white border-top" *ngIf="expenseList.length > 0 && totalItems > 9">
+                                <p class="mb-0 font-13">Showing {{ expenseList.length }} of {{ totalItems }} </p>
+                                <ngb-pagination class="pagition-box pagination-ul"  [collectionSize]="totalItems" [rotate]="true" (pageChange)="pageChanged($event)"
+                                [pageSize]="databaseHelper.itemPerPage"
+                                [(page)]="databaseHelper.currentPage" [maxSize]="4" [boundaryLinks]="true">
+                                </ngb-pagination>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -386,7 +273,8 @@
                         <div class="d-flex align-items-center justify-content-between">
                             <div class="d-flex align-items-center gap-3">
                                 <div class="d-flex align-items-center attendance-date">
-                                    <span class=" d-flex align-items-center justify-content-center pointer calendar-back-btn">
+                                    <span class=" d-flex align-items-center justify-content-center pointer calendar-back-btn"
+                                    [class.disabled]="isPreviousDisabled()" (click)="goToPreviousMonth()">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
                                             <mask id="mask0_4719_1625" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21"
                                                 height="21">
@@ -401,10 +289,13 @@
                                     </span>
                                     <span class="calendar-separator"></span>
                                     <div class="dropdown ">
-                                        <nz-date-picker nzMode="month" nzFormat="MMM, yyyy"></nz-date-picker>
+                                        <!-- <nz-date-picker nzMode="month" nzFormat="MMM, yyyy"></nz-date-picker> -->
+                                        <nz-date-picker nzMode="month"  nzFormat="MMM, yyyy" [(ngModel)]="expenseSelectedDate"
+                                        (ngModelChange)="onExpenseMonthChange($event)" [nzDisabledDate]="disableMonths" ></nz-date-picker>
                                     </div>
                                     <span class="calendar-separator"></span>
-                                    <span class=" d-flex align-items-center justify-content-center pointer calendar-back-btn">
+                                    <span class=" d-flex align-items-center justify-content-center pointer calendar-back-btn"
+                                    [class.disabled]="isNextDisabled()" (click)="goToNextMonth()">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
                                             <mask id="mask0_4719_1639" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21"
                                                 height="21">
@@ -417,35 +308,18 @@
                                             </g>
                                         </svg>
                                     </span>
-                        
+
                                 </div>
-                        
-                                <nz-select class="request-dropdown" nzSize="large" nzPlaceHolder="Filter" required>
-                                    <nz-option [nzValue]="'Attendance update'" [nzLabel]="'Attendance update'"></nz-option>
-                                    <nz-option [nzValue]="'Overtime'" [nzLabel]="'Overtime'"></nz-option>
-                                    <nz-option [nzValue]="'Lop reversal'" [nzLabel]="'Lop reversal'"></nz-option>
-                                </nz-select>
-                        
                             </div>
-                        
-                        
-                            <div>
+
+
+                            <div *ngIf="ROLE != 'ADMIN'">
                                 <button data-bs-toggle="modal" data-bs-target="#apply-expense" class="btn new-announcement">New Request &nbsp;
-                                    <span class="calendar-separator"></span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
-                                        <mask id="mask0_5566_935" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21"
-                                            style="mask-type: alpha;">
-                                            <rect y="0.5" width="20" height="20" fill="#D9D9D9"></rect>
-                                        </mask>
-                                        <g mask="url(#mask0_5566_935)">
-                                            <path d="M9.16667 18V11.3333H2.5V9.66667H9.16667V3H10.8333V9.66667H17.5V11.3333H10.8333V18H9.16667Z"
-                                                fill="#6666F2"></path>
-                                        </g>
-                                    </svg>
+                                    
                                 </button>
                             </div>
                         </div>
-                      
+
                         <div class="table-responsive bg-white mt-3">
                             <table class="table empOnnoardtable">
                                 <thead class="thead-light">
@@ -454,182 +328,271 @@
                                         <th class="text-left font-13" style="width: 10%">Settlement Date</th>
                                         <th class="text-left font-13" style="width: 10%">Employee Name</th>
                                         <th class="text-left font-13" style="width: 10%">Expense Type</th>
-                                        <th class="text-left font-13" style="width: 10%">Paid Amount</th>
+                                        <th class="text-left font-13" style="width: 10%">Expense Amount</th>
+                                        <th class="text-left font-13" style="width: 10%">Settled Amount</th>
+                                        <th class="text-left font-13" style="width: 10%">Transaction ID</th>
                                         <th class="text-left font-13" style="width: 10%">Note</th>
                                         <th class="text-left font-13" style="width: 10%">Status</th>
                                         <th class="text-center font-13" style="width: 10%">Bill Snapshot</th>
                                     </tr>
                                 </thead>
 
-                               
-                                <tbody>
-                                 
-                                    <tr>
-                                        <td class="text-left">
-                                            <span class="table-font-weight">Tue, June 12 2022</span>
-                                        </td>
-                                        <td class="text-left">
-                                            <span class="table-font-weight"> Tue, June 12 2022 </span>
-                                        </td>
-                                        <td class="text-left">
-                                            <span> Albert Flores</span>
-                                        </td>
-                                        <td class="text-left">
-                                            <span class="table-font-weight">Office Supplies </span>
-                                        </td>
-                                        
-                                        <td class="text-left">
-                                            <span class="table-font-weight"> ₹0 </span>
-                                        </td>
-                                        <td class="text-left">
-                                            <span class="table-font-weight white-space"> Lorem ipsum dolor sit amet consectetur adipiscing elit
-                                                ... </span>
-                                        </td>
-                                        <td class="text-left">
-                                            <span class="badge rounded-pill badge-soft-warning"> Pending </span>
-                                        </td>
-                        
-                                        <td class="text-center">
-                                            <button class="btn p-0 text-primary font-14 view-btn" data-bs-toggle="modal" data-bs-target="#bill-snapshot">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
-                                                    <mask id="mask0_5908_672" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
-                                                        <rect x="0.708618" y="0.601562" width="20" height="20" fill="#D9D9D9" />
-                                                    </mask>
-                                                    <g mask="url(#mask0_5908_672)">
-                                                        <path
-                                                            d="M10.7085 13.9297C11.7502 13.9297 12.6356 13.5651 13.3648 12.8359C14.094 12.1068 14.4585 11.2214 14.4585 10.1797C14.4585 9.13802 14.094 8.2526 13.3648 7.52344C12.6356 6.79427 11.7502 6.42969 10.7085 6.42969C9.66687 6.42969 8.78145 6.79427 8.05229 7.52344C7.32312 8.2526 6.95854 9.13802 6.95854 10.1797C6.95854 11.2214 7.32312 12.1068 8.05229 12.8359C8.78145 13.5651 9.66687 13.9297 10.7085 13.9297ZM10.7085 12.4297C10.0835 12.4297 9.55229 12.2109 9.11479 11.7734C8.67729 11.3359 8.45854 10.8047 8.45854 10.1797C8.45854 9.55469 8.67729 9.02344 9.11479 8.58594C9.55229 8.14844 10.0835 7.92969 10.7085 7.92969C11.3335 7.92969 11.8648 8.14844 12.3023 8.58594C12.7398 9.02344 12.9585 9.55469 12.9585 10.1797C12.9585 10.8047 12.7398 11.3359 12.3023 11.7734C11.8648 12.2109 11.3335 12.4297 10.7085 12.4297ZM10.7085 16.4297C8.68076 16.4297 6.83354 15.8637 5.16687 14.7318C3.5002 13.5998 2.29187 12.0825 1.54187 10.1797C2.29187 8.27691 3.5002 6.75955 5.16687 5.6276C6.83354 4.49566 8.68076 3.92969 10.7085 3.92969C12.7363 3.92969 14.5835 4.49566 16.2502 5.6276C17.9169 6.75955 19.1252 8.27691 19.8752 10.1797C19.1252 12.0825 17.9169 13.5998 16.2502 14.7318C14.5835 15.8637 12.7363 16.4297 10.7085 16.4297ZM10.7085 14.763C12.278 14.763 13.719 14.3498 15.0315 13.5234C16.344 12.697 17.3474 11.5825 18.0419 10.1797C17.3474 8.77691 16.344 7.66233 15.0315 6.83594C13.719 6.00955 12.278 5.59635 10.7085 5.59635C9.13909 5.59635 7.69812 6.00955 6.38562 6.83594C5.07312 7.66233 4.06965 8.77691 3.3752 10.1797C4.06965 11.5825 5.07312 12.697 6.38562 13.5234C7.69812 14.3498 9.13909 14.763 10.7085 14.763Z"
-                                                            fill="#6666f3" />
-                                                    </g>
-                                                </svg>
-                                                View
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-left">
-                                            <span class="table-font-weight">Tue, June 12 2022</span>
-                                        </td>
-                                        <td class="text-left">
-                                            <span class="table-font-weight"> Tue, June 12 2022 </span>
-                                        </td>
-                                        <td class="text-left">
-                                            <span> Albert Flores</span>
-                                        </td>
-                                        <td class="text-left">
-                                            <span class="table-font-weight">Office Supplies </span>
-                                        </td>
-                                        <td class="text-left">
-                                            <span class="table-font-weight"> ₹0 </span>
-                                        </td>
-                                        <td class="text-left">
-                                            <span class="table-font-weight white-space"> Lorem ipsum dolor sit amet consectetur adipiscing elit
-                                                ... </span>
-                                        </td>
-                                        <td class="text-left">
-                                            <span class="badge rounded-pill badge-soft-success"> Approved </span>
-                                        </td>
-                        
-                                        <td class="text-center">
-                                            <button class="btn p-0 text-primary font-14 view-btn" data-bs-toggle="modal" data-bs-target="#bill-snapshot">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
-                                                    <mask id="mask0_5908_672" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
-                                                        <rect x="0.708618" y="0.601562" width="20" height="20" fill="#D9D9D9" />
-                                                    </mask>
-                                                    <g mask="url(#mask0_5908_672)">
-                                                        <path
-                                                            d="M10.7085 13.9297C11.7502 13.9297 12.6356 13.5651 13.3648 12.8359C14.094 12.1068 14.4585 11.2214 14.4585 10.1797C14.4585 9.13802 14.094 8.2526 13.3648 7.52344C12.6356 6.79427 11.7502 6.42969 10.7085 6.42969C9.66687 6.42969 8.78145 6.79427 8.05229 7.52344C7.32312 8.2526 6.95854 9.13802 6.95854 10.1797C6.95854 11.2214 7.32312 12.1068 8.05229 12.8359C8.78145 13.5651 9.66687 13.9297 10.7085 13.9297ZM10.7085 12.4297C10.0835 12.4297 9.55229 12.2109 9.11479 11.7734C8.67729 11.3359 8.45854 10.8047 8.45854 10.1797C8.45854 9.55469 8.67729 9.02344 9.11479 8.58594C9.55229 8.14844 10.0835 7.92969 10.7085 7.92969C11.3335 7.92969 11.8648 8.14844 12.3023 8.58594C12.7398 9.02344 12.9585 9.55469 12.9585 10.1797C12.9585 10.8047 12.7398 11.3359 12.3023 11.7734C11.8648 12.2109 11.3335 12.4297 10.7085 12.4297ZM10.7085 16.4297C8.68076 16.4297 6.83354 15.8637 5.16687 14.7318C3.5002 13.5998 2.29187 12.0825 1.54187 10.1797C2.29187 8.27691 3.5002 6.75955 5.16687 5.6276C6.83354 4.49566 8.68076 3.92969 10.7085 3.92969C12.7363 3.92969 14.5835 4.49566 16.2502 5.6276C17.9169 6.75955 19.1252 8.27691 19.8752 10.1797C19.1252 12.0825 17.9169 13.5998 16.2502 14.7318C14.5835 15.8637 12.7363 16.4297 10.7085 16.4297ZM10.7085 14.763C12.278 14.763 13.719 14.3498 15.0315 13.5234C16.344 12.697 17.3474 11.5825 18.0419 10.1797C17.3474 8.77691 16.344 7.66233 15.0315 6.83594C13.719 6.00955 12.278 5.59635 10.7085 5.59635C9.13909 5.59635 7.69812 6.00955 6.38562 6.83594C5.07312 7.66233 4.06965 8.77691 3.3752 10.1797C4.06965 11.5825 5.07312 12.697 6.38562 13.5234C7.69812 14.3498 9.13909 14.763 10.7085 14.763Z"
-                                                            fill="#6666f3" />
-                                                    </g>
-                                                </svg>
-                                                View
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-left">
-                                            <span class="table-font-weight">Tue, June 12 2022</span>
-                                        </td>
-                                        <td class="text-left">
-                                            <span class="table-font-weight"> Tue, June 12 2022 </span>
-                                        </td>
-                                        <td class="text-left">
-                                            <span> Albert Flores</span>
-                                        </td>
-                                        <td class="text-left">
-                                            <span class="table-font-weight">Office Supplies </span>
-                                        </td>
-                                        <td class="text-left">
-                                            <span class="table-font-weight"> ₹10,344 </span>
-                                        </td>
-                                        <td class="text-left">
-                                            <span class="table-font-weight white-space"> Lorem ipsum dolor sit amet consectetur adipiscing elit
-                                                ... </span>
-                                        </td>
-                                        <td class="text-left">
-                                            <span class="badge rounded-pill badge-soft-danger"> Rejected </span>
-                                        </td>
-                        
-                                        <td class="text-center">
-                                            <button class="btn p-0 text-primary font-14 view-btn" data-bs-toggle="modal" data-bs-target="#bill-snapshot">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
-                                                    <mask id="mask0_5908_672" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
-                                                        <rect x="0.708618" y="0.601562" width="20" height="20" fill="#D9D9D9" />
-                                                    </mask>
-                                                    <g mask="url(#mask0_5908_672)">
-                                                        <path
-                                                            d="M10.7085 13.9297C11.7502 13.9297 12.6356 13.5651 13.3648 12.8359C14.094 12.1068 14.4585 11.2214 14.4585 10.1797C14.4585 9.13802 14.094 8.2526 13.3648 7.52344C12.6356 6.79427 11.7502 6.42969 10.7085 6.42969C9.66687 6.42969 8.78145 6.79427 8.05229 7.52344C7.32312 8.2526 6.95854 9.13802 6.95854 10.1797C6.95854 11.2214 7.32312 12.1068 8.05229 12.8359C8.78145 13.5651 9.66687 13.9297 10.7085 13.9297ZM10.7085 12.4297C10.0835 12.4297 9.55229 12.2109 9.11479 11.7734C8.67729 11.3359 8.45854 10.8047 8.45854 10.1797C8.45854 9.55469 8.67729 9.02344 9.11479 8.58594C9.55229 8.14844 10.0835 7.92969 10.7085 7.92969C11.3335 7.92969 11.8648 8.14844 12.3023 8.58594C12.7398 9.02344 12.9585 9.55469 12.9585 10.1797C12.9585 10.8047 12.7398 11.3359 12.3023 11.7734C11.8648 12.2109 11.3335 12.4297 10.7085 12.4297ZM10.7085 16.4297C8.68076 16.4297 6.83354 15.8637 5.16687 14.7318C3.5002 13.5998 2.29187 12.0825 1.54187 10.1797C2.29187 8.27691 3.5002 6.75955 5.16687 5.6276C6.83354 4.49566 8.68076 3.92969 10.7085 3.92969C12.7363 3.92969 14.5835 4.49566 16.2502 5.6276C17.9169 6.75955 19.1252 8.27691 19.8752 10.1797C19.1252 12.0825 17.9169 13.5998 16.2502 14.7318C14.5835 15.8637 12.7363 16.4297 10.7085 16.4297ZM10.7085 14.763C12.278 14.763 13.719 14.3498 15.0315 13.5234C16.344 12.697 17.3474 11.5825 18.0419 10.1797C17.3474 8.77691 16.344 7.66233 15.0315 6.83594C13.719 6.00955 12.278 5.59635 10.7085 5.59635C9.13909 5.59635 7.69812 6.00955 6.38562 6.83594C5.07312 7.66233 4.06965 8.77691 3.3752 10.1797C4.06965 11.5825 5.07312 12.697 6.38562 13.5234C7.69812 14.3498 9.13909 14.763 10.7085 14.763Z"
-                                                            fill="#6666f3" />
-                                                    </g>
-                                                </svg>
-                                                View
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-left">
-                                            <span class="table-font-weight">Tue, June 12 2022</span>
-                                        </td>
-                                        <td class="text-left">
-                                            <span class="table-font-weight"> Tue, June 12 2022 </span>
-                                        </td>
-                                        <td class="text-left">
-                                            <span> Robert Fox</span>
-                                        </td>
-                                        <td class="text-left">
-                                            <span class="table-font-weight">Office Compliance </span>
-                                        </td>
-                                        <td class="text-left">
-                                            <span class="table-font-weight"> ₹4,344 </span>
-                                        </td>
-                                        <td class="text-left">
-                                            <span class="table-font-weight white-space"> Lorem ipsum dolor sit amet consectetur adipiscing elit
-                                                ... </span>
-                                        </td>
-                                        <td class="text-left">
-                                            <span class="badge rounded-pill badge-soft-primary"> Settled With Payroll </span>
-                                        </td>
-                        
-                                        <td class="text-center">
-                                            <button class="btn p-0 text-primary font-14 view-btn" data-bs-toggle="modal" data-bs-target="#bill-snapshot">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
-                                                <mask id="mask0_5908_672" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
-                                                    <rect x="0.708618" y="0.601562" width="20" height="20" fill="#D9D9D9" />
-                                                </mask>
-                                                <g mask="url(#mask0_5908_672)">
-                                                    <path
-                                                        d="M10.7085 13.9297C11.7502 13.9297 12.6356 13.5651 13.3648 12.8359C14.094 12.1068 14.4585 11.2214 14.4585 10.1797C14.4585 9.13802 14.094 8.2526 13.3648 7.52344C12.6356 6.79427 11.7502 6.42969 10.7085 6.42969C9.66687 6.42969 8.78145 6.79427 8.05229 7.52344C7.32312 8.2526 6.95854 9.13802 6.95854 10.1797C6.95854 11.2214 7.32312 12.1068 8.05229 12.8359C8.78145 13.5651 9.66687 13.9297 10.7085 13.9297ZM10.7085 12.4297C10.0835 12.4297 9.55229 12.2109 9.11479 11.7734C8.67729 11.3359 8.45854 10.8047 8.45854 10.1797C8.45854 9.55469 8.67729 9.02344 9.11479 8.58594C9.55229 8.14844 10.0835 7.92969 10.7085 7.92969C11.3335 7.92969 11.8648 8.14844 12.3023 8.58594C12.7398 9.02344 12.9585 9.55469 12.9585 10.1797C12.9585 10.8047 12.7398 11.3359 12.3023 11.7734C11.8648 12.2109 11.3335 12.4297 10.7085 12.4297ZM10.7085 16.4297C8.68076 16.4297 6.83354 15.8637 5.16687 14.7318C3.5002 13.5998 2.29187 12.0825 1.54187 10.1797C2.29187 8.27691 3.5002 6.75955 5.16687 5.6276C6.83354 4.49566 8.68076 3.92969 10.7085 3.92969C12.7363 3.92969 14.5835 4.49566 16.2502 5.6276C17.9169 6.75955 19.1252 8.27691 19.8752 10.1797C19.1252 12.0825 17.9169 13.5998 16.2502 14.7318C14.5835 15.8637 12.7363 16.4297 10.7085 16.4297ZM10.7085 14.763C12.278 14.763 13.719 14.3498 15.0315 13.5234C16.344 12.697 17.3474 11.5825 18.0419 10.1797C17.3474 8.77691 16.344 7.66233 15.0315 6.83594C13.719 6.00955 12.278 5.59635 10.7085 5.59635C9.13909 5.59635 7.69812 6.00955 6.38562 6.83594C5.07312 7.66233 4.06965 8.77691 3.3752 10.1797C4.06965 11.5825 5.07312 12.697 6.38562 13.5234C7.69812 14.3498 9.13909 14.763 10.7085 14.763Z"
-                                                        fill="#6666f3" />
-                                                </g>
-                                            </svg>
-                                            View
-                                            </button>
-                                        </td>
+
+                                <tbody *ngIf="loading">
+                                    <tr *ngFor="let item of [].constructor(8)">
+                                    <td>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </td>
+                                    <td>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </td>
+                                    <td>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </td>
+                                    <td>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </td>
+                                    <td>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </td>
+                                    <td>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </td>
+                                    <td>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </td>
+                                    <td>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </td>
+                                    <td>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </td>
+                                    <td>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </td>
                                     </tr>
                                 </tbody>
+
+                                <tbody *ngIf="!loading">
+                                    <ng-container *ngIf="expenseList.length == 0">
+                                        <tr>
+                                            <td colspan="10">
+                                                <div class="empty-filenew" style="margin-top: 7%; margin-bottom: 7%">
+                                                    <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                                        [nzNotFoundContent]="contentTpl">
+                                                        <ng-template #contentTpl>
+                                                            <p class="mb-1 empty-filenew">No data for now</p>
+                                                        </ng-template>
+                                                    </nz-empty>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </ng-container>
+
+                                <ng-container *ngIf="expenseList.length > 0">
+                                    <tr *ngFor="let expense of expenseList; let i= index">
+                                        <td class="text-left">
+                                            <span class="table-font-weight">{{expense.createdDate | date: 'dd MMM yyyy'}}</span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span class="table-font-weight">{{expense.settledDate | date: 'dd MMM yyyy'}}</span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span>{{expense.employeeName}}</span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span class="table-font-weight">{{expense.expenseType}} </span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span class="table-font-weight"> ₹ {{expense.amount}} </span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span class="table-font-weight"> ₹ {{expense.paidAmount == null ? 0 : expense.paidAmount}} </span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span class="table-font-weight"> {{expense.transactionId == null || expense.transactionId == '' ? 'N/A' : expense.transactionId}} </span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span class="table-font-weight white-space"> {{expense.notes}} </span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span class="badge rounded-pill"
+                                                [ngClass]="{'badge-soft-warning': expense.status.id == 13, 'badge-soft-success': expense.status.id == 41,
+                                                'badge-soft-danger': expense.status.id == 15, 'badge-soft-primary': expense.status.id == 40}" >
+                                                {{expense.status.response}}
+                                            </span>
+                                        </td>
+
+                                        <td class="text-center">
+                                            <button class="btn p-0 text-black font-14 view-btn" (click)="updateExpense(expense)" data-bs-toggle="modal" data-bs-target="#apply-expense">View
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
+                                                    <mask id="mask0_5908_672" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
+                                                        <rect x="0.708618" y="0.601562" width="20" height="20" fill="#D9D9D9" />
+                                                    </mask>
+                                                    <g mask="url(#mask0_5908_672)">
+                                                        <path
+                                                            d="M10.7085 13.9297C11.7502 13.9297 12.6356 13.5651 13.3648 12.8359C14.094 12.1068 14.4585 11.2214 14.4585 10.1797C14.4585 9.13802 14.094 8.2526 13.3648 7.52344C12.6356 6.79427 11.7502 6.42969 10.7085 6.42969C9.66687 6.42969 8.78145 6.79427 8.05229 7.52344C7.32312 8.2526 6.95854 9.13802 6.95854 10.1797C6.95854 11.2214 7.32312 12.1068 8.05229 12.8359C8.78145 13.5651 9.66687 13.9297 10.7085 13.9297ZM10.7085 12.4297C10.0835 12.4297 9.55229 12.2109 9.11479 11.7734C8.67729 11.3359 8.45854 10.8047 8.45854 10.1797C8.45854 9.55469 8.67729 9.02344 9.11479 8.58594C9.55229 8.14844 10.0835 7.92969 10.7085 7.92969C11.3335 7.92969 11.8648 8.14844 12.3023 8.58594C12.7398 9.02344 12.9585 9.55469 12.9585 10.1797C12.9585 10.8047 12.7398 11.3359 12.3023 11.7734C11.8648 12.2109 11.3335 12.4297 10.7085 12.4297ZM10.7085 16.4297C8.68076 16.4297 6.83354 15.8637 5.16687 14.7318C3.5002 13.5998 2.29187 12.0825 1.54187 10.1797C2.29187 8.27691 3.5002 6.75955 5.16687 5.6276C6.83354 4.49566 8.68076 3.92969 10.7085 3.92969C12.7363 3.92969 14.5835 4.49566 16.2502 5.6276C17.9169 6.75955 19.1252 8.27691 19.8752 10.1797C19.1252 12.0825 17.9169 13.5998 16.2502 14.7318C14.5835 15.8637 12.7363 16.4297 10.7085 16.4297ZM10.7085 14.763C12.278 14.763 13.719 14.3498 15.0315 13.5234C16.344 12.697 17.3474 11.5825 18.0419 10.1797C17.3474 8.77691 16.344 7.66233 15.0315 6.83594C13.719 6.00955 12.278 5.59635 10.7085 5.59635C9.13909 5.59635 7.69812 6.00955 6.38562 6.83594C5.07312 7.66233 4.06965 8.77691 3.3752 10.1797C4.06965 11.5825 5.07312 12.697 6.38562 13.5234C7.69812 14.3498 9.13909 14.763 10.7085 14.763Z"
+                                                            fill="#1C1B1F" />
+                                                    </g>
+                                                </svg>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    </ng-container>
+                                </tbody>
+
                             </table>
+
+                            <div class="d-flex align-items-center justify-content-between pagination-box-profile p-3 bg-white border-top"  *ngIf="expenseList.length > 0 && totalItems > 9">
+                                <p class="mb-0 font-13">Showing {{ expenseList.length }} of {{ totalItems }} </p>
+                                <ngb-pagination class="pagition-box pagination-ul" [collectionSize]="totalItems" [rotate]="true" (pageChange)="pageChanged($event)"
+                                [pageSize]="databaseHelper.itemPerPage" [(page)]="databaseHelper.currentPage" [maxSize]="4"
+                                [boundaryLinks]="true"></ngb-pagination>2
+                              </div>
+
                         </div>
                     </div>
                 </div>
+
+                <div class="tab-pane fade pt-3" id="settlement-expense-log" role="tabpanel" aria-labelledby="leaves-tab">
+                    <div>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="d-flex align-items-center attendance-date">
+                                    <span class=" d-flex align-items-center justify-content-center pointer calendar-back-btn"
+                                    [class.disabled]="isPreviousDisabled()" (click)="goToPreviousMonth()">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
+                                            <mask id="mask0_4719_1625" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21"
+                                                height="21">
+                                                <rect x="0.5" y="0.5" width="20" height="20" fill="#D9D9D9" />
+                                            </mask>
+                                            <g mask="url(#mask0_4719_1625)">
+                                                <path
+                                                    d="M8.83203 15.5L3.83203 10.5L8.83203 5.5L9.9987 6.70833L7.04036 9.66667H17.1654V11.3333H7.04036L9.9987 14.2917L8.83203 15.5Z"
+                                                    fill="#060606" />
+                                            </g>
+                                        </svg>
+                                    </span>
+                                    <span class="calendar-separator"></span>
+                                    <div class="dropdown ">
+                                        <nz-date-picker nzMode="month"  nzFormat="MMM, yyyy" [(ngModel)]="expenseSelectedDate"
+                                        (ngModelChange)="onExpenseMonthChange($event)" [nzDisabledDate]="disableMonths" ></nz-date-picker>
+                                    </div>
+                                    <span class="calendar-separator"></span>
+                                    <span class=" d-flex align-items-center justify-content-center pointer calendar-back-btn"
+                                    [class.disabled]="isNextDisabled()" (click)="goToNextMonth()">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
+                                            <mask id="mask0_4719_1639" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21"
+                                                height="21">
+                                                <rect width="20" height="20" transform="matrix(-1 0 0 1 20.5 0.5)" fill="#D9D9D9" />
+                                            </mask>
+                                            <g mask="url(#mask0_4719_1639)">
+                                                <path
+                                                    d="M12.168 15.5L17.168 10.5L12.168 5.5L11.0013 6.70833L13.9596 9.66667H3.83464V11.3333H13.9596L11.0013 14.2917L12.168 15.5Z"
+                                                    fill="#060606" />
+                                            </g>
+                                        </svg>
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <div *ngIf="ROLE != 'ADMIN'">
+                                <button data-bs-toggle="modal" data-bs-target="#apply-expense" class="btn new-announcement">New Request &nbsp;
+                                    
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive bg-white mt-3">
+                            <table class="table empOnnoardtable">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th class="text-left font-13" style="width: 10%">Settlement Date</th>
+                                        <th class="text-left font-13" style="width: 10%">Employee Name</th>
+                                        <th class="text-left font-13" style="width: 10%">Settled Amount</th>
+                                        <th class="text-left font-13" style="width: 10%">Payment Method</th>
+                                        <th class="text-left font-13" style="width: 10%">Transaction ID</th>
+                                    </tr>
+                                </thead>
+
+
+                                <tbody *ngIf="settlementLoading">
+                                    <tr *ngFor="let item of [].constructor(8)">
+                                    <td>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </td>
+                                    <td>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </td>
+                                    <td>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </td>
+                                    <td>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </td>
+                                    <td>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </td>
+                                    </tr>
+                                </tbody>
+
+                                <tbody *ngIf="!settlementLoading">
+                                    <ng-container *ngIf="settlementExpenseList.length == 0">
+                                        <tr>
+                                            <td colspan="10">
+                                                <div class="empty-filenew" style="margin-top: 7%; margin-bottom: 7%">
+                                                    <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                                        [nzNotFoundContent]="contentTpl">
+                                                        <ng-template #contentTpl>
+                                                            <p class="mb-1 empty-filenew">No data for now</p>
+                                                        </ng-template>
+                                                    </nz-empty>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </ng-container>
+
+                                <ng-container *ngIf="settlementExpenseList.length > 0">
+                                    <tr *ngFor="let expense of settlementExpenseList; let i= index">
+                                        <td class="text-left">
+                                            <span class="table-font-weight">{{expense.createdDate | date: 'dd MMM yyyy'}}</span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span>{{expense.employeeName}}</span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span class="table-font-weight"> ₹ {{expense.amount}} </span>
+                                        </td>
+
+                                        <td class="text-left">
+                                            <span class="table-font-weight"> {{ expense?.paymentMethod?.toUpperCase() }} </span>
+                                        </td>
+
+                                        
+                                        <td class="text-left">
+                                            <span class="table-font-weight"> {{expense?.transactionId == null || expense?.transactionId == '' ? 'N/A' : expense?.transactionId}} </span>
+                                        </td>
+                                       
+                                    </tr>
+                                    </ng-container>
+                                </tbody>
+
+                            </table>
+
+                            <div class="d-flex align-items-center justify-content-between pagination-box-profile p-3 bg-white border-top"  *ngIf="expenseList.length > 0 && totalItems > 9">
+                                <p class="mb-0 font-13">Showing {{ expenseList.length }} of {{ totalItems }} </p>
+                                <ngb-pagination class="pagition-box pagination-ul" [collectionSize]="totalItems" [rotate]="true" (pageChange)="pageChanged($event)"
+                                [pageSize]="databaseHelper.itemPerPage" [(page)]="databaseHelper.currentPage" [maxSize]="4"
+                                [boundaryLinks]="true"></ngb-pagination>2
+                              </div>
+
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -766,6 +729,7 @@
                                 <textarea class="form-control nots-section" id="exampleFormControlTextarea1"
                                     placeholder="Write the note" rows="3"></textarea>
                             </div>
+
                         </div>
 
                         <div class="d-flex align-items-center justify-content-between p-3">
@@ -773,9 +737,6 @@
                                 <p class="mb-0">Status</p>
                                 <span class="action-btn"></span>
                                 <p class="mb-0 text-warning">Pending</p>
-                                <!-- <p class="mb-0 text-success">Your request is approved. Please wait a few days for expense reimbursement.</p> -->
-                                <!-- <p class="mb-0 text-success">Your request has been approved, and reimbursement will be made in cash.</p> -->
-                                <!-- <p class="mb-0 text-danger">Your request has been rejected by the admin</p> -->
                             </div>
                             <div class="d-flex align-items-center gap-2">
                                 <button class="btn cancel-btn mt-0" data-bs-dismiss="modal" aria-label="Close"
@@ -783,13 +744,7 @@
                                 <button class="btn submitActionBtn">Edit</button>
                             </div>
 
-                            <!-- <div class="d-flex align-items-center gap-2">
-                                <h5 class="mb-0 text-danger">Are you sure want to delete it</h5>
-                            </div>
-                            <div class="d-flex align-items-center gap-2">
-                                <button class="btn cancel-btn mt-0" >No</button>
-                                <button class="btn submitActionBtn bg-danger">Yes</button>
-                            </div> -->
+                            
 
                         </div>
 
@@ -813,7 +768,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Apply for expense</h5>
-                <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButton>
+                <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" (click)="clearExpenseForm(createForm)" #closeExpenseButton>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                         <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
                             width="24" height="24">
@@ -830,22 +785,91 @@
 
 
             <div class="modal-body p-0">
+             <form #createForm="ngForm" (ngSubmit)="checkExpensePolicy(createForm)">
                 <div class="row">
                     <div class="col-md-5 pr-0 mr-0">
-                        <div class="bill-image d-flex align-items-center justify-content-center"
+                        <div class="bill-image">
+                        <div class="d-flex align-items-center justify-content-center"
                             style="flex-direction: column">
-                            <!-- <img src="assets/images/bill-img.svg" style="width:100%;"> -->
-                            <!-- <span class="bill-images d-flex align-items-center gap-2 p-2">
-                                <img src="assets/images/bill-img.svg">
-                                <img src="assets/images/bill-img.svg">
-                            </span> -->
-                            <svg xmlns="http://www.w3.org/2000/svg" width="53" height="53" viewBox="0 0 53 53"
+
+                            <ng-container *ngIf="expenseTypeReq.urls.length > 0">
+
+                                <div id="expenseCarousel" class="carousel slide" data-bs-ride="carousel">
+                                    <div class="carousel-inner">
+                                      <div
+                                        class="carousel-item"
+                                        *ngFor="let url of expenseTypeReq.urls; let i = index"
+                                        [class.active]="i === 0">
+                                        <div class="d-flex justify-content-center position-relative">
+                                          <img [src]="url" alt="Image {{i}}" class="d-block img-thumbnail">
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <!-- Carousel Controls -->
+                                    <button class="carousel-control-prev" type="button" data-bs-target="#expenseCarousel" data-bs-slide="prev">
+                                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                      <span class="visually-hidden">Previous</span>
+                                    </button>
+                                    <button class="carousel-control-next" type="button" data-bs-target="#expenseCarousel" data-bs-slide="next">
+                                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                      <span class="visually-hidden">Next</span>
+                                    </button>
+                                  </div>
+
+                                  <!-- carousel end -->
+
+
+                                <span  class="bill-images d-flex align-items-center gap-2 p-2">
+
+
+                                <div class="d-flex align-items-center gap-2 position-relative">
+                                    <div *ngFor="let url of expenseTypeReq.urls; let i = index" class="position-relative">
+                                      <img [src]="url" alt="Image {{i}}" class="img-thumbnail">
+                                      <span
+                                        class="bill-image-remvo d-flex align-items-center justify-content-center position-absolute"
+                                        (click)="removeImage(url)">
+                                        <i class="bi bi-x"></i>
+                                      </span>
+                                    </div>
+                                  </div>
+
+
+
+                                  <button *ngIf="!isFileUploaded" (click)="fileInput.click()" type="button" class="btn multiple-add-image d-flex align-items-center justify-content-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21"
+                                    fill="none">
+                                    <mask id="mask0_5566_935" maskUnits="userSpaceOnUse" x="0" y="0" width="20"
+                                        height="21" style="mask-type: alpha;">
+                                        <rect y="0.5" width="20" height="20" fill="#D9D9D9"></rect>
+                                    </mask>
+                                    <g mask="url(#mask0_5566_935)">
+                                        <path
+                                            d="M9.16667 18V11.3333H2.5V9.66667H9.16667V3H10.8333V9.66667H17.5V11.3333H10.8333V18H9.16667Z"
+                                            fill="#6666F2"></path>
+                                    </g>
+                                    </svg>
+                                </button>
+
+                                    <div *ngIf="isFileUploaded" class="spinner-border spinner-border-sm text-primary m-2" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+
+                                    <input type="file" #fileInput (change)="onFileSelected($event)"
+                                    accept=".png, .jpg, .jpeg" style="display: none;" />
+
+                              </span>
+                            </ng-container>
+
+                            <ng-container *ngIf="expenseTypeReq.urls.length == 0">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="53" height="53" viewBox="0 0 53 53"
                                 fill="none">
                                 <path
                                     d="M47.6249 24.3333V37.3333C47.7522 38.4311 47.6295 39.5434 47.2662 40.5871C46.9029 41.6308 46.3082 42.5788 45.5268 43.3602C44.7454 44.1417 43.7974 44.7363 42.7537 45.0996C41.71 45.4629 40.5977 45.5856 39.4999 45.4583H13.4999C12.4022 45.5856 11.2898 45.4629 10.2462 45.0996C9.20248 44.7363 8.25446 44.1417 7.47303 43.3602C6.6916 42.5788 6.09698 41.6308 5.73365 40.5871C5.37032 39.5434 5.24768 38.4311 5.37492 37.3333V15.6667C5.24768 14.5689 5.37032 13.4566 5.73365 12.4129C6.09698 11.3692 6.6916 10.4212 7.47303 9.63978C8.25446 8.85835 9.20248 8.26373 10.2462 7.9004C11.2898 7.53707 12.4022 7.41443 13.4999 7.54167H28.6666C29.0976 7.54167 29.5109 7.71287 29.8156 8.01762C30.1204 8.32236 30.2916 8.73569 30.2916 9.16667C30.2916 9.59764 30.1204 10.011 29.8156 10.3157C29.5109 10.6205 29.0976 10.7917 28.6666 10.7917H13.4999C10.0831 10.7917 8.62492 12.2498 8.62492 15.6667V35.7083L14.1282 30.205C14.5373 29.7991 15.0903 29.5713 15.6666 29.5713C16.2429 29.5713 16.7958 29.7991 17.2049 30.205L19.2416 32.2417C19.4441 32.4402 19.7164 32.5513 19.9999 32.5513C20.2835 32.5513 20.5557 32.4402 20.7583 32.2417L31.4616 21.5383C31.8707 21.1324 32.4236 20.9046 32.9999 20.9046C33.5762 20.9046 34.1292 21.1324 34.5382 21.5383L44.3749 31.375V24.3333C44.3749 23.9024 44.5461 23.489 44.8509 23.1843C45.1556 22.8795 45.5689 22.7083 45.9999 22.7083C46.4309 22.7083 46.8442 22.8795 47.149 23.1843C47.4537 23.489 47.6249 23.9024 47.6249 24.3333ZM17.8181 17.2917C17.0987 17.2937 16.4096 17.5811 15.902 18.0908C15.3944 18.6006 15.1098 19.2909 15.1108 20.0103C15.1118 20.7296 15.3983 21.4192 15.9073 21.9275C16.4164 22.4358 17.1063 22.7213 17.8257 22.7213C18.545 22.7213 19.235 22.4358 19.744 21.9275C20.253 21.4192 20.5395 20.7296 20.5405 20.0103C20.5415 19.2909 20.257 18.6006 19.7494 18.0908C19.2418 17.5811 18.5526 17.2937 17.8332 17.2917H17.8181ZM37.3333 12.9583H40.0416V15.6667C40.0416 16.0976 40.2128 16.511 40.5175 16.8157C40.8223 17.1205 41.2356 17.2917 41.6666 17.2917C42.0976 17.2917 42.5109 17.1205 42.8156 16.8157C43.1204 16.511 43.2916 16.0976 43.2916 15.6667V12.9583H45.9999C46.4309 12.9583 46.8442 12.7871 47.149 12.4824C47.4537 12.1776 47.6249 11.7643 47.6249 11.3333C47.6249 10.9024 47.4537 10.489 47.149 10.1843C46.8442 9.87954 46.4309 9.70833 45.9999 9.70833H43.2916V7C43.2916 6.56902 43.1204 6.1557 42.8156 5.85095C42.5109 5.5462 42.0976 5.375 41.6666 5.375C41.2356 5.375 40.8223 5.5462 40.5175 5.85095C40.2128 6.1557 40.0416 6.56902 40.0416 7V9.70833H37.3333C36.9023 9.70833 36.4889 9.87954 36.1842 10.1843C35.8795 10.489 35.7083 10.9024 35.7083 11.3333C35.7083 11.7643 35.8795 12.1776 36.1842 12.4824C36.4889 12.7871 36.9023 12.9583 37.3333 12.9583Z"
                                     fill="#6666F2" />
                             </svg>
-                            <button class="p-0 btn text-primary mt-2 font-15 add-image-btn">
+
+                            <button *ngIf="!isFileUploaded" (click)="fileInput.click()" type="button" class="p-0 btn text-primary mt-2 font-15 add-image-btn">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21"
                                     fill="none">
                                     <mask id="mask0_5566_935" maskUnits="userSpaceOnUse" x="0" y="0" width="20"
@@ -858,7 +882,20 @@
                                             fill="#6666F2"></path>
                                     </g>
                                 </svg>
-                                Add image</button>
+                                Add image
+                            </button>
+
+                            <div *ngIf="isFileUploaded"
+                                class="spinner-border spinner-border-sm text-primary m-2" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+
+                            <input type="file" #fileInput (change)="onFileSelected($event)"
+                            accept=".png, .jpg, .jpeg" style="display: none;" />
+
+                            </ng-container>
+
+                        </div>
                         </div>
                     </div>
                     <div class="col-md-7">
@@ -868,18 +905,31 @@
                                     Expense Type
                                 </label>
                                 <nz-form-control>
-                                    <nz-select class="form-control" style="width: 100%" nzSize="large"
-                                        nzPlaceHolder="Select expense type" required>
-                                        <nz-option [nzValue]="'Food'" [nzLabel]="'Food'"></nz-option>
-                                        <nz-option [nzValue]="'Travel'" [nzLabel]="'Travel'"></nz-option>
-                                    </nz-select>
+                                    <nz-select style="width: 100%" nzSize="large" nzPlaceHolder="Select Expense type"
+                                    [(ngModel)]="expenseTypeId" (ngModelChange)="getExpenseTypeId($event)" required
+                                    id="expTypeIdInput" name="expTypeId" #expTypeId="ngModel" class="form-control placeholder-line">
+                                    <nz-option *ngFor=" let expenseType of expenseTypeList"
+                                        [nzValue]="expenseType.id" [nzLabel]="expenseType.name">
+                                    </nz-option>
+                                </nz-select>
+
+                                <div *ngIf="expTypeId?.invalid && expTypeId?.touched" class="error-message">
+                                    Expense type is required.
+                                </div>
                                 </nz-form-control>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <div class="form-group">
                                     <label for="employeeTypeId" class="mb-2">Expense Date</label>
-                                    <nz-date-picker nzPlaceHolder="Select date" name="startDate" required>
-                                    </nz-date-picker>
+                                    <nz-date-picker [(ngModel)]="expenseTypeReq.expenseDate"
+                                            nzPlaceHolder="Select Expense Date" [nzDisabledDate]="disableFutureDates"
+                                            (ngModelChange)="selectExpenseDate($event)" name="expDate" #expDate="ngModel"
+                                            required class="form-control">
+                                        </nz-date-picker>
+
+                                        <div *ngIf="expDate?.touched && expDate?.invalid" style="color: red;">Expense Date is
+                                            required
+                                        </div>
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
@@ -887,13 +937,13 @@
                                     <label for="employeeTypeId" class="mb-2"> Select user to request the expense</label>
 
                                     <nz-form-control>
-                                        <nz-select class="form-control" style="width: 100%" nzSize="large"
-                                            nzPlaceHolder="Select requested" required>
-                                            <nz-option [nzValue]="'Anchal'" [nzLabel]="'Anchal'"></nz-option>
-                                            <nz-option [nzValue]="'Rohit Chaturvedi'"
-                                                [nzLabel]="'Rohit Chaturvedi'"></nz-option>
-                                            <nz-option [nzValue]="'Pushpendra'" [nzLabel]="'Pushpendra'"></nz-option>
-                                        </nz-select>
+                                        <nz-select style="width: 100%" nzSize="large" nzPlaceHolder="Select Manager"
+                                        [(ngModel)]="managerId" (ngModelChange)="getManagerId($event)" required
+                                        name="selManagerId" #selManagerId="ngModel" class="form-control placeholder-line">
+                                        <nz-option *ngFor="let manager of managers"
+                                            [nzValue]="manager.id" [nzLabel]="manager.name">
+                                        </nz-option>
+                                    </nz-select>
                                     </nz-form-control>
                                 </div>
                             </div>
@@ -902,38 +952,201 @@
                                     <label for="employeeTypeId" class="mb-2">Amount </label>
                                     <div class="col-md-12 mb-3">
                                         <div class="form-group">
-                                            <input class="form-control input-zorro" placeholder="Enter amount spend"
-                                                nzSize="large" minlength="3" maxlength="50" name="tempNamed" required />
+                                            <input class="form-control input-zorro" type="number" required min="1" id="amount" name="amount"
+                                            placeholder="Enter amount spend" nzSize="large"
+                                            [(ngModel)]="expenseTypeReq.amount" #amountInput="ngModel" />
+
+                                        <!-- Required validation message -->
+                                        <div *ngIf="amountInput.errors?.required && (amountInput.dirty || amountInput.touched)"
+                                            style="color: red;">
+                                            Amount is required.
+                                        </div>
+
+                                        <!-- Min value validation message for negative values or zero -->
+                                        <div *ngIf="amountInput.errors?.min && (amountInput.dirty || amountInput.touched)"
+                                            style="color: red;">
+                                            Amount must be a positive number greater than 0.
+                                        </div>
                                         </div>
                                     </div>
-                                    <!-- <div class="col-md-6 mb-3 ">
+                                    <!-- <div class="col-md-6 mb-3 " *ngIf="validatePolicyToggle"> starting-->
+                                    <div class="col-md-6 mb-3 " *ngIf="limitAmount > 0">
                                         <div class="notice-period-error p-2">
                                             <div class="d-flex align-items-center gap-3">
-                                                <p class="mb-0">Amount Define</p>
+                                                <p class="mb-0">Allocated Amount</p>
                                                 <span class="calendar-separator"></span>
-                                                <h6 class="mb-0">₹2000</h6>
+                                                <h6 class="mb-0">₹ {{limitAmount}}</h6>
                                             </div>
                                         </div>
-                                    </div> -->
+                                    </div>
+
+                                    <p *ngIf="expenseTypeReq.approvedAmount > 0 && expenseTypeReq.approvedAmount < expenseTypeReq.amount" class="text-danger">Appoved amount {{expenseTypeReq.approvedAmount}} by Manager/HR</p>
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <label for="templateName" class="pb-2">
                                     Note
                                 </label>
-                                <textarea class="form-control nots-section" id="exampleFormControlTextarea1"
-                                    placeholder="Write the note" rows="3"></textarea>
+                                <textarea class="form-control nots-section" required placeholder="write the note"
+                                        id="notes" rows="3" name="notes" [(ngModel)]="expenseTypeReq.notes"
+                                        #notesInput="ngModel"></textarea>
                             </div>
+
+                                            <!-- TODO: remove this d-none -->
+
+                            <div class="col-md-12 d-none">
+                              <div class="form-group position-relative">
+                                <label for="tags" class="mb-2">Tags</label>
+                                <input type="text" id="tags" name="tags" (keyup.enter)="addTag()" class="form-control input-zorro "
+                                    placeholder="Search Your Tags (Ex: Testing)" style="padding: 10px 70px 10px 40px;"
+                                    [(ngModel)]="searchTag" (ngModelChange)="onTagsChange($event)"
+                                     (keydown)="preventLeadingWhitespace($event)" [nzAutocomplete]="tagsAuto" />
+                                <i class="bi bi-search search-icon"></i>
+                                <nz-autocomplete [nzDataSource]="tagsFilteredOptions" #tagsAuto></nz-autocomplete>
+
+                                <button type="button" class="btn p-0 text-primary add-skill" (click)="addTag()"><i
+                                        class="bi bi-plus font-18"></i> Add</button>
+                              </div>
+                            </div>
+<!-- TODO: remove this d-none -->
+                            <div class="col-md-12 mt-3 d-none">
+                              <div class="skill-set-add">
+                                  <ul class="skill-set">
+                                      <li *ngFor="let tag of tags">
+                                          {{ tag }} <i class="bi bi-x" (click)="removeTag(tag)"></i>
+                                      </li>
+                                  </ul>
+                              </div>
+                          </div>
                         </div>
 
-                        <div class="d-flex align-items-center justify-content-end gap-2 p-3">
-                            <button class="btn cancel-btn mt-0" data-bs-dismiss="modal" aria-label="Close"
-                                #closeButton>Cancel</button>
-                            <button class="btn submitActionBtn">Submit</button>
+                        <!-- Before View (Create time) -->
+                        <div *ngIf="expenseTypeReq.id == 0 && !validatePolicyToggle" class="d-flex align-items-center justify-content-end gap-2 p-3">
+
+                            <button type="button" class="btn cancel-btn mt-0" data-bs-dismiss="modal"
+                                (click)="clearExpenseForm(createForm)">Cancel</button>
+
+                            <button type="submit" class="btn submitActionBtn"  [ngClass]="{'btn-border':!(isFileUploaded || expenseTypeReq.expenseTypeId == 0 || expenseTypeReq.managerId == 0 || expenseTypeReq.expenseDate == undefined
+                            || !expenseTypeReq.notes || expenseTypeReq.amount == undefined || expenseTypeReq.amount <= 0)}"
+                            [disabled]="createToggle || isFileUploaded || expenseTypeReq.expenseTypeId == 0 || expenseTypeReq.managerId == 0 || expenseTypeReq.expenseDate == undefined
+                            || !expenseTypeReq.notes || expenseTypeReq.amount == undefined || expenseTypeReq.amount <= 0" >
+                            <span *ngIf="!createToggle">Submit</span>
+                            <div class="dot-opacity-loader" *ngIf="createToggle">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                            </button>
+
+                        </div>
+
+                        <ng-container *ngIf="validatePolicyToggle" >
+                            <div class="d-flex align-items-center justify-content-between gap-2 p-3">
+                                <div class="d-flex align-items-center gap-2">
+                                    <!-- <p class="mb-0 text-primary">Do you want to continue</p> -->
+                                    <p class="mb-0 text-primary">Your allocated limit is Rs. {{limitAmount}}. Are you sure you want to apply for a higher amount?
+                                    </p>
+                                </div>
+                                <div class="d-flex justify-content-end gap-2">
+                                    <button [disabled]="createToggleYes" class="btn cancel-btn mt-0" (click)="cancelExpense()" >No</button>
+
+                                    <button type="submit" class="btn submitActionBtn" (click)="createExpense(createForm)" [ngClass]="{'btn-border':!(isFileUploaded || expenseTypeReq.expenseTypeId == 0 || expenseTypeReq.managerId == 0 || expenseTypeReq.expenseDate == undefined
+                                    || !expenseTypeReq.notes || expenseTypeReq.amount == undefined || expenseTypeReq.amount <= 0)}"
+                                    [disabled]="createToggleYes || isFileUploaded || expenseTypeReq.expenseTypeId == 0 || expenseTypeReq.managerId == 0 || expenseTypeReq.expenseDate == undefined
+                                    || !expenseTypeReq.notes || expenseTypeReq.amount == undefined || expenseTypeReq.amount <= 0" >
+                                        <span *ngIf="!createToggleYes">Yes</span>
+                                        <div class="dot-opacity-loader" *ngIf="createToggleYes">
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                        </div>
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        </ng-container>
+
+                        <!-- After View -->
+                        <div *ngIf="expenseTypeReq.id > 0 && !validatePolicyToggle" class="d-flex align-items-center justify-content-between p-3">
+                            <ng-container *ngIf="!deleteExpenseToggle" >
+                                <div class="d-flex align-items-center gap-2">
+                                    <p class="mb-0">Status</p>
+                                    <span class="action-btn"></span>
+                                    <!-- <p class="mb-0 text-warning">{{expenseTypeReq.status.response}}</p> -->
+
+                                    <!-- <p class="mb-0 text-warning"
+                                    [ngClass]="{'text-warning': expenseTypeReq.status.id == 13, 'text-success': expenseTypeReq.status.id == 14 || expenseTypeReq.status.id == 41,
+                                    'text-danger': expenseTypeReq.status.id == 15, 'text-primary': expenseTypeReq.status.id == 40}" >
+                                    {{expenseTypeReq.status.response}}
+                                    </p> -->
+
+                                    <p *ngIf="expenseTypeReq.status.id == 13 || expenseTypeReq.status.id == 14" class="mb-0 text-warning"
+                                    [ngClass]="{'text-warning': expenseTypeReq.status.id == 13, 'text-success': expenseTypeReq.status.id == 14 || expenseTypeReq.status.id == 41,
+                                    'text-danger': expenseTypeReq.status.id == 15, 'text-primary': expenseTypeReq.status.id == 40}" >
+                                    {{expenseTypeReq.status.response}}
+                                    </p>
+
+                                    <!-- <p class="mb-0 text-success">Your request is approved. Please wait a few days for expense reimbursement.</p> -->
+
+                                    <!-- <p *ngIf="expenseTypeReq.status.id == 41 && expenseTypeReq.paymentMethod?.toLowerCase() == 'online'" class="mb-0 text-success">Your request is approved. Your request will be settled to {{expenseTypeReq.settledDate | date: 'yyyy MMM dd'}}</p> -->
+                                    <p *ngIf="expenseTypeReq.status.id == 41 && (expenseTypeReq.settledDate != null && expenseTypeReq.settledDate != '')" class="mb-0 text-success">
+                                        Your request has been approved - settlement will be processed in {{expenseTypeReq?.paymentMethod?.toLowerCase()}} by {{expenseTypeReq.settledDate | date: 'MMM dd'}}.</p>
+
+                                    <p *ngIf="expenseTypeReq.status.id == 41 && (expenseTypeReq.settledDate == null || expenseTypeReq.settledDate == '')" class="mb-0 text-success">
+                                        Your request has been approved - settlement will be processed in {{expenseTypeReq?.paymentMethod?.toLowerCase()}}.</p>
+
+                                    <p *ngIf="expenseTypeReq.status.id == 40" class="mb-0 text-primary">Your request has been approved - settlement will be processed with payroll.</p>
+                                    <p *ngIf="expenseTypeReq.status.id == 15" class="mb-0 text-danger">Your request has been rejected by the admin</p>
+                                </div>
+
+                                <div *ngIf="ROLE != 'ADMIN' && (expenseTypeReq.status.id == 13 || expenseTypeReq.status.id == 15)" class="d-flex align-items-center gap-2">
+                                    <button [disabled]="createToggle" class="btn cancel-btn mt-0" type="button" (click)="getExpenseId(expenseTypeReq.id)" >Delete</button>
+
+                                    <button type="submit" class="btn submitActionBtn" [ngClass]="{'btn-border':!(isFileUploaded || expenseTypeReq.expenseTypeId == 0 || expenseTypeReq.managerId == 0 || expenseTypeReq.expenseDate == undefined
+                                    || !expenseTypeReq.notes || expenseTypeReq.amount == undefined || expenseTypeReq.amount <= 0)}"
+                                    [disabled]="createToggle || isFileUploaded || expenseTypeReq.expenseTypeId == 0 || expenseTypeReq.managerId == 0 || expenseTypeReq.expenseDate == undefined
+                                    || !expenseTypeReq.notes || expenseTypeReq.amount == undefined || expenseTypeReq.amount <= 0">
+                                        <span *ngIf="!createToggle">Update</span>
+                                        <div class="dot-opacity-loader" *ngIf="createToggle">
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                        </div>
+                                    </button>
+
+
+                                </div>
+                            </ng-container>
+
+                            <ng-container *ngIf="deleteExpenseToggle" >
+                                <div class="d-flex align-items-center gap-2">
+                                    <h5 class="mb-0 text-danger">Are you sure want to delete it</h5>
+                                </div>
+                                <div class="d-flex align-items-center gap-2">
+                                    <button [disabled]="deleteToggle" class="btn cancel-btn mt-0" (click)="getExpenseId(expenseTypeReq.id)" >No</button>
+
+                                    <button type="button" class="btn submitActionBtn bg-danger" [disabled]="deleteToggle" (click)="deleteExpense()">
+                                        <span *ngIf="!deleteToggle">Yes</span>
+                                        <div class="dot-opacity-loader" *ngIf="deleteToggle">
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                        </div>
+                                    </button>
+
+
+                                </div>
+                            </ng-container>
+
+
+
                         </div>
 
                     </div>
                 </div>
+            </form>
 
             </div>
         </div>

@@ -13,9 +13,11 @@
   border: none;
   background-color: transparent;
 }
+
 .cusser {
   cursor: pointer;
 }
+
 .search-icon {
   font-size: 12px;
   position: absolute;
@@ -56,6 +58,7 @@
 [class*=" bi-"]::before {
   font-weight: BOLD !important;
 }
+
 .leave-management-settings {
   background-color: #f5f6ff;
 }
@@ -69,6 +72,7 @@
   border-radius: 2px;
   font-weight: 400;
 }
+
 .add-leave-btn i {
   padding-right: 5px;
 }
@@ -83,6 +87,7 @@
   border-radius: 2px;
   font-weight: 400;
 }
+
 .excel-upload-members i {
   padding-right: 5px;
 }
@@ -97,6 +102,7 @@
   font-weight: 400;
   line-height: 40px;
 }
+
 .leave-management-detail p {
   font-weight: 300;
   color: #444;
@@ -107,16 +113,20 @@
   position: relative;
   top: -1px;
 }
+
 .leave-management-detail a {
   color: var(--primary-color) !important;
 }
+
 .leave-management-detail a:hover {
   text-decoration: underline;
   color: var(--primary-color) !important;
 }
+
 ::ng-deep.ant-picker {
   background-color: #fff;
 }
+
 .empty-detail {
   color: #6b7280;
   line-height: 20px;
@@ -124,4 +134,8 @@
 
 ::ng-deep.ant-empty-image img {
   width: 90px;
+}
+
+.table tbody {
+  border: 1px solid #f1f1f1;
 }

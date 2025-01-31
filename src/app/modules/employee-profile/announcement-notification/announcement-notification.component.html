@@ -1,4 +1,4 @@
-<div class="m-3 assets-detail">
+<div class="m-3 mt-4 assets-detail mb-4">
     <div class="employee-assets">
         <div class="d-flex align-items-center justify-content-between ">
             <h5 class="font-18 ">Latest Updates</h5>
@@ -491,14 +491,14 @@
             </div>
         </div> -->
 
-        <div class="mt-3">
+        <div class="mt-3" *ngIf="mailList.length>0 || mailLoading">
 
             <div class="notification">
                 <div class="d-flex align-items-center gap-2">
                     <button class="btn assets-request" (click)="markMailAsReadAll('mail')">
                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
-                            <mask id="mask0_5653_2453" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25"
-                                height="25">
+                            <mask id="mask0_5653_2453" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                                width="25" height="25">
                                 <rect x="0.5" y="0.5" width="24" height="24" fill="#D9D9D9" />
                             </mask>
                             <g mask="url(#mask0_5653_2453)">
@@ -507,12 +507,12 @@
                                     fill="#1C1B1F" />
                             </g>
                         </svg>
-                        Mark All AS read
+                        Mark All as Read
                     </button>
                     <button class="btn assets-request" (click)="reload('mail')">
                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
-                            <mask id="mask0_5653_2460" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25"
-                                height="24">
+                            <mask id="mask0_5653_2460" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                                width="25" height="24">
                                 <rect x="0.5" width="24" height="24" fill="#D9D9D9" />
                             </mask>
                             <g mask="url(#mask0_5653_2460)">
@@ -525,125 +525,65 @@
                 </div>
             </div>
             <div class="notification-message mt-3">
-              <div *ngIf="mailLoading; else notificationList" class="shimmer-wrapper">
-                <!-- Shimmer Effect Template -->
-                <div class="shimmer-item d-flex align-items-center gap-3 p-3 border-bottom">
-                  <div class="shimmer" style="width:15%; height: 20px;"></div>
-                  <div class="shimmer" style="width:75%; height: 20px;"></div>
-                  <div class="shimmer" style="width:10%; height: 20px;"></div>
+                <div *ngIf="mailLoading; else notificationList" class="shimmer-wrapper">
+                    <!-- Shimmer Effect Template -->
+                    <div class="shimmer-item d-flex align-items-center gap-3 p-3 border-bottom" *ngFor="let item of [].constructor(10)">
+                        <div class="shimmer" style="width:15%; height: 15px;"></div>
+                        <div class="shimmer" style="width:75%; height: 15px;"></div>
+                        <div class="shimmer" style="width:10%; height: 15px;"></div>
+                    </div>
                 </div>
-                <div class="shimmer-item d-flex align-items-center gap-3 p-3 border-bottom">
-                  <div class="shimmer" style="width:15%; height: 20px;"></div>
-                  <div class="shimmer" style="width:75%; height: 20px;"></div>
-                  <div class="shimmer" style="width:10%; height: 20px;"></div>
-                </div>
-              </div>
-              <ng-template #notificationList>
-                <!-- Actual Notification List -->
-                <div
-                  *ngFor="let mail of mailList"
-                  class="d-flex align-items-center gap-3 p-3 border-bottom pointer"
-                  [ngClass]="{'unread-mssage': !mail.isRead}"
-                  (click)="readNotification(mail)"
-                  data-bs-toggle="modal"
-                  data-bs-target="#notification-readmore"
-                >
-                  <div style="width:15%">
-                    <h6 class="mb-0">{{ mail.title }}</h6>
-                  </div>
-                  <div style="width:75%">
-                    <p class="mb-0">
-                      {{ mail.message }}
-                    </p>
-                  </div>
-                  <div style="width:10%" class="text-end d-flex align-items-center gap-2 justify-content-end">
-                    <div *ngIf="!mail.isRead" class="new-notification"></div>
-                    <span class="mb-0">{{ formatDate(mail.createdDate) }}</span>
-                  </div>
-                </div>
-              </ng-template>
-            </div>
-
-            <div
-              *ngIf="totalMailNotification / databaseHelper.itemPerPage > 1"
-              class="pagination-controls d-flex align-items-center justify-content-between mt-2"
-            >
-              <!-- Ngb Pagination Component -->
-              <div class="showing-items-message text-right font-13">
-                Showing items
-                {{ (databaseHelper.currentPage - 1) * databaseHelper.itemPerPage + 1 }} –
-                {{ Math.min(databaseHelper.currentPage * databaseHelper.itemPerPage, totalMailNotification) }}
-                of {{ totalMailNotification }} records
-              </div>
-              <ngb-pagination
-                [collectionSize]="totalMailNotification"
-                [rotate]="true"
-                (pageChange)="pageChanged($event)"
-                [pageSize]="this.databaseHelper.itemPerPage"
-                [(page)]="this.databaseHelper.currentPage"
-                [maxSize]="5"
-                [boundaryLinks]="true"
-              >
-              </ngb-pagination>
-            </div>
-
-
-        </div>
-    </div>
-</div>
-
-
-
-
-<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#notification-readmore">
-   Onboarding
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="notification-readmore" tabindex="-1" role="dialog" #assetRequestModal aria-hidden="true" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog read-notification" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Onboarding</h5>
-                <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButton>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
-                            width="24" height="24">
-                            <rect width="24" height="24" fill="#D9D9D9" />
-                        </mask>
-                        <g mask="url(#mask0_5037_2014)">
-                            <path
-                                d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z"
-                                fill="black" />
-                        </g>
-                    </svg>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="notification-detail">
-                    <div class="d-flex align-items-center gap-2 mb-4 notification-heading">
-                        <img src="assets/images/user.png" style="width:50px;">
-                        <div class="">
-                            <h5 class="mb-1">HR <span class="created-announcement">Created an Announcement</span></h5>
-                            <h6 class="mb-0 ">3 Months Ago</h6>
+                <ng-template #notificationList>
+                    <!-- Actual Notification List -->
+                    <div *ngFor="let mail of mailList" class="d-flex align-items-center gap-3 p-3 border-bottom pointer"
+                        [ngClass]="{'unread-mssage': !mail.isRead}" (click)="readNotification(mail)">
+                        <div style="width:15%">
+                            <h6 class="mb-0">{{ mail.title }}</h6>
+                        </div>
+                        <div style="width:75%">
+                            <p class="mb-0">
+                                {{ mail.message }}
+                            </p>
+                        </div>
+                        <div style="width:10%" class="text-end d-flex align-items-center gap-2 justify-content-end">
+                            <div *ngIf="!mail.isRead" class="new-notification"></div>
+                            <span class="mb-0">{{ getTimeAgo(mail.createdDate.toLocaleString()) }}</span>
                         </div>
                     </div>
-                    <h5 class="mb-3">Employee Onboard!</h5>
-                    <p class="mb-4">Dear All,</p>
-                    <p class="mb-4">I trust this email finds you well. We hope you received our previous message regarding your onboarding process at Krenai.</p>
-                    <p class="mb-4">As we're keen on ensuring a seamless start to your journey with us, we kindly remind you to complete your onboarding
-                    form at your earliest convenience. Your prompt response is crucial to facilitate the integration process into our
-                    system.</p>
-                    <p class="mb-4"> Onboarding Portal Link: <a class="text-primary">ttps://app.hajiri.in/employee-onboarding/employee</a></p>
-                    <p class="mb-4"> Here's a quick checklist to guide you through the process:</p>
-                    <p class="mb-4"> Personal Information: Double-check and fill in your personal details accurately.
-                        Employment Data: Enter your employment history, qualifications, and other professional details.
-                        Document Upload: Please ensure any requested documents are uploaded, such as identification, certificates, etc.</p>
-                </div>
+                </ng-template>
+            </div>
+
+            <div *ngIf="(totalMailNotification-1)/databaseHelper.itemPerPage > 0"
+                class="d-flex align-items-center justify-content-between pagination-box-profile p-3 bg-white border-top">
+                <!-- Ngb Pagination Component -->
+                <p class="mb-0">
+                    Showing items
+                    {{ (databaseHelper.currentPage - 1) * databaseHelper.itemPerPage + 1 }} –
+                    {{ Math.min(databaseHelper.currentPage * databaseHelper.itemPerPage, totalMailNotification) }}
+                    of {{ totalMailNotification }} records
+                </p>
+                <ngb-pagination class="pagition-box" [collectionSize]="totalMailNotification" [rotate]="true"
+                    (pageChange)="pageChanged($event)" [pageSize]="this.databaseHelper.itemPerPage"
+                    [(page)]="this.databaseHelper.currentPage" [maxSize]="5" [boundaryLinks]="true">
+                </ngb-pagination>
+            </div>
+
+
+        </div>
+        <div class="mt-3" *ngIf="(mailList.length==0 && !mailLoading)">
+            <div class="empty-file" style="margin-top: 20%; margin-bottom: 20%">
+                <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
+                    <ng-template #contentTpl>
+                        <p class="mb-1 empty-detail">No data for now</p>
+                    </ng-template>
+                </nz-empty>
             </div>
         </div>
     </div>
 </div>
+
+
+
 
 <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#notification-readmore">
     Onboarding
@@ -655,7 +595,7 @@
     <div class="modal-dialog read-notification" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Onboarding</h5>
+                <h5 class="modal-title" id="exampleModalLabel">{{ notification.title }}</h5>
                 <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButton>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                         <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
@@ -675,35 +615,43 @@
                     <div class="d-flex align-items-center gap-2 mb-4 notification-heading">
                         <img src="assets/images/user.png" style="width:50px;">
                         <div class="">
-                            <h5 class="mb-1">HR <span class="created-announcement">Created an Announcement</span></h5>
-                            <h6 class="mb-0 ">3 Months Ago</h6>
+                            <h5 class="mb-1">{{apiResponse?.approvedBy || 'HR'}} <span
+                                    class="created-announcement">Created an Announcement</span></h5>
+                            <h6 class="mb-0">{{ getTimeAgo(notification.createdDate) }}</h6>
                         </div>
                     </div>
-                    <h5 class="mb-3">Employee Onboard!</h5>
-                    <p class="mb-4">Dear All,</p>
-                    <p class="mb-4">I trust this email finds you well. We hope you received our previous message
-                        regarding your onboarding process at Krenai.</p>
-                    <p class="mb-4">As we're keen on ensuring a seamless start to your journey with us, we kindly remind
-                        you to complete your onboarding
-                        form at your earliest convenience. Your prompt response is crucial to facilitate the integration
-                        process into our
-                        system.</p>
-                    <p class="mb-4"> Onboarding Portal Link: <a
-                            class="text-primary">ttps://app.hajiri.in/employee-onboarding/employee</a></p>
-                    <p class="mb-4"> Here's a quick checklist to guide you through the process:</p>
-                    <p class="mb-4"> Personal Information: Double-check and fill in your personal details accurately.
-                        Employment Data: Enter your employment history, qualifications, and other professional details.
-                        Document Upload: Please ensure any requested documents are uploaded, such as identification,
-                        certificates, etc.</p>
+                    <h5 class="mb-4" *ngIf="!Constant.EMPTY_STRINGS.includes(apiResponse?.status)"><span
+                            class="fw-semibold"> Status: </span> <span class="badge rounded-pill"
+                            [ngClass]="{
+                        'badge-soft-warning': apiResponse.status == 'PENDING', 'badge-soft-success': apiResponse.status == 'APPROVED', 'badge-soft-danger': apiResponse.status == 'REJECTED'}">
+                            {{apiResponse?.status}} </span> </h5>
+                    <h5 class="mb-3">{{ notification.message }}</h5>
+                    <p class="mb-4 font-13" *ngIf="!Constant.EMPTY_STRINGS.includes(apiResponse?.createdDate)"><span
+                            class="fw-semibold"> Requested On : </span> {{this.apiResponse?.createdDate | date :
+                        'short'}} </p>
+                    <p class="mb-4 font-13" *ngIf="!Constant.EMPTY_STRINGS.includes(apiResponse?.updatedDate)"><span
+                            class="fw-semibold"> Action Taken On : </span> {{this.apiResponse?.updatedDate | date :
+                        'short'}} </p>
+                    <p class="mb-4 font-13" *ngIf="!Constant.EMPTY_STRINGS.includes(apiResponse?.startDate)"> <span
+                            class="fw-semibold"> Start Date : </span> {{apiResponse?.startDate | date : 'short'}} </p>
+                    <p class="mb-4 font-13" *ngIf="!Constant.EMPTY_STRINGS.includes(apiResponse?.endDate)"><span
+                            class="fw-semibold"> End Date : </span> {{apiResponse?.endDate | date : 'short'}} </p>
+
+                    <p class="mb-4 font-13" *ngIf="!Constant.EMPTY_STRINGS.includes(apiResponse?.approvedBy?.name)">
+                        <span class="fw-semibold"> {{apiResponse?.status}} by : </span> {{apiResponse?.approvedBy.name}}
+                    </p>
+                    <p class="mb-4 font-13" *ngIf="!Constant.EMPTY_STRINGS.includes(apiResponse?.optNotes)"><span
+                            class="fw-semibold"> Note: </span> {{apiResponse?.optNotes}} </p>
+                    <p class="mb-4 font-13" *ngIf="!Constant.EMPTY_STRINGS.includes(apiResponse?.note)"><span
+                            class="fw-semibold"> Note: </span> {{apiResponse?.note}} </p>
+
+
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#createAnnouncement">
-    Create Announcement
-</button>
 
 <!-- Modal -->
 <div class="modal fade" id="createAnnouncement" tabindex="-1" role="dialog" #assetRequestModal aria-hidden="true"
@@ -734,7 +682,8 @@
                                 Announcement Type
                             </label>
                             <nz-form-control>
-                                <nz-select class="form-control" style="width: 100%" nzSize="large" nzPlaceHolder="Select the announcement" required>
+                                <nz-select class="form-control" style="width: 100%" nzSize="large"
+                                    nzPlaceHolder="Select the announcement" required>
                                     <nz-option [nzValue]="'Announcement'" [nzLabel]="'Announcement'"></nz-option>
                                     <nz-option [nzValue]="'Post'" [nzLabel]="'Post'"></nz-option>
                                     <nz-option [nzValue]="'Poll'" [nzLabel]="'Poll'"></nz-option>
@@ -745,60 +694,20 @@
                             <label for="templateName" class="pb-2">
                                 Template Name
                             </label>
-                            <input class="form-control input-zorro" placeholder="Enter template name here" nzSize="large" minlength="3" maxlength="50" name="tempNamed" required />
+                            <input class="form-control input-zorro" placeholder="Enter template name here"
+                                nzSize="large" minlength="3" maxlength="50" name="tempNamed" required />
                         </div>
 
-                        <!-- Poll section -->
-                        <!-- <div class="col-md-12 mb-3 poll-add-option">
-                            <input class="form-control mb-2" placeholder="Add Option" nzSize="large" minlength="3" maxlength="50"
-                                name="tempNamed" required />
-                            <input class="form-control mb-2" placeholder="Add Option" nzSize="large" minlength="3" maxlength="50"
-                                name="tempNamed" required />
-                            <input class="form-control mb-2" placeholder="Add Option" nzSize="large" minlength="3" maxlength="50"
-                                name="tempNamed" required />
-                            <input class="form-control " placeholder="Add Option" nzSize="large" minlength="3" maxlength="50" name="tempNamed"
-                                required />
-                                <div class="d-flex align-items-center justify-content-end mt-2">
-                                    <button class="btn p-0 text-primary font-14" style="font-weight: 500;"><i class="bi bi-plus-lg"></i> Add Options</button>
-                                </div>
-                        </div>
 
-                        <div class="col-md-12 mb-3">
-                            <div class="form-group">
-                                <label for="employeeTypeId" class="mb-2">Poll will Expire on</label>
-                                <nz-date-picker nzPlaceHolder="Select date" name="startDate" required>
-                                </nz-date-picker>
-                            </div>
-                        </div> -->
-                        <!-- Poll section end -->
 
                         <div class="col-md-12 mb-3">
                             <label for="templateName" class="pb-2">
                                 Description
                             </label>
-                            <textarea class="form-control nots-section" id="exampleFormControlTextarea1" placeholder="Write description"  rows="3"></textarea>
+                            <textarea class="form-control nots-section" id="exampleFormControlTextarea1"
+                                placeholder="Write description" rows="3"></textarea>
                         </div>
-                        <!-- Post Announcement section -->
-                        <!-- <div class="col-md-12">
-                            <div class="upload-file-input p-2 d-flex align-items-center justify-content-center flex-column add-other-file ">
-                                <input id="fileSelect" type="file" name="img[]" accept=".xlsx" class="input">
 
-                                <span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="53" height="53" viewBox="0 0 53 53" fill="none">
-                                        <path
-                                            d="M47.6249 24.3333V37.3333C47.7522 38.4311 47.6295 39.5434 47.2662 40.5871C46.9029 41.6308 46.3082 42.5788 45.5268 43.3602C44.7454 44.1417 43.7974 44.7363 42.7537 45.0996C41.71 45.4629 40.5977 45.5856 39.4999 45.4583H13.4999C12.4022 45.5856 11.2898 45.4629 10.2462 45.0996C9.20248 44.7363 8.25446 44.1417 7.47303 43.3602C6.6916 42.5788 6.09698 41.6308 5.73365 40.5871C5.37032 39.5434 5.24768 38.4311 5.37492 37.3333V15.6667C5.24768 14.5689 5.37032 13.4566 5.73365 12.4129C6.09698 11.3692 6.6916 10.4212 7.47303 9.63978C8.25446 8.85835 9.20248 8.26373 10.2462 7.9004C11.2898 7.53707 12.4022 7.41443 13.4999 7.54167H28.6666C29.0976 7.54167 29.5109 7.71287 29.8156 8.01762C30.1204 8.32236 30.2916 8.73569 30.2916 9.16667C30.2916 9.59764 30.1204 10.011 29.8156 10.3157C29.5109 10.6205 29.0976 10.7917 28.6666 10.7917H13.4999C10.0831 10.7917 8.62492 12.2498 8.62492 15.6667V35.7083L14.1282 30.205C14.5373 29.7991 15.0903 29.5713 15.6666 29.5713C16.2429 29.5713 16.7958 29.7991 17.2049 30.205L19.2416 32.2417C19.4441 32.4402 19.7164 32.5513 19.9999 32.5513C20.2835 32.5513 20.5557 32.4402 20.7583 32.2417L31.4616 21.5383C31.8707 21.1324 32.4236 20.9046 32.9999 20.9046C33.5762 20.9046 34.1292 21.1324 34.5382 21.5383L44.3749 31.375V24.3333C44.3749 23.9024 44.5461 23.489 44.8509 23.1843C45.1556 22.8795 45.5689 22.7083 45.9999 22.7083C46.4309 22.7083 46.8442 22.8795 47.149 23.1843C47.4537 23.489 47.6249 23.9024 47.6249 24.3333ZM17.8181 17.2917C17.0987 17.2937 16.4096 17.5811 15.902 18.0908C15.3944 18.6006 15.1098 19.2909 15.1108 20.0103C15.1118 20.7296 15.3983 21.4192 15.9073 21.9275C16.4164 22.4358 17.1063 22.7213 17.8257 22.7213C18.545 22.7213 19.235 22.4358 19.744 21.9275C20.253 21.4192 20.5395 20.7296 20.5405 20.0103C20.5415 19.2909 20.257 18.6006 19.7494 18.0908C19.2418 17.5811 18.5526 17.2937 17.8332 17.2917H17.8181ZM37.3333 12.9583H40.0416V15.6667C40.0416 16.0976 40.2128 16.511 40.5175 16.8157C40.8223 17.1205 41.2356 17.2917 41.6666 17.2917C42.0976 17.2917 42.5109 17.1205 42.8156 16.8157C43.1204 16.511 43.2916 16.0976 43.2916 15.6667V12.9583H45.9999C46.4309 12.9583 46.8442 12.7871 47.149 12.4824C47.4537 12.1776 47.6249 11.7643 47.6249 11.3333C47.6249 10.9024 47.4537 10.489 47.149 10.1843C46.8442 9.87954 46.4309 9.70833 45.9999 9.70833H43.2916V7C43.2916 6.56902 43.1204 6.1557 42.8156 5.85095C42.5109 5.5462 42.0976 5.375 41.6666 5.375C41.2356 5.375 40.8223 5.5462 40.5175 5.85095C40.2128 6.1557 40.0416 6.56902 40.0416 7V9.70833H37.3333C36.9023 9.70833 36.4889 9.87954 36.1842 10.1843C35.8795 10.489 35.7083 10.9024 35.7083 11.3333C35.7083 11.7643 35.8795 12.1776 36.1842 12.4824C36.4889 12.7871 36.9023 12.9583 37.3333 12.9583Z"
-                                            fill="#6666F2" />
-                                    </svg>
-                                </span>
-                                <button class="btn add-file mt-1 font-14 "> <i class="bi bi-plus-lg"></i> Add image</button>
-                            </div>
-
-                            <div class="image-upload">
-                                <img src="assets/images/location-map.png" style="width:100%;">
-                                <span class="d-flex align-items-center justify-content-center"><i class="bi bi-dash"></i></span>
-                            </div>
-                        </div> -->
-                        <!-- Post Announcement section end -->
 
 
 
@@ -813,4 +722,3 @@
         </div>
     </div>
 </div>
-

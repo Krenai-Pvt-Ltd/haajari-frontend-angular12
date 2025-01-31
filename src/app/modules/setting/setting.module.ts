@@ -7,7 +7,7 @@ import { LeaveSettingComponent } from './components/leave-setting/leave-setting.
 import { SettingComponent } from './setting.component';
 import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { DynamicModule } from '../dynamic/dynamic.module';
 import { CommonModule } from '@angular/common';
@@ -22,7 +22,6 @@ import { NzCalendarModule } from 'ng-zorro-antd/calendar';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgOtpInputModule } from 'ng-otp-input';
 import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
@@ -37,6 +36,8 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
+import { NzAlertModule } from 'ng-zorro-antd/alert';
+
 @NgModule({
   declarations: [
     SettingComponent,
@@ -85,8 +86,8 @@ import { NzEmptyModule } from 'ng-zorro-antd/empty';
     DragDropModule,
     NgbTooltipModule,
     SharedModule,
-    
+    NzAlertModule
 
   ],
 })
-export class SettingModule {}
+export class SettingModule { }

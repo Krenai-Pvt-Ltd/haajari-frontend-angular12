@@ -1,4 +1,5 @@
 export class UserEmergencyContactDetailsRequest {
+    id: number = 0;
     contactName: string = '';
     relationWithEmployee: string = '';
     contactNumber: string = '';

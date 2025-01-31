@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
-import { WebcamImage, WebcamInitError, WebcamUtil } from 'ngx-webcam';
+import { WebcamImage} from 'ngx-webcam';
 import { Observable, Subject } from 'rxjs';
 import { Key } from 'src/app/constant/key';
 import { EmployeeAttendanceLocation } from 'src/app/models/employee-attendance-location';
@@ -67,6 +67,7 @@ export class EmployeeLocationValidatorComponent implements OnInit {
             this.disableButton = false;
             this.lat = position.coords.latitude;
             this.lng = position.coords.longitude;
+            this.accuracy=position.coords.accuracy;
             this.getCurrentLocation();
           },
           (error) => {
@@ -85,6 +86,8 @@ export class EmployeeLocationValidatorComponent implements OnInit {
     });
 
   }
+
+  accuracy:number=5;
   requestPermission(){
     window.alert('To enable Location Services and allow the site to determine your location, click the location icon in the address bar and select "Always allow.');  
     if (Key.GEOLOCATION in navigator) {
@@ -92,6 +95,8 @@ export class EmployeeLocationValidatorComponent implements OnInit {
         (position) => {
           this.lat = position.coords.latitude;
           this.lng = position.coords.longitude;
+          this.accuracy=position.coords.accuracy;
+          // console.log("🚀 ~ EmployeeLocationValidatorComponent ~ requestPermission ~ this.accuracy:", this.accuracy)
           this.getCurrentLocation();
           // console.log('Geolocation obtained after prompting:', position);
         },
@@ -132,7 +137,7 @@ export class EmployeeLocationValidatorComponent implements OnInit {
         // Initialize the Geocoder
         const geocoder = new google.maps.Geocoder();
         const latlng = { lat: this.lat, lng: this.lng };
-        console.log(latlng); 
+        // console.log(latlng); 
         geocoder.geocode(
           { location: latlng },
           (results: { formatted_address: string }[], status: string) => {
@@ -143,7 +148,7 @@ export class EmployeeLocationValidatorComponent implements OnInit {
                 this.city = results[0].address_components[2].long_name;
                 this.address = address;
                 this.employeeAttendanceLocation.currentLocation = address;
-                console.log(address); // Log the address to console or update the UI as needed
+                // console.log(address); // Log the address to console or update the UI as needed
                 this.enableSubmitToggle = true;
                 (
                   document.getElementById(
@@ -225,11 +230,16 @@ export class EmployeeLocationValidatorComponent implements OnInit {
 
     for (const addressDetail of this.organizationAddressDetails) {
         const organizationLatLng = new google.maps.LatLng(Number(addressDetail.latitude), Number(addressDetail.longitude));
-        const distance = google.maps.geometry.spherical.computeDistanceBetween(userLatLng, organizationLatLng);
+        var distance = google.maps.geometry.spherical.computeDistanceBetween(userLatLng, organizationLatLng);
+        // window.alert("radius"+addressDetail.radius)
 
-        // console.log(usee)
+        if(this.accuracy>0){
+          addressDetail.radius=String(+addressDetail.radius+this.accuracy);
+        // window.alert("🚀 ~ EmployeeLocationValidatorComponent ~ calculateDistance ~ distance=distance+this.accuracy;: AFTER"+ (addressDetail.radius+(this.accuracy)))
+        }
+        // window.alert(usee)
 
-        // console.log(distance + '---' + addressDetail.radius);
+        // window.alert(distance + '---' + addressDetail.radius);
         if (distance <= addressDetail.radius && !this.isFlexible) {
             isWithinAnyLocation = true;
             this.attendanceMode = addressDetail.attendanceMode;
@@ -282,6 +292,8 @@ getFlexibleAttendanceMode() {
             (response: OrganizationAddressDetail[]) => {
                 if (response && response.length > 0) {
                     this.organizationAddressDetails = response;
+                    // console.log("API RESPONSE", this.organizationAddressDetails[0].radius)
+
                     // console.log(response);
                 } else {
                     console.log('No address details found');
@@ -357,6 +369,7 @@ getFlexibleAttendanceMode() {
             } else if(response.onboardingVia == 'SLACK'){
               window.location.href = Key.SLACK_WORKSPACE_URL;
             }
+          this.helper.closeModal();
           this.toggle = false;
         },
         (error) => {

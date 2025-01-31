@@ -1,11 +1,12 @@
 export class UserExperience {
+    id: number = 0;
     companyName: string = '';
     // employementDuration: string = '';
     jobResponisibilities: string = '';
     lastSalary: string = '';
-    lastJobDepartment: string = ''; 
-    lastJobPosition: string = ''; 
-    fresher: boolean = false; 
+    lastJobDepartment: string = '';
+    lastJobPosition: string = '';
+    fresher: boolean = false;
     statusId: number = 0;
     directSave: boolean = false;
     updateRequest: boolean = false;

@@ -50,13 +50,15 @@ export class PreviewFormComponent implements OnInit {
     this.router.navigate([routePath], navExtra);
   },2000)
   }
-
+  isLoadingPreview = false;
   getOnboardingFormPreviewMethodCall() {
     debugger
+    this.isLoadingPreview = true;
     const userUuid = new URLSearchParams(window.location.search).get('userUuid') || '';
     if (userUuid) {
       this.dataService.getOnboardingFormPreview(userUuid).subscribe(
         (preview) => {
+          this.isLoadingPreview = false;
           // console.log(preview);
           this.toggle = false;
           this.onboardingPreviewData = preview;

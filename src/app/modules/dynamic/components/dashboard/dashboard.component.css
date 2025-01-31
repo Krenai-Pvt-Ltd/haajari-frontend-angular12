@@ -55,14 +55,17 @@ span.todo {
   right: 0px;
   border-radius: 6px;
 }
+
 span.complete-task {
   width: 33.3%;
   border-bottom: 3px solid #10c215;
 }
+
 span.progress-task {
   width: 33.3%;
   border-bottom: 3px solid #db6e09;
 }
+
 span.todo-task {
   width: 33.3%;
   border-bottom: 3px solid #cd0000;
@@ -71,9 +74,11 @@ span.todo-task {
 .complete-text {
   font-size: 11px;
 }
+
 .progress-text {
   font-size: 11px;
 }
+
 .todo-text {
   font-size: 11px;
 }
@@ -83,6 +88,7 @@ span.todo-task {
   font-weight: 500px;
   color: #303e67;
 }
+
 .table tbody tr:hover {
   box-shadow: none;
 }
@@ -116,6 +122,7 @@ span.todo-task {
   border-color: #ececec;
   font-size: 12px !important;
 }
+
 .table td {
   font-size: 12px !important;
 }
@@ -129,16 +136,7 @@ span.todo-task {
 
 [class^="bi-"]::before,
 [class*=" bi-"]::before {
-  display: inline-block;
-  font-family: bootstrap-icons !important;
-  font-style: normal;
-  font-weight: BOLD !important;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-  vertical-align: text-bottom;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-weight: 600 !important;
 }
 
 .projectdIcon {
@@ -146,10 +144,12 @@ span.todo-task {
   transform: rotate(90deg);
   display: inline-block;
 }
+
 .projectdIcon.collapsed {
   /* transition:0.2s linear; */
   transform: rotate(0deg);
 }
+
 /* .plandtlMain:not(.collapsed) > .plandtlMainicon i {
     transform: rotate(180deg);
 } */
@@ -212,13 +212,16 @@ span.members-name {
   width: 90%;
   margin: 1rem auto;
 }
+
 .errorboxplaceholder img {
   max-width: 65px;
 }
+
 .errorboxinner div h4 {
   font-size: 20px !important;
   margin-bottom: 8px !important;
 }
+
 .attendance-name {
   padding-left: 28px;
   font-size: 12px;
@@ -273,6 +276,7 @@ span.members-name {
 .in-time {
   font-size: 11px;
 }
+
 .teme-maneger {
   color: #8d93a1;
   font-size: 12px;
@@ -318,6 +322,7 @@ span.members-name {
 .ribbon1 span.rib1-primary:after {
   background: rgb(102 102 243 / 43%) !important;
 }
+
 .ribbon1 span:after {
   height: 6px;
   width: 6px;
@@ -399,7 +404,8 @@ button.btn.close-btn {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background-color: #6666f3; /* Change to your preferred color */
+  background-color: #6666f3;
+  /* Change to your preferred color */
   margin: 0 4px;
   animation: dotOpacity 1.4s infinite ease-in-out both;
 }
@@ -413,11 +419,13 @@ button.btn.close-btn {
 }
 
 @keyframes dotOpacity {
+
   0%,
   80%,
   100% {
     opacity: 0;
   }
+
   40% {
     opacity: 1;
   }
@@ -529,26 +537,24 @@ span.total-holiday {
 
 .Approved:hover span,
 .Approved:hover p {
-  color: #007bff; /* Highlight color */
+  color: #007bff;
+  /* Highlight color */
 }
 
 #user-first-name-logo {
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
-}
-
-span.members-name-new {
   background-color: #a69ff3;
-  width: 32px;
-  height: 32px;
+  width: 33px;
+  height: 33px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  font-size: 18px;
+  font-size: 16px;
   text-transform: uppercase;
+  color: #fff;
+
 }
+
 
 .user-details {
   position: absolute;
@@ -606,6 +612,7 @@ span.members-name-new {
   /* font-weight: 600; */
   color: #6666f3;
 }
+
 .bill-detail p {
   font-size: 14px;
   color: #4a4f57;
@@ -643,6 +650,7 @@ span.currentplan {
   padding-left: 0px;
   margin-top: 10px;
 }
+
 .plan-featured li {
   line-height: 30px;
   font-size: 12px;
@@ -753,12 +761,14 @@ button.btn.add-card-btn {
   padding-bottom: 0px;
   padding-top: 10px;
 }
+
 .order-place-data p {
   font-weight: 400;
   font-size: 14px;
   line-height: 30px;
   color: #444444;
 }
+
 .order-place-data {
   width: 70%;
   margin: 0 auto 0;
@@ -786,6 +796,7 @@ button.btn.add-card-btn {
   clip-path: circle(0%);
   margin: 0 auto;
 }
+
 .successAnimate {
   animation: scaleCircle 1s linear both;
   animation-delay: -0.1s;
@@ -799,8 +810,10 @@ button.btn.add-card-btn {
 
 .loader {
   text-align: center;
-  border: 7px solid #f3f3f3; /* Light grey */
-  border-top: 7px solid #3498db; /* Blue */
+  border: 7px solid #f3f3f3;
+  /* Light grey */
+  border-top: 7px solid #3498db;
+  /* Blue */
   border-radius: 50%;
   width: 60px;
   height: 60px;
@@ -825,10 +838,12 @@ button.btn.add-card-btn {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
 }
+
 /* Order Success animation */
 
 .monthly-plan {
@@ -883,6 +898,7 @@ button.btn.add-card-btn {
   padding: 3px 5px;
   border: 1px solid #6666f3;
 }
+
 .off-box h5 {
   color: #6666f3;
   font-size: 22px;
@@ -891,19 +907,33 @@ button.btn.add-card-btn {
   margin-top: 0px;
   margin-bottom: 0px;
 }
+
 .active-col {
   border: 1px solid lightgray;
   border-radius: 5px;
 }
 
-.fixed-height {
-  height: 80vh; /* Adjust this value as per your requirement */
+.search-box {
+  border-bottom: 1px solid #f1f1f1;
 }
 
-.modal-body {
+.fixed-height {
+  height: 80vh;
+  /* Adjust this value as per your requirement */
+}
+
+/* .modal-body {
   overflow-y: auto;
   height: calc(85vh - 100px);
-  /* Adjust this value based on your modal header/footer height */
+} */
+
+.user-list-modal {
+  max-height: 500px;
+  overflow-y: scroll;
+}
+
+.user-list-modal::-webkit-scrollbar {
+  display: none;
 }
 
 .bill-detail {
@@ -940,7 +970,8 @@ button.btn.add-card-btn {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background-color: #6666f3 !important; /* Change to your preferred color */
+  background-color: #6666f3 !important;
+  /* Change to your preferred color */
   margin: 0 4px;
   animation: dotOpacity 1.4s infinite ease-in-out both;
 }
@@ -954,15 +985,18 @@ button.btn.add-card-btn {
 }
 
 @keyframes dotOpacity {
+
   0%,
   80%,
   100% {
     opacity: 0;
   }
+
   40% {
     opacity: 1;
   }
 }
+
 .empty-detail {
   color: #6b7280;
   line-height: 20px;
@@ -971,13 +1005,16 @@ button.btn.add-card-btn {
 ::ng-deep.ant-empty-image img {
   width: 90px;
 }
+
 ::ng-deep.ant-picker {
   background-color: transparent !important;
 }
+
 .leave-list {
   background-color: #fff6eb;
   border-left: 5px solid #f3a73d;
 }
+
 .upcoming-holiday-list {
   border-left: 5px solid var(--primary-color);
 }
@@ -988,6 +1025,7 @@ button.btn.add-card-btn {
   color: #f3a73d;
   line-height: 30px;
 }
+
 .leave-list p {
   font-weight: 400;
   color: #8a8a8a;
@@ -1018,24 +1056,29 @@ button.btn.add-card-btn {
   color: #000;
   line-height: 16px;
 }
+
 .all-holiday-list {
   padding-top: 20px;
 }
+
 .all-holiday-list p {
   font-weight: 400;
   color: #8a8a8a;
   line-height: 18px;
 }
+
 .all-holiday-list button {
   font-weight: 500;
   text-decoration: underline;
 }
+
 .upcoming-birthday img {
   border-radius: 50%;
   width: 45px;
   height: 45px;
   object-fit: cover;
 }
+
 .today-birthday {
   background-color: #f6f6f6;
   border-left: 5px solid var(--primary-color);
@@ -1049,6 +1092,7 @@ button.btn.add-card-btn {
   color: #8a8a8a;
   line-height: 22px;
 }
+
 .today-birthday h5 {
   font-weight: 500;
   color: #000;
@@ -1060,11 +1104,13 @@ button.btn.add-card-btn {
   color: #8a8a8a;
   line-height: 22px;
 }
+
 .upcoming-birthday-box h5 {
   font-weight: 500;
   color: #000;
   line-height: 20px;
 }
+
 /* .upcoming-birthday-box {
   border-right: 5px solid var(--primary-color);
 } */
@@ -1072,19 +1118,23 @@ button.btn.add-card-btn {
 .holiday-list-box h5 {
   color: #f3a73d;
 }
+
 .leave-list:last-child {
   border-bottom: 0px !important;
 }
+
 .active-leave-list {
   background-color: #fff6eb;
   border-left: 5px solid #f3a73d;
   margin-bottom: 4px;
 }
+
 .upcoming-leave-list {
   background-color: #fbfbfb;
   border-left: 5px solid var(--primary-background-color);
   margin-bottom: 4px;
 }
+
 .upcoming-leave-list h5 {
   color: #444;
 }
@@ -1092,6 +1142,7 @@ button.btn.add-card-btn {
 .dashnodata table td {
   border-bottom: none !important;
 }
+
 .month-deta tr td {
   border-bottom: 1px solid #e6e7e9 !important;
 }
@@ -1101,15 +1152,18 @@ button.btn.add-card-btn {
 }
 
 
-.denger-border{
-  border-left : 5px solid red !important;
+.denger-border {
+  border-left: 5px solid red !important;
 }
-.success-border{
-  border-left : 5px solid green !important;
+
+.success-border {
+  border-left: 5px solid green !important;
 }
-.warning-border{
-  border-left : 5px solid orange !important;
+
+.warning-border {
+  border-left: 5px solid orange !important;
 }
-.primiry-border{
-  border-left : 5px solid var(--primary-background-color) !important;
+
+.primiry-border {
+  border-left: 5px solid var(--primary-background-color) !important;
 }

@@ -2,23 +2,7 @@
   <!-- Page Content-->
   <div class="page-content-tab">
     <div class="container-fluid">
-      <!-- Page-Title -->
-      <!-- Page-Title -->
-      <!-- <div class="row">
-ad                <div class="col-sm-12">
-                    <div class="page-title-box">
-                        <div class="float-end">
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a routerLink="/dynamic/dashboard">Dashboard</a>
-                                </li>
-                                <li class="breadcrumb-items active">/</li>
-                                <li class="breadcrumb-items active">Team Detaile</li>
-                            </ol>
-                        </div>
-                        <h4 class="page-title">Team Details</h4>
-                    </div>
-                </div>
-            </div> -->
+     
 
       <div class="row">
         <div class="col-md-12">
@@ -37,18 +21,7 @@ ad                <div class="col-sm-12">
             <div class="d-flex align-items-center" style="gap: 10px">
               <h5 class="m-0">{{ capitalizeFirstLetter(team.name) }}</h5>
 
-              <!-- <div class="dropdown d-inline-block">
-                            <a class="dropdown-toggle" id="dLabel1" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                                <i class="bi bi-chevron-down font-16 text-muted"></i>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-end add-team-detail" aria-labelledby="dLabel1">
-                                <a class="dropdown-item" href="#">Open Project</a>
-                                <a class="dropdown-item" href="#">Edit Card</a> 
-                                <div class="remove-team">
-                                <a class="dropdown-item StaticMenuItemBase-button" href="#">Delete</a>
-                            </div>
-                            </div>
-                        </div> -->
+             
             </div>
           </div>
 
@@ -99,10 +72,7 @@ ad                <div class="col-sm-12">
 
                       <div class="row mt-3">
                         <div class="col-md-4">
-                          <!-- <div class="add-member d-flex align-items-center" style="gap:10px;">
-                                                        <span><i class="bi bi-plus-circle-dotted"></i></span>
-                                                        <p class="mb-0">Add member</p>
-                                                    </div> -->
+                         
                           <div
                             class="members-list d-flex align-items-center"
                             style="gap: 10px"
@@ -115,20 +85,7 @@ ad                <div class="col-sm-12">
                             </span>
                             <p class="mb-0">Add member</p>
                           </div>
-                          <!-- {{managerIdFlag}}
-                                                    {{localStorageRoleAdminFlag}} -->
-                          <!-- <div
-                            class="members-list d-flex align-items-center"
-                            style="gap: 10px"
-                            data-bs-toggle="modal"
-                            data-bs-target="#addteam"
-                            *ngIf="managerIdFlag && !localStorageRoleAdminFlag"
-                          >
-                            <span class="members-names">
-                              <i class="bi bi-plus"></i>
-                            </span>
-                            <p class="mb-0">Add member</p>
-                          </div> -->
+                        
                           <div
                             class="members-list d-flex align-items-center"
                             style="gap: 10px"
@@ -195,10 +152,7 @@ ad                <div class="col-sm-12">
                                 managerIdFlag == true
                               "
                             >
-                              <!-- <a class="dropdown-toggle" *ngIf="i==0" id="dLabel1" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                                                                Team admin <i class="bi bi-chevron-down font-14 text-muted"></i>
-                                                            </a> -->
-                              <!-- *ngIf="i>0" -->
+                             
                               <a
                                 class="dropdown-toggle"
                                 id="dLabel1"
@@ -415,23 +369,7 @@ ad                <div class="col-sm-12">
                         </div>
                       </div>
                     </div>
-                    <!-- <div class="members-add">
-                                            <div class="">
-                                                <h5>Templates</h5>
-                                            </div>
-
-                                            <div class="row mt-3">
-                                                <div class="col-md-12">
-                                                  
-                                                    <div class="members-list d-flex align-items-center " style="gap: 15px;">
-                                                        <span class="new-add-project">
-                                                            <i class="bi bi-plus"></i>
-                                                        </span>
-                                                        <p class="mb-0">New Template</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div> -->
+                   
                   </div>
                   <div class="col-md-4" *ngIf="isAboutTab">
                     <div class="members-add">
@@ -477,9 +415,9 @@ ad                <div class="col-sm-12">
     aria-labelledby="exampleModalFullscreenLabel"
     aria-hidden="true"
   >
-    <div class="modal-dialog modal-lg" style="max-width: 600px" role="document">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 600px" role="document">
       <div class="modal-content">
-        <div class="modal-header" style="background-color: #fff">
+        <div class="modal-header bg-white">
           <h5
             class="modal-title m-0"
             style="color: #111; font-size: 18px"
@@ -729,7 +667,7 @@ ad                <div class="col-sm-12">
 
                       <div *ngIf="user.image !== null">
                         <span id="user-list-details">
-                          <img [src]="user.image" alt="User Logo" />
+                          <img onerror="this.src='./assets/images/broken-image-icon.jpg';" [src]="user.image" alt="User Logo" />
                           &nbsp;&nbsp; <b>{{ user.name }}</b> &nbsp;
                           {{ user.email }}
                         </span>
@@ -758,45 +696,36 @@ ad                <div class="col-sm-12">
                   </div>
                   <!-- ########################################## -->
 
-                  <div class="">
-                    <div class="">
+                  <div class="mt-3">
                       <h5>Members</h5>
-                    </div>
 
                     <div
-                      class="Members-list-box d-flex align-items-center justify-content-between"
+                      class="Members-list-box d-flex align-items-center justify-content-between border-bottom p-3 pointer"
                       *ngFor="let ul of team.userList; let i = index"
                     >
-                      <div class="d-flex align-items-center" style="gap: 10px">
+                      <div class="d-flex align-items-center gap-2">
                         <div>
                           <span *ngIf="ul.image !== null">
-                            <img
-                              src="{{ ul.image }}"
-                              alt="u"
-                              class="thumb-xs rounded-circle"
-                            />
+                            <img onerror="this.src='./assets/images/broken-image-icon.jpg';" src="{{ ul.image }}" alt="team" class="thumb-xs rounded-circle" />
                           </span>
                           <span class="members-name" *ngIf="ul.image == null">{{
                             ul.name[0]
                           }}</span>
-                          <!-- <span class="mamber-list-ui" *ngIf="ul.image==null">{{ul.name[0]}}</span> -->
+                          
                         </div>
                         <div>
                           <h6 class="mb-0 mt-0">
                             {{ capitalizeFirstLetter(ul.name) }}
                           </h6>
-                          <p class="mb-0">{{ ul.email }}</p>
+                          <p class="mb-0 font-13">{{ ul.email }}</p>
                         </div>
                       </div>
                       <div class="manegir-dropdown">
                         <div class="dropdown d-inline-block">
-                          <!-- <a class="dropdown-toggle" *ngIf="i==0" id="dLabel1" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                                                        Team admin <i class="bi bi-chevron-down font-14 text-muted"></i>
-                                                    </a> -->
-                          <!-- *ngIf="i>0" -->
+                         
 
                           <a
-                            class="dropdown-toggle"
+                            class="dropdown-toggle text-primary"
                             id="dLabel1"
                             data-bs-toggle="dropdown"
                             href="#"
@@ -816,7 +745,7 @@ ad                <div class="col-sm-12">
                           </a>
 
                           <a
-                            class="dropdown-toggle"
+                            class="dropdown-toggle text-primary"
                             id="dLabel1"
                             data-bs-toggle="dropdown"
                             href="#"
@@ -1131,21 +1060,16 @@ ad                <div class="col-sm-12">
               </div>
             </div>
           </div>
-          <!--end card-body-->
+         
         </div>
 
-        <!-- <div class="modal-footer">
-                    <button type="button" class="btn btn-primary btn-sm">Submit</button>
-                </div> -->
-        <!--end modal-footer-->
+      
       </div>
-      <!--end modal-content-->
+     
     </div>
-    <!--end modal-dialog-->
+   
   </div>
-  <!--end modal-->
 
-  <!-- ##########################333 view team######################################3333 -->
 
   <div
     class="modal fade"

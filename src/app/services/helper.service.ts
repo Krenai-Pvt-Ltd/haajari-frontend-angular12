@@ -5,10 +5,10 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { DataService } from './data.service';
 import { formatDate } from '@angular/common';
 import { NavigationExtras, Router } from '@angular/router';
-import * as saveAs from 'file-saver';
 import { Key } from '../constant/key';
 import { RestrictedSubModule } from '../models/RestrictedSuubModule';
 import { OrganizationOnboardingService } from './organization-onboarding.service';
+import saveAs from 'file-saver';
 
 @Injectable({
   providedIn: 'root'
@@ -16,13 +16,37 @@ import { OrganizationOnboardingService } from './organization-onboarding.service
 export class HelperService {
 
   private _key: Key = new Key();
+  isDashboardActive: boolean=true;
   constructor( private _httpClient : HttpClient,
      private dataService: DataService,
      private router: Router,
-     private _onboardingService: OrganizationOnboardingService,
-    ) {
+     private _onboardingService: OrganizationOnboardingService
+     ) { 
+      // this.getOrganizationInitialToDoStepBar();
+     }
 
-   }
+     /**
+      * FOr mobile responsive embolyee profile ui
+      */
+     isShowSidebar:boolean=false
+
+
+  // use for employee profile 
+   userJoiningDate:string='';
+  // use for employee profile 
+   organizationRegistrationDate:string='';
+   profileChangeStatus : Subject<boolean> = new Subject<boolean>();
+   resignationSubmitted : Subject<boolean> = new Subject<boolean>();
+
+   private closeModalSubject = new Subject<void>();
+   closeModal$ = this.closeModalSubject.asObservable();
+
+  closeModal() {
+    debugger
+    console.log('Current Modal Ref service1:', this.closeModal$);
+    console.log('Current Modal Ref service2:', this.closeModalSubject);
+    this.closeModalSubject.next();
+  }
 
    isFirstTime: boolean = true;
    markAsVisited() {
@@ -30,14 +54,17 @@ export class HelperService {
   }
 
   clearHelperService(){
+    // this.orgStepId = 0;
+    // this.stepsData = null;
+    // this.stepId = 0;
     this.subModuleResponseList = [];
   }
   restrictedModules!:RestrictedSubModule[];
   subModuleResponseList: any[] = [];
 
- 
 
-  todoStepsSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+
+  // todoStepsSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
   async getDecodedValueFromToken(): Promise<any> {
 
@@ -235,7 +262,7 @@ export class HelperService {
     let navExtra: NavigationExtras = {
       queryParams: { userId: uuid },
     };
-    // this.router.navigate(['/employee-profile'], navExtra);
+    // this.router.navigate(['/employee'], navExtra);
     const url = this.router.createUrlTree([Key.EMPLOYEE_PROFILE_ROUTE], navExtra).toString();
     window.open(url, '_blank');
     return;
@@ -286,26 +313,24 @@ export class HelperService {
     return null;
   }
 
-  registerOrganizationRegistratonProcessStepData(statusId: number, stepId:number) {
-    debugger
-    this.dataService.registerOrganizationRegistratonProcessStep(statusId, stepId).subscribe(
-      (response) => {
-        // console.log("success");
-        this.todoStepsSubject.next(true);
-      },
-      (error) => {
-        // console.log('error');
+  async registerOrganizationRegistratonProcessStepData(stepId: number, statusId: number): Promise<void> {
+    try {
+      const response = await this.dataService.registerOrganizationRegistratonProcessStep(statusId, stepId).toPromise();
+      // console.log("success", response.status, "stepId", stepId, "statusId", statusId);
+      if (response.status) {
+        this.stepId = stepId;
       }
-    );
+    } catch (error) {
+      console.log('error', error);
+    }
   }
-  
+
 
   saveOrgSecondaryToDoStepBarData(value : number) {
     debugger
     this.dataService.saveOrgSecondaryToDoStepBar(value).subscribe(
       (response) => {
-        // console.log("success");  
-        // this.getOrgSecondaryToDoStepBarData();
+        // console.log("success");
       },
       (error) => {
         // console.log('error');
@@ -344,4 +369,94 @@ export class HelperService {
   getSubscriptionRestrictedModules() {
     return this._httpClient.get<any>(this._key.base_url + this._key.get_restricted_modules)
   }
+
+
+  getOrganizationRegistrationDateMethodCall() {
+    this.dataService.getOrganizationRegistrationDate().subscribe(
+      (response) => {
+        this.organizationRegistrationDate = response;
+      },
+      (error) => {
+
+      }
+    );
+  }
+
+
+  disableMonths = (date: Date): boolean => {
+    const currentYear = new Date().getFullYear();
+    const currentMonth = new Date().getMonth();
+    const dateYear = date.getFullYear();
+    const dateMonth = date.getMonth();
+    const organizationRegistrationYear = new Date(
+      this.organizationRegistrationDate
+    ).getFullYear();
+    const organizationRegistrationMonth = new Date(
+      this.organizationRegistrationDate
+    ).getMonth();
+
+    // Disable if the month is before the organization registration month
+    if (
+      dateYear < organizationRegistrationYear ||
+      (dateYear === organizationRegistrationYear &&
+        dateMonth < organizationRegistrationMonth)
+    ) {
+      return true;
+    }
+
+    // Disable if the month is after the current month
+    if (
+      dateYear > currentYear ||
+      (dateYear === currentYear && dateMonth > currentMonth)
+    ) {
+      return true;
+    }
+
+    // Enable the month if it's from January 2023 to the current month
+    return false;
+  };
+
+  stepsData: any;
+  stepId: number = 0;
+  getStepsData() {
+    debugger;
+    this.dataService.getStepsData().subscribe(
+      (response) => {
+        this.stepsData = response.listOfObject[0];
+        // console.log("success");
+        this.stepId = this.stepsData?.totalCompletedSteps;
+      },
+      (error) => {
+        // console.log('error');
+      }
+    );
+  }
+
+  orgStepId !: number ;
+  getOnboardingStep() {
+    debugger;
+    this._onboardingService
+      .getOrgOnboardingStep()
+      .subscribe((response: any) => {
+        if (response.status) {
+          this.orgStepId = response.object.step;
+          // console.log(response.object.step);
+        }
+      });
+  }
+
+
+  startIndex(pageNumber:number, itemPerPage:number): number {
+    return (pageNumber - 1) * itemPerPage + 1;
+  }
+
+  lastIndex(pageNumber:number, itemPerPage:number,totalItems:number): number {
+    return Math.min(pageNumber * itemPerPage, totalItems);
+  }
+
+
+  toggleIsShowSidebar(){
+    this.isShowSidebar=!this.isShowSidebar;
+   }
+
 }

@@ -4,8 +4,6 @@ export class SalaryChangeBonusResponse {
     uuid : string = '';
     name : string = '';
     email : string = '';
-    amount : number = 0;
-    comment : string = '';
-    payActionType : PayActionType = new PayActionType();
-    payActionTypeId !: number;
+    phone:string='';
+    totalAmt : number = 0;
 }

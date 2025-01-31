@@ -143,7 +143,7 @@
     color: #4a4a4a;
     font-size: 12px;
     font-weight: 500;
-    min-width: 100px;
+    width: 100px;
 }
 .submitActionBtn {
     background-color: var(--primary-background-color);
@@ -151,8 +151,9 @@
     font-size: 12px;
     font-weight: 500;
     border-radius: 2px;
-    min-width: 100px;
+    width: 100px;
 }
+
 .upload-file-input {
     border: 1px dashed rgba(102, 102, 242, 0.40);
     height: 120px;
@@ -306,7 +307,13 @@
   animation: shimmer-animation 1.5s infinite;
   border-radius: 4px;
 }
-
+.notification-message{
+    max-height: 65vh;
+    overflow: scroll;
+}
+.notification-message::-webkit-scrollbar{
+    display: none;
+}
 @keyframes shimmer-animation {
   0% {
     background-position: -200% 0;

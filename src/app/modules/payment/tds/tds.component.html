@@ -2,7 +2,7 @@
   <!-- Page Content-->
   <div class="page-content-tab">
     <div class="container-fluid">
-      <div class="row leave-management-settings p-3 mt-2 align-items-center" *ngIf="mainPlaceholderFlag">
+      <!-- <div class="row leave-management-settings p-3 mt-2 align-items-center" *ngIf="mainPlaceholderFlag">
         <div class="col-md-6">
           <div class="leave-management-detail pt-5 pb-5">
             <h3 class="mb-3">
@@ -14,7 +14,7 @@
               available discounts in one place.
             </p>
 
-            <!-- <button class="btn add-leave-btn mt-4 mb-2">Add New Members</button> -->
+          
 
             <hr />
             <span class="mb-0">
@@ -55,383 +55,165 @@
             <img src="assets/images/esi-epf-img.svg" style="width: 380px" />
           </div>
         </div>
-      </div>
+      </div> -->
 
-      <div *ngIf="!mainPlaceholderFlag">
-      <div
-        class="row mb-1 mt-3 align-items-center"
-        style="padding-bottom: 15px"
-      >
-        <div class="col-md-12">
-          <div
-            class="d-flex align-items-center"
-            style="border: 1px solid #f1f1f1"
-          >
-            <div style="width: 20%; position: relative">
-              <div class="dropdown bonus-payroll">
-                <nz-date-picker
-                  nzMode="month"
-                  [nzSize]="size"
-                  [(ngModel)]="selectedDate"
-                  (ngModelChange)="onMonthChange($event)"
-                  [nzDisabledDate]="disableMonths"
-                ></nz-date-picker>
+      <div>
+        <div class="row mb-1 mt-4 align-items-center pb-3">
+          <div class="col-md-12">
+            <div class="d-flex align-items-center" style="border: 1px solid #f1f1f1">
+              <div style="width: 20%; position: relative">
+                <div class="dropdown bonus-payroll">
+                  <nz-date-picker nzMode="month" [nzSize]="size" [(ngModel)]="selectedDate"
+                    (ngModelChange)="onMonthChange($event)"
+                    [nzDisabledDate]="_helperService.disableMonths"></nz-date-picker>
+                </div>
               </div>
-            </div>
-            <!-- <div style="width: 20%; position: relative">
-              <div class="dropdown" style="width: 100%">
-                <button
-                  type="button"
-                  id="dropdownMenuButton1"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                  class="btn btn-secondary dropdown-toggle new-deopdown"
-                >
-                  Select Search
-                  <i
-                    class="bi bi-chevron-down"
-                    style="color: #444; font-size: 15px"
-                  ></i>
-                </button>
-                <ul
-                  aria-labelledby="dropdownMenuButton1"
-                  class="dropdown-menu"
-                  style="width: 100%"
-                >
-                  <li><a class="dropdown-item">Reset All</a></li>
-                  <li><a class="dropdown-item">Approved</a></li>
-                  <li><a class="dropdown-item">Pending</a></li>
-                  <li><a class="dropdown-item">Rejected</a></li>
-                </ul>
-              </div>
-            </div> -->
-            <div class="" style="width: 80%">
-              <form
-                role="search"
-                class="searching ng-untouched ng-pristine ng-valid"
-                (submit)="searchUsers($event)"
-              >
-                <div
-                  class="form-group"
-                  style="
+
+              <div class="" style="width: 80%">
+                <form role="search" class="searching ng-untouched ng-pristine ng-valid" (submit)="searchUsers($event)">
+                  <div class="form-group" style="
                     position: relative;
                     width: 100%;
                     display: flex;
                     align-items: center;
-                  "
-                >
-                  <!-- <i class="bi bi-search search-icon" style="position: initial; right: 20px;"></i> -->
-                  <input
-                    type="text"
-                    id="searchText"
-                    placeholder="Search by name or email..."
-                    class="form-control me-2 ng-untouched ng-pristine ng-valid attendance-details-search"
-                    (keyup)="searchUsers($event)"
-                    [(ngModel)]="search"
-                    [ngModelOptions]="{ standalone: true }"
-                    style="
+                  ">
+
+                    <input type="text" id="searchText" placeholder="Search by name or email..."
+                      class="form-control me-2 ng-untouched ng-pristine ng-valid attendance-details-search"
+                      (keyup)="searchUsers($event)" [(ngModel)]="search" [ngModelOptions]="{ standalone: true }" style="
                       padding: 10px 40px;
                       padding-right: 20px;
                       flex-grow: 1;
-                    "
-                  />
-                  <i
-                    class="bi bi-search search-icon"
-                    style="margin: auto; margin-left: 15px"
-                  ></i>
-                  <button
-                    *ngIf="search.length !== 0"
-                    type="button"
-                    class="btn close-btn"
-                    (click)="clearSearch()"
-                    style="position: absolute; right: 20px"
-                  >
-                    <i class="bi bi-x mt-auto mb-auto"></i>
-                  </button>
-                </div>
-              </form>
-            </div>
-
-            <!-- <div class="" style="width: 20%">
-              <div
-                class="d-flex justify-content-end align-items-center"
-                style="gap: 10px"
-              >
-                <div
-                  class="add-filtter d-flex align-items-center justify-content-end"
-                  style="gap: 10px"
-                >
-                  <a
-                    data-bs-toggle="modal"
-                    data-bs-target="#createteam"
-                    type="button"
-                  >
-                    <i class="bi bi-plus" style="font-size: 18px"></i> Create
-                    Team
-                  </a>
-                </div>
+                    " />
+                    <i class="bi bi-search search-icon" style="margin: auto; margin-left: 15px"></i>
+                    <button *ngIf="search.length !== 0" type="button" class="btn close-btn" (click)="clearSearch()"
+                      style="position: absolute; right: 20px">
+                      <i class="bi bi-x mt-auto mb-auto"></i>
+                    </button>
+                  </div>
+                </form>
               </div>
-            </div> -->
+
+
+            </div>
           </div>
         </div>
-      </div>
-      <div class="table-responsive">
-        <table class="table border-dashed mb-0">
-          <thead>
-            <tr>
-              <th>EMPLOYEE</th>
-              <th>EMAIL ID</th>
-              <th>EPF</th>
-              <th>ESI</th>
-              <th>TDS</th>
-              <th>STATUS</th>
-              <th>ACTIONS</th>
-            </tr>
-          </thead>
-          <ng-container
-            *ngIf="
+        <div class="table-responsive">
+          <table class="table border-dashed mb-0">
+            <thead>
+              <tr>
+                <th>Employee</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Employee's PF</th>
+                <th>Employer's PF</th>
+                <th>Employee's ESI</th>
+                <th>Employer's ESI</th>
+                <th>TDS</th>
+              </tr>
+            </thead>
+            <ng-container *ngIf="
               isShimmer &&
-                employeeMonthWiseSalaryDataList.length === 0 &&
+              statutoryMonthDeductions.length === 0 &&
                 !dataNotFoundPlaceholder &&
                 !networkConnectionErrorPlaceHolder;
               else attendanceDataCondition
-            "
-          >
-            <tbody>
-              <tr *ngFor="let item of [].constructor(6)">
-                <td class="text-center">
-                  <ngx-shimmer-loading
-                    [width]="'100%'"
-                    [height]="'10px'"
-                  ></ngx-shimmer-loading>
-                </td>
-                <td class="text-center">
-                  <ngx-shimmer-loading
-                    [width]="'%'"
-                    [height]="'10px'"
-                  ></ngx-shimmer-loading>
-                </td>
-                <td class="text-center">
-                  <ngx-shimmer-loading
-                    [width]="'70%'"
-                    [height]="'10px'"
-                  ></ngx-shimmer-loading>
-                </td>
-                <td class="text-center">
-                  <ngx-shimmer-loading
-                    [width]="'70%'"
-                    [height]="'10px'"
-                  ></ngx-shimmer-loading>
-                </td>
-                <td class="text-center">
-                  <ngx-shimmer-loading
-                    [width]="'70%'"
-                    [height]="'10px'"
-                  ></ngx-shimmer-loading>
-                </td>
-                <td class="text-center">
-                  <ngx-shimmer-loading
-                    [width]="'70%'"
-                    [height]="'10px'"
-                  ></ngx-shimmer-loading>
-                </td>
-                <td class="text-center">
-                  <ngx-shimmer-loading
-                    [width]="'70%'"
-                    [height]="'10px'"
-                  ></ngx-shimmer-loading>
-                </td>
-                <td class="text-center">
-                  <ngx-shimmer-loading
-                    [width]="'70%'"
-                    [height]="'10px'"
-                  ></ngx-shimmer-loading>
-                </td>
-                <td class="text-center">
-                  <ngx-shimmer-loading
-                    [width]="'70%'"
-                    [height]="'10px'"
-                  ></ngx-shimmer-loading>
-                </td>
-              </tr>
-            </tbody>
-          </ng-container>
-
-          <ng-template #attendanceDataCondition>
-            <ng-container
-              *ngIf="
-                employeeMonthWiseSalaryDataList.length !== 0 &&
-                  !dataNotFoundPlaceholder &&
-                  !networkConnectionErrorPlaceHolder;
-                else errorConditionWhileFetchingEmployeeSalaryData
-              "
-            >
+            ">
               <tbody>
-                <tr *ngFor="let employee of employeeMonthWiseSalaryDataList">
-                  <td>
-                    <img
-                      [src]="
-                        employee.image
-                          ? employee.image
-                          : 'assets/images/users/user-3.jpg'
-                      "
-                      alt=""
-                      class="rounded-circle thumb-xs me-1"
-                    />
-                    {{ employee.name }}
-                  </td>
-                  <td>{{ employee.email }}</td>
-                  <td>
-                    ₹{{
-                      employee.epfAmount ? (employee.epfAmount | number) : "0"
-                    }}
-                  </td>
-                  <td>
-                    ₹{{
-                      employee.esiAmount ? (employee.esiAmount | number) : "0"
-                    }}
-                  </td>
-                  <td>
-                    ₹{{
-                      employee.tdsAmount ? (employee.tdsAmount | number) : "0"
-                    }}
-                  </td>
-                  <td>
-                    <span
-                      class="badge rounded-pill"
-                      [ngClass]="{
-                        'badge-soft-success': employee.payStatus.id == APPROVED,
-                        'badge-soft-warning': employee.payStatus.id == PENDING
-                      }"
-                    >
-                      {{ employee.payStatus.response }}
-                    </span>
-                  </td>
-                  <td>
-                    <div
-                      class="btn-group"
-                      role="group"
-                      aria-label="Basic example"
-                    >
-                      <button
-                        type="button"
-                        class="btn btn-light"
-                        ngbTooltip="Edit"
-                        placement="top"
-                      >
-                        <i class="ti ti-pencil"></i>
-                      </button>
-                      <button
-                        type="button"
-                        class="btn btn-light"
-                        ngbTooltip="Delete"
-                        placement="top"
-                      >
-                        <i class="far fa-trash-alt"></i>
-                      </button>
-                    </div>
+                <tr *ngFor="let item of [].constructor(8)">
+                  <td class="text-center" *ngFor="let item of [].constructor(8)">
+                    <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
                   </td>
                 </tr>
               </tbody>
             </ng-container>
-          </ng-template>
-        </table>
 
-        <!--end /table-->
+            <ng-template #attendanceDataCondition>
+              <ng-container *ngIf="
+                statutoryMonthDeductions.length !== 0 &&
+                  !dataNotFoundPlaceholder &&
+                  !networkConnectionErrorPlaceHolder;
+                else errorConditionWhileFetchingEmployeeSalaryData
+              ">
+                <tbody>
+                  <tr *ngFor="let employee of statutoryMonthDeductions">
+                    <td>
+                      <img onerror="this.src='./assets/images/broken-image-icon.jpg';"
+                        [src]=" employee.image ? employee.image : 'assets/images/broken-image-icon.jpg'" alt=""
+                        class="rounded-circle thumb-xs me-1" />
+                      {{ employee.name || 'N/A'}}
+                    </td>
+                    <td>{{ employee.email || 'N/A'}}</td>
+                    <td>{{ employee.phone || 'N/A'}}</td>
+                    <td>
+                      ₹{{
+                      employee.employeeEpf 
+                      }}
+                    </td>
+                    <td>
+                      ₹{{
+                      employee.employerEpf 
+                      }}
+                    </td>
+                    <td>
+                      ₹{{
+                      employee.employeeEsi
+                      }}
+                    </td>
+                    <td>
+                      ₹{{
+                      employee.employerEsi
+                      }}
+                    </td>
+                    <td>
+                      ₹{{
+                      employee.tds
+                      }}
+                    </td>
+                  </tr>
+                </tbody>
+              </ng-container>
+            </ng-template>
+          </table>
+
+          <!--end /table-->
+        </div>
+        <ng-template #errorConditionWhileFetchingEmployeeSalaryData>
+          <tbody>
+            <tr>
+              <td colspan="8">
+                <div class="empty-file" style="margin-top: 5%; margin-bottom: 5%" *ngIf="dataNotFoundPlaceholder">
+                  <nz-empty nzNotFoundImage="assets/images/no-data-found-img-2.svg" [nzNotFoundContent]="contentTpl">
+                    <ng-template #contentTpl>
+                      <p class="mb-1 empty-detail font-16">No data for now</p>
+                    </ng-template>
+                  </nz-empty>
+                </div>
+
+                <div class="empty-file" style="margin-top: 3%; margin-bottom: 3%"
+                  *ngIf="networkConnectionErrorPlaceHolder">
+                  <nz-empty nzNotFoundImage="assets/images/no-data-found-img-2.svg" [nzNotFoundContent]="contentTpl">
+                    <ng-template #contentTpl>
+                      <p class="mb-1 empty-detail font-16">
+                        Something went wrong
+                      </p>
+                    </ng-template>
+                  </nz-empty>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </ng-template>
       </div>
-      <ng-template #errorConditionWhileFetchingEmployeeSalaryData>
-        <tbody>
-          <tr>
-            <td colspan="8">
-              <div
-                class="empty-file"
-                style="margin-top: 3%; margin-bottom: 3%"
-                *ngIf="dataNotFoundPlaceholder"
-              >
-                <nz-empty
-                  nzNotFoundImage="assets/images/no-data-found-img-2.svg"
-                  [nzNotFoundContent]="contentTpl"
-                >
-                  <ng-template #contentTpl>
-                    <p class="mb-1 empty-detail font-16">No data for now</p>
-                  </ng-template>
-                </nz-empty>
-              </div>
-
-              <div
-                class="empty-file"
-                style="margin-top: 3%; margin-bottom: 3%"
-                *ngIf="networkConnectionErrorPlaceHolder"
-              >
-                <nz-empty
-                  nzNotFoundImage="assets/images/no-data-found-img-2.svg"
-                  [nzNotFoundContent]="contentTpl"
-                >
-                  <ng-template #contentTpl>
-                    <p class="mb-1 empty-detail font-16">
-                      Something went wrong
-                    </p>
-                  </ng-template>
-                </nz-empty>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </ng-template>
-    </div>
-    <!-- Pagination -->
-    <div
-      class="pagination pl-3 align-items-center justify-content-between"
-      *ngIf="
-        (total > itemPerPage - 1 ||
-          (pageNumber === lastPageNumber && lastPageNumber !== 1)) &&
-        !dataNotFoundPlaceholder &&
-        !networkConnectionErrorPlaceHolder
-      "
-    >
-      <p style="padding-left: 15px">
-        Showing {{ getStartIndex() }} - {{ getEndIndex() }} of
-        {{ total }} employees
-      </p>
-      <div>
-        <nav aria-label="Page navigation example">
-          <ul class="pagination justify-content-end">
-            <li class="page-item" [class.disabled]="pageNumber == 1">
-              <a
-                class="page-link"
-                href="javascript:void(0);"
-                aria-label="Previous"
-                (click)="changePage('prev')"
-              >
-                <span aria-hidden="true">&laquo;</span>
-              </a>
-            </li>
-            <li
-              class="page-item"
-              *ngFor="let page of getPages()"
-              [class.active]="pageNumber == page"
-            >
-              <a
-                class="page-link"
-                href="javascript:void(0);"
-                (click)="changePage(page)"
-                >{{ page }}</a
-              >
-            </li>
-            <li class="page-item" [class.disabled]="pageNumber == totalPages">
-              <a
-                class="page-link"
-                href="javascript:void(0);"
-                aria-label="Next"
-                (click)="changePage('next')"
-              >
-                <span aria-hidden="true">&raquo;</span>
-              </a>
-            </li>
-          </ul>
-        </nav>
+      <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top"
+        *ngIf="totalItems > 0">
+        <p class="mb-0"> Showing {{_helperService.startIndex(pageNumber,itemPerPage) }} - {{_helperService.lastIndex(pageNumber,itemPerPage,totalItems)}} of {{ totalItems }} results</p>
+        <div class="pagition-box">
+          <ngb-pagination [collectionSize]="totalItems" [page]="pageNumber" [pageSize]="itemPerPage" [maxSize]="5"
+            [boundaryLinks]="true" [ellipses]="true" (pageChange)="pageChange($event)">
+          </ngb-pagination>
+        </div>
       </div>
     </div>
-  </div>
   </div>
 </div>

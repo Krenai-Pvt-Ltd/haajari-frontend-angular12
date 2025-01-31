@@ -1563,14 +1563,7 @@
     white-space: nowrap;
     /* border: 1px solid #f1f1f1; */
   }
-  .badge {
-    line-height: 12px;
-    padding: 0.55em 10px;
-    font-size: 13px;
-    font-weight: 400;
-    letter-spacing: 0.1px;
-    min-width: 80px;
-  }
+ 
   
   .table-font-weight {
     font-weight: 400;
@@ -1987,7 +1980,7 @@
 .search-icon {
   font-size: 13px !important;
   position: absolute !important;
-  top: 0;
+  top: 2px;
   height: 100%;
   display: flex;
   align-items: center;

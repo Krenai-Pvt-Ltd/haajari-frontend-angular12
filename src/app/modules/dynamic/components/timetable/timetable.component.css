@@ -42,9 +42,11 @@
   color: #8d8d8d;
   text-align: center;
 }
+
 .time-table-list td p {
   margin-bottom: 5px;
 }
+
 span.first-name {
   background-color: #444;
   width: 30px;
@@ -94,6 +96,7 @@ span.first-name {
   min-width: 154px;
   padding: 18px 26px;
 }
+
 .css-1j0jct9 {
   min-width: 202px;
   position: sticky;
@@ -102,6 +105,7 @@ span.first-name {
   border-bottom: 1px solid rgb(217, 217, 217);
   z-index: 999;
 }
+
 .absent {
   color: red;
   font-size: 22px;
@@ -116,6 +120,7 @@ span.first-name {
 .today-in {
   color: green;
 }
+
 #hide {
   display: none;
 }
@@ -144,6 +149,7 @@ select.form-control {
   background-color: #0056b3;
   color: #fff;
 }
+
 #date-picker-wrapper {
   display: none;
 }
@@ -176,6 +182,7 @@ select.form-control {
 .btn:not(:disabled):not(.disabled) {
   cursor: pointer;
 }
+
 .calenderbtn {
   border: 1px solid #cccccc;
   border-radius: 8px 0px 0px 8px;
@@ -187,6 +194,7 @@ select.form-control {
   color: #777777 !important;
   box-shadow: none !important;
 }
+
 .inputdaterange {
   border: 1px solid #cccccc;
   border-radius: 0px 8px 8px 0px;
@@ -248,6 +256,7 @@ select.form-control {
   font-size: 14px;
   font-weight: 600;
 }
+
 .approved-right i {
   color: #b0b0b0;
   top: 11px;
@@ -278,6 +287,7 @@ select.form-control {
   font-size: 14px;
   color: #6666f3;
 }
+
 .attendance-deta p {
   margin-bottom: 0px;
   font-size: 13px;
@@ -310,6 +320,7 @@ select.form-control {
   align-items: center;
   color: var(--tb-secondary-color) !important;
 }
+
 .monthly-span {
   background-color: #e9e9e9;
   width: 20px;
@@ -377,6 +388,7 @@ select.form-control {
   font-size: 12px;
   font-weight: 500;
 }
+
 .add-filtter a {
   margin-bottom: 0px;
   color: #6666f3 !important;
@@ -533,7 +545,7 @@ span.members-name {
   width: 15px;
   height: 15px;
   background: #fff;
-  border: 1px solid #3762ea;
+  border: 1px solid #6666f3;
   -webkit-box-shadow: 3px 3px 0 #c1cff9;
   box-shadow: 3px 3px 0 #c1cff9;
   box-shadow: 3px 3px 0 #c1cff9;
@@ -631,6 +643,7 @@ span.members-name {
   color: #3e993e !important;
   border: 1px solid #3e993e;
 }
+
 .rejected {
   background-color: rgb(248, 215, 215);
   color: #eb5050 !important;
@@ -642,6 +655,7 @@ span.members-name {
   color: #fff !important;
   border: 1px solid #3e993e;
 }
+
 .rejected:hover {
   background-color: #eb5050;
   color: #fff !important;
@@ -663,6 +677,7 @@ span.edit-profile {
   cursor: pointer;
   font-size: 10px;
 }
+
 /* 
 span.edit-profile:hover{
     background-color: #adb5ff;
@@ -681,6 +696,7 @@ button.btn.close-btn {
   color: #6666f3;
   cursor: pointer;
 }
+
 .attendance-dates {
   position: absolute;
   top: 1px;
@@ -718,13 +734,16 @@ td.text-right {
   font-size: 11px;
   text-align: center;
 }
+
 .Approved p {
   color: #3e993e;
   font-weight: 700;
 }
+
 .Approved span {
   color: #3e993e !important;
 }
+
 .Approved {
   border-right: 1px solid #f1f1f1;
   width: 100px;
@@ -735,18 +754,20 @@ td.text-right {
   width: 15px;
   height: 15px;
   background: #fff;
-  border: 1px solid #3762ea;
+  border: 1px solid #6666f3;
   box-shadow: 3px 3px #c1cff9;
   border-radius: 50%;
   position: absolute;
   left: -8px;
   top: 0;
 }
+
 .pagination-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
+
 .pagination {
   display: flex;
   justify-content: space-between;
@@ -761,6 +782,7 @@ td.text-right {
 .in-time-color {
   color: green;
 }
+
 .out-time-color {
   color: red;
 }
@@ -774,7 +796,7 @@ td.text-right {
 }
 
 .scroll-box-logs {
-  height: 400px;
+  height: 450px;
   overflow-x: auto;
 }
 
@@ -817,6 +839,7 @@ td.text-right {
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out,
     -webkit-box-shadow 0.15s ease-in-out;
 }
+
 .route-to-userprofile {
   cursor: pointer;
 }
@@ -841,16 +864,12 @@ td.text-right {
   margin-bottom: 0px;
   text-align: center;
 }
+
 .attendance-log .icons {
   display: flex;
   gap: 10px;
 }
 
-.attendance-log {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
 
 .card {
   border: 1px solid #ededed;
@@ -897,22 +916,6 @@ td.text-right {
   margin-top: 4px;
 }
 
-.button-section {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  margin-top: 16px;
-}
-
-.view-button {
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-left: 8px;
-}
 
 .view-button:hover {
   background-color: #0056b3;
@@ -971,6 +974,7 @@ hr {
   /* background-color: #F1F1FD; */
   box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, 0.05);
 }
+
 .attendance-section-tab a {
   /* border: 1px solid black; */
   padding: 10px 15px;
@@ -987,42 +991,6 @@ hr {
   background-color: #f1f1fd;
 }
 
-.active-tab {
-  background-color: #e9e9ff;
-  /* background-color: #F1F1FD;
-  border: 0.5px solid #6666f3; */
-}
-
-.nav-tabs {
-  box-shadow: none !important;
-}
-
-.nav-tabs {
-  border-bottom: 1px solid #dee2e6;
-}
-
-.nav-tabs .nav-item {
-  margin-bottom: -1px;
-  margin-right: 1rem;
-}
-
-.nav-tabs .nav-link.active {
-  border-bottom: 2px solid #6666f3;
-  color: #6666f3;
-  background-color: transparent;
-}
-.nav-tabs .nav-link {
-  font-style: normal;
-  border-radius: 0px 0 0 0;
-  border: none;
-  padding: 7px 10px;
-  font-weight: 500;
-  font-size: 13px;
-  line-height: 21px;
-  color: #404040;
-}
-
-/* Overtime Tab CSS (Code taken from Leave mangament section) */
 .my-leave-log {
   padding: 15px;
   border: 1px solid #f1f1f1;
@@ -1058,6 +1026,7 @@ hr {
   margin-bottom: 0px;
   font-weight: 500;
 }
+
 .leave-logs p {
   font-size: 12px;
   color: #8d93a1 !important;
@@ -1138,6 +1107,7 @@ span.leave-rejected {
   font-weight: 500;
   color: red;
 }
+
 .approved-history p {
   font-size: 12px;
   font-weight: 500;
@@ -1149,6 +1119,7 @@ span.leave-rejected {
   /* padding: 6px; */
   transition: 0.5s;
 }
+
 /* .view-loges-btn:hover{
     border-bottom: 1px solid #6666f3;
     transition: 0.5s;
@@ -1215,9 +1186,11 @@ span.leave-rejected {
   color: #444;
   border: 1px solid #f1f1f1;
 }
+
 .profile-details h4 {
   margin-bottom: 0px !important;
 }
+
 .profile-details p {
   margin-bottom: 0px !important;
   padding-bottom: 0px;
@@ -1253,9 +1226,11 @@ span.leave-rejected {
   border-right: 1px solid #f1f1f1;
   width: 160px;
 }
+
 .Approved:last-child {
   border-right: none;
 }
+
 .Approved:first-child {
   border-right: none;
   text-align: left;
@@ -1266,11 +1241,13 @@ span.leave-rejected {
 }
 
 .rejected-css span {
-  color: black !important ;
+  color: black !important;
 }
+
 .Approved p {
   color: #3e993e !important;
 }
+
 .Approved span {
   color: #3e993e !important;
 }
@@ -1363,11 +1340,12 @@ span.leave-rejected {
   padding: 6px;
 }
 
-.acitivity-timeline-2 h6 {
+.acitivity-box {
   background-color: #f9f9f9;
   padding: 8px;
   border-radius: 3px;
 }
+
 /* 
 .chart-box {
     width: 100%;
@@ -1379,10 +1357,12 @@ span.leave-rejected {
   width: 28px;
   height: 28px;
 }
+
 .bg-soft-success:hover {
   background-color: rgba(34, 183, 131, 0.08) !important;
   color: #22b783 !important;
 }
+
 .bg-soft-danger:hover {
   background-color: rgba(239, 77, 86, 0.08) !important;
   color: #ef4d56 !important;
@@ -1411,7 +1391,8 @@ span.leave-rejected {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100%; /* Adjust as needed */
+  height: 100%;
+  /* Adjust as needed */
 }
 
 .dot-opacity-loader span {
@@ -1419,7 +1400,8 @@ span.leave-rejected {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background-color: #007bff; /* Bootstrap primary color for example, change as needed */
+  background-color: #007bff;
+  /* Bootstrap primary color for example, change as needed */
   margin: 0 4px;
   animation: dotOpacity 1.4s infinite ease-in-out both;
 }
@@ -1429,7 +1411,8 @@ span.leave-rejected {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background-color: #eb5050; /* Bootstrap primary color for example, change as needed */
+  background-color: #eb5050;
+  /* Bootstrap primary color for example, change as needed */
   margin: 0 4px;
   animation: dotOpacity 1.4s infinite ease-in-out both;
 }
@@ -1439,7 +1422,8 @@ span.leave-rejected {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background-color: #3e993e; /* Bootstrap primary color for example, change as needed */
+  background-color: #3e993e;
+  /* Bootstrap primary color for example, change as needed */
   margin: 0 4px;
   animation: dotOpacity 1.4s infinite ease-in-out both;
 }
@@ -1454,11 +1438,13 @@ span.leave-rejected {
 
 /* Keyframes for the opacity animation */
 @keyframes dotOpacity {
+
   0%,
   80%,
   100% {
     opacity: 0;
   }
+
   40% {
     opacity: 1;
   }
@@ -1467,10 +1453,12 @@ span.leave-rejected {
 .activity .activity-info:last-child ::before {
   border: none;
 }
+
 .overtime-request-action-field p {
   line-height: normal;
 }
-.overtime-request-action-field p > span {
+
+.overtime-request-action-field p>span {
   font-weight: bold;
 }
 
@@ -1482,17 +1470,156 @@ span.leave-rejected {
 ::ng-deep.ant-empty-image img {
   width: 90px;
 }
+
 .attendance-details-section {
   height: 80vh;
 }
+
 .attendance-details-section h5 {
   columns: #000;
 }
+
 .attendance-details-section p {
   color: #6b7280;
   line-height: 18px;
   font-weight: 500;
 }
+
 ::ng-deep.ant-picker {
   background-color: transparent !important;
+}
+
+.nots-section {
+  background-color: rgba(236, 236, 236, 0.21) !important;
+  width: 100%;
+  height: 80px !important;
+  border: 1px solid #e9e9e9;
+}
+
+.input-zorro {
+  border-radius: 2px !important;
+  border: 1.021px solid #e9e9e9 !important;
+  background: rgba(236, 236, 236, 0.21) !important;
+  height: 45px !important;
+  font-size: 12px !important;
+  font-weight: 400 !important;
+}
+
+.cancel-btn {
+  background-color: #fbfbfb;
+  border: 1px solid #e6e7e9;
+  border-radius: 2px;
+  color: #4a4a4a;
+  font-size: 12px;
+  font-weight: 500;
+  width: 120px;
+}
+
+.submitActionBtn {
+  background-color: var(--primary-background-color);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 2px;
+  width: 120px;
+}
+
+:ng-deep.ant-empty-image img {
+  width: 90px;
+}
+
+:ng-deep.empty-detail {
+  color: #6b7280;
+  line-height: 20px;
+}
+
+.excel-upload-members {
+  background-color: #fff;
+  color: var(--primary-color);
+  /* border: 1px solid var(--primary-background-color); */
+  font-size: 14px;
+  height: 40px;
+  min-width: 160px;
+  border-radius: 2px;
+  font-weight: 400;
+}
+
+.excel-upload-members i {
+  padding-right: 5px;
+}
+
+.excel-upload-members:hover {
+  color: #fff;
+  background-color: var(--primary-background-color);
+}
+
+.bi::before {
+  font-weight: 600 !important;
+}
+
+.alert-light p {
+  font-size: 14px;
+  font-weight: 300;
+  color: #878A9A;
+}
+
+.alert-badge {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background-color: red;
+  border-radius: 50%;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
+.nav.nav-pills {
+  background-color: transparent;
+  border-bottom: none;
+}
+
+.nav-pills .nav-item.show .nav-link,
+.nav-pills .nav-link.active-tab {
+  background: transparent !important;
+  color: var(--primary-color) !important;
+  border-radius: 0;
+  border-bottom: 2px solid var(--primary-color);
+}
+
+.nav-link {
+  display: block;
+  padding: 7px 10px;
+  color: #000;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 500;
+  text-align: left;
+}
+
+.nav-item {
+  margin-right: 15px;
+}
+
+.attendance-date {
+  border-radius: 2px;
+  border: 1px solid #DCDCE4;
+}
+
+.calendar-back-btn {
+  width: 40px;
+  height: 30px;
+}
+
+.calendar-separator {
+  border-left: 1px solid #DCDCE4;
+  height: 27px;
+}
+
+span.request-count {
+  background-color: rgb(241 241 253) !important;
+  color: var(--primary-color) !important;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
 }

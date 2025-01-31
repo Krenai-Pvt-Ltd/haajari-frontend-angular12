@@ -17,6 +17,10 @@
     <app-header></app-header>
   </div>
 </div>
-<router-outlet ></router-outlet>
+<router-outlet  *ngIf="!onboardingService.isLoadingOnboardingStatus"></router-outlet>
+
+<app-hajiri-page-loader *ngIf="onboardingService.isLoadingOnboardingStatus">
+</app-hajiri-page-loader>
 
 <app-notifaction-tost *ngIf="isShowToast"></app-notifaction-tost>
+<!-- <app-exit-modal></app-exit-modal>  -->

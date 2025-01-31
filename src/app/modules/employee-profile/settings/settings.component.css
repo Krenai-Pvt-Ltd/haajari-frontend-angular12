@@ -1,0 +1,23 @@
+.list-unstyled p {
+    color: #878A9A;
+}
+
+.stap-back-btn {
+    background-color: #fff;
+    border: 1px solid var(--primary-color);
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+}
+
+.topbar {
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+    z-index: 999;
+    padding-left: 25px !important;
+}

@@ -1,4 +1,10 @@
-<div class="page-wrapper">
+<app-hajiri-page-loader *ngIf="isToDoStepsCompleted == undefined">
+</app-hajiri-page-loader>
+
+
+<app-to-do-step-dashboard *ngIf="!isToDoStepsCompleted && isToDoStepsCompleted != undefined"></app-to-do-step-dashboard>
+
+<div class="page-wrapper" *ngIf="isToDoStepsCompleted">
   <!-- Page Content-->
   <div class="page-content-tab">
     <div class="container-fluid">
@@ -86,16 +92,12 @@
                       </a> -->
                         </p>
                       </div>
-                      <div class="Approved pending-css rejected-css text-center border-right" style="cursor: pointer"
+                      <div class="Approved pending-css rejected-css text-center border-right pointer"
                         data-bs-toggle="modal" data-bs-target="#leaveUsersModal" (click)="getLeaveUsers()">
                         <span class="total-holiday pb-2">Leave</span>
 
                         <p class="mb-0">
                           {{ attendanceDetailsCountResponse.usersOnLeave }}
-                          <!-- <a href="#" data-bs-toggle="modal" data-bs-target="#leaveUsersModal" (click)="getLeaveUsers()">
-                          {{ attendanceDetailsCountResponse.usersOnLeave }}
-                        </a> -->
-                          <!-- {{ attendanceDetailsCountResponse.usersOnLeave }} -->
                         </p>
                       </div>
                       <div class="Approved absents text-center border-right" style="cursor: pointer"
@@ -529,7 +531,7 @@
         </ng-template>
       </div>
       <!--  ########best performer -->
-      <div>
+      <div *ngIf="bestPerformerAttendanceDetailsResponseList.length > 0">
         <div class="row mb-3" *ngIf="ROLE === ADMIN || ROLE === MANAGER">
           <div class="col-md-12">
             <div class="col mb-3">
@@ -984,6 +986,7 @@
                                 <!-- {{
                                   attendanceReportResponse.totalPayOutDaysUpToToday
                                 }} -->
+                                  <!-- {{attendanceReportResponse.presentCount}} -->
                                 {{attendanceReportResponse.totalDayInMonth - attendanceReportResponse.totalDeduction}}
                               </td>
                             </tr>
@@ -1313,46 +1316,118 @@
           </div>
           <!--end form-switch-->
         </div>
-        <!--end /div-->
         <h6>General Settings</h6>
         <div class="p-2 text-start mt-3">
           <div class="form-check form-switch mb-2">
             <input class="form-check-input" type="checkbox" id="settings-switch4" />
             <label class="form-check-label" for="settings-switch4">Show me Online</label>
           </div>
-          <!--end form-switch-->
           <div class="form-check form-switch mb-2">
             <input class="form-check-input" type="checkbox" id="settings-switch5" checked />
             <label class="form-check-label" for="settings-switch5">Status visible to all</label>
           </div>
-          <!--end form-switch-->
           <div class="form-check form-switch">
             <input class="form-check-input" type="checkbox" id="settings-switch6" />
             <label class="form-check-label" for="settings-switch6">Notifications Popup</label>
           </div>
-          <!--end form-switch-->
         </div>
-        <!--end /div-->
       </div>
-      <!--end offcanvas-body-->
     </div>
-    <!--end Rightbar/offcanvas-->
-    <!--end Rightbar-->
-
-    <!--Start Footer-->
-    <!-- Footer Start -->
-    <!-- <footer class="footer text-center text-sm-start">
-            &copy; <script>
-                document.write(new Date().getFullYear())
-            </script> Unikit <span class="text-muted d-none d-sm-inline-block float-end">Crafted with <i
-                    class="mdi mdi-heart text-danger"></i> by Mannatthemes</span>
-        </footer> -->
-    <!-- end Footer -->
-    <!--end footer-->
+    
   </div>
-  <!-- end page content -->
 </div>
-<!-- end page-wrapper -->
+
+<div class="modal fade" id="leaveUsersModal" #leaveUsersModal tabindex="-1" aria-labelledby="leaveUsersModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="leaveUsersModalLabel">Leave Users</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="onboarding-date d-flex align-items-center w-100 gap-2" *ngIf="!hideSearchLeave">
+        <form role="search" class="searching ng-untouched ng-pristine ng-valid w-100">
+          <div class="form-group w-100 position-relative">
+            <input type="text" id="searchText" placeholder="Search by name or email..."
+              class="form-control me-2 ng-untouched ng-pristine ng-valid" (keyup)="searchLeave()"
+              [(ngModel)]="searchTermLeave" [ngModelOptions]="{ standalone: true }"
+              style="padding: 10px 40px; border: none" />
+           
+            <i class="bi bi-search search-icon" style="margin: auto; margin-left: 15px" *ngIf="!crossFlagLeave"></i>
+            <i class="bi bi-x search-icon" style="margin: auto; margin-left: 15px" *ngIf="crossFlagLeave"
+              (click)="reloadPageLeave()"></i>
+          </div>
+        </form>
+      </div>
+      <div class="empty-file" style="margin-top: 7%; margin-bottom: 7%"
+        *ngIf="leaveUsers.length == 0 && !isLeaveLoaderLoading">
+        <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
+          <ng-template #contentTpl>
+            <p class="mb-1 empty-detail font-16">No data for now</p>
+          </ng-template>
+        </nz-empty>
+      </div>
+      <div class="empty-file" style="margin-top: 7%; margin-bottom: 7%"
+        *ngIf="leaveUsers.length == 0 && isLeaveLoaderLoading">
+        <div class="text-center load-more-btn">
+          <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
+          <div>
+            <small>Loading...</small>
+          </div>
+        </div>
+      </div>
+      <div class="modal-body" *ngIf="leaveUsers.length > 0">
+        <div class="user-list-modal">
+          <ul class="pb-3 mb-3 border-bottom" style="padding-left: 5px;" *ngFor="let user of leaveUsers">
+            <li class="align-items-center d-flex justify-content-between">
+              <div class="media">
+                <div class="thumb-xs bg-soft-primary rounded-circle d-flex justify-content-center align-items-center">
+                  <img src="{{ user?.image }}" alt="" class="rounded-circle thumb-sm me-1" *ngIf="user?.image"
+                    (error)="onError($event)" />
+                  <span class="members-name-new" id="user-first-name-logo" *ngIf="!user?.image">{{ user.userName[0]
+                    }}</span>
+                  
+                </div>
+                <div class="media-body align-self-center ms-3">
+                  <div class="transaction-data">
+                    <h5 class="m-0 font-14">{{ user?.userName }}</h5>
+                    <p class="text-muted mb-0">{{ user?.email }}</p>
+                  </div>
+                </div>
+              </div>
+              <span class="text-success"> Leave-count : {{ user?.count }}</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="modal-footer d-flex align-items-center justify-content-between" *ngIf="totalCountLeave > itemsPerPageLeave">
+        <p class="mb-0">
+          Showing {{ startIndexLeave }} - {{ endIndexLeave }} of {{ totalCountLeave }} items
+        </p>
+        <nav aria-label="Page navigation example">
+          <ul class="pagination justify-content-end">
+            <li class="page-item" [class.disabled]="currentPageLeave === 1">
+              <a class="page-link" (click)="changePageLeave('prev')">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+            <li class="page-item" *ngFor="let page of getPagesLeave()" [class.active]="currentPageLeave === page"
+              [class.disabled]="page === '...'">
+              <a class="page-link" *ngIf="page !== '...'" (click)="changePageLeave(page)">
+                {{ page }}
+              </a>
+              <span class="page-link" *ngIf="page === '...'">{{ page }}</span>
+            </li>
+            <li class="page-item" [class.disabled]="currentPageLeave === totalPagesLeave">
+              <a class="page-link" (click)="changePageLeave('next')">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- Button to trigger the modal -->
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#presentModal">
@@ -1361,13 +1436,12 @@
 
 <!-- Modal Structure -->
 <div class="modal fade" id="presentModal" tabindex="-1" aria-labelledby="transactionModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-md">
+  <div class="modal-dialog modal-md modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="transactionModalLabel" *ngIf="filterCriteria === 'PRESENT'">
           Present Users
         </h5>
-        <!-- {{absentFlag}} -->
         <h5 class="modal-title" id="transactionModalLabel" *ngIf="filterCriteria === 'ABSENT' && absentFlag">
           Absent Users
         </h5>
@@ -1378,45 +1452,18 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
           (click)="resetPresentModal()"></button>
       </div>
-      <!-- {{hideSearchBar}} -->
-      <div class="onboarding-date d-flex align-items-center" style="gap: 10px; width: 100%" *ngIf="!hideSearchBar">
-        <form role="search" class="searching ng-untouched ng-pristine ng-valid" style="width: 100%">
-          <div class="form-group" style="width: 100%; position: relative">
+      <div class="onboarding-date d-flex align-items-center gap-2 w-100 search-box" *ngIf="!hideSearchBar">
+        <form role="search" class="searching ng-untouched ng-pristine ng-valid w-100">
+          <div class="form-group w-100 position-relative">
             <input type="text" id="searchText" placeholder="Search by {{ searchByNew }} ..."
               class="form-control me-2 ng-untouched ng-pristine ng-valid" (keyup)="searchUsersNew('any')"
               [(ngModel)]="search" [ngModelOptions]="{ standalone: true }" style="padding: 10px 40px; border: none" />
-            <!-- <button
-                type="button"
-                class="btn close-btn"
-                (click)="reloadPage()"
-                *ngIf="crossFlag"
-              >
-                <i class="bi bi-x mt-auto mb-auto pl-3"></i>
-              </button> -->
             <i class="bi bi-search search-icon" style="margin: auto; margin-left: 15px" *ngIf="search == ''"></i>
             <i class="bi bi-x search-icon" style="margin: auto; margin-left: 15px" (click)="reloadPage()"
               *ngIf="search != ''"></i>
           </div>
         </form>
       </div>
-      <!-- <div
-        class="errorboxmain text-center"
-        *ngIf="attendanceDetailsResponseList.length == 0"
-      >
-        <div class="errorboxinner">
-          <div class="errorboxplaceholder mb-2">
-            <img src="assets/images/empty-box.svg" style="width: 80px" />
-          </div>
-          <div class="">
-            <h4>No Data Found</h4>
-            <p class="mb-0">
-              We're unable to locate a record associated with the information
-              you entered.
-            </p>
-          </div>
-        </div>
-      </div> -->
-
       <div class="empty-file" style="margin-top: 7%; margin-bottom: 7%"
         *ngIf="attendanceDetailsResponseList.length == 0 && !isLoaderLoading">
         <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
@@ -1435,27 +1482,22 @@
         </div>
 
       </div>
+      <div class="modal-body" *ngIf="attendanceDetailsResponseList.length > 0">
+       
 
-      <div class="modal-body mt-0 pt-0" *ngIf="attendanceDetailsResponseList.length > 0">
-        <!-- <div class="card-body"> -->
-
-        <ul class="list-unstyled m-0 ps-0 transaction-history" *ngFor="let attendList of attendanceDetailsResponseList">
+        <div class="user-list-modal">
+        <ul class="pb-3 mb-3 border-bottom" style="padding-left: 5px;" *ngFor="let attendList of attendanceDetailsResponseList">
           <li class="align-items-center d-flex justify-content-between">
-            <div class="media">
+            <div class="d-flex align-items-center gap-3">
               <div class="thumb-xs bg-soft-primary rounded-circle d-flex justify-content-center align-items-center">
-                <img src="{{ attendList.image }}" alt="" class="rounded-circle thumb-sm me-1" *ngIf="attendList.image"
+                <img src="{{ attendList.image }}" alt="" class="rounded-circle thumb-sm" *ngIf="attendList.image"
                   (error)="onError($event)" />
-                <span class="members-name-new" id="user-first-name-logo" *ngIf="!attendList.image">{{ attendList.name[0]
-                  }}</span>
-                <!-- <span class="thumb-xl justify-content-center d-flex align-items-center bg-soft-success rounded-circle me-2" *ngIf="!attendList.image">{{ attendList.name[0] }}</span> -->
+                <span id="user-first-name-logo" *ngIf="!attendList.image">{{ attendList.name[0] }}</span>
               </div>
-              <div class="media-body align-self-center ms-3">
-                <div class="transaction-data">
+              <div>
                   <h5 class="m-0 font-14">{{ attendList.name }}</h5>
                   <p class="text-muted mb-0">{{ attendList.email }}</p>
-                </div>
               </div>
-              <!--end media body-->
             </div>
             <span class="text-success" *ngIf="attendList.currentStatus !== 'Late'">{{ attendList.checkInTime | date :
               "shortTime" }}</span>
@@ -1463,64 +1505,10 @@
               "shortTime" }}</span>
           </li>
         </ul>
-
-        <!-- Pagination -->
-        <!-- <div class="pagination pl-3" *ngIf="this.totalItems > 10">
-          <p class="mb-0" style="padding-left: 15px">
-            Showing {{ getStartIndexNew() }} - {{ getEndIndexNew() }} of
-            {{ totalItems }} items
-          </p>
-          <div class="row">
-            <div class="col-md-12">
-              <nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-end">
-                  <li class="page-item" [class.disabled]="pageNumberNew == 1">
-                    <a
-                      class="page-link"
-                      href="javascript:void(0);"
-                      aria-label="Previous"
-                      (click)="changePageNew('prev')"
-                    >
-                      <span aria-hidden="true">&laquo;</span>
-                    </a>
-                  </li>
-                  <li
-                    class="page-item"
-                    *ngFor="let page of getPagesNew()"
-                    [class.active]="pageNumberNew == page"
-                  >
-                    <a
-                      class="page-link"
-                      href="javascript:void(0);"
-                      (click)="changePageNew(page)"
-                      >{{ page }}</a
-                    >
-                  </li>
-                  <li
-                    class="page-item"
-                    [class.disabled]="pageNumberNew == lastPageNumberNew"
-                  >
-                    <a
-                      class="page-link"
-                      href="javascript:void(0);"
-                      aria-label="Next"
-                      (click)="changePageNew('next')"
-                    >
-                      <span aria-hidden="true">&raquo;</span>
-                    </a>
-                  </li>
-                </ul>
-              </nav>
-            </div>
-          </div>
-        </div> -->
-
-        <div class="pagination pl-3" *ngIf="totalItems > 10">
-          <p class="mb-0" style="padding-left: 15px">
-            Showing {{ getStartIndexNew() }} - {{ getEndIndexNew() }} of {{ totalItems }} items
-          </p>
-          <div class="row">
-            <div class="col-md-12">
+      </div>
+      </div>
+      <div class="modal-footer d-flex align-items-center justify-content-between" *ngIf="totalItems > 10">
+          <p class="mb-0">Showing {{ getStartIndexNew() }} - {{ getEndIndexNew() }} of {{ totalItems }} items</p>
               <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-end">
                   <li class="page-item" [class.disabled]="pageNumberNew === 1">
@@ -1542,72 +1530,32 @@
                   </li>
                 </ul>
               </nav>
-            </div>
-          </div>
-        </div>
-
-        <!-- </div> -->
       </div>
-      <!-- <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-          Close
-        </button>
-      </div> -->
     </div>
   </div>
 </div>
 <!--  break modal  -->
 
 <div class="modal fade" id="breakUsersModal" tabindex="-1" aria-labelledby="breakUsersModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-md">
+  <div class="modal-dialog modal-md modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="transactionModalLabel">Break Users</h5>
-
-        <!-- <h5 class="modal-title" id="breakUsersModalLabel">
-          Break Users List
-        </h5> -->
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="onboarding-date d-flex align-items-center" style="gap: 10px; width: 100%" *ngIf="!hideSearchBreak">
-        <form role="search" class="searching ng-untouched ng-pristine ng-valid" style="width: 100%">
-          <div class="form-group" style="width: 100%; position: relative">
+      <div class="onboarding-date d-flex align-items-center gap-2 w-100" style="gap: 10px; width: 100%" *ngIf="!hideSearchBreak">
+        <form role="search" class="searching ng-untouched ng-pristine ng-valid w-100" >
+          <div class="form-group position-relative w-100">
             <input type="text" id="searchText" placeholder="Search by name or email..."
               class="form-control me-2 ng-untouched ng-pristine ng-valid" (keyup)="searchBreak()"
               [(ngModel)]="searchTermBreak" [ngModelOptions]="{ standalone: true }"
               style="padding: 10px 40px; border: none" />
-            <!-- <button
-                type="button"
-                class="btn close-btn"
-                (click)="reloadPageBreak()"
-                *ngIf="crossFlagBreak"
-              >
-                <i class="bi bi-x mt-auto mb-auto pl-3"></i>
-              </button> -->
             <i class="bi bi-search search-icon" style="margin: auto; margin-left: 15px" *ngIf="!crossFlagBreak"></i>
             <i class="bi bi-x search-icon" style="margin: auto; margin-left: 15px" (click)="reloadPageBreak()"
               *ngIf="crossFlagBreak"></i>
           </div>
         </form>
       </div>
-
-      <!-- 
-      <div class="errorboxmain text-center" *ngIf="breakUsers.length == 0 && !isBreakLoaderLoading">
-
-        <div class="errorboxinner">
-          <div class="errorboxplaceholder mb-2">
-            <img src="assets/images/empty-box.svg" style="width: 80px" />
-          </div>
-          <div class="">
-            <h4>No Data Found</h4>
-            <p class="mb-0">
-              We're unable to locate a record associated with the information
-              you entered.
-            </p>
-          </div>
-        </div>
-      </div>  -->
-
       <div class="empty-file" style="margin-top: 7%; margin-bottom: 7%"
         *ngIf="breakUsers.length == 0 && !isBreakLoaderLoading">
         <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
@@ -1626,9 +1574,9 @@
         </div>
 
       </div>
-      <div class="modal-body pt-0" *ngIf="breakUsers.length > 0">
-
-        <ul class="list-unstyled m-0 ps-0 transaction-history" *ngFor="let user of breakUsers">
+      <div class="modal-body" *ngIf="breakUsers.length > 0">
+        <div class="user-list-modal">
+        <ul class="pb-3 mb-3 border-bottom" style="padding-left: 5px;" *ngFor="let user of breakUsers">
           <li class="align-items-center d-flex justify-content-between">
             <div class="media">
               <div class="thumb-xs bg-soft-primary rounded-circle d-flex justify-content-center align-items-center">
@@ -1636,7 +1584,6 @@
                   (error)="onError($event)" />
                 <span class="members-name-new" id="user-first-name-logo" *ngIf="!user?.image">{{ user.userName[0]
                   }}</span>
-                <!-- <span class="thumb-xl justify-content-center d-flex align-items-center bg-soft-success rounded-circle me-2" *ngIf="!user.image">{{ user.name[0] }}</span> -->
               </div>
               <div class="media-body align-self-center ms-3">
                 <div class="transaction-data">
@@ -1644,139 +1591,65 @@
                   <p class="text-muted mb-0">{{ user.userEmail }}</p>
                 </div>
               </div>
-              <!--end media body-->
             </div>
             <span class="text-success">{{
               user.checkTime | date : "shortTime"
               }}</span>
           </li>
         </ul>
-
-        <!-- Pagination -->
-        <!-- <div class="pagination pl-3" *ngIf="totalCountBreak > 10">
-          <p class="mb-0">
-            Showing {{ startIndexBreak }} - {{ endIndexBreak }} of
-            {{ totalCountBreak }} items
-          </p>
-          <div class="row">
-            <div class="col-md-12">
-              <nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-end">
-                  <li
-                    class="page-item"
-                    [class.disabled]="currentPageBreak === 1"
-                  >
-                    <a class="page-link" (click)="changePageBreak('prev')">
-                      <span aria-hidden="true">&laquo;</span>
-                    </a>
-                  </li>
-                  <li
-                    class="page-item"
-                    *ngFor="let page of pagesBreak"
-                    [class.active]="currentPageBreak === page"
-                  >
-                    <a class="page-link" (click)="changePageBreak(page)">
-                      {{ page }}
-                    </a>
-                  </li>
-                  <li
-                    class="page-item"
-                    [class.disabled]="currentPageBreak === totalPagesBreak"
-                  >
-                    <a class="page-link" (click)="changePageBreak('next')">
-                      <span aria-hidden="true">&raquo;</span>
-                    </a>
-                  </li>
-                </ul>
-              </nav>
-            </div>
-          </div>
-        </div> -->
-
-        <div class="pagination pl-3" *ngIf="totalCountBreak > 10">
+      </div>
+      
+      </div>
+      <div class="modal-footer d-flex align-items-center justify-content-between" *ngIf="totalCountBreak > 10">
           <p class="mb-0">
             Showing {{ startIndexBreak }} - {{ endIndexBreak }} of {{ totalCountBreak }} items
           </p>
-          <div class="row">
-            <div class="col-md-12">
-              <nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-end">
-                  <li class="page-item" [class.disabled]="pageNumberBreak === 1">
-                    <a class="page-link" (click)="changePageBreak('prev')">
-                      <span aria-hidden="true">&laquo;</span>
-                    </a>
-                  </li>
-                  <li class="page-item" *ngFor="let page of pagesBreak" [class.active]="pageNumberBreak === page"
-                    [class.disabled]="page === '...'">
-                    <a class="page-link" (click)="changePageBreak(page)" *ngIf="page !== '...'">{{ page }}</a>
-                    <span class="page-link" *ngIf="page === '...'">{{ page }}</span>
-                  </li>
-                  <li class="page-item" [class.disabled]="pageNumberBreak === totalPagesBreak">
-                    <a class="page-link" (click)="changePageBreak('next')">
-                      <span aria-hidden="true">&raquo;</span>
-                    </a>
-                  </li>
-                </ul>
-              </nav>
-            </div>
-          </div>
-        </div>
-
-        <!-- </div> -->
+          <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-end">
+              <li class="page-item" [class.disabled]="pageNumberBreak === 1">
+                <a class="page-link" (click)="changePageBreak('prev')">
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+              <li class="page-item" *ngFor="let page of pagesBreak" [class.active]="pageNumberBreak === page"
+                [class.disabled]="page === '...'">
+                <a class="page-link" (click)="changePageBreak(page)" *ngIf="page !== '...'">{{ page }}</a>
+                <span class="page-link" *ngIf="page === '...'">{{ page }}</span>
+              </li>
+              <li class="page-item" [class.disabled]="pageNumberBreak === totalPagesBreak">
+                <a class="page-link" (click)="changePageBreak('next')">
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
       </div>
-      <!-- <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-          Close
-        </button>
-      </div> -->
     </div>
   </div>
 </div>
 
 <!--  Late employee -->
 <div class="modal fade" id="lateUsersModal" tabindex="-1" aria-labelledby="lateUsersModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-md">
+  <div class="modal-dialog modal-md modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="transactionModalLabel">Late Users</h5>
-
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="onboarding-date d-flex align-items-center" style="gap: 10px; width: 100%" *ngIf="!hideSearchLate">
+
+      <div class="onboarding-date d-flex align-items-center gap-2 w-100 search-box" *ngIf="!hideSearchLate">
         <form role="search" class="searching ng-untouched ng-pristine ng-valid" style="width: 100%">
-          <div class="form-group" style="width: 100%; position: relative">
+          <div class="form-group w-100 position-relative">
             <input type="text" id="searchText" placeholder="Search by name or email..."
               class="form-control me-2 ng-untouched ng-pristine ng-valid" (keyup)="searchLate()"
               [(ngModel)]="searchTermLate" [ngModelOptions]="{ standalone: true }"
               style="padding: 10px 40px; border: none" />
-            <!-- <button
-                  type="button"
-                  class="btn close-btn"
-                  (click)="reloadPageLate()"
-                  *ngIf="searchTermLate"
-                >
-                  <i class="bi bi-x mt-auto mb-auto pl-3"></i>
-                </button> -->
             <i class="bi bi-search search-icon" style="margin: auto; margin-left: 15px" *ngIf="!searchTermLate"></i>
             <i class="bi bi-x search-icon" style="margin: auto; margin-left: 15px" (click)="reloadPageLate()"
               *ngIf="searchTermLate"></i>
           </div>
         </form>
       </div>
-      <!-- <div class="errorboxmain text-center" *ngIf="lateUsers.length == 0">
-        <div class="errorboxinner">
-          <div class="errorboxplaceholder mb-2">
-            <img src="assets/images/empty-box.svg" style="width: 80px" />
-          </div>
-          <div class="">
-            <h4>No Data Found</h4>
-            <p class="mb-0">
-              We're unable to locate a record associated with the information
-              you entered.
-            </p>
-          </div>
-        </div>
-      </div> -->
 
       <div class="empty-file" style="margin-top: 7%; margin-bottom: 7%"
         *ngIf="lateUsers.length == 0  && !isLateLoaderLoading">
@@ -1797,7 +1670,8 @@
 
       </div>
       <div class="modal-body" *ngIf="lateUsers.length > 0">
-        <ul class="list-unstyled m-0 ps-0 transaction-history pt-0" *ngFor="let user of lateUsers">
+       <div class="user-list-modal" >
+        <ul class="pb-3 mb-3 border-bottom" style="padding-left: 5px;" *ngFor="let user of lateUsers">
           <li class="align-items-center d-flex justify-content-between">
             <div class="media">
               <div class="thumb-xs bg-soft-primary rounded-circle d-flex justify-content-center align-items-center">
@@ -1819,53 +1693,11 @@
               {{ user.lateDuration | durationFormat }}</span>
           </li>
         </ul>
-
-        <!-- Pagination -->
-        <!-- <div class="pagination pl-3" *ngIf="totalCountLate > itemsPerPageLate">
-          <p class="mb-0">
-            Showing {{ startIndexLate }} - {{ endIndexLate }} of
-            {{ totalCountLate }} items
-          </p>
+      </div>
+      </div>
+      <div class="modal-footer d-flex align-items-center justify-content-between" *ngIf="totalCountLate > itemsPerPageLate">
+          <p class="mb-0"> Showing {{ startIndexLate }} - {{ endIndexLate }} of {{ totalCountLate }} items</p>
           <div class="row">
-            <div class="col-md-12">
-              <nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-end">
-                  <li
-                    class="page-item"
-                    [class.disabled]="currentPageLate === 1"
-                  >
-                    <a class="page-link" (click)="changePageLate('prev')">
-                      <span aria-hidden="true">&laquo;</span>
-                    </a>
-                  </li>
-                  <li
-                    class="page-item"
-                    *ngFor="let page of pagesLate"
-                    [class.active]="currentPageLate === page"
-                  >
-                    <a class="page-link" (click)="changePageLate(page)">
-                      {{ page }}
-                    </a>
-                  </li>
-                  <li
-                    class="page-item"
-                    [class.disabled]="currentPageLate === totalPagesLate"
-                  >
-                    <a class="page-link" (click)="changePageLate('next')">
-                      <span aria-hidden="true">&raquo;</span>
-                    </a>
-                  </li>
-                </ul>
-              </nav>
-            </div>
-          </div>
-        </div> -->
-        <div class="pagination pl-3" *ngIf="totalCountLate > itemsPerPageLate">
-          <p class="mb-0">
-            Showing {{ startIndexLate }} - {{ endIndexLate }} of {{ totalCountLate }} items
-          </p>
-          <div class="row">
-            <div class="col-md-12">
               <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-end">
                   <li class="page-item" [class.disabled]="currentPageLate === 1">
@@ -1887,215 +1719,20 @@
                   </li>
                 </ul>
               </nav>
-            </div>
-          </div>
-        </div>
-
-
-        <!-- </div> -->
       </div>
-      <!-- <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-          Close
-        </button>
-      </div> -->
     </div>
   </div>
 </div>
 
 <!--  leave users  -->
 
-<div class="modal fade" id="leaveUsersModal" tabindex="-1" aria-labelledby="leaveUsersModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-md">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="leaveUsersModalLabel">Leave Users</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="onboarding-date d-flex align-items-center" style="gap: 10px; width: 100%" *ngIf="!hideSearchLeave">
-        <form role="search" class="searching ng-untouched ng-pristine ng-valid" style="width: 100%">
-          <div class="form-group" style="width: 100%; position: relative">
-            <input type="text" id="searchText" placeholder="Search by name or email..."
-              class="form-control me-2 ng-untouched ng-pristine ng-valid" (keyup)="searchLeave()"
-              [(ngModel)]="searchTermLeave" [ngModelOptions]="{ standalone: true }"
-              style="padding: 10px 40px; border: none" />
-            <!-- <button
-                type="button"
-                class="btn close-btn"
-                (click)="reloadPageLeave()"
-                *ngIf="crossFlagLeave"
-              >
-                <i class="bi bi-x mt-auto mb-auto pl-3"></i>
-              </button> -->
-            <i class="bi bi-search search-icon" style="margin: auto; margin-left: 15px" *ngIf="!crossFlagLeave"></i>
-            <i class="bi bi-x search-icon" style="margin: auto; margin-left: 15px" *ngIf="crossFlagLeave"
-              (click)="reloadPageLeave()"></i>
-          </div>
-        </form>
-      </div>
 
-      <!-- <div class="errorboxmain text-center" *ngIf="leaveUsers.length == 0">
-        <div class="errorboxinner">
-          <div class="errorboxplaceholder mb-2">
-            <img src="assets/images/empty-box.svg" style="width: 80px" />
-          </div>
-          <div class="">
-            <h4>No Data Found</h4>
-            <p class="mb-0">
-              We're unable to locate a record associated with the information
-              you entered.
-            </p>
-          </div>
-        </div>
-      </div> -->
 
-      <div class="empty-file" style="margin-top: 7%; margin-bottom: 7%"
-        *ngIf="leaveUsers.length == 0 && !isLeaveLoaderLoading">
-        <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
-          <ng-template #contentTpl>
-            <p class="mb-1 empty-detail font-16">No data for now</p>
-          </ng-template>
-        </nz-empty>
-      </div>
-      <div class="empty-file" style="margin-top: 7%; margin-bottom: 7%"
-        *ngIf="leaveUsers.length == 0 && isLeaveLoaderLoading">
-        <div class="text-center load-more-btn">
-          <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
-          <div>
-            <small>Loading...</small>
-          </div>
-        </div>
 
-      </div>
+    
 
-      <div class="modal-body pt-0" *ngIf="leaveUsers.length > 0">
-        <!-- <div class="card-body"> -->
-        <!-- Search Controls -->
-        <!-- <div class="row mb-3">
-            <div class="col-md-8">
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Search by Name or Email..."
-                [(ngModel)]="searchTermBreak"
-                (keyup)="searchBreak()"
-              />
-            </div>
-            <div class="col-md-4 text-end">
-              <button class="btn btn-secondary" (click)="reloadPageBreak()">
-                Clear Search
-              </button>
-            </div>
-          </div> -->
-        <!-- <div class="row mb-3"> -->
 
-        <!-- </div> -->
 
-        <!-- Attendance List -->
-        <ul class="list-unstyled m-0 ps-0 transaction-history" *ngFor="let user of leaveUsers">
-          <li class="align-items-center d-flex justify-content-between">
-            <div class="media">
-              <div class="thumb-xs bg-soft-primary rounded-circle d-flex justify-content-center align-items-center">
-                <img src="{{ user?.image }}" alt="" class="rounded-circle thumb-sm me-1" *ngIf="user?.image"
-                  (error)="onError($event)" />
-                <span class="members-name-new" id="user-first-name-logo" *ngIf="!user?.image">{{ user.userName[0]
-                  }}</span>
-                <!-- <span class="thumb-xl justify-content-center d-flex align-items-center bg-soft-success rounded-circle me-2" *ngIf="!user?.image">{{ user?.userName[0] }}</span> -->
-              </div>
-              <div class="media-body align-self-center ms-3">
-                <div class="transaction-data">
-                  <h5 class="m-0 font-14">{{ user?.userName }}</h5>
-                  <p class="text-muted mb-0">{{ user?.email }}</p>
-                </div>
-              </div>
-              <!--end media body-->
-            </div>
-            <span class="text-success"> Leave-count : {{ user?.count }}</span>
-          </li>
-        </ul>
-
-        <!-- Pagination -->
-        <!-- <div class="pagination pl-3" *ngIf="totalCountLeave > 8">
-          <p class="mb-0">
-            Showing {{ startIndexLeave }} - {{ endIndexLeave }} of
-            {{ totalCountLeave }} items
-          </p>
-          <div class="row">
-            <div class="col-md-12">
-              <nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-end">
-                  <li
-                    class="page-item"
-                    [class.disabled]="currentPageLeave === 1"
-                  >
-                    <a class="page-link" (click)="changePageLeave('prev')">
-                      <span aria-hidden="true">&laquo;</span>
-                    </a>
-                  </li>
-                  <li
-                    class="page-item"
-                    *ngFor="let page of pagesLeave"
-                    [class.active]="currentPageLeave === page"
-                  >
-                    <a class="page-link" (click)="changePageLeave(page)">
-                      {{ page }}
-                    </a>
-                  </li>
-                  <li
-                    class="page-item"
-                    [class.disabled]="currentPageLeave === totalPagesLeave"
-                  >
-                    <a class="page-link" (click)="changePageLeave('next')">
-                      <span aria-hidden="true">&raquo;</span>
-                    </a>
-                  </li>
-                </ul>
-              </nav>
-            </div>
-          </div>
-        </div> -->
-
-        <div class="pagination pl-3" *ngIf="totalCountLeave > itemsPerPageLeave">
-          <p class="mb-0">
-            Showing {{ startIndexLeave }} - {{ endIndexLeave }} of {{ totalCountLeave }} items
-          </p>
-          <div class="row">
-            <div class="col-md-12">
-              <nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-end">
-                  <li class="page-item" [class.disabled]="currentPageLeave === 1">
-                    <a class="page-link" (click)="changePageLeave('prev')">
-                      <span aria-hidden="true">&laquo;</span>
-                    </a>
-                  </li>
-                  <li class="page-item" *ngFor="let page of getPagesLeave()" [class.active]="currentPageLeave === page"
-                    [class.disabled]="page === '...'">
-                    <a class="page-link" *ngIf="page !== '...'" (click)="changePageLeave(page)">
-                      {{ page }}
-                    </a>
-                    <span class="page-link" *ngIf="page === '...'">{{ page }}</span>
-                  </li>
-                  <li class="page-item" [class.disabled]="currentPageLeave === totalPagesLeave">
-                    <a class="page-link" (click)="changePageLeave('next')">
-                      <span aria-hidden="true">&raquo;</span>
-                    </a>
-                  </li>
-                </ul>
-              </nav>
-            </div>
-          </div>
-        </div>
-
-        <!-- </div> -->
-      </div>
-      <!-- <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-          Close
-        </button>
-      </div> -->
-    </div>
-  </div>
-</div>
 
 <!-- Hidden button trigger modal -->
 <button type="button" id="billingModal" class="btn btn-primary" data-bs-toggle="modal" #billingModal

@@ -6,10 +6,12 @@
   padding: 0 0px 0px 8px !important;
   margin-top: 0px;
 }
+
 .nav.nav-pills {
   background-color: transparent;
   border-bottom: 1px solid #edeff5;
 }
+
 .nav-pills .nav-item.show .nav-link,
 .nav-pills .nav-link.active {
   background: transparent !important;
@@ -17,6 +19,7 @@
   border-radius: 0;
   border-bottom: 2px solid var(--primary-color);
 }
+
 .nav-link {
   margin-right: 20px;
   display: block;
@@ -26,9 +29,11 @@
   font-style: normal;
   font-weight: 500;
 }
+
 .nav-link:hover {
   color: #000 !important;
 }
+
 .plan-box {
   border-left: 1px solid #f1f1f1;
   background: linear-gradient(178deg, #e4e7ff 0%, #f2f4ff 58.88%, #fff 138.76%);
@@ -41,11 +46,13 @@
   border: 1px solid #e4e4e4 !important;
   background: #fff !important;
 }
+
 .priceToggleBtn.active {
   background-color: var(--primary-background-color);
   color: #fff;
   border-radius: 2px;
 }
+
 .priceToggleBtn {
   min-width: 70px;
   background-color: #fff;
@@ -62,14 +69,16 @@
   font-size: 16px;
   font-weight: 600;
 }
+
 .plan-detail-box {
   background-color: #fff;
   height: 710px;
   border-radius: 2px;
 }
+
 .plan-detail-box h3 {
   color: #000;
-  font-size: 40px;
+  font-size: 34px;
   font-style: normal;
   font-weight: 600;
 }
@@ -82,12 +91,14 @@
   text-decoration: line-through;
   line-height: 28px;
 }
+
 .plan-detail-box h6 {
   color: #000;
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
 }
+
 .plan-year-off {
   color: #434343;
   font-weight: 700;
@@ -99,6 +110,7 @@
   display: flex;
   opacity: 0.3;
 }
+
 .requestQuote {
   min-height: 6.2rem;
   align-items: center;
@@ -117,6 +129,7 @@
   font-size: 16px;
   font-weight: 500;
 }
+
 .change-plan {
   border-radius: 2px;
   border: 0.386px solid var(--primary-color);
@@ -126,6 +139,7 @@
   font-size: 16px;
   font-weight: 500;
 }
+
 .plan-pints {
   list-style: none;
 }
@@ -135,12 +149,14 @@
   font-weight: 400;
   line-height: 38px;
 }
+
 .plan-pints li i {
   color: #22d26b;
   font-size: 17px;
   position: relative;
   top: 3px;
 }
+
 .bi::before,
 [class*=" bi-"]::before,
 [class^="bi-"]::before {
@@ -150,6 +166,7 @@
 .current-plan-box {
   padding-right: 15px;
 }
+
 .current-plan-box h4 {
   color: #000;
   font-size: 20px;
@@ -157,9 +174,10 @@
   font-weight: 600;
   padding-top: 8px;
 }
+
 .current-plan-box h5 {
   color: #000;
-  font-size: 26px;
+  font-size: 24px;
   font-style: normal;
   font-weight: 600;
 }
@@ -172,6 +190,7 @@
   color: var(--primary-color);
   font-size: 14px;
 }
+
 .current-plan-box p {
   color: #878a9a;
   font-size: 16.692px;
@@ -179,52 +198,50 @@
   font-weight: 400;
   line-height: 22px;
 }
+
 .active-plan-velue h4 {
   color: #000;
-  font-size: 40.538px;
+  font-size: 34px;
   font-style: normal;
   font-weight: 600;
 }
 
 .current-plan-box h3 {
   color: #202020;
-  font-size: 18px;
+  font-size: 15px;
   font-style: normal;
   font-weight: 600;
 }
+
 .progress {
   background-color: #efefff;
   height: 10px;
   border-radius: 10px;
 }
+
 .start-end-date span {
   color: #000;
-  font-size: 16px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 600;
 }
+
 .subscription-rule {
   font-weight: 600;
   text-decoration: underline;
 }
+
 .footer-action {
   position: absolute;
   bottom: 30px;
 }
+
 .table td {
   font-weight: 500;
   vertical-align: middle;
   font-size: 12px;
   white-space: nowrap;
   border: 1px solid #f1f1f1;
-}
-.badge {
-  line-height: 12px;
-  padding: 0.55em 10px;
-  font-size: 13px;
-  font-weight: 400;
-  letter-spacing: 0.1px;
-  min-width: 80px;
 }
 
 .btnAction {
@@ -236,11 +253,13 @@
   letter-spacing: 0.14px;
   padding: 3px 10px;
 }
+
 .btnAction svg {
   width: 18px;
   position: relative;
   top: -1px;
 }
+
 .table-font-weight {
   font-weight: 400;
 }
@@ -249,6 +268,7 @@
   border: none;
   transition: 0.1s linear;
 }
+
 .historyToggleBtn.active {
   border-radius: 2px !important;
   border: none !important;
@@ -256,6 +276,7 @@
   color: var(--primary-color) !important;
   font-weight: 500 !important;
 }
+
 .historyToggleBtn {
   border-radius: 2px !important;
   color: #000 !important;
@@ -267,18 +288,22 @@
   font-weight: 400;
   min-width: 130px;
 }
+
 .due-payment-notifaction {
   border-radius: 5px;
   background: #fcf4f2;
   background-repeat: no-repeat;
   background-position: right bottom;
 }
+
 .payment-summary {
   background: linear-gradient(0deg, #f5f5f5 0%, #f5f5f5 100%), #efefff;
 }
+
 .summary-detail {
   border: 1px solid #f5f5f5;
 }
+
 .btnPayNow {
   border-radius: 2px;
   background: var(--primary-background-color);
@@ -288,10 +313,12 @@
   letter-spacing: 0.14px;
   padding: 3px 10px;
 }
+
 .contactActionBtn svg {
   position: relative;
   top: -1px;
 }
+
 .contactActionBtn {
   border: 1px solid #e4e4e4;
   line-height: 26px;
@@ -309,9 +336,11 @@
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
-  line-height: 24.483px; /* 153.021% */
+  line-height: 24.483px;
+  /* 153.021% */
   letter-spacing: 0.133px;
 }
+
 /* .employee-count-form {
   border-radius: 2px;
   border: 1px solid var(--primary-color) !important;
@@ -351,49 +380,49 @@
    }
  } */
 
- .employee-count-form {
-   border-radius: 2px;
-    border: 1px solid #f1f1f1;
-   background: rgba(236, 236, 236, 0.21);
-   font-size: 13px !important;
-   font-weight: 400;
-   opacity: 0.6;
-   max-width: 150px;
-   animation: border-glow 1.5s ease-in-out infinite;
-    /* border-color: var(--primary-color);
+.employee-count-form {
+  border-radius: 2px;
+  border: 1px solid #f1f1f1;
+  background: rgba(236, 236, 236, 0.21);
+  font-size: 13px !important;
+  font-weight: 400;
+  opacity: 0.6;
+  max-width: 150px;
+  animation: border-glow 1.5s ease-in-out infinite;
+  /* border-color: var(--primary-color);
     box-shadow: 0 0 10px var(--primary-color); */
-    transition: border-color 0.3s, box-shadow 0.3s;
+  transition: border-color 0.3s, box-shadow 0.3s;
 
- }
+}
 
- @keyframes border-glow {
-   0% {
-     border-color: var(--primary-color);
-     box-shadow: 0 0 5px var(--primary-color);
-   }
+@keyframes border-glow {
+  0% {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 5px var(--primary-color);
+  }
 
-   50% {
-     border-color: var(--primary-color);
-     box-shadow: 0 0 15px var(--primary-color);
-   }
+  50% {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 15px var(--primary-color);
+  }
 
-   100% {
-     border-color: var(--primary-color);
-     box-shadow: 0 0 5px var(--primary-color);
-   }
- }
+  100% {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 5px var(--primary-color);
+  }
+}
 
- .employee-gst-form {
-   border-radius: 2px;
-   border: 1px solid #f1f1f1;
-   background: #fff;
-   font-size: 13px !important;
-   font-weight: 400;
-   /* max-width: 150px; */
-   z-index: 2;
- }
+.employee-gst-form {
+  border-radius: 2px;
+  border: 1px solid #f1f1f1;
+  background: #fff;
+  font-size: 13px !important;
+  font-weight: 400;
+  /* max-width: 150px; */
+  z-index: 2;
+}
 
- /* .employee-count-form {
+/* .employee-count-form {
    border-radius: 2px;
    border: 1px solid #f1f1f1;
    background: #fff;
@@ -434,33 +463,40 @@
   color: var(--primary-color);
   border-radius: 2px 2px 0px 0px;
 }
+
 .plan-selected svg {
   position: relative;
   top: -1px;
 }
+
 .plan-detail {
   background-color: #f7f7ff;
   border-radius: 0px 0px 2px 2px;
 }
+
 .plan-detail h1 {
   font-size: 32px;
   font-weight: 600;
   line-height: 22px;
 }
+
 .plan-detail p {
   line-height: 24px;
 }
+
 .plan-detail h2 {
   font-size: 42px;
   font-weight: 600;
   line-height: 22px;
 }
+
 .plan-detail h3 {
   color: #6b7280;
   font-size: 18px;
   font-weight: 500;
   text-decoration: line-through;
 }
+
 .annual-plan {
   border-radius: 2px;
   border: 1.113px solid #e9e9e9;
@@ -469,21 +505,26 @@
   padding-left: 1.5rem !important;
   cursor: pointer;
 }
+
 .actual-price {
   text-decoration: line-through;
   /* padding-left: 10px; */
 }
+
 .annual-plan p {
   line-height: 20px;
 }
+
 .annual-plan span svg {
   position: relative;
   top: 2px;
 }
+
 .order-recap {
   background-color: #f9fafb;
   border-radius: 2px;
 }
+
 .proceed-payment {
   height: 45px;
   background-color: var(--primary-background-color);
@@ -504,34 +545,42 @@
   right: 0px;
   top: 0px;
 }
+
 .payment-confirmed {
   background-color: #f1fff7;
   border-radius: 2px 2px 0px 0px;
 }
+
 .close-btn {
   position: absolute;
   right: 10px;
   top: 10px;
 }
+
 .payment-confirmed h5 {
   color: #000;
   font-size: 24px;
   font-weight: 600;
-  line-height: 32.936px; /* 137.233% */
+  line-height: 32.936px;
+  /* 137.233% */
   letter-spacing: 0.15px;
 }
+
 .payment-confirmed p {
   color: #000;
   font-size: 20px;
   font-weight: 300;
-  line-height: 31.139px; /* 155.697% */
+  line-height: 31.139px;
+  /* 155.697% */
   letter-spacing: 0.15px;
 }
+
 .download-invoice-icon {
   width: 50px;
   height: 50px;
   border-radius: 50%;
 }
+
 .payment-done {
   border-radius: 2px;
   border: 1.07px solid #e6e7e9;
@@ -540,10 +589,12 @@
   font-size: 16px;
   font-weight: 500;
 }
+
 .payment-done:hover {
   background-color: var(--primary-background-color);
   color: #fff;
 }
+
 .download-btn svg {
   position: relative;
   top: -1px;
@@ -573,6 +624,7 @@
   font-weight: 600;
   line-height: 34px;
 }
+
 .action-pointer {
   background-color: #f9f9f9;
   border-radius: 2px;
@@ -581,21 +633,25 @@
 .action-pointer ul {
   padding-left: 18px;
 }
+
 .action-pointer ul li {
   font-size: 14px;
   font-weight: 500;
   line-height: 28px;
 }
+
 .form-check-label {
   line-height: 1.4rem;
   padding-left: 0.5rem;
   font-size: 14px !important;
   font-weight: 400;
 }
+
 .check-box {
   height: auto !important;
   top: 2px;
 }
+
 .submit-add-more {
   background-color: #fbfbfb;
   border: 1px solid #e6e7e9;
@@ -605,9 +661,11 @@
   font-weight: 500;
   min-width: 100px;
 }
+
 .form-check input[type="checkbox"] {
   accent-color: var(--primary-color);
 }
+
 .historyToggleBtn svg {
   position: relative;
   top: -1px;
@@ -627,10 +685,12 @@
   color: var(--primary-color);
   line-height: 20px;
 }
+
 .back-subscription-page:hover {
   background-color: var(--primary-background-color);
   color: #fff;
 }
+
 .back-subscription-page i {
   font-size: 14px;
 }
@@ -644,16 +704,22 @@
   color: var(--primary-color);
   line-height: 20px;
 }
+
 .rules-regulatio-back:hover {
   background-color: var(--primary-background-color);
   color: #fff;
 }
+
 .rules-regulatio-back i {
   font-size: 14px;
 }
+
 .rules-regulation-box svg {
-  width: 40px;
+  min-width: 15px;
+  position: relative;
+  top: 3px;
 }
+
 .plan-expired {
   border-radius: 18.656px;
   background: #fcf4f2;
@@ -679,6 +745,7 @@
   font-size: 16px;
   font-weight: 500;
 }
+
 .verified-gst {
   border-bottom: 2px solid #4bae4f !important;
 }
@@ -686,6 +753,7 @@
 .incorrect-gst {
   border-bottom: 2px solid #ec4b42 !important;
 }
+
 .separator {
   border-left: 1px solid #a3a8b3;
   height: 20px;
@@ -694,6 +762,7 @@
 .actual-price {
   font-size: 12px;
 }
+
 /* @media screen and (max-width: 2600px) {
   .plan-box {
     height: 85vh !important;
@@ -719,6 +788,7 @@
   border-radius: 2px;
   box-shadow: 0 10px 20px -11px #00000012;
 }
+
 .btn-container label {
   cursor: pointer;
   display: flex;
@@ -737,16 +807,19 @@
   transition: .1s linear;
 }
 
-.btn-container input[type=radio]:checked + label {
+.btn-container input[type=radio]:checked+label {
   background-color: var(--primary-background-color);
   color: #fff;
 }
-.plan-detail .mt-2{
-  margin-bottom: .5rem!important;
+
+.plan-detail .mt-2 {
+  margin-bottom: .5rem !important;
 }
+
 .planPriceList {
   min-width: 4em;
 }
+
 .btn-container input[type=radio] {
   visibility: hidden;
   height: 0;
@@ -758,22 +831,24 @@
   border-color: #e9e9e9 !important;
 }
 
-.footer-rule svg{
+.footer-rule svg {
   width: 15px;
 }
-.footer-rule h5{
+
+.footer-rule h5 {
   font-size: 18px;
   font-weight: 500;
 }
+
 /* .footer-rule p {
   font-size: 13px;
   font-weight: 400;
 } */
-.footer-rule a{
+.footer-rule a {
   text-decoration: underline;
 }
 
-.subscription-help{
+.subscription-help {
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -781,11 +856,11 @@
   background-color: #FCFCFC;
 }
 
-.subscription-help svg{
+.subscription-help svg {
   width: 18px;
 }
 
-.rules-regulation{
+.rules-regulation {
   background-color: #fff;
   height: 100vh;
   position: absolute;
@@ -796,14 +871,15 @@
   transition: 0.1s linear;
 }
 
-.rules-regulation svg{
-    min-width: 15px;
+.rules-regulation svg {
+  min-width: 15px;
 }
 
 .showOnboardingStepHover {
   transform: translateY(0%);
 }
-.yearlyHeight{
+
+.yearlyHeight {
   min-height: 76px;
 }
 
@@ -812,21 +888,27 @@
     font-size: 11px !important;
     line-height: 16px !important;
   }
+
   .font-13 {
     font-size: 11px !important;
   }
+
   .font-16 {
     font-size: 13px !important;
   }
+
   .font-18 {
     font-size: 14px !important;
   }
+
   .font-20 {
     font-size: 20px !important;
   }
+
   .font-22 {
     font-size: 19px !important;
   }
+
   .plan-detail-box h3 {
     color: #000;
     font-size: 30px !important;
@@ -842,9 +924,11 @@
   .current-plan-box h4 {
     font-size: 24px !important;
   }
+
   .current-plan-box h5 {
     font-size: 18px;
   }
+
   .mt-5 {
     margin-top: 25px !important;
   }
@@ -852,6 +936,7 @@
   .current-plan-box h3 {
     font-size: 14px;
   }
+
   .start-end-date span {
     font-size: 13px;
   }
@@ -861,27 +946,33 @@
     font-weight: 400;
     line-height: 28px !important;
   }
+
   .current-plan {
     height: 38px;
     font-size: 13px !important;
   }
+
   .change-plan {
     height: 38px;
     font-size: 13px !important;
   }
+
   .mb-4 {
     margin-bottom: 15px !important;
   }
+
   .plan-detail-box {
     background-color: #fff;
     height: 590px !important;
     border-radius: 2px;
   }
+
   .discount-tag {
     color: var(--primary-color);
     font-size: 14px !important;
     font-weight: 600;
   }
+
   .priceToggleBtn {
     min-width: 70px;
     background-color: #fff;
@@ -892,15 +983,19 @@
     transition: 0.1s linear;
     color: #000;
   }
+
   .plan-tag {
     font-size: 12px !important;
   }
+
   .plan-expired {
     font-size: 12px;
   }
+
   .historyToggleBtn {
     font-size: 13px !important;
   }
+
   .requestQuote-without-discount {
     min-height: 4.8rem !important;
     font-size: 24px !important;
@@ -913,6 +1008,7 @@
   .plan-tag {
     font-size: 12px !important;
   }
+
   .plan-expired {
     font-size: 12px !important;
   }
@@ -925,6 +1021,7 @@
     font-size: 11px !important;
     line-height: 18px !important;
   }
+
   .plan-detail h1 {
     font-size: 22px !important;
     font-weight: 600;
@@ -943,6 +1040,7 @@
   .contactActionBtn {
     font-size: 12px !important;
   }
+
   .proceed-payment {
     height: 40px !important;
     font-size: 15px !important;
@@ -951,7 +1049,7 @@
   .btnPayNow {
     font-size: 12px !important;
   }
-  
+
 }
 
 @media screen and (max-width: 1280px) {
@@ -959,21 +1057,27 @@
     font-size: 11px !important;
     line-height: 16px !important;
   }
+
   .font-13 {
     font-size: 11px !important;
   }
+
   .font-16 {
     font-size: 13px !important;
   }
+
   .font-18 {
     font-size: 14px !important;
   }
+
   .font-20 {
     font-size: 18px !important;
   }
+
   .font-22 {
     font-size: 19px !important;
   }
+
   .plan-detail-box h3 {
     color: #000;
     font-size: 30px !important;
@@ -985,6 +1089,7 @@
     min-height: 5.6rem;
     font-size: 24px !important;
   }
+
   .requestQuote-without-discount {
     min-height: 4.8rem !important;
     font-size: 24px !important;
@@ -993,9 +1098,11 @@
   .current-plan-box h4 {
     font-size: 26px !important;
   }
+
   .current-plan-box h5 {
     font-size: 18px;
   }
+
   .mt-5 {
     margin-top: 25px !important;
   }
@@ -1003,6 +1110,7 @@
   .current-plan-box h3 {
     font-size: 14px;
   }
+
   .start-end-date span {
     font-size: 13px;
   }
@@ -1012,27 +1120,33 @@
     font-weight: 400;
     line-height: 28px !important;
   }
+
   .current-plan {
     height: 38px;
     font-size: 13px !important;
   }
+
   .change-plan {
     height: 38px;
     font-size: 13px !important;
   }
+
   .mb-4 {
     margin-bottom: 15px !important;
   }
+
   .plan-detail-box {
     background-color: #fff;
     height: 570px !important;
     border-radius: 2px;
   }
+
   .discount-tag {
     color: var(--primary-color);
     font-size: 14px !important;
     font-weight: 600;
   }
+
   .priceToggleBtn {
     min-width: 70px;
     background-color: #fff;
@@ -1043,9 +1157,11 @@
     transition: 0.1s linear;
     color: #000;
   }
+
   .plan-tag {
     font-size: 12px !important;
   }
+
   .plan-expired {
     font-size: 12px !important;
   }
@@ -1058,6 +1174,7 @@
     font-size: 11px !important;
     line-height: 18px !important;
   }
+
   .plan-detail h1 {
     font-size: 22px !important;
     font-weight: 600;
@@ -1076,15 +1193,18 @@
   .contactActionBtn {
     font-size: 12px !important;
   }
+
   .proceed-payment {
     height: 40px !important;
     font-size: 15px !important;
   }
+
   .btnPayNow {
     font-size: 12px !important;
   }
 }
-.adddd{
+
+.adddd {
   position: absolute;
   right: 0px;
   bottom: 0px;
@@ -1144,3 +1264,47 @@
 ::ng-deep.ant-empty-image img {
   width: 90px;
 }
+
+.dot-opacity-loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 6px;
+}
+
+.dot-opacity-loader span {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--primary-background-color) !important;
+  /* Change to your preferred color */
+  margin: 0 4px;
+  animation: dotOpacity 1.4s infinite ease-in-out both;
+}
+
+.dot-opacity-loader span:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.dot-opacity-loader span:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+@keyframes dotOpacity {
+
+  0%,
+  80%,
+  100% {
+    opacity: 0;
+  }
+
+  40% {
+    opacity: 1;
+  }
+}
+
+/* .spinner-border {
+  width: 50px;
+  height: 50px;
+} */

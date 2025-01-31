@@ -1,1 +1,474 @@
-<p>leave-summary works!</p>
+<div class="mt-3">
+  <div class="back-btns-box poionter d-flex align-items-center gap-2" (click)="back()">
+    <i class="bi bi-chevron-left"></i>
+    <span class="font-14 fw-semibold">Attendance, Leaves & Present Days</span>
+  </div>
+</div>
+
+<ul class="nav nav-pills mb-3 mt-3" id="pills-tab" role="tablist">
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#leaves" [class.disabled]="step < LEAVES"
+      type="button" role="tab" aria-controls="leavesPayroll" aria-selected="true" (click)="selectTab(LEAVES)" #step4Tab>Pending Leaves</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#lopSummary" type="button" [class.disabled]="step < LOP_SUMMARY"
+      role="tab" aria-controls="lopSummary" aria-selected="false" (click)="selectTab(LOP_SUMMARY)" #step5Tab>Lop Summary</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#lopReversal" type="button" [class.disabled]="step < LOP_REVERSAL"
+      role="tab" aria-controls="lopReversal" aria-selected="false" (click)="selectTab(LOP_REVERSAL)" #step6Tab>Lop Reversal</button>
+  </li>
+  <button type="button" class="btn btn-primary text-center position-absolute" style="right:20px; width :150px" 
+      *ngIf="step<= LOP_REVERSAL" (click)="updatePayrollStep()">
+    <span *ngIf="!processing">
+      <span *ngIf="LEAVES == CURRENT_TAB">Save & Next</span>
+      <span *ngIf="LOP_SUMMARY == CURRENT_TAB">Save & Next</span>
+      <span *ngIf="LOP_REVERSAL == CURRENT_TAB">Submit</span>
+    </span>
+      <div class="dot-opacity-loader" *ngIf="processing">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+  </button>
+</ul>
+
+
+<div class="tab-content" id="pills-tabContent">
+  <div class="tab-pane fade" id="leaves" role="tabpanel" aria-labelledby="pills-home-tab">
+    <div class="table-responsive">
+      <div class="col-md-12 mt-2 mb-3">
+        <div class="form-group position-relative">
+          <input type="text" id="search" placeholder="Search by name and email"
+            class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px"
+            (keyup)="searchDebounce($event)" (paste)="searchDebounce($event)" [(ngModel)]="search"
+            [ngModelOptions]="{ standalone: true }" />
+
+          <i *ngIf="search.length > 0" (click)="resetSearch()" class="bi bi-x search-icon"
+            style="font-size: 20px !important; margin: auto; margin-left: 10px"></i>
+
+          <i *ngIf="search.length == 0" class="bi bi-search search-icon" style="margin: auto; margin-left: 10px"></i>
+        </div>
+      </div>
+      <table class="table border-dashed mb-0">
+        <thead>
+          <tr>
+            <th>Employee</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Apply Date</th>
+            <th>Leave Type</th>
+            <th>Leaves Count</th>
+            <th>Applied To</th>
+          </tr>
+        </thead>
+        <ng-container
+          *ngIf="isShimmerForPayrollLeaveResponse && pendingLeavesList.length == 0; else payrollLeaveResponseListData">
+          <tbody>
+            <tr *ngFor="let item of [].constructor(10)">
+              <td class="text-center" *ngFor="let item of [].constructor(8)">
+                <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+              </td>
+            </tr>
+          </tbody>
+        </ng-container>
+        <ng-template #payrollLeaveResponseListData>
+          <ng-container
+            *ngIf="!isShimmerForPayrollLeaveResponse && pendingLeavesList.length != 0; else errorInFetchingPayrollLeaveResponseListData">
+            <tbody *ngFor="let pendingLeave of pendingLeavesList">
+              <tr>
+                <td>{{ pendingLeave.userName}}</td>
+                <td>{{ pendingLeave.email || 'N/A'}}</td>
+                <td>{{ pendingLeave.phoneNumber || 'N/A'}}</td>
+                <td>{{ pendingLeave.leaveDate | date: 'dd MMMM, yyyy'}}</td>
+                <td>{{ pendingLeave.leaveType}}</td>
+                <td>{{ pendingLeave.leaveCount}}</td>
+                <td>{{ pendingLeave.managerName}}</td>
+                <!-- <td class="text-center">
+                  <a>
+                    <i class="bi bi-pencil-square"
+                      (click)="openLeaveLogsModal(pendingLeave.leaveId,pendingLeave.leaveType)"></i>
+
+                  </a>
+                </td> -->
+              </tr>
+            </tbody>
+          </ng-container>
+        </ng-template>
+        <ng-template #errorInFetchingPayrollLeaveResponseListData>
+          <tbody *ngIf="networkConnectionErrorPlaceHolderForPayrollLeaveResponse">
+            <tr>
+              <td colspan="8">
+                <div class="errorboxmain">
+                  <div class="errorboxinner text-center">
+                    <div class="errorboxplaceholder mb-2">
+                      <img src="assets/images/signal.svg" style="width: 100px" />
+                    </div>
+                    <div class="">
+                      <h4>Something went wrong</h4>
+                      <p> An error occurred while processing your request. Please refresh the page and try again. </p>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+          <tbody *ngIf="dataNotFoundPlaceholderForPayrollLeaveResponse">
+            <tr>
+              <td colspan="8">
+                <div class="empty-file" style="margin-top: 8%; margin-bottom: 8%">
+                  <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
+                    <ng-template #contentTpl>
+                      <p class="mb-1 empty-detail">No data for now</p>
+                    </ng-template>
+                  </nz-empty>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </ng-template>
+      </table>
+      <!--end /table-->
+    </div>
+  </div>
+  <div class="tab-pane fade" id="lopSummary" role="tabpanel" aria-labelledby="pills-profile-tab">
+    <div class="table-responsive">
+      <div class="col-md-12 mt-2 mb-3">
+        <div class="form-group position-relative">
+          <input type="text" id="search" placeholder="Search by name and email"
+            class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px"
+            (keyup)="searchDebounce($event)" (paste)="searchDebounce($event)" [(ngModel)]="search"
+            [ngModelOptions]="{ standalone: true }" />
+
+          <i *ngIf="search.length > 0" (click)="resetSearch()" class="bi bi-x search-icon"
+            style="font-size: 20px !important; margin: auto; margin-left: 10px"></i>
+
+          <i *ngIf="search.length == 0" class="bi bi-search search-icon" style="margin: auto; margin-left: 10px"></i>
+        </div>
+      </div>
+      <table class="table border-dashed mb-0">
+        <thead>
+          <tr>
+            <th>Employee</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Total Working Days</th>
+            <th>Lop Days</th>
+          </tr>
+        </thead>
+        <ng-container *ngIf="
+                  isShimmerForLopSummary &&
+                    lopSummaryResponseList.length == 0;
+                  else lopSummaryResponseListData
+                ">
+                <tbody>
+                  <tr *ngFor="let item of [].constructor(10)">
+                    <td class="text-center"  *ngFor="let item of [].constructor(5)">
+                      <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                    </td>
+                  </tr>
+                </tbody>
+              </ng-container>
+              <ng-template #lopSummaryResponseListData>
+                <ng-container *ngIf="!isShimmerForLopSummary && lopSummaryResponseList.length != 0; else errorInFetchingLopSummaryResponseListData">
+                  <tbody *ngFor="let lopSummaryResponse of lopSummaryResponseList">
+                    <tr>
+                      <td>{{ lopSummaryResponse.name || 'N/A'}}</td>
+                      <td>{{ lopSummaryResponse.email || 'N/A'}}</td>
+                      <td>{{ lopSummaryResponse.phone || 'N/A'}}</td>
+                      <td></td>
+                      <td>{{ lopSummaryResponse.lopDays }}</td>
+                    </tr>
+                  </tbody>
+                </ng-container>
+              </ng-template>
+              <ng-template #errorInFetchingLopSummaryResponseListData>
+                <tbody *ngIf="networkConnectionErrorPlaceHolderForLopSummary">
+                  <tr>
+                    <td colspan="8">
+                      <div class="errorboxmain" >
+                        <div class="errorboxinner text-center">
+                          <div class="errorboxplaceholder mb-2">
+                            <img src="assets/images/signal.svg" style="width: 100px" />
+                          </div>
+                          <div class="">
+                            <h4>Something went wrong</h4>
+                            <p> An error occurred while processing your request. Please refresh the page and try again. </p>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+                <tbody *ngIf="
+                          dataNotFoundPlaceholderForLopSummary 
+                        ">
+                  <tr>
+                    <td colspan="8">
+                      <div class="empty-file" style="margin-top: 8%; margin-bottom: 8%">
+                      <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
+                      <ng-template #contentTpl>
+                        <p class="mb-1 empty-detail">No data for now</p>
+                      </ng-template>
+                    </nz-empty>
+                  </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </ng-template>
+      </table>
+
+     
+
+    </div>
+  </div>
+  <div class="tab-pane fade" id="lopReversal" role="tabpanel" aria-labelledby="pills-contact-tab">
+    <div class="table-responsive">
+      <div class="col-md-12 mt-2 mb-3">
+        <div class="form-group position-relative">
+          <input type="text" id="search" placeholder="Search by name and email"
+            class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px"
+            (keyup)="searchDebounce($event)" (paste)="searchDebounce($event)" [(ngModel)]="search"
+            [ngModelOptions]="{ standalone: true }" />
+
+          <i *ngIf="search.length > 0" (click)="resetSearch()" class="bi bi-x search-icon"
+            style="font-size: 20px !important; margin: auto; margin-left: 10px"></i>
+
+          <i *ngIf="search.length == 0" class="bi bi-search search-icon" style="margin: auto; margin-left: 10px"></i>
+        </div>
+      </div>
+      <table class="table border-dashed mb-0">
+        <thead>
+          <tr>
+            <th>Employee</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Lop Month</th>
+            <th>Reverse Lop Days</th>
+         </tr>
+        </thead>
+        <ng-container *ngIf="isShimmerForLopReversal && lopReversalResponseList.length == 0; else lopReversalResponseListData">
+                <tbody>
+                  <tr *ngFor="let item of [].constructor(10)">
+                    <td class="text-center" *ngFor="let item of [].constructor(5)">
+                      <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                    </td>
+                  </tr>
+                </tbody>
+              </ng-container>
+              <ng-template #lopReversalResponseListData>
+                <ng-container *ngIf="!isShimmerForLopReversal && lopReversalResponseList.length != 0; else errorInFetchingLopReversalResponseListData">
+                  <tbody *ngFor="let lopReversalResponse of lopReversalResponseList">
+                    <tr>
+                      <td>{{ lopReversalResponse.name || 'N/A'}}</td>
+                      <td>{{ lopReversalResponse.email || 'N/A'}}</td>
+                      <td>{{ lopReversalResponse.phone || 'N/A'}}</td>
+                      <td>{{ lopReversalResponse.date | date:'MMMM'}}</td>
+                      <td>{{ lopReversalResponse.count}}</td>
+                    </tr>
+                  </tbody>
+                </ng-container>
+              </ng-template>
+              <ng-template #errorInFetchingLopReversalResponseListData>
+                <tbody>
+                  <tr>
+                    <td colspan="8">
+                      <div class="errorboxmain" *ngIf="networkConnectionErrorPlaceHolderForLopReversal">
+                        <div class="errorboxinner text-center">
+                          <div class="errorboxplaceholder mb-2">
+                            <img src="assets/images/signal.svg" style="width: 100px" />
+                          </div>
+                          <div class="">
+                            <h4>Something went wrong</h4>
+                            <p> An error occurred while processing your request. Please refresh the page and try again. </p>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+                <tbody *ngIf="dataNotFoundPlaceholderForLopReversal">
+                  <tr>
+                    <td colspan="8">
+                     <div class="empty-file" style="margin-top: 8%; margin-bottom: 8%">
+                      <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
+                      <ng-template #contentTpl>
+                        <p class="mb-1 empty-detail">No data for now</p>
+                      </ng-template>
+                    </nz-empty>
+                  </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </ng-template>
+
+
+      </table>
+    </div>
+  </div>
+  <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top" *ngIf="totalItems > 0">
+    <p class="mb-0 font-13"> Showing {{_helperService.startIndex(pageNumber,itemPerPage) }} - {{_helperService.lastIndex(pageNumber,itemPerPage,totalItems)}} of {{ totalItems }} results</p>
+    <div class="pagition-box">
+      <ngb-pagination [collectionSize]="totalItems" [page]="pageNumber" [pageSize]="itemPerPage" [maxSize]="5"
+        [boundaryLinks]="true" [ellipses]="true" (pageChange)="pageChange($event)">
+      </ngb-pagination>
+    </div>
+  </div>
+</div>
+
+
+<!-- PENDING LEAVE MODAL START -->
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#pendingLeaveModal"
+  #pendingLeaveModalButton>
+  Pending Leave modal
+</button>
+<div class="modal fade" id="pendingLeaveModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel"
+  aria-hidden="true" data-bs-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered" style="max-width: 570px" role="document">
+    <div class="modal-content">
+      <ng-container *ngIf="pendingLeaveDetailFetch">
+        <div class="modal-body p-4 ">
+          <div class="d-flex justify-content-center align-items-center" style="height:300px">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+      <div class="modal-body p-4">
+        <ng-container *ngIf="!pendingLeaveDetailFetch">
+
+          <button type="button"
+            class="leave-request-modat-close-btn d-flex align-items-center justify-content-center position-absolute bg-white"
+            data-bs-dismiss="modal" #closePendingLeaveModalButton>
+            <i class="bi bi-x" style="line-height: 20px"></i>
+          </button>
+
+          <div *ngIf="!rejectionToggle">
+            <div class="text-center leave-appervo-modal" *ngIf="pendingLeaveDetail!=null">
+              <div class="d-flex align-items-start justify-content-between">
+                <div class="d-flex align-items-center profile-details" style="gap: 15px">
+                  <div class="profile-user-img">
+                    <img [src]="pendingLeaveDetail.image || 'assets/images/user.png'"
+                      style="width: 50px; height: 50px; object-fit: cover" />
+                  </div>
+
+                  <div>
+                    <h4 style="cursor: pointer">
+                      {{ pendingLeaveDetail.name }}
+                    </h4>
+                    <p>{{ pendingLeaveDetail.email }}</p>
+                  </div>
+                </div>
+                <div class="total-holidey-live">
+                  <h5>{{pendingLeaveDetail.startDate | date : "dd MMM yyyy" }}
+                    -
+                    {{pendingLeaveDetail.endDate | date : "dd MMM yyyy"}}
+                  </h5>
+                  <p>{{ pendingLeaveDetail.leaveType }} ({{ pendingLeaveDetail.totalDays }} Days )
+                  </p>
+                  <p>{{pendingLeaveDetail.leaveDate | date : "dd MMM yyyy hh:mm:ss a"}}
+                  </p>
+                  <p>Applied To : {{ pendingLeaveDetail.managerName }}</p>
+
+                  <div *ngIf="pendingLeaveDetail.attachment != null" class="text-end">
+                    <a [href]="pendingLeaveDetail.attachment" target="_blank" rel="noopener noreferrer"
+                      style="font-size: 13px;">View Attachment <i class="fas fa-external-link-square-alt me-1"></i> </a>
+                  </div>
+
+                </div>
+              </div>
+              <div class="mt-4">
+                <div class="d-flex align-items-center">
+                  <div class="Approved rejected-css">
+                    <p class="mb-0" style="color: black"></p>
+                    <span style="
+                     color: #9196a4 !important;
+                     text-align: left;
+                     font-size: 14px;
+                     font-weight: 400;
+                   " class="total-holiday">{{ pendingLeaveDetail.leaveType }}</span>
+                  </div>
+                  <div class="Approved">
+                    <p class="mb-0">{{ pendingLeaveDetail.approved }}</p>
+                    <span class="total-holiday">Approved</span>
+                  </div>
+                  <div class="Approved pending-css">
+                    <p class="mb-0">{{ pendingLeaveDetail.applied }}</p>
+                    <span class="total-holiday">Pending</span>
+                  </div>
+                  <div class="Approved remaining-css">
+                    <p class="mb-0">{{ pendingLeaveDetail.remainingQuota }}</p>
+                    <span class="total-holiday">Remaining</span>
+                  </div>
+                </div>
+
+                <p class="mt-4 mb-4">{{ pendingLeaveDetail.notes }}</p>
+                <div class="mb-3" style="text-align: left">
+                  <a *ngIf="pendingLeaveDetail.docFileLink != null" [href]="pendingLeaveDetail.docFileLink"
+                    target="_blank" rel="noopener noreferrer">
+                    Declaration <i class="bi bi-arrow-down"></i>
+                  </a>
+
+                </div>
+                <div class="d-flex align-items-center justify-content-end" style="gap: 10px">
+
+                  <button class="btn approve-btn" type="button" [ngClass]="{'disabled-lnk': approvedLoader}"
+                    (click)="approveOrDenyLeave(pendingLeaveDetail.id, 'approved')">
+                    <div *ngIf="approvedLoader">
+                      <div class="dot-opacity-loader">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                      </div>
+                    </div>
+                    <span *ngIf="!approvedLoader">Approve</span>
+                  </button>
+
+
+                  <button class="btn reject-btn" type="button" (click)="rejectionToggle = true;">
+                    Reject
+                  </button>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="rejectionToggle">
+            <div class="form-group">
+              <label class="mb-3">Rejection Reason</label>
+              <textarea class="form-control" name="reason" id="reason11" rows="3" disableEnforceFocus
+                [(ngModel)]="rejectionReason"></textarea>
+            </div>
+
+            <div class="d-flex align-items-center justify-content-end gap-2 mt-3">
+
+              <button type="button" class="btn btn-warning" (click)="rejectionToggle = false;">Close</button>
+
+              <button class="btn reject-btn" type="button"
+                (click)="approveOrDenyLeave(pendingLeaveDetail.id, 'rejected')">
+                <div *ngIf="rejecetdLoader; else rejectLabel">
+                  <div class="dot-opacity-loader">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                </div>
+                <ng-template #rejectLabel>Submit</ng-template>
+              </button>
+
+            </div>
+          </div>
+
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- PENDING LEAVE MODAL END -->
+
+
+
+
+

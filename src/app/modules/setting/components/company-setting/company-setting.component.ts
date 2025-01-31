@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { FormGroup, NgForm } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
@@ -16,6 +16,13 @@ import { HelperService } from 'src/app/services/helper.service';
 import { PlacesService } from 'src/app/services/places.service';
 import { OnboardingModule } from 'src/app/models/OnboardingModule';
 import { Role } from 'src/app/models/role';
+import { ActivatedRoute } from '@angular/router';
+import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
+import { EmployeeAdditionalDocument } from 'src/app/models/EmployeeAdditionalDocument';
+import { constant } from 'src/app/constant/constant';
+import { NotificationType } from 'src/app/models/NotificationType';
+import { NotificationTypeInfoRequest } from 'src/app/models/NotificationType';
+import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 
 @Component({
   selector: 'app-company-setting',
@@ -28,24 +35,48 @@ export class CompanySettingComponent implements OnInit {
     roles: Role[] = [];
     onboardingModules: OnboardingModule[] = [];
     pageNumberUser: number = 1;
+    ROLE : string = '';
   constructor(
     private dataService: DataService,
     private afStorage: AngularFireStorage,
     private helperService: HelperService,
     private sanitizer: DomSanitizer,
-    private placesService: PlacesService
+    private placesService: PlacesService,
+    private route: ActivatedRoute,
+    private cdr: ChangeDetectorRef,
+    private rbacService: RoleBasedAccessControlService
   ) { }
 
   ngOnInit(): void {
     window.scroll(0, 0);
+    this.getROLE();
+
+    this.notificationTypes();
     this.getOrganizationDetailsMethodCall();
-    this.getHrPolicy();
     this.getTeamNames();
     this.getUserByFiltersMethodCall();
     this.getAllAddressDetails();
     // this.helperService.saveOrgSecondaryToDoStepBarData(0);
     this.getAllRolesMethodCall();
     this.fetchOnboardingModules();
+    this.fetchDocuments();
+  }
+
+
+  async getROLE() {
+    this.ROLE = await this.rbacService.getRole();
+  }
+
+
+  ngAfterViewInit() {
+
+    this.route.queryParams.subscribe(params => {
+      const activeTab = params['activeTab'];
+      if (activeTab) {
+        this.switchTab(activeTab);
+      }
+    });
+
   }
 
   getAllRolesMethodCall() {
@@ -158,7 +189,7 @@ export class CompanySettingComponent implements OnInit {
   }
 
   isUpdating: boolean = false;
-  selectedFile: File | null = null;
+  selectedFile: File | undefined = undefined;
   toggle = false;
   updateOrganizationPersonalInformationMethodCall() {
     debugger;
@@ -276,31 +307,122 @@ export class CompanySettingComponent implements OnInit {
     ).subscribe();
   }
 
+  isDocumentLoading: boolean = false;
+  documents: EmployeeAdditionalDocument[] = [];
+  doc: EmployeeAdditionalDocument = {
+    documentType: constant.DOC_TYPE_HR_POLICY,
+    name: 'HR Policy',
+    value: 'HR Policy',
+    url: '',
+    fileName: ''
+  };
+  deleteDocument(documentId: number | undefined): void {
+    this.dataService.deleteDocument(documentId)
+      .subscribe(
+        (response) => {
+          console.log('Document deleted successfully:', response);
+          this.fetchDocuments();
+        },
+        (error) => {
+          console.error('Error deleting document:', error);
+        }
+      );
+  }
+  fetchDocuments(): void {
+    this.dataService.getHrPolicies()
+      .subscribe(
+        (data) => {
+          this.documents = data;
+        },
+        (error) => {
+          console.error('Error fetching documents:', error);
+        }
+      );
+  }
+
+  isYouTubeVideo: boolean = false;
+  toggleVideoSelection(event: Event): void {
+    debugger
+    const checkbox = event.target as HTMLInputElement;
+    this.isYouTubeVideo = checkbox.checked;
+    this.cdr.detectChanges();
+  }
+
+  getYouTubeEmbedUrl(url: string): string | null {
+    if (!url) {
+      return null;
+    }
+
+    const match = url.match(this.regex);
+
+    if (match && match[1]) {
+      const videoId = match[1];
+      return `https://www.youtube.com/embed/${videoId}`;
+    }
+
+    return null; // Return null if the URL is invalid
+  }
+
+  handleFileChange(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    this.doc.fileName = target.files?.[0]?.name || '';
+    this.selectedFile=target.files?.[0];
+  }
+  regex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|embed\/|v\/|.+?&v=)|youtu\.be\/)([a-zA-Z0-9_-]+)/;
+
+  isInvalidUrl: boolean = false;
+  onDocumentSubmit(): void {
+    if(this.isYouTubeVideo){
+      this.doc.url = this.doc.url.trim();
+      this.doc.url = this.getYouTubeEmbedUrl(this.doc.url) || '';
+
+      if(this.doc.url==undefined || !this.regex.test(this.doc.url)){
+        this.helperService.showToast('Please enter a valid YouTube URL', Key.TOAST_STATUS_ERROR);
+        this.isInvalidUrl=true;
+        return;
+      }
+      this.savePolicyDocToDatabase(this.doc.url);
+      return;
+    }
+    if (this.selectedFile) {
+      this.isUpdatingHrPolicies=true;
+      this.uploadFileHrPolicies(this.selectedFile);
+    } else {
+      console.error('No file selected!');
+    }
+  }
   savePolicyDocToDatabase(fileUrl: string): void {
     debugger
-    this.dataService.saveOrganizationHrPolicies(fileUrl).subscribe(response => {
-      // console.log('File URL saved to database:', response.message);
-      this.helperService.showToast(
-        'Doc Uploaded Successfully',
-        Key.TOAST_STATUS_SUCCESS
-      );
-      this.getHrPolicy();
-    }, (error) => {
-      console.log(error);
+    this.doc.url=fileUrl;
+    this.dataService.saveDocumentForUser('', this.doc).subscribe({
+      next: (response) => {
+        console.log('Document saved successfully:', response);
+        this.helperService.showToast('Document saved successfully:',Key.TOAST_STATUS_SUCCESS);
+        this.isUpdatingHrPolicies=false;
+        this.doc = { documentType: constant.DOC_TYPE_HR_POLICY, name: 'HR Policy', value: 'HR Policy', url: '', fileName: '' };
+        this.isYouTubeVideo = false;
+        this.fetchDocuments();
+        this.selectedFile=undefined;
+        this.closeButtonHrPolicies.nativeElement.click();
+      },
+      error: (err) => {
+        this.helperService.showToast('Some problem in saving Document',Key.TOAST_STATUS_ERROR);
+        this.doc = { documentType: constant.DOC_TYPE_HR_POLICY, name: 'HR Policy', value: 'HR Policy', url: '', fileName: '' };
+        this.isYouTubeVideo = false;
+        this.closeButtonHrPolicies.nativeElement.click();
+        this.isUpdatingHrPolicies=false;
+        this.selectedFile=undefined;
+      },
     });
   }
 
-  fileUrl!: string;
-  docsUploadedDate: any;
-  getHrPolicy(): void {
-    this.dataService.getOrganizationHrPolicies().subscribe(response => {
-      this.fileUrl = response.object?.hrPolicyDoc;
-      this.docsUploadedDate = response.object?.docsUploadedDate;
-      // console.log('policy retrieved successfully', response.object);
-    }, (error) => {
-      console.log(error);
-    });
+  onCancel(): void {
+    this.doc = { documentType: constant.DOC_TYPE_HR_POLICY, name: 'HR Policy', value: 'HR Policy', url: '', fileName: '' };
+    this.isYouTubeVideo = false;
+    this.selectedFile=undefined;
+    this.isInvalidUrl=false;
   }
+
 
   previewString: SafeResourceUrl | null = null;
   isPDF: boolean = false;
@@ -357,8 +479,8 @@ export class CompanySettingComponent implements OnInit {
     // this.staffs = [];
     this.dataService
       .getUsersByFilter(
-        this.itemPerPage,
-        this.pageNumber,
+        this.databaseHelper.itemPerPage,
+        this.databaseHelper.currentPage,
         'asc',
         'id',
         this.searchText,
@@ -386,6 +508,21 @@ export class CompanySettingComponent implements OnInit {
         }
       );
   }
+
+  databaseHelper: DatabaseHelper = new DatabaseHelper();
+     totalItems: number = 0;
+     pageChanged(page: any) {
+      debugger;
+       if (page != this.databaseHelper.currentPage) {
+         this.databaseHelper.currentPage = page;
+         this.getUserByFiltersMethodCall();
+       }
+     }
+
+     clearPage(){
+      this.databaseHelper = new DatabaseHelper();
+      this.searchText = ''
+     }
 
 
   teamNameList: UserTeamDetailsReflection[] = [];
@@ -432,6 +569,8 @@ export class CompanySettingComponent implements OnInit {
     }
     this.getUserByFiltersMethodCall();
   }
+
+
 
   getPages(): number[] {
     const totalPages = Math.ceil(this.total / this.itemPerPage);
@@ -539,6 +678,8 @@ export class CompanySettingComponent implements OnInit {
 
 
   searchUsers() {
+    this.databaseHelper.currentPage = 1;
+    this.databaseHelper.itemPerPage = 10;
     this.getUserByFiltersMethodCall();
   }
 
@@ -575,8 +716,12 @@ export class CompanySettingComponent implements OnInit {
     debugger;
 
     var id = this.organizationAddressDetail.id;
+    var branch = this.organizationAddressDetail.branch;
+    var radius = this.organizationAddressDetail.radius;
     this.organizationAddressDetail = new OrganizationAddressDetail();
     this.organizationAddressDetail.id = id;
+    this.organizationAddressDetail.branch = branch;
+    this.organizationAddressDetail.radius = radius;
     this.organizationAddressDetail.longitude = e.geometry.location.lng();
     this.organizationAddressDetail.latitude = e.geometry.location.lat();
     this.isShowMap = true;
@@ -612,6 +757,7 @@ export class CompanySettingComponent implements OnInit {
   locationLoader: boolean = false;
   currentLocation() {
     debugger;
+    this.isLatLongFieldOpen = false;
     this.locationLoader = true;
     this.fetchCurrentLocationLoader = true;
     this.getCurrentLocation()
@@ -620,7 +766,13 @@ export class CompanySettingComponent implements OnInit {
           .getLocationDetails(coords.latitude, coords.longitude)
           .then((details) => {
             this.locationLoader = false;
+            var branch = this.organizationAddressDetail.branch;
+            var radius = this.organizationAddressDetail.radius;
             this.organizationAddressDetail = new OrganizationAddressDetail();
+
+            this.organizationAddressDetail.branch = branch;
+            this.organizationAddressDetail.radius = radius;
+            // this.organizationAddressDetail = new OrganizationAddressDetail();
             // this.organizationAddressDetail.id = id;
             this.organizationAddressDetail.longitude = coords.longitude;
             this.organizationAddressDetail.latitude = coords.latitude;
@@ -652,12 +804,14 @@ export class CompanySettingComponent implements OnInit {
           })
           .catch((error) => {
             console.error(error);
+            this.locationLoader = false;
             this.fetchCurrentLocationLoader = false;
           });
         // this.fetchCurrentLocationLoader = false;
       })
       .catch((error) => {
         console.error(error);
+        this.locationLoader = false;
         this.fetchCurrentLocationLoader = false;
       });
     // this.fetchCurrentLocationLoader = false;
@@ -849,7 +1003,9 @@ export class CompanySettingComponent implements OnInit {
       });
   }
 
-  getAddressDetails(addressId: number, addressString: string): void {
+  isDefaultAddressSelected: boolean = false;
+  getAddressDetails(addressId: number, addressString: string,isDefaultAddressSelected:boolean=false): void {
+    this.isDefaultAddressSelected=isDefaultAddressSelected;
     this.addressId = addressId;
     debugger
     this.selectedStaffsUuids = [];
@@ -884,7 +1040,9 @@ export class CompanySettingComponent implements OnInit {
       });
   }
 
-  getUsersOfAddressDeatils(addressId: number, addressString: string) {
+  getUsersOfAddressDeatils(addressId: number, addressString: string,isDefaultAddressSelected:boolean=false): void {
+    debugger
+    this.isDefaultAddressSelected=isDefaultAddressSelected;
      this.organizationAddressDetail = new OrganizationAddressDetail();
     this.clearSearchText();
     this.teamId = 0;
@@ -893,13 +1051,22 @@ export class CompanySettingComponent implements OnInit {
     this.selectedStaffsUuids = [];
     this.pageNumber = 1;
 
-    this.getAddressDetails(addressId, addressString);
+    this.getAddressDetails(addressId, addressString,isDefaultAddressSelected);
     this.staffSelectionTab.nativeElement.click();
   }
 
-  openEditAddressTab(addressId: number, addressString: string) {
-    this.locationSettingTab.nativeElement.click();
-    this.getAddressDetails(addressId, addressString);
+  openEditAddressTab(addressId: number, addressString: string,isDefaultAddressSelected:boolean=false) {
+    this.isDefaultAddressSelected=isDefaultAddressSelected;
+    if(this.locationSettingTab){
+      this.locationSettingTab.nativeElement.click();
+      
+    }
+    var staffLocation=document.getElementById("staffLocation");
+
+    if(staffLocation){
+      staffLocation.classList.add("show","active")
+    }
+    this.getAddressDetails(addressId, addressString,isDefaultAddressSelected);
   }
 
 
@@ -914,8 +1081,16 @@ export class CompanySettingComponent implements OnInit {
   }
 
   @ViewChild('organizationAddressNgForm') organizationAddressNgForm!: NgForm;
+  @ViewChild('staffLocation') staffLocation!: ElementRef;
+
   clearLocationModel() {
+    this.staffLocation.nativeElement.click();
     this.locationSettingTab.nativeElement.click();
+    var staffLocation=document.getElementById("staffLocation");
+
+    if(staffLocation){
+      staffLocation.classList.add("show","active")
+    }
     this.organizationAddressDetail = new OrganizationAddressDetail();
     if (this.organizationAddressForm) {
       this.organizationAddressNgForm.resetForm();
@@ -947,23 +1122,13 @@ export class CompanySettingComponent implements OnInit {
 
    openLocationSetting() {
     this.locationSettingTab.nativeElement.click();
+    var staffLocation=document.getElementById("staffLocation");
+
+    if(staffLocation){
+      staffLocation.classList.add("show","active")
+    }
    }
 
-  deleteAddress(addressId: number) {
-    this.dataService.deleteByAddressId(addressId).subscribe(
-      (response) => {
-        console.log('Delete successful', response);
-       this.helperService.showToast(
-              'Location deleted successfully',
-              Key.TOAST_STATUS_SUCCESS
-       );
-         this.getAllAddressDetails();
-      },
-      (error) => {
-        console.error('Error deleting address', error);
-      }
-    );
-  }
 
   activeTab: string = 'companySetting'; // Default tab
 
@@ -971,6 +1136,18 @@ export class CompanySettingComponent implements OnInit {
   switchTab(tabName: string) {
     this.activeTab = tabName;
   }
+
+  // switchTab(tab: string): void {
+  //   this.activeTab = tab;
+  //   if (tab === 'locationSetting') {
+  //     document.querySelector<HTMLButtonElement>('#home-tab')?.click();
+  //   } else if (tab === 'companySetting') {
+  //     document.querySelector<HTMLButtonElement>('#profile-tab')?.click();
+  //   } else if (tab === 'onboardingSetting') {
+  //     document.querySelector<HTMLButtonElement>('#onboardingSetting')?.click();
+  //   }
+  // }
+
   triggerFileInput() {
     const fileInput = document.getElementById('hrpolicies') as HTMLInputElement;
     fileInput.click();
@@ -1081,8 +1258,9 @@ export class CompanySettingComponent implements OnInit {
   }
 
 
-  @ViewChild("closeButton") closeButton!:ElementRef;
+  @ViewChild("closeButtonHrPolicies") closeButtonHrPolicies!:ElementRef;
 
+  @ViewChild("closeButton") closeButton!:ElementRef;
   userNameWithBranchName: any;
   getOrganizationUserNameWithBranchNameData(addressId : number, type:string) {
     this.dataService.getOrganizationUserNameWithBranchName(this.selectedStaffsUuids, addressId).subscribe(
@@ -1162,6 +1340,7 @@ export class CompanySettingComponent implements OnInit {
   @ViewChild("closeButtonLocationDefaultAddress") closeButtonLocationDefaultAddress!: ElementRef;
   setOrganizationAddressDetailMethodCall() {
     debugger
+    // this.clearLocationModel();
     this.toggle = true;
     this.dataService
       .setOrganizationAddressDetail(this.organizationAddressDetail)
@@ -1170,9 +1349,10 @@ export class CompanySettingComponent implements OnInit {
           this.toggle = false;
 
           this.getOrganizationAddressDetailMethodCall();
+    
           this.getAllAddressDetails();
-          this.closeButtonLocationDefaultAddress.nativeElement.click();
-
+          // this.closeButtonLocationDefaultAddress.nativeElement.click();
+          this.closeButtonLocation.nativeElement.click();
         },
         (error) => {
           console.error(error);
@@ -1187,12 +1367,22 @@ export class CompanySettingComponent implements OnInit {
   zoom: number = 15;
   markerPosition: any;
 
-  getOrganizationAddressDetailMethodCall() {
-    debugger;
+  getOrganizationAddressDetailMethodCall(isDefaultAddressSelected: boolean = false) {
+    debugger
+    this.isDefaultAddressSelected=isDefaultAddressSelected;
+    if(this.locationSettingTab){
+      this.locationSettingTab.nativeElement.click();
+      
+    }
+    var staffLocation=document.getElementById("staffLocation");
+
+    if(staffLocation){
+      staffLocation.classList.add("show","active")
+    }
     this.dataService.getOrganizationAddressDetail().subscribe(
       (response: OrganizationAddressDetail) => {
         if (response) {
-          // console.log(response);
+          console.log(response);
           this.organizationAddressDetail = response;
           // console.log(this.organizationAddressDetail.latitude);
           if (this.organizationAddressDetail.latitude == null) {
@@ -1400,6 +1590,301 @@ getData(event:any){
 //     }
 //   );
 // }
+
+
+isLatLongFieldOpen: boolean = false;
+openLatLongField() {
+  this.isLatLongFieldOpen = true;
+}
+
+getAddressFromCoords(lat: number, lng: number): void {
+  debugger
+  console.log("7898765678" , lat, lng);
+  this.newLat= lat;
+  this.newLng= lng;
+  const geocoder = new google.maps.Geocoder();
+  geocoder.geocode({ location: { lat, lng } }, (results, status) => {
+    if (status === google.maps.GeocoderStatus.OK && results && results[0] ) {
+      this.handleAddressChange2(results[0]); 
+    } else {
+      console.error('Geocode was not successful for the following reason: ' + status);
+    }
+  });
+}
+
+
+public handleAddressChange2(e: any) {
+  console.log('ghdm',e);
+debugger
+ // this.lat = e.geometry.location.lat();
+ // this.lng = e.geometry.location.lng();
+
+ 
+ // this.organizationAddressDetail = new OrganizationAddressDetail();
+ this.organizationAddressDetail.longitude = this.newLng;
+ this.organizationAddressDetail.latitude = this.newLat;
+ this.isShowMap = true;
+
+ this.organizationAddressDetail.addressLine1 = e.formatted_address;
+
+e?.address_components?.forEach((entry: any) => {
+ // console.log(entry);
+
+ if (entry.types?.[0] === 'route') {
+   this.organizationAddressDetail.addressLine2 = entry.long_name + ',';
+ }
+ if (entry.types?.[0] === 'sublocality_level_1') {
+   this.organizationAddressDetail.addressLine2 =
+     this.organizationAddressDetail.addressLine2 + entry.long_name;
+ }
+ if (entry.types?.[0] === 'locality') {
+   this.organizationAddressDetail.city = entry.long_name;
+ }
+ if (entry.types?.[0] === 'administrative_area_level_1') {
+   this.organizationAddressDetail.state = entry.long_name;
+ }
+ if (entry.types?.[0] === 'country') {
+   this.organizationAddressDetail.country = entry.long_name;
+ }
+ if (entry.types?.[0] === 'postal_code') {
+   this.organizationAddressDetail.pincode = entry.long_name;
+ }
+});
+
+
+ // this.setLatLng(this.organizationAddressDetail);
+ // this.getAddress(this.lat, this.lng);
+}
+
+
+deleteAddressId: number = 0;
+deleteToggle: boolean = false;
+getAddressTemplateId(currentAddress: number) {
+  this.deleteAddressId = currentAddress;
+}
+
+
+@ViewChild('closeButtonDeleteAddress') closeButtonDeleteAddress!: ElementRef;
+
+
+deleteAddress(addressId: number) {
+  this.deleteToggle = true;
+  this.dataService.deleteByAddressId(addressId).subscribe(
+    (response) => {
+      console.log('Delete successful', response);
+
+      this.deleteToggle = false;
+      this.deleteAddressId = 0;
+      this.closeButtonDeleteAddress.nativeElement.click();
+     this.helperService.showToast(
+            'Location deleted successfully',
+            Key.TOAST_STATUS_SUCCESS
+     );
+       this.getAllAddressDetails();
+    },
+    (error) => {
+      this.deleteToggle = false;
+      console.error('Error deleting address', error);
+    }
+  );
+}
+
+onOrganizationAddressSubmit(){
+  if(this.isDefaultAddressSelected){
+    this.submitDefaultAddress();
+}else{
+  this.submit();
+}
+}
+
+// notification setting 
+
+// notificationTypesList: any;
+
+notifications: { [key: string]: any[] } | null = null;
+notificationKeys: string[] = [];
+selectedTime: Date = new Date(); // Default time
+
+notificationTypes(): Promise<void> {
+  return new Promise((resolve) => {
+    this.dataService.notificationTypes().subscribe(
+      (response) => {
+        // Assign the response object to the component
+        this.notifications = response.object;
+
+        // Extract keys for iteration
+        this.notificationKeys = Object.keys(this.notifications ?? {}); // Default to empty object if null
+
+        // Convert the 'minutes' string to a Date object for each notification
+        this.notificationKeys.forEach(key => {
+          if (this.notifications?.[key]) {
+            this.notifications[key].forEach(notification => {
+              if (notification.minutes) {
+                notification.minutes = this.convertTimeStringToDate(notification.minutes);
+              }
+            });
+          }
+        });
+
+        this.cdr.detectChanges();
+        resolve(); // Resolve after successful execution
+      },
+      (error) => {
+        console.log('Error retrieving notification types:', error);
+        resolve(); // Ensure resolve even on error
+      }
+    );
+  });
+}
+
+
+
+convertTimeStringToDate(timeString: string): Date {
+  if (timeString == null || timeString == undefined) {
+    return this.convertTimeStringToDate('00:00');
+  }
+
+  const timeParts = timeString.split(':');
+  const hours = parseInt(timeParts[0], 10);
+  const minutes = parseInt(timeParts[1], 10);
+  const seconds = 0;  // Default seconds to 0 if missing
+  
+  const date = new Date();
+  date.setHours(hours);
+  date.setMinutes(minutes);
+  date.setSeconds(seconds);
+
+  return date;
+}
+
+isAttendanceType(type: string): boolean {
+  const attendanceTypes = ['Check in', 'Check Out', 'Break', 'Back', 'Report'];
+  return attendanceTypes.includes(type);
+}
+
+
+loadingFlags2: { [key: string]: { [index: number]: boolean } } = {}; // Track loading per notification
+
+toggleNotification(notification: any, type: string, index: number): void {
+  let notificationData: NotificationTypeInfoRequest;
+
+  // Ensure the loading flag object exists for the given type
+  if (!this.loadingFlags2[type]) {
+    this.loadingFlags2[type] = {};
+  }
+  this.loadingFlags2[type][index] = true; // Start loading
+  this.cdr.detectChanges();
+
+  if (type === 'Other') {
+    notificationData = {
+      id: 0, 
+      notificationTypeId: notification.notificationTypeId,
+      minutes: '', 
+      sendReminderType: '', 
+      reminderType: '', 
+      status: notification.isEnable ? 'DISABLE' : 'ENABLE'
+    };
+  } else {
+    notificationData = {
+      id: notification.id ?? 0, 
+      notificationTypeId: notification.notificationTypeId,
+      minutes: notification.minutes ? this.convertDateToTimeString(notification.minutes) : '',
+      sendReminderType: notification.isBefore === 1 ?  'BEFORE' : 'AFTER',
+      reminderType: notification.isForced === 1 ?  'FORCED' : 'FLEXIBLE',
+      status: notification.isEnable ? 'ENABLE' : 'DISABLE'
+    };
+  }
+
+  this.dataService.saveNotification(notificationData).subscribe(
+    response => {
+      console.log('Notification updated successfully', response);
+      this.notificationTypes(); // Refresh notifications list
+    },
+    error => {
+      console.error('Error updating notification', error);
+      this.notificationTypes();
+    },
+    () => {
+      this.loadingFlags2[type][index] = false; // Stop loading
+      this.cdr.detectChanges();
+    }
+  );
+}
+
+
+convertDateToTimeString(date: Date): string {
+  const hours = date.getHours().toString().padStart(2, '0');
+  const minutes = date.getMinutes().toString().padStart(2, '0');
+  return `${hours}:${minutes}`;
+}
+
+
+toggleNotificationValue(notification: any, field: string): void {
+  // Toggle logic based on field
+  if (field === 'isEnable') {
+    // Handle isEnable toggling
+    notification.isEnable = notification.isEnable === 1 ? 0 : 1;
+  } 
+  else if (field === 'isBefore') {
+    // Handle isBefore toggling
+    notification.isBefore = notification.isBefore === 1 ? 0 : 1;
+  } 
+  else if (field === 'isForced') {
+    // Handle isForced toggling (this is already handled by ngModel)
+    notification.isForced = notification.isForced === 1 ? 0 : 1;
+  }
+
+}
+
+
+// shouldShowSwitch(type: string): boolean {
+//   return this.notifications?.[type]?.some(notification => notification.isEnable === 1) ?? false;
+// }
+
+isSwitchEnabled: { [key: string]: boolean } = {};
+loadingFlags: { [key: string]: boolean } = {}; 
+// This function is used to return the value of the switch's state for a specific type
+shouldShowSwitch(type: string): boolean {
+  // Check if the switch is manually enabled or if any notification for the type is enabled
+  return this.isSwitchEnabled[type] ?? this.notifications?.[type]?.some(notification => notification.isEnable === 1) ?? false;
+}
+
+onSwitchChange(event: boolean, type: string): void {
+  // Set loading state to true
+  this.loadingFlags[type] = true;
+  this.cdr.detectChanges(); // Ensure UI updates
+
+  if (event) {
+    this.isSwitchEnabled[type] = true; 
+    this.notificationTypes().finally(() => {
+      this.loadingFlags[type] = false; // Turn off loading after API response
+      this.cdr.detectChanges();
+    });
+  } else {
+    this.isSwitchEnabled[type] = false;
+    this.handleSwitchDisable(type).finally(() => {
+      this.loadingFlags[type] = false; // Turn off loading after API response
+      this.cdr.detectChanges();
+    });
+  }
+}
+
+handleSwitchDisable(type: string): Promise<void> {
+  return new Promise((resolve) => {
+    this.dataService.disableNotification(type).subscribe(
+      response => {
+        console.log('Notification updated successfully', response);
+        this.notificationTypes();
+        resolve();
+      },
+      error => {
+        console.error('Error updating notification', error);
+        this.notificationTypes();
+        resolve();
+      }
+    );
+  });
+}
 
 
 }

@@ -5,7 +5,7 @@ import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { TeamResponse } from 'src/app/models/team';
 import { Users } from 'src/app/models/users';
 import { DataService } from 'src/app/services/data.service';
-import { ModalService } from 'src/app/modal.service';
+import { ModalService } from 'src/app/services/modal.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import * as uuid from 'uuid';

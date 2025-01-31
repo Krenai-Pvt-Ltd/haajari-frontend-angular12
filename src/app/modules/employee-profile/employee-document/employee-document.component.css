@@ -1,16 +1,17 @@
-.employee-doucument-box{
+.employee-doucument-box {
     background-color: #F9FAFC;
     border-radius: 2px;
     margin-bottom: 15px;
 }
 
-.employee-doucument-box h5{
+.employee-doucument-box h5 {
     color: #000;
     font-weight: 500;
     line-height: 20px;
     letter-spacing: 0.357px;
     text-transform: capitalize;
 }
+
 .employee-doucument-box p {
     color: #6B7280;
     font-weight: 400;
@@ -19,7 +20,7 @@
     text-transform: capitalize;
 }
 
-.employee-doucument-box svg{
+.employee-doucument-box svg {
     width: 24px;
     position: relative;
     top: -4px;
@@ -36,7 +37,8 @@
     justify-content: center;
     color: #fff;
 }
-.stap-back-btn svg{
+
+.stap-back-btn svg {
     width: 18px;
 }
 
@@ -64,33 +66,50 @@
     text-align: left;
 }
 
-.employee-doc-file{
+.employee-doc-file {
     background-color: #F1F4F9;
     border-radius: 5px;
     margin-bottom: 15px;
 }
 
-.employee-doc-file svg{
+.register-form-box .form-check-input {
+    border-radius: 2px;
+}
+
+.register-form-box .form-check label {
+    position: relative;
+    top: 2px;
+}
+
+/*.register-form-box .form-check-input:checked {
+    background-color: #6666f3 !important;
+    border-color: #6666f3 !important;
+}
+
+*/
+.employee-doc-file svg {
     width: 15px;
     position: relative;
     top: -1px;
 }
-.upload-file{
+
+.upload-file {
     border-radius: 3px;
 }
 
-.upload-file img{
+.upload-file img {
     width: 100%;
     height: 130px;
     object-fit: cover;
 }
 
-.upload-file-input{
+.upload-file-input {
     border: 1px dashed rgba(102, 102, 242, 0.40);
     height: 146px;
     border-radius: 2px;
 }
-.add-file{
+
+.add-file {
     padding: 0px 10px;
     color: var(--primary-color);
     font-size: 12px;
@@ -98,7 +117,7 @@
     font-weight: 500;
 }
 
-.upload-file-input svg{
+.upload-file-input svg {
     width: 28px;
 }
 
@@ -114,7 +133,7 @@
     font-size: 12px;
     font-weight: 500;
     border-radius: 2px;
-    min-width: 100px;
+    width: 100px;
 }
 
 .cancel-btn {
@@ -124,8 +143,9 @@
     color: #4a4a4a;
     font-size: 12px;
     font-weight: 500;
-    min-width: 100px;
+    width: 100px;
 }
+
 .close-btn svg {
     width: 20px;
 }
@@ -139,7 +159,7 @@
     letter-spacing: 0.102px;
 }
 
-.register-form-box input {
+.input-zorro {
     border-radius: 2px !important;
     border: 1.021px solid #e9e9e9 !important;
     background: rgba(236, 236, 236, 0.21) !important;
@@ -147,17 +167,27 @@
     font-size: 12px !important;
     font-weight: 400 !important;
 }
-.add-other-file{
+
+.add-other-file {
     background-color: rgba(244, 247, 255, 0.50) !important;
 
 }
-.add-other-file svg{
+
+.add-other-file svg {
     width: 45px !important;
 }
 
-.pdf-box i{
+.pdf-box i {
     font-size: 20px;
 }
-.pdf-box{
- height: 130px;
+
+.pdf-box {
+    height: 130px;
+}
+
+.file-svg svg {
+    width: 15px;
+    height: 15px;
+    position: relative;
+    top: -1px;
 }

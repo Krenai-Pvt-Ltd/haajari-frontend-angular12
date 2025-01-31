@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-employee-exit',
@@ -11,5 +11,7 @@ export class EmployeeExitComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
+  @Input() exitDate: any;
 
 }

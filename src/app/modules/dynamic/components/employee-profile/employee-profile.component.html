@@ -50,7 +50,7 @@
             'mt-1': adminRoleFlag
           }">
           <div class="d-flex align-items-center gap-3 mt-2" style="gap: 10px" *ngIf="
-              user!.employeeOnboardingStatus?.response == 'PENDING'
+              user!.employeeOnboardingStatus?.response == 'PENDING' || user!.employeeOnboardingStatus?.response=='REQUESTED'
             ">
             <button class="btn btn-soft-success btn-round" type="button" (click)="updateStatusUserByUuid('APPROVED')">
               <div *ngIf="!approvedToggle">
@@ -1109,7 +1109,7 @@
                         <full-calendar
                         [options]="calendarOptions" id="calendar" #calendar></full-calendar>
                       </div> -->
-
+                      <!-- {{date}} - {{joiningDate}} -->
 
                       <nz-calendar [(ngModel)]="date" [(nzMode)]="mode"
                       (nzPanelChange)="panelChange($event)"
@@ -1117,8 +1117,10 @@
                       [nzDisabledDate]="disablePreviousYears"
                       [nzDisabledDate]="disablePreviousMonths"
                       [nzDisabledDate]="disableDate">
+                     
            <ul *nzDateCell="let date" class="events">
-             <ng-container *ngIf="date >= joiningDate; else beforeJoiningDate">
+             <ng-container *ngIf="isSameOrAfterDate(date, joiningDate); else beforeJoiningDate">
+
                <ng-container *ngIf="getEventForDate(date) as event">
                  <li>
                    <span [ngStyle]="{'background-color': event.color}">
@@ -2131,7 +2133,7 @@
                         <div class="">
                           <div class="attendance-settin-list" *ngFor="let taxRegime of taxRegimeList">
                             <div class="categryCustomizecard d-flex pointer border-active"
-                              [ngClass]="{'border-active': taxRegime.selected == true, 'disabled-div': !userRoleFlag}"
+                              [ngClass]="{'border-active': taxRegime.selected, 'disabled-div': !userRoleFlag}"
                               (click)="updateTaxRegimeByUserIdMethodCall(taxRegime.id)">
                               <div class="categryCustomizeinfo" style="text-align: left">
                                 <label for="customizecategory1" class="mb-0">
@@ -2144,7 +2146,7 @@
                                 <div class="form-check">
                                   <input class="form-check-input" type="radio" name="exampleRadio{{ taxRegime.id }}"
                                     id="exampleRadio{{ taxRegime.id }}" value="option{{ taxRegime.id }}"
-                                    [checked]="taxRegime.selected == true" />
+                                    [checked]="taxRegime.selected" />
                                 </div>
                               </div>
                             </div>
@@ -2584,7 +2586,7 @@
                                   </div>
                                   <div class="media-body align-self-center">
                                     <div class="coin-bal">
-                                      <h4 class="mt-0 mb-1 font-22 fw-bold">₹{{employeePayslipBreakupResponse.amount}}
+                                      <h4 class="mt-0 mb-1 font-22 fw-bold">₹{{employeePayslipBreakupResponse.actualAmount}}
                                       </h4>
                                       <p class="text-muted mb-0 ">{{employeePayslipBreakupResponse.name}}</p>
                                     </div>
@@ -2700,8 +2702,7 @@
                                 {{employeePayslipLogResponse.paySlipMonth | date: 'MMMM, yyyy' }}
                               </p>
                               <small style="margin-left: 24px;"
-                                class="text-muted">{{employeePayslipLogResponse.paySlipGeneratedDate | date:"dd MMM yy,
-                                hh:mm a"}}</small>
+                                class="text-muted">{{employeePayslipLogResponse.paySlipGeneratedDate | date:"dd MMM yy, hh:mm a"}}</small>
                             </div>
                             <span *ngIf="employeePayslipLogResponse.paySlipUrl; else notAvailable"
                                 class="badge badge-outline-success badge-pill"
@@ -3296,15 +3297,9 @@
                                   <div class="dropdown d-inline-block">
                                     <div class="align-self-center">
                                       <div class="btn btn-xs btn-light btn-round">
-                                        {{ assets.createdDate | date:"MMM dd, yyyy 'at' hh:mm a"
-                                        || "N/A"
-                                        }}
-                                        <!-- &nbsp;
-                                          <span>{{
-                                            formatTime(leaves.leaveDate) || "N/A"
-                                          }}</span> -->
+                                        {{ (assets.createdDate | date:"MMM dd, yyyy 'at' hh:mm a")  || "N/A"}}
                                       </div>
-                                      <!-- {{ leaves.docFileLink }} -->
+                                      2
                                     </div>
                                   </div>
                                 </div>
@@ -3359,7 +3354,13 @@
                         <table class="table mb-0">
                           <tr style="background-color: #f1f1f1">
                             <td>
-                              <p class="mb-0 persnaol"> Personal Information <img src="assets/images/edit-text.svg"
+                              <div class="mb-0 persnaol d-flex align-items-center justify-content-between"> 
+                                <p class="mb-0">Personal Information</p> 
+
+                                <div class="d-flex align-items-center gap-3">
+                                  <a class="text-primary p-0" *ngIf="allowEdit" (click)="routeToUserDetails('/employee-onboarding/employee-onboarding-form')">Complete your profile</a>
+                                  
+                                  <img src="assets/images/edit-text.svg"
                                   class="right-icon" style="width: 14px; margin-right: 8px" *ngIf="
                                     ROLE === 'ADMIN' ||
                                     (ROLE == 'MANAGER' && isManagerBoolean)
@@ -3368,23 +3369,9 @@
                                       '/employee-onboarding/employee-onboarding-form'
                                     )
                                   " />
-                                <!-- <i
-                                  class="bi bi-pencil-square right-icon"
-                                  *ngIf="
-                                    onboardingPreviewData.user
-                                      .employeeOnboardingStatus.response ===
-                                    'REJECTED'
-                                  "
-                                  (click)="
-                                    routeToUserDetails(
-                                      '/employee-onboarding/employee-onboarding-form'
-                                    )
-                                  "
-                                ></i> -->
-                              </p>
-                            </td>
-                            <td class="nav-item" *ngIf="allowEdit" (click)="routeToUserDetails('/employee-onboarding/employee-onboarding-form')">
-                              <a class="nav-link" data-bs-toggle="tab" href="/employee-onboarding/employee-onboarding-form" role="tab" aria-selected="false">Complete your profile</a>
+                                </div>
+                                
+                              </div>
                             </td>
                           </tr>
                         </table>
@@ -4003,6 +3990,11 @@
         
                             <button *ngIf="expenseTypeList.length > 0" class="btn btn-primary" (click)="getExpenseType()" data-bs-toggle="modal"
                                 data-bs-target="#createExpense">Create Expense</button>
+
+                                <div class="dropdown deshboard-date-filter">
+                                  <nz-date-picker nzMode="month" [nzSize]="size" nzFormat="MMM, yyyy" [(ngModel)]="expenseSelectedDate"
+                                    (ngModelChange)="onExpenseMonthChange($event)" ></nz-date-picker>
+                                </div>
         
                             <div class="row mt-3">
                                 <div class="table-responsive bg-white">
@@ -4010,8 +4002,11 @@
                                         <thead class="thead-light">
                                             <tr>
                                                 <th class="text-center" style="width: 10%">
-                                                    Date
+                                                    Created Date
                                                 </th>
+                                                <th class="text-center" style="width: 10%">
+                                                  Date
+                                              </th>
                                                 <th class="text-center" style="width: 10%">
                                                     Employee Name
                                                 </th>
@@ -4069,6 +4064,7 @@
         
                                             <ng-container *ngIf="expenseList.length > 0">
                                                 <tr *ngFor="let expense of expenseList; let i= index">
+                                                    <td class="text-center">{{expense.createdDate | date: 'dd MMM yyyy'}}</td>
                                                     <td class="text-center">{{expense.expenseDate}}</td>
                                                     <td class="text-center">{{expense.employeeName}}</td>
                                                     <td class="text-center">{{expense.amount}}</td>

@@ -4,6 +4,9 @@ export class ExitPolicy{
     id: number = 0
     name: string =''
     noticePeriod: number = 0
+    fnfPeriod: number = 0
+    isLeaveTaken: number = 0
+    
     selectedUserIds: number[] =[]
     deSelectedUserIds: number[] =[]
     removeUserIds: number[] =[]

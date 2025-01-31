@@ -2091,22 +2091,22 @@ hr {
 /** Table Shimmer End */
 
 .cancel-btn{
-      background-color: #fbfbfb;
-        border: 1px solid #e6e7e9;
-        border-radius: 2px;
-        color: #4a4a4a;
-        font-size: 12px;
-        font-weight: 500;
-        min-width: 100px;
+    background-color: #fbfbfb;
+    border: 1px solid #e6e7e9;
+    border-radius: 2px;
+    color: #4a4a4a;
+    font-size: 12px;
+    font-weight: 500;
+    width: 100px;
 }
 
 .submitActionBtn{
-      background-color: var(--primary-background-color);
-        color: #fff;
-        font-size: 12px;
-        font-weight: 500;
-        border-radius: 2px;
-        min-width: 100px;
+    background-color: var(--primary-background-color);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 500;
+    border-radius: 2px;
+    width: 100px;
 }
 .nots-section{
       background-color: rgba(236, 236, 236, 0.21) !important;

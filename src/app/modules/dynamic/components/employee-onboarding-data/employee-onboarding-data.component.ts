@@ -1,12 +1,11 @@
 import { constant } from 'src/app/constant/constant';
-import { HttpClient } from '@angular/common/http';
-import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import {  NgForm } from '@angular/forms';
-import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { Key } from 'src/app/constant/key';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { EmployeeOnboardingDataDto } from 'src/app/models/employee-onboarding-data-dto';
@@ -18,12 +17,14 @@ import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { OrganizationOnboardingService } from 'src/app/services/organization-onboarding.service';
 import { SubscriptionPlanService } from 'src/app/services/subscription-plan.service';
-import { DatePipe } from '@angular/common';
-import * as moment from 'moment';
+import moment from 'moment';
 import { LeaveSettingComponent } from 'src/app/modules/setting/components/leave-setting/leave-setting.component';
 import { AttendanceSettingComponent } from 'src/app/modules/setting/components/attendance-setting/attendance-setting.component';
 import { TeamComponent } from '../team/team.component';
 import { UserResignation } from 'src/app/models/UserResignation';
+import { OnboardUser } from 'src/app/models/OnboardUser';
+import { debounceTime } from 'rxjs/operators';
+import { ModalService } from 'src/app/services/modal.service';
 export interface Team {
   label: string;
   value: string;
@@ -47,10 +48,12 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     private _onboardingService: OrganizationOnboardingService,
     private router: Router,
     private helperService: HelperService,
-    private modalService: NgbModal,
+    private ngbModal: NgbModal,
     private _subscriptionService:SubscriptionPlanService,
+    private modalService: ModalService
   ) {}
-  users: EmployeeOnboardingDataDto[] = [];
+  // users: EmployeeOnboardingDataDto[] = [];
+  users: EmployeeOnboardingDataDto[] = new Array();
   filteredUsers: Users[] = [];
   itemPerPage: number = 12;
   pageNumber: number = 1;
@@ -92,7 +95,9 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     let navExtra: NavigationExtras = {
       queryParams: { userId: uuid },
     };
-    this.router.navigate(['/employee-profile'], navExtra);
+    // this.router.navigate(['/employee'], navExtra);
+    const url = this.router.createUrlTree([Key.EMPLOYEE_PROFILE_ROUTE], navExtra).toString();
+    window.open(url, '_blank');
   }
 
   // randomUserUrl = 'http://localhost:8080/api/v2/users/fetch-team-list-user';
@@ -104,6 +109,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   ngOnInit(): void {
     window.scroll(0, 0);
     this.sampleFileUrl ="assets/samples/HajiriBulkSheet.xlsx"
+    this.getUsersCountByStatus();
       // 'https://firebasestorage.googleapis.com/v0/b/haajiri.appspot.com/o/Hajiri%2FSample%2FEmployee_Details_Sample%2Femployee_details_sample.xlsx?alt=media';
     // this.isUserShimer=true;
     this.getEmployeesOnboardingStatus();
@@ -117,7 +123,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     this.getShiftData();
     this.getOnboardingVia();
     this.selectStatus('ACTIVE');
-
+    //this.fetchPendingRequests();
     const storedDownloadUrl = localStorage.getItem('downloadUrl');
 
     if (storedDownloadUrl) {
@@ -125,6 +131,10 @@ export class EmployeeOnboardingDataComponent implements OnInit {
       this.downloadFileFromUrl(storedDownloadUrl);
     }
     this._subscriptionService.isSubscriptionPlanExpired();
+
+    this.searchSubject.pipe(debounceTime(1000)).subscribe((resignationSearch) => {
+          this.loadResignations();
+        });
   }
 
   isUserShimer: boolean = true;
@@ -132,6 +142,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   errorToggleTop: boolean = false;
   isMainPlaceholder: boolean = false;
   debounceTimer: any;
+  isResignationUser: number = 0
   getUsersByFiltersFunction(debounceTime: number = 300) {
     if (this.debounceTimer) {
       clearTimeout(this.debounceTimer);
@@ -146,8 +157,8 @@ export class EmployeeOnboardingDataComponent implements OnInit {
           'asc',
           'id',
           this.searchText,
-          this.searchCriteria
-
+          this.searchCriteria,
+          this.isResignationUser
         )
         .subscribe(
           (response: any) => {
@@ -168,32 +179,116 @@ export class EmployeeOnboardingDataComponent implements OnInit {
               // this.searchUserPlaceholderFlag=true;
             } else {
             }
+            // this.isResignationUser = 0;
+
+            if(this.isResignationUser == 1){
+              this.isMainPlaceholder = false;
+            }
 
             this.isUserShimer = false;
+            this.getUsersCountByStatus();
           },
           (error) => {
             this.isUserShimer = false;
             this.errorToggleTop = true;
+            this.users = []
           }
         );
     }, debounceTime);
   }
 
-  text = '';
-  changeStatus(presenceStatus: Boolean, uuid: string) {
-    debugger;
-    this.dataService.changeStatusById(presenceStatus, uuid).subscribe(
-      (data) => {
-        // location.reload();
-        this.getUsersByFiltersFunction();
-        // this.helperService.showToast("User disabled");
-      },
-      (error) => {
-        this.getUsersByFiltersFunction();
-        // location.reload();
-      }
-    );
+  resignationRequest(){
+    this.users = [];
+    this.isResignationUser = 1
+
+    this.search = ''; // Clear the search box text
+    this.crossFlag = false;
+    this.searchText = ''
+    this.searchCriteria = ''
+
+    this.getUsersByFiltersFunction();
   }
+
+  currentResignationID: number = 0;
+  deleteResignation(id: number): void {
+      this.disableUserLoader = true;
+      this.dataService.deleteUserResignation(id).subscribe({
+        next: (response) => {
+          this.disableUserLoader = false;
+          if(response.status){
+            this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
+          }else{
+            this.helperService.showToast(response.message, Key.TOAST_STATUS_ERROR);
+          }
+          this.closeUserDeleteModal.nativeElement.click();
+          this.loadResignations();
+        },
+        error: (error) => {
+          this.disableUserLoader = false;
+          this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
+        },
+      });
+    }
+
+    resignations: any[] = [];
+    page: number = 1;
+    size: number = 10;
+    status: string | null = '13';
+    resignationSearch: string | null = '';
+    totalRequests: number = 0;
+    isResignationLoading: boolean = false;
+    statusLabel:string='PENDING';
+    private searchSubject: Subject<string> = new Subject<string>();
+    statusOptions = [
+      { value: '', label: 'All' },
+      { value: '42', label: 'NOTICE PERIOD' },
+      { value: '13', label: 'PENDING' },
+      { value: '47', label: 'REVOKED' }
+    ];
+    loadResignations(): void {
+      this.isResignationLoading=true;
+      this.dataService
+        .getUserResignations(this.status, this.resignationSearch, this.page, this.size)
+        .subscribe({
+          next: (data) => {
+            this.isResignationLoading=false;
+            this.resignations = data.content;
+            this.totalRequests =data.totalElements;
+          },
+          error: (err) => {
+            this.isResignationLoading=false;
+            console.error('Error fetching resignations', err);
+          },
+        });
+    }
+
+    onResignationSearch(): void {
+      if(this.resignationSearch!=null){
+        this.searchSubject.next(this.resignationSearch);
+      }
+    }
+
+    changeResignationPage(page: number): void {
+      this.page = page;
+      this.loadResignations();
+    }
+    selectResignationStatus(status: string, label:string){
+      if(status=='ALL'){
+        status='';
+      }
+      this.status=status;
+      this.statusLabel=label;
+      this.loadResignations();
+    }
+
+  
+
+  allEmployeeRequest(){
+    this.users = [];
+    this.isResignationUser = 0
+    this.getUsersByFiltersFunction();
+  }
+
 
   onTableDataChange(event: any) {
     this.pageNumber = event;
@@ -203,6 +298,10 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   selectedStatus: string | null = null;
 
   selectStatus(status: string) {
+
+    this.users = [];
+    this.isResignationUser = 0
+
     if (status == 'ALL') {
       this.selectedStatus = 'All';
       this.searchUsers('any');
@@ -275,6 +374,10 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     this.getUsersByFiltersFunction();
   }
 
+  onOnboardingPageChange(page: number): void {
+    this.pageNumber = page;
+    this.getUsersByFiltersFunction();
+  }
   getPages(): number[] {
     const totalPages = Math.ceil(this.total / this.itemPerPage);
     return Array.from({ length: totalPages }, (_, index) => index + 1);
@@ -364,13 +467,19 @@ export class EmployeeOnboardingDataComponent implements OnInit {
 
   // Define a new flag
   emailAlreadyExists = false;
-  toggle = false;
-  setEmployeePersonalDetailsMethodCall() {
+  toggle1 = false;
+  toggle2 = false;
+  // inviteLoader: boolean = false;
+  setEmployeePersonalDetailsMethodCall(invite: boolean) {
     // Reset the flag
     debugger
+    if(!invite) {
+      this.toggle1 = true;
+    }else {
+      this.toggle2 = true;
+    }
     this.emailAlreadyExists = false;
 
-    this.toggle = true;
     const userUuid = '';
     this.dataService
       .setEmployeePersonalDetails(
@@ -378,16 +487,19 @@ export class EmployeeOnboardingDataComponent implements OnInit {
         userUuid,
         this.selectedTeamIds,
         this.selectedShift,
-        this.selectedLeaveIds
+        this.selectedLeaveIds,
+        invite
       )
       .subscribe(
         (response: UserPersonalInformationRequest) => {
-          this.toggle = false;
+          this.toggle1 = false;
+          this.toggle2 = false;
 
           // Check if the response indicates the email already exists
           if (response.statusResponse === 'existed') {
             this.emailAlreadyExists = true; // Set the flag to display the error message
-            this.toggle = false;
+            this.toggle1 = false;
+            this.toggle2 = false;
           } else {
             this.clearForm();
             this.closeModal();
@@ -397,14 +509,23 @@ export class EmployeeOnboardingDataComponent implements OnInit {
           this.selectedTeams = [];
           this.selectedShift = 0;
           this.getUsersByFiltersFunction();
+
+          if(invite) {
+            this.helperService.showToast(
+              'Member added and invited successfully.',
+              Key.TOAST_STATUS_SUCCESS
+            );
+        } else {
           this.helperService.showToast(
-            'Email sent successfully.',
+            'Member added successfully.',
             Key.TOAST_STATUS_SUCCESS
           );
+        }
         },
         (error) => {
           console.error(error);
-          this.toggle = false;
+          this.toggle1 = false;
+          this.toggle2 = false;
           this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
         }
       );
@@ -536,6 +657,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
           this.pageNumber = this.pageNumber - 1;
         }
         this.disableUserLoader = false;
+        // this.deleteOrDisableString = '';
         this.getEmployeesOnboardingStatus();
         this.getUsersByFiltersFunction();
         this.getEmpLastApprovedAndLastRejecetdStatus();
@@ -553,16 +675,40 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   }
 
   currentUserId: number | null = null;
+  currentUserPresenceStatus: boolean= false;
+  currentUserUuid: string = '';
+  deleteOrDisableUserString: string = '';
+  // deleteOrDisableString: string = '';
 
   // deleteConfirmationModalRef!: NgbModalRef;
 
   @ViewChild('deleteConfirmationModal') deleteConfirmationModal: any;
 
-  openDeleteConfirmationModal(userId: number) {
+  openDeleteConfirmationModal(userId: number, presenceStatus: boolean, uuid: string, stringStr: string) {
+    debugger
     this.currentUserId = userId;
+    this.currentUserPresenceStatus = presenceStatus;
+    this.currentUserUuid = uuid;
+    this.deleteOrDisableUserString = stringStr;
     // this.deleteConfirmationModalRef = this.modalService.open(this.deleteConfirmationModal);
   }
 
+
+  deleteOrDisable() {
+    if(this.deleteOrDisableUserString === constant.DELETE) {
+      // this.deleteOrDisableString = "Delete";
+      if (this.currentUserId !== null) {
+       this.deleteUser();
+      }
+    }else if (this.deleteOrDisableUserString === constant.DISABLE){
+      // this.deleteOrDisableString = "Delete";
+      if(this.currentUserUuid != '') {
+        const statusToSend = !this.currentUserPresenceStatus;
+        this.changeStatusActive(statusToSend, this.currentUserUuid);
+        this.closeUserDeleteModal.nativeElement.click();
+       }
+    }
+  }
   deleteUser() {
     if (this.currentUserId !== null) {
       this.disableUser(this.currentUserId);
@@ -573,6 +719,52 @@ export class EmployeeOnboardingDataComponent implements OnInit {
 
   closeDeleteModal() {
     this.deleteConfirmationModal.nativeElement.click();
+  }
+
+
+  text = '';
+  // changeStatus() {
+  //   debugger;
+  //   this.disableUserLoader = true;
+  //   const statusToSend = !this.currentUserPresenceStatus;
+  //   this.dataService.changeStatusById(statusToSend, this.currentUserUuid).subscribe(
+  //     (data) => {
+  //       // location.reload();
+  //       this.disableUserLoader = false;
+
+  //       this.getUsersByFiltersFunction();
+
+  //       this.currentUserPresenceStatus = false;
+  //       this.currentUserUuid = '';
+  //       this.deleteOrDisableString = '';
+  //       this.helperService.showToast("User disabled succefully", Key.TOAST_STATUS_SUCCESS);
+  //     },
+  //     (error) => {
+  //       this.disableUserLoader = false;
+  //       this.getUsersByFiltersFunction();
+  //       // location.reload();
+  //     }
+  //   );
+  // }
+  changeStatusActive(status: boolean, userUuid: string) {
+    debugger;
+    this.disableUserLoader = true;
+    this.dataService.changeStatusById(status, userUuid).subscribe(
+      (data) => {
+        // location.reload();
+        this.disableUserLoader = false;
+        this.getUsersByFiltersFunction();
+        this.currentUserPresenceStatus = false;
+        this.currentUserUuid = '';
+        // this.deleteOrDisableString = '';
+        this.helperService.showToast("User disabled succefully", Key.TOAST_STATUS_SUCCESS);
+      },
+      (error) => {
+        this.disableUserLoader = false;
+        this.getUsersByFiltersFunction();
+        // location.reload();
+      }
+    );
   }
 
   // dismissModal() {
@@ -668,14 +860,28 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   this.isLoadingLeave = false;
   }
 
-
+  resetUploadExcelForm(): void {
+    this.fileColumnName = [];
+    this.isExcel = '';
+    this.data = [];
+    this.dataWithoutHeader = [];
+    this.mismatches = [];
+    this.invalidRows = [];
+    this.invalidCells = [];
+    this.isinvalid = false;
+    this.jsonData = [];
+    this.validateMap.clear();
+    this.fileName = null;
+    this.currentFileUpload = null;
+    this.firstUpload=true;
+  }
 
   fileName: any;
   currentFileUpload: any;
 
 
   expectedColumns: string[] = ['Name*', 'Phone*', 'Email*', 'Shift*', 'JoiningDate*', 'Gender*'];
-  correctColumnName: string[] = ['S. NO.*', 'Name*', 'Phone*', 'Email*', 'Shift*', 'JoiningDate*', 'Gender*', 'leavenames', 'ctc', 'emptype', 'empId', 'branch', 'department', 'position', 'grade', 'team', 'dob', 'fathername', 'maritalstatus', 'address', 'city', 'state', 'country', 'pincode', 'panno', 'aadharno', 'drivinglicence', 'emergencyname', 'emergencyphone', 'emergencyrelation', 'accountholdername', 'bankname', 'accountnumber', 'ifsccode'];
+  correctColumnName: string[] = ['S. NO.*', 'Name*', 'Phone*', 'Email*', 'Shift*', 'JoiningDate*', 'Gender*', 'leavenames', 'ctc', 'emptype', 'empId', 'branch', 'department', 'position', 'nationality' , 'grade', 'team', 'dob', 'fathername', 'maritalstatus', 'address', 'city', 'state', 'country', 'pincode', 'panno', 'aadharno', 'drivinglicence', 'emergencyname', 'emergencyphone', 'emergencyrelation', 'accountholdername', 'bankname', 'accountnumber', 'ifsccode'];
   fileColumnName:string[] = [];
   genders: string[] = ['Male', 'Female'];
   isExcel: string = '';
@@ -772,10 +978,22 @@ export class EmployeeOnboardingDataComponent implements OnInit {
           this.removeAllSingleEntries();
           this.validateMap.forEach((values, key) => {
             console.log(`Key: ${key}`);
-            this.mismatches.push(`Repeating values: "${key}" at row no. ${values}`);
-            if(this.elementToScroll){
-            this.elementToScroll!.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            console.log('Values:', values);
+            
+            this.mismatches.push('<br />');
+            // Add repeated mismatch message
+            this.mismatches.push(`Repeated : "${key}" at row no.`);
+            
+            // Scroll into view if element exists
+            if (this.elementToScroll) {
+              this.elementToScroll!.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              console.log('Values:', values);
+            }
+          
+            // Split values into chunks of 50 and add line breaks
+            const chunkSize = 50;
+            for (let i = 0; i < values.length; i += chunkSize) {
+              const chunk = values.slice(i, i + chunkSize);
+              this.mismatches.push(`${chunk.join(', ')}`);
             }
           });
           this.totalPage = Math.ceil(this.data.length / this.pageSize);
@@ -885,9 +1103,10 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     console.log("🚀 ~ EmployeeOnboardingDataComponent ~ validateRows ~ rows:", rows)
     this.invalidRows = new Array(rows.length).fill(false); // Reset invalid rows
     this.invalidCells = Array.from({ length: rows.length }, () => new Array(this.expectedColumns.length).fill(false)); // Reset invalid cells
-
+    
     for (let i = 0; i < rows.length; i++) {
       let rowIsValid = true;
+      let hasEmptyRow =false;
       for (let j = 0; j < this.fileColumnName.length; j++) {
 
         const cellValue = rows[i][j];
@@ -895,7 +1114,11 @@ export class EmployeeOnboardingDataComponent implements OnInit {
           rowIsValid = false;
           this.invalidRows[i] = true; // Mark the row as invalid
           this.invalidCells[i][j] = true; // Mark the cell as invalid
-
+          if(!hasEmptyRow){
+            this.addToMap('Empty Fields',`${i+1}`);
+            hasEmptyRow=true;
+          }
+          
         }
         if (this.fileColumnName[j] === 'email*' && cellValue) {
           this.addToMap(cellValue.toString(),`${i+1}`);
@@ -1045,7 +1268,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   }
 
   openAddLeaveModal(): void {
-    const modalRef = this.modalService.open(LeaveSettingComponent, {
+    const modalRef = this.ngbModal.open(LeaveSettingComponent, {
       size: 'xl',
       backdrop: true,
       windowClass: 'custom-modal-width'
@@ -1064,7 +1287,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   }
 
   openAddShiftModal(): void {
-    const modalRef = this.modalService.open(AttendanceSettingComponent, {
+    const modalRef = this.ngbModal.open(AttendanceSettingComponent, {
       size: 'xl', // Adjust size as needed
       backdrop: true, // Allows closing the modal on outside click
       keyboard: true // Allows closing the modal with the Esc key
@@ -1081,7 +1304,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     );
   }
   openAddTeamModal(): void {
-    const modalRef = this.modalService.open(TeamComponent, {
+    const modalRef = this.ngbModal.open(TeamComponent, {
       size: 'xl', // Adjust size as needed
       backdrop: true, // Allows closing the modal on outside click
       keyboard: true // Allows closing the modal with the Esc key
@@ -1284,7 +1507,9 @@ console.log(this.data);
     this.networkConnectionErrorPlaceholder = false;
   }
 
-  onboardUserList: any[] = new Array();
+  // onboardUserList: any[] = new Array();
+  onboardUserList: OnboardUser[] = [];
+
   loading: boolean = false;
   getUser() {
     this.preRuleForShimmersAndErrorPlaceholdersMethodCall();
@@ -1308,6 +1533,28 @@ console.log(this.data);
     );
   }
 
+  updateNotification(onboardUser: any) {
+    const payload = {
+      id: onboardUser.id,
+      emailNotificationEnabled: onboardUser.emailNotificationEnabled,
+      whatsappNotificationEnabled: onboardUser.whatsappNotificationEnabled,
+    };
+
+    // this.dataService.updateNotificationSettings(payload).subscribe(
+    //   (response: any) => {
+    //     if (response.status) {
+    //       console.log('Notification settings updated successfully.');
+    //     } else {
+    //       console.error('Failed to update notification settings.');
+    //     }
+    //   },
+    //   (error) => {
+    //     console.error('Error updating notification settings', error);
+    //   }
+    // );
+  }
+
+
   formatAsCommaSeparated(items: string[]): string {
     return items.join(', ');
   }
@@ -1317,7 +1564,9 @@ console.log(this.data);
     this._onboardingService.deleteOnboardUser(id).subscribe(
       (response: any) => {
         if (response.status) {
+          this.getUsersByFiltersFunction();
           this.getUser();
+          // this.getUser();
         }
       },
       (error) => {}
@@ -1340,6 +1589,186 @@ console.log(this.data);
           this.isEmailExist = response;
         });
     }
+  }
+
+  requestedData: any[] = [];
+  isRequestedDataLoading: boolean = false;
+  userId: string = '';
+  editedName: string = '';
+  editedDate: Date = new Date();
+  profilePic: string = '';
+  disabledStates: boolean[] = [];
+  approveStates: string[]=[];
+  rejectedReason: string = '';
+  @ViewChildren('collapsibleDiv') collapsibleDivs!: QueryList<ElementRef>;
+  getRequestedData(uuid: string) {
+    debugger;
+    this.isRequestedDataLoading = true;
+    this.dataService.getDataComparison(uuid).subscribe(
+      (response: any) => {
+        this.isRequestedDataLoading = false;
+        this.userId = uuid;
+          this.requestedData = response.editedDataDtoList.map((item: { key: string; }) => ({
+            ...item,
+            name: this.convertKeyToName(item.key)
+          }));
+          this.editedName= response.name;
+          this.editedDate= response.createdDate;
+          this.profilePic= response.profilePic;
+          this.approveStates=[];
+          this.remainingField=1;
+          this.isModalOpen = new Array(this.requestedData.length).fill(false);
+          if(!this.requestedData ||this.requestedData.length==0){
+            this.helperService.showToast('No data found', Key.TOAST_STATUS_ERROR);
+            this.closeReqDataModal.nativeElement.click();
+            this.selectStatus('EDITPROFILE');
+          }
+
+
+      },
+      (error) => {
+        this.isRequestedDataLoading = false;
+      }
+    );
+  }
+
+  convertKeyToName(key: string): string {
+    // Convert the key by splitting on uppercase letters and joining with spaces
+    return key
+      .replace(/([a-z])([A-Z])/g, '$1 $2')  // Adds a space before uppercase letters
+      .replace(/^./, (str) => str.toUpperCase()); // Capitalizes the first letter
+  }
+
+  @ViewChild('closeReqDataModal') closeReqDataModal!: ElementRef;
+  approveLoading: boolean = false;
+  approveRequestedData(): void {
+    this.approveLoading = true;
+    this.dataService.saveRequestedData(this.userId).subscribe({
+      next: (response) => {
+        this.approveLoading = false;
+        console.log('Response:', response);
+        if (response.success) {
+          this.helperService.showToast('Data saved successfully', Key.TOAST_STATUS_SUCCESS);
+          this.closeReqDataModal.nativeElement.click();
+          this.fetchPendingRequests();
+          this.selectStatus('EDITPROFILE');
+
+        } else {
+          this.helperService.showToast('Failed to save data', Key.TOAST_STATUS_ERROR);
+        }
+      },
+      error: (error) => {
+        this.approveLoading = false;
+        console.error('Error:', error);
+        this.helperService.showToast('An error occurred while saving data', Key.TOAST_STATUS_ERROR);
+      },
+    });
+  }
+
+  rejectLoading: boolean = false;
+  isRejectModalOpen: boolean = false;
+  rejectData(): void {
+    if(! this.isRejectModalOpen){
+      this.isRejectModalOpen = true;
+      return;
+    }
+
+    this.rejectLoading = true;
+    this.dataService.rejectRequestedData(this.userId,this.rejectedReason).subscribe(
+      (response) => {
+        this.rejectLoading = false;
+        if (response.success) {
+          this.helperService.showToast('Request rejected successfully', Key.TOAST_STATUS_SUCCESS);
+          this.closeReqDataModal.nativeElement.click();
+          this.fetchPendingRequests();
+          this.selectStatus('EDITPROFILE');
+        } else {
+          this.helperService.showToast('Failed to reject request', Key.TOAST_STATUS_ERROR);
+        }
+      },
+      (error) => {
+        this.rejectLoading = false;
+        console.error('API Error:', error);
+      }
+    );
+  }
+
+  @ViewChild('divElement', { static: false }) divElement!: ElementRef;
+
+  fieldLoading: boolean = false;
+  remainingField: number=1;
+  removeField(key: string, value: any, index: number) {
+    this.fieldLoading = true;
+    this.dataService.removeKeyValuePair(key,this.userId, value).subscribe({
+      next: (response) => {
+        this.fieldLoading = false;
+        console.log('Response:', response);
+        if (response.success) {
+          this.helperService.showToast('Data Rejected successfully', Key.TOAST_STATUS_SUCCESS);
+          this.remainingField=response.message;
+          if(this.remainingField==0){
+            this.fetchPendingRequests();
+          }
+          this.disabledStates[index] = true;
+          this.approveStates[index] = 'Rejected';
+          this.divElement.nativeElement.click();
+          const divToClick = document.getElementById('collapsibleDiv-' + index);
+          if (divToClick) {
+            divToClick.click();
+          }
+
+        } else {
+          this.helperService.showToast('Failed to remove the field', Key.TOAST_STATUS_ERROR);
+        }
+      },
+      error: (err) => {
+        this.fieldLoading = false;
+        console.error('Error:', err);
+        alert('An error occurred while removing the field.');
+      }
+    });
+  }
+  approveField(key: string, value: any, index: number) {
+    this.fieldLoading = true;
+    const stringValue = typeof value === 'object' ? JSON.stringify(value) : String(value);
+    this.dataService.approveKeyValuePair(key, this.userId, stringValue).subscribe({
+      next: (response) => {
+        this.fieldLoading = false;
+        console.log('Response:', response);
+        if (response.success) {
+          this.disabledStates[index] = true;
+          this.approveStates[index] = 'Approved';
+          this.remainingField=response.message;
+          if(this.remainingField==0){
+            this.fetchPendingRequests();
+          }
+          const divToClick = document.getElementById('collapsibleDiv-' + index);
+          if (divToClick) {
+            divToClick.click();
+          }
+          this.helperService.showToast('Field approve successfully', Key.TOAST_STATUS_SUCCESS);
+
+        } else {
+          this.helperService.showToast('Failed to approve the field', Key.TOAST_STATUS_ERROR);
+        }
+      },
+      error: (err) => {
+        this.fieldLoading = false;
+        console.error('Error:', err);
+        alert('An error occurred while removing the field.');
+      }
+    });
+  }
+
+  closeDataRequestModal() {
+    this.requestedData = [];
+    this.userId = '';
+    this.fieldLoading = false;
+    this.isRequestedDataLoading = false;
+    this.disabledStates = [];
+    this.approveStates = [];
+    this.isRejectModalOpen = false;
+    this.rejectedReason = '';
   }
 
   isNumberExist: boolean = false;
@@ -1555,6 +1984,16 @@ console.log(this.data);
 
   // User Resignation start
 
+  existExitPolicy: boolean = false;
+  checkUserExist(){
+    this.existExitPolicy = false
+    this.dataService.checkUserExist(this.userUuid).subscribe((res: any) =>{
+      if(res.status && res.object == 1){
+        this.existExitPolicy = true;
+      }
+    })
+  }
+
   @ViewChild('closeResignationButton') closeResignationButton!: ElementRef
   userResignationReq: UserResignation = new UserResignation();
   resignationToggle: boolean = false;
@@ -1689,7 +2128,79 @@ console.log(this.data);
     this.getNoticePeriodDuration();
   }
 
+  onInitiateExitClick(uuid:string) {
+    this.modalService.openInitiateExitModal(uuid, 'ADMIN').then(
+      (result) => {
+        this.loadResignations();
+        this.getUsersCountByStatus();
+      },
+      (reason) => {
+        this.loadResignations();
+        this.getUsersCountByStatus();
+      }
+    );
+  }
+
+  
   // User Resignation end
+
+  pendingRequests:any;
+  currentPage1: number = 1;
+  pageSize1: number = 12;
+  totalItems1: number = 0;
+  isEditDataLoading:boolean=false;
+  fetchPendingRequests(): void {
+    this.isEditDataLoading=true;
+    this.dataService.getPendingRequests(this.currentPage1, this.pageSize1).subscribe(response => {
+      this.isEditDataLoading=false;
+      this.pendingRequests = response.content;  // Adjust based on the response structure
+      this.totalItems1 = response.totalElements;  // Adjust based on the response structure
+    }
+  );
+  }
+
+  isModalOpen: boolean[] = [];
+  toggleModal(index: number): void {
+    this.isModalOpen[index] = !this.isModalOpen[index];
+  }
+  // Method to change page
+  changePage1(page: number): void {
+    this.currentPage1 = page;
+    this.fetchPendingRequests();
+  }
+
+  counTDataInString(jsonString:string):number{
+    const jsonObject = JSON.parse(jsonString);
+    return this.countDataFields(jsonObject);
+  }
+
+  countDataFields(obj: any): number {
+    let count = 0;
+
+    // Loop through the object's properties
+    for (let key in obj) {
+      // Skip 'id' fields
+      if (key === 'id') {
+        continue;
+      }
+
+      // If the property is an object, recursively count its fields
+      if (typeof obj[key] === 'object' && obj[key] !== null) {
+        // If it's an array, loop through each object inside
+        if (Array.isArray(obj[key])) {
+          for (let item of obj[key]) {
+            count += this.countDataFields(item); // Recursively count fields inside the object
+          }
+        } else {
+          count += this.countDataFields(obj[key]); // Recursively count fields inside the object
+        }
+      } else {
+        count += 1; // It's a data field (not 'id' or an object)
+      }
+    }
+
+    return count;
+  }
 
 
   jobTitles: string[] = [
@@ -1860,5 +2371,112 @@ console.log(this.data);
     'Web Developer',
     'Workplace Safety Officer',
   ];
+
+  resignationCount: number = 0;
+  editProfileCount: number = 0;
+  getUsersCountByStatus() {
+    this.dataService.getUsersCountByStatus().subscribe(
+      (response: any) => {
+        this.resignationCount = response.object.count1;
+        this.editProfileCount = response.object.count2;
+      },
+      (error) => {
+        console.error('Error fetching user count by status:', error);
+      }
+    );
+  }
+
+
+  loadingFlag: boolean = false;
+  enableEmailNotification: boolean = false;
+  enableWhatsAppNotification: boolean = false;
+
+  // sendNotifications(): void {
+  //   this.loadingFlag = true;
+  //   const notifications = this.onboardUserList.map((user) => ({
+  //     id: user.id,
+  //     emailNotificationEnabled: user.emailNotificationEnabled,
+  //     whatsappNotificationEnabled: user.whatsappNotificationEnabled,
+  //   }));
+
+  //   this.dataService.sendNotifications(notifications).subscribe({
+  //     next: (response) => {
+  //         this.closeButtonExcelModal.nativeElement.click();
+  //         this.getUsersByFiltersFunction();
+  //         this.getUser();
+  //         this.helperService.showToast("Notifications sent Successfully.", Key.TOAST_STATUS_SUCCESS);
+  //       // console.log('Notifications sent successfully:', response);
+  //       this.loadingFlag = false;
+  //     },
+  //     error: (err) => {
+  //       this.helperService.showToast("Error While Sending Notification", Key.TOAST_STATUS_ERROR);
+  //       // console.error('Error sending notifications:', err);
+  //       this.loadingFlag = false;
+  //     },
+  //   });
+  // }
+
+  sendNotifications(): void {
+    if (!this.enableEmailNotification && !this.enableWhatsAppNotification) {
+      this.helperService.showToast(
+        'Please select at least one notification type to proceed.',
+        'error'
+      );
+      return;
+    }
+
+    this.loadingFlag = true;
+
+    // Filter users based on toggled notification preferences
+    const emailUsers = this.enableEmailNotification
+      ? this.onboardUserList
+        .filter((user) => user.emailNotificationEnabled && user.email)
+        .map((user) => user.email)
+      : [];
+
+    const whatsappUsers = this.enableWhatsAppNotification
+      ? this.onboardUserList
+        .filter((user) => user.whatsappNotificationEnabled && user.phone)
+        .map((user) => user.phone)
+      : [];
+
+    // Prepare request payload
+    const notificationRequest = {
+      emailUsers,
+      whatsappUsers,
+    };
+
+    this.dataService.sendNotifications(notificationRequest).subscribe({
+      next: () => {
+        this.helperService.showToast(
+          'Notifications sent successfully.',
+          Key.TOAST_STATUS_SUCCESS
+        );
+        this.enableEmailNotification = false;
+        this.enableWhatsAppNotification = false;
+        this.closeButtonExcelModal.nativeElement.click();
+        this.getUsersByFiltersFunction();
+        this.getUser();
+        this.loadingFlag = false;
+      },
+      error: () => {
+        this.helperService.showToast(
+          'Error while sending notifications.',
+          Key.TOAST_STATUS_ERROR
+        );
+        this.loadingFlag = false;
+      },
+    });
+  }
+
+  closeNotificationModalFlag: boolean = false;
+
+  closeNotificationModal() {
+    this.closeNotificationModalFlag = true;
+    this.closeButtonExcelModal.nativeElement.click();
+    this.getUsersByFiltersFunction();
+    this.getUser();
+    this.closeNotificationModalFlag = false;
+  }
 
 }

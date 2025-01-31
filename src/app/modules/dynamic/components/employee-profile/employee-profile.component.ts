@@ -1,7 +1,7 @@
 import { DatePipe, Location } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
-import * as moment from 'moment';
+import moment from 'moment';
 import { AttendenceDto } from 'src/app/models/attendence-dto';
 import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -11,7 +11,6 @@ import { FormBuilder, FormGroup, FormGroupDirective, NgForm, Validators} from '@
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import { AttendanceCheckTimeResponse, AttendanceTimeUpdateRequestDto, UserDto } from 'src/app/models/user-dto.model';
 import { saveAs } from 'file-saver';
-import { HttpClient } from '@angular/common/http';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { AttendanceDetailsResponse } from 'src/app/models/attendance-detail-response';
 import { UserAddressDetailsRequest } from 'src/app/models/user-address-details-request';
@@ -90,7 +89,6 @@ export class EmployeeProfileComponent implements OnInit {
     private activateRoute: ActivatedRoute,
     public helperService: HelperService,
     private fb: FormBuilder,
-    private http: HttpClient,
     private firebaseStorage: AngularFireStorage,
     private router: Router,
     private roleService: RoleBasedAccessControlService,
@@ -111,6 +109,7 @@ export class EmployeeProfileComponent implements OnInit {
         leaveType: ['', Validators.required],
         managerId: ['', Validators.required],
         optNotes: ['', Validators.required],
+        userLeaveTemplateId:[''],
         halfDayLeave: [false],
         dayShift: [false],
         eveningShift: [false],
@@ -187,7 +186,7 @@ export class EmployeeProfileComponent implements OnInit {
     this.getStatutoryByOrganizationIdMethodCall();
     this.getSalaryConfigurationStepMethodCall();
     this.getSalaryTemplateComponentByUserUuidMethodCall();
-   
+
     // this.getEmployeeCompanyDocumentsMethodCall();
     // this.helperService.saveOrgSecondaryToDoStepBarData(0);
     this.ROLE = await this.roleService.getRole();
@@ -603,6 +602,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
           this.events = [];
           this.totalPresent = 0;
           this.totalAbsent = 0;
+          console.log("🚀 ~ EmployeeProfileComponent ~ getUserAttendanceDataFromDate ~ attendances.length:", attendances.length)
 
           if (!attendances.length) {
             let currentDate = moment(sDate, 'YYYY-MM-DD');
@@ -702,6 +702,9 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
   }
 
   getStatusColor(status: any): string {
+      if (status.includes('Leave')|| status.includes('Duty')) {
+        return 'rgb(255, 255, 143)';
+      }
     switch (status) {
       case 'Present':
         return '#e0ffe0';
@@ -1040,7 +1043,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
             this.helperService.showToast(data.message, Key.TOAST_STATUS_ERROR);
           }
 
-          
+
         },
         (error) => {
           this.submitLeaveLoader = false;
@@ -1922,7 +1925,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
   }
 
   //Fetching the PF contribution rates
-  pFContributionRateList: PFContributionRate[] = [];                       
+  pFContributionRateList: PFContributionRate[] = [];
   getPFContributionRateMethodCall() {
     this._salaryService.getPFContributionRate().subscribe(
       (response) => {
@@ -1938,7 +1941,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
   }
 
    //Fetching the ESI contribution rates
-  eSIContributionRateList: ESIContributionRate[] = [];                     
+  eSIContributionRateList: ESIContributionRate[] = [];
   getESIContributionRateMethodCall() {
     this._salaryService.getESIContributionRate().subscribe(
       (response) => {
@@ -1956,26 +1959,26 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
   updateTaxRegimeByUserIdMethodCall(taxRegimeId: number) {
     this.dataService.updateTaxRegimeByUserId(taxRegimeId).subscribe(
       (response) => {
-        this.helperService.showToast(
-          response.message,
-          Key.TOAST_STATUS_SUCCESS
-        );
-        this.getAllTaxRegimeMethodCall();
+        if(response.status){
+          this.getAllTaxRegimeMethodCall();
+          this.helperService.showToast(response.message,Key.TOAST_STATUS_SUCCESS);
+        }
       },
       (error) => {
-        this.helperService.showToast(
-          'Error in updating tax regime!',
-          Key.TOAST_STATUS_ERROR
-        );
+        this.helperService.showToast('Error in updating tax regime!',Key.TOAST_STATUS_ERROR);
       }
     );
   }
 
   taxRegimeList: TaxRegime[] = [];
   getAllTaxRegimeMethodCall() {
-    this.dataService.getAllTaxRegime().subscribe(
-      (response) => {
-        this.taxRegimeList = response.listOfObject;
+    this._salaryService.getAllTaxRegime().subscribe((response) => {
+        if(response.status){
+          this.taxRegimeList = response.object;
+          if(this.taxRegimeList == null){
+            this.taxRegimeList =  [];
+          }
+        }
       },
       (error) => {}
     );
@@ -1984,12 +1987,14 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
   statutoryResponseList: StatutoryResponse[] = [];
   getStatutoryByOrganizationIdMethodCall() {
 
-    this.dataService.getStatutoryByOrganizationId().subscribe(
-      (response) => {
-        this.statutoryResponseList = response.listOfObject;
-        this.setStatutoryVariablesToFalse();
-        // console.log(this.statutoryResponseList);
-        this.clearInputValues();
+    this._salaryService.getStatutoryByOrganizationId().subscribe((response) => {
+        if(response.status){
+
+          this.statutoryResponseList = response.object;
+          this.setStatutoryVariablesToFalse();
+          // console.log(this.statutoryResponseList);
+          this.clearInputValues();
+        }
       },
       (error) => {}
     );
@@ -1999,11 +2004,11 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
   statutoryAttributeResponseList: StatutoryAttributeResponse[] = [];
   getStatutoryAttributeByStatutoryIdMethodCall(statutoryId: number) {
     return new Promise((resolve, reject) => {
-      this.dataService
+      this._salaryService
         .getStatutoryAttributeByStatutoryId(statutoryId)
         .subscribe(
           (response) => {
-            this.statutoryAttributeResponseList = response.listOfObject;
+            this.statutoryAttributeResponseList = response.object;
             // console.log(response);
             resolve(response);
           },
@@ -2114,8 +2119,11 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
 
   size: 'large' | 'small' | 'default' = 'small';
   selectedDate: Date = new Date();
-  startDate: string = '';
-  endDate: string = '';
+  // startDate: string = '';
+  // endDate: string = '';
+
+  startDate: any;
+  endDate: any;
 
   onMonthChange(month: any): void {
     // console.log(month);
@@ -2239,11 +2247,11 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
   getEmployeePayslipBreakupResponseByUserUuidMethodCall(){
     this.preRuleForShimmersAndErrorPlaceholdersForEmployeePayslipBreakupResponseMethodCall();
     this.dataService.getEmployeePayslipBreakupResponseByUserUuid(this.userId, this.startDate, this.endDate).subscribe((response) => {
-      if(this.helperService.isListOfObjectNullOrUndefined(response)){
+      if(response.object == null || response.object.length == 0){
         this.dataNotFoundPlaceholderForEmployeePayslipBreakupResponse = true;
         this.employeePayslipBreakupResponseList = [];
       } else{
-        this.employeePayslipBreakupResponseList = response.listOfObject;
+        this.employeePayslipBreakupResponseList = response.object;
       }
 
       this.isShimmerForEmployeePayslipBreakupResponse = true;
@@ -2276,9 +2284,10 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
     this.dataService.getEmployeePayslipLogResponseByUserUuid(this.userId, this.startDate, this.endDate).subscribe((response) => {
       if(this.helperService.isListOfObjectNullOrUndefined(response)){
         this.dataNotFoundPlaceholderForEmployeePayslipLogResponse = true;
+        this.employeePayslipLogResponseList = [];
       } else{
         this.employeePayslipLogResponseList = response.listOfObject;
-        console.log( this.employeePayslipLogResponseList);
+        // console.log( this.employeePayslipLogResponseList);
 
       }
       this.isShimmerForEmployeePayslipLogResponse = false;
@@ -2407,6 +2416,13 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
     };
     this.router.navigate([routePath], navExtra);
   }
+
+  isSameOrAfterDate(date1: Date, date2: Date): boolean {
+    const onlyDate1 = new Date(date1.getFullYear(), date1.getMonth(), date1.getDate());
+    const onlyDate2 = new Date(date2.getFullYear(), date2.getMonth(), date2.getDate());
+    return onlyDate1 >= onlyDate2;
+  }
+
 
   joiningDate!: Date;
   getOnboardingFormPreviewMethodCall() {
@@ -2964,10 +2980,12 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
   }
 
   appraisalRequest: AppraisalRequest = {
-    effectiveDate: new Date(),
+    effectiveDate: '',
     userUuid: '',
     previousCtc: 0,
-    updatedCtc: 0
+    updatedCtc: 0,
+    checked: false,
+    position:''
   };
 
   getEmployeeCtcMethodCall() {
@@ -3007,8 +3025,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
   @ViewChild("bonusRequestModalButton") bonusRequestModalButton !: ElementRef;
 
   bonusRequest: BonusRequest = {
-    startDate: new Date(),
-    endDate: new Date(),
+    userUuid:'',
     amount: 0,
     comment: ""
   };
@@ -3029,14 +3046,15 @@ return
     if(this.isFormInvalid==true){
       return
     } else{
-    this.dataService.registerBonus(this.bonusRequest, this.userId).subscribe(
-      (response) => {
-        this.helperService.showToast("Bonus request submitted successfully", Key.TOAST_STATUS_SUCCESS);
-        this.bonusRequestModalButton.nativeElement.click();
+    this._salaryService.registerBonus(this.bonusRequest).subscribe((response) => {
+        if(response.status){
+          this.helperService.showToast("Bonus applied successfully", Key.TOAST_STATUS_SUCCESS);
+          this.bonusRequestModalButton.nativeElement.click();
+        }else{
+          this.helperService.showToast("Error submitting bonus request", Key.TOAST_STATUS_ERROR);
+        }
       },
       (error) => {
-        console.error('Error submitting bonus request:', error);
-        this.helperService.showToast("Error submitting bonus request", Key.TOAST_STATUS_ERROR);
 
       }
     );
@@ -3417,7 +3435,7 @@ getAttendanceRequestLogData() {
     // this.debounceTimer = setTimeout(() => {
 
   // this.attendanceRequestLog = [];
-  this.dataService.getAttendanceRequestLog(this.userId, this.pageNumberAttendanceLogs, this.itemPerPageAttendanceLogs).subscribe(response => {
+  this.dataService.getAttendanceRequestLog(this.userId, this.pageNumberAttendanceLogs, this.itemPerPageAttendanceLogs, '').subscribe(response => {
     if(this.helperService.isObjectNullOrUndefined(response)){
       this.dataNotFoundForAttendanceUpdateRequestLog = true;
     } else{
@@ -3537,11 +3555,11 @@ closeAttendanceFunc() {
   validationError: string | null = null;
   selectTimeForOvertimeRequest(dates: Array<Date | null> | Date | Date[] | null): void {
     this.validationError = null; // Reset validation error message
-  
+
     if (Array.isArray(dates) && dates.length === 2) {
       const startTime = dates[0] ? new Date(dates[0]) : null;
       const endTime = dates[1] ? new Date(dates[1]) : null;
-  
+
       if (startTime && endTime) {
         // Check if end time is before start time
         if (endTime < startTime) {
@@ -3549,11 +3567,11 @@ closeAttendanceFunc() {
           this.overtimeRequestDTO.workingHour = null;
           return; // Exit early if the validation fails
         }
-  
+
         // Calculate the time difference
         const durationMs = endTime.getTime() - startTime.getTime();
         const durationInHours = durationMs / (1000 * 60 * 60); // Convert milliseconds to hours
-  
+
         // Check if the duration exceeds 23 hours 59 minutes
         if (durationInHours > 23.9833) { // 23.9833 hours is 23 hours 59 minutes
           this.validationError = 'The duration cannot exceed 23 hours, 59 minutes.';
@@ -3573,7 +3591,7 @@ closeAttendanceFunc() {
       this.overtimeRequestDTO.workingHour = '';
     }
   }
-  
+
 
 
   // // Disable inappropriate dates based on the start date
@@ -3586,7 +3604,7 @@ closeAttendanceFunc() {
   //   }
   //   return false; // No date is disabled if no start date is selected
   // };
-  
+
 
   overtimeRequestLoader : boolean = false;
   overtimeRequestDTO : OvertimeRequestDTO = new OvertimeRequestDTO();
@@ -3633,7 +3651,7 @@ closeAttendanceFunc() {
   overtimeRequestLogResponseList : OvertimeRequestLogResponse[] = [];
   getOvertimeRequestLogResponseByUserUuidMethodCall(){
     this.preRuleForShimmersAndErrorPlaceholdersForOvertimeLogMethodCall();
-    this.dataService.getOvertimeRequestLogResponseByUserUuid(this.userId).subscribe((response) => {
+    this.dataService.getOvertimeRequestLogResponseByUserUuid(this.userId, '').subscribe((response) => {
       if(this.helperService.isListOfObjectNullOrUndefined(response)){
         this.dataNotFoundPlaceholderForOvertimeLog = true;
       } else{
@@ -3773,19 +3791,46 @@ closeAttendanceFunc() {
 
   expenseList: any[] = new Array();
   loading: boolean = false;
+  statusIds: number[] = new Array()
   databaseHelper: DatabaseHelper = new DatabaseHelper();
+  // expSelected:any;
    getExpenses() {
     debugger
     this.loading = true;
     this.expenseList = []
     // this.ROLE = await this.rbacService.getRole();
 
-    this.dataService.getAllExpense(this.ROLE, this.databaseHelper.currentPage, this.databaseHelper.itemPerPage).subscribe((res: any) => {
+    if(this.expenseSelectedDate == null){
+      this.startDate = '';
+      this.endDate = '';
+    }
+
+    this.dataService.getAllExpense(this.ROLE, this.databaseHelper.currentPage, this.databaseHelper.itemPerPage, this.startDate, this.endDate, this.statusIds, this.userId,'','').subscribe((res: any) => {
       if (res.status) {
         this.expenseList = res.object
         this.loading = false
+      }else{
+        this.expenseList = []
+        this.loading = false
       }
     })
+  }
+
+  expenseSelectedDate: Date | null = null;
+  onExpenseMonthChange(month: Date): void {
+    this.expenseSelectedDate = month;
+
+    if(this.expenseSelectedDate){
+        // Calculate the start of the month (first day of the month) and set time to start of the day
+      const startOfMonth = new Date(this.expenseSelectedDate.getFullYear(), this.expenseSelectedDate.getMonth(), 1);
+
+      // Calculate the end of the month (last day of the month) and set time to end of the day
+      const endOfMonth = new Date(this.expenseSelectedDate.getFullYear(), this.expenseSelectedDate.getMonth() + 1, 0);
+
+      this.startDate = startOfMonth.toDateString() + " 00:00:00"; // Date object
+      this.endDate = endOfMonth.toDateString() + " 23:59:59"; // Date object
+    }
+    this.getExpenses();
   }
 
 
@@ -3853,7 +3898,7 @@ closeAttendanceFunc() {
   createExpense(form: NgForm) {
     debugger
     this.createToggle = true;
-   
+
     this.dataService.createExpense(this.expenseTypeReq).subscribe((res: any) => {
       if (res.status) {
         this.expenseTypeReq = new ExpenseType();
@@ -3889,7 +3934,7 @@ closeAttendanceFunc() {
     // setTimeout(() =>{
     //   this.fetchManagerNames()
     // })
-    
+
     // this.getManagerId(expense.managerId)
 
     this.expenseTypeReq.id = expense.id
@@ -3901,7 +3946,7 @@ closeAttendanceFunc() {
     this.expenseTypeReq.managerId = expense.managerId
     this.expenseTypeId = expense.expenseTypeId
     this.managerId = expense.managerId
-    
+
 
 
   }
@@ -3974,10 +4019,13 @@ closeAttendanceFunc() {
     this.closeApproveModal.nativeElement.click()
   }
 
+
+
   /** Company Expense end **/
 
   /** Create and view expense end */
 
 }
+
 
 

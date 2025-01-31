@@ -1,5 +1,5 @@
-<div class="m-3 doucment-detail">
-  <div class="employee-doucument mt-4">
+<div class="m-3 doucment-detail mb-4">
+  <div class="employee-doucument mt-2">
     <div>
       <ul id="pills-tab" role="tablist" class="nav nav-pills">
         <li class="nav-item">
@@ -14,18 +14,26 @@
       <div id="pills-tabContent" class="tab-content">
         <div class="tab-pane fade active show pt-3" id="employee-document" role="tabpanel"
           aria-labelledby="attendance-tab">
-          <div class="employee-doc-box row">
+          <div class="row" *ngIf="documentLoading">
+            <div class="col-md-3 mb-2" *ngFor="let item of [].constructor(12)">
+              <div>
+                <ngx-shimmer-loading [width]="'100%'" [height]="'200px'"></ngx-shimmer-loading>
+              </div>
+            </div>
+          </div>
+          <div class="employee-doc-box row" *ngIf="!documentLoading">
             <div class="col-md-3">
-              <div class="employee-doc-file p-2">
+              <div class="employee-doc-file file-svg p-2">
                 <div class="d-flex align-items-center justify-content-between">
                   <div class="d-flex align-items-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="19" viewBox="0 0 18 19" fill="none">
-                      <mask id="mask0_4997_5278" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="18"
-                        height="19">
+                      <mask id="mask0_4997_5278" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                        width="18" height="19">
                         <rect y="0.5" width="18" height="18" fill="#D9D9D9" />
                       </mask>
                       <g mask="url(#mask0_4997_5278)">
-                        <path d="M8.25 16.25V10.25H2.25V8.75H8.25V2.75H9.75V8.75H15.75V10.25H9.75V16.25H8.25Z" fill="#1C1B1F" />
+                        <path d="M8.25 16.25V10.25H2.25V8.75H8.25V2.75H9.75V8.75H15.75V10.25H9.75V16.25H8.25Z"
+                          fill="#1C1B1F" />
                       </g>
                     </svg>
                     <h5 class="mb-0 font-10">Add Document</h5>
@@ -33,7 +41,8 @@
                 </div>
                 <div
                   class="upload-file-input bg-white p-2 mt-2 d-flex align-items-center justify-content-center flex-column pointer"
-                  data-bs-toggle="modal" data-bs-target="#addDocument" (click)="setDocType('employee_doc')">
+                  data-bs-toggle="modal" data-bs-target="#addDocumentt"
+                  (click)="setDocType(constant.DOC_TYPE_EMPLOYEE)">
                   <!-- <input id="fileSelect" type="file" name="img[]" accept=".xlsx" class="input"> -->
                   <span>
                     <svg xmlns="http://www.w3.org/2000/svg" width="46" height="45" viewBox="0 0 46 45" fill="none">
@@ -41,8 +50,8 @@
                         <path
                           d="M12.0151 0H27.0758L39.8253 13.2948V39.1489C39.8253 42.3774 37.2027 45 33.9656 45H12.0152C8.78667 45 6.16406 42.3774 6.16406 39.1489V5.85114C6.16401 2.6226 8.78661 0 12.0151 0Z"
                           fill="#6666F2" />
-                        <path opacity="0.302" fill-rule="evenodd" clip-rule="evenodd" d="M27.0625 0V13.191H39.8294L27.0625 0Z"
-                          fill="white" />
+                        <path opacity="0.302" fill-rule="evenodd" clip-rule="evenodd"
+                          d="M27.0625 0V13.191H39.8294L27.0625 0Z" fill="white" />
                         <path
                           d="M28.9285 23.4109H17.0618C16.5165 23.4109 16.0664 22.9695 16.0664 22.4242C16.0664 21.8789 16.5165 21.4375 17.0618 21.4375H28.9285C29.4738 21.4375 29.9152 21.8789 29.9152 22.4242C29.9152 22.9695 29.4738 23.4109 28.9285 23.4109ZM24.9729 35.2776H17.0618C16.5165 35.2776 16.0664 34.8362 16.0664 34.2909C16.0664 33.7456 16.5165 33.3042 17.0618 33.3042H24.9729C25.5183 33.3042 25.9596 33.7456 25.9596 34.2909C25.9596 34.8362 25.5183 35.2776 24.9729 35.2776ZM28.9285 31.322H17.0618C16.5165 31.322 16.0664 30.8806 16.0664 30.3353C16.0664 29.7901 16.5165 29.3486 17.0618 29.3486H28.9285C29.4738 29.3486 29.9152 29.7901 29.9152 30.3353C29.9152 30.8806 29.4738 31.322 28.9285 31.322ZM28.9285 27.3665H17.0618C16.5165 27.3665 16.0664 26.925 16.0664 26.3798C16.0664 25.8345 16.5165 25.3931 17.0618 25.3931H28.9285C29.4738 25.3931 29.9152 25.8345 29.9152 26.3798C29.9152 26.925 29.4738 27.3665 28.9285 27.3665Z"
                           fill="white" />
@@ -60,20 +69,27 @@
               </div>
             </div>
             <ng-container *ngFor="let doc of documents">
-              <div class="col-md-3" *ngIf="doc.documentType=='employee_doc'">
-                <div *ngIf="doc.documentType=='employee_doc'" class="employee-doc-file p-2">
+              <div class="col-md-3" *ngIf="doc.documentType==constant.DOC_TYPE_EMPLOYEE">
+                <div *ngIf="doc.documentType==constant.DOC_TYPE_EMPLOYEE" class="employee-doc-file file-svg p-2">
                   <div class="d-flex align-items-center justify-content-between">
                     <div class="d-flex align-items-center gap-2">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="19" viewBox="0 0 18 19" fill="none">
-                        <mask id="mask0_4843_560" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
-                          width="18" height="19">
-                          <rect y="0.5" width="18" height="18" fill="#454746" />
-                        </mask>
-                        <g mask="url(#mask0_4843_560)">
+
+                      <svg xmlns="http://www.w3.org/2000/svg" width="46" height="45" viewBox="0 0 46 45" fill="none">
+                        <g clip-path="url(#clip0_4843_1408)">
                           <path
-                            d="M3 15.5C2.5875 15.5 2.23438 15.3531 1.94063 15.0594C1.64688 14.7656 1.5 14.4125 1.5 14V5C1.5 4.5875 1.64688 4.23438 1.94063 3.94063C2.23438 3.64688 2.5875 3.5 3 3.5H7.5L9 5H15C15.4125 5 15.7656 5.14688 16.0594 5.44063C16.3531 5.73438 16.5 6.0875 16.5 6.5V14C16.5 14.4125 16.3531 14.7656 16.0594 15.0594C15.7656 15.3531 15.4125 15.5 15 15.5H3ZM4.5 12.5H10.5V11H4.5V12.5ZM4.5 9.5H13.5V8H4.5V9.5Z"
+                            d="M12.0151 0H27.0758L39.8253 13.2948V39.1489C39.8253 42.3774 37.2027 45 33.9656 45H12.0152C8.78667 45 6.16406 42.3774 6.16406 39.1489V5.85114C6.16401 2.6226 8.78661 0 12.0151 0Z"
                             fill="#454746" />
+                          <path opacity="0.302" fill-rule="evenodd" clip-rule="evenodd"
+                            d="M27.0625 0V13.191H39.8294L27.0625 0Z" fill="white" />
+                          <path
+                            d="M28.9285 23.4109H17.0618C16.5165 23.4109 16.0664 22.9695 16.0664 22.4242C16.0664 21.8789 16.5165 21.4375 17.0618 21.4375H28.9285C29.4738 21.4375 29.9152 21.8789 29.9152 22.4242C29.9152 22.9695 29.4738 23.4109 28.9285 23.4109ZM24.9729 35.2776H17.0618C16.5165 35.2776 16.0664 34.8362 16.0664 34.2909C16.0664 33.7456 16.5165 33.3042 17.0618 33.3042H24.9729C25.5183 33.3042 25.9596 33.7456 25.9596 34.2909C25.9596 34.8362 25.5183 35.2776 24.9729 35.2776ZM28.9285 31.322H17.0618C16.5165 31.322 16.0664 30.8806 16.0664 30.3353C16.0664 29.7901 16.5165 29.3486 17.0618 29.3486H28.9285C29.4738 29.3486 29.9152 29.7901 29.9152 30.3353C29.9152 30.8806 29.4738 31.322 28.9285 31.322ZM28.9285 27.3665H17.0618C16.5165 27.3665 16.0664 26.925 16.0664 26.3798C16.0664 25.8345 16.5165 25.3931 17.0618 25.3931H28.9285C29.4738 25.3931 29.9152 25.8345 29.9152 26.3798C29.9152 26.925 29.4738 27.3665 28.9285 27.3665Z"
+                            fill="white" />
                         </g>
+                        <defs>
+                          <clipPath id="clip0_4843_1408">
+                            <rect width="45" height="45" fill="white" transform="translate(0.5)" />
+                          </clipPath>
+                        </defs>
                       </svg>
                       <h5 class="mb-0 font-10">{{ doc.name | titlecase }}</h5>
                     </div>
@@ -110,7 +126,8 @@
                     <div class="upload-file bg-white p-2 mt-2">
                       <img *ngIf="isImage(doc.url)" [src]="doc.url" alt="{{ doc.url }}" style="width: 100%;"
                         (click)="openPdfModel(doc.url)">
-                      <div class="pdf-box d-flex align-items-center justify-content-center" *ngIf="!isImage(doc.url)" (click)="openPdfModel(doc.url)">
+                      <div class="pdf-box d-flex align-items-center justify-content-center" *ngIf="!isImage(doc.url)"
+                        (click)="openPdfModel(doc.url)">
                         <img src="assets/images/pdf-icon.png" style="width:40px; height:40px">
                       </div>
                     </div>
@@ -118,23 +135,33 @@
                 </div>
               </div>
             </ng-container>
-            
+
           </div>
+
+
         </div>
         <div class="tab-pane fade pt-3" id="company-document" role="tabpanel" aria-labelledby="attendance-tab">
-          <div class="employee-doc-box row">
+          <div class="row" *ngIf="documentLoading">
+            <div class="col-md-3 mb-2" *ngFor="let item of [].constructor(4)">
+              <div>
+                <ngx-shimmer-loading [width]="'100%'" [height]="'200px'"></ngx-shimmer-loading>
+              </div>
+            </div>
+          </div>
+          <div class="employee-doc-box row" *ngIf="!documentLoading">
 
-            <div class="col-md-3">
+            <div *ngIf="ROLE!='USER'" class="col-md-3">
               <div class="employee-doc-file p-2">
                 <div class="d-flex align-items-center justify-content-between">
                   <div class="d-flex align-items-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="19" viewBox="0 0 18 19" fill="none">
-                      <mask id="mask0_4997_5278" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="18"
-                        height="19">
+                      <mask id="mask0_4997_5278" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                        width="18" height="19">
                         <rect y="0.5" width="18" height="18" fill="#D9D9D9" />
                       </mask>
                       <g mask="url(#mask0_4997_5278)">
-                        <path d="M8.25 16.25V10.25H2.25V8.75H8.25V2.75H9.75V8.75H15.75V10.25H9.75V16.25H8.25Z" fill="#1C1B1F" />
+                        <path d="M8.25 16.25V10.25H2.25V8.75H8.25V2.75H9.75V8.75H15.75V10.25H9.75V16.25H8.25Z"
+                          fill="#1C1B1F" />
                       </g>
                     </svg>
                     <h5 class="mb-0 font-10">Add Document</h5>
@@ -142,7 +169,7 @@
                 </div>
                 <div
                   class="upload-file-input bg-white p-2 mt-2 d-flex align-items-center justify-content-center flex-column pointer"
-                  data-bs-toggle="modal" data-bs-target="#addDocument" (click)="setDocType('company_doc')">
+                  data-bs-toggle="modal" data-bs-target="#addDocumentt" (click)="setDocType(constant.DOC_TYPE_COMPANY)">
                   <!-- <input id="fileSelect" type="file" name="img[]" accept=".xlsx" class="input"> -->
                   <span>
                     <svg xmlns="http://www.w3.org/2000/svg" width="46" height="45" viewBox="0 0 46 45" fill="none">
@@ -150,8 +177,8 @@
                         <path
                           d="M12.0151 0H27.0758L39.8253 13.2948V39.1489C39.8253 42.3774 37.2027 45 33.9656 45H12.0152C8.78667 45 6.16406 42.3774 6.16406 39.1489V5.85114C6.16401 2.6226 8.78661 0 12.0151 0Z"
                           fill="#6666F2" />
-                        <path opacity="0.302" fill-rule="evenodd" clip-rule="evenodd" d="M27.0625 0V13.191H39.8294L27.0625 0Z"
-                          fill="white" />
+                        <path opacity="0.302" fill-rule="evenodd" clip-rule="evenodd"
+                          d="M27.0625 0V13.191H39.8294L27.0625 0Z" fill="white" />
                         <path
                           d="M28.9285 23.4109H17.0618C16.5165 23.4109 16.0664 22.9695 16.0664 22.4242C16.0664 21.8789 16.5165 21.4375 17.0618 21.4375H28.9285C29.4738 21.4375 29.9152 21.8789 29.9152 22.4242C29.9152 22.9695 29.4738 23.4109 28.9285 23.4109ZM24.9729 35.2776H17.0618C16.5165 35.2776 16.0664 34.8362 16.0664 34.2909C16.0664 33.7456 16.5165 33.3042 17.0618 33.3042H24.9729C25.5183 33.3042 25.9596 33.7456 25.9596 34.2909C25.9596 34.8362 25.5183 35.2776 24.9729 35.2776ZM28.9285 31.322H17.0618C16.5165 31.322 16.0664 30.8806 16.0664 30.3353C16.0664 29.7901 16.5165 29.3486 17.0618 29.3486H28.9285C29.4738 29.3486 29.9152 29.7901 29.9152 30.3353C29.9152 30.8806 29.4738 31.322 28.9285 31.322ZM28.9285 27.3665H17.0618C16.5165 27.3665 16.0664 26.925 16.0664 26.3798C16.0664 25.8345 16.5165 25.3931 17.0618 25.3931H28.9285C29.4738 25.3931 29.9152 25.8345 29.9152 26.3798C29.9152 26.925 29.4738 27.3665 28.9285 27.3665Z"
                           fill="white" />
@@ -169,21 +196,41 @@
                 </div>
               </div>
             </div>
+            <ng-container *ngIf="!isCompanyDocsExist() && ROLE=='USER'">
+
+
+              <div class="mt-3">
+                <div class="empty-file" style="margin-top: 20%; margin-bottom: 20%">
+                  <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
+                    <ng-template #contentTpl>
+                      <p class="mb-1 empty-detail">No data for now</p>
+                    </ng-template>
+                  </nz-empty>
+                </div>
+              </div>
+            </ng-container>
             <ng-container *ngFor="let doc of documents">
-              <div class="col-md-3" *ngIf="doc.documentType=='company_doc'">
-                <div class="employee-doc-file p-2">
+              <div class="col-md-3"
+                *ngIf="doc.documentType==constant.DOC_TYPE_COMPANY || doc.documentType==constant.DOC_TYPE_EMPLOYEE_AGREEMENT">
+                <div class="employee-doc-file file-svg p-2">
                   <div class="d-flex align-items-center justify-content-between">
                     <div class="d-flex align-items-center gap-2">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="19" viewBox="0 0 18 19" fill="none">
-                        <mask id="mask0_4843_560" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
-                          width="18" height="19">
-                          <rect y="0.5" width="18" height="18" fill="#454746" />
-                        </mask>
-                        <g mask="url(#mask0_4843_560)">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="46" height="45" viewBox="0 0 46 45" fill="none">
+                        <g clip-path="url(#clip0_4843_1408)">
                           <path
-                            d="M3 15.5C2.5875 15.5 2.23438 15.3531 1.94063 15.0594C1.64688 14.7656 1.5 14.4125 1.5 14V5C1.5 4.5875 1.64688 4.23438 1.94063 3.94063C2.23438 3.64688 2.5875 3.5 3 3.5H7.5L9 5H15C15.4125 5 15.7656 5.14688 16.0594 5.44063C16.3531 5.73438 16.5 6.0875 16.5 6.5V14C16.5 14.4125 16.3531 14.7656 16.0594 15.0594C15.7656 15.3531 15.4125 15.5 15 15.5H3ZM4.5 12.5H10.5V11H4.5V12.5ZM4.5 9.5H13.5V8H4.5V9.5Z"
+                            d="M12.0151 0H27.0758L39.8253 13.2948V39.1489C39.8253 42.3774 37.2027 45 33.9656 45H12.0152C8.78667 45 6.16406 42.3774 6.16406 39.1489V5.85114C6.16401 2.6226 8.78661 0 12.0151 0Z"
                             fill="#454746" />
+                          <path opacity="0.302" fill-rule="evenodd" clip-rule="evenodd"
+                            d="M27.0625 0V13.191H39.8294L27.0625 0Z" fill="white" />
+                          <path
+                            d="M28.9285 23.4109H17.0618C16.5165 23.4109 16.0664 22.9695 16.0664 22.4242C16.0664 21.8789 16.5165 21.4375 17.0618 21.4375H28.9285C29.4738 21.4375 29.9152 21.8789 29.9152 22.4242C29.9152 22.9695 29.4738 23.4109 28.9285 23.4109ZM24.9729 35.2776H17.0618C16.5165 35.2776 16.0664 34.8362 16.0664 34.2909C16.0664 33.7456 16.5165 33.3042 17.0618 33.3042H24.9729C25.5183 33.3042 25.9596 33.7456 25.9596 34.2909C25.9596 34.8362 25.5183 35.2776 24.9729 35.2776ZM28.9285 31.322H17.0618C16.5165 31.322 16.0664 30.8806 16.0664 30.3353C16.0664 29.7901 16.5165 29.3486 17.0618 29.3486H28.9285C29.4738 29.3486 29.9152 29.7901 29.9152 30.3353C29.9152 30.8806 29.4738 31.322 28.9285 31.322ZM28.9285 27.3665H17.0618C16.5165 27.3665 16.0664 26.925 16.0664 26.3798C16.0664 25.8345 16.5165 25.3931 17.0618 25.3931H28.9285C29.4738 25.3931 29.9152 25.8345 29.9152 26.3798C29.9152 26.925 29.4738 27.3665 28.9285 27.3665Z"
+                            fill="white" />
                         </g>
+                        <defs>
+                          <clipPath id="clip0_4843_1408">
+                            <rect width="45" height="45" fill="white" transform="translate(0.5)" />
+                          </clipPath>
+                        </defs>
                       </svg>
                       <h5 class="mb-0 font-10">{{ doc.name | titlecase }}</h5>
                     </div>
@@ -220,15 +267,16 @@
                     <div class="upload-file bg-white p-2 mt-2">
                       <img *ngIf="isImage(doc.url)" [src]="doc.url" alt="{{ doc.url }}" style="width: 100%;"
                         (click)="openPdfModel(doc.url)">
-                      <div class="pdf-box d-flex align-items-center justify-content-center icon-preview" *ngIf="!isImage(doc.url)" (click)="openPdfModel(doc.url)">
-                          <img src="assets/images/pdf-icon.png" style="width:40px; height:40px">
+                      <div class="pdf-box d-flex align-items-center justify-content-center icon-preview"
+                        *ngIf="!isImage(doc.url)" (click)="openPdfModel(doc.url)">
+                        <img src="assets/images/pdf-icon.png" style="width:40px; height:40px">
                       </div>
                     </div>
                   </ng-template>
                 </div>
               </div>
             </ng-container>
-           
+
           </div>
         </div>
       </div>
@@ -265,17 +313,18 @@
   </div>
 </div>
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary d-none" data-toggle="modal" data-target="#addDocument">
-  Apply for a leave
+<button type="button" class="btn btn-primary d-none" data-toggle="modal" data-target="#addDocumentt">
+  Add Document
 </button>
 <!-- Modal -->
-<div class="modal fade" id="addDocument" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<div class="modal fade" id="addDocumentt" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
   aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Add Document</h5>
-        <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButton>
+        <button type="button" class="close-btn" data-bs-dismiss="modal" (click)="onCloseModal()" aria-label="Close"
+          #closeButton>
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
             <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24"
               height="24">
@@ -295,10 +344,34 @@
               <div class="col-md-12 mb-3">
                 <div class="form-group">
                   <label for="documentName" class="mb-2">Document Name</label>
-                  <input type="text" class="form-control" id="documentName" placeholder="Enter document name"
-                    [(ngModel)]="doc.name" name="documentName" />
+                  <input type="text" class="form-control input-zorro" id="documentName"
+                    placeholder="Enter document name" [(ngModel)]="doc.name" name="documentName" />
                 </div>
               </div>
+              <ng-container
+                *ngIf="docType===constant.DOC_TYPE_EMPLOYEE_AGREEMENT || docType===constant.DOC_TYPE_COMPANY">
+                <div class="col-md-12 mb-3">
+                  <div class="form-check d-flex align-items-center gap-2">
+                    <input type="checkbox" class="form-check-input" id="exampleCheck1"
+                      (change)="isEmployeeAgreement($event)" #checkBox>
+                    <label class="form-check-label" for="exampleCheck1">Is this Employee Agreement</label>
+                  </div>
+
+                </div>
+                <div *ngIf="isEmployeeAgreementChecked" class="col-md-6 mb-3">
+                  <label for="startDate" class="mb-2">Start Date</label>
+                  <nz-date-picker nzBorderless nzPlaceHolder="dd/mm/yyyy" id="startDate" name="startDate" required
+                    [(ngModel)]="doc.startDate" [nzDisabledDate]="disableStartDates" class="form-control">
+                  </nz-date-picker>
+                </div>
+                <div *ngIf="isEmployeeAgreementChecked" class="col-md-6 mb-3">
+                  <label for="endDate" class="mb-2">End Date</label>
+                  <nz-date-picker nzBorderless nzPlaceHolder="dd/mm/yyyy" id="endDate" name="endDate" required
+                    [(ngModel)]="doc.endDate" [nzDisabledDate]="disableEndDates" class="form-control">
+                  </nz-date-picker>
+                </div>
+
+              </ng-container>
               <div class="col-md-12">
                 <div class="form-group">
                   <label for="fileInput" class="mb-2">Attach File</label>
@@ -326,7 +399,8 @@
                       </svg>
                     </span>
                     <button type="button" class="btn add-file mt-2 font-14">
-                      <i class="bi bi-plus-lg"></i>{{doc.fileName!=''? doc.fileName : 'Add File' }}
+                      <i *ngIf="doc.fileName===''" class="bi bi-plus-lg"></i>{{doc.fileName!=''? doc.fileName : 'Add
+                      File' }}
                     </button>
                   </div>
                 </div>
@@ -335,11 +409,12 @@
           </form>
         </div>
       </div>
-      <div class="modal-footer">
+      <div class="modal-footer d-flex align-items-center justify-content-end gap-2">
         <button type="button" class="btn cancel-btn" data-bs-dismiss="modal">
           Cancel
         </button>
-        <button type="button" class="btn submitActionBtn" [disabled]="isLoading" (click)="onSubmit()">
+        <button type="button" class="btn submitActionBtn" [disabled]="isLoading || doc.name.length<1"
+          (click)="onSubmit()">
           <span *ngIf="!isLoading">Submit</span>
           <div class="dot-opacity-loader" *ngIf="isLoading">
             <span></span>

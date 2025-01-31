@@ -10,7 +10,7 @@ import { DynamicComponent } from './dynamic.component';
 import { WaitingPageComponent } from './components/waiting-page/waiting-page.component';
 import { TeamComponent } from './components/team/team.component';
 import { TeamDetailComponent } from './components/team-detail/team-detail.component';
-import { AuthGuard } from 'src/app/modules/authentication/auth/auth-guard';
+import { AuthGuard } from 'src/app/guards/auth-guard';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { DatePipe } from '@angular/common';
 import { RoleComponent } from './components/role/role.component';
@@ -35,6 +35,9 @@ import { ReferFriendComponent } from './components/refer-friend/refer-friend.com
 import { NewEmployeeProfileComponent } from './components/new-employee-profile/new-employee-profile.component';
 import { CreateExpenseComponent } from './components/create-expense/create-expense.component';
 import { ExistPolicyComponent } from './components/exist-policy/exist-policy.component';
+import { LeaveManagementsComponent } from './components/leave-managements/leave-managements.component';
+import { InboxComponent } from './components/inbox/inbox.component';
+import { AssetsManagementComponent } from './components/assets-management/assets-management.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -47,7 +50,7 @@ const routes: Routes = [
         component: DashboardComponent,
         canActivate: [AuthGuard,SubscriptionGuard],
         data: { requiredSubmodule: '/dashboard' },
-      }, //canActivate: [AuthGuard] (To activate the auth guard, need to add this under curly braces of this line by seperated commas)
+      },
       {
         path: 'timetable',
         component: TimetableComponent,
@@ -130,7 +133,7 @@ const routes: Routes = [
         path: 'employee-profile',
         component: EmployeeProfileComponent,
         canActivate: [AuthGuard, SubscriptionGuard],
-        data: { requiredSubmodule: '/employee-profile' },
+       
       },
       { path: 'testing', component: TestingComponent },
       {
@@ -158,15 +161,10 @@ const routes: Routes = [
         component: LeaveManagementComponent, 
         canActivate: [AuthGuard, SubscriptionGuard]
       },
-     
-      {
-        path: 'to-do-step-dashboard',
-        component: ToDoStepDashboardComponent,
-        canActivate: [AuthGuard, SubscriptionGuard]
-      },
       {
         path: 'subscription',
         component: SubscriptionComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: 'refer-friend',
@@ -186,6 +184,18 @@ const routes: Routes = [
         path: 'exit-policy',
         component: ExistPolicyComponent,
         canActivate: [AuthGuard, SubscriptionGuard]
+      },
+      {
+        path: 'leave-managements',
+        component: LeaveManagementsComponent,
+      },
+      {
+        path: 'inbox',
+        component: InboxComponent,
+      },
+      {
+        path: 'assets-management',
+        component: AssetsManagementComponent,
       },
     ],
   },

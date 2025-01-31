@@ -47,12 +47,15 @@ export class EmployeeOnboardingFormComponent implements OnInit {
   constructor(
     public dataService: DataService,
     private router: Router,
-    private activateRoute: ActivatedRoute,
     private afStorage: AngularFireStorage,
-    private domSanitizer: DomSanitizer,
     private helperService: HelperService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private activatedRoute: ActivatedRoute
   ) {
+         // Get the full URL with query parameters
+         const currentPath = this.router.url; // Path without query parameters
+           localStorage.setItem('returnUrl', currentPath);
+
     // DOB Date logic
     const today = new Date();
     const minAge = 18;
@@ -288,6 +291,7 @@ export class EmployeeOnboardingFormComponent implements OnInit {
   toggle = false;
   toggleSave = false;
   isUploading: boolean = false;
+  invite:boolean = true;
   setEmployeePersonalDetailsMethodCall() {
     debugger;
 
@@ -318,6 +322,12 @@ export class EmployeeOnboardingFormComponent implements OnInit {
       )
       .subscribe(
         (response: UserPersonalInformationRequest) => {
+          if(this.buttonType === 'preview'){
+            const modalRef = this.modalService.open(PreviewFormComponent, {
+              centered: true,
+              size: 'lg', backdrop: 'static'
+            });
+            }
           // console.log(response);
           this.employeeOnboardingFormStatus =
             response.employeeOnboardingFormStatus.toString();
@@ -331,6 +341,7 @@ export class EmployeeOnboardingFormComponent implements OnInit {
               [],
               0,
               [],
+              this.invite
             );
             // this.userPersonalDetailsStatus = response.statusResponse;
             // localStorage.setItem('statusResponse', JSON.stringify(this.userPersonalDetailsStatus));
@@ -922,15 +933,11 @@ export class EmployeeOnboardingFormComponent implements OnInit {
     try {
 
 
-    this.buttonType = type;
+
     this.userPersonalInformationRequest.directSave = false;
     this.formSubmitButton.nativeElement.click();
-    if(type === 'preview'){
-    const modalRef = this.modalService.open(PreviewFormComponent, {
-      centered: true,
-      size: 'lg', backdrop: 'static'
-    });
-    }
+    this.buttonType = type;
+
   } catch (error) {
       console.log(error)
   }
@@ -956,6 +963,10 @@ export class EmployeeOnboardingFormComponent implements OnInit {
           break;
         }
         case 'update': {
+          this.setEmployeePersonalDetailsMethodCall();
+          break;
+        }
+        case 'preview': {
           this.setEmployeePersonalDetailsMethodCall();
           break;
         }

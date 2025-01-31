@@ -122,11 +122,11 @@ export class ToDoStepDashboardComponent implements OnInit {
       (response) => {
         this.isToDoStepsCompleted = response.object;
 
-        if (this.isToDoStepsCompleted == 0 && isOrgOnboardToday == 1) {
-          this.router.navigate(['/to-do-step-dashboard']);
-        } else {
+        // if (this.isToDoStepsCompleted == 0 && isOrgOnboardToday == 1) {
+        //   this.router.navigate(['/to-do-step-dashboard']);
+        // } else {
           this.router.navigate(['/dashboard']);
-        }
+        // }
         console.log('isToDoStepsCompletedFlag :', this.isToDoStepsCompleted);
       },
       (error) => {
@@ -141,7 +141,7 @@ export class ToDoStepDashboardComponent implements OnInit {
     this.dataService.isOrgOnboarToday().subscribe(
       (response) => {
         this.isOrgOnboardToday = response.object;
-
+        
         this.isToDoStepsCompletedData(this.isOrgOnboardToday);
         console.log('isToDoStepsCompletedFlag :', this.isToDoStepsCompleted);
       },

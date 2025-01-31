@@ -18,6 +18,13 @@ import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
 import { LeaveSummaryComponent } from './leave-summary/leave-summary.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
+import { EmployeeManagementComponent } from './employee-management/employee-management.component';
+import { EarningManagementComponent } from './earning-management/earning-management.component';
+import { SalaryDeductionManagementComponent } from './salary-deduction-management/salary-deduction-management.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzSwitchModule } from 'ng-zorro-antd/switch';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 
 @NgModule({
   declarations: [
@@ -28,6 +35,9 @@ import { NzEmptyModule } from 'ng-zorro-antd/empty';
     BonusAndDeductionComponent,
     DateFormatterPipe,
     LeaveSummaryComponent,
+    EmployeeManagementComponent,
+    EarningManagementComponent,
+    SalaryDeductionManagementComponent,
   ],
   imports: [
     CommonModule,
@@ -42,6 +52,10 @@ import { NzEmptyModule } from 'ng-zorro-antd/empty';
     NgxShimmerLoadingModule,
     NgxChartsModule,
     NzEmptyModule,
+    NgbModule,
+    NzSelectModule,
+    NzSwitchModule,
+    NzToolTipModule
   ],
 })
 export class PaymentModule {}

@@ -1,0 +1,445 @@
+<!-- <app-onboarding-successful *ngIf="showSuccessComponent"></app-onboarding-successful> -->
+<div class="page-wrapper">
+  <div class="page-content-tab-onbording">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12" style="padding: 0px">
+          <div class="persnol-details mb-3">
+            <form #personalInformationForm="ngForm" autocomplete="off">
+              <div class="form-group">
+                <div class="persnol-info">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="card-header p-0 pb-3 bg-white">
+                        <h4 class="card-title-headding mb-1">
+                          Personal Information
+                        </h4>
+                        <p class="mb-0">
+                          Provide your company name and contact information to
+                          establish your account and maintain smooth
+                          communication.
+                        </p>
+                      </div>
+                    </div>
+                    <div class="col-md-12 mt-3 ml-3">
+                      <div class="profile-photo-box">
+                        <div class="row">
+                          <div class="col-md-7 pr-0">
+                            <div class="attention-box attentionList p-4">
+                              <h4 class="alert-heading font-18">Attention!</h4>
+                              <p class="font-13" style="margin-bottom: 16px">
+                                We’re excited to help you showcase your brand on
+                                our platform by uploading your company logo.
+                              </p>
+
+                              <h5 class="alert-heading subHeading font-15" style="margin-bottom: 14px">
+                                Please note the following guidelines for your
+                                company logo:
+                              </h5>
+                              <p class="mb-1 font-13">
+                                <i class="la la-arrow-right text-secondary me-1"></i>
+                                Size: 400x400 pixels
+                              </p>
+                              <p class="mb-1 font-13">
+                                <i class="la la-arrow-right text-secondary me-1"></i>
+                                Accepted formats: JPG and PNG
+                              </p>
+                            </div>
+                          </div>
+                          <div class="col-md-5">
+                            <div class="profile-image p-3 d-flex align-items-center justify-content-center flex-column">
+                              <span
+                                class="profile-image-upload d-flex align-items-center justify-content-center position-relative">
+                                <div *ngIf="organizationPersonalInformation.logo"
+                                  class="profile-img-remove text-center position-absolute pointer d-flex align-items-center justify-content-center">
+                                  <i class="remove-icon bg-white" (click)="onDeleteImage()"></i>
+                                </div>
+                                <svg *ngIf="!organizationPersonalInformation.logo" data-bs-toggle="modal"
+                                  data-bs-target="#image-picker" xmlns="http://www.w3.org/2000/svg" width="83"
+                                  height="84" viewBox="0 0 83 84" fill="none">
+                                  <path
+                                    d="M53.6051 12.6998C44.691 12.5216 35.4966 17.6262 32.9745 29.1445C22.7095 25.6408 13.4412 32.5512 14.4039 43.585C9.03309 45.7559 5.25781 51.0029 5.25781 57.17C5.25781 65.2906 11.7953 71.8281 19.9159 71.8281H37.7222C37.7173 66.893 37.7069 56.9907 37.7069 55.115L33.5312 56.6284C30.5019 57.9339 28.2644 54.1191 30.8587 51.7439L38.7597 44.0656C40.5643 42.261 42.7197 42.468 44.3173 44.0656L52.2183 51.7439C54.8126 54.1191 52.5752 57.9339 49.5458 56.6284L45.3701 55.115V71.8281H63.1612C71.2818 71.8281 77.8193 65.2906 77.8193 57.17C77.8193 51.1931 74.2717 46.0838 69.1642 43.7975C79.0608 24.5038 66.6335 12.96 53.6051 12.6998Z"
+                                    fill="#CACACA" />
+                                  <path
+                                    d="M53.6047 12.6981C53.1081 12.6883 52.5631 12.7054 52.066 12.7274C40.6806 30.6706 58.2762 43.7949 69.1637 43.7949C79.0603 24.5012 66.633 12.9583 53.6047 12.6981Z"
+                                    fill="#808080" />
+                                </svg>
+
+                                <img src="{{
+                                    organizationPersonalInformation.logo
+                                  }}" *ngIf="organizationPersonalInformation.logo" />
+                              </span>
+
+                              <a data-bs-toggle="modal" data-bs-target="#image-picker"
+                                class="upload-image mt-2 font-14 pointer">Upload Logo</a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-12 mt-3 personalInformationForm">
+                      <div class="row mt-3">
+                        <div class="col-md-6">
+                          <div class="mb-3">
+                            <label for="name" class="pb-2">Name <span class="text-optional">*</span></label>
+                            <input type="text" required class="form-control profile-input" id="adminname" [(ngModel)]="
+                                organizationPersonalInformation.adminName
+                              " (keydown)="preventLeadingWhitespace($event)" placeholder="Enter your full name"
+                              name="adminName" #adminName="ngModel" minlength="3" />
+                          </div>
+                          <div *ngIf="adminName?.dirty || isFormInvalid">
+                            <p class="errortxt mb-2 text-danger" *ngIf="adminName.errors?.required">
+                              <i class="bi bi-exclamation-circle"></i> Name is
+                              required.
+                            </p>
+                            <p class="errortxt mb-2 text-danger" *ngIf="adminName.errors?.minlength">
+                              <i class="bi bi-exclamation-circle"></i> Please
+                              enter minimum three characters name.
+                            </p>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="mb-3">
+                            <label for="name" class="pb-2">Organization Name
+                              <span class="text-optional">*</span></label>
+                            <input type="text" required class="form-control profile-input" id="name"
+                              [(ngModel)]="organizationPersonalInformation.name"
+                              (keydown)="preventLeadingWhitespace($event)" placeholder="Enter your company name"
+                              name="name" #name="ngModel" minlength="3" />
+                          </div>
+                          <div *ngIf="name?.dirty || isFormInvalid">
+                            <p class="errortxt text-danger mb-2" *ngIf="name.errors?.required">
+                              <i class="bi bi-exclamation-circle"></i>
+                              Organization Name is required.
+                            </p>
+                            <p class="errortxt text-danger mb-2" *ngIf="name.errors?.minlength">
+                              <i class="bi bi-exclamation-circle"></i>
+                              Please enter minimum three characters.
+                            </p>
+                          </div>
+                        </div>
+                        <div class="col-md-6" *ngIf="
+                            organizationPersonalInformation.organization
+                              .onboardingVia == 'WHATSAPP'
+                          ">
+                          <div class="mb-3">
+                            <label for="phone" class="pb-2">Phone <span class="text-optional">*</span></label>
+                            <input type="tel" id="phone" name="phone" [(ngModel)]="
+                                organizationPersonalInformation.phoneNumber
+                              " placeholder="Enter your mobile number" minlength="10" maxlength="10"
+                              class="form-control profile-input"
+                              oninput="this.value = this.value.replace(/^[^1-9]/g, '').replace(/(\..*)\./g, '$1');"
+                              (keyup)="
+                                checkExistance(
+                                  organizationPersonalInformation.phoneNumber
+                                )
+                              " #phone="ngModel" required disabled />
+                            <div class="btn btn-default toggle-password position-absolute pointer">
+                              <button type="button" class="btn btn-soft-info btn-icon-circle btn-icon-circle-sm">
+                                <i class="fas fa-check text-success"></i>
+                              </button>
+                            </div>
+                            <p *ngIf="isNumberExist" class="error text-danger">
+                              This number already exist.
+                            </p>
+                          </div>
+                          <div *ngIf="phone?.touched && phone.invalid">
+                            <p class="errortxt mb-2">
+                              <i class="bi bi-exclamation-circle"></i> Phone
+                              number is invalid.
+                            </p>
+                          </div>
+                          <div *ngIf="phone?.touched || isFormInvalid">
+                            <p class="errortxt text-danger mb-2" *ngIf="phone.errors?.required">
+                              <i class="bi bi-exclamation-circle"></i> Phone
+                              number is required.
+                            </p>
+                          </div>
+                        </div>
+                        <!-- {{organizationPersonalInformation.organization
+                          .onboardingVia}} -->
+                        <div class="col-md-6" *ngIf="
+                            organizationPersonalInformation.organization
+                              .onboardingVia == 'SLACK'
+                          ">
+                          <div class="mb-3">
+                            <label for="phone" class="pb-2">Phone <span class="text-optional">*</span></label>
+                            <input type="text" required mask="0000000000" class="form-control profile-input" id="phone"
+                              name="phone" [(ngModel)]="
+                                organizationPersonalInformation.phoneNumber
+                              " aria-describedby="phoneHelp" #phone="ngModel" placeholder="Enter phone" />
+                          </div>
+                          <div *ngIf="phone?.touched">
+                            <p class="errortxt mb-2 text-danger" *ngIf="phone.errors?.required">
+                              <i class="bi bi-exclamation-circle"></i> Phone
+                              number is required.
+                            </p>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="mb-3">
+                            <label for="email" class="pb-2">Email Id
+                              <span class="text-optional">*</span></label>
+                            <input type="email" class="form-control profile-input" id="email" [(ngModel)]="
+                                organizationPersonalInformation.email
+                              " (keydown)="preventLeadingWhitespace($event)" name="email" aria-describedby="emailHelp"
+                              #email="ngModel" (keyup)="
+                                checkEmailExistance(
+                                  organizationPersonalInformation.email
+                                )
+                              " pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z0-9.-]{2,20}"
+                              placeholder="Enter your email address" required />
+                          </div>
+                          <p *ngIf="isEmailExist" class="error text-danger">
+                            This email is already exist.
+                          </p>
+                          <div *ngIf="email.touched || email.dirty">
+                            <p class="errortxt mb-2 text-danger" *ngIf="email.errors?.required">
+                              <i class="bi bi-exclamation-circle"></i> Email Id
+                              is required.
+                            </p>
+                            <p class="errortxt mb-2 text-danger" *ngIf="email.errors?.email">
+                              <i class="bi bi-exclamation-circle"></i> Please
+                              enter a valid email address.
+                            </p>
+                            <p class="errortxt text-danger mb-2" *ngIf="email.errors?.pattern">
+                              <i class="bi bi-exclamation-circle"></i> Your
+                              email format is not correct.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="row mt-2"></div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-8">
+              <div class="next-btn-box">
+                <div class="d-flex align-items-center justify-content-end">
+                  <button type="submit" class="btn nextBtn upsale-button p-0"
+                    [disabled]="personalInformationForm.invalid" (click)="submit()"
+                    [ngClass]="{'btn-border':!personalInformationForm.invalid}">
+
+                    <span *ngIf="!isInfoLoading">Next
+                      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
+                        <path
+                          d="M2.25293 11.0001C2.25293 11.1875 2.31148 11.3397 2.42858 11.4568C2.54568 11.5739 2.69791 11.6325 2.88527 11.6325H18.4128L14.2675 15.7779C14.1269 15.9184 14.0567 16.0823 14.0567 16.2697C14.0567 16.457 14.1269 16.6093 14.2675 16.7264C14.408 16.8435 14.5719 16.902 14.7593 16.902C14.9466 16.902 15.1106 16.8552 15.2511 16.7615L20.5206 11.492C20.6143 11.3514 20.6612 11.1875 20.6612 11.0001C20.6612 10.8128 20.6143 10.6488 20.5206 10.5083L15.2511 5.23879C15.1106 5.14511 14.9466 5.09827 14.7593 5.09827C14.5719 5.09827 14.408 5.15682 14.2675 5.27392C14.1269 5.39102 14.0567 5.54325 14.0567 5.73061C14.0567 5.91797 14.1269 6.08191 14.2675 6.22243L18.4128 10.3678H2.88527C2.69791 10.3678 2.54568 10.4263 2.42858 10.5434C2.31148 10.6606 2.25293 10.8128 2.25293 11.0001Z"
+                          fill="#6666F2" />
+                      </svg>
+                    </span>
+                    <div class="dot-opacity-loader" *ngIf="isInfoLoading">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </div>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- <p>media-manager-crop works!</p> -->
+  <!-- Modal starts -->
+  <div class="modal fade box-scroll" id="image-picker" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true" #imageModel>
+    <div class="modal-dialog modal-dialog-centered" role="dialog" style="max-width: 600px">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Upload Image</h5>
+
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+            (click)="closeCropperModel()">
+
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <div class="row imgupldbg d-flex align-items-center justify-content-center">
+            <div class="col-lg-12 bg-wallet position-relative">
+              <!-- {{ isLoading }} -->
+              <div class="currentimageuplded position-relative" *ngIf="files.length < 1 && !base64Event && !isLoading">
+                <img src="{{
+                    Constant.EMPTY_STRINGS.includes(imageUrl)
+                      ? 'assets/images/update-min.svg'
+                      : imageUrl
+                  }}" alt="profile" />
+              </div>
+              <div *ngIf="isLoading">
+                <div class="spinner-border text-dark" role="status">
+                  <span class="sr-only">Loading...</span>
+                </div>
+              </div>
+
+              <div *ngIf="this.interval == 'false'" class="tab-pane fade show active" id="mediagallery" role="tabpanel"
+                aria-labelledby="profile-tab">
+                <div class="imagecroppermain" *ngIf="!base64Event && files.length != 0">
+
+                  <image-cropper #imageCropper [imageChangedEvent]="imageChangedEvent" [imageURL]="imageURL"
+                    [maintainAspectRatio]="true" [containWithinAspectRatio]="containWithinAspectRatio"
+                    [aspectRatio]="aspectRatio" [cropperMinWidth]="128" [onlyScaleDown]="true" [roundCropper]="false"
+                    [canvasRotation]="canvasRotation" [(transform)]="transform" [alignImage]="'center'"
+                    [style.display]="showCropper ? null : 'none'" [allowMoveImage]="allowMoveImage" [hidden]="hidden"
+                    imageAltText="Alternative image text" output="blob" format="png"
+                    (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()"
+                    (cropperReady)="cropperReady($event)" (loadImageFailed)="loadImageFailed()"></image-cropper>
+                  <img *ngIf="!isLoading" style="width: 20%; height: 20%" [src]="croppedImage"
+                    [style.border]="croppedImage ? '1px solid black' : 'none'" />
+                  <!-- {{croppedImage|json}} -->
+                </div>
+                <div class="imagecroppermain" style="width: 250px" *ngIf="base64Event">
+                  <image-cropper #imageCropperBase64 [imageBase64]="imageBase64String" [transform]="transform"
+                    [cropperMinWidth]="300" [maintainAspectRatio]="true" [aspectRatio]="aspectRatio"
+                    [canvasRotation]="canvasRotation" (imageCropped)="imageCropped($event)"
+                    (imageLoaded)="imageLoaded()" (cropperReady)="cropperReady($event)"
+                    (loadImageFailed)="loadImageFailed()">
+                  </image-cropper>
+                  <img *ngIf="!isLoading" style="width: 20%; height: 20%" [src]="croppedImage"
+                    [style.border]="croppedImage ? '1px solid black' : 'none'" />
+                </div>
+              </div>
+
+              <!-- <span class="helpbtn" #closeinfo (click)="addClass()">
+                <span>help</span>
+                <i class="bi bi-info-circle mr-2 pr-1"></i>
+              </span>
+
+              <div
+                class="imageinstrmainbox"
+                *ngIf="showHelpInstructions"
+                #tempDiv
+              >
+                <div class="imageinstrinner">
+                  <div class="mb-2 download-file imginstctns">
+                    <h4>
+                      Image Instructions<button
+                        type="button"
+                        class="btn-close"
+                        aria-label="Close"
+                        (click)="closeHelpInstructions()"
+                      ></button>
+                    </h4>
+                    <ul class="plan-features">
+                      <li>Please use only .png, .jpg, .jpeg</li>
+                      <li>Size range is below 200x200</li>
+                    </ul>
+                  </div>
+                  <div
+                    class="mb-2 download-file imginstctns"
+                    *ngIf="files?.length > 0"
+                  >
+                    <h4>Your Selection is</h4>
+                    <ul class="plan-features">
+                      <li>{{ previewHeight }}x{{ previewWidth }}</li>
+                    </ul>
+                  </div>
+                </div>
+              </div> -->
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer justify-content-between">
+          <input class="d-none" type="file" hidden single name="img" #fileInput (change)="onSelectFile($event)"
+            accept="image/*" />
+
+          <div class="d-flex" *ngIf="!isEditImage">
+            <button [disabled]="urls.length == 0 && !base64Event && !imageUrl" type="button"
+              class="btn upldactionfootbtn mr-2" (click)="enableEditField()">
+              <i class="bi-pencil"></i>
+              <span>Edit</span>
+            </button>
+
+            <button type="button" class="btn upldactionfootbtn mr-2" (click)="fileInput.click()">
+              <i class="bi-camera"></i>
+              <span>Add Photo</span>
+            </button>
+          </div>
+
+          <div class="imageaction d-flex justify-content-start align-items-center" *ngIf="isEditImage">
+            <div class="col-leftdiv">
+              <!-- <button title="Zoom Out" type="button" class="btn m-1 btn-sm custbtn-success" (click)="zoomOut();isResetImage = true;">
+                        <i class="bi-zoom-out"></i>
+                    </button>
+                    <button title="Zoom In" type="button" class="btn m-1 btn-sm custbtn-success" (click)="zoomIn();isResetImage = true;">
+                        <i class="bi-zoom-in"></i>
+                    </button> -->
+              <button title="Zoom In" type="button" class="btn m-1 btn-sm custbtn-success"
+                (click)="zoomIn(); isResetImage = true">
+                <i class="bi bi-zoom-in"></i>
+              </button>
+              <button title="Zoom Out" type="button" class="btn m-1 btn-sm custbtn-success"
+                (click)="zoomOut(); isResetImage = true">
+                <i class="bi bi-zoom-out"></i>
+              </button>
+            </div>
+            <div class="col-cendiv">
+              <!-- <button title="Crop Square" type="button" class="btn m-1 btn-sm custbtn-success" (click)="aspectRatio=1/1;isResetImage = true;">
+                            <i class="bi-layout-width-full"></i>
+                        </button>
+                        <button title="Crop Rectangle" type="button" class="btn m-1 btn-sm custbtn-success" (click)="aspectRatio=4/3;isResetImage = true;">
+                            
+                            <span class="rectanglebox"></span>
+                        </button>    -->
+              <button title="Crop Square" type="button" class="btn m-1 btn-sm custbtn-success"
+                (click)="aspectRatio = 1 / 1; isResetImage = true">
+                <i class="bi bi-square"></i>
+              </button>
+              <button title="Crop Rectangle" type="button" class="btn m-1 btn-sm custbtn-success"
+                (click)="aspectRatio = 4 / 3; isResetImage = true">
+                <i class="bi bi-crop"></i>
+              </button>
+            </div>
+
+            <div class="col-rightdiv  d-flex align-items-center gap-1">
+
+              <button title="Rotate image anti-clockwise by 90deg" type="button" class="btn m-1 btn-sm custbtn-success"
+                (click)="rotateLeft(); isResetImage = true">
+                <i class="bi bi-arrow-counterclockwise "></i>
+              </button>
+
+
+              <button title="Rotate image clockwise by 90deg" type="button" class="btn m-1 btn-sm custbtn-success"
+                (click)="rotateRight(); isResetImage = true">
+                <i class="bi bi-arrow-clockwise "></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="d-flex align-items-center gap-2">
+            <button type="button" (click)="resetAllImages()" class="btn cnceltopics mr-2" *ngIf="isEditImage">
+              Reset
+            </button>
+
+            <button type="button" *ngIf="isImageDeleted || urls.length > 0 || base64Event" (click)="uploadSingle()"
+              class="btn adtpoics">
+              <span class="d-inline-block text-left">
+                <div class="dot-opacity-loader text-white" *ngIf="toggleUpload">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+                <span *ngIf="!toggleUpload">Update</span>
+              </span>
+            </button>
+            <button *ngIf="organizationPersonalInformation.logo" type="button"
+              class="btn upldactionfootbtn upload-delet-btn mr-2" (click)="onDeleteImage()">
+              <!-- <i class="bi-trash"></i> -->
+              <span>Delete</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal Ends -->
+</div>

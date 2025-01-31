@@ -6,6 +6,9 @@ import { DataService } from 'src/app/services/data.service';
 import { resolve } from 'dns';
 import { Observable } from 'rxjs';
 import { Key } from '../constant/key';
+import { ActivationEnd, Router } from '@angular/router';
+import { constant } from '../constant/constant';
+import { Routes } from '../constant/Routes';
 
 @Injectable({
   providedIn: 'root',
@@ -19,11 +22,15 @@ export class RoleBasedAccessControlService {
   ROLE !: string;
   isUserInfoInitialized: boolean = false;
   private userInfoInitialized: Promise<void>|any;
+  currentRoute:any;
+  constructor(private helperService: HelperService, private dataService: DataService,  private router : Router) {
 
-  constructor(private helperService: HelperService, private dataService: DataService) {
 
-    debugger
-     this.LoadAsync();
+                if (!Routes.AUTH_ROUTES.includes(String(window.location.pathname))&& !constant.PUBLIC_ROUTES.includes(window.location.pathname)) {
+                   this.LoadAsync();
+                }
+             
+        
 
 
   }
@@ -105,14 +112,14 @@ export class RoleBasedAccessControlService {
   }
 
   async getUUID(): Promise<string> {
-    debugger
-    // return Promise.resolve(this.userInfo!.uuid);\
-    // if(this.userInfo){
-    return Promise.resolve(this.userInfo!.uuid);
-    // }else{
-    //   return Promise.resolve("");
-
-    // }
+   
+    if (this.userInfo && this.userInfo.uuid) {
+      console.log('userInfo:', this.userInfo);
+      return Promise.resolve(this.userInfo.uuid);
+    } else {
+      console.error('userInfo is undefined or does not contain uuid');
+      return Promise.resolve("");
+    }
   }
 
   async getOnboardingStep(): Promise<number> {

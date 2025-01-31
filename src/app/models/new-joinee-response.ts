@@ -1,13 +1,13 @@
 import { PayActionType } from "./pay-action-type";
 
 export class NewJoineeResponse {
+    monthId:number=0;
     uuid : string = '';
     name : string = '';
     email : string = '';
-    joiningDate : string = '';
-    salary : number = 0;
-    payActionType : PayActionType = new PayActionType();
-    comment : string = '';
-    selected : boolean = false;
-    payActionTypeId !: number;
+    phone : string ='';
+    joinDate : string = '';
+    payActionId : number=0;
+    payoutDays:number=0;
+
 }

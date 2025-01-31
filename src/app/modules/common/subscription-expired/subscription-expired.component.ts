@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { OrganizationSubscriptionDetail } from 'src/app/models/OrganizationSubscriptionDetail';
+import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import { SubscriptionPlanService } from 'src/app/services/subscription-plan.service';
 
 @Component({
@@ -11,9 +12,11 @@ import { SubscriptionPlanService } from 'src/app/services/subscription-plan.serv
 export class SubscriptionExpiredComponent implements OnInit {
 
   constructor(private _router:Router,
-    public _subscriptionService :SubscriptionPlanService) { }
+    public _subscriptionService :SubscriptionPlanService, public rbacService: RoleBasedAccessControlService) { }
 
-  ngOnInit(): void {
+  ROLE: any;
+  async ngOnInit(): Promise<void> {
+    this.ROLE = await this.rbacService.getRole();
     this.getCurrentSubscriptionPlan();
   }
 

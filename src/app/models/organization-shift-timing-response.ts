@@ -20,5 +20,6 @@ export class OrganizationShiftTimingResponse {
     userUuids : string[] = [];
     weekDayResponse : WeekDay[] = [];
     weekdayInfos: OrganizationWeekoffInformation[] = [];
+    updateFrom !: Date;
 }
 
