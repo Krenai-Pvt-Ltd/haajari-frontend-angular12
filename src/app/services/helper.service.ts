@@ -24,6 +24,13 @@ export class HelperService {
      ) { 
       // this.getOrganizationInitialToDoStepBar();
      }
+
+     /**
+      * FOr mobile responsive embolyee profile ui
+      */
+     isShowSidebar:boolean=false
+
+
   // use for employee profile 
    userJoiningDate:string='';
   // use for employee profile 
@@ -446,5 +453,10 @@ export class HelperService {
   lastIndex(pageNumber:number, itemPerPage:number,totalItems:number): number {
     return Math.min(pageNumber * itemPerPage, totalItems);
   }
+
+
+  toggleIsShowSidebar(){
+    this.isShowSidebar=!this.isShowSidebar;
+   }
 
 }

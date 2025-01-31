@@ -41,8 +41,6 @@
                                     </span>
                                     <span class="calendar-separator"></span>
                                     <div class="dropdown ">
-                                        <!-- <nz-date-picker nzMode="month"  nzFormat="MMM, yyyy" [(ngModel)]="expenseSelectedDate"
-                                        (ngModelChange)="onExpenseMonthChange($event)" ></nz-date-picker> -->
                                         <nz-date-picker nzMode="month" nzFormat="MMM, yyyy" [(ngModel)]="expenseSelectedDate"
                                         (ngModelChange)="onExpenseMonthChange($event)" [nzDisabledDate]="disableMonths"></nz-date-picker>
 
@@ -67,7 +65,7 @@
 
                                 </div>
 
-                                <nz-select [(ngModel)]="selectedStatus"  (ngModelChange)="filterByStatus($event)" class="request-dropdown placeholder-line" nzSize="large" nzPlaceHolder="Filter" required>
+                                <nz-select [(ngModel)]="selectedStatus"  (ngModelChange)="filterByStatus($event)" class="request-dropdown placeholder-line desktop-filter" nzSize="large" nzPlaceHolder="Filter" required>
                                     <nz-option [nzValue]="''" [nzLabel]="'All'"></nz-option>
                                     <nz-option [nzValue]="14" [nzLabel]="'Approved'"></nz-option>
                                     <nz-option [nzValue]="13" [nzLabel]="'Pending'"></nz-option>
@@ -80,20 +78,7 @@
 
                             <div *ngIf="ROLE != 'ADMIN'">
                                 <button data-bs-toggle="modal" data-bs-target="#apply-expense"
-                                    class="btn new-announcement">New Request &nbsp;
-                                    <span class="calendar-separator"></span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21"
-                                        fill="none">
-                                        <mask id="mask0_5566_935" maskUnits="userSpaceOnUse" x="0" y="0" width="20"
-                                            height="21" style="mask-type: alpha;">
-                                            <rect y="0.5" width="20" height="20" fill="#D9D9D9"></rect>
-                                        </mask>
-                                        <g mask="url(#mask0_5566_935)">
-                                            <path
-                                                d="M9.16667 18V11.3333H2.5V9.66667H9.16667V3H10.8333V9.66667H17.5V11.3333H10.8333V18H9.16667Z"
-                                                fill="#6666F2"></path>
-                                        </g>
-                                    </svg>
+                                    class="btn new-announcement">New Request 
                                 </button>
                             </div>
                         </div>
@@ -128,15 +113,6 @@
                                              </div>
                                         </div>
                                     </div>
-                                    <!-- <div class="col-md-3">
-                                        <div class="expense-data p-3">
-                                            <p class="text-primary mb-3 font-13"><span class="paid"></span> Total Paid</p>
-                                            <div class="d-flex align-items-center justify-content-between">
-                                                <h5 class="font-18 mb-0">₹ {{expenseCount.totalPaidAmount}}</h5>
-                                                <p class="mb-0">{{expenseCount.paidCount}} Bill</p>
-                                             </div>
-                                        </div>
-                                    </div> -->
 
                                     <div class="col-md-3">
                                         <div class="expense-data p-3">
@@ -147,11 +123,6 @@
                                              </div>
                                              <div class="d-flex gap-3">
                                                 <p>Settled: {{expenseCount.settledAmount}}</p><br>
-                                                <!-- <p *ngIf="expenseCount.settledAmount == 0">Settled Amount: 0</p>
-                                                <p *ngIf="expenseCount.settledAmount > 0">Settled Amount: {{expenseCount.unSettledAmount - expenseCount.settledAmount}}</p> -->
-
-                                                <!-- <p *ngIf="expenseCount.unSettledAmount == 0">Un-Settled: {{expenseCount.newUnSettledAmount}}</p>
-                                                <p *ngIf="expenseCount.unSettledAmount > 0">Un-Settled: {{expenseCount.unSettledAmount}} + {{expenseCount.newUnSettledAmount}}</p> -->
 
                                                 <p *ngIf="expenseCount.newUnSettledAmount == 0">Un-Settled: {{expenseCount.unSettledAmount}}</p>
                                                 <p *ngIf="expenseCount.unSettledAmount == 0 && expenseCount.newUnSettledAmount > 0">Un-Settled: {{expenseCount.newUnSettledAmount}}</p>
@@ -339,29 +310,12 @@
                                     </span>
 
                                 </div>
-
-                                <!-- <nz-select class="request-dropdown" nzSize="large" nzPlaceHolder="Filter" required>
-                                    <nz-option [nzValue]="'Attendance update'" [nzLabel]="'Attendance update'"></nz-option>
-                                    <nz-option [nzValue]="'Overtime'" [nzLabel]="'Overtime'"></nz-option>
-                                    <nz-option [nzValue]="'Lop reversal'" [nzLabel]="'Lop reversal'"></nz-option>
-                                </nz-select> -->
-
                             </div>
 
 
                             <div *ngIf="ROLE != 'ADMIN'">
                                 <button data-bs-toggle="modal" data-bs-target="#apply-expense" class="btn new-announcement">New Request &nbsp;
-                                    <span class="calendar-separator"></span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
-                                        <mask id="mask0_5566_935" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21"
-                                            style="mask-type: alpha;">
-                                            <rect y="0.5" width="20" height="20" fill="#D9D9D9"></rect>
-                                        </mask>
-                                        <g mask="url(#mask0_5566_935)">
-                                            <path d="M9.16667 18V11.3333H2.5V9.66667H9.16667V3H10.8333V9.66667H17.5V11.3333H10.8333V18H9.16667Z"
-                                                fill="#6666F2"></path>
-                                        </g>
-                                    </svg>
+                                    
                                 </button>
                             </div>
                         </div>
@@ -470,10 +424,6 @@
                                         </td>
 
                                         <td class="text-center">
-                                            <!-- <a *ngIf="userExpense.slipUrl != null" [href]="userExpense.slipUrl" target="_blank"
-                                            rel="noopener noreferrer">View slip <i class="fas fa-external-link-square-alt me-1"></i></a> -->
-
-                                            <!-- <button class="btn p-0 text-black font-14 view-btn" data-bs-toggle="modal" data-bs-target="#bill-snapshot">View -->
                                             <button class="btn p-0 text-black font-14 view-btn" (click)="updateExpense(expense)" data-bs-toggle="modal" data-bs-target="#apply-expense">View
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
                                                     <mask id="mask0_5908_672" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
@@ -525,7 +475,6 @@
                                     </span>
                                     <span class="calendar-separator"></span>
                                     <div class="dropdown ">
-                                        <!-- <nz-date-picker nzMode="month" nzFormat="MMM, yyyy"></nz-date-picker> -->
                                         <nz-date-picker nzMode="month"  nzFormat="MMM, yyyy" [(ngModel)]="expenseSelectedDate"
                                         (ngModelChange)="onExpenseMonthChange($event)" [nzDisabledDate]="disableMonths" ></nz-date-picker>
                                     </div>
@@ -547,28 +496,12 @@
 
                                 </div>
 
-                                <!-- <nz-select class="request-dropdown" nzSize="large" nzPlaceHolder="Filter" required>
-                                    <nz-option [nzValue]="'Attendance update'" [nzLabel]="'Attendance update'"></nz-option>
-                                    <nz-option [nzValue]="'Overtime'" [nzLabel]="'Overtime'"></nz-option>
-                                    <nz-option [nzValue]="'Lop reversal'" [nzLabel]="'Lop reversal'"></nz-option>
-                                </nz-select> -->
-
                             </div>
 
 
                             <div *ngIf="ROLE != 'ADMIN'">
                                 <button data-bs-toggle="modal" data-bs-target="#apply-expense" class="btn new-announcement">New Request &nbsp;
-                                    <span class="calendar-separator"></span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
-                                        <mask id="mask0_5566_935" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21"
-                                            style="mask-type: alpha;">
-                                            <rect y="0.5" width="20" height="20" fill="#D9D9D9"></rect>
-                                        </mask>
-                                        <g mask="url(#mask0_5566_935)">
-                                            <path d="M9.16667 18V11.3333H2.5V9.66667H9.16667V3H10.8333V9.66667H17.5V11.3333H10.8333V18H9.16667Z"
-                                                fill="#6666F2"></path>
-                                        </g>
-                                    </svg>
+                                    
                                 </button>
                             </div>
                         </div>
@@ -577,17 +510,11 @@
                             <table class="table empOnnoardtable">
                                 <thead class="thead-light">
                                     <tr>
-                                        <!-- <th class="text-left font-13" style="width: 10%">Initiation Date</th> -->
                                         <th class="text-left font-13" style="width: 10%">Settlement Date</th>
                                         <th class="text-left font-13" style="width: 10%">Employee Name</th>
-                                        <!-- <th class="text-left font-13" style="width: 10%">Expense Type</th> -->
-                                        <!-- <th class="text-left font-13" style="width: 10%">Expense Amount</th> -->
                                         <th class="text-left font-13" style="width: 10%">Settled Amount</th>
                                         <th class="text-left font-13" style="width: 10%">Payment Method</th>
                                         <th class="text-left font-13" style="width: 10%">Transaction ID</th>
-                                        <!-- <th class="text-left font-13" style="width: 10%">Note</th> -->
-                                        <!-- <th class="text-left font-13" style="width: 10%">Status</th> -->
-                                        <!-- <th class="text-center font-13" style="width: 10%">Bill Snapshot</th> -->
                                     </tr>
                                 </thead>
 
@@ -609,21 +536,6 @@
                                     <td>
                                         <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
                                     </td>
-                                    <!-- <td>
-                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                    </td> -->
-                                    <!-- <td>
-                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                    </td>
-                                    <td>
-                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                    </td>
-                                    <td>
-                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                    </td>
-                                    <td>
-                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                    </td> -->
                                     </tr>
                                 </tbody>
 
@@ -648,15 +560,9 @@
                                         <td class="text-left">
                                             <span class="table-font-weight">{{expense.createdDate | date: 'dd MMM yyyy'}}</span>
                                         </td>
-                                        <!-- <td class="text-left">
-                                            <span class="table-font-weight">{{expense.settledDate | date: 'dd MMM yyyy'}}</span>
-                                        </td> -->
                                         <td class="text-left">
                                             <span>{{expense.employeeName}}</span>
                                         </td>
-                                        <!-- <td class="text-left">
-                                            <span class="table-font-weight">{{expense.expenseType}} </span>
-                                        </td> -->
                                         <td class="text-left">
                                             <span class="table-font-weight"> ₹ {{expense.amount}} </span>
                                         </td>
@@ -665,37 +571,11 @@
                                             <span class="table-font-weight"> {{ expense?.paymentMethod?.toUpperCase() }} </span>
                                         </td>
 
-                                        <!-- <td class="text-left">
-                                            <span class="table-font-weight"> ₹ {{expense.paidAmount == null ? 0 : expense.paidAmount}} </span>
-                                        </td> -->
+                                        
                                         <td class="text-left">
                                             <span class="table-font-weight"> {{expense?.transactionId == null || expense?.transactionId == '' ? 'N/A' : expense?.transactionId}} </span>
                                         </td>
-                                        <!-- <td class="text-left">
-                                            <span class="table-font-weight white-space"> {{expense.notes}} </span>
-                                        </td> -->
-                                        <!-- <td class="text-left">
-                                            <span class="badge rounded-pill"
-                                                [ngClass]="{'badge-soft-warning': expense.status.id == 13, 'badge-soft-success': expense.status.id == 41,
-                                                'badge-soft-danger': expense.status.id == 15, 'badge-soft-primary': expense.status.id == 40}" >
-                                                {{expense.status.response}}
-                                            </span>
-                                        </td> -->
-
-                                        <!-- <td class="text-center">
-                                            <button class="btn p-0 text-black font-14 view-btn" (click)="updateExpense(expense)" data-bs-toggle="modal" data-bs-target="#apply-expense">View
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
-                                                    <mask id="mask0_5908_672" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
-                                                        <rect x="0.708618" y="0.601562" width="20" height="20" fill="#D9D9D9" />
-                                                    </mask>
-                                                    <g mask="url(#mask0_5908_672)">
-                                                        <path
-                                                            d="M10.7085 13.9297C11.7502 13.9297 12.6356 13.5651 13.3648 12.8359C14.094 12.1068 14.4585 11.2214 14.4585 10.1797C14.4585 9.13802 14.094 8.2526 13.3648 7.52344C12.6356 6.79427 11.7502 6.42969 10.7085 6.42969C9.66687 6.42969 8.78145 6.79427 8.05229 7.52344C7.32312 8.2526 6.95854 9.13802 6.95854 10.1797C6.95854 11.2214 7.32312 12.1068 8.05229 12.8359C8.78145 13.5651 9.66687 13.9297 10.7085 13.9297ZM10.7085 12.4297C10.0835 12.4297 9.55229 12.2109 9.11479 11.7734C8.67729 11.3359 8.45854 10.8047 8.45854 10.1797C8.45854 9.55469 8.67729 9.02344 9.11479 8.58594C9.55229 8.14844 10.0835 7.92969 10.7085 7.92969C11.3335 7.92969 11.8648 8.14844 12.3023 8.58594C12.7398 9.02344 12.9585 9.55469 12.9585 10.1797C12.9585 10.8047 12.7398 11.3359 12.3023 11.7734C11.8648 12.2109 11.3335 12.4297 10.7085 12.4297ZM10.7085 16.4297C8.68076 16.4297 6.83354 15.8637 5.16687 14.7318C3.5002 13.5998 2.29187 12.0825 1.54187 10.1797C2.29187 8.27691 3.5002 6.75955 5.16687 5.6276C6.83354 4.49566 8.68076 3.92969 10.7085 3.92969C12.7363 3.92969 14.5835 4.49566 16.2502 5.6276C17.9169 6.75955 19.1252 8.27691 19.8752 10.1797C19.1252 12.0825 17.9169 13.5998 16.2502 14.7318C14.5835 15.8637 12.7363 16.4297 10.7085 16.4297ZM10.7085 14.763C12.278 14.763 13.719 14.3498 15.0315 13.5234C16.344 12.697 17.3474 11.5825 18.0419 10.1797C17.3474 8.77691 16.344 7.66233 15.0315 6.83594C13.719 6.00955 12.278 5.59635 10.7085 5.59635C9.13909 5.59635 7.69812 6.00955 6.38562 6.83594C5.07312 7.66233 4.06965 8.77691 3.3752 10.1797C4.06965 11.5825 5.07312 12.697 6.38562 13.5234C7.69812 14.3498 9.13909 14.763 10.7085 14.763Z"
-                                                            fill="#1C1B1F" />
-                                                    </g>
-                                                </svg>
-                                            </button>
-                                        </td> -->
+                                       
                                     </tr>
                                     </ng-container>
                                 </tbody>
@@ -857,9 +737,6 @@
                                 <p class="mb-0">Status</p>
                                 <span class="action-btn"></span>
                                 <p class="mb-0 text-warning">Pending</p>
-                                <!-- <p class="mb-0 text-success">Your request is approved. Please wait a few days for expense reimbursement.</p> -->
-                                <!-- <p class="mb-0 text-success">Your request has been approved, and reimbursement will be made in cash.</p> -->
-                                <!-- <p class="mb-0 text-danger">Your request has been rejected by the admin</p> -->
                             </div>
                             <div class="d-flex align-items-center gap-2">
                                 <button class="btn cancel-btn mt-0" data-bs-dismiss="modal" aria-label="Close"
@@ -867,13 +744,7 @@
                                 <button class="btn submitActionBtn">Edit</button>
                             </div>
 
-                            <!-- <div class="d-flex align-items-center gap-2">
-                                <h5 class="mb-0 text-danger">Are you sure want to delete it</h5>
-                            </div>
-                            <div class="d-flex align-items-center gap-2">
-                                <button class="btn cancel-btn mt-0" >No</button>
-                                <button class="btn submitActionBtn bg-danger">Yes</button>
-                            </div> -->
+                            
 
                         </div>
 
@@ -917,12 +788,11 @@
              <form #createForm="ngForm" (ngSubmit)="checkExpensePolicy(createForm)">
                 <div class="row">
                     <div class="col-md-5 pr-0 mr-0">
-                        <div class="bill-image d-flex align-items-center justify-content-center"
+                        <div class="bill-image">
+                        <div class="d-flex align-items-center justify-content-center"
                             style="flex-direction: column">
 
                             <ng-container *ngIf="expenseTypeReq.urls.length > 0">
-                            <!-- <div *ngIf="expenseTypeReq.urls.length > 0"> -->
-                                <!-- <img src="{{expenseTypeReq.urls[0]}}" style="width:100%;"> -->
 
                                 <div id="expenseCarousel" class="carousel slide" data-bs-ride="carousel">
                                     <div class="carousel-inner">
@@ -1025,6 +895,7 @@
 
                             </ng-container>
 
+                        </div>
                         </div>
                     </div>
                     <div class="col-md-7">

@@ -169,6 +169,7 @@
 
     .company-logo {
         display: block;
+        margin-bottom: 20px !important;
     }
     .desktop-action-btn{
         display:none !important;
@@ -184,6 +185,8 @@
         height: 600px !important;
         object-fit: cover !important;
     }
+
+    
 }
 
 

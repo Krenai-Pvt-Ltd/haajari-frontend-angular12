@@ -132,7 +132,7 @@
 } */
 
 .onboarding-date input[type="text"] {
-    width: 680px;
+    width: 100%;
     border-radius: 0px 10px 10px 0px;
     border: 0px solid #f2f2f2;
     height: 45px !important;
@@ -284,4 +284,27 @@
     line-height: 45px !important;
     font-size: 0.875rem !important;
     font-weight: 400 !important;
+}
+.mobile-filter{
+    display: none;
+}
+
+
+@media screen and (max-width: 500px) {
+.assets-request-btn {
+    min-width: 125px;
+}
+.desktop-filter{
+    display: none;
+}
+.mobile-filter{
+    display: block;
+    border: 1px solid #f2f2f2;
+    height: 45px;
+}
+
+.mobile-filter .empFilerDropfilter .new-deopdown {
+    width: 170px;
+    padding: 10px 0.5rem;
+}
 }

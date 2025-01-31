@@ -7,6 +7,7 @@
 html,
 body {
   height: 100%;
+  overflow-x: hidden !important;
 }
 
 body {
@@ -867,4 +868,20 @@ actionMenuList .dropdown-item i {
   background-color: red !important;
   color: white;
   border-radius: 50%;
+}
+
+
+@media screen and (max-width: 500px) {
+  .pagination-box-profile {
+    position: unset;
+    bottom: 0;
+    z-index: 99;
+    left: 0px;
+    margin-left: 0% !important;
+    width: 100%;
+    justify-content: end !important;
+ }
+ .pagination-box-profile p{
+  display: none;
+ }
 }
