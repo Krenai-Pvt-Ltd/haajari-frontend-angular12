@@ -90,3 +90,9 @@
     top: -2px;
     width: 16px;
 }
+
+@media screen and (max-width: 550px) {
+    .assets-request-form{
+        width: 100%;
+    }
+}

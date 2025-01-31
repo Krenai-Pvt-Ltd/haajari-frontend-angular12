@@ -1500,16 +1500,33 @@
                                         }}"></i>
                                       {{ staff.checked ? "Remove" : "Add" }}
                                     </button>
-
-                                    <button class="add-employee" *ngIf="!addEmployeeLoader(staff) && !staff.joiningDate"
-                                      >
-                                      <i class="{{
-                                          staff.checked
-                                            ? 'bi bi-minus-lg'
-                                            : 'bi bi-plus-lg'
-                                        }}"></i>
-                                        Add Joining Date
+                                  
+                                  <nz-date-picker nzBorderless *ngIf="editingStaff === staff" name="addJoiningDate" id="addJoiningDate"
+                                                    nzPlaceHolder="dd/mm/yyyy" [(ngModel)]="tempJoiningDate"
+                                                     ></nz-date-picker>
+                                  
+                                  <div *ngIf="editingStaff === staff" class="d-flex align-items-center mt-2">
+                                    <button class="btn btn-primary me-2" (click)="saveJoiningDate(staff)">
+                                      Submit
                                     </button>
+                                    <button class="btn btn-secondary" (click)="resetEditingState()">
+                                      Cancel
+                                    </button>
+                                  </div>
+                                  
+                                  <button
+                                    class="add-employee mt-2"
+                                    *ngIf="!addEmployeeLoader(staff) && !staff.joiningDate && editingStaff !== staff"
+                                    (click)="editJoiningDate(staff)"
+                                  >
+                                    <i
+                                      class="{{
+                                        staff.checked ? 'bi bi-minus-lg' : 'bi bi-plus-lg'
+                                      }}"
+                                    ></i>
+                                    Add Joining Date
+                                  </button>
+                                  
 
                                   </td>
                                 </tr>
