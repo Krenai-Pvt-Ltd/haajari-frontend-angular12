@@ -460,7 +460,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Upgrade Position</h5>
-                <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButton>
+                <button type="button" id="closePromotionButton" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closePromotionButton>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                         <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
                             width="24" height="24">
@@ -540,7 +540,7 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" [disabled]="myForm.invalid || (changeSalary && !myForm.get('newCTC'))" class="btn submitActionBtn"
+                    <button type="submit" [disabled]="myForm.invalid || (changeSalary && !myForm.get('newCTC')) || saveButtonLoader" class="btn submitActionBtn"
                         [ngClass]="{'btn-border':!myForm.invalid}">
                         <ng-container *ngIf="saveButtonLoader; else loginButton">
                             <div class="dot-opacity-loader">
