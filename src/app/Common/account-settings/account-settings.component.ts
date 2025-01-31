@@ -118,10 +118,16 @@ export class AccountSettingsComponent implements OnInit {
   currentPassword: string = '';
   confirmPassword: string = '';
   onSubmit() {
+    const passwordPattern = /^(?=.*[A-Z])(?=.*[\W_]).{8,}$/;
 
     if(this.userPasswordRequest.newPassword !== this.confirmPassword) {
       this.errorMessage = 'Passwords do not match.';
       this.helperService.showToast('Passwords do not match.', Key.TOAST_STATUS_ERROR);
+      return;
+    }
+    if (!passwordPattern.test(this.userPasswordRequest.newPassword)) {
+      this.errorMessage = 'Password must be at least 8 characters long, contain at least one uppercase letter and one special character.';
+      this.helperService.showToast(this.errorMessage, Key.TOAST_STATUS_ERROR);
       return;
     }
     this.userPasswordRequest.currentPassword = this.currentPassword;
@@ -135,6 +141,8 @@ export class AccountSettingsComponent implements OnInit {
           this.errorMessage = '';
           this.userPasswordRequest = new UserPasswordRequest();
           this.helperService.showToast('Password updated successfully', Key.TOAST_STATUS_SUCCESS);
+          this.currentPassword='';
+          this.confirmPassword='';
         }
       },
       error: (error) => {
@@ -167,6 +175,7 @@ export class AccountSettingsComponent implements OnInit {
             this.dataService
               .updateProfilePic(url)
               .subscribe(() => {
+                this.dataService.employeeData.profilePic=url;
                 this.helperService.showToast('Profile picture updated successfully', Key.TOAST_STATUS_SUCCESS);
                 this.getEmployeeProfileData();
               });
@@ -385,6 +394,7 @@ export class AccountSettingsComponent implements OnInit {
 
 notifications: { [key: string]: any[] } | null = null;
 notificationKeys: string[] = [];
+shouldHideNotificationUpdateTab: boolean = false;
 
 notificationTypes(): Promise<void> {
   return new Promise((resolve) => {
@@ -396,9 +406,15 @@ notificationTypes(): Promise<void> {
         // Extract keys for iteration
         this.notificationKeys = Object.keys(this.notifications ?? {}); 
 
+        // Check if all notification keys have empty arrays
+        this.shouldHideNotificationUpdateTab = this.notificationKeys.every(
+          (key) => this.notifications?.[key]?.length === 0
+        );
+
         resolve(); // Resolve after successful execution
       },
       (error) => {
+        this.shouldHideNotificationUpdateTab = false;
         console.log('Error retrieving notification types:', error);
         resolve(); // Ensure resolve even on error
       }
@@ -411,5 +427,30 @@ isAttendanceType(type: string): boolean {
   const attendanceTypes = ['Check in', 'Check Out', 'Break', 'Back', 'Report'];
   return attendanceTypes.includes(type);
 }
+
+loadingToggles: { [key: string]: boolean } = {};
+
+updateUserNotification(notificationId: number, statusValue: boolean): Promise<void> {
+  const status = statusValue ? 'DISABLE' : 'ENABLE'; // Assign the correct status
+  this.loadingToggles[notificationId] = true;
+  return new Promise((resolve) => {
+    this.dataService.updateUserNotification(notificationId, status).subscribe(
+      () => {
+        console.log("Updated successfully");
+        this.loadingToggles[notificationId] = false;
+        this.notificationTypes(); // Refresh notification types
+        resolve(); // Resolve the promise after successful execution
+      },
+      (error) => {
+        console.error("Error updating notification:", error);
+        this.loadingToggles[notificationId] = false;
+        resolve(); // Ensure resolve even on error to avoid unhandled promises
+      }
+    );
+  });
+}
+
+
+
 
 }

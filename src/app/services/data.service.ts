@@ -4935,6 +4935,14 @@ getHolidayForOrganization(date: string): Observable<any>{
   }
 
 
+  updateUserNotification(notificationSettingId: number, statusValue: string): Observable<any> {
+    const params = new HttpParams()
+      .set('notificationSettingId', notificationSettingId)
+      .set('statusValue', statusValue);
+    return this.httpClient.put(`${this.baseUrl}/notification-setting/update/status/user`, {}, {params});
+  }
+
+
   
 
 }

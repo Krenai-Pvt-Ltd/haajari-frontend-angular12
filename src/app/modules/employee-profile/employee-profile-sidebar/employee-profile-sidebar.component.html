@@ -8,7 +8,7 @@
         <div class="position-relative">
             <div *ngIf="employeeProfileResponseData?.profilePic; else namePlaceholder">
                 <img onerror="this.src='./assets/images/broken-image-icon.jpg';"
-                    [src]="employeeProfileResponseData?.profilePic" alt="Profile Picture">
+                    [src]="dataService.employeeData.profilePic" alt="Profile Picture">
             </div>
 
             <ng-template #namePlaceholder>
