@@ -25,14 +25,14 @@
         </button>
       </li>
       <!-- TODO : dynamic for now -->
-      <!-- <li role="presentation" class="nav-item">
+      <li role="presentation" class="nav-item" *ngIf="ROLE === 'ADMIN'">
         <button id="home-tab" data-bs-toggle="tab" data-bs-target="#notificationsSetting" type="button" role="tab"
           aria-controls="home" [attr.aria-selected]="activeTab === 'notificationsSetting'"
           [ngClass]="{'active': activeTab === 'notificationsSetting'}" class="nav-link"
           (click)="switchTab('notificationsSetting')">
           Notifications Configuration
         </button>
-      </li> -->
+      </li>
      
       
     </ul>
@@ -723,713 +723,153 @@
       </div>
       </div>
 
-        <div class="mt-4" *ngIf="activeTab === 'notificationsSetting'">
-          <div class="row">
+    <div class="mt-4" *ngIf="activeTab === 'notificationsSetting' && notifications && notificationKeys.length > 0">
+      <div *ngFor="let type of notificationKeys; let i = index">
+        <div class="row">
           <div class="col-md-4">
-            <div class="form-roe-data p-3 ">
+            <div class="form-roe-data p-3" *ngIf="i==0">
               <h5 class="text-black mb-2">Attendance Notification</h5>
-              <p class="font-13">Manage all your company's attendance-<br> related notifications in one place</p>
+              <p class="font-13">Manage all your company's attendance-related notifications in one place</p>
             </div>
           </div>
           <div class="col-md-7 mt-3">
-            <div class="attendance-notification form-roe-data border-bottom pb-4">
+            <div class="attendance-notification form-roe-data border-bottom pb-4" *ngIf="isAttendanceType(type)">
               <div class="d-flex align-items-center justify-content-between">
-              <div>
-              <h5 class="font-15">Check in </h5>
-              <p class="mb-0 font-13">Remind employees to mark their attendance promptly at the start of their shift.</p>
-            </div>
-              <div>
-                <nz-switch [ngModel]="true"></nz-switch>
-              </div>
-            </div>
-
-
-              <div class="pt-3 notification-checkbox">
-                <div class="form-check d-flex align-items-center gap-2 mt-3 mb-3">
-                  <input type="checkbox" formControlName="isReset" id="exampleCheck1" class="form-check-input" >
-                  <label class="form-check-label" for="exampleCheck1" >In Notification: Remind employees to mark attendance at shift start.</label>
+                <div>
+                  <h5 class="font-15">{{ type }}</h5>
+                  <p class="mb-0 font-13">Remind employees to mark their attendance promptly at the start of their shift.</p>
                 </div>
-
-
-               <!-- TO DO: check box click after open the box  -->
-              <div class="reminder-form mt-4 mb-4 p-3">
-                <div class="row">
-                  <div class="col-md-4">
-                    <label class="form-check-label mb-2 fw-normal">Send Reminder </label>
-                    <div class="send-reminder d-flex align-items-center">
-                      <div class="w-50 pl-2">
-                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                          <input type="radio" name="before" value="before" class="form-check-input">
-                          <p class="form-check-label mb-0">Before</p>
-                        </label>
-                      </div>
-                      <div class="w-50 pl-2 reminder-after">
-                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                          <input type="radio" name="after" value="after" class="form-check-input">
-                          <p class="form-check-label mb-0">After</p>
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                    <label class="form-check-label mb-2 fw-normal">Set Minutes  </label>
-
-                    <input type="number" placeholder="Set Minutes" id="inputLeaveCount" name="inputLeaveCount" min="1" max="400" required="" class="form-control w-100 input-zorro" style="background-color: #fff !important; height:47px !important;">
-                  </div>
-                  <div class="col-md-4">
-                    <label class="form-check-label mb-2 fw-normal">Send Reminder  </label>
-                    <div class="send-reminder d-flex align-items-center">
-                      <div class="w-50 pl-2">
-                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                          <input type="radio" name="forced" value="forced" class="form-check-input">
-                          <p class="form-check-label mb-0">Forced</p>
-                        </label>
-                      </div>
-                      <div class="w-50 pl-2 reminder-after">
-                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                          <input type="radio" name="flexible" value="flexible" class="form-check-input">
-                          <p class="form-check-label mb-0">Flexible</p>
-                        </label>
-                      </div>
-                    </div>
-                  </div>
+                <div>
+                  <nz-switch [ngModel]="shouldShowSwitch(type)" (ngModelChange)="onSwitchChange($event, type)" [nzLoading]="loadingFlags[type]"></nz-switch>
                 </div>
               </div>
-              <!-- end box  -->
-
-
-
-                <div class="form-check d-flex align-items-center gap-2 mt-3 mb-3">
-                  <input type="checkbox" formControlName="isReset" id="exampleCheck2" class="form-check-input" >
-                  <label class="form-check-label" for="exampleCheck2" >Half-Day Notification: Alert employees to mark attendance or be marked as Half-Day.</label>
-                </div>
-
-               
-
-                <!-- TO DO: check box click after open the box  -->
-              <div class="reminder-form mt-4 mb-4 p-3">
-                <div class="row">
-                  <div class="col-md-4">
-                    <label class="form-check-label mb-2 fw-normal">Send Reminder </label>
-                    <div class="send-reminder d-flex align-items-center">
-                      <div class="w-50 pl-2">
-                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                          <input type="radio" name="before" value="before" class="form-check-input">
-                          <p class="form-check-label mb-0">Before</p>
-                        </label>
-                      </div>
-                      <div class="w-50 pl-2 reminder-after">
-                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                          <input type="radio" name="after" value="after" class="form-check-input">
-                          <p class="form-check-label mb-0">After</p>
-                        </label>
-                      </div>
-                    </div>
+              <div *ngIf="shouldShowSwitch(type)">
+                <div class="pt-3 notification-checkbox" *ngFor="let notification of notifications?.[type]; let j = index">
+                  <div class="form-check d-flex align-items-center gap-2 mt-3 mb-3">
+                    <!-- Using unique ID for each checkbox and its label -->
+                    <input 
+                      type="checkbox" 
+                      [checked]="notification.isEnable === 1" 
+                      [id]="'checkbox-' + i + '-' + j" 
+                      [name]="'checkbox-' + i + '-' + j" 
+                      class="form-check-input" (change)="toggleNotificationValue(notification, 'isEnable')">
+                    <label class="form-check-label" [for]="'checkbox-' + i + '-' + j">{{ notification.description }}</label>
+                    <button (click)="toggleNotification(notification, type, j)">edit</button>
                   </div>
-                  <div class="col-md-4">
-                    <label class="form-check-label mb-2 fw-normal">Set Minutes  </label>
-
-                    <input type="number" placeholder="Set Minutes" id="inputLeaveCount" name="inputLeaveCount" min="1" max="400" required="" class="form-control w-100 input-zorro" style="background-color: #fff !important; height:47px !important">
-                  </div>
-                  <div class="col-md-4">
-                    <label class="form-check-label mb-2 fw-normal">Send Reminder  </label>
-                    <div class="send-reminder d-flex align-items-center">
-                      <div class="w-50 pl-2">
-                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                          <input type="radio" name="forced" value="forced" class="form-check-input">
-                          <p class="form-check-label mb-0">Forced</p>
-                        </label>
+        
+                  <!-- Reminder form with unique ID for radio buttons and names -->
+                  <div class="reminder-form mt-4 mb-4 p-3" *ngIf="notification.isEnable">
+                    <div class="row">
+                      <div class="col-md-4">
+                        <label class="form-check-label mb-2 fw-normal">Send Reminder</label>
+                        <div class="send-reminder d-flex align-items-center">
+                          <div class="w-50 pl-2">
+                            <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                              <input 
+                                type="radio" 
+                                id="before-{{i}}{{j}}" 
+                                name="Reminder-{{i}}{{j}}"
+                                value="before" 
+                                class="form-check-input"
+                                [checked]="notification.isBefore === 1"
+                                (change)="toggleNotificationValue(notification, 'isBefore')">
+                              <p class="form-check-label mb-0">Before</p>
+                            </label>
+                          </div>
+                          <div class="w-50 pl-2 reminder-after">
+                            <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                              <input 
+                                type="radio" 
+                                id="after-{{i}}{{j}}" 
+                                name="Reminder-{{i}}{{j}}"
+                                value="after" 
+                                class="form-check-input"
+                                [checked]="notification.isBefore === 0"
+                                (change)="toggleNotificationValue(notification, 'isBefore')">
+                              <p class="form-check-label mb-0">After</p>
+                            </label>
+                          </div>
+                        </div>
                       </div>
-                      <div class="w-50 pl-2 reminder-after">
-                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                          <input type="radio" name="flexible" value="flexible" class="form-check-input">
-                          <p class="form-check-label mb-0">Flexible</p>
-                        </label>
+                      <div class="col-md-4">
+                        <label class="form-check-label mb-2 fw-normal">Set Minutes</label>
+                        <nz-time-picker 
+                          nzFormat="HH:mm"
+                          [(ngModel)]="notification.minutes"
+                          [ngModelOptions]="{ standalone: true }"
+                          nzPlaceHolder="Select Duration"
+                          id="minutes-{{i}}{{j}}" 
+                          name="minutes-{{i}}{{j}}"
+                          
+                          style="background-color: #fff !important; height:47px !important;">
+                        </nz-time-picker>
+                      </div>
+                      <div class="col-md-4">
+                        <label class="form-check-label mb-2 fw-normal">Send Reminder</label>
+                        <div class="send-reminder d-flex align-items-center">
+                          <div class="w-50 pl-2">
+                            <label class="form-check assets-req d-flex align-items-center justify-content-start" (change)="toggleNotificationValue(notification, 'isForced')">
+                              <input 
+                                type="radio" 
+                                id="forced-{{i}}{{j}}" 
+                                name="forcedFlexible-{{i}}{{j}}"
+                                value="forced" 
+                                class="form-check-input"
+                                [checked]="notification.isForced === 1"
+                                
+                                >
+                              <p class="form-check-label mb-0">Forced</p>
+                            </label>
+                          </div>
+                          <div class="w-50 pl-2 reminder-after">
+                            <label class="form-check assets-req d-flex align-items-center justify-content-start" (change)="toggleNotificationValue(notification, 'isForced')">
+                              <input 
+                                type="radio" 
+                                id="flexible-{{i}}{{j}}" 
+                                name="forcedFlexible-{{i}}{{j}}"
+                                value="flexible" 
+                                class="form-check-input"
+                                [checked]="notification.isForced === 0"
+                                >
+                              <p class="form-check-label mb-0">Flexible</p>
+                            </label>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <!-- end box  -->
-
-
-
-                
-
-
-
-
-
-
-
-                <div class="form-check d-flex align-items-center gap-2 mt-3 mb-3">
-                  <input type="checkbox" formControlName="isReset" id="exampleCheck3" class="form-check-input" >
-                  <label class="form-check-label" for="exampleCheck3" >Final Reminder: Warn employees to mark attendance or be marked as Late.</label>
-                </div>
-
-                
-
-                <!-- TO DO: check box click after open the box  -->
-              <div class="reminder-form mt-4 mb-4 p-3">
-                <div class="row">
-                  <div class="col-md-4">
-                    <label class="form-check-label mb-2 fw-normal">Send Reminder </label>
-                    <div class="send-reminder d-flex align-items-center">
-                      <div class="w-50 pl-2">
-                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                          <input type="radio" name="before" value="before" class="form-check-input">
-                          <p class="form-check-label mb-0">Before</p>
-                        </label>
-                      </div>
-                      <div class="w-50 pl-2 reminder-after">
-                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                          <input type="radio" name="after" value="after" class="form-check-input">
-                          <p class="form-check-label mb-0">After</p>
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                    <label class="form-check-label mb-2 fw-normal">Set Minutes  </label>
-
-                    <input type="number" placeholder="Set Minutes" id="inputLeaveCount" name="inputLeaveCount" min="1" max="400" required="" class="form-control w-100 input-zorro" style="background-color: #fff !important; height:47px !important;">
-                  </div>
-                  <div class="col-md-4">
-                    <label class="form-check-label mb-2 fw-normal">Send Reminder  </label>
-                    <div class="send-reminder d-flex align-items-center">
-                      <div class="w-50 pl-2">
-                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                          <input type="radio" name="forced" value="forced" class="form-check-input">
-                          <p class="form-check-label mb-0">Forced</p>
-                        </label>
-                      </div>
-                      <div class="w-50 pl-2 reminder-after">
-                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                          <input type="radio" name="flexible" value="flexible" class="form-check-input">
-                          <p class="form-check-label mb-0">Flexible</p>
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- end box  -->
-
-
-
-
-              </div>
-            </div>
-            <div class="attendance-notification form-roe-data border-bottom pb-4 pt-4">
-              <div class="d-flex align-items-center justify-content-between">
-              <div>
-              <h5 class="font-15">Check OUT </h5>
-              <p class="mb-0 font-13">Remind employees to mark their attendance promptly at the start of their shift.</p>
-            </div>
-              <div>
-                <nz-switch [ngModel]="true"></nz-switch>
-              </div>
-            </div>
-
-
-
-              <div class="pt-3 notification-checkbox">
-                <div class="form-check d-flex align-items-center gap-2 mt-3 mb-3">
-                  <input type="checkbox" formControlName="isReset" id="exampleCheck5" class="form-check-input" >
-                  <label class="form-check-label" for="exampleCheck5" >Users are notified when it’s time to mark Out attendance.</label>
-                </div>
-
-              
-
-                <!-- TO DO: check box click after open the box  -->
-              <div class="reminder-form mt-4 mb-4 p-3">
-                <div class="row">
-                  <div class="col-md-4">
-                    <label class="form-check-label mb-2 fw-normal">Send Reminder </label>
-                    <div class="send-reminder d-flex align-items-center">
-                      <div class="w-50 pl-2">
-                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                          <input type="radio" name="before" value="before" class="form-check-input">
-                          <p class="form-check-label mb-0">Before</p>
-                        </label>
-                      </div>
-                      <div class="w-50 pl-2 reminder-after">
-                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                          <input type="radio" name="after" value="after" class="form-check-input">
-                          <p class="form-check-label mb-0">After</p>
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                    <label class="form-check-label mb-2 fw-normal">Set Minutes  </label>
-
-                    <input type="number" placeholder="Set Minutes" id="inputLeaveCount" name="inputLeaveCount" min="1" max="400" required="" class="form-control w-100 input-zorro" style="background-color: #fff !important; height:47px !important;">
-                  </div>
-                  <div class="col-md-4">
-                    <label class="form-check-label mb-2 fw-normal">Send Reminder  </label>
-                    <div class="send-reminder d-flex align-items-center">
-                      <div class="w-50 pl-2">
-                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                          <input type="radio" name="forced" value="forced" class="form-check-input">
-                          <p class="form-check-label mb-0">Forced</p>
-                        </label>
-                      </div>
-                      <div class="w-50 pl-2 reminder-after">
-                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                          <input type="radio" name="flexible" value="flexible" class="form-check-input">
-                          <p class="form-check-label mb-0">Flexible</p>
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- end box  -->
-
-
-                <div class="form-check d-flex align-items-center gap-2 mt-3 mb-3">
-                  <input type="checkbox" formControlName="isReset" id="exampleCheck6" class="form-check-input" >
-                  <label class="form-check-label" for="exampleCheck6" >Final Reminder: Users will be automatically marked Out if no action is taken.</label>
-                </div>
-               
-
-               <!-- TO DO: check box click after open the box  -->
-              <div class="reminder-form mt-4 mb-4 p-3">
-                <div class="row">
-                  <div class="col-md-4">
-                    <label class="form-check-label mb-2 fw-normal">Send Reminder </label>
-                    <div class="send-reminder d-flex align-items-center">
-                      <div class="w-50 pl-2">
-                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                          <input type="radio" name="before" value="before" class="form-check-input">
-                          <p class="form-check-label mb-0">Before</p>
-                        </label>
-                      </div>
-                      <div class="w-50 pl-2 reminder-after">
-                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                          <input type="radio" name="after" value="after" class="form-check-input">
-                          <p class="form-check-label mb-0">After</p>
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                    <label class="form-check-label mb-2 fw-normal">Set Minutes  </label>
-
-                    <input type="number" placeholder="Set Minutes" id="inputLeaveCount" name="inputLeaveCount" min="1" max="400" required="" class="form-control w-100 input-zorro" style="background-color: #fff !important; height:47px !important;">
-                  </div>
-                  <div class="col-md-4">
-                    <label class="form-check-label mb-2 fw-normal">Send Reminder  </label>
-                    <div class="send-reminder d-flex align-items-center">
-                      <div class="w-50 pl-2">
-                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                          <input type="radio" name="forced" value="forced" class="form-check-input">
-                          <p class="form-check-label mb-0">Forced</p>
-                        </label>
-                      </div>
-                      <div class="w-50 pl-2 reminder-after">
-                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                          <input type="radio" name="flexible" value="flexible" class="form-check-input">
-                          <p class="form-check-label mb-0">Flexible</p>
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- end box  -->
-
-
-              </div>
-            </div>
-            <div class="attendance-notification form-roe-data border-bottom pb-4  pt-4">
-              <div class="d-flex align-items-center justify-content-between">
-              <div>
-              <h5 class="font-15">Break </h5>
-              <p class="mb-0 font-13">Remind employees to mark their attendance promptly at the start of their shift.</p>
-            </div>
-              <div>
-                <nz-switch [ngModel]="true"></nz-switch>
-              </div>
-              </div>
-
-
-              <div class="pt-3 notification-checkbox">
-                <div class="form-check d-flex align-items-center gap-2 mt-3 mb-3">
-                  <input type="checkbox" formControlName="isReset" id="exampleCheck7" class="form-check-input" >
-                  <label class="form-check-label" for="exampleCheck7" >First reminder to  schedule your break</label>
-                </div>
-               
-
-                <!-- TO DO: check box click after open the box  -->
-              <div class="reminder-form mt-4 mb-4 p-3">
-                <div class="row">
-                  <div class="col-md-4">
-                    <label class="form-check-label mb-2 fw-normal">Send Reminder </label>
-                    <div class="send-reminder d-flex align-items-center">
-                      <div class="w-50 pl-2">
-                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                          <input type="radio" name="before" value="before" class="form-check-input">
-                          <p class="form-check-label mb-0">Before</p>
-                        </label>
-                      </div>
-                      <div class="w-50 pl-2 reminder-after">
-                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                          <input type="radio" name="after" value="after" class="form-check-input">
-                          <p class="form-check-label mb-0">After</p>
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                    <label class="form-check-label mb-2 fw-normal">Set Minutes  </label>
-
-                    <input type="number" placeholder="Set Minutes" id="inputLeaveCount" name="inputLeaveCount" min="1" max="400" required="" class="form-control w-100 input-zorro" style="background-color: #fff !important; height:47px !important;">
-                  </div>
-                  <div class="col-md-4">
-                    <label class="form-check-label mb-2 fw-normal">Send Reminder  </label>
-                    <div class="send-reminder d-flex align-items-center">
-                      <div class="w-50 pl-2">
-                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                          <input type="radio" name="forced" value="forced" class="form-check-input">
-                          <p class="form-check-label mb-0">Forced</p>
-                        </label>
-                      </div>
-                      <div class="w-50 pl-2 reminder-after">
-                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                          <input type="radio" name="flexible" value="flexible" class="form-check-input">
-                          <p class="form-check-label mb-0">Flexible</p>
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- end box  -->
-
-                
-                <div class="form-check d-flex align-items-center gap-2 mt-3 mb-3">
-                  <input type="checkbox" formControlName="isReset" id="exampleCheck8" class="form-check-input" >
-                  <label class="form-check-label" for="exampleCheck8" >Final Reminder if they have i missed out</label>
-                </div>
-
-                <!-- TO DO: check box click after open the box  -->
-              <div class="reminder-form mt-4 mb-4 p-3">
-                <div class="row">
-                  <div class="col-md-4">
-                    <label class="form-check-label mb-2 fw-normal">Send Reminder </label>
-                    <div class="send-reminder d-flex align-items-center">
-                      <div class="w-50 pl-2">
-                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                          <input type="radio" name="before" value="before" class="form-check-input">
-                          <p class="form-check-label mb-0">Before</p>
-                        </label>
-                      </div>
-                      <div class="w-50 pl-2 reminder-after">
-                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                          <input type="radio" name="after" value="after" class="form-check-input">
-                          <p class="form-check-label mb-0">After</p>
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                    <label class="form-check-label mb-2 fw-normal">Set Minutes  </label>
-
-                    <input type="number" placeholder="Set Minutes" id="inputLeaveCount" name="inputLeaveCount" min="1" max="400" required="" class="form-control w-100 input-zorro" style="background-color: #fff !important; height:47px !important;">
-                  </div>
-                  <div class="col-md-4">
-                    <label class="form-check-label mb-2 fw-normal">Send Reminder  </label>
-                    <div class="send-reminder d-flex align-items-center">
-                      <div class="w-50 pl-2">
-                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                          <input type="radio" name="forced" value="forced" class="form-check-input">
-                          <p class="form-check-label mb-0">Forced</p>
-                        </label>
-                      </div>
-                      <div class="w-50 pl-2 reminder-after">
-                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                          <input type="radio" name="flexible" value="flexible" class="form-check-input">
-                          <p class="form-check-label mb-0">Flexible</p>
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- end box  -->
-
-
-              </div>
-            </div>
-            <div class="attendance-notification form-roe-data pb-4 pt-4">
-
-              <div class="d-flex align-items-center justify-content-between">
-              <div>
-              <h5 class="font-15">Back </h5>
-              <p class="mb-0 font-13">Remind employees to mark their attendance promptly at the start of their shift.</p>
-            </div>
-              <div>
-                <nz-switch [ngModel]="true"></nz-switch>
-              </div>
-            </div>
-
-            <div class="pt-3 notification-checkbox">
-              <div class="form-check d-flex align-items-center gap-2 mt-3 mb-3">
-                <input type="checkbox" formControlName="isReset" id="exampleCheck9" class="form-check-input" >
-                <label class="form-check-label" for="exampleCheck9" >First Notification: It’s time to mark your return from the break</label>
-              </div>
-
-              <!-- TO DO: check box click after open the box  -->
-              <div class="reminder-form mt-4 mb-4 p-3">
-                <div class="row">
-                  <div class="col-md-4">
-                    <label class="form-check-label mb-2 fw-normal">Send Reminder </label>
-                    <div class="send-reminder d-flex align-items-center">
-                      <div class="w-50 pl-2">
-                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                          <input type="radio" name="before" value="before" class="form-check-input">
-                          <p class="form-check-label mb-0">Before</p>
-                        </label>
-                      </div>
-                      <div class="w-50 pl-2 reminder-after">
-                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                          <input type="radio" name="after" value="after" class="form-check-input">
-                          <p class="form-check-label mb-0">After</p>
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                    <label class="form-check-label mb-2 fw-normal">Set Minutes  </label>
-
-                    <input type="number" placeholder="Set Minutes" id="inputLeaveCount" name="inputLeaveCount" min="1" max="400" required="" class="form-control w-100 input-zorro" style="background-color: #fff !important; height:47px !important;">
-                  </div>
-                  <div class="col-md-4">
-                    <label class="form-check-label mb-2 fw-normal">Send Reminder  </label>
-                    <div class="send-reminder d-flex align-items-center">
-                      <div class="w-50 pl-2">
-                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                          <input type="radio" name="forced" value="forced" class="form-check-input">
-                          <p class="form-check-label mb-0">Forced</p>
-                        </label>
-                      </div>
-                      <div class="w-50 pl-2 reminder-after">
-                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                          <input type="radio" name="flexible" value="flexible" class="form-check-input">
-                          <p class="form-check-label mb-0">Flexible</p>
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- end box  -->
-
-
-              <div class="form-check d-flex align-items-center gap-2 mt-3 mb-3">
-                <input type="checkbox" formControlName="isReset" id="exampleCheck10" class="form-check-input" >
-                <label class="form-check-label" for="exampleCheck10" >Second Notification: If you mark your return late, deductions will be made on a per-minute basis</label>
-              </div>
-              
-
-              <!-- TO DO: check box click after open the box  -->
-              <div class="reminder-form mt-4 mb-4 p-3">
-                <div class="row">
-                  <div class="col-md-4">
-                    <label class="form-check-label mb-2 fw-normal">Send Reminder </label>
-                    <div class="send-reminder d-flex align-items-center">
-                      <div class="w-50 pl-2">
-                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                          <input type="radio" name="before" value="before" class="form-check-input">
-                          <p class="form-check-label mb-0">Before</p>
-                        </label>
-                      </div>
-                      <div class="w-50 pl-2 reminder-after">
-                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                          <input type="radio" name="after" value="after" class="form-check-input">
-                          <p class="form-check-label mb-0">After</p>
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                    <label class="form-check-label mb-2 fw-normal">Set Minutes  </label>
-
-                    <input type="number" placeholder="Set Minutes" id="inputLeaveCount" name="inputLeaveCount" min="1" max="400" required="" class="form-control w-100 input-zorro" style="background-color: #fff !important; height:47px !important;">
-                  </div>
-                  <div class="col-md-4">
-                    <label class="form-check-label mb-2 fw-normal">Send Reminder  </label>
-                    <div class="send-reminder d-flex align-items-center">
-                      <div class="w-50 pl-2">
-                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                          <input type="radio" name="forced" value="forced" class="form-check-input">
-                          <p class="form-check-label mb-0">Forced</p>
-                        </label>
-                      </div>
-                      <div class="w-50 pl-2 reminder-after">
-                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                          <input type="radio" name="flexible" value="flexible" class="form-check-input">
-                          <p class="form-check-label mb-0">Flexible</p>
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- end box  -->
-
-              <div class="form-check d-flex align-items-center gap-2 mt-3 mb-3">
-                <input type="checkbox" formControlName="isReset" id="exampleCheck11" class="form-check-input" >
-                <label class="form-check-label" for="exampleCheck11" >Final Reminder: If you don’t mark your return now, your attendance will be recorded as Half-Day.</label>
-              </div>
-
-              <!-- TO DO: check box click after open the box  -->
-              <div class="reminder-form mt-4 mb-4 p-3">
-                <div class="row">
-                  <div class="col-md-4">
-                    <label class="form-check-label mb-2 fw-normal">Send Reminder </label>
-                    <div class="send-reminder d-flex align-items-center">
-                      <div class="w-50 pl-2">
-                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                          <input type="radio" name="before" value="before" class="form-check-input">
-                          <p class="form-check-label mb-0">Before</p>
-                        </label>
-                      </div>
-                      <div class="w-50 pl-2 reminder-after">
-                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                          <input type="radio" name="after" value="after" class="form-check-input">
-                          <p class="form-check-label mb-0">After</p>
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                    <label class="form-check-label mb-2 fw-normal">Set Minutes  </label>
-
-                    <input type="number" placeholder="Set Minutes" id="inputLeaveCount" name="inputLeaveCount" min="1" max="400" required="" class="form-control w-100 input-zorro" style="background-color: #fff !important; height:47px !important;">
-                  </div>
-                  <div class="col-md-4">
-                    <label class="form-check-label mb-2 fw-normal">Send Reminder  </label>
-                    <div class="send-reminder d-flex align-items-center">
-                      <div class="w-50 pl-2">
-                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                          <input type="radio" name="forced" value="forced" class="form-check-input">
-                          <p class="form-check-label mb-0">Forced</p>
-                        </label>
-                      </div>
-                      <div class="w-50 pl-2 reminder-after">
-                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                          <input type="radio" name="flexible" value="flexible" class="form-check-input">
-                          <p class="form-check-label mb-0">Flexible</p>
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- end box  -->
-
-            </div>
+              <!-- end box -->
             </div>
           </div>
         </div>
-        <div class="row mt-5">
+      
+        <!-- Handle "Other" type notifications -->
+        <div class="row mt-5" *ngIf="type == 'Other'">
           <div class="col-md-4">
             <div class="form-roe-data p-3">
-              <h5 class="text-black mb-2" >Other Notification</h5>
-              <p class="font-13">Manage all your company's attendance-<br> related notifications in one place</p>
+              <h5 class="text-black mb-2">{{type}} Notification</h5>
+              <p class="font-13">Manage all your company's attendance-related notifications in one place</p>
             </div>
           </div>
           <div class="col-md-7 mt-3">
-            <div class="attendance-notification form-roe-data d-flex align-items-center justify-content-between border-bottom pb-4">
-              <div>
-              <h5 class="font-15">leave  </h5>
-              <p class="mb-0 font-13">Users will be notified about their leave requests, approvals, rejections, and remaining balances.</p>
-            </div>
-              <div>
-                <nz-switch [ngModel]="true"></nz-switch>
+            <div class="attendance-notification form-roe-data d-flex align-items-center justify-content-between border-bottom pb-4" *ngFor="let notification of notifications?.[type]; let j = index">
+              <div class="mt-3">
+                <h5 class="font-15">{{notification.name}}</h5>
+                <p class="mb-0 font-13">{{notification.description}}</p>
               </div>
-            </div>
-            <div class="attendance-notification form-roe-data d-flex align-items-center justify-content-between border-bottom pb-4 pt-4">
               <div>
-              <h5 class="font-15">Expense </h5>
-              <p class="mb-0 font-13">Users will receive updates on their submitted expenses, approval/rejection status, and reimbursements.</p>
-            </div>
-              <div>
-                <nz-switch [ngModel]="true"></nz-switch>
-              </div>
-            </div>
-            <div class="attendance-notification form-roe-data d-flex align-items-center justify-content-between border-bottom pb-4  pt-4">
-              <div>
-              <h5 class="font-15">Assets  </h5>
-              <p class="mb-0 font-13">Users will be notified about their asset requests, allocation status, and replacements</p>
-            </div>
-              <div>
-                <nz-switch [ngModel]="true"></nz-switch>
-              </div>
-            </div>
-            <div class="attendance-notification form-roe-data d-flex align-items-center justify-content-between border-bottom pb-4 pt-4">
-              <div>
-              <h5 class="font-15">Payroll </h5>
-              <p class="mb-0 font-13">Users will see notifications regarding payroll updates, salary disbursements, and deductions.</p>
-            </div>
-              <div>
-                <nz-switch [ngModel]="true"></nz-switch>
-              </div>
-            </div>
-            <div class="attendance-notification form-roe-data d-flex align-items-center justify-content-between border-bottom pb-4 pt-4">
-              <div>
-              <h5 class="font-15">Onboarding </h5>
-              <p class="mb-0 font-13">Users will get updates on their onboarding process, document verification, and next steps.</p>
-            </div>
-              <div>
-                <nz-switch [ngModel]="true"></nz-switch>
-              </div>
-            </div>
-            <div class="attendance-notification form-roe-data d-flex align-items-center justify-content-between border-bottom pb-4 pt-4">
-              <div>
-              <h5 class="font-15">Policy Update  </h5>
-              <p class="mb-0 font-13">Users will be informed about new policies, updates, and compliance requirements.</p>
-            </div>
-              <div>
-                <nz-switch [ngModel]="true"></nz-switch>
-              </div>
-            </div>
-            <div class="attendance-notification form-roe-data  border-bottom pb-4 pt-4">
-              <div class="d-flex align-items-center justify-content-between">
-              <div>
-              <h5 class="font-15">Holiday </h5>
-              <p class="mb-0 font-13">Users will see notifications about upcoming holidays, schedule changes, and announcements.</p>
-            </div>
-              <div>
-                <nz-switch [ngModel]="true"></nz-switch>
-              </div>
-            </div>
-            </div>
-            <div class="attendance-notification form-roe-data d-flex align-items-center justify-content-between border-bottom pb-4 pt-4">
-              <div>
-              <h5 class="font-15">Overtime </h5>
-              <p class="mb-0 font-13">Users will receive updates on approved overtime, pending requests, and payouts.</p>
-            </div>
-              <div>
-                <nz-switch [ngModel]="true"></nz-switch>
-              </div>
-            </div>
-            <div class="attendance-notification form-roe-data d-flex align-items-center justify-content-between pb-4 pt-4">
-              <div>
-              <h5 class="font-15">Team Updates </h5>
-              <p class="mb-0 font-13">Users will be alerted about team announcements, project updates, and changes in roles.</p>
-            </div>
-              <div>
-                <nz-switch [ngModel]="true"></nz-switch>
+                <nz-switch [ngModel]="notification.isEnable" [ngModelOptions]="{ standalone: true }" 
+                [nzLoading]="loadingFlags2[type]?.[j] || false" 
+                (ngModelChange)="toggleNotification(notification, type, j)"></nz-switch>
               </div>
             </div>
           </div>
         </div>
-        
-        </div>
+      </div>
+         
+    </div>
 
         <div class="mt-4" *ngIf="activeTab === 'exitPolicy'">
         

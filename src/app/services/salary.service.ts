@@ -146,6 +146,18 @@ export class SalaryService {
   }
 
 
+  getMonthWiseStatutoryDeduction(startDate: any,endDate: any,itemPerPage: number,pageNumber: number,search: string): Observable<any> {
+    const params = new HttpParams()
+      .set('start_date', startDate)
+      .set('end_date', endDate)
+      .set('item_per_page', itemPerPage)
+      .set('page_number', pageNumber)
+      .set('search', search)
+
+    return this._http.get<any>(`${this._key.base_url}/salary/month-wise/deduction`,{ params });
+  }
+
+
   updateEmployeeData(empSalaryData: EmployeeMonthWiseSalaryData): Observable<any>{
    
     return this._http.put<any>(`${this._key.base_url}/salary/month-wise/data`, empSalaryData);
@@ -167,7 +179,7 @@ export class SalaryService {
 
   updateSalarySlipStatus(monthWiseIds:number[]): Observable<any>{
     const params = new HttpParams()
-    .set('month_wise_ids', String(monthWiseIds));
+    .set('monthWiseId', String(monthWiseIds));
 
     return this._http.put<any>(`${this._key.base_url}/salary/month-wise/slip/on-hold`,{},{ params });
   
@@ -180,11 +192,13 @@ export class SalaryService {
     return this._http.post<any>(`${this._key.base_url}/salary/payslip/share`,{}, {params});
   }
 
-  generatePaySlip(startDate: string,endDate: string): Observable<any>{
+  generatePaySlip(startDate: string,endDate: string, monthIds:number[],isAll:number): Observable<any>{
     const params = new HttpParams()
     .set('start_date', startDate)
-    .set('end_date', endDate);
-    return this._http.put<any>(`${this._key.base_url}/salary/generate-slip`, {params});
+    .set('end_date', endDate)
+    .set('month_ids', String(monthIds))
+    .set('is_all', isAll);
+    return this._http.put<any>(`${this._key.base_url}/salary/month-wise/generate-slip`,{}, {params});
   }
 
 
@@ -276,4 +290,7 @@ export class SalaryService {
     .set('user_uuid', userUuid)
     return this._http.get<any>(`${this._key.base_url}/salary/template/component/get-by-user-uuid`,{params});
   }
+
+
+
 }

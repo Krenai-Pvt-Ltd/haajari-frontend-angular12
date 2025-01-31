@@ -16,6 +16,7 @@ import { AttendanceRequest } from 'src/app/models/AttendanceRequest';
 import { constant } from 'src/app/constant/constant';
 // import { Timeline } from 'vis-timeline'
 // import { Timeline,DataSet, TimelineItem } from 'vis-timeline/standalone';
+// import {ChartComponent,ApexAxisChartSeries,ApexChart,ApexXAxis,ApexTitleSubtitle} from "ng-apexcharts";
 
 import {
   Chart,
@@ -55,6 +56,9 @@ Chart.register(
 })
 export class AttendanceLeaveComponent implements OnInit {
 
+ 
+
+
   userLeaveForm!: FormGroup;
   userId: any;
   count: number = 0;
@@ -80,7 +84,6 @@ export class AttendanceLeaveComponent implements OnInit {
     // }
     // this.UUID = await this.roleService.getUuid();
     // this.getFirstAndLastDateOfMonth(this.selectedDate);
-
     this.attendanceTimeUpdateForm = this.fb.group({
       requestedDate: [null, Validators.required],
       attendanceRequestType: ['UPDATE', Validators.required], // Default to 'UPDATE'
@@ -1488,6 +1491,8 @@ export class AttendanceLeaveComponent implements OnInit {
         this.chart.destroy();
       }
 
+      
+
       // Create the new chart
       this.chart = new Chart(ctx, {
         type: 'line',
@@ -1573,6 +1578,8 @@ export class AttendanceLeaveComponent implements OnInit {
   getAttendanceChecktimeListDate(statusString: string): void {
     this.updateStatusString = statusString.charAt(0).toUpperCase() + statusString.slice(1).toLowerCase();
     const formattedDate = this.datePipe.transform(this.requestedDate, 'yyyy-MM-dd');
+    // Reset attendanceId field when request type changes
+    this.attendanceTimeUpdateForm.get('updateGroup.attendanceId')?.reset();
     this.dataService.getAttendanceChecktimeList(this.userId, formattedDate, statusString).subscribe(response => {
       this.attendanceCheckTimeResponse = response.listOfObject;
       // console.log('checktime retrieved successfully', response.listOfObject);
@@ -1764,7 +1771,7 @@ export class AttendanceLeaveComponent implements OnInit {
   //   }
   //   return false;
   // }
-
+  
   isAttendanceFormValid(): boolean {
 
     if (this.checkHoliday === true || this.checkAttendance === true) {

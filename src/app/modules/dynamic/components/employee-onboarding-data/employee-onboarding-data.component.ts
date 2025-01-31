@@ -860,14 +860,28 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   this.isLoadingLeave = false;
   }
 
-
+  resetUploadExcelForm(): void {
+    this.fileColumnName = [];
+    this.isExcel = '';
+    this.data = [];
+    this.dataWithoutHeader = [];
+    this.mismatches = [];
+    this.invalidRows = [];
+    this.invalidCells = [];
+    this.isinvalid = false;
+    this.jsonData = [];
+    this.validateMap.clear();
+    this.fileName = null;
+    this.currentFileUpload = null;
+    this.firstUpload=true;
+  }
 
   fileName: any;
   currentFileUpload: any;
 
 
   expectedColumns: string[] = ['Name*', 'Phone*', 'Email*', 'Shift*', 'JoiningDate*', 'Gender*'];
-  correctColumnName: string[] = ['S. NO.*', 'Name*', 'Phone*', 'Email*', 'Shift*', 'JoiningDate*', 'Gender*', 'leavenames', 'ctc', 'emptype', 'empId', 'branch', 'department', 'position', 'grade', 'team', 'dob', 'fathername', 'maritalstatus', 'address', 'city', 'state', 'country', 'pincode', 'panno', 'aadharno', 'drivinglicence', 'emergencyname', 'emergencyphone', 'emergencyrelation', 'accountholdername', 'bankname', 'accountnumber', 'ifsccode'];
+  correctColumnName: string[] = ['S. NO.*', 'Name*', 'Phone*', 'Email*', 'Shift*', 'JoiningDate*', 'Gender*', 'leavenames', 'ctc', 'emptype', 'empId', 'branch', 'department', 'position', 'nationality' , 'grade', 'team', 'dob', 'fathername', 'maritalstatus', 'address', 'city', 'state', 'country', 'pincode', 'panno', 'aadharno', 'drivinglicence', 'emergencyname', 'emergencyphone', 'emergencyrelation', 'accountholdername', 'bankname', 'accountnumber', 'ifsccode'];
   fileColumnName:string[] = [];
   genders: string[] = ['Male', 'Female'];
   isExcel: string = '';
@@ -964,10 +978,22 @@ export class EmployeeOnboardingDataComponent implements OnInit {
           this.removeAllSingleEntries();
           this.validateMap.forEach((values, key) => {
             console.log(`Key: ${key}`);
-            this.mismatches.push(`Repeating values: "${key}" at row no. ${values}`);
-            if(this.elementToScroll){
-            this.elementToScroll!.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            console.log('Values:', values);
+            
+            this.mismatches.push('<br />');
+            // Add repeated mismatch message
+            this.mismatches.push(`Repeated : "${key}" at row no.`);
+            
+            // Scroll into view if element exists
+            if (this.elementToScroll) {
+              this.elementToScroll!.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              console.log('Values:', values);
+            }
+          
+            // Split values into chunks of 50 and add line breaks
+            const chunkSize = 50;
+            for (let i = 0; i < values.length; i += chunkSize) {
+              const chunk = values.slice(i, i + chunkSize);
+              this.mismatches.push(`${chunk.join(', ')}`);
             }
           });
           this.totalPage = Math.ceil(this.data.length / this.pageSize);
@@ -1077,9 +1103,10 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     console.log("🚀 ~ EmployeeOnboardingDataComponent ~ validateRows ~ rows:", rows)
     this.invalidRows = new Array(rows.length).fill(false); // Reset invalid rows
     this.invalidCells = Array.from({ length: rows.length }, () => new Array(this.expectedColumns.length).fill(false)); // Reset invalid cells
-
+    
     for (let i = 0; i < rows.length; i++) {
       let rowIsValid = true;
+      let hasEmptyRow =false;
       for (let j = 0; j < this.fileColumnName.length; j++) {
 
         const cellValue = rows[i][j];
@@ -1087,7 +1114,11 @@ export class EmployeeOnboardingDataComponent implements OnInit {
           rowIsValid = false;
           this.invalidRows[i] = true; // Mark the row as invalid
           this.invalidCells[i][j] = true; // Mark the cell as invalid
-
+          if(!hasEmptyRow){
+            this.addToMap('Empty Fields',`${i+1}`);
+            hasEmptyRow=true;
+          }
+          
         }
         if (this.fileColumnName[j] === 'email*' && cellValue) {
           this.addToMap(cellValue.toString(),`${i+1}`);
@@ -2437,6 +2468,5 @@ console.log(this.data);
     this.getUser();
     this.closeNotificationModalFlag = false;
   }
-
 
 }

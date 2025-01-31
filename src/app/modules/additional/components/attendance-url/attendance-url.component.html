@@ -8,7 +8,7 @@
                     <div class="entry-step-one position-relative d-flex align-items-start gap-3">
                         <div>
                             <!-- TO DO: step active class (step-active)  -->
-                            <span *ngIf="attendanceMode!=2"
+                            <span *ngIf="attendanceMode==3"
                                 class="step-one text-primary font-14 d-flex align-items-center justify-content-center fw-semibold" [ngClass]="{'step-active' : isSelfieNeeded}">1</span>
                         </div>
                         <div>
@@ -26,9 +26,9 @@
                             </span>
                         </div>
                     </div>
-                    <div *ngIf="attendanceMode!=2" class="entry-step-one position-relative mt-5 d-flex align-items-start gap-3">
+                    <div *ngIf="attendanceMode==3" class="entry-step-one position-relative mt-5 d-flex align-items-start gap-3">
                         <div>
-                            <span *ngIf="attendanceMode!=2"
+                            <span *ngIf="attendanceMode==3"
                                 class="step-one text-primary font-14 d-flex align-items-center justify-content-center fw-semibold">2</span>
                         </div>
                         <div>
@@ -80,11 +80,11 @@
                     </div>
                 </div>
                 <div class="mt-4 d-flex align-items-center justify-content-between desktop-action-btn">
-                    <p class="mb-0 font-13 fw-semibold">This link will expire soon if no action is taken.
+                    <p *ngIf="!isInvalid && isLogoVisible" class="mb-0 font-13 fw-semibold">This link will expire soon if no action is taken.
                         Please proceed promptly.</p>
 
                     <button type="button" (click)="calculateDistance()" [disabled]="!enableSubmitToggle || disableButton || isInvalid"
-                    [ngClass]="{'btn-border': (enableSubmitToggle && !isInvalid)}" class="btn p-0 font-15 fw-semibold next-step-btn">
+                    [ngClass]="{'btn-border': (enableSubmitToggle && !isInvalid), 'justify-content-end' : !(!isInvalid && isLogoVisible)}" class="btn p-0 font-15 fw-semibold next-step-btn">
                         <div *ngIf="toggle" class="dot-opacity-loader">
                             <span></span>
                             <span></span>

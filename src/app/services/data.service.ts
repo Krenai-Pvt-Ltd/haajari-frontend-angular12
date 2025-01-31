@@ -82,6 +82,7 @@ import { ExitPolicy } from '../models/ExitPolicy';
 import { UserResignation } from '../models/UserResignation';
 import { EmployeeAdditionalDocument } from '../models/EmployeeAdditionalDocument';
 import { EmployeeProfileResponse } from '../models/employee-profile-info';
+import { NotificationTypeInfoRequest } from '../models/NotificationType';
 
 
 @Injectable({
@@ -3834,6 +3835,13 @@ getHolidayForOrganization(date: string): Observable<any>{
   return this.httpClient.get<any>(`${this.baseUrl}/holiday/check-holiday`,{params});
 }
 
+getHolidayForOrganizationWhatsapp(userUuid: string, date: string): Observable<any>{
+  const params = new HttpParams()
+  .set('userUuid', userUuid)
+  .set('date', date)
+  return this.httpClient.get<any>(`${this.baseUrl}/holiday/check-holiday-whatsapp`,{params});
+}
+
 
   registerLopReversalApplication(lopReversalApplicationRequest : LopReversalApplicationRequest): Observable<any>{
 
@@ -3898,6 +3906,16 @@ getHolidayForOrganization(date: string): Observable<any>{
     const url = `${this.baseUrl}/attendance/request-update`;
     return this.httpClient.post<any>(url, attendanceTimeUpdateRequestDto, {});
   }
+
+  sendAttendanceTimeUpdateRequestWhatsapp(attendanceTimeUpdateRequestDto: AttendanceTimeUpdateRequestDto, userUuid: string): Observable<any> {
+    const params = new HttpParams()
+    .set('userUuid', userUuid);
+
+    const url = `${this.baseUrl}/attendance/request-update-whatsapp`;
+    return this.httpClient.post<any>(url, attendanceTimeUpdateRequestDto, {params});
+  }
+
+  
 
   getAttendanceTimeUpdateRequestById(id: number): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}?id=${id}`);
@@ -4905,6 +4923,44 @@ getHolidayForOrganization(date: string): Observable<any>{
 
     return this.httpClient.get<any>(`${this.baseUrl}/users/isUserUnderManager`, { params });
   }
+
+
+  // notification setting
+
+  // notificationTypes(): Observable<any> {
+  //   return this.httpClient.get<any>(`${this.baseUrl}/notification-setting/notification-types`, { });
+  // }
+
+  notificationTypes(userUuid?: string): Observable<any> {
+    let params = new HttpParams();
+
+    if (userUuid) {
+      params = params.set('userUuid', userUuid);
+    }
+
+    return this.httpClient.get<any>(`${this.baseUrl}/notification-setting/notification-types`, { params });
+  }
+
+  saveNotification(notification: NotificationTypeInfoRequest): Observable<any> {
+    return this.httpClient.put(`${this.baseUrl}/notification-setting/save`, notification);
+  }
+
+  disableNotification(key: string): Observable<any> {
+    const params = new HttpParams()
+      .set('key', key);
+    return this.httpClient.put(`${this.baseUrl}/notification-setting/disable/notification`, {}, {params});
+  }
+
+
+  updateUserNotification(notificationSettingId: number, statusValue: string): Observable<any> {
+    const params = new HttpParams()
+      .set('notificationSettingId', notificationSettingId)
+      .set('statusValue', statusValue);
+    return this.httpClient.put(`${this.baseUrl}/notification-setting/update/status/user`, {}, {params});
+  }
+
+
+  
 
 }
 

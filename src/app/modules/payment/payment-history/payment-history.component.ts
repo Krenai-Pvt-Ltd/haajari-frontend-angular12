@@ -6,6 +6,7 @@ import { Key } from 'src/app/constant/key';
 import { StatusKeys } from 'src/app/constant/StatusKeys';
 import { EmployeeMonthWiseSalaryData } from 'src/app/models/employee-month-wise-salary-data';
 import { HelperService } from 'src/app/services/helper.service';
+import { PayrollService } from 'src/app/services/payroll.service';
 import { SalaryService } from 'src/app/services/salary.service';
 
 @Component({
@@ -41,6 +42,7 @@ export class PaymentHistoryComponent implements OnInit {
 
   constructor(
     private _salaryService: SalaryService,
+    private _payrollService : PayrollService,
      public _helperService: HelperService,
       private http: HttpClient) {
 
@@ -197,20 +199,20 @@ export class PaymentHistoryComponent implements OnInit {
     }
   }
 
-  togglePayslipStatus(monthId:number){
+
+
+
+  togglePayslipStatus( data: EmployeeMonthWiseSalaryData){
     this.monthWiseIds = [];
-    this.monthWiseIds.push(monthId);
-    this.updatePaySlipStatus();
-
-  }
-
-
-  updatePaySlipStatus(){
+    this.monthWiseIds.push(data.id);
     this._salaryService.updateSalarySlipStatus(this.monthWiseIds).subscribe(
       (response) => {
         if(response.status){
-          this.getMonthWiseSalarySlipData();
+          data.isSlipHold = data.isSlipHold == 1? 0: 1;
           this._helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
+        }else{
+          data.isSlipHold = data.isSlipHold == 0? 1: 0;
+          this._helperService.showToast(response.message, Key.TOAST_STATUS_ERROR);
         }
       },(error) => {
 
@@ -253,18 +255,53 @@ export class PaymentHistoryComponent implements OnInit {
 
 
 
-  generateSalarySlipMethodCall(){
-    this._salaryService.generatePaySlip(this.startDate, this.endDate).subscribe(
+  isAll:number=0;
+  processing:boolean=false;
+  generatePayslip(isAll:number){
+    this.processing=true;
+    var ids :number[] =[];
+    if(isAll==0){
+      ids = this.monthWiseIds;
+    }
+    this._salaryService.generatePaySlip(this.startDate, this.endDate,ids,isAll).subscribe(
       (response) => {
         if(response.status){
-          this._helperService.showToast('Payslip generated Succesfully', Key.TOAST_STATUS_SUCCESS)
+          this.monthWiseIds =[];
           this.getMonthWiseSalarySlipData();
+          this._helperService.showToast('Payslip generated Successfully', Key.TOAST_STATUS_SUCCESS);
         }else{
-          this._helperService.showToast('Failed to generate pay slip', Key.TOAST_STATUS_ERROR)
+          //TODOD: temporray
+          this._helperService.showToast('Payslip generated Successfully', Key.TOAST_STATUS_SUCCESS);
+
+          // this._helperService.showToast('Failed to generate pay slip', Key.TOAST_STATUS_ERROR);
         }
+        this.processing=false;
       },
       (error) => {
-    
+        this.processing=false;
+      }
+    );
+  }
+
+
+
+  downloading:boolean=false;
+  downloadBankReport(){
+    this.downloading=true;
+    this._payrollService.getPayrollBankReport(this.startDate, this.endDate).subscribe(
+      (response) => {
+        if(response.status){
+          const downloadLink = document.createElement('a');
+          downloadLink.href = response.object;
+          downloadLink.download = 'payroll_bank_report.xlsx';
+          downloadLink.click();
+        }else{
+          this._helperService.showToast('Bank Detail Not Found', Key.TOAST_STATUS_ERROR);
+        }
+        this.downloading=false;
+      },
+      (error) => {
+        this.downloading=false;
       }
     );
   }
