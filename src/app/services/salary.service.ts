@@ -146,6 +146,18 @@ export class SalaryService {
   }
 
 
+  getMonthWiseStatutoryDeduction(startDate: any,endDate: any,itemPerPage: number,pageNumber: number,search: string): Observable<any> {
+    const params = new HttpParams()
+      .set('start_date', startDate)
+      .set('end_date', endDate)
+      .set('item_per_page', itemPerPage)
+      .set('page_number', pageNumber)
+      .set('search', search)
+
+    return this._http.get<any>(`${this._key.base_url}/salary/month-wise/deduction`,{ params });
+  }
+
+
   updateEmployeeData(empSalaryData: EmployeeMonthWiseSalaryData): Observable<any>{
    
     return this._http.put<any>(`${this._key.base_url}/salary/month-wise/data`, empSalaryData);
@@ -278,4 +290,7 @@ export class SalaryService {
     .set('user_uuid', userUuid)
     return this._http.get<any>(`${this._key.base_url}/salary/template/component/get-by-user-uuid`,{params});
   }
+
+
+
 }

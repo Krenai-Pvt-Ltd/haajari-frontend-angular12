@@ -13,6 +13,14 @@ import { WebcamModule } from 'ngx-webcam';
 import { AgmCoreModule } from '@agm/core';
 import { LinkExpiredPageComponent } from './components/link-expired-page/link-expired-page.component';
 import { AttendanceUrlComponent } from './components/attendance-url/attendance-url.component';
+import { AttendanceRequestFormComponent } from './components/attendance-request-form/attendance-request-form.component';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzEmptyModule } from 'ng-zorro-antd/empty';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
+import { NzAlertModule } from 'ng-zorro-antd/alert';
 
 
 @NgModule({
@@ -25,6 +33,7 @@ import { AttendanceUrlComponent } from './components/attendance-url/attendance-u
     EmployeeLocationValidatorComponent,
     LinkExpiredPageComponent,
     AttendanceUrlComponent,
+    AttendanceRequestFormComponent,
   ],
   imports: [
     CommonModule,
@@ -36,7 +45,15 @@ import { AttendanceUrlComponent } from './components/attendance-url/attendance-u
       apiKey: 'AIzaSyB6SQE_TmOLpGLohpMLl-6FzdwJJAU9MnA',
       libraries: ['places'],
     }),
-    GooglePlaceModule
+    GooglePlaceModule,
+    NzDatePickerModule,
+    NzDropDownModule,
+    NzSelectModule,
+    NzEmptyModule,
+    NzFormModule,
+    NzTimePickerModule,
+    NzAlertModule
+
   ],
   exports: [AttendanceUrlComponent]
 })

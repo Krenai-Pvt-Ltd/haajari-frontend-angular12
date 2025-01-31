@@ -68,39 +68,35 @@
           </div>
           <div class="search-bar-wrapper d-flex align-items-center w-100">
             <div style="flex-grow: 1">
-              <form role="search" class="searching ng-untouched ng-pristine ng-valid" (submit)="searchUsers($event)">
                 <div class="form-group position-relative w-100">
                   <input type="text" id="searchText" placeholder="Search"
                     class="form-control me-2 ng-untouched ng-pristine ng-valid attendance-details-search"
-                    style="padding: 10px 40px; padding-right: 20px; border: none" (keyup)="searchUsers($event)"
-                    [(ngModel)]="search" [ngModelOptions]="{ standalone: true }" />
+                    style="padding: 10px 40px; padding-right: 20px; border: none" 
+                    (keyup)="searchDebounce($event)" (paste)="searchDebounce($event)" [(ngModel)]="search"
+                    [ngModelOptions]="{ standalone: true }" />
                   <i class="bi bi-search search-icon position-absolute"></i>
                   <button *ngIf="search.length > 0" type="button" class="btn close-btn position-absolute"
-                    (click)="clearSearch()">
+                    (click)="resetSearch()">
                     <i class="bi bi-x mt-auto mb-auto"></i>
                   </button>
                 </div>
-              </form>
             </div>
-            <div class="filter-wrapper d-flex align-items-center" style="margin-left: 20px">
-              <!-- Display this only if there are selected staff -->
-              <!-- <a class="info-button" *ngIf="monthWiseIds.length > 0">
-                {{ monthWiseIds.length }} selected of {{ totalItems }}
-              </a> -->
-              <!-- Clear button shows only if there are selected staff -->
-              <!-- <span class="clear-button text-danger ml-2" (click)="unSelectAll()" *ngIf="monthWiseIds.length>0">
-                Clear all users <i class="bi bi-x"></i>
-              </span> -->
-              <!-- <label class="checkbox-label ml-2">
-                <input type="checkbox" [checked]="allChecked" (click)="selectAll()" />
-                Select all
-              </label> -->
-
+            <div class="filter-wrapper d-flex align-items-center" style="margin-left: 20px"  *ngIf="totalItems>0">
+              <button class="btn primaryBtnLink" type="button"
+                [disabled]="downloading" (click)="downloadBankReport()" >
+                <i class="bi bi-download"></i>
+                <span *ngIf="!downloading">Download</span>
+                <div class="dot-opacity-loader" *ngIf="downloading">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+                </button>
               <button type="button" class="btn btn-primary d-flex align-items-center gap-2 fw-saminbold font-14"
-                (click)="generatePayslip(1)">
+                (click)="generatePayslip()">
                 <span *ngIf="!processing">
                   <i class="fas fa-exclamation-circle"></i>
-                  <small>Generate All Payslip</small>
+                  <small>Generate Payslip</small>
                 </span>
                 <div class="dot-opacity-loader" *ngIf="processing">
                   <span></span>
@@ -115,25 +111,8 @@
         <!-- email-rightbar -->
         <div class=" mt-3">
           <!-- end div -->
-          <div class="btn-toolbar" role="toolbar" *ngIf="monthWiseIds.length>0">
+          <div class="d-flex justify-content-between btn-toolbar" role="toolbar" *ngIf="monthWiseIds.length>0">
             <div class="btn-group">
-              <!-- <button type="button" class="btn btn-de-secondary d-flex align-items-center gap-2 "
-                (click)="updatePaySlipStatus()">
-                <i class="fas fa-exclamation-circle"></i>
-                <small>Hold Payslip</small>
-              </button> -->
-                <button type="button" class="btn btn-de-secondary d-flex align-items-center gap-2"
-                (click)="generatePayslip(1)">
-                <span *ngIf="!processing">
-                  <i class="fas fa-exclamation-circle"></i>
-                  <small>Generate Payslip</small>
-                </span>
-                <div class="dot-opacity-loader" *ngIf="processing">
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                </div>
-              </button>
               <button type="button" class="btn btn-de-secondary d-flex align-items-center gap-2"
                 (click)="sharePayslipVia('EMAIL')">
                 <i class="fas fa-envelope-open"></i>
@@ -144,6 +123,20 @@
                 <i class="fab fa-whatsapp"></i>
                 <small>WHATSAPP</small>
               </button>
+            </div>
+
+            <div *ngIf="monthWiseIds.length > 0">
+              <a class="info-button">
+                {{ monthWiseIds.length }} selected of {{ totalItems }}
+              </a>
+              <!-- Clear button shows only if there are selected staff -->
+              <span class="clear-button text-danger ml-2" (click)="unSelectAll()">
+                Clear all Selection <i class="bi bi-x"></i>
+              </span>
+              <label class="checkbox-label ml-2">
+                <input type="checkbox" [checked]="allChecked" (click)="selectAll()" />
+                Select all
+              </label>
             </div>
           </div>
           <!-- end toolbar -->
@@ -205,7 +198,7 @@
                         <td>
                           <span>
                             <nz-switch class="switch" id="switch{{i}}"
-                            (ngModelChange)="togglePayslipStatus(employee.id)"
+                            (ngModelChange)="togglePayslipStatus(employee)"
                             [ngModel]="employee.isSlipHold==0"></nz-switch>
                           </span>
                         </td>

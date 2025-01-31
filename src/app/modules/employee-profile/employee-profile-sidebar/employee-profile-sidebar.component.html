@@ -1,14 +1,20 @@
-<div class="employee-profile-sidebar-main-box">
+<div class="employee-profile-sidebar-main-box mobileMenufixed " [ngClass]="{'menuVisible' : helperService.isShowSidebar}">
     <!--To Do employ exit class="exited-background"  -->
-    <div class="company-logo p-4"
+    <div class="company-logo p-3 pt-4"
         [ngClass]="{'exited-background': employeeProfileResponseData?.resignationStatus === 43}">
         <img src="assets/images/HAjiRi.svg" alt="logo-" style="height: 30px">
+        <span class="sidebar-close-btn" (click)="helperService.toggleIsShowSidebar()">
+            <i class="bi bi-x font-30"></i>
+        </span>
     </div>
+
+
+
     <div class="employee-detail p-4 pb-0">
         <div class="position-relative">
             <div *ngIf="employeeProfileResponseData?.profilePic; else namePlaceholder">
                 <img onerror="this.src='./assets/images/broken-image-icon.jpg';"
-                    [src]="employeeProfileResponseData?.profilePic" alt="Profile Picture">
+                    [src]="dataService.employeeData.profilePic" alt="Profile Picture">
             </div>
 
             <ng-template #namePlaceholder>
@@ -101,13 +107,13 @@
     </div>
     <div class="employe-about p-4 pt-0 mb-4">
         <div *ngIf="userRoleFlag">
-            <div *ngIf="employeeProfileResponseData?.resignationStatus != 43 && (status == 'out' || this.status== '' || this.status == null) "
+            <div *ngIf="employeeProfileResponseData?.resignationStatus != 43 && (status == 'out' || this.status== '' || this.status == null) " 
                 class="check-in">
                 <div class="d-flex align-items-center gap-2 check-in-info p-2">
                     <img src="assets/images/check-in-image.svg">
                     <h5 class="mb-0">Time to Check In and <br> Start Your Shift</h5>
                 </div>
-                <button class="btn check-in w-100" (click)="checkinCheckout('/in')" [disabled]="InOutLoader">
+                <button class="btn check-in w-100" (click)="checkinCheckout('/in');helperService.toggleIsShowSidebar()" [disabled]="InOutLoader">
                     <svg *ngIf="!InOutLoader" xmlns="http://www.w3.org/2000/svg" width="18" height="19"
                         viewBox="0 0 18 19" fill="none">
                         <path fill-rule="evenodd" clip-rule="evenodd"
@@ -152,7 +158,7 @@
                     </span>
                 </button>
                 <button *ngIf="status == 'in' || status == 'back'" class="btn check-out-btn w-90"
-                    (click)="checkinCheckout('/out')" [disabled]="InOutLoader">
+                    (click)="checkinCheckout('/out');helperService.toggleIsShowSidebar()" [disabled]="InOutLoader">
                     <svg *ngIf="!outLoader" xmlns="http://www.w3.org/2000/svg" width="19" height="19"
                         viewBox="0 0 19 19" fill="none">
                         <g clip-path="url(#clip0_5673_6992)">
@@ -388,7 +394,9 @@
                 <div class="dropdown d-inline-block log-btn">
                     <a class="dropdown-toggle" id="dLabel1" data-bs-toggle="dropdown" href="#" role="button"
                         aria-haspopup="false" aria-expanded="false">
-                        <span class=""><i class="bi bi-chevron-right" style="color: #6666f2 !important"></i></span>
+                        <span class="logout-btn">
+                            <i class="bi bi-chevron-right"></i>
+                        </span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end list-top" aria-labelledby="dLabel1">
                         <div class="manager-list pointer" (click)="routeToAccountPage('accountDetails')"
@@ -460,7 +468,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Upgrade Position</h5>
-                <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButton>
+                <button type="button" id="closePromotionButton" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closePromotionButton>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                         <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
                             width="24" height="24">
@@ -540,7 +548,7 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" [disabled]="myForm.invalid || (changeSalary && !myForm.get('newCTC'))" class="btn submitActionBtn"
+                    <button type="submit" [disabled]="myForm.invalid || (changeSalary && !myForm.get('newCTC')) || saveButtonLoader" class="btn submitActionBtn"
                         [ngClass]="{'btn-border':!myForm.invalid}">
                         <ng-container *ngIf="saveButtonLoader; else loginButton">
                             <div class="dot-opacity-loader">
@@ -1254,7 +1262,7 @@
                 
             </div> -->
             <div class="modal-body p-0">
-                <button #closeAttendanceButton id="closeAttendanceButton" type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" >
+                <button #closeAttendanceButton id="closeAttendanceButton" type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" (click)="showAttendanceComponent=false; getUserAttendanceStatus()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="15" viewBox="0 0 16 15" fill="none">
                         <path d="M2.09533 14.3667L0.619141 12.9707L6.5239 7.38648L0.619141 1.8023L2.09533 0.40625L8.00009 5.99044L13.9049 0.40625L15.381 1.8023L9.47628 7.38648L15.381 12.9707L13.9049 14.3667L8.00009 8.78253L2.09533 14.3667Z" fill="black"/>
                     </svg>

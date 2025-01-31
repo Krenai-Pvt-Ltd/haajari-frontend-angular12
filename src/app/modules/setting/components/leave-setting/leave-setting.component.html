@@ -1471,8 +1471,7 @@
 
                                 <tr *ngFor="let staff of staffs; let i = index">
                                   <td class="text-left">
-
-                                    <input type="checkBox" name="checkBox{{ i }}" id="checkBoxid{{ i }}"
+                                    <input type="checkBox" name="checkBox{{ i }}" id="checkBoxid{{ i }}" [disabled]="!staff.joiningDate?true:null"
                                       (click)="selectSingle(staff, i)" [checked]="staff.checked" />
 
                                   </td>
@@ -1492,7 +1491,7 @@
                                     }}
                                   </td>
                                   <td class="text-center">
-                                    <button class="add-employee" *ngIf="!addEmployeeLoader(staff)"
+                                    <button class="add-employee" *ngIf="!addEmployeeLoader(staff) && staff.joiningDate"
                                       (click)="selectSingle(staff, i)">
                                       <i class="{{
                                           staff.checked
@@ -1501,6 +1500,33 @@
                                         }}"></i>
                                       {{ staff.checked ? "Remove" : "Add" }}
                                     </button>
+                                  
+                                  <nz-date-picker nzBorderless *ngIf="editingStaff === staff" name="addJoiningDate" id="addJoiningDate"
+                                                    nzPlaceHolder="dd/mm/yyyy" [(ngModel)]="tempJoiningDate"
+                                                     ></nz-date-picker>
+                                  
+                                  <div *ngIf="editingStaff === staff" class="d-flex align-items-center mt-2">
+                                    <button class="btn btn-primary me-2" (click)="saveJoiningDate(staff)">
+                                      Submit
+                                    </button>
+                                    <button class="btn btn-secondary" (click)="resetEditingState()">
+                                      Cancel
+                                    </button>
+                                  </div>
+                                  
+                                  <button
+                                    class="add-employee mt-2"
+                                    *ngIf="!addEmployeeLoader(staff) && !staff.joiningDate && editingStaff !== staff"
+                                    (click)="editJoiningDate(staff)"
+                                  >
+                                    <i
+                                      class="{{
+                                        staff.checked ? 'bi bi-minus-lg' : 'bi bi-plus-lg'
+                                      }}"
+                                    ></i>
+                                    Add Joining Date
+                                  </button>
+                                  
 
                                   </td>
                                 </tr>

@@ -1,17 +1,90 @@
 <div class="employee-dashboard-box m-3 mt-4">
     <div class="row">
+
+
+        <div *ngIf="!shouldShowResignationRow() || requestModal" class="col-md-7 mobile-holiday-section">
+            <div class="holidays-list ">
+                <div class="d-flex align-items-center holidays-flex-column">
+                    <div class="holidays-cal-box">
+                        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel"
+                            data-bs-interval="3000">
+                            <div class="carousel-inner">
+                                <div *ngFor="let hd of holidays; let i = index" class="carousel-item"
+                                    [class.active]="i === 0">
+                                    <div [ngClass]="getHolidayBoxClass(i)" class="p-3 holidays-box">
+                                        <div class="d-flex align-items-center justify-content-between mb-3">
+                                            <h6 class="text-white mb-0">Holidays</h6>
+                                            <button class="btn p-0 font-13 text-white fw-semibold mobile-holiday" data-bs-toggle="modal" data-bs-target="#calendarModal">View
+                                                All</button>
+                                        </div>
+                                        <div
+                                            class="d-flex align-items-center justify-content-between pl-3 pr-3">
+                                            <div>
+                                                <h5 class="mb-1 text-white font-24">{{ hd.name }}</h5>
+                                                <p class="mb-0 text-white">{{ hd.date | date:'EEE, MMM d, y' }}
+                                                </p>
+                                            </div>
+                                            <div class="position-absolute" style="top: 50px; right: 35px;">
+                                                <ng-container>
+                                                    <span class="holiday-initial font-24"
+                                                        [ngClass]="getHolidayBoxClass(i)">
+                                                        {{ hd.name.charAt(0).toUpperCase() }}
+                                                    </span>
+                                                </ng-container>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="empty-file d-flex align-items-center justify-content-center bg-soft-info"
+                                style="padding-top: 8%; padding-bottom: 8%; height: 149px;"
+                                *ngIf="holidays.length ==0">
+                                <p class="mb-1 empty-detail">No Holidays for Now</p>
+                            </div>
+
+                            <!-- Carousel controls -->
+                            <button class="carousel-control-prev" type="button"
+                                data-bs-target="#carouselExampleControls" data-bs-slide="prev"
+                                *ngIf="holidays.length > 1">
+                                <i class="bi bi-chevron-left"></i>
+                            </button>
+                            <button class="carousel-control-next" type="button"
+                                data-bs-target="#carouselExampleControls" data-bs-slide="next"
+                                *ngIf="holidays.length > 1">
+                                <i class="bi bi-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-3 holiday-date desktop-today-date">
+                    <div class="d-flex align-items-start justify-content-between flex-column gap-4">
+                        <p class="font-13">Today</p>
+                        <div>
+                            <h5 class="mb-1 font-20 text-start"> {{ today | date:'d' }}{{ getOrdinalSuffix(today.getDate())
+                                }}</h5>
+                            <p class="mb-0 font-13"> {{ today | date:'EEE, MMM y' }}</p>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="holiday-date p-3 mobile-today-date">
+                    <div class="d-flex align-items-start justify-content-between ">
+                        <p class="font-13 mb-0">Today</p>
+                        <h5 class="mb-0 font-16 fw-semibold"> {{ today | date:'d' }} {{ today | date:'EEE, MMM y' }}</h5>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="col-md-4">
             <!-- attendance-report -->
-            <div class="attendance-report p-3" style="height: 573px;">
+            <div class="attendance-report p-3 attendance-report-height">
                 <h5 class="font-14 border-bottom pb-3">Attendance Report</h5>
                 <div class="mb-4">
-                    <!-- <img src="assets/images/week-attendance-report.svg" style="width:100%"> -->
+                   
                     <div class="chart-container w-100" *ngIf="!isPlaceholder">
                         <canvas #chartCanvas id="workingHoursChart"></canvas>
                     </div>
-                    <!-- <div class="col-md-12" *ngIf="isLoadingTeamMembers">
-                        <ngx-shimmer-loading [width]="'100%'" [height]="'200px'"></ngx-shimmer-loading>
-                    </div> -->
+                   
                     <div class="empty-file d-flex align-items-center justify-content-center"
                         style="margin-top: 8%; margin-bottom: 8%" *ngIf="isPlaceholder">
                         <p class="mb-1 empty-detail">No data for now</p>
@@ -37,7 +110,7 @@
                         </div>
                     </div>
                     <div class="col-md-6 pr-1">
-                        <div class="employee-dashboard p-2">
+                        <div class="employee-dashboard p-2 mb-3">
                             <p class="mb-3 font-13">Break Duration</p>
                             <h5 class="mb-2">{{attendanceSummary?.breakDuration}}</h5>
                             <p class="mb-0  font-13"><span class="text-danger">{{attendanceSummary?.breakRemaining}}
@@ -45,7 +118,7 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="employee-dashboard p-2">
+                        <div class="employee-dashboard p-2 mb-3">
                             <p class="mb-3 font-13">Break Count</p>
                             <h5 class="mb-2">{{attendanceSummary?.breakCount}}</h5>
                             <p class="mb-0  font-13">.</p>
@@ -105,7 +178,7 @@
             </div>
 
             <div class="row">
-                <div *ngIf="!shouldShowResignationRow() || requestModal" class="col-md-5">
+                <div *ngIf="!shouldShowResignationRow() || requestModal" class="col-md-5 desktop-notification">
                     <div class="announcement p-3">
                         <div class="d-flex align-items-start justify-content-between border-bottom pb-3">
                             <h5 class="font-14 mb-0 ">Recent Notification</h5>
@@ -149,9 +222,9 @@
                     </div>
                 </div>
                 <div *ngIf="!shouldShowResignationRow() || requestModal" class="col-md-7">
-                    <div class="holidays-list">
-                        <div class="d-flex align-items-center">
-                            <div style="width: 75%">
+                    <div class="holidays-list desktop-holiday">
+                        <div class="d-flex align-items-center holidays-flex-column">
+                            <div class="holidays-cal-box">
                                 <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel"
                                     data-bs-interval="3000">
                                     <div class="carousel-inner">
@@ -160,9 +233,7 @@
                                             <div [ngClass]="getHolidayBoxClass(i)" class="p-3 holidays-box">
                                                 <div class="d-flex align-items-center justify-content-between mb-3">
                                                     <h6 class="text-white mb-0">Holidays</h6>
-                                                    <!-- TO DO: all holiday modal open (calendar view) -->
-                                                    <!-- TO DO: follow NG-ZORRO calendar  https://ng.ant.design/components/calendar/en -->
-                                                    <button class="btn p-0 font-13 text-white fw-semibold" data-bs-toggle="modal" data-bs-target="#calendarModal">View
+                                                    <button class="btn p-0 font-13 text-white fw-semibold mobile-holiday" data-bs-toggle="modal" data-bs-target="#calendarModal">View
                                                         All</button>
                                                 </div>
                                                 <div
@@ -172,9 +243,7 @@
                                                         <p class="mb-0 text-white">{{ hd.date | date:'EEE, MMM d, y' }}
                                                         </p>
                                                     </div>
-
                                                     <div class="position-absolute" style="top: 50px; right: 35px;">
-
                                                         <ng-container>
                                                             <span class="holiday-initial font-24"
                                                                 [ngClass]="getHolidayBoxClass(i)">
@@ -205,18 +274,16 @@
                                         <i class="bi bi-chevron-right"></i>
                                     </button>
                                 </div>
-
                             </div>
-                            <div class="holiday-date p-3 d-flex align-items-start justify-content-between flex-column"
-                                style="width: 25%; height: 149px;">
+                            <div class="p-3 holiday-date desktop-today-date">
+                            <div class="d-flex align-items-start justify-content-between flex-column gap-4">
                                 <p class="font-13">Today</p>
-
                                 <div>
-                                    <h5 class="mb-1 font-20"> {{ today | date:'d' }}{{ getOrdinalSuffix(today.getDate())
+                                    <h5 class="mb-1 font-20 text-start"> {{ today | date:'d' }}{{ getOrdinalSuffix(today.getDate())
                                         }}</h5>
                                     <p class="mb-0 font-13"> {{ today | date:'EEE, MMM y' }}</p>
                                 </div>
-
+                            </div>
                             </div>
                         </div>
                     </div>
@@ -400,7 +467,7 @@
     </div>
     <div class="row mt-3 mb-5">
         <div class="col-md-7">
-            <div class="attendance-report p-3" style="height: 418px;">
+            <div class="attendance-report p-3 desktop-attendance-update">
                 <div>
                     <ul id="pills-tab" role="tablist" class="nav nav-pills">
                         <li class="nav-item">
@@ -428,7 +495,7 @@
                                 <div class="table-responsive bg-white">
 
                                     <table class="table empOnnoardtable">
-                                        <thead *ngIf="!isFullLogLoader && !dataNotFoundForAttendanceUpdateRequestLog"
+                                        <thead *ngIf="!isFullLogLoader && this.attendanceRequestLog?.length==0"
                                             class="thead-light">
                                             <tr>
                                                 <th class="text-left font-13" style="width: 10%">Apply On</th>
@@ -442,30 +509,11 @@
 
                                         <tbody *ngIf="isFullLogLoader">
                                             <tr *ngFor="let item of [].constructor(7)">
-                                                <td>
+                                                <td *ngFor="let item of [].constructor(6)">
                                                     <ngx-shimmer-loading [width]="'100%'"
                                                         [height]="'15px'"></ngx-shimmer-loading>
                                                 </td>
-                                                <td>
-                                                    <ngx-shimmer-loading [width]="'100%'"
-                                                        [height]="'15px'"></ngx-shimmer-loading>
-                                                </td>
-                                                <td>
-                                                    <ngx-shimmer-loading [width]="'100%'"
-                                                        [height]="'15px'"></ngx-shimmer-loading>
-                                                </td>
-                                                <td>
-                                                    <ngx-shimmer-loading [width]="'100%'"
-                                                        [height]="'15px'"></ngx-shimmer-loading>
-                                                </td>
-                                                <td>
-                                                    <ngx-shimmer-loading [width]="'100%'"
-                                                        [height]="'15px'"></ngx-shimmer-loading>
-                                                </td>
-                                                <td>
-                                                    <ngx-shimmer-loading [width]="'100%'"
-                                                        [height]="'15px'"></ngx-shimmer-loading>
-                                                </td>
+                                            
                                             </tr>
                                         </tbody>
 
@@ -512,34 +560,6 @@
                                                     <div class="d-flex align-items-center gap-2">
                                                         <span class="badge rounded-pill badge-soft-warning"> {{
                                                             item.status | uppercase}}
-
-                                                            <!-- Delete Button -->
-                                                            <!-- <button class="icon-button btn p-0" (click)="deleteRecord(item)">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
-                                                            <mask id="mask0_6083_5461" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
-                                                                <rect x="0.910156" y="0.910156" width="20" height="20" fill="#D9D9D9" />
-                                                            </mask>
-                                                            <g mask="url(#mask0_6083_5461)">
-                                                                <path
-                                                                    d="M6.74353 18.4102C6.2852 18.4102 5.89284 18.247 5.56645 17.9206C5.24006 17.5942 5.07686 17.2018 5.07686 16.7435V5.91016H4.24353V4.24349H8.4102V3.41016H13.4102V4.24349H17.5769V5.91016H16.7435V16.7435C16.7435 17.2018 16.5803 17.5942 16.2539 17.9206C15.9276 18.247 15.5352 18.4102 15.0769 18.4102H6.74353ZM15.0769 5.91016H6.74353V16.7435H15.0769V5.91016ZM8.4102 15.0768H10.0769V7.57682H8.4102V15.0768ZM11.7435 15.0768H13.4102V7.57682H11.7435V15.0768Z"
-                                                                    fill="#FF0404" />
-                                                            </g>
-                                                        </svg>
-                                                    </button> -->
-
-                                                            <!-- Edit Button -->
-                                                            <!-- <button class="btn p-0 icon-button" (click)="editRecord(item)">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
-                                                            <mask id="mask0_6083_5464" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
-                                                                <rect x="0.910156" y="0.910156" width="20" height="20" fill="#D9D9D9" />
-                                                            </mask>
-                                                            <g mask="url(#mask0_6083_5464)">
-                                                                <path
-                                                                    d="M5.07682 16.7435H6.26432L14.4102 8.59766L13.2227 7.41016L5.07682 15.556V16.7435ZM3.41016 18.4102V14.8685L14.4102 3.88932C14.5768 3.73655 14.7609 3.61849 14.9622 3.53516C15.1636 3.45182 15.3754 3.41016 15.5977 3.41016C15.8199 3.41016 16.0352 3.45182 16.2435 3.53516C16.4518 3.61849 16.6324 3.74349 16.7852 3.91016L17.931 5.07682C18.0977 5.2296 18.2192 5.41016 18.2956 5.61849C18.372 5.82682 18.4102 6.03516 18.4102 6.24349C18.4102 6.46571 18.372 6.67752 18.2956 6.87891C18.2192 7.0803 18.0977 7.26432 17.931 7.43099L6.95182 18.4102H3.41016ZM13.806 8.01432L13.2227 7.41016L14.4102 8.59766L13.806 8.01432Z"
-                                                                    fill="black" />
-                                                            </g>
-                                                        </svg>
-                                                    </button> -->
                                                         </span>
                                                     </div>
                                                 </td>
@@ -571,27 +591,7 @@
 
                                         <tbody *ngIf="isShimmerForOvertimeLog">
                                             <tr *ngFor="let item of [].constructor(7)">
-                                                <td>
-                                                    <ngx-shimmer-loading [width]="'100%'"
-                                                        [height]="'15px'"></ngx-shimmer-loading>
-                                                </td>
-                                                <td>
-                                                    <ngx-shimmer-loading [width]="'100%'"
-                                                        [height]="'15px'"></ngx-shimmer-loading>
-                                                </td>
-                                                <td>
-                                                    <ngx-shimmer-loading [width]="'100%'"
-                                                        [height]="'15px'"></ngx-shimmer-loading>
-                                                </td>
-                                                <td>
-                                                    <ngx-shimmer-loading [width]="'100%'"
-                                                        [height]="'15px'"></ngx-shimmer-loading>
-                                                </td>
-                                                <td>
-                                                    <ngx-shimmer-loading [width]="'100%'"
-                                                        [height]="'15px'"></ngx-shimmer-loading>
-                                                </td>
-                                                <td>
+                                                <td *ngFor="let item of [].constructor(6)">
                                                     <ngx-shimmer-loading [width]="'100%'"
                                                         [height]="'15px'"></ngx-shimmer-loading>
                                                 </td>

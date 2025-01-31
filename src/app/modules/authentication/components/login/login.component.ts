@@ -99,7 +99,7 @@ export class LoginComponent implements OnInit {
           await this.onboardingService.checkSubscriptionPlan();
           this.helperService.orgStepId = 5;
           this.onboardingService.isLoadingOnboardingStatus = false;
-          console.log('kkkkkkkkkkkkkkk', this.returnUrl);
+          // console.log('kkkkkkkkkkkkkkk', this.returnUrl);
           this.router.navigateByUrl(this.returnUrl);
           
         } else if (this.ROLE == 'HR ADMIN') {
@@ -399,6 +399,7 @@ export class LoginComponent implements OnInit {
   loading: boolean = false;
   isOtpVerify: boolean = false;
   verifyOtpByWhatsappMethodCall() {
+    debugger
     this.loading = true;
     this.dataService
       .verifyOtpByWhatsappNew(this.phoneNumber, this.otp,"")
@@ -425,8 +426,13 @@ export class LoginComponent implements OnInit {
             const role = helper.decodeToken(
               response.object.tokenResponse.access_token
             ).role;
+            // this.onboardingService.isLoadingOnboardingStatus = false;
             if (role == 'ADMIN') {
               if (onboardingStep == '5') {
+                await this.onboardingService.checkSubscriptionPlan();
+                this.helperService.orgStepId = 5;
+                this.onboardingService.isLoadingOnboardingStatus = false;
+               
                 this.router.navigate(['/dashboard']);
 
               } else {
@@ -438,6 +444,9 @@ export class LoginComponent implements OnInit {
                 ]);
               }
             } else {
+              await this.onboardingService.checkSubscriptionPlan();
+              this.helperService.orgStepId = 5;
+              this.onboardingService.isLoadingOnboardingStatus = false;
               this.router.navigate([constant.DASHBOARD_ROUTE]);
             }
           } else {

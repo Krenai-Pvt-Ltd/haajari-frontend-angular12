@@ -490,6 +490,9 @@
     pointer-events: none;
     opacity: 0.5;
 }
+.table tbody {
+    border: 1px solid #f1f1f1;
+}
 
 ::ng-deep .placeholder-line .ant-select-selection-placeholder {
     line-height: 45px !important;
@@ -501,4 +504,33 @@
     line-height: 45px !important;
     font-size: 0.875rem !important;
     font-weight: 400 !important;
+  }
+
+  @media screen and (max-width: 500px) {
+    .nav-link {
+        margin-right: 0px;
+        font-size: 12px;
+    }
+    .attendance-history{
+        margin-top: -15px !important;
+    }
+    .desktop-filter{
+        display: none;
+    }
+    .new-announcement {
+        font-size: 12px;
+        padding: 7px 10px;
+    }
+    .attendance-date .ant-picker {
+        width: 115px !important;
+    }
+    .expense-data{
+        margin-bottom: 15px;
+    }
+    .empOnnoardtable{
+        margin-bottom: 60px;
+    }
+    .bill-image{
+        display: none;
+    }
   }

@@ -1,11 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import saveAs from 'file-saver';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 import { constant } from 'src/app/constant/constant';
 import { Key } from 'src/app/constant/key';
 import { StatusKeys } from 'src/app/constant/StatusKeys';
 import { EmployeeMonthWiseSalaryData } from 'src/app/models/employee-month-wise-salary-data';
 import { HelperService } from 'src/app/services/helper.service';
+import { PayrollService } from 'src/app/services/payroll.service';
 import { SalaryService } from 'src/app/services/salary.service';
 
 @Component({
@@ -28,6 +31,27 @@ export class PaymentHistoryComponent implements OnInit {
   readonly constant = constant;
   readonly StatusKeys = StatusKeys;
 
+  private searchSubject = new Subject<boolean>();
+
+  constructor(
+    private _salaryService: SalaryService,
+    private _payrollService : PayrollService,
+     public _helperService: HelperService,
+      private http: HttpClient) {
+
+         this.searchSubject
+                  .pipe(debounceTime(250)) // Wait for 250ms before emitting the value
+                  .subscribe(searchText => {
+                    this.searchByInput(searchText);
+                  });
+
+  }
+
+  ngOnInit(): void {
+    window.scroll(0, 0);
+    this.getFirstAndLastDateOfMonth(this.selectedDate);
+  }
+
 
   isShimmer = false;
   dataNotFoundPlaceholder = false;
@@ -37,19 +61,6 @@ export class PaymentHistoryComponent implements OnInit {
     this.dataNotFoundPlaceholder = false;
     this.networkConnectionErrorPlaceHolder = false;
     this.employeeMonthWiseSalaryDataList  = [];
-  }
-
-  constructor(
-    private _salaryService: SalaryService,
-     public _helperService: HelperService,
-     private dataService:DataService,
-      private http: HttpClient) {
-
-  }
-
-  ngOnInit(): void {
-    window.scroll(0, 0);
-    this.getFirstAndLastDateOfMonth(this.selectedDate);
   }
 
 
@@ -88,6 +99,7 @@ export class PaymentHistoryComponent implements OnInit {
       .subscribe((response) => {
           if (response.object == null || response.object.length == 0) {
             this.dataNotFoundPlaceholder = true;
+            this.totalItems = 0;
           } else {
             this.employeeMonthWiseSalaryDataList = response.object;
             this.totalItems = response.totalItems;
@@ -111,39 +123,43 @@ export class PaymentHistoryComponent implements OnInit {
   }
 
 
-  startIndex(): number {
-    return (this.pageNumber - 1) * this.itemPerPage + 1;
+  searchDebounce(event:any){
+    this.searchSubject.next(event)
   }
 
-  lastIndex(): number {
-    return Math.min(this.pageNumber * this.itemPerPage, this.totalItems);
+  searchByInput(event: any) {
+    // this.isBeingSearch = true;
+    var inp = String.fromCharCode(event.keyCode);
+    if (event.type == 'paste') {
+      let pastedText = event.clipboardData.getData('text');
+      if (pastedText.length > 2) {
+        this.pageNumber = 1;
+        this.getMonthWiseSalarySlipData();
+      }
+
+    }else {
+      if (this.search.length > 2 && /[a-zA-Z0-9.@]/.test(inp)) {
+        this.pageNumber = 1;
+        this.getMonthWiseSalarySlipData();
+
+      }else if (event.code == 'Backspace' && (event.target.value.length >= 3)) {
+        this.pageNumber = 1;
+        this.getMonthWiseSalarySlipData();
+
+      }else if (this.search.length == 0) {
+        this.pageNumber = 1;
+        this.search = '';
+        this.getMonthWiseSalarySlipData();
+      }
+    }
   }
 
-
-  resetCriteriaFilter() {
+  resetSearch(){
     this.pageNumber = 1;
-    this.totalItems = 0;
+    this.totalItems= 0;
     this.search = '';
-  }
-
-  resetCriteriaFilterMicro() {
-    this.pageNumber = 1;
-    this.totalItems = 0;
-  }
-
-  searchUsers(event: Event) {
-    this._helperService.ignoreKeysDuringSearch(event);
-    this.pageNumber = 1;
-    this.totalItems = 0;
     this.getMonthWiseSalarySlipData();
   }
-
-  // Clearing search text
-  clearSearch() {
-    this.resetCriteriaFilter();
-   this.getMonthWiseSalarySlipData();
-  }
-
 
 
 
@@ -198,20 +214,21 @@ export class PaymentHistoryComponent implements OnInit {
     }
   }
 
-  togglePayslipStatus(monthId:number){
-    this.monthWiseIds = [];
-    this.monthWiseIds.push(monthId);
-    this.updatePaySlipStatus();
-
-  }
 
 
-  updatePaySlipStatus(){
-    this._salaryService.updateSalarySlipStatus(this.monthWiseIds).subscribe(
+
+  togglePayslipStatus( data: EmployeeMonthWiseSalaryData){
+
+    var ids : number[]= [];
+    ids.push(data.id);
+    this._salaryService.updateSalarySlipStatus(ids).subscribe(
       (response) => {
         if(response.status){
-          this.getMonthWiseSalarySlipData();
+          data.isSlipHold = data.isSlipHold == 1? 0: 1;
           this._helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
+        }else{
+          data.isSlipHold = data.isSlipHold == 0? 1: 0;
+          this._helperService.showToast(response.message, Key.TOAST_STATUS_ERROR);
         }
       },(error) => {
 
@@ -254,15 +271,14 @@ export class PaymentHistoryComponent implements OnInit {
 
 
 
-  isAll:number=0;
+  isAll:number=1;
   processing:boolean=false;
-  generatePayslip(isAll:number){
+  generatePayslip(){
     this.processing=true;
-    var ids :number[] =[];
-    if(isAll==0){
-      ids = this.monthWiseIds;
+    if(this.monthWiseIds.length>0){
+      this.isAll = 0;
     }
-    this._salaryService.generatePaySlip(this.startDate, this.endDate,ids,isAll).subscribe(
+    this._salaryService.generatePaySlip(this.startDate, this.endDate,this.monthWiseIds,this.isAll).subscribe(
       (response) => {
         if(response.status){
           this.monthWiseIds =[];
@@ -278,6 +294,29 @@ export class PaymentHistoryComponent implements OnInit {
       },
       (error) => {
         this.processing=false;
+      }
+    );
+  }
+
+
+
+  downloading:boolean=false;
+  downloadBankReport(){
+    this.downloading=true;
+    this._payrollService.getPayrollBankReport(this.startDate, this.endDate).subscribe(
+      (response) => {
+        if(response.status){
+          const downloadLink = document.createElement('a');
+          downloadLink.href = response.object;
+          downloadLink.download = 'payroll_bank_report.xlsx';
+          downloadLink.click();
+        }else{
+          this._helperService.showToast('Bank Detail Not Found', Key.TOAST_STATUS_ERROR);
+        }
+        this.downloading=false;
+      },
+      (error) => {
+        this.downloading=false;
       }
     );
   }

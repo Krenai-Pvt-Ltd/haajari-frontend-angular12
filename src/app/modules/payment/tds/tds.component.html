@@ -70,7 +70,6 @@
               </div>
 
               <div class="" style="width: 80%">
-                <form role="search" class="searching ng-untouched ng-pristine ng-valid" (submit)="searchUsers($event)">
                   <div class="form-group" style="
                     position: relative;
                     width: 100%;
@@ -80,18 +79,14 @@
 
                     <input type="text" id="searchText" placeholder="Search by name or email..."
                       class="form-control me-2 ng-untouched ng-pristine ng-valid attendance-details-search"
-                      (keyup)="searchUsers($event)" [(ngModel)]="search" [ngModelOptions]="{ standalone: true }" style="
-                      padding: 10px 40px;
-                      padding-right: 20px;
-                      flex-grow: 1;
-                    " />
+                      (keyup)="searchDebounce($event)" (paste)="searchDebounce($event)" [(ngModel)]="search"
+                      [ngModelOptions]="{ standalone: true }" style="padding: 10px 40px; padding-right: 20px;flex-grow: 1;" />
                     <i class="bi bi-search search-icon" style="margin: auto; margin-left: 15px"></i>
-                    <button *ngIf="search.length !== 0" type="button" class="btn close-btn" (click)="clearSearch()"
+                    <button *ngIf="search.length > 0" type="button" class="btn close-btn" (click)="resetSearch()"
                       style="position: absolute; right: 20px">
                       <i class="bi bi-x mt-auto mb-auto"></i>
                     </button>
                   </div>
-                </form>
               </div>
 
 
@@ -105,22 +100,23 @@
                 <th>Employee</th>
                 <th>Email</th>
                 <th>Phone</th>
-                <th>EPF</th>
-                <th>ESI</th>
+                <th>Employee's PF</th>
+                <th>Employer's PF</th>
+                <th>Employee's ESI</th>
+                <th>Employer's ESI</th>
                 <th>TDS</th>
-                <th>Status</th>
               </tr>
             </thead>
             <ng-container *ngIf="
               isShimmer &&
-                employeeMonthWiseSalaryDataList.length === 0 &&
+              statutoryMonthDeductions.length === 0 &&
                 !dataNotFoundPlaceholder &&
                 !networkConnectionErrorPlaceHolder;
               else attendanceDataCondition
             ">
               <tbody>
                 <tr *ngFor="let item of [].constructor(8)">
-                  <td class="text-center" *ngFor="let item of [].constructor(7)">
+                  <td class="text-center" *ngFor="let item of [].constructor(8)">
                     <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
                   </td>
                 </tr>
@@ -129,13 +125,13 @@
 
             <ng-template #attendanceDataCondition>
               <ng-container *ngIf="
-                employeeMonthWiseSalaryDataList.length !== 0 &&
+                statutoryMonthDeductions.length !== 0 &&
                   !dataNotFoundPlaceholder &&
                   !networkConnectionErrorPlaceHolder;
                 else errorConditionWhileFetchingEmployeeSalaryData
               ">
                 <tbody>
-                  <tr *ngFor="let employee of employeeMonthWiseSalaryDataList">
+                  <tr *ngFor="let employee of statutoryMonthDeductions">
                     <td>
                       <img onerror="this.src='./assets/images/broken-image-icon.jpg';"
                         [src]=" employee.image ? employee.image : 'assets/images/broken-image-icon.jpg'" alt=""
@@ -144,29 +140,11 @@
                     </td>
                     <td>{{ employee.email || 'N/A'}}</td>
                     <td>{{ employee.phone || 'N/A'}}</td>
-                    <td>
-                      ₹{{
-                      employee.epfAmount ? (employee.epfAmount | number) : "0"
-                      }}
-                    </td>
-                    <td>
-                      ₹{{
-                      employee.esiAmount ? (employee.esiAmount | number) : "0"
-                      }}
-                    </td>
-                    <td>
-                      ₹{{
-                      employee.tdsAmount ? (employee.tdsAmount | number) : "0"
-                      }}
-                    </td>
-                    <td>
-                      <span class="badge rounded-pill" [ngClass]="{
-                        'badge-soft-success': employee.payStatusId ==  StatusKeys.PAYROLL_PROCESSED,
-                        'badge-soft-warning': employee.payStatusId ==  StatusKeys.PAYROLL_IN_PROCESS
-                      }">
-                        {{ employee.payStatusId === StatusKeys.PAYROLL_PROCESSED? 'PROCESSED': 'IN PROCESS' }}
-                      </span>
-                    </td>
+                    <td> ₹{{ employee.employeeEpf  }} </td>
+                    <td> ₹{{ employee.employerEpf  }} </td>
+                    <td> ₹{{ employee.employeeEsi  }} </td>
+                    <td> ₹{{ employee.employerEsi  }} </td>
+                    <td> ₹{{employee.tds}}</td>
                   </tr>
                 </tbody>
               </ng-container>

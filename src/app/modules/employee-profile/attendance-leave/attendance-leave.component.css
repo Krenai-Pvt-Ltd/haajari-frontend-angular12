@@ -1244,3 +1244,83 @@ div[ngbTooltip] {
     border: 1px solid #6666F2;
     color: #fff;
 }
+
+.section-border{
+    border-right: 1px solid #EDEFF5;
+}
+.filter-btn{
+    display: none;
+}
+.mobile-filter{
+    display: none;
+}
+
+@media screen and (max-width: 500px) {
+    .mobile-filter-section{
+        flex-direction: column;
+        align-items: start !important;
+    }
+    .mobile-filter-section .mobile-week-data{
+        margin-top: 15px;
+    }
+    .total-detail{
+        margin-top: 15px;
+    }
+    .section-border{
+        border-right: none;
+    }
+    .col-sm-6{
+        width: 50%;
+    }
+    .col-md-3-summary {
+        width: 25%;
+    }
+
+    .leave-summery-box{
+        height: 40px;
+    }
+    .obboard-employee-list{
+        margin-top: 20px;
+    }
+    .leave-request {
+        min-width: 135px;
+        display: block !important;
+        text-align: center;
+    }
+    .desktop-filter{
+        display: none;
+    }
+    .filter-btn{
+        display: block;
+    }
+    .mobile-filter{
+        display: block;
+        border: 1px solid #f2f2f2;
+        height: 45px;
+    }
+
+    .mobile-filter .empFilerDropfilter .new-deopdown {
+        width: 170px;
+        padding: 10px 0.5rem;
+    }
+    .requests-btn {
+        margin-bottom: 0px;
+    }
+    .nav-link {
+        margin-right: 10px;
+        font-size: 12px;
+    }
+    .attendance-history{
+        margin-top: -15px !important;
+    }
+    .ant-radio-button-wrapper {
+        color: #6B7280 !important;
+        font-weight: 500;
+        min-width: 55px;
+        text-align: center;
+        font-size: 10px !important;
+        padding: 0px 10px;
+    }
+
+
+}

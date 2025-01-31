@@ -971,7 +971,7 @@
                       <span class="text-optional" *ngIf="onboardingViaString === 'SLACK'">*</span></label>
 
                     <input type="email" name="userEmail{{ i }}" [(ngModel)]="user.email" #email="ngModel"
-                      pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}" placeholder="Enter Email"
+                      pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z0-9.-]{2,20}" placeholder="Enter Email"
                       class="form-control profile-input" (keyup)="checkEmailExistance(i, user.email, user.uuid)" />
                     <p *ngIf="userList[i].isEmailExist" class="error mt-2 mb-2 text-danger">
                       This email already exist.

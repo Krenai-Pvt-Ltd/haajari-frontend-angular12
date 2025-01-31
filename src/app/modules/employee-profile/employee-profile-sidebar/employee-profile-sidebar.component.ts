@@ -36,7 +36,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
   userId: any;
   myForm: FormGroup;
   modal: any;
-  constructor(private dataService: DataService, private modalService: NgbModal, private fb: FormBuilder,
+  constructor(public dataService: DataService, private modalService: NgbModal, private fb: FormBuilder,
     private activateRoute: ActivatedRoute,
     public helperService: HelperService,
     private employeeProfileComponent: EmployeeProfileComponent,
@@ -259,7 +259,10 @@ export class EmployeeProfileSidebarComponent implements OnInit {
   teams: string[] = [];
 
   splitTeams(): void {
-    this.teams = this.teamString.split(',').map((team: string) => team.trim());
+    if(this.teamString!=null ){
+      this.teams = this.teamString.split(',').map((team: string) => team.trim());
+    }
+    
     console.log(this.teams);
   }
 
@@ -299,10 +302,10 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     this.InOutLoader = true;
     if (command === '/out') {
       this.outLoader = true;
-      this.urlModalTemplate.nativeElement.click();
+      
     }
     if (command === '/in') {
-      this.urlModalTemplate.nativeElement.click();
+      
     }
     if (command === '/break') {
       this.breakLoader = true;
@@ -329,6 +332,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
             'uuid' : params.get('userUuid')
           }
           this.showAttendanceComponent=true;
+          this.urlModalTemplate.nativeElement.click();
         } else {
           // Show toast with success message
           this.helperService.showToast(data.message, Key.TOAST_STATUS_SUCCESS);
@@ -470,6 +474,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
   }
   isSaving: boolean = false;
   saveButtonLoader: boolean = false;
+  @ViewChild('closePromotionButton') closePromotionButton!: ElementRef;
   onSubmit() {
     debugger
     this.saveButtonLoader = true;
@@ -488,12 +493,32 @@ export class EmployeeProfileSidebarComponent implements OnInit {
       this.dataService.saveUserPosition(userPositionDTO).subscribe(
         (response) => {
           console.log('Position saved successfully', response);
+          this.helperService.showToast('Position saved successfully', Key.TOAST_STATUS_SUCCESS);
           /// get only sidebar component data
-          window.location.reload();
+          this.closePromotionButton.nativeElement.click();
+          this.fetchUserPositions();
+          this.saveButtonLoader = false;
+          this.myForm = this.fb.group({
+            position: ['', Validators.required],  
+            effectiveDate: ['', Validators.required],
+            isProbation: [false],
+            endDate: [''],
+            newCTC: [''],
+          });
         },
         (error) => {
           console.error('Error saving position', error);
           // Optionally, show an error message
+          this.closePromotionButton.nativeElement.click();
+          this.fetchUserPositions();
+          this.saveButtonLoader = false;
+          this.myForm = this.fb.group({
+            position: ['', Validators.required],  
+            effectiveDate: ['', Validators.required],
+            isProbation: [false],
+            endDate: [''],
+            newCTC: [''],
+          });
         }
       );
     }
