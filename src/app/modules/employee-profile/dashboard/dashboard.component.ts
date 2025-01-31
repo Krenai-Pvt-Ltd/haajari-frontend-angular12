@@ -1104,7 +1104,16 @@ navigateMonth(direction: 'prev' | 'next'): void {
 }
 
 onInitiateExitClick() {
-  this.modalService.openInitiateExitModal(this.userId, this.ROLE);
+  this.modalService.openInitiateExitModal(this.userId, this.ROLE).then(
+    (result) => {
+      this.getUserResignationInfo();
+      this.getNoticePeriodDuration();
+    },
+    (reason) => {
+      this.getUserResignationInfo();
+      this.getNoticePeriodDuration();
+    }
+  );
 }
 
 
