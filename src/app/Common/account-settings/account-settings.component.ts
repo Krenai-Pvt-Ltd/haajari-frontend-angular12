@@ -118,10 +118,16 @@ export class AccountSettingsComponent implements OnInit {
   currentPassword: string = '';
   confirmPassword: string = '';
   onSubmit() {
+    const passwordPattern = /^(?=.*[A-Z])(?=.*[\W_]).{8,}$/;
 
     if(this.userPasswordRequest.newPassword !== this.confirmPassword) {
       this.errorMessage = 'Passwords do not match.';
       this.helperService.showToast('Passwords do not match.', Key.TOAST_STATUS_ERROR);
+      return;
+    }
+    if (!passwordPattern.test(this.userPasswordRequest.newPassword)) {
+      this.errorMessage = 'Password must be at least 8 characters long, contain at least one uppercase letter and one special character.';
+      this.helperService.showToast(this.errorMessage, Key.TOAST_STATUS_ERROR);
       return;
     }
     this.userPasswordRequest.currentPassword = this.currentPassword;
@@ -135,6 +141,8 @@ export class AccountSettingsComponent implements OnInit {
           this.errorMessage = '';
           this.userPasswordRequest = new UserPasswordRequest();
           this.helperService.showToast('Password updated successfully', Key.TOAST_STATUS_SUCCESS);
+          this.currentPassword='';
+          this.confirmPassword='';
         }
       },
       error: (error) => {
@@ -167,6 +175,7 @@ export class AccountSettingsComponent implements OnInit {
             this.dataService
               .updateProfilePic(url)
               .subscribe(() => {
+                this.dataService.employeeData.profilePic=url;
                 this.helperService.showToast('Profile picture updated successfully', Key.TOAST_STATUS_SUCCESS);
                 this.getEmployeeProfileData();
               });
