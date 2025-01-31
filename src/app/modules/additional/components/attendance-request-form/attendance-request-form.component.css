@@ -1,0 +1,92 @@
+.assets-request-form{
+    width: 30%;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 2% auto;
+    max-width: 600px;
+}
+.submitActionBtn {
+    background-color: var(--primary-background-color);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 500;
+    border-radius: 2px;
+    min-width: 100px;
+}
+
+.cancel-btn {
+    background-color: #fbfbfb;
+    border: 1px solid #e6e7e9;
+    border-radius: 2px;
+    color: #4a4a4a;
+    font-size: 12px;
+    font-weight: 500;
+    width: 100px;
+}
+.requesting-half-leave {
+    background-color: rgba(236, 236, 236, 0.21) !important;
+    min-height: 45px;
+    border: 1px solid #e9e9e9;
+    border-radius: 2px;
+}
+.register-form-box label{
+    color: rgba(0, 0, 0, 0.85);
+    font-size: 14px !important;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20.854px;
+    letter-spacing: 0.102px;
+}
+
+.assets-req {
+    border: 1px solid #f1f1f1;
+    border-radius: 2px;
+    height: 47px;
+    margin-bottom: 0px;
+    background-color: #fff;
+}
+.assets-req input {
+    left: 15px !important;
+    position: relative;
+    top: -2px;
+}
+.requesting-half-leave label p{
+    padding-left: 25px;
+}
+.updated-timing .ant-picker {
+    padding-left: 90px;
+}
+.updated-timing-input-box {
+    position: absolute;
+    top: 42px;
+    left: 20px;
+    font-size: 14px;
+    font-weight: 400;
+    border-right: 1px solid #ccc;
+    padding-right: 10px;
+}
+.nots-section {
+    background-color: rgba(236, 236, 236, 0.21) !important;
+    width: 100%;
+    height: 80px !important;
+    border: 1px solid #e9e9e9;
+}
+.updated-timing-input {
+    position: absolute;
+    top: 11px;
+    left: 20px;
+    font-size: 14px;
+    font-weight: 400;
+    border-right: 1px solid #ccc;
+    padding-right: 10px;
+}
+.time-update .ant-picker {
+    padding-left: 50px;
+}
+.updated-timing svg {
+    position: relative;
+    top: -2px;
+    width: 16px;
+}

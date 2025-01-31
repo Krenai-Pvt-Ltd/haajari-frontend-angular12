@@ -46,6 +46,7 @@ export class Routes {
     public static SUBSCRIPTION = "/setting/subscription"
     public static ACCOUNTSETTINGS = "/setting/account-settings"
     public static INBOX = "/inbox"
+    public static ASSETSMANAGEMENT = "/assets-management"
     
  /**
     * DYNAMIC ROUTES END

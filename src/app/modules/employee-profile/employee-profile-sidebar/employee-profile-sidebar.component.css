@@ -1271,5 +1271,96 @@ input[type=radio], input[type=checkbox] {
     width: 1rem;
     height: 1rem;
 }
+.sidebar-close-btn{
+    display: none;
+    }
+    .logout-btn i{
+       color: #6666F2;
+    }
+
+@media screen and (max-width: 500px) {
+   
+    .mobileMenufixed{
+        position: fixed;
+        z-index: 99999;
+        width: 100%;
+        height: 100%;
+        left: -110%;
+        right: 0;
+        top: 0;
+        transition: .2s ease-in;
+    }
+    .menuVisible {
+        left: 0 !important;
+        background-color: #fff;
+    }
+    .sidebar-close-btn{
+        position: absolute;
+        right: 20px;
+        top: 15px;
+    }
+    .log-out-btn-box{
+        width: 100%;
+    }
+    .sidebar-close-btn{
+    display: block;
+    }
+    .list-top{
+        right: 165px !important;
+    }
+    .list-top::before {
+        left: 78%;
+    }
+    span.members-namess {
+        width: 35px;
+        height: 35px;
+        font-size: 14px;
+    }
+    .login-user-name {
+        font-size: 14px;
+        width: 190px;
+    }
+    .login-user-phone-number {
+        font-size: 12px;
+        width: 190px;
+    }
+    .logout-btn i{
+       font-size: 18px;
+     }
+
+     .employee-detail p {
+        font-size: 13px !important;
+    }
+
+    .employe-about p {
+        font-size: 13px !important;
+    }
+    .employe-about h5{
+        font-size: 14px !important;
+    }
+
+    .close-btn {
+        width: 0px;
+        height: 0px;
+        border-radius: 50%;
+        position: absolute;
+        right: 30px;
+        top: 15px;
+        background-color: transparent;
+        opacity: 1;
+        box-shadow: none;
+        z-index: 10;
+    }
+
+    .log-out-btn-box{
+        position: relative;
+    }
+    .menuVisible .log-out-btn-box{
+        position: fixed;
+    }
+    
+
+}
+
 
 /** Approve Modal end */

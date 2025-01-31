@@ -179,6 +179,11 @@ export class TopbarComponent implements OnInit {
       routeDesc="Your Centralize Notifications Hub"
       break;
     }
+    case this.Routes.ASSETSMANAGEMENT:{
+      routeValue = 'Assets';
+      routeDesc="Track and Assign Company Assets"
+      break;
+    }
 
    }
 

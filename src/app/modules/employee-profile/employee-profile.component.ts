@@ -14,7 +14,7 @@ import { Key } from 'src/app/constant/key';
 export class EmployeeProfileComponent implements OnInit {
 
   constructor(public roleService: RoleBasedAccessControlService, private dataService: DataService,
-    private activateRoute: ActivatedRoute, private _helperService: HelperService, private router: Router,
+    private activateRoute: ActivatedRoute, public _helperService: HelperService, private router: Router,
   ) {
     this.UUID =  this.roleService.getUuid();
     // this.currentUserUuid = await this.roleService.getUuid();
@@ -140,6 +140,9 @@ export class EmployeeProfileComponent implements OnInit {
       }
     );
   }
+
+
+  
 
 
 

@@ -22,7 +22,7 @@
             </div>
           </ng-container>
           <ng-template #monthList>
-            <div class="file-box-content d-flex">
+            <div #monthListContainer class="file-box-content d-flex overflow-auto">
               <div class="file-box" *ngFor="let monthResponse of monthResponseList"
                 [class.disabled]="monthResponse.disable" [ngClass]="{
                 'selected-month-color':
@@ -65,13 +65,26 @@
             </div>
 
             <div class="payroll-next-prev-btn">
+              <span class="payroll-next position-absolute d-flex align-items-center justify-content-center"
+                    [class.disabled]="isLeftDisabled"
+                    (click)="moveLeft()">
+                <i class="bi bi-chevron-left position-relative"></i>
+              </span>
+              <span class="payroll-prev position-absolute d-flex align-items-center justify-content-center"
+                    [class.disabled]="isRightDisabled"
+                    (click)="moveRight()">
+                <i class="bi bi-chevron-right position-relative"></i>
+              </span>
+            </div>
+            
+            <!-- <div class="payroll-next-prev-btn">
               <span class="payroll-next position-absolute d-flex align-items-center justify-content-center">
                 <i class="bi bi-chevron-left position-relative"></i>
               </span>
               <span class="payroll-prev position-absolute d-flex align-items-center justify-content-center">
                 <i class="bi bi-chevron-right position-relative"></i>
               </span>
-            </div>
+            </div> -->
           </ng-template>
         </div>
         <div class="mt-4">
@@ -132,20 +145,38 @@
                   </li>
                   <li class="list-inline-item">
                     <div class="ps-3">
-                      <p class="text-muted font-12 mb-0">EPF</p>
-                      <h5 class="mb-0"> ₹ {{ organizationMonthWiseSalaryData?.epfAmount || 0 }}
+                      <p class="text-muted font-12 mb-0">Employee's PF</p>
+                      <h5 class="mb-0"> ₹ {{ organizationMonthWiseSalaryData?.employeeEpf || 0 }}
                       </h5>
                       <small class="text-success">{{organizationPreviousMonthSalaryData.month}} ₹ {{
-                        organizationPreviousMonthSalaryData?.epfAmount || 0 }}</small>
+                        organizationPreviousMonthSalaryData?.employeeEpf || 0 }}</small>
                     </div>
                   </li>
                   <li class="list-inline-item">
                     <div class="ps-3">
-                      <p class="text-muted font-12 mb-0">ESI</p>
-                      <h5 class="mb-0"> ₹ {{ organizationMonthWiseSalaryData?.esiAmount || 0 }}
+                      <p class="text-muted font-12 mb-0">Employer's PF</p>
+                      <h5 class="mb-0"> ₹ {{ organizationMonthWiseSalaryData?.employerEpf || 0 }}
                       </h5>
                       <small class="text-success">{{organizationPreviousMonthSalaryData.month}} ₹ {{
-                        organizationPreviousMonthSalaryData?.esiAmount || 0 }}</small>
+                        organizationPreviousMonthSalaryData?.employerEpf || 0 }}</small>
+                    </div>
+                  </li>
+                  <li class="list-inline-item">
+                    <div class="ps-3">
+                      <p class="text-muted font-12 mb-0">Employee's ESI</p>
+                      <h5 class="mb-0"> ₹ {{ organizationMonthWiseSalaryData?.employeeEsi || 0 }}
+                      </h5>
+                      <small class="text-success">{{organizationPreviousMonthSalaryData.month}} ₹ {{
+                        organizationPreviousMonthSalaryData?.employeeEsi || 0 }}</small>
+                    </div>
+                  </li>
+                  <li class="list-inline-item">
+                    <div class="ps-3">
+                      <p class="text-muted font-12 mb-0">Employer's ESI</p>
+                      <h5 class="mb-0"> ₹ {{ organizationMonthWiseSalaryData?.employerEsi || 0 }}
+                      </h5>
+                      <small class="text-success">{{organizationPreviousMonthSalaryData.month}} ₹ {{
+                        organizationPreviousMonthSalaryData?.employerEsi || 0 }}</small>
                     </div>
                   </li>
                   <li class="list-inline-item">

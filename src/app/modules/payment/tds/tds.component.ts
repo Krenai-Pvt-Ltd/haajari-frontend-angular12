@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { StatusKeys } from 'src/app/constant/StatusKeys';
 import { EmployeeMonthWiseSalaryData } from 'src/app/models/employee-month-wise-salary-data';
+import { StatutoryMonthDeduction } from 'src/app/models/StatutoryMonthDeduction';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { SalaryService } from 'src/app/services/salary.service';
@@ -28,7 +29,7 @@ export class TdsComponent implements OnInit {
     this.isShimmer = true;
     this.dataNotFoundPlaceholder = false;
     this.networkConnectionErrorPlaceHolder = false;
-    this.employeeMonthWiseSalaryDataList = [];
+    this.statutoryMonthDeductions = [];
   }
 
   constructor(private _dataService: DataService,
@@ -44,18 +45,17 @@ export class TdsComponent implements OnInit {
 
 
   mainPlaceholderFlag : boolean = false;
-  employeeMonthWiseSalaryDataList: EmployeeMonthWiseSalaryData[] = [];
+  statutoryMonthDeductions: StatutoryMonthDeduction[] = [];
   getEmployeeMonthWiseSalaryDataMethodCall() {
     this.preRuleForShimmersAndErrorPlaceholders();
-    this._salaryService.getMonthWiseSalaryData(this.startDate,this.endDate,this.itemPerPage,this.pageNumber,this.search)
+    this._salaryService.getMonthWiseStatutoryDeduction(this.startDate,this.endDate,this.itemPerPage,this.pageNumber,this.search)
       .subscribe((response) => {
           if (response.object == null || response.object.length ==0) {
             this.dataNotFoundPlaceholder = true;
 
           } else {
-            this.employeeMonthWiseSalaryDataList = response.object;
-            this.totalItems = response.totalItems;
-            // this.lastPageNumber = Math.ceil(this.totalItems / this.itemPerPage);            
+            this.statutoryMonthDeductions = response.object;
+            this.totalItems = response.totalItems;          
           }
           this.isShimmer = false;
         },
@@ -136,26 +136,5 @@ export class TdsComponent implements OnInit {
    this.getEmployeeMonthWiseSalaryDataMethodCall();
   }
 
-  //COMMENT BY ABHIJEET
-  // employeeMonthWiseSalaryData: EmployeeMonthWiseSalaryData = new EmployeeMonthWiseSalaryData();
-  // @ViewChild('epfTdsEditButton') epfTdsEditButton!:ElementRef;
-  // openEpfModal(data: EmployeeMonthWiseSalaryData){
-  //   this.employeeMonthWiseSalaryData = JSON.parse(JSON.stringify(data));
-  //   this.epfTdsEditButton.nativeElement.click();
-  // }
-
-  // updateEmployeeData(){
-  //   this._salaryService.updateEmployeeData(this.employeeMonthWiseSalaryData).subscribe((response) => {
-  //       if(response.status){
-  //         this.getEmployeeMonthWiseSalaryDataMethodCall();
-  //         this.helperService.showToast(response.message,Key.TOAST_STATUS_SUCCESS);
-  //       }else{
-  //         this.helperService.showToast(response.message,Key.TOAST_STATUS_ERROR);
-  //       }
-  //     },(error) => {
-
-  //     }
-  //   );
-  // }
 
 }

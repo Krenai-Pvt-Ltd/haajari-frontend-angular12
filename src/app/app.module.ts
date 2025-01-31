@@ -47,8 +47,7 @@ import { ExitModalComponent } from './modules/common/exit-modal/exit-modal.compo
     HeaderComponent,
     SubscriptionExpiredComponent,
     SubscriptionRestrictedComponent,
-    ExitModalComponent
-
+    ExitModalComponent,
   ],
   imports: [
     CommonModule,

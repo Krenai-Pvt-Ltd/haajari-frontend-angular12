@@ -37,6 +37,7 @@ import { CreateExpenseComponent } from './components/create-expense/create-expen
 import { ExistPolicyComponent } from './components/exist-policy/exist-policy.component';
 import { LeaveManagementsComponent } from './components/leave-managements/leave-managements.component';
 import { InboxComponent } from './components/inbox/inbox.component';
+import { AssetsManagementComponent } from './components/assets-management/assets-management.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -191,6 +192,10 @@ const routes: Routes = [
       {
         path: 'inbox',
         component: InboxComponent,
+      },
+      {
+        path: 'assets-management',
+        component: AssetsManagementComponent,
       },
     ],
   },
