@@ -41,7 +41,7 @@ export class AttendanceRequestFormComponent implements OnInit {
     }
 
     // comment
-    this.userId = '731a011e-ae1e-11ee-9597-784f4361d885';
+    // this.userId = '731a011e-ae1e-11ee-9597-784f4361d885';
 
      this.attendanceTimeUpdateForm = this.fb.group({
           requestedDate: [null, Validators.required],
