@@ -164,8 +164,19 @@
                 </div>
             </div>
             <!-- New Request end -->
-
-            <div class="col-md-12 mb-3">
+      
+            <div class="col-md-12 mb-3" *ngIf = "isAdmin">
+                <div class="badge-soft-secondary p-3">
+                    <nz-alert
+      nzType="info"
+      nzMessage="Informational Notes"
+      nzDescription="Since you are an Admin, the Manager/Admin selection is not applicable for you. Your team members will see their respective manager or admin when they log in."
+      nzShowIcon
+    ></nz-alert>
+                   
+                </div>
+              </div>
+            <div class="col-md-12 mb-3" *ngIf="!isAdmin">
                 <div class="form-group">
                     <label for="employeeTypeId" class="mb-2">Select manager to request for</label>
                     <nz-form-control>
