@@ -322,19 +322,19 @@ export class PayrollDashboardComponent implements OnInit {
   // chart data
   single = [
     {
-      name: 'Employee EPF',
+      name: 'EPF',
       value: 0
     },
     {
-      name: 'Employee ESI',
+      name: 'ESI',
       value: 0
     },
     {
-      name: 'Employer EPF',
+      name: 'EPFC',
       value: 0
     },
     {
-      name: 'Employer ESI',
+      name: 'EESIC',
       value: 0
     },
     {
@@ -355,19 +355,19 @@ export class PayrollDashboardComponent implements OnInit {
   payrollChartMehthodCall(){
     this.single = [ 
       {
-        name: 'Employee EPF',
+        name: 'EPF',
         value: this.organizationMonthWiseSalaryData.employeeEpf
       },
       {
-        name: 'Employee ESI',
+        name: 'ESI',
         value: this.organizationMonthWiseSalaryData.employeeEsi
       },
       {
-        name: 'Employer EPF',
+        name: 'EPFC',
         value: this.organizationMonthWiseSalaryData.employerEpf
       },
       {
-        name: 'Employer ESI',
+        name: 'EESIC',
         value: this.organizationMonthWiseSalaryData.employerEsi
       },
       {
@@ -385,19 +385,19 @@ export class PayrollDashboardComponent implements OnInit {
 
     this.single = [
       {
-        name: 'Employee EPF',
+        name: 'EPF',
         value: 0
       },
       {
-        name: 'Employee ESI',
+        name: 'ESI',
         value: 0
       },
       {
-        name: 'Employer EPF',
+        name: 'EPFC',
         value: 0
       },
       {
-        name: 'Employer ESI',
+        name: 'EESIC',
         value: 0
       },
       {
