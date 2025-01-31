@@ -427,7 +427,7 @@ export class UploadTeamComponent implements OnInit {
   }
 
   isValidUser(u: any): boolean {
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z0-9.-]{2,20}$/;
     return (
       !!u?.name &&
       u?.phone &&

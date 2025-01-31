@@ -4959,7 +4959,10 @@ getHolidayForOrganizationWhatsapp(userUuid: string, date: string): Observable<an
     return this.httpClient.put(`${this.baseUrl}/notification-setting/update/status/user`, {}, {params});
   }
 
-
+  updateJoiningDate(id: number, date: Date): Observable<any> {
+    const params = new HttpParams().set('id', id.toString());  // Pass id as request parameter
+    return this.httpClient.post<string>(`${this.baseUrl}/users/joining-date`, date, { params });
+  }
   
 
 }
