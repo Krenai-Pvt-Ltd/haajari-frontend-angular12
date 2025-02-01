@@ -197,6 +197,40 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     }, debounceTime);
   }
 
+  usersPage: any | null = null;
+  //search: string = '';
+  statuses: string[] = [];
+  pageable = { page: 1, size: 10, sort: '' };
+  loadUsers(): void {
+    this.dataService
+      .getUsersByOrganizationUuid(
+        this.search,
+        this.statuses,
+        this.pageable
+      )
+      .subscribe(
+        (data) => {
+          this.usersPage = data;
+        },
+        (error) => {
+          console.error('Error fetching users:', error);
+        }
+      );
+  }
+  onSort(sortField: string): void {
+    // Toggle sorting order if the same field is clicked again
+    if (this.pageable.sort && this.pageable.sort.startsWith(sortField)) {
+      const currentOrder = this.pageable.sort.endsWith('asc') ? 'desc' : 'asc';
+      this.pageable.sort = `${sortField},${currentOrder}`;
+    } else {
+      // Default to ascending order for a new field
+      this.pageable.sort = `${sortField},asc`;
+    }
+
+    this.pageable.page = 0; // Reset to the first page when sorting
+    this.loadUsers();
+  }
+
   resignationRequest(){
     this.users = [];
     this.isResignationUser = 1
