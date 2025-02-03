@@ -1456,8 +1456,12 @@ export class LeaveSettingComponent implements OnInit {
   }
 
   wfhActiveIndex: number | null = null;
+  onDutyActiveIndex:number | null = null;
   toggleCollapseWFH(index: number): void {
     this.wfhActiveIndex = this.wfhActiveIndex === index ? null : index;
+  }
+  toggleCollapseOnDuty(index: number): void {
+    this.onDutyActiveIndex = this.onDutyActiveIndex === index ? null : index;
   }
 
   deleteLeaveSettingCategoryById(id: number): void {
@@ -2315,8 +2319,15 @@ console.log('After SET Ids: ',this.selectedStaffIdsUser)
 
       if (res.status) {
         this.organizationName = res.object;
+        let type=' Leave';
+        if(this.wfhTemplateToggle){
+          type=' On Duty';
+        }
+        if(this.weekOffTemplateToggle){
+          type=' Week Off'
+        }
         // this.leaveTemplateRequest.name = this.organizationName + " Leave"
-        this.leaveTemplateRequest.name = this.organizationName + (this.wfhTemplateToggle ? ' WFH' : ' Leave')
+        this.leaveTemplateRequest.name = this.organizationName + type
       } else {
         this.organizationName = '';
       }
