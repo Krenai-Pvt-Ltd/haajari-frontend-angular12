@@ -91,9 +91,27 @@
     width: 16px;
 }
 
-@media screen and (max-width: 550px) {
-    .assets-request-form{
-        width: 100%;
-        box-shadow: none;
-    }
+::ng-deep .info-box .ant-alert-with-description {
+    align-items: flex-start;
+    padding: 15px 15px 15px 15px !important;
+}
+
+::ng-deep .info-box .ant-alert-info {
+    background-color: #6666f226 !important;
+    border: 1px solid #6666f2 !important;
+}
+
+::ng-deep .ant-alert-with-description .ant-alert-icon {
+    margin-right: 15px;
+    font-size: 20px;
+}
+::ng-deep .ant-alert-info .ant-alert-icon {
+    color: #6666F2 !important;
+}
+
+@media screen and (max-width: 500px) {
+.assets-request-form{
+   width:100%;
+   box-shadow: none;
+}
 }
