@@ -64,7 +64,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   userList: UserReq[] = new Array();
 
   currentPage: number = 1;
-  pageSize: number = 10; // Adjust based on your requirements
+  pageSize: number = 7; // Adjust based on your requirements
   totalPage: number = 0;
 
   onPageChange(page: number) {
@@ -1969,15 +1969,15 @@ console.log(this.data);
 @ViewChild('duesWarningModalButton') duesWarning!:ElementRef;
   validateDuesInvoice(modal:any){
     // console.log("================validate======",modal);
-    if(this._subscriptionService.isDuesInvoice){
-      this.duesWarning.nativeElement.click();
-    }else{
+    // if(this._subscriptionService.isDuesInvoice){
+    //   this.duesWarning.nativeElement.click();
+    // }else{
       if(modal == 'add'){
         this.addEmployee.nativeElement.click();
       }else{
         this.bulkUpload.nativeElement.click();
       }
-    }
+    // }
   }
 
 
@@ -2477,6 +2477,16 @@ console.log(this.data);
     this.getUsersByFiltersFunction();
     this.getUser();
     this.closeNotificationModalFlag = false;
+  }
+
+  kuchbhi(type:string){
+    this.enableWhatsAppNotification  = false
+    this.enableEmailNotification  = false
+    if(type=='whatsapp') {
+      this.enableWhatsAppNotification = true
+    } else {
+      this.enableEmailNotification  = true
+    }
   }
 
 }

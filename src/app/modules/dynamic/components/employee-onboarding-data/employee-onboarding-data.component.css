@@ -27,21 +27,9 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  /* Space between elements */
 }
-
-/* .select-all-page {
-  color: #007bff !important;
-  font-weight: bold; 
-} */
-
-.orderpcardleft {
-  width: 80%;
-}
-
-.employe-onbording.empSelected {
-  /* background-color: #f5f5ff; */
-  border: 1px solid #6666f3;
+.min-w-200{
+  min-width: 200px !important;
 }
 
 .orderpcardlefth6 {
@@ -941,7 +929,7 @@ Remove border from nz-select .ant-select:not(.ant-select-customize-input) .ant-s
 .excelUploadTable tbody td>input {
   background: #fff !important;
   border: 1px solid #f1f1f1;
-  height: 35px;
+  height: 40px;
   font-weight: 400 !important;
   font-size: 12px !important;
   line-height: 18px;
@@ -955,19 +943,7 @@ Remove border from nz-select .ant-select:not(.ant-select-customize-input) .ant-s
   min-height: 35px !important;
 }
 
-.excelUploadTable .whatapp-login-input {
-  /* height: 35px !important; */
-  height: fit-content !important;
-  border: 1px solid #f1f1f1 !important;
-  border-radius: 2px !important;
-}
 
-.excelUploadTable .ant-select:not(.ant-select-customize-input) .ant-select-selector {
-  border-radius: 0px !important;
-  min-height: 35px !important;
-  color: #1f1f1f !important;
-  height: 35px;
-}
 
 .next-btn {
   text-align: center;
@@ -1665,4 +1641,59 @@ span.request-count {
 .btn-separator {
   border-left: 1px solid #DCDCE4;
   height: 20px;
+}
+
+.info-count{
+  background-color: #F2F4F4;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+}
+.excel-upload-file-box{
+  border: 1px dashed #ABABAB;
+  background-color: rgba(244, 247, 255, 0.30);
+  border-radius: 2px;
+  height: 300px;
+}
+
+.select-all-btn{
+  border: 1px solid #6666F2;
+  color: #6666F2;
+  padding: 5px 15px;
+}
+
+.set-current input[type=checkbox]{
+  box-sizing: border-box;
+  padding: 0;
+  accent-color: #6766f3;
+  width: 18px;
+  height: 18px;
+  border-radius: 2px;
+}
+.through-email .form-check-input {
+  width: 20px;
+  height: 20px;
+}
+
+.through-email{
+  background-color: #F1F4F9;
+  border-radius: 2px;
+  padding: 15px 15px;
+  width: 200px;
+}
+
+.through-email input{
+  margin-left: 0px;
+  margin-top: 0px;
+}
+::ng-deep .placeholder-line .ant-select-selection-placeholder {
+  line-height: 50px !important;
+  font-size: 0.875rem !important;
+  font-weight: 400 !important;
+}
+
+::ng-deep .placeholder-line .ant-select-selection-item {
+  line-height: 50px !important;
+  font-size: 0.875rem !important;
+  font-weight: 400 !important;
 }

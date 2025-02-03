@@ -599,11 +599,11 @@
                             </button>
                             <span class="btnSeprator"></span>
                             <button class="btn primaryBtnLink" type="button" (click)="validateDuesInvoice('add')">
-                              <i class="bi bi-plus-lg"></i> Add New Members
+                              <i class="bi bi-plus-lg"></i> Add Employee
                             </button>
                             <span class="btnSeprator"></span>
                             <button class="btn primaryBtnLink" type="button" (click)="validateDuesInvoice('sample')">
-                              <i class="bi bi-upload"></i> Upload Members
+                              <i class="bi bi-upload"></i> Upload Employee
                             </button>
                           </div>
                         </div>
@@ -1922,7 +1922,7 @@ Edit Request Modal End
 <!-- Modal -->
 <div class="modal fade" id="sampleFileModal" tabindex="-1" aria-labelledby="sampleFileModalLabel" aria-hidden="true" data-bs-backdrop="static"
   #sampleFileModal>
-  <div class="modal-dialog modal-xl modal-dialog-centered" style="max-width: 1400px !important;">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="sampleFileModalLabel">Sample Excel File</h5>
@@ -1935,44 +1935,48 @@ Edit Request Modal End
             onboardUserList.length == 0 &&
             !networkConnectionErrorPlaceholder
           ">
-          <div class="col-md-12">
-            <div class="card-body mt-0 p-0">
-              <div class="alert alert-light mb-0" role="alert">
-                <h4 class="alert-heading font-18">
-                  Download the Sample Excel File!
+          <div class="row" *ngIf="!(data.length > 0) ">
+            <div class="col-md-6">
+              <div class="mb-0">
+                <h4 class=" text-black fw-semibold font-16">
+                  How to download the sample Excel File!
                 </h4>
-                <p>
-                  Look for the sample file titled "Sample_Data.xlsx" and click
-                  on the download button to save it to your computer.
-                </p>
-                <p>
-                  Take a moment to review the existing data in the Excel file.
-                  This will help you understand the structure and content of the
-                  data before making any updates.
-                </p>
-                <p>
-                  <span class="text-primary">
-                    <u><a class="text-primary" href="assets/samples/HajiriBulkSheet.xlsx">Download a sample Excel file</a></u>
-                  </span>
-                  , update its data, and upload it back with the updated content
-                  on our platform
-                </p>
+                <div class="mt-3">
+                  <div class="d-flex align-items-start gap-3">
+                    <span class="info-count d-flex align-items-center justify-content-center font-13 fw-normal">1</span>
+                    <p class="mb-0 font-13">Users will receive updates on approved overtime, pending requests, <br> and payouts.</p>
+                  </div>
+                  <div class="d-flex align-items-start gap-3 mt-3">
+                    <span class="info-count d-flex align-items-center justify-content-center font-13 fw-normal">2</span>
+                    <p class="mb-0 font-13">ipsum dolor sit amet consectetur adipiscing elit Ut et massa mi.<br> Aliquam.</p>
+                  </div>
+                  <div class="d-flex align-items-start gap-3 mt-3">
+                    <span class="info-count d-flex align-items-center justify-content-center font-13 fw-normal">3</span>
+                    <p class="mb-0 font-13">Users will receive updates on approved overtime, pending requests,<br> and payouts.</p>
+                  </div>
+                  <div class="d-flex align-items-start gap-3 mt-3">
+                    <span class="info-count d-flex align-items-center justify-content-center font-13 fw-normal">4</span>
+                    <p class="mb-0 font-13">ipsum dolor sit amet consectetur adipiscing elit Ut et massa mi.<br> Aliquam.</p>
+                  </div>
+                  <div class="d-flex align-items-start gap-3 mt-3">
+                    <span class="info-count d-flex align-items-center justify-content-center font-13 fw-normal">5</span>
+                    <p class="mb-0 font-13">Users will receive updates on approved overtime,<br> <a class="text-primary" href="assets/samples/HajiriBulkSheet.xlsx"> Download the Sample EX file</a></p>
+                  </div>
+
+                </div>
               </div>
             </div>
-            <div class="card-body mt-3 p-0">
-              <div class="alert alert-light mb-0 excel-uplode-file-box text-center" style="border: 2px dashed #dddd">
+            <div class="col-md-6">
+              <div class="mb-0 excel-upload-file-box text-center d-flex align-items-center justify-content-center flex-column">
                 <input id="fileSelect" type="file" name="img[]" accept=".xlsx, .xls" class="input"
                   (change)="selectFile($event)" />
                 <img src="assets/images/excel.svg" style="width: 50px" class="pb-3" />
-                <p>
-                  Drag file here to upload or,
-                  <u><a class="text-primary" href="#!">Choose file</a></u>
-                </p>
+                <p class="mb-0 ">Drag file here to upload or, <a class="text-primary" href="#!">Choose file</a></p>
                 <div *ngIf="isProgressToggle" class="spinner-border text-success" role="status"></div>
               </div>
             </div>
           </div>
-          <div #attention class="create-password-warning waring-box p-3 mb-0 mt-4 ng-star-inserted text-start" *ngIf="
+          <div #attention class="create-password-warning waring-box p-3 mb-0text-start mb-3 mt-3" *ngIf="
               alreadyUsedPhoneNumberArray.length > 0 ||
               alreadyUsedEmailArray.length > 0 ||
               this.mismatches.length > 0 ||
@@ -1991,52 +1995,45 @@ Edit Request Modal End
                 Emails: {{ formatAsCommaSeparated(alreadyUsedEmailArray) }}
               </li>
               <li class="mb-1" *ngIf="isErrorToggle">Error: {{ errorMessage }}</li>
-
-
             </ul>
           </div>
-          <div class="create-password-warning mb-0 mt-4 text-start" *ngIf="data.length > 0 && isinvalid ">
+          <div class="create-password-warning mb-0 text-start" *ngIf="data.length > 0 && isinvalid ">
             <!-- <h4 class="alert-heading font-16 mb-1">Attention</h4> -->
             <p *ngIf="isExcel.length > 0">
               {{ isExcel }}
             </p>
             <div *ngIf="data.length > 0">
-              <h3 class="font-18 mb-2">Uploaded Data</h3>
-              <div class="align-items-center empuploadHeader excelUploadTable row mb-3">
-                <div class="col-lg-8 col-md-12">
-                  <div class="row" *ngIf="isAnyRowSelected()">
-                    <div class="col-lg-4 col-md-3">
-                      <div>
-                        <nz-select [(ngModel)]="bulkShift" (ngModelChange)="applyBulkChange('shift', $event)"
-                          nzPlaceHolder="Select Shift" [nzDropdownRender]="customDropdownShift"
-                          class="whatapp-login-input">
-                          <nz-option *ngFor="let shift of shiftList" [nzValue]="shift.label"
-                            [nzLabel]="shift.label"></nz-option>
-                        </nz-select>
-                        <ng-template #customDropdownShift>
-                          <div class="custom-dropdown-footer">
-                            <button nz-button nzType="link"  (click)="openAddShiftModal()" >Add Shift</button>
-                          </div>
-                        </ng-template>
+              <!-- TO DO: make-it-dynamic-heading -->
+              <!-- <h3 class="font-18 mb-2">Uploaded Data</h3> -->
+               
+              <div class="d-flex align-items-center justify-content-between excelUploadTable mb-3 w-100">
+                <div class="d-flex align-items-center gap-3" >
+                  <div style="width:200px;" *ngIf="isAnyRowSelected()">
+                    <nz-select [(ngModel)]="bulkShift" (ngModelChange)="applyBulkChange('shift', $event)"
+                      nzPlaceHolder="Select Shift" [nzDropdownRender]="customDropdownShift" class="form-control w-100 placeholder-line">
+                      <nz-option *ngFor="let shift of shiftList" [nzValue]="shift.label"
+                        [nzLabel]="shift.label"></nz-option>
+                    </nz-select>
+                    <ng-template #customDropdownShift>
+                      <div class="custom-dropdown-footer">
+                        <button nz-button nzType="link"  (click)="openAddShiftModal()" >Add Shift</button>
                       </div>
-                    </div>
-                    <div class="col-lg-4 col-md-3">
-                      <div>
-                        <nz-select [(ngModel)]="bulkLeave" (ngModelChange)="applyBulkChange('leave', $event)"
-                          nzPlaceHolder="Select Leave" nzMode="multiple" [nzDropdownRender]="customDropdown"
-                          class="whatapp-login-input">
-                          <nz-option *ngFor="let leave of originalLeaveNameList" [nzValue]="leave.label"
-                            [nzLabel]="leave.label"></nz-option>
-                        </nz-select>
-                        <ng-template #customDropdown>
-                          <div class="custom-dropdown-footer">
-                            <button nz-button nzType="link" (click)="openAddLeaveModal()">Add Leave</button>
-                          </div>
-                        </ng-template>
+                    </ng-template>
+                  </div>
+                  <div style="width:200px;"  *ngIf="isAnyRowSelected()">
+                    <nz-select [(ngModel)]="bulkLeave" (ngModelChange)="applyBulkChange('leave', $event)"
+                      nzPlaceHolder="Select Leave" nzMode="multiple" [nzDropdownRender]="customDropdown" class="form-control w-100">
+                      <nz-option *ngFor="let leave of originalLeaveNameList" [nzValue]="leave.label"
+                        [nzLabel]="leave.label"></nz-option>
+                    </nz-select>
+                    <ng-template #customDropdown>
+                      <div class="custom-dropdown-footer">
+                        <button nz-button nzType="link" (click)="openAddLeaveModal()">Add Leave</button>
                       </div>
-                    </div>
-                    <div class="col-lg-4 col-md-3">
-                      <nz-select [(ngModel)]="bulkTeam" (ngModelChange)="applyBulkChange('team', $event)"
+                    </ng-template>
+                  </div>
+                  <!-- <div style="width:200px;">
+                    <nz-select [(ngModel)]="bulkTeam" (ngModelChange)="applyBulkChange('team', $event)"
                         nzPlaceHolder="Select Team" nzMode="multiple" [nzDropdownRender]="customDropdownTeam"
                         class="whatapp-login-input">
                         <nz-option *ngFor="let team of originalTeamNameList" [nzValue]="team.label"
@@ -2047,45 +2044,36 @@ Edit Request Modal End
                           <button nz-button nzType="link" (click)="openAddTeamModal()">Add Team</button>
                         </div>
                       </ng-template>
-                    </div>
-                  </div>
+                  </div> -->
                 </div>
-
-                <div class="col-lg-4 col-md-12">
-                  <div class="align-items-center d-flex gap-2 justify-content-end">
-                    <label class="m-0 d-flex align-items-center gap-2 justify-content-center">
+                <div class="d-flex align-items-center justify-contant-end gap-3">
+                    <label class="m-0 d-flex align-items-center gap-2 justify-content-center set-current font-14 fw-normal">
                       <input type="checkbox" [(ngModel)]="selectAllCurrentPage" (change)="toggleSelectAllCurrentPage()"
                         [disabled]="selectAllPages" />
-                      Select all on current page
+                        Set On Current Page
                     </label>
-                    <span class="btnSeprator"></span>
-                    <label class="m-0 d-flex align-items-center gap-2 justify-content-center">
+                    <!-- <span class="btnSeprator"></span> -->
+                    <label class="m-0 d-flex align-items-center gap-2 justify-content-center set-current font-14 fw-normal">
                       <input type="checkbox" [(ngModel)]="selectAllPages" (change)="toggleSelectAllPage()"
                         [disabled]="selectAllCurrentPage" />
                       Select All Pages
                     </label>
-                  </div>
+                    <!-- <button class="btn select-all-btn font-13 fw-semibold" (click)="toggleSelectAllPage()" [disabled]="selectAllCurrentPage">Select All Pages</button> -->
                 </div>
               </div>
               <div class="table-responsive">
-
                 <table class="table excelUploadTable">
-
-                  <!-- Dropdowns for applying to selected rows -->
                   <thead>
                     <tr>
                       <th>select</th>
-                      <th class="select-all-page" *ngFor="let col of fileColumnName">{{ col }}</th>
+                      <th class="select-all-page" [ngClass]="{'min-w-200': col == 'dob' || col == 'joiningdate*'}" *ngFor="let col of fileColumnName">{{ col }}</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <!-- Skip the first row for pagination purposes -->
                     <tr *ngFor="let row of paginatedData; let i = index">
-                      <td class="text-center">
-                        <!-- *ngIf="i + currentPage -1!=0" -->
+                      <td class="text-center set-current">
                         <input type="checkbox" [(ngModel)]="row.selected" />
                       </td>
-
                       <td *ngFor="let cell of fileColumnName; let j = index">
                         <ng-container *ngIf="fileColumnName[j] === 'shift*' ; else leaveColumns">
 
@@ -2190,9 +2178,8 @@ Edit Request Modal End
                     </tr>
                   </tbody>
                 </table>
-
               </div>
-              <div class="d-flex justify-content-end align-items-center">
+              <div class="d-flex justify-content-between align-items-center">
                 <p class="m-0" *ngIf="data.length > pageSize">
                   Showing {{ (currentPage - 1) * pageSize + 1 }} - 
                   {{ (currentPage * pageSize > data.length ? data.length-1 : currentPage * pageSize) }} of {{ data.length-1 }}
@@ -2201,10 +2188,7 @@ Edit Request Modal End
                   [(page)]="currentPage" (pageChange)="onPageChange($event)">
                 </ngb-pagination>
               </div>
-              <div class="text-end border-top pt-3">
-                <!-- <button type="button" class="btn btn-primary btn-sm" (click)="saveFile()">Save Changes</button> -->
-                <button type="button" class="btn p-0 next-btn btn-border" (click)="saveFile()">Save Changes</button>
-              </div>
+            
             </div>
 
             <p *ngIf="isErrorToggle">Error: {{ errorMessage }}</p>
@@ -2267,7 +2251,7 @@ Edit Request Modal End
               else errorInOnboardUserListCondition
             ">
             <div class="mt-0">
-              <div class="d-flex align-items-center justify-content-end mb-3 p-0">
+              <!-- <div class="d-flex align-items-center justify-content-end mb-3 p-0">
                 <input #fileInput id="fileSelect" type="file" name="img[]" accept=".xlsx" class="input"
                   style="display: none" (change)="selectFile($event)" />
                 <button type="button" class="btn add-excel" (click)="fileInput.click()">
@@ -2276,8 +2260,7 @@ Edit Request Modal End
                   <div *ngIf="isProgressToggle" class="spinner-border text-primary excel-spinner" role="status"></div>
                   Excel Upload
                 </button>
-
-              </div>
+              </div> -->
               <div class="create-password-warning waring-box p-3 mt-3 mb-3 text-start" role="alert" *ngIf="
                   alreadyUsedPhoneNumberArray.length > 0 ||
                   alreadyUsedEmailArray.length > 0 ||
@@ -2298,42 +2281,30 @@ Edit Request Modal End
                 <!-- <thead class="thead-light table-design"> -->
                 <thead class="thead-light">
                   <tr>
-                    <th style="width: 5%" class="text-center">#</th>
+                    <th style="width: 5%" class="text-left">#</th>
                     <th style="width: 25%" class="text-left">Name</th>
                     <th style="width: 20%" class="text-left">Phone</th>
                     <th style="width: 20%" class="text-left">Email</th>
                     <th style="width: 5%" class="text-center">Action</th>
-                    <!-- <th style="width: 25%" class="text-center">Notification</th> -->
                   </tr>
                 </thead>
-                <!-- <tbody class="table-design"> -->
                 <tbody>
                   <tr *ngFor="let onboardUser of onboardUserList; let i = index">
                     <td>
-                      <p class="tableinfo mb-0 text-left">
-                        <b>{{ i + 1 }}</b>
-                      </p>
+                      <p class="mb-0 text-left"> {{ i + 1 }}</p>
                     </td>
                     <td>
-                      <p class="tableinfo mb-0 text-left">
-                        <b>{{ onboardUser.name }}</b>
-                      </p>
+                      <p class="mb-0 text-left">{{ onboardUser.name }}</p>
                     </td>
                     <td>
-                      <p class="tableinfo mb-0 text-left">
-                        <b>{{ onboardUser.phone }}</b>
-                      </p>
+                      <p class="mb-0 text-left">{{ onboardUser.phone }}</p>
                     </td>
                     <td>
-                      <p class="tableinfo mb-0 text-left">
-                        <b>{{
-                          onboardUser.email ? onboardUser.email : "N/A"
-                          }}</b>
-                      </p>
+                      <p class="mb-0 text-left">{{ onboardUser.email ? onboardUser.email : "N/A" }}</p>
                     </td>
                     <td>
                       <div class="d-flex justify-content-center gap-3">
-                        <p class="tableinfo mb-0 pointer text-center text-danger mb-2"
+                        <p class="mb-0 pointer text-center text-danger mb-2"
                           (click)="deleteNewUser(onboardUser.id)">
                           <i class="bi bi-trash text-danger"></i>
                         </p>
@@ -2342,41 +2313,7 @@ Edit Request Modal End
                   </tr>
                 </tbody>
               </table>
-              <div class="d-flex align-items-center justify-content-between">
-                <div class="d-flex align-items-center gap-3 mt-3">
-                  <label class="m-0 d-flex align-items-center gap-2 justify-content-center">
-                    <input type="checkbox" [(ngModel)]="enableEmailNotification" />
-                    Email
-                  </label>
-                  <label class="m-0 d-flex align-items-center gap-2 justify-content-center">
-                    <input type="checkbox" [(ngModel)]="enableWhatsAppNotification" />
-                    WhatsApp
-                  </label>
-                </div>
-                <div class="d-flex align-items-center gap-3 mt-3">
-                  <button type="button" class="btn btn-primary"
-                    [disabled]="(!this.enableEmailNotification && !this.enableWhatsAppNotification)"
-                    (click)="sendNotifications()">
-                    <span *ngIf="!loadingFlag">Send Notification</span>
-                    <div class="dot-opacity-loader" *ngIf="loadingFlag">
-                      <span></span>
-                      <span></span>
-                      <span></span>
-                    </div>
-                  </button>
-
-                  <button type="button" class="btn btn-primary" style="background-color: white; color: black;"
-                    (click)="closeNotificationModal(); sendEmailToUsers(false);">
-                    <span *ngIf="!closeNotificationModalFlag">Skip Notification</span>
-                    <div class="dot-opacity-loader" *ngIf="closeNotificationModalFlag">
-                      <span></span>
-                      <span></span>
-                      <span></span>
-                    </div>
-                  </button>
-
-                </div>
-              </div>
+          
 
 
 
@@ -2397,6 +2334,54 @@ Edit Request Modal End
             </div>
           </div>
         </ng-template>
+      </div>
+      <div class="modal-footer text-end border-top pt-3" *ngIf="data.length > 0 &&  onboardUserList!.length == 0">
+        <button type="button" class="btn p-0 fot-14 fw-semibold btn-border" (click)="saveFile()">Save & Next</button>
+      </div>
+      <div class="modal-footer d-flex align-items-center justify-content-between" *ngIf="onboardUserList && onboardUserList!.length>0">
+        <div class="d-flex align-items-center gap-3">
+          <div>
+            <h5 class="mb-1 font-14 fw-seminbold ">Notification Preferences</h5>
+            <p class="mb-0 font-12 fw-normal">Select updates for employee alerts.</p>
+          </div>
+        <div class="form-check through-email d-flex align-items-center gap-2 ">
+          <input class="form-check-input ml-0" type="radio" name="whatsEmailRadio" id="whatsappradio" [checked]="enableWhatsAppNotification" (click)="kuchbhi('whatsapp')">
+          <label class="form-check-label d-flex align-items-center gap-2 justify-content-center fw-semibold font-13 " for="whatsappradio">
+            <span class="font-13 fw-normal"> Through </span> Slack
+            <img src="assets/images/whatsapp-logo.svg" style="width:18px;">
+          </label>
+        </div>
+        <div class="form-check through-email d-flex align-items-center gap-2">
+          <input class="form-check-input ml-0" type="radio" name="whatsEmailRadio" id="emailradio" [checked]="enableEmailNotification" (click)="kuchbhi('email')">
+          <label class="form-check-label d-flex align-items-center gap-2 justify-content-center fw-semibold font-13 " for="emailradio">
+            <span class="font-13 fw-normal"> Through </span> Email
+            <img src="assets/images/gmail.svg" style="width:18px;">
+          </label>
+        </div>
+      </div>
+        <div class="d-flex align-items-center gap-3">
+          <button *ngIf="enableEmailNotification || enableWhatsAppNotification" type="button" class="btn btn-border font-14 fw-semibold"
+            (click)="sendNotifications()">
+            <span *ngIf="!loadingFlag">Send Notification</span>
+            <div class="dot-opacity-loader" *ngIf="loadingFlag">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </button>
+
+
+          <button *ngIf="!enableEmailNotification && !enableWhatsAppNotification" type="button" class="btn p-0 font-14 fw-semibold text-primary"
+            (click)="closeNotificationModal(); sendEmailToUsers(false);">
+            <span *ngIf="!closeNotificationModalFlag">Skip Notification</span>
+            <div class="dot-opacity-loader" *ngIf="closeNotificationModalFlag">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </button>
+
+        </div>
       </div>
     </div>
   </div>
