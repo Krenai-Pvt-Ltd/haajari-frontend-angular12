@@ -20,6 +20,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
+import { NzAlertModule } from 'ng-zorro-antd/alert';
 
 
 @NgModule({
@@ -51,6 +52,8 @@ import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
     NzEmptyModule,
     NzFormModule,
     NzTimePickerModule,
+    NzAlertModule
+
   ],
   exports: [AttendanceUrlComponent]
 })

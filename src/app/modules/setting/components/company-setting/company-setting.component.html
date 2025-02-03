@@ -25,7 +25,7 @@
         </button>
       </li>
       <!-- TODO : dynamic for now -->
-      <li role="presentation" class="nav-item" *ngIf="ROLE === 'ADMIN'">
+      <li role="presentation" class="nav-item d-none" *ngIf="ROLE === 'ADMIN'">
         <button id="home-tab" data-bs-toggle="tab" data-bs-target="#notificationsSetting" type="button" role="tab"
           aria-controls="home" [attr.aria-selected]="activeTab === 'notificationsSetting'"
           [ngClass]="{'active': activeTab === 'notificationsSetting'}" class="nav-link"
