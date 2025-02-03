@@ -3384,7 +3384,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
 
   saveAppraisalRequest(appraisalRequest : AppraisalRequest){
 
-    return this.httpClient.post<any>(`${this.baseUrl}/salary/appraisal-request`, appraisalRequest);
+    return this.httpClient.post<any>(`${this.baseUrl}/salary/appraisal`, appraisalRequest);
   }
 
 
