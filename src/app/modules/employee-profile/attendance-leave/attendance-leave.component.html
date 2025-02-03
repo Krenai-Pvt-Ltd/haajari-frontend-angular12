@@ -63,7 +63,7 @@
                             </span>
                         </div>
 
-                        <div class="d-flex align-items-center justify-content-end gap-3 mobile-week-data">
+                        <div class="d-flex align-items-center justify-content-end gap-3">
                             <div class="btn-group week-data radio-btn" role="group"
                                 aria-label="Basic radio toggle button group">
 
@@ -87,7 +87,7 @@
                     </div>
                     <div class="row mt-4">
                         <div class="col-md-9">
-                            <div class="row section-border">
+                            <div class="row" style="border-right: 1px solid #EDEFF5;">
                                 <div class="col-md-8 ">
                                     <div
                                         class="attendance-summery p-3 pt-2 pb-2 d-flex align-items-center justify-content-between ">
@@ -120,7 +120,7 @@
 
                                     </div>
                                 </div>
-                                <div class="col-md-4 col-sm-6">
+                                <div class="col-md-4">
                                     <div class="attendance-summery p-3 pt-2 pb-2">
                                         <!-- <h5 class="mb-0 font-15">+ 7 hr 30 min</h5>
                                     <p class="mb-0 font-12">Difference</p> -->
@@ -137,7 +137,7 @@
 
                                     </div>
                                 </div>
-                                <div class="col-md-3 col-sm-6">
+                                <div class="col-md-3">
                                     <div class="attendance-summery p-3 pt-2 pb-2">
                                         <div *ngIf="isShimmer">
                                             <ngx-shimmer-loading [width]="'50%'"
@@ -150,7 +150,7 @@
                                         <p class="mb-0 font-12">Total late delay</p>
                                     </div>
                                 </div>
-                                <div class="col-md-3 col-sm-6">
+                                <div class="col-md-3">
                                     <div class="attendance-summery p-3 pt-2 pb-2">
                                         <div *ngIf="isShimmer">
                                             <ngx-shimmer-loading [width]="'50%'"
@@ -165,7 +165,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-3 col-sm-6">
+                                <div class="col-md-3">
                                     <div class="attendance-summery p-3 pt-2 pb-2">
                                         <div *ngIf="isShimmer">
                                             <ngx-shimmer-loading [width]="'50%'"
@@ -178,7 +178,7 @@
                                         <p class="mb-0 font-12">System checkout</p>
                                     </div>
                                 </div>
-                                <div class="col-md-3 col-sm-6">
+                                <div class="col-md-3">
                                     <div class="attendance-summery p-3 pt-2 pb-2">
                                         <div *ngIf="isShimmer">
                                             <ngx-shimmer-loading [width]="'40%'"
@@ -203,6 +203,10 @@
                                 <div class="chart-container w-100" *ngIf="!isPlaceholder">
                                     <canvas #chartCanvas id="workingHoursChart"></canvas>
                                 </div>
+                                <!-- <apx-chart [series]="chartOptions.series [chart]="chartOptions.chart" 
+                                [xaxis]="chartOptions.xaxis" 
+                                [title]="chartOptions.title">
+                                    </apx-chart> -->
 
                                 <!-- <div class="col-md-12" *ngIf="isShimmer">
                                     <ngx-shimmer-loading [width]="'100%'" [height]="'100px'"></ngx-shimmer-loading>
@@ -220,7 +224,7 @@
                     </div>
 
                     <div class="table-responsive bg-white mt-3">
-                        <table class="table empOnnoardtable mb-4">
+                        <table class="table empOnnoardtable">
                             <thead class="thead-light">
                                 <tr>
                                     <th class=" text-left" style="width: 10%">
@@ -719,7 +723,7 @@
                 <div class="tab-pane fade pt-3" id="leaves" role="tabpanel" aria-labelledby="leaves-tab">
                     <div class="leave-summary">
                         <div class="row">
-                            <div class="col-md-8 section-border" >
+                            <div class="col-md-8" style="border-right: 1px solid #f1f1f1;">
                                 <div class="row">
                                     <div *ngFor="let category of userLeave" class="col-md-12">
                                         <div class="row" *ngIf="category.isHidden==0">
@@ -769,7 +773,7 @@
                                         <div class="col-lg-12 col-md-12 col-sm-12 ps-0">
                                             <div class="d-flex justify-content-start align-items-center">
                                                 <!-- Leave Type Filter -->
-                                                <div class="dropdown empFilerDropfilter desktop-filter">
+                                                <div class="dropdown empFilerDropfilter">
                                                     <button type="button" id="leaveTypeDropdown"
                                                         data-bs-toggle="dropdown" aria-expanded="false"
                                                         class="btn btn-secondary dropdown-toggle new-deopdown">
@@ -786,7 +790,7 @@
                                                 </div>
 
                                                 <!-- Status Filter -->
-                                                <div class="dropdown empFilerDropfilter desktop-filter">
+                                                <div class="dropdown empFilerDropfilter">
                                                     <button type="button" id="statusDropdown" data-bs-toggle="dropdown"
                                                         aria-expanded="false"
                                                         class="btn btn-secondary dropdown-toggle new-deopdown">
@@ -824,8 +828,7 @@
                                                 <div>
                                                     <!--  *ngIf="userId==currentUserUuid && (dataService.resignationInfo==null || dataService.resignationInfo==undefined)" -->
                                                     <ng-container *ngIf="isUserLeaveTaken && isUserLeaveTaken == 1">
-                                                        <div class="d-flex align-items-center gap-2">
-                                                        <button type="button" class="btn p-0 primaryBtnLink leave-request"
+                                                        <button type="button" class="btn primaryBtnLink leave-request"
                                                             (click)="applyNewLeaveReq()">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="20"
                                                                 height="21" viewBox="0 0 20 21" fill="none">
@@ -844,8 +847,6 @@
                                                             
                                                             Leave Request
                                                         </button>
-                                                        <!-- <button class="p-0 btn text-primary fw-semibold filter-btn"><i class="bi bi-funnel"></i></button> -->
-                                                    </div>
                                                     </ng-container>
 
                                                     <ng-container *ngIf="isUserLeaveTaken == 0">
@@ -879,48 +880,10 @@
                             </div>
                         </div>
 
-                    <div class="mobile-filter mt-3">
-                        <div class="d-flex align-items-center ">
-                            <!-- Leave Type Filter -->
-                            <div class="dropdown empFilerDropfilter">
-                                <button type="button" id="leaveTypeDropdown"
-                                    data-bs-toggle="dropdown" aria-expanded="false"
-                                    class="btn btn-secondary dropdown-toggle new-deopdown">
-                                    {{ selectedLeaveType }} <i class="bi bi-chevron-down"></i>
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="leaveTypeDropdown">
-                                    <li *ngFor="let type of leaveTypes">
-                                        <a class="dropdown-item" (click)="updateLeaveType(type)"
-                                            [class.active]="selectedLeaveType === type">
-                                            {{ type }}
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
 
-                            <!-- Status Filter -->
-                            <div class="dropdown empFilerDropfilter">
-                                <button type="button" id="statusDropdown" data-bs-toggle="dropdown"
-                                    aria-expanded="false"
-                                    class="btn btn-secondary dropdown-toggle new-deopdown">
-                                    {{ selectedStatus }} <i class="bi bi-chevron-down"></i>
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="statusDropdown">
-                                    <li *ngFor="let status of statuses">
-                                        <a class="dropdown-item" (click)="updateStatus(status)"
-                                            [class.active]="selectedStatus === status">
-                                            {{ status }}
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+                        <div class="table-responsive bg-white mt-3">
 
-
-                        <div class="table-responsive bg-white mt-3 ">
-
-                            <table class="table empOnnoardtable mb-5">
+                            <table class="table empOnnoardtable">
                                 <thead class="thead-light">
                                     <tr>
                                         <th class="text-left font-13" style="width: 10%">Apply On</th>
@@ -1093,8 +1056,7 @@
                         <div *ngIf="totalPages>1"
                             class="d-flex align-items-center justify-content-between pagination-box-profile p-3 bg-white border-top">
                             <p>
-                                Showing {{ (currentPage - 1) * pageSize + 1 }} - 
-                                {{ currentPage * pageSize > totalItems ? totalItems : currentPage * pageSize }} of {{ totalItems }} users
+                                Showing 0 - 0 of {{ totalItems }} users
                             </p>
                             <ngb-pagination class="pagition-box" [collectionSize]="totalItems" [rotate]="true"
                                 (pageChange)="pageChanged($event)" [pageSize]="pageSize" [(page)]="currentPage"
@@ -1440,42 +1402,23 @@
 
                     <h1>vis-timeline</h1>
                     <div #timeline></div> -->
-                    <div class="d-flex align-items-center justify-content-between">
 
                     <ul class="requests-btn">
                         <li [class.active]="attendanceType === 'CREATE'" (click)="updateAttendanceTypeFilter('CREATE')">Create</li>
                         <li [class.active]="attendanceType === 'UPDATE'" (click)="updateAttendanceTypeFilter('UPDATE')">Update</li>
                     </ul>
-                    <!-- <button class="p-0 btn text-primary font-16 fw-semibold filter-btn"><i class="bi bi-funnel"></i></button> -->
-                </div>
 
 
                     <div class="obboard-employee-list">
-                        <div class="mobile-filter mt-3 mb-3">
-                            <div class="dropdown empFilerDropfilter ">
-                                <button type="button" id="statusDropdown" data-bs-toggle="dropdown"
-                                    aria-expanded="false"
-                                    class="btn btn-secondary w-100 dropdown-toggle new-deopdown">
-                                    {{ attendanceStatus }} <i class="bi bi-chevron-down"></i>
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="statusDropdown">
-                                    <li *ngFor="let status of statuses">
-                                        <a class="dropdown-item"
-                                            (click)="updateAttendanceStatusFilter(status)"
-                                            [class.active]="attendanceStatus === status">
-                                            {{ status }}
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
                         <div class="onboard-add row align-items-center mx-0">
                             <div class="col-md-12 p-0">
                                 <div class="row justify-content-between align-items-center mx-0">
                                     <div class="col-lg-12 col-md-12 col-sm-12 ps-0">
                                         <div class="d-flex justify-content-start align-items-center">
+                                           
+
                                             <!-- Status Filter -->
-                                            <div class="dropdown empFilerDropfilter desktop-filter">
+                                            <div class="dropdown empFilerDropfilter">
                                                 <button type="button" id="statusDropdown" data-bs-toggle="dropdown"
                                                     aria-expanded="false"
                                                     class="btn btn-secondary dropdown-toggle new-deopdown">
