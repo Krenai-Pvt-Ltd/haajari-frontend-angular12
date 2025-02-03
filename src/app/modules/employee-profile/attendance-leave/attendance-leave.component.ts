@@ -121,6 +121,7 @@ export class AttendanceLeaveComponent implements OnInit {
       startDate: [null, Validators.required],
       endDate: [null, Validators.required],
       leaveType: [null, Validators.required],
+      isHalf: [false],
       selectedUser: [null], // Initially not required
       note: [null, Validators.required],
     });
@@ -470,17 +471,14 @@ export class AttendanceLeaveComponent implements OnInit {
       );
   }
   resetUserLeave() {
-    this.userLeaveRequest.startDate = '';
-    this.userLeaveRequest.endDate = '';
-    this.userLeaveRequest.halfDayLeave = false;
-    this.userLeaveRequest.dayShift = false;
-    this.userLeaveRequest.eveningShift = false;
+   
     this.isHalfLeaveSelected = false;
-    this.userLeaveRequest.leaveType = '';
-    this.userLeaveRequest.managerId = 0;
-    this.userLeaveRequest.optNotes = '';
+   this.userLeaveRequest= new UserLeaveRequest();
     this.selectedManagerId = 0;
     this.uploadedFiles = [];
+    this.submitLeaveLoader = false;
+    this.userLeaveRequest.halfDayLeave=false;
+    this.selectedUser=null;
   }
 
 
