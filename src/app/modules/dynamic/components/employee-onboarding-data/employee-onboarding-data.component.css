@@ -833,9 +833,11 @@ Remove border from nz-select .ant-select:not(.ant-select-customize-input) .ant-s
 }
 
 .actionMenuList .dropdown-item {
-  font-size: 15px;
+  font-size: 14px !important;
   color: #333 !important;
   border-radius: 6px;
+  padding: 3px 15px !important;
+
 }
 
 .actionMenuList .dropdown-item i {
@@ -1696,4 +1698,29 @@ span.request-count {
   line-height: 50px !important;
   font-size: 0.875rem !important;
   font-weight: 400 !important;
+}
+
+
+.filter-bdg {
+  overflow-x: scroll;
+  flex-wrap: nowrap;
+}
+
+.filter-pills {
+  line-height: 18px;
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  border-radius: 52px;
+  padding: 6px 15px;
+  white-space: nowrap;
+  margin-bottom: 0 !important;
+  background-color: #557ef826;
+}
+
+.btnAction {
+  background-color: #F9FAFC;
+  width: 30px;
+  height: 33px;
+  border-radius: 2px;
+  border: 1px solid #EFEFEF;
 }

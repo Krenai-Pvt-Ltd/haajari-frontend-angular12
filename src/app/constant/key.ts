@@ -376,6 +376,7 @@ export class Key {
   public static ATTENDANCE_TAB = 1;
   public static OVERTIME_TAB = 2;
   public static ATTENDANCE_UPDATE_REQUEST_TAB = 3;
+  public static ATTENDANCE_UPDATE_REQUEST_TAB_NEW = 4;
 
   // Tabs in Overtime Section
   public static OVERTIME_PENDING_REQUEST_TAB = 1;

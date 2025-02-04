@@ -119,23 +119,11 @@
                     <h6 style="font-size: 13px; margin-bottom: 0px">
                       Something went wrong!
                     </h6>
-                    <!-- <p class="mb-0">An error occurred while processing your request. Please refresh the page and try again.</p> -->
+                    
                   </div>
                 </div>
               </div>
-              <!-- <div class="errorboxmaintop" style="box-shadow: none; padding: 5px; padding-left: 0px"
-                *ngIf="dataNotFoundPlaceHolderForLast3PendingUsers">
-                <div class="errorboxinner" style="display: flex; align-items: center; gap: 10px">
-                  <div class="errorboxplaceholder">
-                    <img src="assets/images/empty-box.svg" style="width: 50px" />
-                  </div>
-                  <div class="">
-                    <h6 style="font-size: 13px; margin-bottom: 0px">
-                      No Data Found
-                    </h6>
-                  </div>
-                </div>
-              </div> -->
+              
 
 
               <div class="empty-file" style="margin-top: 5%; margin-bottom: 5%"
@@ -226,21 +214,6 @@
                       </div>
                     </div>
                   </div>
-                  <!-- <div class="errorboxmaintop" style="box-shadow: none; padding: 5px; padding-left: 0px"
-                    *ngIf="dataNotFoundPlaceHolderForLastApproved">
-                    <div class="errorboxinner" style="display: flex; align-items: center; gap: 10px">
-                      <div class="errorboxplaceholder">
-                        <img src="assets/images/empty-box.svg" style="width: 50px" />
-                      </div>
-                      <div class="">
-                        <h6 style="font-size: 13px; margin-bottom: 0px">
-                          No Data Found!
-                        </h6>
-                      </div>
-                    </div>
-                  </div> -->
-
-
                   <div class="empty-file" style="margin-top: 5%; margin-bottom: 5%"
                     *ngIf="dataNotFoundPlaceHolderForLastApproved">
                     <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
@@ -323,20 +296,6 @@
                       </div>
                     </div>
                   </div>
-                  <!-- <div class="errorboxmaintop" style="box-shadow: none; padding: 5px; padding-left: 0px"
-                    *ngIf="dataNotFoundPlaceHolderForLastRejected">
-                    <div class="errorboxinner" style="display: flex; align-items: center; gap: 10px">
-                      <div class="errorboxplaceholder">
-                        <img src="assets/images/empty-box.svg" style="width: 50px" />
-                      </div>
-                      <div class="">
-                        <h6 style="font-size: 13px; margin-bottom: 0px">
-                          No Data Found!
-                        </h6>
-                      </div>
-                    </div>
-                  </div> -->
-
 
                   <div class="empty-file" style="margin-top: 5%; margin-bottom: 5%"
                     *ngIf="dataNotFoundPlaceHolderForLastRejected">
@@ -746,6 +705,18 @@
                   </div>
               </div> -->
 
+              <!-- <div class="filter-bdg d-flex align-items-center gap-2 mt-3">
+                <p class="filter-pills d-flex align-items-centar gap-2 pointer font-12 fw-semibold">Anchal Sharma
+                  <i class="bi bi-x-lg pointer"></i>
+                </p>
+                <p class="filter-pills d-flex align-items-centar gap-2 pointer font-12 fw-semibold">Pending
+                  <i class="bi bi-x-lg pointer"></i>
+                </p>
+                <p class="filter-pills d-flex align-items-centar gap-2 pointer font-12 fw-semibold">Anchal Sharma
+                  <i class="bi bi-x-lg pointer"></i>
+                </p>
+              </div> -->
+
                 <div class="col-md-12 mt-3">
                   <div class="table-responsive bg-white employee-table">
                     <table class="table empOnnoardtable">
@@ -760,7 +731,8 @@
                           <th style="width: 10%"> Phone Number</th>
                           <th style="width: 10%">Accessibility</th>
                           <th style="width: 10%" class="text-left">Status</th>
-                          <th style="width: 4%" class="text-center stickyColThend"> Action</th>
+                          <th style="width: 4%" class="text-cennter "> Action</th>
+                          <!-- stickyColThend -->
                         </tr>
                       </thead>
                       <tbody *ngIf="isUserShimer">
@@ -931,12 +903,12 @@
                           </td>
                          
                           <td>
-                            <a (click)="routeToUserDetails(user.uuid)" class="mb-0 weekly-pro-email">
+                            <a (click)="routeToUserDetails(user.uuid)" class="mb-0 weekly-pro-email text-black fw-semibold ">
                               {{ user.email ? user.email : "N/A" }}
                             </a>
                           </td>
                           <td>
-                            <a (click)="routeToUserDetails(user.uuid)" class="mb-0 weekly-pro-email">
+                            <a (click)="routeToUserDetails(user.uuid)" class="mb-0 weekly-pro-email text-black fw-semibold">
                               {{ user.phoneNumber ? user.phoneNumber : "N/A" }}
                             </a>
                           </td>
@@ -961,9 +933,10 @@
                               [ngClass]="{'text-info': user.resignationStatus.id == 13 || user.resignationStatus.id == 47, 'text-warning': user.resignationStatus.id == 42, 'text-danger': user.resignationStatus.id == 43 }">{{
                               user.resignationStatus.response }}</span>
                           </td>
-                          <td class="stickyColTdend text-end">
+                          <!-- stickyColTdend -->
+                          <td>
                             <div class="dropdown">
-                              <button class="btn btnAction dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                              <button class="btn btnAction dropdown-toggle d-flex align-items-center justify-content-center" type="button" data-bs-toggle="dropdown"
                                 aria-expanded="false">
                                 <i class="bi bi-three-dots-vertical"></i>
                               </button>

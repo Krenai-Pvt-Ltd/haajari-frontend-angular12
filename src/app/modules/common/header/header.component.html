@@ -35,16 +35,19 @@
         </ng-container>
         <ng-template #dashboardCondition>
           <!-- {{ROLE}} -->
-          <div class="">
+          <div>
             <ul class="sidebar-menu">
               <div class="sliderNav" [ngStyle]="sliderStyle5"></div>
               <li [class.active]="0 === activeIndex" (mouseover)="updateSliderStyle5(0)" (mouseout)="resetHoverIndex5()"
                 (click)="setActive5(0);checkRestriction('/dashboard');" class="pointer"
                 routerLinkActive="sidebar-menu-active" routerLink="/dashboard">
                 <a class="sidebar-menu-link sidebar-menu-link">
-                  <span class="  ">
+                  <span>
                     <i class="bi bi-house-door menu-icon pr-2"></i>
-                    Dashboard</span>
+                    <!-- <img src="assets/images/sidebar-icon/dashboard.svg"> -->
+                    <!-- <img src="assets/images/sidebar-icon/dashboard-active.svg"> -->
+                    Dashboard
+                  </span>
                 </a>
               </li>
             </ul>
@@ -61,7 +64,11 @@
               (click)="setActive2(0);checkRestriction('/employee-onboarding-data');" class="pointer"
               routerLinkActive="sidebar-menu-active" routerLink="/employee-onboarding-data">
               <a class="sidebar-menu-link">
-                <span><i class="bi bi-person-plus menu-icon"></i> Employee</span>
+                <span>
+                  <i class="bi bi-person-plus menu-icon"></i> 
+                     <!-- <img src="assets/images/sidebar-icon/employee.svg"> -->
+                     <!-- <img src="assets/images/sidebar-icon/employee-active.svg"> -->
+                  Employee</span>
               </a>
             </li>
             <!-- Team -->
@@ -78,7 +85,11 @@
               " class="pointer" routerLinkActive="sidebar-menu-active" routerLink="/team"
               (click)="setActiveTabEmpty();checkRestriction('/team');" *ngIf="ROLE !== 'HR ADMIN'">
               <a class="sidebar-menu-link">
-                <span><i class="bi bi-people menu-icon"></i> Team</span>
+                <span>
+                  <i class="bi bi-people menu-icon"></i>
+                   <!-- <img src="assets/images/sidebar-icon/team-icon.svg"> -->
+                     <!-- <img src="assets/images/sidebar-icon/team-icon-active.svg"> -->
+                   Team</span>
               </a>
             </li>
           </ul>

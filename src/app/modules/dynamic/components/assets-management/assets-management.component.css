@@ -232,6 +232,7 @@
     font-weight: 500;
     box-shadow: unset;
     color: #444;
+    height: 45px !important;
 }
 .search-filter svg {
     width: 18px;
@@ -250,7 +251,7 @@
 }
 .search-date input {
     border: none;
-    height: 48px !important;
+    height: 45px !important;
     border-left: 0;
     border-right: 1px solid #EAEAEA;
     font-weight: 400 !important;
@@ -377,3 +378,18 @@ input[type=checkbox] {
     border-radius: 2px;
 }
 
+.filter-bdg {
+    overflow-x: scroll;
+    flex-wrap: nowrap;
+  }
+  
+  .filter-pills {
+    line-height: 18px;
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  border-radius: 52px;
+  padding: 6px 15px;
+  white-space: nowrap;
+  margin-bottom: 0 !important;
+  background-color: #557ef826;
+  }
