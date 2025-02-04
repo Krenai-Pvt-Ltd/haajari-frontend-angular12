@@ -2145,9 +2145,9 @@ export class LeaveSettingComponent implements OnInit {
   leaveTemplates: LeaveTemplateRes[] = []
   wfhLeaveTemplates: LeaveTemplateRes[] = []
   weekOffTemplates: LeaveTemplateRes[] = []
-  wfhLeaveTemplatesIds: number[] = [8];
-  weekOffTemplatesIds: number[] = [9];
-  leaveTemplatesIds: number[] = [1, 2, 3, 4, 5, 6, 7, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
+  wfhLeaveTemplatesIds: number[] = [8,9];
+  weekOffTemplatesIds: number[] = [10];
+  leaveTemplatesIds: number[] = [1, 2, 3, 4, 5, 6, 7];
 
   getAllLeaveTemplate() {
     debugger
