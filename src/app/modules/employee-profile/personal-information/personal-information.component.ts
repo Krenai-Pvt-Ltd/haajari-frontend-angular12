@@ -325,6 +325,9 @@ export class PersonalInformationComponent implements OnInit {
         if (!this.routes.includes('/bank-details')) {
           this.onboardingForm.removeControl('bankDetails');
         }
+        if (!this.routes.includes('/statutory')) {
+          this.onboardingForm.removeControl('statutoryDetails');
+        }
         console.log('Loaded routes:', this.routes);
       },
       error => {

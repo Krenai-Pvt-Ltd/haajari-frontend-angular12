@@ -434,6 +434,20 @@
             </div>
         </div>
 
+        <div *ngIf="dataService.isRoutePresent('/statutory')" class="col-md-6">
+          <div class="mb-3">
+              <label for="uanNumber" class="pb-2">UAN Number <span class="text-optional"> (optional)</span></label>
+              <input type="text" class="form-control" id="uanNumber" name="uan_Number" placeholder="Enter your UAN Number" [(ngModel)]="userPersonalInformationRequest.uan"  #uanNumber="ngModel">
+          </div>
+      </div>
+
+      <div *ngIf="dataService.isRoutePresent('/statutory')" class="col-md-6">
+        <div class="mb-3">
+            <label for="esiNumber" class="pb-2">ESI Number <span class="text-optional"> (optional)</span></label>
+            <input type="text" class="form-control" id="esiNumber" name="esi_Number" placeholder="Enter your ESI Number" [(ngModel)]="userPersonalInformationRequest.esi"   #esiNumber="ngModel">
+        </div>
+    </div>
+
 
         <!-- <button class="btn btn-primary" type="submit" aria-label="Next Step">
           <div *ngIf="toggle" class="dot-opacity-loader">

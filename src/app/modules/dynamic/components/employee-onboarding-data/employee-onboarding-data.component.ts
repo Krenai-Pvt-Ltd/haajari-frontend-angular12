@@ -908,6 +908,8 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     this.fileName = null;
     this.currentFileUpload = null;
     this.firstUpload=true;
+    this.currentFileUpload = null;
+      this.fileName = null;
   }
 
   fileName: any;
@@ -915,7 +917,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
 
 
   expectedColumns: string[] = ['Name*', 'Phone*', 'Email*', 'Shift*', 'JoiningDate*', 'Gender*'];
-  correctColumnName: string[] = ['S. NO.*', 'Name*', 'Phone*', 'Email*', 'Shift*', 'JoiningDate*', 'Gender*', 'leavenames', 'ctc', 'emptype', 'empId', 'branch', 'department', 'position', 'nationality' , 'grade', 'team', 'dob', 'fathername', 'maritalstatus', 'address', 'city', 'state', 'country', 'pincode', 'panno', 'aadharno', 'drivinglicence', 'emergencyname', 'emergencyphone', 'emergencyrelation', 'accountholdername', 'bankname', 'accountnumber', 'ifsccode'];
+  correctColumnName: string[] = ['S. NO.*', 'Name*', 'Phone*', 'Email*', 'Shift*', 'JoiningDate*', 'Gender*', 'leavenames', 'ctc', 'emptype', 'empId', 'branch', 'department', 'position', 'nationality' , 'grade', 'team', 'dob', 'fathername', 'maritalstatus', 'address', 'city', 'state', 'country', 'pincode', 'panno', 'aadharno', 'drivinglicence', 'emergencyname', 'emergencyphone', 'emergencyrelation', 'accountholdername', 'bankname', 'accountnumber', 'ifsccode', 'uan', 'esi number'];
   fileColumnName:string[] = [];
   genders: string[] = ['Male', 'Female'];
   isExcel: string = '';
@@ -1081,6 +1083,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   }
 
   validateColumns(columnNames: string[]): boolean {
+    debugger
     this.mismatches = []; // Reset mismatches
 
     // Step 2: Normalize both expected and actual column names for comparison

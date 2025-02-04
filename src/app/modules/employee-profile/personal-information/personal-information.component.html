@@ -2580,7 +2580,7 @@
 
         </div>
       </div>
-      <div *ngIf="routes.includes('/bank-details')" class="row border-top pt-4 pb-3">
+      <div *ngIf="routes.includes('/statutory')" class="row border-top pt-4 pb-3">
         <div class="col-md-3">
           <div class="profile-imfo-hedding">
             <h5>Statutory Details</h5>
@@ -2622,13 +2622,13 @@
                           <div
                             class="icon-info-activity bg-soft-danger pointer d-flex align-items-center justify-content-center"
                             *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
-                            (click)="removeField('accountHolderName', requestedData.user.uan)">
+                            (click)="removeField('uan', requestedData.user.uan)">
                             <i class="ti ti-x"></i>
                           </div>
                           <div
                             class="icon-info-activity bg-soft-success pointer d-flex align-items-center justify-content-center"
                             *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
-                            (click)="approveField('accountHolderName', requestedData.user.uan)">
+                            (click)="approveField('uan', requestedData.user.uan)">
                             <i class="ti ti-checks "></i>
                           </div>
                         </div>
@@ -2649,7 +2649,7 @@
                                   fill="#CF7800" />
                               </g>
                             </svg>
-                            Account Holder Name
+                            UAN
                           </h6>
                           <!-- <p class="mb-0 fw-semibold">{{item.createdDate | date:'dd-MM-yyyy'}}</p> -->
                         </div>
@@ -2718,13 +2718,13 @@
                           <div
                             class="icon-info-activity bg-soft-danger pointer d-flex align-items-center justify-content-center"
                             *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
-                            (click)="removeField('bankName', requestedData.user.esi)">
+                            (click)="removeField('esi', requestedData.user.esi)">
                             <i class="ti ti-x"></i>
                           </div>
                           <div
                             class="icon-info-activity bg-soft-success pointer d-flex align-items-center justify-content-center"
                             *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
-                            (click)="approveField('bankName', requestedData.user.esi)">
+                            (click)="approveField('esi', requestedData.user.esi)">
                             <i class="ti ti-checks "></i>
                           </div>
                         </div>
@@ -3738,7 +3738,7 @@
         </div>
       </div>
 
-      <div *ngIf="routes.includes('/bank-details')" class="row border-top pt-4 pb-3" formGroupName="statutoryDetails">
+      <div *ngIf="routes.includes('/statutory')" class="row border-top pt-4 pb-3" formGroupName="statutoryDetails">
         <div class="col-md-3">
           <div class="profile-imfo-hedding">
             <h5>Statutory Details</h5>
