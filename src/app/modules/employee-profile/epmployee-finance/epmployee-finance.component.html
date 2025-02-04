@@ -1965,7 +1965,7 @@
                             <input type="radio" name="taxregime" id="new" [value]="2"
                                 [(ngModel)]="userSalaryTemplate2.taxRegimeId"
                                 class="form-check-input ng-untouched ng-pristine ng-invalid">
-                            <p for="exampleRadios1" class="form-check-label mb-0"> New Tax Regime </p>
+                            <p for="new" class="form-check-label mb-0"> New Tax Regime </p>
                         </label>
                     </div>
                 </div>
@@ -1974,10 +1974,10 @@
                         <div class="tex-regime">
                         <label
                             class="form-check notifaction-req d-flex align-items-center justify-content-start gap-2"><input
-                                [(ngModel)]="userSalaryTemplate2.taxRegimeId" type="radio" name="taxregime"
-                                id="old" [value]="1"
+                                type="radio" name="taxregime"id="old" [value]="1"
+                                [(ngModel)]="userSalaryTemplate2.taxRegimeId" 
                                 class="form-check-input ng-untouched ng-pristine ng-invalid">
-                            <p for="exampleRadios1" class="form-check-label mb-0"> Old Tax Regime </p>
+                            <p for="old" class="form-check-label mb-0"> Old Tax Regime </p>
                         </label>
                     </div>
                     </div>

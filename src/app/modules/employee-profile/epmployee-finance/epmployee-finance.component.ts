@@ -609,18 +609,22 @@ readonly BASIC_PAY_ID = Key.BASIC_PAY_ID;
 readonly HRA_ID = Key.HRA_ID;
 formatterPercent = (value: number): string => `${value} %`;
 parserPercent = (value: string): string => value.replace(' %', '');
- salaryComponentList1: SalaryComponent[] = new Array();
+//  salaryComponentList1: SalaryComponent[] = new Array();
  userSalaryTemplate1 : UserSalaryTemplateComponent = new UserSalaryTemplateComponent();
  userSalaryTemplate2 : UserSalaryTemplateComponent = new UserSalaryTemplateComponent();
-  salaryComponentResponseList : SalaryComponentResponse[] = new Array();
-  taxExemptionValueList : TaxExemptionValueRes [] = new Array();
+  // salaryComponentResponseList : SalaryComponentResponse[] = new Array();
+  // taxExemptionValueList : TaxExemptionValueRes [] = new Array();
   templateLoader:boolean=false;
   getCustomSalaryTemplate() {
     this.templateLoader = true;
     this._salaryService.getCustomSalaryTemplate(this.userUuid).subscribe((response) => {
       if(response.status){
         this.userSalaryTemplate1 = response.object;
-        this.userSalaryTemplate2 = JSON.parse(JSON.stringify(this.userSalaryTemplate1 ));
+        if(this.userSalaryTemplate1!=null){
+          this.userSalaryTemplate2 = JSON.parse(JSON.stringify(this.userSalaryTemplate1 ));
+        }else{
+          this.userSalaryTemplate1 = new UserSalaryTemplateComponent();
+        }
 
       }
       this.templateLoader = false;
