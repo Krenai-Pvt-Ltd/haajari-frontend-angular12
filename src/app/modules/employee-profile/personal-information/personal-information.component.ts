@@ -90,6 +90,10 @@ export class PersonalInformationComponent implements OnInit {
         accountNumber: ['',],
         ifsc: ['',],
       }),
+      statutoryDetails: this.fb.group({
+        uan: ['',],
+        esi: ['',],
+      }),
       userExperience: this.fb.array([]),
       userEmergencyContacts: this.fb.array([]),
     });
@@ -119,6 +123,7 @@ export class PersonalInformationComponent implements OnInit {
   bankDetailsEmployee: any;
   isBankShimmer: boolean = false;
 
+  statutoryDetails: any;
 
   refrences: any;
 
@@ -814,6 +819,12 @@ export class PersonalInformationComponent implements OnInit {
     }
     return this.editedFields.filter(item => item.columnName === columnName);
   }
+
+  disableUnder18Dates = (current: Date): boolean => {
+    const minDate = new Date();
+    minDate.setFullYear(minDate.getFullYear() - 18);
+    return current > minDate;
+  };
 
 
 

@@ -315,7 +315,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
       this.loadResignations();
     }
 
-  
+
 
   allEmployeeRequest(){
     this.users = [];
@@ -1012,17 +1012,17 @@ export class EmployeeOnboardingDataComponent implements OnInit {
           this.removeAllSingleEntries();
           this.validateMap.forEach((values, key) => {
             console.log(`Key: ${key}`);
-            
+
             this.mismatches.push('<br />');
             // Add repeated mismatch message
             this.mismatches.push(`Repeated : "${key}" at row no.`);
-            
+
             // Scroll into view if element exists
             if (this.elementToScroll) {
               this.elementToScroll!.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
               console.log('Values:', values);
             }
-          
+
             // Split values into chunks of 50 and add line breaks
             const chunkSize = 50;
             for (let i = 0; i < values.length; i += chunkSize) {
@@ -1137,7 +1137,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     console.log("🚀 ~ EmployeeOnboardingDataComponent ~ validateRows ~ rows:", rows)
     this.invalidRows = new Array(rows.length).fill(false); // Reset invalid rows
     this.invalidCells = Array.from({ length: rows.length }, () => new Array(this.expectedColumns.length).fill(false)); // Reset invalid cells
-    
+
     for (let i = 0; i < rows.length; i++) {
       let rowIsValid = true;
       let hasEmptyRow =false;
@@ -1149,10 +1149,10 @@ export class EmployeeOnboardingDataComponent implements OnInit {
           this.invalidRows[i] = true; // Mark the row as invalid
           this.invalidCells[i][j] = true; // Mark the cell as invalid
           if(!hasEmptyRow){
-            this.addToMap('Empty Fields',`${i+1}`);
-            hasEmptyRow=true;
+            // this.addToMap('Empty Fields',`${i+1}`);
+            // hasEmptyRow=true;
           }
-          
+
         }
         if (this.fileColumnName[j] === 'email*' && cellValue) {
           this.addToMap(cellValue.toString(),`${i+1}`);
@@ -2175,7 +2175,7 @@ console.log(this.data);
     );
   }
 
-  
+
   // User Resignation end
 
   pendingRequests:any;
