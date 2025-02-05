@@ -853,8 +853,8 @@
                                                         <button type="button" nz-popover nzPopoverTitle="Note"
                                                             [nzPopoverContent]="contentTemplate"
                                                             [nzPopoverOverlayStyle]="{'width':'300px'}"
-                                                            class="btn primaryBtnLink leave-request"
-                                                            *ngIf="UUID==currentUserUuid">
+                                                            class="btn primaryBtnLink leave-request" (click)="applyNewLeaveReq()"
+                                                            *ngIf="UUID==currentUserUuid"> 
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="20"
                                                                 height="21" viewBox="0 0 20 21" fill="none">
                                                                 <mask id="mask0_5145_1779" style="mask-type:alpha"
@@ -1640,7 +1640,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Apply for a leave</h5>
+                    <h5 class="modal-title" (click)="resetUserLeave()" id="exampleModalLabel">Apply for a leave</h5>
                     <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButton>
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                             <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
@@ -1704,31 +1704,31 @@
                                             <p class="mb-0">Select if you are requesting Half Leave <span
                                                     class="font-12 text-primary">(optional)</span></p>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="defaultCheck1"
+                                                <input class="form-check-input" type="checkbox" id="defaultCheck1" formControlName="isHalf"
                                                     [(ngModel)]="userLeaveRequest.halfDayLeave"
                                                     (change)="toggleHalfLeaveSelection($event)" />
                                             </div>
                                         </div>
-
+                                        {{userLeaveRequest.halfDayLeave}}
                                         <div class="row mt-3 mb-2" *ngIf="isHalfLeaveSelected">
                                             <hr>
                                             <div class="col-md-6">
                                                 <label
                                                     class="form-check assets-req d-flex align-items-center justify-content-start">
-                                                    <input formControlName="dayShift"
+                                                    <input 
                                                         (change)="dayShiftToggleFun('day')" class="form-check-input"
                                                         type="radio" name="halfLeave" value="firstHalf"
-                                                        [(ngModel)]="userLeaveRequest.dayShift" />
+                                                        />
                                                     <p class="form-check-label mb-0">First half</p>
                                                 </label>
                                             </div>
                                             <div class="col-md-6">
                                                 <label
                                                     class="form-check assets-req d-flex align-items-center justify-content-start">
-                                                    <input formControlName="eveningShift"
+                                                    <input 
                                                         (change)="dayShiftToggleFun('evening')" class="form-check-input"
                                                         type="radio" name="halfLeave" value="secondHalf"
-                                                        [(ngModel)]="userLeaveRequest.eveningShift" />
+                                                         />
                                                     <p class="form-check-label mb-0">Second Half</p>
                                                 </label>
                                             </div>

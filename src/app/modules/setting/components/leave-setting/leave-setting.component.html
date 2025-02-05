@@ -652,16 +652,16 @@
 
                      <span class="staff-leave-setting bg-white">Staff - {{ newLeaveSetting.totalEmployees }}</span>
                      <span class="automation-rules-toogel-btn pointer" data-bs-toggle="collapse"
-                       [attr.data-bs-target]="'#multiCollapseExample1' + i" role="button"
-                       [attr.aria-controls]="'multiCollapseExample1' + i"
-                       [attr.aria-expanded]="i == wfhActiveIndex ? 'true' : 'false'" (click)="toggleCollapseWFH(i)">
+                       [attr.data-bs-target]="'#multiCollapseWeekOff' + i" role="button"
+                       [attr.aria-controls]="'multiCollapseWeekOff' + i"
+                       [attr.aria-expanded]="i == onDutyActiveIndex ? 'true' : 'false'" (click)="toggleCollapseOnDuty(i)">
                        <i class="bi bi-chevron-down"></i>
                      </span>
                    </div>
                  </div>
 
-                 <div class="collapse multi-collapse" [id]="'multiCollapseExample1' + i"
-                   [class.show]="wfhActiveIndex === i">
+                 <div class="collapse multi-collapse" [id]="'multiCollapseWeekOff' + i"
+                   [class.show]="onDutyActiveIndex === i">
                    <div class="row mt-3">
                      <div [ngClass]="{
                      'col-md-4':
@@ -757,7 +757,7 @@
                       Template setting
                     </button>
 
-                    <button *ngIf="!wfhTemplateToggle" class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill"
+                    <button *ngIf="!wfhTemplateToggle && !weekOffTemplateToggle" class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill"
                       id="profile-tab" data-bs-target="#v-pills-profile" type="button" role="tab"
                       aria-controls="v-pills-profile" aria-selected="false"
                       [disabled]="!leaveTemplateDefinitionForm.form.valid" #leaveCategoryTab1>
@@ -768,9 +768,11 @@
                       id="profile-tab" data-bs-target="#v-pills-profile" type="button" role="tab"
                       (click)="goToLeaveCategoryTab();" aria-controls="v-pills-profile" aria-selected="false"
                       [disabled]="!leaveTemplateDefinitionForm.form.valid" #leaveCategoryTab1>
-                      WFH Categories
+                      
+                      <span *ngIf="weekOffTemplateToggle"> Week Off Categories</span>
+                      <span *ngIf="!weekOffTemplateToggle">On Duty Categories</span>
                     </button>
-
+                    
                     <button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill"
                       data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages"
                       aria-selected="false" [disabled]="displayedCategories.length == 0" #staffSelectionTab1>
@@ -831,7 +833,7 @@
 
                           <div class="col-md-6 mb-3" nz-form-item>
                             <label for="leaveRenewalCycle" class="pb-2">
-                              <span *ngIf="wfhTemplateToggle">WFH</span> <span *ngIf="!wfhTemplateToggle">Leave</span>
+                              <!-- <span *ngIf="wfhTemplateToggle">WFH</span> <span *ngIf="!wfhTemplateToggle">Leave</span> -->
                               Quota Renew Cycle
                             </label>
 
@@ -1090,7 +1092,8 @@
                                 </label>
 
                                 <nz-select [nzDisabled]="wfhTemplateToggle" nzSize="large"
-                                  nzPlaceHolder="Unused leave action" formControlName="unusedLeaveActionId" required
+                                  nzPlaceHolder="Unused leave action" formControlName="unusedLeaveActionId" 
+                                  required 
                                   class="form-control placeholder-line w-100">
                                   <nz-option *ngFor="
                                       let unusedLeaveAction of unusedLeaveActionList
@@ -1139,7 +1142,8 @@
                                     && categories.controls[i]!.get('unusedLeaveActionCount')?.value > 0">
                                 <div class="col-md-12 mb-3" nz-form-item >
                                   <div class="form-check d-flex align-items-center gap-2">
-                                    <input type="checkbox" formControlName="isReset" id="exampleCheck1" class="form-check-input" [checked]="categories.controls[i]!.get('isReset')?.value">
+                                    <input type="checkbox" formControlName="isReset" id="exampleCheck1" class="form-check-input" 
+                                     [checked]="categories.controls[i]!.get('isReset')?.value">
                                     <label class="form-check-label" for="exampleCheck1" >Lapse this leave category upon template expiration.</label>
                                   </div>
                                 </div>
@@ -1186,6 +1190,7 @@
                                   Update leave Category
                                 </button>
 
+                                
                                 <button [disabled]="!form.valid" [ngClass]="{'btn-border-text': form.valid}"
                                   *ngIf="!editToggle" class="p-0 btn text-primary leave-category"
                                   (click)="addFormRow(i)">
