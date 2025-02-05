@@ -47,6 +47,7 @@ export class Routes {
     public static ACCOUNTSETTINGS = "/setting/account-settings"
     public static INBOX = "/inbox"
     public static ASSETSMANAGEMENT = "/assets-management"
+    public static FAQ = "/faq"
     
  /**
     * DYNAMIC ROUTES END

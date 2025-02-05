@@ -244,7 +244,7 @@ export class CreateExpenseComponent implements OnInit {
     return current && current >= today;
   };
 
-  userExpense: any;
+  userExpense!: any;
   fullPartialAmount: any;
   getExpense(expense: any) {
 

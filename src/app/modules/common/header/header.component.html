@@ -25,7 +25,9 @@
                 (click)="routeToEmployeeProfilePage()">
                 <a class="sidebar-menu-link sidebar-menu-link">
                   <span class="  ">
-                    <i class="bi bi-house-door menu-icon pr-2"></i>
+                    <!-- <i class="bi bi-house-door menu-icon pr-2"></i> -->
+                    <img *ngIf="0 !=activeIndex" src="assets/images/sidebar-icon/dashboard.svg">
+                    <img *ngIf="0 == activeIndex" src="assets/images/sidebar-icon/dashboard-active.svg">
                     Dashboard
                   </span>
                 </a>
@@ -38,14 +40,15 @@
           <div>
             <ul class="sidebar-menu">
               <div class="sliderNav" [ngStyle]="sliderStyle5"></div>
-              <li [class.active]="0 === activeIndex" (mouseover)="updateSliderStyle5(0)" (mouseout)="resetHoverIndex5()"
-                (click)="setActive5(0);checkRestriction('/dashboard');" class="pointer"
+              <li [class.active]="0 === activeIndex" (mouseover)="activateTab('dashboard');updateSliderStyle5(0)" (mouseout)="activateTab('dashboard');;activateTab('dashboard');resetHoverIndex5()"
+                (click)="setActive5(0);checkRestriction('/dashboard');activateTab('dashboard')" class="pointer"
                 routerLinkActive="sidebar-menu-active" routerLink="/dashboard">
+                <!-- image-container -->
                 <a class="sidebar-menu-link sidebar-menu-link">
-                  <span>
-                    <i class="bi bi-house-door menu-icon pr-2"></i>
-                    <!-- <img src="assets/images/sidebar-icon/dashboard.svg"> -->
-                    <!-- <img src="assets/images/sidebar-icon/dashboard-active.svg"> -->
+                  <span class="d-flex align-items-center gap-2">
+                    <!-- <i class="bi bi-house-door menu-icon pr-2"></i> -->
+                    <img *ngIf="showActiveTab != 'dashboard'" src="assets/images/sidebar-icon/dashboard.svg" class="default-img">
+                    <img *ngIf="showActiveTab == 'dashboard'"  src="assets/images/sidebar-icon/dashboard-active.svg" class="hover-img">
                     Dashboard
                   </span>
                 </a>
@@ -60,14 +63,14 @@
             <div class="sliderNav" [ngStyle]="sliderStyle2"></div>
             <!-- Onboarding -->
             <li *ngIf="this.rbacService.shouldDisplay('onboarding')" [class.active]="activeIndex === 0"
-              (mouseover)="updateSliderStyle2(0)" (mouseout)="resetHoverIndex2()"
-              (click)="setActive2(0);checkRestriction('/employee-onboarding-data');" class="pointer"
+              (mouseover)="activateTab('employee');updateSliderStyle2(0);activateTab('employee')" (mouseout)="resetHoverIndex2()"
+              (click)="setActive2(0);checkRestriction('/employee-onboarding-data');activateTab('employee')" class="pointer"
               routerLinkActive="sidebar-menu-active" routerLink="/employee-onboarding-data">
               <a class="sidebar-menu-link">
                 <span>
-                  <i class="bi bi-person-plus menu-icon"></i> 
-                     <!-- <img src="assets/images/sidebar-icon/employee.svg"> -->
-                     <!-- <img src="assets/images/sidebar-icon/employee-active.svg"> -->
+                  <!-- <i class="bi bi-person-plus menu-icon"></i>  -->
+                     <img *ngIf="showActiveTab != 'employee'" src="assets/images/sidebar-icon/employee.svg">
+                     <img *ngIf="showActiveTab == 'employee'" src="assets/images/sidebar-icon/employee-active.svg">
                   Employee</span>
               </a>
             </li>
@@ -77,18 +80,18 @@
                   ? activeIndex === 1
                   : activeIndex === 0
               " (mouseover)="
-                updateSliderStyle2(
+              activateTab('team');updateSliderStyle2(
                   this.rbacService.shouldDisplay('onboarding') ? 1 : 0
                 )
-              " (mouseout)="resetHoverIndex2()" (click)="
+              " (mouseout)="resetHoverIndex2();activateTab('team')" (click)="
                 setActive2(this.rbacService.shouldDisplay('onboarding') ? 1 : 0)
               " class="pointer" routerLinkActive="sidebar-menu-active" routerLink="/team"
-              (click)="setActiveTabEmpty();checkRestriction('/team');" *ngIf="ROLE !== 'HR ADMIN'">
+              (click)="setActiveTabEmpty();checkRestriction('/team');activateTab('team')" *ngIf="ROLE !== 'HR ADMIN'">
               <a class="sidebar-menu-link">
                 <span>
-                  <i class="bi bi-people menu-icon"></i>
-                   <!-- <img src="assets/images/sidebar-icon/team-icon.svg"> -->
-                     <!-- <img src="assets/images/sidebar-icon/team-icon-active.svg"> -->
+                  <!-- <i class="bi bi-people menu-icon"></i> -->
+                   <img *ngIf="showActiveTab != 'team'" src="assets/images/sidebar-icon/team-icon.svg">
+                     <img *ngIf="showActiveTab == 'team'" src="assets/images/sidebar-icon/team-icon-active.svg">
                    Team</span>
               </a>
             </li>
@@ -104,13 +107,15 @@
             <!-- [class.active]="0 === activeIndex" (mouseover)="setHoverIndex(0)" (mouseout)="resetHoverIndex()" (click)="setActive(0)" -->
             <!-- Attendance -->
             <li class="pointer" [class.active]="visibleIndex(0) === activeIndex"
-              (mouseover)="updateSliderStyle(visibleIndex(0))" (mouseout)="resetHoverIndex()"
-              (click)="setActive(visibleIndex(0));checkRestriction('/timetable');"
+              (mouseover)="activateTab('attendance');updateSliderStyle(visibleIndex(0));" (mouseout)="resetHoverIndex()"
+              (click)="setActive(visibleIndex(0));checkRestriction('/timetable');activateTab('attendance')"
               *ngIf="this.rbacService.shouldDisplay('attendance')" routerLinkActive="sidebar-menu-active"
               routerLink="/timetable">
               <a class="sidebar-menu-link">
-                <span class=" ">
-                  <i class="bi bi-calendar2-check menu-icon"></i>
+                <span>
+                  <!-- <i class="bi bi-calendar2-check menu-icon"></i> -->
+                  <img *ngIf="showActiveTab != 'attendance'" src="assets/images/sidebar-icon/attendance.svg" class="default-img">
+                  <img *ngIf="showActiveTab == 'attendance'"  src="assets/images/sidebar-icon/attendance-active.svg" class="hover-img">
                   Attendance
                   <!-- <span class="alert-badge" *ngIf="newNotification"></span> -->
                 </span>
@@ -118,43 +123,59 @@
             </li>
             <!-- Leaves -->
             <li class="pointer" [class.active]="visibleIndex(1) === activeIndex"
-              (mouseover)="updateSliderStyle(visibleIndex(1))" (mouseout)="resetHoverIndex()"
-              (click)="setActive(visibleIndex(1));checkRestriction('/leave-management');"
+              (mouseover)="activateTab('leaves');updateSliderStyle(visibleIndex(1))" (mouseout)="resetHoverIndex()"
+              (click)="setActive(visibleIndex(1));checkRestriction('/leave-management');activateTab('leaves')"
               *ngIf="this.rbacService.shouldDisplay('leave-management')" routerLinkActive="sidebar-menu-active"
               routerLink="/leave-management">
               <a class="sidebar-menu-link">
-                <span class=" "><i class="bi bi-alarm menu-icon"></i> Leaves</span>
+                <span>
+                  <!-- <i class="bi bi-alarm menu-icon"></i> -->
+                  <img *ngIf="showActiveTab != 'leaves'" src="assets/images/sidebar-icon/leaves.svg" class="default-img">
+                  <img *ngIf="showActiveTab == 'leaves'"  src="assets/images/sidebar-icon/leaves-active.svg" class="hover-img">
+                   Leaves</span>
               </a>
             </li>
 
-            <li [class.active]="visibleIndex(2) === activeIndex" (mouseover)="updateSliderStyle(visibleIndex(2))"
-              (mouseout)="resetHoverIndex4()" (click)="setActive(visibleIndex(2));checkRestriction('/expense');"
+            <li [class.active]="visibleIndex(2) === activeIndex" (mouseover)="updateSliderStyle(visibleIndex(2));"
+              (mouseout)="resetHoverIndex4()" (click)="setActive(visibleIndex(2));checkRestriction('/expense');activateTab('expense')"
               class="pointer" routerLinkActive="sidebar-menu-active" routerLink="/expense"
               *ngIf="this.rbacService.shouldDisplay('Expense Management')">
               <a class="sidebar-menu-link">
-                <span class=" ">
-                  <i class="bi bi-briefcase menu-icon"></i> Expense
+                <span>
+                  <!-- <i class="bi bi-briefcase menu-icon"></i> -->
+                  <img *ngIf="showActiveTab != 'expense'" src="assets/images/sidebar-icon/expense.svg" class="default-img">
+                  <img *ngIf="showActiveTab == 'expense'"  src="assets/images/sidebar-icon/expense-active.svg" class="hover-img">
+                   Expense
                 </span>
               </a>
             </li>
 
             <li class="pointer" [class.active]="visibleIndex(3) === activeIndex"
               (mouseover)="updateSliderStyle(visibleIndex(3))" (mouseout)="resetHoverIndex()"
-              (click)="setActive(visibleIndex(3));checkRestriction('/assets');"
+              (click)="setActive(visibleIndex(3));checkRestriction('/assets');activateTab('assets')"
               *ngIf="this.rbacService.shouldDisplay('assets')" routerLinkActive="sidebar-menu-active"
               routerLink="/assets">
               <a class="sidebar-menu-link">
-                <span class=" "><i class="bi bi-box menu-icon"></i> Assets</span>
+                <span>
+                  <!-- <i class="bi bi-box menu-icon"></i>  -->
+                  <img *ngIf="showActiveTab != 'assets'" src="assets/images/sidebar-icon/assets.svg" class="default-img">
+                  <img *ngIf="showActiveTab == 'assets'"  src="assets/images/sidebar-icon/assets-active.svg" class="hover-img">
+                  Assets
+                </span>
               </a>
             </li>
 
             <li class="pointer" [class.active]="visibleIndex(4) === activeIndex"
               (mouseover)="updateSliderStyle(visibleIndex(4))" (mouseout)="resetHoverIndex()"
-              (click)="setActive(visibleIndex(4));checkRestriction('/reports');"
+              (click)="setActive(visibleIndex(4));checkRestriction('/reports');activateTab('report')"
               *ngIf="this.rbacService.shouldDisplay('reports')" routerLinkActive="sidebar-menu-active"
               routerLink="/reports">
               <a class="sidebar-menu-link">
-                <span class=" "><i class="bi bi-bar-chart-line menu-icon"></i> Reports</span>
+                <span>
+                  <!-- <i class="bi bi-bar-chart-line menu-icon"></i> -->
+                  <img *ngIf="showActiveTab != 'report'" src="assets/images/sidebar-icon/reports.svg" class="default-img">
+                  <img *ngIf="showActiveTab == 'report'"  src="assets/images/sidebar-icon/reports-active.svg" class="hover-img">
+                   Reports</span>
               </a>
             </li>
             <!-- Assets -->
@@ -162,14 +183,18 @@
             <!-- Super Coins -->
             <li class="pointer" [class.active]="visibleIndex(5) === activeIndex"
               (mouseover)="updateSliderStyle(visibleIndex(5))" (mouseout)="resetHoverIndex()"
-              (click)="setActive(visibleIndex(5));checkRestriction('/coins');" *ngIf="
+              (click)="setActive(visibleIndex(5));checkRestriction('/coins');activateTab('coins')" *ngIf="
                 this.rbacService.shouldDisplay('coins') &&
                 ROLE === ADMIN &&
                 ORGANIZATION_UUID == KRENAI_UUID &&
                 showSuperCoinFlag
               " routerLinkActive="sidebar-menu-active" routerLink="/coins">
               <a class="sidebar-menu-link">
-                <span class=" "><i class="bi bi-coin menu-icon"></i> Super Coins</span>
+                <span>
+                  <!-- <i class="bi bi-coin menu-icon"></i> -->
+                  <img *ngIf="showActiveTab != 'coins'" src="assets/images/sidebar-icon/super-coins.svg" class="default-img">
+                  <img *ngIf="showActiveTab == 'coins'"  src="assets/images/sidebar-icon/super-coins-active.svg" class="hover-img">
+                   Super Coins</span>
               </a>
             </li>
             <!-- else projectCondition -->
@@ -254,11 +279,15 @@
           <ul class="sidebar-menu">
             <div class="sliderNav" [ngStyle]="sliderStyle3"></div>
             <li [class.active]="0 === activeIndex" (mouseover)="updateSliderStyle3(0)" (mouseout)="resetHoverIndex3()"
-              (click)="setActive3(0);checkRestriction('/payment/payroll-dashboard');" class="pointer"
+              (click)="setActive3(0);checkRestriction('/payment/payroll-dashboard');activateTab('payrollDashboard')" class="pointer"
               routerLinkActive="sidebar-menu-active" routerLink="/payment/payroll-dashboard"
               *ngIf="this.rbacService.shouldDisplay('payroll dashboard')">
               <a class="sidebar-menu-link">
-                <span class=" "><i class="ti ti-apps"></i> Dashboard</span>
+                <span>
+                  <!-- <i class="ti ti-apps"></i> -->
+                  <img *ngIf="showActiveTab != 'payrollDashboard'" src="assets/images/sidebar-icon/payroll-dashboard.svg" class="default-img">
+                  <img *ngIf="showActiveTab == 'payrollDashboard'"  src="assets/images/sidebar-icon/payroll-dashboard-active.svg" class="hover-img">
+                   Dashboard</span>
               </a>
             </li>
             <!-- <li [class.active]="1 === activeIndex" (mouseover)="updateSliderStyle3(1)" (mouseout)="resetHoverIndex3()"
@@ -270,20 +299,27 @@
               </a>
             </li> -->
             <li [class.active]="1 === activeIndex" (mouseover)="updateSliderStyle3(1)" (mouseout)="resetHoverIndex3()"
-              (click)="setActive3(1);checkRestriction('/payment/epf-esi-tds');" class="pointer"
+              (click)="setActive3(1);checkRestriction('/payment/epf-esi-tds');activateTab('eps')" class="pointer"
               routerLinkActive="sidebar-menu-active" routerLink="/payment/epf-esi-tds"
               *ngIf="this.rbacService.shouldDisplay('epf esi tds')">
               <a class="sidebar-menu-link">
-                <span class=" "><i class="ti ti-scissors"></i> EPF, ESI & TDS</span>
+                <span>
+                  <!-- <i class="ti ti-scissors"></i> -->
+                  <img *ngIf="showActiveTab != 'eps'" src="assets/images/sidebar-icon/epf-esi.svg" class="default-img">
+                  <img *ngIf="showActiveTab == 'eps'"  src="assets/images/sidebar-icon/epf-esi-active.svg" class="hover-img">
+                   EPF, ESI & TDS</span>
               </a>
             </li>
             <li [class.active]="2 === activeIndex" (mouseover)="updateSliderStyle3(2)" (mouseout)="resetHoverIndex3()"
-              (click)="setActive3(2);checkRestriction('/payment/payment-history');" class="pointer"
+              (click)="setActive3(2);checkRestriction('/payment/payment-history');activateTab('salary')" class="pointer"
               routerLinkActive="sidebar-menu-active" routerLink="/payment/payment-history"
               *ngIf="this.rbacService.shouldDisplay('salary slip')">
               <a class="sidebar-menu-link">
-                <span class=" "><i class="bi bi-receipt-cutoff"></i> Generate Salary
-                  Slip</span>
+                <span>
+                  <!-- <i class="bi bi-receipt-cutoff"></i> -->
+                  <img *ngIf="showActiveTab != 'salary'" src="assets/images/sidebar-icon/salary-slip.svg" class="default-img">
+                  <img *ngIf="showActiveTab == 'salary'"  src="assets/images/sidebar-icon/salary-slip-active.svg" class="hover-img">
+                   Generate Salary Slip</span>
               </a>
             </li>
           </ul>
@@ -316,51 +352,66 @@
           <ul class="sidebar-menu">
             <div class="sliderNav" [ngStyle]="sliderStyle4"></div>
             <li [class.active]="0 === activeIndex" (mouseover)="updateSliderStyle4(0)" (mouseout)="resetHoverIndex4()"
-              (click)="setActive4(0);checkRestriction('/setting/company-setting');" class="pointer"
+              (click)="setActive4(0);checkRestriction('/setting/company-setting');activateTab('companySetting')" class="pointer"
               routerLinkActive="sidebar-menu-active" routerLink="/setting/company-setting"
               *ngIf="this.rbacService.shouldDisplay('company setting')">
               <a class="sidebar-menu-link">
-                <span class=" ">
-                  <i class="bi bi-building menu-icon"></i> Company Setting</span>
+                <span>
+                  <!-- <i class="bi bi-building menu-icon"></i> -->
+                  <img *ngIf="showActiveTab != 'companySetting'" src="assets/images/sidebar-icon/company-setting.svg" class="default-img">
+                  <img *ngIf="showActiveTab == 'companySetting'"  src="assets/images/sidebar-icon/company-setting-active.svg" class="hover-img">
+                   Company Setting</span>
               </a>
             </li>
             <li [class.active]="1 === activeIndex" (mouseover)="updateSliderStyle4(1)" (mouseout)="resetHoverIndex4()"
-              (click)="setActive4(1);checkRestriction('/setting/attendance-setting');" class="pointer"
+              (click)="setActive4(1);checkRestriction('/setting/attendance-setting');activateTab('attendanceSetting')" class="pointer"
               routerLinkActive="sidebar-menu-active" routerLink="/setting/attendance-setting"
               *ngIf="this.rbacService.shouldDisplay('attendance setting')">
               <a class="sidebar-menu-link">
-                <span class=" "><i class="bi bi-clock-history menu-icon"></i> Attendance
-                  Setting</span>
+                <span>
+                  <!-- <i class="bi bi-clock-history menu-icon"></i> -->
+                  <img *ngIf="showActiveTab != 'attendanceSetting'" src="assets/images/sidebar-icon/attendance-setting.svg" class="default-img">
+                  <img *ngIf="showActiveTab == 'attendanceSetting'"  src="assets/images/sidebar-icon/attendance-setting-active.svg" class="hover-img">
+                   Attendance Setting</span>
               </a>
             </li>
 
             <li [class.active]="2 === activeIndex" (mouseover)="updateSliderStyle4(2)" (mouseout)="resetHoverIndex4()"
-              (click)="setActive4(2);checkRestriction('/setting/leave-setting');" class="pointer"
+              (click)="setActive4(2);checkRestriction('/setting/leave-setting');activateTab('leaveSetting')" class="pointer"
               routerLinkActive="sidebar-menu-active" routerLink="/setting/leave-setting"
               *ngIf="this.rbacService.shouldDisplay('leave setting')">
               <a class="sidebar-menu-link">
-                <span class=" ">
-                  <i class="bi bi-briefcase menu-icon"></i> Leave Settings
+                <span>
+                  <!-- <i class="bi bi-briefcase menu-icon"></i> -->
+                  <img *ngIf="showActiveTab != 'leaveSetting'" src="assets/images/sidebar-icon/leave-setting.svg" class="default-img">
+                  <img *ngIf="showActiveTab == 'leaveSetting'"  src="assets/images/sidebar-icon/leave-setting-active.svg" class="hover-img">
+                   Leave Settings
                 </span>
               </a>
             </li>
 
             <li [class.active]="3 === activeIndex" (mouseover)="updateSliderStyle4(3)" (mouseout)="resetHoverIndex4()"
-              (click)="setActive4(3);checkRestriction('/setting/salary-setting');" class="pointer"
+              (click)="setActive4(3);checkRestriction('/setting/salary-setting');activateTab('salarySetting')" class="pointer"
               routerLinkActive="sidebar-menu-active" routerLink="/setting/salary-setting"
               *ngIf="this.rbacService.shouldDisplay('salary setting')">
               <a class="sidebar-menu-link">
-                <span class=" "><i class="bi bi-cash-stack menu-icon"></i> Salary
-                  Setting</span>
+                <span>
+                  <!-- <i class="bi bi-cash-stack menu-icon"></i>  -->
+                  <img *ngIf="showActiveTab != 'salarySetting'" src="assets/images/sidebar-icon/salary-setting.svg" class="default-img">
+                  <img *ngIf="showActiveTab == 'salarySetting'"  src="assets/images/sidebar-icon/salary-setting-active.svg" class="hover-img">
+                  Salary Setting</span>
               </a>
             </li>
 
             <li [class.active]="4 === activeIndex" (mouseover)="updateSliderStyle4(4)" (mouseout)="resetHoverIndex4()"
-              (click)="setActive4(4);checkRestriction('/role');" class="pointer" routerLinkActive="sidebar-menu-active"
+              (click)="setActive4(4);checkRestriction('/role');activateTab('role')" class="pointer" routerLinkActive="sidebar-menu-active"
               routerLink="/role" *ngIf="this.rbacService.shouldDisplay('role & permission')">
               <a class="sidebar-menu-link">
-                <span class=" "><i class="bi bi-person-check menu-icon"></i> Admin
-                  Permission</span>
+                <span>
+                  <!-- <i class="bi bi-person-check menu-icon"></i> -->
+                  <img *ngIf="showActiveTab != 'role'" src="assets/images/sidebar-icon/dashboard.svg" class="default-img">
+                  <img *ngIf="showActiveTab == 'role'"  src="assets/images/sidebar-icon/dashboard-active.svg" class="hover-img">
+                   Admin Permission</span>
               </a>
             </li>
 
