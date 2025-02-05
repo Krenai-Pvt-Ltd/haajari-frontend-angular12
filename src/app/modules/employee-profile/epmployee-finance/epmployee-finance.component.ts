@@ -634,6 +634,12 @@ parserPercent = (value: string): string => value.replace(' %', '');
     );
   }
 
+
+  // resetSalaryTemplate(){
+  //   this.userSalaryTemplate2.salaryComponentResponseList = JSON.parse(JSON.stringify(this.userSalaryTemplate1.salaryComponentResponseList));
+  //   this.userSalaryTemplate2.taxExemptionValueList = JSON.parse(JSON.stringify(this.userSalaryTemplate1.taxExemptionValueList));
+  // }
+
 saveLoader:boolean=false;
 saveCustomSalaryTemplate() {
   this.saveLoader = true;

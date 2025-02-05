@@ -5,6 +5,7 @@ export class UserSalaryTemplateComponent{
 
     id:number=0;
 	taxRegimeId:number=0;
+	isFixed:number=0;
 	salaryComponentResponseList : SalaryComponentResponse[] = new Array();
 	taxExemptionValueList : TaxExemptionValueRes [] = new Array();
 }
