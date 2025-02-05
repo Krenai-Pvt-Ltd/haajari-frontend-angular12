@@ -27,21 +27,9 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  /* Space between elements */
 }
-
-/* .select-all-page {
-  color: #007bff !important;
-  font-weight: bold; 
-} */
-
-.orderpcardleft {
-  width: 80%;
-}
-
-.employe-onbording.empSelected {
-  /* background-color: #f5f5ff; */
-  border: 1px solid #6666f3;
+.min-w-200{
+  min-width: 200px !important;
 }
 
 .orderpcardlefth6 {
@@ -723,7 +711,7 @@ textarea {
   text-transform: capitalize;
 }
 
-.user-avatar {
+/* .user-avatar {
   border-radius: 6px;
   padding: 3px 3px;
   background-color: rgb(241 241 253) !important;
@@ -731,7 +719,7 @@ textarea {
   text-align: center;
   display: inline-block;
   line-height: 1;
-}
+} */
 
 nz-select {
   width: 100%;
@@ -845,9 +833,11 @@ Remove border from nz-select .ant-select:not(.ant-select-customize-input) .ant-s
 }
 
 .actionMenuList .dropdown-item {
-  font-size: 15px;
+  font-size: 14px !important;
   color: #333 !important;
   border-radius: 6px;
+  padding: 3px 15px !important;
+
 }
 
 .actionMenuList .dropdown-item i {
@@ -941,7 +931,7 @@ Remove border from nz-select .ant-select:not(.ant-select-customize-input) .ant-s
 .excelUploadTable tbody td>input {
   background: #fff !important;
   border: 1px solid #f1f1f1;
-  height: 35px;
+  height: 40px;
   font-weight: 400 !important;
   font-size: 12px !important;
   line-height: 18px;
@@ -955,19 +945,7 @@ Remove border from nz-select .ant-select:not(.ant-select-customize-input) .ant-s
   min-height: 35px !important;
 }
 
-.excelUploadTable .whatapp-login-input {
-  /* height: 35px !important; */
-  height: fit-content !important;
-  border: 1px solid #f1f1f1 !important;
-  border-radius: 2px !important;
-}
 
-.excelUploadTable .ant-select:not(.ant-select-customize-input) .ant-select-selector {
-  border-radius: 0px !important;
-  min-height: 35px !important;
-  color: #1f1f1f !important;
-  height: 35px;
-}
 
 .next-btn {
   text-align: center;
@@ -1364,15 +1342,6 @@ span.members-namess {
   font-size: 12px !important;
   font-weight: 400 !important;
 }
-
-/* ::ng-deep .ant-select-selection-placeholder {
-  padding: 0;
-  line-height: 44px !important;
-  transition: all .3s;
-} */
-
-
-
 .nav.nav-pills {
   background-color: transparent;
   border-bottom: 1px solid #edeff5;
@@ -1387,10 +1356,9 @@ span.members-namess {
 }
 
 .nav-link {
-  /* margin-right: 20px; */
   display: block;
   padding: 7px 10px;
-  color: #000;
+  color: #6B7280;
   font-size: 13px;
   font-style: normal;
   font-weight: 500;
@@ -1542,4 +1510,217 @@ span.request-count {
   position: relative;
   top: -1px;
   width: 14px;
+}
+
+.team-name{
+  border-radius: 20px;
+  background-color: #F4F4FF;
+  padding: 4px 8px;
+  text-align: left;
+  width: 90px;
+}
+.team-count{
+  background-color: #fff;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  color: #000;
+}
+.team-name-one{
+  overflow: hidden;
+    /* padding: 2em; */
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 45px;
+}
+.team-list svg{
+  position: relative;
+  top: -1px;
+}
+
+.team-list{
+  height: 250px;
+  overflow: scroll;
+}
+.total-employee{
+  border: 1px solid #f2f2f2;
+  height: 135px;
+}
+.use-funds-separator{
+  border-left: 1px solid #DCDCE4;
+  height: 50px;
+}
+.verified{
+  background-color: #388E3C;
+}
+.pending{
+  background-color: #E78E13;
+}
+.rejected{
+  background-color: #FF3014;
+}
+.request{
+  background-color: #6666F2;
+}
+
+.employee-request{
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 4px;
+}
+.resignation-request{
+  background-color: #F9FAFC;
+  border-radius: 20px;
+  padding: 5px 15px;
+}
+
+.asset-assigned-search {
+  border: 1px solid #EAEAEA;
+}
+.search-filter .new-dropdown {
+  display: block;
+  width: 120px;
+  padding: .4rem .5rem;
+  font-size: 14px !important;
+  background-color: #fff;
+  border: none !important;
+  border-right: 1px solid #f2f2f2 !important;
+  font-weight: 500;
+  box-shadow: unset;
+  color: #444;
+}
+
+.actionMenuList {
+  line-height: 35px;
+}
+
+.filter-box {
+  width: 300px !important;
+  border-radius: 2px !important;
+  padding: 0px !important;
+  filter: drop-shadow(0px 8px 10px rgba(0, 0, 0, 0.15));
+}
+
+.search-date input {
+  border: none;
+  height: 48px !important;
+  border-left: 0;
+  border-right: 1px solid #EAEAEA;
+  font-weight: 400 !important;
+  font-size: 14px !important;
+  color: #1f1f1f !important;
+}
+
+.search-icon {
+  font-size: 13px !important;
+  position: absolute !important;
+  top: 0;
+  color: var(--tb-secondary-color) !important;
+  margin: auto auto auto 15px;
+}
+
+.filter-btn {
+  min-width: 460px;
+}
+
+.categories-filter input{
+  position: relative;
+  top: -2px;
+  box-sizing: border-box;
+  padding: 0;
+  accent-color: #6766f3;
+  width: 20px;
+  height: 20px;
+  border-radius: 2px;
+}
+
+.filter-btn svg{
+  position: relative;
+  top: -2px;
+}
+.btn-separator {
+  border-left: 1px solid #DCDCE4;
+  height: 20px;
+}
+
+.info-count{
+  background-color: #F2F4F4;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+}
+.excel-upload-file-box{
+  border: 1px dashed #ABABAB;
+  background-color: rgba(244, 247, 255, 0.30);
+  border-radius: 2px;
+  height: 300px;
+}
+
+.select-all-btn{
+  border: 1px solid #6666F2;
+  color: #6666F2;
+  padding: 5px 15px;
+}
+
+.set-current input[type=checkbox]{
+  box-sizing: border-box;
+  padding: 0;
+  accent-color: #6766f3;
+  width: 18px;
+  height: 18px;
+  border-radius: 2px;
+}
+.through-email .form-check-input {
+  width: 20px;
+  height: 20px;
+}
+
+.through-email{
+  background-color: #F1F4F9;
+  border-radius: 2px;
+  padding: 15px 15px;
+  width: 200px;
+}
+
+.through-email input{
+  margin-left: 0px;
+  margin-top: 0px;
+}
+::ng-deep .placeholder-line .ant-select-selection-placeholder {
+  line-height: 50px !important;
+  font-size: 0.875rem !important;
+  font-weight: 400 !important;
+}
+
+::ng-deep .placeholder-line .ant-select-selection-item {
+  line-height: 50px !important;
+  font-size: 0.875rem !important;
+  font-weight: 400 !important;
+}
+
+
+.filter-bdg {
+  overflow-x: scroll;
+  flex-wrap: nowrap;
+}
+
+.filter-pills {
+  line-height: 18px;
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  border-radius: 52px;
+  padding: 6px 15px;
+  white-space: nowrap;
+  margin-bottom: 0 !important;
+  background-color: #557ef826;
+}
+
+.btnAction {
+  background-color: #F9FAFC;
+  width: 30px;
+  height: 33px;
+  border-radius: 2px;
+  border: 1px solid #EFEFEF;
 }
