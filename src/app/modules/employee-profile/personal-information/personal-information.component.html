@@ -3750,17 +3750,18 @@
             <!-- Account Holder Name -->
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input formControlName="uan" type="text" class="form__field"
+                <input formControlName="uan" type="text" class="form__field" maxlength="12"
                   [(ngModel)]="this.onboardingPreviewDataCopy.user.uan" />
                 <label class="form__label">UAN Number</label>
               </div>
+
 
             </div>
 
             <!-- Bank Name -->
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input formControlName="esi" type="text" class="form__field"
+                <input formControlName="esi" type="text" class="form__field" maxlength="17"
                   [(ngModel)]="this.onboardingPreviewDataCopy.user.esi" />
                 <label class="form__label">ESI Number</label>
               </div>

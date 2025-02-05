@@ -91,7 +91,7 @@ export class PersonalInformationComponent implements OnInit {
         ifsc: ['',],
       }),
       statutoryDetails: this.fb.group({
-        uan: ['',],
+        uan: ['', Validators.pattern(/^\d{12}$/)],
         esi: ['',],
       }),
       userExperience: this.fb.array([]),
@@ -242,12 +242,12 @@ export class PersonalInformationComponent implements OnInit {
         this.fieldLoading = false;
         console.log('Response:', response);
         if (response.success) {
-          this.helperService.showToast('Field removed successfully', Key.TOAST_STATUS_SUCCESS);
+          this.helperService.showToast('Rejected Successfully', Key.TOAST_STATUS_SUCCESS);
           this.getOnboardingFormPreviewMethodCall();
           this.fetchRequestedData();
 
         } else {
-          this.helperService.showToast('Failed to remove the field', Key.TOAST_STATUS_ERROR);
+          this.helperService.showToast('Failed to reject', Key.TOAST_STATUS_ERROR);
         }
       },
       error: (err) => {
@@ -265,11 +265,11 @@ export class PersonalInformationComponent implements OnInit {
         this.fieldLoading = false;
         console.log('Response:', response);
         if (response.success) {
-          this.helperService.showToast('Field approve successfully', Key.TOAST_STATUS_SUCCESS);
+          this.helperService.showToast('Approved Successfully', Key.TOAST_STATUS_SUCCESS);
           this.getOnboardingFormPreviewMethodCall();
           this.fetchRequestedData();
         } else {
-          this.helperService.showToast('Failed to approve the field', Key.TOAST_STATUS_ERROR);
+          this.helperService.showToast('Failed to approve', Key.TOAST_STATUS_ERROR);
         }
       },
       error: (err) => {
