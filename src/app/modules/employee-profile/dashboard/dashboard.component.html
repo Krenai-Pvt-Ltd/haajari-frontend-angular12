@@ -495,7 +495,7 @@
                                 <div class="table-responsive bg-white">
 
                                     <table class="table empOnnoardtable">
-                                        <thead *ngIf="!isFullLogLoader && this.attendanceRequestLog?.length==0"
+                                        <thead *ngIf="!isFullLogLoader && this.attendanceRequests?.length!=0"
                                             class="thead-light">
                                             <tr>
                                                 <th class="text-left font-13" style="width: 10%">Apply On</th>
@@ -518,7 +518,7 @@
                                         </tbody>
 
                                         <div class="d-flex align-items-center justify-content-center"
-                                            *ngIf="!isFullLogLoader && dataNotFoundForAttendanceUpdateRequestLog">
+                                            *ngIf="!isAttendanceLoading && attendanceRequests?.length==0">
                                             <div class="empty-file" style="margin-top: 9%; margin-bottom: 9%">
                                                 <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
                                                     [nzNotFoundContent]="contentTpl">
@@ -529,7 +529,7 @@
                                             </div>
                                         </div>
 
-                                        <tbody *ngIf="!isFullLogLoader && !dataNotFoundForAttendanceUpdateRequestLog">
+                                        <tbody *ngIf="!isAttendanceLoading && attendanceRequests?.length!=0">
 
                                             <tr *ngFor="let item of attendanceRequests">
                                                 <td class="text-left">

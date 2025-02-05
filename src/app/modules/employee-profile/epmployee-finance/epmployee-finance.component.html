@@ -759,6 +759,7 @@
                                     [nzNotFoundContent]="contentTpl">
                                     <ng-template #contentTpl>
                                         <p class="mb-1 empty-detail">No data for now</p>
+                                       
                                     </ng-template>
                                 </nz-empty>
                             </div>
@@ -921,6 +922,7 @@
                                 [nzNotFoundContent]="contentTpl">
                                 <ng-template #contentTpl>
                                     <p class="mb-1 empty-detail">No data for now</p>
+                                    
                                 </ng-template>
                             </nz-empty>
                         </div>
@@ -933,6 +935,9 @@
                     <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
                         <ng-template #contentTpl>
                             <p class="mb-1 empty-detail">No data for now</p>
+                            <button type="button" class="btn p-0 text-primary font-13 fw-semibold" (click)="openAppraisal()">
+                                <i class="bi bi-plus p-0 fw-semibold" style="font-size: 15px text-primary"></i> Add Salary
+                            </button>
                         </ng-template>
                     </nz-empty>
                 </div>

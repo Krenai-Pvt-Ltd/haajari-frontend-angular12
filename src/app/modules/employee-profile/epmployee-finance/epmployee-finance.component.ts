@@ -648,6 +648,8 @@ saveAppraisal() {
   this._dataService.saveAppraisalRequest(this.appraisal).subscribe((response) => {
       this._helperService.showToast("Appraisal processed successfully", Key.TOAST_STATUS_SUCCESS);
       this.appraisalCloseButton.nativeElement.click();
+      this.getCurrentSalaryDetail();
+      this.getUserSalaryTemplate();
       this.saveLoader = false;
     },
     (error) => {
