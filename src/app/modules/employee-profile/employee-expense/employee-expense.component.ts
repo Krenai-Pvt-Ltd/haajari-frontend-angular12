@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { NgForm } from '@angular/forms';
 import moment from 'moment';
@@ -17,7 +17,7 @@ import { RoleBasedAccessControlService } from 'src/app/services/role-based-acces
 })
 export class EmployeeExpenseComponent implements OnInit {
 
-  constructor(private dataService: DataService, private helperService: HelperService,
+  constructor(private dataService: DataService, private helperService: HelperService, private cdr: ChangeDetectorRef,
     private rbacService: RoleBasedAccessControlService, private afStorage: AngularFireStorage) { }
 
   ROLE: any;
@@ -456,12 +456,18 @@ disableMonths = (date: Date): boolean => {
  getManagerId(id: any) {
    this.expenseTypeReq.managerId = id
  }
-
+ activeIndex: number = 0;
+ onRemovingFile: boolean= true;
  removeImage(url: string): void {
+  this.onRemovingFile=false;
   const index = this.expenseTypeReq.urls.indexOf(url);
   if (index !== -1) {
     this.expenseTypeReq.urls.splice(index, 1); // Remove the specific URL
   }
+  this.activeIndex= 0;
+  this.onRemovingFile=true;
+  this.cdr.detectChanges();
+
 }
 
 
@@ -651,6 +657,8 @@ disableMonths = (date: Date): boolean => {
   isUploading: boolean = false;
   fileName: any;
   isFileUploaded: boolean = false;
+  selectedFiles: File[] = [];
+  imagePreviewUrls:any =[];
   onFileSelected(event: Event): void {
     debugger;
 
@@ -658,41 +666,50 @@ disableMonths = (date: Date): boolean => {
     const fileList: FileList | null = element.files;
 
     if (fileList && fileList.length > 0) {
+      if(fileList.length + this.expenseTypeReq.urls.length > 7 ){
+        this.helperService.showToast('Unable to add more than 7 Files', Key.TOAST_STATUS_ERROR);
+        return;
+      }
       this.isFileUploaded = true;
-      const file = fileList[0];
 
-      this.fileName = file.name;
-      // Check if the file type is valid
-      if (this.isValidFileType(file)) {
-        this.selectedFile = file;
+      // Clear previous selections
+      this.selectedFiles = [];
+      this.imagePreviewUrls = [];
+
+      for (let i = 0; i < fileList.length; i++) {
+        const file = fileList[i];
+
+        // Check if the file type is valid
+        if (this.isValidFileType(file)) {
+          this.selectedFiles.push(file); // Add file to the list of selected files
+
+          const reader = new FileReader();
+          reader.onload = (e: any) => {
+            // Set the loaded image as the preview
+            this.imagePreviewUrls.push(e.target.result); // Add image preview URL to the list
+          };
+          reader.readAsDataURL(file);
+
+          this.uploadFile(file); // Upload each file individually
+        } else {
+          // Handle invalid file type here (e.g., show an error message)
+          console.error(
+            `Invalid file type for file ${file.name}. Please select a jpg, jpeg, or png file.`
+          );
+        }
+      }
+
+      if (this.selectedFiles.length > 0) {
         this.isUploading = true;
-
-        const reader = new FileReader();
-        reader.onload = (e: any) => {
-          // Set the loaded image as the preview
-          this.imagePreviewUrl = e.target.result;
-        };
-        reader.readAsDataURL(file);
-
-        this.uploadFile(file);
-
-        console.log('url is', this.expenseTypeReq.url)
-
       } else {
-        element.value = '';
+        element.value = ''; // Clear the input if no valid files were selected
         this.isFileUploaded = false;
-        this.expenseTypeReq.url = '';
-        // Handle invalid file type here (e.g., show an error message)
-        console.error(
-          'Invalid file type. Please select a jpg, jpeg, or png file.'
-        );
       }
     } else {
       this.isFileSelected = false;
     }
   }
 
-  // Helper function to check if the file type is valid
   isInvalidFileType = false;
   isValidFileType(file: File): boolean {
     const validExtensions = ['jpg', 'jpeg', 'png'];
