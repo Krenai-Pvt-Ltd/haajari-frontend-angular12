@@ -948,7 +948,7 @@ export class DashboardComponent implements OnInit {
   attendanceDetailsResponseList: AttendanceDetailsResponse[] = [];
   totalItems: number = 0;
   pageNumberNew: number = 1;
-  itemsPerPage: number = 10;
+  itemsPerPage: number = 12;
   search: string = '';
   searchByNew: string = 'name';
   sort: string = 'asc';
@@ -985,7 +985,7 @@ export class DashboardComponent implements OnInit {
           // console.log(this.attendanceDetailsResponseList);
           this.totalItems = response.totalItems;
           this.lastPageNumberNew = Math.ceil(this.totalItems / this.itemPerPage);
-          // console.log("lastPageNumberNew" + this.lastPageNumberNew );
+          console.log("lastPageNumberNew" + this.lastPageNumberNew );
 
           if (
            (this.attendanceDetailsResponseList === undefined ||
