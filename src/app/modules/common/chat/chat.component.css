@@ -1,0 +1,84 @@
+.chat-area{
+    background-color: #FBFCFF;
+    height: 80vh;
+    border: 1px solid #D5D5D5;
+    border-radius: 4px;
+    box-shadow: 0px 6.812px 14.475px 0px rgba(0, 0, 0, 0.10);
+    top: 120px;
+    position: sticky;
+}
+.chat-bottom {
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #FBFCFF;
+}
+.chat-bottom-form {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chat-bottom-form textarea {
+    font-weight: 500;
+    line-height: 20px;
+    color: #808191;
+    background: #fff;
+    border: 1px solid #E4E4E4;
+    border-radius: 4px;
+    min-height: 50px;
+    padding: 14px 12px;
+    padding-right: 40px;
+}
+.bottomform-btn {
+    font-size: 20px;
+    background-color: transparent !important;
+    border: none;
+    transform: rotate(45deg);
+    position: absolute;
+    right: 25px;
+    color: #6666F2;
+}
+.user-side-text{
+    border-radius: 5px;
+}
+
+span.user-name {
+    background-color: #6666f2;
+    width: 25px;
+    height: 25px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 14px;
+}
+.user-side-text{
+    max-width: 70%;
+    border-radius: 4px;
+    
+}
+
+.admin-side-text {
+    background-color: #ECECEC;
+    max-width: 75%;
+    border-radius: 4px;
+}
+
+@media only screen and (max-width: 2600px){
+    .chat-msg{
+        max-height: 560px;
+        overflow: scroll;
+    }
+}
+@media only screen and (max-width: 1280px) {
+    .chat-msg{
+        max-height: 450px;
+        overflow: scroll;
+    }
+}
+
+.chat-msg::-webkit-scrollbar{
+display: none;
+}
+::ng-deep .ant-empty-image{
+    height: 40px;
+}
