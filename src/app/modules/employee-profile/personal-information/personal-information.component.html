@@ -117,14 +117,10 @@
               </svg>
             </span>
             <ng-template #contentTemplate>
-              <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
-                (click)="removeField('position', requestedData.user.position)">Delete</button>
-              <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
-                (click)="approveField('position', requestedData.user.position)">Approve</button> -->
+              
               <div class="request-g">
                 <div class="d-flex align-items-center justify-content-between border-bottom p-3">
                   <h5 class="mb-0">Update Request</h5>
-                  <!-- <span class="badge rounded-pill badge-soft-warning"> PENDING </span> -->
 
                   <div class="d-flex align-items-center gap-2">
                     <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
@@ -277,25 +273,7 @@
         </div>
         <span>Joining Date: {{ (user.joiningDate | date:'dd-MM-yyyy') || '--' }}</span>
       </div>
-      <!-- <div class="d-flex align-items-center gap-3 mt-2 gap-2" *ngIf="
-            user!.employeeOnboardingStatus?.response == 'PENDING' && rbacService.userInfo.role != 'USER'
-          ">
-        <button [disabled]="approvedToggle" class="btn btn-soft-success btn-round" type="button"
-          (click)="updateStatusUserByUuid('APPROVED')">
-          <div *ngIf="!approvedToggle">
-            <i class="ti ti-checks font-16"></i> Approve
-          </div>
-          <div class="approve-button-loader" *ngIf="approvedToggle">
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-        </button>
-        <button class="btn btn-soft-danger btn-round" type="button" data-bs-toggle="modal"
-          data-bs-target="#showRejectModal">
-          <i class="ti ti-alert-octagon font-16"></i> Reject </button>
-      </div> -->
-      <!--  -->
+      
       <div class="action-btn" *ngIf=" user!.employeeOnboardingStatus?.response != 'PENDING'">
         <div class="d-flex align-items-center gap-3" *ngIf="requestedData && rbacService.userInfo.role != 'USER'">
           <button
@@ -346,35 +324,23 @@
             Edit It
           </button>
 
-          <span *ngIf=" !requestedData && onboardingPreviewData!.reasonOfRejection"
-          class="profile-editrequest d-flex align-items-center justify-content-center pointer position-relative">
+        
+           <span class="separator-border"></span>
 
-          <span style="width: 40px !important;" nz-popover [nzPopoverContent]="contentTemplate"
-            [nzPopoverOverlayStyle]="{'width':'400px'}" nzPopoverPlacement="left">
-            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
-              <circle cx="13" cy="13" r="13" fill="#FFF6E9" />
-              <mask id="mask0_6512_3861" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="6" y="6" width="14"
-                height="14">
-                <rect x="6" y="6" width="14" height="14" fill="#D9D9D9" />
-              </mask>
-              <g mask="url(#mask0_6512_3861)">
-                <path
-                  d="M10.6673 17.6641H15.334V15.9141C15.334 15.2724 15.1055 14.7231 14.6486 14.2661C14.1916 13.8092 13.6423 13.5807 13.0007 13.5807C12.359 13.5807 11.8097 13.8092 11.3527 14.2661C10.8958 14.7231 10.6673 15.2724 10.6673 15.9141V17.6641ZM8.33398 18.8307V17.6641H9.50065V15.9141C9.50065 15.321 9.63919 14.7644 9.91628 14.2443C10.1934 13.7241 10.5798 13.3085 11.0757 12.9974C10.5798 12.6863 10.1934 12.2707 9.91628 11.7505C9.63919 11.2304 9.50065 10.6738 9.50065 10.0807V8.33073H8.33398V7.16406H17.6673V8.33073H16.5007V10.0807C16.5007 10.6738 16.3621 11.2304 16.085 11.7505C15.8079 12.2707 15.4215 12.6863 14.9257 12.9974C15.4215 13.3085 15.8079 13.7241 16.085 14.2443C16.3621 14.7644 16.5007 15.321 16.5007 15.9141V17.6641H17.6673V18.8307H8.33398Z"
-                  fill="#CF7800" />
-              </g>
-            </svg>
-          </span>
-
-            <ng-template class="request-g" #contentTemplate>
-              <div lass="d-flex align-items-center justify-content-between border-bottom p-3">
-                <h5 class="mb-0"> {{onboardingPreviewData!.reasonOfRejection}}</h5>
-                </div>
-
-
+          <div class="badge rounded-pill badge-soft-danger" *ngIf=" !requestedData && onboardingPreviewData!.reasonOfRejection"
+           [nzPopoverOverlayStyle]="{'width':'300px'}"
+            [nzPopoverContent]="contentTemplate" nz-popover nzPopoverPlacement="left">  REJECTED </div>
+            <ng-template #contentTemplate>
+              <div class="request-g">
+              <div class="d-flex align-items-center justify-content-between border-bottom p-3">
+                <h5 class="mb-0 font-14">Rejection Reason</h5>
+              </div>
+              <div class="p-3">
+              <p class="mb-0 font-13 fw-semibold"> {{onboardingPreviewData!.reasonOfRejection}}</p>
+            </div>
+            </div>
             </ng-template>
 
-
-          </span>
         </div>
       </div>
     </div>
@@ -3747,41 +3713,27 @@
         <div class="col-md-9">
 
           <div class="row">
-            <!-- UAN -->
+            <!-- Account Holder Name -->
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input formControlName="uan" type="text" class="form__field" maxlength="12" [(ngModel)]="this.onboardingPreviewDataCopy.user.uan" (ngModelChange)="checkUan(onboardingPreviewDataCopy.user.uan)"/>
+                <input formControlName="uan" type="text" class="form__field" maxlength="12"
+                  [(ngModel)]="this.onboardingPreviewDataCopy.user.uan" />
                 <label class="form__label">UAN Number</label>
               </div>
-              <!-- Validation Messages -->
-              <div *ngIf="onboardingForm.get('statutoryDetails.uan')?.errors?.invalidLength" class="text-danger">
-                UAN must be exactly 12 digits.
-              </div>
-              <div *ngIf="onboardingForm.get('statutoryDetails.uan')?.errors?.invalidFormat" class="text-danger">
-                UAN must contain only numbers.
-              </div>
-              <div *ngIf="uanExists" class="text-danger">
-                UAN already exists in organization.
-              </div>
+
+
             </div>
 
-            <!-- ESI -->
+            <!-- Bank Name -->
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input formControlName="esi" type="text" class="form__field" maxlength="17" [(ngModel)]="this.onboardingPreviewDataCopy.user.esi" (ngModelChange)="checkEsi(onboardingPreviewDataCopy.user.esi)" />
+                <input formControlName="esi" type="text" class="form__field" maxlength="17"
+                  [(ngModel)]="this.onboardingPreviewDataCopy.user.esi" />
                 <label class="form__label">ESI Number</label>
               </div>
-              <!-- Validation Messages -->
-              <div *ngIf="onboardingForm.get('statutoryDetails.esi')?.errors?.invalidLength" class="text-danger">
-                ESI must be exactly 17 digits.
-              </div>
-              <div *ngIf="onboardingForm.get('statutoryDetails.esi')?.errors?.invalidFormat" class="text-danger">
-                ESI must contain only numbers.
-              </div>
-              <div *ngIf="esiExists" class="text-danger">
-                ESI already exists in organization.
-              </div>
+
             </div>
+
           </div>
         </div>
       </div>
