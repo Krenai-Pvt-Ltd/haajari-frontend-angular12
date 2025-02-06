@@ -2049,7 +2049,7 @@ Edit Request Modal End
                         <input type="checkbox" [(ngModel)]="row.selected" />
                       </td>
                       <td class="text-center set-current">
-                        {{i}}
+                        {{(currentPage - 1) * pageSize + i + 1}}
                       </td>
                       <td *ngFor="let cell of fileColumnName; let j = index">
                         <ng-container *ngIf="fileColumnName[j] === 'shift*' ; else leaveColumns">
