@@ -64,7 +64,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   userList: UserReq[] = new Array();
 
   currentPage: number = 1;
-  pageSize: number = 10; // Adjust based on your requirements
+  pageSize: number = 7; // Adjust based on your requirements
   totalPage: number = 0;
 
   onPageChange(page: number) {
@@ -197,6 +197,40 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     }, debounceTime);
   }
 
+  usersPage: any | null = null;
+  //search: string = '';
+  statuses: string[] = [];
+  pageable = { page: 1, size: 10, sort: '' };
+  loadUsers(): void {
+    this.dataService
+      .getUsersByOrganizationUuid(
+        this.search,
+        this.statuses,
+        this.pageable
+      )
+      .subscribe(
+        (data) => {
+          this.usersPage = data;
+        },
+        (error) => {
+          console.error('Error fetching users:', error);
+        }
+      );
+  }
+  onSort(sortField: string): void {
+    // Toggle sorting order if the same field is clicked again
+    if (this.pageable.sort && this.pageable.sort.startsWith(sortField)) {
+      const currentOrder = this.pageable.sort.endsWith('asc') ? 'desc' : 'asc';
+      this.pageable.sort = `${sortField},${currentOrder}`;
+    } else {
+      // Default to ascending order for a new field
+      this.pageable.sort = `${sortField},asc`;
+    }
+
+    this.pageable.page = 0; // Reset to the first page when sorting
+    this.loadUsers();
+  }
+
   resignationRequest(){
     this.users = [];
     this.isResignationUser = 1
@@ -281,7 +315,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
       this.loadResignations();
     }
 
-  
+
 
   allEmployeeRequest(){
     this.users = [];
@@ -874,6 +908,8 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     this.fileName = null;
     this.currentFileUpload = null;
     this.firstUpload=true;
+    this.currentFileUpload = null;
+      this.fileName = null;
   }
 
   fileName: any;
@@ -881,7 +917,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
 
 
   expectedColumns: string[] = ['Name*', 'Phone*', 'Email*', 'Shift*', 'JoiningDate*', 'Gender*'];
-  correctColumnName: string[] = ['S. NO.*', 'Name*', 'Phone*', 'Email*', 'Shift*', 'JoiningDate*', 'Gender*', 'leavenames', 'ctc', 'emptype', 'empId', 'branch', 'department', 'position', 'nationality' , 'grade', 'team', 'dob', 'fathername', 'maritalstatus', 'address', 'city', 'state', 'country', 'pincode', 'panno', 'aadharno', 'drivinglicence', 'emergencyname', 'emergencyphone', 'emergencyrelation', 'accountholdername', 'bankname', 'accountnumber', 'ifsccode'];
+  correctColumnName: string[] = ['S. NO.*', 'Name*', 'Phone*', 'Email*', 'Shift*', 'JoiningDate*', 'Gender*', 'leavenames', 'ctc', 'emptype', 'empId', 'branch', 'department', 'position', 'nationality' , 'grade', 'team', 'dob', 'fathername', 'maritalstatus', 'address', 'city', 'state', 'country', 'pincode', 'panno', 'aadharno', 'drivinglicence', 'emergencyname', 'emergencyphone', 'emergencyrelation', 'accountholdername', 'bankname', 'accountnumber', 'ifsccode', 'uan', 'esi number'];
   fileColumnName:string[] = [];
   genders: string[] = ['Male', 'Female'];
   isExcel: string = '';
@@ -978,17 +1014,17 @@ export class EmployeeOnboardingDataComponent implements OnInit {
           this.removeAllSingleEntries();
           this.validateMap.forEach((values, key) => {
             console.log(`Key: ${key}`);
-            
+
             this.mismatches.push('<br />');
             // Add repeated mismatch message
             this.mismatches.push(`Repeated : "${key}" at row no.`);
-            
+
             // Scroll into view if element exists
             if (this.elementToScroll) {
               this.elementToScroll!.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
               console.log('Values:', values);
             }
-          
+
             // Split values into chunks of 50 and add line breaks
             const chunkSize = 50;
             for (let i = 0; i < values.length; i += chunkSize) {
@@ -1047,6 +1083,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   }
 
   validateColumns(columnNames: string[]): boolean {
+    debugger
     this.mismatches = []; // Reset mismatches
 
     // Step 2: Normalize both expected and actual column names for comparison
@@ -1103,7 +1140,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     console.log("🚀 ~ EmployeeOnboardingDataComponent ~ validateRows ~ rows:", rows)
     this.invalidRows = new Array(rows.length).fill(false); // Reset invalid rows
     this.invalidCells = Array.from({ length: rows.length }, () => new Array(this.expectedColumns.length).fill(false)); // Reset invalid cells
-    
+
     for (let i = 0; i < rows.length; i++) {
       let rowIsValid = true;
       let hasEmptyRow =false;
@@ -1115,10 +1152,10 @@ export class EmployeeOnboardingDataComponent implements OnInit {
           this.invalidRows[i] = true; // Mark the row as invalid
           this.invalidCells[i][j] = true; // Mark the cell as invalid
           if(!hasEmptyRow){
-            this.addToMap('Empty Fields',`${i+1}`);
-            hasEmptyRow=true;
+            // this.addToMap('Empty Fields',`${i+1}`);
+            // hasEmptyRow=true;
           }
-          
+
         }
         if (this.fileColumnName[j] === 'email*' && cellValue) {
           this.addToMap(cellValue.toString(),`${i+1}`);
@@ -1969,15 +2006,15 @@ console.log(this.data);
 @ViewChild('duesWarningModalButton') duesWarning!:ElementRef;
   validateDuesInvoice(modal:any){
     // console.log("================validate======",modal);
-    if(this._subscriptionService.isDuesInvoice){
-      this.duesWarning.nativeElement.click();
-    }else{
+    // if(this._subscriptionService.isDuesInvoice){
+    //   this.duesWarning.nativeElement.click();
+    // }else{
       if(modal == 'add'){
         this.addEmployee.nativeElement.click();
       }else{
         this.bulkUpload.nativeElement.click();
       }
-    }
+    // }
   }
 
 
@@ -2141,7 +2178,7 @@ console.log(this.data);
     );
   }
 
-  
+
   // User Resignation end
 
   pendingRequests:any;
@@ -2477,6 +2514,16 @@ console.log(this.data);
     this.getUsersByFiltersFunction();
     this.getUser();
     this.closeNotificationModalFlag = false;
+  }
+
+  kuchbhi(type:string){
+    this.enableWhatsAppNotification  = false
+    this.enableEmailNotification  = false
+    if(type=='whatsapp') {
+      this.enableWhatsAppNotification = true
+    } else {
+      this.enableEmailNotification  = true
+    }
   }
 
 }

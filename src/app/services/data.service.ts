@@ -450,6 +450,33 @@ export class DataService {
     );
   }
 
+  getUsersByOrganizationUuid(
+    search: string | null,
+    statuses: string[] | null,
+    pageable: { page: number; size: number; sort?: string }
+  ): Observable<any> {
+    let params = new HttpParams()
+      .set('page', pageable.page.toString())
+      .set('size', pageable.size.toString());
+
+    if (search) {
+      params = params.set('search', search);
+    }
+
+    if (statuses && statuses.length > 0) {
+      statuses.forEach((status) => {
+        params = params.append('statuses', status);
+      });
+    }
+
+    if (pageable.sort) {
+      params = params.set('sort', pageable.sort);
+    }
+
+    return this.httpClient.get<any>(`${this.baseUrl}/users/onboarding-data-by-filter`, { params });
+  }
+
+
   getUsersByFilterForLeaveSetting(
     itemPerPage: number,
     pageNumber: number,
@@ -3384,7 +3411,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
 
   saveAppraisalRequest(appraisalRequest : AppraisalRequest){
 
-    return this.httpClient.post<any>(`${this.baseUrl}/salary/appraisal-request`, appraisalRequest);
+    return this.httpClient.post<any>(`${this.baseUrl}/salary/appraisal`, appraisalRequest);
   }
 
 

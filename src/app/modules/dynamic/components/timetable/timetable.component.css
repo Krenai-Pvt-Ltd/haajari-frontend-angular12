@@ -428,22 +428,6 @@ select.form-control {
   background-color: #f9fafb !important;
 }
 
-.table th {
-  color: #8997bd;
-  font-weight: 400;
-  vertical-align: middle;
-  border-color: #ececec;
-  font-size: 12px !important;
-  padding: 13px;
-  text-align: center;
-}
-
-.table td {
-  font-size: 12px !important;
-  padding: 13px;
-  text-align: center;
-}
-
 .attendance-date {
   border: none;
   font-size: 16px;
@@ -1587,15 +1571,34 @@ span.leave-rejected {
   border-bottom: 2px solid var(--primary-color);
 }
 
+
 .nav-link {
   display: block;
   padding: 7px 10px;
-  color: #000;
+  color: #6B7280;
   font-size: 13px;
   font-style: normal;
   font-weight: 500;
   text-align: left;
 }
+.nav-link-punch.active {
+  background: var(--primary-background-color) !important;
+  color: #fff !important;
+  border-radius: 20px;
+  border: 1px solid var(--primary-color); 
+}
+.nav-link-punch {
+  display: block;
+  padding: 7px 25px;
+  color: #6B7280;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 500;
+  text-align: left;
+  border: 1px solid #BEBEBE;
+  border-radius: 20px;
+}
+
 
 .nav-item {
   margin-right: 15px;
@@ -1622,4 +1625,164 @@ span.request-count {
   width: 25px;
   height: 25px;
   border-radius: 50%;
+}
+
+.asset-assigned-search {
+  border: 1px solid #EAEAEA;
+}
+.search-filter .new-dropdown {
+  display: block;
+  width: 120px;
+  padding: .4rem .5rem;
+  font-size: 14px !important;
+  background-color: #fff;
+  border: none !important;
+  border-right: 1px solid #f2f2f2 !important;
+  font-weight: 500;
+  box-shadow: unset;
+  color: #444;
+  height: 45px !important;
+}
+
+.actionMenuList {
+  line-height: 35px;
+}
+
+.filter-box {
+  width: 400px !important;
+  border-radius: 2px !important;
+  padding: 0px !important;
+  filter: drop-shadow(0px 8px 10px rgba(0, 0, 0, 0.15));
+}
+
+.search-date input {
+  border: none;
+  height: 45px !important;
+  border-left: 0;
+  border-right: 1px solid #EAEAEA;
+  font-weight: 400 !important;
+  font-size: 14px !important;
+  color: #1f1f1f !important;
+}
+
+.search-icon {
+  font-size: 13px !important;
+  position: absolute !important;
+  top: 0;
+  color: var(--tb-secondary-color) !important;
+  margin: auto auto auto 15px;
+}
+
+
+
+::ng-deep .placeholder-lines .ant-select-selection-placeholder {
+  line-height: 45px !important;
+  font-size: 0.875rem !important;
+  font-weight: 400 !important;
+}
+
+::ng-deep .placeholder-lines .ant-select-selection-item {
+  line-height: 45px !important;
+  font-size: 0.875rem !important;
+  font-weight: 400 !important;
+}
+::ng-deep  .placeholder-lines .ant-select-selector{
+  background-color: rgba(236, 236, 236, 0.21);
+  min-height: 45px !important;
+  height: 45px !important;
+}
+
+.table tbody{
+  border: 1px solid #f1f1f1;
+}
+
+.white-space{
+  white-space: normal;
+  width: 140px;
+  display: block;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.btnAction {
+  background-color: #F9FAFC;
+  width: 30px;
+  height: 33px;
+  border-radius: 2px;
+  border: 1px solid #EFEFEF;
+}
+
+.actionMenuList .dropdown-item {
+  font-size: 14px !important;
+  color: #333 !important;
+  border-radius: 6px;
+  padding: 0px 4px !important;
+}
+.actionMenuList .dropdown-item svg{
+   width: 22px;
+}
+
+.actionMenuList .dropdown-item:hover {
+  background-color: #F1F1FC;
+}
+
+.user-details{
+  background-color: #FAFAFA;
+}
+
+.user-details img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.requested-to {
+  background-color: #fbfbfb !important;
+  border: 1px solid #e9e9e9;
+  padding: 15px;
+  border-radius: 2px;
+}
+.total-leave {
+  background-color: #fbfbfb !important;
+  border-left: 3px solid #F3A73D !important;
+  border-right: 1px solid #e9e9e9;
+  border-top: 1px solid #e9e9e9;
+  border-bottom: 1px solid #e9e9e9;
+  padding: 15px;
+  border-radius: 2px;
+}
+
+.approved-btn {
+  background-color: #E0F4ED;
+  color: #388E3C !important;
+  border: 1px solid #388E3C;
+  border-radius: 2px;
+  min-width: 100px;
+}
+
+.reject-btn {
+  background-color: #FAECEA;
+  color: #FF3014 !important;
+  border: 1px solid #FF3014;
+  border-radius: 2px;
+  min-width: 100px;
+}
+
+
+.filter-bdg {
+  overflow-x: scroll;
+  flex-wrap: nowrap;
+}
+
+.filter-pills {
+  line-height: 18px;
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  border-radius: 52px;
+  padding: 6px 15px;
+  white-space: nowrap;
+  margin-bottom: 0 !important;
+  background-color: #557ef826;
 }

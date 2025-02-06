@@ -478,7 +478,7 @@ export class EpmployeeFinanceComponent implements OnInit {
 //   this._salaryService.getUserSalaryTemplate(this.userUuid).subscribe((response) => {
 //       if(response.status){
 //         this.userSalaryTemplate = response.object;
-//         console.log("template==================",this.userSalaryTemplate)
+//         // console.log("template==================",this.userSalaryTemplate)
 //       }
 //     },
 //     (error) => {
@@ -486,123 +486,13 @@ export class EpmployeeFinanceComponent implements OnInit {
 //     });
 // }
 
-// editBasicComponentField:boolean=false;
 @ViewChild('salaryTemplateButton')salaryTemplateButton!:ElementRef;
 @ViewChild('salaryTemplateCloseButton')salaryTemplateCloseButton!:ElementRef;
 openSalaryTemplate(){
   this.getCustomSalaryTemplate();
-  // this.editBasicComponentField = false;
-  // this.basicAmountFieldTouch = false;
-  // this.salaryComponentList = JSON.parse(JSON.stringify(this.userSalaryTemplate.salaryComponentResponseList));
-  // this.calculateSalaryComponentFirstTime();
   this.salaryTemplateButton.nativeElement.click();
 }
 
-
-// monthlyCTC: number = 0;
-// calculateSalaryComponentFirstTime(){
-//   this.monthlyCTC = Math.round(this.currentSalaryDetail.annualCTC / 12);
-//   this.salaryComponentList.forEach((component) => {
-//     let amount = 0;
-//       if (component.id === 2) {
-//         // HRA is based on Basic Salary
-//         const basicComponent = this.salaryComponentList.find((c) => c.id === 1);
-//         amount = basicComponent ? (basicComponent.amount * component.value) / 100 : 0;
-//       } else {
-//         // Remaining components are based on total salary
-//         amount = (this.monthlyCTC * component.value) / 100;
-//       }
-//       component.amount =Math.round(amount * 100.0)/ 100.0; 
-//   });
-//   this.computedSalaryList = JSON.parse(JSON.stringify(this.salaryComponentList));
-// }
-
-// editComponent(){
-//   this.editBasicComponentField = this.editBasicComponentField ? false: true;
-//   if(!this.editBasicComponentField){
-//     this.basicAmountFieldTouch = false;
-//     this.basicAmount  =  0;
-//     this.salaryComponentList = JSON.parse(JSON.stringify(this.userSalaryTemplate.salaryComponentResponseList));
-//     this.calculateSalaryComponentFirstTime();
-//   }else{
-//     const basicComponent = this.salaryComponentList.find((c) => c.id === 1);
-//     if(basicComponent){
-//       this.basicAmount  = basicComponent.amount;
-//       basicComponent.isFixed=1;
-//     }
-//   }
-// }
-
-// basicAmountFieldTouch:boolean=false;
-// basicAmount:number=0;
-// computedSalaryList:SalaryComponentResponse[] = new Array();
-// salaryComponentList: SalaryComponentResponse[] = new Array();
-// calculateSalaryComponents(): void {
-//   if(this.basicAmount > this.monthlyCTC){
-//     return;
-//   }
-//     let remainingSalary = this.monthlyCTC;
-//     let totalAmount=0;
-//     this.computedSalaryList = [];
-//     this.salaryComponentList.forEach((component) => {
-
-//       var computedComponent : SalaryComponentResponse = new SalaryComponentResponse();
-//       computedComponent = JSON.parse(JSON.stringify(component));
-//         let amount = 0;
-//         let percentage =0;
-//         // Determine the calculation based on isFixed
-//         if (component.isFixed === 1) {
-//           amount = this.basicAmount;
-//           percentage = (amount/ this.monthlyCTC) * 100;
-//         } else if (component.isFixed === 0) {
-//             // Percentage-based value
-//             if (component.id === 2) {
-//                 // HRA is based on Basic Salary
-//                 const basicComponent = this.salaryComponentList.find((c) => c.id === 1);
-//                 amount = basicComponent ? (basicComponent.amount * component.value) / 100 : 0;
-//             } else {
-//                 // Remaining components are based on total salary
-//                 amount = (this.monthlyCTC * component.value) / 100;
-//             }
-//             percentage = component.value;
-//         }
-
-//         amount= Math.round(amount * 100.0)/ 100.0; 
-//         percentage = Math.round(percentage * 100.0)/ 100.0; 
-
-//         totalAmount +=amount;
-
-//         if(remainingSalary>=1){
-
-//           if(totalAmount>this.monthlyCTC){
-//             percentage = Math.round(((remainingSalary/ this.monthlyCTC)* 100)* 100.0)/100.0;
-//             amount = Math.round(remainingSalary* 100.0)/100.0;
-//           }
-//           // Deduct the calculated amount from the remaining salary
-//           remainingSalary -= amount;
-
-//           console.log("========name======",component.name,"=======percentage=======",percentage,"=======amount======",amount,"===========" );
-//           computedComponent.value = percentage ;
-//           computedComponent.amount = amount;
-
-//           this.computedSalaryList.push(computedComponent);
-
-//         }
-
-//     });
-
-//     if(remainingSalary>=1){
-//         let component = new SalaryComponentResponse();
-//         component.id = 17;
-//         component.name = 'Other Allowance'
-//         component.isFixed = 0;
-//         component.value = Math.round(((remainingSalary/ this.monthlyCTC)* 100)* 100.0)/100.0;
-//         component.amount = Math.round(remainingSalary* 100.0)/100.0;
-//         this.computedSalaryList.push(component);
-//     }
-//     console.log("=== this.salaryComponentList.====", this.salaryComponentList);
-//     console.log("=== this.computedSalaryList.====", this.computedSalaryList);
-//   }
 
 
 readonly BASIC_PAY_ID = Key.BASIC_PAY_ID;
@@ -689,6 +579,8 @@ saveAppraisal() {
   this._dataService.saveAppraisalRequest(this.appraisal).subscribe((response) => {
       this._helperService.showToast("Appraisal processed successfully", Key.TOAST_STATUS_SUCCESS);
       this.appraisalCloseButton.nativeElement.click();
+      this.getCurrentSalaryDetail();
+      // this.getUserSalaryTemplate();
       this.saveLoader = false;
     },
     (error) => {

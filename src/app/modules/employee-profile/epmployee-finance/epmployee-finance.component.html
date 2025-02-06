@@ -1465,46 +1465,42 @@
           </div>
         </div>
       </div>
-      <div
-        id="pills-tabContent"
-        class="tab-content"
-        *ngIf="currentSalaryDetail.annualCTC == 0 && !firstTimeLoad"
-      >
+      <div id="pills-tabContent" class="tab-content" *ngIf="currentSalaryDetail.annualCTC == 0 && !firstTimeLoad">
         <div class="empty-file" style="margin-top: 20%; margin-bottom: 20%">
-          <nz-empty
-            nzNotFoundImage="assets/images/no-data-found-img.svg"
-            [nzNotFoundContent]="contentTpl"
-          >
-            <ng-template #contentTpl>
-              <p class="mb-1 empty-detail">No data for now</p>
-            </ng-template>
-          </nz-empty>
+            <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
+                <ng-template #contentTpl>
+                    <p class="mb-1 empty-detail">No data for now</p>
+                    <button type="button" class="btn p-0 text-primary font-13 fw-semibold" (click)="openAppraisal()">
+                        <i class="bi bi-plus p-0 fw-semibold" style="font-size: 15px text-primary"></i> Add Salary
+                    </button>
+                </ng-template>
+            </nz-empty>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<!--////////////////////////////////////////////////// UPDATE SALARY TEMPLATE MODAL START //////////////////////////////////////////////////-->
-<!-- <button
+<!--////////////////////////////////////////////////// SALARY TEMPLATE MODAL START //////////////////////////////////////////////////-->
+<button
   type="button"
   class="btn btn-primary d-none"
   data-bs-toggle="modal"
-  data-bs-target="#salaryTemplate1"
-  #salaryTemplateButton1
+  data-bs-target="#salaryTemplate"
+  #salaryTemplateButton
 >
   Update Salary Template
 </button>
 <div
   class="modal fade"
-  id="salaryTemplate1"
+  id="salaryTemplate"
   data-bs-backdrop="static"
   data-bs-keyboard="false"
   tabindex="-1"
   aria-labelledby="staticBackdropLabel"
   aria-hidden="true"
 >
-  <div class="modal-dialog modal-dialog-centered modal-lg">
+  <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5">Update Salary Template</h1>
@@ -1516,112 +1512,203 @@
           #salaryTemplateCloseButton
         ></button>
       </div>
-      <div class="modal-body">
-        <form
-          #salaryTemplateForm="ngForm"
-          ngNativeValidate
-          (ngSubmit)="saveCustomSalaryTemplate()"
-        >
-          <div class="d-flex justify-content-end">
-            <div class="mb-3">
-              <div class="form-check">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  id="disabledFieldsetCheck"
-                  [checked]="editBasicComponentField"
-                  (change)="editComponent()"
-                />
-                <label
-                  class="form-check-label"
-                  for="disabledFieldsetCheck"
-                  (change)="editComponent()"
-                >
-                  Edit it
-                </label>
-              </div>
+    <div class="modal-body" *ngIf="templateLoader">
+            <div *ngFor="let item of [].constructor(20)">
+                <ngx-shimmer-loading [width]="'100%'" [height]="'30px'" ></ngx-shimmer-loading>
             </div>
-          </div>
-          <div class="row">
-            <ng-container *ngIf="editBasicComponentField">
-              <div class="col-md-3 mb-3">
-                <label for="disabledTextInput" class="form-label"
-                  >Monthly CTC</label
-                >
-              </div>
-              <div class="col-md-2 mb-3">
-                <label for="disabledTextInput">INR {{ monthlyCTC }}</label>
-              </div>
-              <div class="col-md-3 mb-3">
-                <label for="disabledTextInput" class="form-label"
-                  >Adjust Basic Pay</label
-                >
-              </div>
-              <div class="col-md-4 mb-3 position-relative">
-                <input
-                  type="text"
-                  id="basic"
-                  name="basicSalary"
-                  class="form-control"
-                  placeholder="Enter Amount"
-                  oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/^0+/, '').slice(0, 10);"
-                  (keyup)="basicAmountFieldTouch = true"
-                  pattern="^[1-9][0-9]{0,9}$"
-                  maxlength="10"
-                  [(ngModel)]="basicAmount"
-                  required
-                />
-                <button
-                  type="button"
-                  class="component-btn btn btn-primary position-absolute"
-                  (click)="
-                    calculateSalaryComponents(); basicAmountFieldTouch = false
-                  "
-                  *ngIf="basicAmountFieldTouch"
-                >
-                  save
-                </button>
-              </div>
-            </ng-container>
+    </div>
+    <div *ngIf="!templateLoader">
+        <div class="modal-body">
+            <div class="">
+                <ul id="myTab" role="tablist" class="nav nav-tabs">
+                  <li role="presentation" class="nav-item">
+                    <button
+                      id="home-tab"
+                      data-bs-toggle="tab"
+                      data-bs-target="#template"
+                      type="button"
+                      role="tab"
+                      aria-controls="salarytemplate"
+                      aria-selected="true"
+                      class="nav-link active"
+                    >
+                      Template details
+                    </button>
+                  </li>
+                  <li role="presentation" class="nav-item">
+                    <button
+                      id="profile-tab"
+                      data-bs-toggle="tab"
+                      data-bs-target="#deduction"
+                      type="button"
+                      role="tab"
+                      aria-controls="deductionselection"
+                      aria-selected="false"
+                      class="nav-link">
+                      Deduction declaration
+                    </button>
+                  </li>
+                </ul>
+      
+                <div class="tab-content" id="myTabContent">
+                  <div class="tab-pane fade show active" id="template" role="tabpanel">
+                    <div class="row mt-3 mb-3">
+                      <p>Calculate salary break up</p>
+                      <div class="col-md-6">
+                          <div class="tex-regime">
+                          <label
+                              class="form-check notifaction-req d-flex align-items-center justify-content-start gap-2">
+                              <input type="radio" name="componentValue" id="percent" [value]="0"
+                                  [(ngModel)]="userSalaryTemplate2.isFixed"
+         
+                                  class="form-check-input ng-untouched ng-pristine ng-invalid">
+                              <p for="percent" class="form-check-label mb-0"> Percentage </p>
+                          </label>
+                      </div>
+                  </div>
+  
+                      <div class="col-md-6">
+                          <div class="tex-regime">
+                          <label
+                              class="form-check notifaction-req d-flex align-items-center justify-content-start gap-2"><input
+                                  type="radio" name="componentValue" id="flat" [value]="1"
+                                  [(ngModel)]="userSalaryTemplate2.isFixed" 
+           
+                                  class="form-check-input ng-untouched ng-pristine ng-invalid">
+                              <p for="flat" class="form-check-label mb-0"> Flat </p>
+                          </label>
+                      </div>
+                      </div>
+                  </div>
+                  <table class="table template-table" *ngIf="userSalaryTemplate2.isFixed==0">
+                    <tr>
+                        <th>Component Name</th>
+                        <th>Percentage(%)</th>
+                        <th></th>
+                    </tr>
+                    <tr *ngFor="let salaryComponent of userSalaryTemplate2.salaryComponentResponseList">
+                      <td>{{ salaryComponent.name }}</td>
+                      <td > 
+                        <nz-input-number
+                        [(ngModel)]="salaryComponent.value"
+                        [ngModelOptions]="{ standalone: true }"
+                        [nzMin]="1"
+                        [nzMax]="100"
+                        [nzStep]="1"
+                        [nzSize]="'large'"
+                        [nzDisabled]="!salaryComponent.toggle"
+                        style="width: 100%"
+                        required
+                    ></nz-input-number></td>
+                      <td><nz-switch
+                        [(ngModel)]="salaryComponent.toggle"
+                        [ngModelOptions]="{ standalone: true }"
+                        [nzDisabled]="salaryComponent.id == BASIC_PAY_ID"
+                        ></nz-switch></td>
+                    </tr>
+                  </table>
 
-            <ng-container>
-              <table class="table">
-                <tr>
-                  <th>Component Name</th>
-                  <th>Percentage</th>
-                  <th>Amount</th>
-                </tr>
-                <tr *ngFor="let component of computedSalaryList; let i = index">
-                  <td>{{ component.name }}</td>
-                  <td>{{ component.value }}</td>
-                  <td>{{ convertNumberToStringFormat(component.amount) }}</td>
-                </tr>
-              </table>
-            </ng-container>
-          </div>
-          <div class="d-flex justify-content-end">
+                    <table class="table template-table" *ngIf="userSalaryTemplate2.isFixed==1">
+                        <tr>
+                            <th>Component Name</th>
+                            <th>Amount(in Rs)</th>
+                            <th></th>
+                        </tr>
+                        <tr *ngFor="let salaryComponent of userSalaryTemplate2.salaryComponentResponseList">
+                          <td>{{ salaryComponent.name }}</td>
+                          <td > 
+                            <nz-input-number
+                            [(ngModel)]="salaryComponent.value"
+                            [ngModelOptions]="{ standalone: true }"
+                            [nzMin]="1"
+                            [nzStep]="1"
+                            [nzSize]="'large'"
+                            [nzDisabled]="!salaryComponent.toggle"
+                            style="width: 100%"
+                            required
+                        ></nz-input-number></td>
+                          <td><nz-switch
+                            [(ngModel)]="salaryComponent.toggle"
+                            [ngModelOptions]="{ standalone: true }"
+                            [nzDisabled]="salaryComponent.id == BASIC_PAY_ID"
+                            ></nz-switch></td>
+                        </tr>
+                      </table>
+                  </div>
+                  <div class="tab-pane fade" id="deduction" role="tabpanel">
+                    <div class="row mt-3 mb-3">
+
+                    <div class="col-md-6">
+                        <div class="tex-regime">
+                        <label
+                            class="form-check notifaction-req d-flex align-items-center justify-content-start gap-2">
+                            <input type="radio" name="taxregime" id="new" [value]="2"
+                                [(ngModel)]="userSalaryTemplate2.taxRegimeId"
+                                class="form-check-input ng-untouched ng-pristine ng-invalid">
+                            <p for="new" class="form-check-label mb-0"> New Tax Regime </p>
+                        </label>
+                    </div>
+                </div>
+
+                    <div class="col-md-6">
+                        <div class="tex-regime">
+                        <label
+                            class="form-check notifaction-req d-flex align-items-center justify-content-start gap-2"><input
+                                type="radio" name="taxregime"id="old" [value]="1"
+                                [(ngModel)]="userSalaryTemplate2.taxRegimeId" 
+                                class="form-check-input ng-untouched ng-pristine ng-invalid">
+                            <p for="old" class="form-check-label mb-0"> Old Tax Regime </p>
+                        </label>
+                    </div>
+                    </div>
+                </div>
+
+                    <table class="table template-table" *ngIf="userSalaryTemplate2.taxRegimeId == 1">
+                        <tr>
+                            <th>Name</th>
+                            <th>Exemption value</th>
+                            <th></th>
+                        </tr>
+                        <tr *ngFor="let exemption of userSalaryTemplate2.taxExemptionValueList">
+                          <td>{{ exemption.name }}</td>
+                          <td ><nz-input-number
+                            [(ngModel)]="exemption.value"
+                            [ngModelOptions]="{ standalone: true }"
+                            [nzMin]="1"
+                            [nzStep]="1"
+                            [nzSize]="'large'"
+                            [nzDisabled]="!exemption.toggle"
+                            style="width: 100%"
+                            required
+                        ></nz-input-number></td>
+                          <td><nz-switch
+                            [(ngModel)]="exemption.toggle"
+                            [ngModelOptions]="{ standalone: true }"
+                            ></nz-switch></td>
+                        </tr>
+                      </table>
+                  </div>
+                </div>
+           </div>
+        </div>
+        <div class="modal-footer">
             <button
               type="submit"
               class="btn btn-primary"
-              [ngClass]="{
-                'disabled-lnk': salaryTemplateForm.invalid || saveLoader
-              }"
-              *ngIf="editBasicComponentField"
-            >
+              [ngClass]="{ 'disabled-lnk': saveLoader }" (click)="saveCustomSalaryTemplate()">
               <div class="dot-opacity-loader" *ngIf="saveLoader">
                 <span></span>
                 <span></span>
                 <span></span>
               </div>
-              <span *ngIf="!saveLoader"> Update </span>
+              <span *ngIf="!saveLoader" > Submit </span>
             </button>
           </div>
-        </form>
-      </div>
     </div>
   </div>
-</div> -->
-<!--////////////////////////////////////////////////// UPDATE SALARY TEMPLATE MODAL END //////////////////////////////////////////////////-->
+</div>
+</div> 
+<!--////////////////////////////////////////////////// SALARY TEMPLATE MODAL END //////////////////////////////////////////////////-->
 
 <!--////////////////////////////////////////////////// APPRAISAL MODAL START //////////////////////////////////////////////////-->
 <button
@@ -1855,231 +1942,4 @@
 </div>
 <!--////////////////////////////////////////////////// BONUS MODAL END //////////////////////////////////////////////////-->
 
-<!-- ////////////////////////// -->
 
-<button
-  type="button"
-  class="btn btn-primary d-none"
-  data-bs-toggle="modal"
-  data-bs-target="#salaryTemplate"
-  #salaryTemplateButton
->
-  Update Salary Template
-</button>
-<div
-  class="modal fade"
-  id="salaryTemplate"
-  data-bs-backdrop="static"
-  data-bs-keyboard="false"
-  tabindex="-1"
-  aria-labelledby="staticBackdropLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5">Update Salary Template</h1>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-          #salaryTemplateCloseButton
-        ></button>
-      </div>
-    <div class="modal-body" *ngIf="templateLoader">
-            <div *ngFor="let item of [].constructor(20)">
-                <ngx-shimmer-loading [width]="'100%'" [height]="'30px'" ></ngx-shimmer-loading>
-            </div>
-    </div>
-    <div *ngIf="!templateLoader">
-        <div class="modal-body">
-            <div class="">
-                <ul id="myTab" role="tablist" class="nav nav-tabs">
-                  <li role="presentation" class="nav-item">
-                    <button
-                      id="home-tab"
-                      data-bs-toggle="tab"
-                      data-bs-target="#template"
-                      type="button"
-                      role="tab"
-                      aria-controls="salarytemplate"
-                      aria-selected="true"
-                      class="nav-link active"
-                    >
-                      Template details
-                    </button>
-                  </li>
-                  <li role="presentation" class="nav-item">
-                    <button
-                      id="profile-tab"
-                      data-bs-toggle="tab"
-                      data-bs-target="#deduction"
-                      type="button"
-                      role="tab"
-                      aria-controls="deductionselection"
-                      aria-selected="false"
-                      class="nav-link">
-                      Deduction declaration
-                    </button>
-                  </li>
-                </ul>
-      
-                <div class="tab-content" id="myTabContent">
-                  <div class="tab-pane fade show active" id="template" role="tabpanel">
-                    <div class="row mt-3 mb-3">
-                      <p>Calculate salary break up</p>
-                      <div class="col-md-6">
-                          <div class="tex-regime">
-                          <label
-                              class="form-check notifaction-req d-flex align-items-center justify-content-start gap-2">
-                              <input type="radio" name="componentValue" id="percent" [value]="0"
-                                  [(ngModel)]="userSalaryTemplate2.isFixed"
-         
-                                  class="form-check-input ng-untouched ng-pristine ng-invalid">
-                              <p for="percent" class="form-check-label mb-0"> Percentage </p>
-                          </label>
-                      </div>
-                  </div>
-  
-                      <div class="col-md-6">
-                          <div class="tex-regime">
-                          <label
-                              class="form-check notifaction-req d-flex align-items-center justify-content-start gap-2"><input
-                                  type="radio" name="componentValue" id="flat" [value]="1"
-                                  [(ngModel)]="userSalaryTemplate2.isFixed" 
-           
-                                  class="form-check-input ng-untouched ng-pristine ng-invalid">
-                              <p for="flat" class="form-check-label mb-0"> Flat </p>
-                          </label>
-                      </div>
-                      </div>
-                  </div>
-                  <table class="table template-table" *ngIf="userSalaryTemplate2.isFixed==0">
-                    <tr>
-                        <th>Component Name</th>
-                        <th>Percentage(%)</th>
-                        <th></th>
-                    </tr>
-                    <tr *ngFor="let salaryComponent of userSalaryTemplate2.salaryComponentResponseList">
-                      <td>{{ salaryComponent.name }}</td>
-                      <td > 
-                        <nz-input-number
-                        [(ngModel)]="salaryComponent.value"
-                        [ngModelOptions]="{ standalone: true }"
-                        [nzMin]="1"
-                        [nzMax]="100"
-                        [nzStep]="1"
-                        [nzSize]="'large'"
-                        [nzDisabled]="!salaryComponent.toggle"
-                        style="width: 100%"
-                        required
-                    ></nz-input-number></td>
-                      <td><nz-switch
-                        [(ngModel)]="salaryComponent.toggle"
-                        [ngModelOptions]="{ standalone: true }"
-                        [nzDisabled]="salaryComponent.id == BASIC_PAY_ID"
-                        ></nz-switch></td>
-                    </tr>
-                  </table>
-
-                    <table class="table template-table" *ngIf="userSalaryTemplate2.isFixed==1">
-                        <tr>
-                            <th>Component Name</th>
-                            <th>Amount(in Rs)</th>
-                            <th></th>
-                        </tr>
-                        <tr *ngFor="let salaryComponent of userSalaryTemplate2.salaryComponentResponseList">
-                          <td>{{ salaryComponent.name }}</td>
-                          <td > 
-                            <nz-input-number
-                            [(ngModel)]="salaryComponent.value"
-                            [ngModelOptions]="{ standalone: true }"
-                            [nzMin]="1"
-                            [nzStep]="1"
-                            [nzSize]="'large'"
-                            [nzDisabled]="!salaryComponent.toggle"
-                            style="width: 100%"
-                            required
-                        ></nz-input-number></td>
-                          <td><nz-switch
-                            [(ngModel)]="salaryComponent.toggle"
-                            [ngModelOptions]="{ standalone: true }"
-                            [nzDisabled]="salaryComponent.id == BASIC_PAY_ID"
-                            ></nz-switch></td>
-                        </tr>
-                      </table>
-                  </div>
-                  <div class="tab-pane fade" id="deduction" role="tabpanel">
-                    <div class="row mt-3 mb-3">
-
-                    <div class="col-md-6">
-                        <div class="tex-regime">
-                        <label
-                            class="form-check notifaction-req d-flex align-items-center justify-content-start gap-2">
-                            <input type="radio" name="taxregime" id="new" [value]="2"
-                                [(ngModel)]="userSalaryTemplate2.taxRegimeId"
-                                class="form-check-input ng-untouched ng-pristine ng-invalid">
-                            <p for="new" class="form-check-label mb-0"> New Tax Regime </p>
-                        </label>
-                    </div>
-                </div>
-
-                    <div class="col-md-6">
-                        <div class="tex-regime">
-                        <label
-                            class="form-check notifaction-req d-flex align-items-center justify-content-start gap-2"><input
-                                type="radio" name="taxregime"id="old" [value]="1"
-                                [(ngModel)]="userSalaryTemplate2.taxRegimeId" 
-                                class="form-check-input ng-untouched ng-pristine ng-invalid">
-                            <p for="old" class="form-check-label mb-0"> Old Tax Regime </p>
-                        </label>
-                    </div>
-                    </div>
-                </div>
-
-                    <table class="table template-table" *ngIf="userSalaryTemplate2.taxRegimeId == 1">
-                        <tr>
-                            <th>Name</th>
-                            <th>Exemption value</th>
-                            <th></th>
-                        </tr>
-                        <tr *ngFor="let exemption of userSalaryTemplate2.taxExemptionValueList">
-                          <td>{{ exemption.name }}</td>
-                          <td ><nz-input-number
-                            [(ngModel)]="exemption.value"
-                            [ngModelOptions]="{ standalone: true }"
-                            [nzMin]="1"
-                            [nzStep]="1"
-                            [nzSize]="'large'"
-                            [nzDisabled]="!exemption.toggle"
-                            style="width: 100%"
-                            required
-                        ></nz-input-number></td>
-                          <td><nz-switch
-                            [(ngModel)]="exemption.toggle"
-                            [ngModelOptions]="{ standalone: true }"
-                            ></nz-switch></td>
-                        </tr>
-                      </table>
-                  </div>
-                </div>
-           </div>
-        </div>
-        <div class="modal-footer">
-            <button
-              type="submit"
-              class="btn btn-primary"
-              [ngClass]="{ 'disabled-lnk': saveLoader }" (click)="saveCustomSalaryTemplate()">
-              <div class="dot-opacity-loader" *ngIf="saveLoader">
-                <span></span>
-                <span></span>
-                <span></span>
-              </div>
-              <span *ngIf="!saveLoader" > Submit </span>
-            </button>
-          </div>
-    </div>
-  </div>
-</div>
-</div> 

@@ -42,7 +42,7 @@
                                                 <span class="calendar-separator"></span>
                                                 <div class="dropdown">
                                                    <nz-date-picker class="ant-picker ant-picker-small ng-valid ng-touched ng-dirty" nzBorderless ng-reflect-nz-mode="month" ng-reflect-nz-format="MMM, yyyy" ng-reflect-nz-size="small" >
-                                                      <div class="ng-tns-c182-14 ant-picker-input">
+                                                      <div class="ant-picker-input">
                                                          <input autocomplete="off" class="ng-tns-c182-14 ng-pristine ng-valid ng-touched" placeholder="Select month" ng-reflect-is-disabled="false" ng-reflect-model="Jan, 2025" size="12">
                                                          <div class="ng-tns-c182-14 ant-picker-active-bar" ng-reflect-ng-style="[object Object]" style="position: absolute; width: 0px; left: 0px;"></div>
                                                          <span class="ng-tns-c182-14 ant-picker-clear">
@@ -264,7 +264,7 @@
                                                     <div>
                                                         <div class="d-flex align-items-center justify-content-between mb-3">
                                                             <div>
-                                                                <p class="mb-2 font-13">U maintenance</p>
+                                                                <p class="mb-2 font-13">Maintenance</p>
                                                                 <h5 class="mb-0 font-15 fw-bold">3</h5>
                                                             </div>
                                                             <span class="total-assets-icon d-flex align-items-center justify-content-center">
@@ -302,7 +302,7 @@
                                                                     </svg>
                                                                 </span>
                                                             </div>
-                                                            <p class="mb-0 week-count">
+                                                            <p class="mb-0 week-count font-13">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                                                                     <path d="M13.1918 4.94434L15.0661 6.81861L11.072 10.8127L7.79819 7.53886L1.7334 13.6118L2.88743 14.7659L7.79819 9.8551L11.072 13.1289L16.2283 7.98082L18.1026 9.8551V4.94434H13.1918Z" fill="#22b783"/>
                                                                 </svg>&nbsp;
@@ -313,7 +313,7 @@
                                         <div class="mt-3 assets-categories">
                                             <div class="categories-header p-3 d-flex align-items-center justify-content-between">
                                                 <h5 class="mb-0 font-15 fw-semibold">Categories</h5>
-                                                <button class="btn p-0 font-14 text-primary fw-semibold"><i class="bi bi-plus-lg"></i>  Add Categories</button>
+                                                <button class="btn p-0 font-14 text-primary fw-semibold" data-bs-toggle="modal" data-bs-target="#createAssetsModal" AssetsDetailModal><i class="bi bi-plus-lg"></i>  Add Assets</button>
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-3 pr-0">
@@ -1097,7 +1097,7 @@
                                                                 <div>
                                                                    
                                                                     <h5 class="mb-2 font-16 fw-bold">40</h5>
-                                                                    <p class="mb-0 font-12">IT & Engineering </p>
+                                                                    <p class="mb-0 font-12">Product Development </p>
                                                                 </div>
                                                                
                                                             </div>
@@ -1113,7 +1113,7 @@
                                                                 <div>
                                                                    
                                                                     <h5 class="mb-2 font-16 fw-bold">40</h5>
-                                                                    <p class="mb-0 font-12">IT & Engineering </p>
+                                                                    <p class="mb-0 font-12">Creative & Strategy </p>
                                                                 </div>
                                                                
                                                             </div>
@@ -1127,11 +1127,13 @@
 
                                     </div>
                                 </div>
+
+
                                 <div class="mt-3">
                                     <div class="asset-assigned-search">
                                         <div class="d-flex justify-content-start align-items-center">
                                             <div class="search-filter dropdown">
-                                                <button type="button" id="statusDropdown" class="btn btn-secondary new-dropdown d-flex align-items-center justify-content-between" data-bs-toggle="dropdown">
+                                                <button type="button" id="statusDropdown" class="btn btn-secondary new-dropdown d-flex align-items-center justify-content-between" data-bs-toggle="dropdown"  data-bs-auto-close="false"  aria-expanded="false">
                                                     Filters 
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23" fill="none">
                                                         <mask id="mask0_7808_40" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="23" height="23">
@@ -1146,7 +1148,7 @@
                                                 <div class="dropdown-menu actionMenuList filter-box p-0">
                                                     <div class="d-flex align-items-center justify-content-between border-bottom p-3">
                                                         <h5 class="mb-0 font-14 fw-semibold"> Filter</h5>
-                                                        <span class="pointer">
+                                                        <span class="pointer lh-1">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="19" viewBox="0 0 18 19" fill="none">
                                                             <g opacity="0.8">
                                                             <mask id="mask0_7729_258" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="18" height="19">
@@ -1210,7 +1212,7 @@
                                                 <!-- <div class="dropdown-menu actionMenuList not-assign-filter p-0">
                                                     <div class="d-flex align-items-center justify-content-between border-bottom p-3">
                                                         <h5 class="mb-0 font-14 fw-semibold"> Filter</h5>
-                                                        <span class="pointer">
+                                                        <span class="pointer lh-1">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="19" viewBox="0 0 18 19" fill="none">
                                                             <g opacity="0.8">
                                                             <mask id="mask0_7729_258" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="18" height="19">
@@ -1292,6 +1294,18 @@
                                     </div>
                                 </div>
 
+                                <div class="filter-bdg d-flex align-items-center gap-2 mt-3">
+                                    <p class="filter-pills d-flex align-items-centar gap-2 pointer font-12 fw-semibold ">Anchal Sharma
+                                      <i class="bi bi-x-lg pointer"></i>
+                                    </p>
+                                    <p class="filter-pills d-flex align-items-centar gap-2 pointer font-12 fw-semibold">Pending
+                                      <i class="bi bi-x-lg pointer"></i>
+                                    </p>
+                                    <p class="filter-pills d-flex align-items-centar gap-2 pointer font-12 fw-semibold">Anchal Sharma
+                                      <i class="bi bi-x-lg pointer"></i>
+                                    </p>
+                                  </div>
+
                                 <div class="mt-3">
                                     <div class="">
                                         <table class="table">
@@ -1310,6 +1324,64 @@
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
+
+                                             <!-- TO DO: Shimmer Loading Ui -->
+                                                <!-- <tbody>
+                                                    <tr *ngFor="let item of [].constructor(10)"> 
+                                                        <td>
+                                                            <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                        </td>
+                                                        <td>
+                                                            <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                        </td>
+                                                        <td>
+                                                            <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                        </td>
+                                                        <td>
+                                                            <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                        </td>
+                                                        <td>
+                                                            <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                        </td>
+                                                        <td>
+                                                            <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                        </td>
+                                                        <td>
+                                                            <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                        </td>
+                                                        <td>
+                                                            <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                        </td>
+                                                        <td>
+                                                            <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                        </td>
+                                                        <td>
+                                                            <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                        </td>
+                                                        <td>
+                                                            <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                        </td>
+                                                    </tr>
+                                                </tbody> -->
+                                        <!-- Shimmer Loading Ui End-->
+                                        <!-- TO DO: empty notification  -->
+                                        <!-- <tbody>
+                                            <tr>
+                                              <td colspan="11">
+                                                <div class="empty-file" style="margin-top: 5%; margin-bottom: 5%">
+                                                  <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                                    [nzNotFoundContent]="contentTpl">
+                                                    <ng-template #contentTpl>
+                                                      <p class="mb-1 empty-detail font-16">
+                                                        No data for now
+                                                      </p>
+                                                    </ng-template>
+                                                  </nz-empty>
+                                                </div>
+                                              </td>
+                                            </tr>
+                                          </tbody> -->
+                                           <!-- empty notification end -->
                                             <tbody>
                                                 <tr>
                                                     <td class="fw-normal">MacBook Air</td>
@@ -1846,6 +1918,11 @@
                                                 </tr>
                                             </tbody>
                                         </table>
+
+                                        <div class="d-flex align-items-center justify-content-between w-100">
+                                            <p class="mb-0"> Showing items 10 - 2 of 12 records</p>
+                                            <ngb-pagination class="pagition-box"> </ngb-pagination>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -1871,7 +1948,7 @@
                                             <div class="dropdown-menu actionMenuList not-assign-filter p-0">
                                                 <div class="d-flex align-items-center justify-content-between border-bottom p-3">
                                                     <h5 class="mb-0 font-14 fw-semibold"> Filter</h5>
-                                                    <span class="pointer">
+                                                    <span class="pointer lh-1">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="19" viewBox="0 0 18 19" fill="none">
                                                         <g opacity="0.8">
                                                         <mask id="mask0_7729_258" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="18" height="19">
@@ -1885,7 +1962,7 @@
                                                     </span>
                                                 </div>
                                                 <div class="row p-3">
-                                                    <h5 class="mb-0 font-14 fw-semibold">Categories</h5>
+                                                    <h5 class="mb-0 font-14 fw-semibold">Status Filter</h5>
 
                                                     <div class="mt-3">
                                                         <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
@@ -1932,6 +2009,18 @@
                                 </div>
                             </div>
 
+                            <div class="filter-bdg d-flex align-items-center gap-2 mt-3">
+                                <p class="filter-pills d-flex align-items-centar gap-2 pointer font-12 fw-semibold">Anchal Sharma
+                                  <i class="bi bi-x-lg pointer"></i>
+                                </p>
+                                <p class="filter-pills d-flex align-items-centar gap-2 pointer font-12 fw-semibold">Pending
+                                  <i class="bi bi-x-lg pointer"></i>
+                                </p>
+                                <p class="filter-pills d-flex align-items-centar gap-2 pointer font-12 fw-semibold">Anchal Sharma
+                                  <i class="bi bi-x-lg pointer"></i>
+                                </p>
+                              </div>
+
                             <div class="mt-3">
                                 <div class="">
                                     <table class="table">
@@ -1948,6 +2037,58 @@
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
+                                        <!-- TO DO: Shimmer Loading Ui -->
+                                        <!-- <tbody>
+                                            <tr *ngFor="let item of [].constructor(10)"> 
+                                                <td>
+                                                    <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                </td>
+                                                <td>
+                                                    <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                </td>
+                                                <td>
+                                                    <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                </td>
+                                                <td>
+                                                    <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                </td>
+                                                <td>
+                                                    <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                </td>
+                                                <td>
+                                                    <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                </td>
+                                                <td>
+                                                    <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                </td>
+                                                <td>
+                                                    <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                </td>
+                                                <td>
+                                                    <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                </td>
+                                            </tr>
+                                        </tbody> -->
+                                        <!-- Shimmer Loading Ui End-->
+
+                                        <!-- TO DO: empty notification  -->
+                                        <!-- <tbody>
+                                            <tr>
+                                              <td colspan="9">
+                                                <div class="empty-file" style="margin-top: 5%; margin-bottom: 5%">
+                                                  <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                                    [nzNotFoundContent]="contentTpl">
+                                                    <ng-template #contentTpl>
+                                                      <p class="mb-1 empty-detail font-16">
+                                                        No data for now
+                                                      </p>
+                                                    </ng-template>
+                                                  </nz-empty>
+                                                </div>
+                                              </td>
+                                            </tr>
+                                          </tbody> -->
+                                           <!-- empty notification end -->
                                         <tbody>
                                             <tr>
                                                 <td class="fw-normal">Fri, Dec 20 2024</td>
@@ -1959,12 +2100,15 @@
                                                     <a class="text-primary fw-semibold">Yogesh Kumar</a>
                                                 </td>
                                                 <td class="fw-normal">16-12-2024</td>
-                                                <td class="fw-normal">this is not working</td>
+                                                <td>
+                                                    <span class="fw-normal white-space" nz-popover nzPopoverTitle="Note" [nzPopoverContent]=""
+                                                    [nzPopoverOverlayStyle]="{'width':'300px'}" nzPopoverPlacement="top">this is not working</span>
+                                                </td>
                                                 <td>
                                                     <span class="text-success fw-semibold">Assigned</span>
                                                 </td>
                                                 <td>
-                                                    <button class="btn p-0 text-primary font-14 fw-semibold"><i class="bi bi-eye"></i>  View</button>
+                                                    <button class="btn p-0 text-primary font-14 fw-semibold" data-bs-toggle="modal" data-bs-target="#AssetsDetailModal" ><i class="bi bi-eye"></i>  View</button>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -1977,32 +2121,36 @@
                                                     <a class="text-primary fw-semibold">Yogesh Kumar</a>
                                                 </td>
                                                 <td class="fw-normal">16-12-2024</td>
-                                                <td class="fw-normal">this is not working</td>
+                                                <td>
+                                                    <span class="fw-normal white-space" nz-popover nzPopoverTitle="Note" [nzPopoverContent]=""
+                                                    [nzPopoverOverlayStyle]="{'width':'300px'}" nzPopoverPlacement="top">this is not working</span>
+                                                </td>
                                                 <td>
                                                     <span class="text-danger fw-semibold">Rejected</span>
                                                 </td>
                                                 <td>
-                                                    <button class="btn p-0 text-primary font-14 fw-semibold"><i class="bi bi-eye"></i>  View</button>
+                                                    <button class="btn p-0 text-primary font-14 fw-semibold" data-bs-toggle="modal" data-bs-target="#AssetsDetailModal"><i class="bi bi-eye"></i>  View</button>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td class="fw-normal">Fri, Dec 20 2024</td>
                                                 <td class="fw-normal">Laptop mac</td>
-                                                <td class="fw-normal" nz-popover
-                                                nzPopoverTitle="Note" [nzPopoverContent]=""
-                                                [nzPopoverOverlayStyle]="{'width':'300px'}" nzPopoverPlacement="top">Asset Replacement </td>
+                                                <td class="fw-normal">Asset Replacement </td>
                                                 <td class="fw-normal">Laptop
                                                 </td>
                                                 <td>
                                                     <a class="text-primary fw-semibold">Yogesh Kumar</a>
                                                 </td>
                                                 <td class="fw-normal">16-12-2024</td>
-                                                <td class="fw-normal">this is not working</td>
+                                                <td>
+                                                    <span class="fw-normal white-space" nz-popover nzPopoverTitle="Note" [nzPopoverContent]=""
+                                                    [nzPopoverOverlayStyle]="{'width':'300px'}" nzPopoverPlacement="top">this is not working</span>
+                                                </td>
                                                 <td>
                                                     <span class="text-success fw-semibold">Approved</span>
                                                 </td>
                                                 <td>
-                                                    <button class="btn p-0 text-primary font-14 fw-semibold"><i class="bi bi-eye"></i>  View</button>
+                                                    <button class="btn p-0 text-primary font-14 fw-semibold" data-bs-toggle="modal" data-bs-target="#AssetsDetailModal"><i class="bi bi-eye"></i>  View</button>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -2015,12 +2163,15 @@
                                                     <a class="text-primary fw-semibold">Yogesh Kumar</a>
                                                 </td>
                                                 <td class="fw-normal">16-12-2024</td>
-                                                <td class="fw-normal">this is not working</td>
+                                                <td>
+                                                    <span class="fw-normal white-space" nz-popover nzPopoverTitle="Note" [nzPopoverContent]=""
+                                                    [nzPopoverOverlayStyle]="{'width':'300px'}" nzPopoverPlacement="top">this is not working</span>
+                                                </td>
                                                 <td>
                                                     <span class="text-primary fw-semibold">Assigned</span>
                                                 </td>
                                                 <td>
-                                                    <button class="btn p-0 text-primary font-14 fw-semibold"><i class="bi bi-eye"></i>  View</button>
+                                                    <button class="btn p-0 text-primary font-14 fw-semibold" data-bs-toggle="modal" data-bs-target="#AssetsDetailModal"><i class="bi bi-eye"></i>  View</button>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -2033,16 +2184,24 @@
                                                     <a class="text-primary fw-semibold">Yogesh Kumar</a>
                                                 </td>
                                                 <td class="fw-normal">16-12-2024</td>
-                                                <td class="fw-normal">this is not working</td>
+                                                <td>
+                                                    <span class="fw-normal white-space" nz-popover nzPopoverTitle="Note" [nzPopoverContent]=""
+                                                    [nzPopoverOverlayStyle]="{'width':'300px'}" nzPopoverPlacement="top">this is not working</span>
+                                                </td>
                                                 <td>
                                                     <span class="text-warning fw-semibold">Pending</span>
                                                 </td>
                                                 <td>
-                                                    <button class="btn p-0 text-primary font-14 fw-semibold"><i class="bi bi-eye"></i>  View</button>
+                                                    <button class="btn p-0 text-primary font-14 fw-semibold" data-bs-toggle="modal" data-bs-target="#AssetsDetailModal"><i class="bi bi-eye"></i>  View</button>
                                                 </td>
                                             </tr>
                                         </tbody>
                                     </table>
+
+                                    <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top">
+                                        <p class="mb-0"> Showing items 10 - 2 of 12 records</p>
+                                        <ngb-pagination class="pagition-box"> </ngb-pagination>
+                                    </div>
                                 </div>
                             </div>
 
@@ -2054,3 +2213,157 @@
     </div>
 </div>
             
+
+
+
+<!-- Modal Create Assets Start -->
+<div class="modal fade" id="createAssetsModal" tabindex="-1" aria-labelledby="createAssetsModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          Create Assets
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form #categoryForm="ngForm">
+        <div class="modal-body assets-label">
+          <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="categoryName" class="form-label pb-2">Category Name <span class="text-danger">*</span> </label>
+                  <input type="text" class="form-control input-zorro w-100" id="categoryName" name="categoryName" placeholder="Type category name here..."/>
+              </div>
+            <div class="col-md-6 mb-3">
+                <label for="assetName" class="form-label pb-2">Asset Name <span class="text-danger">*</span></label>
+                <input type="text" class="form-control input-zorro w-100" id="assetName"  placeholder="Type asset name here..." />
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="serialNumber" class="form-label">Serial Number <span class="text-danger">*</span></label>
+                <input type="text" class="form-control input-zorro w-100" id="serialNumber" formControlName="serialNumber" placeholder="Type serial number here..." />
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="purchasedDate" class="form-label">Purchased Date <span class="text-danger">*</span></label>
+              <nz-date-picker nzFormat="yyyy/MM/dd" formControlName="purchasedDate"></nz-date-picker>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="expiryDate" class="form-label">Expiry Date <span class="text-muted">(optional)</span></label>
+                <nz-date-picker nzFormat="yyyy/MM/dd" formControlName="expiryDate"></nz-date-picker>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="price" class="form-label">Price <span class="text-danger">*</span></label>
+              <input type="text" class="form-control input-zorro w-100" id="price" formControlName="price" placeholder="Type price here..." />
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="location" class="form-label">Location <span class="text-danger">*</span></label>
+                <input type="text" class="form-control input-zorro w-100" id="location" formControlName="location" placeholder="Type location here..." />
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="vendorName" class="form-label">Vendor Name <span class="text-muted">(optional)</span></label>
+                <input type="text" class="form-control input-zorro w-100" id="vendorName" formControlName="vendorName" placeholder="Type vendor name here..." />
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="userId" class="form-label">Select User <span class="text-muted">(optional)</span></label>
+                <nz-select nzPlaceHolder="Select User" class="w-100 form-control placeholder-lines">
+                    <nz-option nzValue="Richa" nzLabel="Richa"></nz-option>
+                  </nz-select>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="userId" class="form-label">Select User <span class="text-muted">(optional)</span></label>
+                <input type="text" class="form-control input-zorro w-100" placeholder="Requested by..." />
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="assignedDate" class="form-label">Assigned Date <span class="text-muted">(optional)</span></label>
+                <nz-date-picker nzFormat="yyyy/MM/dd" formControlName="assignedDate"></nz-date-picker>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="categoryId" class="form-label">Select Category <span class="text-danger">*</span></label>
+                <nz-select ngModel="" nzPlaceHolder="Select Category" class="w-100 form-control placeholder-lines">
+                    <nz-option nzValue="Laptops" nzLabel="Laptops"></nz-option>
+                    <nz-option nzValue="Desktop" nzLabel="Desktop"></nz-option>
+                  </nz-select>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer ">
+          <button type="submit" class="btn submitActionBtn"> Add Assets</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Create Assets Start -->
+
+
+<!-- Modal Create Assets Start -->
+<div class="modal fade" id="AssetsDetailModal" tabindex="-1" aria-labelledby="AssetsDetailModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+            Asset Details
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form #categoryForm="ngForm">
+        <div class="modal-body">
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="mb-2">Requested Date </label>
+                <div class="requesting-half-leave p-2">
+                  <p class="mb-0 font-13 fw-semibold lh-lg">20-12-2024</p>
+                </div>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="mb-2">Category </label>
+                <div class="requesting-half-leave p-2">
+                  <p class="mb-0 font-13 fw-semibold lh-lg">Desktop</p>
+                </div>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="mb-2">Asset Name </label>
+                <div class="requesting-half-leave p-2 ">
+                  <p class="mb-0 font-13 fw-semibold lh-lg">MacBook Pro</p>
+                </div>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="mb-2">Requested Type </label>
+                <div class="requesting-half-leave p-2">
+                  <p class="mb-0 font-13 fw-semibold lh-lg">Asset Replacement</p>
+                </div>
+              </div>
+        
+              
+              <div class="col-md-6 mb-3">
+                <label class="mb-2">Current Status </label>
+                <div class="pt-2 pb-2">
+                  <span class="badge rounded-pill badge-soft-warning">PENDING</span>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label class="mb-2">Change Status</label>
+                <div>
+                  <nz-select nzPlaceHolder="Select Status" class="w-100 form-control" nzSize="large">
+                    <nz-option nzValue="Approved" nzLabel="Approved"></nz-option>
+                    <nz-option nzValue="Rejected" nzLabel="Rejected"></nz-option>
+                  </nz-select>
+                </div>
+              </div>
+
+              <div class="col-md-12 mb-3">
+                <label class="mb-2">Note </label>
+                <div class="requesting-half-leave p-2" style="height:100px;">
+                  <p class="mb-0 font-13 fw-semibold lh-lg"> </p>
+                </div>
+              </div>
+            </div>
+          </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Create Assets Start -->
+

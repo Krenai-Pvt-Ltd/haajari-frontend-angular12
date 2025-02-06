@@ -33,7 +33,7 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
     EmployeeLocationValidatorComponent,
     LinkExpiredPageComponent,
     AttendanceUrlComponent,
-    AttendanceRequestFormComponent,
+    AttendanceRequestFormComponent
   ],
   imports: [
     CommonModule,

@@ -1063,6 +1063,18 @@
                             </div>
                         </div>
 
+                        <div class="filter-bdg d-flex align-items-center gap-2 mt-3">
+                            <p class="filter-pills d-flex align-items-centar gap-2 pointer font-12 fw-semibold">Anchal Sharma
+                              <i class="bi bi-x-lg pointer"></i>
+                            </p>
+                            <p class="filter-pills d-flex align-items-centar gap-2 pointer font-12 fw-semibold">Pending
+                              <i class="bi bi-x-lg pointer"></i>
+                            </p>
+                            <p class="filter-pills d-flex align-items-centar gap-2 pointer font-12 fw-semibold">Anchal Sharma
+                              <i class="bi bi-x-lg pointer"></i>
+                            </p>
+                          </div>
+
                         <div class="table-responsive bg-white mt-3">
                             <table class="table empOnnoardtable">
                                <thead class="thead-light">
@@ -1077,7 +1089,55 @@
                                      <th class="text-end font-13" style="width: 10%;">Action </th>
                                   </tr>
                                </thead>
-                               <!----><!---->
+                               <!-- TO DO: Shimmer Loading Ui -->
+                               <!-- <tbody>
+                                   <tr *ngFor="let item of [].constructor(10)"> 
+                                       <td>
+                                           <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                                       </td>
+                                       <td>
+                                           <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                                       </td>
+                                       <td>
+                                           <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                                       </td>
+                                       <td>
+                                           <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                                       </td>
+                                       <td>
+                                           <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                                       </td>
+                                       <td>
+                                           <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                                       </td>
+                                       <td>
+                                           <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                                       </td>
+                                       <td>
+                                           <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                                       </td>
+                                   </tr>
+                               </tbody> -->
+                               <!-- Shimmer Loading Ui End-->
+
+                               <!-- TO DO: empty notification  -->
+                               <!-- <tbody>
+                                   <tr>
+                                     <td colspan="8">
+                                       <div class="empty-file" style="margin-top: 5%; margin-bottom: 5%">
+                                         <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                           [nzNotFoundContent]="contentTpl">
+                                           <ng-template #contentTpl>
+                                             <p class="mb-1 empty-detail font-16">
+                                               No data for now
+                                             </p>
+                                           </ng-template>
+                                         </nz-empty>
+                                       </div>
+                                     </td>
+                                   </tr>
+                                 </tbody> -->
+                                  <!-- empty notification end -->
                                <tbody class="ng-star-inserted">
                                 <tr class="new-request">
                                     <td class="text-left"><span class="team-maneger mb-0">Sam Michael </span></td>
@@ -1651,13 +1711,13 @@
                                     <div class="col-md-12 mb-3">
                                         <div class="form-group">
                                             <label for="templateName" class="mb-2"> Note</label>
-                                            <textarea id="requestReason" rows="3" class="form-control nots-section" maxlength="255" disabled ></textarea>
+                                            <textarea id="requestReason" rows="3" class="form-control nots-section" maxlength="255" ></textarea>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="templateName" class="mb-2"> Reason Of Rejection</label>
-                                            <textarea id="requestReason" rows="3" class="form-control nots-section" maxlength="255" disabled ></textarea>
+                                            <textarea id="requestReason" rows="3" class="form-control nots-section" maxlength="255" ></textarea>
                                         </div>
                                     </div>
                                 </div>

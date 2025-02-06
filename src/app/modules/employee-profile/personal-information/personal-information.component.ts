@@ -90,6 +90,10 @@ export class PersonalInformationComponent implements OnInit {
         accountNumber: ['',],
         ifsc: ['',],
       }),
+      statutoryDetails: this.fb.group({
+        uan: ['', Validators.pattern(/^\d{12}$/)],
+        esi: ['',],
+      }),
       userExperience: this.fb.array([]),
       userEmergencyContacts: this.fb.array([]),
     });
@@ -119,6 +123,7 @@ export class PersonalInformationComponent implements OnInit {
   bankDetailsEmployee: any;
   isBankShimmer: boolean = false;
 
+  statutoryDetails: any;
 
   refrences: any;
 
@@ -237,12 +242,12 @@ export class PersonalInformationComponent implements OnInit {
         this.fieldLoading = false;
         console.log('Response:', response);
         if (response.success) {
-          this.helperService.showToast('Field removed successfully', Key.TOAST_STATUS_SUCCESS);
+          this.helperService.showToast('Rejected Successfully', Key.TOAST_STATUS_SUCCESS);
           this.getOnboardingFormPreviewMethodCall();
           this.fetchRequestedData();
 
         } else {
-          this.helperService.showToast('Failed to remove the field', Key.TOAST_STATUS_ERROR);
+          this.helperService.showToast('Failed to reject', Key.TOAST_STATUS_ERROR);
         }
       },
       error: (err) => {
@@ -260,11 +265,11 @@ export class PersonalInformationComponent implements OnInit {
         this.fieldLoading = false;
         console.log('Response:', response);
         if (response.success) {
-          this.helperService.showToast('Field approve successfully', Key.TOAST_STATUS_SUCCESS);
+          this.helperService.showToast('Approved Successfully', Key.TOAST_STATUS_SUCCESS);
           this.getOnboardingFormPreviewMethodCall();
           this.fetchRequestedData();
         } else {
-          this.helperService.showToast('Failed to approve the field', Key.TOAST_STATUS_ERROR);
+          this.helperService.showToast('Failed to approve', Key.TOAST_STATUS_ERROR);
         }
       },
       error: (err) => {
@@ -319,6 +324,9 @@ export class PersonalInformationComponent implements OnInit {
         }
         if (!this.routes.includes('/bank-details')) {
           this.onboardingForm.removeControl('bankDetails');
+        }
+        if (!this.routes.includes('/statutory')) {
+          this.onboardingForm.removeControl('statutoryDetails');
         }
         console.log('Loaded routes:', this.routes);
       },
@@ -814,6 +822,12 @@ export class PersonalInformationComponent implements OnInit {
     }
     return this.editedFields.filter(item => item.columnName === columnName);
   }
+
+  disableUnder18Dates = (current: Date): boolean => {
+    const minDate = new Date();
+    minDate.setFullYear(minDate.getFullYear() - 18);
+    return current > minDate;
+  };
 
 
 
