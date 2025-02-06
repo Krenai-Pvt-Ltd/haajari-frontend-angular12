@@ -1092,7 +1092,8 @@
                                 </label>
 
                                 <nz-select [nzDisabled]="wfhTemplateToggle" nzSize="large"
-                                  nzPlaceHolder="Unused leave action" formControlName="unusedLeaveActionId" required
+                                  nzPlaceHolder="Unused leave action" formControlName="unusedLeaveActionId" 
+                                  required 
                                   class="form-control placeholder-line w-100">
                                   <nz-option *ngFor="
                                       let unusedLeaveAction of unusedLeaveActionList
@@ -1141,7 +1142,8 @@
                                     && categories.controls[i]!.get('unusedLeaveActionCount')?.value > 0">
                                 <div class="col-md-12 mb-3" nz-form-item >
                                   <div class="form-check d-flex align-items-center gap-2">
-                                    <input type="checkbox" formControlName="isReset" id="exampleCheck1" class="form-check-input" [checked]="categories.controls[i]!.get('isReset')?.value">
+                                    <input type="checkbox" formControlName="isReset" id="exampleCheck1" class="form-check-input" 
+                                     [checked]="categories.controls[i]!.get('isReset')?.value">
                                     <label class="form-check-label" for="exampleCheck1" >Lapse this leave category upon template expiration.</label>
                                   </div>
                                 </div>
@@ -1188,6 +1190,7 @@
                                   Update leave Category
                                 </button>
 
+                                
                                 <button [disabled]="!form.valid" [ngClass]="{'btn-border-text': form.valid}"
                                   *ngIf="!editToggle" class="p-0 btn text-primary leave-category"
                                   (click)="addFormRow(i)">

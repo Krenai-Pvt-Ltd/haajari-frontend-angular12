@@ -76,7 +76,8 @@ export class Key {
     '/exit-policy',
     '/leave-managements',
     '/inbox',
-    '/assets-management'
+    '/assets-management',
+    '/faq'
   ];
 
   public static TOPBAR_ROUTES = [
@@ -124,7 +125,8 @@ export class Key {
     '/exit-policy',
     '/leave-managements',
     '/inbox',
-    '/assets-management'
+    '/assets-management',
+    '/faq'
   ];
 
   public static ORGANIZATION_ONBOARDING_SIDEBAR_ROUTES = [
@@ -376,6 +378,7 @@ export class Key {
   public static ATTENDANCE_TAB = 1;
   public static OVERTIME_TAB = 2;
   public static ATTENDANCE_UPDATE_REQUEST_TAB = 3;
+  public static ATTENDANCE_UPDATE_REQUEST_TAB_NEW = 4;
 
   // Tabs in Overtime Section
   public static OVERTIME_PENDING_REQUEST_TAB = 1;

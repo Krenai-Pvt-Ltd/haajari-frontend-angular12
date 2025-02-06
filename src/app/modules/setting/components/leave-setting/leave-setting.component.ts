@@ -92,7 +92,7 @@ export class LeaveSettingComponent implements OnInit {
   get categories(): FormArray {
     return this.form.get('categories') as FormArray;
   }
-
+  
 
   addRow() {
     debugger
@@ -1861,6 +1861,7 @@ export class LeaveSettingComponent implements OnInit {
     this.selectedAccrualTypeId = id;  // Store the selected gender ID
   }
 
+  
   leaveCycleStartDate: any;
   leaveCycleEndDate: any;
   onLeaveCycleChange(id: number) {

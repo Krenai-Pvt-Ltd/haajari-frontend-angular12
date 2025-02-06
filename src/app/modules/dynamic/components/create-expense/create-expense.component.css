@@ -1493,12 +1493,6 @@ padding: 5px 20px;
 }
 }
 
-/* #added-to-collection-button{
-  color: blue;
-  background-color: transparent;
-  border: 1px solid blue;
-  border-radius: 3px;
-}   */
 
 .nav-link.staff-section.active {
 border-bottom: none !important;
@@ -1506,14 +1500,6 @@ color: #fff !important;
 background-color: #6666f3 !important;
 border-radius: 30px !important;
 }
-
-/* .nav-link.staff-section{
-  font-size: 12px ;
-  border-bottom: none ;
-  color: #fff !important;
-  background-color: #6666f3 ;
-  border-radius: 30px ;
-} */
 
 .page-sepresen:last-child {
 border-bottom: none !important;
@@ -1912,9 +1898,6 @@ color: #878a9a;
 
 
 
-/* user mapped alread */
-
-
 .map {
 position: relative;
 }
@@ -1947,27 +1930,24 @@ border-color: rgb(145, 42, 183)!important;
 background-color: white!important;
 }
 
-    .search-tag-remvo {
-      background-color: transparent;
-      border: none;
-      padding: 0px;
-    }
+.search-tag-remvo {
+  background-color: transparent;
+  border: none;
+  padding: 0px;
+}
 
-    .search-tag-remvo i {
-      font-size: 18px;
-      color: #444;
-    }
+.search-tag-remvo i {
+  font-size: 18px;
+  color: #444;
+}
 
-            .order-search {
-              padding: 0px 5px 0px;
-              background: #fff;
-              border: 1px solid #dee2e6;
-              box-sizing: border-box;
-              border-radius: 10px;
-            }
-
-
-
+.order-search {
+  padding: 0px 5px 0px;
+  background: #fff;
+  border: 1px solid #dee2e6;
+  box-sizing: border-box;
+  border-radius: 10px;
+}
 .bg-transparent {
  background-color: transparent !important;
  border: transparent !important;
@@ -2214,12 +2194,12 @@ background-color: #FFF;
 padding: 5px;
 border-radius: 5px;
 }
-.expense-admin{
+/* .expense-admin{
 position: absolute;
 width: 100%;
 bottom: 0px;
 right: 10px;
-}
+} */
 .border-right{
 border-right: 1px solid #f1f1f1;
 }
@@ -2232,7 +2212,7 @@ border-radius: 50%;
 }
 
 .expance-forn-data{
-max-height: 385px;
+max-height: 400px;
 overflow: scroll;
 }
 
@@ -2248,4 +2228,61 @@ overflow: scroll;
 .no-arrow::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+.skill-set {
+  list-style: none;
+  padding-left: 0px;
+}
+
+.skill-set li{
+    display: inline-block;
+    border-radius: 40px;
+    border: 1px solid #CECDFF;
+    background: #F4F5FF;
+    font-size: 13px;
+    font-weight: 400;
+    padding: 5px 15px;
+    margin-bottom: 13px;
+    margin-right: 10px;
+    color: #000;
+    text-transform: capitalize;
+}
+
+.search-icon {
+  top: 10px;
+  height: 100%;
+  color: var(--tb-secondary-color) !important;
+  margin: auto;
+  padding-left: 15px;
+}
+
+.bill-image img {
+  width: 100%;
+  height: 552px;
+  object-fit: cover;
+}
+
+.input-zorro {
+  border-radius: 2px !important;
+  border: 1.021px solid #e9e9e9 !important;
+  background: rgba(236, 236, 236, 0.21) !important;
+  height: 45px !important;
+  font-size: 13px !important;
+  color: #a2a2a2;
+  font-weight: 400 !important;
+}
+
+.form-check input[type=checkbox] {
+  box-sizing: border-box;
+  padding: 0;
+  accent-color: #6766f3;
+  width: 18px;
+  height: 18px;
+  border-radius: 2px;
+}
+.limit-amount{
+  background-color: #22b78326;
+  border-radius: 2px;
+  border: 1px solid #22b783;
 }

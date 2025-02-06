@@ -1,0 +1,15 @@
+.faq-point{
+    border-radius: 2px;
+    border: 1px solid #E6E6E6;
+}
+.faq-point p{
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;  
+    overflow: hidden;
+}
+.faq-point svg{
+    position: relative;
+    top: -3px;
+    width: 22px;
+}

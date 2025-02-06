@@ -869,7 +869,9 @@ actionMenuList .dropdown-item i {
   color: white;
   border-radius: 50%;
 }
-
+.w-80{
+  width: 80%;
+}
 
 @media screen and (max-width: 500px) {
   .pagination-box-profile {
