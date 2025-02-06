@@ -189,6 +189,11 @@ export class TopbarComponent implements OnInit {
       routeDesc="Frequently Asked Question"
       break;
     }
+    case this.Routes.FAQDETAIL:{
+      routeValue = 'FAQ Detail';
+      routeDesc="Frequently Asked Question Detail"
+      break;
+    }
 
    }
 
@@ -419,4 +424,7 @@ export class TopbarComponent implements OnInit {
     });
   }
 
+  routeToInbox() {
+    this.router.navigate(["/inbox"]);
+  }
 }

@@ -1,12 +1,12 @@
 <div class="employee-dashboard-box m-3 mt-4">
     <div class="row">
 
-
+        <!-- mobile section -->
         <div *ngIf="!shouldShowResignationRow() || requestModal" class="col-md-7 mobile-holiday-section">
             <div class="holidays-list ">
                 <div class="d-flex align-items-center holidays-flex-column">
                     <div class="holidays-cal-box">
-                        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel"
+                        <div id="carouselExampleControlsmb" class="carousel slide" data-bs-ride="carousel"
                             data-bs-interval="3000">
                             <div class="carousel-inner">
                                 <div *ngFor="let hd of holidays; let i = index" class="carousel-item"
@@ -43,14 +43,13 @@
                                 <p class="mb-1 empty-detail">No Holidays for Now</p>
                             </div>
 
-                            <!-- Carousel controls -->
                             <button class="carousel-control-prev" type="button"
-                                data-bs-target="#carouselExampleControls" data-bs-slide="prev"
+                                data-bs-target="#carouselExampleControlsmb" data-bs-slide="prev"
                                 *ngIf="holidays.length > 1">
                                 <i class="bi bi-chevron-left"></i>
                             </button>
                             <button class="carousel-control-next" type="button"
-                                data-bs-target="#carouselExampleControls" data-bs-slide="next"
+                                data-bs-target="#carouselExampleControlsmb" data-bs-slide="next"
                                 *ngIf="holidays.length > 1">
                                 <i class="bi bi-chevron-right"></i>
                             </button>
@@ -75,6 +74,7 @@
                 </div>
             </div>
         </div>
+        <!-- mobile section end -->
         <div class="col-md-4">
             <!-- attendance-report -->
             <div class="attendance-report p-3 attendance-report-height">

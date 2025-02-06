@@ -86,7 +86,7 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
     DragDropModule,
     NgbTooltipModule,
     SharedModule,
-    NzAlertModule
+    NzAlertModule,
 
   ],
 })
