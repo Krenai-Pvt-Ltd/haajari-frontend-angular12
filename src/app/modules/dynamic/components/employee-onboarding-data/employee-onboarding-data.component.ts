@@ -1017,7 +1017,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
 
             this.mismatches.push('<br />');
             // Add repeated mismatch message
-            this.mismatches.push(`Repeated : "${key}" at row no.`);
+            this.mismatches.push(`"${key}" at row no.`);
 
             // Scroll into view if element exists
             if (this.elementToScroll) {
@@ -1158,11 +1158,11 @@ export class EmployeeOnboardingDataComponent implements OnInit {
 
         }
         if (this.fileColumnName[j] === 'email*' && cellValue) {
-          this.addToMap(cellValue.toString(),`${i+1}`);
+          this.addToMap('Repeated Email: ' + cellValue.toString(),`${i+1}`);
         }
         if (this.fileColumnName[j] === 'phone*' && cellValue) {
           const phoneNumber = cellValue.toString().trim();
-          this.addToMap(cellValue.toString(),`${i+1}`);
+          this.addToMap('Repeated Phone: '+ cellValue.toString(),`${i+1}`);
           if (!/^\d{10}$/.test(phoneNumber)) {
             rowIsValid = false;
             this.invalidRows[i] = true; // Mark the row as invalid
@@ -1172,20 +1172,22 @@ export class EmployeeOnboardingDataComponent implements OnInit {
         if (this.fileColumnName[j] === 'esi number' && cellValue) {
           debugger
           const esi = cellValue.toString().trim();
-          this.addToMap(cellValue.toString(),`${i+1}`);
+          this.addToMap('Repeated ESI: '+cellValue.toString(),`${i+1}`);
           if (!/^\d{17}$/.test(esi) && esi.length > 0) {
             rowIsValid = false;
             this.invalidRows[i] = true; // Mark the row as invalid
             this.invalidCells[i][j] = true; // Mark the cell as invalid
+            this.addToMap('Invalid ESI: '+cellValue.toString(),`${i+1}`);
           }
         }
         if (this.fileColumnName[j] === 'uan' && cellValue) {
           const uan = cellValue.toString().trim();
-          this.addToMap(cellValue.toString(),`${i+1}`);
+          this.addToMap('Repeated UAN: '+cellValue.toString(),`${i+1}`);
           if (!/^\d{12}$/.test(uan) && uan.length>0) {
             rowIsValid = false;
             this.invalidRows[i] = true; // Mark the row as invalid
             this.invalidCells[i][j] = true; // Mark the cell as invalid
+            this.addToMap('Invalid UAN: '+cellValue.toString(),`${i+1}`);
           }
         }
 
