@@ -1009,7 +1009,7 @@
                               let i = index;
                               let user;
                               of: resignations
-                                
+
                             ">
                         <!-- class="stickyColTd" -->
                         <td>
@@ -1601,7 +1601,7 @@
       </div>
       <div *ngIf="remainingField!==0" class="modal-footer d-flex align-items-center justify-content-end gap-2">
         <button type="button" (click)="rejectData()" [disabled]="rejectLoading || fieldLoading || approveLoading || (isRejectModalOpen && (!rejectedReason || rejectedReason.length < 10))"
-          class="btn cancel-btn">
+          class="btn btn-danger">
           <span *ngIf="!rejectLoading">Reject All</span>
           <div class="dot-opacity-loader" *ngIf="rejectLoading">
             <span></span>
@@ -1919,7 +1919,7 @@ Edit Request Modal End
               </div>
               <div class="d-flex justify-content-end align-items-center">
                 <p class="m-0" *ngIf="data.length > pageSize">
-                  Showing {{ (currentPage - 1) * pageSize + 1 }} - 
+                  Showing {{ (currentPage - 1) * pageSize + 1 }} -
                   {{ (currentPage * pageSize > data.length ? data.length-1 : currentPage * pageSize) }} of {{ data.length-1 }}
                 </p>
                 <ngb-pagination *ngIf="data.length > pageSize" [rotate]="true" [maxSize]="4" [collectionSize]="data.length - 1" [pageSize]="pageSize"
@@ -2301,7 +2301,7 @@ aria-labelledby="exampleModalLabel" aria-hidden="true">
 <div class="modal fade" id="addShift" tabindex="-1" aria-labelledby="emptyModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
   <div class="modal-dialog modal-dialog-centered modal-xl">
       <div class="modal-content">
-        
+
           <div class="modal-body p-0">
               <button #closeAddButton id="closeAddButton" type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="15" viewBox="0 0 16 15" fill="none">
