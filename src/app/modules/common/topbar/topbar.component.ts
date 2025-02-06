@@ -424,4 +424,7 @@ export class TopbarComponent implements OnInit {
     });
   }
 
+  routeToInbox() {
+    this.router.navigate(["/inbox"]);
+  }
 }
