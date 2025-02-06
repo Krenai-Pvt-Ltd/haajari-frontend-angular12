@@ -3747,27 +3747,41 @@
         <div class="col-md-9">
 
           <div class="row">
-            <!-- Account Holder Name -->
+            <!-- UAN -->
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input formControlName="uan" type="text" class="form__field" maxlength="12"
-                  [(ngModel)]="this.onboardingPreviewDataCopy.user.uan" />
+                <input formControlName="uan" type="text" class="form__field" maxlength="12" [(ngModel)]="this.onboardingPreviewDataCopy.user.uan" (ngModelChange)="checkUan(onboardingPreviewDataCopy.user.uan)"/>
                 <label class="form__label">UAN Number</label>
               </div>
-
-
+              <!-- Validation Messages -->
+              <div *ngIf="onboardingForm.get('statutoryDetails.uan')?.errors?.invalidLength" class="text-danger">
+                UAN must be exactly 12 digits.
+              </div>
+              <div *ngIf="onboardingForm.get('statutoryDetails.uan')?.errors?.invalidFormat" class="text-danger">
+                UAN must contain only numbers.
+              </div>
+              <div *ngIf="uanExists" class="text-danger">
+                UAN already exists in organization.
+              </div>
             </div>
 
-            <!-- Bank Name -->
+            <!-- ESI -->
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input formControlName="esi" type="text" class="form__field" maxlength="17"
-                  [(ngModel)]="this.onboardingPreviewDataCopy.user.esi" />
+                <input formControlName="esi" type="text" class="form__field" maxlength="17" [(ngModel)]="this.onboardingPreviewDataCopy.user.esi" (ngModelChange)="checkEsi(onboardingPreviewDataCopy.user.esi)" />
                 <label class="form__label">ESI Number</label>
               </div>
-
+              <!-- Validation Messages -->
+              <div *ngIf="onboardingForm.get('statutoryDetails.esi')?.errors?.invalidLength" class="text-danger">
+                ESI must be exactly 17 digits.
+              </div>
+              <div *ngIf="onboardingForm.get('statutoryDetails.esi')?.errors?.invalidFormat" class="text-danger">
+                ESI must contain only numbers.
+              </div>
+              <div *ngIf="esiExists" class="text-danger">
+                ESI already exists in organization.
+              </div>
             </div>
-
           </div>
         </div>
       </div>
