@@ -973,7 +973,7 @@
                      </div>
                   </div>
                   <div class="expance-forn-data p-3">
-                   
+
                       <div class="limit-amount p-3 mb-3" *ngIf="userExpense.remainingWalletAmount != null || userExpense.remainingWalletAmount > 0">
                         <p class="mb-0 font-14 text-success fw-semibold">Limit Amount: {{userExpense.remainingWalletAmount}}</p>
                     </div>
@@ -1068,7 +1068,7 @@
                         [(ngModel)]="approveReq.rejectionReason" name="rejectInput"></textarea>
                      </div>
                      <div *ngIf="isTagsEditEnabled" class="col-md-12 mb-3 position-relative">
-                        <input type="text" id="tags" name="tags" (keyup.enter)="addTag()" 
+                        <input type="text" id="tags" name="tags" (keyup.enter)="addTag()"
                         class="form-control input-zorro" placeholder="Search Your Tags (Ex: Testing)" style="padding: 10px 70px 10px 40px;"
                         [(ngModel)]="searchTag" (ngModelChange)="onTagsChange($event)"
                         (keydown)="preventLeadingWhitespace($event)" [nzAutocomplete]="tagsAuto" />
@@ -1087,7 +1087,7 @@
                    </div>
                      <!-- TODO: remove this d-none -->
                      <button (click)="isTagsEditEnabled=!isTagsEditEnabled;" class="btn p-0 text-primary d-flex align-items-center justify-content-end w-100 font-14 fw-semibold">
-                     <span class="d-flex align-items-center" *ngIf="!isTagsEditEnabled" ><i class="bi bi-plus font-20 position-relative" style="top:-2px"></i> Add Tags</span> 
+                     <span class="d-flex align-items-center" *ngIf="!isTagsEditEnabled" ><i class="bi bi-plus font-20 position-relative" style="top:-2px"></i> Add Tags</span>
                      <span class="d-flex align-items-center" *ngIf="isTagsEditEnabled"> <i class="bi bi-x font-20 position-relative" style="top:-2px"></i> Cancel</span>
                      </button>
                      <div class="row d-flex justify-content-between mt-3">
@@ -1153,7 +1153,7 @@
                <div class="modal-footer expense-admin bg-white">
                   <div *ngIf="!rejectDiv && !payCashDiv" class="d-flex align-items-center gap-2">
                      <button class="btn reject-btn" [disabled]="approveToggle || payrollToggle"
-                     *ngIf="!partiallyPayment && (userExpense.status.id == 13 || userExpense.status.id == 14)" (click)="showExpenseRejectDiv()">Reject</button>
+                     *ngIf="!partiallyPayment && (userExpense?.status.id == 13)" (click)="showExpenseRejectDiv()">Reject</button>
                      <button type="button" *ngIf="userExpense && userExpense.status.id == 14 && !partiallyPayment"
                      class="btn payroll-btn" (click)="approveOrDeny(userExpense.id, 40, 0)" [disabled]="payrollToggle" >
                      <span *ngIf="!payrollToggle">Settled With Payroll</span>
@@ -1163,7 +1163,7 @@
                         <span></span>
                      </div>
                      </button>
-                     <button type="button" *ngIf="userExpense.status.id == 13" class="btn submitActionBtn" (click)="approveOrDeny(userExpense.id, 14, 0)"
+                     <button type="button" *ngIf="userExpense?.status.id == 13" class="btn submitActionBtn" (click)="approveOrDeny(userExpense.id, 14, 0)"
                      [ngClass]="{'btn-border':!(approveToggle || (approveAmountChecked && approvedAmount == '') || (approveAmountChecked &&!approvedAmount) || approvedAmount > userExpense.amount)}"
                      [disabled]="approveToggle || (approveAmountChecked && approvedAmount == '') || (approveAmountChecked &&!approvedAmount) || approvedAmount > userExpense.amount" >
                      <span *ngIf="!approveToggle">Approved</span>
@@ -1174,10 +1174,10 @@
                      </div>
                      </button>
                      <button class="btn approve-btn" [disabled]="partiallyPayment  && (!partialAmount || partialAmount > userExpense.approvedAmount)"
-                     *ngIf="!expenseCancelToggle && userExpense.status.id == 14" (click)="showPayCashDiv()">Settle Now</button>
+                     *ngIf="!expenseCancelToggle && userExpense?.status.id == 14" (click)="showPayCashDiv()">Settle Now</button>
                      <button class="btn approve-btn" [ngClass]="{'btn-border': partiallyPayment && partialAmount}"
                      [disabled]="partiallyPayment && (partialAmount == '' || partialAmount == null || partialAmount > fullPartialAmount)"
-                     *ngIf="!expenseCancelToggle && userExpense.status.id == 46" (click)="showPayCashDiv()">Approved</button>
+                     *ngIf="!expenseCancelToggle && userExpense?.status.id == 46" (click)="showPayCashDiv()">Approved</button>
                   </div>
                   <div *ngIf="rejectDiv" class="d-flex align-items-center gap-2">
                      <button type="button" class="btn submitActionBtn" (click)="approveOrDeny(userExpense.id, 15, 0)"
@@ -1551,7 +1551,7 @@
                             </span>
 
                             <label class="checkbox-label" style="cursor: pointer">
-                              <input type="checkbox"
+                              <input type="checkbox" [checked]="isAllSelected"
                                 (change)="selectAllUsers(!isAllSelected)" />
                               Select all
                             </label>
