@@ -30,4 +30,6 @@ export class UserPersonalInformationRequest {
         employeeAttendanceForManagerType!: number;
         updateRequest!: boolean;
         isProbation!: boolean;
+        uan!: string;
+        esi!: string;
 }
