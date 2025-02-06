@@ -2108,7 +2108,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
   }
 
   deleteUserResignation(id: number): Observable<any> {
-    const url = `${this.baseUrl}/user-resignation`; 
+    const url = `${this.baseUrl}/user-resignation`;
     return this.httpClient.delete<any>(url, {
       params: { id: id.toString() },
     });
@@ -3942,7 +3942,7 @@ getHolidayForOrganizationWhatsapp(userUuid: string, date: string): Observable<an
     return this.httpClient.post<any>(url, attendanceTimeUpdateRequestDto, {params});
   }
 
-  
+
 
   getAttendanceTimeUpdateRequestById(id: number): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}?id=${id}`);
@@ -4990,7 +4990,14 @@ getHolidayForOrganizationWhatsapp(userUuid: string, date: string): Observable<an
     const params = new HttpParams().set('id', id.toString());  // Pass id as request parameter
     return this.httpClient.post<string>(`${this.baseUrl}/users/joining-date`, date, { params });
   }
-  
+
+  existsUserByUan(uan: string): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/users/by-uan/${uan}`);
+  }
+
+  existsUserByEsi(esi: string): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/users/by-esi/${esi}`);
+  }
 
 }
 
