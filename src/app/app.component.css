@@ -239,3 +239,10 @@
   align-items: center;
   color: #fff;
 }
+
+.topbar-fix{
+  position: sticky;
+  top: 0;
+  z-index: 99;
+  background-color: #fff;
+}

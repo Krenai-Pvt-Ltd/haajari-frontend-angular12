@@ -71,6 +71,10 @@ export class HeaderComponent implements OnInit {
     }
   }
 
+  showActiveTab:string='dashboard';
+  activateTab(type:string){
+    this.showActiveTab = type;
+  }
   setActiveTabEmpty() {
     this.activeTab = '';
     this.newNotification = false;

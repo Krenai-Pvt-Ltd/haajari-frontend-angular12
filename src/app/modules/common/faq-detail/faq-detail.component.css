@@ -1,0 +1,21 @@
+.back-btm{
+    width: 35px;
+    height: 35px;
+    border: 1px solid #6666f2;
+    border-radius: 50%;
+}
+.back-btm svg{
+     width: 22px;
+}
+.faq-topic-detail p{
+    color: #444;
+}
+.faq-topic-detail p a{
+    color: #878A9A;
+}
+.ytp-show-cards-title, .ytp-pause-overlay, .ytp-ce-element {
+    display: none !important;
+}
+.faq-topic-detail{
+    padding-right: 40px;
+}

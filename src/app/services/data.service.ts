@@ -450,6 +450,33 @@ export class DataService {
     );
   }
 
+  getUsersByOrganizationUuid(
+    search: string | null,
+    statuses: string[] | null,
+    pageable: { page: number; size: number; sort?: string }
+  ): Observable<any> {
+    let params = new HttpParams()
+      .set('page', pageable.page.toString())
+      .set('size', pageable.size.toString());
+
+    if (search) {
+      params = params.set('search', search);
+    }
+
+    if (statuses && statuses.length > 0) {
+      statuses.forEach((status) => {
+        params = params.append('statuses', status);
+      });
+    }
+
+    if (pageable.sort) {
+      params = params.set('sort', pageable.sort);
+    }
+
+    return this.httpClient.get<any>(`${this.baseUrl}/users/onboarding-data-by-filter`, { params });
+  }
+
+
   getUsersByFilterForLeaveSetting(
     itemPerPage: number,
     pageNumber: number,
@@ -2081,7 +2108,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
   }
 
   deleteUserResignation(id: number): Observable<any> {
-    const url = `${this.baseUrl}/user-resignation`; 
+    const url = `${this.baseUrl}/user-resignation`;
     return this.httpClient.delete<any>(url, {
       params: { id: id.toString() },
     });
@@ -3915,7 +3942,7 @@ getHolidayForOrganizationWhatsapp(userUuid: string, date: string): Observable<an
     return this.httpClient.post<any>(url, attendanceTimeUpdateRequestDto, {params});
   }
 
-  
+
 
   getAttendanceTimeUpdateRequestById(id: number): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}?id=${id}`);
@@ -4964,11 +4991,21 @@ getHolidayForOrganizationWhatsapp(userUuid: string, date: string): Observable<an
     return this.httpClient.post<string>(`${this.baseUrl}/users/joining-date`, date, { params });
   }
 
+<<<<<<< HEAD
 
   saveDefaultNotificationSetting(): Observable<any> {
     return this.httpClient.post<string>(`${this.baseUrl}/notification-setting/default/notification`, { });
   }
   
+=======
+  existsUserByUan(uan: string): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/users/by-uan/${uan}`);
+  }
+
+  existsUserByEsi(esi: string): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/users/by-esi/${esi}`);
+  }
+>>>>>>> 21ac1e6a385b5ee62c81b197ef68abb4c7dd6fad
 
 }
 

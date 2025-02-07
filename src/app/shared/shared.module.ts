@@ -8,6 +8,10 @@ import { CommonToDoStepsComponent } from '../modules/common/common-to-do-steps/c
 import { MapComponent } from '../modules/common/map/map.component';
 import { AgmCoreModule } from '@agm/core';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
+import { FaqComponent } from '../modules/common/faq/faq.component';
+import { FaqDetailComponent } from '../modules/common/faq-detail/faq-detail.component';
+import { ChatComponent } from '../modules/common/chat/chat.component';
+import { NzEmptyModule } from 'ng-zorro-antd/empty';
 
 @NgModule({
   declarations: [
@@ -15,7 +19,10 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
     TopbarComponent,
     HajiriPageLoaderComponent,
     NotifactionTostComponent,
-    MapComponent
+    MapComponent,
+    FaqComponent,
+    FaqDetailComponent,
+    ChatComponent
   ],
 
   imports: [CommonModule, NgbModule,
@@ -23,7 +30,8 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
       apiKey: 'AIzaSyB6SQE_TmOLpGLohpMLl-6FzdwJJAU9MnA',
       libraries: ['places'],
     }),
-    GooglePlaceModule
+    GooglePlaceModule,
+    NzEmptyModule
   ],
   exports: [
     TopbarComponent,
@@ -31,6 +39,9 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
     NotifactionTostComponent,
     CommonToDoStepsComponent,
     MapComponent,
+    FaqComponent,
+    FaqDetailComponent,
+    ChatComponent
   ],
 })
 export class SharedModule { }

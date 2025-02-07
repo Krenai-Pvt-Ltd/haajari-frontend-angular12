@@ -24,7 +24,7 @@ const routes: Routes = [
       { path: 'attendance-photo', component: EmployeeAttendancePhotoComponent },
       //EmployeeAttendancePhotoComponent - deprecated
       { path: 'attendance-url', component: AttendanceUrlComponent },
-      { path: 'attendance-request', component: AttendanceRequestFormComponent },
+      { path: 'attendance-request', component: AttendanceRequestFormComponent }
       
     ],
   },

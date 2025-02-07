@@ -493,3 +493,19 @@ span.add-project {
   color: #ff3737 !important;
   background-color: #fff4f4;
 }
+
+/* .image-container img {
+  transition: opacity 0.3s ease-in-out;
+}
+
+.image-container img.hover-img {
+  display: none;
+}
+
+.image-container:hover img.default-img {
+  display: block;
+}
+
+.image-container:hover img.hover-img {
+  display: block;
+} */

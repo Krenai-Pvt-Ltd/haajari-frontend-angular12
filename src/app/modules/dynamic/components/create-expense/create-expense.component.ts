@@ -244,7 +244,7 @@ export class CreateExpenseComponent implements OnInit {
     return current && current >= today;
   };
 
-  userExpense: any;
+  userExpense!: any;
   fullPartialAmount: any;
   getExpense(expense: any) {
 
@@ -741,18 +741,26 @@ this.expenseTypeName = selectedExpense.name
 
   // Method to toggle all users' selection
   selectAllUsers(isChecked: boolean) {
-
+    debugger
     this.isAllUsersSelected = isChecked;
     this.isAllSelected = isChecked; // Make sure this reflects the change on the current page
     this.staffs.forEach((staff) => (staff.selected = isChecked)); // Update each staff's selected property
 
     if (isChecked) {
       // If selecting all, add all user UUIDs to the selectedStaffIds list
+      this.selectedStaffIdsUser=[];
       this.getAllUsersUuids().then((allUuids) => {
-        this.selectedStaffIds = allUuids;
+        console.log(allUuids);
+        this.selectedStaffIdsUser = allUuids;
+        this.staffs.forEach((element) => {
+          element.checked = true;
+        });
       });
     } else {
-      this.selectedStaffIds = [];
+      this.selectedStaffIdsUser = [];
+      this.staffs.forEach((element) => {
+        element.checked = false;
+      });
     }
   }
 
@@ -824,7 +832,7 @@ this.expenseTypeName = selectedExpense.name
       )
       .toPromise();
 
-    return response.users.map((userDto: any) => userDto.user.id);
+    return response.users.map((userDto: any) => userDto.id);
   }
 
   // Call this method when the select all users checkbox value changes

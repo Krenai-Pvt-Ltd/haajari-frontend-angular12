@@ -470,3 +470,20 @@
   padding: 15px;
   border-radius: 2px;
 }
+
+
+.filter-bdg {
+  overflow-x: scroll;
+  flex-wrap: nowrap;
+}
+
+.filter-pills {
+  line-height: 18px;
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  border-radius: 52px;
+  padding: 6px 15px;
+  white-space: nowrap;
+  margin-bottom: 0 !important;
+  background-color: #557ef826;
+}

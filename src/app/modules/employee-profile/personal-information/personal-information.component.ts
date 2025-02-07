@@ -4,7 +4,6 @@ import { ActivatedRoute } from '@angular/router';
 import { Key } from 'src/app/constant/key';
 import { OnboardingFormPreviewResponse } from 'src/app/models/onboarding-form-preview-response';
 import { UserAcademicsDetailRequest } from 'src/app/models/user-academics-detail-request';
-import { UserAddressDetailsRequest } from 'src/app/models/user-address-details-request';
 import { UserAddressRequest } from 'src/app/models/user-address-request';
 import { UserEmergencyContactDetailsRequest } from 'src/app/models/user-emergency-contact-details-request';
 import { UserExperience } from 'src/app/models/user-experience';
@@ -13,10 +12,9 @@ import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import { UserBankDetailRequest } from 'src/app/models/user-bank-detail-request';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ReasonOfRejectionProfile } from 'src/app/models/reason-of-rejection-profile';
 import { constant } from 'src/app/constant/constant';
-import { th } from 'date-fns/locale';
 
 @Component({
   selector: 'app-personal-information',
@@ -90,6 +88,10 @@ export class PersonalInformationComponent implements OnInit {
         accountNumber: ['',],
         ifsc: ['',],
       }),
+      statutoryDetails: this.fb.group({
+        uan: ['', [this.uanValidator]],
+        esi: ['', [this.esiValidator]],
+      }),
       userExperience: this.fb.array([]),
       userEmergencyContacts: this.fb.array([]),
     });
@@ -119,6 +121,7 @@ export class PersonalInformationComponent implements OnInit {
   bankDetailsEmployee: any;
   isBankShimmer: boolean = false;
 
+  statutoryDetails: any;
 
   refrences: any;
 
@@ -142,6 +145,65 @@ export class PersonalInformationComponent implements OnInit {
         console.error('Error:', error);
       },
     });
+  }
+
+  uanValidator(control: AbstractControl): ValidationErrors | null {
+    const value = control.value;
+    if (value && value.trim() !== '') {
+      if (value.length !== 12) {
+        return { invalidLength: true };
+      }
+
+      if (!/^\d+$/.test(value)) {
+        return { invalidFormat: true };
+      }
+
+      if(value && value.length==12){
+
+      }
+    }
+    return null;
+  }
+
+  // Custom validator for ESI
+  esiValidator(control: AbstractControl) {
+    const value = control.value;
+    if (value && value.trim() !== '') {
+      if (value.length !== 17) {
+        return { invalidLength: true };
+      }
+
+      if (!/^\d+$/.test(value)) {
+        return { invalidFormat: true };
+      }
+
+
+    }
+    return null;
+  }
+  uanExists:boolean = false;
+  checkUan(uan: string) {
+    if(uan.length==12 && this.onboardingPreviewData.user.uan != uan){
+      this.dataService.existsUserByUan(uan).subscribe(response => {
+        this.uanExists = response.status;
+        console.log(response.message);
+      });
+    }else{
+      this.uanExists = false;
+    }
+
+  }
+
+  esiExists:boolean = false;
+  checkEsi(esi: string) {
+    if(esi.length==17 && this.onboardingPreviewData.user.esi != esi){
+      this.dataService.existsUserByEsi(esi).subscribe(response => {
+        this.esiExists = response.status;
+        console.log(response.message);
+      });
+    }else{
+      this.esiExists = false;
+    }
   }
   findEmergencyContactWithId(id: number): any {
     return this.requestedData.userEmergencyContacts.find(contact => contact.id === id);
@@ -237,12 +299,12 @@ export class PersonalInformationComponent implements OnInit {
         this.fieldLoading = false;
         console.log('Response:', response);
         if (response.success) {
-          this.helperService.showToast('Field removed successfully', Key.TOAST_STATUS_SUCCESS);
+          this.helperService.showToast('Rejected Successfully', Key.TOAST_STATUS_SUCCESS);
           this.getOnboardingFormPreviewMethodCall();
           this.fetchRequestedData();
 
         } else {
-          this.helperService.showToast('Failed to remove the field', Key.TOAST_STATUS_ERROR);
+          this.helperService.showToast('Failed to reject', Key.TOAST_STATUS_ERROR);
         }
       },
       error: (err) => {
@@ -260,11 +322,11 @@ export class PersonalInformationComponent implements OnInit {
         this.fieldLoading = false;
         console.log('Response:', response);
         if (response.success) {
-          this.helperService.showToast('Field approve successfully', Key.TOAST_STATUS_SUCCESS);
+          this.helperService.showToast('Approved Successfully', Key.TOAST_STATUS_SUCCESS);
           this.getOnboardingFormPreviewMethodCall();
           this.fetchRequestedData();
         } else {
-          this.helperService.showToast('Failed to approve the field', Key.TOAST_STATUS_ERROR);
+          this.helperService.showToast('Failed to approve', Key.TOAST_STATUS_ERROR);
         }
       },
       error: (err) => {
@@ -320,6 +382,9 @@ export class PersonalInformationComponent implements OnInit {
         if (!this.routes.includes('/bank-details')) {
           this.onboardingForm.removeControl('bankDetails');
         }
+        if (!this.routes.includes('/statutory')) {
+          this.onboardingForm.removeControl('statutoryDetails');
+        }
         console.log('Loaded routes:', this.routes);
       },
       error => {
@@ -365,7 +430,7 @@ export class PersonalInformationComponent implements OnInit {
       targetReference.phoneNumber = reference.phoneNumber;
       targetReference.emailId = reference.emailId;
     });
-    if (this.onboardingForm.valid) {
+    if (this.onboardingForm.valid && !this.uanExists && !this.esiExists) {
       this.isSaveBtnLoading = true;
       this.dataService.saveAllUserData(this.onboardingPreviewDataCopy, this.userId).subscribe({
         next: (response) => {
@@ -814,6 +879,12 @@ export class PersonalInformationComponent implements OnInit {
     }
     return this.editedFields.filter(item => item.columnName === columnName);
   }
+
+  disableUnder18Dates = (current: Date): boolean => {
+    const minDate = new Date();
+    minDate.setFullYear(minDate.getFullYear() - 18);
+    return current > minDate;
+  };
 
 
 

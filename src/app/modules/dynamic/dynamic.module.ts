@@ -78,7 +78,7 @@ import { InboxComponent } from './components/inbox/inbox.component';
 import { AssetsManagementComponent } from './components/assets-management/assets-management.component';
 
 
-@NgModule({
+ @NgModule({
   declarations: [
 
     DynamicComponent,

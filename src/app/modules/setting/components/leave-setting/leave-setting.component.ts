@@ -92,7 +92,7 @@ export class LeaveSettingComponent implements OnInit {
   get categories(): FormArray {
     return this.form.get('categories') as FormArray;
   }
-
+  
 
   addRow() {
     debugger
@@ -100,7 +100,8 @@ export class LeaveSettingComponent implements OnInit {
     const newRow = this.fb.group({
       leaveCategoryId: ['', Validators.required],
       leaveCycleId: ['', Validators.required],
-      leaveCount: ['', [Validators.required, Validators.min(0)]],
+      leaveCount: [0, [Validators.required]],
+      // , Validators.min(0)
       isSandwichLeave: [''],
       unusedLeaveActionId: [''],
       unusedLeaveActionCount: [''],
@@ -127,7 +128,7 @@ export class LeaveSettingComponent implements OnInit {
     this.form.patchValue({
       leaveCategoryId: '',
       leaveCycleId: '',
-      leaveCount: '',
+      leaveCount: 0,
       isSandwichLeave: '',
       unusedLeaveActionId: '',
       unusedLeaveActionCount: '',
@@ -146,7 +147,7 @@ export class LeaveSettingComponent implements OnInit {
     const newRow = this.fb.group({
       leaveCategoryId: ['', Validators.required],
       leaveCycleId: ['', Validators.required],
-      leaveCount: ['', [Validators.required, Validators.min(0)]],
+      leaveCount: [0, [Validators.required, Validators.min(0)]],
       isSandwichLeave: [''],
       unusedLeaveActionId: [''],
       unusedLeaveActionCount: [''],
@@ -233,7 +234,7 @@ export class LeaveSettingComponent implements OnInit {
       const newRow = this.fb.group({
         leaveCategoryId: ['', Validators.required],
         leaveCycleId: ['', Validators.required],
-        leaveCount: ['', [Validators.required, Validators.min(0)]],
+        leaveCount: [0, [Validators.required, Validators.min(0)]],
         isSandwichLeave: [''],
         unusedLeaveActionId: [''],
         unusedLeaveActionCount: [''],
@@ -281,7 +282,7 @@ export class LeaveSettingComponent implements OnInit {
       this.leaveTemplateForm(true);
     }
 
-    this.tempLeaveCount = ''
+    this.tempLeaveCount = 0;
     this.showErrorCount = false
   }
 
@@ -717,7 +718,7 @@ export class LeaveSettingComponent implements OnInit {
             id: [category.id],
             leaveName: [category.leaveName, Validators.required],
             leaveCount: [
-              category.leaveCount,
+              Number(category.leaveCount),
               [Validators.required, Validators.min(0)],
             ],
             leaveRules: [category.leaveRules],
@@ -949,7 +950,7 @@ export class LeaveSettingComponent implements OnInit {
       (category: any) => ({
         id: category.id, // Ensure the ID is being mapped
         leaveName: category.leaveName,
-        leaveCount: category.leaveCount,
+        leaveCount: Number(category.leaveCount),
         leaveRules: category.leaveRules,
         carryForwardDays: category.carryForwardDays,
         accrualTypeId: category.accrualTypeId,
@@ -1456,8 +1457,12 @@ export class LeaveSettingComponent implements OnInit {
   }
 
   wfhActiveIndex: number | null = null;
+  onDutyActiveIndex:number | null = null;
   toggleCollapseWFH(index: number): void {
     this.wfhActiveIndex = this.wfhActiveIndex === index ? null : index;
+  }
+  toggleCollapseOnDuty(index: number): void {
+    this.onDutyActiveIndex = this.onDutyActiveIndex === index ? null : index;
   }
 
   deleteLeaveSettingCategoryById(id: number): void {
@@ -1857,6 +1862,7 @@ export class LeaveSettingComponent implements OnInit {
     this.selectedAccrualTypeId = id;  // Store the selected gender ID
   }
 
+  
   leaveCycleStartDate: any;
   leaveCycleEndDate: any;
   onLeaveCycleChange(id: number) {
@@ -2024,7 +2030,7 @@ export class LeaveSettingComponent implements OnInit {
       (category: any) => ({
         id: category.leaveCategoryId,
         leaveCycleId: category.leaveCycleId,
-        leaveCount: category.leaveCount,
+        leaveCount: Number(category.leaveCount),
         sandwichLeave: category.isSandwichLeave,
         unusedLeaveActionId: category.unusedLeaveActionId,
         unusedLeaveActionCount: category.unusedLeaveActionCount,
@@ -2315,8 +2321,15 @@ console.log('After SET Ids: ',this.selectedStaffIdsUser)
 
       if (res.status) {
         this.organizationName = res.object;
+        let type=' Leave';
+        if(this.wfhTemplateToggle){
+          type=' On Duty';
+        }
+        if(this.weekOffTemplateToggle){
+          type=' Week Off'
+        }
         // this.leaveTemplateRequest.name = this.organizationName + " Leave"
-        this.leaveTemplateRequest.name = this.organizationName + (this.wfhTemplateToggle ? ' WFH' : ' Leave')
+        this.leaveTemplateRequest.name = this.organizationName + type
       } else {
         this.organizationName = '';
       }
@@ -2476,7 +2489,7 @@ setUnusedLeaveAction(index: number, value: any): void {
 showError: boolean = false;
 showErrorCount: boolean = false;
 // leaveCount: number = 1
-tempLeaveCount: string = ''
+tempLeaveCount!: number  
 
 // validateAndAdjustLeaveCount(value: number, index: number): void {
 validateAndAdjustLeaveCount(value: number, index: number): void {
@@ -2486,7 +2499,7 @@ validateAndAdjustLeaveCount(value: number, index: number): void {
   this.showError = false;
   this.showErrorCount = false;
 
-  const tempValue = value
+  const tempValue = +value
   // const tempValue = this.getVal;
 
   // Separate the integer and decimal parts of the input value
@@ -2517,19 +2530,21 @@ validateAndAdjustLeaveCount(value: number, index: number): void {
     // this.showErrorCount = true;
 
     // Temporarily set leaveCount to null, then assign adjusted value to trigger UI update
-    this.tempLeaveCount = ''
+    this.tempLeaveCount = 0
     // this.cdr.detectChanges();
     setTimeout(() => {
-      this.tempLeaveCount = adjustedValue.toString();
+      this.tempLeaveCount = adjustedValue
+      // .toString();
       // this.cdr.detectChanges();
     },50);
   } else {
-    this.tempLeaveCount = value.toString();
+    this.tempLeaveCount = value
+    // .toString();
     // this.showError = false;
   }
 
   // const hasDecimal = !Number.isInteger(tempValue);
-  console.log("tempValue ",tempValue)
+  // console.log("tempValue ",tempValue)
   const hasDecimal = tempValue % 1 !== 0;
   if(hasDecimal){
     this.showErrorCount = true;
@@ -2537,7 +2552,7 @@ validateAndAdjustLeaveCount(value: number, index: number): void {
     this.showErrorCount = false;
   }
 
-  console.log("leave count work: ",this.tempLeaveCount)
+  // console.log("leave count work: ",this.tempLeaveCount)
 
   // Call generateDaysDropdown with the adjusted value
   this.generateDaysDropdown(this.tempLeaveCount, index);
@@ -2559,7 +2574,8 @@ getValue(event: Event, index: number): void {
 
   // Allow only valid decimal numbers (e.g., 22.6) and parse it as a number
   if (/^\d+(\.\d{1,2})?$/.test(input)) {
-    this.tempLeaveCount = parseFloat(input).toString();
+    this.tempLeaveCount = parseFloat(input)
+    // .toString();
   } else {
     // Optional: Display an error message if input is invalid
     console.log("Invalid decimal value.");
@@ -2684,4 +2700,44 @@ editingStaff: Staff = new Staff(); // Tracks which staff row is being edited
     this.cdr.detectChanges();
   }
 
+
+  // getInvalidFormValues(): void {
+  //   const invalidControls = Object.keys(this.form.controls).filter(controlName => {
+  //     return this.form.get(controlName)?.invalid;
+  //   });
+  //   console.log(invalidControls);
+  //   console.log(this.form);
+
+  //   // Print the invalid values
+    
+  //   // Loop through invalid controls and print their missing validations
+  //   invalidControls.forEach(controlName => {
+  //     const control = this.form.get(controlName);
+  //     if (control?.invalid) {
+  //       const errors = control.errors;
+  //       console.log(`Missing validations for ${controlName}:`);
+  //       for (const errorKey in errors) {
+  //         if (errors.hasOwnProperty(errorKey)) {
+  //           console.log(`  - ${errorKey} is missing`);
+  //         }
+  //       }
+  //     }
+  //   });
+// }
+
+getInvalidFormValues(event:any,index:number){
+  const isReset = (this.form.get('categories') as FormArray)
+    .at(index)
+    ?.get('isReset');
+    // console.log("🚀 ~ getInvalidFormValues ~ isReset:", isReset)
+
+if(isReset!=null){
+  isReset.setValue(event);
+  console.log("🚀 ~ getInvalidFormValues ~ isReset:", isReset)
+  console.log("🚀 ~ getInvalidFormValues ~ form:", this.form.value)
+
+}
+    
+  
+}
 }
