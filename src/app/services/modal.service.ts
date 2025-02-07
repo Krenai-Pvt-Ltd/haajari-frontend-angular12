@@ -30,5 +30,7 @@ export class ModalService {
       uuid: uuid,
       userType: userType
     };
+
+    return modalRef.result;
   }
 }

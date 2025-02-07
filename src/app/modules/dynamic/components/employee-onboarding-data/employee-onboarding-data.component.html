@@ -715,7 +715,8 @@
                                 </li>
 
                                 <li>
-                                  <a class="dropdown-item initiate-btn" (click)="getUserUuid(user.uuid);">
+                                  <a class="dropdown-item initiate-btn" (click)="getUserUuid(user.uuid);" data-bs-toggle="modal"
+                                  data-bs-target="#initiateExit">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 17 16"
                                       fill="none">
                                       <path
@@ -1056,7 +1057,7 @@
 
                         <td>
                           <span class="badge rounded-pill"
-                            [ngClass]="{'badge-soft-success': user?.status === 'APPROVED', 'badge-soft-danger': user?.status === 'NOTICE PERIOD' || user?.status === 'REVOKED', 'badge-soft-warning': user?.status === 'PENDING' || user?.status === 'REJECTED' }">
+                            [ngClass]="{'badge-soft-success': user?.status === 'APPROVED', 'badge-soft-danger': user?.status === 'NOTICE PERIOD' || user?.status === 'REVOKED' || user?.status === 'USER EXITED', 'badge-soft-warning': user?.status === 'PENDING' || user?.status === 'REJECTED' }">
                             {{ user.status ? user.status : "N/A"}}</span>
                         </td>
 
@@ -2154,7 +2155,141 @@ Edit Request Modal End
 
 
 <!-- Initiate Exit (UserResignation) Modal Start -->
- 
+<div class="modal fade" id="initiateExit" tabindex="-1" role="dialog" #assetRequestModal aria-hidden="true"
+aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">Initiate Exit</h5>
+      <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close"
+        (click)="closeResignationModal(resignationForm)" #closeResignationButton>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24"
+            height="24">
+            <rect width="24" height="24" fill="#D9D9D9" />
+          </mask>
+          <g mask="url(#mask0_5037_2014)">
+            <path d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z"
+              fill="black" />
+          </g>
+        </svg>
+      </button>
+    </div>
+    <div class="modal-body p-0">
+      <form #resignationForm="ngForm" (ngSubmit)="submitResignation(resignationForm)">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="hr-notes p-3">
+              <p class="mb-0 font-13"> <span class="text-primary"> Note:</span> HR will take the final action on the
+                exit request</p>
+            </div>
+          </div>
+          <div class="p-4">
+            <div class="col-md-12 mb-3">
+              <label for="templateName" class="pb-2">
+                What is the reason for initiating the exit?
+              </label>
+              <nz-form-control>
+                <nz-select style="width: 100%" nzSize="large" nzPlaceHolder="Select exit type"
+                  [(ngModel)]="userExitTypeId" (ngModelChange)="selectUserExitType($event)" required id="seleType"
+                  name="seleExpType" #seleExpType="ngModel" class="form-control">
+                  <nz-option *ngFor=" let exitType of userExitTypeList" [nzValue]="exitType.id"
+                    [nzLabel]="exitType.name">
+                  </nz-option>
+                </nz-select>
+              </nz-form-control>
+            </div>
+            <div class="col-md-12 mb-3">
+              <label for="templateName" class="pb-2">
+                Do you want them to complete their notice period?
+              </label>
+              <div class="row">
+                <div class="col-md-6">
+                  <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                    <input type="radio" name="recommendDay" id="complete" value="Complete" [(ngModel)]="recommendDay"
+                      (change)="selectRecommendDay('Complete')" class="form-check-input">
+                    <p for="exampleRadios3" class="form-check-label mb-0" required> Complete notice periodes </p>
+                  </label>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                    <input type="radio" name="recommendDay" id="other" value="Other" required
+                      [(ngModel)]="recommendDay" (change)="selectRecommendDay('Other')" class="form-check-input">
+                    <p for="exampleRadios4" class="form-check-label mb-0"> Immediate Termination </p>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="recommendDay == 'Other'" class="col-md-12 mb-3">
+              <div class="form-group">
+                <label for="employeeTypeId" class="mb-2">Specify the termination notice date</label>
+
+                <ng-container *ngIf="noticePeriodDuration == 0">
+                  <nz-date-picker *ngIf="userResignationReq.isRecommendLastDay == 1"
+                    [(ngModel)]="userResignationReq.lastWorkingDay" nzPlaceHolder="dd/mm/yyyy" id="selLastDate"
+                    (ngModelChange)="selectLastWorkingDay($event)" name="lastDate" #lastDate="ngModel" required
+                    class="form-control">
+                  </nz-date-picker>
+                </ng-container>
+
+                <ng-container *ngIf="noticePeriodDuration > 0">
+                  <nz-date-picker *ngIf="userResignationReq.isRecommendLastDay == 1"
+                    [(ngModel)]="userResignationReq.lastWorkingDay" nzPlaceHolder="dd/mm/yyyy"
+                    [nzDisabledDate]="disableFutureDates" id="selLastDate"
+                    (ngModelChange)="selectLastWorkingDay($event)" name="lastDate" #lastDate="ngModel" required
+                    class="form-control">
+                  </nz-date-picker>
+                </ng-container>
+
+              </div>
+            </div>
+            <div *ngIf="recommendDay == 'Complete'" class="col-md-12 mb-3">
+              <div class="d-flex align-items-center gap-3 p-3 notice-period-date">
+                <p class="mb-0">Notice period</p>
+                <span class="calendar-separator"></span>
+                <h6 class="mb-0">{{userResignationReq.lastWorkingDay | date: 'dd MMM yyyy'}}</h6>
+              </div>
+            </div>
+            <div class="col-md-12 mb-3"
+              *ngIf="recommendDay == 'Other' && (userResignationReq.lastWorkingDay != null && userResignationReq.lastWorkingDay != '')">
+              <div class="notice-period-error p-3">
+                <div class="d-flex align-items-center gap-3 mb-2">
+                  <p class="mb-0">Notice period</p>
+                  <span class="calendar-separator"></span>
+                  <h6 class="mb-0">{{userResignationReq.lastWorkingDay | date: 'dd MMM yyyy'}}</h6>
+                </div>
+                <!-- <p class="mb-0 font-13">Your last working day may change based on Manager/HR's decision.</p> -->
+                <p class="mb-0 font-13">This is the user last working day.</p>
+              </div>
+            </div>
+            <div class="col-md-12 mb-3">
+              <label for="templateName" class="pb-2">
+                Comment
+              </label>
+              <textarea class="form-control nots-section" id="comment" name="inputComment"
+                placeholder="Write description" rows="3" [(ngModel)]="userResignationReq.comment"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer d-flex align-items-center justify-content-end gap-2">
+          <!-- <button class="btn cancel-btn" data-bs-dismiss="modal" aria-label="Close" (click)="closeResignationModal(resignationForm)" #closeResignationButton>Cancel</button> -->
+          <button type="button" class="btn cancel-btn" data-bs-dismiss="modal" aria-label="Close"
+            (click)="closeResignationModal(resignationForm)" #closeResignationButton>Cancel</button>
+
+          <button *ngIf="!resignationToggle" type="submit"
+            [disabled]="resignationForm.invalid || userExitTypeId == 0 || resignationToggle"
+            class="btn submitActionBtn">Submit</button>
+          <div class="dot-opacity-loader" *ngIf="resignationToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+</div>
 <!-- Initiate Exit (UserResignation) Modal End -->
 
 

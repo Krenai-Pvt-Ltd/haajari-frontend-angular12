@@ -36,8 +36,10 @@ export class AttendanceRequestFormComponent implements OnInit {
     
   constructor( private fb: FormBuilder, private helperService: HelperService, private dataService : DataService, private activateRoute: ActivatedRoute, private datePipe: DatePipe) {
 
-    if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
-      this.userId = this.activateRoute.snapshot.queryParamMap.get('userId');
+    if (this.activateRoute.snapshot.queryParamMap.has('userUuid')) {
+      this.userId = this.activateRoute.snapshot.queryParamMap.get('userUuid');
+      this.getIsAdminForWhatsappLeaveRequest(this.userId);
+
     }
 
     // comment
@@ -270,6 +272,27 @@ export class AttendanceRequestFormComponent implements OnInit {
     }
     return false;
   }
+  isAdmin : boolean = false;
+  getIsAdminForWhatsappLeaveRequest(userId:string) {
 
+    this.dataService.getIsAdminForWhatsappLeave(userId).subscribe(
+      (isAdminPresent: boolean) => {
+         this.isAdmin = isAdminPresent;
+         this.updateManagerIdValidators();
+      });
+  }
+
+
+  updateManagerIdValidators() {
+    debugger
+    const managerIdControl = this.attendanceTimeUpdateForm.get('managerId');
+    if (this.isAdmin) {
+      managerIdControl?.clearValidators(); // Remove validators
+      managerIdControl?.setValue(''); // Clear the value
+    } else {
+      managerIdControl?.setValidators(Validators.required); // Apply Validators.required
+    }
+    managerIdControl?.updateValueAndValidity(); // Update the validity of the control
+  }
 
 }

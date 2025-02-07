@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 import { StatusKeys } from 'src/app/constant/StatusKeys';
 import { EmployeeMonthWiseSalaryData } from 'src/app/models/employee-month-wise-salary-data';
 import { StatutoryMonthDeduction } from 'src/app/models/StatutoryMonthDeduction';
@@ -22,6 +24,26 @@ export class TdsComponent implements OnInit {
 
  readonly StatusKeys = StatusKeys;
 
+ 
+
+  private searchSubject = new Subject<boolean>();
+  constructor(private _dataService: DataService,
+     public _helperService: HelperService,
+     private _salaryService :SalaryService) {
+
+       this.searchSubject.pipe(debounceTime(250)) // Wait for 250ms before emitting the value
+                        .subscribe(searchText => {
+                          this.searchByInput(searchText);
+                        });
+
+  }
+
+  ngOnInit(): void {
+    window.scroll(0, 0);
+    this.getFirstAndLastDateOfMonth(this.selectedDate);
+  }
+
+
   isShimmer = false;
   dataNotFoundPlaceholder = false;
   networkConnectionErrorPlaceHolder = false;
@@ -32,18 +54,6 @@ export class TdsComponent implements OnInit {
     this.statutoryMonthDeductions = [];
   }
 
-  constructor(private _dataService: DataService,
-     public _helperService: HelperService,
-     private _salaryService :SalaryService) {
-
-  }
-
-  ngOnInit(): void {
-    window.scroll(0, 0);
-    this.getFirstAndLastDateOfMonth(this.selectedDate);
-  }
-
-
   mainPlaceholderFlag : boolean = false;
   statutoryMonthDeductions: StatutoryMonthDeduction[] = [];
   getEmployeeMonthWiseSalaryDataMethodCall() {
@@ -52,7 +62,7 @@ export class TdsComponent implements OnInit {
       .subscribe((response) => {
           if (response.object == null || response.object.length ==0) {
             this.dataNotFoundPlaceholder = true;
-
+            this.totalItems = 0;
           } else {
             this.statutoryMonthDeductions = response.object;
             this.totalItems = response.totalItems;          
@@ -103,38 +113,42 @@ export class TdsComponent implements OnInit {
   }
 
 
-  startIndex(): number {
-    return (this.pageNumber - 1) * this.itemPerPage + 1;
+  searchDebounce(event:any){
+    this.searchSubject.next(event)
   }
 
-  lastIndex(): number {
-    return Math.min(this.pageNumber * this.itemPerPage, this.totalItems);
+  searchByInput(event: any) {
+    // this.isBeingSearch = true;
+    var inp = String.fromCharCode(event.keyCode);
+    if (event.type == 'paste') {
+      let pastedText = event.clipboardData.getData('text');
+      if (pastedText.length > 2) {
+        this.pageNumber = 1;
+        this.getEmployeeMonthWiseSalaryDataMethodCall();
+      }
+
+    }else {
+      if (this.search.length > 2 && /[a-zA-Z0-9.@]/.test(inp)) {
+        this.pageNumber = 1;
+        this.getEmployeeMonthWiseSalaryDataMethodCall();
+
+      }else if (event.code == 'Backspace' && (event.target.value.length >= 3)) {
+        this.pageNumber = 1;
+        this.getEmployeeMonthWiseSalaryDataMethodCall();
+
+      }else if (this.search.length == 0) {
+        this.pageNumber = 1;
+        this.search = '';
+        this.getEmployeeMonthWiseSalaryDataMethodCall();
+      }
+    }
   }
 
-  resetCriteriaFilter() {
-    this.itemPerPage = 5;
+  resetSearch(){
     this.pageNumber = 1;
-    this.totalItems = 0;
+    this.totalItems= 0;
     this.search = '';
-  }
-
-  resetCriteriaFilterMicro() {
-    this.itemPerPage = 5;
-    this.pageNumber = 1;
-    this.totalItems = 0;
-  }
-
-  searchUsers(event: Event) {
-    this._helperService.ignoreKeysDuringSearch(event);
-    this.resetCriteriaFilterMicro();
     this.getEmployeeMonthWiseSalaryDataMethodCall();
   }
-
-  // Clearing search text
-  clearSearch() {
-    this.resetCriteriaFilter();
-   this.getEmployeeMonthWiseSalaryDataMethodCall();
-  }
-
 
 }

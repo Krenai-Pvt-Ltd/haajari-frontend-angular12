@@ -112,14 +112,14 @@ export class RoleBasedAccessControlService {
   }
 
   async getUUID(): Promise<string> {
-    debugger
-    // return Promise.resolve(this.userInfo!.uuid);\
-    // if(this.userInfo){
-    return Promise.resolve(this.userInfo!.uuid);
-    // }else{
-    //   return Promise.resolve("");
-
-    // }
+   
+    if (this.userInfo && this.userInfo.uuid) {
+      console.log('userInfo:', this.userInfo);
+      return Promise.resolve(this.userInfo.uuid);
+    } else {
+      console.error('userInfo is undefined or does not contain uuid');
+      return Promise.resolve("");
+    }
   }
 
   async getOnboardingStep(): Promise<number> {

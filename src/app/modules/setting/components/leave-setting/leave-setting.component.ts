@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {FormArray,FormBuilder,FormGroup,NgForm,Validators,} from '@angular/forms';
 import * as _ from 'lodash';
 import moment from 'moment';
@@ -35,6 +35,7 @@ export class LeaveSettingComponent implements OnInit {
     private fb: FormBuilder,
     private dataService: DataService,
     private helperService: HelperService,
+    private cdr: ChangeDetectorRef,
   ) {
     this.form = this.fb.group({
       categories: this.fb.array([]),
@@ -52,7 +53,7 @@ export class LeaveSettingComponent implements OnInit {
     this.getTeamNames();
 
     this.getUserByFiltersMethodCall(0);
-
+    
     const leaveId = localStorage.getItem('tempId');
     this.filteredLeaveCategories = []
     this.leaveCategories1 = []
@@ -2144,9 +2145,9 @@ export class LeaveSettingComponent implements OnInit {
   leaveTemplates: LeaveTemplateRes[] = []
   wfhLeaveTemplates: LeaveTemplateRes[] = []
   weekOffTemplates: LeaveTemplateRes[] = []
-  wfhLeaveTemplatesIds: number[] = [8];
-  weekOffTemplatesIds: number[] = [9];
-  leaveTemplatesIds: number[] = [1, 2, 3, 4, 5, 6, 7, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
+  wfhLeaveTemplatesIds: number[] = [8,9];
+  weekOffTemplatesIds: number[] = [10];
+  leaveTemplatesIds: number[] = [1, 2, 3, 4, 5, 6, 7];
 
   getAllLeaveTemplate() {
     debugger
@@ -2645,6 +2646,42 @@ updateCarryForwardAccrualDaysDropdown(index: number, count: number): void {
   );
   this.tempForwardDaysCount = count;
 }
+editingStaff: Staff = new Staff(); // Tracks which staff row is being edited
+  tempJoiningDate: Date | null = null; // Temporary variable for the joining date
 
+  editJoiningDate(staff: any) {
+    this.editingStaff = staff; // Set the staff being edited
+    this.tempJoiningDate = null; // Clear the temporary joining date
+    this.cdr.detectChanges();
+  }
+
+  saveJoiningDate(staff: any) {
+    if (this.tempJoiningDate) {
+      this.dataService.updateJoiningDate(staff.id, this.tempJoiningDate).subscribe({
+        next: (response) => {
+          if(response.status){
+            
+            this.getUserByFiltersMethodCall(this.idOfLeaveSetting);
+            this.helperService.showToast('Joining date added for '+ staff.name, Key.TOAST_STATUS_SUCCESS);
+          }else{
+            this.helperService.showToast('Unable to add Joining date for '+ staff.name, Key.TOAST_STATUS_SUCCESS);
+          }
+        },
+        error: (err) => {
+          console.error('Error:', err);
+         
+        }
+      });
+      staff.joiningDate = this.tempJoiningDate;
+    }
+    this.resetEditingState();
+  }
+
+
+  resetEditingState() {
+    this.editingStaff = new Staff(); // Clear the editing staff
+    this.tempJoiningDate = null; // Clear the temporary date
+    this.cdr.detectChanges();
+  }
 
 }

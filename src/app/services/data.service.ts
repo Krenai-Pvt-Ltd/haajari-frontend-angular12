@@ -3384,7 +3384,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
 
   saveAppraisalRequest(appraisalRequest : AppraisalRequest){
 
-    return this.httpClient.post<any>(`${this.baseUrl}/salary/appraisal-request`, appraisalRequest);
+    return this.httpClient.post<any>(`${this.baseUrl}/salary/appraisal`, appraisalRequest);
   }
 
 
@@ -4959,7 +4959,15 @@ getHolidayForOrganizationWhatsapp(userUuid: string, date: string): Observable<an
     return this.httpClient.put(`${this.baseUrl}/notification-setting/update/status/user`, {}, {params});
   }
 
+  updateJoiningDate(id: number, date: Date): Observable<any> {
+    const params = new HttpParams().set('id', id.toString());  // Pass id as request parameter
+    return this.httpClient.post<string>(`${this.baseUrl}/users/joining-date`, date, { params });
+  }
 
+
+  saveDefaultNotificationSetting(): Observable<any> {
+    return this.httpClient.post<string>(`${this.baseUrl}/notification-setting/default/notification`, { });
+  }
   
 
 }

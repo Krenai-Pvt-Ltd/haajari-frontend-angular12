@@ -39,6 +39,7 @@ export class constant {
 
     public static PUBLIC_MARK_ATTENDANCE_URL = "/additional/location-validator";
     public static PUBLIC_APPLY_LEAVE_URL = "/additional/leave-request";
+    public static PUBLIC_APPLY_ATENDANCE_UPDATE = "/additional/attendance-request"
     public static PUBLIC_MARK_ATTENDANCE_WITH_IMAGE_URL="/additional/attendance-photo";
     public static PUBLIC_SLACK_INSTALL_SUCCESS ="/additional/slack-installation-successfull";
     public static PUBLIC_SERVER_ERROR="/additional/internal-server-error";
@@ -48,7 +49,7 @@ export class constant {
     ]
 
     public static PUBLIC_ROUTES = [constant.PUBLIC_MARK_ATTENDANCE_URL,constant.PUBLIC_APPLY_LEAVE_URL,constant.PUBLIC_MARK_ATTENDANCE_WITH_IMAGE_URL,constant.PUBLIC_SLACK_INSTALL_SUCCESS,
-        constant.PUBLIC_SERVER_ERROR, constant.PUBLIC_ONBOARDING_FORM
+        constant.PUBLIC_SERVER_ERROR, constant.PUBLIC_ONBOARDING_FORM,constant.PUBLIC_APPLY_ATENDANCE_UPDATE
     ];
 
 

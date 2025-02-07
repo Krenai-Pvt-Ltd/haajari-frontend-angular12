@@ -259,7 +259,10 @@ export class EmployeeProfileSidebarComponent implements OnInit {
   teams: string[] = [];
 
   splitTeams(): void {
-    this.teams = this.teamString.split(',').map((team: string) => team.trim());
+    if(this.teamString!=null ){
+      this.teams = this.teamString.split(',').map((team: string) => team.trim());
+    }
+    
     console.log(this.teams);
   }
 
@@ -471,6 +474,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
   }
   isSaving: boolean = false;
   saveButtonLoader: boolean = false;
+  @ViewChild('closePromotionButton') closePromotionButton!: ElementRef;
   onSubmit() {
     debugger
     this.saveButtonLoader = true;
@@ -489,12 +493,32 @@ export class EmployeeProfileSidebarComponent implements OnInit {
       this.dataService.saveUserPosition(userPositionDTO).subscribe(
         (response) => {
           console.log('Position saved successfully', response);
+          this.helperService.showToast('Position saved successfully', Key.TOAST_STATUS_SUCCESS);
           /// get only sidebar component data
-          window.location.reload();
+          this.closePromotionButton.nativeElement.click();
+          this.fetchUserPositions();
+          this.saveButtonLoader = false;
+          this.myForm = this.fb.group({
+            position: ['', Validators.required],  
+            effectiveDate: ['', Validators.required],
+            isProbation: [false],
+            endDate: [''],
+            newCTC: [''],
+          });
         },
         (error) => {
           console.error('Error saving position', error);
           // Optionally, show an error message
+          this.closePromotionButton.nativeElement.click();
+          this.fetchUserPositions();
+          this.saveButtonLoader = false;
+          this.myForm = this.fb.group({
+            position: ['', Validators.required],  
+            effectiveDate: ['', Validators.required],
+            isProbation: [false],
+            endDate: [''],
+            newCTC: [''],
+          });
         }
       );
     }

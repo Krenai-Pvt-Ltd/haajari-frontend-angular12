@@ -2126,12 +2126,22 @@ console.log(this.data);
 
     this.getUserExitType()
     this.getNoticePeriodDuration();
-    this.onInitiateExitClick(uuid);
   }
 
   onInitiateExitClick(uuid:string) {
-    this.modalService.openInitiateExitModal(uuid, 'ADMIN');
+    this.modalService.openInitiateExitModal(uuid, 'ADMIN').then(
+      (result) => {
+        this.loadResignations();
+        this.getUsersCountByStatus();
+      },
+      (reason) => {
+        this.loadResignations();
+        this.getUsersCountByStatus();
+      }
+    );
   }
+
+  
   // User Resignation end
 
   pendingRequests:any;
