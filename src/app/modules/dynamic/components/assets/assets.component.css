@@ -244,7 +244,7 @@ nz-select {
   display: block;
 }
 
-
+/* 
 .nav.nav-pills {
   background-color: transparent;
   border-bottom: 1px solid #edeff5;
@@ -266,7 +266,7 @@ nz-select {
   font-style: normal;
   font-weight: 500;
   text-align: left;
-}
+} */
 
 .onboarding-date input[type="text"] {
   width: 750px;

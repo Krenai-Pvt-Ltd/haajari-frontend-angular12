@@ -1558,7 +1558,7 @@ a.fetch-location {
 
 /* new side tab for new modal */
 
-.nav-link.active {
+/* .nav-link.active {
   background: transparent;
   color: var(--primary-color);
   border-radius: 0;
@@ -1574,6 +1574,9 @@ a.fetch-location {
   font-weight: 500;
   text-align: left;
 }
+.nav-item {
+  margin-right: 20px;
+} */
 
 .empty-detail {
   color: #6b7280 !important;
@@ -1581,9 +1584,7 @@ a.fetch-location {
   font-size: 16px !important;
 }
 
-.nav-item {
-  margin-right: 20px;
-}
+
 
 .staff-location {
   height: 570px;

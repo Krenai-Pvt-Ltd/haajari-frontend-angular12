@@ -15,6 +15,17 @@
   --secondary-color: #fff;
   --primary-background-color: #6666f3;
 }
+.border-rounded-2{
+  border-radius:2px;
+}
+.attendance-list{
+  border: 1px solid #f1f1f1;
+  box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, 0.05);
+}
+[class^="bi-"]::before,
+[class*=" bi-"]::before {
+  font-weight: BOLD !important;
+}
 
 .navbar-custom {
   /* background: #fff; */
@@ -3611,8 +3622,6 @@ a.badge:hover {
   background: #f9fafb !important;
 }
 
-
-
 .nav.nav-pills {
   background-color: transparent;
   border-bottom: none;
@@ -3669,6 +3678,34 @@ a.badge:hover {
   border: 1px solid #BEBEBE;
   border-radius: 20px;
 }
+.nav-pills-punch{
+  border-bottom: none !important;
+}
+
+.nav-tabs {
+  box-shadow: none !important;
+  background-color: #fff;
+  }
+  
+  .nav-tabs .nav-item {
+  margin-bottom: -1px;
+  margin-right: 1rem;
+  }
+  .nav-tabs .nav-link.active {
+  border-bottom: 2px solid #6666f3;
+  color: #6666f3;
+  background-color: transparent;
+  }
+  .nav-tabs .nav-link {
+  font-style: normal;
+  border-radius: 0px 0 0 0;
+  border: none;
+  padding: 7px 10px;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 21px;
+  color: #6B7280;
+  }
 /* 
 .nav-item {
   margin-right: 20px;
