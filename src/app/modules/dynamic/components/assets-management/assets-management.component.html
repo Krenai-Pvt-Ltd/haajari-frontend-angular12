@@ -5,7 +5,7 @@
                 <div class="col-md-12 mt-3">
                     <ul id="pills-tab" role="tablist" class="nav nav-pills ">
                         <li class="nav-item">
-                        <a id="pills-announcement-tab" data-bs-toggle="pill" href="#dashboard" role="tab" 
+                        <a id="pills-announcement-tab" data-bs-toggle="pill" href="#dashboard" role="tab"
                             aria-controls="pills-dashboard" aria-selected="false"
                             class="nav-link active">Dashboard</a>
                         </li>
@@ -16,7 +16,7 @@
                         </li>
                         <li class="nav-item d-flex align-items-center">
                             <a id="pills-notification-tab" data-bs-toggle="pill" href="#request" role="tab"
-                                aria-controls="pills-request" aria-selected="false"
+                                aria-controls="pills-request" aria-selected="false" (click)="getAssetRequests()"
                                 class="nav-link">Request Assets</a>
                                 <span class="request-count d-flex align-items-center justify-content-center">10</span>
                             </li>
@@ -91,8 +91,8 @@
                                             <div class="d-flex align-items-center justify-content-between gap-3 p-3 earned-funds">
                                                 <div>
                                                     <p class="mb-2 font-13">Used Funds </p>
-                                                    <h5 class="mb-0 font-16 fw-normal">₹1,24,420.50 
-                                                        <span class="font-12 fw-semibold">₹12,344 
+                                                    <h5 class="mb-0 font-16 fw-normal">₹1,24,420.50
+                                                        <span class="font-12 fw-semibold">₹12,344
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="7" height="11" viewBox="0 0 7 11" fill="none">
                                                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M4.52807 10.0159H2.54674V5.8172H0.111328L3.53725 0.984065L6.96318 5.8172H4.52807V10.0159Z" fill="#388E3C"></path>
                                                             </svg>
@@ -319,22 +319,22 @@
                                                 <div class="col-md-3 pr-0">
                                                     <div class="overview-sidebar-menu">
                                                         <div id="v-pills-tab" role="tablist" aria-orientation="vertical" class="nav flex-column nav-pills pt-3 pb-5">
-                                                           <button id="v-pills-absent-tab" data-bs-toggle="pill" data-bs-target="#v-pills-laptops" 
+                                                           <button id="v-pills-absent-tab" data-bs-toggle="pill" data-bs-target="#v-pills-laptops"
                                                               type="button" role="tab" aria-controls="v-pills-laptops" aria-selected="true" class="nav-link active">
                                                            Laptops (12) </button>
-                                                           <button id="leave-tab" data-bs-toggle="pill" data-bs-target="#v-pills-desktop" 
+                                                           <button id="leave-tab" data-bs-toggle="pill" data-bs-target="#v-pills-desktop"
                                                               type="button" role="tab" aria-controls="v-pills-desktop" aria-selected="false" class="nav-link">
                                                            Desktop (4)  </button>
-                                                           <button id="leave-tab" data-bs-toggle="pill" data-bs-target="#v-pills-mobile" 
+                                                           <button id="leave-tab" data-bs-toggle="pill" data-bs-target="#v-pills-mobile"
                                                               type="button" role="tab" aria-controls="v-pills-mobile" aria-selected="false" class="nav-link">
                                                            Mobile (3)  </button>
-                                                           <button id="v-pills-consistent-tab" data-bs-toggle="pill" data-bs-target="#v-pills-charger" 
-                                                              type="button" role="tab" aria-controls="v-pills-charger" aria-selected="false" class="nav-link">           
+                                                           <button id="v-pills-consistent-tab" data-bs-toggle="pill" data-bs-target="#v-pills-charger"
+                                                              type="button" role="tab" aria-controls="v-pills-charger" aria-selected="false" class="nav-link">
                                                            Charger (30) </button>
-                                                           <button id="v-pills-department-tab" data-bs-toggle="pill" data-bs-target="#v-pills-bottle" 
+                                                           <button id="v-pills-department-tab" data-bs-toggle="pill" data-bs-target="#v-pills-bottle"
                                                               type="button" role="tab" aria-controls="v-pills-bottle" aria-selected="false" class="nav-link">
                                                            Bottle (150) </button>
-                                                           <button id="v-pills-department-tab" data-bs-toggle="pill" data-bs-target="#v-pills-tablet" 
+                                                           <button id="v-pills-department-tab" data-bs-toggle="pill" data-bs-target="#v-pills-tablet"
                                                               type="button" role="tab" aria-controls="v-pills-tablet" aria-selected="false" class="nav-link">
                                                            Tablet (10) </button>
                                                         </div>
@@ -935,8 +935,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        
-                                            <div class="assets-categories mt-3">                                              
+
+                                            <div class="assets-categories mt-3">
                                              <div class="row">
                                             <div class="col-md-9 pr-0  border-right">
                                                <div class="">
@@ -1003,7 +1003,7 @@
                                                     </svg>
                                                     10.0%</span>
                                             </div>
-                                            
+
                                             <h5 class="mb-1 mt-2 font-16 text-black fw-bold">1,100</h5>
                                             <p  class="mb-0 font-12 ">Quantity </p>
 
@@ -1015,11 +1015,11 @@
                                             <div>
                                             <div class="d-flex align-items-center justify-content-between mb-2">
                                                 <div>
-                                                    
+
                                                     <h5 class="mb-2 font-16 fw-bold">1</h5>
                                                     <p class="mb-0 font-12">Sales & Marketing</p>
                                                 </div>
-                                               
+
                                             </div>
                                             <p class="mb-0 font-12 week-count">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -1031,11 +1031,11 @@
                                             <div>
                                                 <div class="d-flex align-items-center justify-content-between mb-2">
                                                     <div>
-                                                       
+
                                                         <h5 class="mb-2 font-16 fw-bold">3</h5>
                                                         <p class="mb-0 font-12">Operations & Support</p>
                                                     </div>
-                                                    
+
                                                 </div>
                                                 <p class="mb-0 font-12 week-count">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -1047,11 +1047,11 @@
                                                 <div>
                                                     <div class="d-flex align-items-center justify-content-between mb-2">
                                                         <div>
-                                                           
+
                                                             <h5 class="mb-2 font-16 fw-bold">8</h5>
                                                             <p class="mb-0 font-12">HR & Administration</p>
                                                         </div>
-                                                        
+
                                                     </div>
                                                     <p class="mb-0 font-12 week-count">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -1063,11 +1063,11 @@
                                                     <div>
                                                         <div class="d-flex align-items-center justify-content-between mb-2">
                                                             <div>
-                                                                
+
                                                                 <h5 class="mb-2 font-16 fw-bold">2</h5>
                                                                 <p class="mb-0 font-12">Finance & Legal</p>
                                                             </div>
-                                                          
+
                                                         </div>
                                                         <p class="mb-0 font-12 week-count">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -1079,11 +1079,11 @@
                                                         <div>
                                                             <div class="d-flex align-items-center justify-content-between mb-2">
                                                                 <div>
-                                                                   
+
                                                                     <h5 class="mb-2 font-16 fw-bold">40</h5>
                                                                     <p class="mb-0 font-12">IT & Engineering </p>
                                                                 </div>
-                                                               
+
                                                             </div>
                                                             <p class="mb-0 font-12 week-count">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -1095,11 +1095,11 @@
                                                         <div>
                                                             <div class="d-flex align-items-center justify-content-between mb-2">
                                                                 <div>
-                                                                   
+
                                                                     <h5 class="mb-2 font-16 fw-bold">40</h5>
                                                                     <p class="mb-0 font-12">Product Development </p>
                                                                 </div>
-                                                               
+
                                                             </div>
                                                             <p class="mb-0 font-12 week-count">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -1111,11 +1111,11 @@
                                                         <div>
                                                             <div class="d-flex align-items-center justify-content-between mb-2">
                                                                 <div>
-                                                                   
+
                                                                     <h5 class="mb-2 font-16 fw-bold">40</h5>
                                                                     <p class="mb-0 font-12">Creative & Strategy </p>
                                                                 </div>
-                                                               
+
                                                             </div>
                                                             <p class="mb-0 font-12 week-count">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -1134,7 +1134,7 @@
                                         <div class="d-flex justify-content-start align-items-center">
                                             <div class="search-filter dropdown">
                                                 <button type="button" id="statusDropdown" class="btn btn-secondary new-dropdown d-flex align-items-center justify-content-between" data-bs-toggle="dropdown"  data-bs-auto-close="false"  aria-expanded="false">
-                                                    Filters 
+                                                    Filters
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23" fill="none">
                                                         <mask id="mask0_7808_40" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="23" height="23">
                                                         <rect x="0.262695" y="0.283112" width="22.4338" height="22.4338" fill="#1C1B1F"/>
@@ -1208,7 +1208,7 @@
                                                         <button class="btn submitActionBtn">Apply</button>
                                                     </div>
                                                 </div>
-                                                <!-- TO DO: Not Assigned-filter start --> 
+                                                <!-- TO DO: Not Assigned-filter start -->
                                                 <!-- <div class="dropdown-menu actionMenuList not-assign-filter p-0">
                                                     <div class="d-flex align-items-center justify-content-between border-bottom p-3">
                                                         <h5 class="mb-0 font-14 fw-semibold"> Filter</h5>
@@ -1327,7 +1327,7 @@
 
                                              <!-- TO DO: Shimmer Loading Ui -->
                                                 <!-- <tbody>
-                                                    <tr *ngFor="let item of [].constructor(10)"> 
+                                                    <tr *ngFor="let item of [].constructor(10)">
                                                         <td>
                                                             <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
                                                         </td>
@@ -1412,7 +1412,7 @@
                                                                 <i class="bi bi-three-dots-vertical"></i>
                                                             </button>
                                                             <div class="dropdown-menu actionMenuList">
-                                                                
+
                                                                     <li>
                                                                         <a class="dropdown-item">
                                                                             <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
@@ -1485,7 +1485,7 @@
                                                                             </svg>
                                                                             History </a>
                                                                     </li>
-                                                                
+
                                                             </div>
                                                         </div>
                                                     </td>
@@ -1519,7 +1519,7 @@
                                                                 <i class="bi bi-three-dots-vertical"></i>
                                                             </button>
                                                             <div class="dropdown-menu actionMenuList">
-                                                                
+
                                                                     <li>
                                                                         <a class="dropdown-item">
                                                                             <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
@@ -1592,7 +1592,7 @@
                                                                             </svg>
                                                                             History </a>
                                                                     </li>
-                                                                
+
                                                             </div>
                                                         </div>
                                                     </td>
@@ -1626,7 +1626,7 @@
                                                                 <i class="bi bi-three-dots-vertical"></i>
                                                             </button>
                                                             <div class="dropdown-menu actionMenuList">
-                                                                
+
                                                                     <li>
                                                                         <a class="dropdown-item">
                                                                             <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
@@ -1699,7 +1699,7 @@
                                                                             </svg>
                                                                             History </a>
                                                                     </li>
-                                                                
+
                                                             </div>
                                                         </div>
                                                     </td>
@@ -1733,7 +1733,7 @@
                                                                 <i class="bi bi-three-dots-vertical"></i>
                                                             </button>
                                                             <div class="dropdown-menu actionMenuList">
-                                                                
+
                                                                     <li>
                                                                         <a class="dropdown-item">
                                                                             <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
@@ -1805,7 +1805,7 @@
                                                                                 </g>
                                                                             </svg>
                                                                             History </a>
-                                                                    </li> 
+                                                                    </li>
                                                             </div>
                                                         </div>
                                                     </td>
@@ -1839,7 +1839,7 @@
                                                                 <i class="bi bi-three-dots-vertical"></i>
                                                             </button>
                                                             <div class="dropdown-menu actionMenuList">
-                                                                
+
                                                                     <li>
                                                                         <a class="dropdown-item">
                                                                             <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
@@ -1935,7 +1935,7 @@
                                     <div class="d-flex justify-content-start align-items-center">
                                         <div class="search-filter dropdown">
                                             <button type="button" id="statusDropdown" class="btn btn-secondary new-dropdown d-flex align-items-center justify-content-between" data-bs-toggle="dropdown">
-                                                Filters 
+                                                Filters
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23" fill="none">
                                                     <mask id="mask0_7808_40" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="23" height="23">
                                                     <rect x="0.262695" y="0.283112" width="22.4338" height="22.4338" fill="#1C1B1F"/>
@@ -1966,23 +1966,23 @@
 
                                                     <div class="mt-3">
                                                         <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
-                                                            <input type="checkbox" class="form-check-input" id="all">
+                                                            <input type="checkbox" class="form-check-input" id="all" (change)="this.selectedAsset.clear()" [checked]="selectedFilters.size==0">
                                                             <label class="form-check-label fw-normal" for="all">All</label>
                                                           </div>
                                                           <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
-                                                            <input type="checkbox" class="form-check-input" id="approved">
+                                                            <input type="checkbox" class="form-check-input" id="approved" (change)="statusChange($event, 'Approved')" [checked]="isChecked('Approved')">
                                                             <label class="form-check-label fw-normal" for="approved">Approved </label>
                                                           </div>
                                                           <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
-                                                            <input type="checkbox" class="form-check-input" id="allocated">
+                                                            <input type="checkbox" class="form-check-input" id="allocated" (change)="statusChange($event, 'Assigned')" [checked]="isChecked('Assigned')">
                                                             <label class="form-check-label fw-normal" for="allocated">Allocated</label>
                                                           </div>
                                                           <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
-                                                            <input type="checkbox" class="form-check-input" id="rejected">
+                                                            <input type="checkbox" class="form-check-input" id="rejected"(change)="statusChange($event, 'Rejected')" [checked]="isChecked('Rejected')">
                                                             <label class="form-check-label fw-normal" for="rejected">Rejected</label>
                                                           </div>
                                                           <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
-                                                            <input type="checkbox" class="form-check-input" id="pending">
+                                                            <input type="checkbox" class="form-check-input" id="pending" (change)="statusChange($event, 'Pending')" [checked]="isChecked('Pending')">
                                                             <label class="form-check-label fw-normal" for="pending">Pending </label>
                                                           </div>
                                                     </div>
@@ -1991,18 +1991,23 @@
                                                     <button class="btn cancel-btn mt-0">Reset it</button>
                                                     <button class="btn submitActionBtn">Apply</button>
                                                 </div>
-                                            </div> 
+                                            </div>
                                         </div>
                                         <div class="search-date d-flex align-items-center justify-content-between position-relative w-100">
                                                 <div class="form-group w-100 position-relative">
-                                                    <input type="text" id="searchText" #searchInput placeholder="Search by name.." class="form-control me-2 w-100" style="padding: 10px 45px;" />
+                                                    <input type="text" id="searchText" #searchInput placeholder="Search by name.." (input)="searchAssetsRequest($event)" class="form-control me-2 w-100" style="padding: 10px 45px;" />
                                                     <i class="bi bi-search search-icon d-flex align-items-center h-100"></i>
                                                 </div>
                                         </div>
                                         <div>
-                                            <button type="button" class="btn primaryBtnLink filter-btn d-block text-cennter">
-                                                <i class="bi bi-download"></i>&nbsp;
-                                                Export
+                                            <button [disabled]="downloadFlag" type="button" class="btn primaryBtnLink filter-btn d-block text-cennter" (click)="downloadExcel()">
+                                                <i *ngIf="!downloadFlag" class="bi bi-download"></i>&nbsp;
+                                                <span *ngIf="!downloadFlag">Export</span>
+                                                <div class="dot-opacity-loader" *ngIf="downloadFlag">
+                                                  <span></span>
+                                                  <span></span>
+                                                  <span></span>
+                                                </div>
                                             </button>
                                         </div>
                                     </div>
@@ -2038,8 +2043,8 @@
                                             </tr>
                                         </thead>
                                         <!-- TO DO: Shimmer Loading Ui -->
-                                        <!-- <tbody>
-                                            <tr *ngFor="let item of [].constructor(10)"> 
+                                        <tbody *ngIf="isLoading">
+                                            <tr *ngFor="let item of [].constructor(10)">
                                                 <td>
                                                     <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
                                                 </td>
@@ -2068,11 +2073,11 @@
                                                     <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
                                                 </td>
                                             </tr>
-                                        </tbody> -->
+                                        </tbody>
                                         <!-- Shimmer Loading Ui End-->
 
                                         <!-- TO DO: empty notification  -->
-                                        <!-- <tbody>
+                                          <tbody *ngIf="!isLoading && assetRequests?.length === 0">
                                             <tr>
                                               <td colspan="9">
                                                 <div class="empty-file" style="margin-top: 5%; margin-bottom: 5%">
@@ -2087,120 +2092,59 @@
                                                 </div>
                                               </td>
                                             </tr>
-                                          </tbody> -->
+                                          </tbody>
                                            <!-- empty notification end -->
-                                        <tbody>
-                                            <tr>
-                                                <td class="fw-normal">Fri, Dec 20 2024</td>
-                                                <td class="fw-normal">Laptop mac</td>
-                                                <td class="fw-normal">Asset Replacement </td>
-                                                <td class="fw-normal">Laptop
+                                        <tbody *ngIf="!isLoading">
+
+                                            <tr *ngFor="let asset of assetRequests">
+                                                <td class="fw-normal">{{ (asset.requestedOn | date: 'EEE, MMM d yyyy') || '--' }}</td>
+                                                <td class="fw-normal">{{ asset.assetName || '--' }}</td>
+                                                <td class="fw-normal">{{ asset.assetType || '--' }}</td>
+                                                <td class="fw-normal">{{ asset.assetCategoryName || '--' }}</td>
+                                                <td>
+                                                    <a class="text-primary fw-semibold"[routerLink]="['/employee']" [queryParams]="{ userId: asset.userUuid }">
+                                                    {{ asset.requestedBy || '--'}}</a>
+                                                </td>
+                                                <td class="fw-normal">{{ (asset.actionTakenOn | date: 'dd-MM-yyyy') || '--' }}</td>
+                                                <td>
+                                                    <span class="fw-normal white-space" nz-popover nzPopoverTitle="Note" [nzPopoverContent]="contentTemplate"
+                                                    [nzPopoverOverlayStyle]="{'width':'300px'}" nzPopoverPlacement="top">{{  asset.note || '--'}}</span>
+
+                                                    <!-- <span class="white-space table-font-weight" style="width: 40px !important;" nz-popover nzPopoverTitle="Note"
+                                                      [nzPopoverContent]="contentTemplate" [nzPopoverOverlayStyle]="{'width':'300px'}" nzPopoverPlacement="top"> {{
+                                                      asset.note || '--'}}
+                                                    </span> -->
+                                                    <ng-template #contentTemplate>
+                                                      <div>
+                                                        {{asset.note}}
+                                                      </div>
+                                                    </ng-template>
                                                 </td>
                                                 <td>
-                                                    <a class="text-primary fw-semibold">Yogesh Kumar</a>
-                                                </td>
-                                                <td class="fw-normal">16-12-2024</td>
-                                                <td>
-                                                    <span class="fw-normal white-space" nz-popover nzPopoverTitle="Note" [nzPopoverContent]=""
-                                                    [nzPopoverOverlayStyle]="{'width':'300px'}" nzPopoverPlacement="top">this is not working</span>
+                                                    <span class="fw-semibold"
+                                                      [ngClass]="{'text-primary': asset.status == 'PENDING', 'text-danger': asset.status == 'REJECTED', 'text-success': asset.status == 'APPROVED' || asset.status == 'ASSIGNED' }">
+                                                      {{ asset.status || '--' }}
+                                                    </span>
                                                 </td>
                                                 <td>
-                                                    <span class="text-success fw-semibold">Assigned</span>
-                                                </td>
-                                                <td>
-                                                    <button class="btn p-0 text-primary font-14 fw-semibold" data-bs-toggle="modal" data-bs-target="#AssetsDetailModal" ><i class="bi bi-eye"></i>  View</button>
+                                                    <button class="btn p-0 text-primary font-14 fw-semibold" data-bs-toggle="modal" data-bs-target="#AssetsDetailModal"(click)="openStatusChangeModal(asset, statusChangeModal)" ><i class="bi bi-eye"></i>  View</button>
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <td class="fw-normal">Fri, Dec 20 2024</td>
-                                                <td class="fw-normal">Laptop mac</td>
-                                                <td class="fw-normal">Asset Replacement </td>
-                                                <td class="fw-normal">Laptop
-                                                </td>
-                                                <td>
-                                                    <a class="text-primary fw-semibold">Yogesh Kumar</a>
-                                                </td>
-                                                <td class="fw-normal">16-12-2024</td>
-                                                <td>
-                                                    <span class="fw-normal white-space" nz-popover nzPopoverTitle="Note" [nzPopoverContent]=""
-                                                    [nzPopoverOverlayStyle]="{'width':'300px'}" nzPopoverPlacement="top">this is not working</span>
-                                                </td>
-                                                <td>
-                                                    <span class="text-danger fw-semibold">Rejected</span>
-                                                </td>
-                                                <td>
-                                                    <button class="btn p-0 text-primary font-14 fw-semibold" data-bs-toggle="modal" data-bs-target="#AssetsDetailModal"><i class="bi bi-eye"></i>  View</button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="fw-normal">Fri, Dec 20 2024</td>
-                                                <td class="fw-normal">Laptop mac</td>
-                                                <td class="fw-normal">Asset Replacement </td>
-                                                <td class="fw-normal">Laptop
-                                                </td>
-                                                <td>
-                                                    <a class="text-primary fw-semibold">Yogesh Kumar</a>
-                                                </td>
-                                                <td class="fw-normal">16-12-2024</td>
-                                                <td>
-                                                    <span class="fw-normal white-space" nz-popover nzPopoverTitle="Note" [nzPopoverContent]=""
-                                                    [nzPopoverOverlayStyle]="{'width':'300px'}" nzPopoverPlacement="top">this is not working</span>
-                                                </td>
-                                                <td>
-                                                    <span class="text-success fw-semibold">Approved</span>
-                                                </td>
-                                                <td>
-                                                    <button class="btn p-0 text-primary font-14 fw-semibold" data-bs-toggle="modal" data-bs-target="#AssetsDetailModal"><i class="bi bi-eye"></i>  View</button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="fw-normal">Fri, Dec 20 2024</td>
-                                                <td class="fw-normal">Laptop mac</td>
-                                                <td class="fw-normal">Asset Replacement </td>
-                                                <td class="fw-normal">Laptop
-                                                </td>
-                                                <td>
-                                                    <a class="text-primary fw-semibold">Yogesh Kumar</a>
-                                                </td>
-                                                <td class="fw-normal">16-12-2024</td>
-                                                <td>
-                                                    <span class="fw-normal white-space" nz-popover nzPopoverTitle="Note" [nzPopoverContent]=""
-                                                    [nzPopoverOverlayStyle]="{'width':'300px'}" nzPopoverPlacement="top">this is not working</span>
-                                                </td>
-                                                <td>
-                                                    <span class="text-primary fw-semibold">Assigned</span>
-                                                </td>
-                                                <td>
-                                                    <button class="btn p-0 text-primary font-14 fw-semibold" data-bs-toggle="modal" data-bs-target="#AssetsDetailModal"><i class="bi bi-eye"></i>  View</button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="fw-normal">Fri, Dec 20 2024</td>
-                                                <td class="fw-normal">Laptop mac</td>
-                                                <td class="fw-normal">Asset Replacement </td>
-                                                <td class="fw-normal">Laptop
-                                                </td>
-                                                <td>
-                                                    <a class="text-primary fw-semibold">Yogesh Kumar</a>
-                                                </td>
-                                                <td class="fw-normal">16-12-2024</td>
-                                                <td>
-                                                    <span class="fw-normal white-space" nz-popover nzPopoverTitle="Note" [nzPopoverContent]=""
-                                                    [nzPopoverOverlayStyle]="{'width':'300px'}" nzPopoverPlacement="top">this is not working</span>
-                                                </td>
-                                                <td>
-                                                    <span class="text-warning fw-semibold">Pending</span>
-                                                </td>
-                                                <td>
-                                                    <button class="btn p-0 text-primary font-14 fw-semibold" data-bs-toggle="modal" data-bs-target="#AssetsDetailModal"><i class="bi bi-eye"></i>  View</button>
-                                                </td>
-                                            </tr>
+
                                         </tbody>
                                     </table>
 
-                                    <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top">
-                                        <p class="mb-0"> Showing items 10 - 2 of 12 records</p>
-                                        <ngb-pagination class="pagition-box"> </ngb-pagination>
+                                    <div *ngIf="this.assetRequestsTotalPage>1" class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top">
+                                      <p class="mb-0">
+                                        Showing items
+                                        {{ (assetRequestsPage - 1) * assetRequestsSize + 1 }} –
+                                        {{ Math.min(assetRequestsPage * assetRequestsSize, assetRequestsTotalCount) }}
+                                        of {{ assetRequestsTotalCount }} records
+                                      </p>
+                                      <ngb-pagination class="pagition-box" [collectionSize]="assetRequestsTotalCount" [rotate]="true"
+                                        (pageChange)="pageChangedRequest($event)" [pageSize]="assetRequestsSize" [(page)]="assetRequestsPage"
+                                        [maxSize]="5" [boundaryLinks]="true">
+                                      </ngb-pagination>
                                     </div>
                                 </div>
                             </div>
@@ -2212,7 +2156,7 @@
         </div>
     </div>
 </div>
-            
+
 
 
 
@@ -2297,6 +2241,7 @@
 
 
 <!-- Modal Create Assets Start -->
+<ng-template #statusChangeModal let-modal>
 <div class="modal fade" id="AssetsDetailModal" tabindex="-1" aria-labelledby="AssetsDetailModalLabel"
   aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -2334,8 +2279,8 @@
                   <p class="mb-0 font-13 fw-semibold lh-lg">Asset Replacement</p>
                 </div>
               </div>
-        
-              
+
+
               <div class="col-md-6 mb-3">
                 <label class="mb-2">Current Status </label>
                 <div class="pt-2 pb-2">
@@ -2364,6 +2309,6 @@
     </div>
   </div>
 </div>
-
+</ng-template>
 <!-- Modal Create Assets Start -->
 
