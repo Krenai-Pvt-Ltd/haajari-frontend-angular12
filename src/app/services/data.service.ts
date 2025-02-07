@@ -4991,13 +4991,11 @@ getHolidayForOrganizationWhatsapp(userUuid: string, date: string): Observable<an
     return this.httpClient.post<string>(`${this.baseUrl}/users/joining-date`, date, { params });
   }
 
-<<<<<<< HEAD
 
   saveDefaultNotificationSetting(): Observable<any> {
     return this.httpClient.post<string>(`${this.baseUrl}/notification-setting/default/notification`, { });
   }
   
-=======
   existsUserByUan(uan: string): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/users/by-uan/${uan}`);
   }
@@ -5005,7 +5003,6 @@ getHolidayForOrganizationWhatsapp(userUuid: string, date: string): Observable<an
   existsUserByEsi(esi: string): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/users/by-esi/${esi}`);
   }
->>>>>>> 21ac1e6a385b5ee62c81b197ef68abb4c7dd6fad
 
 }
 
