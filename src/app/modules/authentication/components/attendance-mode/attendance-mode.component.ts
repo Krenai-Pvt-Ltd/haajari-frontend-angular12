@@ -203,6 +203,13 @@ export class AttendanceModeComponent implements OnInit {
     this.isAttendanceModeLoader = true;
     this.showSuccess = true;
     this.dataService.markStepAsCompleted(5);
+    this.dataService.saveDefaultNotificationSetting().subscribe(
+      (response) => {
+        console.log('success');
+      }, (error) => {
+        
+      }
+    );
     this.onboardingService.saveOrgOnboardingStep(5).subscribe((resp) => {
       this.onboardingService.refreshOnboarding();
     });
