@@ -7,10 +7,11 @@ import { CommonComponent } from './common.component';
 import { TopbarComponent } from './topbar/topbar.component';
 import { HajiriPageLoaderComponent } from './hajiri-page-loader/hajiri-page-loader.component';
 import { HeaderComponent } from './header/header.component';
-import { SubscriptionRestrictedComponent } from './subscription-restricted/subscription-restricted.component';
 import { NewEmployeeProfileSidebarComponent } from './new-employee-profile-sidebar/new-employee-profile-sidebar.component';
 import { AgmCoreModule } from '@agm/core';
 import { HolidayDatePickerComponent } from './holiday-date-picker/holiday-date-picker.component';
+import { NzEmptyModule } from 'ng-zorro-antd/empty';
+
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import { HolidayDatePickerComponent } from './holiday-date-picker/holiday-date-p
     HeaderComponent,
     NewEmployeeProfileSidebarComponent,
     HolidayDatePickerComponent
+    
     
   ],
   imports: [CommonModule, CommonRoutingModule,

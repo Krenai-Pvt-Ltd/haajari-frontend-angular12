@@ -76,9 +76,9 @@
                             </div>
 
 
-                            <div *ngIf="ROLE != 'ADMIN'">
+                            <div *ngIf="ROLE != 'ADMIN' && (expenseTypeList && expenseTypeList.length>0)">
                                 <button data-bs-toggle="modal" data-bs-target="#apply-expense"
-                                    class="btn new-announcement">New Request 
+                                    class="btn new-announcement">New Request
                                 </button>
                             </div>
                         </div>
@@ -315,7 +315,7 @@
 
                             <div *ngIf="ROLE != 'ADMIN'">
                                 <button data-bs-toggle="modal" data-bs-target="#apply-expense" class="btn new-announcement">New Request &nbsp;
-                                    
+
                                 </button>
                             </div>
                         </div>
@@ -501,7 +501,7 @@
 
                             <div *ngIf="ROLE != 'ADMIN'">
                                 <button data-bs-toggle="modal" data-bs-target="#apply-expense" class="btn new-announcement">New Request &nbsp;
-                                    
+
                                 </button>
                             </div>
                         </div>
@@ -571,11 +571,11 @@
                                             <span class="table-font-weight"> {{ expense?.paymentMethod?.toUpperCase() }} </span>
                                         </td>
 
-                                        
+
                                         <td class="text-left">
                                             <span class="table-font-weight"> {{expense?.transactionId == null || expense?.transactionId == '' ? 'N/A' : expense?.transactionId}} </span>
                                         </td>
-                                       
+
                                     </tr>
                                     </ng-container>
                                 </tbody>
@@ -629,7 +629,7 @@
                 <div class="row">
                     <div class="col-md-5 pr-0 mr-0">
                         <div class="bill-image">
-                            <img src="assets/images/bill-img.svg" style="width:100%;">
+                            <img src="assets/images/bill-img.svg" class="w-100">
                             <span class="bill-images d-flex align-items-center gap-2 p-2">
                                 <img src="assets/images/bill-img.svg">
                                 <img src="assets/images/bill-img.svg">
@@ -744,7 +744,7 @@
                                 <button class="btn submitActionBtn">Edit</button>
                             </div>
 
-                            
+
 
                         </div>
 
@@ -789,17 +789,16 @@
                 <div class="row">
                     <div class="col-md-5 pr-0 mr-0">
                         <div class="bill-image">
-                        <div class="d-flex align-items-center justify-content-center"
-                            style="flex-direction: column">
+                        <div class="d-flex align-items-center justify-content-center flex-column h-100">
 
                             <ng-container *ngIf="expenseTypeReq.urls.length > 0">
 
-                                <div id="expenseCarousel" class="carousel slide" data-bs-ride="carousel">
+                                <div *ngIf="onRemovingFile" id="expenseCarousel" class="carousel slide" data-bs-ride="carousel">
                                     <div class="carousel-inner">
                                       <div
                                         class="carousel-item"
                                         *ngFor="let url of expenseTypeReq.urls; let i = index"
-                                        [class.active]="i === 0">
+                                        [class.active]="i === activeIndex">
                                         <div class="d-flex justify-content-center position-relative">
                                           <img [src]="url" alt="Image {{i}}" class="d-block img-thumbnail">
                                         </div>
@@ -823,19 +822,6 @@
                                 <span  class="bill-images d-flex align-items-center gap-2 p-2">
 
 
-                                <div class="d-flex align-items-center gap-2 position-relative">
-                                    <div *ngFor="let url of expenseTypeReq.urls; let i = index" class="position-relative">
-                                      <img [src]="url" alt="Image {{i}}" class="img-thumbnail">
-                                      <span
-                                        class="bill-image-remvo d-flex align-items-center justify-content-center position-absolute"
-                                        (click)="removeImage(url)">
-                                        <i class="bi bi-x"></i>
-                                      </span>
-                                    </div>
-                                  </div>
-
-
-
                                   <button *ngIf="!isFileUploaded" (click)="fileInput.click()" type="button" class="btn multiple-add-image d-flex align-items-center justify-content-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21"
                                     fill="none">
@@ -851,11 +837,25 @@
                                     </svg>
                                 </button>
 
+                                <div class="d-flex align-items-center gap-2 position-relative">
+                                    <div *ngFor="let url of expenseTypeReq.urls; let i = index" class="position-relative">
+                                      <img [src]="url" alt="Image {{i}}" class="img-thumbnail">
+                                      <span
+                                        class="bill-image-remvo d-flex align-items-center justify-content-center position-absolute"
+                                        (click)="removeImage(url)">
+                                        <i class="bi bi-x"></i>
+                                      </span>
+                                    </div>
+                                  </div>
+
+
+
+
                                     <div *ngIf="isFileUploaded" class="spinner-border spinner-border-sm text-primary m-2" role="status">
                                         <span class="visually-hidden">Loading...</span>
                                     </div>
 
-                                    <input type="file" #fileInput (change)="onFileSelected($event)"
+                                    <input type="file" #fileInput (change)="onFileSelected($event)" multiple
                                     accept=".png, .jpg, .jpeg" style="display: none;" />
 
                               </span>
@@ -891,7 +891,7 @@
                             </div>
 
                             <input type="file" #fileInput (change)="onFileSelected($event)"
-                            accept=".png, .jpg, .jpeg" style="display: none;" />
+                            accept=".png, .jpg, .jpeg" style="display: none;" multiple />
 
                             </ng-container>
 
@@ -1152,3 +1152,4 @@
         </div>
     </div>
 </div>
+

@@ -73,7 +73,6 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
     NzInputModule,
     NzSelectModule,
     ImageCropperModule,
-    NzInputNumberModule,
     NzButtonModule,
     NzFormModule,
     NzToolTipModule,
@@ -86,7 +85,7 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
     DragDropModule,
     NgbTooltipModule,
     SharedModule,
-    NzAlertModule
+    NzAlertModule,
 
   ],
 })

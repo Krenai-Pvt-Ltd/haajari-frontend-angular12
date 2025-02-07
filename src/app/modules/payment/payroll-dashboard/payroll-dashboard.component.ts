@@ -462,6 +462,27 @@ export class PayrollDashboardComponent implements OnInit {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                              DASHBOARD SECTION  END                                                                // 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+isSyncLoading:boolean=false;
+  syncPayrollData(){
+    this.isSyncLoading = true;
+    this._payrollService.syncPayrollMonthlyData(this.startDate, this.endDate).subscribe(
+      (response) => {
+        if(response.status){
+          this.ngOnInit();
+          this._helperService.showToast('Sync successfully.', Key.TOAST_STATUS_SUCCESS);
+        }else{
+
+        }
+        this.isSyncLoading = false;
+      },
+      (error) => {
+        this._helperService.showToast('Error while sync the Payroll!', Key.TOAST_STATUS_ERROR);
+        this.isSyncLoading = false;
+      }
+    );
+  }
+
   payrollLogs: any[] = [];
   isPayrollHistoryPlaceholder = true;
   dataNotFoundPlaceholderForPayrollHistory : boolean = false;

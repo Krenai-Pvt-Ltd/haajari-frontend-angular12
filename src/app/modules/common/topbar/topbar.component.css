@@ -16,5 +16,17 @@ div.scroll {
   }
   .krenai-deshboard p{
     color: #878A9A;
-    
+  }
+  .navbar-custom{
+    padding-right: 30px;
+  }
+  .inbox-btn svg{
+    position: relative;
+    top: -2px;
+  }
+  .admin-name{
+    background-color: #EB996E;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
   }

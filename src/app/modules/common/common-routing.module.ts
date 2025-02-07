@@ -14,6 +14,7 @@ const routes: Routes = [
   { path: 'slack-data-loader', component: SlackDataLoaderComponent },
   { path: 'duration-picker', component: DurationPickerComponent },
   { path: 'hajiri-page-loader', component: HajiriPageLoaderComponent },
+  
 ];
 
 @NgModule({
