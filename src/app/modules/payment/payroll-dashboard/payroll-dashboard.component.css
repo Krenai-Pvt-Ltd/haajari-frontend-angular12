@@ -298,3 +298,10 @@ ngx-charts-legend .legend-title {
 .table tbody {
   border: 1px solid #f1f1f1;
 }
+.payroll-history-data{
+  max-height: 500px;
+  overflow: scroll;
+}
+.payroll-history-data::-webkit-scrollbar{
+  display: none;
+}

@@ -229,6 +229,14 @@ return this._http.get<any>(`${this._key.base_url}/payroll/step/final-settlement`
     return this._http.get<any>(`${this._key.base_url}/payroll/bank`, {params});
   }
 
+
+ syncPayrollMonthlyData(startDate: string, endDate: string): Observable<any> {
+    const params = new HttpParams()
+      .set('start_date', startDate)
+      .set('end_date', endDate)
+      return this._http.get<any>(`${this._key.base_url}/payroll/sync`,{ params });
+  }
+
   generateReport(
     startDateStr: string,
     endDateStr: string,
