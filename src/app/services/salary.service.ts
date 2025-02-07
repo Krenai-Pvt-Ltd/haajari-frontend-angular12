@@ -6,6 +6,7 @@ import { BonusRequest } from '../models/bonus-request';
 import { BonusAndDeductionData } from '../models/bonus-and-deduction-data';
 import { EmployeeMonthWiseSalaryData } from '../models/employee-month-wise-salary-data';
 import { SalaryComponentResponse } from '../models/salary-component-response';
+import { UserSalaryTemplateComponent } from '../models/UserSalaryTemplateComponent';
 
 @Injectable({
   providedIn: 'root'
@@ -277,18 +278,26 @@ export class SalaryService {
     return this._http.get<any>(`${this._key.base_url}/salary/current`, {params});
   }
 
-
-  saveCustomSalaryTemplate(userUuid : string, requestList:SalaryComponentResponse[]){
-    const params = new HttpParams()
-    .set('user_uuid', userUuid)
-    return this._http.put<any>(`${this._key.base_url}/salary/template/user`,requestList, {params});
-
-  }
-
   getUserSalaryTemplate(userUuid : string): Observable<any> {
     const params = new HttpParams()
     .set('user_uuid', userUuid)
     return this._http.get<any>(`${this._key.base_url}/salary/template/component/get-by-user-uuid`,{params});
+  }
+
+
+  getCustomSalaryTemplate(userUuid : string){
+    const params = new HttpParams()
+    .set('user_uuid', userUuid)
+    return this._http.get<any>(`${this._key.base_url}/salary/template/user`, {params});
+
+  }
+
+
+  saveCustomSalaryTemplate(userUuid : string, request:UserSalaryTemplateComponent){
+    const params = new HttpParams()
+    .set('user_uuid', userUuid)
+    return this._http.put<any>(`${this._key.base_url}/salary/template/user`,request, {params});
+
   }
 
 
