@@ -325,10 +325,10 @@
           </button>
 
         
-           <span class="separator-border"></span>
+           <span class="separator-border" *ngIf=" !requestedData && onboardingPreviewData!.reasonOfRejection"></span>
 
           <div class="badge rounded-pill badge-soft-danger" *ngIf=" !requestedData && onboardingPreviewData!.reasonOfRejection"
-           [nzPopoverOverlayStyle]="{'width':'300px'}"
+           [nzPopoverOverlayStyle]="{'width':'350px'}"
             [nzPopoverContent]="contentTemplate" nz-popover nzPopoverPlacement="left">  REJECTED </div>
             <ng-template #contentTemplate>
               <div class="request-g">
