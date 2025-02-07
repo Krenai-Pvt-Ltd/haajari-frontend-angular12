@@ -1342,7 +1342,7 @@ span.members-namess {
   font-size: 12px !important;
   font-weight: 400 !important;
 }
-.nav.nav-pills {
+/* .nav.nav-pills {
   background-color: transparent;
   border-bottom: 1px solid #edeff5;
 }
@@ -1367,7 +1367,7 @@ span.members-namess {
 
 .nav-item {
   margin-right: 20px;
-}
+} */
 
 .employee-table {
   min-height: 400px;
