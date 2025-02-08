@@ -19,55 +19,125 @@ export class AssetsManagementComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.getPendingRequestsCounter();
+    this.dashboard();
+  }
+
+  dashboard(): void {
+    this.fetchCategorySummary();
+    this.fetchStatusSummary();
+
+  }
+  statusSummary: any[] = [];
+  categorySummary: any[] = [];
+
+  // Separate method to fetch status summary
+  fetchStatusSummary(): void {
+    this.dataService.getStatusSummary().subscribe({
+      next: (data) => {
+        this.statusSummary = data;
+        console.log('Status Summary:', data);
+      },
+      error: (err) => console.error('Error fetching status summary', err)
+    });
+  }
+
+  // Separate method to fetch category summary
+  fetchCategorySummary(): void {
+    this.dataService.getCategorySummary().subscribe({
+      next: (data) => {
+        this.categorySummary = data;
+        console.log('Category Summary:', data);
+      },
+      error: (err) => console.error('Error fetching category summary', err)
+    });
   }
 
 
 
-  // Assets Requests
 
+
+  // assigned assets
+
+  assignedAssets(): void {
+    this.currentPage = 1;
+    this.loadAssets();
+    this.fetchTeamSummary();
+  }
+
+    assets: any[] = [];
+    currentPage = 1;
+    pageSize = 10;
+    totalItems = 0;
+
+    isAssetLoading = false;
+    loadAssets() {
+      this.isAssetLoading = true;
+      this.dataService.getFilteredAssets(undefined, undefined, undefined, undefined, '', this.currentPage-1, this.pageSize)
+        .subscribe(response => {
+          this.isAssetLoading = false;
+          this.assets = response.content; // Assuming `content` holds the paginated data
+          this.totalItems = response.totalElements; // Extract total pages from response
+        },
+      (error) => {
+        this.isAssetLoading=false;
+        console.error('Error fetching assets', error);
+      });
+    }
+    assetsPageChange(page: number): void {
+      this.currentPage = page;
+      this.loadAssets();
+    }
+
+    teamSummary: any;
+    statusId: number = 62;
+    fetchTeamSummary(): void {
+      this.dataService.getTeamSummary(this.statusId).subscribe({
+        next: (data) => {
+          this.teamSummary = data;
+          console.log('Team Summary:', data);
+        },
+        error: (err) => console.error('Error fetching team summary', err)
+      });
+    }
+
+
+
+  // Assets Requests
+    assetRequestTab(): void {
+      this.assetRequestsPage = 1;
+      this.assetRequestsSearch = '';
+      this.getAssetRequests();
+      this.statusFilter = '';
+      this.selectedFilters = new Set();
+    }
 
     assetRequests: AssetRequestDTO[] = [];
     assetRequestsPage: number = 1;
     assetRequestsSize: number = 10;
     assetRequestsSearch: string = '';
-
     assetRequestsTotalPage: number=0;
     assetRequestsTotalCount: number=0;
     statusFilter: string='';
     Math = Math;
-    isLoading = true;
-
-    filterStatus(status: string): void {
-      this.statusFilter = status;
-      this.assetRequestsPage=1;
-      this.getAssetRequests();
-    }
+    isLoading = false;
 
     pageChangedRequest(page: number): void {
       this.assetRequestsPage = page;
       this.getAssetRequests();
     }
-    isAssetRequestArrayEmpty(): boolean {
-      if(this.assetRequestsSearch?.length>0 || this.statusFilter.length>0){
-        return false;
-      }
-      return !this.assetRequests || this.assetRequests.length === 0;
-    }
 
     getAssetRequests(): void {
       this.isLoading = true;
-      this.dataService.getAssetRequests(this.assetRequestsPage, this.assetRequestsSize, this.assetRequestsSearch, this.statusFilter).subscribe(
+      this.dataService.getAssetRequests(this.assetRequestsPage, this.assetRequestsSize, this.assetRequestsSearch, [...this.selectedFilters]).subscribe(
         (response) => {
           this.assetRequests = response.data; // Assign only the data (array of AssetRequestDTO) from the response
           this.assetRequestsTotalPage=response.totalPages;
           this.assetRequestsTotalCount=response.totalItems;
           this.isLoading = false;
-          console.log('Asset requests:', this.isAssetRequestArrayEmpty());
-          console.log('Total items:', response.totalItems);
-          console.log('Current page:', response.currentPage);
-          console.log('Total pages:', response.totalPages);
         },
         (error) => {
+          this.isLoading = false;
           console.error('Error fetching asset requests:', error);
         }
       );

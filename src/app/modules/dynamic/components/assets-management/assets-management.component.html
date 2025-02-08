@@ -6,19 +6,19 @@
                     <ul id="pills-tab" role="tablist" class="nav nav-pills ">
                         <li class="nav-item">
                         <a id="pills-announcement-tab" data-bs-toggle="pill" href="#dashboard" role="tab"
-                            aria-controls="pills-dashboard" aria-selected="false"
+                            aria-controls="pills-dashboard" aria-selected="false" (click)="dashboard()"
                             class="nav-link active">Dashboard</a>
                         </li>
                         <li class="nav-item d-flex align-items-center">
                         <a id="pills-notification-tab" data-bs-toggle="pill" href="#assigned-assets" role="tab"
-                            aria-controls="pills-request" aria-selected="false"
+                            aria-controls="pills-request" aria-selected="false" (click)="assignedAssets()"
                             class="nav-link">Assigned Assets </a>
                         </li>
                         <li class="nav-item d-flex align-items-center">
                             <a id="pills-notification-tab" data-bs-toggle="pill" href="#request" role="tab"
-                                aria-controls="pills-request" aria-selected="false" (click)="getAssetRequests()"
+                                aria-controls="pills-request" aria-selected="false" (click)="assetRequestTab()"
                                 class="nav-link">Request Assets</a>
-                                <span class="request-count d-flex align-items-center justify-content-center">10</span>
+                                <span class="request-count d-flex align-items-center justify-content-center">{{pendingRequestsCounter}}</span>
                             </li>
                     </ul>
                     <div id="pills-tabContent" class="tab-content">
@@ -319,7 +319,7 @@
                                                 <div class="col-md-3 pr-0">
                                                     <div class="overview-sidebar-menu">
                                                         <div id="v-pills-tab" role="tablist" aria-orientation="vertical" class="nav flex-column nav-pills pt-3 pb-5">
-                                                           <button id="v-pills-absent-tab" data-bs-toggle="pill" data-bs-target="#v-pills-laptops"
+                                                           <!-- <button id="v-pills-absent-tab" data-bs-toggle="pill" data-bs-target="#v-pills-laptops"
                                                               type="button" role="tab" aria-controls="v-pills-laptops" aria-selected="true" class="nav-link active">
                                                            Laptops (12) </button>
                                                            <button id="leave-tab" data-bs-toggle="pill" data-bs-target="#v-pills-desktop"
@@ -336,7 +336,12 @@
                                                            Bottle (150) </button>
                                                            <button id="v-pills-department-tab" data-bs-toggle="pill" data-bs-target="#v-pills-tablet"
                                                               type="button" role="tab" aria-controls="v-pills-tablet" aria-selected="false" class="nav-link">
-                                                           Tablet (10) </button>
+                                                           Tablet (10) </button> -->
+                                                          <button *ngFor="let category of categorySummary; let i = index" type="button" role="tab" data-bs-toggle="pill"
+                                                            data-bs-toggle="pill" data-bs-target="#v-pills-laptops" type="button" role="tab" aria-controls="v-pills-laptops"
+                                                            [attr.aria-selected]="i === 0 ? 'true' : 'false'" [id]="'v-pills-tab-' + i" class="nav-link" [class.active]="i === 0">
+                                                            {{ category.categoryName }} ({{ category.assetCount }})
+                                                          </button>
                                                         </div>
                                                      </div>
                                                 </div>
@@ -1326,7 +1331,7 @@
                                             </thead>
 
                                              <!-- TO DO: Shimmer Loading Ui -->
-                                                <!-- <tbody>
+                                                <tbody *ngIf="isAssetLoading">
                                                     <tr *ngFor="let item of [].constructor(10)">
                                                         <td>
                                                             <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
@@ -1362,10 +1367,10 @@
                                                             <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
                                                         </td>
                                                     </tr>
-                                                </tbody> -->
+                                                </tbody>
                                         <!-- Shimmer Loading Ui End-->
                                         <!-- TO DO: empty notification  -->
-                                        <!-- <tbody>
+                                        <tbody *ngIf="!isAssetLoading && assets.length==0 ">
                                             <tr>
                                               <td colspan="11">
                                                 <div class="empty-file" style="margin-top: 5%; margin-bottom: 5%">
@@ -1380,9 +1385,136 @@
                                                 </div>
                                               </td>
                                             </tr>
-                                          </tbody> -->
+                                          </tbody>
                                            <!-- empty notification end -->
-                                            <tbody>
+
+                                           <tbody *ngIf="!isAssetLoading">
+                                            <tr *ngFor="let asset of assets">
+                                              <td class="fw-normal">{{ asset.assetName }}</td>
+                                              <td class="fw-normal">{{ asset.serialNumber }}</td>
+                                              <td class="fw-normal">{{ asset.assignedToName || 'N/A' }}</td>
+
+                                              <!-- Purchased Date -->
+                                              <td>
+                                                <span>
+                                                  <h5 class="mb-1 font-13">{{ asset.purchasedDate | date:'dd-MMM-yy' }}</h5>
+                                                  <p class="mb-0 font-12">{{ asset.purchasedDate | date:'EEEE' }}</p>
+                                                </span>
+                                              </td>
+
+                                              <!-- Expiry Date -->
+                                              <td>
+                                                <span>
+                                                  <h5 class="mb-1 font-13" *ngIf="asset.expiryDate; else naDate">
+                                                    {{ asset.expiryDate | date:'dd-MMM-yy' }}
+                                                  </h5>
+                                                  <p class="mb-0 font-12">{{ asset.expiryDate | date:'EEEE' }}</p>
+                                                  <ng-template #naDate><h5 class="mb-1 font-13">N/A</h5></ng-template>
+                                                </span>
+                                              </td>
+
+                                              <td class="fw-normal">{{ asset.assetCategoryName }}</td>
+                                              <td class="fw-normal">₹{{ asset.price | number:'1.0-0' }}</td>
+                                              <td class="fw-normal">{{ asset.location }}</td>
+                                              <td class="fw-normal">{{ asset.vendorName }}</td>
+
+                                              <!-- Status -->
+                                              <td>
+                                                <span [ngClass]="{
+                                                  'text-success': asset.assignedToId,
+                                                  'text-primary': !asset.assignedToId
+                                                }" class="fw-semibold">
+                                                  {{ asset.assignedToId ? 'Assigned' : 'Not Assigned' }}
+                                                </span>
+                                              </td>
+
+                                              <!-- Actions Dropdown (Keep your existing markup) -->
+                                              <td>
+                                                <div class="dropdown">
+                                                    <button type="button" data-bs-toggle="dropdown" aria-expanded="true" class="btn btnAction dropdown-toggle d-flex align-items-center justify-content-center">
+                                                        <i class="bi bi-three-dots-vertical"></i>
+                                                    </button>
+                                                    <div class="dropdown-menu actionMenuList">
+
+                                                            <li>
+                                                                <a class="dropdown-item">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
+                                                                        <mask id="mask0_8123_5744" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
+                                                                        <rect x="0.384766" y="0.5" width="20" height="20" fill="#D9D9D9"/>
+                                                                        </mask>
+                                                                        <g mask="url(#mask0_8123_5744)">
+                                                                        <path d="M15.5091 9.5545C15.3905 8.95311 15.1803 8.39867 14.8785 7.89117C14.5767 7.38367 14.1309 6.85964 13.5412 6.31908V8.59304H12.2912V4.10596H16.7783V5.35596H14.3552C15.0967 6.01193 15.6544 6.68339 16.0283 7.37033C16.4023 8.05728 16.6502 8.78533 16.7718 9.5545H15.5091ZM12.5474 14.763H17.0508V12.6316H12.5474V14.763ZM12.3393 16.0128C12.0499 16.0128 11.8039 15.9116 11.6014 15.7091C11.3989 15.5066 11.2977 15.2606 11.2977 14.9712V12.4232C11.2977 12.1338 11.3989 11.8878 11.6014 11.6853C11.8039 11.4828 12.0499 11.3816 12.3393 11.3816H17.2591C17.5484 11.3816 17.7944 11.4828 17.997 11.6853C18.1995 11.8878 18.3008 12.1338 18.3008 12.4232V14.9712C18.3008 15.2606 18.1995 15.5066 17.997 15.7091C17.7944 15.9116 17.5484 16.0128 17.2591 16.0128H12.3393ZM3.98995 16.8943V15.6443H6.41307C5.56043 14.905 4.93273 14.1101 4.52995 13.2597C4.12717 12.4093 3.92578 11.5001 3.92578 10.5322C3.92578 9.07276 4.35661 7.77471 5.21828 6.63804C6.07995 5.50123 7.17689 4.732 8.50911 4.33033V5.64762C7.5262 6.02679 6.72488 6.66082 6.10516 7.54971C5.48557 8.4386 5.17578 9.43276 5.17578 10.5322C5.17578 11.33 5.33974 12.0649 5.66766 12.737C5.99571 13.4092 6.5155 14.06 7.22703 14.6893V12.4072H8.47703V16.8943H3.98995ZM10.4643 18.4168V17.1668H19.1341V18.4168H10.4643Z" fill="#1C1B1F"/>
+                                                                        </g>
+                                                                    </svg>
+                                                                    Re-Assign </a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="dropdown-item">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
+                                                                        <mask id="mask0_8123_5738" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
+                                                                        <rect y="0.5" width="20" height="20" fill="#D9D9D9"/>
+                                                                        </mask>
+                                                                        <g mask="url(#mask0_8123_5738)">
+                                                                        <path d="M9.1045 12.1041L13.5372 7.69222L12.6462 6.80118L9.1045 10.3428L7.33367 8.57201L6.45555 9.45035L9.1045 12.1041ZM1.1543 17.3589V16.1089H18.8464V17.3589H1.1543ZM3.59013 15.2756C3.16916 15.2756 2.81284 15.1297 2.52117 14.8381C2.22951 14.5464 2.08367 14.1901 2.08367 13.7691V5.11535C2.08367 4.69437 2.22951 4.33805 2.52117 4.04639C2.81284 3.75472 3.16916 3.60889 3.59013 3.60889H16.4105C16.8315 3.60889 17.1878 3.75472 17.4795 4.04639C17.7712 4.33805 17.917 4.69437 17.917 5.11535V13.7691C17.917 14.1901 17.7712 14.5464 17.4795 14.8381C17.1878 15.1297 16.8315 15.2756 16.4105 15.2756H3.59013ZM3.59013 14.0256H16.4105C16.4747 14.0256 16.5335 13.9989 16.5868 13.9456C16.6403 13.8921 16.667 13.8333 16.667 13.7691V5.11535C16.667 5.05118 16.6403 4.99243 16.5868 4.9391C16.5335 4.88562 16.4747 4.85889 16.4105 4.85889H3.59013C3.52596 4.85889 3.46721 4.88562 3.41388 4.9391C3.36041 4.99243 3.33367 5.05118 3.33367 5.11535V13.7691C3.33367 13.8333 3.36041 13.8921 3.41388 13.9456C3.46721 13.9989 3.52596 14.0256 3.59013 14.0256Z" fill="#1C1B1F"/>
+                                                                        </g>
+                                                                    </svg>
+                                                                    Assign Asset </a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="dropdown-item">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
+                                                                        <mask id="mask0_8123_5732" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
+                                                                        <rect y="0.5" width="20" height="20" fill="#D9D9D9"/>
+                                                                        </mask>
+                                                                        <g mask="url(#mask0_8123_5732)">
+                                                                        <path d="M11.8527 9.97799L10.1317 8.25695H10.9458V6.87882L12.9489 8.88195L11.8527 9.97799ZM17.0098 15.1351L15.8848 14.0101H16.4746C16.5333 13.9941 16.5801 13.9621 16.6148 13.914C16.6495 13.8658 16.6669 13.8177 16.6669 13.7697V5.1159C16.6669 5.04118 16.6428 4.97972 16.5948 4.93153C16.5467 4.88347 16.4853 4.85945 16.4104 4.85945H6.73415L5.48415 3.60945H16.4104C16.8314 3.60945 17.1877 3.75528 17.4794 4.04695C17.771 4.33861 17.9169 4.69493 17.9169 5.1159V13.7697C17.9169 14.0667 17.8376 14.3373 17.6789 14.5813C17.5202 14.8255 17.2971 15.0101 17.0098 15.1351ZM17.3721 19.6286L15.1027 17.3594H1.15415V16.1094H13.84L13.0067 15.2761H3.58999C3.16901 15.2761 2.8127 15.1303 2.52103 14.8386C2.22936 14.5469 2.08353 14.1906 2.08353 13.7697V5.03903C2.08353 4.9482 2.10756 4.86674 2.15561 4.79466C2.20381 4.72243 2.26526 4.665 2.33999 4.62236L0.87207 3.12861L1.7502 2.25049L18.2502 18.7505L17.3721 19.6286ZM8.36561 10.6478C8.32283 10.696 8.29075 10.7454 8.26936 10.7961C8.24797 10.8468 8.23728 10.9096 8.23728 10.9844V12.2153H6.98749V10.5486C6.98749 10.3424 7.01179 10.1538 7.0604 9.98278C7.10901 9.81195 7.17867 9.66403 7.26936 9.53903L3.53395 5.8034C3.46978 5.83007 3.42033 5.86347 3.38561 5.90361C3.35089 5.94361 3.33353 5.99299 3.33353 6.05174V13.7697C3.33353 13.8445 3.35756 13.906 3.40561 13.954C3.45367 14.0021 3.51513 14.0261 3.58999 14.0261H11.7439L8.36561 10.6478Z" fill="#1C1B1F"/>
+                                                                        </g>
+                                                                    </svg>
+                                                                    Mark as Unavailable </a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="dropdown-item">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
+                                                                        <mask id="mask0_8123_5726" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
+                                                                        <rect y="0.5" width="20" height="20" fill="#D9D9D9"/>
+                                                                        </mask>
+                                                                        <g mask="url(#mask0_8123_5726)">
+                                                                        <path d="M6.98763 12.2147H8.23742V10.5481C8.23742 10.2585 8.33867 10.0124 8.54117 9.80993C8.74367 9.60757 8.98971 9.50639 9.2793 9.50639H10.946V10.8845L12.9491 8.88139L10.946 6.87826V8.25639H9.2793C8.6436 8.25639 8.1027 8.47937 7.65659 8.92534C7.21062 9.37146 6.98763 9.91236 6.98763 10.5481V12.2147ZM3.59013 15.2756C3.16916 15.2756 2.81284 15.1297 2.52117 14.8381C2.22951 14.5464 2.08367 14.1901 2.08367 13.7691V5.11535C2.08367 4.69437 2.22951 4.33805 2.52117 4.04639C2.81284 3.75472 3.16916 3.60889 3.59013 3.60889H16.4105C16.8315 3.60889 17.1878 3.75472 17.4795 4.04639C17.7712 4.33805 17.917 4.69437 17.917 5.11535V13.7691C17.917 14.1901 17.7712 14.5464 17.4795 14.8381C17.1878 15.1297 16.8315 15.2756 16.4105 15.2756H3.59013ZM3.59013 14.0256H16.4105C16.4747 14.0256 16.5335 13.9989 16.5868 13.9456C16.6403 13.8921 16.667 13.8333 16.667 13.7691V5.11535C16.667 5.05118 16.6403 4.99243 16.5868 4.9391C16.5335 4.88562 16.4747 4.85889 16.4105 4.85889H3.59013C3.52596 4.85889 3.46721 4.88562 3.41388 4.9391C3.36041 4.99243 3.33367 5.05118 3.33367 5.11535V13.7691C3.33367 13.8333 3.36041 13.8921 3.41388 13.9456C3.46721 13.9989 3.52596 14.0256 3.59013 14.0256ZM1.1543 17.3589V16.1089H18.8464V17.3589H1.1543Z" fill="#1C1B1F"/>
+                                                                        </g>
+                                                                    </svg>
+                                                                    maintenance </a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="dropdown-item">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
+                                                                        <mask id="mask0_8123_5702" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
+                                                                        <rect y="0.5" width="20" height="20" fill="#D9D9D9"/>
+                                                                        </mask>
+                                                                        <g mask="url(#mask0_8123_5702)">
+                                                                        <path d="M5.49753 17.5837V16.1093L6.23461 15.3722H3.59044C3.16947 15.3722 2.81315 15.2264 2.52148 14.9347C2.22982 14.643 2.08398 14.2867 2.08398 13.8657V4.92345C2.08398 4.50248 2.22982 4.14616 2.52148 3.85449C2.81315 3.56283 3.16947 3.41699 3.59044 3.41699H10.185V4.66699H3.59044C3.52628 4.66699 3.46753 4.69373 3.41419 4.7472C3.36072 4.80053 3.33398 4.85928 3.33398 4.92345V13.8657C3.33398 13.9298 3.36072 13.9885 3.41419 14.042C3.46753 14.0955 3.52628 14.1222 3.59044 14.1222H16.4109C16.475 14.1222 16.5338 14.0955 16.5871 14.042C16.6406 13.9885 16.6673 13.9298 16.6673 13.8657V11.3337H17.9173V13.8657C17.9173 14.2867 17.7715 14.643 17.4798 14.9347C17.1882 15.2264 16.8318 15.3722 16.4109 15.3722H13.7667L14.5038 16.1093V17.5837H5.49753ZM12.7971 12.7039L8.9269 8.83366L9.80523 7.95553L12.1721 10.3176V3.41699H13.4221V10.3176L15.7892 7.95553L16.6673 8.83366L12.7971 12.7039Z" fill="#1C1B1F"/>
+                                                                        </g>
+                                                                    </svg>
+                                                                    Update Asset </a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="dropdown-item">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
+                                                                        <mask id="mask0_8123_5714" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
+                                                                        <rect y="0.5" width="20" height="20" fill="#D9D9D9"/>
+                                                                        </mask>
+                                                                        <g mask="url(#mask0_8123_5714)">
+                                                                        <path d="M12.7493 8.96926L15.6227 6.08301L15.1035 5.56384L12.7493 7.91801L11.5618 6.73843L11.0427 7.27051L12.7493 8.96926ZM2.91602 16.958V15.708H12.4993V16.958H2.91602ZM13.3339 11.1247C12.2391 11.1247 11.3055 10.7388 10.5331 9.96717C9.7606 9.19551 9.37435 8.26231 9.37435 7.16759C9.37435 6.07273 9.76018 5.13912 10.5318 4.36676C11.3035 3.59426 12.2367 3.20801 13.3314 3.20801C14.4263 3.20801 15.3599 3.59384 16.1323 4.36551C16.9048 5.13717 17.291 6.07037 17.291 7.16509C17.291 8.25995 16.9052 9.19356 16.1335 9.96592C15.3618 10.7384 14.4287 11.1247 13.3339 11.1247ZM2.91602 10.2913V9.04134H7.78143C7.85727 9.27217 7.94296 9.49037 8.03852 9.69592C8.13421 9.90162 8.24831 10.1001 8.38081 10.2913H2.91602ZM2.91602 13.6247V12.3747H10.6933C10.9647 12.5211 11.2516 12.6455 11.5539 12.748C11.8563 12.8506 12.1714 12.9244 12.4993 12.9693V13.6247H2.91602Z" fill="#1C1B1F"/>
+                                                                        </g>
+                                                                    </svg>
+                                                                    History </a>
+                                                            </li>
+
+                                                    </div>
+                                                </div>
+                                              </td>
+                                            </tr>
+                                          </tbody>
+                                            <!-- <tbody>
                                                 <tr>
                                                     <td class="fw-normal">MacBook Air</td>
                                                     <td class="fw-normal">A-12</td>
@@ -1916,12 +2048,20 @@
                                                         </div>
                                                     </td>
                                                 </tr>
-                                            </tbody>
+                                            </tbody> -->
                                         </table>
 
-                                        <div class="d-flex align-items-center justify-content-between w-100">
-                                            <p class="mb-0"> Showing items 10 - 2 of 12 records</p>
-                                            <ngb-pagination class="pagition-box"> </ngb-pagination>
+                                        <div *ngIf="totalItems > pageSize" class="d-flex align-items-center justify-content-between w-100">
+                                          <p class="mb-0">
+                                            Showing items {{ (currentPage - 1) * pageSize + 1 }} -
+                                            {{ (currentPage * pageSize) < totalItems ? (currentPage * pageSize) : totalItems }}
+                                            of {{ totalItems }} records
+                                          </p>
+
+                                          <ngb-pagination class="pagition-box" [collectionSize]="totalItems" [rotate]="true"
+                                            (pageChange)="assetsPageChange($event)" [pageSize]="pageSize" [(page)]="currentPage"
+                                            [maxSize]="5" [boundaryLinks]="true">
+                                          </ngb-pagination>
                                         </div>
                                     </div>
                                 </div>
@@ -1966,7 +2106,7 @@
 
                                                     <div class="mt-3">
                                                         <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
-                                                            <input type="checkbox" class="form-check-input" id="all" (change)="this.selectedAsset.clear()" [checked]="selectedFilters.size==0">
+                                                            <input type="checkbox" class="form-check-input" id="all" (change)="selectedFilters.clear()" [checked]="selectedFilters.size==0">
                                                             <label class="form-check-label fw-normal" for="all">All</label>
                                                           </div>
                                                           <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
@@ -1988,8 +2128,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="p-3 border-top d-flex gap-2 align-items-center justify-content-end">
-                                                    <button class="btn cancel-btn mt-0">Reset it</button>
-                                                    <button class="btn submitActionBtn">Apply</button>
+                                                    <button class="btn cancel-btn mt-0" (click)="selectedFilters.clear(); assetRequestsPage = 1; getAssetRequests();">Reset it</button>
+                                                    <button class="btn submitActionBtn" (click)="assetRequestsPage = 1; getAssetRequests()">Apply</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -2003,11 +2143,7 @@
                                             <button [disabled]="downloadFlag" type="button" class="btn primaryBtnLink filter-btn d-block text-cennter" (click)="downloadExcel()">
                                                 <i *ngIf="!downloadFlag" class="bi bi-download"></i>&nbsp;
                                                 <span *ngIf="!downloadFlag">Export</span>
-                                                <div class="dot-opacity-loader" *ngIf="downloadFlag">
-                                                  <span></span>
-                                                  <span></span>
-                                                  <span></span>
-                                                </div>
+                                                <span class="dot-opacity-loader" *ngIf="downloadFlag"> </span>
                                             </button>
                                         </div>
                                     </div>
@@ -2127,7 +2263,8 @@
                                                     </span>
                                                 </td>
                                                 <td>
-                                                    <button class="btn p-0 text-primary font-14 fw-semibold" data-bs-toggle="modal" data-bs-target="#AssetsDetailModal"(click)="openStatusChangeModal(asset, statusChangeModal)" ><i class="bi bi-eye"></i>  View</button>
+                                                  <!-- (click)="openStatusChangeModal(asset, statusChangeModal)" -->
+                                                    <button class="btn p-0 text-primary font-14 fw-semibold" data-bs-toggle="modal" data-bs-target="#AssetsDetailModal" ><i class="bi bi-eye"></i>  View</button>
                                                 </td>
                                             </tr>
 
@@ -2241,8 +2378,8 @@
 
 
 <!-- Modal Create Assets Start -->
-<ng-template #statusChangeModal let-modal>
-<div class="modal fade" id="AssetsDetailModal" tabindex="-1" aria-labelledby="AssetsDetailModalLabel"
+<!-- <ng-template #statusChangeModal let-modal> -->
+<div class="modal fade" id="AssetsDetailModal" tabindex="10000" aria-labelledby="AssetsDetailModalLabel"
   aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
@@ -2309,6 +2446,6 @@
     </div>
   </div>
 </div>
-</ng-template>
+<!-- </ng-template> -->
 <!-- Modal Create Assets Start -->
 

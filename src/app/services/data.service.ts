@@ -3767,7 +3767,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     page: number = 0,
     size: number = 10,
     search: string = '',
-    status: string=''
+    status: any=''
   ): Observable<{ data: AssetRequestDTO[], currentPage: number, totalItems: number, totalPages: number}> {
     const params = new HttpParams()
       .set('page', page.toString())
@@ -4997,6 +4997,41 @@ getHolidayForOrganizationWhatsapp(userUuid: string, date: string): Observable<an
 
   existsUserByEsi(esi: string): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/users/by-esi/${esi}`);
+  }
+
+  getFilteredAssets(
+    teamId?: number,
+    userId?: number,
+    statusId?: number,
+    assetCategoryId?: number,
+    search?: string,
+    page: number = 0,
+    size: number = 10
+  ): Observable<any> {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    if (teamId) params = params.set('teamId', teamId.toString());
+    if (userId) params = params.set('userId', userId.toString());
+    if (statusId) params = params.set('statusId', statusId.toString());
+    if (assetCategoryId) params = params.set('assetCategoryId', assetCategoryId.toString());
+    if (search) params = params.set('search', search);
+
+    return this.httpClient.get(`${this.baseUrl}/assets/by-filter`, { params });
+  }
+
+  getTeamSummary(statusId: number): Observable<any> {
+    const params = new HttpParams().set('statusId', statusId.toString());
+    return this.httpClient.get<any>(`${this.baseUrl}/assets/team-summary`, { params });
+  }
+
+  getStatusSummary(): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/assets/status-summary`);
+  }
+
+  getCategorySummary(): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/assets/category-summary`);
   }
 
 }
