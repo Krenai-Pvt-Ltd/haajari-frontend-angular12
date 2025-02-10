@@ -1497,7 +1497,7 @@
                                                                     Update Asset </a>
                                                             </li>
                                                             <li>
-                                                                <a class="dropdown-item">
+                                                                <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#assetsHistory">
                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
                                                                         <mask id="mask0_8123_5714" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
                                                                         <rect y="0.5" width="20" height="20" fill="#D9D9D9"/>
@@ -2449,3 +2449,51 @@
 <!-- </ng-template> -->
 <!-- Modal Create Assets Start -->
 
+
+<!-- <button type="button" class="btn btn-primary position-relative" data-bs-toggle="modal" data-bs-target="#assetsHistory">
+    Assets History
+  </button> -->
+
+<div class="modal fade" id="assetsHistory" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog assets-history">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Assets History</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="assets-detail">
+                <div class="d-flex align-items-start gap-2 w-100">
+                    <span class="assets-name d-flex align-items-center justify-content-center fw-semibold font-14">M</span>
+                    <div class="w-100">
+                        <div class="d-flex align-items-center  justify-content-between w-100">
+                            <div class="d-flex align-items-center gap-3">
+                                <h5 class="mb-0 font-16 fw-semibold ">MacBook Air 16</h5>
+                                <span class="badge rounded-pill badge-soft-success font-11">Assigned</span>
+                            </div>
+                            <p class="font-12 fw-light mb-0">ID - A-12</p>
+                        </div>
+
+                        <p class="mb-1 mt-3 font-14 fw-semibold">Assigned To : <span class="fw-bold ">Richa Dixit</span> </p>
+                        <p class="mb-1 font-14 fw-normal">Category: Laptop</p>
+                        <p class="mb-1 font-14 fw-normal">Price: ₹53,000</p>
+                        <p class="mb-1 font-14 fw-normal">Location: New Delhi</p>
+                        <p class="mb-1 font-14 fw-normal">Vendor Name: Divya Computers</p>
+                    </div>
+                </div>
+                <div class="tracking-body">
+                    <ul class="tracking-steps position-relative">
+                        <li class="tracking-item newline position-relative mb-0 pb-3">
+                            <div class="d-flex align-items-centar justify-content-center position-relative flex-row-reverse mb-0 gap-3">
+                                <div class="tracing-icon font-14 fw-semibold text-black d-flex align-items justify-content-center"> 1
+                                </div>
+                            </div>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
