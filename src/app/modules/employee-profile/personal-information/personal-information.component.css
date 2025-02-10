@@ -269,6 +269,8 @@ button.close-btn {
     z-index: 99;
 }
 
+
+
 ::ng-deep .ant-popover-inner-content {
     padding: 0px !important;
 }
@@ -311,4 +313,11 @@ button.close-btn {
 
 .btn-danger {
     min-width: 100px;
+}
+.reject-btn{
+    background-color: #eec1c1;
+    color: red;
+    min-width: 100px;
+    height: 40px;
+    border: none;
 }

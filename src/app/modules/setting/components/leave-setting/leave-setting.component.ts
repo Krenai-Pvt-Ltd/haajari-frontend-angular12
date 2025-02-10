@@ -2733,11 +2733,12 @@ getInvalidFormValues(event:any,index:number){
 
 if(isReset!=null){
   isReset.setValue(event);
-  console.log("🚀 ~ getInvalidFormValues ~ isReset:", isReset)
-  console.log("🚀 ~ getInvalidFormValues ~ form:", this.form.value)
+  // console.log("🚀 ~ getInvalidFormValues ~ isReset:", isReset)
+  // console.log("🚀 ~ getInvalidFormValues ~ form:", this.form.value)
 
 }
     
   
 }
 }
+ 

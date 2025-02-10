@@ -1,4 +1,4 @@
-.nav-tabs {
+/* .nav-tabs {
   box-shadow: none !important;
 }
 
@@ -21,25 +21,16 @@
   font-style: normal;
   border-radius: 0px 0 0 0;
   border: none;
-  padding: 7px 15px;
+  padding: 7px 10px;
   font-weight: 500;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 21px;
-  color: #404040;
-}
+  color: #6B7280;
+} */
 
 .rules-main {
   padding: 15px;
 }
-
-/* .form-control {
-  display: block;
-  width: 100%;
-  padding: 0.4rem 1rem;
-  font-size: 0.875rem;
-  font-weight: 400;
-  height: 40px !important;
-} */
 
 .search-icon {
   font-size: 12px;
