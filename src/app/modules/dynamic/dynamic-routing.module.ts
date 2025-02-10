@@ -39,6 +39,7 @@ import { InboxComponent } from './components/inbox/inbox.component';
 import { AssetsManagementComponent } from './components/assets-management/assets-management.component';
 import { FaqComponent } from '../common/faq/faq.component';
 import { FaqDetailComponent } from '../common/faq-detail/faq-detail.component';
+import { ExpenseManagementComponent } from './components/expense-management/expense-management.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -196,6 +197,7 @@ const routes: Routes = [
       { path: 'faq', component: FaqComponent },
 
       { path: 'faq-detail', component: FaqDetailComponent },
+      { path: 'expense-management', component: ExpenseManagementComponent },
     ],
   },
 ];
