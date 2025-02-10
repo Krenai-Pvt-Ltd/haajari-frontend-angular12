@@ -37,6 +37,7 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
 import { AdditionalModule } from '../additional/additional.module';
+import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 // import { NgApexchartsModule } from 'ng-apexcharts';
 
 
@@ -70,7 +71,7 @@ import { AdditionalModule } from '../additional/additional.module';
     NzSelectModule,
     NzEmptyModule,
     NzFormModule,
-NzBadgeModule,
+    NzBadgeModule,
     ReactiveFormsModule,
     NzAutocompleteModule,
     NgbPaginationModule,
@@ -86,6 +87,7 @@ NzBadgeModule,
     NzButtonModule,
     SharedModule,
     AdditionalModule,
+    NzInputNumberModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyB6SQE_TmOLpGLohpMLl-6FzdwJJAU9MnA',
       libraries: ['places'],
