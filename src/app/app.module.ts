@@ -34,8 +34,8 @@ import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { SubscriptionExpiredComponent } from './modules/common/subscription-expired/subscription-expired.component';
 import { SubscriptionRestrictedComponent } from './modules/common/subscription-restricted/subscription-restricted.component';
 import { AgmCoreModule } from '@agm/core';
-import { AccountSettingsComponent } from './Common/account-settings/account-settings.component';
 import { ExitModalComponent } from './modules/common/exit-modal/exit-modal.component';
+import { NzEmptyModule } from 'ng-zorro-antd/empty';
 @NgModule({
   declarations: [
     AppComponent,
@@ -47,7 +47,7 @@ import { ExitModalComponent } from './modules/common/exit-modal/exit-modal.compo
     HeaderComponent,
     SubscriptionExpiredComponent,
     SubscriptionRestrictedComponent,
-    ExitModalComponent,
+    ExitModalComponent
   ],
   imports: [
     CommonModule,
@@ -73,6 +73,7 @@ import { ExitModalComponent } from './modules/common/exit-modal/exit-modal.compo
     MatButtonModule,
     NzSwitchModule,
     NzPopoverModule,
+
     // OnboardingSidebarResponse
 
     // CalendarModule.forRoot({

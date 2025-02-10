@@ -1143,7 +1143,8 @@
                                 <div class="col-md-12 mb-3" nz-form-item >
                                   <div class="form-check d-flex align-items-center gap-2">
                                     <input type="checkbox" formControlName="isReset" id="exampleCheck1" class="form-check-input" 
-                                     [checked]="categories.controls[i]!.get('isReset')?.value">
+                                    [checked]="categories.controls[i]!.get('isReset')?.value" (ngModelChange)="getInvalidFormValues($event,i)">
+                                    
                                     <label class="form-check-label" for="exampleCheck1" >Lapse this leave category upon template expiration.</label>
                                   </div>
                                 </div>

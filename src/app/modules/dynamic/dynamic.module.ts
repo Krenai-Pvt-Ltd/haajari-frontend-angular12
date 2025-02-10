@@ -76,10 +76,9 @@ import { ExistPolicyComponent } from './components/exist-policy/exist-policy.com
 import { LeaveManagementsComponent } from './components/leave-managements/leave-managements.component';
 import { InboxComponent } from './components/inbox/inbox.component';
 import { AssetsManagementComponent } from './components/assets-management/assets-management.component';
-import { FaqComponent } from '../common/faq/faq.component';
 
 
-@NgModule({
+ @NgModule({
   declarations: [
 
     DynamicComponent,
@@ -117,8 +116,7 @@ import { FaqComponent } from '../common/faq/faq.component';
     ExistPolicyComponent,
     LeaveManagementsComponent,
     InboxComponent,
-    AssetsManagementComponent,
-    FaqComponent
+    AssetsManagementComponent
   ],
   imports: [
     CommonModule,

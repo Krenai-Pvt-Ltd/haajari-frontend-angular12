@@ -1169,6 +1169,25 @@ export class EmployeeOnboardingDataComponent implements OnInit {
             this.invalidCells[i][j] = true; // Mark the cell as invalid
           }
         }
+        if (this.fileColumnName[j] === 'esi number' && cellValue) {
+          debugger
+          const esi = cellValue.toString().trim();
+          this.addToMap(cellValue.toString(),`${i+1}`);
+          if (!/^\d{17}$/.test(esi) && esi.length > 0) {
+            rowIsValid = false;
+            this.invalidRows[i] = true; // Mark the row as invalid
+            this.invalidCells[i][j] = true; // Mark the cell as invalid
+          }
+        }
+        if (this.fileColumnName[j] === 'uan' && cellValue) {
+          const uan = cellValue.toString().trim();
+          this.addToMap(cellValue.toString(),`${i+1}`);
+          if (!/^\d{12}$/.test(uan) && uan.length>0) {
+            rowIsValid = false;
+            this.invalidRows[i] = true; // Mark the row as invalid
+            this.invalidCells[i][j] = true; // Mark the cell as invalid
+          }
+        }
 
         if (this.fileColumnName[j] === 'shift*' ) {
           var shiftExists=false;
@@ -1236,7 +1255,10 @@ export class EmployeeOnboardingDataComponent implements OnInit {
 
 
         if (!this.expectedColumns.some(expectedColumn => expectedColumn.toLowerCase() === this.fileColumnName[j].toLowerCase())) {
-          this.invalidCells[i][j] = false;
+          if(!(this.fileColumnName[j].toLowerCase()=='esi number' || this.fileColumnName[j].toLowerCase()== 'uan') || !cellValue){
+            this.invalidCells[i][j] = false;
+          }
+
         }
       }
     }

@@ -1,9 +1,22 @@
-<!-- Top Bar Start -->
-<!-- Top Bar Start -->
+
 <div class="topbar pb-3 pt-3">
-    <!-- Navbar -->
-    <nav [ngClass]="ROLE == 'USER' ? 'navbar-custom employeeLoginHead' : 'navbar-custom'" id="navbar-custom">
-      <ul class="list-unstyled topbar-nav float-end mb-0">
+    <nav class="d-flex align-items-center justify-content-between" [ngClass]="ROLE == 'USER' ? 'navbar-custom employeeLoginHead' : 'navbar-custom'" id="navbar-custom">
+      
+      <ul class="list-unstyled mb-0 krenai-deshboard" *ngIf="ROLE != 'USER'">
+        <li>
+          <h3 class="mb-1">{{topbarValue}}</h3>
+          <p class="mb-0">{{routeDesc}}</p>
+        </li>
+      </ul>
+      <ul *ngIf="ROLE == 'USER'" (click)="routeToEmployeeProfilePage()">
+        <img
+          src="assets/images/HAjiRi.svg"
+          alt="logo-large"
+          class="logo-lg logo-light"
+          style="height: 40px"
+        />
+      </ul>
+      <ul class="list-unstyled float-end mb-0 d-flex align-items-center">
        
         <li class="dropdown notification-list">
           <a class="nav-link dropdown-toggle arrow-none nav-icon" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false" (click)="fetchNotification('mail')">
@@ -13,14 +26,13 @@
           <div class="dropdown-menu dropdown-menu-end dropdown-lg pt-0">
             <h6 class="dropdown-item-text font-15 m-0 py-3 border-bottom d-flex justify-content-between align-items-center"> Request <span class="badge bg-soft-primary badge-pill" *ngIf="totalNewMailNotification>0">{{totalNewMailNotification}}</span>
             </h6>
-            <!-- <div class="notification-menu" data-simplebar *ngIf="mailLoading"><div class="text-center" style="height: 80px; padding-top: 30px;"><div class="spinner-border text-center" role="status" style="margin-left: 40px;"><span class="visually-hidden">Loading...</span></div></div></div> -->
+           
             <div class="notification-menu" data-simplebar *ngIf="!mailLoading && mailList.length==0">
               <div class="text-center" style="height: 80px; padding-top: 30px;">
                 <h6>No Pending Request</h6>
               </div>
             </div>
-            <!-- <div class="scroll" (scroll)="onMailScroll($event)" *ngIf="mailList.length > 0"><a class="dropdown-item py-3" *ngFor="let mail of mailList"
-                          [ngClass]="{'notification': mail.isRead==0}" (click)="routeToPage(mail.id)"><small class="float-end text-muted ps-2">{{timeAgo(mail.createdDate)}}</small><div class="media"><div class="avatar-md bg-soft-primary"><i class="bi bi-envelope" *ngIf="mail.isRead==0"></i><i class="bi bi-envelope-open" *ngIf="mail.isRead==1"></i></div><div class="media-body align-self-center ms-2 text-truncate"><h6 class="my-0 fw-normal text-dark">{{mail.title}}</h6><small class="text-muted mb-0">{{mail.message}}</small></div></div></a><div class="notification-menu" data-simplebar *ngIf="mailLoading"><div class="text-center" style="height: 80px; padding-top: 30px;"><div class="spinner-border text-center" role="status" style="margin-left: 40px;"><span class="visually-hidden">Loading...</span></div></div></div></div> -->
+            
             <div class="notification-menu" data-simplebar *ngIf="!mailLoading && mailList.length > 0">
               <a class="dropdown-item py-3" *ngFor="let mail of mailList" [ngClass]="{'notification': mail.isRead==0}" (click)="routeToPage(mail.id)">
                 <small class="float-end text-muted ps-2">{{timeAgo(mail.createdDate)}}</small>
@@ -49,14 +61,10 @@
           </div>
         </li>
         <li class="dropdown notification-list">
-          <!-- <a class="nav-link dropdown-toggle arrow-none nav-icon" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false" (click)="fetchNotification('notify')">
-            <i class="ti ti-bell"></i>
-            <span class="alert-badge" *ngIf="newNotiication"></span>
-          </a> -->
           <div class="dropdown-menu dropdown-menu-end dropdown-lg pt-0">
             <h6 class="dropdown-item-text font-15 m-0 py-3 border-bottom d-flex justify-content-between align-items-center"> Notifications <span class="badge bg-soft-primary badge-pill" *ngIf="totalNewNotification>0">{{totalNewNotification}}</span>
             </h6>
-            <!-- <div class="notification-menu" data-simplebar *ngIf="loading"><div class="text-center" style="height: 80px; padding-top: 30px;"><div class="spinner-border text-center" role="status" style="margin-left: 40px;"><span class="visually-hidden">Loading...</span></div></div></div> -->
+            
             <div class="notification-menu" data-simplebar *ngIf="!loading && notificationList.length==0">
               <div class="text-center" style="height: 80px; padding-top: 30px;">
                 <h6>No Pending Notifications</h6>
@@ -84,15 +92,13 @@
                 </div>
               </div>
             </div>
-            <!-- <div class="notification-menu" data-simplebar *ngIf="!loading && notificationList.length > 0"><a class="dropdown-item py-3" *ngFor="let notification of notificationList"
-                              [ngClass]="{'notification': notification.isRead==0}"><small class="float-end text-muted ps-2">{{timeAgo(notification.createdDate)}}</small><div class="media"><div class="avatar-md bg-soft-primary"><i class="bi bi-bell"*ngIf="notification.isRead==1"></i><i class="bi bi-bell-fill"*ngIf="notification.isRead==0"></i></div><div class="media-body align-self-center ms-2 text-truncate"><h6 class="my-0 fw-normal text-dark">{{notification.title}}</h6><small class="text-muted mb-0">{{notification.message}}</small></div></div></a></div> -->
+            
             <div class="border-top text-center text-primary pt-1" style="cursor: pointer;" *ngIf="totalNewNotification > 0" (click)="markAsReadAll('notify')">
               <span>Mark as read all</span>
             </div>
           </div>
         </li>
         <li class="nav-item" *ngIf="this.rbacService.shouldDisplay('dashboard')">
-          <!-- employee-profile?userId={{UUID}} -->
           <a class="nav-link nav-icon" [href]="employeeProfileRoute" target="_blank" role="button" aria-expanded="false" data-bs-toggle="tooltip" data-bs-placement="bottom" title="My Profile">
             <i class="ti ti-user"></i>
           </a>
@@ -144,24 +150,23 @@
         </div>
         </li>
       </ul>
-      <!--end topbar-nav-->
-      <ul class="list-unstyled topbar-nav mb-0 krenai-deshboard" *ngIf="ROLE != 'USER'">
-        <li>
-          <h3 class="mb-1">{{topbarValue}}</h3>
-          <p class="mb-0">{{routeDesc}}</p>
-        </li>
-      </ul>
-      <ul *ngIf="ROLE == 'USER'" (click)="routeToEmployeeProfilePage()">
-        <img
-          src="assets/images/HAjiRi.svg"
-          alt="logo-large"
-          class="logo-lg logo-light"
-          style="height: 40px"
-        />
-       
-      </ul>
+      <!-- <div class="d-flex align-items-center gap-3">
+
+        <button class="btn p-0 text-black fw-semibold font-14 inbox-btn" (click)="routeToInbox()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+            <mask id="mask0_8356_292" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="18" height="18">
+            <rect width="18" height="18" fill="#D9D9D9"/>
+            </mask>
+            <g mask="url(#mask0_8356_292)">
+            <path d="M3.75 15.75C3.3375 15.75 2.98438 15.6031 2.69063 15.3094C2.39688 15.0156 2.25 14.6625 2.25 14.25V3.75C2.25 3.3375 2.39688 2.98438 2.69063 2.69063C2.98438 2.39688 3.3375 2.25 3.75 2.25H14.25C14.6625 2.25 15.0156 2.39688 15.3094 2.69063C15.6031 2.98438 15.75 3.3375 15.75 3.75V14.25C15.75 14.6625 15.6031 15.0156 15.3094 15.3094C15.0156 15.6031 14.6625 15.75 14.25 15.75H3.75ZM3.75 14.25H14.25V12H12C11.625 12.475 11.1781 12.8438 10.6594 13.1063C10.1406 13.3688 9.5875 13.5 9 13.5C8.4125 13.5 7.85938 13.3688 7.34062 13.1063C6.82188 12.8438 6.375 12.475 6 12H3.75V14.25ZM9 12C9.475 12 9.90625 11.8625 10.2938 11.5875C10.6813 11.3125 10.95 10.95 11.1 10.5H14.25V3.75H3.75V10.5H6.9C7.05 10.95 7.31875 11.3125 7.70625 11.5875C8.09375 11.8625 8.525 12 9 12Z" fill="#1C1B1F"/>
+            </g>
+          </svg>
+          My Inbox
+        </button>
+        <span class="admin-name font-20 fw-bold d-flex align-items-center justify-content-center text-white">
+          Y
+        </span>
+
+      </div> -->
     </nav>
-    <!-- end navbar-->
   </div>
-  <!-- Top Bar End -->
-  <!-- Top Bar End -->
