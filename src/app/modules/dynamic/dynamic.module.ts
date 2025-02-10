@@ -75,11 +75,8 @@ import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
 import { LeaveManagementsComponent } from './components/leave-managements/leave-managements.component';
 import { InboxComponent } from './components/inbox/inbox.component';
 import { AssetsManagementComponent } from './components/assets-management/assets-management.component';
-<<<<<<< HEAD
 import { NgApexchartsModule } from "ng-apexcharts";
-=======
 import { ExpenseManagementComponent } from './components/expense-management/expense-management.component';
->>>>>>> ee62fa310cc702a138030170e208137a1ebea403
 
 
  @NgModule({
