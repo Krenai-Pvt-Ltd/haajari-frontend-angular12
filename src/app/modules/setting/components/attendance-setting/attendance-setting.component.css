@@ -124,7 +124,7 @@
   padding: 5px 10px;
   margin-bottom: 10px;
 }
-
+/* 
 .nav-tabs {
   box-shadow: none !important;
   background-color: #fff;
@@ -154,7 +154,7 @@
   font-size: 14px;
   line-height: 21px;
   color: #404040;
-}
+} */
 
 .rules-main {
   padding: 15px;
@@ -1515,6 +1515,10 @@ a.fetch-location {
   height: 100%;
 }
 
+.shift-time-menu .nav-pills{
+  border-bottom: none;
+}
+
 .shift-time-modal .nav-pills .nav.nav-pills {
   background-color: transparent;
 }
@@ -1523,6 +1527,7 @@ a.fetch-location {
   background: #f2f3ff !important;
   color: #000 !important;
   border-left: 5px solid var(--primary-background-color) !important;
+  border-bottom: none;
 }
 
 .shift-time-modal .nav-pills .nav-link {

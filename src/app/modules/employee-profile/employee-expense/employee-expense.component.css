@@ -233,6 +233,7 @@
     bottom: 0px;
     height: 70px;
     width: 98%;
+    z-index: 999;
 }
 
 .bill-images img {
