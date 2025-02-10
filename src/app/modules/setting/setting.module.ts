@@ -76,7 +76,6 @@ import { ExistPolicyComponent } from './components/exist-policy/exist-policy.com
     NzInputModule,
     NzSelectModule,
     ImageCropperModule,
-    NzInputNumberModule,
     NzButtonModule,
     NzFormModule,
     NzToolTipModule,

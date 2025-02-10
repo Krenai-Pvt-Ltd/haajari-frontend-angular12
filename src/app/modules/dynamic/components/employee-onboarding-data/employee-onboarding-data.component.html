@@ -1898,7 +1898,7 @@ Edit Request Modal End
   <div class="modal-dialog modal-xl modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="sampleFileModalLabel">Sample Excel File</h5>
+        <h5 class="modal-title" id="sampleFileModalLabel">Excel Upload</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="resetUploadExcelForm()"
           #closeButtonExcelModal></button>
       </div>
@@ -2038,7 +2038,8 @@ Edit Request Modal End
                 <table class="table excelUploadTable">
                   <thead>
                     <tr>
-                      <th>select</th>
+                      <th>Select</th>
+                      <th>S No.</th>
                       <th class="select-all-page" [ngClass]="{'min-w-200': col == 'dob' || col == 'joiningdate*'}" *ngFor="let col of fileColumnName">{{ col }}</th>
                     </tr>
                   </thead>
@@ -2046,6 +2047,9 @@ Edit Request Modal End
                     <tr *ngFor="let row of paginatedData; let i = index">
                       <td class="text-center set-current">
                         <input type="checkbox" [(ngModel)]="row.selected" />
+                      </td>
+                      <td class="text-center set-current">
+                        {{(currentPage - 1) * pageSize + i + 1}}
                       </td>
                       <td *ngFor="let cell of fileColumnName; let j = index">
                         <ng-container *ngIf="fileColumnName[j] === 'shift*' ; else leaveColumns">
@@ -2169,9 +2173,8 @@ Edit Request Modal End
           </div>
         </ng-container>
         <ng-container *ngIf="
-            isShimmer &&
-              onboardUserList.length == 0 &&
-              !networkConnectionErrorPlaceholder;
+            isProgressToggle &&
+              onboardUserList.length == 0;
             else onboardUserListCondition
           ">
           <div class="">
@@ -2308,7 +2311,7 @@ Edit Request Modal End
           </div>
         </ng-template>
       </div>
-      <div class="modal-footer text-end border-top pt-3" *ngIf="data.length > 0 &&  onboardUserList!.length == 0">
+      <div class="modal-footer text-end border-top pt-3" *ngIf="data.length > 0 &&  onboardUserList!.length == 0 && !isProgressToggle">
         <button type="button" class="btn p-0 fot-14 fw-semibold btn-border" (click)="saveFile()">Save & Next</button>
       </div>
       <div class="modal-footer d-flex align-items-center justify-content-between" *ngIf="onboardUserList && onboardUserList!.length>0">
@@ -2334,7 +2337,7 @@ Edit Request Modal End
       </div>
         <div class="d-flex align-items-center gap-3">
           <button *ngIf="enableEmailNotification || enableWhatsAppNotification" type="button" class="btn btn-border font-14 fw-semibold"
-            (click)="sendNotifications()">
+            (click)="sendNotifications()" [disabled]="loadingFlag">
             <span *ngIf="!loadingFlag">Send Notification</span>
             <div class="dot-opacity-loader" *ngIf="loadingFlag">
               <span></span>
