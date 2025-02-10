@@ -30,7 +30,8 @@ export class AssetsManagementComponent implements OnInit {
   }
   statusSummary: any[] = [];
   categorySummary: any[] = [];
-
+  assetSummary: any[] = [];
+  assetSummaryCategoryId: any = 0;
   // Separate method to fetch status summary
   fetchStatusSummary(): void {
     this.dataService.getStatusSummary().subscribe({
@@ -48,9 +49,26 @@ export class AssetsManagementComponent implements OnInit {
       next: (data) => {
         this.categorySummary = data;
         console.log('Category Summary:', data);
+        if(this.categorySummary.length>0){
+          this.assetSummaryCategoryId = this.categorySummary[0].categoryId;
+          this.fetchAssetSummary();
+        }
       },
       error: (err) => console.error('Error fetching category summary', err)
     });
+  }
+
+  fetchAssetSummary(): void {
+    this.dataService.getAssetCategorySummary(this.assetSummaryCategoryId)
+      .subscribe(
+        (data) => {
+          this.assetSummary = data;
+          console.log('Asset summary data:', data);
+        },
+        (error) => {
+          console.error('Error fetching asset summary:', error);
+        }
+      );
   }
 
 
@@ -98,6 +116,13 @@ export class AssetsManagementComponent implements OnInit {
           console.log('Team Summary:', data);
         },
         error: (err) => console.error('Error fetching team summary', err)
+      });
+    }
+
+  team: any = [];
+    getTeamMemberById(teamId: any): void {
+      this.dataService.getTeamsById(teamId).subscribe((data) => {
+        this.team = data;
       });
     }
 

@@ -5034,6 +5034,10 @@ getHolidayForOrganizationWhatsapp(userUuid: string, date: string): Observable<an
     return this.httpClient.get<any>(`${this.baseUrl}/assets/category-summary`);
   }
 
+  getAssetCategorySummary(categoryId: number): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/assets/category/${categoryId}/summary`);
+  }
+
 }
 
 
