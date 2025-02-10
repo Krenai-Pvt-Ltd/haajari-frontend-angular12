@@ -1177,7 +1177,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
             rowIsValid = false;
             this.invalidRows[i] = true; // Mark the row as invalid
             this.invalidCells[i][j] = true; // Mark the cell as invalid
-            this.addToMap('Invalid ESI: '+cellValue.toString(),`${i+1}`);
+            this.addToMap('Invalid ESI: ',`${i+1}`);
           }
         }
         if (this.fileColumnName[j] === 'uan' && cellValue) {
@@ -1187,7 +1187,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
             rowIsValid = false;
             this.invalidRows[i] = true; // Mark the row as invalid
             this.invalidCells[i][j] = true; // Mark the cell as invalid
-            this.addToMap('Invalid UAN: '+cellValue.toString(),`${i+1}`);
+            this.addToMap('Invalid UAN: ',`${i+1}`);
           }
         }
 
@@ -1234,12 +1234,14 @@ export class EmployeeOnboardingDataComponent implements OnInit {
                 // Ensure the date is in the past or less than one year from today
                 if (formattedDate.isAfter(oneYearFromNow)) {
                     this.data[i+1][j] = undefined;
+                    this.addToMap('Invalid Joining Date: ',`${i+1}`);
                     rowIsValid = false;
                     this.invalidRows[i] = true; // Mark the row as invalid
                     this.invalidCells[i][j] = true; // Mark the cell as invalid
                 }
             } else {
                 // If the date is not valid
+                this.addToMap('Invalid Joining Date: ',`${i+1}`);
                 this.data[i+1][j] = undefined;
                 rowIsValid = false;
                 this.invalidRows[i] = true; // Mark the row as invalid
@@ -1247,13 +1249,15 @@ export class EmployeeOnboardingDataComponent implements OnInit {
             }
         } else {
             // If the format is not exactly MM-DD-YYYY
+            this.addToMap('Invalid Joining Date: ',`${i+1}`);
             this.data[i+1][j] = undefined;
             rowIsValid = false;
             this.invalidRows[i] = true; // Mark the row as invalid
             this.invalidCells[i][j] = true; // Mark the cell as invalid
           }
+        }else if(this.fileColumnName[j] === 'joiningdate*'){
+          this.addToMap('Empty Joining Date: ',`${i+1}`);
         }
-
 
 
         if (!this.expectedColumns.some(expectedColumn => expectedColumn.toLowerCase() === this.fileColumnName[j].toLowerCase())) {

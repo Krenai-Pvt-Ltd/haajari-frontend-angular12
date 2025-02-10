@@ -107,7 +107,7 @@
     </div>
     <div class="employe-about p-4 pt-0 mb-4">
         <div *ngIf="userRoleFlag">
-            <div *ngIf="employeeProfileResponseData?.resignationStatus != 43 && (status == 'out' || this.status== '' || this.status == null) " 
+            <div *ngIf="employeeProfileResponseData?.resignationStatus != 43 && (status == 'out' || this.status== '' || this.status == null) "
                 class="check-in">
                 <div class="d-flex align-items-center gap-2 check-in-info p-2">
                     <img src="assets/images/check-in-image.svg">
@@ -245,7 +245,7 @@
                 *ngIf="employeeProfileResponseData?.resignationStatus == null || (employeeProfileResponseData?.resignationStatus != 42 && employeeProfileResponseData?.resignationStatus != 43)"
                 data-bs-target="#upgradePosition" data-bs-toggle="modal" (click)="openFormModal('Journey')">Add
                 Journey</button>
-            <button class="btn check-out-btn w-90" *ngIf="employeeProfileResponseData?.isProbation"
+            <button class="btn check-out-btn w-90" *ngIf="employeeProfileResponseData?.isProbation && !(employeeProfileResponseData?.resignationStatus == 43) && !(employeeProfileResponseData?.resignationStatus == 42)"
                 (click)="openConfirmationModal(confirmationModal)">Complete Probation</button>
         </div>
         <h5 class="mb-3 mt-4" *ngIf="userPositionDTO?.length && userPositionDTO[userPositionDTO.length - 1]?.startDate">
@@ -528,7 +528,7 @@
                     </div>
                     <div class="col-md-12 mb-3" *ngIf="!isPromotion">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="salaryToggle" [checked]="changeSalary" 
+                            <input class="form-check-input" type="checkbox" id="salaryToggle" [checked]="changeSalary"
                             (change)="updateSalaryToggle()">
                             <label class="form-check-label" for="salaryToggle" (change)="updateSalaryToggle()">
                                 Would you like to revise the salary?
@@ -756,7 +756,7 @@
     data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
-          
+
             <div class="modal-body p-0">
                 <button type="button" class="btn-close d-flex align-items-center justify-content-center" (click)="getUserAttendanceStatus();"
                     data-bs-dismiss="modal" aria-label="Close">
@@ -902,7 +902,7 @@
 
                                     <span *ngFor="let doc of hrPolicyDocuments; let i = index" [ngClass]="{ 'active-step': i == currentPdfIndex, 'inactive-step': i != currentPdfIndex }"></span>
 
-                                
+
                             </div>
 
                         </div>
@@ -1259,7 +1259,7 @@
         <div class="modal-content">
             <!-- <div class="modal-header">
                 <h5 class="modal-title" id="emptyModalLabel">Mark Attendance</h5>
-                
+
             </div> -->
             <div class="modal-body p-0">
                 <button #closeAttendanceButton id="closeAttendanceButton" type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" (click)="showAttendanceComponent=false; getUserAttendanceStatus()">
