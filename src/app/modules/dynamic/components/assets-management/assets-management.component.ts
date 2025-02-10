@@ -1,9 +1,17 @@
 import { Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Key } from 'src/app/constant/key';
 import { AssetRequestDTO } from 'src/app/models/AssetRequestDTO';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
+
+interface Filter {
+  type: 'team' | 'user' | 'status' | 'category';
+  label: any;
+  value: any;
+}
 
 @Component({
   selector: 'app-assets-management',
@@ -21,7 +29,23 @@ export class AssetsManagementComponent implements OnInit {
   ngOnInit(): void {
     this.getPendingRequestsCounter();
     this.dashboard();
+    this.searchControl.valueChanges.pipe(
+      debounceTime(300),
+      distinctUntilChanged()
+    ).subscribe((searchText: string) => {
+      this.searchText=searchText;
+      this.loadAssets();
+    });
   }
+
+  searchControl = new FormControl('');
+  assetStatuses = [
+    { id: 62, name: 'ASSIGNED' },
+    { id: 63, name: 'UNAVAILABLE' },
+    { id: 64, name: 'AVAILABLE' },
+    { id: 65, name: 'MAINTENANCE' },
+    { id: 66, name: 'DAMAGED' }
+  ];
 
   dashboard(): void {
     this.fetchCategorySummary();
@@ -41,6 +65,14 @@ export class AssetsManagementComponent implements OnInit {
       },
       error: (err) => console.error('Error fetching status summary', err)
     });
+  }
+
+  getCountByStatusId(statusId: number): number {
+    const status = this.statusSummary.find(s => s.statusId === statusId);
+    return status ? status.assetCount : 0;
+  }
+  getTotalAssetCount(): number {
+    return this.statusSummary.reduce((total, status) => total + status.assetCount, 0);
   }
 
   // Separate method to fetch category summary
@@ -81,6 +113,7 @@ export class AssetsManagementComponent implements OnInit {
     this.currentPage = 1;
     this.loadAssets();
     this.fetchTeamSummary();
+    this.getOrganizationUserList();
   }
 
     assets: any[] = [];
@@ -91,7 +124,7 @@ export class AssetsManagementComponent implements OnInit {
     isAssetLoading = false;
     loadAssets() {
       this.isAssetLoading = true;
-      this.dataService.getFilteredAssets(undefined, undefined, undefined, undefined, '', this.currentPage-1, this.pageSize)
+      this.dataService.getFilteredAssets(this.selectedTeamId, this.selectedUserId, this.selectedStatusId, this.selectedCategoryId, this.searchText, this.currentPage-1, this.pageSize)
         .subscribe(response => {
           this.isAssetLoading = false;
           this.assets = response.content; // Assuming `content` holds the paginated data
@@ -106,24 +139,117 @@ export class AssetsManagementComponent implements OnInit {
       this.currentPage = page;
       this.loadAssets();
     }
-
-    teamSummary: any;
+    totalAssignedAssets: number = 0;
+    teamSummary: any= [];
     statusId: number = 62;
     fetchTeamSummary(): void {
       this.dataService.getTeamSummary(this.statusId).subscribe({
         next: (data) => {
-          this.teamSummary = data;
+          this.totalAssignedAssets = data.totalAssignedAssets;
+          this.teamSummary = data.teamAssets;
           console.log('Team Summary:', data);
         },
         error: (err) => console.error('Error fetching team summary', err)
       });
     }
 
-  team: any = [];
+    users: any = [];
+    selectedTeam: any = 0;
+    selectedTeamId: number = 0;
+    selectedUserId: number = 0;
+    selectedStatusId: number = 0;
+    selectedCategoryId: number = 0;
+    searchText: string = '';
+    resetAssetsFilter(statusId: number): void {
+      this.searchText='';
+      this.selectedTeam = 0;
+      this.selectedTeamId = 0;
+      this.selectedUserId = 0;
+      this.selectedStatusId = statusId;
+      this.selectedCategoryId = 0;
+      this.loadAssets();
+    }
     getTeamMemberById(teamId: any): void {
+      if(teamId==0){
+        this.selectedTeamId = teamId;
+        this.users = this.allUser;
+        this.updateActiveFilters();
+        return;
+      }
       this.dataService.getTeamsById(teamId).subscribe((data) => {
-        this.team = data;
+        this.users = data.userList;
+        this.selectedTeamId= data.id;
       });
+      this.updateActiveFilters();
+    }
+
+    filterOption(input: string, option: any): boolean {
+      return option.nzLabel.toLowerCase().includes(input.toLowerCase());
+    }
+
+    allUser: any = [];
+    getOrganizationUserList(): void {
+      this.dataService.getOrganizationUserList().subscribe(
+        (response) => {
+          this.allUser = response.listOfObject;
+          this.users= this.allUser;
+        },
+        (error) => {
+          console.error('Error fetching pending requests counter', error);
+        }
+      );
+    }
+
+
+
+    activeFilters: Filter[] = [];
+    updateActiveFilters(): void {
+      this.activeFilters = [];
+
+      if (this.selectedTeam !== 0) {
+        const team = this.teamSummary.find((t: { teamUuid: any; }) => t.teamUuid === this.selectedTeam);
+        const teamName = team ? team.teamName : 'Team';
+        this.activeFilters.push({ type: 'team', label: `Team: ${teamName}`, value: this.selectedTeam });
+      }
+      if (this.selectedUserId !== 0) {
+        const user = this.users.find((u: { id: number; }) => u.id === this.selectedUserId);
+        const userName = user ? (user.userName || user.name) : 'User';
+        this.activeFilters.push({ type: 'user', label: `User: ${userName}`, value: this.selectedUserId });
+      }
+      if (this.selectedStatusId !== 0) {
+        const status = this.assetStatuses.find(s => s.id === this.selectedStatusId);
+        const statusName = status ? status.name : 'Status';
+        this.activeFilters.push({ type: 'status', label: `Status: ${statusName}`, value: this.selectedStatusId });
+      }
+      if (this.selectedCategoryId !== 0) {
+        const category = this.categorySummary.find(c => c.categoryId === this.selectedCategoryId);
+        const categoryName = category ? category.categoryName : 'Category';
+        this.activeFilters.push({ type: 'category', label: `Category: ${categoryName}`, value: this.selectedCategoryId });
+      }
+    }
+
+    // Remove an individual filter when its "x" is clicked
+    removeFilters(filter: Filter): void {
+      switch (filter.type) {
+        case 'team':
+          this.selectedTeam = 0;
+          this.selectedTeamId = 0;
+          // Reset users list to all users
+          this.users = this.allUser;
+          break;
+        case 'user':
+          this.selectedUserId = 0;
+          break;
+        case 'status':
+          this.selectedStatusId = 0;
+          break;
+        case 'category':
+          this.selectedCategoryId = 0;
+          break;
+      }
+      // After removing a filter, update the pills and reload assets.
+      this.updateActiveFilters();
+      this.loadAssets();
     }
 
 
@@ -279,10 +405,22 @@ export class AssetsManagementComponent implements OnInit {
     isChecked(filter: string): boolean {
       return this.selectedFilters.has(filter);
     }
+
+    get selectedFiltersArray(): string[] {
+      return Array.from(this.selectedFilters);
+    }
+
+    removeFilter(status: string): void {
+      this.selectedFilters.delete(status);
+      this.assetRequestsPage = 1;
+      this.getAssetRequests();
+    }
+
+
+
     visible = false;
   childrenVisible = false;
 
-  vegetables = ['asparagus', 'bamboo', 'potato', 'carrot', 'cilantro', 'potato', 'eggplant'];
 
   open(): void {
     this.visible = true;

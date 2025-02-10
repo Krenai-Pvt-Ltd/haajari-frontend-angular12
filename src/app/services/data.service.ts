@@ -4995,7 +4995,7 @@ getHolidayForOrganizationWhatsapp(userUuid: string, date: string): Observable<an
   saveDefaultNotificationSetting(): Observable<any> {
     return this.httpClient.post<string>(`${this.baseUrl}/notification-setting/default/notification`, { });
   }
-  
+
   existsUserByUan(uan: string): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/users/by-uan/${uan}`);
   }
@@ -5041,6 +5041,9 @@ getHolidayForOrganizationWhatsapp(userUuid: string, date: string): Observable<an
 
   getAssetCategorySummary(categoryId: number): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/assets/category/${categoryId}/summary`);
+  }
+  getOrganizationUserList(): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/assets/user/list`);
   }
 
 }

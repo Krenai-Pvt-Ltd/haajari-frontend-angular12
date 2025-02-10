@@ -193,7 +193,7 @@
                                             <div class="d-flex align-items-center justify-content-between mb-3">
                                                 <div>
                                                     <p class="mb-2 font-13">Total Assets</p>
-                                                    <h5 class="mb-0 font-15 fw-bold">1,343</h5>
+                                                    <h5 class="mb-0 font-15 fw-bold">{{getTotalAssetCount()}}</h5>
                                                 </div>
                                                 <span class="total-assets-icon d-flex align-items-center justify-content-center">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="23" viewBox="0 0 24 23" fill="none">
@@ -217,7 +217,7 @@
                                                 <div class="d-flex align-items-center justify-content-between mb-3">
                                                     <div>
                                                         <p class="mb-2 font-13">Assigned Assets</p>
-                                                        <h5 class="mb-0 font-15 fw-bold">1,100</h5>
+                                                        <h5 class="mb-0 font-15 fw-bold">{{getCountByStatusId(62)}}</h5>
                                                     </div>
                                                     <span class="total-assets-icon d-flex align-items-center justify-content-center">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23" fill="none">
@@ -241,7 +241,7 @@
                                                     <div class="d-flex align-items-center justify-content-between mb-3">
                                                         <div>
                                                             <p class="mb-2 font-13">Not Assigned</p>
-                                                            <h5 class="mb-0 font-15 fw-bold">420</h5>
+                                                            <h5 class="mb-0 font-15 fw-bold">{{getCountByStatusId(64)}}</h5>
                                                         </div>
                                                         <span class="total-assets-icon d-flex align-items-center justify-content-center">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="23" viewBox="0 0 24 23" fill="none">
@@ -265,7 +265,7 @@
                                                         <div class="d-flex align-items-center justify-content-between mb-3">
                                                             <div>
                                                                 <p class="mb-2 font-13">Maintenance</p>
-                                                                <h5 class="mb-0 font-15 fw-bold">3</h5>
+                                                                <h5 class="mb-0 font-15 fw-bold">{{getCountByStatusId(65)}}</h5>
                                                             </div>
                                                             <span class="total-assets-icon d-flex align-items-center justify-content-center">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="23" viewBox="0 0 24 23" fill="none">
@@ -289,7 +289,7 @@
                                                             <div class="d-flex align-items-center justify-content-between mb-3">
                                                                 <div>
                                                                     <p class="mb-2 font-13">Request </p>
-                                                                    <h5 class="mb-0 font-15 fw-bold">40</h5>
+                                                                    <h5 class="mb-0 font-15 fw-bold">{{pendingRequestsCounter}}</h5>
                                                                 </div>
                                                                 <span class="total-assets-icon d-flex align-items-center justify-content-center">
                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="23" viewBox="0 0 24 23" fill="none">
@@ -338,7 +338,7 @@
                                                               type="button" role="tab" aria-controls="v-pills-tablet" aria-selected="false" class="nav-link">
                                                            Tablet (10) </button> -->
                                                           <button *ngFor="let category of categorySummary; let i = index" type="button" role="tab" data-bs-toggle="pill"
-                                                            data-bs-toggle="pill" data-bs-target="#v-pills-laptops" type="button" role="tab" aria-controls="v-pills-laptops"
+                                                            data-bs-toggle="pill" data-bs-target="#v-pills-laptops" type="button" role="tab" aria-controls="v-pills-laptops" (click)="assetSummaryCategoryId= category.categoryId; fetchAssetSummary();"
                                                             [attr.aria-selected]="i === 0 ? 'true' : 'false'" [id]="'v-pills-tab-' + i" class="nav-link" [class.active]="i === 0">
                                                             {{ category.categoryName }} ({{ category.assetCount }})
                                                           </button>
@@ -919,7 +919,7 @@
                         </div>
                         <div class="tab-pane fade" id="assigned-assets" role="tabpanel" aria-labelledby="employee-tab">
                             <div class="assigned-assets mt-3">
-                                <div class="row">
+                                <!-- <div class="row">
                                     <div class="col-md-2">
                                         <div class="assigned-assets p-3">
                                             <div class="d-flex align-items-center gap-3">
@@ -1053,6 +1053,53 @@
                                         </div>
 
                                     </div>
+                                </div> -->
+                                <div class="row">
+                                  <!-- Left Column: Assigned Assets Summary -->
+                                  <div class="col-md-2">
+                                    <div class="assigned-assets p-3">
+                                      <div class="d-flex align-items-center gap-3">
+                                        <p class="mb-2 font-12 week-count">Assigned Assets</p>
+                                        <span class="assigned fw-semibold font-13">
+                                          <!-- SVG Icon -->
+                                          <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 10 10" fill="none">
+                                            <path d="M5.29834 1.93342L3.50282 3.72952L3.5028 3.72953C3.42537 3.80696 3.32035 3.85047 3.21084 3.85047C3.10134 3.85047 2.99632 3.80696 2.91888 3.72953C2.84145 3.6521 2.79795 3.54708 2.79795 3.43757C2.79795 3.38335 2.80863 3.32966 2.82938 3.27956C2.85013 3.22947 2.88054 3.18395 2.91888 3.14561L2.98944 3.21617L2.91888 3.14561L5.41879 0.645699C5.41881 0.645679 5.41883 0.645658 5.41885 0.645638L5.29834 1.93342ZM5.29834 1.93342V9.06257C5.29834 9.17197 5.3418 9.27689 5.41916 9.35425C5.49652 9.43161 5.60144 9.47507 5.71084 9.47507C5.82025 9.47507 5.92517 9.43161 6.00253 9.35425C6.07988 9.27689 6.12334 9.17197 6.12334 9.06257V1.93342L7.91887 3.72952L7.91888 3.72953C7.99632 3.80696 8.10134 3.85047 8.21084 3.85047C8.32035 3.85047 8.42537 3.80696 8.5028 3.72953C8.58024 3.6521 8.62374 3.54708 8.62374 3.43757C8.62374 3.32806 8.58024 3.22304 8.5028 3.14561L6.00289 0.645699C6.00287 0.645679 6.00285 0.645659 6.00283 0.645639L5.29834 1.93342Z" fill="#388E3C" stroke="#388E3C" stroke-width="0.2"/>
+                                          </svg>
+                                          <!-- Dynamically display percentage -->
+                                          {{ 0 }}
+                                        </span>
+                                      </div>
+                                      <!-- Display the total assigned assets dynamically -->
+                                      <h5 class="mb-1 mt-2 font-16 text-black fw-bold">{{ totalAssignedAssets }}</h5>
+                                      <p class="mb-0 font-12">Quantity</p>
+                                    </div>
+                                  </div>
+
+                                  <!-- Right Column: Loop Through Each Team and Render Details -->
+                                  <div class="col-md-10">
+                                    <div class="total-assets p-3 d-flex flex-wrap align-items-center justify-content-between gap-3">
+                                      <!-- Use *ngFor to iterate over the teamAssets array -->
+                                      <div *ngFor="let team of teamSummary" class="team-card mb-3 p-2 border rounded">
+                                        <div class="d-flex align-items-center justify-content-between mb-2">
+                                          <div>
+                                            <!-- Display each team’s asset count and name dynamically -->
+                                            <h5 class="mb-2 font-16 fw-bold">{{ team.assetCount }}</h5>
+                                            <p class="mb-0 font-12">{{ team.teamName }}</p>
+                                          </div>
+                                        </div>
+                                        <p class="mb-0 font-12 week-count">
+                                          <!-- SVG Icon for weekly stats (if needed) -->
+                                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                            <path d="M7.21375 4.79651C7.06297 4.94728 6.97061 5.15681 6.97091 5.38692L6.97091 5.48819C6.97091 5.94899 7.34394 6.32203 7.80415 6.32144L12.3571 6.32144L4.65532 14.0232C4.33005 14.3485 4.33005 14.8764 4.65532 15.2017C4.98059 15.527 5.50856 15.527 5.83383 15.2017L13.5356 7.49995V12.0529C13.5356 12.5137 13.9086 12.8867 14.3688 12.8861H14.4701C14.9309 12.8861 15.3039 12.5131 15.3034 12.0529V5.38692C15.3034 4.92612 14.9303 4.55308 14.4701 4.55367L7.80415 4.55367C7.57375 4.55367 7.36452 4.64573 7.21375 4.79651Z" fill="#22b783"/>
+                                          </svg>
+                                          &nbsp;
+                                          <!-- If you have additional weekly data for the team, you can display it here.
+                                               For now, we’ll show a default value (or you can extend your JSON to include weekly stats). -->
+                                          {{ team.weeklyAssetCount || 0 }} this week
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </div>
                                 </div>
 
 
@@ -1091,48 +1138,50 @@
                                                     <div class="row p-3">
                                                         <div class="col-md-12 mb-3">
                                                             <label for="type" class="pb-2">Team/ Department</label>
-                                                            <nz-select ngModel="Earned Leave" class="w-100 form-control placeholder-lines">
-                                                                <nz-option nzValue="Earned Leave" nzLabel="Earned Leave"></nz-option>
-                                                                <nz-option nzValue="Sick Leave" nzLabel="Sick Leave"></nz-option>
-                                                                <nz-option nzValue="Leave Without Pay" nzLabel="Leave Without Pay"></nz-option>
-                                                              </nz-select>
+                                                            <nz-select nzShowSearch [(ngModel)]="selectedTeam" class="w-100 form-control placeholder-lines"
+                                                              nzPlaceHolder="Select a Team" [nzFilterOption]="filterOption" (ngModelChange)="getTeamMemberById($event)">
+                                                              <nz-option [nzValue]="0" nzLabel="ALL"></nz-option>
+                                                              <nz-option *ngFor="let team of teamSummary" [nzValue]="team.teamUuid" [nzLabel]="team.teamName">
+                                                              </nz-option>
+                                                            </nz-select>
+
                                                         </div>
                                                         <div class="col-md-12 mb-3">
                                                             <label for="status" class="pb-2">Employee Name</label>
-                                                            <nz-select ngModel="Pending" class="w-100 form-control placeholder-lines">
-                                                                <nz-option nzValue="Pending" nzLabel="Pending"></nz-option>
-                                                                <nz-option nzValue="Approve" nzLabel="Approve"></nz-option>
-                                                                 <nz-option nzValue="Reject" nzLabel="Reject"></nz-option>
-                                                              </nz-select>
+                                                            <nz-select nzShowSearch [(ngModel)]="selectedUserId" class="w-100 form-control placeholder-lines"
+                                                              nzPlaceHolder="Select a User" [nzFilterOption]="filterOption" (ngModelChange)="updateActiveFilters()">
+                                                              <nz-option [nzValue]="0" nzLabel="ALL"></nz-option>
+                                                              <nz-option *ngFor="let user of users" [nzValue]="user.id" [nzLabel]="user?.userName ? user?.userName : user?.name">
+                                                              </nz-option>
+                                                            </nz-select>
                                                         </div>
                                                         <div class="col-md-12 mb-3">
                                                             <label for="status" class="pb-2">Status</label>
-                                                            <nz-select ngModel="Pending" class="w-100 form-control placeholder-lines">
-                                                                <nz-option nzValue="Pending" nzLabel="Pending"></nz-option>
-                                                                <nz-option nzValue="Approve" nzLabel="Approve"></nz-option>
-                                                                 <nz-option nzValue="Reject" nzLabel="Reject"></nz-option>
-                                                              </nz-select>
+                                                            <nz-select nzShowSearch [(ngModel)]="selectedStatusId" nzPlaceHolder="Select a Status" class="w-100 form-control placeholder-lines" (ngModelChange)="updateActiveFilters()">
+                                                              <nz-option [nzValue]="0" nzLabel="ALL"></nz-option>
+                                                              <nz-option *ngFor="let status of assetStatuses" [nzValue]="status.id" [nzLabel]="status.name"></nz-option>
+                                                            </nz-select>
+
                                                         </div>
-                                                        <div class="col-md-6 mb-3">
+                                                        <div class="col-md-12 mb-3">
                                                             <label for="status" class="pb-2">Assets Categories</label>
-                                                            <nz-select ngModel="Pending" class="w-100 form-control placeholder-lines">
-                                                                <nz-option nzValue="Pending" nzLabel="Pending"></nz-option>
-                                                                <nz-option nzValue="Approve" nzLabel="Approve"></nz-option>
-                                                                 <nz-option nzValue="Reject" nzLabel="Reject"></nz-option>
-                                                              </nz-select>
+                                                            <nz-select nzShowSearch [(ngModel)]="selectedCategoryId" nzPlaceHolder="Select a Status" class="w-100 form-control placeholder-lines" (ngModelChange)="updateActiveFilters()">
+                                                              <nz-option [nzValue]="0" nzLabel="ALL"></nz-option>
+                                                              <nz-option *ngFor="let category of categorySummary" [nzValue]="category.categoryId" [nzLabel]="category.categoryName"></nz-option>
+                                                            </nz-select>
                                                         </div>
-                                                        <div class="col-md-6 mb-3">
+                                                        <!-- <div class="col-md-6 mb-3">
                                                             <label for="status" class="pb-2">Assets Name</label>
                                                             <nz-select ngModel="MacBook Air" class="w-100 form-control placeholder-lines">
                                                                 <nz-option nzValue="MacBook Air" nzLabel="MacBook Air"></nz-option>
                                                                 <nz-option nzValue="MacBook" nzLabel="MacBook"></nz-option>
                                                                  <nz-option nzValue="MacBook Pro" nzLabel="MacBook Pro"></nz-option>
                                                               </nz-select>
-                                                        </div>
+                                                        </div> -->
                                                     </div>
                                                     <div class="p-3 border-top d-flex gap-2 align-items-center justify-content-end">
-                                                        <button class="btn cancel-btn mt-0">Reset it</button>
-                                                        <button class="btn submitActionBtn">Apply</button>
+                                                        <button class="btn cancel-btn mt-0"  (click)="resetAssetsFilter(0);">Reset it</button>
+                                                        <button class="btn submitActionBtn"  (click)="loadAssets()">Apply</button>
                                                     </div>
                                                 </div>
                                                 <!-- TO DO: Not Assigned-filter start -->
@@ -1186,13 +1235,19 @@
                                                 <!-- Not Assigned-filter end -->
                                             </div>
                                             <div class="search-date d-flex align-items-center justify-content-between position-relative w-100">
-                                                    <div class="form-group w-100 position-relative">
-                                                        <input type="text" id="searchText" #searchInput placeholder="Search by name.." class="form-control me-2 w-100" style="padding: 10px 45px;" />
-                                                        <i class="bi bi-search search-icon d-flex align-items-center h-100"></i>
-                                                    </div>
+                                              <div class="form-group w-100 position-relative">
+                                                <input
+                                                  type="text"
+                                                  [formControl]="searchControl"
+                                                  placeholder="Search by name.."
+                                                  class="form-control me-2 w-100"
+                                                  style="padding: 10px 45px;"
+                                                />
+                                                <i class="bi bi-search search-icon d-flex align-items-center h-100"></i>
+                                              </div>
                                             </div>
                                             <div>
-                                                <button type="button" class="btn primaryBtnLink filter-btn d-block text-cennter">
+                                                <button type="button" class="btn primaryBtnLink filter-btn d-block text-cennter" (click)="resetAssetsFilter(64); updateActiveFilters()">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
                                                         <mask id="mask0_8109_4666" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
                                                         <rect y="0.5" width="20" height="20" fill="#D9D9D9"/>
@@ -1222,16 +1277,12 @@
                                 </div>
 
                                 <div class="filter-bdg d-flex align-items-center gap-2 mt-3">
-                                    <p class="filter-pills d-flex align-items-centar gap-2 pointer font-12 fw-semibold ">Anchal Sharma
-                                      <i class="bi bi-x-lg pointer"></i>
-                                    </p>
-                                    <p class="filter-pills d-flex align-items-centar gap-2 pointer font-12 fw-semibold">Pending
-                                      <i class="bi bi-x-lg pointer"></i>
-                                    </p>
-                                    <p class="filter-pills d-flex align-items-centar gap-2 pointer font-12 fw-semibold">Anchal Sharma
-                                      <i class="bi bi-x-lg pointer"></i>
-                                    </p>
-                                  </div>
+                                  <p *ngFor="let filter of activeFilters"
+                                     class="filter-pills d-flex align-items-center gap-2 pointer font-12 fw-semibold">
+                                    {{ filter.label }}
+                                    <i class="bi bi-x-lg pointer" (click)="removeFilters(filter)"></i>
+                                  </p>
+                                </div>
 
                                 <div class="mt-3">
                                     <div class="">
@@ -2074,16 +2125,14 @@
                             </div>
 
                             <div class="filter-bdg d-flex align-items-center gap-2 mt-3">
-                                <p class="filter-pills d-flex align-items-centar gap-2 pointer font-12 fw-semibold">Anchal Sharma
-                                  <i class="bi bi-x-lg pointer"></i>
+                              <ng-container *ngIf="selectedFilters.size > 0">
+                                <p class="filter-pills d-flex align-items-center gap-2 pointer font-12 fw-semibold"
+                                   *ngFor="let filter of selectedFiltersArray">
+                                  {{ filter }}
+                                  <i class="bi bi-x-lg pointer" (click)="removeFilter(filter)"></i>
                                 </p>
-                                <p class="filter-pills d-flex align-items-centar gap-2 pointer font-12 fw-semibold">Pending
-                                  <i class="bi bi-x-lg pointer"></i>
-                                </p>
-                                <p class="filter-pills d-flex align-items-centar gap-2 pointer font-12 fw-semibold">Anchal Sharma
-                                  <i class="bi bi-x-lg pointer"></i>
-                                </p>
-                              </div>
+                              </ng-container>
+                            </div>
 
                             <div class="mt-3">
                                 <div class="">
