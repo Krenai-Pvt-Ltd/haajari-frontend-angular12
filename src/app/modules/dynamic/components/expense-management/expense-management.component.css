@@ -19,3 +19,125 @@
 .expense-chart{
     border: 1px solid #EAEAEA;
 }
+
+.expense-wallet{
+    background-color : rgba(253, 249, 251, 0.80);
+    border: 1px solid #f2f2f2;
+    border-radius: 5px;
+    background-position: top right;
+    background-repeat: no-repeat;
+    background-size: 85px;
+}
+.expense-wallet h5{
+    color: #444;
+}
+
+.expense-spending{
+    background-color: #DEE0FF;
+    border-radius: 0px 0px 5px 5px;
+
+}
+.wallet-transactions-list img{
+    width: 45px;
+    border-radius: 50px;
+}
+.wallet-transactions-list{
+   max-height: 370px;
+   overflow: scroll;
+}
+.wallet-transactions-list::-webkit-scrollbar{
+    display: none;
+}
+.wallet-transactions-list p{
+    color: #858585;
+}
+.expense-wallets .col-md-3{
+    width: 28%;
+}
+.expense-wallets .col-md-9{
+    width: 72%;
+}
+.total-expanse{
+    border: 1px solid #EAEAEA;
+}
+.expense-info .col-md-3{
+    width: 20%;
+}
+.total-expanse-icon {
+    width: 35px;
+    height: 35px;
+    border: 1px solid #EBEBEB;
+    border-radius: 5px;
+    background-color: #F6F6F6;
+}
+.week-count svg {
+    width: 18px;
+}
+.categories-report{
+    border: 1px  solid #EAEAEA;
+}
+
+::ng-deep .week-filter .ant-select-selection-placeholder {
+    line-height: 24px !important;
+    font-size: 0.875rem !important;
+    font-weight: 500 !important;
+  }
+  
+  ::ng-deep .week-filter .ant-select-selection-item {
+    line-height: 24px !important;
+    font-size: 0.875rem !important;
+    font-weight: 500 !important;
+  }
+  ::ng-deep  .week-filter .ant-select-selector{
+    background-color: transparent !important;
+    min-height: 24px !important;
+    height: 24px !important;
+  }
+
+  .earned-leave{
+    background-color: #CA365F;
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+  }
+  .casual-leave{
+    background-color: #47539F;
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+  }
+  .sick-leave{
+    background-color: #327DD1;
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+  }
+  .lop{
+    background-color: #3C887C;
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+  }
+  .maternity-leave{
+    background-color: #5ECED8;
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+  }
+  .paternity-leave{
+    background-color: #4496AC;
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+  }
+  .leave-count-list{
+    border: 1px solid #F2F2F2;
+    border-radius: 2px;
+}
+.client-report{
+    border: 1px solid #EAEAEA;
+}
+.client-report img{
+    width: 60px;
+    border-radius: 50px;
+}

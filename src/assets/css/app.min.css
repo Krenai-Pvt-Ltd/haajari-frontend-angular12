@@ -18,6 +18,9 @@
 .border-rounded-2{
   border-radius:2px;
 }
+.color-basic{
+  color: #444;
+}
 .attendance-list{
   border: 1px solid #f1f1f1;
   box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, 0.05);
