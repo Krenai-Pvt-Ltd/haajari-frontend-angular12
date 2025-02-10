@@ -21,7 +21,9 @@
     font-weight: 500;
     text-align: left;
 }
-
+.nav-item {
+    margin-right: 0px;
+}
 .attendance-date {
     border-radius: 2px;
     border: 1px solid #DCDCE4;
