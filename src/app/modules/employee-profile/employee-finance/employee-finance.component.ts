@@ -11,28 +11,23 @@ import { SalaryService } from 'src/app/services/salary.service';
 import { EmployeeProfileComponent } from '../employee-profile.component';
 import { UserSalaryRevisionRes } from 'src/app/models/UserSalaryRevisionRes';
 import { CurrentSalaryDetail } from 'src/app/models/CurrentSalaryDetail';
-import { SalaryTemplateComponentResponse } from 'src/app/models/salary-template-component-response';
-import { SalaryComponentResponse } from 'src/app/models/salary-component-response';
 import { Key } from 'src/app/constant/key';
 import { AppraisalRequest } from 'src/app/models/appraisal-request';
 import { BonusRequest } from 'src/app/models/bonus-request';
 import { NgForm } from '@angular/forms';
 import { constant } from 'src/app/constant/constant';
-import { StatutoryRequest } from 'src/app/models/statutory-request';
 import { UserService } from 'src/app/services/user.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import { PayoutDaysSummary } from 'src/app/models/PayoutDaysSummary';
 import { SalaryDeductionResponse } from 'src/app/models/SalaryDeductionResponse';
-import { SalaryComponent } from 'src/app/models/salary-component';
 import { UserSalaryTemplateComponent } from 'src/app/models/UserSalaryTemplateComponent';
-import { TaxExemptionValueRes } from 'src/app/models/TaxExemptionValueRes';
 
 @Component({
-  selector: 'app-epmployee-finance',
-  templateUrl: './epmployee-finance.component.html',
-  styleUrls: ['./epmployee-finance.component.css']
+  selector: 'app-employee-finance',
+  templateUrl: './employee-finance.component.html',
+  styleUrls: ['./employee-finance.component.css']
 })
-export class EpmployeeFinanceComponent implements OnInit {
+export class EmployeeFinanceComponent implements OnInit {
 
   selectedPayslipUrl!: SafeResourceUrl;
   userUuid: string = '';
