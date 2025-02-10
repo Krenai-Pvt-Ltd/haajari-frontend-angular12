@@ -225,6 +225,9 @@
     position: relative;
     top: -1px;
 }
+.nav-item {
+    margin-right: 0px;
+}
 
 .bill-images {
     background: rgba(0, 0, 0, 0.55);
@@ -233,6 +236,7 @@
     bottom: 0px;
     height: 70px;
     width: 98%;
+    z-index: 999;
 }
 
 .bill-images img {

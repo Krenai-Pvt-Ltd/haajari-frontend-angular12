@@ -199,7 +199,7 @@
   padding-right: 20px;
 }
 
-.nav-tabs .nav-link {
+/* .nav-tabs .nav-link {
   font-style: normal;
   border-radius: 0px 0 0 0;
   border: none;
@@ -214,7 +214,7 @@
   border-bottom: 2px solid #6666f3;
   color: #6666f3;
   background-color: transparent;
-}
+} */
 
 /* .leave-delet-btn{
     padding-top: 12px;
@@ -1603,11 +1603,16 @@ i.bi.bi-plus {
   height: 100%;
 }
 
+.leave-sidebar-menu .nav-pills{
+  border-bottom: none;
+}
+
 .nav-pills .nav-item.show .nav-link,
 .nav-pills .nav-link.active {
-  background: #f2f3ff;
-  color: #000;
+  background: #f2f3ff !important;
+  color: #000 !important;
   border-left: 5px solid var(--primary-background-color);
+  border-bottom: none;
 }
 
 .nav.nav-pills {

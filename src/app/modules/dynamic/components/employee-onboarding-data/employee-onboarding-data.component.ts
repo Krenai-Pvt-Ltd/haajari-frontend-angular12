@@ -326,6 +326,7 @@ removeFilter(filter: string) {
   this.getUsersByFiltersFunction();
 }
 
+// selectedFul
 // Ensure filters contain unique values
 getCombinedFilters(): string[] {
   return Array.from(new Set([...this.selectedStatusFilters, ...this.selectedAccessibilityFilters])).filter(f => f !== 'ALL');
@@ -1516,11 +1517,11 @@ getCombinedFilters(): string[] {
 
         }
         if (this.fileColumnName[j] === 'email*' && cellValue) {
-          this.addToMap(cellValue.toString(),`${i+1}`);
+          this.addToMap('Repeated Email: ' + cellValue.toString(),`${i+1}`);
         }
         if (this.fileColumnName[j] === 'phone*' && cellValue) {
           const phoneNumber = cellValue.toString().trim();
-          this.addToMap(cellValue.toString(),`${i+1}`);
+          this.addToMap('Repeated Phone: '+ cellValue.toString(),`${i+1}`);
           if (!/^\d{10}$/.test(phoneNumber)) {
             rowIsValid = false;
             this.invalidRows[i] = true; // Mark the row as invalid
@@ -1530,20 +1531,22 @@ getCombinedFilters(): string[] {
         if (this.fileColumnName[j] === 'esi number' && cellValue) {
           debugger
           const esi = cellValue.toString().trim();
-          this.addToMap(cellValue.toString(),`${i+1}`);
+          this.addToMap('Repeated ESI: '+cellValue.toString(),`${i+1}`);
           if (!/^\d{17}$/.test(esi) && esi.length > 0) {
             rowIsValid = false;
             this.invalidRows[i] = true; // Mark the row as invalid
             this.invalidCells[i][j] = true; // Mark the cell as invalid
+            this.addToMap('Invalid ESI: ',`${i+1}`);
           }
         }
         if (this.fileColumnName[j] === 'uan' && cellValue) {
           const uan = cellValue.toString().trim();
-          this.addToMap(cellValue.toString(),`${i+1}`);
+          this.addToMap('Repeated UAN: '+cellValue.toString(),`${i+1}`);
           if (!/^\d{12}$/.test(uan) && uan.length>0) {
             rowIsValid = false;
             this.invalidRows[i] = true; // Mark the row as invalid
             this.invalidCells[i][j] = true; // Mark the cell as invalid
+            this.addToMap('Invalid UAN: ',`${i+1}`);
           }
         }
 
@@ -1590,12 +1593,14 @@ getCombinedFilters(): string[] {
                 // Ensure the date is in the past or less than one year from today
                 if (formattedDate.isAfter(oneYearFromNow)) {
                     this.data[i+1][j] = undefined;
+                    this.addToMap('Invalid Joining Date: ',`${i+1}`);
                     rowIsValid = false;
                     this.invalidRows[i] = true; // Mark the row as invalid
                     this.invalidCells[i][j] = true; // Mark the cell as invalid
                 }
             } else {
                 // If the date is not valid
+                this.addToMap('Invalid Joining Date: ',`${i+1}`);
                 this.data[i+1][j] = undefined;
                 rowIsValid = false;
                 this.invalidRows[i] = true; // Mark the row as invalid
@@ -1603,13 +1608,15 @@ getCombinedFilters(): string[] {
             }
         } else {
             // If the format is not exactly MM-DD-YYYY
+            this.addToMap('Invalid Joining Date: ',`${i+1}`);
             this.data[i+1][j] = undefined;
             rowIsValid = false;
             this.invalidRows[i] = true; // Mark the row as invalid
             this.invalidCells[i][j] = true; // Mark the cell as invalid
           }
+        }else if(this.fileColumnName[j] === 'joiningdate*'){
+          this.addToMap('Empty Joining Date: ',`${i+1}`);
         }
-
 
 
         if (!this.expectedColumns.some(expectedColumn => expectedColumn.toLowerCase() === this.fileColumnName[j].toLowerCase())) {
@@ -2898,16 +2905,6 @@ console.log(this.data);
     this.getUsersByFiltersFunction();
     this.getUser();
     this.closeNotificationModalFlag = false;
-  }
-
-  kuchbhi(type:string){
-    this.enableWhatsAppNotification  = false
-    this.enableEmailNotification  = false
-    if(type=='whatsapp') {
-      this.enableWhatsAppNotification = true
-    } else {
-      this.enableEmailNotification  = true
-    }
   }
 
 }

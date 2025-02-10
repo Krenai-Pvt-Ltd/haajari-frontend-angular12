@@ -1,0 +1,21 @@
+.request-count {
+    background-color: rgb(241 241 253) !important;
+    color: var(--primary-color) !important;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+}
+
+.date-range {
+    background-color: #F9FAFC;
+    border: 1px solid #DCDCE4;
+    border-radius: 2px;
+}
+.attendance-date .ant-picker {
+    border: none !important;
+    background-color: transparent !important;
+    height: 40px !important;
+}
+.expense-chart{
+    border: 1px solid #EAEAEA;
+}

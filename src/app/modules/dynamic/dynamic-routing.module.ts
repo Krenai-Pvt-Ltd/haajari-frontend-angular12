@@ -34,12 +34,12 @@ import { PreviewFormComponent } from '../employee-onboarding/preview-form/previe
 import { ReferFriendComponent } from './components/refer-friend/refer-friend.component';
 import { NewEmployeeProfileComponent } from './components/new-employee-profile/new-employee-profile.component';
 import { CreateExpenseComponent } from './components/create-expense/create-expense.component';
-import { ExistPolicyComponent } from './components/exist-policy/exist-policy.component';
 import { LeaveManagementsComponent } from './components/leave-managements/leave-managements.component';
 import { InboxComponent } from './components/inbox/inbox.component';
 import { AssetsManagementComponent } from './components/assets-management/assets-management.component';
 import { FaqComponent } from '../common/faq/faq.component';
 import { FaqDetailComponent } from '../common/faq-detail/faq-detail.component';
+import { ExpenseManagementComponent } from './components/expense-management/expense-management.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -183,11 +183,6 @@ const routes: Routes = [
         canActivate: [AuthGuard, SubscriptionGuard]
       },
       {
-        path: 'exit-policy',
-        component: ExistPolicyComponent,
-        canActivate: [AuthGuard, SubscriptionGuard]
-      },
-      {
         path: 'leave-managements',
         component: LeaveManagementsComponent,
       },
@@ -202,6 +197,7 @@ const routes: Routes = [
       { path: 'faq', component: FaqComponent },
 
       { path: 'faq-detail', component: FaqDetailComponent },
+      { path: 'expense-management', component: ExpenseManagementComponent },
     ],
   },
 ];

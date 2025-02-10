@@ -2735,11 +2735,6 @@ editingStaff: Staff = new Staff(); // Tracks which staff row is being edited
 //       isReset.setValue(event);
 //       console.log("🚀 ~ getInvalidFormValues ~ isReset:", isReset)
 //       console.log("🚀 ~ getInvalidFormValues ~ form:", this.form.value)
-
-//     }
-
-// }
-
 // resetCarryOverAction(i: number) {
 //   this.categories.controls[i]!.get('carryoverAction')?.setValue(null);
 //   this.categories.controls[i]!.get('carryover')?.setValue(null);

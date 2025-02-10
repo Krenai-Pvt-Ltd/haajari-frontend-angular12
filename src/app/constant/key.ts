@@ -78,7 +78,8 @@ export class Key {
     '/inbox',
     '/assets-management',
     '/faq',
-    '/faq-detail'
+    '/faq-detail',
+    '/expense-management'
   ];
 
   public static TOPBAR_ROUTES = [
@@ -128,7 +129,8 @@ export class Key {
     '/inbox',
     '/assets-management',
     '/faq',
-    '/faq-detail'
+    '/faq-detail',
+    '/expense-management'
   ];
 
   public static ORGANIZATION_ONBOARDING_SIDEBAR_ROUTES = [
