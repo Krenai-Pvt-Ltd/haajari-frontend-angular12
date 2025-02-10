@@ -363,110 +363,32 @@
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody>
-                                                                            <tr>
-                                                                                <td class="fw-normal">MacBook Air.</td>
-                                                                                <td class="fw-normal">₹53,000</td>
-                                                                                <td class="text-center fw-normal">34</td>
-                                                                                <td class="text-center fw-normal">0</td>
-                                                                                <td class="text-center fw-normal">1</td>
-                                                                                <td class="text-center fw-normal">1</td>
-                                                                                <td>
-                                                                                    <span class="text-danger fw-semibold">Low Stock</span>
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td class="fw-normal">MacBook</td>
-                                                                                <td class="fw-normal">₹53,000</td>
-                                                                                <td class="text-center fw-normal">34</td>
-                                                                                <td class="text-center fw-normal">0</td>
-                                                                                <td class="text-center fw-normal">1</td>
-                                                                                <td class="text-center fw-normal">1</td>
-                                                                                <td>
-                                                                                    <span class="text-danger fw-semibold">Low Stock</span>
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td class="fw-normal">MacBook Pro</td>
-                                                                                <td class="fw-normal">₹53,000</td>
-                                                                                <td class="text-center fw-normal">34</td>
-                                                                                <td class="text-center fw-normal">0</td>
-                                                                                <td class="text-center fw-normal">1</td>
-                                                                                <td class="text-center fw-normal">1</td>
-                                                                                <td>
-                                                                                    <span class="text-primary fw-semibold">In stock</span>
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td class="fw-normal">MacBook Pro 14</td>
-                                                                                <td class="fw-normal">₹53,000</td>
-                                                                                <td class="text-center fw-normal">34</td>
-                                                                                <td class="text-center fw-normal">0</td>
-                                                                                <td class="text-center fw-normal">1</td>
-                                                                                <td class="text-center fw-normal">1</td>
-                                                                                <td>
-                                                                                    <span class="text-danger fw-semibold">Low Stock</span>
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td class="fw-normal">MacBook Pro New.</td>
-                                                                                <td class="fw-normal">₹53,000</td>
-                                                                                <td class="text-center fw-normal">34</td>
-                                                                                <td class="text-center fw-normal">0</td>
-                                                                                <td class="text-center fw-normal">1</td>
-                                                                                <td class="text-center" fw-normal>1</td>
-                                                                                <td>
-                                                                                    <span class="text-primary fw-semibold">In stock</span>
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td class="fw-normal">MacBook Air 16</td>
-                                                                                <td class="fw-normal">₹53,000</td>
-                                                                                <td class="text-center fw-normal">34</td>
-                                                                                <td class="text-center fw-normal">0</td>
-                                                                                <td class="text-center fw-normal">1</td>
-                                                                                <td class="text-center fw-normal">1</td>
-                                                                                <td>
-                                                                                    <span class="text-danger fw-semibold">Low Stock</span>
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td class="fw-normal">MacBook Air 16</td>
-                                                                                <td class="fw-normal">₹53,000</td>
-                                                                                <td class="text-center fw-normal">34</td>
-                                                                                <td class="text-center fw-normal">0</td>
-                                                                                <td class="text-center fw-normal">1</td>
-                                                                                <td class="text-center fw-normal">1</td>
-                                                                                <td>
-                                                                                    <span class="text-primary fw-semibold">In stock</span>
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td class="fw-normal">MacBook Air 16</td>
-                                                                                <td class="fw-normal">₹53,000</td>
-                                                                                <td class="text-center fw-normal">34</td>
-                                                                                <td class="text-center fw-normal">0</td>
-                                                                                <td class="text-center fw-normal">1</td>
-                                                                                <td class="text-center fw-normal">1</td>
-                                                                                <td>
-                                                                                    <span class="text-danger fw-semibold">Low Stock</span>
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td class="fw-normal">MacBook Air 16</td>
-                                                                                <td class="fw-normal">₹53,000</td>
-                                                                                <td class="text-center fw-normal">34</td>
-                                                                                <td class="text-center fw-normal">0</td>
-                                                                                <td class="text-center fw-normal">1</td>
-                                                                                <td class="text-center fw-normal">1</td>
-                                                                                <td>
-                                                                                    <span class="text-danger fw-semibold">Low Stock</span>
-                                                                                </td>
-                                                                            </tr>
+                                                                          <tr *ngFor="let asset of assetSummary">
+                                                                            <td class="fw-normal">{{ asset.assetName }}</td>
+                                                                            <!-- Using Angular's currency pipe to format the price -->
+                                                                            <td class="fw-normal">{{ asset.totalPrice | currency:'INR':'symbol':'1.0-0' }}</td>
+                                                                            <td class="text-center fw-normal">{{ asset.totalCount }}</td>
+                                                                            <td class="text-center fw-normal">{{ asset.assignedCount }}</td>
+                                                                            <td class="text-center fw-normal">{{ asset.availableCount }}</td>
+                                                                            <td class="text-center fw-normal">{{ asset.maintenanceCount }}</td>
+                                                                            <td>
+                                                                              <!-- Conditionally display the stock status -->
+                                                                              <span
+                                                                                class="fw-semibold"
+                                                                                [ngClass]="{
+                                                                                  'text-danger': asset.availableCount === 0,
+                                                                                  'text-primary': asset.availableCount > 0
+                                                                                }"
+                                                                              >
+                                                                                {{ asset.availableCount === 0 ? 'Low Stock' : 'In stock' }}
+                                                                              </span>
+                                                                            </td>
+                                                                          </tr>
                                                                         </tbody>
                                                                     </table>
                                                                 </div>
                                                             </div>
-                                                            <div class="tab-pane fade" id="v-pills-desktop" rol="tabpanel">
+                                                            <!-- <div class="tab-pane fade" id="v-pills-desktop" rol="tabpanel">
                                                                 <div class="assets-overview">
                                                                     <table class="table">
                                                                         <thead>
@@ -934,7 +856,7 @@
                                                                         </tbody>
                                                                     </table>
                                                                 </div>
-                                                            </div>
+                                                            </div> -->
                                                         </div>
                                                     </div>
                                                 </div>
@@ -2488,7 +2410,7 @@
                             <div class="d-flex align-items-centar mb-3 gap-3">
                                 <div class="tracing-icon font-14 fw-semibold text-black d-flex align-items-center justify-content-center"> 1
                                 </div>
-                                <div class="tracking-data"> 
+                                <div class="tracking-data">
                                     <h5 class="mb-2 font-16 fw-semibold ">Purchased Date: 12th Jun,2023</h5>
                                     <p class="mb-0 font-13 fw-normal">warranty Date: 7th jun,2025</p>
                                 </div>
@@ -2499,7 +2421,7 @@
                             <div class="d-flex align-items-centar mb-3 gap-3">
                                 <div class="tracing-icon font-14 fw-semibold text-black d-flex align-items-center justify-content-center"> 2
                                 </div>
-                                <div class="tracking-data"> 
+                                <div class="tracking-data">
                                     <h5 class="mb-2 font-16 fw-semibold ">Purchased Date: 12th Jun,2023</h5>
                                     <p class="mb-0 font-13 fw-normal">warranty Date: 7th jun,2025</p>
                                 </div>
@@ -2509,7 +2431,7 @@
                             <div class="d-flex align-items-centar mb-3 gap-3">
                                 <div class="tracing-icon active-icon font-14 fw-semibold text-black d-flex align-items-center justify-content-center"> 3
                                 </div>
-                                <div class="tracking-data"> 
+                                <div class="tracking-data">
                                     <h5 class="mb-2 font-16 fw-semibold ">Purchased Date: 12th Jun,2023</h5>
                                     <p class="mb-0 font-13 fw-normal">warranty Date: 7th jun,2025</p>
                                 </div>
@@ -2519,7 +2441,7 @@
                             <div class="d-flex align-items-centar mb-3 gap-3">
                                 <div class="tracing-icon active-icon font-14 fw-semibold text-black d-flex align-items-center justify-content-center"> 3
                                 </div>
-                                <div class="tracking-data"> 
+                                <div class="tracking-data">
                                     <h5 class="mb-2 font-16 fw-semibold ">Purchased Date: 12th Jun,2023</h5>
                                     <p class="mb-0 font-13 fw-normal">warranty Date: 7th jun,2025</p>
                                 </div>
@@ -2529,7 +2451,7 @@
                             <div class="d-flex align-items-centar mb-3 gap-3">
                                 <div class="tracing-icon active-icon font-14 fw-semibold text-black d-flex align-items-center justify-content-center"> 3
                                 </div>
-                                <div class="tracking-data"> 
+                                <div class="tracking-data">
                                     <h5 class="mb-2 font-16 fw-semibold ">Purchased Date: 12th Jun,2023</h5>
                                     <p class="mb-0 font-13 fw-normal">warranty Date: 7th jun,2025</p>
                                 </div>
@@ -2539,7 +2461,7 @@
                             <div class="d-flex align-items-centar mb-3 gap-3">
                                 <div class="tracing-icon active-icon font-14 fw-semibold text-black d-flex align-items-center justify-content-center"> 3
                                 </div>
-                                <div class="tracking-data"> 
+                                <div class="tracking-data">
                                     <h5 class="mb-2 font-16 fw-semibold ">Purchased Date: 12th Jun,2023</h5>
                                     <p class="mb-0 font-13 fw-normal">warranty Date: 7th jun,2025</p>
                                 </div>
@@ -2549,7 +2471,7 @@
                             <div class="d-flex align-items-centar mb-3 gap-3">
                                 <div class="tracing-icon active-icon font-14 fw-semibold text-black d-flex align-items-center justify-content-center"> 3
                                 </div>
-                                <div class="tracking-data"> 
+                                <div class="tracking-data">
                                     <h5 class="mb-2 font-16 fw-semibold ">Purchased Date: 12th Jun,2023</h5>
                                     <p class="mb-0 font-13 fw-normal">warranty Date: 7th jun,2025</p>
                                 </div>
@@ -2598,7 +2520,7 @@
                         <div class="d-flex align-items-centar mb-3 gap-3">
                             <div class="tracing-icon font-14 fw-semibold text-black d-flex align-items-center justify-content-center"> 1
                             </div>
-                            <div class="tracking-data"> 
+                            <div class="tracking-data">
                                 <h5 class="mb-2 font-16 fw-semibold ">Purchased Date: 12th Jun,2023</h5>
                                 <p class="mb-0 font-13 fw-normal">warranty Date: 7th jun,2025</p>
                             </div>
@@ -2609,7 +2531,7 @@
                         <div class="d-flex align-items-centar mb-3 gap-3">
                             <div class="tracing-icon font-14 fw-semibold text-black d-flex align-items-center justify-content-center"> 2
                             </div>
-                            <div class="tracking-data"> 
+                            <div class="tracking-data">
                                 <h5 class="mb-2 font-16 fw-semibold ">Purchased Date: 12th Jun,2023</h5>
                                 <p class="mb-0 font-13 fw-normal">warranty Date: 7th jun,2025</p>
                             </div>
@@ -2619,7 +2541,7 @@
                         <div class="d-flex align-items-centar mb-3 gap-3">
                             <div class="tracing-icon active-icon font-14 fw-semibold text-black d-flex align-items-center justify-content-center"> 3
                             </div>
-                            <div class="tracking-data"> 
+                            <div class="tracking-data">
                                 <h5 class="mb-2 font-16 fw-semibold ">Purchased Date: 12th Jun,2023</h5>
                                 <p class="mb-0 font-13 fw-normal">warranty Date: 7th jun,2025</p>
                             </div>
