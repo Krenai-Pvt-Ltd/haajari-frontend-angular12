@@ -755,7 +755,8 @@
                           class="form-check-input" (change)="toggleNotificationValue(notification, 'isEnable')">
                         <label class="form-check-label" [for]="'checkbox-' + i + '-' + j">{{ notification.description }}</label>
                       </div>
-                        <button class="btn p-0 text-black fw-semibold font-14 text-decoration-underline edit-action-btn" (click)="toggleNotification(notification, type, j)">
+                        <button class="btn p-0 text-black fw-semibold font-14 text-decoration-underline edit-action-btn" *ngIf="!notification.isEditMode" 
+                        (click)="toggleNotification(notification, type, j)">
                           <svg xmlns="http://www.w3.org/2000/svg" width="15" height="16" viewBox="0 0 15 16" fill="none">
                           <mask id="mask0_8032_1956" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="15" height="16">
                           <rect x="0.126953" y="0.5625" width="17.5292" height="17.5292" fill="#D9D9D9"/>
@@ -765,7 +766,8 @@
                           </g>
                           </svg> Edit
                         </button>
-                        <!-- <button class="btn submitActionBtn" (click)="toggleNotification(notification, type, j)">Save</button> -->
+                        <button class="btn submitActionBtn" *ngIf="notification.isEditMode" 
+                        (click)="toggleNotification(notification, type, j)">Save</button>
                       </div>
             
                       <!-- Reminder form with unique ID for radio buttons and names -->
@@ -783,7 +785,7 @@
                                     value="before" 
                                     class="form-check-input"
                                     [checked]="notification.isBefore === 1"
-                                    (change)="toggleNotificationValue(notification, 'isBefore')">
+                                    (change)="toggleNotificationValue(notification, 'isBefore')" [disabled]="!notification.isEditMode">
                                   <p class="form-check-label mb-0">Before</p>
                                 </label>
                               </div>
@@ -796,7 +798,7 @@
                                     value="after" 
                                     class="form-check-input"
                                     [checked]="notification.isBefore === 0"
-                                    (change)="toggleNotificationValue(notification, 'isBefore')">
+                                    (change)="toggleNotificationValue(notification, 'isBefore')" [disabled]="!notification.isEditMode">
                                   <p class="form-check-label mb-0">After</p>
                                 </label>
                               </div>
@@ -811,7 +813,7 @@
                               nzPlaceHolder="Select Duration"
                               id="minutes-{{i}}{{j}}" 
                               name="minutes-{{i}}{{j}}"
-                              
+                              [disabled]="!notification.isEditMode"
                               style="background-color: #fff !important; height:47px !important;">
                             </nz-time-picker>
                           </div>
@@ -819,7 +821,7 @@
                             <label class="form-check-label mb-2 fw-normal">Send Reminder</label>
                             <div class="send-reminder d-flex align-items-center">
                               <div class="w-50 pl-2">
-                                <label class="form-check assets-req d-flex align-items-center justify-content-start" (change)="toggleNotificationValue(notification, 'isForced')">
+                                <label class="form-check assets-req d-flex align-items-center justify-content-start" (change)="toggleNotificationValue(notification, 'isForced')" >
                                   <input 
                                     type="radio" 
                                     id="forced-{{i}}{{j}}" 
@@ -827,13 +829,13 @@
                                     value="forced" 
                                     class="form-check-input"
                                     [checked]="notification.isForced === 1"
-                                    
+                                    [disabled]="!notification.isEditMode"
                                     >
                                   <p class="form-check-label mb-0">Forced</p>
                                 </label>
                               </div>
                               <div class="w-50 pl-2 reminder-after">
-                                <label class="form-check assets-req d-flex align-items-center justify-content-start" (change)="toggleNotificationValue(notification, 'isForced')">
+                                <label class="form-check assets-req d-flex align-items-center justify-content-start" (change)="toggleNotificationValue(notification, 'isForced')" >
                                   <input 
                                     type="radio" 
                                     id="flexible-{{i}}{{j}}" 
@@ -841,6 +843,7 @@
                                     value="flexible" 
                                     class="form-check-input"
                                     [checked]="notification.isForced === 0"
+                                    [disabled]="!notification.isEditMode"
                                     >
                                   <p class="form-check-label mb-0">Flexible</p>
                                 </label>
