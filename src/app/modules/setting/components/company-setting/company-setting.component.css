@@ -1626,6 +1626,13 @@ a.fetch-location {
   border-radius: 2px;
   width: 100px;
 }
+.edit-action-btn svg{
+  position: relative;
+  top: -3px;
+}
+.edit-action-btn:hover{
+  color: black !important;
+}
 
 .add-file {
   padding: 0px 10px;
