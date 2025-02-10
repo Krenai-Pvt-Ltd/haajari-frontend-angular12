@@ -436,25 +436,6 @@ text-align: right;
 padding-right: 20px;
 }
 
-.nav-tabs .nav-link {
-font-style: normal;
-border-radius: 0px 0 0 0;
-border: none;
-padding: 7px 15px;
-font-weight: 500;
-font-size: 14px;
-line-height: 21px;
-color: #404040;
-}
-
-.nav-tabs .nav-link.active {
-border-bottom: 2px solid #6666f3;
-color: #6666f3;
-background-color: transparent;
-}
-/* .leave-delet-btn{
-  padding-top: 12px;
-} */
 
 .add-filtter {
 margin-bottom: 0;
@@ -701,32 +682,7 @@ background: #fff;
 padding: 5px 10px;
 margin-bottom: 10px;
 }
-.nav-tabs {
-box-shadow: none !important;
-background-color: #fff;
-}
-/* .nav-tabs {
-border-bottom: 1px solid #edeff5;
-} */
-.nav-tabs .nav-item {
-margin-bottom: -1px;
-margin-right: 1rem;
-}
-.nav-tabs .nav-link.active {
-border-bottom: 2px solid #6666f3;
-color: #6666f3;
-background-color: transparent;
-}
-.nav-tabs .nav-link {
-font-style: normal;
-border-radius: 0px 0 0 0;
-border: none;
-padding: 7px 15px;
-font-weight: 500;
-font-size: 14px;
-line-height: 21px;
-color: #404040;
-}
+
 .rules-main {
 padding: 15px;
 }
@@ -1620,26 +1576,6 @@ background-color: #fbfbfb;
 height: 100%;
 }
 
-.nav-pills .nav-item.show .nav-link,
-.nav-pills .nav-link.active {
-background: #f2f3ff;
-color: #000;
-border-left: 5px solid var(--primary-background-color);
-}
-.nav.nav-pills {
-background-color: transparent;
-}
-
-.nav-pills .nav-link {
-background: transparent;
-padding: 15px 10px;
-color: #6b7280;
-border-left: 5px solid transparent;
-font-size: 14px;
-font-weight: 400;
-text-align: left;
-padding-left: 35px;
-}
 .leave-period h5 {
 font-size: 14px !important;
 font-weight: 500;

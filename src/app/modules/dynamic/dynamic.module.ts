@@ -72,7 +72,6 @@ import { ReferFriendComponent } from './components/refer-friend/refer-friend.com
 import { NewEmployeeProfileComponent } from './components/new-employee-profile/new-employee-profile.component';
 import { CreateExpenseComponent } from './components/create-expense/create-expense.component';
 import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
-import { ExistPolicyComponent } from './components/exist-policy/exist-policy.component';
 import { LeaveManagementsComponent } from './components/leave-managements/leave-managements.component';
 import { InboxComponent } from './components/inbox/inbox.component';
 import { AssetsManagementComponent } from './components/assets-management/assets-management.component';
@@ -113,7 +112,7 @@ import { AssetsManagementComponent } from './components/assets-management/assets
     ReferFriendComponent,
     NewEmployeeProfileComponent,
     CreateExpenseComponent,
-    ExistPolicyComponent,
+    // ExistPolicyComponent,
     LeaveManagementsComponent,
     InboxComponent,
     AssetsManagementComponent

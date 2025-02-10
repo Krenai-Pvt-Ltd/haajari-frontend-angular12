@@ -115,43 +115,43 @@
 
       <div id="pills-tabContent" class="tab-content">
         <div *ngIf="ACTIVE_TAB == ATTENDANCE_TAB">
-          <div class="attendance-sheet mt-4">
-            <div class="row">
-              <div class="col-md-6 d-flex align-items-center justify-content-end">
-                <div class="all-approved">
-                </div>
-              </div>
-            </div>
+          <div class="attendance-list p-3 bg-white mt-4 border-rounded-2">
+           
             <div class="attendance-deta mb-2 mt-3">
               <div class="d-flex align-items-center justify-content-between">
-                <div class="staf">
-                  <p>Total Staff</p>
-                  <h5>{{ attendanceDetailsCountResponse.totalUsers }}</h5>
+                <div class="staff text-center">
+                  <p class="mb-0 font-13">Total Staff</p>
+                  <h5 class="font-14 fw-bold mb-2 mt-2">{{ attendanceDetailsCountResponse.totalUsers }}</h5>
                 </div>
-                <div class="staf">
-                  <p>Present</p>
-                  <h5>{{ attendanceDetailsCountResponse.presentUsers }}</h5>
+                <div class="staff-separator"></div>
+                <div class="staff text-center">
+                  <p class="mb-0 font-13">Present</p>
+                  <h5 class="font-14 fw-bold mb-2 mt-2">{{ attendanceDetailsCountResponse.presentUsers }}</h5>
                 </div>
-                <div class="staf">
-                  <p>Absent</p>
-                  <h5>{{ attendanceDetailsCountResponse.absentUsers }}</h5>
+                <div class="staff-separator"></div>
+                <div class="staff text-center">
+                  <p class="mb-0 font-13">Absent</p>
+                  <h5 class="font-14 fw-bold mb-2 mt-2"> {{ attendanceDetailsCountResponse.absentUsers }}</h5>
                 </div>
-                <div class="staf">
-                  <p>Not Marked</p>
-                  <h5>{{ attendanceDetailsCountResponse.unmarkedUsers }}</h5>
-                  <!-- <h5>{{halfDayUsers}}</h5> -->
+                <div class="staff-separator"></div>
+                <div class="staff text-center">
+                  <p class="mb-0 font-13">Not Marked</p>
+                  <h5 class="font-14 fw-bold mb-2 mt-2">{{ attendanceDetailsCountResponse.unmarkedUsers }}</h5>
                 </div>
-                <div class="staf">
-                  <p>Half Day</p>
-                  <h5>{{ attendanceDetailsCountResponse.halfDayUsers }}</h5>
+                <div class="staff-separator"></div>
+                <div class="staff text-center">
+                  <p class="mb-0 font-13">Half Day</p>
+                  <h5 class="font-14 fw-bold mb-2 mt-2">{{ attendanceDetailsCountResponse.halfDayUsers }}</h5>
                 </div>
-                <div class="staf">
-                  <p>OverTime</p>
-                  <h5>{{ attendanceDetailsCountResponse.overTimeUsers }}</h5>
+                <div class="staff-separator"></div>
+                <div class="staff text-center">
+                  <p class="mb-0 font-13">OverTime</p>
+                  <h5 class="font-14 fw-bold mb-2 mt-2">{{ attendanceDetailsCountResponse.overTimeUsers }}</h5>
                 </div>
-                <div class="staf">
-                  <p>On Leave</p>
-                  <h5>{{ attendanceDetailsCountResponse.usersOnLeave }}</h5>
+                <div class="staff-separator"></div>
+                <div class="staff text-center">
+                  <p class="mb-0 font-13">On Leave</p>
+                  <h5 class="font-14 fw-bold mb-2 mt-2">{{ attendanceDetailsCountResponse.usersOnLeave }}</h5>
                 </div>
               </div>
             </div>
@@ -164,9 +164,9 @@
                     <div class="position-relative">
                       <div class="dropdown w-100">
                         <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
-                          class="btn btn-secondary dropdown-toggle new-deopdown">
+                          class="btn btn-secondary dropdown-toggle new-dropdown font-13 w-100 fw-semibold text-left bg-white">
                           {{ filterCriteria }}
-                          <i class="bi bi-chevron-down font-15" style="color: #444;"></i>
+                          <i class="bi bi-chevron-down font-15 position-absolute" style="color: #444;"></i>
                         </button>
                         <ul aria-labelledby="dropdownMenuButton1 w-100" class="dropdown-menu">
                           <li *ngFor="
@@ -185,16 +185,16 @@
                   <div class="searchbr-ui " style="width:70%;" id="attendanceDataTopbar">
                     <form novalidate="" role="search" (submit)="searchUsers($event)"
                       class="searching ng-untouched ng-pristine ng-valid">
-                      <div class="form-group" style="position: relative">
+                      <div class="form-group position-relative">
                         <input type="text" id="searchText" placeholder="Search by name and role"
-                          class="form-control me-2 ng-untouched ng-pristine ng-valid attendance-details-search"
+                          class="form-control me-2 ng-untouched ng-pristine ng-valid attendance-details-search font-13 w-100 bg-white border-rounded-2"
                           (keyup)="searchUsers($event)" [(ngModel)]="searchText" [ngModelOptions]="{ standalone: true }"
                           style="padding: 10px 40px" />
-                        <button *ngIf="searchText.length !== 0" type="button" class="btn close-btn"
+                        <button *ngIf="searchText.length !== 0" type="button" class="btn close-btn fw-semibold font-20 text-primary pointer position-absolute">
                           (click)="clearSearchText()">
                           <i class="bi bi-x mt-auto mb-auto pl-3"></i>
                         </button>
-                        <i class="bi bi-search search-icon" style="margin: auto; margin-left: 15px"></i>
+                        <i class="bi bi-search search-icon mx-3 font-12 position-absolute d-flex align-items-cennter"></i>
                       </div>
                     </form>
                   </div>
@@ -220,7 +220,7 @@
                     !networkConnectionErrorForAttendanceDetailsResponse;
                   else attendanceDetailsResponseData
                 ">
-                <div class="monthly-section mt-3" *ngFor="let item of [].constructor(6)">
+                <div class="monthly-section attendance-list mb-2 bg-white p-3 mt-3 border-rounded-2" *ngFor="let item of [].constructor(6)">
                   <div class="row">
                     <div class="col-md-6">
                       <div class="m">
@@ -255,7 +255,7 @@
                       !networkConnectionErrorForAttendanceDetailsResponse;
                     else errorInFetchingAttendanceDetailsResponseData
                   ">
-                  <div class="monthly-section mt-3" *ngFor="
+                  <div class="monthly-section mb-2 mt-3 bg-white p-3 mt-3 border-rounded-2 attendance-list" *ngFor="
                       let attendanceDetailsResponse of attendanceDetailsResponseList
                         | paginate
                           : {
@@ -266,22 +266,22 @@
                     ">
                     <div class="row">
                       <div class="col-md-5">
-                        <div class="Regular-data">
-                          <h5 class="route-to-userprofile" (click)="
+                        <div class="regular-data">
+                          <h5 class="route-to-user-profile font-16 pointer" (click)="
                               routeToUserProfile(attendanceDetailsResponse.uuid)
                             ">
                             {{ attendanceDetailsResponse.name }}
                           </h5>
                           <p [ngClass]="{
-                              'in-time-color':
+                              'text-success':
                                 attendanceDetailsResponse.currentStatus ==
                                 'Working',
-                              'break-color':
+                              'text-warning':
                                 attendanceDetailsResponse.currentStatus ==
                                   'On Break' ||
                                 attendanceDetailsResponse.currentStatus ==
                                   'On Leave',
-                              'out-time-color':
+                              'text-danger':
                                 attendanceDetailsResponse.currentStatus ==
                                   'Checked Out' ||
                                 attendanceDetailsResponse.currentStatus ==
@@ -291,13 +291,13 @@
                             }">
                             {{ attendanceDetailsResponse.currentStatus }}
                           </p>
-                          <div class="add-note d-flex" style="gap: 10px">
-                            <a href="" data-bs-toggle="modal" data-bs-target="#addnotes" (click)="
+                          <div class="add-note d-flex gap-2">
+                            <a class="font-14 text-primary fw-semibold pointer" data-bs-toggle="modal" data-bs-target="#addnotes" (click)="
                                 addNotesModel(attendanceDetailsResponse.uuid)
                               ">
                               Add Note</a>
                             <a>|</a>
-                            <a href="" data-bs-toggle="modal" data-bs-target="#viewlog"
+                            <a class="font-14 text-primary fw-semibold pointer" data-bs-toggle="modal" data-bs-target="#viewlog"
                               (click)="viewLogs(attendanceDetailsResponse.uuid)">
                               View Logs</a>
                           </div>
@@ -306,9 +306,9 @@
                       <div class="col-md-7">
                         <div class="row position-relative">
                           <div class="col-md-4">
-                            <div class="in-time">
-                              <span>In </span><span>|</span>
-                              <p class="mb-0">
+                            <div class="in-time d-flex align-items-center gap-2 pointer border-rounded-2 p-2 mb-2">
+                              <span class="font-12 fw-semibold">In </span><span>|</span>
+                              <p class="mb-0 text-success font-13 fw-semibold lh-base">
                                 {{
                                 attendanceDetailsResponse.checkInTime
                                 | timeFormat
@@ -317,9 +317,9 @@
                             </div>
                           </div>
                           <div class="col-md-4">
-                            <div class="in-time">
-                              <span>Out </span> <span>|</span>
-                              <p class="mb-0">
+                            <div class="in-time d-flex align-items-center gap-2 pointer border-rounded-2 p-2 mb-2">
+                              <span class="font-12 fw-semibold">Out </span> <span>|</span>
+                              <p class="mb-0 text-success font-13 fw-semibold lh-base">
                                 {{
                                 attendanceDetailsResponse.checkOutTime
                                 | timeFormat
@@ -328,9 +328,9 @@
                             </div>
                           </div>
                           <div class="col-md-4">
-                            <div class="in-time">
-                              <span>Total Hours </span><span>|</span>
-                              <p class="mb-0">
+                            <div class="in-time d-flex align-items-center gap-2 pointer border-rounded-2 p-2 mb-2">
+                              <span class="font-12 fw-semibold">Total Hours </span><span>|</span>
+                              <p class="mb-0 text-success font-13 fw-semibold lh-base">
                                 {{
                                 attendanceDetailsResponse.totalWorkingHours
                                 | durationFormat
@@ -339,27 +339,27 @@
                             </div>
                           </div>
                           <div class="col-md-4">
-                            <div class="in-time">
-                              <span>Total Break</span> <span>|</span>
-                              <p class="mb-0">
+                            <div class="in-time d-flex align-items-center gap-2 pointer border-rounded-2 p-2 mb-2">
+                              <span class="font-12 fw-semibold">Total Break</span> <span>|</span>
+                              <p class="mb-0 text-success font-13 fw-semibold lh-base">
                                 ({{ attendanceDetailsResponse.breakCount }})
                               </p>
                             </div>
                           </div>
 
                           <div class="col-md-4" *ngIf="attendanceDetailsResponse.breakCount !== 0">
-                            <div class="in-time total-break-time-box position-relativ" (mouseover)="
+                            <div class="in-time total-break-time-box position-relative d-flex align-items-center gap-2 pointer border-rounded-2 p-2 mb-2" (mouseover)="
                                 getAttendanceDetailsBreakTimingsReportByDateByUserMethodCall(
                                   attendanceDetailsResponse
                                 )
                               ">
-                              <span>Break Timings</span> <span>|</span>
+                              <span class="font-12 fw-semibold">Break Timings</span> <span>|</span>
                               <p class="mb-0">
                                 &nbsp; &nbsp;<i style="color: black" id="dropdownMenuButton"
                                   class="bi bi-chevron-down"></i>
                               </p>
                               
-                              <div class="total-braek-time">
+                              <div class="total-braek-time bg-white position-absolute">
                                 <div *ngIf="
                                     attendanceDetailsResponse.breakTimingsList !==
                                       null &&
@@ -370,7 +370,7 @@
                                     else errorInFetchingBreakTimings
                                   ">
                                   <table class="table">
-                                    <thead class="table-light">
+                                    <thead>
                                       <tr>
                                         <th class="text-left">Break</th>
                                         <th class="text-left">Back</th>
@@ -401,16 +401,16 @@
                           </div>
 
                           <div class="col-md-4" *ngIf="attendanceDetailsResponse.breakCount === 0">
-                            <div class="in-time">
-                              <span style="color: #009688">No breaks taken! 😐</span>
+                            <div class="in-time d-flex align-items-center gap-2 pointer border-rounded-2 p-2 mb-2">
+                              <span class="font-12 fw-semibold text-success">No breaks taken! 😐</span>
                               <!-- <p class="mb-0">({{attendanceDetailsResponse.breakCount}}) </p> -->
                             </div>
                           </div>
 
                           <div class="col-md-4">
-                            <div class="in-time">
-                              <span>Total Hours </span><span>|</span>
-                              <p class="mb-0">
+                            <div class="in-time d-flex align-items-center gap-2 pointer border-rounded-2 p-2 mb-2">
+                              <span class="font-12 fw-semibold">Total Hours </span><span>|</span>
+                              <p class="mb-0 text-success font-13 fw-semibold lh-base">
                                 {{
                                 attendanceDetailsResponse.totalBreakHours
                                 | durationFormat
@@ -426,19 +426,18 @@
               </ng-template>
 
               <ng-template #errorInFetchingAttendanceDetailsResponseData>
-                <div class="errorboxmain" *ngIf="networkConnectionErrorForAttendanceDetailsResponse">
-                  <div class="errorboxinner text-center">
-                    <div class="errorboxplaceholder mb-2">
-                      <img src="assets/images/signal.svg" style="width: 80px" />
-                    </div>
-                    <div class="">
-                      <h4>Something went wrong</h4>
-                      <p>
+
+                <div class="empty-file" style="margin-top: 20%;" *ngIf="networkConnectionErrorForAttendanceDetailsResponse">
+                  <nz-empty nzNotFoundImage="assets/images/signal.svg"
+                    [nzNotFoundContent]="contentTpl">
+                    <ng-template #contentTpl>
+                      <p class="mb-3 empty-detail font-16">Something went wrong</p>
+                      <p class="mb-0 font-13">
                         An error occurred while processing your request. Please
                         refresh the page and try again.
                       </p>
-                    </div>
-                  </div>
+                    </ng-template>
+                  </nz-empty>
                 </div>
 
 
@@ -509,8 +508,8 @@
                                   !networkConnectionErrorPlaceHolder;
                                 else attendanceLogResponseData
                               ">
-                          <ul class="loges-loding" *ngFor="let item of [].constructor(5)">
-                            <li>
+                          <div class="loges-lading" *ngFor="let item of [].constructor(5)">
+                            
                               <h6>
                                 <ngx-shimmer-loading [width]="'90%'" [height]="'15px'"></ngx-shimmer-loading>
                               </h6>
@@ -520,8 +519,8 @@
                               <h6 class="mt-1">
                                 <ngx-shimmer-loading [width]="'60%'" [height]="'10px'"></ngx-shimmer-loading>
                               </h6>
-                            </li>
-                          </ul>
+                            
+                          </div>
                         </ng-container>
 
                         <ng-template #attendanceLogResponseData>
@@ -531,36 +530,35 @@
                                     !networkConnectionErrorPlaceHolder;
                                   else errorInFetchingAttendanceLogData
                                 ">
-                            <ul class="acitivity-timeline-2 list-unstyled mb-0" *ngFor="
+                            <ul class="activity-timeline-2 list-unstyled mb-0 position-relative" *ngFor="
                                     let attendanceLogResponse of attendanceLogResponseList
                                   ">
                               <li>
-                                <!-- in-time-color out-time-color break-color break-back-color -->
-                                <h6 class="fs-md mt-0" *ngIf="
+                                <h6 class="fs-md mt-0 text-capitalize" *ngIf="
                                         attendanceLogResponse.operationPerformedBy !==
                                         null
                                       ">
                                   {{ attendanceLogResponse.operationType
-                                  }}<span class="added-by" style="padding-left: 10px">(Added By -
+                                  }}<span class="added-by px-2 text-info lh-base">(Added By -
                                     {{
                                     attendanceLogResponse.operationPerformedBy
                                     }})</span>
                                 </h6>
                                 <div class="d-flex align-items-center justify-content-between acitivity-box">
-                                  <h6 class="mb-0 attendance-log" *ngIf="
+                                  <h6 class="mb-0 attendance-log text-capitalize " *ngIf="
                                         attendanceLogResponse.operationPerformedBy ===
                                         null
                                       " [ngClass]="{
-                                        'in-time-color':
+                                        'text-success':
                                           attendanceLogResponse.operationType ==
                                           'in',
-                                        'out-time-color':
+                                        'text-danger':
                                           attendanceLogResponse.operationType ==
                                           'out',
-                                        'break-color':
+                                        'text-warning':
                                           attendanceLogResponse.operationType ==
                                           'break',
-                                        'break-back-color':
+                                        'text-primary':
                                           attendanceLogResponse.operationType ==
                                           'back'
                                       }">
@@ -576,11 +574,10 @@
                                     </span>
                                   </h6>
                                   <div>
-                                    <span class="fonnt-13" style="
-                                          font-weight: 600;
+                                    <span class="fonnt-13 fw-bold" style="
                                           vertical-align: middle;
                                         ">
-                                      <i class="bi bi-calendar3" style="margin-right: 5px"></i>
+                                      <i class="bi bi-calendar3 my-2"></i>
                                       {{
                                       attendanceLogResponse.operationTime
                                       | dateFormat
@@ -603,13 +600,13 @@
                                 </div>
 
 
-                                <div class="card" *ngIf="
+                                <div class="card d-flex align-items-start justify-content-between flex-row-reverse" *ngIf="
                                         attendanceLogResponse.latString !=
                                           null &&
                                         attendanceLogResponse.longString != null
                                       ">
-                                  <div class="card-content justify-content-start">
-                                    <div class="image-section" *ngIf="
+                                  <div class="card-content d-flex align-items-center flex-row-reverse w-100 justify-content-start">
+                                    <div class="image-section text-center pl-3" *ngIf="
                                             attendanceLogResponse.imageUrlString !=
                                             null
                                           ">
@@ -619,7 +616,7 @@
                                     </div>
                                     <div class="info-section">
                                       <div>
-                                        <p class="mb-0 mt-0 location-text">
+                                        <p class="mb-0 mt-0 location-text font-14 m-0">
                                           <span><b>Location:</b></span>
                                           <span class="location-address"
                                             *ngIf="Constant.EMPTY_STRINGS.includes( attendanceLogResponse.currentAddress)">{{
@@ -678,22 +675,19 @@
                             </nz-empty>
                           </div>
 
-                          <div class="empty-file" *ngIf="networkConnectionErrorPlaceHolder">
-                            <div class="errorboxmain">
-                              <div class="errorboxinner text-center">
-                                <div class="errorboxplaceholder mb-2">
-                                  <img src="assets/images/signal.svg" style="width: 80px" />
-                                </div>
-                                <div class="">
-                                  <h4>Something went wrong</h4>
-                                  <p>
-                                    An error occurred while processing your
-                                    request. Please refresh the page and try
-                                    again.
-                                  </p>
-                                </div>
-                              </div>
-                            </div>
+                         
+
+                          <div class="empty-file" style="margin-top: 20%;" *ngIf="networkConnectionErrorPlaceHolder">
+                            <nz-empty nzNotFoundImage="assets/images/signal.svg"
+                              [nzNotFoundContent]="contentTpl">
+                              <ng-template #contentTpl>
+                                <p class="mb-3 empty-detail font-16">Something went wrong</p>
+                                <p class="mb-0 font-13">
+                                  An error occurred while processing your request. Please
+                                  refresh the page and try again.
+                                </p>
+                              </ng-template>
+                            </nz-empty>
                           </div>
                         </ng-template>
                       </div>
@@ -733,16 +727,13 @@
             </div>
           </ng-container>
           <ng-template #notShowPlaceholder>
-            <div class="errorboxmain">
-              <div class="errorboxinner text-center">
-                <div class="errorboxplaceholder mb-2">
-                  <img src="assets/images/empty-box.svg" style="width: 80px" />
-                </div>
-                <div class="">
-                  <h4>Data Not Found</h4>
-                  <p></p>
-                </div>
-              </div>
+
+            <div class="empty-file" style="margin-top: 6%">
+              <nz-empty nzNotFoundImage="assets/images/report-img.svg" [nzNotFoundContent]="contentTpl">
+                <ng-template #contentTpl>
+                  <p class="mb-1 empty-detail font-16">No data for now</p>
+                </ng-template>
+              </nz-empty>
             </div>
           </ng-template>
         </div>
@@ -840,7 +831,7 @@
                                   </div>
                                   <div class="media align-items-center">
                                     <div class="media-body ms-2 align-self-center">
-                                      <h5 class="m-0 Regular-data" (click)="
+                                      <h5 class="m-0 font-16" (click)="
                                           routeToUserProfile(
                                             overtimePendingRequestResponse.userUuid
                                           )
@@ -891,29 +882,7 @@
                     </ng-template>
 
                     <ng-template #errorWhileFetchingOvertimePendingRequestResponseListCondition>
-                      <!-- <div
-                        class="errorboxmain text-center"
-                        *ngIf="
-                          dataNotFoundForOvertimePendingRequestResponse &&
-                          !networkConnectionErrorForOvertimePendingRequestResponse
-                        "
-                      >
-                        <div class="errorboxinner">
-                          <div class="errorboxplaceholder mb-2">
-                            <img
-                              src="assets/images/empty-box.svg"
-                              style="width: 80px"
-                            />
-                          </div>
-                          <div class="">
-                            <h4>No Pending Requests!</h4>
-                            <p class="mb-0">
-                              There is no pending requests available as of now.
-                            </p>
-                          </div>
-                        </div>
-                      </div> -->
-
+                      
                       <div class="empty-file" style="margin-top: 25%" *ngIf="
                           dataNotFoundForOvertimePendingRequestResponse &&
                           !networkConnectionErrorForOvertimePendingRequestResponse
@@ -997,7 +966,7 @@
                                   </div>
                                   <div class="media align-items-center">
                                     <div class="media-body ms-2 align-self-center">
-                                      <h5 class="m-0 Regular-data" (click)="
+                                      <h5 class="m-0 font-16" (click)="
                                           routeToUserProfile(
                                             overtimeRequestResponse.userUuid
                                           )
@@ -1047,30 +1016,7 @@
                       </ng-container>
                     </ng-template>
                     <ng-template #errorWhileFetchingOvertimeRequestResponseListCondition>
-                      <!-- <div
-                        class="errorboxmain text-center"
-                        *ngIf="
-                          dataNotFoundForOvertimeRequestResponse &&
-                          !networkConnectionErrorForOvertimeRequestResponse
-                        "
-                      >
-                        <div class="errorboxinner">
-                          <div class="errorboxplaceholder mb-2">
-                            <img
-                              src="assets/images/empty-box.svg"
-                              style="width: 80px"
-                            />
-                          </div>
-                          <div class="">
-                            <h4>No Data Found</h4>
-                            <p class="mb-0">
-                              We're unable to locate a record associated with
-                              the information you entered.
-                            </p>
-                          </div>
-                        </div>
-                      </div> -->
-
+                      
                       <div class="empty-file" style="margin-top: 25%" *ngIf="
                           dataNotFoundForOvertimeRequestResponse &&
                           !networkConnectionErrorForOvertimeRequestResponse
@@ -1095,48 +1041,10 @@
                   <h4>Logs</h4>
                 </div>
                 <hr style="margin-bottom: 10px" />
-                <div class="mb-3 d-flex align-items-center" style="border: 1px solid #f1f1f1; border-radius: 2px">
-                  <!-- <div class="dropdown" style="width: 35%" *ngIf="overtimePendingRequestResponseList.length > 0">
-                    <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown">
-                      {{ selectedTeamName ? selectedTeamName : "All" }}
-                      <i class="bi bi-chevron-down" style="color: #444; font-size: 15px"></i>
-                    </button>
-                    <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu team-dropdown" style="width: 100%">
-                      <li class="ng-star-inserted" *ngIf="selectedTeamName" (click)="selectTeam('')">
-                        <a class="dropdown-item">All</a>
-                      </li>
-                      <li class="ng-star-inserted" *ngFor="let tn of teamNameList" (click)="selectTeam(tn.teamName)">
-                        <a class="dropdown-item"> {{ tn.teamName }} </a>
-                      </li>
-                    </ul>
-                  </div> -->
-                  <!-- <div class="form-group pb-1" style="width: 65%; position: relative">
-                    <input type="text" id="searchText" placeholder="Search by name or email" [(ngModel)]="searchText" class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px; border: none !important" (keyup)="searchOvertimeRequestLogResponse()" />
-                    <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px" *ngIf="searchText == ''"></i>
-                    <i class="bi bi-x search-icon" style="margin: auto; margin-left: 10px" *ngIf="searchText != ''" (click)="clearSearchUsers()"></i>
-                  </div> -->
+                <div class="mb-3 d-flex align-items-center border-rounded-2" style="border: 1px solid #f1f1f1;">
+                 
                 </div>
-                <!-- <div class="mb-3 d-flex align-items-center" style="border: 1px solid #f1f1f1; border-radius: 2px" *ngIf="ROLE != 'USER'">
-                  <div class="dropdown" style="width: 35%" *ngIf="ROLE != 'USER' || fullLeaveLogs.length > 0">
-                    <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown">
-                      {{ selectedTeamName ? selectedTeamName : "All" }}
-                      <i class="bi bi-chevron-down" style="color: #444; font-size: 15px"></i>
-                    </button>
-                    <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu team-dropdown" style="width: 100%">
-                      <li class="ng-star-inserted" *ngIf="selectedTeamName" (click)="selectTeam('')">
-                        <a class="dropdown-item">All</a>
-                      </li>
-                      <li class="ng-star-inserted" *ngFor="let tn of teamNameList" (click)="selectTeam(tn.teamName)">
-                        <a class="dropdown-item"> {{ tn.teamName }} </a>
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="form-group pb-1" style="width: 65%; position: relative">
-                    <input type="text" id="searchText" placeholder="Search" [(ngModel)]="searchString" class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px; border: none !important" (keyup)="searchLeaves()" />
-                    <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px" *ngIf="searchString == ''"></i>
-                    <i class="bi bi-x search-icon" style="margin: auto; margin-left: 10px" *ngIf="searchString != ''" (click)="clearSearchUsers()"></i>
-                  </div>
-                </div> -->
+                
 
                 <ng-container *ngIf="
                     isShimmerForOvertimeRequestLogResponse &&
@@ -1192,7 +1100,7 @@
                               </div>
                               <div class="media align-items-center">
                                 <div class="media-body ms-2 align-self-center">
-                                  <h5 class="m-0 Regular-data" (click)="
+                                  <h5 class="m-0 font-16" (click)="
                                       routeToUserProfile(
                                         overtimeRequestLogResponse.userUuid
                                       )
@@ -1258,30 +1166,7 @@
                   </ng-container>
                 </ng-template>
                 <ng-template #errorWhileFetchingOvertimeRequestLogResponseListCondition>
-                  <!-- <div
-                    class="errorboxmain text-center"
-                    *ngIf="
-                      dataNotFoundForOvertimeRequestLogResponse &&
-                      !networkConnectionErrorForOvertimeRequestLogResponse
-                    "
-                  >
-                    <div class="errorboxinner">
-                      <div class="errorboxplaceholder mb-2">
-                        <img
-                          src="assets/images/empty-box.svg"
-                          style="width: 80px"
-                        />
-                      </div>
-                      <div class="">
-                        <h4>No Data Found</h4>
-                        <p class="mb-0">
-                          We're unable to locate a record associated with the
-                          information you entered.
-                        </p>
-                      </div>
-                    </div>
-                  </div> -->
-
+                  
                   <div class="empty-file" style="margin-top: 25%" *ngIf="
                       dataNotFoundForOvertimeRequestLogResponse &&
                       !networkConnectionErrorForOvertimeRequestLogResponse
@@ -1397,7 +1282,7 @@
                                   </div>
                                   <div class="media align-items-center">
                                     <div class="media-body ms-2 align-self-center">
-                                      <h5 class="m-0 Regular-data" (click)="
+                                      <h5 class="m-0 font-16" (click)="
                                           routeToUserProfile(
                                             attendanceRequest.userUuid
                                           )
@@ -1475,28 +1360,7 @@
                     </ng-template>
 
                     <ng-template #errorWhileFetchingAttendanceUpdatePendingRequestResponseListCondition>
-                      <!-- <div
-                        class="errorboxmain text-center"
-                        *ngIf="
-                          dataNotFoundForAttendanceUpdatePendingRequestResponse &&
-                          !networkConnectionErrorForAttendanceUpdatePendingRequestResponse
-                        "
-                      >
-                        <div class="errorboxinner">
-                          <div class="errorboxplaceholder mb-2">
-                            <img
-                              src="assets/images/empty-box.svg"
-                              style="width: 80px"
-                            />
-                          </div>
-                          <div class="">
-                            <h4>No Pending Requests!</h4>
-                            <p class="mb-0">
-                              There is no pending requests available as of now.
-                            </p>
-                          </div>
-                        </div>
-                      </div> -->
+                     
                       <div class="empty-file" style="margin-top: 25%" *ngIf="
                           dataNotFoundForAttendanceUpdatePendingRequestResponse &&
                           !networkConnectionErrorForAttendanceUpdatePendingRequestResponse
@@ -1583,7 +1447,7 @@
                                   </div>
                                   <div class="media align-items-center">
                                     <div class="media-body ms-2 align-self-center">
-                                      <h5 class="m-0 Regular-data" (click)="
+                                      <h5 class="m-0 font-16" (click)="
                                           routeToUserProfile(
                                             attendanceRequestHistory.userUuid
                                           )
@@ -1646,45 +1510,10 @@
                             <!--end col-->
                           </div>
                         </div>
-                        <!-- <div class="align-self-center text-center mt-2" *ngIf="!initialLoadDoneOfApprovedRejected">
-                          <button type="button" class="btn btn-xs btn-light btn-round" *ngIf="approvedRejectedLeavesSize > 4" (click)="loadMoreApprovedRejectedLogs()"> Load More <i class="bi bi-chevron-down"></i>
-                          </button>
-                        </div>
-                        <div class="text-center load-more-btn" *ngIf="
-                            isApprovedRejectedLoader && approvedRejectedLeavesSize > 4
-                          ">
-                          <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
-                          <div>
-                            <small>Loading...</small>
-                          </div>
-                        </div> -->
                       </ng-container>
                     </ng-template>
                     <ng-template #errorWhileFetchingAttendanceUpdateRequestResponseListCondition>
-                      <!-- <div
-                        class="errorboxmain text-center"
-                        *ngIf="
-                          dataNotFoundForAttendanceUpdateRequestResponse &&
-                          !networkConnectionErrorForAttendanceUpdateRequestResponse
-                        "
-                      >
-                        <div class="errorboxinner">
-                          <div class="errorboxplaceholder mb-2">
-                            <img
-                              src="assets/images/empty-box.svg"
-                              style="width: 80px"
-                            />
-                          </div>
-                          <div class="">
-                            <h4>No Data Found</h4>
-                            <p class="mb-0">
-                              We're unable to locate a record associated with
-                              the information you entered.
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                      -->
+                     
 
                       <div class="empty-file" style="margin-top: 25%" *ngIf="
                           dataNotFoundForOvertimeRequestResponse &&
@@ -1710,51 +1539,7 @@
                   <h4>Logs</h4>
                 </div>
                 <hr style="margin-bottom: 10px" />
-                <!-- <div
-                  class="mb-3 d-flex align-items-center"
-                  style="border: 1px solid #f1f1f1; border-radius: 2px"
-                >
-                   <div class="dropdown" style="width: 35%" *ngIf="overtimePendingRequestResponseList.length > 0">
-                    <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown">
-                      {{ selectedTeamName ? selectedTeamName : "All" }}
-                      <i class="bi bi-chevron-down" style="color: #444; font-size: 15px"></i>
-                    </button>
-                    <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu team-dropdown" style="width: 100%">
-                      <li class="ng-star-inserted" *ngIf="selectedTeamName" (click)="selectTeam('')">
-                        <a class="dropdown-item">All</a>
-                      </li>
-                      <li class="ng-star-inserted" *ngFor="let tn of teamNameList" (click)="selectTeam(tn.teamName)">
-                        <a class="dropdown-item"> {{ tn.teamName }} </a>
-                      </li>
-                    </ul>
-                  </div>
-                   <div class="form-group pb-1" style="width: 65%; position: relative">
-                    <input type="text" id="searchText" placeholder="Search by name or email" [(ngModel)]="searchText" class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px; border: none !important" (keyup)="searchOvertimeRequestLogResponse()" />
-                    <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px" *ngIf="searchText == ''"></i>
-                    <i class="bi bi-x search-icon" style="margin: auto; margin-left: 10px" *ngIf="searchText != ''" (click)="clearSearchUsers()"></i>
-                  </div>
-                </div> -->
-                <!-- <div class="mb-3 d-flex align-items-center" style="border: 1px solid #f1f1f1; border-radius: 2px" *ngIf="ROLE != 'USER'">
-                  <div class="dropdown" style="width: 35%" *ngIf="ROLE != 'USER' || fullLeaveLogs.length > 0">
-                    <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown">
-                      {{ selectedTeamName ? selectedTeamName : "All" }}
-                      <i class="bi bi-chevron-down" style="color: #444; font-size: 15px"></i>
-                    </button>
-                    <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu team-dropdown" style="width: 100%">
-                      <li class="ng-star-inserted" *ngIf="selectedTeamName" (click)="selectTeam('')">
-                        <a class="dropdown-item">All</a>
-                      </li>
-                      <li class="ng-star-inserted" *ngFor="let tn of teamNameList" (click)="selectTeam(tn.teamName)">
-                        <a class="dropdown-item"> {{ tn.teamName }} </a>
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="form-group pb-1" style="width: 65%; position: relative">
-                    <input type="text" id="searchText" placeholder="Search" [(ngModel)]="searchString" class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px; border: none !important" (keyup)="searchLeaves()" />
-                    <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px" *ngIf="searchString == ''"></i>
-                    <i class="bi bi-x search-icon" style="margin: auto; margin-left: 10px" *ngIf="searchString != ''" (click)="clearSearchUsers()"></i>
-                  </div>
-                </div> -->
+                
 
                 <ng-container *ngIf="
                     isShimmerForAttendanceUpdateRequestLogResponse &&
@@ -1802,7 +1587,7 @@
                               </div>
                               <div class="media align-items-center">
                                 <div class="media-body ms-2 align-self-center">
-                                  <h5 class="m-0 Regular-data" (click)="
+                                  <h5 class="m-0 font-16" (click)="
                                       routeToUserProfile(
                                         attenFullRequestLog.userUuid
                                       )
@@ -1921,7 +1706,7 @@
 
         <div class="row" *ngIf="ACTIVE_TAB == ATTENDANCE_UPDATE_REQUEST_TAB_NEW">
           <div class="col-md-12 mt-4 mb-4">
-            <ul id="pills-tab" role="tablist" class="nav nav-pills">
+            <ul id="pills-tab" role="tablist" class="nav nav-pills nav-pills-punch">
               <li class="nav-item">
                 <a id="pills-announcement-tab" data-bs-toggle="pill" href="#missedPunch" role="tab"
                  aria-controls="pills-announcement" aria-selected="false"
@@ -2838,23 +2623,7 @@
               <i class="bi bi-x search-icon" style="margin: auto; margin-left: 10px"
                 *ngIf="attendanceRequestSearchString != ''" (click)="clearSearchUsersOfRequestLogs()"></i>
             </div>
-            <!-- <div
-              class="errorboxmain text-center"
-              *ngIf="fullAttendanceRequestCount == 0"
-            >
-              <div class="errorboxinner">
-                <div class="errorboxplaceholder mb-2">
-                  <img src="assets/images/empty-box.svg" style="width: 80px" />
-                </div>
-                <div class="">
-                  <h4>No pending requests!</h4>
-                  <p class="mb-0">
-                    We're unable to locate a record associated with the
-                    information you entered.
-                  </p>
-                </div>
-              </div>
-            </div> -->
+          
 
             <div class="empty-file" *ngIf="fullAttendanceRequestCount == 0">
               <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
@@ -2865,7 +2634,7 @@
             </div>
             <div class="logs-container" *ngIf="fullAttendanceRequestCount > 0" #logContainer
               (scroll)="scrollDownRecentActivity($event)">
-              <div class="log-entry" *ngFor="let log of attendanceRequests">
+              <div class="log-entry p-3 mb-2 border-rounded-2" *ngFor="let log of attendanceRequests">
                 <!-- <h6>Attendance Update Request</h6> -->
                 <div class="log-header" *ngIf="log.requestType === 'UPDATE'">
                   <h6>
@@ -2958,26 +2727,7 @@
                   *ngIf="fullAttendanceRequestSearchString != ''" (click)="clearSearchUsersOfFullLogs()"></i>
               </div>
 
-              <!-- <div
-                class="errorboxmain text-center"
-                *ngIf="totalAttendanceRequestCount == 0"
-              >
-                <div class="errorboxinner">
-                  <div class="errorboxplaceholder mb-2">
-                    <img
-                      src="assets/images/empty-box.svg"
-                      style="width: 80px"
-                    />
-                  </div>
-                  <div class="">
-                    <h4>No Data Found</h4>
-                    <p class="mb-0">
-                      We're unable to locate a record associated with the
-                      information you entered.
-                    </p>
-                  </div>
-                </div>
-              </div> -->
+            
 
               <div class="empty-file" *ngIf="totalAttendanceRequestCount == 0">
                 <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
@@ -3004,13 +2754,13 @@
                         </div>
                         <div class="media align-items-center">
                           <div class="media-body ms-2 align-self-center">
-                            <h5 class="m-0 Regular-data">
+                            <h5 class="m-0 font-16">
                               {{ log.userName }}
                             </h5>
                             <p class="text-muted font-12 mb-0">
-                              <span style="color: orange" *ngIf="log.status == 'PENDING'">Requested To</span>
-                              <span style="color: green" *ngIf="log.status == 'APPROVED'">Approved By</span>
-                              <span style="color: rgb(255, 55, 0)" *ngIf="log.status == 'REJECTED'">Rejected By</span>
+                              <span class="text-warning" *ngIf="log.status == 'PENDING'">Requested To</span>
+                              <span class="text-success" *ngIf="log.status == 'APPROVED'">Approved By</span>
+                              <span class="text-danger" *ngIf="log.status == 'REJECTED'">Rejected By</span>
                               {{ log.managerName }}
                             </p>
                           </div>
@@ -3525,16 +3275,15 @@
         </ng-template>
 
         <ng-template #errorInOnboardUserListCondition>
-          <div class="errorboxmain" *ngIf="networkConnectionErrorPlaceholderModal">
-            <div class="errorboxinner text-center">
-              <div class="errorboxplaceholder mb-2">
-                <img src="assets/images/signal.svg" style="width: 80px" />
-              </div>
 
-              <h4>Something went wrong!</h4>
-
-              <p>An error occurred while processing your request!</p>
-            </div>
+          <div class="empty-file" style="margin-top: 20%;" *ngIf="networkConnectionErrorPlaceholderModal">
+            <nz-empty nzNotFoundImage="assets/images/signal.svg"
+              [nzNotFoundContent]="contentTpl">
+              <ng-template #contentTpl>
+                <p class="mb-3 empty-detail font-16">Something went wrong</p>
+                <p class="mb-0 font-13"> An error occurred while processing your request! </p>
+              </ng-template>
+            </nz-empty>
           </div>
         </ng-template>
       </div>

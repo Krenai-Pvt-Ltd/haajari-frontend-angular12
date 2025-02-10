@@ -34,7 +34,6 @@ import { PreviewFormComponent } from '../employee-onboarding/preview-form/previe
 import { ReferFriendComponent } from './components/refer-friend/refer-friend.component';
 import { NewEmployeeProfileComponent } from './components/new-employee-profile/new-employee-profile.component';
 import { CreateExpenseComponent } from './components/create-expense/create-expense.component';
-import { ExistPolicyComponent } from './components/exist-policy/exist-policy.component';
 import { LeaveManagementsComponent } from './components/leave-managements/leave-managements.component';
 import { InboxComponent } from './components/inbox/inbox.component';
 import { AssetsManagementComponent } from './components/assets-management/assets-management.component';
@@ -180,11 +179,6 @@ const routes: Routes = [
       {
         path: 'expense',
         component: CreateExpenseComponent,
-        canActivate: [AuthGuard, SubscriptionGuard]
-      },
-      {
-        path: 'exit-policy',
-        component: ExistPolicyComponent,
         canActivate: [AuthGuard, SubscriptionGuard]
       },
       {
