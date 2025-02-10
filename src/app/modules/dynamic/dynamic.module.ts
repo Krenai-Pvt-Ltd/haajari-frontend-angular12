@@ -76,6 +76,7 @@ import { ExistPolicyComponent } from './components/exist-policy/exist-policy.com
 import { LeaveManagementsComponent } from './components/leave-managements/leave-managements.component';
 import { InboxComponent } from './components/inbox/inbox.component';
 import { AssetsManagementComponent } from './components/assets-management/assets-management.component';
+import { NgApexchartsModule } from "ng-apexcharts";
 
 
  @NgModule({
@@ -163,7 +164,8 @@ import { AssetsManagementComponent } from './components/assets-management/assets
     NzButtonModule,
     NzPopoverModule,
     NzEmptyModule,
-    NzAutocompleteModule
+    NzAutocompleteModule,
+    NgApexchartsModule
   ],
   exports: [DurationFormatPipe],
   providers: [
