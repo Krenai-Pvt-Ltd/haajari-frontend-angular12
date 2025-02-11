@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, NgForm } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Key } from 'src/app/constant/key';
@@ -29,6 +29,7 @@ export class AssetsManagementComponent implements OnInit {
   ngOnInit(): void {
     this.getPendingRequestsCounter();
     this.dashboard();
+    this.getOrganizationUserList();
     this.searchControl.valueChanges.pipe(
       debounceTime(300),
       distinctUntilChanged()
@@ -46,6 +47,13 @@ export class AssetsManagementComponent implements OnInit {
     { id: 65, name: 'MAINTENANCE' },
     { id: 66, name: 'DAMAGED' }
   ];
+  statusClassMapping: { [key: string]: string } = {
+    '62': 'text-success',   // ASSIGNED
+    '63': 'text-secondary',  // UNAVAILABLE
+    '64': 'text-primary',    // AVAILABLE
+    '65': 'text-warning',    // MAINTENANCE
+    '66': 'text-danger'      // DAMAGED
+  };
 
   dashboard(): void {
     this.fetchCategorySummary();
@@ -103,6 +111,54 @@ export class AssetsManagementComponent implements OnInit {
       );
   }
 
+  assetData: any = {
+    assetName: '',
+    serialNumber: '',
+    purchasedDate: null,
+    expiryDate: null,
+    price: '',
+    location: '',
+    vendorName: '',
+    userId: null,
+    assignedDate: null,
+    categoryId: ''
+  };
+
+  assetCreateLoading: boolean = false;
+  @ViewChild('closeBtn') closeBtn!: ElementRef<HTMLButtonElement>;
+  onSubmit(form: NgForm): void {
+    this.assetCreateLoading=true;
+    if (form.valid) {
+      this.dataService.createAssets(this.assetData).subscribe(
+        (response: any) => {
+          this.assetCreateLoading=false;
+          if (response.status) {
+            this.closeBtn.nativeElement.click();
+            this.helperService.showToast('Asset successfully created', Key.TOAST_STATUS_SUCCESS);
+          } else {
+            this.helperService.showToast('Asset creation failed', Key.TOAST_STATUS_ERROR);
+          }
+        },
+        error => {
+          this.assetCreateLoading = false;
+          console.error('An error occurred:', error);
+        }
+      );
+    } else {
+      // Optionally mark all fields as touched to show errors
+      Object.values(form.controls).forEach(control => {
+        control.markAsTouched();
+      });
+    }
+  }
+
+  onCloseAddAssetModal(form: NgForm): void {
+    form.resetForm();
+    Object.values(form.controls).forEach(control => {
+      control.markAsUntouched();
+    });
+  }
+
 
 
 
@@ -113,7 +169,6 @@ export class AssetsManagementComponent implements OnInit {
     this.currentPage = 1;
     this.loadAssets();
     this.fetchTeamSummary();
-    this.getOrganizationUserList();
   }
 
     assets: any[] = [];
@@ -129,6 +184,7 @@ export class AssetsManagementComponent implements OnInit {
           this.isAssetLoading = false;
           this.assets = response.content; // Assuming `content` holds the paginated data
           this.totalItems = response.totalElements; // Extract total pages from response
+          this.activeFilterTemp= this.activeFilters;
         },
       (error) => {
         this.isAssetLoading=false;
@@ -203,6 +259,7 @@ export class AssetsManagementComponent implements OnInit {
 
 
     activeFilters: Filter[] = [];
+    activeFilterTemp: Filter[] = [];
     updateActiveFilters(): void {
       this.activeFilters = [];
 
@@ -252,6 +309,62 @@ export class AssetsManagementComponent implements OnInit {
       this.loadAssets();
     }
 
+    statusChangeAssetId: number=0;
+    statusChangeId: number=0;
+    statusChangeDescription: string= '';
+    statusChangeUserId: number=0;
+    isUserEnable: boolean = false;
+    changeStatusModal(assetId: number, statusId: number, userId: number, isUserEnable: boolean): void {
+      this.statusChangeAssetId = assetId;
+      this.statusChangeId = statusId;
+      this.statusChangeUserId = userId;
+      this.isUserEnable = isUserEnable;
+    }
+
+    statusChangeLoading: boolean = false;
+    updateAssetStatus(): void {
+      this.statusChangeLoading = true;
+      this.dataService.changeStatus(this.statusChangeAssetId, this.statusChangeId, this.statusChangeDescription, this.statusChangeUserId)
+        .subscribe({
+          next: (response: any) => {
+            this.statusChangeLoading = false;
+            this.closeBtnDes.nativeElement.click();
+            if (response.status) {
+              this.loadAssets();
+              console.log('Asset status updated successfully:', response.message);
+            } else {
+              console.error('Failed to update asset status:', response.message);
+            }
+          },
+          error: (err) => {
+            this.closeBtnDes.nativeElement.click();
+            this.statusChangeLoading = false;
+            console.error('Error updating asset status:', err);
+          }
+        });
+    }
+    @ViewChild('closeBtnDes') closeBtnDes!: ElementRef<HTMLButtonElement>;
+    onCloseChangeStatusModal(): void {
+      this.statusChangeAssetId = 0;
+      this.statusChangeId = 0;
+      this.statusChangeUserId = 0;
+      this.statusChangeDescription = '';
+      this.isUserEnable = false;
+    }
+
+    assetHistory: any;
+    currentAsset: any;
+    loadAssetHistory(asset: any): void {
+      this.currentAsset = asset;
+      this.dataService.getAssetHistory(asset.id).subscribe(
+        (data:any) => {
+          this.assetHistory = data;
+        },
+        (error) => {
+          console.error('Error fetching asset history', error);
+        }
+      );
+    }
 
 
   // Assets Requests
@@ -286,6 +399,7 @@ export class AssetsManagementComponent implements OnInit {
           this.assetRequestsTotalPage=response.totalPages;
           this.assetRequestsTotalCount=response.totalItems;
           this.isLoading = false;
+          this.selectedFiltersArray = Array.from(this.selectedFilters);
         },
         (error) => {
           this.isLoading = false;
@@ -406,12 +520,11 @@ export class AssetsManagementComponent implements OnInit {
       return this.selectedFilters.has(filter);
     }
 
-    get selectedFiltersArray(): string[] {
-      return Array.from(this.selectedFilters);
-    }
 
+    selectedFiltersArray: string[] = [];
     removeFilter(status: string): void {
       this.selectedFilters.delete(status);
+      this.selectedFiltersArray = Array.from(this.selectedFilters);
       this.assetRequestsPage = 1;
       this.getAssetRequests();
     }

@@ -5045,6 +5045,20 @@ getHolidayForOrganizationWhatsapp(userUuid: string, date: string): Observable<an
   getOrganizationUserList(): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/assets/user/list`);
   }
+  createAssets(asset: any): Observable<any> {
+    return this.httpClient.post<any>(`${this.baseUrl}/assets/create`, asset);
+  }
+  changeStatus(assetId: number, status: number, description: string, userId: number): Observable<any> {
+    const url = `${this.baseUrl}/${assetId}/status`;
+    const params = new HttpParams()
+      .set('status', status.toString())
+      .set('description', description)
+      .set('userId', userId);
+    return this.httpClient.put<any>(`${this.baseUrl}/assets/${assetId}/status`, null, { params });
+  }
+  getAssetHistory(assetId: number): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/assets/${assetId}/history`);
+  }
 
 }
 
