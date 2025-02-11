@@ -439,17 +439,20 @@
                         <!-- <div>
                           <img src="assets/images/total-employee-graph.png" class="w-80 position-relative" style="top:-7px;">
                         </div> -->
-                        <div id="chart">
-                            <apx-chart
-                              [series]="chartOptions.series"
-                              [chart]="chartOptions.chart"
-                              [legends]="chartOptions.legend"
-                              [grid]="chartOptions.grid"
-                              [plotOptions]="chartOptions.plotOptions"
-                              [responsive]="chartOptions.responsive">
-                            </apx-chart>
+                        <!-- <div id="chart"> -->
+                          <apx-chart
+                          [series]="chartOptions.series"
+                          [chart]="chartOptions.chart"
+                          [legend]="chartOptions.legend" 
+                          [grid]="chartOptions.grid"
+                          [plotOptions]="chartOptions.plotOptions"
+                          [dataLabels]="chartOptions.dataLabels"  
+                          [tooltip]="chartOptions.tooltip" 
+                          >
+                        </apx-chart>
                         
-                        </div>
+                        
+                        <!-- </div> -->
                       </div>
                      
 
