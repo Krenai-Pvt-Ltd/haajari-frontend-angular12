@@ -60,6 +60,7 @@ export class CompanySettingComponent implements OnInit {
     this.getAllRolesMethodCall();
     this.fetchOnboardingModules();
     this.fetchDocuments();
+    this.getMasterAttendanceModeMethodCall();
   }
 
 
@@ -1909,6 +1910,25 @@ handleSwitchDisable(type: string): Promise<void> {
     );
   });
 }
+
+
+ masterAttendanceModeId: number = 0;
+  getMasterAttendanceModeMethodCall() {
+    debugger;
+    this.dataService.getMasterAttendanceMode().subscribe(
+      (response: any) => {
+        debugger;
+        if (response.status) {
+          this.masterAttendanceModeId = response.object;
+        }
+        console.log(this.masterAttendanceModeId);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
 
 
 }
