@@ -2110,8 +2110,8 @@ export class TimetableComponent implements OnInit {
   getRequestCountByOrganizationUuid() {
     this.dataService.getRequestCountByOrganizationUuid().subscribe(
       (response: any) => {
-        this.overtimeCount = response.object.count1;
-        this.attendanceUpdateCount = response.object.count2;
+        this.overtimeCount = response.object.overtimeRequestCount;
+        this.attendanceUpdateCount = response.object.attendanceUpdationRequestCount;
       },
       (error) => {
         console.error('Error fetching user count by status:', error);

@@ -75,6 +75,7 @@ import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
 import { LeaveManagementsComponent } from './components/leave-managements/leave-managements.component';
 import { InboxComponent } from './components/inbox/inbox.component';
 import { AssetsManagementComponent } from './components/assets-management/assets-management.component';
+import { NgApexchartsModule } from "ng-apexcharts";
 import { ExpenseManagementComponent } from './components/expense-management/expense-management.component';
 
 
@@ -164,7 +165,8 @@ import { ExpenseManagementComponent } from './components/expense-management/expe
     NzButtonModule,
     NzPopoverModule,
     NzEmptyModule,
-    NzAutocompleteModule
+    NzAutocompleteModule,
+    NgApexchartsModule
   ],
   exports: [DurationFormatPipe],
   providers: [
