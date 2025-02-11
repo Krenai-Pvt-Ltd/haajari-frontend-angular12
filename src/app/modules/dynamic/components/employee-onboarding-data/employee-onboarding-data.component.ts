@@ -195,6 +195,17 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     window.open(url, '_blank');
   }
 
+
+  routeToAddUserInShift() {
+    this.router.navigate([Key.ATTENDANCE_SETTING_ROUTE]);
+    // const url = this.router.createUrlTree([Key.ATTENDANCE_SETTING_ROUTE]).toString();
+    // window.open(url, '_blank');
+  }
+  routeToAddUserInLeavePolicy() {
+    this.router.navigate([Key.LEAVE_SETTING_ROUTE]);
+  
+  }
+
   // randomUserUrl = 'http://localhost:8080/api/v2/users/fetch-team-list-user';
   searchChange$ = new BehaviorSubject('');
   optionList: string[] = [];
@@ -302,8 +313,13 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   //   return Array.from(new Set([...this.selectedStatusFilters, ...this.selectedAccessibilityFilters])).filter(f => f !== 'ALL');
   // }
 
+
   // Remove selected filter and refresh users
 removeFilter(filter: string) {
+
+  debugger
+  this.appliedFilters = this.appliedFilters.filter(f => f !== filter);
+
   // Check if the filter exists in Status Filters and remove it
   if (this.selectedStatusFilters.includes(filter)) {
     this.selectedStatusFilters = this.selectedStatusFilters.filter(s => s !== filter);
@@ -332,6 +348,8 @@ getCombinedFilters(): string[] {
   return Array.from(new Set([...this.selectedStatusFilters, ...this.selectedAccessibilityFilters])).filter(f => f !== 'ALL');
 }
 
+  appliedFilters: string[] = []
+
   
   
   // Fetch Users Based on Filters
@@ -346,6 +364,7 @@ getCombinedFilters(): string[] {
       // let finalStatusFilters = this.selectedStatusFilters.includes('ALL') ? [] : this.selectedStatusFilters;
       // let finalAccessibilityFilters = this.selectedAccessibilityFilters.includes('ALL') ? [] : this.selectedAccessibilityFilters;
       // [...finalStatusFilters, ...finalAccessibilityFilters] // Merging both filters
+      this.appliedFilters = this.getCombinedFilters();
       this.dataService
         .getUsersByFilterForEmpOnboardingNew(
           this.itemPerPage,
@@ -381,9 +400,11 @@ getCombinedFilters(): string[] {
   resetFilters() {
     this.selectedStatusFilters = ['ALL']; // Reset status filters
     this.selectedAccessibilityFilters = ['ALL']; // Reset accessibility filters
+    this.appliedFilters = [];
     this.getUsersByFiltersFunction();
   }
 
+  
 
 
   onboardUserTeam : any[] = [];
@@ -2803,8 +2824,8 @@ console.log(this.data);
   getUsersCountByStatus() {
     this.dataService.getUsersCountByStatus().subscribe(
       (response: any) => {
-        this.resignationCount = response.object.count1;
-        this.editProfileCount = response.object.count2;
+        this.resignationCount = response.object.totalResignRequest;
+        this.editProfileCount = response.object.totalProfileEditRequest;
         this.resignationUsersImage = response.object.resignationUsersImage;
         this.empProfileEditRequestUsersImage = response.object.empProfileEditRequestUsersImage;
       },
