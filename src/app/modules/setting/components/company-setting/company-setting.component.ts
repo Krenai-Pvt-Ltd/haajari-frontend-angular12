@@ -1814,11 +1814,19 @@ saveNotification(notification: any, type: string, index: number): void {
   this.dataService.saveNotification(notificationData).subscribe(
     response => {
       console.log('Notification updated successfully', response);
+      this.helperService.showToast(
+        "Notification updated successfully",
+        Key.TOAST_STATUS_SUCCESS
+      );
       // this.notificationTypes(); // Refresh notifications list
     },
     error => {
       console.error('Error updating notification', error);
-      // this.notificationTypes();
+      this.helperService.showToast(
+        "Error updating notification",
+        Key.TOAST_STATUS_ERROR
+      );
+      this.notificationTypes();
     },
     () => {
       this.loadingFlags2[type][index] = false; // Stop loading
