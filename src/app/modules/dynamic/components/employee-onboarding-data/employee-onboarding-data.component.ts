@@ -2803,8 +2803,8 @@ console.log(this.data);
   getUsersCountByStatus() {
     this.dataService.getUsersCountByStatus().subscribe(
       (response: any) => {
-        this.resignationCount = response.object.count1;
-        this.editProfileCount = response.object.count2;
+        this.resignationCount = response.object.totalResignRequest;
+        this.editProfileCount = response.object.totalProfileEditRequest;
         this.resignationUsersImage = response.object.resignationUsersImage;
         this.empProfileEditRequestUsersImage = response.object.empProfileEditRequestUsersImage;
       },
