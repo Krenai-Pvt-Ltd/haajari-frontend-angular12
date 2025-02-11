@@ -112,6 +112,7 @@ export class AssetsManagementComponent implements OnInit {
   }
 
   assetData: any = {
+    id: 0,
     assetName: '',
     serialNumber: '',
     purchasedDate: null,
@@ -365,6 +366,23 @@ export class AssetsManagementComponent implements OnInit {
         }
       );
     }
+
+  updateAsset(asset: any): void {
+    this.assetData.id = asset.id;
+    this.assetData.assetName = asset.assetName;
+    this.assetData.serialNumber = asset.serialNumber;
+    this.assetData.purchasedDate = asset.purchasedDate;
+    this.assetData.expiryDate = asset.expiryDate;
+    this.assetData.price = asset.price;
+    this.assetData.location = asset.location;
+    this.assetData.vendorName = asset.vendorName;
+
+    this.assetData.userId = asset.assignedToId;
+    this.assetData.assignedDate = null;
+    this.assetData.categoryId = asset.assetCategoryId;
+  }
+
+
 
 
   // Assets Requests

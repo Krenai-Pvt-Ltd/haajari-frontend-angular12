@@ -1477,7 +1477,7 @@
                                                                     maintenance </a>
                                                             </li>
                                                             <li>
-                                                                <a class="dropdown-item">
+                                                                <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#createAssetsModal" (click)="updateAsset(asset)">
                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
                                                                         <mask id="mask0_8123_5702" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
                                                                         <rect y="0.5" width="20" height="20" fill="#D9D9D9"/>
@@ -2295,7 +2295,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">
-          Create Assets
+           Assets
         </h5>
         <button type="button" #closeBtn class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="onCloseAddAssetModal(categoryForm)"></button>
       </div>
@@ -2733,8 +2733,8 @@
         <button type="button" #closeBtnDes class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="onCloseChangeStatusModal()"></button>
       </div>
       <div class="modal-body">
-
-        <textarea class="form-control transparent-bg no-resize hide-scrollbar w-100 font-14" placeholder="Enter description..." rows="1"></textarea>
+        {{statusChangeDescription}}
+        <textarea class="form-control transparent-bg no-resize hide-scrollbar w-100 font-14" [(ngModel)]="statusChangeDescription" placeholder="Enter description..." rows="1"></textarea>
         <div *ngIf="isUserEnable" class="col-md-6 mb-3">
           <label for="userId" class="form-label">
             Select User <span class="text-muted">(optional)</span>
@@ -2748,7 +2748,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" (click)="updateAssetStatus()">
+        <button [disabled]="statusChangeLoading" type="button" class="btn btn-primary" (click)="updateAssetStatus()">
 
           <span *ngIf="!statusChangeLoading">Save changes</span>
           <div class="dot-opacity-loader" *ngIf="statusChangeLoading">
