@@ -13,4 +13,6 @@ export class EmployeeOnboardingDataDto {
   resignationStatus: any;
   userExistInExitPolicy: number = 0;
   employeeCode!: string;
+  userShiftName!: string;
+  userLeavePolicyName!: string;
 }
