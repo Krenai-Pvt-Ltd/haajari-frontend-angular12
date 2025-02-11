@@ -110,7 +110,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     grid: {
       show: false,
       padding: {
-        bottom: -138
+        bottom: -80
       }
     },
     // Hide the legend
