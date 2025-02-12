@@ -5059,6 +5059,9 @@ getHolidayForOrganizationWhatsapp(userUuid: string, date: string): Observable<an
   getAssetHistory(assetId: number): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/assets/${assetId}/history`);
   }
+  getAssetChangePercentageList(): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/assets/status-changes`);
+  }
 
 }
 

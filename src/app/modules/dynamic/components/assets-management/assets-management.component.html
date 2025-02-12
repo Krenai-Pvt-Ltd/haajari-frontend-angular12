@@ -26,7 +26,7 @@
                             <div class="row mt-3">
                                 <div class="col-md-3">
                                     <div class="assets-report">
-                                        <div class="date-range d-flex align-items-center justify-content-between p-2">
+                                        <div class="date-range d-flex align-items-center justify-content-between p-2 d-none">
                                             <h5 class="mb-0 font-16 fw-normal">Date Range</h5>
                                             <div class="d-flex align-items-center attendance-date">
                                                 <span class="d-flex align-items-center justify-content-center pointer calendar-back-btn">
@@ -335,6 +335,11 @@
                                         <div class="mt-3 assets-categories">
                                             <div class="categories-header p-3 d-flex align-items-center justify-content-between">
                                                 <h5 class="mb-0 font-15 fw-semibold">Categories</h5>
+                                                <button type="button" data-bs-toggle="modal" data-bs-target="#createCategoryModal"
+                                                (click)="assignCategoryId(0)" class="btn p-0 text-primary font-14 add-icon fw-semibold">
+                                                <i class="bi bi-plus position-relative font-20"></i> Create
+                                                Category
+                                              </button>
                                                 <button class="btn p-0 font-14 text-primary fw-semibold" data-bs-toggle="modal" data-bs-target="#createAssetsModal" AssetsDetailModal><i class="bi bi-plus-lg"></i>  Add Assets</button>
                                             </div>
                                             <div class="row">
@@ -363,6 +368,8 @@
                                                             data-bs-toggle="pill" data-bs-target="#v-pills-laptops" type="button" role="tab" aria-controls="v-pills-laptops" (click)="assetSummaryCategoryId= category.categoryId; fetchAssetSummary();"
                                                             [attr.aria-selected]="i === 0 ? 'true' : 'false'" [id]="'v-pills-tab-' + i" class="nav-link" [class.active]="i === 0">
                                                             {{ category.categoryName }} ({{ category.assetCount }})
+                                                            <i class="bi bi-pencil" data-bs-toggle="modal" data-bs-target="#createCategoryModal"
+                                                                (click)="assignCategoryId(category.categoryId)"></i>
                                                           </button>
                                                         </div>
                                                      </div>
@@ -384,7 +391,7 @@
                                                                                 <th class="fw-semibold">Stock</th>
                                                                             </tr>
                                                                         </thead>
-                                                                        <tbody>
+                                                                        <tbody *ngIf="assetSummary.length>0">
                                                                           <tr *ngFor="let asset of assetSummary">
                                                                             <td class="fw-normal">{{ asset.assetName }}</td>
                                                                             <!-- Using Angular's currency pipe to format the price -->
@@ -404,6 +411,22 @@
                                                                               >
                                                                                 {{ asset.availableCount === 0 ? 'Unavailable' : 'Available' }}
                                                                               </span>
+                                                                            </td>
+                                                                          </tr>
+                                                                        </tbody>
+                                                                        <tbody *ngIf="assetSummary.length==0 ">
+                                                                          <tr>
+                                                                            <td colspan="11">
+                                                                              <div class="empty-file" style="margin-top: 5%; margin-bottom: 5%">
+                                                                                <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                                                                  [nzNotFoundContent]="contentTpl">
+                                                                                  <ng-template #contentTpl>
+                                                                                    <p class="mb-1 empty-detail font-16">
+                                                                                      No data for now
+                                                                                    </p>
+                                                                                  </ng-template>
+                                                                                </nz-empty>
+                                                                              </div>
                                                                             </td>
                                                                           </tr>
                                                                         </tbody>
@@ -1076,7 +1099,8 @@
 
                                     </div>
                                 </div> -->
-                                <div class="row">
+                                <!-- TODO added d-none to hide it for now -->
+                                <div class="row d-none">
                                   <!-- Left Column: Assigned Assets Summary -->
                                   <div class="col-md-2">
                                     <div class="assigned-assets p-3">
@@ -1098,7 +1122,7 @@
                                   </div>
 
                                   <!-- Right Column: Loop Through Each Team and Render Details -->
-                                  <div class="col-md-10">
+                                  <div class="col-md-10 d-none">
                                     <div class="total-assets p-3 d-flex flex-wrap align-items-center justify-content-between gap-3">
                                       <!-- Use *ngFor to iterate over the teamAssets array -->
                                       <div *ngFor="let team of teamSummary" class="team-card mb-3 p-2 border rounded">
@@ -2420,6 +2444,11 @@
                 <nz-option *ngFor="let category of categorySummary" [nzValue]="category.categoryId"
                   [nzLabel]="category.categoryName"></nz-option>
               </nz-select>
+              <button  type="button" data-bs-toggle="modal" data-bs-target="#createCategoryModal" (click)="assignCategoryId(0)"
+                    class="btn p-0 text-primary font-14 add-icon fw-semibold">
+                    <i class="bi bi-plus position-relative font-20"></i> Create
+                    Category
+                  </button>
               <!-- Error message for Category -->
               <div *ngIf="(categoryId.invalid && categoryId.touched) || (categoryForm.submitted && categoryId.invalid)"
                 class="text-danger">
@@ -2777,3 +2806,60 @@
       </div>
     </div>
   </div>
+  </div>
+
+  <div class="modal fade" id="createCategoryModal" tabindex="-1" aria-labelledby="createCategoryModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="createCategoryModalLabel">
+          Create Category
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form (ngSubmit)="saveOrUpdateCategory()" #categoryForm1="ngForm">
+        <div class="modal-body assets-label">
+          <div class="row">
+            <div class="col-md-12 mb-3">
+              <label for="categoryName" class="form-label pb-2">Category Name <span
+                  class="text-optional">*</span></label>
+              <input type="text" class="form-control input-zorro" id="categoryName" name="categoryName"
+                placeholder="Type category name here..." [(ngModel)]="newCategory.categoryName" required
+                #categoryName="ngModel" />
+              <div *ngIf="
+                  categoryName.invalid &&
+                  (categoryName.dirty || categoryName.touched)
+                " class="text-danger">
+                Category Name is required.
+              </div>
+            </div>
+            <div class="col-md-12 mb-3">
+              <label for="categoryImage" class="form-label pb-2">Category Image <span
+                  class="text-optional">(optional)</span></label>
+              <label for="fileInput" class="image-upload-label">
+                <div class="bannerplacehld ">
+                  <div *ngIf="imagePreviewUrl; else placeholder" class="position-relative">
+                    <img [src]="imagePreviewUrl" style="width:200px;" alt="Image Preview" />
+                    <span class="assets-images-close pointer d-flex align-content-center justify-content-center"><i
+                        class="bi bi-x"></i></span>
+                  </div>
+                  <ng-template #placeholder>
+                    <img src="assets/images/media-upload.jpg" style="width:70px;" alt="Placeholder" />
+                    <!-- <span class="p-0 btn text-primary mt-3"><i class="bi bi-plus"></i> Add category image</span> -->
+                  </ng-template>
+                </div>
+                <p *ngIf="imagePreviewUrl == ''">Upload category image</p>
+              </label>
+              <input type="file" class="form-control-file" id="fileInput" (change)="onFileSelected($event)"
+                accept="image/jpeg, image/png, image/jpg" hidden />
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer ">
+          <button type="submit" class="btn submitActionBtn" [disabled]="categoryForm1.invalid"> Add</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,4 +1,5 @@
-import { Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { FormControl, NgForm } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
@@ -24,6 +25,8 @@ export class AssetsManagementComponent implements OnInit {
     private dataService : DataService,
     private helperService : HelperService,
      private modalService: NgbModal,
+     private afStorage: AngularFireStorage,
+     private cdr: ChangeDetectorRef,
   ) { }
 
   ngOnInit(): void {
@@ -58,6 +61,7 @@ export class AssetsManagementComponent implements OnInit {
   dashboard(): void {
     this.fetchCategorySummary();
     this.fetchStatusSummary();
+    this.getAssetsChangePercentageList();
 
   }
   statusSummary: any[] = [];
@@ -110,6 +114,144 @@ export class AssetsManagementComponent implements OnInit {
         }
       );
   }
+
+  imagePreviewUrl: string | ArrayBuffer | null = null;
+isFileUploaded: boolean = false;
+selectedFile: File | null = null;
+fileToUpload: string = '';
+categoryId: number = 0;
+updateCategoryFlag: boolean = false;
+newCategory: any = {
+  categoryName: '',
+  categoryImage: ''
+};
+  onFileSelected(event: Event): void {
+    const element = event.currentTarget as HTMLInputElement;
+    const fileList: FileList | null = element.files;
+
+    if (fileList && fileList.length > 0) {
+      this.isFileUploaded = true;
+      this.selectedFile = fileList[0];
+
+      if (this.selectedFile) {
+        this.setImgPreviewUrl(this.selectedFile);
+        this.uploadFile(this.selectedFile);
+      }
+    } else {
+      this.isFileUploaded = false;
+    }
+  }
+
+  assignCategoryId(categoryId: number) {
+    this.categoryId = categoryId;
+    if(categoryId!=0) {
+      this.getAssetCategoryDataById();
+    } else {
+      this.newCategory = { categoryName: '', categoryImage: '' };
+    }
+  }
+
+  getAssetCategoryDataById(): void {
+    this.dataService.getAssetCategoryById(this.categoryId)
+      .subscribe(
+        (response) => {
+          if (response && response.object) {
+            const categoryData = response.object;
+            this.newCategory = {
+              categoryName: categoryData.categoryName,
+              categoryImage: categoryData.categoryImage
+            };
+            this.imagePreviewUrl = categoryData.categoryImage;
+            this.cdr.detectChanges();
+          }
+        },
+        (error) => {
+          console.error('Error fetching asset category data by id:', error);
+        }
+      );
+    }
+
+  saveOrUpdateCategory() {
+    if(this.categoryId!=0) {
+      this.updateCategory();
+    } else {
+      this.saveCategory();
+    }
+  }
+  setImgPreviewUrl(file: File): void {
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      this.imagePreviewUrl = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  uploadFile(file: File): void {
+    const filePath = `uploads/${new Date().getTime()}_${file.name}`;
+    const fileRef = this.afStorage.ref(filePath);
+    const task = this.afStorage.upload(filePath, file);
+
+    task
+      .snapshotChanges()
+      .toPromise()
+      .then(() => {
+        // console.log('Upload completed');
+        fileRef
+          .getDownloadURL()
+          .toPromise()
+          .then((url) => {
+            // console.log('File URL:', url);
+            this.fileToUpload = url;
+            this.isFileUploaded = false;
+          })
+          .catch((error) => {
+            this.isFileUploaded = false;
+            console.error('Failed to get download URL', error);
+          });
+      })
+      .catch((error) => {
+        this.isFileUploaded = false;
+        console.error('Error in upload snapshotChanges:', error);
+      });
+  }
+
+  updateCategory(): void {
+    if (this.fileToUpload) {
+      this.newCategory.categoryImage = this.fileToUpload;
+    }
+    this.dataService.updateAssetCategory(this.categoryId, this.newCategory)
+      .subscribe(
+        response => {
+          this.fetchCategorySummary();
+          document.getElementById('createCategoryModal')?.click();
+          this.newCategory = { categoryName: '', categoryImage: '' };
+          this.imagePreviewUrl = null;
+        },
+        error => {
+          console.error('Error updating asset category:', error);
+        }
+      );
+  }
+
+  // @ViewChild("closeCreateCategoryModal") closeCreateCategoryModal!:ElementRef;
+  saveCategory(): void {
+    if (this.fileToUpload) {
+      this.newCategory.categoryImage = this.fileToUpload;
+    }
+    this.dataService.createAssetCategory(this.newCategory)
+      .subscribe(
+        response => {
+          this.fetchCategorySummary();
+          document.getElementById('createCategoryModal')?.click();
+          this.newCategory = { categoryName: '', categoryImage: '' };
+          this.imagePreviewUrl = null;
+        },
+        error => {
+          console.error('Error creating asset category:', error);
+        }
+      );
+  }
+
 
   assetData: any = {
     id: 0,
@@ -250,6 +392,18 @@ export class AssetsManagementComponent implements OnInit {
         (response) => {
           this.allUser = response.listOfObject;
           this.users= this.allUser;
+        },
+        (error) => {
+          console.error('Error fetching pending requests counter', error);
+        }
+      );
+    }
+
+    assetsChangePercentage: any = [];
+    getAssetsChangePercentageList(): void {
+      this.dataService.getAssetChangePercentageList().subscribe(
+        (response) => {
+          this.assetsChangePercentage = response;
         },
         (error) => {
           console.error('Error fetching pending requests counter', error);
