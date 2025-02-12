@@ -75,8 +75,9 @@ import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
 import { LeaveManagementsComponent } from './components/leave-managements/leave-managements.component';
 import { InboxComponent } from './components/inbox/inbox.component';
 import { AssetsManagementComponent } from './components/assets-management/assets-management.component';
-import { NgApexchartsModule } from "ng-apexcharts";
 import { ExpenseManagementComponent } from './components/expense-management/expense-management.component';
+import { NzProgressModule } from 'ng-zorro-antd/progress';
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 
  @NgModule({
@@ -166,6 +167,7 @@ import { ExpenseManagementComponent } from './components/expense-management/expe
     NzPopoverModule,
     NzEmptyModule,
     NzAutocompleteModule,
+    NzProgressModule,
     NgApexchartsModule
   ],
   exports: [DurationFormatPipe],

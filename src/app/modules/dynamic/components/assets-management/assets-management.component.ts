@@ -8,8 +8,12 @@ import { Component, OnInit } from '@angular/core';
 export class AssetsManagementComponent implements OnInit {
 
   constructor() { }
-
+  showFilter: boolean = false;
   ngOnInit(): void {
+  }
+
+  changeShowFilter(flag : boolean) {
+    this.showFilter = flag;
   }
 
 }

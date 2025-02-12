@@ -408,7 +408,7 @@ export class LeaveManagementComponent implements OnInit {
     }else{
 params={ status: status ,itemPerPage: this.itemPerPage, currentPage: this.pageNumber[this.currentTab],search: this.searchTerm };
     }
-    console.log('uuid',uuid);
+   
   this.leaveService
   .get(params)
   .pipe(
