@@ -1565,6 +1565,7 @@ span.request-count {
   font-weight: 500;
   box-shadow: unset;
   color: #444;
+  height: 45px !important;
 }
 
 .actionMenuList {
@@ -1580,7 +1581,7 @@ span.request-count {
 
 .search-date input {
   border: none;
-  height: 48px !important;
+  height: 45px !important;
   border-left: 0;
   border-right: 1px solid #EAEAEA;
   font-weight: 400 !important;
