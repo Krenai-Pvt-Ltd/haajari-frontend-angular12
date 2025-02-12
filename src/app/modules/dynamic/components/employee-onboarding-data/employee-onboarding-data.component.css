@@ -1705,3 +1705,7 @@ span.request-count {
   margin: 35px auto;
   padding: 0;
 } */
+
+.employee-apex-chart{
+  top: -8px;
+}

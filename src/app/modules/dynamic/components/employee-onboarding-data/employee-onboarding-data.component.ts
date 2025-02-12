@@ -92,13 +92,13 @@ export class EmployeeOnboardingDataComponent implements OnInit {
         startAngle: -90,
         endAngle: 90,
         expandOnClick: false,
-        offsetY: 0, // Prevents segments from expanding
+        offsetY: 0, 
         donut: {
           labels: {
-            show: false // Hide labels inside the donut
+            show: false 
           },
-          innerWidth: "70%",
-          outerWidth: "22%"
+          innerWidth: "20%",
+          outerWidth: "10%"
         }
       }
     },
@@ -150,6 +150,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   sampleFileUrl: string = '';
   databaseHelper: DatabaseHelper = new DatabaseHelper();
   userList: UserReq[] = new Array();
+  showFilter: boolean = false;
 
   currentPage: number = 1;
   pageSize: number = 7; // Adjust based on your requirements
@@ -352,6 +353,7 @@ getCombinedFilters(): string[] {
     }
   
     this.isUserShimer = true;
+    this.showFilter = false;
   
     this.debounceTimer = setTimeout(() => {
       // let finalStatusFilters = this.selectedStatusFilters.includes('ALL') ? [] : this.selectedStatusFilters;
@@ -378,11 +380,13 @@ getCombinedFilters(): string[] {
             this.users = this.users ?? [];
             this.placeholder = this.users.length === 0;
             this.isUserShimer = false;
+           
             this.getUsersCountByStatus();
           },
           (error) => {
             this.isUserShimer = false;
             this.errorToggleTop = true;
+            this.showFilter = false;
             this.users = [];
           }
         );
@@ -394,6 +398,7 @@ getCombinedFilters(): string[] {
     this.selectedStatusFilters = ['ALL']; // Reset status filters
     this.selectedAccessibilityFilters = ['ALL']; // Reset accessibility filters
     this.appliedFilters = [];
+    this.showFilter = false;
     this.getUsersByFiltersFunction();
   }
 
@@ -2919,6 +2924,10 @@ console.log(this.data);
     this.getUsersByFiltersFunction();
     this.getUser();
     this.closeNotificationModalFlag = false;
+  }
+
+  changeShowFilter(flag : boolean) {
+    this.showFilter = flag;
   }
 
 }

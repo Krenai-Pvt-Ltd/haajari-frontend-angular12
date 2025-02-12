@@ -92,6 +92,7 @@ export class TimetableComponent implements OnInit {
   WEEKEND = Key.WEEKEND;
   HOLIDAY = Key.HOLIDAY;
   readonly Constant = constant;
+  showFilter: boolean = false;
 
   readonly key = Key;
   ROLE = this.rbacService.getRole();
@@ -2119,7 +2120,9 @@ export class TimetableComponent implements OnInit {
     );
   }
 
-
+  changeShowFilter(flag : boolean) {
+    this.showFilter = flag;
+  }
 
 
 }
