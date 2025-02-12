@@ -1901,31 +1901,111 @@ toggleNotificationValue(notification: any, field: string): void {
 isSwitchEnabled: { [key: string]: boolean } = {};
 loadingFlags: { [key: string]: boolean } = {}; 
 // This function is used to return the value of the switch's state for a specific type
-shouldShowSwitch(type: string): boolean {
+shouldShowSwitch(type: string, cancelDisableFlag : boolean): boolean {
+  debugger
+  console.log("🚀 ~ CompanySettingComponent ~ shouldShowSwitch ~ cancelDisableFlag:", cancelDisableFlag)
+
+  if(cancelDisableFlag) {
+    return true;
+  }
   // Check if the switch is manually enabled or if any notification for the type is enabled
   return this.isSwitchEnabled[type] ?? this.notifications?.[type]?.some(notification => notification.isEnable === 1) ?? false;
 }
+  currentType: string | null = null;
+  disableConfirmed: boolean = false; // Track if user confirmed disable
 
-onSwitchChange(event: boolean, type: string): void {
-  // Set loading state to true
-  this.loadingFlags[type] = true;
-  this.cdr.detectChanges(); // Ensure UI updates
+// onSwitchChange(event: boolean, type: string): void {
+//   // Set loading state to true
+//   this.loadingFlags[type] = true;
+//   this.cdr.detectChanges(); // Ensure UI updates
 
-  if (event) {
-    this.isSwitchEnabled[type] = true; 
+//   if (event) {
+//     this.isSwitchEnabled[type] = true; 
     
-    this.notificationTypes().finally(() => {
-      this.loadingFlags[type] = false; // Turn off loading after API response
-      this.cdr.detectChanges();
+//     this.notificationTypes().finally(() => {
+//       this.loadingFlags[type] = false; // Turn off loading after API response
+//       this.cdr.detectChanges();
+//     });
+//   } else {
+//     this.isSwitchEnabled[type] = false;
+//     this.handleSwitchDisable(type).finally(() => {
+//       this.loadingFlags[type] = false; // Turn off loading after API response
+//       this.cdr.detectChanges();
+//     });
+//   }
+// }
+onSwitchToggle(event: boolean, type: string): void {
+  debugger
+  console.log("event :", event);
+  if (!event) {
+    // User is trying to disable, show confirmation modal
+    this.currentType = type;
+    this.disableConfirmed = false; // Reset confirmation state
+
+    setTimeout(() => {
+      const modal = document.getElementById('disableConfirmationModal');
+      if (modal) {
+        modal.classList.add('show');
+        modal.style.display = 'block';
+      }
     });
   } else {
-    this.isSwitchEnabled[type] = false;
-    this.handleSwitchDisable(type).finally(() => {
-      this.loadingFlags[type] = false; // Turn off loading after API response
-      this.cdr.detectChanges();
-    });
+    // Enabling directly, update state
+    this.isSwitchEnabled[type] = true;
+    // this.updateNotificationState(type, true);
   }
 }
+
+
+cancelDisable(): void {
+  debugger
+  if (this.currentType) {
+    this.isSwitchEnabled[this.currentType] = true; // Restore switch state
+    this.shouldShowSwitch(this.currentType, true);
+    // this.notificationTypes();
+  }
+  this.closeDisableModal();
+}
+
+confirmDisable(): void {
+  debugger
+  if (this.currentType) {
+    this.isSwitchEnabled[this.currentType] = false; // Set switch to disabled
+    this.shouldShowSwitch(this.currentType, false);
+    this.updateNotificationState(this.currentType, false);
+  }
+  this.closeDisableModal();
+}
+
+updateNotificationState(type: string, isEnabled: boolean): void {
+  this.loadingFlags[type] = true;
+  this.cdr.detectChanges();
+
+  // Call API to save state
+  this.dataService.disableNotification(type).subscribe(
+    () => {
+      // console.log(`Notification ${isEnabled ? 'enabled' : 'disabled'} successfully.`);
+      this.loadingFlags[type] = false;
+      this.cdr.detectChanges();
+    },
+    error => {
+      console.error('Error updating notification state:', error);
+      this.loadingFlags[type] = false;
+      this.cdr.detectChanges();
+    }
+  );
+}
+
+closeDisableModal(): void {
+  debugger
+  const modal = document.getElementById('disableConfirmationModal');
+  if (modal) {
+    modal.classList.remove('show');
+    modal.style.display = 'none';
+  }
+}
+
+
 
 handleSwitchDisable(type: string): Promise<void> {
   return new Promise((resolve) => {

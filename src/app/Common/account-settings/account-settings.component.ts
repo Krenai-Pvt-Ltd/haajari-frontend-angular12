@@ -438,17 +438,32 @@ updateUserNotification(notificationId: number, statusValue: boolean): Promise<vo
       () => {
         console.log("Updated successfully");
         this.loadingToggles[notificationId] = false;
-        this.notificationTypes(); // Refresh notification types
+        // this.notificationTypes(); // Refresh notification types
         resolve(); // Resolve the promise after successful execution
       },
       (error) => {
         console.error("Error updating notification:", error);
         this.loadingToggles[notificationId] = false;
+        this.notificationTypes(); 
         resolve(); // Ensure resolve even on error to avoid unhandled promises
       }
     );
   });
 }
+
+formatMinutes(timeStr: string): string {
+  if (!timeStr) return '00hrs 00mins';
+
+  const parts = timeStr.split(':'); // Split the string by ':'
+  if (parts.length !== 2) return '00hrs 00mins'; // Fallback if format is incorrect
+
+  const hrs = parseInt(parts[0], 10) || 0;
+  const mins = parseInt(parts[1], 10) || 0;
+
+  return `${hrs.toString().padStart(2, '0')}hrs ${mins.toString().padStart(2, '0')}mins`;
+}
+
+
 
 
 

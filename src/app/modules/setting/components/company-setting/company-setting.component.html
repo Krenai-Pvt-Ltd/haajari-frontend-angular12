@@ -739,10 +739,11 @@
                       <p class="mb-0 font-13">Remind employees to mark their attendance promptly at the start of their shift.</p>
                     </div>
                     <div>
-                      <nz-switch [ngModel]="shouldShowSwitch(type)" (ngModelChange)="onSwitchChange($event, type)" [nzLoading]="loadingFlags[type]"></nz-switch>
+                      <nz-switch [ngModel]="shouldShowSwitch(type, false)" (ngModelChange)="onSwitchToggle($event, type)" [nzLoading]="loadingFlags[type]"></nz-switch>
+                      <!-- <nz-switch [ngModel]="shouldShowSwitch(type)" (ngModelChange)="onSwitchToggle($event, type)" [nzLoading]="loadingFlags[type]" data-bs-toggle="modal" data-bs-target="#disableConfirmationModal" *ngIf="shouldShowSwitch(type)"></nz-switch> -->
                     </div>
                   </div>
-                  <div *ngIf="shouldShowSwitch(type)">
+                  <div *ngIf="shouldShowSwitch(type, false)">
                     <div class="pt-3 notification-checkbox" *ngFor="let notification of notifications?.[type]; let j = index">
                       <div class="form-check d-flex align-items-center justify-content-between gap-2 mt-3 mb-3">
                         <div class="d-flex align-items-center gap-2">
@@ -2065,4 +2066,48 @@
     </div>
   </div>
 </div>
-<!----------------------------------- DELETE ADDRESS POPUP END-------------------------->
+<!----------------------------------- Disable notification setting-------------------------->
+
+
+<!-- Confirmation Modal -->
+<div class="modal fade" id="disableConfirmationModal" #disableConfirmationModal tabindex="-1"
+aria-labelledby="confirmationModalLabel" aria-hidden="true" data-bs-backdrop="static">
+<div class="modal-dialog modal-dialog-centered modal-md" role="document">
+  <div class="modal-content">
+    <div class="modal-body p-0 delete-text">
+      <div class="delete-image d-flex align-items-center justify-content-center pt-4 pb-4">
+        <div class="delete-close-btn">
+          <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close"
+            (click)="cancelDisable()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+              <path
+                d="M8 23.75L6.25 22L13.25 15L6.25 8L8 6.25L15 13.25L22 6.25L23.75 8L16.75 15L23.75 22L22 23.75L15 16.75L8 23.75Z"
+                fill="black" />
+            </svg>
+          </button>
+        </div>
+        <img src="/assets/images/delete-friend (1) 2.svg" style="width: 70px" />
+      </div>
+      <div class="bg-white p-4 text-center">
+        <div class="mb-4">
+          <h5 class="alert-heading font-18 mb-2">
+            Are you sure you want to disable this notification?
+          </h5>
+          <p class="font-13">This action will disable this notification.</p>
+        </div>
+        <button class="btn continue-btn" (click)="confirmDisable()">
+          <span>Disable Notification</span>
+        </button>
+        <br>
+        <button class="btn p-0 mt-3 text-black" type="button" data-bs-dismiss="modal"
+          (click)="cancelDisable()">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+
