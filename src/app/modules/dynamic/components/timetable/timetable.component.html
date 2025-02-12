@@ -26,7 +26,7 @@
               <span class="request-count d-flex align-items-center justify-content-center"
                 *ngIf="attendanceUpdateCount > 0">{{ attendanceUpdateCount }}</span>
             </li>
-            <li class="nav-item d-flex align-items-center">
+            <li class="nav-item d-flex align-items-center d-none">
               <a id="pills-notification-tab" role="tab" (click)="changeTab(ATTENDANCE_UPDATE_REQUEST_TAB_NEW)"
                 class="position-relative" [ngClass]="{
                     'active-tab': ACTIVE_TAB == ATTENDANCE_UPDATE_REQUEST_TAB_NEW}" aria-controls="pills-notification" aria-selected="false" class="nav-link">Request Records</a>
