@@ -463,6 +463,65 @@ formatMinutes(timeStr: string): string {
   return `${hrs.toString().padStart(2, '0')}hrs ${mins.toString().padStart(2, '0')}mins`;
 }
 
+notificationNew : any;
+onToggle(event: boolean, notification: any) {
+
+  // notification.isUserEnable = !event;
+
+  console.log("event :" , event , "notification" , notification);
+  if (!event) {
+    // User is trying to disable, show confirmation modal
+    // this.notificationId = notification.id;
+    // this.statusValue = notification.isUserEnable;
+    this.notificationNew = notification;
+    setTimeout(() => {
+      const modal = document.getElementById('disableConfirmationModal');
+      if (modal) {
+        modal.classList.add('show');
+        modal.style.display = 'block';
+      }
+    });
+  } else {
+     this.updateUserNotification(notification.id, notification.isUserEnable)
+    //  this.notification.isUserEnable = false;
+    this.notificationNew = null;
+  }
+  
+}
+
+
+
+cancelDisable(): void {
+  debugger
+  if (this.notificationNew.id > 0 &&  this.notificationNew.isUserEnable) {
+    this.updateUserNotification(this.notificationNew.id, false);
+  }
+  this.closeDisableModal();
+}
+
+confirmDisable(): void {
+  debugger
+  if (this.notificationNew.id > 0 &&  this.notificationNew.isUserEnable ) {
+    this.handleDisableCases();
+  }
+  this.closeDisableModal();
+}
+
+
+handleDisableCases() {
+     this.updateUserNotification(this.notificationNew.id, this.notificationNew.isUserEnable);
+     this.notificationNew = null
+}
+
+closeDisableModal(): void {
+  debugger
+  const modal = document.getElementById('disableConfirmationModal');
+  if (modal) {
+    modal.classList.remove('show');
+    modal.style.display = 'none';
+  }
+}
+
 
 
 
