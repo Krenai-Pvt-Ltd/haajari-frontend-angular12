@@ -2054,6 +2054,7 @@ export class LeaveSettingComponent implements OnInit {
   @ViewChild('requestLeaveCloseModel1') requestLeaveCloseModel1!: ElementRef;
   isSubmitted: boolean = true;
   registerLeaveTemplateMethodCall() {
+    debugger
     this.registerToggle = true;
     this.isSubmitted = false;
     this.allselected = false;

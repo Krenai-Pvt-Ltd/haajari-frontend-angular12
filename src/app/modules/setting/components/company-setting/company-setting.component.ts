@@ -1764,10 +1764,21 @@ isAttendanceType(type: string): boolean {
 }
 
 
+isSaveDisabled(notification: any): boolean {
+  return !(notification.isEditMode &&
+    (notification.isBefore === 0 || notification.isBefore === 1) &&
+    notification.minutes &&
+    (notification.isForced === 0 || notification.isForced === 1));
+}
+
+
+
 loadingFlags2: { [key: string]: { [index: number]: boolean } } = {}; // Track loading per notification
 
 
 toggleNotification(notification: any, type: string, index: number): void {
+
+  debugger
   // Initialize loadingFlags2[type] if not already defined
   if (!this.loadingFlags2[type]) {
     this.loadingFlags2[type] = {};
@@ -1783,6 +1794,7 @@ toggleNotification(notification: any, type: string, index: number): void {
 }
 
 saveNotification(notification: any, type: string, index: number): void {
+  debugger
   let notificationData: NotificationTypeInfoRequest;
 
   // Ensure the loading flag object exists for the given type
@@ -1819,6 +1831,7 @@ saveNotification(notification: any, type: string, index: number): void {
         "Notification updated successfully",
         Key.TOAST_STATUS_SUCCESS
       );
+      this.loadingFlags2[type][index] = false;
       // this.notificationTypes(); // Refresh notifications list
     },
     error => {
@@ -1827,10 +1840,12 @@ saveNotification(notification: any, type: string, index: number): void {
         "Error updating notification",
         Key.TOAST_STATUS_ERROR
       );
+      this.loadingFlags2[type][index] = false;
       this.notificationTypes();
     },
     () => {
       this.loadingFlags2[type][index] = false; // Stop loading
+      // this.notificationTypes();
       // this.cdr.detectChanges();
     }
   );
@@ -1845,6 +1860,9 @@ convertDateToTimeString(date: Date): string {
 
 
 toggleNotificationValue(notification: any, field: string): void {
+
+  notification.isEditMode = true;
+
   // Toggle logic based on field
   if (field === 'isEnable') {
     // Handle isEnable toggling
@@ -1881,6 +1899,7 @@ onSwitchChange(event: boolean, type: string): void {
 
   if (event) {
     this.isSwitchEnabled[type] = true; 
+    
     this.notificationTypes().finally(() => {
       this.loadingFlags[type] = false; // Turn off loading after API response
       this.cdr.detectChanges();
