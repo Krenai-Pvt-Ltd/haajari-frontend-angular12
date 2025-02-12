@@ -444,6 +444,8 @@
                           [series]="chartOptions.series"
                           [chart]="chartOptions.chart"
                           [legend]="chartOptions.legend" 
+                          [labels]="['Approved', 'Pending', 'Rejecetd', 'New Request']"
+                          [colors]="['#388E3C', '#E78E13', '#FF3014', '#6666F2']"
                           [grid]="chartOptions.grid"
                           [plotOptions]="chartOptions.plotOptions"
                           [dataLabels]="chartOptions.dataLabels"  
@@ -911,7 +913,7 @@
                           <td> <span class="mb-0 weekly-pro-email">{{user.employeeCode || '0'}}</span> </td>
 
                           <td>
-                            <span class="mb-0 weekly-pro-email" *ngIf="user.teamNames.length == 0">
+                            <span class="mb-0 weekly-pro-email" *ngIf="!user.teamsNameList || user.teamsNameList.length == 0">
                               {{ "N/A" }}</span>
 
 
@@ -925,12 +927,12 @@
 
                               <!-- new-design start -->
 
-                            <div class="team-name d-flex align-items-center justify-content-between" *ngIf="user.teamNames.length > 2">
-                              <span class="team-name-one fw-normal text-left font-13 fw-semibold"> {{ user.teamNames }} </span>
+                            <div class="team-name d-flex align-items-center justify-content-between" *ngIf="user?.teamsNameList?.length && user.teamsNameList.length > 2">
+                              <span class="team-name-one fw-normal text-left font-13 fw-semibold"> {{ user.teamsNameList[0]?.teamName || 'N/A'}} </span>
 
-                              <span class="team-count d-flex align-items-center justify-content-center font-13 fw-normal"
-                              nz-popover [nzPopoverContent]="teamTemplate"  nzPopoverTitle="Team List" (mouseover)="getTeamNamesNew(user.uuid)"
-                              [nzPopoverOverlayStyle]="{'width':'250px'}" nzPopoverPlacement="rightTop" *ngIf="user.teamNames.length > 1">+{{ user.teamNames.length - 1 }}</span>
+                              <!-- <span class="team-count d-flex align-items-center justify-content-center font-13 fw-normal"
+                              nz-popover [nzPopoverContent]="teamTemplate"  nzPopoverTitle="Team List" (mouseover)="getTeamNamesNew(user.teamNameList)"
+                              [nzPopoverOverlayStyle]="{'width':'250px'}" nzPopoverPlacement="rightTop" *ngIf="user.teamNameList.length > 1">+{{ user.teamNameList.length - 1 }}</span>
 
                              
                              <ng-template #teamTemplate>
@@ -955,7 +957,36 @@
                                <ng-template #noDataTemplate>
                                 <p>No team available.</p>
                               </ng-template>
-                             </ng-template>
+                             </ng-template> -->
+
+                             <span class="team-count d-flex align-items-center justify-content-center font-13 fw-normal"
+                                  nz-popover [nzPopoverContent]="teamTemplate" nzPopoverTitle="Team List"
+                                  (mouseover)="getTeamNamesNew(user.teamsNameList)"
+                                  [nzPopoverOverlayStyle]="{'width':'250px'}" nzPopoverPlacement="rightTop"
+                                  *ngIf="user.teamsNameList.length > 1">
+                                  +{{ user.teamsNameList.length - 1 }}
+                                </span>
+
+                                <ng-template #teamTemplate>
+                                  <div class="team-list p-0" *ngIf="onboardUserTeam?.length; else noDataTemplate">
+                                    <div class="border-bottom pb-3 pt-3" *ngFor="let tm of onboardUserTeam; let i = index">
+                                      <p class="text-black font-12 fw-semibold">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+                                          <rect width="14" height="14" fill="#D9D9D9"/>
+                                          <path d="M0.583 11.666V10.033C0.583 9.702 0.668 9.398 0.838 9.121C1.008 8.844 1.234 8.633 1.516 8.487C2.119 8.185 2.731 7.959 3.353 7.809C3.976 7.658 4.608 7.583 5.249 7.583C5.891 7.583 6.523 7.658 7.145 7.809C7.767 7.959 8.38 8.185 8.983 8.487C9.264 8.633 9.490 8.844 9.661 9.121C9.831 9.398 9.916 9.702 9.916 10.033V11.666H0.583ZM11.083 11.666V9.916C11.083 9.488 10.963 9.077 10.725 8.684C10.487 8.29 10.149 7.952 9.712 7.67C10.208 7.728 10.674 7.828 11.112 7.969C11.549 8.11 11.958 8.283 12.337 8.487C12.687 8.681 12.954 8.897 13.139 9.136C13.324 9.374 13.416 9.634 13.416 9.916V11.666H11.083ZM5.249 6.999C4.608 6.999 4.058 6.771 3.601 6.314C3.144 5.857 2.916 5.308 2.916 4.666C2.916 4.024 3.144 3.475 3.601 3.018C4.058 2.561 4.608 2.333 5.249 2.333C5.891 2.333 6.44 2.561 6.897 3.018C7.354 3.475 7.583 4.024 7.583 4.666C7.583 5.308 7.354 5.857 6.897 6.314C6.44 6.771 5.891 6.999 5.249 6.999Z" fill="#6666F2"/>
+                                        </svg>
+                                        Team {{i + 1}}
+                                      </p>
+                                      <h5 class="mb-2 font-15 fw-bold">{{ tm?.teamName }}</h5>
+                                      <p class="mb-0 font-14 fw-normal"> {{ tm?.createdDate | date }}</p>
+                                    </div>
+                                  </div>
+
+                                  <ng-template #noDataTemplate>
+                                    <p>No team available.</p>
+                                  </ng-template>
+                                </ng-template>
+                              
                             </div>
 
                               <!-- new-design end -->
@@ -1694,13 +1725,13 @@
 
 
 <div class="modal fade" id="deleteConfirmationModal" #deleteConfirmationModal tabindex="-1"
-  aria-labelledby="confirmationModalLabel" aria-hidden="true" data-bs-backdrop="false">
+  aria-labelledby="confirmationModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-backdrop="false">
   <div class="modal-dialog modal-dialog-centered modal-md" role="document">
     <div class="modal-content">
       <div class="modal-body p-0 delete-text">
         <div class="delete-image d-flex align-items-center justify-content-center pt-4 pb-4">
           <div class="delete-close-btn">
-            <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButtonDeleteLeave>
+            <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" (click)="getUsersByFiltersFunction()"  #closeButtonDeleteLeave>
               <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none" >
                 <mask id="mask0_2031_1331" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="30"
                   height="30">
@@ -1737,7 +1768,7 @@
             <i class="fa fa-spinner fa-spin" *ngIf="disableUserLoader"></i>
           </button>
           <br>
-          <button class="btn p-0 mt-3 text-black" type="button" data-bs-dismiss="modal" aria-label="Close"
+          <button class="btn p-0 mt-3 text-black" type="button" data-bs-dismiss="modal" aria-label="Close" (click)="getUsersByFiltersFunction()"
             #closeUserDeleteModal>
             Cancel
           </button>
