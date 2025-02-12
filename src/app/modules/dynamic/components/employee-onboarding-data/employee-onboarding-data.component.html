@@ -1725,13 +1725,13 @@
 
 
 <div class="modal fade" id="deleteConfirmationModal" #deleteConfirmationModal tabindex="-1"
-  aria-labelledby="confirmationModalLabel" aria-hidden="true" data-bs-backdrop="false">
+  aria-labelledby="confirmationModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-backdrop="false">
   <div class="modal-dialog modal-dialog-centered modal-md" role="document">
     <div class="modal-content">
       <div class="modal-body p-0 delete-text">
         <div class="delete-image d-flex align-items-center justify-content-center pt-4 pb-4">
           <div class="delete-close-btn">
-            <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButtonDeleteLeave>
+            <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" (click)="getUsersByFiltersFunction()"  #closeButtonDeleteLeave>
               <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none" >
                 <mask id="mask0_2031_1331" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="30"
                   height="30">
@@ -1768,7 +1768,7 @@
             <i class="fa fa-spinner fa-spin" *ngIf="disableUserLoader"></i>
           </button>
           <br>
-          <button class="btn p-0 mt-3 text-black" type="button" data-bs-dismiss="modal" aria-label="Close"
+          <button class="btn p-0 mt-3 text-black" type="button" data-bs-dismiss="modal" aria-label="Close" (click)="getUsersByFiltersFunction()"
             #closeUserDeleteModal>
             Cancel
           </button>

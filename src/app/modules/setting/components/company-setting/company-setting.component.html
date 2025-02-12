@@ -824,6 +824,7 @@
                               id="minutes-{{i}}{{j}}" 
                               name="minutes-{{i}}{{j}}"
                               [disabled]="!notification.isEditMode"
+                              (ngModalChange)="isSaveDisabled(notification)"
                               style="background-color: #fff !important; height:47px !important;">
                             </nz-time-picker>
                           </div>

@@ -1764,12 +1764,26 @@ isAttendanceType(type: string): boolean {
 }
 
 
+// isSaveDisabled(notification: any): boolean {
+//   debugger
+//   return !(notification.isEditMode &&
+//     (notification.isBefore === 0 || notification.isBefore === 1) &&
+//     notification.minutes &&
+//     (notification.isForced === 0 || notification.isForced === 1));
+// }
+
 isSaveDisabled(notification: any): boolean {
+  debugger;
+  
+  // Check if minutes is valid
+  const isMinutesValid = notification.minutes instanceof Date && !isNaN(notification.minutes.getTime());
+
   return !(notification.isEditMode &&
     (notification.isBefore === 0 || notification.isBefore === 1) &&
-    notification.minutes &&
+    isMinutesValid &&  // Ensure the minutes field is a valid date
     (notification.isForced === 0 || notification.isForced === 1));
 }
+
 
 
 
