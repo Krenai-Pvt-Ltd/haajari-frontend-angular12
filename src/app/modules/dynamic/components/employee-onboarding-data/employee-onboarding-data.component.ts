@@ -82,7 +82,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   // @ViewChild("chart") chart!: ChartComponent;
 
   public chartOptions: Partial<ChartOptions> | any = {
-    series: [0, 0, 0, 0, 0],
+    series: [0, 0, 0, 0, 0], 
     chart: {
       width: "100%",
       type: "donut"
@@ -92,42 +92,35 @@ export class EmployeeOnboardingDataComponent implements OnInit {
         startAngle: -90,
         endAngle: 90,
         expandOnClick: false,
-        offsetY: 0, // Prevents the segments from expanding
+        offsetY: 0, // Prevents segments from expanding
         donut: {
-          // size: "100%", // This is how you define the donut chart
           labels: {
-            show: false
-          }, 
+            show: false // Hide labels inside the donut
+          },
           innerWidth: "70%",
           outerWidth: "22%"
         }
-      },
-      dataLabels: {
-        enabled: false
-      },
-     
+      }
     },
+    // Hide data labels
+    dataLabels: {
+      enabled: false
+    },
+    // Hide grid lines (optional)
     grid: {
+      show: false,
       padding: {
         bottom: -80
       }
     },
+    // Hide the legend
     legend: {
-      show: false,
+      show: false
     },
-    // responsive: [
-    //   {
-    //     breakpoint: 480,
-    //     options: {
-    //       chart: {
-    //         width: 200
-    //       },
-    //       legend: {
-    //         position: "bottom"
-    //       }
-    //     }
-    //   }
-    // ]
+    // Hide tooltip (optional)
+    tooltip: {
+      enabled: true
+    }
   };
 
 
