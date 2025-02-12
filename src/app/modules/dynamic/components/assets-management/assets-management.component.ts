@@ -442,13 +442,17 @@ export class AssetsManagementComponent implements OnInit {
       this.modalService.open(statusChangeModal);
     }
 
+    assetRequestStatusLoading: boolean = false;
+    @ViewChild('assetRequestClose') assetRequestClose!: ElementRef<HTMLButtonElement>;
     changeStatus(asset: any) {
-      this.asset=null;
+      this.assetRequestStatusLoading = true;
       asset.status = this.newStatus;
       this.modalService.dismissAll();
       this.dataService.changeAssetRequestStatus(asset.id, this.newStatus)
       .subscribe(
         (response) => {
+          this.assetRequestClose.nativeElement.click();
+          this.assetRequestStatusLoading = false;
           this.getAssetRequests();
           this.helperService.showToast(
             "Asset status change successfully",
@@ -456,7 +460,8 @@ export class AssetsManagementComponent implements OnInit {
           );
         },
         (error) => {
-          console.error('Error updating status:', error);
+          this.assetRequestStatusLoading = false;
+          this.assetRequestClose.nativeElement.click();
           // Handle error response, e.g., show an error message
           this.getAssetRequests();
         }

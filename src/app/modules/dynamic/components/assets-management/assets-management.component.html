@@ -2255,7 +2255,7 @@
                                                 </td>
                                                 <td>
                                                   <!-- (click)="openStatusChangeModal(asset, statusChangeModal)" -->
-                                                    <button class="btn p-0 text-primary font-14 fw-semibold" data-bs-toggle="modal" data-bs-target="#AssetsDetailModal" ><i class="bi bi-eye"></i>  View</button>
+                                                    <button class="btn p-0 text-primary font-14 fw-semibold" data-bs-toggle="modal" data-bs-target="#AssetsDetailModal" (click)="selectedAsset=asset;" ><i class="bi bi-eye"></i>  View</button>
                                                 </td>
                                             </tr>
 
@@ -2458,7 +2458,7 @@
         <h5 class="modal-title">
             Asset Details
         </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" #assetRequestClose class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <form #categoryForm="ngForm">
         <div class="modal-body">
@@ -2466,25 +2466,25 @@
               <div class="col-md-6 mb-3">
                 <label class="mb-2">Requested Date </label>
                 <div class="requesting-half-leave p-2">
-                  <p class="mb-0 font-13 fw-semibold lh-lg">20-12-2024</p>
+                  <p class="mb-0 font-13 fw-semibold lh-lg">{{ selectedAsset?.requestedOn | date: 'dd-MM-yyyy' }}</p>
                 </div>
               </div>
               <div class="col-md-6 mb-3">
                 <label class="mb-2">Category </label>
                 <div class="requesting-half-leave p-2">
-                  <p class="mb-0 font-13 fw-semibold lh-lg">Desktop</p>
+                  <p class="mb-0 font-13 fw-semibold lh-lg">{{ selectedAsset?.assetCategoryName }}</p>
                 </div>
               </div>
               <div class="col-md-6 mb-3">
                 <label class="mb-2">Asset Name </label>
                 <div class="requesting-half-leave p-2 ">
-                  <p class="mb-0 font-13 fw-semibold lh-lg">MacBook Pro</p>
+                  <p class="mb-0 font-13 fw-semibold lh-lg">{{ selectedAsset?.assetName }}</p>
                 </div>
               </div>
               <div class="col-md-6 mb-3">
                 <label class="mb-2">Requested Type </label>
                 <div class="requesting-half-leave p-2">
-                  <p class="mb-0 font-13 fw-semibold lh-lg">Asset Replacement</p>
+                  <p class="mb-0 font-13 fw-semibold lh-lg">{{ selectedAsset?.assetType }}</p>
                 </div>
               </div>
 
@@ -2492,13 +2492,17 @@
               <div class="col-md-6 mb-3">
                 <label class="mb-2">Current Status </label>
                 <div class="pt-2 pb-2">
-                  <span class="badge rounded-pill badge-soft-warning">PENDING</span>
+                  <span class="badge rounded-pill"
+                    [ngClass]="{'badge-soft-warning': selectedAsset?.status == 'PENDING', 'badge-soft-danger': selectedAsset?.status == 'REJECTED', 'badge-soft-success': selectedAsset?.status == 'APPROVED' || selectedAsset?.status == 'ASSIGNED' }">{{
+                    selectedAsset?.status }}</span>
+              </div>
                 </div>
               </div>
-              <div class="col-md-6">
+              <div *ngIf="selectedAsset?.status!='ASSIGNED'" class="col-md-6">
                 <label class="mb-2">Change Status</label>
                 <div>
-                  <nz-select nzPlaceHolder="Select Status" class="w-100 form-control" nzSize="large">
+                  {{newStatus}}
+                  <nz-select [(ngModel)]="newStatus" id="newStatus" name="newStatus" nzPlaceHolder="Select Status" class="w-100 form-control" nzSize="large">
                     <nz-option nzValue="Approved" nzLabel="Approved"></nz-option>
                     <nz-option nzValue="Rejected" nzLabel="Rejected"></nz-option>
                   </nz-select>
@@ -2508,11 +2512,24 @@
               <div class="col-md-12 mb-3">
                 <label class="mb-2">Note </label>
                 <div class="requesting-half-leave p-2" style="height:100px;">
-                  <p class="mb-0 font-13 fw-semibold lh-lg"> </p>
+                  <p class="mb-0 font-13 fw-semibold lh-lg">{{ selectedAsset?.note }}</p>
                 </div>
               </div>
             </div>
-          </div>
+            <div class="modal-footer">
+              <div *ngIf="selectedAsset?.status!='ASSIGNED'"
+              class="modal-footer d-flex align-content-center justify-content-end gap-2">
+              <button type="button" class="btn cancel-btn mt-0" data-bs-dismiss="modal" >Cancel</button>
+              <button [disabled]="assetRequestStatusLoading" type="button" class="btn submitActionBtn" (click)="changeStatus(selectedAsset)">
+                 <span *ngIf="!assetRequestStatusLoading">Save</span>
+                 <div class="dot-opacity-loader" *ngIf="assetRequestStatusLoading">
+                   <span></span>
+                   <span></span>
+                   <span></span>
+                  </div>
+                </button>
+            </div>
+            </div>
       </form>
     </div>
   </div>
@@ -2525,7 +2542,7 @@
     Assets History
   </button> -->
 
-<div class="modal fade" id="assetsHistory" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+<!-- <div class="modal fade" id="assetsHistory" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog assets-history">
       <div class="modal-content">
         <div class="modal-header">
@@ -2632,7 +2649,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 
 
   <nz-drawer
@@ -2649,8 +2666,8 @@
                 <div class="w-100">
                     <div class="d-flex align-items-center  justify-content-between w-100">
                         <div class="d-flex align-items-center gap-3">
-                            <h5 class="mb-0 font-16 fw-semibold ">{{ currentAsset.assetName }}</h5>
-                            <span class="badge rounded-pill badge-soft-success font-11">{{ currentAsset.statusName }}</span>
+                            <h5 class="mb-0 font-16 fw-semibold ">{{ currentAsset?.assetName }}</h5>
+                            <span class="badge rounded-pill badge-soft-success font-11">{{ currentAsset?.statusName }}</span>
                         </div>
                         <p class="font-12 fw-light mb-0">ID - A-12</p>
                     </div>
@@ -2673,7 +2690,7 @@
                     </div>
                     <div class="tracking-data">
                       <h5 class="mb-2 font-16 fw-semibold">
-                        {{ history.status.response}}: {{ history.actionDate | date: 'EEE, MMM d yyyy'}}
+                        {{ history?.status.response}}: {{ history?.actionDate | date: 'EEE, MMM d yyyy'}}
                       </h5>
                       <p *ngIf="history?.userName!= null" class="mb-0 font-13 fw-normal">
                         User: {{ history.userName }}
