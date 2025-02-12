@@ -92,13 +92,13 @@ export class EmployeeOnboardingDataComponent implements OnInit {
         startAngle: -90,
         endAngle: 90,
         expandOnClick: false,
-        offsetY: 0, 
+        offsetY: 0, // Prevents segments from expanding
         donut: {
           labels: {
-            show: false 
+            show: false // Hide labels inside the donut
           },
-          innerWidth: "20%",
-          outerWidth: "10%"
+          innerWidth: "90%",
+          outerWidth: "32%"
         }
       }
     },
@@ -111,6 +111,10 @@ export class EmployeeOnboardingDataComponent implements OnInit {
       show: false,
       padding: {
         bottom: -80
+      },
+      stroke: {
+        width: 2, // Adjust this value as needed
+        colors: "#000"
       }
     },
     // Hide the legend
@@ -277,6 +281,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     this.selectedStatusFilters = [];
     // this.selectedAccessibilityFilters = ['ALL', 'ACTIVE', 'INACTIVE'];
     // this.selectedAccessibilityFilters = ['ALL'];
+    this.pageNumber = 1;
     this.selectedAccessibilityFilters = ['ACTIVE'];
     this.toggleStatus(status);
     this.getUsersByFiltersFunction();
@@ -309,22 +314,51 @@ export class EmployeeOnboardingDataComponent implements OnInit {
 
 
   // Remove selected filter and refresh users
-removeFilter(filter: string) {
+// removeFilter(filter: string) {
 
-  debugger
+//   debugger
+//   this.appliedFilters = this.appliedFilters.filter(f => f !== filter);
+
+//   // Check if the filter exists in Status Filters and remove it
+//   if (this.selectedStatusFilters.includes(filter)) {
+//     this.selectedStatusFilters = this.selectedStatusFilters.filter(s => s !== filter);
+//   }
+
+//   // Check if the filter exists in Accessibility Filters and remove it
+//   if (this.selectedAccessibilityFilters.includes(filter)) {
+//     this.selectedAccessibilityFilters = this.selectedAccessibilityFilters.filter(a => a !== filter);
+//   }
+
+//   // If all filters are removed, reset to 'ALL'
+//   if (this.selectedStatusFilters.length === 0) {
+//     this.selectedStatusFilters = ['ALL'];
+//   }
+//   if (this.selectedAccessibilityFilters.length === 0) {
+//     this.selectedAccessibilityFilters = ['ALL'];
+//   }
+
+//   // Fetch users again with updated filters
+//   this.getUsersByFiltersFunction();
+// }
+
+removeFilter(filter: string) {
+  debugger;
   this.appliedFilters = this.appliedFilters.filter(f => f !== filter);
 
-  // Check if the filter exists in Status Filters and remove it
-  if (this.selectedStatusFilters.includes(filter)) {
-    this.selectedStatusFilters = this.selectedStatusFilters.filter(s => s !== filter);
+  // Extract raw value from "Status: Approved" → "Approved"
+  const filterValue = filter.split(": ")[1];
+
+  // Remove from Status Filters
+  if (this.selectedStatusFilters.includes(filterValue)) {
+    this.selectedStatusFilters = this.selectedStatusFilters.filter(s => s !== filterValue);
   }
 
-  // Check if the filter exists in Accessibility Filters and remove it
-  if (this.selectedAccessibilityFilters.includes(filter)) {
-    this.selectedAccessibilityFilters = this.selectedAccessibilityFilters.filter(a => a !== filter);
+  // Remove from Accessibility Filters
+  if (this.selectedAccessibilityFilters.includes(filterValue)) {
+    this.selectedAccessibilityFilters = this.selectedAccessibilityFilters.filter(a => a !== filterValue);
   }
 
-  // If all filters are removed, reset to 'ALL'
+  // Reset to 'ALL' if no filters remain
   if (this.selectedStatusFilters.length === 0) {
     this.selectedStatusFilters = ['ALL'];
   }
@@ -338,13 +372,30 @@ removeFilter(filter: string) {
 
 // selectedFul
 // Ensure filters contain unique values
+// getCombinedFilters(): string[] {
+//   return Array.from(new Set([...this.selectedStatusFilters, ...this.selectedAccessibilityFilters])).filter(f => f !== 'ALL');
+// }
+
 getCombinedFilters(): string[] {
-  return Array.from(new Set([...this.selectedStatusFilters, ...this.selectedAccessibilityFilters])).filter(f => f !== 'ALL');
+  const rawFilters = [...this.selectedStatusFilters, ...this.selectedAccessibilityFilters]
+    .filter(f => f !== 'ALL'); // Remove 'ALL'
+
+  const uniqueFilters = Array.from(new Set(rawFilters)); // Remove duplicates
+
+  return uniqueFilters.map(f => {
+    if (this.selectedStatusFilters.includes(f)) {
+      return `Status: ${f}`;
+    } else {
+      return `Accessibility: ${f}`;
+    }
+  });
 }
 
-  appliedFilters: string[] = []
 
-  
+
+appliedFilters: string[] = []
+
+
   
   // Fetch Users Based on Filters
   getUsersByFiltersFunction(debounceTime: number = 300) {
@@ -353,13 +404,22 @@ getCombinedFilters(): string[] {
     }
   
     this.isUserShimer = true;
-    this.showFilter = false;
   
     this.debounceTimer = setTimeout(() => {
       // let finalStatusFilters = this.selectedStatusFilters.includes('ALL') ? [] : this.selectedStatusFilters;
       // let finalAccessibilityFilters = this.selectedAccessibilityFilters.includes('ALL') ? [] : this.selectedAccessibilityFilters;
       // [...finalStatusFilters, ...finalAccessibilityFilters] // Merging both filters
-      this.appliedFilters = this.getCombinedFilters();
+      // this.appliedFilters = this.getCombinedFilters();
+
+      this.appliedFilters = this.getCombinedFilters(); // Show "Status: Approved" in UI
+
+      // Send only raw filter values (without "Status:" and "Accessibility:") to backend
+      const rawFilters = [
+        ...this.selectedStatusFilters.filter(f => f !== 'ALL'),
+        ...this.selectedAccessibilityFilters.filter(f => f !== 'ALL'),
+      ];
+
+
       this.dataService
         .getUsersByFilterForEmpOnboardingNew(
           this.itemPerPage,
@@ -369,7 +429,7 @@ getCombinedFilters(): string[] {
           this.searchText,
           this.searchCriteria,
           this.isResignationUser,
-          this.getCombinedFilters()
+          rawFilters
           
         )
         .subscribe(
@@ -380,13 +440,11 @@ getCombinedFilters(): string[] {
             this.users = this.users ?? [];
             this.placeholder = this.users.length === 0;
             this.isUserShimer = false;
-           
             this.getUsersCountByStatus();
           },
           (error) => {
             this.isUserShimer = false;
             this.errorToggleTop = true;
-            this.showFilter = false;
             this.users = [];
           }
         );
@@ -398,7 +456,6 @@ getCombinedFilters(): string[] {
     this.selectedStatusFilters = ['ALL']; // Reset status filters
     this.selectedAccessibilityFilters = ['ALL']; // Reset accessibility filters
     this.appliedFilters = [];
-    this.showFilter = false;
     this.getUsersByFiltersFunction();
   }
 
@@ -406,18 +463,26 @@ getCombinedFilters(): string[] {
 
 
   onboardUserTeam : any[] = [];
-  getTeamNamesNew(uuid: string): void {
-    console.log("userUuid" + uuid);
-    debugger
-    this.onboardUserTeam = [];
-    this.dataService.getAllTeamsByUuid(uuid).subscribe({
-      next: (response: any) => {
-        this.onboardUserTeam = response.object;
-      },
-      error: (error) => {
-        console.error('Failed to fetch team names:', error);
-      },
-    });
+  // getTeamNamesNew(uuid: string): void {
+  //   console.log("userUuid" + uuid);
+  //   debugger
+  //   this.onboardUserTeam = [];
+  //   this.dataService.getAllTeamsByUuid(uuid).subscribe({
+  //     next: (response: any) => {
+  //       this.onboardUserTeam = response.object;
+  //     },
+  //     error: (error) => {
+  //       console.error('Failed to fetch team names:', error);
+  //     },
+  //   });
+  // }
+
+  getTeamNamesNew(teamList: any[]): void {
+    if (teamList?.length > 1) {
+      this.onboardUserTeam = teamList.slice(1); 
+    } else {
+      this.onboardUserTeam = [];
+    }
   }
 
 
@@ -811,12 +876,12 @@ getCombinedFilters(): string[] {
       this.verificationCount.requestedCount || 0
     ];
 
-    // this.chartOptions.labels = [
-    //   "Approved",
-    //   "Pending",
-    //   "Rejected",
-    //   "Requested"
-    // ];
+    this.chartOptions.labels = [
+      "Approved",
+      "Pending",
+      "Rejected",
+      "Requested"
+    ];
   }
 
   employeeStatus: any = {};
@@ -2925,9 +2990,7 @@ console.log(this.data);
     this.getUser();
     this.closeNotificationModalFlag = false;
   }
-
   changeShowFilter(flag : boolean) {
     this.showFilter = flag;
   }
-
 }

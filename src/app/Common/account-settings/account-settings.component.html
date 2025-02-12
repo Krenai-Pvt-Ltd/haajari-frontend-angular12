@@ -415,20 +415,22 @@
                             <div class="attendance-border"></div>
                         </div>
 
-                        <div class="mt-5 mb-4 d-flex align-items-center justify-content-between" *ngFor="let notification of notifications?.[type]; let j = index">
-                            <div>
-                                <h5 class="mb-2 font-14">{{ notification.description }}</h5>
-                                 <p class="mb-0 font-13">Reminder:<span class="text-primary"> {{notification.minutes}} minutes before shift starts</span> </p>
+                        <span *ngFor="let notification of notifications?.[type]; let j = index">
+                            <div class="mt-5 mb-4 d-flex align-items-center justify-content-between"  *ngIf="notification?.isNotificationOn === 1">
+                                <div>
+                                    <h5 class="mb-2 font-14">{{ notification.description }}</h5>
+                                    <p class="mb-0 font-13">Reminder:<span class="text-primary"> {{notification.minutes}} minutes before shift starts</span> </p>
+                                </div>
+                                <div class="d-flex align-items-center gap-3">
+                                    <p class="mb-0 fw-semibold font-12 text-danger" *ngIf="notification.isForced">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="14" viewBox="0 0 16 14" fill="none">
+                                            <path d="M0 13.7318L7.79167 0.273438L15.5833 13.7318H0ZM2.44375 12.3151H13.1396L7.79167 3.10677L2.44375 12.3151ZM7.79167 11.6068C7.99236 11.6068 8.16059 11.5389 8.29635 11.4031C8.43212 11.2674 8.5 11.0991 8.5 10.8984C8.5 10.6977 8.43212 10.5295 8.29635 10.3938C8.16059 10.258 7.99236 10.1901 7.79167 10.1901C7.59097 10.1901 7.42274 10.258 7.28698 10.3938C7.15122 10.5295 7.08333 10.6977 7.08333 10.8984C7.08333 11.0991 7.15122 11.2674 7.28698 11.4031C7.42274 11.5389 7.59097 11.6068 7.79167 11.6068ZM7.08333 9.48177H8.5V5.9401H7.08333V9.48177Z" fill="#FF3014"/>
+                                        </svg>
+                                        Restricted</p>
+                                    <nz-switch [ngModel]="notification.isUserEnable" [ngModelOptions]="{ standalone: true }" (ngModelChange)="updateUserNotification(notification.id, notification.isUserEnable)" [nzLoading]="loadingToggles[notification.id]"  [disabled]="notification.isForced" ></nz-switch>
+                                </div>
                             </div>
-                            <div class="d-flex align-items-center gap-3">
-                                <p class="mb-0 fw-semibold font-12 text-danger" *ngIf="notification.isForced">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="14" viewBox="0 0 16 14" fill="none">
-                                        <path d="M0 13.7318L7.79167 0.273438L15.5833 13.7318H0ZM2.44375 12.3151H13.1396L7.79167 3.10677L2.44375 12.3151ZM7.79167 11.6068C7.99236 11.6068 8.16059 11.5389 8.29635 11.4031C8.43212 11.2674 8.5 11.0991 8.5 10.8984C8.5 10.6977 8.43212 10.5295 8.29635 10.3938C8.16059 10.258 7.99236 10.1901 7.79167 10.1901C7.59097 10.1901 7.42274 10.258 7.28698 10.3938C7.15122 10.5295 7.08333 10.6977 7.08333 10.8984C7.08333 11.0991 7.15122 11.2674 7.28698 11.4031C7.42274 11.5389 7.59097 11.6068 7.79167 11.6068ZM7.08333 9.48177H8.5V5.9401H7.08333V9.48177Z" fill="#FF3014"/>
-                                    </svg>
-                                    Restricted</p>
-                                <nz-switch [ngModel]="notification.isUserEnable" [ngModelOptions]="{ standalone: true }" (ngModelChange)="updateUserNotification(notification.id, notification.isUserEnable)" [nzLoading]="loadingToggles[notification.id]"  [disabled]="notification.isForced" ></nz-switch>
-                            </div>
-                        </div>
+                        </span>
                       
                        
                     </div>
