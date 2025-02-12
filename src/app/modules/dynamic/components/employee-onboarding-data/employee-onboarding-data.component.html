@@ -468,8 +468,8 @@
                           <h5 class="mb-1 font-14 fw-semibold"><span class="font-16 text-black fw-bold"> {{editProfileCount || 0}} </span> People </h5>
                           <p class="mb-0 font-13 fw-normal"> This Week</p>
                         </div>
-                        <span class="resignation-request font-13 fw-normal" *ngIf="empProfileEditRequestUsersImage.length == 0">No Request</span>
-                        <div class="img-group d-flex" *ngIf="empProfileEditRequestUsersImage.length > 0">
+                        <span class="resignation-request font-13 fw-normal" *ngIf="empProfileEditRequestUsersImage==undefined || empProfileEditRequestUsersImage?.length == 0">No Request</span>
+                        <div class="img-group d-flex" *ngIf="empProfileEditRequestUsersImage!=undefined && empProfileEditRequestUsersImage.length > 0">
                           <a class="user-avatar" *ngFor="let image of empProfileEditRequestUsersImage">
                              <span class="ng-star-inserted"><img onerror="this.src='./assets/images/broken-image-icon.jpg';" alt="u" class="thumb-xs rounded-circle" src="{{image}}"></span>
                           </a>
