@@ -60,6 +60,7 @@ export class CompanySettingComponent implements OnInit {
     this.getAllRolesMethodCall();
     this.fetchOnboardingModules();
     this.fetchDocuments();
+    this.getMasterAttendanceModeMethodCall();
   }
 
 
@@ -1765,7 +1766,23 @@ isAttendanceType(type: string): boolean {
 
 loadingFlags2: { [key: string]: { [index: number]: boolean } } = {}; // Track loading per notification
 
+
 toggleNotification(notification: any, type: string, index: number): void {
+  // Initialize loadingFlags2[type] if not already defined
+  if (!this.loadingFlags2[type]) {
+    this.loadingFlags2[type] = {};
+  }
+
+  // Toggle edit mode for this notification
+  notification.isEditMode = !notification.isEditMode;
+
+  // If turning off edit mode (saving), you can perform a save action here
+  if (!notification.isEditMode) {
+    this.saveNotification(notification, type, index);
+  }
+}
+
+saveNotification(notification: any, type: string, index: number): void {
   let notificationData: NotificationTypeInfoRequest;
 
   // Ensure the loading flag object exists for the given type
@@ -1798,15 +1815,23 @@ toggleNotification(notification: any, type: string, index: number): void {
   this.dataService.saveNotification(notificationData).subscribe(
     response => {
       console.log('Notification updated successfully', response);
-      this.notificationTypes(); // Refresh notifications list
+      this.helperService.showToast(
+        "Notification updated successfully",
+        Key.TOAST_STATUS_SUCCESS
+      );
+      // this.notificationTypes(); // Refresh notifications list
     },
     error => {
       console.error('Error updating notification', error);
+      this.helperService.showToast(
+        "Error updating notification",
+        Key.TOAST_STATUS_ERROR
+      );
       this.notificationTypes();
     },
     () => {
       this.loadingFlags2[type][index] = false; // Stop loading
-      this.cdr.detectChanges();
+      // this.cdr.detectChanges();
     }
   );
 }
@@ -1885,6 +1910,25 @@ handleSwitchDisable(type: string): Promise<void> {
     );
   });
 }
+
+
+ masterAttendanceModeId: number = 0;
+  getMasterAttendanceModeMethodCall() {
+    debugger;
+    this.dataService.getMasterAttendanceMode().subscribe(
+      (response: any) => {
+        debugger;
+        if (response.status) {
+          this.masterAttendanceModeId = response.object;
+        }
+        console.log(this.masterAttendanceModeId);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
 
 
 }
