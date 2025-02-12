@@ -76,6 +76,7 @@ import { LeaveManagementsComponent } from './components/leave-managements/leave-
 import { InboxComponent } from './components/inbox/inbox.component';
 import { AssetsManagementComponent } from './components/assets-management/assets-management.component';
 import { ExpenseManagementComponent } from './components/expense-management/expense-management.component';
+import { NzProgressModule } from 'ng-zorro-antd/progress';
 
 
  @NgModule({
@@ -164,7 +165,8 @@ import { ExpenseManagementComponent } from './components/expense-management/expe
     NzButtonModule,
     NzPopoverModule,
     NzEmptyModule,
-    NzAutocompleteModule
+    NzAutocompleteModule,
+    NzProgressModule
   ],
   exports: [DurationFormatPipe],
   providers: [

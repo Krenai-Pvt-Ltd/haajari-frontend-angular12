@@ -9,7 +9,14 @@ export class ExpenseManagementComponent implements OnInit {
 
   constructor() { }
 
+  showFilter: boolean = false;
+
   ngOnInit(): void {
   }
+
+  changeShowFilter(flag : boolean) {
+    this.showFilter = flag;
+  }
+
 
 }
