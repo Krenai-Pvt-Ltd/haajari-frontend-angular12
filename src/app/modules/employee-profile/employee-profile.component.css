@@ -26,7 +26,12 @@
     letter-spacing: 0.357px;
     text-transform: capitalize;
 }
-
+.nav-item{
+    margin-right: 0px;
+}
+.nav.nav-pills{
+    border-bottom: none;
+}
 .employee-detail p {
     color: #6B7280;
     font-size: 13px;

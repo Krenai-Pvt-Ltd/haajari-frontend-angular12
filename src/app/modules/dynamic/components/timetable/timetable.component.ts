@@ -92,6 +92,7 @@ export class TimetableComponent implements OnInit {
   WEEKEND = Key.WEEKEND;
   HOLIDAY = Key.HOLIDAY;
   readonly Constant = constant;
+  showFilter: boolean = false;
 
   readonly key = Key;
   ROLE = this.rbacService.getRole();
@@ -2110,8 +2111,8 @@ export class TimetableComponent implements OnInit {
   getRequestCountByOrganizationUuid() {
     this.dataService.getRequestCountByOrganizationUuid().subscribe(
       (response: any) => {
-        this.overtimeCount = response.object.count1;
-        this.attendanceUpdateCount = response.object.count2;
+        this.overtimeCount = response.object.overtimeRequestCount;
+        this.attendanceUpdateCount = response.object.attendanceUpdationRequestCount;
       },
       (error) => {
         console.error('Error fetching user count by status:', error);
@@ -2119,7 +2120,9 @@ export class TimetableComponent implements OnInit {
     );
   }
 
-
+  changeShowFilter(flag : boolean) {
+    this.showFilter = flag;
+  }
 
 
 }

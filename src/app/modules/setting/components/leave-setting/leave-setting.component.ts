@@ -2054,6 +2054,7 @@ export class LeaveSettingComponent implements OnInit {
   @ViewChild('requestLeaveCloseModel1') requestLeaveCloseModel1!: ElementRef;
   isSubmitted: boolean = true;
   registerLeaveTemplateMethodCall() {
+    debugger
     this.registerToggle = true;
     this.isSubmitted = false;
     this.allselected = false;
@@ -2725,20 +2726,57 @@ editingStaff: Staff = new Staff(); // Tracks which staff row is being edited
   //   });
 // }
 
-getInvalidFormValues(event:any,index:number){
-  const isReset = (this.form.get('categories') as FormArray)
-    .at(index)
-    ?.get('isReset');
-    // console.log("🚀 ~ getInvalidFormValues ~ isReset:", isReset)
+// getInvalidFormValues(event:any,index:number){
+//   const isReset = (this.form.get('categories') as FormArray)
+//     .at(index)
+//     ?.get('isReset');
+//     // console.log("🚀 ~ getInvalidFormValues ~ isReset:", isReset)
 
-if(isReset!=null){
-  isReset.setValue(event);
-  // console.log("🚀 ~ getInvalidFormValues ~ isReset:", isReset)
-  // console.log("🚀 ~ getInvalidFormValues ~ form:", this.form.value)
+//     if(isReset!=null){
+//       isReset.setValue(event);
+//       console.log("🚀 ~ getInvalidFormValues ~ isReset:", isReset)
+//       console.log("🚀 ~ getInvalidFormValues ~ form:", this.form.value)
+// resetCarryOverAction(i: number) {
+//   this.categories.controls[i]!.get('carryoverAction')?.setValue(null);
+//   this.categories.controls[i]!.get('carryover')?.setValue(null);
 
-}
+//   if(this.categories.controls[i]!.get('isReset')?.value.getValue == true) {
     
+//   }
+// }
+
+resetCarryOverAction(i: number) {
+  const categoryControl = this.categories.controls[i];
+
+  // Reset values when `isReset` is checked
+  if (categoryControl.get('isReset')?.value === true) {
+    categoryControl.get('carryoverAction')?.setValue(null);
+    categoryControl.get('carryover')?.setValue(null);
+
+    // Remove required validation
+    categoryControl.get('carryoverAction')?.clearValidators();
+    categoryControl.get('carryover')?.clearValidators();
+  } else {
+    // Add required validation when `isReset` is false
+   
+    if(this.categories.controls[i]!.get('carryoverAction')?.value=='Restricted') {
+       categoryControl.get('carryover')?.setValidators([Validators.required]);
+    }else {
+      categoryControl.get('carryoverAction')?.setValidators([Validators.required]);
+    }
+
+    categoryControl.get('carryoverAction')?.setValue(null);
+    categoryControl.get('carryover')?.setValue(null);
+  }
+
+  // Update form validity
+  categoryControl.get('carryoverAction')?.updateValueAndValidity();
+  categoryControl.get('carryover')?.updateValueAndValidity();
+}
+
+
+
+
+
   
 }
-}
- 

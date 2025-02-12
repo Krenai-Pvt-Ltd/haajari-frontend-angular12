@@ -274,3 +274,11 @@
 .notification-heading .w-15{
     width: 15%;
 }
+.nav-pills .nav-item.show .nav-link,
+.nav-pills .nav-link.active {
+  background: #f2f3ff !important;
+  color: #6666F2 !important;
+  border-left: 5px solid var(--primary-background-color);
+  border-bottom: none;
+  border-left: 5px solid #6666F2 !important;
+}

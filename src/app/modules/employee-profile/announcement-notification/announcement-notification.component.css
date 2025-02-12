@@ -105,6 +105,9 @@
     right: 15px;
     bottom: -15px !important;
 }
+.nav-item {
+    margin-right: 0px;
+}
 .notification-detail p{
      line-height: 24px;
      font-size: 13px;

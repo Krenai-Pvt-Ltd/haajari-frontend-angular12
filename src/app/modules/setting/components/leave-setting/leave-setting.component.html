@@ -1143,8 +1143,8 @@
                                 <div class="col-md-12 mb-3" nz-form-item >
                                   <div class="form-check d-flex align-items-center gap-2">
                                     <input type="checkbox" formControlName="isReset" id="exampleCheck1" class="form-check-input" 
-                                    [checked]="categories.controls[i]!.get('isReset')?.value" (ngModelChange)="getInvalidFormValues($event,i)">
-                                    
+                                    [checked]="categories.controls[i]!.get('isReset')?.value" (ngModelChange)="resetCarryOverAction(i)">
+                                    <!-- getInvalidFormValues($event,i); -->
                                     <label class="form-check-label" for="exampleCheck1" >Lapse this leave category upon template expiration.</label>
                                   </div>
                                 </div>
@@ -1157,7 +1157,7 @@
                                     </label>
     
                                     <nz-select class="form-control placeholder-line w-100" nzSize="large" 
-                                    nzPlaceHolder="Select Carry Over Action" formControlName="carryoverAction" class="form-control" required>
+                                    nzPlaceHolder="Select Carry Over Action" formControlName="carryoverAction" class="form-control" [required]="!categories.controls[i]!.get('isReset')?.value">
                                     <nz-option *ngFor="let carryoverAction of carryoverActions" [nzValue]="carryoverAction.value"
                                       [nzLabel]="carryoverAction.name">
                                     </nz-option>
@@ -1171,7 +1171,7 @@
     
                                     <nz-select class="form-control placeholder-line w-100" nzSize="large" 
                                     nzPlaceHolder="SelectCarry Over Quota" formControlName="carryover"
-                                      [(ngModel)]="tempForwardDaysCount"  class="form-control" required>
+                                      [(ngModel)]="tempForwardDaysCount"  class="form-control" [required]="!categories.controls[i]!.get('isReset')?.value">
                                     <nz-option *ngFor="let day of forwardDaysCountArray[i]" [nzValue]="day"
                                       [nzLabel]="day">
                                     </nz-option>

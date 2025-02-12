@@ -4,6 +4,7 @@ import { Key } from './constant/key';
 import { HelperService } from './services/helper.service';
 import { RoleBasedAccessControlService } from './services/role-based-access-control.service';
 import { OnboardingService } from './services/onboarding.service';
+import { co } from '@fullcalendar/core/internal-common';
 
 @Component({
   selector: 'app-root',
@@ -28,6 +29,9 @@ export class AppComponent implements OnInit {
       if (event instanceof RouteConfigLoadStart) {
         this._helperService.detectOpenModalOnBack();
       } 
+      if(event instanceof NavigationEnd){
+        window.scrollTo(0, 0);
+      }
       if(event instanceof NavigationEnd &&  document.body?.classList){
         document.body?.classList?.remove("modal-open")
         document.body.style.overflow = 'scroll';

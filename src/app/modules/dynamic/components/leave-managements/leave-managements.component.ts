@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class LeaveManagementsComponent implements OnInit {
 
   constructor() { }
-
+  showFilter: boolean = false;
   ngOnInit(): void {
   }
   tab: string = 'absent';
@@ -19,6 +19,9 @@ export class LeaveManagementsComponent implements OnInit {
   showCalender:boolean = false;
   openCloseMonthCalender(){
     this.showCalender = !this.showCalender;
+  }
+  changeShowFilter(flag : boolean) {
+    this.showFilter = flag;
   }
 
 }

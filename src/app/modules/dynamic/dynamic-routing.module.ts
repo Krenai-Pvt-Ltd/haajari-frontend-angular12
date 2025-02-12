@@ -15,7 +15,6 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
 import { DatePipe } from '@angular/common';
 import { RoleComponent } from './components/role/role.component';
 import { ReportsComponent } from './components/reports/reports.component';
-import { EmployeeProfileComponent } from './components/employee-profile/employee-profile.component';
 import { TestingComponent } from './components/testing/testing.component';
 import { PrivacyComponent } from './components/privacy/privacy.component';
 import { SupportComponent } from './components/support/support.component';
@@ -39,6 +38,8 @@ import { InboxComponent } from './components/inbox/inbox.component';
 import { AssetsManagementComponent } from './components/assets-management/assets-management.component';
 import { FaqComponent } from '../common/faq/faq.component';
 import { FaqDetailComponent } from '../common/faq-detail/faq-detail.component';
+import { ExpenseManagementComponent } from './components/expense-management/expense-management.component';
+import { EmployeeProfileComponent } from '../employee-profile/employee-profile.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -130,12 +131,12 @@ const routes: Routes = [
         canActivate: [AuthGuard, SubscriptionGuard],
         data: { requiredSubmodule: '/coins' },
       },
-      {
-        path: 'employee-profile',
-        component: EmployeeProfileComponent,
-        canActivate: [AuthGuard, SubscriptionGuard],
+      // {
+      //   path: 'employee-profile',
+      //   component: EmployeeProfileComponent,
+      //   canActivate: [AuthGuard, SubscriptionGuard],
        
-      },
+      // },
       { path: 'testing', component: TestingComponent },
       {
         path: 'privacy',
@@ -196,6 +197,7 @@ const routes: Routes = [
       { path: 'faq', component: FaqComponent },
 
       { path: 'faq-detail', component: FaqDetailComponent },
+      { path: 'expense-management', component: ExpenseManagementComponent },
     ],
   },
 ];
