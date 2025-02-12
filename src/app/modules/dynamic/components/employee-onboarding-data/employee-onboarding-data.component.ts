@@ -97,8 +97,8 @@ export class EmployeeOnboardingDataComponent implements OnInit {
           labels: {
             show: false // Hide labels inside the donut
           },
-          innerWidth: "70%",
-          outerWidth: "22%"
+          innerWidth: "90%",
+          outerWidth: "32%"
         }
       }
     },
@@ -111,6 +111,10 @@ export class EmployeeOnboardingDataComponent implements OnInit {
       show: false,
       padding: {
         bottom: -80
+      },
+      stroke: {
+        width: 2, // Adjust this value as needed
+        colors: "#000"
       }
     },
     // Hide the legend
