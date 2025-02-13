@@ -107,8 +107,19 @@
                                             </div>
 
                                             <div class="p-3">
-                                                <img src="assets/images/assets-chart.png" class="w-100">
-                                                <p class="mb-0 font-13 pt-3">This report provides an overview of the total amount expended.</p>
+                                              <apx-chart
+                                              [series]="series"
+                                              [chart]="chart"
+                                              [xaxis]="xaxis"
+                                              [yaxis]="yaxis"
+                                              [dataLabels]="dataLabels"
+                                              [tooltip]="tooltip"
+                                              [grid]="grid"
+                                              [fill]="fill"
+                                            >
+                                            </apx-chart>
+
+                                                <p class="mb-0 font-13 pt-3">This report provides an overview of the total assigned expended.</p>
                                             </div>
                                             <!-- <div class="p-3 pt-0 categories-view">
                                                 <div class="assets-count p-3 bg-white mb-2">

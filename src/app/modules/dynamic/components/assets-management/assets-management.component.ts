@@ -7,7 +7,17 @@ import { Key } from 'src/app/constant/key';
 import { AssetRequestDTO } from 'src/app/models/AssetRequestDTO';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
-
+import {
+  ApexAxisChartSeries,
+  ApexChart,
+  ApexDataLabels,
+  ApexFill,
+  ApexMarkers,
+  ApexYAxis,
+  ApexXAxis,
+  ApexTooltip,
+  ApexTitleSubtitle
+} from "ng-apexcharts";
 interface Filter {
   type: 'team' | 'user' | 'status' | 'category';
   label: any;
@@ -466,6 +476,7 @@ onSearch(searchText: string): void {
       this.dataService.getMonthlyAssignments(62).subscribe(
         (response) => {
           this.assetsMonthlyAssignments = response;
+          this.initChartData();
         },
         (error) => {
           console.error('Error fetching pending requests counter', error);
@@ -847,5 +858,65 @@ onSearch(searchText: string): void {
   changeShowFilter(flag : boolean) {
     this.showFilter = flag;
   }
+
+
+  public series: ApexAxisChartSeries = [];
+  public chart: ApexChart  = {
+    type: "area",
+    stacked: false,
+    height: 250,
+    zoom: {
+      enabled: false // 🔹 Disables zooming
+    },
+    toolbar: {
+      show: false,
+      tools: {
+        zoomin: false,  // Keep zoom in enabled
+        zoomout: false, // 🔹 Disable zoom out button
+        pan: false,
+        reset: false // Optionally disable reset zoom
+      }
+    },
+  };
+  public grid = {
+    show: false // 🔹 Hide grid lines
+  };
+
+  public dataLabels: ApexDataLabels = { enabled: false };
+  public markers: ApexMarkers = { size: 5 };
+  public title: ApexTitleSubtitle = { text: "Monthly Asset Assignments", align: "left" };
+  public fill: ApexFill = { type: "gradient", gradient: { shadeIntensity: 10, inverseColors: false, opacityFrom: 0.5, opacityTo: 0, stops: [0, 90, 100] } };
+  public yaxis: ApexYAxis = { title: { text: "Assignments" }, labels: { show: false } };
+  public xaxis: ApexXAxis = { type: "datetime", labels: { format: "MMM" }, tickPlacement: "on" };
+
+  public tooltip: ApexTooltip = { x: { format: "MMM yyyy" } };
+  public initChartData(): void {
+    this.series = [
+      {
+        name: "Asset Assignments",
+        data: this.assetsMonthlyAssignments.map((item: { monthYear: string; assignmentCount: any; }) => ({
+          x: this.convertToDate(item.monthYear),  // Use fixed date conversion
+          y: item.assignmentCount
+        }))
+      }
+    ];
+
+  }
+
+  private convertToDate(monthYear: string): number {
+    const monthMap: { [key: string]: number } = {
+      "Jan": 0, "Feb": 1, "Mar": 2, "Apr": 3, "May": 4, "Jun": 5,
+      "Jul": 6, "Aug": 7, "Sept": 8, "Oct": 9, "Nov": 10, "Dec": 11
+    };
+
+    const [month, year] = monthYear.split(" ");
+    const monthIndex = monthMap[month];
+
+    // Create date in UTC to prevent time zone shifts
+    return Date.UTC(parseInt(year), monthIndex, 1, 0, 0, 0, 0);
+  }
+
+
+
 
 }
