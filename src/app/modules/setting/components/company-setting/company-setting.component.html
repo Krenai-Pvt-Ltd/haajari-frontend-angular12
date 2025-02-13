@@ -750,7 +750,7 @@
                         <!-- Using unique ID for each checkbox and its label -->
                         <input 
                           type="checkbox" 
-                          [checked]="notification.isEnable === 1" 
+                          [checked]="notification.isEnable" 
                           [id]="'checkbox-' + i + '-' + j" 
                           [name]="'checkbox-' + i + '-' + j" 
                           class="form-check-input" (change)="onToggle(!notification.isEnable, notification, type, j, 'SHIFT_CHECKBOX')">
@@ -891,10 +891,12 @@
                           <p class="mb-0 font-13">{{notification?.description}}</p>
                         </div>
                         <div>
-                          <nz-switch [ngModel]="notification?.isEnable" [ngModelOptions]="{ standalone: true }" 
-                          [nzLoading]="loadingFlags2?.[type]?.[j] || false" 
-                          (ngModelChange)="onToggle($event, notification, type, j, 'OTHER_SWITCH')"></nz-switch>
+                          <nz-switch [(ngModel)]="notification.isEnable" [ngModelOptions]="{ standalone: true }" 
+                            [nzLoading]="loadingFlags2?.[type]?.[j] || false" 
+                            (ngModelChange)="onToggle($event, notification, type, j, 'OTHER_SWITCH')">
+                          </nz-switch>
                         </div>
+                        
                     
                   </div>
                 </span>

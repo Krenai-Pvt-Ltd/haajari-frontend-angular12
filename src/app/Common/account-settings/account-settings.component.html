@@ -404,7 +404,7 @@
                 <div class="account-setting w-100" >
                     <h5 class="font-22 fw-semibold mb-2">Your Settings</h5>
                     <p class="mb-0 font-13">Manage and customize how you receive updates on attendance and language preferences directly through your preferred channels.</p>
-
+                    <p class="mb-0 font-13" *ngIf="!existsInShift"  style="color: red">You are not added in any shift yet, please contact your admin.</p> 
 
                     <div *ngFor="let type of notificationKeys; let i = index">
                     <div class="mt-5 notification-settings"  *ngIf="isAttendanceType(type) && (notifications?.[type] ?? []).length > 0">
@@ -431,7 +431,14 @@
                                         </svg>
                                         Restricted</p>
                                         <!-- (ngModelChange)="updateUserNotification(notification.id, notification.isUserEnable)" -->
-                                    <nz-switch [ngModel]="notification.isUserEnable" [ngModelOptions]="{ standalone: true }" (ngModelChange)="onToggle($event, notification)" [nzLoading]="loadingToggles[notification.id]"  [disabled]="notification.isForced" ></nz-switch>
+                                    <nz-switch [(ngModel)]="notification.isUserEnable" [ngModelOptions]="{ standalone: true }" (ngModelChange)="onToggle($event, notification)" [nzLoading]="loadingToggles[notification.id]"  [disabled]="notification.isForced" ></nz-switch>
+                                    <ng-container *ngIf="notification.isUserEnable; else offTemplate">
+                                        <p class="mb-0 font-12 fw-semibold">On</p>
+                                    </ng-container>
+                                    <ng-template #offTemplate>
+                                        <p class="mb-0 font-12 fw-semibold">Off</p>
+                                    </ng-template>
+
                                 </div>
                             </div>
                         </span>
@@ -451,7 +458,13 @@
                                  <p class="mb-0 font-13">{{notification.description}} </p>
                             </div>
                             <div class="d-flex align-items-center gap-3">
-                                <nz-switch [ngModel]="notification.isUserEnable" [ngModelOptions]="{ standalone: true }" (ngModelChange)="onToggle($event, notification)" [nzLoading]="loadingToggles[notification.id]" ></nz-switch>
+                                <nz-switch [(ngModel)]="notification.isUserEnable" [ngModelOptions]="{ standalone: true }" (ngModelChange)="onToggle($event, notification)" [nzLoading]="loadingToggles[notification.id]" ></nz-switch>
+                                <ng-container *ngIf="notification.isUserEnable; else offTemplate">
+                                    <p class="mb-0 font-12 fw-semibold">On</p>
+                                </ng-container>
+                                <ng-template #offTemplate>
+                                    <p class="mb-0 font-12 fw-semibold">Off</p>
+                                </ng-template>
                             </div>
                         </div>
                       

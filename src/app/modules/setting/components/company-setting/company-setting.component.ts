@@ -1999,7 +1999,9 @@ onToggle(event: boolean, notification: any, type: string, index: number, switchV
       // notification.isEnable = notification.isEnable === 1 ? 0 : 1;
       // this.saveNotification(notification, type, index);
     }else if (String(switchValue).trim() == 'OTHER_SWITCH' && type == 'Other') {
+      notification.isEnable = !event;
       this.saveNotification(notification, type, index);
+      notification.isEnable = event;
     }
 
   }
@@ -2021,23 +2023,25 @@ cancelDisable(): void {
       this.index = 0;
       this.notification = null;
    }else if (String(this.switchValueString).trim() === 'SHIFT_CHECKBOX' && this.currentType) {
-    this.notification.isEnable = this.notification.isEnable === 1 ? 1 : 0;
-    if( this.notification.id != null && this.notification.id > 0) {
-       this.saveNotification(this.notification, this.currentType, this.index);
-    }
+    this.notification.isEnable = true;
+    // if( this.notification.id != null && this.notification.id > 0) {
+    //    this.saveNotification(this.notification, this.currentType, this.index);
+    // }
       this.currentType = '';
       this.switchValueString = '';
-      this.index = 0;
-      this.notification = null;
+      // this.index = 0;
+      // this.notification = null;
    }else if (String(this.switchValueString).trim() === 'OTHER_SWITCH' && this.currentType) {
-    this.notification.isEnable = this.notification.isEnable === 1 ? 1 : 0;
-    if(this.notification.id != null && this.notification.id > 0) {
-       this.saveNotification(this.notification, this.currentType, this.index);
-    }
+    this.notification.isEnable = true;
+    // this.notification.isEnable = this.notification.isEnable === 1 ? 1 : 0;
+    // if(this.notification.id != null && this.notification.id > 0) {
+    //    this.saveNotification(this.notification, this.currentType, this.index);
+    // }
+     this.notification.isEnable = true;
      this.currentType = '';
      this.switchValueString = '';
-     this.index = 0;
-     this.notification = null;
+    //  this.index = 0;
+    //  this.notification = null;
    }
   }
   this.closeDisableModal();
@@ -2060,20 +2064,23 @@ handleDisableCases() {
      this.index = 0;
      this.notification = null;
   }else if (String(this.switchValueString).trim() === 'SHIFT_CHECKBOX' && this.currentType) {
-    this.notification.isEnable = this.notification.isEnable === 1 ? 0 : 1;
+    this.notification.isEnable = false;
+    // this.notification.isEnable = this.notification.isEnable === 1 ? 0 : 1;
      if(this.notification.id > 0) {
      this.saveNotification(this.notification, this.currentType, this.index);
      }
      this.currentType = '';
      this.switchValueString = '';
-     this.index = 0;
-     this.notification = null;
+    //  this.index = 0;
+    //  this.notification = null;
   }else if (String(this.switchValueString).trim() === 'OTHER_SWITCH' && this.currentType === 'Other') {
+    this.notification.isEnable = true;
     this.saveNotification(this.notification, this.currentType, this.index);
+    this.notification.isEnable = false;
     this.currentType = '';
     this.switchValueString = '';
-    this.index = 0;
-    this.notification = null;
+    // this.index = 0;
+    // this.notification = null;
   }
 }
 

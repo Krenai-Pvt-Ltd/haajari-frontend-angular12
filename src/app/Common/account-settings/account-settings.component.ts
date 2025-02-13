@@ -46,6 +46,7 @@ export class AccountSettingsComponent implements OnInit {
     this.UUID= this.roleService.getUuid();
     this.userInfo= this.roleService.userInfo;
 
+    this.userExistsInShift();
     this.notificationTypes();
     this.setFormData();
     this.supportForm.get('email')?.disable();
@@ -433,9 +434,11 @@ loadingToggles: { [key: string]: boolean } = {};
 updateUserNotification(notificationId: number, statusValue: boolean): Promise<void> {
   const status = statusValue ? 'DISABLE' : 'ENABLE'; // Assign the correct status
   this.loadingToggles[notificationId] = true;
+  // this.notificationNew.isUserEnable = !statusValue;
   return new Promise((resolve) => {
     this.dataService.updateUserNotification(notificationId, status).subscribe(
-      () => {
+      (response) => {
+        // this.notificationNew.isUserEnable = response.object;
         console.log("Updated successfully");
         this.loadingToggles[notificationId] = false;
         // this.notificationTypes(); // Refresh notification types
@@ -482,8 +485,9 @@ onToggle(event: boolean, notification: any) {
       }
     });
   } else {
-     this.updateUserNotification(notification.id, notification.isUserEnable)
-    //  this.notification.isUserEnable = false;
+    this.notificationNew.isUserEnable = true;
+     this.updateUserNotification(notification.id, false)
+     this.notificationNew.isUserEnable = false;
     this.notificationNew = null;
   }
   
@@ -493,15 +497,17 @@ onToggle(event: boolean, notification: any) {
 
 cancelDisable(): void {
   debugger
-  if (this.notificationNew.id > 0 &&  this.notificationNew.isUserEnable) {
-    this.updateUserNotification(this.notificationNew.id, false);
+  if (this.notificationNew.id > 0) {
+    this.notificationNew.isUserEnable = true;
+    // this.updateUserNotification(this.notificationNew.id, false);
   }
+  
   this.closeDisableModal();
 }
 
 confirmDisable(): void {
   debugger
-  if (this.notificationNew.id > 0 &&  this.notificationNew.isUserEnable ) {
+  if (this.notificationNew.id > 0  ) {
     this.handleDisableCases();
   }
   this.closeDisableModal();
@@ -509,7 +515,7 @@ confirmDisable(): void {
 
 
 handleDisableCases() {
-     this.updateUserNotification(this.notificationNew.id, this.notificationNew.isUserEnable);
+     this.updateUserNotification(this.notificationNew.id, true);
      this.notificationNew = null
 }
 
@@ -522,6 +528,21 @@ closeDisableModal(): void {
   }
 }
 
+existsInShift : boolean = true;
+
+userExistsInShift(): void {
+  // this.isButtonLoading = true;
+  this.dataService.existsInShift(this.UUID).subscribe({
+    next: (response) => {
+      this.existsInShift=response.status;
+      // this.helperService.showToast("Notification updated Successfully",Key.TOAST_STATUS_SUCCESS);
+    },
+    error: (error) => {
+      this.existsInShift = true;
+      // this.helperService.showToast("Error in updating Notification", Key.TOAST_STATUS_ERROR);
+    },
+  });
+}
 
 
 
