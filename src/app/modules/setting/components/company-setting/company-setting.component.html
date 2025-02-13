@@ -785,6 +785,7 @@
                       </button>
                       </div>
             
+                      <!-- {{notification.fixed}} -- {{!notification.isEditMode}} -->
                       <!-- Reminder form with unique ID for radio buttons and names -->
                       <div class="reminder-form mt-4 mb-4 p-3" *ngIf="notification.isEnable">
                         <div class="row">
@@ -799,8 +800,8 @@
                                     name="Reminder-{{i}}{{j}}"
                                     value="before" 
                                     class="form-check-input"
-                                    [checked]="notification.isBefore === 1"
-                                    (change)="toggleNotificationValue(notification, 'isBefore', true)" [disabled]="!notification.isEditMode">
+                                    [checked]="notification.isBefore === 1 "
+                                    (change)="toggleNotificationValue(notification, 'isBefore', true)" [disabled]="!notification.isEditMode || notification.fixed">
                                   <p class="form-check-label mb-0">Before</p>
                                 </label>
                               </div>
@@ -812,8 +813,8 @@
                                     name="Reminder-{{i}}{{j}}"
                                     value="after" 
                                     class="form-check-input"
-                                    [checked]="notification.isBefore === 0"
-                                    (change)="toggleNotificationValue(notification, 'isBefore', false)" [disabled]="!notification.isEditMode">
+                                    [checked]="notification.isBefore === 0 "
+                                    (change)="toggleNotificationValue(notification, 'isBefore', false)" [disabled]="!notification.isEditMode || notification.fixed">
                                   <p class="form-check-label mb-0">After</p>
                                 </label>
                               </div>
@@ -845,7 +846,7 @@
                                     value="forced" 
                                     class="form-check-input"
                                     [checked]="notification.isForced === 1"
-                                    [disabled]="!notification.isEditMode"
+                                    [disabled]="!notification.isEditMode || notification.fixed"
                                     >
                                   <p class="form-check-label mb-0">Forced</p>
                                 </label>
@@ -859,7 +860,7 @@
                                     value="flexible" 
                                     class="form-check-input"
                                     [checked]="notification.isForced === 0"
-                                    [disabled]="!notification.isEditMode"
+                                    [disabled]="!notification.isEditMode || notification.fixed"
                                     >
                                   <p class="form-check-label mb-0">Flexible</p>
                                 </label>

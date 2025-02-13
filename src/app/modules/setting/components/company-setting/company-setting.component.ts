@@ -1707,6 +1707,7 @@ notificationKeys: string[] = [];
 selectedTime: Date = new Date(); // Default time
 
 notificationTypes(): Promise<void> {
+  debugger
   return new Promise((resolve) => {
     this.dataService.notificationTypes().subscribe(
       (response) => {
@@ -1719,6 +1720,19 @@ notificationTypes(): Promise<void> {
         // Convert the 'minutes' string to a Date object for each notification
         this.notificationKeys.forEach(key => {
           if (this.notifications?.[key]) {
+
+            // Check if the notification type is "Report"
+            if (key === 'Report') {
+              this.notifications[key].forEach((notification, index) => {
+                if (index < 3) { // First three items
+                  notification.isBefore = 0;
+                  notification.isForced = 1;
+                  notification.fixed = true;
+                }
+              });
+            }
+
+
             this.notifications[key].forEach(notification => {
 
               if (notification.minutes) {
