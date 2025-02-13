@@ -623,7 +623,7 @@
                   </div>
               </div> 
 
-              <div class="filter-bdg d-flex align-items-center gap-2 mt-3">
+              <div class="filter-bdg d-flex align-items-center gap-2">
                 <ng-container *ngFor="let filter of appliedFilters">
                   <p 
                     class="filter-pills d-flex align-items-center gap-2 pointer font-12 fw-semibold"
@@ -947,7 +947,8 @@
                         </th>
                         <th style="width: 15%">Requested Date</th>
                         <th style="width: 10%">Updates</th>
-                        <th style="width: 4%" class="text-center stickyColThend">
+                        <!-- stickyColThend -->
+                        <th style="width: 4%" class="text-center ">
                           Action
                         </th>
                       </tr>
@@ -1040,10 +1041,10 @@
 
 
                         <td>{{counTDataInString(user?.data)}}</td>
-                        <td class="stickyColTdend text-end">
-
+                        <td>
+                          <!-- class="stickyColTdend" -->
                           <div class="dropdown">
-                            <button class="btn btnAction dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                            <button class="btn btnAction dropdown-toggle d-flex align-items-center justify-content-center" type="button" data-bs-toggle="dropdown"
                               aria-expanded="false">
                               <i class="bi bi-three-dots-vertical"></i>
                             </button>
@@ -1144,7 +1145,8 @@
                         <th style="width: 15%">Last Working Day</th>
                         <th style="width: 15%">Requested Date</th>
                         <th style="width: 15%" class="text-left">Status</th>
-                        <th style="width: 4%" class="text-center stickyColThend">
+                        <!-- stickyColThend -->
+                        <th style="width: 4%" class="text-center ">
                           Action
                         </th>
                       </tr>
@@ -1245,10 +1247,10 @@
                         </td>
 
 
-                        <td class="stickyColTdend text-end">
-
+                        <td >
+                          <!-- class="stickyColTdend" -->
                           <div class="dropdown">
-                            <button class="btn btnAction dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                            <button class="btn btnAction dropdown-toggle d-flex align-items-center justify-content-center" type="button" data-bs-toggle="dropdown"
                               aria-expanded="false">
                               <i class="bi bi-three-dots-vertical"></i>
                             </button>
@@ -1770,8 +1772,7 @@
             <div *ngIf="isRejectModalOpen" class="col-md-12">
               <div class="position-relative" id="reject-request">
                 <textarea id="exampleFormControlTextarea1" placeholder="Write the reason of refection.... "
-                  name="notesInput" rows="3" [(ngModel)]="rejectedReason"   class="form-control nots-section "
-                  style="background-color: #fff !important; border: 1px dashed #e9e9e9;" #rejectedReasonRef="ngModel"></textarea>
+                  name="notesInput" rows="3" [(ngModel)]="rejectedReason"   class="form-control nots-section" #rejectedReasonRef="ngModel"></textarea>
                   <div class="text-danger mt-2" *ngIf="rejectedReasonRef.touched && (!rejectedReason || rejectedReason.length < 10)">
                     Reason should be at least 10 characters long.
                     </div>
@@ -1784,7 +1785,7 @@
       </div>
       <div *ngIf="remainingField!==0" class="modal-footer d-flex align-items-center justify-content-end gap-2">
         <button type="button" (click)="rejectData()" [disabled]="rejectLoading || fieldLoading || approveLoading || (isRejectModalOpen && (!rejectedReason || rejectedReason.length < 10))"
-          class="btn btn-danger">
+          class="btn btn-soft-danger">
           <span *ngIf="!rejectLoading">Reject All</span>
           <div class="dot-opacity-loader" *ngIf="rejectLoading">
             <span></span>
@@ -1793,7 +1794,7 @@
           </div>
         </button>
         <button *ngIf="!isRejectModalOpen" type="button" (click)="approveRequestedData()" [disabled]="rejectLoading || approveLoading || fieldLoading"
-          class="btn  submitActionBtn">
+          class="btn  btn-soft-success">
           <span *ngIf="!approveLoading">Approve All</span>
           <div class="dot-opacity-loader" *ngIf="approveLoading">
             <span></span>
@@ -1801,18 +1802,17 @@
             <span></span>
           </div>
         </button>
-        <div *ngIf="isRejectModalOpen" class="modal-footer d-flex align-items-center justify-content-end gap-2">
+        <div *ngIf="isRejectModalOpen" class="d-flex align-items-center justify-content-end gap-2 ">
           <button type="button" (click)="isRejectModalOpen=false" [disabled]="rejectLoading"
-            class="btn cancel-btn">
+            class="btn cancel-btn mt-0">
             <span>Back</span>
-
           </button>
 
       </div>
     </div>
-    <div *ngIf="remainingField==0" class="modal-footer d-flex align-items-center justify-content-end gap-2">
+    <div *ngIf="remainingField==0" class="d-flex align-items-center justify-content-end gap-2">
       <button type="button" #closeReqDataModal (click)="closeDataRequestModal()"
-      data-bs-dismiss="modal" aria-label="Close" class="btn cancel-btn">
+      data-bs-dismiss="modal" aria-label="Close" class="btn cancel-btn mt-0">
         <span >Done</span>
       </button>
     </div>

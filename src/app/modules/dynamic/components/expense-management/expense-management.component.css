@@ -294,6 +294,7 @@
 }
 .filter-box{
     width: 400px !important;
+    z-index: 999;
 }
 .input-zorro {
     border-radius: 2px !important;
