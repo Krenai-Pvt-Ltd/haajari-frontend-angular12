@@ -225,6 +225,9 @@
     position: relative;
     top: -1px;
 }
+.nav-item {
+    margin-right: 0px;
+}
 
 .bill-images {
     background: rgba(0, 0, 0, 0.55);
@@ -496,13 +499,13 @@
 }
 
 ::ng-deep .placeholder-line .ant-select-selection-placeholder {
-    line-height: 45px !important;
+    line-height: 36px !important;
     font-size: 0.875rem !important;
     font-weight: 400 !important;
   }
   
   ::ng-deep .placeholder-line .ant-select-selection-item {
-    line-height: 45px !important;
+    line-height: 36px !important;
     font-size: 0.875rem !important;
     font-weight: 400 !important;
   }

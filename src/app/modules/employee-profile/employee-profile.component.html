@@ -54,8 +54,8 @@
                                 Attendance & leave</a>
                         </li>
                         <li class="nav-item" *ngIf="(roleService.getRoles()=='ADMIN' || UUID == userId) && !isBasicPlan">
-                            <a id="pills-profile-tab" data-bs-toggle="pill" href="#epmployee-finance" role="tab"
-                                aria-controls="pills-profile" (click)="setActiveTab('epmployee-finance')"
+                            <a id="pills-profile-tab" data-bs-toggle="pill" href="#employee-finance" role="tab"
+                                aria-controls="pills-profile" (click)="setActiveTab('employee-finance')"
                                 aria-selected="false" class="nav-link">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"
                                     fill="none">
@@ -203,9 +203,9 @@
                     </ng-container>
                 </div>
 
-                <div class="tab-pane fade" id="epmployee-finance" role="tabpanel" aria-labelledby="payroll-tab">
-                    <ng-container *ngIf="activeTab === 'epmployee-finance'">
-                        <app-epmployee-finance></app-epmployee-finance>
+                <div class="tab-pane fade" id="employee-finance" role="tabpanel" aria-labelledby="payroll-tab">
+                    <ng-container *ngIf="activeTab === 'employee-finance'">
+                        <app-employee-finance></app-employee-finance>
                     </ng-container>
                 </div>
 

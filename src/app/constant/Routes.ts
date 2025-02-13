@@ -49,6 +49,7 @@ export class Routes {
     public static ASSETSMANAGEMENT = "/assets-management"
     public static FAQ = "/faq"
     public static FAQDETAIL = "/faq-detail"
+    public static EXPENSEMANAGEMENT = "/expense-management"
     
  /**
     * DYNAMIC ROUTES END

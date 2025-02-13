@@ -421,6 +421,40 @@ export class DataService {
     });
   }
 
+
+  getUsersByFilterForEmpOnboardingNew(
+    itemPerPage: number,
+    pageNumber: number,
+    sort: string,
+    sortBy: string,
+    search: string,
+    searchBy: string,
+    isResginationUser: number,
+    filters: string[] // Add filters parameter
+  ): Observable<any> {
+    let params = new HttpParams()
+      .set('item_per_page', itemPerPage.toString())
+      .set('page_number', pageNumber.toString())
+      .set('sort_order', sort)
+      .set('sort_by', sortBy)
+      .set('search', search)
+      .set('search_by', searchBy);
+  
+    if (isResginationUser == 1) {
+      params = params.set('is_resignation_user', '1');
+    }
+  
+    if (filters.length > 0) {
+      params = params.set('filters', filters.join(',')); // Send as comma-separated string
+    }
+  
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/users/get/by-filters-for-employee-onboarding-data`,
+      { params }
+    );
+  }
+
+  
   getUsersByFilterForEmpOnboarding(
     itemPerPage: number,
     pageNumber: number,

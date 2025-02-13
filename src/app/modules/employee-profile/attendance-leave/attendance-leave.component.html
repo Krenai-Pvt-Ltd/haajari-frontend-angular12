@@ -827,7 +827,7 @@
                                                 </div>
                                                 <div>
                                                     <!--  *ngIf="userId==currentUserUuid && (dataService.resignationInfo==null || dataService.resignationInfo==undefined)" -->
-                                                    <ng-container *ngIf="isUserLeaveTaken && isUserLeaveTaken == 1 && userId==UUID">
+                                                    <ng-container *ngIf="isUserLeaveTaken && isUserLeaveTaken == 1 && userId==currentUserUuid">
                                                         <button type="button" class="btn primaryBtnLink leave-request"
                                                             (click)="applyNewLeaveReq()">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="20"
@@ -849,7 +849,7 @@
                                                         </button>
                                                     </ng-container>
 
-                                                    <ng-container *ngIf="isUserLeaveTaken == 0 && userId==UUID">
+                                                    <ng-container *ngIf="isUserLeaveTaken == 0 && userId==currentUserUuid">
                                                         <button type="button" nz-popover nzPopoverTitle="Note"
                                                             [nzPopoverContent]="contentTemplate"
                                                             [nzPopoverOverlayStyle]="{'width':'300px'}"

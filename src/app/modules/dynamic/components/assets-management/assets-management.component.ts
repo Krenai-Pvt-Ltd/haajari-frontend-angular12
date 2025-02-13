@@ -29,6 +29,7 @@ export class AssetsManagementComponent implements OnInit {
      private cdr: ChangeDetectorRef,
   ) { }
 
+  showFilter: boolean = false;
   ngOnInit(): void {
     this.getPendingRequestsCounter();
     this.dashboard();
@@ -816,4 +817,8 @@ newCategory: any = {
   closeChildren(): void {
     this.childrenVisible = false;
   }
+  changeShowFilter(flag : boolean) {
+    this.showFilter = flag;
+  }
+
 }
