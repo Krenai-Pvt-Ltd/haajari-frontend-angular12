@@ -468,7 +468,7 @@ formatMinutes(timeStr: string): string {
 
 notificationNew : any;
 onToggle(event: boolean, notification: any) {
-
+  debugger
   // notification.isUserEnable = !event;
 
   console.log("event :" , event , "notification" , notification);
@@ -485,10 +485,16 @@ onToggle(event: boolean, notification: any) {
       }
     });
   } else {
+    if (!this.notificationNew) {
+      this.notificationNew = { ...notification }; 
+    }
     this.notificationNew.isUserEnable = true;
-     this.updateUserNotification(notification.id, false)
-     this.notificationNew.isUserEnable = false;
-    this.notificationNew = null;
+    this.updateUserNotification(notification.id, false);
+    this.notificationNew.isUserEnable = false;
+    //  this.notificationNew.isUserEnable = true;
+    //  this.updateUserNotification(notification.id, false)
+    //  this.notificationNew.isUserEnable = false;
+    // this.notificationNew = null;
   }
   
 }
@@ -499,7 +505,7 @@ cancelDisable(): void {
   debugger
   if (this.notificationNew.id > 0) {
     this.notificationNew.isUserEnable = true;
-    // this.updateUserNotification(this.notificationNew.id, false);
+    this.updateUserNotification(this.notificationNew.id, false);
   }
   
   this.closeDisableModal();
