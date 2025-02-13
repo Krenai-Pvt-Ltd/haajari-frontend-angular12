@@ -284,7 +284,8 @@ newCategory: any = {
     vendorName: '',
     userId: null,
     assignedDate: null,
-    categoryId: ''
+    categoryId: null,
+    categoryName: ''
   };
 
   assetCreateLoading: boolean = false;
@@ -297,6 +298,7 @@ newCategory: any = {
           this.assetCreateLoading=false;
           if (response.status) {
             this.closeBtn.nativeElement.click();
+            this.fetchCategorySummary();
             this.helperService.showToast('Asset successfully created', Key.TOAST_STATUS_SUCCESS);
           } else {
             this.helperService.showToast('Asset creation failed', Key.TOAST_STATUS_ERROR);
@@ -321,6 +323,30 @@ newCategory: any = {
       control.markAsUntouched();
     });
   }
+
+  // Add these variables in your component
+  searchCategoryText: string = '';
+showNewCategoryInput: boolean = false;
+filteredCategories: any[] = [];
+showCreateOption: boolean = false;
+onSearch(searchText: string): void {
+  searchText = searchText.trim();
+  this.searchCategoryText = searchText;
+  if(searchText && searchText.length!=0){
+    this.assetData.categoryName = searchText;
+  }
+  this.filteredCategories = this.categorySummary.filter(c =>
+    c.categoryName.toLowerCase().includes(searchText.toLowerCase())
+  );
+
+  // Check if search text doesn't exactly match any existing category
+  const exactMatch = this.categorySummary.some(c =>
+    c.categoryName.toLowerCase() === searchText.toLowerCase()
+  );
+  this.showCreateOption = !!searchText && !exactMatch;
+}
+
+
 
 
 
@@ -759,9 +785,10 @@ newCategory: any = {
       );
     }
 
+
     requestedTypeCount: any = {};
     getRequestedTypeCount(): void {
-      this.dataService.getPendingRequestsCounter().subscribe(
+      this.dataService.getRequestedTypeCount().subscribe(
         (response) => {
           this.requestedTypeCount = response;
         },
