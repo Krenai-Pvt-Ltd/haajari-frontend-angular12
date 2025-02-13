@@ -1716,6 +1716,7 @@ notificationTypes(): Promise<void> {
         // Extract keys for iteration
         this.notificationKeys = Object.keys(this.notifications ?? {}); // Default to empty object if null
 
+        console.log("🚀 ~ CompanySettingComponent ~ returnnewPromise ~ this.notificationKeys:", this.notificationKeys)
         // Convert the 'minutes' string to a Date object for each notification
         this.notificationKeys.forEach(key => {
           if (this.notifications?.[key]) {

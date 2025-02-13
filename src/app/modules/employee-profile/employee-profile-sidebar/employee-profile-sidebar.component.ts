@@ -143,7 +143,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
   getEmployeeProfileData() {
     debugger
     this.dataService.getEmployeeProfile(this.userId).subscribe((response) => {
-      console.log(response.object);
+
       this.employeeProfileResponseData = response.object;
       this.dataService.employeeData=response.object;
       if (!this.employeeProfileResponseData?.agreementAccepted && this.userId === this.UUID) {
@@ -263,7 +263,6 @@ export class EmployeeProfileSidebarComponent implements OnInit {
       this.teams = this.teamString.split(',').map((team: string) => team.trim());
     }
     
-    console.log(this.teams);
   }
 
   getFirstLetterOfName(): string {
@@ -667,7 +666,6 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     this.dataService.getNoticePeriodDuration(this.userId).subscribe((res: any) => {
       if (res.status) {
         this.noticePeriodDuration = res.object
-        console.log('Duration: ', this.noticePeriodDuration)
       }
     })
   }

@@ -927,7 +927,6 @@ export class AttendanceLeaveComponent implements OnInit {
     this.dataService.getUserJoiningDate(this.userId).subscribe(
       (response) => {
         this.userJoiningDate = response;
-        console.log('User Joining Date:', this.userJoiningDate);
         // this.updateThirtyDaysLabel();
         this.updateWeekLabels();
         // Set the default selected tab to the current week
