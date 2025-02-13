@@ -1451,7 +1451,7 @@
               </div>
               <div class="col-md-6 mb-3">
                 <label for="joiningDate" class="pb-2">Joining Date <span class="text-danger">*</span></label>
-                <nz-date-picker id="joiningDate" name="joiningDate" #joiningDateField="ngModel"
+                <nz-date-picker id="joiningDate" name="joiningDate" #joiningDateField="ngModel" nzBorderless [nzFormat]="'dd/MM/YYYY'"
                   [(ngModel)]="userPersonalInformationRequest.joiningDate" required nzPlaceHolder="Select Joining Date">
                 </nz-date-picker>
               </div>

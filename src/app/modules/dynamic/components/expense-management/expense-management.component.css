@@ -305,3 +305,15 @@
     color: #a2a2a2;
     font-weight: 400 !important;
 }
+
+
+.action-btn:not(.collapsed) i {
+    transform: rotate(180deg);
+    transition: transform 0.3s ease;
+}
+
+.view-details:not(.collapsed) i {
+    transform: rotate(180deg);
+    transition: transform 0.3s ease;
+    display: inline-block;
+}
