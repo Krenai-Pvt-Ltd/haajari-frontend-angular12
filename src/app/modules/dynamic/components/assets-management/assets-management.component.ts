@@ -62,7 +62,8 @@ export class AssetsManagementComponent implements OnInit {
     this.fetchCategorySummary();
     this.fetchStatusSummary();
     this.getAssetsChangePercentageList();
-
+    this.getMonthlyAssignmentsAssets();
+    this.getRequestedTypeCount();
   }
   statusSummary: any[] = [];
   categorySummary: any[] = [];
@@ -171,7 +172,9 @@ newCategory: any = {
       );
     }
 
+    isCategoryUpdateLoading: boolean = false;
   saveOrUpdateCategory() {
+    this.isCategoryUpdateLoading = true;
     if(this.categoryId!=0) {
       this.updateCategory();
     } else {
@@ -215,6 +218,7 @@ newCategory: any = {
       });
   }
 
+
   updateCategory(): void {
     if (this.fileToUpload) {
       this.newCategory.categoryImage = this.fileToUpload;
@@ -222,12 +226,19 @@ newCategory: any = {
     this.dataService.updateAssetCategory(this.categoryId, this.newCategory)
       .subscribe(
         response => {
+          this.isCategoryUpdateLoading = false;
+          if(response.status){
+            this.helperService.showToast('Asset category updated successfully', Key.TOAST_STATUS_SUCCESS);
+          }else{
+            this.helperService.showToast('Asset category update failed', Key.TOAST_STATUS_ERROR);
+          }
           this.fetchCategorySummary();
           document.getElementById('createCategoryModal')?.click();
           this.newCategory = { categoryName: '', categoryImage: '' };
           this.imagePreviewUrl = null;
         },
         error => {
+          this.isCategoryUpdateLoading = false;
           console.error('Error updating asset category:', error);
         }
       );
@@ -241,12 +252,20 @@ newCategory: any = {
     this.dataService.createAssetCategory(this.newCategory)
       .subscribe(
         response => {
+          if(response.status){
+            this.helperService.showToast('Asset category created successfully', Key.TOAST_STATUS_SUCCESS);
+          }else{
+            this.helperService.showToast('Asset category creation failed', Key.TOAST_STATUS_ERROR);
+          }
+
+          this.isCategoryUpdateLoading = false;
           this.fetchCategorySummary();
           document.getElementById('createCategoryModal')?.click();
           this.newCategory = { categoryName: '', categoryImage: '' };
           this.imagePreviewUrl = null;
         },
         error => {
+          this.isCategoryUpdateLoading = false;
           console.error('Error creating asset category:', error);
         }
       );
@@ -411,6 +430,46 @@ newCategory: any = {
       );
     }
 
+    checkPercentageChange(statusId: number): { isPositive: boolean, percentageChange: number } {
+      const found = this.assetsChangePercentage.find((item: { statusId: number; }) => item.statusId === statusId);
+      return found ? { isPositive: found.percentageChange > 0, percentageChange: Math.abs(found.percentageChange) } : { isPositive: false, percentageChange: 0 };
+    }
+    assetsMonthlyAssignments : any = [];
+    getMonthlyAssignmentsAssets(): void {
+      this.dataService.getMonthlyAssignments(62).subscribe(
+        (response) => {
+          this.assetsMonthlyAssignments = response;
+        },
+        (error) => {
+          console.error('Error fetching pending requests counter', error);
+        }
+      );
+    }
+    getCurrentMonthStats(): { currentMonthCount: number, percentageChange: number } {
+      const currentDate = new Date();
+      const currentMonthYear = currentDate.toLocaleString('en-US', { month: 'short', year: 'numeric' });
+
+      const currentMonthData = this.assetsMonthlyAssignments.find((entry: { monthYear: string; }) => entry.monthYear === currentMonthYear);
+      const lastMonthDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1);
+      const lastMonthYear = lastMonthDate.toLocaleString('en-US', { month: 'short', year: 'numeric' });
+
+      const lastMonthData = this.assetsMonthlyAssignments.find((entry: { monthYear: string; }) => entry.monthYear === lastMonthYear);
+
+      const currentMonthCount = currentMonthData ? currentMonthData.assignmentCount : 0;
+      const lastMonthCount = lastMonthData ? lastMonthData.assignmentCount : 0;
+
+      let percentageChange = 0;
+      if (lastMonthCount > 0) {
+          percentageChange = ((currentMonthCount - lastMonthCount) / lastMonthCount) * 100;
+      } else if (currentMonthCount > 0) {
+          percentageChange = 100; // If last month had 0 assignments and this month has some, consider it a full increase
+      }
+
+      return { currentMonthCount, percentageChange };
+    }
+
+
+
 
 
     activeFilters: Filter[] = [];
@@ -468,16 +527,34 @@ newCategory: any = {
     statusChangeId: number=0;
     statusChangeDescription: string= '';
     statusChangeUserId: number=0;
+    statusChangeCurrentUserId: number=0;
     isUserEnable: boolean = false;
     changeStatusModal(assetId: number, statusId: number, userId: number, isUserEnable: boolean): void {
       this.statusChangeAssetId = assetId;
       this.statusChangeId = statusId;
-      this.statusChangeUserId = userId;
+      this.statusChangeCurrentUserId = userId;
       this.isUserEnable = isUserEnable;
     }
 
     statusChangeLoading: boolean = false;
+    isUserSame(): boolean {
+      if (this.isUserEnable) {
+        if(this.statusChangeUserId==0 || this.statusChangeUserId==this.statusChangeCurrentUserId){
+          return true;
+        }
+        else{
+          return false;
+        }
+      }else{
+        return false;
+      }
+    }
     updateAssetStatus(): void {
+      if (this.isUserEnable) {
+       if(this.statusChangeUserId==0 || this.statusChangeUserId==this.statusChangeCurrentUserId){
+         return;
+       }
+      }
       this.statusChangeLoading = true;
       this.dataService.changeStatus(this.statusChangeAssetId, this.statusChangeId, this.statusChangeDescription, this.statusChangeUserId)
         .subscribe({
@@ -674,6 +751,18 @@ newCategory: any = {
       this.dataService.getPendingRequestsCounter().subscribe(
         (response) => {
           this.pendingRequestsCounter = response.pendingRequestsCounter;
+        },
+        (error) => {
+          console.error('Error fetching pending requests counter', error);
+        }
+      );
+    }
+
+    requestedTypeCount: any = {};
+    getRequestedTypeCount(): void {
+      this.dataService.getPendingRequestsCounter().subscribe(
+        (response) => {
+          this.requestedTypeCount = response;
         },
         (error) => {
           console.error('Error fetching pending requests counter', error);

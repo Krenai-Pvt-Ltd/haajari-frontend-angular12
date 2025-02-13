@@ -3730,10 +3730,6 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
 
 
 
-  createAssetCategory(assetCategoryRequest: AssetCategoryRequest): Observable<any> {
-    return this.httpClient.post<any>(`${this.baseUrl}/asset/allocation/create/asset/category`, assetCategoryRequest);
-  }
-
   createAsset(assetRequest: OrganizationAssetRequest): Observable<any> {
     return this.httpClient.post<any>(`${this.baseUrl}/asset/allocation/create/asset`, assetRequest);
   }
@@ -3793,11 +3789,6 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     return this.httpClient.put<any>(`${this.baseUrl}/asset/allocation/edit/asset`, assetRequest, {params});
   }
 
-  updateAssetCategory(categoryId: number, category: AssetCategoryRequest): Observable<any> {
-    const params = new HttpParams()
-      .set('categoryId', categoryId);
-    return this.httpClient.put(`${this.baseUrl}/asset/allocation/edit/asset/category`, category, { params});
-  }
 
   assignOrReturnAsset(assetId: number, operationString: string, assignOrReturnRequest: any): Observable<any> {
     const url = `${this.baseUrl}/asset/allocation/assign/return/asset`;
@@ -4790,6 +4781,9 @@ getHolidayForOrganizationWhatsapp(userUuid: string, date: string): Observable<an
   getPendingRequestsCounter(): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/asset-requests/pending-requests-counter`);
   }
+  getRequestedTypeCount(): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/asset-requests/count-by-requested-type`);
+  }
 
   acceptAgreement(): Observable<any> {
     const url = `${this.baseUrl}/users/accept-agreement`;
@@ -5061,6 +5055,19 @@ getHolidayForOrganizationWhatsapp(userUuid: string, date: string): Observable<an
   }
   getAssetChangePercentageList(): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/assets/status-changes`);
+  }
+  updateAssetCategory(categoryId: number, category: AssetCategoryRequest): Observable<any> {
+    const params = new HttpParams()
+      .set('categoryId', categoryId);
+    return this.httpClient.put(`${this.baseUrl}/assets/update-category`, category, { params});
+  }
+  createAssetCategory(assetCategoryRequest: AssetCategoryRequest): Observable<any> {
+    return this.httpClient.post<any>(`${this.baseUrl}/assets/create-category`, assetCategoryRequest);
+  }
+  getMonthlyAssignments(statusId: number): Observable<any> {
+    const params = new HttpParams()
+      .set('statusId', statusId);
+    return this.httpClient.get<any>(`${this.baseUrl}/assets/monthly-assignments`, { params });
   }
 
 }
