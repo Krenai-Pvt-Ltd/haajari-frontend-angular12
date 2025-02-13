@@ -117,7 +117,7 @@
               </svg>
             </span>
             <ng-template #contentTemplate>
-              
+
               <div class="request-g">
                 <div class="d-flex align-items-center justify-content-between border-bottom p-3">
                   <h5 class="mb-0">Update Request</h5>
@@ -273,7 +273,7 @@
         </div>
         <span>Joining Date: {{ (user.joiningDate | date:'dd-MM-yyyy') || '--' }}</span>
       </div>
-      
+
       <div class="action-btn" *ngIf=" user!.employeeOnboardingStatus?.response != 'PENDING'">
         <div class="d-flex align-items-center gap-3" *ngIf="requestedData && rbacService.userInfo.role != 'USER'">
           <button
@@ -324,7 +324,7 @@
             Edit It
           </button>
 
-        
+
            <span class="separator-border" *ngIf=" !requestedData && onboardingPreviewData!.reasonOfRejection"></span>
 
           <div class="badge rounded-pill badge-soft-danger" *ngIf=" !requestedData && onboardingPreviewData!.reasonOfRejection"
@@ -3161,9 +3161,18 @@
                   [(ngModel)]="this.onboardingPreviewDataCopy.user.email" />
                 <label class="form__label">Email</label>
               </div>
+              <!-- Validation message -->
+              <!-- Validation message for Email -->
+              <div
+                *ngIf="onboardingForm.get('user.email')?.invalid && (onboardingForm.get('user.email')?.dirty || onboardingForm.get('user.email')?.touched)"
+                class="text-danger">
+                <span *ngIf="onboardingForm.get('user.email')?.errors?.['required']">Email is required.</span>
+                <span *ngIf="onboardingForm.get('user.email')?.errors?.['email']">Please enter a valid email address.</span>
+              </div>
 
 
-            </div>
+
+              </div>
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
                 <nz-date-picker class="form__field custom-date-picker" formControlName="joiningDate"
@@ -3171,7 +3180,11 @@
                   nzBorderless=true nzPlaceHolder="Select Joining Date"></nz-date-picker>
                 <label class="form__label">Joining Date</label>
               </div>
-
+              <div
+                *ngIf="onboardingForm.get('user.joiningDate')?.invalid && (onboardingForm.get('user.joiningDate')?.dirty || onboardingForm.get('user.joiningDate')?.touched)"
+                class="text-danger">
+                <span *ngIf="onboardingForm.get('user.joiningDate')?.errors?.['required']">Joining Date is required.</span>
+              </div>
             </div>
 
             <div class="col-md-6 mb-3">

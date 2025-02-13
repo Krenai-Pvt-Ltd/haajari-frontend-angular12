@@ -229,9 +229,18 @@
                                                 </span>
                                             </div>
                                             <p class="mb-0 font-13 week-count">
+                                              <ng-container *ngIf="checkPercentageChange(-1).isPositive; else negativeIcon">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                                                     <path d="M13.1918 4.94434L15.0661 6.81861L11.072 10.8127L7.79819 7.53886L1.7334 13.6118L2.88743 14.7659L7.79819 9.8551L11.072 13.1289L16.2283 7.98082L18.1026 9.8551V4.94434H13.1918Z" fill="#22b783"/>
-                                                </svg>&nbsp;
+                                                </svg>
+                                            </ng-container>
+
+                                            <ng-template #negativeIcon>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="21" height="20" viewBox="0 0 21 20" fill="none">
+                                                    <path d="M14.0644 14.7659L15.9387 12.8916L11.9446 8.8975L8.67075 12.1713L2.60596 6.09837L3.75999 4.94434L8.67075 9.8551L11.9446 6.58126L17.1009 11.7294L18.9752 9.8551V14.7659H14.0644Z" fill="#F93C65"/>
+                                                </svg>
+                                            </ng-template>
+                                            &nbsp;
                                                 <span [ngClass]="checkPercentageChange(-1).isPositive ? 'text-success' : 'text-danger'">
                                                   {{ checkPercentageChange(-1).percentageChange }}%
                                                 </span>
@@ -257,9 +266,18 @@
                                                     </span>
                                                 </div>
                                                 <p class="mb-0 font-13 week-count">
+                                                  <ng-container *ngIf="checkPercentageChange(62).isPositive; else negativeIcon">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                                                         <path d="M13.1918 4.94434L15.0661 6.81861L11.072 10.8127L7.79819 7.53886L1.7334 13.6118L2.88743 14.7659L7.79819 9.8551L11.072 13.1289L16.2283 7.98082L18.1026 9.8551V4.94434H13.1918Z" fill="#22b783"/>
-                                                    </svg>&nbsp;
+                                                    </svg>
+                                                </ng-container>
+
+                                                <ng-template #negativeIcon>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="21" height="20" viewBox="0 0 21 20" fill="none">
+                                                        <path d="M14.0644 14.7659L15.9387 12.8916L11.9446 8.8975L8.67075 12.1713L2.60596 6.09837L3.75999 4.94434L8.67075 9.8551L11.9446 6.58126L17.1009 11.7294L18.9752 9.8551V14.7659H14.0644Z" fill="#F93C65"/>
+                                                    </svg>
+                                                </ng-template>
+                                                &nbsp;
                                                     <span [ngClass]="checkPercentageChange(62).isPositive ? 'text-success' : 'text-danger'">
                                                       {{ checkPercentageChange(62).percentageChange }}%
                                                     </span>
@@ -285,9 +303,18 @@
                                                         </span>
                                                     </div>
                                                     <p class="mb-0 font-13 week-count">
+                                                      <ng-container *ngIf="checkPercentageChange(64).isPositive; else negativeIcon">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                                            <path d="M13.1918 4.94434L15.0661 6.81861L11.072 10.8127L7.79819 7.53886L1.7334 13.6118L2.88743 14.7659L7.79819 9.8551L11.072 13.1289L16.2283 7.98082L18.1026 9.8551V4.94434H13.1918Z" fill="#22b783"/>
+                                                        </svg>
+                                                    </ng-container>
+
+                                                    <ng-template #negativeIcon>
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="21" height="20" viewBox="0 0 21 20" fill="none">
                                                             <path d="M14.0644 14.7659L15.9387 12.8916L11.9446 8.8975L8.67075 12.1713L2.60596 6.09837L3.75999 4.94434L8.67075 9.8551L11.9446 6.58126L17.1009 11.7294L18.9752 9.8551V14.7659H14.0644Z" fill="#F93C65"/>
-                                                        </svg>&nbsp;
+                                                        </svg>
+                                                    </ng-template>
+                                                    &nbsp;
                                                         <span [ngClass]="checkPercentageChange(64).isPositive ? 'text-success' : 'text-danger'">
                                                           {{ checkPercentageChange(64).percentageChange }}%
                                                         </span>
@@ -313,9 +340,18 @@
                                                             </span>
                                                         </div>
                                                         <p class="mb-0 font-13 week-count">
+                                                          <ng-container *ngIf="checkPercentageChange(65).isPositive; else negativeIcon">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                                                                 <path d="M13.1918 4.94434L15.0661 6.81861L11.072 10.8127L7.79819 7.53886L1.7334 13.6118L2.88743 14.7659L7.79819 9.8551L11.072 13.1289L16.2283 7.98082L18.1026 9.8551V4.94434H13.1918Z" fill="#22b783"/>
-                                                            </svg>&nbsp;
+                                                            </svg>
+                                                        </ng-container>
+
+                                                        <ng-template #negativeIcon>
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="20" viewBox="0 0 21 20" fill="none">
+                                                                <path d="M14.0644 14.7659L15.9387 12.8916L11.9446 8.8975L8.67075 12.1713L2.60596 6.09837L3.75999 4.94434L8.67075 9.8551L11.9446 6.58126L17.1009 11.7294L18.9752 9.8551V14.7659H14.0644Z" fill="#F93C65"/>
+                                                            </svg>
+                                                        </ng-template>
+                                                        &nbsp;
                                                             <span [ngClass]="checkPercentageChange(65).isPositive ? 'text-success' : 'text-danger'">
                                                               {{ checkPercentageChange(65).percentageChange }}%
                                                             </span>
@@ -341,9 +377,18 @@
                                                                 </span>
                                                             </div>
                                                             <p class="mb-0 week-count font-13">
+                                                              <ng-container *ngIf="checkPercentageChange(-2).isPositive; else negativeIcon">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                                                                     <path d="M13.1918 4.94434L15.0661 6.81861L11.072 10.8127L7.79819 7.53886L1.7334 13.6118L2.88743 14.7659L7.79819 9.8551L11.072 13.1289L16.2283 7.98082L18.1026 9.8551V4.94434H13.1918Z" fill="#22b783"/>
-                                                                </svg>&nbsp;
+                                                                </svg>
+                                                            </ng-container>
+
+                                                            <ng-template #negativeIcon>
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="21" height="20" viewBox="0 0 21 20" fill="none">
+                                                                    <path d="M14.0644 14.7659L15.9387 12.8916L11.9446 8.8975L8.67075 12.1713L2.60596 6.09837L3.75999 4.94434L8.67075 9.8551L11.9446 6.58126L17.1009 11.7294L18.9752 9.8551V14.7659H14.0644Z" fill="#F93C65"/>
+                                                                </svg>
+                                                            </ng-template>
+                                                            &nbsp;
                                                                 <span [ngClass]="checkPercentageChange(-2).isPositive ? 'text-success' : 'text-danger'">
                                                                   {{ checkPercentageChange(-2).percentageChange }}%
                                                                 </span>
@@ -1173,17 +1218,17 @@
                                     <div class="asset-assigned-search">
                                         <div class="d-flex justify-content-start align-items-center">
                                             <div class="search-filter">
-                                                <button type="button" id="statusDropdown" class="btn btn-secondary new-dropdown d-flex align-items-center justify-content-between" (click)="changeShowFilter(true)">
-                                                    Filters
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23" fill="none">
-                                                        <mask id="mask0_7808_40" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="23" height="23">
-                                                        <rect x="0.262695" y="0.283112" width="22.4338" height="22.4338" fill="#1C1B1F"/>
-                                                        </mask>
-                                                        <g mask="url(#mask0_7808_40)">
-                                                        <path d="M9.61057 17.1084V15.239H13.3495V17.1084H9.61057ZM5.87161 12.4347V10.5653H17.0885V12.4347H5.87161ZM3.06738 7.76104V5.89156H19.8927V7.76104H3.06738Z" fill="#1C1B1F"/>
-                                                        </g>
-                                                    </svg>
-                                                </button>
+                                              <button type="button" id="statusDropdown" class="btn btn-secondary new-dropdown d-flex align-items-center justify-content-between" data-bs-toggle="dropdown"  data-bs-auto-close="false"  aria-expanded="false">
+                                                Filters
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23" fill="none">
+                                                    <mask id="mask0_7808_40" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="23" height="23">
+                                                    <rect x="0.262695" y="0.283112" width="22.4338" height="22.4338" fill="#1C1B1F"/>
+                                                    </mask>
+                                                    <g mask="url(#mask0_7808_40)">
+                                                    <path d="M9.61057 17.1084V15.239H13.3495V17.1084H9.61057ZM5.87161 12.4347V10.5653H17.0885V12.4347H5.87161ZM3.06738 7.76104V5.89156H19.8927V7.76104H3.06738Z" fill="#1C1B1F"/>
+                                                    </g>
+                                                </svg>
+                                            </button>
 
                                                 <div class="dropdown-menu actionMenuList filter-box p-0">
                                                     <div class="d-flex align-items-center justify-content-between border-bottom p-3">
@@ -1339,7 +1384,7 @@
                                                 <!-- Filter-reset btn end -->
                                             </div>
                                         </div>
-                                        <div class="actionMenuList filter-box p-0 position-absolute bg-white border" [ngClass]="{'d-none': !showFilter}">
+                                        <!-- <div class="actionMenuList filter-box p-0 position-absolute bg-white border" [ngClass]="{'d-none': !showFilter}">
                                             <div class="d-flex align-items-center justify-content-between border-bottom p-3">
                                                 <h5 class="mb-0 font-14 fw-semibold"> Filter</h5>
                                                 <span class="pointer lh-1" (click)="changeShowFilter(false)">
@@ -1401,7 +1446,7 @@
                                                 <button class="btn cancel-btn mt-0" (click)="changeShowFilter(false)">Reset it</button>
                                                 <button class="btn submitActionBtn">Apply</button>
                                             </div>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
 
@@ -2174,17 +2219,17 @@
                                 <div class="asset-assigned-search">
                                     <div class="d-flex justify-content-start align-items-center">
                                         <div class="search-filter dropdown">
-                                            <button type="button" id="statusDropdown" class="btn btn-secondary new-dropdown d-flex align-items-center justify-content-between" (click)="changeShowFilter(true)">
-                                                Filters
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23" fill="none">
-                                                    <mask id="mask0_7808_40" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="23" height="23">
-                                                    <rect x="0.262695" y="0.283112" width="22.4338" height="22.4338" fill="#1C1B1F"/>
-                                                    </mask>
-                                                    <g mask="url(#mask0_7808_40)">
-                                                    <path d="M9.61057 17.1084V15.239H13.3495V17.1084H9.61057ZM5.87161 12.4347V10.5653H17.0885V12.4347H5.87161ZM3.06738 7.76104V5.89156H19.8927V7.76104H3.06738Z" fill="#1C1B1F"/>
-                                                    </g>
-                                                </svg>
-                                            </button>
+                                          <button type="button" id="statusDropdown" class="btn btn-secondary new-dropdown d-flex align-items-center justify-content-between" data-bs-toggle="dropdown">
+                                            Filters
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23" fill="none">
+                                                <mask id="mask0_7808_40" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="23" height="23">
+                                                <rect x="0.262695" y="0.283112" width="22.4338" height="22.4338" fill="#1C1B1F"/>
+                                                </mask>
+                                                <g mask="url(#mask0_7808_40)">
+                                                <path d="M9.61057 17.1084V15.239H13.3495V17.1084H9.61057ZM5.87161 12.4347V10.5653H17.0885V12.4347H5.87161ZM3.06738 7.76104V5.89156H19.8927V7.76104H3.06738Z" fill="#1C1B1F"/>
+                                                </g>
+                                            </svg>
+                                        </button>
                                             <div class="dropdown-menu actionMenuList not-assign-filter p-0">
                                                 <div class="d-flex align-items-center justify-content-between border-bottom p-3">
                                                     <h5 class="mb-0 font-14 fw-semibold"> Filter</h5>

@@ -45,7 +45,7 @@ export class PersonalInformationComponent implements OnInit {
       user: this.fb.group({
         name: [''],
         maritalStatus: [''],
-        email: ['', [Validators.required]],
+        email: ['', [Validators.required,Validators.email]],
         joiningDate: [null, Validators.required],
         phoneNumber: [''],
         // currentSalary: [''],
@@ -449,6 +449,7 @@ export class PersonalInformationComponent implements OnInit {
       });
     }
     else {
+      this.onboardingForm.markAllAsTouched();
       this.isFormInvalid = true;
       this.helperService.showToast('Some required fields are incorrect or missing. Please fix them', Key.TOAST_STATUS_ERROR);
     }
