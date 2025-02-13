@@ -46,6 +46,7 @@ export class AccountSettingsComponent implements OnInit {
     this.UUID= this.roleService.getUuid();
     this.userInfo= this.roleService.userInfo;
 
+    this.userExistsInShift();
     this.notificationTypes();
     this.setFormData();
     this.supportForm.get('email')?.disable();
@@ -433,9 +434,11 @@ loadingToggles: { [key: string]: boolean } = {};
 updateUserNotification(notificationId: number, statusValue: boolean): Promise<void> {
   const status = statusValue ? 'DISABLE' : 'ENABLE'; // Assign the correct status
   this.loadingToggles[notificationId] = true;
+  // this.notificationNew.isUserEnable = !statusValue;
   return new Promise((resolve) => {
     this.dataService.updateUserNotification(notificationId, status).subscribe(
-      () => {
+      (response) => {
+        // this.notificationNew.isUserEnable = response.object;
         console.log("Updated successfully");
         this.loadingToggles[notificationId] = false;
         // this.notificationTypes(); // Refresh notification types
@@ -463,6 +466,89 @@ formatMinutes(timeStr: string): string {
   return `${hrs.toString().padStart(2, '0')}hrs ${mins.toString().padStart(2, '0')}mins`;
 }
 
+notificationNew : any;
+onToggle(event: boolean, notification: any) {
+  debugger
+  // notification.isUserEnable = !event;
+
+  console.log("event :" , event , "notification" , notification);
+  if (!event) {
+    // User is trying to disable, show confirmation modal
+    // this.notificationId = notification.id;
+    // this.statusValue = notification.isUserEnable;
+    this.notificationNew = notification;
+    setTimeout(() => {
+      const modal = document.getElementById('disableConfirmationModal');
+      if (modal) {
+        modal.classList.add('show');
+        modal.style.display = 'block';
+      }
+    });
+  } else {
+    if (!this.notificationNew) {
+      this.notificationNew = { ...notification }; 
+    }
+    this.notificationNew.isUserEnable = true;
+    this.updateUserNotification(notification.id, false);
+    this.notificationNew.isUserEnable = false;
+    //  this.notificationNew.isUserEnable = true;
+    //  this.updateUserNotification(notification.id, false)
+    //  this.notificationNew.isUserEnable = false;
+    // this.notificationNew = null;
+  }
+  
+}
+
+
+
+cancelDisable(): void {
+  debugger
+  if (this.notificationNew.id > 0) {
+    this.notificationNew.isUserEnable = true;
+    this.updateUserNotification(this.notificationNew.id, false);
+  }
+  
+  this.closeDisableModal();
+}
+
+confirmDisable(): void {
+  debugger
+  if (this.notificationNew.id > 0  ) {
+    this.handleDisableCases();
+  }
+  this.closeDisableModal();
+}
+
+
+handleDisableCases() {
+     this.updateUserNotification(this.notificationNew.id, true);
+     this.notificationNew = null
+}
+
+closeDisableModal(): void {
+  debugger
+  const modal = document.getElementById('disableConfirmationModal');
+  if (modal) {
+    modal.classList.remove('show');
+    modal.style.display = 'none';
+  }
+}
+
+existsInShift : boolean = true;
+
+userExistsInShift(): void {
+  // this.isButtonLoading = true;
+  this.dataService.existsInShift(this.UUID).subscribe({
+    next: (response) => {
+      this.existsInShift=response.status;
+      // this.helperService.showToast("Notification updated Successfully",Key.TOAST_STATUS_SUCCESS);
+    },
+    error: (error) => {
+      this.existsInShift = true;
+      // this.helperService.showToast("Error in updating Notification", Key.TOAST_STATUS_ERROR);
+    },
+  });
+}
 
 
 

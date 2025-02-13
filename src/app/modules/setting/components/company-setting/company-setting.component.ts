@@ -1707,6 +1707,7 @@ notificationKeys: string[] = [];
 selectedTime: Date = new Date(); // Default time
 
 notificationTypes(): Promise<void> {
+  debugger
   return new Promise((resolve) => {
     this.dataService.notificationTypes().subscribe(
       (response) => {
@@ -1720,7 +1721,21 @@ notificationTypes(): Promise<void> {
         // Convert the 'minutes' string to a Date object for each notification
         this.notificationKeys.forEach(key => {
           if (this.notifications?.[key]) {
+
+            // Check if the notification type is "Report"
+            if (key === 'Report') {
+              this.notifications[key].forEach((notification, index) => {
+                if (index < 3) { // First three items
+                  notification.isBefore = 0;
+                  notification.isForced = 1;
+                  notification.fixed = true;
+                }
+              });
+            }
+
+
             this.notifications[key].forEach(notification => {
+
               if (notification.minutes) {
                 notification.minutes = this.convertTimeStringToDate(notification.minutes);
               }
@@ -1742,10 +1757,11 @@ notificationTypes(): Promise<void> {
 
 
 convertTimeStringToDate(timeString: string): Date {
-  if (timeString == null || timeString == undefined) {
-    return this.convertTimeStringToDate('00:00');
-  }
 
+  if (timeString == null || timeString == undefined) {
+     return this.convertTimeStringToDate('00:00');
+  }
+  
   const timeParts = timeString.split(':');
   const hours = parseInt(timeParts[0], 10);
   const minutes = parseInt(timeParts[1], 10);
@@ -1776,14 +1792,28 @@ isAttendanceType(type: string): boolean {
 isSaveDisabled(notification: any): boolean {
   debugger;
   
-  // Check if minutes is valid
+  console.log("Notification Object:", notification);
+  
+  // Check if minutes is a valid Date
   const isMinutesValid = notification.minutes instanceof Date && !isNaN(notification.minutes.getTime());
+  // console.log("isMinutesValid:", isMinutesValid, "notification.minutes:", notification.minutes);
 
-  return !(notification.isEditMode &&
-    (notification.isBefore === 0 || notification.isBefore === 1) &&
-    isMinutesValid &&  // Ensure the minutes field is a valid date
-    (notification.isForced === 0 || notification.isForced === 1));
+  // Check other conditions
+  const isEditModeValid = notification.isEditMode;
+  // console.log("isEditModeValid:", isEditModeValid);
+
+  const isBeforeValid = notification.isBefore != null;
+  // console.log("isBeforeValid:", isBeforeValid, "notification.isBefore:", notification.isBefore);
+
+  const isForcedValid = notification.isForced != null;
+  // console.log("isForcedValid:", isForcedValid, "notification.isForced:", notification.isForced);
+
+  const result = !(isEditModeValid && isBeforeValid && isMinutesValid && isForcedValid);
+  // console.log("Final Result (isSaveDisabled):", result);
+
+  return result;
 }
+
 
 
 
@@ -1874,22 +1904,34 @@ convertDateToTimeString(date: Date): string {
 }
 
 
-toggleNotificationValue(notification: any, field: string): void {
+toggleNotificationValue(notification: any, field: string, operationFlag: boolean): void {
 
-  notification.isEditMode = true;
+  // notification.isEditMode = true;
 
   // Toggle logic based on field
+  // if (field === 'isEnable') {
+  //   // Handle isEnable toggling
+  //   notification.isEnable = notification.isEnable === 1 ? 0 : 1;
+  // } 
+  // else if (field === 'isBefore') {
+  //   // Handle isBefore toggling
+  //   notification.isBefore = notification.isBefore === 1 ? 0 : 1;
+  // } 
+  // else if (field === 'isForced') {
+  //   // Handle isForced toggling (this is already handled by ngModel)
+  //   notification.isForced = notification.isForced === 1 ? 0 : 1;
+  // }
   if (field === 'isEnable') {
     // Handle isEnable toggling
-    notification.isEnable = notification.isEnable === 1 ? 0 : 1;
+    notification.isEnable = operationFlag;
   } 
   else if (field === 'isBefore') {
     // Handle isBefore toggling
-    notification.isBefore = notification.isBefore === 1 ? 0 : 1;
+    notification.isBefore = operationFlag;
   } 
   else if (field === 'isForced') {
     // Handle isForced toggling (this is already handled by ngModel)
-    notification.isForced = notification.isForced === 1 ? 0 : 1;
+    notification.isForced = operationFlag;
   }
 
 }
@@ -1901,10 +1943,16 @@ toggleNotificationValue(notification: any, field: string): void {
 
 isSwitchEnabled: { [key: string]: boolean } = {};
 loadingFlags: { [key: string]: boolean } = {}; 
+currentType: string | null = null;
+disableConfirmed: boolean = false; // Track if user confirmed disable
+switchValueString : string = '';
+index : number = 0;
+notification : any;
+
 // This function is used to return the value of the switch's state for a specific type
 shouldShowSwitch(type: string, cancelDisableFlag : boolean): boolean {
-  debugger
-  console.log("🚀 ~ CompanySettingComponent ~ shouldShowSwitch ~ cancelDisableFlag:", cancelDisableFlag)
+  // debugger
+  // console.log("🚀 ~ CompanySettingComponent ~ shouldShowSwitch ~ cancelDisableFlag:", cancelDisableFlag)
 
   if(cancelDisableFlag) {
     return true;
@@ -1912,35 +1960,14 @@ shouldShowSwitch(type: string, cancelDisableFlag : boolean): boolean {
   // Check if the switch is manually enabled or if any notification for the type is enabled
   return this.isSwitchEnabled[type] ?? this.notifications?.[type]?.some(notification => notification.isEnable === 1) ?? false;
 }
-  currentType: string | null = null;
-  disableConfirmed: boolean = false; // Track if user confirmed disable
-
-// onSwitchChange(event: boolean, type: string): void {
-//   // Set loading state to true
-//   this.loadingFlags[type] = true;
-//   this.cdr.detectChanges(); // Ensure UI updates
-
-//   if (event) {
-//     this.isSwitchEnabled[type] = true; 
-    
-//     this.notificationTypes().finally(() => {
-//       this.loadingFlags[type] = false; // Turn off loading after API response
-//       this.cdr.detectChanges();
-//     });
-//   } else {
-//     this.isSwitchEnabled[type] = false;
-//     this.handleSwitchDisable(type).finally(() => {
-//       this.loadingFlags[type] = false; // Turn off loading after API response
-//       this.cdr.detectChanges();
-//     });
-//   }
-// }
-onSwitchToggle(event: boolean, type: string): void {
-  debugger
+ 
+onSwitchToggle(event: boolean, type: string, switchValue: string): void {
+  // debugger
   console.log("event :", event);
   if (!event) {
     // User is trying to disable, show confirmation modal
     this.currentType = type;
+    this.switchValueString = switchValue;
     this.disableConfirmed = false; // Reset confirmation state
 
     setTimeout(() => {
@@ -1958,12 +1985,79 @@ onSwitchToggle(event: boolean, type: string): void {
 }
 
 
+onToggle(event: boolean, notification: any, type: string, index: number, switchValue: string): void {
+  debugger
+  console.log("event :" , event , "notification" , notification , "type" , type , "index" , index, "switchValue" , switchValue);
+  if (!event) {
+    // User is trying to disable, show confirmation modal
+    this.currentType = type;
+    this.switchValueString = switchValue;
+    this.index = index;
+    this.notification = notification;
+    this.disableConfirmed = false; 
+
+    setTimeout(() => {
+      const modal = document.getElementById('disableConfirmationModal');
+      if (modal) {
+        modal.classList.add('show');
+        modal.style.display = 'block';
+      }
+    });
+  } else {
+
+    if(String(switchValue).trim() == 'SHIFT_SWITCH') {
+      this.isSwitchEnabled[type] = true;
+    }else if (String(switchValue).trim() == 'SHIFT_CHECKBOX' && type) {
+      notification.isEditMode = true
+      notification.isEnable = true;
+      this.toggleNotificationValue(notification, 'isEnable', true);
+      // notification.isEnable = notification.isEnable === 1 ? 0 : 1;
+      // this.saveNotification(notification, type, index);
+    }else if (String(switchValue).trim() == 'OTHER_SWITCH' && type == 'Other') {
+      notification.isEnable = !event;
+      this.saveNotification(notification, type, index);
+      notification.isEnable = event;
+    }
+
+  }
+}
+
+
 cancelDisable(): void {
   debugger
   if (this.currentType) {
-    this.isSwitchEnabled[this.currentType] = true; // Restore switch state
-    this.shouldShowSwitch(this.currentType, true);
+    // this.isSwitchEnabled[this.currentType] = true; 
+    // this.shouldShowSwitch(this.currentType, true);
     // this.notificationTypes();
+    if(String(this.switchValueString).trim() === 'SHIFT_SWITCH' && this.currentType) {
+      this.isSwitchEnabled[this.currentType] = true; 
+      this.shouldShowSwitch(this.currentType, true);
+      // this.updateNotificationState(this.currentType);
+      this.currentType = '';
+      this.switchValueString = '';
+      this.index = 0;
+      this.notification = null;
+   }else if (String(this.switchValueString).trim() === 'SHIFT_CHECKBOX' && this.currentType) {
+    this.notification.isEnable = true;
+    // if( this.notification.id != null && this.notification.id > 0) {
+    //    this.saveNotification(this.notification, this.currentType, this.index);
+    // }
+      this.currentType = '';
+      this.switchValueString = '';
+      // this.index = 0;
+      // this.notification = null;
+   }else if (String(this.switchValueString).trim() === 'OTHER_SWITCH' && this.currentType) {
+    this.notification.isEnable = true;
+    // this.notification.isEnable = this.notification.isEnable === 1 ? 1 : 0;
+    // if(this.notification.id != null && this.notification.id > 0) {
+    //    this.saveNotification(this.notification, this.currentType, this.index);
+    // }
+     this.notification.isEnable = true;
+     this.currentType = '';
+     this.switchValueString = '';
+    //  this.index = 0;
+    //  this.notification = null;
+   }
   }
   this.closeDisableModal();
 }
@@ -1971,14 +2065,41 @@ cancelDisable(): void {
 confirmDisable(): void {
   debugger
   if (this.currentType) {
-    this.isSwitchEnabled[this.currentType] = false; // Set switch to disabled
-    this.shouldShowSwitch(this.currentType, false);
-    this.updateNotificationState(this.currentType, false);
+    this.handleDisableCases();
   }
   this.closeDisableModal();
 }
 
-updateNotificationState(type: string, isEnabled: boolean): void {
+
+handleDisableCases() {
+  if(String(this.switchValueString).trim() === 'SHIFT_SWITCH' && this.currentType) {
+     this.updateNotificationState(this.currentType);
+     this.currentType = '';
+     this.switchValueString = '';
+     this.index = 0;
+     this.notification = null;
+  }else if (String(this.switchValueString).trim() === 'SHIFT_CHECKBOX' && this.currentType) {
+    this.notification.isEnable = false;
+    // this.notification.isEnable = this.notification.isEnable === 1 ? 0 : 1;
+     if(this.notification.id > 0) {
+     this.saveNotification(this.notification, this.currentType, this.index);
+     }
+     this.currentType = '';
+     this.switchValueString = '';
+    //  this.index = 0;
+    //  this.notification = null;
+  }else if (String(this.switchValueString).trim() === 'OTHER_SWITCH' && this.currentType === 'Other') {
+    this.notification.isEnable = true;
+    this.saveNotification(this.notification, this.currentType, this.index);
+    this.notification.isEnable = false;
+    this.currentType = '';
+    this.switchValueString = '';
+    // this.index = 0;
+    // this.notification = null;
+  }
+}
+
+updateNotificationState(type: string): void {
   this.loadingFlags[type] = true;
   this.cdr.detectChanges();
 
@@ -2042,6 +2163,9 @@ handleSwitchDisable(type: string): Promise<void> {
       }
     );
   }
+
+  //  new 
+  
 
 
 
