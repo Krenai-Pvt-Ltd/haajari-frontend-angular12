@@ -74,7 +74,7 @@ export interface LeaveResponse {
   pendingLeaves: number;
   remainingLeaves: number;
   attachment: any;
-
+  status:string;
 
   remainingQuota: any;
   applied: any;

@@ -991,8 +991,13 @@
                                                 <form novalidate
                                                     class="searching d-flex align-items-center justify-content-between w-100">
                                                     <div class="form-group w-100 position-relative">
-                                                        <input type="text" id="searchText" #searchInput placeholder="Search by name.." class="form-control me-2 w-100" style="padding: 10px 45px;" />
-                                                        <i class="bi bi-search search-icon d-flex align-items-center  h-100"></i>
+                                                        <input type="text" id="searchInput" #searchInput="ngModel" placeholder="Search by name.."
+                                                         class="form-control me-2 w-100" style="padding: 10px 45px;"  [(ngModel)]="searchTerm"  
+                                                         (keyup)="searchTermChanged($event)" />
+                                                        <i class="bi bi-search search-icon d-flex align-items-center  h-100" *ngIf="searchTerm == ''"></i>
+                                                        <i class="bi bi-x-lg search-icon d-flex align-items-center  h-100" *ngIf="searchTerm != ''"
+                                                        (click)="getLeaves(true)"></i>
+                                                      
                                                     </div>
                                                 </form>
                                             </div>
@@ -1031,33 +1036,32 @@
                                                 <h5 class="font-14 mb-3">Date Range</h5>
                                                 <div class="col-md-6 mb-3">
                                                     <label for="from" class="pb-2">From  </label>
-                                                    <nz-date-picker nzBorderless nzplaceholder="dd/mm/yyyy"></nz-date-picker>
+                                                    <nz-date-picker [(ngModel)]="filters.fromDate" nzBorderless
+                                                    [nzDisabledDate]="disabledDateFrom" nzplaceholder="dd/mm/yyyy"></nz-date-picker>
                                                 </div>
                                                 <div class="col-md-6 mb-3">
                                                     <label for="to" class="pb-2">To  </label>
-                                                    <nz-date-picker nzBorderless nzplaceholder="dd/mm/yyyy"></nz-date-picker>
+                                                    <nz-date-picker [(ngModel)]="filters.toDate"[(ngModel)]="filters.toDate" nzBorderless
+                                                    [nzDisabledDate]="disabledDateTo" nzplaceholder="dd/mm/yyyy"></nz-date-picker>
                                                 </div>
 
                                                 <div class="col-md-12 mb-3">
                                                     <label for="type" class="pb-2">Leave Type</label>
-                                                    <nz-select ngModel="Earned Leave" class="w-100 form-control placeholder-lines">
-                                                        <nz-option nzValue="Earned Leave" nzLabel="Earned Leave"></nz-option>
-                                                        <nz-option nzValue="Sick Leave" nzLabel="Sick Leave"></nz-option>
-                                                        <nz-option nzValue="Leave Without Pay" nzLabel="Leave Without Pay"></nz-option>
+                                                    <nz-select [(ngModel)]="filters.leaveType"  class="w-100 form-control placeholder-lines">
+                                                        <nz-option *ngFor="let type of leaveTypes" [nzValue]="type" nzLabel="{{ type | titlecase }}"></nz-option>
+                                                        
                                                       </nz-select>
                                                 </div>
                                                 <div class="col-md-12 mb-3">
                                                     <label for="status" class="pb-2">Status</label>
-                                                    <nz-select ngModel="Pending" class="w-100 form-control placeholder-lines">
-                                                        <nz-option nzValue="Pending" nzLabel="Pending"></nz-option>
-                                                        <nz-option nzValue="Approve" nzLabel="Approve"></nz-option>
-                                                         <nz-option nzValue="Reject" nzLabel="Reject"></nz-option>
-                                                      </nz-select>
+                                                    <nz-select  [(ngModel)]="filters.status"class="w-100 form-control placeholder-lines">
+                                                        <nz-option *ngFor="let stat of statusMaster" [nzValue]="stat" nzLabel="{{ stat | titlecase }}"></nz-option>
+                                                    </nz-select>
                                                 </div>
                                             </div>
                                             <div class="p-3 border-top d-flex gap-2 align-items-center justify-content-end">
-                                                <button class="btn cancel-btn mt-0" (click)="changeShowFilter(false)">Reset it</button>
-                                                <button class="btn submitActionBtn">Apply</button>
+                                                <button class="btn cancel-btn mt-0" (click)="resetFilters()">Reset it</button>
+                                                <button class="btn submitActionBtn" (click)="applyFilters()">Apply</button>
                                             </div>
                                         </div>
                                     </div>
@@ -1066,15 +1070,11 @@
                         </div>
 
                         <div class="filter-bdg d-flex align-items-center gap-2 mt-3">
-                            <p class="filter-pills d-flex align-items-centar gap-2 pointer font-12 fw-semibold">Anchal Sharma
-                              <i class="bi bi-x-lg pointer"></i>
-                            </p>
-                            <p class="filter-pills d-flex align-items-centar gap-2 pointer font-12 fw-semibold">Pending
-                              <i class="bi bi-x-lg pointer"></i>
-                            </p>
-                            <p class="filter-pills d-flex align-items-centar gap-2 pointer font-12 fw-semibold">Anchal Sharma
-                              <i class="bi bi-x-lg pointer"></i>
-                            </p>
+                            <p *ngFor="let filter of appliedFilters" class="filter-pills d-flex align-items-center gap-2 pointer font-12 fw-semibold">
+                                {{filter.key  | titlecase}} : {{ filter.value  | titlecase}}
+                                <i class="bi bi-x-lg pointer" (click)="removeFilter(filter.key)"></i>
+                              </p>
+                           
                           </div>
 
                         <div class="table-responsive bg-white mt-3">
@@ -1629,7 +1629,7 @@
                                   *ngIf="!isLoadingLeaves && leaves.length > 0 && totalItems >itemPerPage">
                                   <p class="mb-0">
                                     Showing {{ (currentPage - 1) * itemPerPage + 1 }} -
-                                    {{ (currentPage * itemPerPage > leaves.length ? leaves.length-1 : currentPage * itemPerPage) }} of {{ leaves.length-1 }} Leaves
+                                    {{ ((currentPage - 1) * itemPerPage + 1)+(leaves.length-1) }} of {{ totalItems}} Leaves
                                   </p>
                                   <div class="pagition-box">
                                     <ngb-pagination [collectionSize]="totalItems" [(page)]="currentPage" [pageSize]="itemPerPage"
@@ -1757,7 +1757,7 @@
                                             <textarea id="requestReason" [value]="leave?.notes" rows="3" class="form-control nots-section" maxlength="255" ></textarea>
                                         </div>
                                     </div>
-                                    <div class="col-md-12">
+                                    <div class="col-md-12" *ngIf="leave?.status === 'REJECTED'|| leave?.rejectionReason">
                                         <div class="form-group">
                                             <label for="templateName" class="mb-2"> Reason Of Rejection</label>
                                             <textarea id="requestReason"[value]="leave?.rejectionReason" rows="3" class="form-control nots-section" maxlength="255" ></textarea>
