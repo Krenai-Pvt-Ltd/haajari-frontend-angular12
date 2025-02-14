@@ -1369,7 +1369,7 @@ span.request-count {
 .pagination-box {
   position: fixed;
   bottom: 0;
-  z-index: 999;
+  z-index: 9;
   left: 0px;
   padding-left: 270px !important;
 }
