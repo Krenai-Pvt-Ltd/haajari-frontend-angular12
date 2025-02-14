@@ -27,6 +27,7 @@ import { OvertimeRequestLogResponse } from 'src/app/models/overtime-request-log-
 import { NzCalendarComponent } from 'ng-zorro-antd/calendar';
 import { ModalService } from 'src/app/services/modal.service';
 
+
 Chart.register(
   LineController,
   LineElement,
@@ -37,6 +38,8 @@ Chart.register(
   Tooltip,
   Legend
 );
+
+
 
 @Component({
   selector: 'app-dashboard',
@@ -1115,7 +1118,6 @@ onInitiateExitClick() {
     }
   );
 }
-
 
 
 }

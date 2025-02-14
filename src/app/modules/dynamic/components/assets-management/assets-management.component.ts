@@ -9,6 +9,7 @@ export class AssetsManagementComponent implements OnInit {
 
   constructor() { }
   showFilter: boolean = false;
+  assetsList: boolean[] = [false];
   ngOnInit(): void {
   }
 
