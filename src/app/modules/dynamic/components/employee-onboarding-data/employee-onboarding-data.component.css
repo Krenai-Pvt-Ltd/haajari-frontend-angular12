@@ -1666,13 +1666,13 @@ span.request-count {
   margin-top: 0px;
 }
 ::ng-deep .placeholder-line .ant-select-selection-placeholder {
-  line-height: 50px !important;
+  line-height: 45px !important;
   font-size: 0.875rem !important;
   font-weight: 400 !important;
 }
 
 ::ng-deep .placeholder-line .ant-select-selection-item {
-  line-height: 50px !important;
+  line-height: 45px !important;
   font-size: 0.875rem !important;
   font-weight: 400 !important;
 }
