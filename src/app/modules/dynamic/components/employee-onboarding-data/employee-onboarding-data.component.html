@@ -466,7 +466,7 @@
                       <div class="d-flex align-items-center justify-content-between mt-4">
                         <div class="pointer">
                           <h5 class="mb-1 font-14 fw-semibold"><span class="font-16 text-black fw-bold"> {{editProfileCount || 0}} </span> People </h5>
-                          <p class="mb-0 font-13 fw-normal"> This Week</p>
+                          <p class="mb-0 font-13 fw-normal"> Till Now</p>
                         </div>
                         <span class="resignation-request font-13 fw-normal" *ngIf="empProfileEditRequestUsersImage==undefined || empProfileEditRequestUsersImage?.length == 0">No Request</span>
                         <div class="img-group d-flex" *ngIf="empProfileEditRequestUsersImage!=undefined && empProfileEditRequestUsersImage.length > 0">
@@ -483,7 +483,7 @@
                       <div class="d-flex align-items-center justify-content-between mt-4">
                         <div class="pointer">
                           <h5 class="mb-1 font-14 fw-semibold"><span class="font-16 text-black fw-bold"> {{resignationCount || 0}} </span> People </h5>
-                          <p class="mb-0 font-13 fw-normal"> This Week</p>
+                          <p class="mb-0 font-13 fw-normal"> Till Now</p>
                         </div>
                         <span class="resignation-request font-13 fw-normal" *ngIf="resignationUsersImage.length == 0">No Request</span>
                         <div class="img-group d-flex" *ngIf="resignationUsersImage.length > 0">
@@ -643,8 +643,8 @@
                         <tr>
                           <!-- <th style="width: 10%;">Date</th> -->
                           <!-- class="stickyColTh" -->
-                          <th style="width: 10%">Employee Name</th>
-                          <th style="width: 5%">Employee ID</th>
+                          <th style="width: 15%">Employee Name</th>
+                          <!-- <th style="width: 5%">Employee ID</th> -->
                           <th style="width: 13%">Team</th>
                           <th style="width: 15%">Email</th>
                           <th style="width: 10%"> Phone Number</th>
@@ -661,9 +661,9 @@
                           <td>
                             <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
                           </td>
-                          <td>
+                          <!-- <td>
                             <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                          </td>
+                          </td> -->
                           <td>
                             <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
                           </td>
@@ -745,7 +745,7 @@
                               </div>
                             </ng-template>
                           </td>
-                          <td> <span class="mb-0 weekly-pro-email">{{user.employeeCode || '0'}}</span> </td>
+                          <!-- <td> <span class="mb-0 weekly-pro-email">{{user.employeeCode || '0'}}</span> </td> -->
 
                           <td>
                             <span class="mb-0 weekly-pro-email" *ngIf="!user.teamsNameList || user.teamsNameList.length == 0">
