@@ -643,8 +643,8 @@
                         <tr>
                           <!-- <th style="width: 10%;">Date</th> -->
                           <!-- class="stickyColTh" -->
-                          <th style="width: 10%">Employee Name</th>
-                          <th style="width: 5%">Employee ID</th>
+                          <th style="width: 15%">Employee Name</th>
+                          <!-- <th style="width: 5%">Employee ID</th> -->
                           <th style="width: 13%">Team</th>
                           <th style="width: 15%">Email</th>
                           <th style="width: 10%"> Phone Number</th>
@@ -661,9 +661,9 @@
                           <td>
                             <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
                           </td>
-                          <td>
+                          <!-- <td>
                             <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                          </td>
+                          </td> -->
                           <td>
                             <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
                           </td>
@@ -745,7 +745,7 @@
                               </div>
                             </ng-template>
                           </td>
-                          <td> <span class="mb-0 weekly-pro-email">{{user.employeeCode || '0'}}</span> </td>
+                          <!-- <td> <span class="mb-0 weekly-pro-email">{{user.employeeCode || '0'}}</span> </td> -->
 
                           <td>
                             <span class="mb-0 weekly-pro-email" *ngIf="!user.teamsNameList || user.teamsNameList.length == 0">
