@@ -127,7 +127,6 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     }
   };
 
-
   @ViewChild('inviteModal') inviteModal!: ElementRef;
   @ViewChild('closeInviteModal') closeInviteModal!: ElementRef;
   @ViewChild('personalInformationForm') personalInformationForm!: NgForm;
