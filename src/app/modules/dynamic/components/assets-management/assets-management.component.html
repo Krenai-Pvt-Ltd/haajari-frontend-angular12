@@ -12,7 +12,7 @@
                         <li class="nav-item d-flex align-items-center">
                         <a id="pills-notification-tab" data-bs-toggle="pill" href="#assigned-assets" role="tab"
                             aria-controls="pills-request" aria-selected="false" (click)="assignedAssets()"
-                            class="nav-link">Assigned Assets </a>
+                            class="nav-link"> Assets </a>
                         </li>
                         <li class="nav-item d-flex align-items-center">
                             <a id="pills-notification-tab" data-bs-toggle="pill" href="#request" role="tab"
@@ -106,7 +106,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="p-3">
+                                            <div *ngIf="isChartInitialized" class="p-3">
                                               <apx-chart
                                               [series]="series"
                                               [chart]="chart"
@@ -118,9 +118,12 @@
                                               [fill]="fill"
                                             >
                                             </apx-chart>
-
                                                 <p class="mb-0 font-13 pt-3">This report provides an overview of the total assigned expended.</p>
+
                                             </div>
+                                            <div class="empty-file d-flex align-items-center justify-content-center bg-white p-3" *ngIf="!isChartInitialized">
+                                              <p class="mb-1 empty-detail">No data for now</p>
+                                          </div>
                                             <!-- <div class="p-3 pt-0 categories-view">
                                                 <div class="assets-count p-3 bg-white mb-2">
                                                     <div class="d-flex align-items-center justify-content-between ">
@@ -440,7 +443,7 @@
                                                             data-bs-toggle="pill" data-bs-target="#v-pills-laptops" type="button" role="tab" aria-controls="v-pills-laptops" (click)="assetSummaryCategoryId= category.categoryId; fetchAssetSummary();"
                                                             [attr.aria-selected]="i === 0 ? 'true' : 'false'" [id]="'v-pills-tab-' + i" class="nav-link" [class.active]="i === 0">
                                                             {{ category.categoryName }} ({{ category.assetCount }})
-                                                            <i class="bi bi-pencil" data-bs-toggle="modal" data-bs-target="#createCategoryModal"
+                                                            <i *ngIf="category.categoryId>0" class="bi bi-pencil" data-bs-toggle="modal" data-bs-target="#createCategoryModal"
                                                                 (click)="assignCategoryId(category.categoryId)"></i>
                                                           </button>
                                                         </div>
@@ -456,7 +459,7 @@
                                                                             <tr>
                                                                                 <th class="fw-semibold">Name</th>
                                                                                 <th class="fw-normal">Cost</th>
-                                                                                <th class="text-center fw-semibold">Available</th>
+                                                                                <th class="text-center fw-semibold">Total</th>
                                                                                 <th class="text-center fw-semibold">Assigned</th>
                                                                                 <th class="text-center fw-semibold">Not Assigned</th>
                                                                                 <th class="text-center fw-semibold">Repairing</th>
@@ -1013,20 +1016,21 @@
                                                         </div>
                                                        <h5 class="font-14 text-black mb-0 fw-semibold">0</h5>
                                                     </div>
-                                                    <span class="calendar-separator"></span>
 
-                                                    <div class="d-flex align-items-center justify-content-between w-100">
-                                                        <div class="d-flex align-items-center gap-2">
-                                                            <span class="handover-requests"></span>
-                                                            <p class="mb-0 font-13">Handover Requests</p>
-                                                        </div>
-                                                       <h5 class="font-14 text-black mb-0 fw-semibold">0</h5>
-                                                    </div>
                                                   </div>
                                                </div>
                                             </div>
-                                            <div class="col-md-3 text-center p-4 ">
-                                                <img src="assets/images/asset-request.png" class="w-50">
+                                            <div *ngIf="isChartLoaded" class="col-md-3 text-center p-4 ">
+                                              <apx-chart
+                                              #chart
+                                              [series]="chartOptions?.series"
+                                              [chart]="chartOptions?.chart"
+                                              [labels]="chartOptions?.labels"
+                                              [responsive]="chartOptions?.responsive"
+                                              [fill]="chartOptions?.fill"
+                                              [legend]="chartOptions?.legend"
+                                              [dataLabels]="chartOptions?.dataLabels">
+                                            </apx-chart>
                                             </div>
                                          </div>
                                     </div>
@@ -1587,7 +1591,7 @@
                                                     </button>
                                                     <div class="dropdown-menu actionMenuList">
 
-                                                            <li>
+                                                            <li *ngIf="asset.statusId != 66">
                                                                 <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addDescriptionModal" (click)="changeStatusModal(asset.id, 62, asset.assignedToId, true)">
                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
                                                                         <mask id="mask0_8123_5744" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
@@ -1601,7 +1605,7 @@
                                                                     <span *ngIf="asset.assignedToId== 0"> Assign</span>
                                                                   </a>
                                                             </li>
-                                                            <li *ngIf="asset.statusId != 64">
+                                                            <li *ngIf="asset.statusId != 64 && asset.statusId != 66">
                                                                 <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addDescriptionModal" (click)="changeStatusModal(asset.id, 64, 0, false)">
                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
                                                                         <mask id="mask0_8123_5738" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
@@ -1613,7 +1617,7 @@
                                                                     </svg>
                                                                     Available </a>
                                                             </li>
-                                                            <li *ngIf="asset.statusId != 63">
+                                                            <li *ngIf="asset.statusId != 63 && asset.statusId != 66">
                                                                 <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addDescriptionModal" (click)="changeStatusModal(asset.id,63, 0, false)">
                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
                                                                         <mask id="mask0_8123_5732" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
@@ -1625,6 +1629,18 @@
                                                                     </svg>
                                                                     Mark as Unavailable </a>
                                                             </li>
+                                                            <li *ngIf="asset.statusId != 66">
+                                                              <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addDescriptionModal" (click)="changeStatusModal(asset.id,66, 0, false)">
+                                                                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
+                                                                      <mask id="mask0_8123_5732" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
+                                                                      <rect y="0.5" width="20" height="20" fill="#D9D9D9"/>
+                                                                      </mask>
+                                                                      <g mask="url(#mask0_8123_5732)">
+                                                                      <path d="M11.8527 9.97799L10.1317 8.25695H10.9458V6.87882L12.9489 8.88195L11.8527 9.97799ZM17.0098 15.1351L15.8848 14.0101H16.4746C16.5333 13.9941 16.5801 13.9621 16.6148 13.914C16.6495 13.8658 16.6669 13.8177 16.6669 13.7697V5.1159C16.6669 5.04118 16.6428 4.97972 16.5948 4.93153C16.5467 4.88347 16.4853 4.85945 16.4104 4.85945H6.73415L5.48415 3.60945H16.4104C16.8314 3.60945 17.1877 3.75528 17.4794 4.04695C17.771 4.33861 17.9169 4.69493 17.9169 5.1159V13.7697C17.9169 14.0667 17.8376 14.3373 17.6789 14.5813C17.5202 14.8255 17.2971 15.0101 17.0098 15.1351ZM17.3721 19.6286L15.1027 17.3594H1.15415V16.1094H13.84L13.0067 15.2761H3.58999C3.16901 15.2761 2.8127 15.1303 2.52103 14.8386C2.22936 14.5469 2.08353 14.1906 2.08353 13.7697V5.03903C2.08353 4.9482 2.10756 4.86674 2.15561 4.79466C2.20381 4.72243 2.26526 4.665 2.33999 4.62236L0.87207 3.12861L1.7502 2.25049L18.2502 18.7505L17.3721 19.6286ZM8.36561 10.6478C8.32283 10.696 8.29075 10.7454 8.26936 10.7961C8.24797 10.8468 8.23728 10.9096 8.23728 10.9844V12.2153H6.98749V10.5486C6.98749 10.3424 7.01179 10.1538 7.0604 9.98278C7.10901 9.81195 7.17867 9.66403 7.26936 9.53903L3.53395 5.8034C3.46978 5.83007 3.42033 5.86347 3.38561 5.90361C3.35089 5.94361 3.33353 5.99299 3.33353 6.05174V13.7697C3.33353 13.8445 3.35756 13.906 3.40561 13.954C3.45367 14.0021 3.51513 14.0261 3.58999 14.0261H11.7439L8.36561 10.6478Z" fill="#1C1B1F"/>
+                                                                      </g>
+                                                                  </svg>
+                                                                  Mark as Damaged </a>
+                                                          </li>
                                                             <li *ngIf="asset.statusId != 65">
                                                                 <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addDescriptionModal" (click)="changeStatusModal(asset.id,65, 0, false)">
                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
@@ -2464,7 +2480,7 @@
                                                 </td>
                                                 <td>
                                                   <!-- (click)="openStatusChangeModal(asset, statusChangeModal)" -->
-                                                    <button class="btn p-0 text-primary font-14 fw-semibold" data-bs-toggle="modal" data-bs-target="#AssetsDetailModal" (click)="selectedAsset=asset;" ><i class="bi bi-eye"></i>  View</button>
+                                                    <button class="btn p-0 text-primary font-14 fw-semibold" data-bs-toggle="modal" data-bs-target="#AssetsDetailModal" (click)="onViewRequest(asset)" ><i class="bi bi-eye"></i>  View</button>
                                                 </td>
                                             </tr>
 
@@ -2498,7 +2514,7 @@
 
 
 <!-- Modal Create Assets Start -->
-<div class="modal fade" id="createAssetsModal" tabindex="-1" aria-labelledby="createAssetsModalLabel"
+<div class="modal fade" id="createAssetsModal" tabindex="-1" aria-labelledby="createAssetsModalLabel" data-bs-backdrop="static" data-bs-keyboard="false"
   aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
@@ -2546,7 +2562,7 @@
                 Purchased Date <span class="text-danger">*</span>
               </label>
               <nz-date-picker nzFormat="yyyy/MM/dd" [(ngModel)]="assetData.purchasedDate" name="purchasedDate"
-                #purchasedDate="ngModel" required></nz-date-picker>
+                #purchasedDate="ngModel" [nzDisabledDate]="disableFutureDates" required></nz-date-picker>
               <!-- Error message for Purchased Date -->
               <div
                 *ngIf="(purchasedDate.invalid && purchasedDate.touched) || (categoryForm.submitted && purchasedDate.invalid)"
@@ -2663,9 +2679,9 @@
 
 <!-- Modal Create Assets Start -->
 <!-- <ng-template #statusChangeModal let-modal> -->
-<div class="modal fade" id="AssetsDetailModal" tabindex="10000" aria-labelledby="AssetsDetailModalLabel"
+<div class="modal fade" id="AssetsDetailModal" tabindex="10000" aria-labelledby="AssetsDetailModalLabel" data-bs-backdrop="static" data-bs-keyboard="false"
   aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-lg">
+  <div *ngIf="selectedAsset?.status!='APPROVED'" class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">
@@ -2711,16 +2727,6 @@
               </div>
                 </div>
               </div>
-              <div *ngIf="selectedAsset?.status!='ASSIGNED'" class="col-md-6">
-                <label class="mb-2">Change Status</label>
-                <div>
-                  {{newStatus}}
-                  <nz-select [(ngModel)]="newStatus" id="newStatus" name="newStatus" nzPlaceHolder="Select Status" class="w-100 form-control" nzSize="large">
-                    <nz-option nzValue="Approved" nzLabel="Approved"></nz-option>
-                    <nz-option nzValue="Rejected" nzLabel="Rejected"></nz-option>
-                  </nz-select>
-                </div>
-              </div>
 
               <div class="col-md-12 mb-3">
                 <label class="mb-2">Note </label>
@@ -2730,22 +2736,90 @@
               </div>
             </div>
             <div class="modal-footer">
-              <div *ngIf="selectedAsset?.status!='ASSIGNED'"
+              <div *ngIf="selectedAsset?.status=='PENDING'"
               class="modal-footer d-flex align-content-center justify-content-end gap-2">
-              <button type="button" class="btn cancel-btn mt-0" data-bs-dismiss="modal" >Cancel</button>
-              <button [disabled]="assetRequestStatusLoading" type="button" class="btn submitActionBtn" (click)="changeStatus(selectedAsset)">
-                 <span *ngIf="!assetRequestStatusLoading">Save</span>
-                 <div class="dot-opacity-loader" *ngIf="assetRequestStatusLoading">
-                   <span></span>
-                   <span></span>
-                   <span></span>
-                  </div>
-                </button>
+              <!-- <button type="button" class="btn cancel-btn mt-0" data-bs-dismiss="modal" >Cancel</button> -->
+
+                <button [disabled]="assetRequestStatusLoading" type="button" class="btn btn-soft-danger" (click)="newStatus= 'REJECTED'; changeStatus(selectedAsset)">
+                  <span *ngIf="!assetRequestStatusLoading">Reject</span>
+                  <div class="dot-opacity-loader" *ngIf="assetRequestStatusLoading && newStatus== 'REJECTED' ">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                   </div>
+                 </button>
+                 <button [disabled]="assetRequestStatusLoading" type="button" class="btn btn-soft-success" (click)="newStatus= 'APPROVED'; changeStatus(selectedAsset)">
+                  <span *ngIf="!assetRequestStatusLoading">Approve</span>
+                  <div class="dot-opacity-loader" *ngIf="assetRequestStatusLoading && newStatus== 'APPROVED'">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                   </div>
+                 </button>
             </div>
             </div>
       </form>
     </div>
   </div>
+  <div *ngIf="selectedAsset?.status=='APPROVED'" class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel"> Assets Assigned</h5>
+          <button type="button" #assetAssignClose class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="assets-list">
+                <div class="row">
+                  <div class="col-md-4" *ngFor="let item of assetsAvailable; let i = index">
+                    <div
+                      class="assets-list-card p-3 border-rounded-2 mb-3"
+                      [ngClass]="{'active-assets': assetsBooleanList[i]}"
+                      (click)="selectAsset(i)">
+
+                      <h5 class="mb-3 font-14 fw-bold">{{ item.assetName }}</h5>
+                      <p class="mb-1 font-13 fw-semibold">
+                        Category - <span class="fw-normal">{{ item.assetCategoryName }}</span>
+                      </p>
+                      <p class="mb-0 font-13 fw-semibold">
+                        Serial Number - <span class="fw-normal">{{ item.serialNumber }}</span>
+                      </p>
+                    </div>
+                  </div>
+
+                </div>
+            </div>
+            <div *ngIf="totalRequestAssets> pageRequestSize" class="d-flex align-items-center justify-content-between w-100 pagination-list pt-3">
+              <p class="mb-0">
+                Showing items
+                {{ (currentRequestPage - 1) * pageRequestSize + 1 }} -
+                {{ (currentRequestPage * pageRequestSize) > totalRequestAssets ? totalRequestAssets : (currentRequestPage * pageRequestSize) }}
+                of {{ totalRequestAssets }} records
+              </p>
+
+              <ngb-pagination
+                class="pagition-box"
+                [collectionSize]="totalRequestAssets"
+                [(page)]="currentRequestPage"
+                [pageSize]="pageRequestSize"
+                [maxSize]="5"
+                (pageChange)="fetchRequestedAssetsAvailable()">
+              </ngb-pagination>
+            </div>
+
+        </div>
+        <div class="modal-footer d-flex gap-2 align-items-center">
+          <button type="button" class="btn cancel-btn" data-bs-dismiss="modal">Cancel</button>
+          <button [disabled]="assetAssignedLoading" type="button" class="btn submitActionBtn" (click)="assignAsset()">
+            <span *ngIf="!assetAssignedLoading">Assign</span>
+            <div class="dot-opacity-loader" *ngIf="assetAssignedLoading">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
 </div>
 <!-- </ng-template> -->
 <!-- Modal Create Assets Start -->
@@ -2875,14 +2949,14 @@
     <ng-container *nzDrawerContent>
         <div class="assets-detail">
             <div class="d-flex align-items-start gap-2 w-100">
-                <span class="assets-name d-flex align-items-center justify-content-center fw-semibold font-14">M</span>
+                <span class="assets-name d-flex align-items-center justify-content-center fw-semibold font-14">{{ capitalizeWords(currentAsset?.assetName).charAt(0) }}</span>
                 <div class="w-100">
                     <div class="d-flex align-items-center  justify-content-between w-100">
                         <div class="d-flex align-items-center gap-3">
-                            <h5 class="mb-0 font-16 fw-semibold ">{{ currentAsset?.assetName }}</h5>
+                            <h5 class="mb-0 font-16 fw-semibold ">{{ capitalizeWords(currentAsset?.assetName) }}</h5>
                             <span class="badge rounded-pill badge-soft-success font-11">{{ currentAsset?.statusName }}</span>
                         </div>
-                        <p class="font-12 fw-light mb-0">ID - A-12</p>
+                        <!-- <p class="font-12 fw-light mb-0">ID - A-12</p> -->
                     </div>
 
                     <p class="mb-1 mt-3 font-14 fw-semibold" *ngIf="currentAsset?.assignedToId > 0">Assigned To : <span class="fw-bold ">{{ currentAsset.assignedToName }}</span> </p>
@@ -2953,7 +3027,7 @@
     </nz-drawer>
 
 
-    <div class="modal fade" id="addDescriptionModal" tabindex="-1" aria-labelledby="addDescriptionModal" aria-hidden="true">
+    <div class="modal fade" id="addDescriptionModal" tabindex="-1" aria-labelledby="addDescriptionModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
       <div class="modal-header">
@@ -2992,7 +3066,7 @@
   </div>
   </div>
 
-  <div class="modal fade" id="createCategoryModal" tabindex="-1" aria-labelledby="createCategoryModalLabel"
+  <div class="modal fade" id="createCategoryModal" tabindex="-1" aria-labelledby="createCategoryModalLabel" data-bs-backdrop="static" data-bs-keyboard="false"
   aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">

@@ -16,8 +16,22 @@ import {
   ApexYAxis,
   ApexXAxis,
   ApexTooltip,
-  ApexTitleSubtitle
+  ApexTitleSubtitle,
+  ChartComponent,
+  ApexNonAxisChartSeries,
+  ApexResponsive,
+  ApexLegend
 } from "ng-apexcharts";
+
+export type ChartOptions = {
+  series: ApexNonAxisChartSeries;
+  chart: ApexChart;
+  responsive: ApexResponsive[];
+  labels: any;
+  fill: ApexFill;
+  legend: ApexLegend;
+  dataLabels: ApexDataLabels;
+};
 interface Filter {
   type: 'team' | 'user' | 'status' | 'category';
   label: any;
@@ -37,7 +51,8 @@ export class AssetsManagementComponent implements OnInit {
      private modalService: NgbModal,
      private afStorage: AngularFireStorage,
      private cdr: ChangeDetectorRef,
-  ) { }
+  ) {
+  }
 
   showFilter: boolean = false;
   ngOnInit(): void {
@@ -108,6 +123,7 @@ export class AssetsManagementComponent implements OnInit {
         if(this.categorySummary.length>0){
           this.assetSummaryCategoryId = this.categorySummary[0].categoryId;
           this.fetchAssetSummary();
+          this.onSearch('');
         }
       },
       error: (err) => console.error('Error fetching category summary', err)
@@ -333,6 +349,10 @@ newCategory: any = {
       control.markAsUntouched();
     });
   }
+
+  disableFutureDates = (current: Date): boolean => {
+    return current > new Date(); // Disables dates after today
+  };
 
   // Add these variables in your component
   searchCategoryText: string = '';
@@ -636,6 +656,17 @@ onSearch(searchText: string): void {
       );
     }
 
+    capitalizeWords(input: any): string {
+      if (typeof input !== 'string') {
+        return '';
+      }
+      return input
+        .toLowerCase()
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
+    }
+
   updateAsset(asset: any): void {
     this.assetData.id = asset.id;
     this.assetData.assetName = asset.assetName;
@@ -802,9 +833,68 @@ onSearch(searchText: string): void {
       this.dataService.getRequestedTypeCount().subscribe(
         (response) => {
           this.requestedTypeCount = response;
+          this.initializeDonutChart();
         },
         (error) => {
           console.error('Error fetching pending requests counter', error);
+        }
+      );
+    }
+
+    assetsAvailable: any = [];
+    totalPages: number = 0;
+    currentRequestPage: number = 1;
+    pageRequestSize: number = 12;
+    totalRequestAssets: number = 0;
+    searchQuery: string = '';
+    assetCategoryId: number = 0;
+    assetsBooleanList: boolean[] = [false];
+    selectedAvailableAsset: any;
+    fetchRequestedAssetsAvailable(): void {
+      this.dataService.getRequestedAvailableAssets(this.assetCategoryId, this.searchQuery, (this.currentRequestPage-1), this.pageRequestSize)
+        .subscribe(response => {
+          this.assetsAvailable = response.content;
+          this.totalPages = response.totalPages;
+          this.totalRequestAssets = response.totalElements;
+        });
+    }
+
+
+  selectAsset(index: number) {
+    this.assetsBooleanList = new Array(this.assetsAvailable.length).fill(false);
+    this.assetsBooleanList[index] = true;
+    this.selectedAvailableAsset = this.assetsAvailable[index];
+  }
+    onViewRequest(asset: any): void {
+      this.selectedAsset = asset;
+      if(asset.status == 'APPROVED'){
+        this.totalPages=0;
+        this.currentRequestPage=1;
+        this.searchQuery=asset.assetName;
+        this.assetCategoryId=asset.assetCategory;
+        this.pageRequestSize = 12;
+        this.fetchRequestedAssetsAvailable();
+      }
+
+    }
+    assetAssignedLoading: boolean = false;
+    @ViewChild('assetAssignClose') assetAssignClose!: ElementRef<HTMLButtonElement>;
+    assignAsset(): void {
+      this.assetAssignedLoading = true;
+      this.dataService.assignRequestedAsset(this.selectedAvailableAsset.id, this.selectedAsset.id).subscribe(
+        (response) => {
+          this.assetAssignedLoading = false;
+          if (response.status) {
+            this.assetAssignClose.nativeElement.click();
+            this.helperService.showToast('Asset assigned successfully', Key.TOAST_STATUS_SUCCESS);
+            this.getAssetRequests();
+          } else {
+            this.helperService.showToast('Failed to assign asset', Key.TOAST_STATUS_ERROR);
+          }
+        },
+        (error) => {
+          this.assetAssignedLoading = false;
+          this.helperService.showToast('Failed to assign asset', Key.TOAST_STATUS_ERROR);
         }
       );
     }
@@ -864,7 +954,8 @@ onSearch(searchText: string): void {
   public chart: ApexChart  = {
     type: "area",
     stacked: false,
-    height: 250,
+    height: 200,
+    background: "#FFFFFF",
     zoom: {
       enabled: false // 🔹 Disables zooming
     },
@@ -886,21 +977,59 @@ onSearch(searchText: string): void {
   public markers: ApexMarkers = { size: 5 };
   public title: ApexTitleSubtitle = { text: "Monthly Asset Assignments", align: "left" };
   public fill: ApexFill = { type: "gradient", gradient: { shadeIntensity: 10, inverseColors: false, opacityFrom: 0.5, opacityTo: 0, stops: [0, 90, 100] } };
-  public yaxis: ApexYAxis = { title: { text: "Assignments" }, labels: { show: false } };
-  public xaxis: ApexXAxis = { type: "datetime", labels: { format: "MMM" }, tickPlacement: "on" };
+  public yaxis: ApexYAxis = {  labels: { show: false } };
+  public xaxis: ApexXAxis = {
+    type: "datetime",
+    labels: {
+      format: "MMM", // Show short month names (e.g., "Feb")
+      rotate: -45,   // Rotate labels to prevent overlap
+      hideOverlappingLabels: false, // Force all labels to show
+    },
+    tickPlacement: "on",
+    min: undefined, // Will be set dynamically
+    max: undefined,  // Will include 2 extra months
+  };
 
   public tooltip: ApexTooltip = { x: { format: "MMM yyyy" } };
+  isChartInitialized: boolean = false;
   public initChartData(): void {
+    const dates = this.assetsMonthlyAssignments.map((item: { monthYear: string; }) =>
+      this.convertToDate(item.monthYear)
+    );
+    const minDate = Math.min(...dates);
+    const maxDate = Math.max(...dates);
+
+    // Add 2 months to the last date in the data
+    const lastDate = new Date(maxDate);
+    const extendedMaxDate = new Date(
+      Date.UTC(
+        lastDate.getUTCFullYear(),
+        lastDate.getUTCMonth() + 2, // Add 2 months
+        1
+      )
+    );
+
+    // Update x-axis bounds
+    this.xaxis = {
+      ...this.xaxis,
+      min: minDate,
+      max: extendedMaxDate.getTime(), // Convert back to timestamp
+    };
+
+    // Set chart series data
     this.series = [
       {
         name: "Asset Assignments",
         data: this.assetsMonthlyAssignments.map((item: { monthYear: string; assignmentCount: any; }) => ({
-          x: this.convertToDate(item.monthYear),  // Use fixed date conversion
-          y: item.assignmentCount
-        }))
-      }
+          x: this.convertToDate(item.monthYear),
+          y: item.assignmentCount,
+        })),
+      },
     ];
-
+    this.cdr.detectChanges();
+    setTimeout(() => {
+      this.isChartInitialized = true;
+    }, 500);
   }
 
   private convertToDate(monthYear: string): number {
@@ -916,6 +1045,88 @@ onSearch(searchText: string): void {
     return Date.UTC(parseInt(year), monthIndex, 1, 0, 0, 0, 0);
   }
 
+
+  @ViewChild("chart") chart1: ChartComponent | undefined;
+
+    public chartOptions: Partial<ChartOptions> | any = {
+      series: [0, 0, 0, 0, 0],
+      chart: {
+        width: "100%",
+        type: "donut"
+      },
+      plotOptions: {
+        pie: {
+          startAngle: -90,
+          endAngle: 90,
+          expandOnClick: false,
+          offsetY: 0, // Prevents segments from expanding
+          donut: {
+            labels: {
+              show: false // Hide labels inside the donut
+            },
+            innerWidth: "90%",
+            outerWidth: "32%"
+          }
+        }
+      },
+      // Hide data labels
+      dataLabels: {
+        enabled: false
+      },
+      // Hide grid lines (optional)
+      grid: {
+        show: false,
+        padding: {
+          bottom: -80
+        },
+        stroke: {
+          width: 2, // Adjust this value as needed
+          colors: "#000"
+        }
+      },
+      // Hide the legend
+      legend: {
+        show: false
+      },
+      // Hide tooltip (optional)
+      tooltip: {
+        enabled: true
+      }
+    };
+  isChartLoaded: boolean = false;
+  initializeDonutChart() {
+    this.chartOptions = {
+      series: Object.values(this.requestedTypeCount),
+      chart: {
+        width: 180,
+        type: "donut"
+      },
+      labels: Object.keys(this.requestedTypeCount), // ["NewAssetAllocation", "AssetReplacement", "AssetRepair"]
+      dataLabels: {
+        enabled: false
+      },
+      fill: {
+        type: "gradient"
+      },
+      legend: {
+        show: false // Hide the legend
+      },
+      responsive: [
+        {
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: 100
+            },
+            legend: {
+              position: "bottom"
+            }
+          }
+        }
+      ]
+    };
+    this.isChartLoaded = true;
+  }
 
 
 

@@ -156,19 +156,18 @@ export class AssetsComponent implements OnInit {
   isLoadingAsset: boolean = false;
   getAssetData(): void {
     this.isLoadingAsset=true;
-    this.dataService.getAssetForUser(this.userId, this.search, this.pageNumber, this.itemPerPage)
-      .subscribe(
-        (response) => {
-          this.assets = response.object;
-          this.totalCount = response.totalItems;
-          this.isLoadingAsset=false;
-        },
-        (error) => {
-          console.error('Error fetching asset data:', error);
-          this.isLoadingAsset=false;
-        }
-      );
+    this.dataService.getAssetsByUser(this.search, this.pageNumber-1, this.itemPerPage).subscribe(
+      (response: any) => {
+        this.assets = response.content; // Page content
+        this.totalCount = response.totalElements; // Total records count
+        this.isLoadingAsset=false;
+      },
+      (error) => {
+        this.isLoadingAsset=false;
+      }
+    );
   }
+
   isAssetsArrayEmpty(): boolean {
     if(this.search?.length>0){
       return false;

@@ -439,22 +439,22 @@ export class DataService {
       .set('sort_by', sortBy)
       .set('search', search)
       .set('search_by', searchBy);
-  
+
     if (isResginationUser == 1) {
       params = params.set('is_resignation_user', '1');
     }
-  
+
     if (filters.length > 0) {
       params = params.set('filters', filters.join(',')); // Send as comma-separated string
     }
-  
+
     return this.httpClient.get<any>(
       `${this.baseUrl}/users/get/by-filters-for-employee-onboarding-data`,
       { params }
     );
   }
 
-  
+
   getUsersByFilterForEmpOnboarding(
     itemPerPage: number,
     pageNumber: number,
@@ -5102,6 +5102,38 @@ getHolidayForOrganizationWhatsapp(userUuid: string, date: string): Observable<an
     const params = new HttpParams()
       .set('statusId', statusId);
     return this.httpClient.get<any>(`${this.baseUrl}/assets/monthly-assignments`, { params });
+  }
+
+  getAssetsByUser(searchTerm?: string, page: number = 0, size: number = 10): Observable<any> {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    if (searchTerm) {
+      params = params.set('searchTerm', searchTerm);
+    }
+    return this.httpClient.get(`${this.baseUrl}/assets/user-by-filter`, { params });
+  }
+  getRequestedAvailableAssets(
+    assetCategoryId: number = 0,
+    search: string = '',
+    page: number = 0,
+    size: number = 10
+  ): Observable<any> {
+    let params = new HttpParams()
+      .set('assetCategoryId', assetCategoryId.toString())
+      .set('search', search || '')
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    return this.httpClient.get<any>(`${this.baseUrl}/assets/available-requested`, { params });
+  }
+  assignRequestedAsset(assetId: number, assetRequestId: number): Observable<any> {
+    const params = new HttpParams()
+      .set('assetId', assetId.toString())
+      .set('assetRequestId', assetRequestId.toString());
+
+    return this.httpClient.post<any>(`${this.baseUrl}/assets/assigned-requested-asset`, {}, { params });
   }
 
 }
