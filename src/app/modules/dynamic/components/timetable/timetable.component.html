@@ -741,9 +741,9 @@
         <div class="row" *ngIf="ACTIVE_TAB == OVERTIME_TAB">
           <div class="row p-2 mt-3">
             <div class="col-md-6">
-              <div class="my-leave-log">
-                <div class="my-leave-log-hedding">
-                  <h4>Requests</h4>
+              <div class="my-leave-log p-3 border-rounded-2">
+                <div class="my-leave-log-heading">
+                  <h4 class="font-14 mb-0 fw-semibold">Requests</h4>
                 </div>
                 <hr style="margin-bottom: 10px" />
                 <ul class="nav nav-tabs bg-white" role="tablist">
@@ -868,16 +868,6 @@
                           </div>
                         </div>
 
-                        <!-- <div class="align-self-center text-center mt-2" *ngIf="!initialLoadDoneOfPendingLeaves">
-                          <button type="button" class="btn btn-xs btn-light btn-round" *ngIf="pendingLeavesSize > 4" (click)="loadMorePendingLeaves()"> Load More <i class="bi bi-chevron-down"></i>
-                          </button>
-                        </div>
-                        <div class="text-center load-more-btn" *ngIf="isPendingLoader && pendingLeavesSize > 4">
-                          <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
-                          <div>
-                            <small>Loading...</small>
-                          </div>
-                        </div> -->
                       </ng-container>
                     </ng-template>
 
@@ -1001,18 +991,6 @@
                             <!--end col-->
                           </div>
                         </div>
-                        <!-- <div class="align-self-center text-center mt-2" *ngIf="!initialLoadDoneOfApprovedRejected">
-                          <button type="button" class="btn btn-xs btn-light btn-round" *ngIf="approvedRejectedLeavesSize > 4" (click)="loadMoreApprovedRejectedLogs()"> Load More <i class="bi bi-chevron-down"></i>
-                          </button>
-                        </div>
-                        <div class="text-center load-more-btn" *ngIf="
-                            isApprovedRejectedLoader && approvedRejectedLeavesSize > 4
-                          ">
-                          <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
-                          <div>
-                            <small>Loading...</small>
-                          </div>
-                        </div> -->
                       </ng-container>
                     </ng-template>
                     <ng-template #errorWhileFetchingOvertimeRequestResponseListCondition>
@@ -1036,9 +1014,9 @@
               </div>
             </div>
             <div class="col-md-6">
-              <div class="my-leave-log">
-                <div class="my-leave-log-hedding">
-                  <h4>Logs</h4>
+              <div class="my-leave-log p-3 border-rounded-2">
+                <div class="my-leave-log-heading">
+                  <h4  class="font-14 mb-0 fw-semibold">Logs</h4>
                 </div>
                 <hr style="margin-bottom: 10px" />
                 <div class="mb-3 d-flex align-items-center border-rounded-2" style="border: 1px solid #f1f1f1;">
@@ -1107,31 +1085,29 @@
                                     ">
                                     {{ overtimeRequestLogResponse.userName }}
                                   </h5>
-                                  <p class="text-muted font-12 mb-0">
-                                    <span style="color: orange" class="ng-star-inserted" *ngIf="
+                                  <p class="text-muted font-12 mb-0 fw-normal">
+                                    <span class="text-wraning" *ngIf="
                                         overtimeRequestLogResponse.requestStatusId ==
                                         key.PENDING
                                       ">Applied <span> To </span>
                                     </span>
-                                    <span style="color: green" class="ng-star-inserted" *ngIf="
+                                    <span class="text-success" *ngIf="
                                         overtimeRequestLogResponse.requestStatusId ==
                                         key.APPROVED
                                       ">Approved <span> By </span>
                                     </span>
-                                    <span style="color: rgb(255, 55, 0)" class="ng-star-inserted" *ngIf="
+                                    <span class="text-dannger" *ngIf="
                                         overtimeRequestLogResponse.requestStatusId ==
                                         key.REJECTED
                                       ">Rejected <span> By </span>
                                     </span>
-                                    <!-- <span style="color: rgb(155, 235, 234)" class="ng-star-inserted" *ngIf="fullLogList.status == 'requested'">Requested <span> To </span>
-                                    </span> -->
                                     {{ overtimeRequestLogResponse.managerName }}
                                   </p>
                                 </div>
                               </div>
                               <hr class="hr-dashed" />
                               <div class="d-flex justify-content-between">
-                                <p>
+                                <p class="text-muted font-12 mb-0 fw-normal">
                                   Time:
                                   <u>{{
                                     overtimeRequestLogResponse.startTime
@@ -1153,7 +1129,7 @@
                                     hrs.</span>
                                 </h6>
                               </div>
-                              <p class="text-muted mb-0">
+                              <p class="text-muted font-12 mb-0 fw-normal">
                                 {{ overtimeRequestLogResponse.note }}
                               </p>
                             </div>
@@ -1186,9 +1162,9 @@
         <div class="row" *ngIf="ACTIVE_TAB == ATTENDANCE_UPDATE_REQUEST_TAB">
           <div class="row p-2 mt-3">
             <div class="col-md-6">
-              <div class="my-leave-log">
-                <div class="my-leave-log-hedding">
-                  <h4>Requests</h4>
+              <div class="my-leave-log p-3 border-rounded-2">
+                <div class="my-leave-log-heading">
+                  <h4 class="font-14 mb-0 fw-semibold">Requests</h4>
                 </div>
                 <hr style="margin-bottom: 10px" />
                 <ul class="nav nav-tabs bg-white" role="tablist">
@@ -1346,16 +1322,6 @@
                           </div>
                         </div>
 
-                        <!-- <div class="align-self-center text-center mt-2" *ngIf="!initialLoadDoneOfPendingLeaves">
-                          <button type="button" class="btn btn-xs btn-light btn-round" *ngIf="pendingLeavesSize > 4" (click)="loadMorePendingLeaves()"> Load More <i class="bi bi-chevron-down"></i>
-                          </button>
-                        </div>
-                        <div class="text-center load-more-btn" *ngIf="isPendingLoader && pendingLeavesSize > 4">
-                          <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
-                          <div>
-                            <small>Loading...</small>
-                          </div>
-                        </div> -->
                       </ng-container>
                     </ng-template>
 
@@ -1534,9 +1500,9 @@
               </div>
             </div>
             <div class="col-md-6">
-              <div class="my-leave-log">
-                <div class="my-leave-log-hedding">
-                  <h4>Logs</h4>
+              <div class="my-leave-log p-3 border-rounded-2">
+                <div class="my-leave-log-heading">
+                  <h4 class="font-14 mb-0 fw-semibold"> Logs</h4>
                 </div>
                 <hr style="margin-bottom: 10px" />
                 
@@ -1566,9 +1532,7 @@
                         <div class="activity-info">
                           <div class="icon-info-activity">
                             <i class="ti ti-clock bg-soft-warning" *ngIf="attenFullRequestLog.status == 'PENDING'"></i>
-                            <!-- <i class="ti ti-clock bg-soft-warning" *ngIf="fullLogList.status == 'requested'"></i> -->
-                            <i class="ti ti-checks bg-soft-success"
-                              *ngIf="attenFullRequestLog.status == 'APPROVED'"></i>
+                            <i class="ti ti-checks bg-soft-success" *ngIf="attenFullRequestLog.status == 'APPROVED'"></i>
                             <i class="ti ti-x bg-soft-danger" *ngIf="attenFullRequestLog.status == 'REJECTED'"></i>
                           </div>
                           <div class="activity-info-text">
@@ -1577,38 +1541,24 @@
                                 <div class="dropdown d-inline-block">
                                   <div class="align-self-center">
                                     <div class="btn btn-xs btn-light btn-round">
-                                      {{
-                                      attenFullRequestLog.createdDate
-                                      | date : "medium" || "N/A"
-                                      }}
+                                      {{ attenFullRequestLog.createdDate | date : "medium" || "N/A"  }}
                                     </div>
                                   </div>
                                 </div>
                               </div>
                               <div class="media align-items-center">
                                 <div class="media-body ms-2 align-self-center">
-                                  <h5 class="m-0 font-16" (click)="
-                                      routeToUserProfile(
-                                        attenFullRequestLog.userUuid
-                                      )
-                                    ">
+                                  <h5 class="m-0 font-16" (click)="routeToUserProfile( attenFullRequestLog.userUuid )">
                                     {{ attenFullRequestLog.userName }}
                                   </h5>
-                                  <p class="text-muted font-12 mb-0">
-                                    <span style="color: orange" class="ng-star-inserted" *ngIf="
-                                        attenFullRequestLog.status == 'PENDING'
-                                      ">Applied <span> To </span>
+                                  <p class="text-muted font-12 mb-0 fw-normal">
+                                    <span class="text-warning" *ngIf="attenFullRequestLog.status == 'PENDING' ">Applied <span> To </span>
                                     </span>
-                                    <span style="color: green" class="ng-star-inserted" *ngIf="
-                                        attenFullRequestLog.status == 'APPROVED'
-                                      ">Approved <span> By </span>
+                                    <span class="text-success" *ngIf="attenFullRequestLog.status == 'APPROVED' ">Approved <span> By </span>
                                     </span>
-                                    <span style="color: rgb(255, 55, 0)" class="ng-star-inserted" *ngIf="
-                                        attenFullRequestLog.status == 'REJECTED'
-                                      ">Rejected <span> By </span>
+                                    <span class="text-danger" *ngIf="attenFullRequestLog.status == 'REJECTED'">Rejected <span> By </span>
                                     </span>
-                                    <!-- <span style="color: rgb(155, 235, 234)" class="ng-star-inserted" *ngIf="fullLogList.status == 'requested'">Requested <span> To </span>
-                                    </span> -->
+                                    
                                     {{ attenFullRequestLog.managerName }}
                                   </p>
                                 </div>
@@ -1618,19 +1568,11 @@
                                   attenFullRequestLog.requestType === 'CREATE'
                                 ">
                                 <div>
-                                  <p>
-                                    In Time:
-                                    <u>{{
-                                      attenFullRequestLog.inRequestTime
-                                      | date : "d MMM, h:mm a"
-                                      }}</u>
+                                  <p class="text-muted font-12 mb-0 fw-normal">
+                                    In Time:  <u>{{attenFullRequestLog.inRequestTime | date : "d MMM, h:mm a" }}</u>
                                   </p>
-                                  <p>
-                                    Out Time:
-                                    <u>{{
-                                      attenFullRequestLog.outRequestTime
-                                      | date : "d MMM, h:mm a"
-                                      }}</u>
+                                  <p class="text-muted font-12 mb-0 fw-normal">
+                                    Out Time: <u>{{ attenFullRequestLog.outRequestTime | date : "d MMM, h:mm a" }}</u>
                                   </p>
                                 </div>
                                 <h6 class="fw-semibold">
@@ -1641,14 +1583,14 @@
                                   attenFullRequestLog.requestType === 'UPDATE'
                                 ">
                                 <div>
-                                  <p>
+                                  <p class="text-muted font-12 mb-0 fw-normal">
                                     Previous Time:
                                     <u>{{
                                       attenFullRequestLog.oldDate
                                       | date : "d MMM, h:mm a"
                                       }}</u>
                                   </p>
-                                  <p>
+                                  <p class="text-muted font-12 mb-0 fw-normal">
                                     Requested Time:
                                     <u>{{
                                       attenFullRequestLog.updatedDate
@@ -1664,7 +1606,7 @@
                                     }}</span>
                                 </h6>
                               </div>
-                              <p class="text-muted mb-0">
+                              <p class="text-muted font-12 mb-0 fw-normal">
                                 Note: {{ attenFullRequestLog.requestReason }}
                               </p>
                             </div>
@@ -1675,16 +1617,6 @@
                       <!--end activity-->
                     </div>
 
-                    <!-- <div class="align-self-center text-center mt-2" *ngIf="!isFullLeaveLoader && !initialLoadDone">
-                      <button type="button" class="btn btn-xs btn-light btn-round" *ngIf="fullLeaveLogSize > 9" (click)="loadMoreLogs()"> Load More <i class="bi bi-chevron-down"></i>
-                      </button>
-                    </div>
-                    <div class="text-center load-more-btn" *ngIf="isFullLeaveLoader && fullLeaveLogSize > 9">
-                      <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
-                      <div>
-                        <small>Loading...</small>
-                      </div>
-                    </div> -->
                   </ng-container>
                 </ng-template>
                 <ng-template #errorWhileFetchingAttendanceUpdateRequestLogResponseListCondition>
@@ -2638,8 +2570,8 @@
               (scroll)="scrollDownRecentActivity($event)">
               <div class="log-entry p-3 mb-2 border-rounded-2" *ngFor="let log of attendanceRequests">
                 <!-- <h6>Attendance Update Request</h6> -->
-                <div class="log-header" *ngIf="log.requestType === 'UPDATE'">
-                  <h6>
+                <div class="log-header d-flex align-items-center justify-content-between" *ngIf="log.requestType === 'UPDATE'">
+                  <h6 class="m-0">
                     Request Type:
                     <span class="badge bg-soft-primary">Update ({{ log.attendanceStatus }})</span>
                   </h6>
@@ -2647,8 +2579,8 @@
                   <span class="badge bg-soft-success" *ngIf="log.status == 'APPROVED'">Approved</span>
                   <span class="badge bg-soft-danger" *ngIf="log.status == 'REJECTED'">Rejected</span>
                 </div>
-                <div class="log-header" *ngIf="log.requestType === 'CREATE'">
-                  <h6>
+                <div class="log-header d-flex align-items-center justify-content-between" *ngIf="log.requestType === 'CREATE'">
+                  <h6 class="m-0">
                     Request Type:
                     <span class="badge bg-soft-primary">Create</span>
                   </h6>
@@ -2685,12 +2617,11 @@
                 <p><strong>User:</strong> {{ log.userName }}</p>
                 <p><strong>Manager:</strong> {{ log.managerName }}</p>
                 <p><strong>Reason:</strong> {{ log.requestReason }}</p>
-                <div class="action-buttons" style="justify-content: flex-end"
-                  *ngIf="log.managerUuid === logInUserUuid || role == 'ADMIN'">
-                  <button class="btn btn-soft-success" (click)="approveOrReject(log.id, 'APPROVE')">
+                <div class="action-buttons d-flex align-items-center justify-contant-end" *ngIf="log.managerUuid === logInUserUuid || role == 'ADMIN'">
+                  <button class="btn btn-soft-success mx-2" (click)="approveOrReject(log.id, 'APPROVE')">
                     Approve
                   </button>
-                  <button class="btn btn-soft-danger" (click)="approveOrReject(log.id, 'REJECT')">
+                  <button class="btn btn-soft-danger mx-2" (click)="approveOrReject(log.id, 'REJECT')">
                     Reject
                   </button>
                 </div>
@@ -2849,33 +2780,33 @@
   <div class="modal-dialog modal-dialog-centered" style="max-width: 570px" role="document">
     <div class="modal-content">
       <div class="modal-body p-5">
-        <button type="button" class="overtime-request-action-close-btn" data-bs-dismiss="modal" aria-label="Close"
+        <button type="button" class="overtime-request-action-close-btn position-absolute bg-white d-flex align-items-center justify-content-center" data-bs-dismiss="modal" aria-label="Close"
           #closeOvertimeRequestActionModal>
           <i class="bi bi-x" style="line-height: 20px"></i>
         </button>
         <div class="text-center overtime-request-action-modal">
           <div class="d-flex align-items-start justify-content-between">
-            <div class="d-flex align-items-center profile-details" style="gap: 15px">
+            <div class="d-flex align-items-center profile-details gap-3">
               <div class="profile-user-img">
                 <img [src]="
                     overtimeRequestActionResponse.userImage ||
                     'assets/images/user.png'
-                  " style="width: 50px; height: 50px; object-fit: cover" />
+                  "/>
               </div>
               <div>
-                <h4 style="cursor: pointer" (click)="
+                <h4 class="font-18 text-black fw-semibold pointer pb-1 mb-0" (click)="
                     this.helperService.routeToUserProfile(
                       overtimeRequestActionResponse.userUuid
                     )
                   ">
                   {{ overtimeRequestActionResponse.userName }}
                 </h4>
-                <p>{{ overtimeRequestActionResponse.userEmail }}</p>
+                <p class="font-13 fw-normal pb-0 text-left lh-base mb-0">{{ overtimeRequestActionResponse.userEmail }}</p>
               </div>
             </div>
             <div class="total-holidey-live">
-              <h5>
-                <p>
+              <h5 class="fw-normal mb-3 pb-0 fw-semibold">
+                <p class="font-13 fw-normal pb-0 text-right lh-base mb-0">
                   {{
                   overtimeRequestActionResponse.createdDate
                   | date : "dd MMM yyyy hh:mm a"
@@ -2887,7 +2818,7 @@
           </div>
           <div class="mt-4">
             <div class="overtime-request-action-field">
-              <p>
+              <p  class="font-13 fw-normal pb-0 text-left lh-base">
                 <span>Time: </span><u>{{
                   overtimeRequestActionResponse.startTime
                   | date : "d MMM, h:mm a"
@@ -2898,7 +2829,7 @@
                   | date : "d MMM, h:mm a"
                   }}</u>
               </p>
-              <p>
+              <p class="font-13 fw-normal pb-0 text-left lh-base">
                 <span>Duration: </span>{{
                 this.helperService.formatHHmmssToHHmm(
                 overtimeRequestActionResponse.workingHour
@@ -2906,10 +2837,10 @@
                 }}
                 hrs.
               </p>
-              <p>
+              <p class="font-13 fw-normal pb-0 text-left lh-base">
                 <span>Applied To: </span>{{ overtimeRequestActionResponse.managerName }}
               </p>
-              <p><span>Note: </span>{{ overtimeRequestActionResponse.note }}</p>
+              <p class="font-13 fw-normal pb-0 text-left lh-base"><span>Note: </span>{{ overtimeRequestActionResponse.note }}</p>
             </div>
             <!-- *ngIf="
             specificLeaveRequest.managerUuid === logInUserUuid ||
@@ -2961,33 +2892,33 @@
   <div class="modal-dialog modal-dialog-centered" style="max-width: 570px" role="document">
     <div class="modal-content">
       <div class="modal-body p-5">
-        <button type="button" class="overtime-request-action-close-btn" data-bs-dismiss="modal" aria-label="Close"
+        <button type="button" class="overtime-request-action-close-btn position-absolute bg-white d-flex align-items-center justify-content-center" data-bs-dismiss="modal" aria-label="Close"
           #closeAttendanceUpdateRequestActionModal>
           <i class="bi bi-x" style="line-height: 20px"></i>
         </button>
         <div class="text-center overtime-request-action-modal">
           <div class="d-flex align-items-start justify-content-between">
-            <div class="d-flex align-items-center profile-details" style="gap: 15px">
+            <div class="d-flex align-items-center profile-details gap-3">
               <div class="profile-user-img">
                 <img [src]="
                     attendanceUpdateRequestActionResponse.userImage ||
                     'assets/images/user.png'
-                  " style="width: 50px; height: 50px; object-fit: cover" />
+                  " />
               </div>
               <div>
-                <h4 style="cursor: pointer" (click)="
+                <h4 class="font-18 text-black fw-semibold pointer pb-1 mb-0" (click)="
                     this.helperService.routeToUserProfile(
                       attendanceUpdateRequestActionResponse.userUuid
                     )
                   ">
                   {{ attendanceUpdateRequestActionResponse.userName }}
                 </h4>
-                <p>{{ attendanceUpdateRequestActionResponse.userEmail }}</p>
+                <p class="font-13 fw-normal pb-0 text-left lh-base mb-0">{{ attendanceUpdateRequestActionResponse.userEmail }}</p>
               </div>
             </div>
             <div class="total-holidey-live text-end">
-              <h5>
-                <p>
+              <h5 class="font-14 fw-normal mb-3 pb-0 fw-semibold">
+                <p class="font-13 fw-normal pb-0 text-right lh-base  mb-0">
                   {{
                   attendanceUpdateRequestActionResponse.createdDate
                   | date : "dd MMM yyyy hh:mm a"
@@ -3014,13 +2945,13 @@
               <ng-container *ngIf="
                   attendanceUpdateRequestActionResponse.requestType === 'UPDATE'
                 ">
-                <p>
+                <p class="font-13 fw-normal pb-0 text-left lh-base">
                   <span>Previous Time: </span><u>{{
                     attendanceUpdateRequestActionResponse.oldDate
                     | date : "d MMM, h:mm a"
                     }}</u>
                 </p>
-                <p>
+                <p class="font-13 fw-normal pb-0 text-left lh-base">
                   <span>Requested Time: </span><u>{{
                     attendanceUpdateRequestActionResponse.updatedDate
                     | date : "d MMM, h:mm a"
@@ -3030,23 +2961,23 @@
               <ng-container *ngIf="
                   attendanceUpdateRequestActionResponse.requestType === 'CREATE'
                 ">
-                <p>
+                <p class="font-13 fw-normal pb-0 text-left lh-base">
                   <span>In Time: </span><u>{{
                     attendanceUpdateRequestActionResponse.inRequestTime
                     | date : "d MMM, h:mm a"
                     }}</u>
                 </p>
-                <p>
+                <p class="font-13 fw-normal pb-0 text-left lh-base">
                   <span>Out Time: </span><u>{{
                     attendanceUpdateRequestActionResponse.outRequestTime
                     | date : "d MMM, h:mm a"
                     }}</u>
                 </p>
               </ng-container>
-              <p>
+              <p class="font-13 fw-normal pb-0 text-left lh-base">
                 <span>Applied To: </span>{{ attendanceUpdateRequestActionResponse.managerName }}
               </p>
-              <p>
+              <p class="font-13 fw-normal pb-0 text-left lh-base">
                 <span>Note: </span>{{ attendanceUpdateRequestActionResponse.requestReason }}
               </p>
             </div>
