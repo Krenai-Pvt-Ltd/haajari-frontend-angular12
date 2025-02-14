@@ -106,7 +106,7 @@
                   <div>
                     <p class="mb-1 font-13">Earning</p>
                     <h5 class="mb-0 fw-semibold">
-                      ₹{{ employeePayslipResponse.grossPay || "0" }}
+                      ₹{{convertNumberToStringFormat(employeePayslipResponse.grossPay)}}
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="12"
@@ -165,7 +165,7 @@
                   <div>
                     <p class="mb-1 font-13">Additions</p>
                     <h5 class="mb-0 fw-semibold">
-                      ₹{{ employeePayslipResponse.bonus || "0" }}
+                      ₹{{convertNumberToStringFormat(employeePayslipResponse.bonus)}}
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="12"
@@ -231,7 +231,7 @@
                   <div>
                     <p class="mb-1 font-13">Deduction</p>
                     <h5 class="mb-0 fw-semibold">
-                      ₹{{ employeePayslipResponse.deduction || "0" }}
+                      ₹{{convertNumberToStringFormat(employeePayslipResponse.deduction) }}
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="12"
@@ -317,7 +317,7 @@
                   <div>
                     <p class="mb-1 font-13">Net Payable</p>
                     <h5 class="mb-0 fw-semibold">
-                      ₹{{ employeePayslipResponse.netPay || "0" }}
+                      ₹{{convertNumberToStringFormat(employeePayslipResponse.netPay) }}
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="12"
@@ -717,7 +717,7 @@
                             <td class="text-center">
                               <span class="fw-semibold"
                                 >₹{{
-                                  convertNumberToStringFormat(
+                                  convertNumberToStringFormatWithDecimal(
                                     payslipBreakup.standardAmount
                                   )
                                 }}</span
@@ -726,7 +726,7 @@
                             <td class="text-center">
                               <span class="fw-semibold"
                                 >₹{{
-                                  convertNumberToStringFormat(
+                                  convertNumberToStringFormatWithDecimal(
                                     payslipBreakup.actualAmount
                                   )
                                 }}</span
@@ -743,14 +743,14 @@
                             <td class="text-center">
                               <span class="fw-bold text-primary"
                                 >₹{{
-                                  convertNumberToStringFormat(monthlySalary)
+                                  convertNumberToStringFormatWithDecimal(monthlySalary)
                                 }}</span
                               >
                             </td>
                             <td class="text-center">
                               <span class="fw-bold text-primary"
                                 >₹{{
-                                  convertNumberToStringFormat(earningSalary)
+                                  convertNumberToStringFormatWithDecimal(earningSalary)
                                 }}</span
                               >
                             </td>
@@ -784,7 +784,7 @@
                             <td class="text-end">
                               <span class="fw-semibold"
                                 >₹{{
-                                  convertNumberToStringFormat(
+                                  convertNumberToStringFormatWithDecimal(
                                     salaryDeductionResponse.tds
                                   )
                                 }}</span
@@ -796,7 +796,7 @@
                             <td class="text-end">
                               <span class="fw-semibold"
                                 >₹{{
-                                  convertNumberToStringFormat(
+                                  convertNumberToStringFormatWithDecimal(
                                     salaryDeductionResponse.employeeEpf
                                   )
                                 }}</span
@@ -808,7 +808,7 @@
                             <td class="text-end">
                               <span class="fw-semibold"
                                 >₹{{
-                                  convertNumberToStringFormat(
+                                  convertNumberToStringFormatWithDecimal(
                                     salaryDeductionResponse.employeeEsi
                                   )
                                 }}</span
@@ -844,7 +844,7 @@
                             <td class="text-end">
                               <span class="fw-semibold"
                                 >₹{{
-                                  convertNumberToStringFormat(
+                                  convertNumberToStringFormatWithDecimal(
                                     salaryDeductionResponse.employerEpf
                                   )
                                 }}</span
@@ -856,7 +856,7 @@
                             <td class="text-end">
                               <span class="fw-semibold"
                                 >₹{{
-                                  convertNumberToStringFormat(
+                                  convertNumberToStringFormatWithDecimal(
                                     salaryDeductionResponse.employerEsi
                                   )
                                 }}</span
@@ -1030,7 +1030,7 @@
                     <h5 class="mb-0 fw-semibold font-14">
                       INR
                       {{
-                        convertNumberToStringFormat(
+                        convertNumberToStringFormatWithDecimal(
                           currentSalaryDetail.annualCTC
                         )
                       }}/<span class="font-13 fw-normal">Annum</span>
@@ -1261,7 +1261,7 @@
                       <p class="mb-0 fw-bold font-13">
                         INR
                         {{
-                          convertNumberToStringFormat(salaryRevision.monthlyCtc)
+                          convertNumberToStringFormatWithDecimal(salaryRevision.monthlyCtc)
                         }}
                       </p>
                     </div>
@@ -1270,7 +1270,7 @@
                       <p class="mb-0 fw-bold font-13">
                         INR
                         {{
-                          convertNumberToStringFormat(salaryRevision.annualCtc)
+                          convertNumberToStringFormatWithDecimal(salaryRevision.annualCtc)
                         }}
                       </p>
                     </div>
@@ -1315,7 +1315,7 @@
                           </h5>
                           <h5 class="fw-normal font-14 mb-0">
                             ₹{{
-                              convertNumberToStringFormat(
+                              convertNumberToStringFormatWithDecimal(
                                 component.standardAmount
                               )
                             }}
@@ -1328,7 +1328,7 @@
                           <h5 class="fw-boid font-15 mb-0">Gross Earning</h5>
                           <h5 class="fw-bold text-primary font-15 mb-0">
                             ₹{{
-                              convertNumberToStringFormat(
+                              convertNumberToStringFormatWithDecimal(
                                 salaryRevision.monthlyCtc
                               )
                             }}
@@ -1340,7 +1340,7 @@
                       <div class="">
                         <!-- <div class="p-3 holiday-date mb-3 universal-holiday">
                                                             <p class="mb-0"> Regular Salary | <span style="color: #3f988f;">INR
-                                                                    {{convertNumberToStringFormat(salaryRevision.annualCtc)}}</span></p>
+                                                                    {{convertNumberToStringFormatWithDecimal(salaryRevision.annualCtc)}}</span></p>
                                                         </div> -->
                         <div class="p-3 holiday-date mb-3 universal-holiday">
                           <p class="mb-0">
@@ -1348,7 +1348,7 @@
                             <span style="color: #3f988f"
                               >INR
                               {{
-                                convertNumberToStringFormat(
+                                convertNumberToStringFormatWithDecimal(
                                   salaryRevision.monthlyCtc
                                 )
                               }}</span
