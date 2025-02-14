@@ -11,7 +11,16 @@ export class LeaveService {
   constructor(private http:HttpClient) { }
 
   get(paramsObj?: Record<string, any>): Observable<any> {
-    const params = new HttpParams({ fromObject: paramsObj || {} });
+    
+     // Remove any keys where the value is undefined
+    const params = Object.entries(paramsObj || {})
+      .filter(([key, value]) => value !== undefined)
+      .reduce((acc:any, [key, value]) => {
+        acc[key] = value;
+        return acc;
+      }, {});
+  
+  
     return this.http.get(`${API_URLS.base_url}${API_URLS.leaves}`, { params });
 
   }

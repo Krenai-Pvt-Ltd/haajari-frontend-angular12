@@ -1,12 +1,8 @@
 import { Injectable, OnInit } from '@angular/core';
 import { HelperService } from './helper.service';
-import { ModulesWithSubmodules } from '../models/modules-with-submodules';
-import { ModuleResponse } from '../models/module-response';
 import { DataService } from 'src/app/services/data.service';
-import { resolve } from 'dns';
-import { Observable } from 'rxjs';
 import { Key } from '../constant/key';
-import { ActivationEnd, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { constant } from '../constant/constant';
 import { Routes } from '../constant/Routes';
 
@@ -114,10 +110,9 @@ export class RoleBasedAccessControlService {
   async getUUID(): Promise<string> {
    
     if (this.userInfo && this.userInfo.uuid) {
-      console.log('userInfo:', this.userInfo);
+      // console.log('userInfo:', this.userInfo);
       return Promise.resolve(this.userInfo.uuid);
     } else {
-      console.error('userInfo is undefined or does not contain uuid');
       return Promise.resolve("");
     }
   }
