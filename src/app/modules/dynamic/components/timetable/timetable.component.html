@@ -190,7 +190,7 @@
                           class="form-control me-2 ng-untouched ng-pristine ng-valid attendance-details-search font-13 w-100 bg-white border-rounded-2"
                           (keyup)="searchUsers($event)" [(ngModel)]="searchText" [ngModelOptions]="{ standalone: true }"
                           style="padding: 10px 40px" />
-                        <button *ngIf="searchText.length !== 0" type="button" class="btn close-btn fw-semibold font-20 text-primary pointer position-absolute">
+                        <button *ngIf="searchText.length !== 0" type="button" class="btn close-btn fw-semibold font-20 text-primary pointer position-absolute"
                           (click)="clearSearchText()">
                           <i class="bi bi-x mt-auto mb-auto pl-3"></i>
                         </button>
