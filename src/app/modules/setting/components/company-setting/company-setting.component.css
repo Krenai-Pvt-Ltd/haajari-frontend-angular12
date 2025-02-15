@@ -1558,7 +1558,7 @@ a.fetch-location {
 
 /* new side tab for new modal */
 
-.nav-link.active {
+/* .nav-link.active {
   background: transparent;
   color: var(--primary-color);
   border-radius: 0;
@@ -1568,12 +1568,15 @@ a.fetch-location {
 .nav-link {
   display: block;
   padding: 7px 10px;
-  color: #000;
-  font-size: 14px;
+  color: #6B7280;
+  font-size: 13px;
   font-style: normal;
   font-weight: 500;
   text-align: left;
 }
+.nav-item {
+  margin-right: 20px;
+} */
 
 .empty-detail {
   color: #6b7280 !important;
@@ -1581,9 +1584,7 @@ a.fetch-location {
   font-size: 16px !important;
 }
 
-.nav-item {
-  margin-right: 20px;
-}
+
 
 .staff-location {
   height: 570px;
@@ -1624,6 +1625,13 @@ a.fetch-location {
   font-weight: 500;
   border-radius: 2px;
   width: 100px;
+}
+.edit-action-btn svg{
+  position: relative;
+  top: -3px;
+}
+.edit-action-btn:hover{
+  color: black !important;
 }
 
 .add-file {
@@ -1682,4 +1690,44 @@ input[type=radio]{
 }
 .reminder-after{
   border-left: 1px solid #f2f2f2;
+}
+
+
+.dot-opacity-loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 6px;
+}
+
+.dot-opacity-loader span {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--primary-background-color) !important;
+  /* Change to your preferred color */
+  margin: 0 4px;
+  animation: dotOpacity 1.4s infinite ease-in-out both;
+}
+
+.dot-opacity-loader span:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.dot-opacity-loader span:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+@keyframes dotOpacity {
+
+  0%,
+  80%,
+  100% {
+    opacity: 0;
+  }
+
+  40% {
+    opacity: 1;
+  }
 }

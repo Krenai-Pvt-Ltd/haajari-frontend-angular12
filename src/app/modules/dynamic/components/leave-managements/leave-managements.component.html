@@ -972,7 +972,7 @@
                                     <div class="col-lg-12 col-md-12 col-sm-12 ps-0">
                                         <div class="d-flex justify-content-start align-items-center">
                                             <div class="empFilerDropfilter dropdown">
-                                                <button type="button" id="statusDropdown" class="btn btn-secondary new-deopdown d-flex align-items-center justify-content-between" data-bs-toggle="dropdown">
+                                                <button type="button" id="statusDropdown" class="btn btn-secondary new-deopdown d-flex align-items-center justify-content-between" (click)="changeShowFilter(true)">
                                                     Filters 
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23" fill="none">
                                                         <mask id="mask0_7808_40" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="23" height="23">
@@ -984,64 +984,20 @@
                                                         </svg>
                                                 </button>
 
-                                                <div class="dropdown-menu actionMenuList filter-box p-0">
-                                                    <div class="d-flex align-items-center justify-content-between border-bottom p-3">
-                                                        <h5 class="mb-0 font-14 fw-semibold"> Filter</h5>
-                                                        <span class="pointer">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="19" viewBox="0 0 18 19" fill="none">
-                                                            <g opacity="0.8">
-                                                            <mask id="mask0_7729_258" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="18" height="19">
-                                                            <rect y="0.5" width="18" height="18" fill="#D9D9D9"/>
-                                                            </mask>
-                                                            <g mask="url(#mask0_7729_258)">
-                                                            <path d="M4.8 14.75L3.75 13.7L7.95 9.5L3.75 5.3L4.8 4.25L9 8.45L13.2 4.25L14.25 5.3L10.05 9.5L14.25 13.7L13.2 14.75L9 10.55L4.8 14.75Z" fill="#1C1B1F"/>
-                                                            </g>
-                                                            </g>
-                                                            </svg>
-                                                        </span>
-                                                    </div>
-                                                    <div class="row p-3">
-
-                                                        <h5 class="font-14 mb-3">Date Range</h5>
-                                                        <div class="col-md-6 mb-3">
-                                                            <label for="from" class="pb-2">From  </label>
-                                                            <nz-date-picker nzBorderless nzplaceholder="dd/mm/yyyy"></nz-date-picker>
-                                                        </div>
-                                                        <div class="col-md-6 mb-3">
-                                                            <label for="to" class="pb-2">To  </label>
-                                                            <nz-date-picker nzBorderless nzplaceholder="dd/mm/yyyy"></nz-date-picker>
-                                                        </div>
-
-                                                        <div class="col-md-12 mb-3">
-                                                            <label for="type" class="pb-2">Leave Type</label>
-                                                            <nz-select ngModel="Earned Leave" class="w-100 form-control placeholder-lines">
-                                                                <nz-option nzValue="Earned Leave" nzLabel="Earned Leave"></nz-option>
-                                                                <nz-option nzValue="Sick Leave" nzLabel="Sick Leave"></nz-option>
-                                                                <nz-option nzValue="Leave Without Pay" nzLabel="Leave Without Pay"></nz-option>
-                                                              </nz-select>
-                                                        </div>
-                                                        <div class="col-md-12 mb-3">
-                                                            <label for="status" class="pb-2">Status</label>
-                                                            <nz-select ngModel="Pending" class="w-100 form-control placeholder-lines">
-                                                                <nz-option nzValue="Pending" nzLabel="Pending"></nz-option>
-                                                                <nz-option nzValue="Approve" nzLabel="Approve"></nz-option>
-                                                                 <nz-option nzValue="Reject" nzLabel="Reject"></nz-option>
-                                                              </nz-select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="p-3 border-top d-flex gap-2 align-items-center justify-content-end">
-                                                        <button class="btn cancel-btn mt-0">Reset it</button>
-                                                        <button class="btn submitActionBtn">Apply</button>
-                                                    </div>
-                                                </div>
+                                              
                                             </div>
                                             <div
                                                 class="onboarding-date d-flex align-items-center justify-content-between position-relative w-100">
                                                 <form novalidate
                                                     class="searching d-flex align-items-center justify-content-between w-100">
                                                     <div class="form-group w-100 position-relative">
-                                                        <input type="text" id="searchText" #searchInput placeholder="Search by name.." class="form-control me-2 w-100" style="padding: 10px 45px;" />
-                                                        <i class="bi bi-search search-icon d-flex align-items-center  h-100"></i>
+                                                        <input type="text" id="searchInput" #searchInput="ngModel" placeholder="Search by name.."
+                                                         class="form-control me-2 w-100" style="padding: 10px 45px;"  [(ngModel)]="searchTerm"  
+                                                         (keyup)="searchTermChanged($event)" />
+                                                        <i class="bi bi-search search-icon d-flex align-items-center  h-100" *ngIf="searchTerm == ''"></i>
+                                                        <i class="bi bi-x-lg search-icon d-flex align-items-center  h-100" *ngIf="searchTerm != ''"
+                                                        (click)="getLeaves(true)"></i>
+                                                      
                                                     </div>
                                                 </form>
                                             </div>
@@ -1058,21 +1014,67 @@
                                                 </button>
                                             </div>
                                         </div>
+
+                                        <div class="actionMenuList filter-box p-0 position-absolute bg-white border" [ngClass]="{'d-none': !showFilter}">
+                                            <div class="d-flex align-items-center justify-content-between border-bottom p-3">
+                                                <h5 class="mb-0 font-14 fw-semibold"> Filter</h5>
+                                                <span class="pointer" (click)="changeShowFilter(false)">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="19" viewBox="0 0 18 19" fill="none">
+                                                    <g opacity="0.8">
+                                                    <mask id="mask0_7729_258" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="18" height="19">
+                                                    <rect y="0.5" width="18" height="18" fill="#D9D9D9"/>
+                                                    </mask>
+                                                    <g mask="url(#mask0_7729_258)">
+                                                    <path d="M4.8 14.75L3.75 13.7L7.95 9.5L3.75 5.3L4.8 4.25L9 8.45L13.2 4.25L14.25 5.3L10.05 9.5L14.25 13.7L13.2 14.75L9 10.55L4.8 14.75Z" fill="#1C1B1F"/>
+                                                    </g>
+                                                    </g>
+                                                    </svg>
+                                                </span>
+                                            </div>
+                                            <div class="row p-3">
+
+                                                <h5 class="font-14 mb-3">Date Range</h5>
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="from" class="pb-2">From  </label>
+                                                    <nz-date-picker [(ngModel)]="filters.fromDate" nzBorderless
+                                                    [nzDisabledDate]="disabledDateFrom" nzplaceholder="dd/mm/yyyy"></nz-date-picker>
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="to" class="pb-2">To  </label>
+                                                    <nz-date-picker [(ngModel)]="filters.toDate"[(ngModel)]="filters.toDate" nzBorderless
+                                                    [nzDisabledDate]="disabledDateTo" nzplaceholder="dd/mm/yyyy"></nz-date-picker>
+                                                </div>
+
+                                                <div class="col-md-12 mb-3">
+                                                    <label for="type" class="pb-2">Leave Type</label>
+                                                    <nz-select [(ngModel)]="filters.leaveType"  class="w-100 form-control placeholder-lines">
+                                                        <nz-option *ngFor="let type of leaveTypes" [nzValue]="type" nzLabel="{{ type | titlecase }}"></nz-option>
+                                                        
+                                                      </nz-select>
+                                                </div>
+                                                <div class="col-md-12 mb-3">
+                                                    <label for="status" class="pb-2">Status</label>
+                                                    <nz-select  [(ngModel)]="filters.status"class="w-100 form-control placeholder-lines">
+                                                        <nz-option *ngFor="let stat of statusMaster" [nzValue]="stat" nzLabel="{{ stat | titlecase }}"></nz-option>
+                                                    </nz-select>
+                                                </div>
+                                            </div>
+                                            <div class="p-3 border-top d-flex gap-2 align-items-center justify-content-end">
+                                                <button class="btn cancel-btn mt-0" (click)="resetFilters()">Reset it</button>
+                                                <button class="btn submitActionBtn" (click)="applyFilters()">Apply</button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <div class="filter-bdg d-flex align-items-center gap-2 mt-3">
-                            <p class="filter-pills d-flex align-items-centar gap-2 pointer font-12 fw-semibold">Anchal Sharma
-                              <i class="bi bi-x-lg pointer"></i>
-                            </p>
-                            <p class="filter-pills d-flex align-items-centar gap-2 pointer font-12 fw-semibold">Pending
-                              <i class="bi bi-x-lg pointer"></i>
-                            </p>
-                            <p class="filter-pills d-flex align-items-centar gap-2 pointer font-12 fw-semibold">Anchal Sharma
-                              <i class="bi bi-x-lg pointer"></i>
-                            </p>
+                            <p *ngFor="let filter of appliedFilters" class="filter-pills d-flex align-items-center gap-2 pointer font-12 fw-semibold">
+                                {{filter.key  | titlecase}} : {{ filter.value  | titlecase}}
+                                <i class="bi bi-x-lg pointer" (click)="removeFilter(filter.key)"></i>
+                              </p>
+                           
                           </div>
 
                         <div class="table-responsive bg-white mt-3">
@@ -1139,32 +1141,39 @@
                                  </tbody> -->
                                   <!-- empty notification end -->
                                <tbody class="ng-star-inserted">
-                                <tr class="new-request">
-                                    <td class="text-left"><span class="team-maneger mb-0">Sam Michael </span></td>
+                                <tr class="new-request" *ngFor="let leave of leaves" >
+                                    <td class="text-left"><span class="team-maneger mb-0">{{leave.username}} </span></td>
                                      <td class="text-left">
-                                        <p class="mb-0 font-12 fw-semibold">Sick Leave</p>
-                                        <span class="team-maneger mb-0 table-font-weight">on Oct 14, 2024</span>
+                                        <p class="mb-0 font-12 fw-semibold">{{ leave.leaveType }}</p>
+                                        <span class="team-maneger mb-0 table-font-weight">on {{ leave.leaveDate | date : "medium" || "N/A" }}</span>
                                     </td>
                                      <td class="text-left">
-                                        <span class="team-maneger mb-0 table-font-weight">16-17 Jun,23</span>
-                                        <p class="mb-0 font-12 fw-semibold" >
+                                        <span class="team-maneger mb-0 table-font-weight">{{ leave.startDate | date : 'd MMMM, y' || "N/A" }}-
+                                            {{ leave.endDate | date : 'd MMMM, y' || "N/A" }}
+                                        </span>
+                                        <!-- <p class="mb-0 font-12 fw-semibold" >
                                             Monday  
-                                        </p>
+                                        </p> -->
                                      </td>
-                                     <td class="text-left"><span class="team-maneger mb-0"> Sam Michael </span></td>
+                                     <td class="text-left"><span class="team-maneger mb-0">{{leave.managerName}} </span></td>
                                     
                                      
                                      <td>
-                                        <span class="team-maneger mb-0 table-font-weight white-space"  nzPopoverTitle="Title" nzPopoverContent="Content">it was also a testing leaveit was also a testing leave</span>
+                                        <span class="team-maneger mb-0 table-font-weight white-space"  nzPopoverTitle="Title" nzPopoverContent="Content">{{leave.notes}}</span>
                                      </td>
                                      <td>
-                                        <span class="team-maneger mb-0 table-font-weight white-space" nzPopoverTitle="Title" nzPopoverContent="Content">it was also a testing leave it was also a testing leave</span>
+                                        <span class="team-maneger mb-0 table-font-weight white-space" nzPopoverTitle="Title" nzPopoverContent="Content">{{leave.rejectionReason || "N/A"}}</span>
                                     </td>
                                     <td class="text-left">
                                         <div class="d-flex align-items-center gap-2">
-                                           <span class="badge rounded-pill badge-soft-danger"> Rejected </span>
+                                           <span class="badge rounded-pill" [ngClass]="{
+                                                'badge-soft-danger': leave.status == REJECTED,
+                                                'badge-soft-primary': leave.status == PENDING || leave.status == REQUESTED,
+                                                'badge-soft-success': leave.status == APPROVED
+                                            }">{{leave.status|  uppercase}} </span>
+                                          
                                         </div>
-                                        <p class="mb-0 mt-1 fw-normal font-13">By: Sam Michael </p>
+                                        <p class="mb-0 mt-1 fw-normal font-13">By: {{leave.managerName}} </p>
                                     </td>
                                      <td class="text-end">
                                         <div class="d-flex align-items-center justify-content-end gap-2">
@@ -1222,7 +1231,7 @@
                                                         </a>
                                                     </li>
                                                     <li>
-                                                        <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#leave-request">
+                                                        <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#leave-request" (click)="viewLeave(leave)">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
                                                                 <mask id="mask0_7683_19201" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="25">
                                                                 <rect y="0.5" width="24" height="24" fill="#D9D9D9"/>
@@ -1615,6 +1624,20 @@
                                       </div>
                                      </td>
                                   </tr>
+                                  <div
+                                  class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top"
+                                  *ngIf="!isLoadingLeaves && leaves.length > 0 && totalItems >itemPerPage">
+                                  <p class="mb-0">
+                                    Showing {{ (currentPage - 1) * itemPerPage + 1 }} -
+                                    {{ ((currentPage - 1) * itemPerPage + 1)+(leaves.length-1) }} of {{ totalItems}} Leaves
+                                  </p>
+                                  <div class="pagition-box">
+                                    <ngb-pagination [collectionSize]="totalItems" [(page)]="currentPage" [pageSize]="itemPerPage"
+                                      [maxSize]="5" [boundaryLinks]="true" [ellipses]="true"
+                                      (pageChange)="onPageChange($event)">
+                                    </ngb-pagination>
+                                  </div>
+                                </div>
                                </tbody>
                             </table>
                          </div>
@@ -1630,7 +1653,7 @@
 </button>
 <div class="modal fade" id="leave-request" tabindex="-1" role="dialog" aria-hidden="true"  data-bs-backdrop="static" data-bs-keyboard="false"
     aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl" style="max-width: 1060px;" role="document">
+    <div class="modal-dialog modal-dialog-centered"  [ngStyle]="{'max-width: 700px': !leave?.attachment,'max-width: 1060px': leave?.attachment}" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Leave Request</h5>
@@ -1650,27 +1673,42 @@
             </div>
             <div class="modal-body p-0">
                  <div class="row">
-                    <div class="col-md-5">
-                        <img src="assets/images/bill-img.svg" class="w-100">
+                    <div class="col-md-5" *ngIf="leave?.attachment">
+                        <div >
+                            <!-- Image with error handling -->
+                            <img [src]="leave?.attachment" (error)="handleImageError()" [hidden]="imageError" alt="Attachment"
+                                 style="max-width: 100px; height: auto; cursor: pointer;" (click)="openInNewTab(leave.attachment)">
+                          
+                            <!-- Show link if image fails to load -->
+                            <a *ngIf="imageError" [href]="leave?.attachment" target="_blank" rel="noopener noreferrer"
+                               style="font-size: 13px; color: red;">
+                              View Attachment <i class="fas fa-external-link-square-alt me-1"></i>
+                            </a>
+                          </div>
+                          
+                        
                     </div>
-                    <div class="col-md-7">
+                    <div  [ngClass]="{'col-md-12': !leave?.attachment,'col-md-7': leave?.attachment}">
                         <div class="request-detail position-relative">
                             <div class="d-flex align-items-center justify-content-between p-3 user-detail">
                                 <div class="d-flex align-items-center gap-2">
                                         <img src="assets/images/user.png" >
                                         <div>
-                                          <h5 class="mb-0 font-15">Yogesh Kumar </h5>
-                                          <p class="mb-0 font-12">yogesh@krenai.com </p>
+                                          <h5 class="mb-0 font-15">{{leave?.username}} </h5>
+                                          <p class="mb-0 font-12">{{ leave?.email }}</p>
                                       </div>
                                 </div>
-                                <p class="mb-0 font-13 fw-semibold text-black"> Date: 6th NOV 2024 </p>
+                                <p class="mb-0 font-13 fw-semibold text-black"> Date: {{
+                                    leave?.leaveDate
+                                    | date : "dd MMM yyyy hh:mm:ss a"
+                                    }}</p>
                             </div>
                             <div class="leave-form-data">
                                 <div class="row p-3">
                                     <div class="col-md-6 mb-3">
                                         <label for="leave-type" class="pb-2">Leave Type</label>
                                         <div class="requested-to">
-                                            <p class="mb-0 fw-semibold"> Casual Leave</p>
+                                            <p class="mb-0 fw-semibold">  {{ leave?.leaveType }}</p>
                                         </div>
                                     </div>
                                     <div class="col-md-6 mb-3">
@@ -1693,31 +1731,36 @@
                                     <div class="col-md-6 mb-3">
                                         <label for="starting-date" class="pb-2">Starting Date</label>
                                         <div class="requested-to">
-                                            <p class="mb-0 fw-semibold"> 12th Jan 2023</p>
+                                            <p class="mb-0 fw-semibold"> {{
+                                                leave?.startDate
+                                                | date : "dd MMM yyyy" || "N/A"
+                                                }}</p>
                                         </div>
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label for="ending-date" class="pb-2">Ending Date</label>
                                         <div class="requested-to">
-                                            <p class="mb-0 fw-semibold"> 12th Jan 2023</p>
+                                            <p class="mb-0 fw-semibold">  {{
+                                                leave?.endDate | date : "dd MMM yyyy" || "N/A"
+                                                }}</p>
                                         </div>
                                     </div>
                                     <div class="col-md-12 mb-3">
                                         <label for="ending-date" class="pb-2">Requested To</label>
                                         <div class="requested-to">
-                                            <p class="mb-0"> You: <span class="fw-semibold"> @Esther Howard </span></p>
+                                            <p class="mb-0"> You: <span class="fw-semibold"> {{ leave?.managerName }}</span></p>
                                         </div>
                                     </div>
                                     <div class="col-md-12 mb-3">
                                         <div class="form-group">
                                             <label for="templateName" class="mb-2"> Note</label>
-                                            <textarea id="requestReason" rows="3" class="form-control nots-section" maxlength="255" ></textarea>
+                                            <textarea id="requestReason" [value]="leave?.notes" rows="3" class="form-control nots-section" maxlength="255" ></textarea>
                                         </div>
                                     </div>
-                                    <div class="col-md-12">
+                                    <div class="col-md-12" *ngIf="leave?.status === 'REJECTED'|| leave?.rejectionReason">
                                         <div class="form-group">
                                             <label for="templateName" class="mb-2"> Reason Of Rejection</label>
-                                            <textarea id="requestReason" rows="3" class="form-control nots-section" maxlength="255" ></textarea>
+                                            <textarea id="requestReason"[value]="leave?.rejectionReason" rows="3" class="form-control nots-section" maxlength="255" ></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -1726,7 +1769,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="d-flex align-items-center justify-content-end gap-2 p-3 modal-footer bg-white">
+                <div class="d-flex align-items-center justify-content-end gap-2 p-3 modal-footer bg-white" *ngIf="
+                leave?.managerUuid === logInUserUuid ||
+                ROLE == 'ADMIN'
+              ">
                     <button type="button" class="btn reject-btn">Reject</button>
                     <button type="submit" class="btn approved-btn">Approved</button>
                 </div>

@@ -310,32 +310,33 @@ nz-calendar .holiday-cell {
 }
 
 .color1 {
-  background-color: #9487BE;
-  color: #9487BE;
+  background-color: #003f5c;
+  color: #003f5c;
 }
 
 .color2 {
-  background-color: #FF7F50;
-  color: #FF7F50;
+  background-color: #2f4b7c; 
+  color: #2f4b7c;
 }
 
 .color3 {
-  background-color: #FFD700;
-  color: #FFD700;
+  background-color: #665191;
+  color: #665191;
 }
 
 .color4 {
-  background-color: #90EE90;
-  color: #90EE90;
+  background-color: #a05195;
+  color: #a05195;
 }
 
 .color5 {
-  background-color: #87CEFA;
+  background-color: #d45087;
+  color: #d45087;
 }
 
 .color6 {
-  background-color: #FFB6C1;
-  color: #FFB6C1;
+  background-color: #ff7c43;
+  color: #ff7c43;
 }
 
 
@@ -939,6 +940,11 @@ span.holiday-initial {
 }
 .mobile-holiday-section{
   display: none;
+}
+
+.empty-file{
+  margin-top: 8%; 
+  margin-bottom: 8%
 }
 
 @media screen and (max-width: 500px) {

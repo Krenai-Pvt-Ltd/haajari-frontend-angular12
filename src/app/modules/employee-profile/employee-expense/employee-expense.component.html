@@ -121,14 +121,12 @@
                                                 <h5 class="font-18 mb-0">₹ {{expenseCount.totalPaidAmount}}</h5>
                                                 <p class="mb-0">{{expenseCount.paidCount}} Bill</p>
                                              </div>
-                                             <div class="d-flex gap-3">
+                                             <!-- <div class="d-flex gap-3">
                                                 <p>Settled: {{expenseCount.settledAmount}}</p><br>
-
                                                 <p *ngIf="expenseCount.newUnSettledAmount == 0">Un-Settled: {{expenseCount.unSettledAmount}}</p>
                                                 <p *ngIf="expenseCount.unSettledAmount == 0 && expenseCount.newUnSettledAmount > 0">Un-Settled: {{expenseCount.newUnSettledAmount}}</p>
                                                 <p *ngIf="expenseCount.unSettledAmount > 0 && expenseCount.newUnSettledAmount > 0">Un-Settled: {{expenseCount.unSettledAmount}} + {{expenseCount.newUnSettledAmount}}</p>
-
-                                            </div>
+                                            </div> -->
                                         </div>
                                     </div>
 
@@ -922,7 +920,7 @@
                                 <div class="form-group">
                                     <label for="employeeTypeId" class="mb-2">Expense Date</label>
                                     <nz-date-picker [(ngModel)]="expenseTypeReq.expenseDate"
-                                            nzPlaceHolder="Select Expense Date" [nzDisabledDate]="disableFutureDates"
+                                            nzPlaceHolder="Select Expense Date" [nzFormat]="'dd/MM/YYYY'" nzBorderless [nzDisabledDate]="disableFutureDates"
                                             (ngModelChange)="selectExpenseDate($event)" name="expDate" #expDate="ngModel"
                                             required class="form-control">
                                         </nz-date-picker>
@@ -939,7 +937,7 @@
                                     <nz-form-control>
                                         <nz-select style="width: 100%" nzSize="large" nzPlaceHolder="Select Manager"
                                         [(ngModel)]="managerId" (ngModelChange)="getManagerId($event)" required
-                                        name="selManagerId" #selManagerId="ngModel" class="form-control placeholder-line">
+                                        name="selManagerId" #selManagerId="ngModel" class="form-control placeholder-lineee">
                                         <nz-option *ngFor="let manager of managers"
                                             [nzValue]="manager.id" [nzLabel]="manager.name">
                                         </nz-option>

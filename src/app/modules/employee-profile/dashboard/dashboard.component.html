@@ -83,10 +83,11 @@
                    
                     <div class="chart-container w-100" *ngIf="!isPlaceholder">
                         <canvas #chartCanvas id="workingHoursChart"></canvas>
+
+                        
                     </div>
                    
-                    <div class="empty-file d-flex align-items-center justify-content-center"
-                        style="margin-top: 8%; margin-bottom: 8%" *ngIf="isPlaceholder">
+                    <div class="empty-file d-flex align-items-center justify-content-center" *ngIf="isPlaceholder">
                         <p class="mb-1 empty-detail">No data for now</p>
                     </div>
                 </div>
@@ -97,24 +98,21 @@
                         <div class="employee-dashboard p-2 mb-3">
                             <p class="mb-3 font-13">Check-In time</p>
                             <h5 class="mb-2">{{(attendanceSummary?.inTime | date: 'hh:mm a')|| '--'}}</h5>
-                            <p class="mb-0  font-13"><span class="text-danger">{{attendanceSummary?.inLateTime}} </span>
-                            </p>
+                            <p class="mb-0  font-13"><span class="text-danger">{{attendanceSummary?.inLateTime}} </span></p>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="employee-dashboard p-2 mb-3">
                             <p class="mb-3 font-13">Check-Out time</p>
                             <h5 class="mb-2">{{(attendanceSummary?.outTime | date: 'hh:mm a') || '--'}}</h5>
-                            <p class="mb-0  font-13"><span class="text-danger">{{attendanceSummary?.outLateTime}}</span>
-                            </p>
+                            <p class="mb-0  font-13"><span class="text-danger">{{attendanceSummary?.outLateTime}}</span></p>
                         </div>
                     </div>
                     <div class="col-md-6 pr-1">
                         <div class="employee-dashboard p-2 mb-3">
                             <p class="mb-3 font-13">Break Duration</p>
                             <h5 class="mb-2">{{attendanceSummary?.breakDuration}}</h5>
-                            <p class="mb-0  font-13"><span class="text-danger">{{attendanceSummary?.breakRemaining}}
-                                </span> </p>
+                            <p class="mb-0 font-13"><span class="text-danger">{{attendanceSummary?.breakRemaining}}</span></p>
                         </div>
                     </div>
                     <div class="col-md-6">

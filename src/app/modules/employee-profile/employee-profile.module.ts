@@ -24,7 +24,6 @@ import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
 import { EmployeeExpenseComponent } from './employee-expense/employee-expense.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { EpmployeeFinanceComponent } from './epmployee-finance/epmployee-finance.component';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { AgmCoreModule } from '@agm/core';
@@ -38,6 +37,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
 import { AdditionalModule } from '../additional/additional.module';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
+import { EmployeeFinanceComponent } from './employee-finance/employee-finance.component';
 // import { NgApexchartsModule } from 'ng-apexcharts';
 
 
@@ -55,10 +55,11 @@ import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
     EmployeeExitComponent,
     EmployeeExpenseComponent,
     DashboardComponent,
-    EpmployeeFinanceComponent,
+    EmployeeProfileComponent,
     HolidayDatePickerComponent,
     SettingsComponent,
     AccountSettingsComponent,
+    EmployeeFinanceComponent
   ],
   imports: [
     CommonModule,

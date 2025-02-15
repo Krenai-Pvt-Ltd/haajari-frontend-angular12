@@ -173,6 +173,6 @@ span.edit-profile {
 }
 
 .form-control {
-  margin-left: 10px; /* Adds space between the input box and +91 box */
-  height: calc(2.25rem + 2px); /* Ensure height matches input group text */
+  margin-left: 10px;
+  height: calc(2.25rem + 2px);
 }

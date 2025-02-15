@@ -78,7 +78,8 @@ export class Key {
     '/inbox',
     '/assets-management',
     '/faq',
-    '/faq-detail'
+    '/faq-detail',
+    '/expense-management'
   ];
 
   public static TOPBAR_ROUTES = [
@@ -128,7 +129,8 @@ export class Key {
     '/inbox',
     '/assets-management',
     '/faq',
-    '/faq-detail'
+    '/faq-detail',
+    '/expense-management'
   ];
 
   public static ORGANIZATION_ONBOARDING_SIDEBAR_ROUTES = [
@@ -446,6 +448,8 @@ export class Key {
   // employee profile old and new routes
   // public static EMPLOYEE_PROFILE_ROUTE = '/employee-profile';
   public static EMPLOYEE_PROFILE_ROUTE = '/employee';
+  public static ATTENDANCE_SETTING_ROUTE = '/setting/attendance-setting';
+  public static LEAVE_SETTING_ROUTE = '/setting/leave-setting';
 }
 
 

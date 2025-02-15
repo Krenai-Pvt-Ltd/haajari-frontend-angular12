@@ -40,6 +40,10 @@ export class AttendanceRequestFormComponent implements OnInit {
       this.userId = this.activateRoute.snapshot.queryParamMap.get('userUuid');
       this.getIsAdminForWhatsappLeaveRequest(this.userId);
 
+    }else if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
+      this.userId = this.activateRoute.snapshot.queryParamMap.get('userId');
+      this.getIsAdminForWhatsappLeaveRequest(this.userId);
+
     }
 
     // comment
@@ -278,6 +282,7 @@ export class AttendanceRequestFormComponent implements OnInit {
     this.dataService.getIsAdminForWhatsappLeave(userId).subscribe(
       (isAdminPresent: boolean) => {
          this.isAdmin = isAdminPresent;
+         console.log("🚀 ~ getIsAdminForWhatsappLeaveRequest ~ isAdminPresent:", isAdminPresent)
          this.updateManagerIdValidators();
       });
   }

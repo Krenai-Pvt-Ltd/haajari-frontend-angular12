@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EpmployeeFinanceComponent } from './epmployee-finance.component';
+import { EmployeeFinanceComponent } from './employee-finance.component';
 
-describe('EpmployeeFinanceComponent', () => {
-  let component: EpmployeeFinanceComponent;
-  let fixture: ComponentFixture<EpmployeeFinanceComponent>;
+describe('EmployeeFinanceComponent', () => {
+  let component: EmployeeFinanceComponent;
+  let fixture: ComponentFixture<EmployeeFinanceComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EpmployeeFinanceComponent ]
+      declarations: [ EmployeeFinanceComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EpmployeeFinanceComponent);
+    fixture = TestBed.createComponent(EmployeeFinanceComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

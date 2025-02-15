@@ -15,6 +15,9 @@
     background-size: 1000px 100%;
     animation: shimmer 1.5s infinite;
 }
+.nav-item {
+    margin-right: 0px;
+}
 
 @keyframes shimmer {
     0% {

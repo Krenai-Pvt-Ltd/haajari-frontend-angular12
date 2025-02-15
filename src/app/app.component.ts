@@ -4,6 +4,7 @@ import { Key } from './constant/key';
 import { HelperService } from './services/helper.service';
 import { RoleBasedAccessControlService } from './services/role-based-access-control.service';
 import { OnboardingService } from './services/onboarding.service';
+import { co } from '@fullcalendar/core/internal-common';
 
 @Component({
   selector: 'app-root',
@@ -28,6 +29,9 @@ export class AppComponent implements OnInit {
       if (event instanceof RouteConfigLoadStart) {
         this._helperService.detectOpenModalOnBack();
       } 
+      if(event instanceof NavigationEnd){
+        window.scrollTo(0, 0);
+      }
       if(event instanceof NavigationEnd &&  document.body?.classList){
         document.body?.classList?.remove("modal-open")
         document.body.style.overflow = 'scroll';
@@ -39,8 +43,6 @@ export class AppComponent implements OnInit {
     this._router = router;
   }
   ngOnInit(): void {
-    console.log(this.rbacService.isUserInfoInitialized, "-------", this.onboardingService.isLoadingOnboardingStatus);
-    // this._helperService.showToast("Successfully generated.", "Success");
   }
 
   moduleResponseList: any[] = [];
@@ -48,25 +50,5 @@ export class AppComponent implements OnInit {
     this.moduleResponseList = this.moduleResponseList;
   }
 
-  // constructor(private router: Router) {
-  //   this.router.events.pipe(
-  //     filter(event => event instanceof NavigationEnd)
-  //   ).subscribe((event: any) => {
-  //     this.showHeader = !this.shouldHideHeader(event.url);
-  //   });
-  // }
-  // private shouldHideHeader(url: string): boolean {
-  //   const urlsToHideHeader = [Key.LOGIN, Key.ONBOARDING, Key.SLACKAUTH];
-
-  //   return urlsToHideHeader.includes(url);
-  // }
-
-  // isShowToDoSteps: boolean = false;
-
-  // showToDoSteps() {
-  //   this.isShowToDoSteps = true;
-  // }
-  // hideToDoSteps() {
-  //   this.isShowToDoSteps = false;
-  // }
+  
 }

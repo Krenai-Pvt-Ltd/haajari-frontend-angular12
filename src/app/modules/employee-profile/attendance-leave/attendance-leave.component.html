@@ -39,7 +39,7 @@
                             <span class="calendar-separator"></span>
                             <div class="dropdown ">
                                 <nz-date-picker nzMode="month" [nzSize]="size" nzFormat="MMM, yyyy"
-                                    [(ngModel)]="selectedDate" (ngModelChange)="onMonthChange($event)"
+                                    [(ngModel)]="selectedDate"  (ngModelChange)="onMonthChange($event)"
                                     [nzDisabledDate]="disableMonths"></nz-date-picker>
 
                                 <!-- <nz-date-picker nzMode="month" nzFormat="MMM, yyyy"></nz-date-picker> -->
@@ -81,7 +81,7 @@
                                 nzPlaceHolder="New Request" required [(ngModel)]="selectedRequest"
                                 (ngModelChange)="onRequestChange(selectedRequest)" *ngIf="userId==currentUserUuid">
                                 <nz-option [nzValue]="'Attendance update'" [nzLabel]="'Attendance update'"></nz-option>
-                               
+
                             </nz-select> -->
                         </div>
                     </div>
@@ -203,8 +203,8 @@
                                 <div class="chart-container w-100" *ngIf="!isPlaceholder">
                                     <canvas #chartCanvas id="workingHoursChart"></canvas>
                                 </div>
-                                <!-- <apx-chart [series]="chartOptions.series [chart]="chartOptions.chart" 
-                                [xaxis]="chartOptions.xaxis" 
+                                <!-- <apx-chart [series]="chartOptions.series [chart]="chartOptions.chart"
+                                [xaxis]="chartOptions.xaxis"
                                 [title]="chartOptions.title">
                                     </apx-chart> -->
 
@@ -444,9 +444,9 @@
                                             </div>
                                         </td>
                                         <td class="text-left">
-        
+
                                             <span class="team-maneger mb-0 table-font-weight">
-                                                {{item.checkInTime | date:'shortTime'}} <br> 
+                                                {{item.checkInTime | date:'shortTime'}} <br>
                                                 <span class="text-danger font-11" *ngIf=" item.status == 'Late'" > Late - {{convertSecondsToHMS(+item.lateMinutes)}}</span>
                                                 <span class="text-danger font-11" *ngIf=" item.status == 'Half Day'" > Half Day - {{convertSecondsToHMS(+item.halfDayMinutes)}}</span>
                                             </span>
@@ -827,7 +827,7 @@
                                                 </div>
                                                 <div>
                                                     <!--  *ngIf="userId==currentUserUuid && (dataService.resignationInfo==null || dataService.resignationInfo==undefined)" -->
-                                                    <ng-container *ngIf="isUserLeaveTaken && isUserLeaveTaken == 1">
+                                                    <ng-container *ngIf="isUserLeaveTaken && isUserLeaveTaken == 1 && userId==currentUserUuid">
                                                         <button type="button" class="btn primaryBtnLink leave-request"
                                                             (click)="applyNewLeaveReq()">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="20"
@@ -844,17 +844,17 @@
                                                                         fill="#6666F2" />
                                                                 </g>
                                                             </svg>
-                                                            
+
                                                             Leave Request
                                                         </button>
                                                     </ng-container>
 
-                                                    <ng-container *ngIf="isUserLeaveTaken == 0">
+                                                    <ng-container *ngIf="isUserLeaveTaken == 0 && userId==currentUserUuid">
                                                         <button type="button" nz-popover nzPopoverTitle="Note"
                                                             [nzPopoverContent]="contentTemplate"
                                                             [nzPopoverOverlayStyle]="{'width':'300px'}"
                                                             class="btn primaryBtnLink leave-request" (click)="applyNewLeaveReq()"
-                                                            *ngIf="UUID==currentUserUuid"> 
+                                                            *ngIf="UUID==currentUserUuid">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="20"
                                                                 height="21" viewBox="0 0 20 21" fill="none">
                                                                 <mask id="mask0_5145_1779" style="mask-type:alpha"
@@ -1404,8 +1404,8 @@
                     <div #timeline></div> -->
 
                     <ul class="requests-btn">
-                        <li [class.active]="attendanceType === 'CREATE'" (click)="updateAttendanceTypeFilter('CREATE')">Create</li>
-                        <li [class.active]="attendanceType === 'UPDATE'" (click)="updateAttendanceTypeFilter('UPDATE')">Update</li>
+                        <li [class.active]="attendanceType === 'CREATE'" (click)="updateAttendanceTypeFilter('CREATE')">Missed Punch</li>
+                        <li [class.active]="attendanceType === 'UPDATE'" (click)="updateAttendanceTypeFilter('UPDATE')">System Outage</li>
                     </ul>
 
 
@@ -1415,7 +1415,7 @@
                                 <div class="row justify-content-between align-items-center mx-0">
                                     <div class="col-lg-12 col-md-12 col-sm-12 ps-0">
                                         <div class="d-flex justify-content-start align-items-center">
-                                           
+
 
                                             <!-- Status Filter -->
                                             <div class="dropdown empFilerDropfilter">
@@ -1437,7 +1437,7 @@
                                             <!-- Search -->
                                             <div
                                                 class="onboarding-date d-flex align-items-center justify-content-between position-relative w-100">
-                                                <form novalidate
+                                                <!-- <form novalidate
                                                     class="searching d-flex align-items-center justify-content-between w-100">
                                                     <div class="form-group w-100 position-relative">
                                                         <input type="text" id="searchText" #searchInput
@@ -1450,7 +1450,7 @@
                                                         <i class="bi bi-search search-icon"></i>
 
                                                     </div>
-                                                </form>
+                                                </form> -->
 
                                             </div>
                                             <div>
@@ -1664,7 +1664,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="startDate" class="mb-2">Pick a starting date</label>
-                                                <nz-date-picker nzBorderless formControlName="startDate"
+                                                <nz-date-picker nzBorderless formControlName="startDate" [nzFormat]="'dd-MM-YYYY'"
                                                     nzPlaceHolder="dd/mm/yyyy" [nzDisabledDate]="disableStartDate"
                                                     [(ngModel)]="userLeaveRequest.startDate" required></nz-date-picker>
                                             </div>
@@ -1673,7 +1673,7 @@
                                             <div class="form-group">
                                                 <label for="endDate" class="mb-2">Pick an ending date</label>
                                                 <nz-date-picker nzBorderless formControlName="endDate"
-                                                    nzPlaceHolder="dd/mm/yyyy" [(ngModel)]="userLeaveRequest.endDate"
+                                                    nzPlaceHolder="dd/mm/yyyy" [(ngModel)]="userLeaveRequest.endDate" [nzFormat]="'dd-MM-YYYY'"
                                                     [nzDisabledDate]="disableEndDate" required></nz-date-picker>
                                             </div>
                                         </div>
@@ -1715,7 +1715,7 @@
                                             <div class="col-md-6">
                                                 <label
                                                     class="form-check assets-req d-flex align-items-center justify-content-start">
-                                                    <input 
+                                                    <input
                                                         (change)="dayShiftToggleFun('day')" class="form-check-input"
                                                         type="radio" name="halfLeave" value="firstHalf"
                                                         />
@@ -1725,7 +1725,7 @@
                                             <div class="col-md-6">
                                                 <label
                                                     class="form-check assets-req d-flex align-items-center justify-content-start">
-                                                    <input 
+                                                    <input
                                                         (change)="dayShiftToggleFun('evening')" class="form-check-input"
                                                         type="radio" name="halfLeave" value="secondHalf"
                                                          />
@@ -2476,7 +2476,7 @@
           </div>
 
           <div class="mt-4 d-flex align-items-center flex-column">
-            <button [disabled]="requestDeleteLoading" class="btn continue-btn" 
+            <button [disabled]="requestDeleteLoading" class="btn continue-btn"
               (click)="deleteAttendanceRequest()">
               Continue
               <i class="fa fa-spinner fa-spin" *ngIf="requestDeleteLoading"></i>

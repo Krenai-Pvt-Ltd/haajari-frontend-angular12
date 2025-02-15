@@ -37,6 +37,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
+import { ExistPolicyComponent } from './components/exist-policy/exist-policy.component';
+
 
 @NgModule({
   declarations: [
@@ -49,6 +51,7 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
     StaffAttendanceLocationComponent,
     UploadPhotoComponent,
     SalarySettingComponent,
+    ExistPolicyComponent
   ],
   imports: [
     CommonModule,

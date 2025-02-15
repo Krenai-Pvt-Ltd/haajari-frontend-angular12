@@ -1,29 +1,4 @@
-.nav.nav-pills {
-    background-color: transparent;
-    border-bottom: 1px solid #edeff5;
-  }
-  
-  .nav-pills .nav-item.show .nav-link,
-  .nav-pills .nav-link.active {
-    background: transparent !important;
-    color: var(--primary-color) !important;
-    border-radius: 0;
-    border-bottom: 2px solid var(--primary-color);
-  }
-  
-  .nav-link {
-    display: block;
-    padding: 7px 10px;
-    color: #000;
-    font-size: 13px;
-    font-style: normal;
-    font-weight: 500;
-    text-align: left;
-  }
-  
-  .nav-item {
-    margin-right: 20px;
-  }
+
   .request-count {
     background-color: rgb(241 241 253) !important;
     color: var(--primary-color) !important;
@@ -314,7 +289,8 @@
     width: 400px !important;
     border-radius: 2px !important;
     padding: 0px !important;
-    filter: drop-shadow(0px 8px 10px rgba(0, 0, 0, 0.15))
+    filter: drop-shadow(0px 8px 10px rgba(0, 0, 0, 0.15));
+    z-index: 999;
 }
 ::ng-deep .ant-picker-input>input {
     font-size: 14px !important;

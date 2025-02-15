@@ -225,6 +225,9 @@
     position: relative;
     top: -1px;
 }
+.nav-item {
+    margin-right: 0px;
+}
 
 .bill-images {
     background: rgba(0, 0, 0, 0.55);
@@ -233,6 +236,7 @@
     bottom: 0px;
     height: 70px;
     width: 98%;
+    z-index: 999;
 }
 
 .bill-images img {
@@ -495,12 +499,23 @@
 }
 
 ::ng-deep .placeholder-line .ant-select-selection-placeholder {
-    line-height: 45px !important;
+    line-height: 36px !important;
     font-size: 0.875rem !important;
     font-weight: 400 !important;
   }
   
   ::ng-deep .placeholder-line .ant-select-selection-item {
+    line-height: 36px !important;
+    font-size: 0.875rem !important;
+    font-weight: 400 !important;
+  }
+  ::ng-deep .placeholder-lineee .ant-select-selection-placeholder {
+    line-height: 45px !important;
+    font-size: 0.875rem !important;
+    font-weight: 400 !important;
+  }
+  
+  ::ng-deep .placeholder-lineee .ant-select-selection-item {
     line-height: 45px !important;
     font-size: 0.875rem !important;
     font-weight: 400 !important;

@@ -506,28 +506,6 @@ span.leave-rejected {
   border: none;
 }
 
-.nav-tabs .nav-link.active {
-  border-bottom: 2px solid #6666f3;
-  color: #6666f3;
-  background-color: transparent;
-}
-
-.nav-tabs .nav-link {
-  font-style: normal;
-  border-radius: 0px 0 0 0;
-  border: none;
-  padding: 7px 10px;
-  font-weight: 500;
-  font-size: 13px;
-  line-height: 21px;
-  color: #404040;
-}
-
-.nav-tabs .nav-item {
-  margin-bottom: -1px;
-  margin-right: 1rem;
-}
-
 .Regular-data {
   cursor: pointer;
 }

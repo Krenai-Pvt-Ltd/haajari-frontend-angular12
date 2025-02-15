@@ -122,9 +122,13 @@ export class LoginComponent implements OnInit {
               if(this.rbacService.shouldDisplay('dashboard')){
                 this.router.navigate([constant.DASHBOARD_ROUTE]);
             } else {
-              this.router.navigate([Key.EMPLOYEE_PROFILE_ROUTE], {
+              console.log(this.helperService.subModuleResponseList);
+              this.router.navigate([this.helperService.subModuleResponseList[0]], {
                 queryParams: { userId: this.UUID, dashboardActive: 'true' },
               });
+              // this.router.navigate([Key.EMPLOYEE_PROFILE_ROUTE], {
+              //   queryParams: { userId: this.UUID, dashboardActive: 'true' },
+              // });
             }
           }
           }

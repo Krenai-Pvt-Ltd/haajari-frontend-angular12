@@ -1342,32 +1342,7 @@ span.members-namess {
   font-size: 12px !important;
   font-weight: 400 !important;
 }
-.nav.nav-pills {
-  background-color: transparent;
-  border-bottom: 1px solid #edeff5;
-}
 
-.nav-pills .nav-item.show .nav-link,
-.nav-pills .nav-link.active {
-  background: transparent !important;
-  color: var(--primary-color) !important;
-  border-radius: 0;
-  border-bottom: 2px solid var(--primary-color);
-}
-
-.nav-link {
-  display: block;
-  padding: 7px 10px;
-  color: #6B7280;
-  font-size: 13px;
-  font-style: normal;
-  font-weight: 500;
-  text-align: left;
-}
-
-.nav-item {
-  margin-right: 20px;
-}
 
 .employee-table {
   min-height: 400px;
@@ -1394,7 +1369,7 @@ span.request-count {
 .pagination-box {
   position: fixed;
   bottom: 0;
-  z-index: 999;
+  z-index: 9;
   left: 0px;
   padding-left: 270px !important;
 }
@@ -1590,6 +1565,7 @@ span.request-count {
   font-weight: 500;
   box-shadow: unset;
   color: #444;
+  height: 45px !important;
 }
 
 .actionMenuList {
@@ -1601,11 +1577,13 @@ span.request-count {
   border-radius: 2px !important;
   padding: 0px !important;
   filter: drop-shadow(0px 8px 10px rgba(0, 0, 0, 0.15));
+  z-index: 999;
+  left: 8px;
 }
 
 .search-date input {
   border: none;
-  height: 48px !important;
+  height: 45px !important;
   border-left: 0;
   border-right: 1px solid #EAEAEA;
   font-weight: 400 !important;
@@ -1689,13 +1667,13 @@ span.request-count {
   margin-top: 0px;
 }
 ::ng-deep .placeholder-line .ant-select-selection-placeholder {
-  line-height: 50px !important;
+  line-height: 45px !important;
   font-size: 0.875rem !important;
   font-weight: 400 !important;
 }
 
 ::ng-deep .placeholder-line .ant-select-selection-item {
-  line-height: 50px !important;
+  line-height: 45px !important;
   font-size: 0.875rem !important;
   font-weight: 400 !important;
 }
@@ -1723,4 +1701,14 @@ span.request-count {
   height: 33px;
   border-radius: 2px;
   border: 1px solid #EFEFEF;
+}
+/* 
+#chart {
+  max-width: 380px;
+  margin: 35px auto;
+  padding: 0;
+} */
+
+.employee-apex-chart{
+  top: -8px;
 }

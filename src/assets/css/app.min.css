@@ -15,6 +15,24 @@
   --secondary-color: #fff;
   --primary-background-color: #6666f3;
 }
+.border-rounded-2{
+  border-radius:2px;
+}
+.horizontal-menu {
+  z-index: 999;
+  position: relative;
+}
+.color-basic{
+  color: #444;
+}
+.attendance-list{
+  border: 1px solid #f1f1f1;
+  box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, 0.05);
+}
+[class^="bi-"]::before,
+[class*=" bi-"]::before {
+  font-weight: BOLD !important;
+}
 
 .navbar-custom {
   /* background: #fff; */
@@ -3611,12 +3629,100 @@ a.badge:hover {
   background: #f9fafb !important;
 }
 
-.nav.nav-tabs .nav-item.show,
-.nav.nav-tabs .nav-link {
-  color: #303e67;
+.nav.nav-pills {
+  background-color: transparent;
+  border-bottom: none;
 }
 
-.nav.nav-tabs .nav-item.show.active,
+.nav-pills .nav-item.show .nav-link,
+.nav-pills .nav-link.active-tab {
+  background: transparent !important;
+  color: var(--primary-color) !important;
+  border-radius: 0;
+  border-bottom: 2px solid var(--primary-color);
+}
+
+.nav-item {
+  margin-right: 15px;
+}
+
+.nav.nav-pills {
+  background-color: transparent;
+  border-bottom: 1px solid #edeff5;
+}
+
+.nav-link {
+  display: block;
+  padding: 7px 10px;
+  color: #6B7280;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 500;
+  text-align: left;
+}
+.nav-pills .nav-item.show .nav-link,
+.nav-pills .nav-link.active {
+  background: transparent !important;
+  color: var(--primary-color) !important;
+  border-radius: 0;
+  border-bottom: 2px solid var(--primary-color);
+}
+
+.nav-link-punch.active {
+  background: var(--primary-background-color) !important;
+  color: #fff !important;
+  border-radius: 20px;
+  border: 1px solid var(--primary-color); 
+}
+.nav-link-punch {
+  display: block;
+  padding: 7px 25px;
+  color: #6B7280;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 500;
+  text-align: left;
+  border: 1px solid #BEBEBE;
+  border-radius: 20px;
+}
+.nav-pills-punch{
+  border-bottom: none !important;
+}
+
+.nav-tabs {
+  box-shadow: none !important;
+  background-color: #fff;
+  }
+  
+  .nav-tabs .nav-item {
+  margin-bottom: -1px;
+  margin-right: 1rem;
+  }
+  .nav-tabs .nav-link.active {
+  border-bottom: 2px solid #6666f3;
+  color: #6666f3;
+  background-color: transparent;
+  }
+  .nav-tabs .nav-link {
+  font-style: normal;
+  border-radius: 0px 0 0 0;
+  border: none;
+  padding: 7px 10px;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 21px;
+  color: #6B7280;
+  }
+/* 
+.nav-item {
+  margin-right: 20px;
+} */
+/* .nav.nav-tabs .nav-item.show,
+.nav.nav-tabs .nav-link {
+  color: #303e67;
+} */
+
+/* .nav.nav-tabs .nav-item.show.active,
 .nav.nav-tabs .nav-item.show:focus,
 .nav.nav-tabs .nav-link.active,
 .nav.nav-tabs .nav-link:focus {
@@ -3699,14 +3805,14 @@ a.badge:hover {
 .nav-pills .nav-link.active {
   color: var(--primary-color);
   color: #fff;
-}
+} */
 
 .eco-revene-history .nav .nav-item .nav-link.active {
   color: #000444;
   background-color: #f9fafb;
 }
 
-.nav-border.nav.nav-pills {
+/* .nav-border.nav.nav-pills {
   background-color: transparent;
   border-bottom: 1px solid #eceff5;
   line-height: 36px;
@@ -3735,7 +3841,7 @@ a.badge:hover {
   background: var(--primary-background-color);
   color: #fff;
   border-radius: 0;
-}
+} */
 
 .spinner-border.spinner-border-custom-1 {
   border: 5px double currentColor;
