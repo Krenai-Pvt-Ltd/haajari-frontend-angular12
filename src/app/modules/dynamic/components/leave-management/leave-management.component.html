@@ -108,7 +108,7 @@
                               <div class="align-self-center">
                                 <h6 class="fw-semibold">
                                   <span class="badge badge-outline-primary">
-                                    {{ pl.totalDays }} Days |
+                                    {{ pl.totalValidDays }} Days |
                                     {{ pl.leaveType }}</span>
                                 </h6>
                                 <small>{{ pl.leaveDate | date : "medium" || "N/A" }}
@@ -190,7 +190,7 @@
                               <div class="align-self-center">
                                 <h6 class="fw-semibold">
                                   <span class="badge badge-outline-primary">
-                                    {{ arl.totalDays }} Days |
+                                    {{ arl.totalValidDays }} Days |
                                     {{ arl.leaveType }}</span>
                                 </h6>
                                 <small>{{
@@ -345,7 +345,7 @@
                             {{fullLogList.endDate| date : 'd MMMM, y' || "N/A"}}</u>
                         </p>
                         <h6 class="fw-semibold">
-                          <span class="badge badge-outline-primary">{{ fullLogList.totalDays }} Days |
+                          <span class="badge badge-outline-primary">{{ fullLogList.totalValidDays }} Days |
                             {{ fullLogList.leaveType }}</span>
                         </h6>
                       </div>
@@ -402,7 +402,7 @@
                             {{fullLogList.endDate| date : 'd MMMM, y' || "N/A"}}</u>
                         </p>
                         <h6 class="fw-semibold">
-                          <span class="badge badge-outline-primary">{{ fullLogList.totalDays }} Days |
+                          <span class="badge badge-outline-primary">{{ fullLogList.totalValidDays }} Days |
                             {{ fullLogList.leaveType }}</span>
                         </h6>
                       </div>
@@ -486,7 +486,7 @@
                   </h5>
                   <p>
                     {{ leave.leaveType }} (
-                    {{ leave.totalDays }} Days )
+                    {{ leave.totalValidDays }} Days )
                   </p>
                   <p>
                     {{

@@ -43,7 +43,7 @@
     font-size: 13px !important;
     font-weight: 500 !important;
   }
-  
+
   ::ng-deep .week-filter .ant-select-selection-item {
     line-height: 24px !important;
     font-size: 13px !important;
@@ -119,7 +119,7 @@
     top: -2px;
     padding-right: 2px;
   }
-  
+
   .overview-sidebar-menu .nav-pills .nav-item.show .nav-link,
   .overview-sidebar-menu .nav-pills .nav-link.active {
     background: #f2f3ff !important;
@@ -127,11 +127,11 @@
     border-right: 5px solid var(--primary-background-color) !important;
     border-bottom: none !important;
   }
-  
+
   .overview-sidebar-menu .nav.nav-pills {
     background-color: transparent;
   }
-  
+
   .overview-sidebar-menu .nav-pills .nav-link {
     background: transparent;
     padding: 15px 10px;
@@ -248,7 +248,7 @@
     font-size: 0.875rem !important;
     font-weight: 400 !important;
   }
-  
+
   ::ng-deep .placeholder-lines .ant-select-selection-item {
     line-height: 45px !important;
     font-size: 0.875rem !important;
@@ -355,7 +355,7 @@ input[type=checkbox] {
     overflow-x: scroll;
     flex-wrap: nowrap;
   }
-  
+
   .filter-pills {
     line-height: 18px;
   color: var(--primary-color);
@@ -366,3 +366,77 @@ input[type=checkbox] {
   margin-bottom: 0 !important;
   background-color: #557ef826;
   }
+  .assets-history{
+    position: absolute;
+    right: 0px;
+    bottom: -30px !important;
+    min-width: 400px;
+}
+.assets-name{
+    background-color: #E7E1E1;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+.assets-detail{
+   height: 80vh;
+}
+.assets-detail .badge{
+    padding: 5px 15px;
+    min-width: auto;
+}
+.tracking-item{
+    list-style: none;
+}
+.tracking-steps::after {
+    content: "";
+    height: 100% !important;
+    background-color: transparent;
+    top: -25px !important;
+    left: 14px !important;
+    z-index: 9 !important;
+    position: absolute;
+    border-left: 1px dashed #DB3525;
+}
+.tracing-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #E3E3E3;
+    line-height: 2px;
+    color: #1F1F1F;
+    z-index: 99;
+}
+.active-icon{
+    background-color: #DB3525;
+    color: #FFF !important;
+}
+
+::ng-deep .ant-drawer-body{
+    padding: 15px !important;
+}
+.empty-file{
+  padding-top: 30%;
+  padding-bottom: 30%;
+}
+.assets-list{
+  height: 500px;
+  overflow: scroll;
+}
+.assets-list::-webkit-scrollbar{
+  display: none;
+}
+.assets-list-card{
+  border: 1px solid #f1f1f1;
+  transition: .2s linear;
+}
+.assets-list-card:hover{
+  border: 1px solid #4660f6;
+  background-color: #eceffe;
+  box-shadow: 9px 10px 8px -7px #00000026;
+}
+.active-assets{
+  border: 1px solid #4660f6;
+  background-color: #eceffe;
+  box-shadow: 9px 10px 8px -7px #00000026;
+}

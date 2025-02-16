@@ -46,7 +46,7 @@ export interface PendingLeaveResponse {
   pendingLeaves: number;
   remainingLeaves: number;
   attachment: any;
-
+  totalValidDays:number;
 
   remainingQuota: any;
   applied: any;
