@@ -18,9 +18,7 @@
   box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, 0.05);
 }
 
-/* ::ng-deep .cal-month-view .cal-events {
-    display: none !important;
-} */
+
 ::ng-deep .cal-month-view .cal-day-badge {
   background-color: #13c56b !important;
   display: none !important;
