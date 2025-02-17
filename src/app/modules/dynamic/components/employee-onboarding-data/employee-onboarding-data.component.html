@@ -443,20 +443,20 @@
                           <apx-chart
                           [series]="chartOptions.series"
                           [chart]="chartOptions.chart"
-                          [legend]="chartOptions.legend" 
+                          [legend]="chartOptions.legend"
                           [labels]="['Approved', 'Pending', 'Rejecetd', 'New Request']"
                           [colors]="['#388E3C', '#E78E13', '#FF3014', '#6666F2']"
                           [grid]="chartOptions.grid"
                           [plotOptions]="chartOptions.plotOptions"
-                          [dataLabels]="chartOptions.dataLabels"  
-                          [tooltip]="chartOptions.tooltip" 
+                          [dataLabels]="chartOptions.dataLabels"
+                          [tooltip]="chartOptions.tooltip"
                           >
                         </apx-chart>
-                        
-                        
+
+
                         </div>
                       </div>
-                     
+
 
                     </div>
                   </div>
@@ -490,9 +490,9 @@
                           <a class="user-avatar" *ngFor="let image of resignationUsersImage">
                              <span class="ng-star-inserted"><img onerror="this.src='./assets/images/broken-image-icon.jpg';" alt="u" class="thumb-xs rounded-circle" src="{{image}}"></span>
                           </a>
-                        
+
                        </div>
-                       
+
                       </div>
                     </div>
                   </div>
@@ -518,7 +518,7 @@
                                       </g>
                                   </svg>
                               </button>
-                             
+
                           </div>
                           <div class="search-date d-flex align-items-center justify-content-between position-relative w-100">
                                   <div class="form-group w-100 position-relative">
@@ -594,38 +594,38 @@
                               <input type="checkbox" class="form-check-input" [checked]="selectedStatusFilters.includes('ALL')">
                               <label class="form-check-label fw-normal">All</label>
                             </div>
-                        
+
                             <div *ngFor="let status of statusOptionsNew" class="categories-filter form-check d-flex align-items-center gap-2 mb-2" (click)="toggleStatus(status)">
                               <input type="checkbox" class="form-check-input" [checked]="selectedStatusFilters.includes(status)">
                               <label class="form-check-label fw-normal">{{ status }}</label>
                             </div>
                           </div>
-                        
+
                           <h5 class="mb-0 font-14 fw-normal mt-3">Accessibility Wise</h5>
                           <div class="mt-3">
                             <div class="categories-filter form-check d-flex align-items-center gap-2 mb-2" (click)="toggleAccessibility('ALL')">
                               <input type="checkbox" class="form-check-input" [checked]="selectedAccessibilityFilters.includes('ALL')">
                               <label class="form-check-label fw-normal">All</label>
                             </div>
-                        
+
                             <div *ngFor="let accessibility of accessibilityOptions" class="categories-filter form-check d-flex align-items-center gap-2 mb-2" (click)="toggleAccessibility(accessibility)">
                               <input type="checkbox" class="form-check-input" [checked]="selectedAccessibilityFilters.includes(accessibility)">
                               <label class="form-check-label fw-normal">{{ accessibility }}</label>
                             </div>
                           </div>
                         </div>
-                        
+
                         <div class="p-3 border-top d-flex gap-2 align-items-center justify-content-end">
                           <button class="btn cancel-btn mt-0" (click)="resetFilters()">Reset</button>
                           <button class="btn submitActionBtn" (click)="getUsersByFiltersFunction()">Apply</button>
                         </div>
                     </div>
                   </div>
-              </div> 
+              </div>
 
               <div class="filter-bdg d-flex align-items-center gap-2">
                 <ng-container *ngFor="let filter of appliedFilters">
-                  <p 
+                  <p
                     class="filter-pills d-flex align-items-center gap-2 pointer font-12 fw-semibold"
                   >
                     {{ filter }}
@@ -752,7 +752,7 @@
                               {{ "N/A" }}</span>
 
 
-                           
+
 
                               <!-- new-design start -->
 
@@ -763,7 +763,7 @@
                               nz-popover [nzPopoverContent]="teamTemplate"  nzPopoverTitle="Team List" (mouseover)="getTeamNamesNew(user.teamNameList)"
                               [nzPopoverOverlayStyle]="{'width':'250px'}" nzPopoverPlacement="rightTop" *ngIf="user.teamNameList.length > 1">+{{ user.teamNameList.length - 1 }}</span>
 
-                             
+
                              <ng-template #teamTemplate>
                                <div class="team-list p-0" *ngIf="onboardUserTeam?.length; else noDataTemplate">
                                 <div class="border-bottom pb-3 pt-3" *ngFor="let tm of onboardUserTeam; let i = index">
@@ -780,8 +780,8 @@
                                     <h5 class="mb-2 font-15 fw-bold">{{tm?.teamName}}</h5>
                                     <p class="mb-0 font-14 fw-normal"> {{tm?.createdDate | date}}</p>
                                 </div>
-                               
-                               
+
+
                                </div>
                                <ng-template #noDataTemplate>
                                 <p>No team available.</p>
@@ -815,7 +815,7 @@
                                     <p>No team available.</p>
                                   </ng-template>
                                 </ng-template>
-                              
+
                             </div>
 
                               <!-- new-design end -->
@@ -881,7 +881,7 @@
                                       class="bi bi-eye"></i>
                                     View Profile</a>
                                 </li>
-                                <li>
+                                <li *ngIf="user.email != null && user.email != '' && user.email != undefined">
                                   <a class="dropdown-item" (click)="sendMailToEmployees(user)" *ngIf="
                                         !sendingMailLoaderForUser(user) &&
                                         user.onboardingStatus != approvedResponse &&
@@ -1374,37 +1374,32 @@
               </div>
               <div class="col-md-6 mb-3">
                 <label for="phoneNumber" class="pb-2">
-                  Phone Number <span class="text-danger">*</span> <i class="bi bi-exclamation-circle tolltip-icon"
-                    ngbTooltip="Please provide your personal phone number!" placement="top"></i>
+                  Phone Number <span class="text-danger">*</span>
+                  <i class="bi bi-exclamation-circle tolltip-icon" ngbTooltip="Please provide your personal phone number!"
+                    placement="top"></i>
                 </label>
-                <input type="text" mask="0000000000" class="form-control input-zorro" id="phoneNumber"
-                  name="phoneNumber" placeholder="Phone number" [(ngModel)]="userPersonalInformationRequest.phoneNumber"
-                  minlength="10" maxlength="10" pattern="[0-9]*" (input)="restrictToDigits($event)" (keyup)="
-                        checkPhoneExistance(
-                          userPersonalInformationRequest.phoneNumber
-                        )
-                      " #phoneNumberField="ngModel" required />
-                <div *ngIf="
-                        phoneNumberField.invalid && phoneNumberField.touched
-                      ">
-                  <p class="errortxt mt-2 mb-0" class="errortxt mt-2 mb-0" style="color: red">
-                    <i class="bi bi-exclamation-circle"></i> Enter a valid
-                    10-digit phone number.
+                <input type="tel" class="form-control input-zorro" id="phoneNumber" name="phoneNumber" placeholder="Phone number"
+                  [(ngModel)]="userPersonalInformationRequest.phoneNumber" minlength="10" maxlength="10" pattern="[0-9]*"
+                  (keypress)="restrictToDigits($event)" (keyup)="checkPhoneExistance(userPersonalInformationRequest.phoneNumber)"
+                  #phoneNumberField="ngModel" required />
+                <div *ngIf="phoneNumberField.invalid && phoneNumberField.touched">
+                  <p class="errortxt mt-2 mb-0" style="color: red">
+                    <i class="bi bi-exclamation-circle"></i> Enter a valid 10-digit phone number.
                   </p>
                 </div>
                 <div *ngIf="isNumberExist" class="errortxt mt-2 mb-0" style="color: red">
-                  <i class="bi bi-exclamation-circle"></i> Phone number
-                  already registered with us.
+                  <i class="bi bi-exclamation-circle"></i> Phone number already registered with us.
                 </div>
               </div>
+
               <div class="col-md-6 mb-3">
                 <label for="email" class="pb-2">Email Id <span class="text-danger">*</span></label>
-                <input type="email" class="form-control input-zorro" id="email" name="email" placeholder="Email id"
+                <input type="email" class="form-control input-zorro" id="email" name="email" placeholder="Email id" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
                   [(ngModel)]="userPersonalInformationRequest.email" (keyup)="
-                        checkEmailExistanceBefore(
-                          userPersonalInformationRequest.email
-                        )
-                      " required #emailField="ngModel" />
+                                      checkEmailExistanceBefore(
+                                        userPersonalInformationRequest.email
+                                      )
+                                    " required #emailField="ngModel" />
                 <div *ngIf="isEmailExist" class="errortxt mt-2 mb-0" style="color: red">
                   <i class="bi bi-exclamation-circle"></i> Employee with
                   this email already registered
