@@ -177,7 +177,7 @@
     border-radius: 2px;
 }
 .categories-view{
-    max-height: 320px;
+    height: 415px;
     overflow: scroll;
 }
 .categories-view::-webkit-scrollbar{
@@ -214,6 +214,9 @@
 }
 .filter-box {
     width: 400px !important;
+    border-radius: 2px !important;
+    padding: 0px !important;
+    filter: drop-shadow(0px 8px 10px rgba(0, 0, 0, 0.15));
     z-index: 999;
 }
 .not-assign-filter {
@@ -415,9 +418,9 @@ input[type=checkbox] {
 ::ng-deep .ant-drawer-body{
     padding: 15px !important;
 }
-.empty-file{
-  padding-top: 30%;
-  padding-bottom: 30%;
+.empty-notification{
+  padding-top: 35%;
+  padding-bottom: 35%;
 }
 .assets-list{
   height: 500px;
@@ -441,9 +444,17 @@ input[type=checkbox] {
   box-shadow: 9px 10px 8px -7px #00000026;
 }
 .overview-sidebar-menu{
-    max-height: 400px;
+    height: 400px;
     overflow: scroll;
 }
 .overview-sidebar-menu::-webkit-scrollbar{
     display: none;
+}
+.assets-overview table thead{
+  position: sticky;
+  top: 0px;
+}
+.empty-file{
+    margin-top: 7%; 
+    margin-bottom: 7%
 }
