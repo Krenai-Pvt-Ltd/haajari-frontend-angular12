@@ -1245,7 +1245,7 @@
               </label>
               <nz-select nzPlaceHolder="Select User" class="w-100 form-control placeholder-lines"
                 [(ngModel)]="assetData.userId" name="userId">
-                <nz-option *ngFor="let user of allUser" [nzValue]="user.userId" [nzLabel]="user?.userName">
+                <nz-option *ngFor="let user of allUser" [nzValue]="user.id" [nzLabel]="user?.userName">
                 </nz-option>
               </nz-select>
             </div>
@@ -1533,7 +1533,7 @@
 
             <nz-select nzShowSearch nzPlaceHolder="Select User" class="w-100 form-control placeholder-lines"
               [(ngModel)]="statusChangeUserId" name="userId" [nzFilterOption]="filterOption" [nzOptionFilterProp]="'label'">
-              <nz-option *ngFor="let user of allUser" [nzValue]="user.userId" [nzLabel]="user?.userName">
+              <nz-option *ngFor="let user of allUser" [nzValue]="user.id" [nzLabel]="user?.userName">
               </nz-option>
             </nz-select>
 
