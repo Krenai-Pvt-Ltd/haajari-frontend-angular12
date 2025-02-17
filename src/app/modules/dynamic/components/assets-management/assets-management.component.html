@@ -341,7 +341,7 @@
 
                                                 <button class="btn p-0 font-14 text-primary fw-semibold" data-bs-toggle="modal" data-bs-target="#createAssetsModal" AssetsDetailModal><i class="bi bi-plus-lg"></i>  Add Assets</button>
                                             </div>
-                                            <div class="row">
+                                            <div class="row" *ngIf="categorySummary.length>0">
                                                 <div class="col-md-3 pr-0">
                                                     <div class="overview-sidebar-menu">
                                                         <div id="v-pills-tab" role="tablist" aria-orientation="vertical" class="nav flex-column nav-pills pt-3 pb-5">
@@ -415,6 +415,17 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="empty-file d-flex align-items-centar justify-content-center w-100" *ngIf="categorySummary.length==0" style="    margin-top: 11%;
+    margin-bottom: 11%;">
+                                              <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                                [nzNotFoundContent]="contentTpl">
+                                                <ng-template #contentTpl>
+                                                  <p class="mb-1 empty-detail font-16">
+                                                    No data for now
+                                                  </p>
+                                                </ng-template>
+                                              </nz-empty>
+                                            </div>
                                         </div>
 
                                             <div class="assets-categories mt-3">
@@ -459,6 +470,7 @@
                                               #chart
                                               [series]="chartOptions?.series"
                                               [chart]="chartOptions?.chart"
+                                              [colors]="chartOptions?.colors"
                                               [labels]="chartOptions?.labels"
                                               [responsive]="chartOptions?.responsive"
                                               [fill]="chartOptions?.fill"
@@ -557,7 +569,7 @@
                                               </div>
                                             </div>
                                             <div>
-                                                <button type="button" class="btn primaryBtnLink filter-btn d-block text-cennter" (click)="resetAssetsFilter(64); updateActiveFilters()">
+                                                <button *ngIf="selectedStatusId!=64" type="button" class="btn primaryBtnLink filter-btn d-block text-cennter" (click)="resetAssetsFilter(64); updateActiveFilters()">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
                                                         <mask id="mask0_8109_4666" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
                                                         <rect y="0.5" width="20" height="20" fill="#D9D9D9"/>
@@ -569,7 +581,7 @@
                                                     Not Assigned
                                                 </button>
                                                 <!-- TO DO: Filter-reset btn -->
-                                                <!-- <button type="button" class="btn primaryBtnLink filter-btn d-block text-cennter reset-filter-btn">
+                                                <button *ngIf="selectedStatusId==64" type="button" class="btn primaryBtnLink filter-btn d-block text-cennter reset-filter-btn" (click)="resetAssetsFilter(0); updateActiveFilters()">
                                                     Go Back
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
                                                         <mask id="mask0_8129_6489" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
@@ -579,7 +591,7 @@
                                                         <path d="M5.83366 16.3332L4.66699 15.1665L9.33366 10.4998L4.66699 5.83317L5.83366 4.6665L10.5003 9.33317L15.167 4.6665L16.3337 5.83317L11.667 10.4998L16.3337 15.1665L15.167 16.3332L10.5003 11.6665L5.83366 16.3332Z" fill="#6666F2"/>
                                                         </g>
                                                         </svg>
-                                                </button> -->
+                                                </button>
                                                 <!-- Filter-reset btn end -->
                                             </div>
                                         </div>

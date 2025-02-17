@@ -264,7 +264,6 @@ newCategory: any = {
           }
           this.fetchCategorySummary();
           document.getElementById('createCategoryModal')?.click();
-          this.newCategory = { categoryName: '', categoryImage: '' };
           this.imagePreviewUrl = null;
         },
         error => {
@@ -1026,7 +1025,7 @@ onSearch(searchText: string): void {
     const extendedMaxDate = new Date(
       Date.UTC(
         lastDate.getUTCFullYear(),
-        lastDate.getUTCMonth() + 2, // Add 2 months
+        lastDate.getUTCMonth() + 1, // Add 2 months
         1
       )
     );
