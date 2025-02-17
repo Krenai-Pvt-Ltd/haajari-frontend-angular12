@@ -123,7 +123,7 @@
                                             <div class="empty-notification d-flex align-items-center justify-content-center bg-white m-3 mt-0" *ngIf="!isChartInitialized" >
                                               <p class="mb-1 empty-detail">No data for now</p>
                                             </div>
-                                            
+
 
                                             <div class="p-3 pt-0 categories-view">
                                               <div *ngFor="let category of categorySummary" class="d-flex align-items-center justify-content-between assets-count p-3 bg-white mb-2">
@@ -133,7 +133,7 @@
                                                 <div class="d-flex align-items-center gap-2">
 
                                                   <h6 class="mb-0 font-14 fw-semibold">₹{{ category.price | number:'1.0-0' }}</h6>
-                                                
+
                                                 </div>
                                               </div>
                                             </div>
@@ -345,10 +345,10 @@
                                                 <div class="col-md-3 pr-0">
                                                     <div class="overview-sidebar-menu">
                                                         <div id="v-pills-tab" role="tablist" aria-orientation="vertical" class="nav flex-column nav-pills pt-3 pb-5">
-                                                          
+
                                                           <button *ngFor="let category of categorySummary; let i = index" type="button" role="tab" data-bs-toggle="pill"
                                                             data-bs-toggle="pill" data-bs-target="#v-pills-laptops" type="button" role="tab" aria-controls="v-pills-laptops" (click)="assetSummaryCategoryId= category.categoryId; fetchAssetSummary();"
-                                                            [attr.aria-selected]="i === 0 ? 'true' : 'false'" [id]="'v-pills-tab-' + i" class="nav-link" [class.active]="i === 0">
+                                                            [attr.aria-selected]="i === 0 ? 'true' : 'false'" [id]="'v-pills-tab-' + i" class="nav-link d-flex align-items-centar justify-content-between" [class.active]="i === 0">
                                                             {{ category.categoryName }} ({{ category.assetCount }})
                                                             <i *ngIf="category.categoryId>0" class="bi bi-pencil" data-bs-toggle="modal" data-bs-target="#createCategoryModal"
                                                                 (click)="assignCategoryId(category.categoryId)"></i>
@@ -396,7 +396,7 @@
                                                                             </td>
                                                                           </tr>
                                                                         </tbody>
-                                                                      
+
                                                                     </table>
                                                                     <div class="empty-file d-flex align-items-centar justify-content-center w-100" *ngIf="assetSummary.length==0">
                                                                         <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
@@ -410,7 +410,7 @@
                                                                       </div>
                                                                 </div>
                                                             </div>
-                                                           
+
                                                         </div>
                                                     </div>
                                                 </div>
@@ -448,7 +448,7 @@
                                                             <span class="repair-requests"></span>
                                                             <p class="mb-0 font-13">Repair Requests</p>
                                                         </div>
-                                                       <h5 class="font-14 text-black mb-0 fw-semibold">0</h5>
+                                                       <h5 class="font-14 text-black mb-0 fw-semibold">{{requestedTypeCount?.RepairRequest ? requestedTypeCount.RepairRequest : 0}}</h5>
                                                     </div>
 
                                                   </div>
@@ -476,7 +476,7 @@
                         </div>
                         <div class="tab-pane fade" id="assigned-assets" role="tabpanel" aria-labelledby="employee-tab">
                             <div class="assigned-assets mt-3">
-                               
+
                                 <!-- TODO added d-none to hide it for now -->
                                 <div class="row d-none">
                                   <!-- Left Column: Assigned Assets Summary -->
@@ -548,13 +548,13 @@
                                                 <input
                                                   type="text"
                                                   [formControl]="searchControl"
-                                                  placeholder="Search by name.."
+                                                  placeholder="Search by asset name or serial number.."
                                                   class="form-control me-2 w-100"
                                                   style="padding: 10px 45px;"
                                                 />
                                                 <!-- <i class="bi bi-search search-icon d-flex align-items-center h-100"></i> -->
                                                 <i class="bi bi-search search-icon d-flex align-items-center h-100" *ngIf="searchText==''"></i>
-                                                <i class="bi bi-x search-icon text-primary d-flex align-items-center h-100" *ngIf="searchText!=''" (click)="resetAssetsFilter(0);"></i>
+                                                <i class="bi bi-x search-icon text-primary d-flex align-items-center h-100 font-20" *ngIf="searchText!=''" (click)="resetAssetsFilter(0);"></i>
 
                                               </div>
                                             </div>
@@ -586,8 +586,8 @@
                                             </div>
                                         </div>
 
-                                        
-                                        
+
+
                                     </div>
                                     <div class="actionMenuList filter-box p-0 position-absolute bg-white border" [ngClass]="{'d-none': !showFilter}">
                                         <div class="d-flex align-items-center justify-content-between border-bottom p-3">
@@ -640,7 +640,7 @@
                                                   <nz-option *ngFor="let category of categorySummary" [nzValue]="category.categoryId" [nzLabel]="category.categoryName"></nz-option>
                                                 </nz-select>
                                             </div>
-                                            
+
                                         </div>
                                         <div class="p-3 border-top d-flex gap-2 align-items-center justify-content-end">
                                             <button class="btn cancel-btn mt-0"  (click)="resetAssetsFilter(0);">Reset it</button>
@@ -715,10 +715,10 @@
                                                 </tbody>
                                         <!-- Shimmer Loading Ui End-->
                                         <!-- TO DO: empty notification  -->
-                                        <!-- <tbody >
+                                        <tbody *ngIf="!isAssetLoading && assets.length==0 ">
                                             <tr>
-                                              <td colspan="11"> -->
-                                                <!-- <div class="empty-file d-flex align-items-centar justify-content-center" style="margin-top: 7%; margin-bottom: 7%" *ngIf="!isAssetLoading && assets.length==0 ">
+                                              <td colspan="11">
+                                                <div class="empty-file d-flex align-items-centar justify-content-center" style="margin-top: 7%; margin-bottom: 7%" >
                                                   <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
                                                     [nzNotFoundContent]="contentTpl">
                                                     <ng-template #contentTpl>
@@ -727,10 +727,10 @@
                                                       </p>
                                                     </ng-template>
                                                   </nz-empty>
-                                                </div> -->
-                                              <!-- </td>
+                                                </div>
+                                              </td>
                                             </tr>
-                                          </tbody> -->
+                                          </tbody>
                                            <!-- empty notification end -->
 
                                            <tbody *ngIf="!isAssetLoading">
@@ -872,17 +872,6 @@
                                             </tr>
                                           </tbody>
 
-                                          <div class="empty-file d-flex align-items-centar justify-content-center" *ngIf="!isAssetLoading && assets.length==0 ">
-                                            <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
-                                              [nzNotFoundContent]="contentTpl">
-                                              <ng-template #contentTpl>
-                                                <p class="mb-1 empty-detail font-16">
-                                                  No data for now
-                                                </p>
-                                              </ng-template>
-                                            </nz-empty>
-                                          </div>
-                                           
                                         </table>
 
                                         <div *ngIf="totalItems > pageSize" class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top">
@@ -918,7 +907,7 @@
                                                 </g>
                                             </svg>
                                         </button>
-                                            
+
                                         </div>
                                         <div class="search-date d-flex align-items-center justify-content-between position-relative w-100">
                                                 <div class="form-group w-100 position-relative">
@@ -941,7 +930,7 @@
                                         </div>
                                     </div>
 
-                                    
+
 
                                     <div class="actionMenuList not-assign-filter p-0 border position-absolute bg-white" [ngClass]="{'d-none': !showFilter}" >
                                         <div class="d-flex align-items-center justify-content-between border-bottom p-3">
@@ -963,31 +952,31 @@
                                             <h5 class="mb-0 font-14 fw-semibold">Status Filter</h5>
 
                                             <div class="mt-3">
+                                              <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
+                                                  <input type="checkbox" class="form-check-input" id="all" (change)="selectedFilters.clear()" [checked]="selectedFilters.size==0">
+                                                  <label class="form-check-label fw-normal" for="all">All</label>
+                                                </div>
                                                 <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
-                                                    <input type="checkbox" class="form-check-input" id="all">
-                                                    <label class="form-check-label fw-normal" for="all">All</label>
-                                                  </div>
-                                                  <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
-                                                    <input type="checkbox" class="form-check-input" id="approved">
-                                                    <label class="form-check-label fw-normal" for="approved">Approved </label>
-                                                  </div>
-                                                  <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
-                                                    <input type="checkbox" class="form-check-input" id="assigned">
-                                                    <label class="form-check-label fw-normal" for="assigned">Assigned</label>
-                                                  </div>
-                                                  <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
-                                                    <input type="checkbox" class="form-check-input" id="rejected">
-                                                    <label class="form-check-label fw-normal" for="rejected">Rejected</label>
-                                                  </div>
-                                                  <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
-                                                    <input type="checkbox" class="form-check-input" id="pending">
-                                                    <label class="form-check-label fw-normal" for="pending">Pending </label>
-                                                  </div>
-                                            </div>
-                                        </div>
+                                                  <input type="checkbox" class="form-check-input" id="approved" (change)="statusChange($event, 'Approved')" [checked]="isChecked('Approved')">
+                                                  <label class="form-check-label fw-normal" for="approved">Approved </label>
+                                                </div>
+                                                <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
+                                                  <input type="checkbox" class="form-check-input" id="assigned" (change)="statusChange($event, 'Assigned')" [checked]="isChecked('Assigned')">
+                                                  <label class="form-check-label fw-normal" for="assigned">Assigned</label>
+                                                </div>
+                                                <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
+                                                  <input type="checkbox" class="form-check-input" id="rejected"(change)="statusChange($event, 'Rejected')" [checked]="isChecked('Rejected')">
+                                                  <label class="form-check-label fw-normal" for="rejected">Rejected</label>
+                                                </div>
+                                                <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
+                                                  <input type="checkbox" class="form-check-input" id="pending" (change)="statusChange($event, 'Pending')" [checked]="isChecked('Pending')">
+                                                  <label class="form-check-label fw-normal" for="pending">Pending </label>
+                                                </div>
+                                          </div>
+                                      </div>
                                         <div class="p-3 border-top d-flex gap-2 align-items-center justify-content-end">
-                                            <button class="btn cancel-btn mt-0" (click)="changeShowFilter(false)">Reset it</button>
-                                            <button class="btn submitActionBtn">Apply</button>
+                                          <button class="btn cancel-btn mt-0" (click)="selectedFilters.clear(); assetRequestsPage = 1; getAssetRequests();">Reset it</button>
+                                          <button class="btn submitActionBtn" (click)="assetRequestsPage = 1; getAssetRequests()">Apply</button>
                                         </div>
                                     </div>
                                 </div>
@@ -1508,7 +1497,7 @@
                 </li>
               </ul>
 
-             
+
             </div>
         </div>
       </ng-container>
