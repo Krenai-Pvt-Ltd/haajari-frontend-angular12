@@ -1504,7 +1504,7 @@
                         User: {{ history.userName }}
                       </p>
                       <p *ngIf="history?.actionBy!= null" class="mb-0 font-13 fw-normal">
-                        Action By: {{ history.actionBy }}
+                        Action By: {{ history.actionBy  | titlecase  }}
                       </p>
                     </div>
                   </div>
