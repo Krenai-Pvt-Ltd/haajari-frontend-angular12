@@ -699,7 +699,7 @@ onSearch(searchText: string): void {
       this.assetRequestsSearch = '';
       this.getAssetRequests();
       this.statusFilter = '';
-      this.selectedFilters = new Set<string>(['Assigned']);
+      this.selectedFilters = new Set<string>(['Pending']);
     }
 
     assetRequests: AssetRequestDTO[] = [];
@@ -921,7 +921,7 @@ onSearch(searchText: string): void {
     }
 
 
-    selectedFilters: Set<string> = new Set<string>(['Assigned']);
+    selectedFilters: Set<string> = new Set<string>(['Pending']);
   statusChange(event: any, status: string) {
     const isChecked = (event.target as HTMLInputElement).checked;
     if (isChecked) {
