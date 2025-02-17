@@ -699,7 +699,7 @@ onSearch(searchText: string): void {
       this.assetRequestsSearch = '';
       this.getAssetRequests();
       this.statusFilter = '';
-      this.selectedFilters = new Set();
+      this.selectedFilters = new Set<string>(['Assigned']);
     }
 
     assetRequests: AssetRequestDTO[] = [];
@@ -921,7 +921,7 @@ onSearch(searchText: string): void {
     }
 
 
-    selectedFilters: Set<string> = new Set();
+    selectedFilters: Set<string> = new Set<string>(['Assigned']);
   statusChange(event: any, status: string) {
     const isChecked = (event.target as HTMLInputElement).checked;
     if (isChecked) {
@@ -1124,7 +1124,8 @@ onSearch(searchText: string): void {
         type: "donut"
       },
       colors: this.getDynamicColors(this.requestedTypeCount),
-      labels: Object.keys(this.requestedTypeCount), // ["NewAssetAllocation", "AssetReplacement", "AssetRepair"]
+
+      labels: Object.keys(this.requestedTypeCount).map(key => this.labelMapping[key] || key),
       dataLabels: {
         enabled: false
       },
@@ -1143,6 +1144,15 @@ onSearch(searchText: string): void {
             },
             legend: {
               position: "bottom"
+            },
+            tooltip: {
+              enabled: true,
+              y: {
+                formatter: (value: number, { seriesIndex, w }: any) => {
+                  // Show the renamed labels in tooltip
+                  return `${w.config.labels[seriesIndex]}: ${value}`;
+                }
+              }
             }
           }
         }
@@ -1151,6 +1161,11 @@ onSearch(searchText: string): void {
     this.isChartLoaded = true;
   }
 
+  public labelMapping: { [key: string]: string } = {
+    "NewAssetAllocation": "New Request",
+    "AssetReplacement": "Replacement Requests",
+    "RepairRequest": "Repair Requests"
+  };
   public getDynamicColors(data: { [key: string]: number }): string[] {
     return Object.keys(data).map(key => {
       if (key === "NewAssetAllocation") return "#CA365F";
