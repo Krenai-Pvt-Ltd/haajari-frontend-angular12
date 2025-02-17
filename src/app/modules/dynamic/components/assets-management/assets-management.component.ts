@@ -62,6 +62,8 @@ export class AssetsManagementComponent implements OnInit {
       debounceTime(300),
       distinctUntilChanged()
     ).subscribe((searchText: string) => {
+
+      this.currentPage = 1;
       this.searchText=searchText;
       this.loadAssets();
     });
@@ -399,6 +401,7 @@ onSearch(searchText: string): void {
 
     isAssetLoading = false;
     loadAssets() {
+      this.changeShowFilter(false);
       this.isAssetLoading = true;
       this.dataService.getFilteredAssets(this.selectedTeamId, this.selectedUserId, this.selectedStatusId, this.selectedCategoryId, this.searchText, this.currentPage-1, this.pageSize)
         .subscribe(response => {
@@ -438,6 +441,7 @@ onSearch(searchText: string): void {
     selectedCategoryId: number = 0;
     searchText: string = '';
     resetAssetsFilter(statusId: number): void {
+      this.changeShowFilter(false);
       this.searchControl.setValue('');
       this.searchText='';
       this.selectedTeam = 0;
@@ -715,6 +719,7 @@ onSearch(searchText: string): void {
     }
 
     getAssetRequests(): void {
+      this.changeShowFilter(false);
       this.isLoading = true;
       this.dataService.getAssetRequests(this.assetRequestsPage, this.assetRequestsSize, this.assetRequestsSearch, [...this.selectedFilters]).subscribe(
         (response) => {
@@ -732,6 +737,7 @@ onSearch(searchText: string): void {
     }
     searchAssetsRequest(event: Event): void {
       this.assetRequestsSearch = (event.target as HTMLInputElement).value;
+      this.assetRequestsPage = 1;
       this.getAssetRequests();
 
     }
@@ -1070,6 +1076,7 @@ onSearch(searchText: string): void {
         width: "100%",
         type: "donut"
       },
+      colors: this.getDynamicColors(this.requestedTypeCount),
       plotOptions: {
         pie: {
           startAngle: -90,
@@ -1117,6 +1124,7 @@ onSearch(searchText: string): void {
         width: 180,
         type: "donut"
       },
+      colors: this.getDynamicColors(this.requestedTypeCount),
       labels: Object.keys(this.requestedTypeCount), // ["NewAssetAllocation", "AssetReplacement", "AssetRepair"]
       dataLabels: {
         enabled: false
@@ -1144,6 +1152,14 @@ onSearch(searchText: string): void {
     this.isChartLoaded = true;
   }
 
+  public getDynamicColors(data: { [key: string]: number }): string[] {
+    return Object.keys(data).map(key => {
+      if (key === "NewAssetAllocation") return "#CA365F";
+      if (key === "AssetReplacement") return "#F3A73D";
+      if (key === "RepairRequest") return "#47539F";
+      return "#999999"; // Default color
+    });
+  }
 
 
 }
