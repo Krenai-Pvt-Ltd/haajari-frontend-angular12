@@ -246,6 +246,12 @@
 }
 
 
+.resignation-request{
+    background-color: #F9FAFC;
+    border-radius: 20px;
+    padding: 5px 15px;
+  }
+
 ::ng-deep .placeholder-lines .ant-select-selection-placeholder {
     line-height: 45px !important;
     font-size: 0.875rem !important;
