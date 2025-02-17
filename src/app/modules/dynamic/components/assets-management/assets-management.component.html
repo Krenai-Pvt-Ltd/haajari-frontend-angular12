@@ -915,7 +915,7 @@
                                                 <div class="form-group w-100 position-relative">
                                                     <input type="text" id="searchText" #searchInput placeholder="Search by name.." [ngModel]="assetRequestsSearch" (input)="searchAssetsRequest($event)" class="form-control me-2 w-100" style="padding: 10px 45px;" />
                                                     <i class="bi bi-search search-icon d-flex align-items-center h-100" *ngIf="assetRequestsSearch==''"></i>
-                                                    <i class="bi bi-x search-icon text-primary d-flex align-items-center h-100" *ngIf="assetRequestsSearch!=''" (click)="assetRequestsSearch=''; assetRequestsPage = 1; getAssetRequests();"></i>
+                                                    <i class="bi bi-x search-icon text-primary d-flex align-items-center h-100 font-20" *ngIf="assetRequestsSearch!=''" (click)="assetRequestsSearch=''; assetRequestsPage = 1; getAssetRequests();"></i>
                                                 </div>
                                         </div>
                                         <div>
