@@ -23,6 +23,17 @@
     padding: 3px;
     position: relative;
   }
+
+  .nav.nav-pills{
+    border-bottom: none;
+  }
+
+  .exit-policy-sidebar-menu .nav-link.active {
+    background: #f2f3ff !important;
+    color: #000 !important;
+    border-left: 5px solid var(--primary-background-color) !important;
+    border-bottom: none;
+}
   .currenttab {
     border: 1px solid #aeaeae;
     border-radius: 2px;

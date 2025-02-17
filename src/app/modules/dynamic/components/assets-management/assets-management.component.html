@@ -100,7 +100,7 @@
                                                     </h5>
                                                 </div>
                                                 <span class="use-funds-separator"></span>
-                                                <div>
+                                                <div class="text-end">
                                                     <p class="mb-2 font-13">Total Available </p>
                                                     <h5 class="mb-0 font-16 fw-normal">{{getCountByStatusId(64)}}</h5>
                                                 </div>
@@ -118,7 +118,7 @@
                                               [fill]="fill"
                                             >
                                             </apx-chart>
-                                                <p class="mb-0 font-13 pt-3">This report provides an overview of the total assigned expended.</p>
+                                                <p class="mb-0 font-13 pt-3">This report provides an overview of the total assigned expenditure.</p>
                                             </div>
                                             <div class="empty-notification d-flex align-items-center justify-content-center bg-white m-3 mt-0" *ngIf="!isChartInitialized" >
                                               <p class="mb-1 empty-detail">No data for now</p>
@@ -431,7 +431,7 @@
                                             <div class="assets-categories mt-3">
                                              <div class="row">
                                             <div class="col-md-9 pr-0  border-right">
-                                               <div class="">
+                                               <div>
                                                   <div class="categories-header p-3 d-flex align-items-center justify-content-between">
                                                      <h5 class="mb-0 font-15 fw-semibold">Asset Support Request</h5>
                                                   </div>
@@ -477,6 +477,10 @@
                                               [legend]="chartOptions?.legend"
                                               [dataLabels]="chartOptions?.dataLabels">
                                             </apx-chart>
+                                            
+                                            <!-- TODO: tag dynamic -->
+                                            <!-- <span class="resignation-request font-13 fw-normal">No Request</span> -->
+                                             <!-- TODO: tag dynamic -->
                                             </div>
                                          </div>
                                     </div>
@@ -923,7 +927,7 @@
                                                 <div class="form-group w-100 position-relative">
                                                     <input type="text" id="searchText" #searchInput placeholder="Search by name.." [ngModel]="assetRequestsSearch" (input)="searchAssetsRequest($event)" class="form-control me-2 w-100" style="padding: 10px 45px;" />
                                                     <i class="bi bi-search search-icon d-flex align-items-center h-100" *ngIf="assetRequestsSearch==''"></i>
-                                                    <i class="bi bi-x search-icon text-primary d-flex align-items-center h-100" *ngIf="assetRequestsSearch!=''" (click)="assetRequestsSearch=''; assetRequestsPage = 1; getAssetRequests();"></i>
+                                                    <i class="bi bi-x search-icon text-primary d-flex align-items-center h-100 font-20" *ngIf="assetRequestsSearch!=''" (click)="assetRequestsSearch=''; assetRequestsPage = 1; getAssetRequests();"></i>
                                                 </div>
                                         </div>
                                         <div>
