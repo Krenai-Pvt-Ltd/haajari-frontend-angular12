@@ -75,7 +75,7 @@
                                                 </span>
                                              </div>
                                         </div>
-                                        <div class="mt-3 assets-chart">
+                                        <div class="assets-chart">
                                             <!-- <div class="chart-header p-3 d-flex align-items-center justify-content-between">
                                                 <h5 class="mb-0 font-14 fw-semibold">Budget Overview</h5>
                                                 <div>
@@ -258,7 +258,8 @@
                                                 <span [ngClass]="checkPercentageChange(-1).isPositive ? 'text-success' : 'text-danger'">
                                                   {{ checkPercentageChange(-1).percentageChange }}%
                                                 </span>
-                                                {{ checkPercentageChange(-1).isPositive ? 'Up' : 'Down' }} from past week
+                                                <!-- {{ checkPercentageChange(-1).isPositive ? 'Up' : 'Down' }} from past week -->
+                                                from past week
                                               </p>
                                             </div>
                                             <span class="use-funds-separator"></span>
@@ -295,7 +296,8 @@
                                                     <span [ngClass]="checkPercentageChange(62).isPositive ? 'text-success' : 'text-danger'">
                                                       {{ checkPercentageChange(62).percentageChange }}%
                                                     </span>
-                                                    {{ checkPercentageChange(62).isPositive ? 'Up' : 'Down' }} from past week
+                                                    <!-- {{ checkPercentageChange(62).isPositive ? 'Up' : 'Down' }}  -->
+                                                    from past week
                                                   </p>
                                                 </div>
                                                 <span class="use-funds-separator"></span>
@@ -332,7 +334,8 @@
                                                         <span [ngClass]="checkPercentageChange(64).isPositive ? 'text-success' : 'text-danger'">
                                                           {{ checkPercentageChange(64).percentageChange }}%
                                                         </span>
-                                                        {{ checkPercentageChange(64).isPositive ? 'Up' : 'Down' }} from past week
+                                                        <!-- {{ checkPercentageChange(64).isPositive ? 'Up' : 'Down' }} from past week -->
+                                                        from past week
                                                       </p>
                                                     </div>
                                                     <span class="use-funds-separator"></span>
@@ -369,7 +372,8 @@
                                                             <span [ngClass]="checkPercentageChange(65).isPositive ? 'text-success' : 'text-danger'">
                                                               {{ checkPercentageChange(65).percentageChange }}%
                                                             </span>
-                                                            {{ checkPercentageChange(65).isPositive ? 'Up' : 'Down' }} from past week
+                                                            <!-- {{ checkPercentageChange(65).isPositive ? 'Up' : 'Down' }} from past week -->
+                                                            from past week
                                                           </p>
                                                         </div>
                                                         <span class="use-funds-separator"></span>
@@ -406,7 +410,8 @@
                                                                 <span [ngClass]="checkPercentageChange(-2).isPositive ? 'text-success' : 'text-danger'">
                                                                   {{ checkPercentageChange(-2).percentageChange }}%
                                                                 </span>
-                                                                {{ checkPercentageChange(-2).isPositive ? 'Up' : 'Down' }} from past week
+                                                                <!-- {{ checkPercentageChange(-2).isPositive ? 'Up' : 'Down' }} from past week -->
+                                                                from past week
                                                               </p>
                                                             </div>
                                         </div>
@@ -1469,8 +1474,7 @@
                                   </p>
                                 </div>
 
-                                <div class="mt-3">
-                                    <div class="">
+                               <div>
                                         <table class="table">
                                             <thead>
                                                 <tr>
@@ -2233,8 +2237,7 @@
                                             [maxSize]="5" [boundaryLinks]="true">
                                           </ngb-pagination>
                                         </div>
-                                    </div>
-                                </div>
+                               </div>
                             </div>
 
                         </div>
@@ -2378,8 +2381,7 @@
                               </ng-container>
                             </div>
 
-                            <div class="mt-3">
-                                <div class="">
+                            <div>
                                     <table class="table">
                                         <thead>
                                             <tr>
@@ -2499,7 +2501,6 @@
                                         [maxSize]="5" [boundaryLinks]="true">
                                       </ngb-pagination>
                                     </div>
-                                </div>
                             </div>
 
                         </div>
@@ -3102,11 +3103,8 @@
     </div>
   </div>
 </div>
-<<<<<<< HEAD
 
 <!-- Modal Create Assets Start -->
 
 
  
-=======
->>>>>>> Assets-Management
