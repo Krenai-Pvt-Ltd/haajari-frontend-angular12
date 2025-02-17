@@ -254,7 +254,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   accessibilityOptions: string[] = ['ACTIVE', 'INACTIVE'];
 
   selectedStatusFilters: string[] = ['ALL']; // All selected by default
-  selectedAccessibilityFilters: string[] = ['ALL']; // All selected by default
+  selectedAccessibilityFilters: string[] = ['ACTIVE']; // All selected by default
 
   // Toggle status filters
   toggleStatus(status: string) {
@@ -454,7 +454,7 @@ appliedFilters: string[] = []
   // Reset Filters and Reload Data
   resetFilters() {
     this.selectedStatusFilters = ['ALL']; // Reset status filters
-    this.selectedAccessibilityFilters = ['ALL']; // Reset accessibility filters
+    this.selectedAccessibilityFilters = ['Active']; // Reset accessibility filters
     this.appliedFilters = [];
     this.getUsersByFiltersFunction();
   }
@@ -1118,8 +1118,11 @@ appliedFilters: string[] = []
 
   // Reset the model
   resetForm() {
+    this.isNumberExist = false;
+    this.isEmailExist = false;
     if (this.personalInformationForm) {
       this.personalInformationForm.reset();
+      this.personalInformationForm.untouched;
     }
   }
 

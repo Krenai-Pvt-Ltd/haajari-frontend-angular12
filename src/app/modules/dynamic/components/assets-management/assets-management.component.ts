@@ -386,6 +386,7 @@ onSearch(searchText: string): void {
   // assigned assets
 
   assignedAssets(): void {
+    this.resetAssetsFilter(0);
     this.currentPage = 1;
     this.loadAssets();
     this.fetchTeamSummary();
@@ -437,13 +438,15 @@ onSearch(searchText: string): void {
     selectedCategoryId: number = 0;
     searchText: string = '';
     resetAssetsFilter(statusId: number): void {
-      this.searchControl = new FormControl('');
+      this.searchControl.setValue('');
       this.searchText='';
       this.selectedTeam = 0;
       this.selectedTeamId = 0;
       this.selectedUserId = 0;
       this.selectedStatusId = statusId;
       this.selectedCategoryId = 0;
+      this.activeFilters = [];
+      this.activeFilterTemp = [];
       this.loadAssets();
     }
     getTeamMemberById(teamId: any): void {

@@ -1517,6 +1517,7 @@
             <button class="btn submitActionBtn" type="submit" (click)="setEmployeePersonalDetailsMethodCall(false)"
               [disabled]="
                   personalInformationForm.invalid ||
+                  shiftField.invalid ||
                   isNumberExist ||
                   isEmailExist
                 " [ngClass]="{'btn-border':!personalInformationForm.invalid}" aria-label="Add Only">
@@ -1530,6 +1531,7 @@
             <button class="btn submitActionBtn" type="submit" (click)="setEmployeePersonalDetailsMethodCall(true)"
               [disabled]="
                   personalInformationForm.invalid ||
+                  shiftField.invalid ||
                   isNumberExist ||
                   isEmailExist
                 " [ngClass]="{'btn-border':!personalInformationForm.invalid}" aria-label="Add and Invite">
