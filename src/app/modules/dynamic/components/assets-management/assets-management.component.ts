@@ -52,7 +52,7 @@ export class AssetsManagementComponent implements OnInit {
      private cdr: ChangeDetectorRef,) { }
   showFilter: boolean = false;
   assetsList: boolean[] = [false];
-  
+
 
   ngOnInit(): void {
     this.getPendingRequestsCounter();
@@ -245,6 +245,7 @@ newCategory: any = {
   }
 
 
+  @ViewChild('closeUpdateCategory') closeUpdateCategory!: ElementRef<HTMLButtonElement>;
   updateCategory(): void {
     if (this.fileToUpload) {
       this.newCategory.categoryImage = this.fileToUpload;
@@ -254,6 +255,7 @@ newCategory: any = {
         response => {
           this.isCategoryUpdateLoading = false;
           if(response.status){
+            this.closeUpdateCategory.nativeElement.click();
             this.helperService.showToast('Asset category updated successfully', Key.TOAST_STATUS_SUCCESS);
           }else{
             this.helperService.showToast('Asset category update failed', Key.TOAST_STATUS_ERROR);
@@ -435,6 +437,7 @@ onSearch(searchText: string): void {
     selectedCategoryId: number = 0;
     searchText: string = '';
     resetAssetsFilter(statusId: number): void {
+      this.searchControl = new FormControl('');
       this.searchText='';
       this.selectedTeam = 0;
       this.selectedTeamId = 0;
@@ -745,12 +748,15 @@ onSearch(searchText: string): void {
     @ViewChild('assetRequestClose') assetRequestClose!: ElementRef<HTMLButtonElement>;
     changeStatus(asset: any) {
       this.assetRequestStatusLoading = true;
-      asset.status = this.newStatus;
       this.modalService.dismissAll();
       this.dataService.changeAssetRequestStatus(asset.id, this.newStatus)
       .subscribe(
         (response) => {
-          this.assetRequestClose.nativeElement.click();
+          asset.status = this.newStatus;
+          this.onViewRequest(asset);
+          if(this.newStatus != 'APPROVED'){
+            this.assetRequestClose.nativeElement.click();
+          }
           this.assetRequestStatusLoading = false;
           this.getAssetRequests();
           this.helperService.showToast(
@@ -849,13 +855,19 @@ onSearch(searchText: string): void {
     assetCategoryId: number = 0;
     assetsBooleanList: boolean[] = [false];
     selectedAvailableAsset: any;
+    availableAssetLoading: boolean = false;
     fetchRequestedAssetsAvailable(): void {
+      this.availableAssetLoading = true;
       this.dataService.getRequestedAvailableAssets(this.assetCategoryId, this.searchQuery, (this.currentRequestPage-1), this.pageRequestSize)
         .subscribe(response => {
+          this.availableAssetLoading = false;
           this.assetsAvailable = response.content;
           this.totalPages = response.totalPages;
           this.totalRequestAssets = response.totalElements;
-        });
+        }, error => {
+          this.availableAssetLoading = false;
+        }
+      );
     }
 
 
@@ -867,6 +879,7 @@ onSearch(searchText: string): void {
     onViewRequest(asset: any): void {
       this.selectedAsset = asset;
       if(asset.status == 'APPROVED'){
+        this.selectedAvailableAsset = null;
         this.totalPages=0;
         this.currentRequestPage=1;
         this.searchQuery=asset.assetName;
@@ -883,6 +896,7 @@ onSearch(searchText: string): void {
       this.dataService.assignRequestedAsset(this.selectedAvailableAsset.id, this.selectedAsset.id).subscribe(
         (response) => {
           this.assetAssignedLoading = false;
+          this.selectedAvailableAsset = null;
           if (response.status) {
             this.assetAssignClose.nativeElement.click();
             this.helperService.showToast('Asset assigned successfully', Key.TOAST_STATUS_SUCCESS);
