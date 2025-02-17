@@ -75,7 +75,7 @@
                                                 </span>
                                              </div>
                                         </div>
-                                        <div class="mt-3 assets-chart">
+                                        <div class="assets-chart">
                                             <!-- <div class="chart-header p-3 d-flex align-items-center justify-content-between">
                                                 <h5 class="mb-0 font-14 fw-semibold">Budget Overview</h5>
                                                 <div>
@@ -256,9 +256,10 @@
                                             </ng-template>
                                             &nbsp;
                                                 <span [ngClass]="checkPercentageChange(-1).isPositive ? 'text-success' : 'text-danger'">
-                                                  {{ checkPercentageChange(-1).percentageChange }}%
+                                                  {{ checkPercentageChange(-1).percentageChange.toFixed(2) }}%
                                                 </span>
-                                                {{ checkPercentageChange(-1).isPositive ? 'Up' : 'Down' }} from past week
+                                                <!-- {{ checkPercentageChange(-1).isPositive ? 'Up' : 'Down' }} from past week -->
+                                                from past week
                                               </p>
                                             </div>
                                             <span class="use-funds-separator"></span>
@@ -293,9 +294,10 @@
                                                 </ng-template>
                                                 &nbsp;
                                                     <span [ngClass]="checkPercentageChange(62).isPositive ? 'text-success' : 'text-danger'">
-                                                      {{ checkPercentageChange(62).percentageChange }}%
+                                                      {{ checkPercentageChange(62).percentageChange.toFixed(2) }}%
                                                     </span>
-                                                    {{ checkPercentageChange(62).isPositive ? 'Up' : 'Down' }} from past week
+                                                    <!-- {{ checkPercentageChange(62).isPositive ? 'Up' : 'Down' }}  -->
+                                                    from past week
                                                   </p>
                                                 </div>
                                                 <span class="use-funds-separator"></span>
@@ -330,9 +332,10 @@
                                                     </ng-template>
                                                     &nbsp;
                                                         <span [ngClass]="checkPercentageChange(64).isPositive ? 'text-success' : 'text-danger'">
-                                                          {{ checkPercentageChange(64).percentageChange }}%
+                                                          {{ checkPercentageChange(64).percentageChange.toFixed(2) }}%
                                                         </span>
-                                                        {{ checkPercentageChange(64).isPositive ? 'Up' : 'Down' }} from past week
+                                                        <!-- {{ checkPercentageChange(64).isPositive ? 'Up' : 'Down' }} from past week -->
+                                                        from past week
                                                       </p>
                                                     </div>
                                                     <span class="use-funds-separator"></span>
@@ -367,9 +370,10 @@
                                                         </ng-template>
                                                         &nbsp;
                                                             <span [ngClass]="checkPercentageChange(65).isPositive ? 'text-success' : 'text-danger'">
-                                                              {{ checkPercentageChange(65).percentageChange }}%
+                                                              {{ checkPercentageChange(65).percentageChange.toFixed(2) }}%
                                                             </span>
-                                                            {{ checkPercentageChange(65).isPositive ? 'Up' : 'Down' }} from past week
+                                                            <!-- {{ checkPercentageChange(65).isPositive ? 'Up' : 'Down' }} from past week -->
+                                                            from past week
                                                           </p>
                                                         </div>
                                                         <span class="use-funds-separator"></span>
@@ -404,9 +408,10 @@
                                                             </ng-template>
                                                             &nbsp;
                                                                 <span [ngClass]="checkPercentageChange(-2).isPositive ? 'text-success' : 'text-danger'">
-                                                                  {{ checkPercentageChange(-2).percentageChange }}%
+                                                                  {{ checkPercentageChange(-2).percentageChange.toFixed(2) }}%
                                                                 </span>
-                                                                {{ checkPercentageChange(-2).isPositive ? 'Up' : 'Down' }} from past week
+                                                                <!-- {{ checkPercentageChange(-2).isPositive ? 'Up' : 'Down' }} from past week -->
+                                                                from past week
                                                               </p>
                                                             </div>
                                         </div>
@@ -490,6 +495,7 @@
                                                                           </tr>
                                                                         </tbody>
                                                                         <tbody *ngIf="assetSummary.length==0 ">
+
                                                                           <tr>
                                                                             <td colspan="11">
                                                                               <div class="empty-file" style="margin-top: 5%; margin-bottom: 5%">
@@ -1472,8 +1478,7 @@
                                   </p>
                                 </div>
 
-                                <div class="mt-3">
-                                    <div class="">
+                               <div>
                                         <table class="table">
                                             <thead>
                                                 <tr>
@@ -2236,8 +2241,7 @@
                                             [maxSize]="5" [boundaryLinks]="true">
                                           </ngb-pagination>
                                         </div>
-                                    </div>
-                                </div>
+                               </div>
                             </div>
 
                         </div>
@@ -2287,8 +2291,8 @@
                                                             <label class="form-check-label fw-normal" for="approved">Approved </label>
                                                           </div>
                                                           <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
-                                                            <input type="checkbox" class="form-check-input" id="allocated" (change)="statusChange($event, 'Assigned')" [checked]="isChecked('Assigned')">
-                                                            <label class="form-check-label fw-normal" for="allocated">Allocated</label>
+                                                            <input type="checkbox" class="form-check-input" id="assigned" (change)="statusChange($event, 'Assigned')" [checked]="isChecked('Assigned')">
+                                                            <label class="form-check-label fw-normal" for="assigned">Assigned</label>
                                                           </div>
                                                           <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
                                                             <input type="checkbox" class="form-check-input" id="rejected"(change)="statusChange($event, 'Rejected')" [checked]="isChecked('Rejected')">
@@ -2317,7 +2321,12 @@
                                             <button [disabled]="downloadFlag" type="button" class="btn primaryBtnLink filter-btn d-block text-cennter" (click)="downloadExcel()">
                                                 <i *ngIf="!downloadFlag" class="bi bi-download"></i>&nbsp;
                                                 <span *ngIf="!downloadFlag">Export</span>
-                                                <span class="dot-opacity-loader" *ngIf="downloadFlag"> </span>
+
+                                                <div class="dot-opacity-loader" *ngIf="downloadFlag">
+                                                  <span></span>
+                                                  <span></span>
+                                                  <span></span>
+                                                </div>
                                             </button>
                                         </div>
                                     </div>
@@ -2382,8 +2391,7 @@
                               </ng-container>
                             </div>
 
-                            <div class="mt-3">
-                                <div class="">
+                            <div>
                                     <table class="table">
                                         <thead>
                                             <tr>
@@ -2503,7 +2511,6 @@
                                         [maxSize]="5" [boundaryLinks]="true">
                                       </ngb-pagination>
                                     </div>
-                                </div>
                             </div>
 
                         </div>
@@ -2789,9 +2796,19 @@
                       </p>
                     </div>
                   </div>
-
+                  <div *ngIf="assetsAvailable.length==0 && !availableAssetLoading" class="empty-file">
+                    <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                      [nzNotFoundContent]="contentTpl">
+                      <ng-template #contentTpl>
+                        <p class="mb-1 empty-detail font-16">
+                          No Available asset in {{selectedAsset.assetCategoryName}} category
+                        </p>
+                      </ng-template>
+                    </nz-empty>
+                  </div>
                 </div>
             </div>
+
             <div *ngIf="totalRequestAssets> pageRequestSize" class="d-flex align-items-center justify-content-between w-100 pagination-list pt-3">
               <p class="mb-0">
                 Showing items
@@ -2813,7 +2830,7 @@
         </div>
         <div class="modal-footer d-flex gap-2 align-items-center">
           <button type="button" class="btn cancel-btn" data-bs-dismiss="modal">Cancel</button>
-          <button [disabled]="assetAssignedLoading" type="button" class="btn submitActionBtn" (click)="assignAsset()">
+          <button [disabled]="assetAssignedLoading || selectedAvailableAsset==null || selectedAvailableAsset== undefined" type="button" class="btn submitActionBtn" (click)="assignAsset()">
             <span *ngIf="!assetAssignedLoading">Assign</span>
             <div class="dot-opacity-loader" *ngIf="assetAssignedLoading">
               <span></span>
@@ -2977,7 +2994,7 @@
                     <div
                       class="tracing-icon font-14 fw-semibold text-black d-flex align-items-center justify-content-center"
                       [ngClass]="{ 'active-icon': i==assetHistory.length }">
-                      {{ i + 1 }}
+                      {{assetHistory.length - i }}
                     </div>
                     <div class="tracking-data">
                       <h5 class="mb-2 font-16 fw-semibold">
@@ -2985,6 +3002,9 @@
                       </h5>
                       <p *ngIf="history?.userName!= null" class="mb-0 font-13 fw-normal">
                         User: {{ history.userName }}
+                      </p>
+                      <p *ngIf="history?.actionBy!= null" class="mb-0 font-13 fw-normal">
+                        Action By: {{ history.actionBy }}
                       </p>
                     </div>
                   </div>
@@ -3076,9 +3096,9 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="createCategoryModalLabel">
-          Create Category
+          Update Category
         </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" #closeUpdateCategory class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <form (ngSubmit)="saveOrUpdateCategory()" #categoryForm1="ngForm">
         <div class="modal-body assets-label">
@@ -3108,6 +3128,7 @@
 </div>
 
 <!-- Modal Create Assets Start -->
+
 
 
 
