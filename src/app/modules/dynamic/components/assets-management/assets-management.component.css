@@ -437,6 +437,7 @@ input[type=checkbox] {
   border: 1px solid #4660f6;
   background-color: #eceffe;
   box-shadow: 9px 10px 8px -7px #00000026;
+  cursor: pointer;
 }
 .active-assets{
   border: 1px solid #4660f6;
