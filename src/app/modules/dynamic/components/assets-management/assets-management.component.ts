@@ -441,6 +441,8 @@ onSearch(searchText: string): void {
     searchText: string = '';
     resetAssetsFilter(statusId: number): void {
       this.changeShowFilter(false);
+      this.currentPage = 1;
+
       this.searchControl.setValue('');
       this.searchText='';
       this.selectedTeam = 0;
