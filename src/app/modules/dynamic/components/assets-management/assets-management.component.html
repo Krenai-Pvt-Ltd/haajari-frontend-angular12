@@ -477,10 +477,7 @@
                                               [legend]="chartOptions?.legend"
                                               [dataLabels]="chartOptions?.dataLabels">
                                             </apx-chart>
-                                            
-                                            <!-- TODO: tag dynamic -->
-                                            <!-- <span class="resignation-request font-13 fw-normal">No Request</span> -->
-                                             <!-- TODO: tag dynamic -->
+                                            <span *ngIf="!(requestedTypeCount?.NewAssetAllocation || requestedTypeCount?.AssetReplacement)"  class="resignation-request font-13 fw-normal">No Request</span>
                                             </div>
                                          </div>
                                     </div>
@@ -1589,7 +1586,7 @@
           </div>
         </div>
         <div class="modal-footer ">
-          <button type="submit" class="btn submitActionBtn" [disabled]="categoryForm1.invalid || isCategoryUpdateLoading"> Add</button>
+          <button type="submit" class="btn submitActionBtn" [disabled]="categoryForm1.invalid || isCategoryUpdateLoading"> Save</button>
         </div>
       </form>
     </div>
