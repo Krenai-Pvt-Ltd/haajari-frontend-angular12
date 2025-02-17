@@ -1365,7 +1365,10 @@
                                                   class="form-control me-2 w-100"
                                                   style="padding: 10px 45px;"
                                                 />
-                                                <i class="bi bi-search search-icon d-flex align-items-center h-100"></i>
+                                                <!-- <i class="bi bi-search search-icon d-flex align-items-center h-100"></i> -->
+                                                <i class="bi bi-search search-icon d-flex align-items-center h-100" *ngIf="searchText==''"></i>
+                                                <i class="bi bi-x search-icon text-primary d-flex align-items-center h-100" *ngIf="searchText!=''" (click)="resetAssetsFilter(0);"></i>
+
                                               </div>
                                             </div>
                                             <div>
@@ -2305,8 +2308,9 @@
                                         </div>
                                         <div class="search-date d-flex align-items-center justify-content-between position-relative w-100">
                                                 <div class="form-group w-100 position-relative">
-                                                    <input type="text" id="searchText" #searchInput placeholder="Search by name.." (input)="searchAssetsRequest($event)" class="form-control me-2 w-100" style="padding: 10px 45px;" />
-                                                    <i class="bi bi-search search-icon d-flex align-items-center h-100"></i>
+                                                    <input type="text" id="searchText" #searchInput placeholder="Search by name.." [ngModel]="assetRequestsSearch" (input)="searchAssetsRequest($event)" class="form-control me-2 w-100" style="padding: 10px 45px;" />
+                                                    <i class="bi bi-search search-icon d-flex align-items-center h-100" *ngIf="assetRequestsSearch==''"></i>
+                                                    <i class="bi bi-x search-icon text-primary d-flex align-items-center h-100" *ngIf="assetRequestsSearch!=''" (click)="assetRequestsSearch=''; assetRequestsPage = 1; getAssetRequests();"></i>
                                                 </div>
                                         </div>
                                         <div>
@@ -2347,8 +2351,8 @@
                                                     <label class="form-check-label fw-normal" for="approved">Approved </label>
                                                   </div>
                                                   <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
-                                                    <input type="checkbox" class="form-check-input" id="allocated">
-                                                    <label class="form-check-label fw-normal" for="allocated">Allocated</label>
+                                                    <input type="checkbox" class="form-check-input" id="assigned">
+                                                    <label class="form-check-label fw-normal" for="assigned">Assigned</label>
                                                   </div>
                                                   <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
                                                     <input type="checkbox" class="form-check-input" id="rejected">
@@ -2660,7 +2664,7 @@
 
         <div class="modal-footer">
           <button [disabled]="assetCreateLoading || categoryForm.invalid" type="submit" class="btn submitActionBtn">
-            <span *ngIf="!assetCreateLoading">Add Assets</span>
+            <span *ngIf="!assetCreateLoading">Save</span>
             <div class="dot-opacity-loader" *ngIf="assetCreateLoading">
               <span></span>
               <span></span>

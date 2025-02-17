@@ -436,6 +436,7 @@ onSearch(searchText: string): void {
     selectedCategoryId: number = 0;
     searchText: string = '';
     resetAssetsFilter(statusId: number): void {
+      this.searchControl = new FormControl('');
       this.searchText='';
       this.selectedTeam = 0;
       this.selectedTeamId = 0;
