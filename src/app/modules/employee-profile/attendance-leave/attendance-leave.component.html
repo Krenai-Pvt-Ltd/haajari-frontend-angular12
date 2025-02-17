@@ -39,7 +39,7 @@
                             <span class="calendar-separator"></span>
                             <div class="dropdown ">
                                 <nz-date-picker nzMode="month" [nzSize]="size" nzFormat="MMM, yyyy"
-                                    [(ngModel)]="selectedDate" (ngModelChange)="onMonthChange($event)"
+                                    [(ngModel)]="selectedDate"  (ngModelChange)="onMonthChange($event)"
                                     [nzDisabledDate]="disableMonths"></nz-date-picker>
 
                                 <!-- <nz-date-picker nzMode="month" nzFormat="MMM, yyyy"></nz-date-picker> -->
@@ -1404,8 +1404,8 @@
                     <div #timeline></div> -->
 
                     <ul class="requests-btn">
-                        <li [class.active]="attendanceType === 'CREATE'" (click)="updateAttendanceTypeFilter('CREATE')">Create</li>
-                        <li [class.active]="attendanceType === 'UPDATE'" (click)="updateAttendanceTypeFilter('UPDATE')">Update</li>
+                        <li [class.active]="attendanceType === 'CREATE'" (click)="updateAttendanceTypeFilter('CREATE')">Missed Punch</li>
+                        <li [class.active]="attendanceType === 'UPDATE'" (click)="updateAttendanceTypeFilter('UPDATE')">System Outage</li>
                     </ul>
 
 
@@ -1664,7 +1664,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="startDate" class="mb-2">Pick a starting date</label>
-                                                <nz-date-picker nzBorderless formControlName="startDate"
+                                                <nz-date-picker nzBorderless formControlName="startDate" [nzFormat]="'dd-MM-YYYY'"
                                                     nzPlaceHolder="dd/mm/yyyy" [nzDisabledDate]="disableStartDate"
                                                     [(ngModel)]="userLeaveRequest.startDate" required></nz-date-picker>
                                             </div>
@@ -1673,7 +1673,7 @@
                                             <div class="form-group">
                                                 <label for="endDate" class="mb-2">Pick an ending date</label>
                                                 <nz-date-picker nzBorderless formControlName="endDate"
-                                                    nzPlaceHolder="dd/mm/yyyy" [(ngModel)]="userLeaveRequest.endDate"
+                                                    nzPlaceHolder="dd/mm/yyyy" [(ngModel)]="userLeaveRequest.endDate" [nzFormat]="'dd-MM-YYYY'"
                                                     [nzDisabledDate]="disableEndDate" required></nz-date-picker>
                                             </div>
                                         </div>

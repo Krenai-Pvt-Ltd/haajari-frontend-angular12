@@ -127,7 +127,6 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     }
   };
 
-
   @ViewChild('inviteModal') inviteModal!: ElementRef;
   @ViewChild('closeInviteModal') closeInviteModal!: ElementRef;
   @ViewChild('personalInformationForm') personalInformationForm!: NgForm;
@@ -228,6 +227,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     this.getOnboardingVia();
     // this.selectStatus('ACTIVE');
     //this.fetchPendingRequests();
+    
     const storedDownloadUrl = localStorage.getItem('downloadUrl');
 
     if (storedDownloadUrl) {
@@ -402,7 +402,7 @@ appliedFilters: string[] = []
     if (this.debounceTimer) {
       clearTimeout(this.debounceTimer);
     }
-  
+    this.changeShowFilter(false);
     this.isUserShimer = true;
   
     this.debounceTimer = setTimeout(() => {

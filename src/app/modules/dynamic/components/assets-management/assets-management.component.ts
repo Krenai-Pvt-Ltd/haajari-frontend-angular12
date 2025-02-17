@@ -45,16 +45,15 @@ interface Filter {
 })
 export class AssetsManagementComponent implements OnInit {
 
-  constructor(
-    private dataService : DataService,
+  constructor( private dataService : DataService,
     private helperService : HelperService,
      private modalService: NgbModal,
      private afStorage: AngularFireStorage,
-     private cdr: ChangeDetectorRef,
-  ) {
-  }
-
+     private cdr: ChangeDetectorRef,) { }
   showFilter: boolean = false;
+  assetsList: boolean[] = [false];
+  
+
   ngOnInit(): void {
     this.getPendingRequestsCounter();
     this.dashboard();

@@ -722,6 +722,7 @@
         </div>
       </div>
         </div>
+        
         <div class="mt-4" *ngIf="activeTab === 'notificationsSetting' && notifications && notificationKeys.length > 0">
           <div *ngFor="let type of notificationKeys; let i = index">
             <div class="row">
@@ -739,23 +740,27 @@
                       <p class="mb-0 font-13">Remind employees to mark their attendance promptly at the start of their shift.</p>
                     </div>
                     <div>
-                      <nz-switch [ngModel]="shouldShowSwitch(type)" (ngModelChange)="onSwitchChange($event, type)" [nzLoading]="loadingFlags[type]"></nz-switch>
+                      <nz-switch [ngModel]="shouldShowSwitch(type, false)" (ngModelChange)="onToggle($event, null, type, 0, 'SHIFT_SWITCH')" [nzLoading]="loadingFlags[type]"></nz-switch>
+                      <!-- <nz-switch [ngModel]="shouldShowSwitch(type)" (ngModelChange)="onSwitchToggle($event, type)" [nzLoading]="loadingFlags[type]" data-bs-toggle="modal" data-bs-target="#disableConfirmationModal" *ngIf="shouldShowSwitch(type)"></nz-switch> -->
                     </div>
                   </div>
-                  <div *ngIf="shouldShowSwitch(type)">
+                  <div *ngIf="shouldShowSwitch(type, false)">
                     <div class="pt-3 notification-checkbox" *ngFor="let notification of notifications?.[type]; let j = index">
                       <div class="form-check d-flex align-items-center justify-content-between gap-2 mt-3 mb-3">
                         <div class="d-flex align-items-center gap-2">
                         <!-- Using unique ID for each checkbox and its label -->
                         <input 
                           type="checkbox" 
-                          [checked]="notification.isEnable === 1" 
+                          [checked]="notification.isEnable" 
                           [id]="'checkbox-' + i + '-' + j" 
                           [name]="'checkbox-' + i + '-' + j" 
-                          class="form-check-input" (change)="toggleNotificationValue(notification, 'isEnable')">
+                          class="form-check-input" (change)="onToggle(!notification.isEnable, notification, type, j, 'SHIFT_CHECKBOX')">
                         <label class="form-check-label" [for]="'checkbox-' + i + '-' + j">{{ notification.description }}</label>
                       </div>
-                        <button class="btn p-0 text-black fw-semibold font-14 text-decoration-underline edit-action-btn" *ngIf="!notification.isEditMode && notification.isEnable === 1" 
+                      <!-- {{!notification.isEditMode}} -- {{notification.isEnable}} -->
+                      <!-- *ngIf="!notification.isEditMode && notification.isEnable === 1" -->
+                      <!-- *ngIf="notification.isEditMode && notification.isEnable === 1" -->
+                        <button class="btn p-0 text-black fw-semibold font-14 text-decoration-underline edit-action-btn"  *ngIf="!notification.isEditMode && notification.isEnable"
                         (click)="toggleNotification(notification, type, j)">
                           <svg xmlns="http://www.w3.org/2000/svg" width="15" height="16" viewBox="0 0 15 16" fill="none">
                           <mask id="mask0_8032_1956" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="15" height="16">
@@ -766,7 +771,8 @@
                           </g>
                           </svg> Edit
                         </button>
-                        <button class="btn submitActionBtn" *ngIf="notification.isEditMode && notification.isEnable === 1" 
+                        <!-- {{isSaveDisabled(notification)}} -->
+                        <button class="btn submitActionBtn" *ngIf="notification.isEditMode && notification.isEnable" 
                         (click)="toggleNotification(notification, type, j)" [disabled]="isSaveDisabled(notification)">
                         <div class="dot-opacity-loader" *ngIf="loadingFlags2?.[type]?.[j]">
                           <span></span>
@@ -780,6 +786,7 @@
                       </button>
                       </div>
             
+                      <!-- {{notification.fixed}} -- {{!notification.isEditMode}} -->
                       <!-- Reminder form with unique ID for radio buttons and names -->
                       <div class="reminder-form mt-4 mb-4 p-3" *ngIf="notification.isEnable">
                         <div class="row">
@@ -794,8 +801,8 @@
                                     name="Reminder-{{i}}{{j}}"
                                     value="before" 
                                     class="form-check-input"
-                                    [checked]="notification.isBefore === 1"
-                                    (change)="toggleNotificationValue(notification, 'isBefore')" [disabled]="!notification.isEditMode">
+                                    [checked]="notification.isBefore === 1 "
+                                    (change)="toggleNotificationValue(notification, 'isBefore', true)" [disabled]="!notification.isEditMode || notification.fixed">
                                   <p class="form-check-label mb-0">Before</p>
                                 </label>
                               </div>
@@ -807,8 +814,8 @@
                                     name="Reminder-{{i}}{{j}}"
                                     value="after" 
                                     class="form-check-input"
-                                    [checked]="notification.isBefore === 0"
-                                    (change)="toggleNotificationValue(notification, 'isBefore')" [disabled]="!notification.isEditMode">
+                                    [checked]="notification.isBefore === 0 "
+                                    (change)="toggleNotificationValue(notification, 'isBefore', false)" [disabled]="!notification.isEditMode || notification.fixed">
                                   <p class="form-check-label mb-0">After</p>
                                 </label>
                               </div>
@@ -832,7 +839,7 @@
                             <label class="form-check-label mb-2 fw-normal">Send Reminder</label>
                             <div class="send-reminder d-flex align-items-center">
                               <div class="w-50 pl-2">
-                                <label class="form-check assets-req d-flex align-items-center justify-content-start" (change)="toggleNotificationValue(notification, 'isForced')" >
+                                <label class="form-check assets-req d-flex align-items-center justify-content-start" (change)="toggleNotificationValue(notification, 'isForced', true)" >
                                   <input 
                                     type="radio" 
                                     id="forced-{{i}}{{j}}" 
@@ -840,13 +847,13 @@
                                     value="forced" 
                                     class="form-check-input"
                                     [checked]="notification.isForced === 1"
-                                    [disabled]="!notification.isEditMode"
+                                    [disabled]="!notification.isEditMode || notification.fixed"
                                     >
                                   <p class="form-check-label mb-0">Forced</p>
                                 </label>
                               </div>
                               <div class="w-50 pl-2 reminder-after">
-                                <label class="form-check assets-req d-flex align-items-center justify-content-start" (change)="toggleNotificationValue(notification, 'isForced')" >
+                                <label class="form-check assets-req d-flex align-items-center justify-content-start" (change)="toggleNotificationValue(notification, 'isForced', false)" >
                                   <input 
                                     type="radio" 
                                     id="flexible-{{i}}{{j}}" 
@@ -854,7 +861,7 @@
                                     value="flexible" 
                                     class="form-check-input"
                                     [checked]="notification.isForced === 0"
-                                    [disabled]="!notification.isEditMode"
+                                    [disabled]="!notification.isEditMode || notification.fixed"
                                     >
                                   <p class="form-check-label mb-0">Flexible</p>
                                 </label>
@@ -875,21 +882,23 @@
               <div class="col-md-4">
                 <div class="form-roe-data p-3">
                   <h5 class="text-black mb-2">{{type}} Notification</h5>
-                  <p class="font-13">Manage all your company's attendance-related notifications in one place</p>
+                  <p class="font-13">Manage all your company's request and response action notifications from here</p>
                 </div>
               </div>
               <div class="col-md-7 mt-3" >
                 <span  *ngFor="let notification of notifications?.[type] || []; let j = index">
-                  <div class="attendance-notification form-roe-data d-flex align-items-center justify-content-between border-bottom pb-4" *ngIf="notification?.isNotificationOn === 1">
+                  <div class="attendance-notification form-roe-data d-flex align-items-center justify-content-between border-bottom pb-4" *ngIf="notification?.isNotificationOn !== 0 ">
                         <div class="mt-3">
                           <h5 class="font-15">{{notification?.name}}</h5>
                           <p class="mb-0 font-13">{{notification?.description}}</p>
                         </div>
                         <div>
-                          <nz-switch [ngModel]="notification?.isEnable" [ngModelOptions]="{ standalone: true }" 
-                          [nzLoading]="loadingFlags2?.[type]?.[j] || false" 
-                          (ngModelChange)="saveNotification(notification, type, j)"></nz-switch>
+                          <nz-switch [(ngModel)]="notification.isEnable" [ngModelOptions]="{ standalone: true }" 
+                            [nzLoading]="loadingFlags2?.[type]?.[j] || false" 
+                            (ngModelChange)="onToggle($event, notification, type, j, 'OTHER_SWITCH')">
+                          </nz-switch>
                         </div>
+                        
                     
                   </div>
                 </span>
@@ -2065,4 +2074,48 @@
     </div>
   </div>
 </div>
-<!----------------------------------- DELETE ADDRESS POPUP END-------------------------->
+<!----------------------------------- Disable notification setting-------------------------->
+
+
+<!-- Confirmation Modal -->
+<div class="modal fade" id="disableConfirmationModal" #disableConfirmationModal tabindex="-1"
+aria-labelledby="confirmationModalLabel" aria-hidden="true" data-bs-backdrop="static">
+<div class="modal-dialog modal-dialog-centered modal-md" role="document">
+  <div class="modal-content">
+    <div class="modal-body p-0 delete-text">
+      <div class="delete-image d-flex align-items-center justify-content-center pt-4 pb-4">
+        <div class="delete-close-btn">
+          <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close"
+            (click)="cancelDisable()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+              <path
+                d="M8 23.75L6.25 22L13.25 15L6.25 8L8 6.25L15 13.25L22 6.25L23.75 8L16.75 15L23.75 22L22 23.75L15 16.75L8 23.75Z"
+                fill="black" />
+            </svg>
+          </button>
+        </div>
+        <img src="/assets/images/delete-friend (1) 2.svg" style="width: 70px" />
+      </div>
+      <div class="bg-white p-4 text-center">
+        <div class="mb-4">
+          <h5 class="alert-heading font-18 mb-2">
+            Are you sure you want to disable this notification?
+          </h5>
+          <p class="font-13">This action will disable this notification.</p>
+        </div>
+        <button class="btn continue-btn" (click)="confirmDisable()">
+          <span>Disable Notification</span>
+        </button>
+        <br>
+        <button class="btn p-0 mt-3 text-black" type="button" data-bs-dismiss="modal"
+          (click)="cancelDisable()">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+

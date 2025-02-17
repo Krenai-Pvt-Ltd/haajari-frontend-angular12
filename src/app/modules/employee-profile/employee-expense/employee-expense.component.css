@@ -509,6 +509,17 @@
     font-size: 0.875rem !important;
     font-weight: 400 !important;
   }
+  ::ng-deep .placeholder-lineee .ant-select-selection-placeholder {
+    line-height: 45px !important;
+    font-size: 0.875rem !important;
+    font-weight: 400 !important;
+  }
+  
+  ::ng-deep .placeholder-lineee .ant-select-selection-item {
+    line-height: 45px !important;
+    font-size: 0.875rem !important;
+    font-weight: 400 !important;
+  }
 
   @media screen and (max-width: 500px) {
     .nav-link {

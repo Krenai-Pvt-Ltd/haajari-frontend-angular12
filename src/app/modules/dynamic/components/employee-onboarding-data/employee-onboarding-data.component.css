@@ -1369,7 +1369,7 @@ span.request-count {
 .pagination-box {
   position: fixed;
   bottom: 0;
-  z-index: 999;
+  z-index: 9;
   left: 0px;
   padding-left: 270px !important;
 }
@@ -1577,6 +1577,8 @@ span.request-count {
   border-radius: 2px !important;
   padding: 0px !important;
   filter: drop-shadow(0px 8px 10px rgba(0, 0, 0, 0.15));
+  z-index: 999;
+  left: 8px;
 }
 
 .search-date input {
@@ -1665,13 +1667,13 @@ span.request-count {
   margin-top: 0px;
 }
 ::ng-deep .placeholder-line .ant-select-selection-placeholder {
-  line-height: 50px !important;
+  line-height: 45px !important;
   font-size: 0.875rem !important;
   font-weight: 400 !important;
 }
 
 ::ng-deep .placeholder-line .ant-select-selection-item {
-  line-height: 50px !important;
+  line-height: 45px !important;
   font-size: 0.875rem !important;
   font-weight: 400 !important;
 }

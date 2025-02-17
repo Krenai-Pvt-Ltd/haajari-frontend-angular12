@@ -5032,6 +5032,12 @@ getHolidayForOrganizationWhatsapp(userUuid: string, date: string): Observable<an
     return this.httpClient.get<any>(`${this.baseUrl}/users/by-esi/${esi}`);
   }
 
+  existsInShift(userUuid : string): Observable<any> {
+    const params = new HttpParams().set('userUuid', userUuid.toString()); 
+    return this.httpClient.get<any>(`${this.baseUrl}/users/is-in-shift`, {params});
+  }
+
+
   getFilteredAssets(
     teamId?: number,
     userId?: number,
