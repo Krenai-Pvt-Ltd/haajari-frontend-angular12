@@ -149,7 +149,7 @@
 
   .assets-overview {
     overflow: scroll;
-    max-height: 400px;
+    max-height: 350px;
     margin-bottom: 20px;
 }
 .border-right{
@@ -439,4 +439,11 @@ input[type=checkbox] {
   border: 1px solid #4660f6;
   background-color: #eceffe;
   box-shadow: 9px 10px 8px -7px #00000026;
+}
+.overview-sidebar-menu{
+    max-height: 400px;
+    overflow: scroll;
+}
+.overview-sidebar-menu::-webkit-scrollbar{
+    display: none;
 }
