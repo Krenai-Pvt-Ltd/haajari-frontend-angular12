@@ -477,6 +477,7 @@
                                               [legend]="chartOptions?.legend"
                                               [dataLabels]="chartOptions?.dataLabels">
                                             </apx-chart>
+                                            <span *ngIf="!(requestedTypeCount?.NewAssetAllocation || requestedTypeCount?.AssetReplacement)"  class="resignation-request font-13 fw-normal">No Request</span>
                                             </div>
                                          </div>
                                     </div>
