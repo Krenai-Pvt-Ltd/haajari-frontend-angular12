@@ -119,11 +119,10 @@
                                             >
                                             </apx-chart>
                                                 <p class="mb-0 font-13 pt-3">This report provides an overview of the total assigned expended.</p>
-
                                             </div>
-                                            <div class="empty-file d-flex align-items-center justify-content-center bg-white p-3" *ngIf="!isChartInitialized">
+                                            <div class="empty-notification d-flex align-items-center justify-content-center bg-white m-3 mt-0" *ngIf="!isChartInitialized" >
                                               <p class="mb-1 empty-detail">No data for now</p>
-                                          </div>
+                                            </div>
                                             <!-- <div class="p-3 pt-0 categories-view">
                                                 <div class="assets-count p-3 bg-white mb-2">
                                                     <div class="d-flex align-items-center justify-content-between ">
@@ -242,7 +241,7 @@
                                                     </svg>
                                                 </span>
                                             </div>
-                                            <p class="mb-0 font-13 week-count">
+                                            <p class="mb-0 font-12 week-count">
                                               <ng-container *ngIf="checkPercentageChange(-1).isPositive; else negativeIcon">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                                                     <path d="M13.1918 4.94434L15.0661 6.81861L11.072 10.8127L7.79819 7.53886L1.7334 13.6118L2.88743 14.7659L7.79819 9.8551L11.072 13.1289L16.2283 7.98082L18.1026 9.8551V4.94434H13.1918Z" fill="#22b783"/>
@@ -280,7 +279,7 @@
                                                         </svg>
                                                     </span>
                                                 </div>
-                                                <p class="mb-0 font-13 week-count">
+                                                <p class="mb-0 font-12 week-count">
                                                   <ng-container *ngIf="checkPercentageChange(62).isPositive; else negativeIcon">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                                                         <path d="M13.1918 4.94434L15.0661 6.81861L11.072 10.8127L7.79819 7.53886L1.7334 13.6118L2.88743 14.7659L7.79819 9.8551L11.072 13.1289L16.2283 7.98082L18.1026 9.8551V4.94434H13.1918Z" fill="#22b783"/>
@@ -318,7 +317,7 @@
                                                             </svg>
                                                         </span>
                                                     </div>
-                                                    <p class="mb-0 font-13 week-count">
+                                                    <p class="mb-0 font-12 week-count">
                                                       <ng-container *ngIf="checkPercentageChange(64).isPositive; else negativeIcon">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                                                             <path d="M13.1918 4.94434L15.0661 6.81861L11.072 10.8127L7.79819 7.53886L1.7334 13.6118L2.88743 14.7659L7.79819 9.8551L11.072 13.1289L16.2283 7.98082L18.1026 9.8551V4.94434H13.1918Z" fill="#22b783"/>
@@ -356,7 +355,7 @@
                                                                 </svg>
                                                             </span>
                                                         </div>
-                                                        <p class="mb-0 font-13 week-count">
+                                                        <p class="mb-0 font-12 week-count">
                                                           <ng-container *ngIf="checkPercentageChange(65).isPositive; else negativeIcon">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                                                                 <path d="M13.1918 4.94434L15.0661 6.81861L11.072 10.8127L7.79819 7.53886L1.7334 13.6118L2.88743 14.7659L7.79819 9.8551L11.072 13.1289L16.2283 7.98082L18.1026 9.8551V4.94434H13.1918Z" fill="#22b783"/>
@@ -394,7 +393,7 @@
                                                                     </svg>
                                                                 </span>
                                                             </div>
-                                                            <p class="mb-0 week-count font-13">
+                                                            <p class="mb-0 week-count font-12">
                                                               <ng-container *ngIf="checkPercentageChange(-2).isPositive; else negativeIcon">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                                                                     <path d="M13.1918 4.94434L15.0661 6.81861L11.072 10.8127L7.79819 7.53886L1.7334 13.6118L2.88743 14.7659L7.79819 9.8551L11.072 13.1289L16.2283 7.98082L18.1026 9.8551V4.94434H13.1918Z" fill="#22b783"/>
@@ -494,10 +493,10 @@
                                                                             </td>
                                                                           </tr>
                                                                         </tbody>
-                                                                        <tbody *ngIf="assetSummary.length==0 ">
+                                                                        <!-- <tbody *ngIf="assetSummary.length==0 ">
                                                                           <tr>
-                                                                            <td colspan="11">
-                                                                              <div class="empty-file" style="margin-top: 5%; margin-bottom: 5%">
+                                                                            <td colspan="11"> -->
+                                                                              <!-- <div class="empty-file d-flex align-items-centar justify-content-center w-100" *ngIf="assetSummary.length==0 " style="margin-top: 7%; margin-bottom: 7%">
                                                                                 <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
                                                                                   [nzNotFoundContent]="contentTpl">
                                                                                   <ng-template #contentTpl>
@@ -506,11 +505,21 @@
                                                                                     </p>
                                                                                   </ng-template>
                                                                                 </nz-empty>
-                                                                              </div>
-                                                                            </td>
+                                                                              </div> -->
+                                                                            <!-- </td>
                                                                           </tr>
-                                                                        </tbody>
+                                                                        </tbody> -->
                                                                     </table>
+                                                                    <div class="empty-file d-flex align-items-centar justify-content-center w-100" *ngIf="assetSummary.length==0">
+                                                                        <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                                                          [nzNotFoundContent]="contentTpl">
+                                                                          <ng-template #contentTpl>
+                                                                            <p class="mb-1 empty-detail font-16">
+                                                                              No data for now
+                                                                            </p>
+                                                                          </ng-template>
+                                                                        </nz-empty>
+                                                                      </div>
                                                                 </div>
                                                             </div>
                                                             <!-- <div class="tab-pane fade" id="v-pills-desktop" rol="tabpanel">
@@ -1466,8 +1475,8 @@
                                     </div>
                                 </div>
 
-                                <div class="filter-bdg d-flex align-items-center gap-2 mt-3">
-                                  <p *ngFor="let filter of activeFilterTemp"
+                                <div class="filter-bdg d-flex align-items-center gap-2 mt-3 mb-3" *ngFor="let filter of activeFilterTemp">
+                                  <p 
                                      class="filter-pills d-flex align-items-center gap-2 pointer font-12 fw-semibold">
                                     {{ filter.label }}
                                     <i class="bi bi-x-lg pointer" (click)="removeFilters(filter)"></i>
@@ -1475,7 +1484,7 @@
                                 </div>
 
                                <div>
-                                        <table class="table">
+                                        <table class="table mb-5 mt-3">
                                             <thead>
                                                 <tr>
                                                     <th>Assets Name</th>
@@ -1532,10 +1541,10 @@
                                                 </tbody>
                                         <!-- Shimmer Loading Ui End-->
                                         <!-- TO DO: empty notification  -->
-                                        <tbody *ngIf="!isAssetLoading && assets.length==0 ">
+                                        <!-- <tbody >
                                             <tr>
-                                              <td colspan="11">
-                                                <div class="empty-file" style="margin-top: 5%; margin-bottom: 5%">
+                                              <td colspan="11"> -->
+                                                <!-- <div class="empty-file d-flex align-items-centar justify-content-center" style="margin-top: 7%; margin-bottom: 7%" *ngIf="!isAssetLoading && assets.length==0 ">
                                                   <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
                                                     [nzNotFoundContent]="contentTpl">
                                                     <ng-template #contentTpl>
@@ -1544,10 +1553,10 @@
                                                       </p>
                                                     </ng-template>
                                                   </nz-empty>
-                                                </div>
-                                              </td>
+                                                </div> -->
+                                              <!-- </td>
                                             </tr>
-                                          </tbody>
+                                          </tbody> -->
                                            <!-- empty notification end -->
 
                                            <tbody *ngIf="!isAssetLoading">
@@ -1688,6 +1697,17 @@
                                               </td>
                                             </tr>
                                           </tbody>
+
+                                          <div class="empty-file d-flex align-items-centar justify-content-center" *ngIf="!isAssetLoading && assets.length==0 ">
+                                            <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                              [nzNotFoundContent]="contentTpl">
+                                              <ng-template #contentTpl>
+                                                <p class="mb-1 empty-detail font-16">
+                                                  No data for now
+                                                </p>
+                                              </ng-template>
+                                            </nz-empty>
+                                          </div>
                                             <!-- <tbody>
                                                 <tr>
                                                     <td class="fw-normal">MacBook Air</td>
@@ -2225,7 +2245,7 @@
                                             </tbody> -->
                                         </table>
 
-                                        <div *ngIf="totalItems > pageSize" class="d-flex align-items-center justify-content-between w-100">
+                                        <div *ngIf="totalItems > pageSize" class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top">
                                           <p class="mb-0">
                                             Showing items {{ (currentPage - 1) * pageSize + 1 }} -
                                             {{ (currentPage * pageSize) < totalItems ? (currentPage * pageSize) : totalItems }}
@@ -2371,18 +2391,18 @@
                                 </div>
                             </div>
 
-                            <div class="filter-bdg d-flex align-items-center gap-2 mt-3">
-                              <ng-container *ngIf="selectedFilters.size > 0">
+                            <div class="filter-bdg d-flex align-items-center gap-2 mt-3 mb-3" *ngIf="selectedFilters.size > 0">
+                              <!-- <ng-container > -->
                                 <p class="filter-pills d-flex align-items-center gap-2 pointer font-12 fw-semibold"
                                    *ngFor="let filter of selectedFiltersArray">
                                   {{ filter }}
                                   <i class="bi bi-x-lg pointer" (click)="removeFilter(filter)"></i>
                                 </p>
-                              </ng-container>
+                              <!-- </ng-container> -->
                             </div>
 
                             <div>
-                                    <table class="table">
+                                    <table class="table mb-5 mt-3">
                                         <thead>
                                             <tr>
                                                 <th>Requested on</th>
@@ -2434,7 +2454,7 @@
                                           <tbody *ngIf="!isLoading && assetRequests?.length === 0">
                                             <tr>
                                               <td colspan="9">
-                                                <div class="empty-file" style="margin-top: 5%; margin-bottom: 5%">
+                                                <div class="empty-file">
                                                   <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
                                                     [nzNotFoundContent]="contentTpl">
                                                     <ng-template #contentTpl>
@@ -2544,7 +2564,7 @@
 
             <!-- Serial Number (required) -->
             <div class="col-md-6 mb-3">
-              <label for="serialNumber" class="form-label">
+              <label for="serialNumber" class="form-label pb-2">
                 Serial Number <span class="text-danger">*</span>
               </label>
               <input type="text" class="form-control input-zorro w-100" id="serialNumber"

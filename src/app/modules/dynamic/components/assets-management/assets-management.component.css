@@ -177,7 +177,7 @@
     border-radius: 2px;
 }
 .categories-view{
-    max-height: 320px;
+    max-height: 415px;
     overflow: scroll;
 }
 .categories-view::-webkit-scrollbar{
@@ -415,9 +415,9 @@ input[type=checkbox] {
 ::ng-deep .ant-drawer-body{
     padding: 15px !important;
 }
-.empty-file{
-  padding-top: 30%;
-  padding-bottom: 30%;
+.empty-notification{
+  padding-top: 35%;
+  padding-bottom: 35%;
 }
 .assets-list{
   height: 500px;
@@ -446,4 +446,12 @@ input[type=checkbox] {
 }
 .overview-sidebar-menu::-webkit-scrollbar{
     display: none;
+}
+.assets-overview table thead{
+  position: sticky;
+  top: 0px;
+}
+.empty-file{
+    margin-top: 7%; 
+    margin-bottom: 7%
 }

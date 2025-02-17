@@ -623,15 +623,13 @@
                   </div>
               </div> 
 
-              <div class="filter-bdg d-flex align-items-center gap-2">
-                <ng-container *ngFor="let filter of appliedFilters">
+              <div class="filter-bdg d-flex align-items-center gap-2  mt-3" *ngFor="let filter of appliedFilters">
                   <p 
                     class="filter-pills d-flex align-items-center gap-2 pointer font-12 fw-semibold"
                   >
                     {{ filter }}
                     <i class="bi bi-x-lg pointer" (click)="removeFilter(filter)"></i>
                   </p>
-                </ng-container>
               </div>
 
                 <!-- new-design end -->
