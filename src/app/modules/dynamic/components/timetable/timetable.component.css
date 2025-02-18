@@ -647,3 +647,8 @@ span.request-count {
 .staff {
   width: 10%;
 }
+
+.bg-soft-success:hover {
+  background-color: rgba(34, 183, 131, 0.08) !important;
+  color: #22b783 !important;
+}
