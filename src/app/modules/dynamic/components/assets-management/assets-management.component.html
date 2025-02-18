@@ -1243,11 +1243,11 @@
               <label for="userId" class="form-label">
                 Select User <span class="text-muted">(optional)</span>
               </label>
-              <nz-select nzPlaceHolder="Select User" class="w-100 form-control placeholder-lines"
-                [(ngModel)]="assetData.userId" name="userId">
-                <nz-option *ngFor="let user of allUser" [nzValue]="user.id" [nzLabel]="user?.userName">
-                </nz-option>
-              </nz-select>
+              <nz-select nzShowSearch nzPlaceHolder="Select User" class="w-100 form-control placeholder-lines"
+              [(ngModel)]="statusChangeUserId" name="userId" [nzFilterOption]="filterOption" [nzOptionFilterProp]="'label'">
+              <nz-option *ngFor="let user of allUser" [nzValue]="user.id" [nzLabel]="user?.userName">
+              </nz-option>
+            </nz-select>
             </div>
 
             <!-- Assigned Date (optional) -->
