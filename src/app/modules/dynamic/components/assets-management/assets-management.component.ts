@@ -439,6 +439,8 @@ onSearch(searchText: string): void {
     searchText: string = '';
     resetAssetsFilter(statusId: number): void {
       this.changeShowFilter(false);
+      this.currentPage = 1;
+
       this.searchControl.setValue('');
       this.searchText='';
       this.selectedTeam = 0;
@@ -771,8 +773,18 @@ onSearch(searchText: string): void {
           );
         },
         (error) => {
+          asset.status = this.newStatus;
           this.assetRequestStatusLoading = false;
-          this.assetRequestClose.nativeElement.click();
+          if(this.newStatus != 'APPROVED'){
+            this.assetRequestClose.nativeElement.click();
+            this.helperService.showToast(
+              "Asset status change successfully",
+              Key.TOAST_STATUS_SUCCESS
+            );
+            this.getAssetRequests();
+            return;
+          }
+          this.onViewRequest(asset);
           // Handle error response, e.g., show an error message
           this.getAssetRequests();
         }
@@ -1012,30 +1024,34 @@ onSearch(searchText: string): void {
   public tooltip: ApexTooltip = { x: { format: "MMM yyyy" } };
   isChartInitialized: boolean = false;
   public initChartData(): void {
+    if (!this.assetsMonthlyAssignments || this.assetsMonthlyAssignments.length === 0) {
+      console.warn("No data available for the chart.");
+      return;
+    }
+
     const dates = this.assetsMonthlyAssignments.map((item: { monthYear: string; }) =>
       this.convertToDate(item.monthYear)
     );
+
+    if (dates.length === 0 || dates.some(isNaN)) {
+      console.error("Invalid dates in assetsMonthlyAssignments", dates);
+      return;
+    }
+
     const minDate = Math.min(...dates);
     const maxDate = Math.max(...dates);
 
-    // Add 2 months to the last date in the data
     const lastDate = new Date(maxDate);
     const extendedMaxDate = new Date(
-      Date.UTC(
-        lastDate.getUTCFullYear(),
-        lastDate.getUTCMonth() + 1, // Add 2 months
-        1
-      )
+      Date.UTC(lastDate.getUTCFullYear(), lastDate.getUTCMonth() + 1, 1)
     );
 
-    // Update x-axis bounds
     this.xaxis = {
       ...this.xaxis,
       min: minDate,
-      max: extendedMaxDate.getTime(), // Convert back to timestamp
+      max: extendedMaxDate.getTime(),
     };
 
-    // Set chart series data
     this.series = [
       {
         name: "Asset Assignments",
@@ -1045,24 +1061,37 @@ onSearch(searchText: string): void {
         })),
       },
     ];
-    this.cdr.detectChanges();
+
     setTimeout(() => {
+      this.cdr.markForCheck();
+    this.cdr.detectChanges();
       this.isChartInitialized = true;
     }, 500);
   }
 
+
+
   private convertToDate(monthYear: string): number {
+    if (!monthYear) {
+      console.error("Invalid monthYear input:", monthYear);
+      return NaN;
+    }
+
     const monthMap: { [key: string]: number } = {
       "Jan": 0, "Feb": 1, "Mar": 2, "Apr": 3, "May": 4, "Jun": 5,
-      "Jul": 6, "Aug": 7, "Sept": 8, "Oct": 9, "Nov": 10, "Dec": 11
+      "Jul": 6, "Aug": 7, "Sep": 8, "Sept": 8, "Oct": 9, "Nov": 10, "Dec": 11
     };
 
-    const [month, year] = monthYear.split(" ");
-    const monthIndex = monthMap[month];
 
-    // Create date in UTC to prevent time zone shifts
-    return Date.UTC(parseInt(year), monthIndex, 1, 0, 0, 0, 0);
+    const [month, year] = monthYear.split(" ");
+    if (!month || !year || !monthMap.hasOwnProperty(month)) {
+      console.error("Invalid month format:", monthYear);
+      return NaN;
+    }
+
+    return Date.UTC(parseInt(year), monthMap[month], 1);
   }
+
 
 
   @ViewChild("chart") chart1: ChartComponent | undefined;

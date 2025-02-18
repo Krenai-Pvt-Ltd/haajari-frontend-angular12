@@ -22,7 +22,7 @@
                     <div class="onboarding-date d-flex align-items-center position-relative">
                       <form novalidate="" role="search" class="searching ng-untouched ng-pristine ng-valid w-100">
                         <div class="form-group w-100 position-relative">
-                          <input type="text" id="searchText" placeholder="Search..."
+                          <input type="text" id="searchText" placeholder="Search..." [(ngModel)]="searchAsset" name="searchAsset"
                             class="form-control me-2 ng-pristine ng-valid ng-touched" (input)="searchAssets($event)"
                             style="padding: 10px 45px;" ng-reflect-model="" ng-reflect-options="[object Object]">
 
@@ -125,7 +125,7 @@
                       <span class="table-font-weight">{{ asset.serialNumber }}</span>
                     </td>
                     <td class="text-left">
-                      <span>{{ asset.categoryName }}</span>
+                      <span>{{ asset.assetCategoryName }}</span>
                     </td>
                     <td class="text-left">
                       <span class="table-font-weight">{{ asset.purchasedDate | date: 'dd-MM-yyyy' }}</span>
@@ -134,11 +134,11 @@
                       <span class="table-font-weight">{{ asset.price | currency: 'INR' }}</span>
                     </td>
                     <td class="text-left">
-                      <span [ngClass]="{
-                                      'badge rounded-pill badge-soft-success': asset.status !== 'PENDING',
-                                      'badge rounded-pill badge-soft-secondary': asset.status !== 'PENDING'
+                      <span class="badge rounded-pill" [ngClass]="{
+                                      'badge-soft-success': asset.statusName == 'ASSIGNED',
+                                      'badge-soft-danger': asset.statusName !== 'ASSIGNED'
                                     }">
-                        {{ asset.status }}
+                        {{ asset.statusName }}
                       </span>
                     </td>
                   </tr>
@@ -150,8 +150,8 @@
               class="d-flex align-items-center justify-content-between pagination-box-profile p-3 bg-white border-top">
               <!-- Ngb Pagination Component -->
               <p>
-                Showing items
-                {{assets.length}}
+                Showing items {{ (pageNumber - 1) * itemPerPage + 1 }}
+                to {{ Math.min(pageNumber * itemPerPage, totalCount) }}
                 of {{ totalCount }} records
               </p>
 
