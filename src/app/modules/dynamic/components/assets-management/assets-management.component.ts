@@ -51,7 +51,7 @@ export class AssetsManagementComponent implements OnInit {
     private helperService : HelperService,
      private modalService: NgbModal,
      private afStorage: AngularFireStorage,
-     private cdr: ChangeDetectorRef,) { }
+     private cdr: ChangeDetectorRef,) {  this.getMonthlyAssignmentsAssets();}
   showFilter: boolean = false;
   assetsList: boolean[] = [false];
 
@@ -91,7 +91,7 @@ export class AssetsManagementComponent implements OnInit {
     this.fetchCategorySummary();
     this.fetchStatusSummary();
     this.getAssetsChangePercentageList();
-    this.getMonthlyAssignmentsAssets();
+    // this.getMonthlyAssignmentsAssets();
     this.getRequestedTypeCount();
   }
   statusSummary: any[] = [];
@@ -103,7 +103,6 @@ export class AssetsManagementComponent implements OnInit {
     this.assetService.getStatusSummary().subscribe({
       next: (data) => {
         this.statusSummary = data;
-        console.log('Status Summary:', data);
       },
       error: (err) => console.error('Error fetching status summary', err)
     });
@@ -138,7 +137,6 @@ export class AssetsManagementComponent implements OnInit {
       .subscribe(
         (data) => {
           this.assetSummary = data;
-          console.log('Asset summary data:', data);
         },
         (error) => {
           console.error('Error fetching asset summary:', error);

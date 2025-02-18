@@ -120,8 +120,9 @@ const routes: Routes = [
         data: { requiredSubmodule: '/reports' },
       },
       {
+        // AssetsComponent
         path: 'assets',
-        component: AssetsComponent,
+        component: AssetsManagementComponent ,
         canActivate: [AuthGuard, SubscriptionGuard],
         data: { requiredSubmodule: '/assets' },
       },
@@ -190,10 +191,10 @@ const routes: Routes = [
         path: 'inbox',
         component: InboxComponent,
       },
-      {
-        path: 'assets-management',
-        component: AssetsManagementComponent,
-      },
+      // {
+      //   path: 'assets-management',
+      //   component: AssetsManagementComponent,
+      // },
       { path: 'faq', component: FaqComponent },
 
       { path: 'faq-detail', component: FaqDetailComponent },
