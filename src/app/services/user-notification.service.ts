@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Key } from '../constant/key';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { DatabaseHelper } from '../models/DatabaseHelper';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -37,7 +38,7 @@ export class UserNotificationService {
 
     return this._httpClient.get<any>(this._key.base_url + this._key.get_mail, {params})
   }
-  
+
 
   readNotification(id:any){
     const params = new HttpParams()
@@ -50,5 +51,28 @@ export class UserNotificationService {
       .set('uuid', uuid)
       .set('notificationType', notificationType)
     return this._httpClient.get<any>(this._key.base_url + this._key.read_all_notification, {params})
+  }
+
+  getMail(
+    notificationType: string = '',
+    orgUuid: string = '',
+    uuid: string = '',
+    startDate?: string,
+    endDate?: string,
+    page: number = 0,
+    size: number = 10
+  ): Observable<any> {
+    let params = new HttpParams()
+      .set('notificationType', notificationType)
+      .set('orgUuid', orgUuid)
+      .set('uuid', uuid)
+      .set('page', page.toString())
+      .set('size', size.toString())
+      .set('sort', 'id,desc');
+
+    if (startDate) params = params.set('startDate', startDate);
+    if (endDate) params = params.set('endDate', endDate);
+
+    return this._httpClient.get(`${this._key.base_url}/user-notification/mail-notification`, { params });
   }
 }

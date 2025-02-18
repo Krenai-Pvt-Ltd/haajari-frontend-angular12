@@ -4658,6 +4658,12 @@ getHolidayForOrganizationWhatsapp(userUuid: string, date: string): Observable<an
       `${this.baseUrl}/user-resignation`, {params}
     );
   }
+  getUserResignationInfoById(id: number) {
+    let params = new HttpParams().set('id', id);
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/user-resignation`, {params}
+    );
+  }
 
   checkUserExist(uuid: string) {
     let params = new HttpParams().set('uuid', uuid);
