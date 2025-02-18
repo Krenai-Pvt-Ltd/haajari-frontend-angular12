@@ -775,8 +775,18 @@ onSearch(searchText: string): void {
           );
         },
         (error) => {
+          asset.status = this.newStatus;
           this.assetRequestStatusLoading = false;
-          this.assetRequestClose.nativeElement.click();
+          if(this.newStatus != 'APPROVED'){
+            this.assetRequestClose.nativeElement.click();
+            this.helperService.showToast(
+              "Asset status change successfully",
+              Key.TOAST_STATUS_SUCCESS
+            );
+            this.getAssetRequests();
+            return;
+          }
+          this.onViewRequest(asset);
           // Handle error response, e.g., show an error message
           this.getAssetRequests();
         }

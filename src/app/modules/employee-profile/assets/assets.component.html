@@ -22,7 +22,7 @@
                     <div class="onboarding-date d-flex align-items-center position-relative">
                       <form novalidate="" role="search" class="searching ng-untouched ng-pristine ng-valid w-100">
                         <div class="form-group w-100 position-relative">
-                          <input type="text" id="searchText" placeholder="Search..."
+                          <input type="text" id="searchText" placeholder="Search..." [(ngModel)]="searchAsset" name="searchAsset"
                             class="form-control me-2 ng-pristine ng-valid ng-touched" (input)="searchAssets($event)"
                             style="padding: 10px 45px;" ng-reflect-model="" ng-reflect-options="[object Object]">
 

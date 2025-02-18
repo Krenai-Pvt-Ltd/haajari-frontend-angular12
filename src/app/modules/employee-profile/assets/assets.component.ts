@@ -46,13 +46,13 @@ export class AssetsComponent implements OnInit {
     }
     this.currentUserId = this.rbacService.getUuid();
     this.searchSubject.pipe(
-      debounceTime(1000)
+      debounceTime(500)
     ).subscribe((searchText) => {
       this.assetRequestsSearch = searchText;
       this.getAssetRequests();
     });
     this.assetSearchSubject.pipe(
-      debounceTime(1000)
+      debounceTime(500)
     ).subscribe((searchText) => {
       this.search = searchText;
       this.crossFlag = this.search.length > 0;
@@ -149,7 +149,7 @@ export class AssetsComponent implements OnInit {
 
   search: string = '';
   pageNumber: number = 1;
-  itemPerPage: number = 6;
+  itemPerPage: number = 10;
   assetData: OrganizationAssetResponse[] = [];
   totalCount: number = 0;
   crossFlag: boolean = false;
@@ -174,7 +174,9 @@ export class AssetsComponent implements OnInit {
     }
     return !this.assets || this.assets.length === 0;
   }
+  searchAsset: string = '';
   searchAssets(event: Event): void {
+    this.searchAsset = (event.target as HTMLInputElement).value;
     this.assetSearchSubject.next((event.target as HTMLInputElement).value);
   }
   pageChanged(page: number): void {
@@ -259,7 +261,11 @@ export class AssetsComponent implements OnInit {
   }
 
   resetSearch() {
+    this.isLoadingAsset=true;
     this.searchSubject.next('');
+    this.assetSearchSubject.next('');
+    this.search = '';
+    this.searchAsset = '';
   }
 
 
