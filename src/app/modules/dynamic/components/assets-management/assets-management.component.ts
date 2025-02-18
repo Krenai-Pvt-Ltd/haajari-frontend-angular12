@@ -49,7 +49,7 @@ export class AssetsManagementComponent implements OnInit {
     private helperService : HelperService,
      private modalService: NgbModal,
      private afStorage: AngularFireStorage,
-     private cdr: ChangeDetectorRef,) { }
+     private cdr: ChangeDetectorRef,) {  this.getMonthlyAssignmentsAssets();}
   showFilter: boolean = false;
   assetsList: boolean[] = [false];
 
@@ -89,7 +89,7 @@ export class AssetsManagementComponent implements OnInit {
     this.fetchCategorySummary();
     this.fetchStatusSummary();
     this.getAssetsChangePercentageList();
-    this.getMonthlyAssignmentsAssets();
+    // this.getMonthlyAssignmentsAssets();
     this.getRequestedTypeCount();
   }
   statusSummary: any[] = [];
@@ -101,7 +101,6 @@ export class AssetsManagementComponent implements OnInit {
     this.dataService.getStatusSummary().subscribe({
       next: (data) => {
         this.statusSummary = data;
-        console.log('Status Summary:', data);
       },
       error: (err) => console.error('Error fetching status summary', err)
     });
@@ -136,7 +135,6 @@ export class AssetsManagementComponent implements OnInit {
       .subscribe(
         (data) => {
           this.assetSummary = data;
-          console.log('Asset summary data:', data);
         },
         (error) => {
           console.error('Error fetching asset summary:', error);
@@ -264,7 +262,6 @@ newCategory: any = {
           }
           this.fetchCategorySummary();
           document.getElementById('createCategoryModal')?.click();
-          this.newCategory = { categoryName: '', categoryImage: '' };
           this.imagePreviewUrl = null;
         },
         error => {
@@ -700,7 +697,7 @@ onSearch(searchText: string): void {
       this.assetRequestsSearch = '';
       this.getAssetRequests();
       this.statusFilter = '';
-      this.selectedFilters = new Set();
+      this.selectedFilters = new Set<string>(['Pending']);
     }
 
     assetRequests: AssetRequestDTO[] = [];
@@ -922,7 +919,7 @@ onSearch(searchText: string): void {
     }
 
 
-    selectedFilters: Set<string> = new Set();
+    selectedFilters: Set<string> = new Set<string>(['Pending']);
   statusChange(event: any, status: string) {
     const isChecked = (event.target as HTMLInputElement).checked;
     if (isChecked) {
@@ -1026,7 +1023,7 @@ onSearch(searchText: string): void {
     const extendedMaxDate = new Date(
       Date.UTC(
         lastDate.getUTCFullYear(),
-        lastDate.getUTCMonth() + 2, // Add 2 months
+        lastDate.getUTCMonth() + 1, // Add 2 months
         1
       )
     );
@@ -1125,7 +1122,8 @@ onSearch(searchText: string): void {
         type: "donut"
       },
       colors: this.getDynamicColors(this.requestedTypeCount),
-      labels: Object.keys(this.requestedTypeCount), // ["NewAssetAllocation", "AssetReplacement", "AssetRepair"]
+
+      labels: Object.keys(this.requestedTypeCount).map(key => this.labelMapping[key] || key),
       dataLabels: {
         enabled: false
       },
@@ -1144,6 +1142,15 @@ onSearch(searchText: string): void {
             },
             legend: {
               position: "bottom"
+            },
+            tooltip: {
+              enabled: true,
+              y: {
+                formatter: (value: number, { seriesIndex, w }: any) => {
+                  // Show the renamed labels in tooltip
+                  return `${w.config.labels[seriesIndex]}: ${value}`;
+                }
+              }
             }
           }
         }
@@ -1152,6 +1159,11 @@ onSearch(searchText: string): void {
     this.isChartLoaded = true;
   }
 
+  public labelMapping: { [key: string]: string } = {
+    "NewAssetAllocation": "New Request",
+    "AssetReplacement": "Replacement Requests",
+    "RepairRequest": "Repair Requests"
+  };
   public getDynamicColors(data: { [key: string]: number }): string[] {
     return Object.keys(data).map(key => {
       if (key === "NewAssetAllocation") return "#CA365F";

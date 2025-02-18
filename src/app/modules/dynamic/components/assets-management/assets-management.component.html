@@ -88,10 +88,10 @@
                                                 </div>
                                             </div> -->
 
-                                            <div class="d-flex align-items-center justify-content-between gap-3 p-3 earned-funds">
+                                            <div *ngIf="getCurrentMonthStats().currentMonthCount > 0" class="d-flex align-items-center justify-content-between gap-3 p-3 earned-funds">
                                                 <div>
                                                     <p class="mb-2 font-13">Monthly Assigned </p>
-                                                    <h5 class="mb-0 font-16 fw-normal">{{getCurrentMonthStats().currentMonthCount}}
+                                                    <h5  class="mb-0 font-16 fw-normal">{{getCurrentMonthStats().currentMonthCount}}
                                                         <span class="font-12 fw-semibold">{{getCurrentMonthStats().percentageChange}}%
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="7" height="11" viewBox="0 0 7 11" fill="none">
                                                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M4.52807 10.0159H2.54674V5.8172H0.111328L3.53725 0.984065L6.96318 5.8172H4.52807V10.0159Z" fill="#388E3C"></path>
@@ -118,7 +118,7 @@
                                               [fill]="fill"
                                             >
                                             </apx-chart>
-                                                <p class="mb-0 font-13 pt-3">This report provides an overview of the total assigned expended.</p>
+                                                <p class="mb-0 font-13 pt-3">This report provides an overview of the total assigned expenditure.</p>
                                             </div>
                                             <div class="empty-notification d-flex align-items-center justify-content-center bg-white m-3 mt-0" *ngIf="!isChartInitialized" >
                                               <p class="mb-1 empty-detail">No data for now</p>
@@ -341,7 +341,7 @@
 
                                                 <button class="btn p-0 font-14 text-primary fw-semibold" data-bs-toggle="modal" data-bs-target="#createAssetsModal" AssetsDetailModal><i class="bi bi-plus-lg"></i>  Add Assets</button>
                                             </div>
-                                            <div class="row">
+                                            <div class="row" *ngIf="categorySummary.length>0">
                                                 <div class="col-md-3 pr-0">
                                                     <div class="overview-sidebar-menu">
                                                         <div id="v-pills-tab" role="tablist" aria-orientation="vertical" class="nav flex-column nav-pills pt-3 pb-5">
@@ -415,6 +415,17 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="empty-file d-flex align-items-centar justify-content-center w-100" *ngIf="categorySummary.length==0" style="    margin-top: 11%;
+    margin-bottom: 11%;">
+                                              <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                                [nzNotFoundContent]="contentTpl">
+                                                <ng-template #contentTpl>
+                                                  <p class="mb-1 empty-detail font-16">
+                                                    No data for now
+                                                  </p>
+                                                </ng-template>
+                                              </nz-empty>
+                                            </div>
                                         </div>
 
                                             <div class="assets-categories mt-3">
@@ -459,16 +470,14 @@
                                               #chart
                                               [series]="chartOptions?.series"
                                               [chart]="chartOptions?.chart"
+                                              [colors]="chartOptions?.colors"
                                               [labels]="chartOptions?.labels"
                                               [responsive]="chartOptions?.responsive"
                                               [fill]="chartOptions?.fill"
                                               [legend]="chartOptions?.legend"
                                               [dataLabels]="chartOptions?.dataLabels">
                                             </apx-chart>
-                                            
-                                            <!-- TODO: tag dynamic -->
-                                            <!-- <span class="resignation-request font-13 fw-normal">No Request</span> -->
-                                             <!-- TODO: tag dynamic -->
+                                            <span *ngIf="!(requestedTypeCount?.NewAssetAllocation || requestedTypeCount?.AssetReplacement)"  class="resignation-request font-13 fw-normal">No Request</span>
                                             </div>
                                          </div>
                                     </div>
@@ -561,7 +570,7 @@
                                               </div>
                                             </div>
                                             <div>
-                                                <button type="button" class="btn primaryBtnLink filter-btn d-block text-cennter" (click)="resetAssetsFilter(64); updateActiveFilters()">
+                                                <button *ngIf="selectedStatusId!=64" type="button" class="btn primaryBtnLink filter-btn d-block text-cennter" (click)="resetAssetsFilter(64); updateActiveFilters()">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
                                                         <mask id="mask0_8109_4666" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
                                                         <rect y="0.5" width="20" height="20" fill="#D9D9D9"/>
@@ -573,7 +582,7 @@
                                                     Not Assigned
                                                 </button>
                                                 <!-- TO DO: Filter-reset btn -->
-                                                <!-- <button type="button" class="btn primaryBtnLink filter-btn d-block text-cennter reset-filter-btn">
+                                                <button *ngIf="selectedStatusId==64" type="button" class="btn primaryBtnLink filter-btn d-block text-cennter reset-filter-btn" (click)="resetAssetsFilter(0); updateActiveFilters()">
                                                     Go Back
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
                                                         <mask id="mask0_8129_6489" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
@@ -583,7 +592,7 @@
                                                         <path d="M5.83366 16.3332L4.66699 15.1665L9.33366 10.4998L4.66699 5.83317L5.83366 4.6665L10.5003 9.33317L15.167 4.6665L16.3337 5.83317L11.667 10.4998L16.3337 15.1665L15.167 16.3332L10.5003 11.6665L5.83366 16.3332Z" fill="#6666F2"/>
                                                         </g>
                                                         </svg>
-                                                </button> -->
+                                                </button>
                                                 <!-- Filter-reset btn end -->
                                             </div>
                                         </div>
@@ -913,7 +922,7 @@
                                         </div>
                                         <div class="search-date d-flex align-items-center justify-content-between position-relative w-100">
                                                 <div class="form-group w-100 position-relative">
-                                                    <input type="text" id="searchText" #searchInput placeholder="Search by name.." [ngModel]="assetRequestsSearch" (input)="searchAssetsRequest($event)" class="form-control me-2 w-100" style="padding: 10px 45px;" />
+                                                    <input type="text" id="searchText" #searchInput placeholder="Search by asset name.." [ngModel]="assetRequestsSearch" (input)="searchAssetsRequest($event)" class="form-control me-2 w-100" style="padding: 10px 45px;" />
                                                     <i class="bi bi-search search-icon d-flex align-items-center h-100" *ngIf="assetRequestsSearch==''"></i>
                                                     <i class="bi bi-x search-icon text-primary d-flex align-items-center h-100 font-20" *ngIf="assetRequestsSearch!=''" (click)="assetRequestsSearch=''; assetRequestsPage = 1; getAssetRequests();"></i>
                                                 </div>
@@ -1492,7 +1501,7 @@
                         User: {{ history.userName }}
                       </p>
                       <p *ngIf="history?.actionBy!= null" class="mb-0 font-13 fw-normal">
-                        Action By: {{ history.actionBy }}
+                        Action By: {{ history.actionBy  | titlecase  }}
                       </p>
                     </div>
                   </div>
@@ -1516,18 +1525,20 @@
         <button type="button" #closeBtnDes class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="onCloseChangeStatusModal()"></button>
       </div>
       <div class="modal-body">
-        {{statusChangeDescription}}
         <textarea class="form-control transparent-bg no-resize hide-scrollbar w-100 font-14" [(ngModel)]="statusChangeDescription" placeholder="Enter description..." rows="1"></textarea>
         <div *ngIf="isUserEnable" class="col-md-6 mb-3">
           <label for="userId" class="form-label">
             Select User <span class="text-muted">(optional)</span>
-          </label>
-          <nz-select nzPlaceHolder="Select User" class="w-100 form-control placeholder-lines"
-            [(ngModel)]="statusChangeUserId" name="userId">
-            <nz-option *ngFor="let user of allUser" [nzValue]="user.userId" [nzLabel]="user?.userName">
-            </nz-option>
-          </nz-select>
-        </div>
+            </label>
+
+            <nz-select nzShowSearch nzPlaceHolder="Select User" class="w-100 form-control placeholder-lines"
+              [(ngModel)]="statusChangeUserId" name="userId" [nzFilterOption]="filterOption" [nzOptionFilterProp]="'label'">
+              <nz-option *ngFor="let user of allUser" [nzValue]="user.userId" [nzLabel]="user?.userName">
+              </nz-option>
+            </nz-select>
+
+
+            </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -1575,7 +1586,7 @@
           </div>
         </div>
         <div class="modal-footer ">
-          <button type="submit" class="btn submitActionBtn" [disabled]="categoryForm1.invalid || isCategoryUpdateLoading"> Add</button>
+          <button type="submit" class="btn submitActionBtn" [disabled]="categoryForm1.invalid || isCategoryUpdateLoading"> Save</button>
         </div>
       </form>
     </div>
