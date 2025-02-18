@@ -65,7 +65,7 @@ export class TopbarComponent implements OnInit {
       break;
     }
     case this.Routes.EMPLOYEEONBOARDING:{
-      routeValue = 'Employee Onboarding';
+      routeValue = 'Employee';
       routeDesc="Streamline the Integration of New Hires"
       break;
     }

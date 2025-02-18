@@ -49,10 +49,10 @@ export class AssetsManagementComponent implements OnInit {
     private helperService : HelperService,
      private modalService: NgbModal,
      private afStorage: AngularFireStorage,
-     private cdr: ChangeDetectorRef,) { }
+     private cdr: ChangeDetectorRef,) {  this.getMonthlyAssignmentsAssets();}
   showFilter: boolean = false;
   assetsList: boolean[] = [false];
-  
+
 
   ngOnInit(): void {
     this.getPendingRequestsCounter();
@@ -62,6 +62,8 @@ export class AssetsManagementComponent implements OnInit {
       debounceTime(300),
       distinctUntilChanged()
     ).subscribe((searchText: string) => {
+
+      this.currentPage = 1;
       this.searchText=searchText;
       this.loadAssets();
     });
@@ -87,7 +89,7 @@ export class AssetsManagementComponent implements OnInit {
     this.fetchCategorySummary();
     this.fetchStatusSummary();
     this.getAssetsChangePercentageList();
-    this.getMonthlyAssignmentsAssets();
+    // this.getMonthlyAssignmentsAssets();
     this.getRequestedTypeCount();
   }
   statusSummary: any[] = [];
@@ -99,7 +101,6 @@ export class AssetsManagementComponent implements OnInit {
     this.dataService.getStatusSummary().subscribe({
       next: (data) => {
         this.statusSummary = data;
-        console.log('Status Summary:', data);
       },
       error: (err) => console.error('Error fetching status summary', err)
     });
@@ -134,7 +135,6 @@ export class AssetsManagementComponent implements OnInit {
       .subscribe(
         (data) => {
           this.assetSummary = data;
-          console.log('Asset summary data:', data);
         },
         (error) => {
           console.error('Error fetching asset summary:', error);
@@ -245,6 +245,7 @@ newCategory: any = {
   }
 
 
+  @ViewChild('closeUpdateCategory') closeUpdateCategory!: ElementRef<HTMLButtonElement>;
   updateCategory(): void {
     if (this.fileToUpload) {
       this.newCategory.categoryImage = this.fileToUpload;
@@ -254,13 +255,13 @@ newCategory: any = {
         response => {
           this.isCategoryUpdateLoading = false;
           if(response.status){
+            this.closeUpdateCategory.nativeElement.click();
             this.helperService.showToast('Asset category updated successfully', Key.TOAST_STATUS_SUCCESS);
           }else{
             this.helperService.showToast('Asset category update failed', Key.TOAST_STATUS_ERROR);
           }
           this.fetchCategorySummary();
           document.getElementById('createCategoryModal')?.click();
-          this.newCategory = { categoryName: '', categoryImage: '' };
           this.imagePreviewUrl = null;
         },
         error => {
@@ -384,6 +385,7 @@ onSearch(searchText: string): void {
   // assigned assets
 
   assignedAssets(): void {
+    this.resetAssetsFilter(0);
     this.currentPage = 1;
     this.loadAssets();
     this.fetchTeamSummary();
@@ -396,6 +398,7 @@ onSearch(searchText: string): void {
 
     isAssetLoading = false;
     loadAssets() {
+      this.changeShowFilter(false);
       this.isAssetLoading = true;
       this.dataService.getFilteredAssets(this.selectedTeamId, this.selectedUserId, this.selectedStatusId, this.selectedCategoryId, this.searchText, this.currentPage-1, this.pageSize)
         .subscribe(response => {
@@ -435,12 +438,16 @@ onSearch(searchText: string): void {
     selectedCategoryId: number = 0;
     searchText: string = '';
     resetAssetsFilter(statusId: number): void {
+      this.changeShowFilter(false);
+      this.searchControl.setValue('');
       this.searchText='';
       this.selectedTeam = 0;
       this.selectedTeamId = 0;
       this.selectedUserId = 0;
       this.selectedStatusId = statusId;
       this.selectedCategoryId = 0;
+      this.activeFilters = [];
+      this.activeFilterTemp = [];
       this.loadAssets();
     }
     getTeamMemberById(teamId: any): void {
@@ -690,7 +697,7 @@ onSearch(searchText: string): void {
       this.assetRequestsSearch = '';
       this.getAssetRequests();
       this.statusFilter = '';
-      this.selectedFilters = new Set();
+      this.selectedFilters = new Set<string>(['Pending']);
     }
 
     assetRequests: AssetRequestDTO[] = [];
@@ -709,6 +716,7 @@ onSearch(searchText: string): void {
     }
 
     getAssetRequests(): void {
+      this.changeShowFilter(false);
       this.isLoading = true;
       this.dataService.getAssetRequests(this.assetRequestsPage, this.assetRequestsSize, this.assetRequestsSearch, [...this.selectedFilters]).subscribe(
         (response) => {
@@ -726,6 +734,7 @@ onSearch(searchText: string): void {
     }
     searchAssetsRequest(event: Event): void {
       this.assetRequestsSearch = (event.target as HTMLInputElement).value;
+      this.assetRequestsPage = 1;
       this.getAssetRequests();
 
     }
@@ -745,12 +754,15 @@ onSearch(searchText: string): void {
     @ViewChild('assetRequestClose') assetRequestClose!: ElementRef<HTMLButtonElement>;
     changeStatus(asset: any) {
       this.assetRequestStatusLoading = true;
-      asset.status = this.newStatus;
       this.modalService.dismissAll();
       this.dataService.changeAssetRequestStatus(asset.id, this.newStatus)
       .subscribe(
         (response) => {
-          this.assetRequestClose.nativeElement.click();
+          asset.status = this.newStatus;
+          this.onViewRequest(asset);
+          if(this.newStatus != 'APPROVED'){
+            this.assetRequestClose.nativeElement.click();
+          }
           this.assetRequestStatusLoading = false;
           this.getAssetRequests();
           this.helperService.showToast(
@@ -849,13 +861,19 @@ onSearch(searchText: string): void {
     assetCategoryId: number = 0;
     assetsBooleanList: boolean[] = [false];
     selectedAvailableAsset: any;
+    availableAssetLoading: boolean = false;
     fetchRequestedAssetsAvailable(): void {
+      this.availableAssetLoading = true;
       this.dataService.getRequestedAvailableAssets(this.assetCategoryId, this.searchQuery, (this.currentRequestPage-1), this.pageRequestSize)
         .subscribe(response => {
+          this.availableAssetLoading = false;
           this.assetsAvailable = response.content;
           this.totalPages = response.totalPages;
           this.totalRequestAssets = response.totalElements;
-        });
+        }, error => {
+          this.availableAssetLoading = false;
+        }
+      );
     }
 
 
@@ -867,6 +885,7 @@ onSearch(searchText: string): void {
     onViewRequest(asset: any): void {
       this.selectedAsset = asset;
       if(asset.status == 'APPROVED'){
+        this.selectedAvailableAsset = null;
         this.totalPages=0;
         this.currentRequestPage=1;
         this.searchQuery=asset.assetName;
@@ -883,6 +902,7 @@ onSearch(searchText: string): void {
       this.dataService.assignRequestedAsset(this.selectedAvailableAsset.id, this.selectedAsset.id).subscribe(
         (response) => {
           this.assetAssignedLoading = false;
+          this.selectedAvailableAsset = null;
           if (response.status) {
             this.assetAssignClose.nativeElement.click();
             this.helperService.showToast('Asset assigned successfully', Key.TOAST_STATUS_SUCCESS);
@@ -899,7 +919,7 @@ onSearch(searchText: string): void {
     }
 
 
-    selectedFilters: Set<string> = new Set();
+    selectedFilters: Set<string> = new Set<string>(['Pending']);
   statusChange(event: any, status: string) {
     const isChecked = (event.target as HTMLInputElement).checked;
     if (isChecked) {
@@ -1003,7 +1023,7 @@ onSearch(searchText: string): void {
     const extendedMaxDate = new Date(
       Date.UTC(
         lastDate.getUTCFullYear(),
-        lastDate.getUTCMonth() + 2, // Add 2 months
+        lastDate.getUTCMonth() + 1, // Add 2 months
         1
       )
     );
@@ -1053,6 +1073,7 @@ onSearch(searchText: string): void {
         width: "100%",
         type: "donut"
       },
+      colors: this.getDynamicColors(this.requestedTypeCount),
       plotOptions: {
         pie: {
           startAngle: -90,
@@ -1100,7 +1121,9 @@ onSearch(searchText: string): void {
         width: 180,
         type: "donut"
       },
-      labels: Object.keys(this.requestedTypeCount), // ["NewAssetAllocation", "AssetReplacement", "AssetRepair"]
+      colors: this.getDynamicColors(this.requestedTypeCount),
+
+      labels: Object.keys(this.requestedTypeCount).map(key => this.labelMapping[key] || key),
       dataLabels: {
         enabled: false
       },
@@ -1119,6 +1142,15 @@ onSearch(searchText: string): void {
             },
             legend: {
               position: "bottom"
+            },
+            tooltip: {
+              enabled: true,
+              y: {
+                formatter: (value: number, { seriesIndex, w }: any) => {
+                  // Show the renamed labels in tooltip
+                  return `${w.config.labels[seriesIndex]}: ${value}`;
+                }
+              }
             }
           }
         }
@@ -1127,6 +1159,19 @@ onSearch(searchText: string): void {
     this.isChartLoaded = true;
   }
 
+  public labelMapping: { [key: string]: string } = {
+    "NewAssetAllocation": "New Request",
+    "AssetReplacement": "Replacement Requests",
+    "RepairRequest": "Repair Requests"
+  };
+  public getDynamicColors(data: { [key: string]: number }): string[] {
+    return Object.keys(data).map(key => {
+      if (key === "NewAssetAllocation") return "#CA365F";
+      if (key === "AssetReplacement") return "#F3A73D";
+      if (key === "RepairRequest") return "#47539F";
+      return "#999999"; // Default color
+    });
+  }
 
 
 }

@@ -6,7 +6,6 @@ import { Key } from 'src/app/constant/key';
 import { LeaveResponse, PendingLeaveResponse } from 'src/app/models/leave-responses.model';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import moment from 'moment';  // Import Moment.js
-import { start } from 'repl';
 
 @Component({
   selector: 'app-leave-managements',
@@ -23,8 +22,10 @@ export class LeaveManagementsComponent implements OnInit {
   async ngOnInit() {
     this.logInUserUuid = await this.rbacService.getUUID();
     this.ROLE = await this.rbacService.getRole();
-    this.getLeaves();
+    this.getLeaves(false,false);
   }
+
+
   tab: string = 'absent';
   switchTab(tab: string) {
     this.tab = tab
@@ -58,7 +59,7 @@ export class LeaveManagementsComponent implements OnInit {
   status= this.statusMaster;
   ROLE: string | null |any = '';
 
-   getLeaves(resetSearch = false) {
+   getLeaves(resetSearch = false,applyDateRange = false){ 
       debugger
       if(resetSearch){
         this.resetSearch();
@@ -67,9 +68,16 @@ export class LeaveManagementsComponent implements OnInit {
       this.isLoadingLeaves = true;
       var uuid=null;
       var params= null;
-  params={ status: this.status ,itemPerPage: this.itemPerPage, currentPage: this.currentPage,search: this.searchTerm,
-    startDate: moment(this.filters.fromDate).format(this.networkDateFormat),endDate: moment(this.filters.toDate).format(this.networkDateFormat),leaveType: this.filters.leaveType};
-     
+      if(applyDateRange){
+        params={ status: this.status ,itemPerPage: this.itemPerPage, currentPage: this.currentPage,search: this.searchTerm,
+          startDate: moment(this.filters.fromDate).format(this.networkDateFormat),endDate: moment(this.filters.toDate).format(this.networkDateFormat),leaveType: this.filters.leaveType};
+           
+      }else{
+        params={ status: this.status ,itemPerPage: this.itemPerPage, currentPage: this.currentPage,search: this.searchTerm,
+          leaveType: this.filters.leaveType};
+         
+      }
+  
      
     this.leaveService
     .get(params)
@@ -200,20 +208,6 @@ applyFilters() {
     var value= fromDate +" to "+ toDate;
     this.appliedFilters.push({ key: 'Date', value: value});
   }
-//   else{
-//   if (this.filters.fromDate) {
-//     var fromDate= moment(this.filters.fromDate).format(this.displayDateFormat);
-//     this.filters.fromDate= moment(this.filters.fromDate).format(this.networkDateFormat);
-
-//     this.appliedFilters.push({ key: 'Date', value: fromDate});
-//   }
-//   if (this.filters.toDate) {
-//     var toDate= moment(this.filters.toDate).format(this.displayDateFormat);
-//     this.filters.toDate= moment(this.filters.toDate).format(this.networkDateFormat);
-
-//     this.appliedFilters.push({ key: 'Date', value:  toDate});
-//   }
-// }
 
   this.changeShowFilter(false);
   this.getLeaves(false);
