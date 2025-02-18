@@ -145,7 +145,7 @@ export class AssetsComponent implements OnInit {
   }
 
 
-  assets: OrganizationAssetResponse[] = [];
+  assets: any = [];
 
   search: string = '';
   pageNumber: number = 1;
@@ -156,7 +156,7 @@ export class AssetsComponent implements OnInit {
   isLoadingAsset: boolean = false;
   getAssetData(): void {
     this.isLoadingAsset=true;
-    this.dataService.getAssetsByUser(this.search, this.pageNumber-1, this.itemPerPage).subscribe(
+    this.dataService.getAssetsByUser(this.userId, this.search, this.pageNumber-1, this.itemPerPage).subscribe(
       (response: any) => {
         this.assets = response.content; // Page content
         this.totalCount = response.totalElements; // Total records count
