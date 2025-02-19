@@ -742,6 +742,20 @@ onSearch(searchText: string): void {
       this.getAssetRequests();
 
     }
+
+    assetModalData:any = {};
+    isAssetRequestModalOpen: boolean = false;
+    onAssetRequestOpen(asset: any): void {
+      this.assetModalData.asset = asset;
+      this.isAssetRequestModalOpen = true;
+    }
+
+    onAssetComponentClose(): void {
+      this.assetRequestTab();
+      this.isAssetRequestModalOpen = false;
+      console.log('Asset request tab closed');
+    }
+
     newStatus: string = 'Pending';
     selectedAsset: any;
     statuses: string[] = ['APPROVED', 'REJECTED'];

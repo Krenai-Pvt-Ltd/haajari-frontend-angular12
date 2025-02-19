@@ -1,5 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
+import { DataService } from 'src/app/services/data.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import { UserNotificationService } from 'src/app/services/user-notification.service';
 
@@ -12,6 +13,7 @@ export class InboxComponent implements OnInit {
 
   constructor(private _notificationService: UserNotificationService,
     public rbacService: RoleBasedAccessControlService,
+    private dataService: DataService,
   ) { }
 
   ngOnInit(): void {
@@ -59,7 +61,9 @@ export class InboxComponent implements OnInit {
   }
   openMail(mail: any): void {
     this.currentMail = mail;
-    console.log(mail.categoryId);
+    this.showAssetComponent=false;
+    this.showExitComponent=false;
+    this.isProfileReqModalOpen=false;
     this.onMessageClick(mail);
   }
 
@@ -125,9 +129,21 @@ export class InboxComponent implements OnInit {
   showExitComponent = false;
   exitData: any;
 
+  showAssetComponent = false;
+  assetData: any;
+
+  isProfileReqModalOpen: boolean = false;
+  requestModalData: any = {};
+
+  onProfileComponentClose() {
+    this.isProfileReqModalOpen = false;
+  }
 
   onExitComponentClose() {
     this.showExitComponent = false;
+  }
+  onAssetComponentClose() {
+    this.showAssetComponent = false;
   }
 
   onMessageClick(mail:any) {
@@ -138,10 +154,45 @@ export class InboxComponent implements OnInit {
       this.exitData.userType = 'ADMIN';
       this.exitData.isModal = 0;
       this.showExitComponent = true;
+    }else if(mail.categoryId === 40 || mail.categoryId === 50) {
+      this.showAssetComponent = false;
+      this.assetData = {};
+      this.assetData.id = mail.resourceId;
+      this.assetData.userType = 'ADMIN';
+      this.assetData.isModal = 0;
+      this.getAssetRequestById(mail.resourceId);
+    }else if(mail.categoryId === 13) {
+      this.isProfileReqModalOpen = false;
+      this.requestModalData = {};
+      this.requestModalData.id = mail.resourceId;
+      this.requestModalData.uuid = '';
+      this.requestModalData.userType = 'ADMIN';
+      this.requestModalData.isModal = 0;
+      this.isProfileReqModalOpen = true;
     }
     else{
       this.showExitComponent = false;
+      this.showAssetComponent = false;
+      this.isProfileReqModalOpen = false;
     }
   }
 
+  assetRequest: any;
+  getAssetRequestById(id: number): void {
+    this.dataService.getAssetRequestByID(id).subscribe(
+      (data) => {
+        this.assetRequest = data;
+        this.assetData.asset=this.assetRequest;
+        setTimeout(() => {
+          this.showAssetComponent = true;
+        }, 500);
+        console.log('Asset request data:', data);
+      },
+      (error) => {
+        console.error('Error fetching asset request:', error);
+      }
+    );
+  }
 }
+
+

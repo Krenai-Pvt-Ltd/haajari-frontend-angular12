@@ -3773,6 +3773,9 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
   getAssetRequestById(id: number): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/asset-requests?id=${id}`);
   }
+  getAssetRequestByID(id: number): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/asset-requests/by-id?id=${id}`);
+  }
   getAssetRequestsByUserUuid(
     uuid: string,
     page: number = 0,
@@ -4859,8 +4862,8 @@ getHolidayForOrganizationWhatsapp(userUuid: string, date: string): Observable<an
       params,
     });
   }
-  getDataComparison(userUuid: string): Observable<any> {
-    const params = { userUuid };
+  getDataComparison(userUuid: string, id:number = 0): Observable<any> {
+    const params = { 'userUuid': userUuid, 'id': id.toString() };
     return this.httpClient.get(`${this.baseUrl}/get/onboarding/requested-data-compare`, {
       params,
     });

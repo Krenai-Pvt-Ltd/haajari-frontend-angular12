@@ -214,11 +214,14 @@
 
                         <h5 class="mb-0 font-18x fw-semibold">{{ currentMail?.message }}</h5>
                         <div class="mt-4 leave-request">
-                          <app-exit-modal
-                          *ngIf="showExitComponent"
-                          [data]="exitData"
-                          (closeEvent)="onExitComponentClose()"
-                        ></app-exit-modal>
+                          <app-exit-modal *ngIf="showExitComponent" [data]="exitData" (closeEvent)="onExitComponentClose()"></app-exit-modal>
+
+                          <app-asset-request *ngIf="showAssetComponent" [data]="assetData" (closeEvent)="onAssetComponentClose()">
+                          </app-asset-request>
+
+                          <app-profile-update *ngIf="isProfileReqModalOpen" [data]="requestModalData" (closeEvent)="onProfileComponentClose()">
+                          </app-profile-update>
+
                         </div>
 
 

@@ -14,6 +14,8 @@ import { ChatComponent } from '../modules/common/chat/chat.component';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { ExitModalComponent } from '../modules/common/exit-modal/exit-modal.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AssetRequestComponent } from '../modules/common/asset-request/asset-request.component';
+import { ProfileUpdateComponent } from '../modules/common/profile-update/profile-update.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     FaqComponent,
     FaqDetailComponent,
     ChatComponent,
-    ExitModalComponent
+    ExitModalComponent,
+    AssetRequestComponent,
+    ProfileUpdateComponent
   ],
 
   imports: [CommonModule,
@@ -49,7 +53,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     FaqComponent,
     FaqDetailComponent,
     ChatComponent,
-    ExitModalComponent
+    ExitModalComponent,
+    AssetRequestComponent,
+    ProfileUpdateComponent
   ],
 })
 export class SharedModule { }

@@ -11,6 +11,8 @@ import { NewEmployeeProfileSidebarComponent } from './new-employee-profile-sideb
 import { AgmCoreModule } from '@agm/core';
 import { HolidayDatePickerComponent } from './holiday-date-picker/holiday-date-picker.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AssetRequestComponent } from './asset-request/asset-request.component';
+import { ProfileUpdateComponent } from './profile-update/profile-update.component';
 
 
 
@@ -24,7 +26,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     CommonComponent,
     HeaderComponent,
     NewEmployeeProfileSidebarComponent,
-    HolidayDatePickerComponent
+    HolidayDatePickerComponent,
+    AssetRequestComponent,
+    ProfileUpdateComponent
 
 
   ],
