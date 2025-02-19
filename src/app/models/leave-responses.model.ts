@@ -80,4 +80,7 @@ export interface LeaveResponse {
   applied: any;
   approved: any;
   rejectionReason:string;
+  approvedCount: number;
+  rejectedCount: number;
+  remainingCount: number;
 }

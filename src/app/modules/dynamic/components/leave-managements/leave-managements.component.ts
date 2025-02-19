@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { HelperService } from 'src/app/services/helper.service';
 import { LeaveService } from 'src/app/services/leave.service';
 import { finalize, tap } from 'rxjs/operators';
@@ -56,61 +56,110 @@ export class LeaveManagementsComponent implements OnInit {
   leaves:any=[];
   totalItems:number = 0;
   statusMaster: string[] = ['ALL',this.PENDING,this.APPROVED,this.REJECTED,this.REQUESTED];
-  status= this.statusMaster;
+  // status= this.statusMaster;
+  status:string[]= [];
   ROLE: string | null |any = '';
+  isShimmer: boolean = false;
 
-   getLeaves(resetSearch = false,applyDateRange = false){ 
-      debugger
-      if(resetSearch){
-        this.resetSearch();
-      }
+  //  getLeaves(resetSearch = false, applyDateRange = false){ 
+  //     debugger
+  //     if(resetSearch){
+  //       this.resetSearch();
+  //     }
     
-      this.isLoadingLeaves = true;
-      var uuid=null;
-      var params= null;
-      if(applyDateRange){
-        params={ status: this.status ,itemPerPage: this.itemPerPage, currentPage: this.currentPage,search: this.searchTerm,
-          startDate: moment(this.filters.fromDate).format(this.networkDateFormat),endDate: moment(this.filters.toDate).format(this.networkDateFormat),leaveType: this.filters.leaveType};
+  //     this.filters.leaveType = this.filters.leaveType.map((type: any) => typeof type === 'string' ? type : type.value);
+  //     this.filters.status = this.filters.status.map((status: any) => typeof status === 'string' ? status : status.value);
+
+
+  //     this.isLoadingLeaves = true;
+  //     var uuid=null;
+  //     var params= null;
+  //     if(applyDateRange){
+  //       params={ status: this.status ,itemPerPage: this.itemPerPage, currentPage: this.currentPage,search: this.searchTerm,
+  //         startDate: moment(this.filters.fromDate).format(this.networkDateFormat),endDate: moment(this.filters.toDate).format(this.networkDateFormat),leaveType: this.filters.leaveType};
            
-      }else{
-        params={ status: this.status ,itemPerPage: this.itemPerPage, currentPage: this.currentPage,search: this.searchTerm,
-          leaveType: this.filters.leaveType};
+  //     }else{
+  //       params={ status: this.filters.status ,itemPerPage: this.itemPerPage, currentPage: this.currentPage, search: this.searchTerm,
+  //         leaveType:this.filters.leaveType};
          
-      }
+  //     }
   
      
-    this.leaveService
-    .get(params)
-    .pipe(
-      tap((response:any) => {
-        if (Array.isArray(response.object)) {
-          // Store data for each tab
-        this.leaves = response.object;
-        this.totalItems = response.totalItems; // Update total count for the status
-        } else{
-          this.leaves = [];
-          this.totalItems = 0;
-        }
+  //   this.leaveService
+  //   .get(params)
+  //   .pipe(
+  //     tap((response:any) => {
+  //       if (Array.isArray(response.object)) {
+  //         // Store data for each tab
+  //       this.leaves = response.object;
+  //       this.totalItems = response.totalItems; // Update total count for the status
+  //       } else{
+  //         this.leaves = [];
+  //         this.totalItems = 0;
+  //       }
         
-      }),
-      finalize(() => {
-        this.isLoadingLeaves = false;
-      })
-    )
-    .subscribe({
-      next: () => {
-        // Subscription for side effects only
-        // console.log('Pending leaves loaded successfully.');
-      },
-      error: (error) => {
-        this.helperService.showToast(
-          'Failed to load leaves.',
-          Key.TOAST_STATUS_ERROR
-        );
-      },
-    });
+  //     }),
+  //     finalize(() => {
+  //       this.isLoadingLeaves = false;
+  //     })
+  //   )
+  //   .subscribe({
+  //     next: () => {
+  //       // Subscription for side effects only
+  //       // console.log('Pending leaves loaded successfully.');
+  //     },
+  //     error: (error) => {
+  //       this.helperService.showToast(
+  //         'Failed to load leaves.',
+  //         Key.TOAST_STATUS_ERROR
+  //       );
+  //     },
+  //   });
       
+  //   }
+
+
+  getLeaves(resetSearch = false, applyDateRange = false) { 
+    if (resetSearch) {
+      this.resetSearch();
     }
+  
+    this.filters.leaveType = this.filters.leaveType.map((type: any) => typeof type === 'string' ? type : type.value);
+    this.filters.status = this.filters.status.map((status: any) => typeof status === 'string' ? status : status.value);
+  
+    const params: any = {
+      status: this.filters.status.length ? this.filters.status.join(',') : undefined,      // Convert to comma-separated string
+      leaveType: this.filters.leaveType.length ? this.filters.leaveType.join(',') : undefined, // Convert to comma-separated string
+      itemPerPage: this.itemPerPage,
+      currentPage: this.currentPage,
+      search: this.searchTerm || undefined
+    };
+  
+    if (applyDateRange) {
+      params.startDate = moment(this.filters.fromDate).format(this.networkDateFormat);
+      params.endDate = moment(this.filters.toDate).format(this.networkDateFormat);
+    }
+  
+    this.isLoadingLeaves = true;
+  
+    this.leaveService.get(params)
+      .pipe(finalize(() => this.isLoadingLeaves = false))
+      .subscribe({
+        next: (response: any) => {
+          if (Array.isArray(response.object)) {
+            this.leaves = response.object;
+            this.totalItems = response.totalItems;
+          } else {
+            this.leaves = [];
+            this.totalItems = 0;
+          }
+        },
+        error: () => {
+          this.helperService.showToast('Failed to load leaves.', Key.TOAST_STATUS_ERROR);
+        },
+      });
+  }
+  
 
     leave!: LeaveResponse;
       viewLeave(leave:any){
@@ -134,7 +183,7 @@ onPageChange(page: number) {
 }
 
 resetSearch(){
-  this.searchTerm = ''; // Reset search term if flag is set
+  this.searchTerm = ''; 
   this.currentPage = 1; 
   this.leaves= [];
 }
@@ -143,6 +192,7 @@ searchLeaves() {
   this.getLeaves();
 }
 resetValues(){
+  // this.searchTerm = '';
   this.leaves=[]; 
   this.totalItems = 0;
   this.currentPage= 1;
@@ -158,60 +208,60 @@ searchTermChanged(event: any) {
  */
 leaveTypes = ['ALL','Earned Leave', 'Sick Leave', 'Casual Leave']; // Example options
 
-  badgesList:[]=[];
+badgesList:[]=[];
 filters:{
   fromDate: any|undefined;
   toDate: any|undefined;
-  leaveType: string;
-  status: string
+  leaveType: string[];
+  status: string[]
 }  = {
-  leaveType: 'All', // Default value
-  status: 'All' // Default value
+  leaveType: [], // Default value
+  status: [] // Default value
   ,
   fromDate: undefined,
   toDate: undefined
 };
-resetFilters() {
-  this.filters= {
-    fromDate: undefined,
-    toDate: undefined,
-    leaveType: 'All',
-    status: 'All'
-  };
-  this.changeShowFilter(false);
-  this.appliedFilters = [];
-}
-appliedFilters: { key: string; value: string|null|undefined }[] = [];
+// resetFilters() {
+//   this.filters= {
+//     fromDate: undefined,
+//     toDate: undefined,
+//     leaveType: [],
+//     status: []
+//   };
+//   this.changeShowFilter(false);
+//   this.appliedFilters = [];
+// }
+// appliedFilters: { key: string; value: string|null|undefined }[] = [];
 
 displayDateFormat: string = 'DD-MM-YYYY'; // Date format for date picker
 networkDateFormat: string = "yyyy-MM-DD HH:mm:ss";
-applyFilters() {
-  this.appliedFilters = [];
+// applyFilters() {
+//   this.appliedFilters = [];
 
 
-  if (this.filters.leaveType) {
-    this.appliedFilters.push({ key: 'Leave Type', value: this.filters.leaveType });
-  }
-  if (this.filters.status) {
-    this.appliedFilters.push({ key: 'status', value: this.filters.status });
-    if(this.filters.status==='ALL'){
-      this.status = this.statusMaster;;
-    }else{
-      this.status =[ this.filters.status];
-    }
-  }
-  if(this.filters.fromDate && this.filters.toDate){ 
+//   if (this.filters.leaveType) {
+//     // this.appliedFilters.push({ key: 'Leave Type', value: this.filters.leaveType });
+//   }
+//   if (this.filters.status) {
+//     // this.appliedFilters.push({ key: 'status', value: this.filters.status });
+//     if(this.filters.status.length === 0){
+//       this.status = this.statusMaster;
+//     }else{
+//       this.status =this.filters.status;
+//     }
+//   }
+//   if(this.filters.fromDate && this.filters.toDate){ 
     
-    var fromDate= moment(this.filters.fromDate).format(this.displayDateFormat);
-    var toDate= moment(this.filters.toDate).format(this.displayDateFormat);
+//     var fromDate= moment(this.filters.fromDate).format(this.displayDateFormat);
+//     var toDate= moment(this.filters.toDate).format(this.displayDateFormat);
    
-    var value= fromDate +" to "+ toDate;
-    this.appliedFilters.push({ key: 'Date', value: value});
-  }
+//     var value= fromDate +" to "+ toDate;
+//     this.appliedFilters.push({ key: 'Date', value: value});
+//   }
 
-  this.changeShowFilter(false);
-  this.getLeaves(false);
-}
+//   this.changeShowFilter(false);
+//   this.getLeaves(false);
+// }
 // Disable dates greater than 'fromDate' for the 'toDate' field
 disabledDateTo = (current: Date): boolean => {
   return current && this.filters.fromDate && current <= this.filters.fromDate;
@@ -221,9 +271,120 @@ disabledDateTo = (current: Date): boolean => {
 disabledDateFrom = (current: Date): boolean => {
   return current && this.filters.toDate && current >= this.filters.toDate;
 };
-removeFilter(filterKey: string) {
-  this.appliedFilters = this.appliedFilters.filter(f => f.key !== filterKey);
-  (this.filters as any)[filterKey] = '';
+// removeFilter(filterKey: string) {
+//   this.appliedFilters = this.appliedFilters.filter(f => f.key !== filterKey);
+//   (this.filters as any)[filterKey] = '';
+// }
+
+appliedFilters: { key: string; value: string | null | undefined }[] = [];
+
+applyFilters(): void {
+  debugger;
+  this.appliedFilters = [];
+
+  // ✅ Handle Leave Type filter (keep as an array of strings)
+  if (this.filters.leaveType.length) {
+    const uniqueLeaveTypes = [...new Set(this.filters.leaveType)]; // Ensure unique values
+    this.filters.leaveType = uniqueLeaveTypes; // Keep it as an array
+    this.appliedFilters.push({ key: 'Leave Type', value: uniqueLeaveTypes.join(', ') });
+  }
+
+  // ✅ Handle Status filter (keep as an array of strings)
+  if (this.filters.status.length) {
+    const uniqueStatuses = [...new Set(this.filters.status)]; // Ensure unique values
+    this.filters.status = uniqueStatuses; // Keep it as an array
+    this.appliedFilters.push({ key: 'Status', value: uniqueStatuses.join(', ') });
+  }
+
+  // ✅ Handle Date Range filter
+  if (this.filters.fromDate && this.filters.toDate) {
+    const fromDate = moment(this.filters.fromDate).format(this.displayDateFormat);
+    const toDate = moment(this.filters.toDate).format(this.displayDateFormat);
+    this.appliedFilters.push({ key: 'Date', value: `${fromDate} to ${toDate}` });
+  }
+
+  this.currentPage = 1; // Reset to first page when applying filters
+  this.getLeaves(); // ✅ Now sends leaveType and status as array of strings
 }
+
+resetFilters(): void {
+  debugger
+  this.filters = {
+    fromDate: undefined,
+    toDate: undefined,
+    leaveType: [],
+    status: [],
+  };
+  this.appliedFilters = [];
+  this.currentPage = 1;
+  this.getLeaves();
+}
+
+removeFilter(filterKey: string): void {
+  debugger
+  this.appliedFilters = this.appliedFilters.filter((f) => f.key !== filterKey);
+
+  switch (filterKey) {
+    case 'Leave Type':
+      this.filters.leaveType = [];
+      break;
+    case 'Status':
+      this.filters.status = [];
+      break;
+    case 'Date':
+      this.filters.fromDate = undefined;
+      this.filters.toDate = undefined;
+      break;
+  }
+
+  this.currentPage = 1;
+  this.getLeaves();
+}
+
+
+
+// -- new start
+
+
+@ViewChild("closebutton") closebutton!:ElementRef;
+rejectionReason: string = '';
+isLoading: boolean = false;
+rejectionReasonFlag: boolean = false;
+approveOrRejectLeave(leaveId: number, operationString: string) {
+  debugger
+  this.isLoading = true;
+  this.leaveService.approveOrRejectLeaveOfUser(leaveId, operationString, this.rejectionReason).subscribe({
+    next: (response: any) => {
+      
+      this.isLoading = false;
+      this.rejectionReason = '';
+      this.rejectionReasonFlag = false;
+      this.getLeaves(true);
+      this.closebutton.nativeElement.click();
+      this.helperService.showToast(`Leave ${operationString} successfully.`, Key.TOAST_STATUS_SUCCESS);
+    },
+    error: (error) => {
+      this.helperService.showToast('Error.', Key.TOAST_STATUS_ERROR);
+      console.error('Failed to fetch approve/reject leaves:', error);
+      this.isLoading = false;
+    },
+  });
+}
+
+approveOrRejectLeaveCall(leaveId: number, operationString: string) {
+  debugger
+   if(operationString === this.APPROVED) {
+    this.rejectionReasonFlag = false;
+    this.rejectionReason = '';
+    this.approveOrRejectLeave(leaveId, operationString);
+   }else if (operationString === this.REJECTED) {
+    this.rejectionReasonFlag = true;
+    // this.approveOrRejectLeave(leaveId, operationString);
+   }
+}
+
+
+
+
 
 }
