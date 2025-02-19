@@ -46,13 +46,13 @@ export class AssetsComponent implements OnInit {
     }
     this.currentUserId = this.rbacService.getUuid();
     this.searchSubject.pipe(
-      debounceTime(1000)
+      debounceTime(500)
     ).subscribe((searchText) => {
       this.assetRequestsSearch = searchText;
       this.getAssetRequests();
     });
     this.assetSearchSubject.pipe(
-      debounceTime(1000)
+      debounceTime(500)
     ).subscribe((searchText) => {
       this.search = searchText;
       this.crossFlag = this.search.length > 0;
@@ -145,37 +145,38 @@ export class AssetsComponent implements OnInit {
   }
 
 
-  assets: OrganizationAssetResponse[] = [];
+  assets: any = [];
 
   search: string = '';
   pageNumber: number = 1;
-  itemPerPage: number = 6;
+  itemPerPage: number = 10;
   assetData: OrganizationAssetResponse[] = [];
   totalCount: number = 0;
   crossFlag: boolean = false;
   isLoadingAsset: boolean = false;
   getAssetData(): void {
     this.isLoadingAsset=true;
-    this.dataService.getAssetForUser(this.userId, this.search, this.pageNumber, this.itemPerPage)
-      .subscribe(
-        (response) => {
-          this.assets = response.object;
-          this.totalCount = response.totalItems;
-          this.isLoadingAsset=false;
-        },
-        (error) => {
-          console.error('Error fetching asset data:', error);
-          this.isLoadingAsset=false;
-        }
-      );
+    this.dataService.getAssetsByUser(this.userId, this.search, this.pageNumber-1, this.itemPerPage).subscribe(
+      (response: any) => {
+        this.assets = response.content; // Page content
+        this.totalCount = response.totalElements; // Total records count
+        this.isLoadingAsset=false;
+      },
+      (error) => {
+        this.isLoadingAsset=false;
+      }
+    );
   }
+
   isAssetsArrayEmpty(): boolean {
     if(this.search?.length>0){
       return false;
     }
     return !this.assets || this.assets.length === 0;
   }
+  searchAsset: string = '';
   searchAssets(event: Event): void {
+    this.searchAsset = (event.target as HTMLInputElement).value;
     this.assetSearchSubject.next((event.target as HTMLInputElement).value);
   }
   pageChanged(page: number): void {
@@ -260,7 +261,11 @@ export class AssetsComponent implements OnInit {
   }
 
   resetSearch() {
+    this.isLoadingAsset=true;
     this.searchSubject.next('');
+    this.assetSearchSubject.next('');
+    this.search = '';
+    this.searchAsset = '';
   }
 
 

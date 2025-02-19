@@ -50,7 +50,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     private onboardingService: OnboardingService,
     private sharedService: HelperService) {
     this.myForm = this.fb.group({
-      position: ['', Validators.required],  
+      position: ['', Validators.required],
       effectiveDate: ['', Validators.required],
       isProbation: [false],
       endDate: [''],
@@ -143,7 +143,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
   getEmployeeProfileData() {
     debugger
     this.dataService.getEmployeeProfile(this.userId).subscribe((response) => {
-      console.log(response.object);
+
       this.employeeProfileResponseData = response.object;
       this.dataService.employeeData=response.object;
       if (!this.employeeProfileResponseData?.agreementAccepted && this.userId === this.UUID) {
@@ -235,7 +235,9 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     this.dataService.getSkills(this.userId).subscribe(
       (skills) => {
         this.fetchedSkills = skills;
+        this.fetchedSkills = this.fetchedSkills.filter(skill => skill.trim() !== '');
         this.skills = JSON.parse(JSON.stringify(skills));;
+        this.skills= this.skills.filter(skill => skill.trim() !== '');
       },
       error => {
         console.error('Error fetching skills', error);
@@ -262,8 +264,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     if(this.teamString!=null ){
       this.teams = this.teamString.split(',').map((team: string) => team.trim());
     }
-    
-    console.log(this.teams);
+
   }
 
   getFirstLetterOfName(): string {
@@ -295,17 +296,17 @@ export class EmployeeProfileSidebarComponent implements OnInit {
   outLoader: boolean = false;
   breakLoader: boolean = false;
   checkInOutUrl:string = '';
-  uniqueId: string | null = null; 
+  uniqueId: string | null = null;
   data:any= null;
   showAttendanceComponent: boolean=false;
   checkinCheckout(command: string) {
     this.InOutLoader = true;
     if (command === '/out') {
       this.outLoader = true;
-      
+
     }
     if (command === '/in') {
-      
+
     }
     if (command === '/break') {
       this.breakLoader = true;
@@ -465,7 +466,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
   updateSalaryToggle(){
     this.changeSalary = this.changeSalary? false: true;
     if(this.changeSalary){
-      this.myForm.get('newCTC')?.addValidators([Validators.required]); 
+      this.myForm.get('newCTC')?.addValidators([Validators.required]);
     }else{
       this.myForm.get('newCTC')?.setValue('');
       this.myForm.get('newCTC')?.clearValidators();
@@ -499,7 +500,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
           this.fetchUserPositions();
           this.saveButtonLoader = false;
           this.myForm = this.fb.group({
-            position: ['', Validators.required],  
+            position: ['', Validators.required],
             effectiveDate: ['', Validators.required],
             isProbation: [false],
             endDate: [''],
@@ -513,7 +514,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
           this.fetchUserPositions();
           this.saveButtonLoader = false;
           this.myForm = this.fb.group({
-            position: ['', Validators.required],  
+            position: ['', Validators.required],
             effectiveDate: ['', Validators.required],
             isProbation: [false],
             endDate: [''],
@@ -667,7 +668,6 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     this.dataService.getNoticePeriodDuration(this.userId).subscribe((res: any) => {
       if (res.status) {
         this.noticePeriodDuration = res.object
-        console.log('Duration: ', this.noticePeriodDuration)
       }
     })
   }
@@ -676,7 +676,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
   getUserResignationInfo() {
     this.dataService.getUserResignationInfo(this.userId).subscribe((res: any) => {
       if (res.status) {
-        
+
         this.userResignationInfo = res.object[0]
         this.dataService.resignationInfo= this.userResignationInfo;
         console.log('userResignationInfo: ', this.userResignationInfo)

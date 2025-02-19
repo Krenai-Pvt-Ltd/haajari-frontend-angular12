@@ -83,10 +83,11 @@
                    
                     <div class="chart-container w-100" *ngIf="!isPlaceholder">
                         <canvas #chartCanvas id="workingHoursChart"></canvas>
+
+                        
                     </div>
                    
-                    <div class="empty-file d-flex align-items-center justify-content-center"
-                        style="margin-top: 8%; margin-bottom: 8%" *ngIf="isPlaceholder">
+                    <div class="empty-file d-flex align-items-center justify-content-center" *ngIf="isPlaceholder">
                         <p class="mb-1 empty-detail">No data for now</p>
                     </div>
                 </div>

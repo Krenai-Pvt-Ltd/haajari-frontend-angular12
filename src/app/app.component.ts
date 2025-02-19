@@ -43,8 +43,6 @@ export class AppComponent implements OnInit {
     this._router = router;
   }
   ngOnInit(): void {
-    console.log(this.rbacService.isUserInfoInitialized, "-------", this.onboardingService.isLoadingOnboardingStatus);
-    // this._helperService.showToast("Successfully generated.", "Success");
   }
 
   moduleResponseList: any[] = [];
@@ -52,25 +50,5 @@ export class AppComponent implements OnInit {
     this.moduleResponseList = this.moduleResponseList;
   }
 
-  // constructor(private router: Router) {
-  //   this.router.events.pipe(
-  //     filter(event => event instanceof NavigationEnd)
-  //   ).subscribe((event: any) => {
-  //     this.showHeader = !this.shouldHideHeader(event.url);
-  //   });
-  // }
-  // private shouldHideHeader(url: string): boolean {
-  //   const urlsToHideHeader = [Key.LOGIN, Key.ONBOARDING, Key.SLACKAUTH];
-
-  //   return urlsToHideHeader.includes(url);
-  // }
-
-  // isShowToDoSteps: boolean = false;
-
-  // showToDoSteps() {
-  //   this.isShowToDoSteps = true;
-  // }
-  // hideToDoSteps() {
-  //   this.isShowToDoSteps = false;
-  // }
+  
 }

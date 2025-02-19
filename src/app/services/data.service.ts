@@ -439,22 +439,22 @@ export class DataService {
       .set('sort_by', sortBy)
       .set('search', search)
       .set('search_by', searchBy);
-  
+
     if (isResginationUser == 1) {
       params = params.set('is_resignation_user', '1');
     }
-  
+
     if (filters.length > 0) {
       params = params.set('filters', filters.join(',')); // Send as comma-separated string
     }
-  
+
     return this.httpClient.get<any>(
       `${this.baseUrl}/users/get/by-filters-for-employee-onboarding-data`,
       { params }
     );
   }
 
-  
+
   getUsersByFilterForEmpOnboarding(
     itemPerPage: number,
     pageNumber: number,
@@ -3764,10 +3764,6 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
 
 
 
-  createAssetCategory(assetCategoryRequest: AssetCategoryRequest): Observable<any> {
-    return this.httpClient.post<any>(`${this.baseUrl}/asset/allocation/create/asset/category`, assetCategoryRequest);
-  }
-
   createAsset(assetRequest: OrganizationAssetRequest): Observable<any> {
     return this.httpClient.post<any>(`${this.baseUrl}/asset/allocation/create/asset`, assetRequest);
   }
@@ -3801,7 +3797,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     page: number = 0,
     size: number = 10,
     search: string = '',
-    status: string=''
+    status: any=''
   ): Observable<{ data: AssetRequestDTO[], currentPage: number, totalItems: number, totalPages: number}> {
     const params = new HttpParams()
       .set('page', page.toString())
@@ -3827,11 +3823,6 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     return this.httpClient.put<any>(`${this.baseUrl}/asset/allocation/edit/asset`, assetRequest, {params});
   }
 
-  updateAssetCategory(categoryId: number, category: AssetCategoryRequest): Observable<any> {
-    const params = new HttpParams()
-      .set('categoryId', categoryId);
-    return this.httpClient.put(`${this.baseUrl}/asset/allocation/edit/asset/category`, category, { params});
-  }
 
   assignOrReturnAsset(assetId: number, operationString: string, assignOrReturnRequest: any): Observable<any> {
     const url = `${this.baseUrl}/asset/allocation/assign/return/asset`;
@@ -4824,6 +4815,9 @@ getHolidayForOrganizationWhatsapp(userUuid: string, date: string): Observable<an
   getPendingRequestsCounter(): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/asset-requests/pending-requests-counter`);
   }
+  getRequestedTypeCount(): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/asset-requests/count-by-requested-type`);
+  }
 
   acceptAgreement(): Observable<any> {
     const url = `${this.baseUrl}/users/accept-agreement`;
@@ -5029,7 +5023,7 @@ getHolidayForOrganizationWhatsapp(userUuid: string, date: string): Observable<an
   saveDefaultNotificationSetting(): Observable<any> {
     return this.httpClient.post<string>(`${this.baseUrl}/notification-setting/default/notification`, { });
   }
-  
+
   existsUserByUan(uan: string): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/users/by-uan/${uan}`);
   }
@@ -5039,11 +5033,115 @@ getHolidayForOrganizationWhatsapp(userUuid: string, date: string): Observable<an
   }
 
   existsInShift(userUuid : string): Observable<any> {
-    const params = new HttpParams().set('userUuid', userUuid.toString()); 
+    const params = new HttpParams().set('userUuid', userUuid.toString());
     return this.httpClient.get<any>(`${this.baseUrl}/users/is-in-shift`, {params});
   }
 
 
+  getFilteredAssets(
+    teamId?: number,
+    userId?: number,
+    statusId?: number,
+    assetCategoryId?: number,
+    search?: string,
+    page: number = 0,
+    size: number = 10
+  ): Observable<any> {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    if (teamId) params = params.set('teamId', teamId.toString());
+    if (userId) params = params.set('userId', userId.toString());
+    if (statusId) params = params.set('statusId', statusId.toString());
+    if (assetCategoryId) params = params.set('assetCategoryId', assetCategoryId.toString());
+    if (search) params = params.set('search', search);
+
+    return this.httpClient.get(`${this.baseUrl}/assets/by-filter`, { params });
+  }
+
+  getTeamSummary(statusId: number): Observable<any> {
+    const params = new HttpParams().set('statusId', statusId.toString());
+    return this.httpClient.get<any>(`${this.baseUrl}/assets/team-summary`, { params });
+  }
+
+  getStatusSummary(): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/assets/status-summary`);
+  }
+
+  getCategorySummary(): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/assets/category-summary`);
+  }
+
+  getAssetCategorySummary(categoryId: number): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/assets/category/${categoryId}/summary`);
+  }
+  getOrganizationUserList(): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/assets/user/list`);
+  }
+  createAssets(asset: any): Observable<any> {
+    return this.httpClient.post<any>(`${this.baseUrl}/assets/create`, asset);
+  }
+  changeStatus(assetId: number, status: number, description: string, userId: number): Observable<any> {
+    const url = `${this.baseUrl}/${assetId}/status`;
+    const params = new HttpParams()
+      .set('status', status.toString())
+      .set('description', description)
+      .set('userId', userId);
+    return this.httpClient.put<any>(`${this.baseUrl}/assets/${assetId}/status`, null, { params });
+  }
+  getAssetHistory(assetId: number): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/assets/${assetId}/history`);
+  }
+  getAssetChangePercentageList(): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/assets/status-changes`);
+  }
+  updateAssetCategory(categoryId: number, category: AssetCategoryRequest): Observable<any> {
+    const params = new HttpParams()
+      .set('categoryId', categoryId);
+    return this.httpClient.put(`${this.baseUrl}/assets/update-category`, category, { params});
+  }
+  createAssetCategory(assetCategoryRequest: AssetCategoryRequest): Observable<any> {
+    return this.httpClient.post<any>(`${this.baseUrl}/assets/create-category`, assetCategoryRequest);
+  }
+  getMonthlyAssignments(statusId: number): Observable<any> {
+    const params = new HttpParams()
+      .set('statusId', statusId);
+    return this.httpClient.get<any>(`${this.baseUrl}/assets/monthly-assignments`, { params });
+  }
+
+  getAssetsByUser(uuid: any, searchTerm?: string, page: number = 0, size: number = 10): Observable<any> {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString())
+      .set('uuid', uuid);
+
+    if (searchTerm) {
+      params = params.set('searchTerm', searchTerm);
+    }
+    return this.httpClient.get(`${this.baseUrl}/assets/user-by-filter`, { params });
+  }
+  getRequestedAvailableAssets(
+    assetCategoryId: number = 0,
+    search: string = '',
+    page: number = 0,
+    size: number = 10
+  ): Observable<any> {
+    let params = new HttpParams()
+      .set('assetCategoryId', assetCategoryId.toString())
+      .set('search', search || '')
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    return this.httpClient.get<any>(`${this.baseUrl}/assets/available-requested`, { params });
+  }
+  assignRequestedAsset(assetId: number, assetRequestId: number): Observable<any> {
+    const params = new HttpParams()
+      .set('assetId', assetId.toString())
+      .set('assetRequestId', assetRequestId.toString());
+
+    return this.httpClient.post<any>(`${this.baseUrl}/assets/assigned-requested-asset`, {}, { params });
+  }
 
 }
 

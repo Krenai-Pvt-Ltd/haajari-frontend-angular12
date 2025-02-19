@@ -294,6 +294,7 @@
 }
 .filter-box{
     width: 400px !important;
+    z-index: 999;
 }
 .input-zorro {
     border-radius: 2px !important;
@@ -303,4 +304,16 @@
     font-size: 13px !important;
     color: #a2a2a2;
     font-weight: 400 !important;
+}
+
+
+.action-btn:not(.collapsed) i {
+    transform: rotate(180deg);
+    transition: transform 0.3s ease;
+}
+
+.view-details:not(.collapsed) i {
+    transform: rotate(180deg);
+    transition: transform 0.3s ease;
+    display: inline-block;
 }

@@ -58,9 +58,9 @@ export class EmployeeOnboardingDataComponent implements OnInit {
 
   verificationCount: any = {};
   // public chartOptions: ChartOptions = {
-  //   series: [], 
+  //   series: [],
   //   chart: {
-  //     type: "donut" as ChartType, 
+  //     type: "donut" as ChartType,
   //     width: 280,
   //   },
   //   labels: [],
@@ -82,7 +82,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   // @ViewChild("chart") chart!: ChartComponent;
 
   public chartOptions: Partial<ChartOptions> | any = {
-    series: [0, 0, 0, 0, 0], 
+    series: [0, 0, 0, 0, 0],
     chart: {
       width: "100%",
       type: "donut"
@@ -126,7 +126,6 @@ export class EmployeeOnboardingDataComponent implements OnInit {
       enabled: true
     }
   };
-
 
   @ViewChild('inviteModal') inviteModal!: ElementRef;
   @ViewChild('closeInviteModal') closeInviteModal!: ElementRef;
@@ -201,7 +200,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   }
   routeToAddUserInLeavePolicy() {
     this.router.navigate([Key.LEAVE_SETTING_ROUTE]);
-  
+
   }
 
   // randomUserUrl = 'http://localhost:8080/api/v2/users/fetch-team-list-user';
@@ -228,6 +227,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     this.getOnboardingVia();
     // this.selectStatus('ACTIVE');
     //this.fetchPendingRequests();
+
     const storedDownloadUrl = localStorage.getItem('downloadUrl');
 
     if (storedDownloadUrl) {
@@ -249,13 +249,13 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   debounceTimer: any;
   isResignationUser: number = 0;
   selectedFilters: string[] = []; // Stores selected filters
-  
-  statusOptionsNew: string[] = ['APPROVED', 'PENDING', 'REJECTED', 'REQUESTED']; 
-  accessibilityOptions: string[] = ['ACTIVE', 'INACTIVE']; 
-  
+
+  statusOptionsNew: string[] = ['APPROVED', 'PENDING', 'REJECTED', 'REQUESTED'];
+  accessibilityOptions: string[] = ['ACTIVE', 'INACTIVE'];
+
   selectedStatusFilters: string[] = ['ALL']; // All selected by default
-  selectedAccessibilityFilters: string[] = ['ALL']; // All selected by default
-  
+  selectedAccessibilityFilters: string[] = ['ACTIVE']; // All selected by default
+
   // Toggle status filters
   toggleStatus(status: string) {
     debugger
@@ -270,7 +270,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
         this.selectedStatusFilters.push(status);
         this.selectedAccessibilityFilters.push(status);
       }
-  
+
       if (this.statusOptionsNew.every(s => this.selectedStatusFilters.includes(s))) {
         this.selectedStatusFilters = ['ALL', ...this.statusOptionsNew];
       }
@@ -286,7 +286,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     this.toggleStatus(status);
     this.getUsersByFiltersFunction();
   }
-  
+
   // Toggle accessibility filters
   toggleAccessibility(accessibility: string) {
     if (accessibility === 'ALL') {
@@ -396,15 +396,15 @@ getCombinedFilters(): string[] {
 appliedFilters: string[] = []
 
 
-  
+
   // Fetch Users Based on Filters
   getUsersByFiltersFunction(debounceTime: number = 300) {
     if (this.debounceTimer) {
       clearTimeout(this.debounceTimer);
     }
-  
+    this.changeShowFilter(false);
     this.isUserShimer = true;
-  
+
     this.debounceTimer = setTimeout(() => {
       // let finalStatusFilters = this.selectedStatusFilters.includes('ALL') ? [] : this.selectedStatusFilters;
       // let finalAccessibilityFilters = this.selectedAccessibilityFilters.includes('ALL') ? [] : this.selectedAccessibilityFilters;
@@ -430,7 +430,7 @@ appliedFilters: string[] = []
           this.searchCriteria,
           this.isResignationUser,
           rawFilters
-          
+
         )
         .subscribe(
           (response: any) => {
@@ -450,16 +450,16 @@ appliedFilters: string[] = []
         );
     }, debounceTime);
   }
-  
+
   // Reset Filters and Reload Data
   resetFilters() {
     this.selectedStatusFilters = ['ALL']; // Reset status filters
-    this.selectedAccessibilityFilters = ['ALL']; // Reset accessibility filters
+    this.selectedAccessibilityFilters = ['Active']; // Reset accessibility filters
     this.appliedFilters = [];
     this.getUsersByFiltersFunction();
   }
 
-  
+
 
 
   onboardUserTeam : any[] = [];
@@ -479,17 +479,17 @@ appliedFilters: string[] = []
 
   getTeamNamesNew(teamList: any[]): void {
     if (teamList?.length > 1) {
-      this.onboardUserTeam = teamList.slice(1); 
+      this.onboardUserTeam = teamList.slice(1);
     } else {
       this.onboardUserTeam = [];
     }
   }
 
 
-  
 
-  //  corrceted  
-  
+
+  //  corrceted
+
 // isUserShimer: boolean = true;
 // placeholder: boolean = false;
 // errorToggleTop: boolean = false;
@@ -558,7 +558,7 @@ appliedFilters: string[] = []
 //   this.getUsersByFiltersFunction();
 // }
 
-//  corrceted 
+//  corrceted
 
   // isUserShimer: boolean = true;
   // placeholder: boolean = false;
@@ -570,7 +570,7 @@ appliedFilters: string[] = []
   //   if (this.debounceTimer) {
   //     clearTimeout(this.debounceTimer);
   //   }
-    
+
 
   //   this.isUserShimer = true;
   //   this.debounceTimer = setTimeout(() => {
@@ -767,10 +767,10 @@ appliedFilters: string[] = []
     //   this.selectedStatus = status;
     //   this.searchUsers(status);
     // }
-    this.search = ''; 
+    this.search = '';
     this.crossFlag = false;
     this.resetFilters();
-    
+
   }
 
   searchText: string = '';
@@ -1118,8 +1118,11 @@ appliedFilters: string[] = []
 
   // Reset the model
   resetForm() {
+    this.isNumberExist = false;
+    this.isEmailExist = false;
     if (this.personalInformationForm) {
       this.personalInformationForm.reset();
+      this.personalInformationForm.untouched;
     }
   }
 
@@ -1460,7 +1463,7 @@ appliedFilters: string[] = []
 
             this.mismatches.push('<br />');
             // Add repeated mismatch message
-            this.mismatches.push(`Repeated : "${key}" at row no.`);
+            this.mismatches.push(`<b>${key}</b> at row no.`);
 
             // Scroll into view if element exists
             if (this.elementToScroll) {
@@ -1573,7 +1576,7 @@ appliedFilters: string[] = []
   }
   removeAllSingleEntries() {
     for (const [key, valuesArray] of this.validateMap) {
-      if (valuesArray.length <= 1) {
+      if (valuesArray.length <= 1 && key.includes('Repeated')) {
         this.validateMap.delete(key);
       }
     }
@@ -1601,7 +1604,15 @@ appliedFilters: string[] = []
 
         }
         if (this.fileColumnName[j] === 'email*' && cellValue) {
-          this.addToMap('Repeated Email: ' + cellValue.toString(),`${i+1}`);
+          const email = cellValue.toString().trim();
+          this.addToMap('Repeated Email: ' + email, `${i + 1}`);
+          if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            rowIsValid = false;
+            this.invalidRows[i] = true; // Mark the row as invalid
+            this.invalidCells[i][j] = true; // Mark the cell as invalid
+          }
+        } else if (this.fileColumnName[j] === 'email*') {
+          this.addToMap('Empty Email: ', `${i + 1}`);
         }
         if (this.fileColumnName[j] === 'phone*' && cellValue) {
           const phoneNumber = cellValue.toString().trim();
@@ -1611,6 +1622,8 @@ appliedFilters: string[] = []
             this.invalidRows[i] = true; // Mark the row as invalid
             this.invalidCells[i][j] = true; // Mark the cell as invalid
           }
+        }else if(this.fileColumnName[j] === 'phone*'){
+          this.addToMap('Empty Phone: ',`${i+1}`);
         }
         if (this.fileColumnName[j] === 'esi number' && cellValue) {
           debugger
@@ -1640,13 +1653,14 @@ appliedFilters: string[] = []
             const shiftName = cellValue.toString().trim();
             shiftExists = this.shiftList.some(shift => shift.label === shiftName);
           }
-            if (!shiftExists || !cellValue) {
+          if (!shiftExists || !cellValue) {
+              this.addToMap('Invalid Shift: ',`${i+1}`);
               rowIsValid = false;
               this.invalidRows[i] = true;
               this.invalidCells[i][j] = true;
               this.data[i+1][j] = '';
           }
-      }
+        }
 
     if (this.fileColumnName[j] === 'leavenames' || this.fileColumnName[j] === 'team') {
       if(this.constants.EMPTY_STRINGS.includes(cellValue)){
@@ -1657,8 +1671,10 @@ appliedFilters: string[] = []
         const selectedData: string[] = cellValue.split(',').map((team: string) => team.trim());
         this.data[i+1][j]=selectedData;
       }
+    }else if(this.fileColumnName[j] === 'leavenames'){
+      this.addToMap('Empty Leave Names: ',`${i+1}`);
     }
-      if (this.fileColumnName[j] === 'joiningdate*' && cellValue) {
+    if (this.fileColumnName[j] === 'joiningdate*' && cellValue) {
 
         // Replace slashes with hyphens
         const normalizedCell = cellValue.toString().trim().replace(/\//g, '-');
@@ -2349,10 +2365,10 @@ console.log(this.data);
       );
   }
 
-  restrictToDigits(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (input) {
-      input.value = input.value.replace(/[^0-9]/g, '');
+  restrictToDigits(event: KeyboardEvent): void {
+    const charCode = event.which ? event.which : event.keyCode;
+    if (charCode < 48 || charCode > 57) {
+      event.preventDefault();
     }
   }
 

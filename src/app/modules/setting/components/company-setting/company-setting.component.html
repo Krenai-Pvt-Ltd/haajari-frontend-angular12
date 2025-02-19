@@ -722,6 +722,7 @@
         </div>
       </div>
         </div>
+        
         <div class="mt-4" *ngIf="activeTab === 'notificationsSetting' && notifications && notificationKeys.length > 0">
           <div *ngFor="let type of notificationKeys; let i = index">
             <div class="row">
@@ -886,7 +887,7 @@
               </div>
               <div class="col-md-7 mt-3" >
                 <span  *ngFor="let notification of notifications?.[type] || []; let j = index">
-                  <div class="attendance-notification form-roe-data d-flex align-items-center justify-content-between border-bottom pb-4" *ngIf="notification?.isNotificationOn === 1">
+                  <div class="attendance-notification form-roe-data d-flex align-items-center justify-content-between border-bottom pb-4" *ngIf="notification?.isNotificationOn !== 0 ">
                         <div class="mt-3">
                           <h5 class="font-15">{{notification?.name}}</h5>
                           <p class="mb-0 font-13">{{notification?.description}}</p>
