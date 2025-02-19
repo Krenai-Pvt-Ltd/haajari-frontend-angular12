@@ -327,18 +327,37 @@
                                <div class="mt-3 assets-categories">
                                   <div class="categories-header p-3 d-flex align-items-center justify-content-between">
                                      <h5 class="mb-0 font-15 fw-semibold">Categories</h5>
-                                     <!-- <button class="btn p-0 font-14 text-primary fw-semibold" data-bs-toggle="modal" data-bs-target="#createAssetsModal" AssetsDetailModal><i class="bi bi-plus-lg"></i>  Add Assets</button> -->
+                                     
+                                     <div class="dropdown">
+                                       <button class="btn p-0 font-14 text-primary fw-semibold" data-bs-toggle="dropdown" aria-expanded="true"> Categories</button>
+                                       <div class="dropdown-menu actionMenuList category-list">
+                                           <li>
+                                               <a class="dropdown-item font-14" *ngFor="let category of categorySummary; let i = index">
+                                                <div class="d-flex align-items-center justify-content-between">
+                                                      <div>{{ category.categoryName }}</div>
+                                                
+                                                <div class="d-flex align-items-center gap-3">
+                                                   <i *ngIf="category.categoryId>0" class="bi bi-pencil text-primary font-14" data-bs-toggle="modal" data-bs-target="#createCategoryModal"
+                                                      (click)="assignCategoryId(category.categoryId)"></i>
+                                                   <i class="bi bi-trash3 text-danger font-14"></i>
+                                                </div>
+                                             </div>
+                                               </a>
+                                           </li>
+                                       </div>
+                                   </div>
+
                                   </div>
                                   <div class="row" *ngIf="categorySummary.length>0">
                                      <div class="col-md-3 pr-0">
                                         <div class="overview-sidebar-menu">
-                                           <div id="v-pills-tab" role="tablist" aria-orientation="vertical" class="nav flex-column nav-pills pt-3 pb-5">
+                                           <div id="v-pills-tab" role="tablist" aria-orientation="vertical" class="nav flex-column nav-pills pb-5">
                                               <button *ngFor="let category of categorySummary; let i = index" type="button" role="tab" data-bs-toggle="pill"
                                               data-bs-toggle="pill" data-bs-target="#v-pills-laptops" type="button" role="tab" aria-controls="v-pills-laptops" (click)="assetSummaryCategoryId= category.categoryId; fetchAssetSummary();"
                                               [attr.aria-selected]="i === 0 ? 'true' : 'false'" [id]="'v-pills-tab-' + i" class="nav-link d-flex align-items-centar justify-content-between" [class.active]="i === 0">
                                               {{ category.categoryName }} ({{ category.assetCount }})
-                                              <i *ngIf="category.categoryId>0" class="bi bi-pencil" data-bs-toggle="modal" data-bs-target="#createCategoryModal"
-                                              (click)="assignCategoryId(category.categoryId)"></i>
+                                              <!-- <i *ngIf="category.categoryId>0" class="bi bi-pencil" data-bs-toggle="modal" data-bs-target="#createCategoryModal"
+                                              (click)="assignCategoryId(category.categoryId)"></i> -->
                                               </button>
                                            </div>
                                         </div>
@@ -788,7 +807,7 @@
                                                         <g mask="url(#mask0_8861_2575)">
                                                         <path d="M4.37458 18.0962C3.96972 18.0962 3.62542 17.9544 3.34167 17.6708C3.05806 17.3872 2.91625 17.0429 2.91625 16.6379V13.5371C2.91625 13.1321 3.05806 12.7877 3.34167 12.5041C3.62542 12.2205 3.96972 12.0787 4.37458 12.0787H15.6246C16.0294 12.0787 16.3738 12.2205 16.6575 12.5041C16.9411 12.7877 17.0829 13.1321 17.0829 13.5371V16.6379C17.0829 17.0429 16.9411 17.3872 16.6575 17.6708C16.3738 17.9544 16.0294 18.0962 15.6246 18.0962H4.37458ZM4.42271 16.8462H15.5765C15.6513 16.8462 15.7128 16.8222 15.7608 16.7741C15.8089 16.7261 15.8329 16.6647 15.8329 16.59V13.5852C15.8329 13.5103 15.8089 13.4489 15.7608 13.4008C15.7128 13.3527 15.6513 13.3287 15.5765 13.3287H4.42271C4.34785 13.3287 4.28639 13.3527 4.23833 13.4008C4.19028 13.4489 4.16625 13.5103 4.16625 13.5852V16.59C4.16625 16.6647 4.19028 16.7261 4.23833 16.7741C4.28639 16.8222 4.34785 16.8462 4.42271 16.8462ZM5.49313 10.8287L1.89062 8.76622L6.51396 7.98893L5.25604 3.43768L9.10542 6.17497L11.4371 2.0708L12.2144 6.71809L16.7656 5.46018L14.0365 9.30955L16.7223 10.8287H14.1806L12.2127 9.71497L13.7127 7.60122L11.2096 8.29351L10.7785 5.74059L9.51083 7.99059L7.39708 6.49059L8.08938 8.99372L5.56042 9.42476L7.90021 10.8287H5.49313Z" fill="#1C1B1F"/>
                                                         </g>
-                                                        </svg>
+                                                    </svg>
                                                     Mark as Unavailable 
                                                  </a>
                                               </li>
