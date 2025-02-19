@@ -10,7 +10,7 @@ import { HeaderComponent } from './header/header.component';
 import { NewEmployeeProfileSidebarComponent } from './new-employee-profile-sidebar/new-employee-profile-sidebar.component';
 import { AgmCoreModule } from '@agm/core';
 import { HolidayDatePickerComponent } from './holiday-date-picker/holiday-date-picker.component';
-import { NzEmptyModule } from 'ng-zorro-antd/empty';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -25,8 +25,8 @@ import { NzEmptyModule } from 'ng-zorro-antd/empty';
     HeaderComponent,
     NewEmployeeProfileSidebarComponent,
     HolidayDatePickerComponent
-    
-    
+
+
   ],
   imports: [CommonModule, CommonRoutingModule,
     AgmCoreModule.forRoot({

@@ -209,85 +209,19 @@
                 <div class="col-md-7">
                     <div class="p-3 notification-detail">
                       <p class="mb-1 font-14">
-                        {{ currentMail.createdDate | date:'d MMMM,yyyy' }} | {{ currentMail.createdDate | date:'h:mma' }}
+                        {{ currentMail?.createdDate | date:'d MMMM,yyyy' }} | {{ currentMail?.createdDate | date:'h:mma' }}
                       </p>
 
-                        <h5 class="mb-0 font-18x fw-semibold">{{ currentMail.message }}</h5>
-
+                        <h5 class="mb-0 font-18x fw-semibold">{{ currentMail?.message }}</h5>
                         <div class="mt-4 leave-request">
-                            <div class="d-flex align-items-center justify-content-between p-3">
-                              <h5 class="mb-0 font-14">Leave Request</h5>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-between p-3 user-detail">
-                                <div class="d-flex align-items-center gap-2">
-                                   <img src="assets/images/user.png">
-                                   <div>
-                                      <h5 class="mb-0 font-15">Yogesh Kumar </h5>
-                                      <p class="mb-0 font-12">yogesh@krenai.com </p>
-                                   </div>
-                                </div>
-                                <p class="mb-0 font-13 fw-semibold text-black"> Date: 6th NOV 2024 </p>
-                             </div>
-                             <div class="row p-3">
-                                <div class="col-md-6 mb-3">
-                                    <label for="leave-type" class="pb-2">Leave Type</label>
-                                    <div class="requested-to">
-                                       <p class="mb-0 fw-semibold"> Casual Leave</p>
-                                    </div>
-                                 </div>
-                                 <div class="col-md-6 mb-3">
-                                    <label for="leave-type" class="pb-2">Total Leave</label>
-                                    <div class="total-leave d-flex align-items-center gap-3">
-                                    <div>
-                                        <p class="mb-1 font-11"> Approved</p>
-                                        <h5 class="mb-0 fot-12 fw-semibold">4</h5>
-                                    </div>
-                                    <div>
-                                        <p class="mb-1 font-11"> Rejected</p>
-                                        <h5 class="mb-0 fot-12 fw-semibold">4</h5>
-                                    </div>
-                                    <div>
-                                        <p class="mb-1 font-11"> Remaining</p>
-                                        <h5 class="mb-0 fot-12 fw-semibold">4</h5>
-                                    </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="starting-date" class="pb-2">Starting Date</label>
-                                    <div class="requested-to">
-                                        <p class="mb-0 fw-semibold"> 12th Jan 2023</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="ending-date" class="pb-2">Ending Date</label>
-                                    <div class="requested-to">
-                                        <p class="mb-0 fw-semibold"> 12th Jan 2023</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-12 mb-3">
-                                    <label for="ending-date" class="pb-2">Requested To</label>
-                                    <div class="requested-to">
-                                        <p class="mb-0"> You: <span class="fw-semibold"> @Esther Howard </span></p>
-                                    </div>
-                                </div>
-                                <div class="col-md-12 mb-3">
-                                    <div class="form-group">
-                                        <label for="templateName" class="mb-2"> Note</label>
-                                        <textarea id="requestReason" rows="3" class="form-control nots-section" maxlength="255" disabled ></textarea>
-                                    </div>
-                                </div>
-                                <div class="col-md-12 mb-3">
-                                    <div class="form-group">
-                                        <label for="templateName" class="mb-2"> Reason of Rejection</label>
-                                        <textarea id="requestReason" rows="3" class="form-control nots-section" maxlength="255" disabled ></textarea>
-                                    </div>
-                                </div>
-                                <div class="col-md-12 d-flex align-items-center justify-content-end gap-2">
-                                    <button type="button" class="btn reject-btn">Reject</button>
-                                    <button type="submit" class="btn approved-btn">Approved</button>
-                                </div>
-                             </div>
+                          <app-exit-modal
+                          *ngIf="showExitComponent"
+                          [data]="exitData"
+                          (closeEvent)="onExitComponentClose()"
+                        ></app-exit-modal>
                         </div>
+
+
                     </div>
 
 
@@ -296,3 +230,5 @@
         </div>
     </div>
 </div>
+
+

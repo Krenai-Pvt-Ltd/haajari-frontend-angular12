@@ -26,6 +26,9 @@ export class ModalService {
       ariaLabelledBy: 'initiateExitModalLabel',
 
     });
+    modalRef.componentInstance.closeModal.subscribe(() => {
+      modalRef.close();  // Close the modal when the close event is emitted
+    });
     modalRef.componentInstance.data = {
       uuid: uuid,
       userType: userType

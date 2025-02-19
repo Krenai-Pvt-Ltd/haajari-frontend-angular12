@@ -59,6 +59,8 @@ export class InboxComponent implements OnInit {
   }
   openMail(mail: any): void {
     this.currentMail = mail;
+    console.log(mail.categoryId);
+    this.onMessageClick(mail);
   }
 
   databaseHelper: DatabaseHelper = new DatabaseHelper();
@@ -118,4 +120,28 @@ export class InboxComponent implements OnInit {
           }
         }
       }
+
+
+  showExitComponent = false;
+  exitData: any;
+
+
+  onExitComponentClose() {
+    this.showExitComponent = false;
+  }
+
+  onMessageClick(mail:any) {
+    if(mail.categoryId === 80 || mail.categoryId === 81) {
+      this.showExitComponent = false;
+      this.exitData = {};
+      this.exitData.id = mail.resourceId;
+      this.exitData.userType = 'ADMIN';
+      this.exitData.isModal = 0;
+      this.showExitComponent = true;
+    }
+    else{
+      this.showExitComponent = false;
+    }
+  }
+
 }
