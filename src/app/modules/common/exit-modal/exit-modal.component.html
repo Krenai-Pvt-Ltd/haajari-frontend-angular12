@@ -1,4 +1,4 @@
-<div>
+<div *ngIf="!isLoading">
 <!-- <div class="modal fade" role="dialog" aria-hidden="true" -->
     <!-- aria-labelledby="exampleModalLabel" aria-hidden="true"> -->
     <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
@@ -287,4 +287,8 @@
         <!-- </div> -->
     <!-- </div> -->
 <!-- </div> -->
+</div>
+
+<div *ngIf="isLoading" class="loader-container">
+    <div class="loader"> Loading....</div>
 </div>

@@ -13,6 +13,7 @@ import { HolidayDatePickerComponent } from './holiday-date-picker/holiday-date-p
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AssetRequestComponent } from './asset-request/asset-request.component';
 import { ProfileUpdateComponent } from './profile-update/profile-update.component';
+import { ExpenseRequestComponent } from './expense-request/expense-request.component';
 
 
 
@@ -28,7 +29,8 @@ import { ProfileUpdateComponent } from './profile-update/profile-update.componen
     NewEmployeeProfileSidebarComponent,
     HolidayDatePickerComponent,
     AssetRequestComponent,
-    ProfileUpdateComponent
+    ProfileUpdateComponent,
+    ExpenseRequestComponent
 
 
   ],

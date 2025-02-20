@@ -1,7 +1,7 @@
 <div class="modal-content">
   <div class="modal-header">
     <h5 class="modal-title" id="exampleModalLabel">Update Request</h5>
-    <button #closeReqDataModal (click)="closeDataRequestModal()" type="button" class="close-btn"
+    <button #closeReqDataModal *ngIf="isModal" (click)="closeDataRequestModal()" type="button" class="close-btn"
       data-bs-dismiss="modal" aria-label="Close">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
         <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24"
@@ -74,38 +74,40 @@
                   <p class="fon-12 mb-0 fw-semibold">{{data.name}} Update</p>
                 </div>
                 <div class="d-flex align-items-center gap-3">
-                  <div *ngIf="!disabledStates[i] && !fieldLoading" class="d-flex align-items-center gap-2">
-                    <div class="pointer" (click)="approveField(data.key, data.newValue, i)">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                        fill="none">
-                        <mask id="mask0_6567_7336" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
-                          width="24" height="24">
+                  <!-- Buttons: Show unless this field is disabled or loading -->
+                  <div *ngIf="!disabledStates[i] && !fieldLoadingStates[i]" class="d-flex align-items-center gap-2">
+                    <button type="button"
+                            class="pointer btn p-0"
+                            [disabled]="isAnyFieldLoading() && !fieldLoadingStates[i]"
+                            (click)="approveField(data.key, data.newValue, i)">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <mask id="mask0_6567_7336" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
                           <rect width="24" height="24" fill="#D9D9D9" />
                         </mask>
                         <g mask="url(#mask0_6567_7336)">
-                          <path
-                            d="M10.6 16.6L17.65 9.55L16.25 8.15L10.6 13.8L7.75 10.95L6.35 12.35L10.6 16.6ZM12 22C10.6167 22 9.31667 21.7375 8.1 21.2125C6.88333 20.6875 5.825 19.975 4.925 19.075C4.025 18.175 3.3125 17.1167 2.7875 15.9C2.2625 14.6833 2 13.3833 2 12C2 10.6167 2.2625 9.31667 2.7875 8.1C3.3125 6.88333 4.025 5.825 4.925 4.925C5.825 4.025 6.88333 3.3125 8.1 2.7875C9.31667 2.2625 10.6167 2 12 2C13.3833 2 14.6833 2.2625 15.9 2.7875C17.1167 3.3125 18.175 4.025 19.075 4.925C19.975 5.825 20.6875 6.88333 21.2125 8.1C21.7375 9.31667 22 10.6167 22 12C22 13.3833 21.7375 14.6833 21.2125 15.9C20.6875 17.1167 19.975 18.175 19.075 19.075C18.175 19.975 17.1167 20.6875 15.9 21.2125C14.6833 21.7375 13.3833 22 12 22ZM12 20C14.2333 20 16.125 19.225 17.675 17.675C19.225 16.125 20 14.2333 20 12C20 9.76667 19.225 7.875 17.675 6.325C16.125 4.775 14.2333 4 12 4C9.76667 4 7.875 4.775 6.325 6.325C4.775 7.875 4 9.76667 4 12C4 14.2333 4.775 16.125 6.325 17.675C7.875 19.225 9.76667 20 12 20Z"
-                            fill="#388E3C" />
+                          <path d="M10.6 16.6L17.65 9.55L16.25 8.15L10.6 13.8L7.75 10.95L6.35 12.35L10.6 16.6ZM12 22C10.6167 22 9.31667 21.7375 8.1 21.2125C6.88333 20.6875 5.825 19.975 4.925 19.075C4.025 18.175 3.3125 17.1167 2.7875 15.9C2.2625 14.6833 2 13.3833 2 12C2 10.6167 2.2625 9.31667 2.7875 8.1C3.3125 6.88333 4.025 5.825 4.925 4.925C5.825 4.025 6.88333 3.3125 8.1 2.7875C9.31667 2.2625 10.6167 2 12 2C13.3833 2 14.6833 2.2625 15.9 2.7875C17.1167 3.3125 18.175 4.025 19.075 4.925C19.975 5.825 20.6875 6.88333 21.2125 8.1C21.7375 9.31667 22 10.6167 22 12C22 13.3833 21.7375 14.6833 21.2125 15.9C20.6875 17.1167 19.975 18.175 19.075 19.075C18.175 19.975 17.1167 20.6875 15.9 21.2125C14.6833 21.7375 13.3833 22 12 22ZM12 20C14.2333 20 16.125 19.225 17.675 17.675C19.225 16.125 20 14.2333 20 12C20 9.76667 19.225 7.875 17.675 6.325C16.125 4.775 14.2333 4 12 4C9.76667 4 7.875 4.775 6.325 6.325C4.775 7.875 4 9.76667 4 12C4 14.2333 4.775 16.125 6.325 17.675C7.875 19.225 9.76667 20 12 20Z" fill="#388E3C" />
                         </g>
                       </svg>
-                    </div>
-                    <div class="pointer" (click)=" removeField(data.key, data.newValue, i)" role="button"
-                      aria-expanded="false" aria-controls="reject-request">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24"
-                        fill="none">
-                        <mask id="mask0_6567_7339" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
-                          width="25" height="24">
+                    </button>
+                    <button type="button"
+                            class="pointer btn p-0"
+                            [disabled]="isAnyFieldLoading() && !fieldLoadingStates[i]"
+                            (click)="removeField(data.key, data.newValue, i)"
+                            role="button"
+                            aria-expanded="false"
+                            aria-controls="reject-request">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
+                        <mask id="mask0_6567_7339" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="24">
                           <rect x="0.28125" width="24" height="24" fill="#D9D9D9" />
                         </mask>
                         <g mask="url(#mask0_6567_7339)">
-                          <path
-                            d="M8.68125 17L12.2812 13.4L15.8813 17L17.2812 15.6L13.6813 12L17.2812 8.4L15.8813 7L12.2812 10.6L8.68125 7L7.28125 8.4L10.8813 12L7.28125 15.6L8.68125 17ZM12.2812 22C10.8979 22 9.59792 21.7375 8.38125 21.2125C7.16458 20.6875 6.10625 19.975 5.20625 19.075C4.30625 18.175 3.59375 17.1167 3.06875 15.9C2.54375 14.6833 2.28125 13.3833 2.28125 12C2.28125 10.6167 2.54375 9.31667 3.06875 8.1C3.59375 6.88333 4.30625 5.825 5.20625 4.925C6.10625 4.025 7.16458 3.3125 8.38125 2.7875C9.59792 2.2625 10.8979 2 12.2812 2C13.6646 2 14.9646 2.2625 16.1813 2.7875C17.3979 3.3125 18.4563 4.025 19.3563 4.925C20.2563 5.825 20.9688 6.88333 21.4937 8.1C22.0187 9.31667 22.2812 10.6167 22.2812 12C22.2812 13.3833 22.0187 14.6833 21.4937 15.9C20.9688 17.1167 20.2563 18.175 19.3563 19.075C18.4563 19.975 17.3979 20.6875 16.1813 21.2125C14.9646 21.7375 13.6646 22 12.2812 22ZM12.2812 20C14.5146 20 16.4062 19.225 17.9563 17.675C19.5063 16.125 20.2812 14.2333 20.2812 12C20.2812 9.76667 19.5063 7.875 17.9563 6.325C16.4062 4.775 14.5146 4 12.2812 4C10.0479 4 8.15625 4.775 6.60625 6.325C5.05625 7.875 4.28125 9.76667 4.28125 12C4.28125 14.2333 5.05625 16.125 6.60625 17.675C8.15625 19.225 10.0479 20 12.2812 20Z"
-                            fill="#FD3516" />
+                          <path d="M8.68125 17L12.2812 13.4L15.8813 17L17.2812 15.6L13.6813 12L17.2812 8.4L15.8813 7L12.2812 10.6L8.68125 7L7.28125 8.4L10.8813 12L7.28125 15.6L8.68125 17ZM12.2812 22C10.8979 22 9.59792 21.7375 8.38125 21.2125C7.16458 20.6875 6.10625 19.975 5.20625 19.075C4.30625 18.175 3.59375 17.1167 3.06875 15.9C2.54375 14.6833 2.28125 13.3833 2.28125 12C2.28125 10.6167 2.54375 9.31667 3.06875 8.1C3.59375 6.88333 4.30625 5.825 5.20625 4.925C6.10625 4.025 7.16458 3.3125 8.38125 2.7875C9.59792 2.2625 10.8979 2 12.2812 2C13.6646 2 14.9646 2.2625 16.1813 2.7875C17.3979 3.3125 18.4563 4.025 19.3563 4.925C20.2563 5.825 20.9688 6.88333 21.4937 8.1C22.0187 9.31667 22.2812 10.6167 22.2812 12C22.2812 13.3833 22.0187 14.6833 21.4937 15.9C20.9688 17.1167 20.2563 18.175 19.3563 19.075C18.4563 19.975 17.3979 20.6875 16.1813 21.2125C14.9646 21.7375 13.6646 22 12.2812 22ZM12.2812 20C14.5146 20 16.4062 19.225 17.9563 17.675C19.5063 16.125 20.2812 14.2333 20.2812 12C20.2812 9.76667 19.5063 7.875 17.9563 6.325C16.4062 4.775 14.5146 4 12.2812 4C10.0479 4 8.15625 4.775 6.60625 6.325C5.05625 7.875 4.28125 9.76667 4.28125 12C4.28125 14.2333 5.05625 16.125 6.60625 17.675C8.15625 19.225 10.0479 20 12.2812 20Z" fill="#FD3516" />
                         </g>
                       </svg>
-                    </div>
+                    </button>
                   </div>
-                  <div *ngIf="fieldLoading" class="loading-spinner d-flex align-items-center gap-2">
+                  <!-- Spinner: Show only if this field is loading -->
+                  <div *ngIf="fieldLoadingStates[i]" class="loading-spinner d-flex align-items-center gap-2">
                     <div class="spinner-border text-primary" role="status">
                       <span class="visually-hidden">Loading...</span>
                     </div>
@@ -114,14 +116,11 @@
                   <div #divElement (click)="toggleModal(i)" class="pointer" data-bs-toggle="collapse" [attr.href]="'#view-edit-request-' + i"
                     role="button" aria-expanded="false" aria-controls="view-edit-request">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
-                      <mask id="mask0_6605_10585" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
-                        width="24" height="25">
+                      <mask id="mask0_6605_10585" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="25">
                         <rect x="0.351562" y="0.59375" width="23.6478" height="24" fill="#D9D9D9" />
                       </mask>
                       <g mask="url(#mask0_6605_10585)">
-                        <path
-                          d="M6.6568 19.5938L5.27734 18.1938L10.7952 12.5938L5.27734 6.99375L6.6568 5.59375L12.1746 11.1937L17.6924 5.59375L19.0719 6.99375L13.5541 12.5938L19.0719 18.1938L17.6924 19.5938L12.1746 13.9938L6.6568 19.5938Z"
-                          fill="black" />
+                        <path d="M6.6568 19.5938L5.27734 18.1938L10.7952 12.5938L5.27734 6.99375L6.6568 5.59375L12.1746 11.1937L17.6924 5.59375L19.0719 6.99375L13.5541 12.5938L19.0719 18.1938L17.6924 19.5938L12.1746 13.9938L6.6568 19.5938Z" fill="black" />
                       </g>
                     </svg>
                   </div>
@@ -144,7 +143,6 @@
                     </div>
                   </div>
                 </div>
-
               </div>
             </div>
           </span>

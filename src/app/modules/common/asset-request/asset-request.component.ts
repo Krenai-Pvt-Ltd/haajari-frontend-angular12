@@ -19,8 +19,13 @@ export class AssetRequestComponent implements OnInit {
     private cdr: ChangeDetectorRef
   ) { }
 
+  isModal: boolean = true;
   ngOnInit(): void {
     this.onViewRequest(this.data.asset);
+    if(this.data.isModal==0){
+      this.isModal= false;
+    }
+
   }
 
     newStatus: string = 'Pending';
@@ -88,8 +93,13 @@ export class AssetRequestComponent implements OnInit {
                 this.assetAssignedLoading = false;
                 this.selectedAvailableAsset = null;
                 if (response.status) {
-                  this.assetAssignClose.nativeElement.click();
+                  if(this.isModal){
+                    this.assetAssignClose.nativeElement.click();
+                  }
                   this.helperService.showToast('Asset assigned successfully', Key.TOAST_STATUS_SUCCESS);
+                  this.selectedAsset.status = 'ASSIGNED';
+                  this.cdr.detectChanges();
+                  this.cdr.markForCheck();
                 } else {
                   this.helperService.showToast('Failed to assign asset', Key.TOAST_STATUS_ERROR);
                 }
@@ -110,7 +120,7 @@ export class AssetRequestComponent implements OnInit {
         (response) => {
           asset.status = this.newStatus;
           this.onViewRequest(asset);
-          if(this.newStatus != 'APPROVED'){
+          if(this.newStatus != 'APPROVED' && this.isModal){
             this.assetRequestClose.nativeElement.click();
           }
           this.assetRequestStatusLoading = false;

@@ -222,8 +222,17 @@
                           <app-profile-update *ngIf="isProfileReqModalOpen" [data]="requestModalData" (closeEvent)="onProfileComponentClose()">
                           </app-profile-update>
 
+                          <div *ngIf="!isAnyModalOpen() &&  !isLoadingData" class=" d-flex align-items-centar justify-content-center w-100" style="margin-top: 12%; margin-bottom: 12%;">
+                            <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                               [nzNotFoundContent]="contentTpl">
+                               <ng-template #contentTpl>
+                                  <p class="mb-1 empty-detail font-16">
+                                     No data for now
+                                  </p>
+                               </ng-template>
+                            </nz-empty>
+                         </div>
                         </div>
-
 
                     </div>
 

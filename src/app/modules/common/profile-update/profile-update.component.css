@@ -209,3 +209,15 @@ span.request-count {
 .asset-assigned-search {
   border: 1px solid #EAEAEA;
 }
+
+.pointer.btn {
+  background: none;
+  border: none;
+  padding: 0; /* Matches your p-0 class */
+  cursor: pointer;
+}
+
+.pointer.btn[disabled] {
+  opacity: 0.5; /* Gray out the button when disabled */
+  cursor: not-allowed; /* Indicate it's not clickable */
+}

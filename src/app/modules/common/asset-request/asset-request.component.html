@@ -5,7 +5,7 @@
              <h5 class="modal-title">
                 Asset Details
              </h5>
-             <button type="button" #assetRequestClose class="btn-close" (click)="close()" aria-label="Close"></button>
+             <button type="button" #assetRequestClose class="btn-close" (click)="close()" aria-label="Close" *ngIf="isModal"></button>
           </div>
           <form #categoryForm="ngForm">
              <div class="modal-body">
@@ -38,7 +38,7 @@
                       <label class="mb-2">Current Status </label>
                       <div class="pt-2 pb-2">
                          <span class="badge rounded-pill"
-                            [ngClass]="{'badge-soft-warning': selectedAsset?.status == 'PENDING', 'badge-soft-danger': selectedAsset?.status == 'REJECTED', 'badge-soft-success': selectedAsset?.status == 'APPROVED' || selectedAsset?.status == 'ASSIGNED' }">{{
+                            [ngClass]="{'badge-soft-warning': selectedAsset?.status == 'PENDING', 'badge-soft-danger': selectedAsset?.status == 'REJECTED', 'badge-soft-success': selectedAsset?.status == 'APPROVED' || selectedAsset?.status == 'ASSIGNED' || selectedAsset?.status == 'Approved'}">{{
                          selectedAsset?.status }}</span>
                       </div>
                    </div>
@@ -79,7 +79,7 @@
        <div class="modal-content">
           <div class="modal-header">
              <h5 class="modal-title" id="staticBackdropLabel"> Assets Assigned</h5>
-             <button type="button" #assetAssignClose class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+             <button type="button" #assetAssignClose class="btn-close" data-bs-dismiss="modal" aria-label="Close" *ngIf="isModal"></button>
           </div>
           <div class="modal-body">
              <div class="assets-list">
@@ -138,7 +138,7 @@
           </div>
        </div>
        <div class="modal-footer d-flex gap-2 align-items-center">
-          <button type="button" class="btn cancel-btn" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn cancel-btn" data-bs-dismiss="modal" (click)="selectedAsset.status='Approved'">Cancel</button>
           <button [ngClass]="{'btn-border': !(assetAssignedLoading || selectedAvailableAsset==null || selectedAvailableAsset== undefined)}" [disabled]="assetAssignedLoading || selectedAvailableAsset==null || selectedAvailableAsset== undefined" type="button" class="btn submitActionBtn" (click)="assignAsset()">
           <span *ngIf="!assetAssignedLoading">Assign</span>
           <div class="dot-opacity-loader" *ngIf="assetAssignedLoading">

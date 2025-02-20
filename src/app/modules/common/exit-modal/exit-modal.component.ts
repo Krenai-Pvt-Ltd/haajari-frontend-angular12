@@ -22,14 +22,14 @@ export class ExitModalComponent {
   userResignationInfo: any;
   discussionType: string = 'Yes'
   recommendDay: string = 'Complete'
-  @Output() closeModal: EventEmitter<void> = new EventEmitter<void>();
+  @Output() closeEvent: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(private dataService: DataService, private cdr: ChangeDetectorRef,
     public helperService: HelperService){
   }
 
   close() {
-    this.closeModal.emit();
+    this.closeEvent.emit();
   }
 
   ngOnInit(): void {
@@ -102,7 +102,9 @@ export class ExitModalComponent {
     })
   }
 
+  isLoading: boolean = false;
   getUserResignationInfoById() {
+    this.isLoading = true;
     this.userResignationInfo = []
     this.dataService.getUserResignationInfoById(this.id).subscribe((res: any) => {
       if (res.status) {
@@ -112,13 +114,16 @@ export class ExitModalComponent {
         if (this.userResignationInfo.isManagerDiscussion == 0) {
           this.discussionType = 'No'
         }
-
+        this.isLoading = false;
         if (this.userResignationInfo.isRecommendedLastDay == 1) {
           this.recommendDay = 'Other'
         }
         this.cdr.detectChanges();
         console.log('userResignationInfo dashboard : ', this.userResignationInfo)
+      }else{
+        this.close();
       }
+
     })
   }
 
@@ -133,14 +138,17 @@ export class ExitModalComponent {
 
       this.dataService.updateResignation(id).subscribe((res: any) => {
         if (res.status) {
-          this.closeApproveModal.nativeElement.click()
           this.approveToggle = false
           this.helperService.profileChangeStatus.next(true);
           this.helperService.showToast(
             res.message,
             Key.TOAST_STATUS_SUCCESS
           );
+
           this.close();
+          if(this.closeApproveModal){
+            this.closeApproveModal.nativeElement.click()
+          }
         } else {
           this.approveToggle = false;
         }

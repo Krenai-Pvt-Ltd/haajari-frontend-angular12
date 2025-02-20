@@ -135,25 +135,43 @@ export class InboxComponent implements OnInit {
   isProfileReqModalOpen: boolean = false;
   requestModalData: any = {};
 
+  isAnyModalOpen(): boolean{
+    return this.showExitComponent || this.showAssetComponent || this.isProfileReqModalOpen;
+  }
+
   onProfileComponentClose() {
     this.isProfileReqModalOpen = false;
   }
 
   onExitComponentClose() {
+    console.log('Exit component close');
     this.showExitComponent = false;
+
   }
   onAssetComponentClose() {
     this.showAssetComponent = false;
   }
 
+  readNotification(mail: any){
+    if(!mail.isRead ){
+      this._notificationService.readNotification(mail.id).subscribe((response) => {
+        if (response.status) {
+          mail.isRead = true;
+        }
+      });
+    }
+  }
   onMessageClick(mail:any) {
+    this.readNotification(mail);
     if(mail.categoryId === 80 || mail.categoryId === 81) {
       this.showExitComponent = false;
       this.exitData = {};
       this.exitData.id = mail.resourceId;
       this.exitData.userType = 'ADMIN';
       this.exitData.isModal = 0;
-      this.showExitComponent = true;
+      setTimeout(() => {
+        this.showExitComponent = true;
+      } , 1);
     }else if(mail.categoryId === 40 || mail.categoryId === 50) {
       this.showAssetComponent = false;
       this.assetData = {};
@@ -168,7 +186,9 @@ export class InboxComponent implements OnInit {
       this.requestModalData.uuid = '';
       this.requestModalData.userType = 'ADMIN';
       this.requestModalData.isModal = 0;
-      this.isProfileReqModalOpen = true;
+      setTimeout(() => {
+        this.isProfileReqModalOpen = true;
+      } , 1);
     }
     else{
       this.showExitComponent = false;
@@ -177,18 +197,22 @@ export class InboxComponent implements OnInit {
     }
   }
 
+  isLoadingData: boolean = false;
   assetRequest: any;
   getAssetRequestById(id: number): void {
+    this.isLoadingData = true;
     this.dataService.getAssetRequestByID(id).subscribe(
       (data) => {
         this.assetRequest = data;
         this.assetData.asset=this.assetRequest;
+
         setTimeout(() => {
-          this.showAssetComponent = true;
-        }, 500);
-        console.log('Asset request data:', data);
+        this.showAssetComponent = true;
+        this.isLoadingData = false;
+        }, 10);
       },
       (error) => {
+        this.isLoadingData = false;
         console.error('Error fetching asset request:', error);
       }
     );
