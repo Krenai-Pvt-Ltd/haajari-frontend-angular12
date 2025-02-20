@@ -64,6 +64,7 @@ export class InboxComponent implements OnInit {
     this.showAssetComponent=false;
     this.showExitComponent=false;
     this.isProfileReqModalOpen=false;
+    this.showExpenseComponent=false;
     this.onMessageClick(mail);
   }
 
@@ -135,8 +136,17 @@ export class InboxComponent implements OnInit {
   isProfileReqModalOpen: boolean = false;
   requestModalData: any = {};
 
+  showExpenseComponent: boolean = false;
+  expenseData: any= {};
+  currentExpenseId: any = 0;
+  onExpenseComponentClose() {
+    this.showExpenseComponent = false;
+    this.getCompanyExpense(this.currentExpenseId);
+  }
+
+
   isAnyModalOpen(): boolean{
-    return this.showExitComponent || this.showAssetComponent || this.isProfileReqModalOpen;
+    return this.showExitComponent || this.showAssetComponent || this.isProfileReqModalOpen || this.showExpenseComponent;
   }
 
   onProfileComponentClose() {
@@ -189,6 +199,14 @@ export class InboxComponent implements OnInit {
       setTimeout(() => {
         this.isProfileReqModalOpen = true;
       } , 1);
+    }else if(mail.categoryId === 71 || mail.categoryId === 72) {
+      this.showExpenseComponent = false;
+      this.expenseData = {};
+      this.expenseData.id = mail.resourceId;
+      this.expenseData.userType = 'ADMIN';
+      this.expenseData.isModal = 0;
+      this.currentExpenseId = mail.resourceId;
+      this.getCompanyExpense(mail.resourceId);
     }
     else{
       this.showExitComponent = false;
@@ -216,6 +234,27 @@ export class InboxComponent implements OnInit {
         console.error('Error fetching asset request:', error);
       }
     );
+  }
+  companyExpense: any;
+  getCompanyExpense(id: number): void {
+    this.isLoadingData = true;
+    this.dataService.getCompanyExpenseById(id).subscribe({
+      next: (response) => {
+        this.isLoadingData = false;
+        if (response.status) {
+          this.companyExpense = response.object;
+          this.expenseData.expense = this.companyExpense;
+          setTimeout(() => {
+            this.showExpenseComponent = true;
+          }, 1);
+        } else {
+
+        }
+      },
+      error: (err) => {
+        this.isLoadingData = false;
+      }
+    });
   }
 }
 

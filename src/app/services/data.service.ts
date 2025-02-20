@@ -4562,6 +4562,11 @@ getHolidayForOrganizationWhatsapp(userUuid: string, date: string): Observable<an
     return this.httpClient.patch<any>(`${this.baseUrl}/company-expense`, approveReq);
   }
 
+  getCompanyExpenseById(id: number): Observable<any> {
+    const params = new HttpParams().set('id', id.toString());
+    return this.httpClient.get<any>(`${this.baseUrl}/company-expense/by-id`, { params });
+  }
+
   deleteCompanyExpensePolicy(id: number): Observable<any> {
     const params = new HttpParams().set('id', id);
     return this.httpClient.delete(`${this.baseUrl}/company-expense-policy`, {

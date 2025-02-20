@@ -16,6 +16,11 @@ import { ExitModalComponent } from '../modules/common/exit-modal/exit-modal.comp
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AssetRequestComponent } from '../modules/common/asset-request/asset-request.component';
 import { ProfileUpdateComponent } from '../modules/common/profile-update/profile-update.component';
+import { ExpenseRequestComponent } from '../modules/common/expense-request/expense-request.component';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
 
 @NgModule({
   declarations: [
@@ -29,7 +34,8 @@ import { ProfileUpdateComponent } from '../modules/common/profile-update/profile
     ChatComponent,
     ExitModalComponent,
     AssetRequestComponent,
-    ProfileUpdateComponent
+    ProfileUpdateComponent,
+    ExpenseRequestComponent
   ],
 
   imports: [CommonModule,
@@ -42,7 +48,11 @@ import { ProfileUpdateComponent } from '../modules/common/profile-update/profile
     GooglePlaceModule,
     NzEmptyModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NzFormModule,
+    NzInputModule,
+    NzSelectModule,
+    NzAutocompleteModule
   ],
   exports: [
     TopbarComponent,
@@ -55,7 +65,8 @@ import { ProfileUpdateComponent } from '../modules/common/profile-update/profile
     ChatComponent,
     ExitModalComponent,
     AssetRequestComponent,
-    ProfileUpdateComponent
+    ProfileUpdateComponent,
+    ExpenseRequestComponent
   ],
 })
 export class SharedModule { }

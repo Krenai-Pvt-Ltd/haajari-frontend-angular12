@@ -222,6 +222,9 @@
                           <app-profile-update *ngIf="isProfileReqModalOpen" [data]="requestModalData" (closeEvent)="onProfileComponentClose()">
                           </app-profile-update>
 
+                          <app-expense-request *ngIf="showExpenseComponent" [data]="expenseData" (closeEvent)="onExpenseComponentClose()">
+                          </app-expense-request>
+
                           <div *ngIf="!isAnyModalOpen() &&  !isLoadingData" class=" d-flex align-items-centar justify-content-center w-100" style="margin-top: 12%; margin-bottom: 12%;">
                             <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
                                [nzNotFoundContent]="contentTpl">

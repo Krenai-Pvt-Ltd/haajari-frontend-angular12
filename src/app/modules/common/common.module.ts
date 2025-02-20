@@ -14,6 +14,11 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AssetRequestComponent } from './asset-request/asset-request.component';
 import { ProfileUpdateComponent } from './profile-update/profile-update.component';
 import { ExpenseRequestComponent } from './expense-request/expense-request.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
+import { NzInputModule } from 'ng-zorro-antd/input';
 
 
 
