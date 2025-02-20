@@ -1,0 +1,454 @@
+/** Approve Modal CSS Start **/
+
+.modal-dialog.modal-xl {
+  max-width: 1060px; /* Matches style="max-width: 1060px;" in HTML */
+}
+
+
+.d-flex {
+  display: flex; /* Matches multiple uses like justify-content-center, align-items-center */
+}
+
+.justify-content-center {
+  justify-content: center; /* Used in carousel-item */
+}
+
+.position-relative {
+  position: relative; /* Used in carousel-item div */
+}
+
+.d-block {
+  display: block; /* Used for carousel images */
+}
+
+.w-100 {
+  width: 100%; /* Used for carousel images */
+}
+
+
+
+.empty-file {
+  padding-top: 30%; /* Matches inline style in HTML */
+  padding-bottom: 30%; /* Matches inline style in HTML */
+}
+
+.font-16 {
+  font-size: 16px; /* Used in empty-detail */
+}
+
+.mb-1 {
+  margin-bottom: 0.25rem; /* Used in empty-detail and other elements */
+}
+
+.user-detail {
+  background-color: #FAFAFA; /* Matches user-detail class */
+}
+
+.align-items-center {
+  align-items: center; /* Used in user-detail and other flex containers */
+}
+
+.justify-content-between {
+  justify-content: space-between; /* Used in user-detail and modal-footer */
+}
+
+.p-3 {
+  padding: 1rem; /* Used in user-detail and expance-forn-data */
+}
+
+.gap-3 {
+  gap: 1rem; /* Used in user-detail div */
+}
+
+.user-detail img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 50%; /* Matches img in user-detail */
+}
+
+.user-detail h5 {
+  font-weight: 500;
+  color: #000; /* Matches h5 in user-detail */
+}
+
+.mb-0 {
+  margin-bottom: 0; /* Used in multiple elements like h5, p */
+}
+
+.font-13 {
+  font-size: 13px; /* Used in user-email */
+}
+
+.user-email {
+  color: #6B7280 !important; /* Matches user-email class */
+}
+
+.text-end {
+  text-align: end; /* Used in user-detail div */
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.35em 0.65em;
+  font-size: 0.75em;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 0.25rem; /* Default Bootstrap badge styling */
+}
+
+.rounded-pill {
+  border-radius: 50rem; /* Matches badge class */
+}
+
+.badge-soft-warning {
+  background-color: rgba(243, 167, 61, 0.1); /* Assumed based on status.id == 13 */
+  color: #F3A73D; /* Assumed color for warning */
+}
+
+.badge-soft-success {
+  background-color: rgba(56, 142, 60, 0.1); /* Assumed based on status.id == 14 || 41 */
+  color: #388E3C; /* Assumed color for success */
+}
+
+.badge-soft-danger {
+  background-color: rgba(255, 48, 20, 0.1); /* Assumed based on status.id == 15 */
+  color: #FF3014; /* Assumed color for danger */
+}
+
+.badge-soft-primary {
+  background-color: rgba(102, 102, 242, 0.1); /* Assumed based on status.id == 40 */
+  color: #6666F2; /* Assumed color for primary */
+}
+
+.mt-2 {
+  margin-top: 0.5rem; /* Used in expance-date */
+}
+
+.font-14 {
+  font-size: 14px; /* Used in expance-date and other elements */
+}
+
+.expance-date {
+  color: #444; /* Matches expance-date class */
+}
+
+.expance-forn-data {
+  max-height: 400px;
+  overflow: scroll; /* Matches expance-forn-data class */
+}
+
+.limit-amount {
+  background-color: #22b78326;
+  border-radius: 2px;
+  border: 1px solid #22b783; /* Matches limit-amount class */
+}
+
+.text-success {
+  color: #388E3C !important; /* Matches text-success class */
+}
+
+.fw-semibold {
+  font-weight: 600; /* Matches fw-semibold class */
+}
+
+.mb-3 {
+  margin-bottom: 1rem; /* Used in multiple form elements */
+}
+
+.pb-2 {
+  padding-bottom: 0.5rem; /* Used in labels */
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem; /* Default Bootstrap form-control styling */
+}
+
+.input-zorro {
+  border-radius: 2px !important;
+  border: 1.021px solid #e9e9e9 !important;
+  background: rgba(236, 236, 236, 0.21) !important;
+  height: 45px !important;
+  font-size: 13px !important;
+  color: #a2a2a2;
+  font-weight: 400 !important; /* Matches input-zorro class */
+}
+
+.no-arrow {
+  -moz-appearance: textfield; /* For Firefox */
+  appearance: none; /* For modern browsers */
+}
+
+.no-arrow::-webkit-inner-spin-button,
+.no-arrow::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0; /* Removes arrows in WebKit browsers */
+}
+
+.nots-section {
+  background-color: rgba(236, 236, 236, 0.21) !important;
+  width: 100%;
+  height: 80px !important;
+  border: 1px solid #e9e9e9; /* Matches textarea class */
+}
+
+.form-check {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; /* Matches form-check with gap-2 */
+}
+
+.form-check-input {
+  width: 18px;
+  height: 18px;
+  border-radius: 2px;
+  accent-color: #6766f3; /* Matches checkbox styling */
+  position: relative;
+  top: -1px; /* Matches inline style */
+}
+
+.form-check-label {
+  font-size: 13px !important;
+  font-weight: 500 !important; /* Assumed based on context */
+}
+
+.mt-3 {
+  margin-top: 1rem; /* Used in approve amount input */
+}
+
+.text-danger {
+  color: #FF3014 !important; /* Matches text-danger class */
+}
+
+.gap-2 {
+  gap: 0.5rem; /* Used in multiple flex containers */
+}
+
+.search-icon {
+  top: 10px;
+  height: 100%;
+  color: var(--tb-secondary-color) !important;
+  margin: auto;
+  padding-left: 15px; /* Matches search-icon class */
+}
+
+.text-primary {
+  color: #6666F3 !important; /* Matches text-primary class */
+}
+
+.font-20 {
+  font-size: 20px; /* Used in bi-plus and bi-x icons */
+}
+
+.w-100 {
+  width: 100%; /* Used in multiple elements */
+}
+
+.skill-set {
+  list-style: none;
+  padding-left: 0px; /* Matches skill-set class */
+}
+
+.skill-set li {
+  display: inline-block;
+  border-radius: 40px;
+  border: 1px solid #CECDFF;
+  background: #F4F5FF;
+  font-size: 13px;
+  font-weight: 400;
+  padding: 5px 15px;
+  margin-bottom: 13px;
+  margin-right: 10px;
+  color: #000;
+  text-transform: capitalize; /* Matches skill-set li */
+}
+
+.bi-x {
+  /* Default Bootstrap Icons styling assumed */
+}
+
+.assets-req {
+  border: 1px solid #e9e9e9;
+  border-radius: 2px;
+  height: 45px;
+  margin-bottom: 0px;
+  background-color: #fbfbfb; /* Matches assets-req class */
+}
+
+.assets-req input {
+  left: 15px !important;
+  position: relative;
+  top: -2px; /* Matches radio input styling */
+}
+
+.assets-req p {
+  padding-left: 25px;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  padding-top: 3px; /* Matches radio label styling */
+}
+
+.modal-footer {
+  background-color: #fff; /* Matches bg-white class */
+}
+
+.reject-btn {
+  background-color: #FAECEA;
+  color: #FF3014 !important;
+  border: 1px solid #FF3014;
+  font-size: 13px;
+  border-radius: 2px;
+  min-width: 90px;
+  font-weight: 500; /* Matches reject-btn class */
+}
+
+.payroll-btn {
+  background-color: #F0F0FF !important;
+  color: #6666F2 !important;
+  border: 1px solid #6666F2;
+  font-size: 13px;
+  border-radius: 2px;
+  min-width: 90px;
+  font-weight: 500; /* Matches payroll-btn class */
+}
+
+.approve-btn {
+  background-color: #E0F4ED !important;
+  color: #388E3C !important;
+  border: 1px solid #388E3C;
+  font-size: 13px;
+  border-radius: 2px;
+  min-width: 90px;
+  font-weight: 500; /* Matches approve-btn class */
+}
+
+.submitActionBtn {
+  background-color: var(--primary-background-color);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 2px;
+  width: 100px; /* Matches submitActionBtn class */
+}
+
+
+.cancel-btn {
+  background-color: #fbfbfb;
+  border: 1px solid #e6e7e9;
+  border-radius: 2px;
+  color: #4a4a4a;
+  font-size: 12px;
+  font-weight: 500;
+  width: 90px; /* Matches cancel-btn class */
+}
+
+.bill-image {
+  background-color: rgba(244, 247, 255, 0.50);
+  height: 100%; /* Matches bill-image class */
+}
+
+.bill-image img {
+  width: 100%;
+  height: 552px;
+  object-fit: cover; /* Matches carousel img styling */
+}
+
+.notice-period-error {
+  border-radius: 2px;
+  border-left: 3.775px solid #F3A73D;
+  background: #F8F8F8;
+  height: 45px; /* Matches notice-period-error class */
+}
+
+.calendar-separator {
+  border-left: 1px solid #f2f2f2;
+  height: 30px; /* Matches calendar-separator class */
+}
+
+.notice-period-error p {
+  padding-left: 20px; /* Matches p in notice-period-error */
+}
+
+/** Approve Modal CSS End **/
+
+/* Bootstrap Grid Classes */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: -15px; /* Default Bootstrap row styling */
+}
+
+.col-md-5,
+.col-md-7,
+.col-md-6,
+.col-md-12 {
+  position: relative;
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px; /* Default Bootstrap column styling */
+}
+
+.col-md-5 {
+  flex: 0 0 41.666667%;
+  max-width: 41.666667%; /* Matches col-md-5 */
+}
+
+.col-md-7 {
+  flex: 0 0 58.333333%;
+  max-width: 58.333333%; /* Matches col-md-7 */
+}
+
+.col-md-6 {
+  flex: 0 0 50%;
+  max-width: 50%; /* Matches col-md-6 */
+}
+
+.col-md-12 {
+  flex: 0 0 100%;
+  max-width: 100%; /* Matches col-md-12 */
+}
+
+.pr-0 {
+  padding-right: 0 !important; /* Matches pr-0 */
+}
+
+.mr-0 {
+  margin-right: 0 !important; /* Matches mr-0 */
+}
+
+.ml-0 {
+  margin-left: 0 !important; /* Matches ml-0 */
+}
+
+.pl-0 {
+  padding-left: 0 !important; /* Matches pl-0 */
+}
+
+/* Bootstrap Icons */
+[class^="bi-"]::before,
+[class*=" bi-"]::before {
+  display: inline-block;
+  font-family: bootstrap-icons !important;
+  font-style: normal;
+  font-weight: 800 !important;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  vertical-align: text-bottom;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; /* Matches Bootstrap Icons usage */
+}

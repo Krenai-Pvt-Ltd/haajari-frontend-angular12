@@ -11,6 +11,7 @@ import { debounceTime } from 'rxjs/operators';
 import { Key } from 'src/app/constant/key';
 import { HelperService } from 'src/app/services/helper.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
+import { AssetService } from 'src/app/services/asset.service';
 
 interface AssetCategory {
   value: string;
@@ -38,6 +39,7 @@ export class AssetsComponent implements OnInit {
   currentUserId: any;
   contentTemplate: string = "tool tip";
   constructor(private activateRoute: ActivatedRoute, private dataService: DataService,
+    private assetService: AssetService,
     private fb: FormBuilder,private modalService: NgbModal, private helper: HelperService,
     public rbacService: RoleBasedAccessControlService,)
   {
@@ -79,7 +81,7 @@ export class AssetsComponent implements OnInit {
   }
 
   loadAssetCategories(): void {
-    this.dataService.getAssetCategory().subscribe(response => {
+    this.assetService.getAssetCategory().subscribe(response => {
       this.assetCategories = response.listOfObject.map((item: any) => ({
         value: item.categoryId,
         label: item.categoryName
@@ -102,7 +104,7 @@ export class AssetsComponent implements OnInit {
     if (this.assetRequestForm.valid) {
       const formData = {...this.assetRequestForm.value,userId: this.userId};
       // this.closeButton.nativeElement.click();
-      this.dataService.createAssetRequest(formData).subscribe(
+      this.assetService.createAssetRequest(formData).subscribe(
         response => {
           this.assetRequestsPage=1;
           this.getAssetRequests();
@@ -156,7 +158,7 @@ export class AssetsComponent implements OnInit {
   isLoadingAsset: boolean = false;
   getAssetData(): void {
     this.isLoadingAsset=true;
-    this.dataService.getAssetsByUser(this.userId, this.search, this.pageNumber-1, this.itemPerPage).subscribe(
+    this.assetService.getAssetsByUser(this.userId, this.search, this.pageNumber-1, this.itemPerPage).subscribe(
       (response: any) => {
         this.assets = response.content; // Page content
         this.totalCount = response.totalElements; // Total records count
@@ -242,7 +244,7 @@ export class AssetsComponent implements OnInit {
 
   getAssetRequests(): void {
     this.isLoading=true;
-    this.dataService.getAssetRequestsByUserUuid(this.userId, this.assetRequestsPage, this.assetRequestsSize, this.assetRequestsSearch, this.statusFilter).subscribe(
+    this.assetService.getAssetRequestsByUserUuid(this.userId, this.assetRequestsPage, this.assetRequestsSize, this.assetRequestsSearch, this.statusFilter).subscribe(
       (response) => {
         this.assetRequests = response.data; // Assign only the data (array of AssetRequestDTO) from the response
         this.assetRequestsTotalPage=response.totalPages;

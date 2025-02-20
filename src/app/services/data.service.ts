@@ -3773,6 +3773,9 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
   getAssetRequestById(id: number): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/asset-requests?id=${id}`);
   }
+  getAssetRequestByID(id: number): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/asset-requests/by-id?id=${id}`);
+  }
   getAssetRequestsByUserUuid(
     uuid: string,
     page: number = 0,
@@ -4559,6 +4562,11 @@ getHolidayForOrganizationWhatsapp(userUuid: string, date: string): Observable<an
     return this.httpClient.patch<any>(`${this.baseUrl}/company-expense`, approveReq);
   }
 
+  getCompanyExpenseById(id: number): Observable<any> {
+    const params = new HttpParams().set('id', id.toString());
+    return this.httpClient.get<any>(`${this.baseUrl}/company-expense/by-id`, { params });
+  }
+
   deleteCompanyExpensePolicy(id: number): Observable<any> {
     const params = new HttpParams().set('id', id);
     return this.httpClient.delete(`${this.baseUrl}/company-expense-policy`, {
@@ -4654,6 +4662,12 @@ getHolidayForOrganizationWhatsapp(userUuid: string, date: string): Observable<an
   resignationInfo: any;
   getUserResignationInfo(uuid: string) {
     let params = new HttpParams().set('uuid', uuid);
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/user-resignation`, {params}
+    );
+  }
+  getUserResignationInfoById(id: number) {
+    let params = new HttpParams().set('id', id);
     return this.httpClient.get<any>(
       `${this.baseUrl}/user-resignation`, {params}
     );
@@ -4853,8 +4867,8 @@ getHolidayForOrganizationWhatsapp(userUuid: string, date: string): Observable<an
       params,
     });
   }
-  getDataComparison(userUuid: string): Observable<any> {
-    const params = { userUuid };
+  getDataComparison(userUuid: string, id:number = 0): Observable<any> {
+    const params = { 'userUuid': userUuid, 'id': id.toString() };
     return this.httpClient.get(`${this.baseUrl}/get/onboarding/requested-data-compare`, {
       params,
     });
