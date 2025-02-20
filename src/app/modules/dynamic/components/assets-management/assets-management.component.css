@@ -302,13 +302,16 @@
     border-radius: 2px;
     border: 1px solid #EFEFEF;
 }
-.actionMenuList .dropdown-item {
-    font-size: 14px;
-    color: #333 !important;
-    border-radius: 6px;
-}
+
 .actionMenuList{
-    line-height: 35px
+    line-height: 35px;
+}
+
+.category-list{
+    min-width: 18rem !important;
+    max-height: 405px;
+    overflow: scroll;
+    border-radius: 2px !important;
 }
 .actionMenuList .dropdown-item:hover{
     background-color: #F1F1FC;

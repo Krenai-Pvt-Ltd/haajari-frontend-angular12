@@ -327,18 +327,37 @@
                                <div class="mt-3 assets-categories">
                                   <div class="categories-header p-3 d-flex align-items-center justify-content-between">
                                      <h5 class="mb-0 font-15 fw-semibold">Categories</h5>
-                                     <!-- <button class="btn p-0 font-14 text-primary fw-semibold" data-bs-toggle="modal" data-bs-target="#createAssetsModal" AssetsDetailModal><i class="bi bi-plus-lg"></i>  Add Assets</button> -->
+                                     
+                                     <div class="dropdown">
+                                       <button class="btn p-0 font-14 text-primary fw-semibold" data-bs-toggle="dropdown" aria-expanded="true"> Categories</button>
+                                       <div class="dropdown-menu actionMenuList category-list">
+                                           <li>
+                                               <a class="dropdown-item font-14" *ngFor="let category of categorySummary; let i = index">
+                                                <div class="d-flex align-items-center justify-content-between">
+                                                      <div>{{ category.categoryName }}</div>
+                                                
+                                                <div class="d-flex align-items-center gap-3">
+                                                   <i *ngIf="category.categoryId>0" class="bi bi-pencil text-primary font-14" data-bs-toggle="modal" data-bs-target="#createCategoryModal"
+                                                      (click)="assignCategoryId(category.categoryId)"></i>
+                                                   <i class="bi bi-trash3 text-danger font-14"></i>
+                                                </div>
+                                             </div>
+                                               </a>
+                                           </li>
+                                       </div>
+                                   </div>
+
                                   </div>
                                   <div class="row" *ngIf="categorySummary.length>0">
                                      <div class="col-md-3 pr-0">
                                         <div class="overview-sidebar-menu">
-                                           <div id="v-pills-tab" role="tablist" aria-orientation="vertical" class="nav flex-column nav-pills pt-3 pb-5">
+                                           <div id="v-pills-tab" role="tablist" aria-orientation="vertical" class="nav flex-column nav-pills pb-5">
                                               <button *ngFor="let category of categorySummary; let i = index" type="button" role="tab" data-bs-toggle="pill"
                                               data-bs-toggle="pill" data-bs-target="#v-pills-laptops" type="button" role="tab" aria-controls="v-pills-laptops" (click)="assetSummaryCategoryId= category.categoryId; fetchAssetSummary();"
                                               [attr.aria-selected]="i === 0 ? 'true' : 'false'" [id]="'v-pills-tab-' + i" class="nav-link d-flex align-items-centar justify-content-between" [class.active]="i === 0">
                                               {{ category.categoryName }} ({{ category.assetCount }})
-                                              <i *ngIf="category.categoryId>0" class="bi bi-pencil" data-bs-toggle="modal" data-bs-target="#createCategoryModal"
-                                              (click)="assignCategoryId(category.categoryId)"></i>
+                                              <!-- <i *ngIf="category.categoryId>0" class="bi bi-pencil" data-bs-toggle="modal" data-bs-target="#createCategoryModal"
+                                              (click)="assignCategoryId(category.categoryId)"></i> -->
                                               </button>
                                            </div>
                                         </div>
