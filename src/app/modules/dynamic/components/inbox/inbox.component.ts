@@ -1,4 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
+import { CompatibleDate } from 'ng-zorro-antd/date-picker';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { DataService } from 'src/app/services/data.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
@@ -20,6 +21,7 @@ export class InboxComponent implements OnInit {
     this.getUuids();
   }
 
+
   mails: any[] = [];
   loading: boolean = false;
   finished: boolean = false;
@@ -35,15 +37,19 @@ export class InboxComponent implements OnInit {
   pageNumber: number = 0;
   pageSize: number = 15;
   currentMail: any;
+  startDate:any='';
+  endDate:any='';
+  categoryIds: number[] = [];
   fetchMails(): void {
     if (this.loading || this.finished) {
       return;
     }
     this.loading = true;
     this._notificationService
-      .getMail('mail', this.UUID, this.UUID, '', '', this.pageNumber, this.pageSize)
+      .getMail('mail', this.UUID, this.UUID, this.startDate, this.endDate, this.pageNumber, this.pageSize, this.categoryIds)
       .subscribe(
         (response) => {
+        if(response.status){
           this.mails = [...this.mails, ...response.object.content]; // Assuming the response contains 'content' for pagination
           this.loading = false;
           if(response.object.totalPages-1 == this.pageNumber){
@@ -53,6 +59,10 @@ export class InboxComponent implements OnInit {
             this.currentMail = this.mails[0];
           }
           this.pageNumber++;
+        }else{
+          this.loading = false;
+          this.finished = true;
+        }
         },
         (error) => {
 
@@ -256,6 +266,93 @@ export class InboxComponent implements OnInit {
       }
     });
   }
+
+
+
+
+
+  selectedDate: Date | null = null;
+  onDateChange(date: Date | null): void {
+    if (date) {
+      const dateStr = date.toISOString().split('T')[0]; // Format as YYYY-MM-DD (e.g., "2025-02-20")
+      this.startDate = dateStr;
+
+      // Increase date by 1 day for endDate
+      const nextDay = new Date(date);
+      nextDay.setDate(date.getDate() + 1); // Add 1 day
+      const nextDayStr = nextDay.toISOString().split('T')[0]; // Format as YYYY-MM-DD (e.g., "2025-02-21")
+      this.endDate = nextDayStr;
+
+      this.pageNumber = 0;
+      this.mails = [];
+      this.finished = false;
+      this.fetchMails();
+    } else {
+      // Reset dates if cleared
+      this.startDate = '';
+      this.endDate = '';
+      this.pageNumber = 0;
+      this.mails = [];
+      this.finished = false;
+      this.fetchMails();
+    }
+  }
+
+  onFilterClick(filter: any): void {
+    this.categoryIds = filter.ids;
+    this.pageNumber = 0; // Reset pagination
+    this.mails = []; // Clear existing mails
+    this.finished = false;
+    this.fetchMails(); // Fetch mails with new filter
+  }
+
+  filterList: any[] = [
+    {
+      type: "All",
+      ids: [],
+      svgPath: ""
+    },
+    {
+      type: "Onboarding",
+      ids: [1, 2, 3, 4],
+      svgPath: "M10 10m-5 0a5 5 0 1 0 10 0a5 5 0 1 0 -10 0" // Simple circle (e.g., person’s head)
+    },
+    {
+      type: "Profile Update",
+      ids: [10, 11, 12, 13],
+      svgPath: "M9 9c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" // User icon
+    },
+    {
+      type: "Leave Request",
+      ids: [20, 21, 22, 23],
+      svgPath: "M17 3h-1v-1h-2v1h-6v-1h-2v1h-1c-1.11 0-2 .9-2 2v12c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-12c0-1.1-.9-2-2-2zm0 14h-14v-8h14v8zm0-10h-14v-2h14v2z" // Calendar icon
+    },
+    {
+      type: "Attendance Update",
+      ids: [30, 31, 32],
+      svgPath: "M12 2c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 16c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7zm1-11h-2v6l5.25 3.15.75-1.23-4-2.67z" // Clock icon
+    },
+    {
+      type: "Asset Request",
+      ids: [40, 41, 42, 43, 50, 51, 52, 53],
+      svgPath: "M3 3v14h14v-14h-14zm2 2h10v6h-10v-6zm0 8h4v2h-4v-2zm6 0h4v2h-4v-2z" // Computer monitor icon
+    },
+    {
+      type: "Expense Request",
+      ids: [60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72],
+      svgPath: "M11 2h-2v4h-4v2h10v-2h-4v-4zm-6 8v10h14v-10h-14zm2 2h10v6h-10v-6z" // Dollar sign or receipt icon
+    },
+    {
+      type: "Resignation",
+      ids: [80, 81, 82, 83],
+      svgPath: "M10 2h-2v6h-6v10h14v-10h-6v-6zm-4 8h8v6h-8v-6z" // Door icon
+    },
+    {
+      type: "Shift Timing Changed",
+      ids: [100],
+      svgPath: "M12 2c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 16c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7zm5-5h-3v3l4-4-1-1z" // Clock with arrow
+    }
+  ];
 }
 
 

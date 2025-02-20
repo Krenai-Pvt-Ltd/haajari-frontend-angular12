@@ -60,7 +60,8 @@ export class UserNotificationService {
     startDate?: string,
     endDate?: string,
     page: number = 0,
-    size: number = 10
+    size: number = 10,
+    categoryIds: number[] = []
   ): Observable<any> {
     let params = new HttpParams()
       .set('notificationType', notificationType)
@@ -68,6 +69,7 @@ export class UserNotificationService {
       .set('uuid', uuid)
       .set('page', page.toString())
       .set('size', size.toString())
+      .set('categoryIds', categoryIds.join(','))
       .set('sort', 'id,desc');
 
     if (startDate) params = params.set('startDate', startDate);
