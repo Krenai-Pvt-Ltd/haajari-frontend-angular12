@@ -5034,7 +5034,7 @@ getHolidayForOrganizationWhatsapp(userUuid: string, date: string): Observable<an
   }
 
   existsInShift(userUuid : string): Observable<any> {
-    const params = new HttpParams().set('userUuid', userUuid.toString()); 
+    const params = new HttpParams().set('userUuid', userUuid.toString());
     return this.httpClient.get<any>(`${this.baseUrl}/users/is-in-shift`, {params});
   }
 
@@ -5111,10 +5111,11 @@ getHolidayForOrganizationWhatsapp(userUuid: string, date: string): Observable<an
     return this.httpClient.get<any>(`${this.baseUrl}/assets/monthly-assignments`, { params });
   }
 
-  getAssetsByUser(searchTerm?: string, page: number = 0, size: number = 10): Observable<any> {
+  getAssetsByUser(uuid: any, searchTerm?: string, page: number = 0, size: number = 10): Observable<any> {
     let params = new HttpParams()
       .set('page', page.toString())
-      .set('size', size.toString());
+      .set('size', size.toString())
+      .set('uuid', uuid);
 
     if (searchTerm) {
       params = params.set('searchTerm', searchTerm);
