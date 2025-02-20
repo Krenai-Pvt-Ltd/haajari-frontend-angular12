@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { HelperService } from 'src/app/services/helper.service';
 import { LeaveService } from 'src/app/services/leave.service';
 import { finalize, tap } from 'rxjs/operators';
@@ -6,6 +6,7 @@ import { Key } from 'src/app/constant/key';
 import { LeaveResponse, PendingLeaveResponse } from 'src/app/models/leave-responses.model';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import moment from 'moment';  // Import Moment.js
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-leave-managements',
@@ -14,8 +15,8 @@ import moment from 'moment';  // Import Moment.js
 })
 export class LeaveManagementsComponent implements OnInit {
 
-  constructor(private leaveService:LeaveService,private helperService: HelperService,    private rbacService: RoleBasedAccessControlService
-  ) { }
+  constructor(private leaveService:LeaveService,private helperService: HelperService,    private rbacService: RoleBasedAccessControlService,private datePipe: DatePipe
+  ,private cdr: ChangeDetectorRef) { }
   showFilter: boolean = false;
   logInUserUuid: string = '';
 
@@ -31,10 +32,6 @@ export class LeaveManagementsComponent implements OnInit {
     this.tab = tab
   }
 
-  showCalender:boolean = false;
-  openCloseMonthCalender(){
-    this.showCalender = !this.showCalender;
-  }
   changeShowFilter(flag : boolean) {
     this.showFilter = flag;
   }
@@ -48,6 +45,15 @@ export class LeaveManagementsComponent implements OnInit {
   REJECTED: string = 'rejected';
   HISTORY: string = 'history';
   REQUESTED: string = 'requested';
+
+  PRESENT = Key.PRESENT;
+  ABSENT = Key.ABSENT;
+  UNMARKED = Key.UNMARKED;
+  WEEKEND = Key.WEEKEND;
+  HOLIDAY = Key.HOLIDAY;
+  LEAVE = Key.LEAVE;
+  HALFDAY = Key.HALFDAY;
+
   ALL: string = 'all';
   isLoadingLeaves:boolean = false;
   itemPerPage: number = 10;
@@ -183,10 +189,20 @@ onPageChange(page: number) {
 }
 
 resetSearch(){
+  debugger
   this.searchTerm = ''; 
   this.currentPage = 1; 
   this.leaves= [];
+  // this.cdr.detectChanges();  
 }
+
+
+searchTermChanged(event: any) {
+  debugger
+  this.searchTerm = event.target.value;
+  this.searchTerm.trim().length === 0 ? this.resetSearch() :this.getLeaves();
+}
+
 searchLeaves() {
   this.resetValues();
   this.getLeaves();
@@ -196,11 +212,6 @@ resetValues(){
   this.leaves=[]; 
   this.totalItems = 0;
   this.currentPage= 1;
-}
-
-searchTermChanged(event: any) {
-  this.searchTerm = event.target.value;
-  this.searchTerm.trim().length === 0 ? this.resetSearch() :this.getLeaves();
 }
 
 /**
@@ -303,6 +314,7 @@ applyFilters(): void {
     this.appliedFilters.push({ key: 'Date', value: `${fromDate} to ${toDate}` });
   }
 
+  this.changeShowFilter(false);
   this.currentPage = 1; // Reset to first page when applying filters
   this.getLeaves(); // ✅ Now sends leaveType and status as array of strings
 }
@@ -316,6 +328,7 @@ resetFilters(): void {
     status: [],
   };
   this.appliedFilters = [];
+  this.changeShowFilter(false);
   this.currentPage = 1;
   this.getLeaves();
 }
@@ -337,6 +350,7 @@ removeFilter(filterKey: string): void {
       break;
   }
 
+  this.changeShowFilter(false);
   this.currentPage = 1;
   this.getLeaves();
 }
@@ -381,6 +395,57 @@ approveOrRejectLeaveCall(leaveId: number, operationString: string) {
     this.rejectionReasonFlag = true;
     // this.approveOrRejectLeave(leaveId, operationString);
    }
+}
+
+dayWiseLeaveStatus: any[]=[];
+getDayWiseLeaveStatus(leaveId: number) {
+  debugger
+  this.dayWiseLeaveStatus = [];
+  this.leaveService.getDayWiseLeaveStatus(leaveId).subscribe({
+    next: (response: any) => {
+     this.dayWiseLeaveStatus = response.object;
+     console.log(response);
+    },
+    error: (error) => {
+      console.error('Failed to fetch approve/reject leaves:', error);
+    },
+  });
+}
+
+
+showCalender:boolean = false;
+openCloseMonthCalender(){
+  this.showCalender = !this.showCalender;
+}
+
+
+expandedStates: boolean[] = [];
+// toggleCollapse(index: number): void {
+//   this.expandedStates[index] = !this.expandedStates[index];
+// }
+
+
+expandedIndex: number | null = null;
+
+toggleCollapse(index: number): void {
+  this.expandedIndex = this.expandedIndex === index ? null : index;
+  this.expandedStates[index] = !this.expandedStates[index];
+}
+
+isExpanded(index: number): boolean {
+  return this.expandedIndex === index;
+}
+
+
+getDayFromDate(inputDate: string) {
+  const date = new Date(inputDate);
+  const day = date.getDate().toString().padStart(2, '0');
+  return day;
+}
+
+getDayNameFromDate(dateString: string): any {
+  const date = new Date(dateString);
+  return this.datePipe.transform(date, 'EEEE');
 }
 
 

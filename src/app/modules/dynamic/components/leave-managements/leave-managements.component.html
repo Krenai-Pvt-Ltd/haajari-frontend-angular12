@@ -991,7 +991,7 @@
                                                 <form novalidate
                                                     class="searching d-flex align-items-center justify-content-between w-100">
                                                     <div class="form-group w-100 position-relative">
-                                                        <input type="text" id="searchInput" #searchInput="ngModel" placeholder="Search by name.."
+                                                        <input type="text" name="search" id="searchInput" #searchInput="ngModel" placeholder="Search by name.."
                                                          class="form-control me-2 w-100" style="padding: 10px 45px;"  [(ngModel)]="searchTerm"  
                                                          (keyup)="searchTermChanged($event)" />
                                                         <i class="bi bi-search search-icon d-flex align-items-center  h-100" *ngIf="searchTerm == ''"></i>
@@ -1141,7 +1141,11 @@
                                  </tbody>
                                   <!-- empty notification end -->
                                <tbody class="ng-star-inserted" *ngIf="leaves.length > 0 && !isLoadingLeaves">
-                                <tr class="new-request" *ngFor="let leave of leaves" >
+                                <ng-container *ngFor="let leave of leaves;
+                                let i = index
+                              ">
+                              <!-- class="new-request" -->
+                                <tr >
                                     <td class="text-left"><span class="team-maneger mb-0">{{leave.username}} </span></td>
                                      <td class="text-left">
                                         <p class="mb-0 font-12 fw-semibold">{{ leave.leaveType }}</p>
@@ -1177,12 +1181,16 @@
                                     </td>
                                      <td class="text-end">
                                         <div class="d-flex align-items-center justify-content-end gap-2">
-                                            <span *ngIf="!showCalender" class="action-btn d-flex align-items-center justify-content-center collapsed" type="button" data-bs-toggle="collapse" href="#collapseExamplesheet0" aria-controls="collapseExamplesheet0" (click)="openCloseMonthCalender()">
+                                            <span *ngIf="!isExpanded(i)" 
+                                            class="action-btn d-flex align-items-center justify-content-center" 
+                                            (click)="toggleCollapse(i); openCloseMonthCalender(); getDayWiseLeaveStatus(leave.id)">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="17" height="21" viewBox="0 0 17 21" fill="none">
                                                   <path d="M1.80775 20.0576C1.30258 20.0576 0.875 19.8826 0.525 19.5326C0.175 19.1826 0 18.7551 0 18.2499V4.86538C0 4.36022 0.175 3.93263 0.525 3.58263C0.875 3.23263 1.30258 3.05763 1.80775 3.05763H3.19225V0.942383H4.73075V3.05763H12.3077V0.942383H13.8077V3.05763H15.1923C15.6974 3.05763 16.125 3.23263 16.475 3.58263C16.825 3.93263 17 4.36022 17 4.86538V18.2499C17 18.7551 16.825 19.1826 16.475 19.5326C16.125 19.8826 15.6974 20.0576 15.1923 20.0576H1.80775ZM1.80775 18.5576H15.1923C15.2692 18.5576 15.3398 18.5256 15.4038 18.4614C15.4679 18.3974 15.5 18.3269 15.5 18.2499V8.86538H1.5V18.2499C1.5 18.3269 1.53208 18.3974 1.59625 18.4614C1.66025 18.5256 1.73075 18.5576 1.80775 18.5576ZM1.5 7.36538H15.5V4.86538C15.5 4.78838 15.4679 4.71788 15.4038 4.65388C15.3398 4.58972 15.2692 4.55763 15.1923 4.55763H1.80775C1.73075 4.55763 1.66025 4.58972 1.59625 4.65388C1.53208 4.71788 1.5 4.78838 1.5 4.86538V7.36538ZM8.5 12.6346C8.25517 12.6346 8.0465 12.5484 7.874 12.3759C7.70167 12.2035 7.6155 11.9949 7.6155 11.7499C7.6155 11.505 7.70167 11.2964 7.874 11.1239C8.0465 10.9515 8.25517 10.8654 8.5 10.8654C8.74483 10.8654 8.9535 10.9515 9.126 11.1239C9.29833 11.2964 9.3845 11.505 9.3845 11.7499C9.3845 11.9949 9.29833 12.2035 9.126 12.3759C8.9535 12.5484 8.74483 12.6346 8.5 12.6346ZM4.5 12.6346C4.25517 12.6346 4.0465 12.5484 3.874 12.3759C3.70167 12.2035 3.6155 11.9949 3.6155 11.7499C3.6155 11.505 3.70167 11.2964 3.874 11.1239C4.0465 10.9515 4.25517 10.8654 4.5 10.8654C4.74483 10.8654 4.9535 10.9515 5.126 11.1239C5.29833 11.2964 5.3845 11.505 5.3845 11.7499C5.3845 11.9949 5.29833 12.2035 5.126 12.3759C4.9535 12.5484 4.74483 12.6346 4.5 12.6346ZM12.5 12.6346C12.2552 12.6346 12.0465 12.5484 11.874 12.3759C11.7017 12.2035 11.6155 11.9949 11.6155 11.7499C11.6155 11.505 11.7017 11.2964 11.874 11.1239C12.0465 10.9515 12.2552 10.8654 12.5 10.8654C12.7448 10.8654 12.9535 10.9515 13.126 11.1239C13.2983 11.2964 13.3845 11.505 13.3845 11.7499C13.3845 11.9949 13.2983 12.2035 13.126 12.3759C12.9535 12.5484 12.7448 12.6346 12.5 12.6346ZM8.5 16.5576C8.25517 16.5576 8.0465 16.4714 7.874 16.2989C7.70167 16.1265 7.6155 15.918 7.6155 15.6731C7.6155 15.4281 7.70167 15.2195 7.874 15.0471C8.0465 14.8746 8.25517 14.7884 8.5 14.7884C8.74483 14.7884 8.9535 14.8746 9.126 15.0471C9.29833 15.2195 9.3845 15.4281 9.3845 15.6731C9.3845 15.918 9.29833 16.1265 9.126 16.2989C8.9535 16.4714 8.74483 16.5576 8.5 16.5576ZM4.5 16.5576C4.25517 16.5576 4.0465 16.4714 3.874 16.2989C3.70167 16.1265 3.6155 15.918 3.6155 15.6731C3.6155 15.4281 3.70167 15.2195 3.874 15.0471C4.0465 14.8746 4.25517 14.7884 4.5 14.7884C4.74483 14.7884 4.9535 14.8746 5.126 15.0471C5.29833 15.2195 5.3845 15.4281 5.3845 15.6731C5.3845 15.918 5.29833 16.1265 5.126 16.2989C4.9535 16.4714 4.74483 16.5576 4.5 16.5576ZM12.5 16.5576C12.2552 16.5576 12.0465 16.4714 11.874 16.2989C11.7017 16.1265 11.6155 15.918 11.6155 15.6731C11.6155 15.4281 11.7017 15.2195 11.874 15.0471C12.0465 14.8746 12.2552 14.7884 12.5 14.7884C12.7448 14.7884 12.9535 14.8746 13.126 15.0471C13.2983 15.2195 13.3845 15.4281 13.3845 15.6731C13.3845 15.918 13.2983 16.1265 13.126 16.2989C12.9535 16.4714 12.7448 16.5576 12.5 16.5576Z" fill="#1C1B1F"/>
                                                 </svg>
                                             </span>
-                                            <span *ngIf="showCalender" class="action-btn staff-month-sheet d-flex align-items-center justify-content-center collapsed" type="button" data-bs-toggle="collapse" href="#collapseExamplesheet0" aria-controls="collapseExamplesheet0" (click)="openCloseMonthCalender()">
+                                            <span *ngIf="isExpanded(i)" 
+                                            class="action-btn staff-month-sheet d-flex align-items-center justify-content-center" 
+                                            (click)="toggleCollapse(i); openCloseMonthCalender()">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23" fill="none">
                                                     <mask id="mask0_7808_168" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="23" height="23">
                                                     <rect x="0.5" y="22.5" width="22" height="22" transform="rotate(-90 0.5 22.5)" fill="#D9D9D9"/>
@@ -1191,7 +1199,7 @@
                                                     <path d="M20.6673 15.1438L19.0402 16.7708L11.5007 9.23126L3.96107 16.7708L2.33398 15.1438L11.5007 5.97709L20.6673 15.1438Z" fill="white"/>
                                                     </g>
                                                     </svg>
-                                              </span>
+                                            </span>
                                             <div  class="dropdown">
                                                 <span class="action-btn d-flex align-items-center justify-content-center pointer" type="button" data-bs-toggle="dropdown">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
@@ -1255,202 +1263,182 @@
                                      </td>
                                   </tr>
 
-                                  <tr class="collapse" id="collapseExamplesheet0">
+                                  <tr class="collapse" [id]="'collapseExamplesheet' + i" 
+                                  [ngClass]="{'show': isExpanded(i)}">
                                     <td colspan="9" class="p-1">
                                        <div class="month-deta">
                                           <table class="table table-bordesick-leaves day-data mb-0">
                                              <tr class="position-relative">
-                                                <th class="text-center"> W <br> 01 </th>
-                                                
-                                                <th class="text-center"> T <br> 02 </th>
-                                                
-                                                <th class="text-center"> F <br> 03 </th>
-                                                
-                                                <th class="text-center"> S <br> 04 </th>
-                                                
-                                                <th class="text-center"> S <br> 05 </th>
-                                                
-                                                <th class="text-center"> M <br> 06 </th>
-                                                
-                                                <th class="text-center"> T <br> 07 </th>
-                                                
-                                                <th class="text-center"> W <br> 08 </th>
-                                                
-                                                <th class="text-center"> T <br> 09 </th>
-                                                
-                                                <th class="text-center"> F <br> 10 </th>
-                                                
-                                                <th class="text-center"> S <br> 11 </th>
-                                                
-                                                <th class="text-center"> S <br> 12 </th>
-                                                
-                                                <th class="text-center"> M <br> 13 </th>
-                                                
-                                                <th class="text-center"> T <br> 14 </th>
-                                                
-                                                <th class="text-center"> W <br> 15 </th>
-                                                
-                                                <th class="text-center"> T <br> 16 </th>
-                                                
-                                                <th class="text-center"> F <br> 17 </th>
-                                                
-                                                <th class="text-center"> S <br> 18 </th>
-                                                
-                                                <th class="text-center"> S <br> 19 </th>
-                                                
-                                                <th class="text-center"> M <br> 20 </th>
-                                                
-                                                <th class="text-center"> T <br> 21 </th>
-                                                
-                                                <th class="text-center"> W <br> 22 </th>
-                                                
-                                                <th class="text-center"> T <br> 23 </th>
-                                                
-                                                <th class="text-center"> F <br> 24 </th>
-                                                
-                                                <th class="text-center"> S <br> 25 </th>
-                                                
-                                                <th class="text-center"> S <br> 26 </th>
-                                                
-                                                <th class="text-center"> M <br> 27 </th>
-                                                
-                                                <th class="text-center"> T <br> 28 </th>
-                                                
-                                                <th class="text-center"> W <br> 29 </th>
-                                                
-                                                <th class="text-center"> T <br> 30 </th>
-                                                
-                                                <th class="text-center"> F <br> 31 </th>
+                                                <ng-container *ngFor="
+                                                let dayWiseStatus of dayWiseLeaveStatus
+                                              ">
+                                              <th class="text-center">
+                                                {{
+                                                getDayNameFromDate(
+                                                dayWiseStatus.date
+                                                )[0]
+                                                }}
+                                                <br />
+                                                {{
+                                                getDayFromDate(dayWiseStatus.date)
+                                                }}
+                                              </th>
+                                               </ng-container>
                                              </tr>
-                                             <tr>
-                                                <td class="text-center position-relative attendance-detail sick-leaves">
-                                                    SL
-                                                </td>
-                                                
-                                                <td class="text-center position-relative attendance-detail ">
-                                                   -
-                                                </td>
-                                                
-                                                <td class="text-center position-relative attendance-detail ">
-                                                   -
-                                                </td>
-                                                
-                                                <td class="text-center position-relative attendance-detail">
-                                                   -
-                                                </td>
-                                                
-                                                <td class="text-center position-relative attendance-detail">
-                                                -
-                                                </td>
-                                                
-                                                <td class="text-center position-relative attendance-detail earned-leaves">
-                                                    W-off
-                                                </td>
-                                                
-                                                <td class="text-center position-relative attendance-detail earned-leaves">
-                                                    W-off 
-                                                </td>
-                                                
-                                                <td class="text-center position-relative attendance-detail">
-                                                   -
-                                                </td>
-                                                
-                                                <td class="text-center position-relative attendance-detail">
-                                                   -
-                                                </td>
-                                                
-                                                <td class="text-center position-relative attendance-detail earned-leaves">
-                                                    CL
-                                                </td>
-                                                
-                                                <td class="text-center position-relative attendance-detail">
-                                                   -
-                                                </td>
-                                                
-                                                <td class="text-center position-relative attendance-detail">
-                                                -
-                                                </td>
-                                                
-                                                <td class="text-center position-relative attendance-detail earned-leaves">
-                                                    W-off 
-                                                </td>
-                                                
-                                                <td class="text-center position-relative attendance-detail earned-leaves">
-                                                    W-off 
-                                                </td>
-                                                
-                                                <td class="text-center position-relative attendance-detail text-warning">
-                                                    Half-D
-                                                </td>
-                                                
-                                                <td class="text-center position-relative attendance-detail">
-                                                   -
-                                                </td>
-                                                
-                                                <td class="text-center position-relative attendance-detail text-danger">
-                                                    Reject
-                                                </td>
-                                                
-                                                <td class="text-center position-relative attendance-detail">
-                                                -
-                                                </td>
-                                                
-                                                <td class="text-center position-relative attendance-detail ">
-                                                   -
-                                                </td>
-                                                
-                                                <td class="text-center position-relative attendance-detail">
-                                                -
-                                                </td>
-                                                
-                                                <td class="text-center position-relative attendance-detail earned-leaves">
-                                                    W-off
-                                                </td>
-                                                
-                                                <td class="text-center position-relative attendance-detail earned-leaves">
-                                                    W-off
-                                                </td>
-                                                
-                                                <td class="text-center position-relative attendance-detail text-primary">
-                                                   Apply
-                                                </td>
-                                                
-                                                <td class="text-center position-relative attendance-detail">
-                                                   -
-                                                </td>
-                                                
-                                                <td class="text-center position-relative attendance-detail text-warning">
-                                                    Holiday
-                                                </td>
-                                                
-                                                <td class="text-center position-relative attendance-detail blue">
-                                                   -
-                                                </td>
-                                                
-                                                <td class="text-center position-relative attendance-detail">
-                                                   - 
-                                                </td>
-                                                
-                                                <td class="text-center position-relative attendance-detail earned-leaves">
-                                                    W-off
-                                                </td>
-                                                
-                                                <td class="text-center position-relative attendance-detail  earned-leaves">
-                                                    W-off
-                                                </td>
-                                                
-                                                <td class="text-center position-relative attendance-detail">
-                                                   - 
-                                                </td>
-                                                
-                                                <td class="text-center position-relative attendance-detail">
-                                                   - 
-                                                </td>
+                                             <tr class="position-relative">
+                                                <ng-container *ngFor="
+                                                    let dayWiseStatus of dayWiseLeaveStatus
+                                                    ">
+                                                    <td class="text-center position-relative attendance-detail" [ngClass]="{
+                                                        'text-success':
+                                                        dayWiseStatus.status?.includes('Leave') ||  dayWiseStatus.status == 'LWP'  ||
+                                                        dayWiseStatus.status == 'Half-D',
+                                                        'text-danger':
+                                                        dayWiseStatus.status == 'Reject',
+                                                        'text-warning':
+                                                        dayWiseStatus.status == 'Apply'||
+                                                        dayWiseStatus.status == HOLIDAY,
+                                                        'text-primary':
+                                                        dayWiseStatus.status == 'W-off' 
+                                                    }">
+                                                    {{
+                                                    dayWiseStatus.status[0] == "U"
+                                                    ? "-"
+                                                    : dayWiseStatus.status
+                                                    }}
+                                                    </td>
+                                                </ng-container>
                                              </tr>
+                                                <!-- <tr class="position-relative">
+                                                            <td class="text-center position-relative attendance-detail sick-leaves">
+                                                                SL
+                                                            </td>
+                                                            
+                                                            <td class="text-center position-relative attendance-detail ">
+                                                            -
+                                                            </td>
+                                                            
+                                                            <td class="text-center position-relative attendance-detail ">
+                                                            -
+                                                            </td>
+                                                            
+                                                            <td class="text-center position-relative attendance-detail">
+                                                            -
+                                                            </td>
+                                                            
+                                                            <td class="text-center position-relative attendance-detail">
+                                                            -
+                                                            </td>
+                                                            
+                                                            <td class="text-center position-relative attendance-detail earned-leaves">
+                                                                W-off
+                                                            </td>
+                                                            
+                                                            <td class="text-center position-relative attendance-detail earned-leaves">
+                                                                W-off 
+                                                            </td>
+                                                            
+                                                            <td class="text-center position-relative attendance-detail">
+                                                            -
+                                                            </td>
+                                                            
+                                                            <td class="text-center position-relative attendance-detail">
+                                                            -
+                                                            </td>
+                                                            
+                                                            <td class="text-center position-relative attendance-detail earned-leaves">
+                                                                CL
+                                                            </td>
+                                                            
+                                                            <td class="text-center position-relative attendance-detail">
+                                                            -
+                                                            </td>
+                                                            
+                                                            <td class="text-center position-relative attendance-detail">
+                                                            -
+                                                            </td>
+                                                            
+                                                            <td class="text-center position-relative attendance-detail earned-leaves">
+                                                                W-off 
+                                                            </td>
+                                                            
+                                                            <td class="text-center position-relative attendance-detail earned-leaves">
+                                                                W-off 
+                                                            </td>
+                                                            
+                                                            <td class="text-center position-relative attendance-detail text-warning">
+                                                                Half-D
+                                                            </td>
+                                                            
+                                                            <td class="text-center position-relative attendance-detail">
+                                                            -
+                                                            </td>
+                                                            
+                                                            <td class="text-center position-relative attendance-detail text-danger">
+                                                                Reject
+                                                            </td>
+                                                            
+                                                            <td class="text-center position-relative attendance-detail">
+                                                            -
+                                                            </td>
+                                                            
+                                                            <td class="text-center position-relative attendance-detail ">
+                                                            -
+                                                            </td>
+                                                            
+                                                            <td class="text-center position-relative attendance-detail">
+                                                            -
+                                                            </td>
+                                                            
+                                                            <td class="text-center position-relative attendance-detail earned-leaves">
+                                                                W-off
+                                                            </td>
+                                                            
+                                                            <td class="text-center position-relative attendance-detail earned-leaves">
+                                                                W-off
+                                                            </td>
+                                                            
+                                                            <td class="text-center position-relative attendance-detail text-primary">
+                                                            Apply
+                                                            </td>
+                                                            
+                                                            <td class="text-center position-relative attendance-detail">
+                                                            -
+                                                            </td>
+                                                            
+                                                            <td class="text-center position-relative attendance-detail text-warning">
+                                                                Holiday
+                                                            </td>
+                                                            
+                                                            <td class="text-center position-relative attendance-detail blue">
+                                                            -
+                                                            </td>
+                                                            
+                                                            <td class="text-center position-relative attendance-detail">
+                                                            - 
+                                                            </td>
+                                                            
+                                                            <td class="text-center position-relative attendance-detail earned-leaves">
+                                                                W-off
+                                                            </td>
+                                                            
+                                                            <td class="text-center position-relative attendance-detail  earned-leaves">
+                                                                W-off
+                                                            </td>
+                                                            
+                                                            <td class="text-center position-relative attendance-detail">
+                                                            - 
+                                                            </td>
+                                                            
+                                                            <td class="text-center position-relative attendance-detail">
+                                                            - 
+                                                            </td>
+                                                </tr> -->
                                           </table>
                                        </div>
                                     </td>
                                  </tr>
+                                </ng-container>
                                   <!-- <tr>
                                     <td class="text-left"><span class="team-maneger mb-0">Sam Michael </span></td>
                                      <td class="text-left">
@@ -1643,6 +1631,7 @@
                                     </ngb-pagination>
                                   </div>
                                 </div>
+
                                </tbody>
                             </table>
                          </div>

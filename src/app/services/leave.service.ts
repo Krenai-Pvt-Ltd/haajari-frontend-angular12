@@ -71,4 +71,18 @@ export class LeaveService {
     );
   }
 
+
+  getDayWiseLeaveStatus(
+    userLeaveId: number
+  ): Observable<any> {
+    const params = new HttpParams()
+      .set('userLeaveId', userLeaveId);
+    return this.http.get<any>(
+      `${API_URLS.base_url}/leave/day-wise/status`,
+      { params }
+    );
+  }
+
+
+
 }
