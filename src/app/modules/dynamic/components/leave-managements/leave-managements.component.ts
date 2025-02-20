@@ -61,7 +61,7 @@ export class LeaveManagementsComponent implements OnInit {
   searchTerm:string = '';
   leaves:any=[];
   totalItems:number = 0;
-  statusMaster: string[] = ['ALL',this.PENDING,this.APPROVED,this.REJECTED,this.REQUESTED];
+  statusMaster: string[] = [this.PENDING,this.APPROVED,this.REJECTED];
   // status= this.statusMaster;
   status:string[]= [];
   ROLE: string | null |any = '';
@@ -184,6 +184,8 @@ openInNewTab(url: string) {
 }
 
 onPageChange(page: number) {
+  this.searchTerm = ''; 
+  // this.currentPage = 1; 
   this.currentPage = page;
   this.getLeaves();
 }
@@ -199,6 +201,7 @@ resetSearch(){
 
 searchTermChanged(event: any) {
   debugger
+  this.currentPage = 1; 
   this.searchTerm = event.target.value;
   this.searchTerm.trim().length === 0 ? this.resetSearch() :this.getLeaves();
 }
@@ -217,7 +220,7 @@ resetValues(){
 /**
  * HANDLING FILTERS
  */
-leaveTypes = ['ALL','Earned Leave', 'Sick Leave', 'Casual Leave']; // Example options
+leaveTypes = ['Earned Leave', 'Sick Leave', 'Casual Leave']; // Example options
 
 badgesList:[]=[];
 filters:{
@@ -287,27 +290,29 @@ disabledDateFrom = (current: Date): boolean => {
 //   (this.filters as any)[filterKey] = '';
 // }
 
-appliedFilters: { key: string; value: string | null | undefined }[] = [];
+
+appliedFilters: { key: string; value: string }[] = [];
 
 applyFilters(): void {
-  debugger;
   this.appliedFilters = [];
 
-  // ✅ Handle Leave Type filter (keep as an array of strings)
+  // 🚀 Handle Leave Type - Add each selected type separately
   if (this.filters.leaveType.length) {
-    const uniqueLeaveTypes = [...new Set(this.filters.leaveType)]; // Ensure unique values
-    this.filters.leaveType = uniqueLeaveTypes; // Keep it as an array
-    this.appliedFilters.push({ key: 'Leave Type', value: uniqueLeaveTypes.join(', ') });
+    const uniqueLeaveTypes = [...new Set(this.filters.leaveType)];
+    uniqueLeaveTypes.forEach(type => {
+      this.appliedFilters.push({ key: 'Leave Type', value: type });
+    });
   }
 
-  // ✅ Handle Status filter (keep as an array of strings)
+  // 🚀 Handle Status - Add each selected status separately
   if (this.filters.status.length) {
-    const uniqueStatuses = [...new Set(this.filters.status)]; // Ensure unique values
-    this.filters.status = uniqueStatuses; // Keep it as an array
-    this.appliedFilters.push({ key: 'Status', value: uniqueStatuses.join(', ') });
+    const uniqueStatuses = [...new Set(this.filters.status)];
+    uniqueStatuses.forEach(status => {
+      this.appliedFilters.push({ key: 'Status', value: status });
+    });
   }
 
-  // ✅ Handle Date Range filter
+  // 📅 Handle Date Range - Added as a single filter
   if (this.filters.fromDate && this.filters.toDate) {
     const fromDate = moment(this.filters.fromDate).format(this.displayDateFormat);
     const toDate = moment(this.filters.toDate).format(this.displayDateFormat);
@@ -315,8 +320,8 @@ applyFilters(): void {
   }
 
   this.changeShowFilter(false);
-  this.currentPage = 1; // Reset to first page when applying filters
-  this.getLeaves(); // ✅ Now sends leaveType and status as array of strings
+  this.currentPage = 1;
+  this.getLeaves(); // Fetch data with applied filters
 }
 
 resetFilters(): void {
@@ -332,18 +337,20 @@ resetFilters(): void {
   this.currentPage = 1;
   this.getLeaves();
 }
+removeFilter(filter: { key: string; value: string }): void {
+  // Remove the specific filter from the appliedFilters array
+  this.appliedFilters = this.appliedFilters.filter(f => !(f.key === filter.key && f.value === filter.value));
 
-removeFilter(filterKey: string): void {
-  debugger
-  this.appliedFilters = this.appliedFilters.filter((f) => f.key !== filterKey);
-
-  switch (filterKey) {
+  // Update corresponding filters based on key and value
+  switch (filter.key) {
     case 'Leave Type':
-      this.filters.leaveType = [];
+      this.filters.leaveType = this.filters.leaveType.filter(type => type !== filter.value);
       break;
+
     case 'Status':
-      this.filters.status = [];
+      this.filters.status = this.filters.status.filter(status => status !== filter.value);
       break;
+
     case 'Date':
       this.filters.fromDate = undefined;
       this.filters.toDate = undefined;
@@ -352,7 +359,7 @@ removeFilter(filterKey: string): void {
 
   this.changeShowFilter(false);
   this.currentPage = 1;
-  this.getLeaves();
+  this.getLeaves(); // Refresh data after filter removal
 }
 
 
@@ -398,15 +405,19 @@ approveOrRejectLeaveCall(leaveId: number, operationString: string) {
 }
 
 dayWiseLeaveStatus: any[]=[];
+dayWiseLeaveStatusLoader: boolean = false;
 getDayWiseLeaveStatus(leaveId: number) {
   debugger
+  this.dayWiseLeaveStatusLoader = true;
   this.dayWiseLeaveStatus = [];
   this.leaveService.getDayWiseLeaveStatus(leaveId).subscribe({
     next: (response: any) => {
      this.dayWiseLeaveStatus = response.object;
      console.log(response);
+     this.dayWiseLeaveStatusLoader = false;
     },
     error: (error) => {
+      this.dayWiseLeaveStatusLoader = false;
       console.error('Failed to fetch approve/reject leaves:', error);
     },
   });
