@@ -130,12 +130,12 @@ export class LeaveManagementsComponent implements OnInit {
       this.resetSearch();
     }
   
-    this.filters.leaveType = this.filters.leaveType.map((type: any) => typeof type === 'string' ? type : type.value);
-    this.filters.status = this.filters.status.map((status: any) => typeof status === 'string' ? status : status.value);
+    // this.filters.leaveType = this.filters.leaveType.map((type: any) => typeof type === 'string' ? type : type.value);
+    // this.filters.status = this.filters.status.map((status: any) => typeof status === 'string' ? status : status.value);
   
     const params: any = {
-      status: this.filters.status.length ? this.filters.status.join(',') : undefined,      // Convert to comma-separated string
-      leaveType: this.filters.leaveType.length ? this.filters.leaveType.join(',') : undefined, // Convert to comma-separated string
+      status: this.filters.status,     
+      leaveType: this.filters.leaveType, 
       itemPerPage: this.itemPerPage,
       currentPage: this.currentPage,
       search: this.searchTerm || undefined
@@ -235,47 +235,10 @@ filters:{
   fromDate: undefined,
   toDate: undefined
 };
-// resetFilters() {
-//   this.filters= {
-//     fromDate: undefined,
-//     toDate: undefined,
-//     leaveType: [],
-//     status: []
-//   };
-//   this.changeShowFilter(false);
-//   this.appliedFilters = [];
-// }
-// appliedFilters: { key: string; value: string|null|undefined }[] = [];
 
 displayDateFormat: string = 'DD-MM-YYYY'; // Date format for date picker
 networkDateFormat: string = "yyyy-MM-DD HH:mm:ss";
-// applyFilters() {
-//   this.appliedFilters = [];
 
-
-//   if (this.filters.leaveType) {
-//     // this.appliedFilters.push({ key: 'Leave Type', value: this.filters.leaveType });
-//   }
-//   if (this.filters.status) {
-//     // this.appliedFilters.push({ key: 'status', value: this.filters.status });
-//     if(this.filters.status.length === 0){
-//       this.status = this.statusMaster;
-//     }else{
-//       this.status =this.filters.status;
-//     }
-//   }
-//   if(this.filters.fromDate && this.filters.toDate){ 
-    
-//     var fromDate= moment(this.filters.fromDate).format(this.displayDateFormat);
-//     var toDate= moment(this.filters.toDate).format(this.displayDateFormat);
-   
-//     var value= fromDate +" to "+ toDate;
-//     this.appliedFilters.push({ key: 'Date', value: value});
-//   }
-
-//   this.changeShowFilter(false);
-//   this.getLeaves(false);
-// }
 // Disable dates greater than 'fromDate' for the 'toDate' field
 disabledDateTo = (current: Date): boolean => {
   return current && this.filters.fromDate && current <= this.filters.fromDate;
@@ -285,10 +248,6 @@ disabledDateTo = (current: Date): boolean => {
 disabledDateFrom = (current: Date): boolean => {
   return current && this.filters.toDate && current >= this.filters.toDate;
 };
-// removeFilter(filterKey: string) {
-//   this.appliedFilters = this.appliedFilters.filter(f => f.key !== filterKey);
-//   (this.filters as any)[filterKey] = '';
-// }
 
 
 appliedFilters: { key: string; value: string }[] = [];
