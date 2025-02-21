@@ -40,6 +40,7 @@ export class ExitModalComponent {
 
 ngOnChanges(changes: SimpleChanges) {
       if (changes['data']) {
+        console.log("changes deetcted");
        this.fetchData();
       }
     }
@@ -83,7 +84,7 @@ ngOnChanges(changes: SimpleChanges) {
     this.dataService.submitResignation(this.userResignationReq).subscribe((res: any) => {
       if (res.status) {
         this.resignationToggle = false
-        this.closeApproveModal.nativeElement.click()
+        this.viewExitRequestDismiss.nativeElement.click()
         this.getUserResignationInfo()
         // this.clearForm();
         this.close();
@@ -135,7 +136,7 @@ ngOnChanges(changes: SimpleChanges) {
     })
   }
 
-    @ViewChild('closeApproveModal') closeApproveModal!: ElementRef
+    @ViewChild('viewExitRequestDismiss') viewExitRequestDismiss!: ElementRef
     approveToggle: boolean = false
     hideResignationModal: boolean = false;
     approveOrDenyResignation(id: number) {
@@ -154,8 +155,8 @@ ngOnChanges(changes: SimpleChanges) {
           );
 
           this.close();
-          if(this.closeApproveModal){
-            this.closeApproveModal.nativeElement.click()
+          if(this.viewExitRequestDismiss){
+            this.viewExitRequestDismiss.nativeElement.click()
           }
         } else {
           this.approveToggle = false;
@@ -218,7 +219,7 @@ ngOnChanges(changes: SimpleChanges) {
       // this.closeApproveModal.nativeElement.click()
       this.dataService.revokeResignation(id, this.userResignationInfo.revokeReason).subscribe((res: any) => {
         if (res.status) {
-          this.closeApproveModal.nativeElement.click()
+          this.viewExitRequestDismiss.nativeElement.click()
           this.approveToggle = false
           // this.helperService.profileChangeStatus.next(true);
           this.helperService.showToast(

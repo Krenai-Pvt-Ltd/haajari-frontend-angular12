@@ -1255,7 +1255,8 @@
                             <div class="dropdown-menu actionMenuList">
 
                               <li>
-                                <a *ngIf="user.status=='PENDING'" class="dropdown-item" (click)="onInitiateExitClick(user?.uuid)" ><i
+                                <a *ngIf="user.status=='PENDING'" class="dropdown-item" data-bs-toggle="modal"
+                                 data-bs-target="#viewExitRequest" (click)="onInitiateExitClick(user?.uuid)" ><i
                                     class="bi bi-eye"></i>
                                   View Request</a>
                               </li>
@@ -2312,8 +2313,27 @@ aria-labelledby="exampleModalLabel" aria-hidden="true">
 <!-- Initiate Exit (UserResignation) Modal End -->
 
 
+<div class="modal fade" id="viewExitRequest" tabindex="-1" aria-labelledby="emptyModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+      <div class="modal-content">
 
-<!-- <app-exit-modal></app-exit-modal> -->
+          <div class="modal-body p-0">
+              <button #viewExitRequestDismiss id="viewExitRequestDismiss" type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="15" viewBox="0 0 16 15" fill="none">
+                      <path d="M2.09533 14.3667L0.619141 12.9707L6.5239 7.38648L0.619141 1.8023L2.09533 0.40625L8.00009 5.99044L13.9049 0.40625L15.381 1.8023L9.47628 7.38648L15.381 12.9707L13.9049 14.3667L8.00009 8.78253L2.09533 14.3667Z" fill="black"/>
+                  </svg>
+              </button>
+              <!-- Add your content here -->
+              <ng-container *ngIf="showExitModal">
+             <app-exit-modal [data]="exitData" (closeEvent)="onExitComponentClose()" ></app-exit-modal>
+              </ng-container>
+          </div>
+          <!-- <div class="modal-footer">
+              <button type="button" (click)="getUserAttendanceStatus();" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div> -->
+      </div>
+  </div>
+</div>
 
 
 
