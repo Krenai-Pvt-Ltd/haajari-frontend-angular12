@@ -939,10 +939,7 @@
                               {{invoice.invoiceNo}}</span>
                           </td>
                           <td class="text-center">
-                            <div class="badge rounded-pill"
-                              [ngClass]="{'badge-soft-primary': invoice.planName == 'Basic', 'badge-soft-warning': invoice.planName == 'Premium'}">
-                              <span> {{invoice.planName}}</span>
-                            </div>
+                              <span class="text-primary font-14"> {{invoice.planName}}</span>
                           </td>
                           <td>
                             <span class="teme-maneger text-center mb-0 table-font-weight">
