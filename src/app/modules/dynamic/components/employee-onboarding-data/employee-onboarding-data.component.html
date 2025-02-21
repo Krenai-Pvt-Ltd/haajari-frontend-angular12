@@ -1613,17 +1613,64 @@
 <div class="modal fade" id="edit-request" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
   aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg" style="max-width: 950px;">
-    <app-profile-update
-           *ngIf="isProfileReqModalOpen"
-          [data]="requestModalData"
-          (closeEvent)="onProfileComponentClose()"
-    >
-
-    </app-profile-update>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Update Request</h5>
+        <button #closeReqDataModal  (click)="closeDataRequestModal()" type="button" class="close-btn"
+          data-bs-dismiss="modal" aria-label="Close">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24"
+              height="24">
+              <rect width="24" height="24" fill="#D9D9D9" />
+            </mask>
+            <g mask="url(#mask0_5037_2014)">
+              <path d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z"
+                fill="black" />
+            </g>
+          </svg>
+        </button>
+      </div>
+      
+        <app-profile-update *ngIf="isProfileReqModalOpen" [data]="requestModalData" (closeEvent)="onProfileComponentClose()"> </app-profile-update>
+     
+      <!-- <div *ngIf="remainingField!==0" class="modal-footer d-flex align-items-center justify-content-end gap-2">
+        <button type="button" (click)="rejectData()" [disabled]="rejectLoading || fieldLoading || approveLoading || (isRejectModalOpen && (!rejectedReason || rejectedReason.length < 10))"
+          class="btn btn-soft-danger">
+          <span *ngIf="!rejectLoading">Reject All</span>
+          <div class="dot-opacity-loader" *ngIf="rejectLoading">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </button>
+        <button *ngIf="!isRejectModalOpen" type="button" (click)="approveRequestedData()" [disabled]="rejectLoading || approveLoading || fieldLoading"
+          class="btn  btn-soft-success">
+          <span *ngIf="!approveLoading">Approve All</span>
+          <div class="dot-opacity-loader" *ngIf="approveLoading">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </button>
+        <div *ngIf="isRejectModalOpen" class="d-flex align-items-center justify-content-end gap-2 ">
+          <button type="button" (click)="isRejectModalOpen=false" [disabled]="rejectLoading"
+            class="btn cancel-btn mt-0">
+            <span>Back</span>
+          </button>
+    
+      </div>
+    </div> -->
+    <div *ngIf="remainingField==0" class="d-flex align-items-center justify-content-end gap-2">
+      <button type="button" #closeReqDataModal (click)="closeDataRequestModal()"
+      data-bs-dismiss="modal" aria-label="Close" class="btn cancel-btn mt-0">
+        <span >Done</span>
+      </button>
+    </div>
+    </div>
 </div>
 </div>
 
-Edit Request Modal End
+<!-- Edit Request Modal End -->
 
 <!-- Trigger Button for Modal -->
 <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#sampleFileModal"
@@ -2232,7 +2279,6 @@ aria-labelledby="exampleModalLabel" aria-hidden="true">
                   <span class="calendar-separator"></span>
                   <h6 class="mb-0">{{userResignationReq.lastWorkingDay | date: 'dd MMM yyyy'}}</h6>
                 </div>
-                <!-- <p class="mb-0 font-13">Your last working day may change based on Manager/HR's decision.</p> -->
                 <p class="mb-0 font-13">This is the user last working day.</p>
               </div>
             </div>
@@ -2246,7 +2292,6 @@ aria-labelledby="exampleModalLabel" aria-hidden="true">
           </div>
         </div>
         <div class="modal-footer d-flex align-items-center justify-content-end gap-2">
-          <!-- <button class="btn cancel-btn" data-bs-dismiss="modal" aria-label="Close" (click)="closeResignationModal(resignationForm)" #closeResignationButton>Cancel</button> -->
           <button type="button" class="btn cancel-btn" data-bs-dismiss="modal" aria-label="Close"
             (click)="closeResignationModal(resignationForm)" #closeResignationButton>Cancel</button>
 
