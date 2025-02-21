@@ -7,6 +7,7 @@ import { LeaveResponse, PendingLeaveResponse } from 'src/app/models/leave-respon
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import moment from 'moment';  // Import Moment.js
 import { DatePipe } from '@angular/common';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-leave-managements',
@@ -15,7 +16,7 @@ import { DatePipe } from '@angular/common';
 })
 export class LeaveManagementsComponent implements OnInit {
 
-  constructor(private leaveService:LeaveService,private helperService: HelperService,    private rbacService: RoleBasedAccessControlService,private datePipe: DatePipe
+  constructor(private leaveService:LeaveService,private helperService: HelperService,  private dataService: DataService,   private rbacService: RoleBasedAccessControlService,private datePipe: DatePipe
   ,private cdr: ChangeDetectorRef) { }
   showFilter: boolean = false;
   logInUserUuid: string = '';
@@ -24,12 +25,56 @@ export class LeaveManagementsComponent implements OnInit {
     this.logInUserUuid = await this.rbacService.getUUID();
     this.ROLE = await this.rbacService.getRole();
     this.getLeaves(false,false);
+    this.selectedDate = new Date();
+    this.calculateDateRange();
+    this.getDetailsForLeaveTeamOverview(this.tabName);
   }
 
 
   tab: string = 'absent';
   switchTab(tab: string) {
     this.tab = tab
+
+    switch (tab) {
+      case 'absent':
+        this.currentPageTeamOverView = 1;
+        this.itemPerPageTeamOverview = 10;
+        this.leaveTeamOverviewResponse = [];
+        this.tabName = this.ABSENT_TAB;
+        this.getDetailsForLeaveTeamOverview(this.tabName);
+        return;
+      case 'leave':
+        this.currentPageTeamOverView = 1;
+        this.itemPerPageTeamOverview = 10;
+        this.leaveTeamOverviewResponse = [];
+        this.tabName = this.ON_LEAVE_TAB;
+        this.getDetailsForLeaveTeamOverview(this.tabName);
+        return;
+      case 'defaulter':
+        this.currentPageTeamOverView = 1;
+        this.itemPerPageTeamOverview = 10;
+        this.leaveTeamOverviewResponse = [];
+        this.tabName = this.DEFAULTER_TAB;
+        this.getDetailsForLeaveTeamOverview(this.tabName);
+        return;
+      case 'consistent':
+        this.currentPageTeamOverView = 1;
+        this.itemPerPageTeamOverview = 10;
+        this.leaveTeamOverviewResponse = [];
+        this.tabName = this.CONSISTENT_TAB;
+        this.getDetailsForLeaveTeamOverview(this.tabName);
+        return;
+      case 'department':
+        this.currentPageTeamOverView = 1;
+        this.itemPerPageTeamOverview = 10;
+        this.leaveTeamOverviewResponse = [];
+        this.tabName = this.LEAVE_BY_DEPARTMENT_TAB;
+        this.getDetailsForLeaveTeamOverview(this.tabName);
+        return;
+      default:
+        return '';
+    }
+   
   }
 
   changeShowFilter(flag : boolean) {
@@ -419,6 +464,191 @@ getDayNameFromDate(dateString: string): any {
 }
 
 
+//  tema overview
+
+
+
+ABSENT_TAB = Key.ABSENT_TAB;
+ON_LEAVE_TAB = Key.ON_LEAVE_TAB;
+DEFAULTER_TAB = Key.DEFAULTER_TAB;
+CONSISTENT_TAB = Key.CONSISTENT_TAB;
+LEAVE_BY_DEPARTMENT_TAB = Key.LEAVE_BY_DEPARTMENT_TAB;
+
+tabName : string = Key.ABSENT_TAB;
+// tabName : string = Key.ON_LEAVE_TAB;
+// startDateTeamOverview : string = '2025-02-01';
+// endDateTeamOverview : string = '2025-02-28';
+itemPerPageTeamOverview : number = 10;
+currentPageTeamOverView : number = 1;
+leaveTeamOverviewResponse: any[] = [];
+isLoaderLoading: boolean = false;
+getDetailsForLeaveTeamOverview(tabName:string) {
+  debugger
+  this.leaveTeamOverviewResponse = [];
+  this.isLoaderLoading = true;
+  this.leaveService.getDetailsForLeaveTeamOverview(tabName, this.startDate, this.endDate, this.itemPerPageTeamOverview, this.currentPageTeamOverView).subscribe({
+    next: (response: any) => {
+     this.leaveTeamOverviewResponse = response.object;
+     this.isLoaderLoading = false;
+     console.log(response);
+     
+    },
+    error: (error) => {
+      this.isLoaderLoading = false;
+      console.error('Failed to fetch', error);
+    },
+  });
+}
+
+
+//  new 
+
+
+size: 'large' | 'small' | 'default' = 'small';
+selectedDate: Date = new Date();
+startDate: string = '';
+endDate: string = '';
+selectedTab: string = 'Week 1';
+weekLabels: string[] = [];
+
+
+organizationRegistrationDate: string = '';
+getOrganizationRegistrationDateMethodCall() {
+  debugger;
+  this.dataService.getOrganizationRegistrationDate().subscribe(
+    (response: string) => {
+      this.organizationRegistrationDate = response;
+    },
+    (error: any) => {
+      console.log(error);
+    }
+  );
+}
+
+disableMonths = (date: Date): boolean => {
+  const currentYear = new Date().getFullYear();
+  const currentMonth = new Date().getMonth();
+  const dateYear = date.getFullYear();
+  const dateMonth = date.getMonth();
+  const userRegistrationYear = new Date(
+    this.organizationRegistrationDate
+  ).getFullYear();
+  const userRegistrationMonth = new Date(
+    this.organizationRegistrationDate
+  ).getMonth();
+
+  // Disable if the month is before the organization registration month
+  if (
+    dateYear < userRegistrationYear ||
+    (dateYear === userRegistrationYear &&
+      dateMonth < userRegistrationMonth)
+  ) {
+    return true;
+  }
+
+  // Disable if the month is after the current month
+  if (
+    dateYear > currentYear ||
+    (dateYear === currentYear && dateMonth > currentMonth)
+  ) {
+    return true;
+  }
+
+  // Enable the month if it's from January 2023 to the current month
+  return false;
+};
+
+
+calculateDateRange(): void {
+  const currentDate = new Date();
+  const isCurrentMonth =
+    this.selectedDate.getFullYear() === currentDate.getFullYear() &&
+    this.selectedDate.getMonth() === currentDate.getMonth();
+    this.startDate = this.formatDateToYYYYMMDD(
+      new Date(this.selectedDate.getFullYear(), this.selectedDate.getMonth(), 1)
+    );
+    this.endDate = this.formatDateToYYYYMMDD(
+      isCurrentMonth ? currentDate : new Date(this.selectedDate.getFullYear(), this.selectedDate.getMonth() + 1, 0)
+    );
+}
+
+
+formatDateToYYYYMMDD(date: Date): string {
+  const year = date.getFullYear();
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const day = date.getDate().toString().padStart(2, '0');
+
+  return `${year}-${month}-${day}`;
+}
+
+onMonthChange(month: Date): void {
+  this.selectedDate = month;
+
+  // Select the first week containing or after the joining date
+  const joiningDate = new Date(this.organizationRegistrationDate);
+
+  const selectedIndex = this.weekLabels.findIndex((_, index) => {
+    const weekStart = new Date(this.selectedDate.getFullYear(), this.selectedDate.getMonth(), index * 7 + 1);
+    const weekEnd = new Date(weekStart);
+    weekEnd.setDate(weekStart.getDate() + 6);
+
+    // Check if the joining date falls in the week
+    return weekStart <= joiningDate && joiningDate <= weekEnd;
+  });
+
+  // Default to Week 1 if no valid week is found
+  this.selectedTab = selectedIndex !== -1 ? this.weekLabels[selectedIndex] : this.weekLabels[0];
+  console.log('Selected Tab:', this.selectedTab);
+
+  this.calculateDateRange();
+  // this.tab = 'absent';
+  // this.tabName = this.ABSENT_TAB;
+  this.getDetailsForLeaveTeamOverview(this.tabName);
+}
+
+
+  // Navigate to the previous month
+  goToPreviousMonth(): void {
+    if (!this.isPreviousDisabled()) {
+      const previousMonth = new Date(
+        this.selectedDate.getFullYear(),
+        this.selectedDate.getMonth() - 1,
+        1
+      );
+      this.onMonthChange(previousMonth);
+    }
+  }
+
+  // Navigate to the next month
+  nextMonthDisable: boolean = false;
+  goToNextMonth(): void {
+    if (!this.isNextDisabled()) {
+      const nextMonth = new Date(
+        this.selectedDate.getFullYear(),
+        this.selectedDate.getMonth() + 1,
+        1
+      );
+      this.onMonthChange(nextMonth);
+    }
+  }
+
+  // Disable previous button logic
+  isPreviousDisabled(): boolean {
+    const userRegistrationDate = new Date(this.organizationRegistrationDate);
+    return (
+      this.selectedDate.getFullYear() === userRegistrationDate.getFullYear() &&
+      this.selectedDate.getMonth() === userRegistrationDate.getMonth()
+    );
+  }
+
+  // Disable next button logic
+  isNextDisabled(): boolean {
+    const currentDate = new Date();
+    return (
+      this.selectedDate.getFullYear() === currentDate.getFullYear() &&
+      this.selectedDate.getMonth() === currentDate.getMonth()
+    );
+  }
 
 
 

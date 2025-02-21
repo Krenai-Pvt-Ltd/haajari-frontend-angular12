@@ -251,6 +251,7 @@ export class AttendanceLeaveComponent implements OnInit {
       }
     );
   }
+  
 
 
   isUserLeaveTaken: number = 1;

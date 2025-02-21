@@ -75,7 +75,7 @@ export interface LeaveResponse {
   remainingLeaves: number;
   attachment: any;
   status:string;
-
+  totalValidDays: string;
   remainingQuota: any;
   applied: any;
   approved: any;

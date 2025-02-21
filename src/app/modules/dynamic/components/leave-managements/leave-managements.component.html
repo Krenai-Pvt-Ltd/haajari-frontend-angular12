@@ -24,7 +24,7 @@
                                 <div class="date-range d-flex align-items-center justify-content-between p-3 pt-2 pb-2">
                                     <h5 class="mb-0 font-16 fw-normal">Date Range</h5>
                                     <div class="d-flex align-items-center attendance-date">
-                                        <span class="d-flex align-items-center justify-content-center pointer calendar-back-btn">
+                                        <span class="d-flex align-items-center justify-content-center pointer calendar-back-btn" [class.disabled]="isPreviousDisabled()" (click)="goToPreviousMonth()">
                                            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
                                               <mask id="mask0_4719_1625" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21" style="mask-type: alpha;">
                                                  <rect x="0.5" y="0.5" width="20" height="20" fill="#D9D9D9"></rect>
@@ -35,7 +35,14 @@
                                            </svg>
                                         </span>
                                         <span class="calendar-separator"></span>
-                                        <div class="dropdown">
+                                        <div class="dropdown ">
+                                            <nz-date-picker nzMode="month" [nzSize]="size" nzFormat="MMM, yyyy"
+                                                [(ngModel)]="selectedDate"  (ngModelChange)="onMonthChange($event)"
+                                                [nzDisabledDate]="disableMonths"></nz-date-picker>
+            
+                                            <!-- <nz-date-picker nzMode="month" nzFormat="MMM, yyyy"></nz-date-picker> -->
+                                        </div>
+                                        <!-- <div class="dropdown">
                                            <nz-date-picker class="ant-picker ant-picker-small ng-valid ng-touched ng-dirty" nzBorderless ng-reflect-nz-mode="month" ng-reflect-nz-format="MMM, yyyy" ng-reflect-nz-size="small" >
                                               <div class="ng-tns-c182-14 ant-picker-input">
                                                  <input autocomplete="off" class="ng-tns-c182-14 ng-pristine ng-valid ng-touched" placeholder="Select month" ng-reflect-is-disabled="false" ng-reflect-model="Jan, 2025" size="12">
@@ -56,9 +63,9 @@
                                                  </span>
                                               </div>
                                            </nz-date-picker>
-                                        </div>
+                                        </div> -->
                                         <span class="calendar-separator"></span>
-                                        <span class="d-flex align-items-center justify-content-center pointer calendar-back-btn disabled">
+                                        <span class="d-flex align-items-center justify-content-center pointer calendar-back-btn" [class.disabled]="isNextDisabled()" (click)="goToNextMonth()">
                                            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
                                               <mask id="mask0_4719_1639" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21" style="mask-type: alpha;">
                                                  <rect width="20" height="20" transform="matrix(-1 0 0 1 20.5 0.5)" fill="#D9D9D9"></rect>
@@ -273,7 +280,7 @@
                                                         <path *ngIf="tab != 'absent'" d="M13.5 7.0448L12.6219 6.16668L14.359 4.41668L12.6219 2.68751L13.5 1.79647L15.25 3.54647L16.9792 1.79647L17.8702 2.68751L16.1281 4.41668L17.8702 6.16668L16.9792 7.0448L15.25 5.31563L13.5 7.0448ZM6.5 6.24355C5.69792 6.24355 5.01132 5.95799 4.44021 5.38688C3.86896 4.81563 3.58333 4.12897 3.58333 3.32688C3.58333 2.5248 3.86896 1.8382 4.44021 1.26709C5.01132 0.695842 5.69792 0.410217 6.5 0.410217C7.30208 0.410217 7.98868 0.695842 8.55979 1.26709C9.13104 1.8382 9.41667 2.5248 9.41667 3.32688C9.41667 4.12897 9.13104 4.81563 8.55979 5.38688C7.98868 5.95799 7.30208 6.24355 6.5 6.24355ZM0.25 12.5898V10.7371C0.25 10.329 0.360833 9.95112 0.5825 9.60334C0.804167 9.25556 1.10042 8.9882 1.47125 8.80126C2.29486 8.39751 3.12576 8.09466 3.96396 7.89272C4.80215 7.69077 5.6475 7.5898 6.5 7.5898C7.3525 7.5898 8.19785 7.69077 9.03604 7.89272C9.87424 8.09466 10.7051 8.39751 11.5287 8.80126C11.8996 8.9882 12.1958 9.25556 12.4175 9.60334C12.6392 9.95112 12.75 10.329 12.75 10.7371V12.5898H0.25ZM1.5 11.3398H11.5V10.7371C11.5 10.5683 11.4511 10.4121 11.3533 10.2683C11.2556 10.1247 11.1228 10.0075 10.9552 9.91668C10.2372 9.56306 9.50507 9.29515 8.75896 9.11293C8.01271 8.93084 7.25972 8.8398 6.5 8.8398C5.74028 8.8398 4.98729 8.93084 4.24104 9.11293C3.49493 9.29515 2.76285 9.56306 2.04479 9.91668C1.87715 10.0075 1.74444 10.1247 1.64667 10.2683C1.54889 10.4121 1.5 10.5683 1.5 10.7371V11.3398ZM6.5 4.99355C6.95833 4.99355 7.35069 4.83036 7.67708 4.50397C8.00347 4.17758 8.16667 3.78522 8.16667 3.32688C8.16667 2.86855 8.00347 2.47619 7.67708 2.1498C7.35069 1.82341 6.95833 1.66022 6.5 1.66022C6.04167 1.66022 5.64931 1.82341 5.32292 2.1498C4.99653 2.47619 4.83333 2.86855 4.83333 3.32688C4.83333 3.78522 4.99653 4.17758 5.32292 4.50397C5.64931 4.83036 6.04167 4.99355 6.5 4.99355Z" fill="#1C1B1F"/>
                                                         <path *ngIf="tab == 'absent'" d="M13.5 7.0448L12.6219 6.16668L14.359 4.41668L12.6219 2.68751L13.5 1.79647L15.25 3.54647L16.9792 1.79647L17.8702 2.68751L16.1281 4.41668L17.8702 6.16668L16.9792 7.0448L15.25 5.31563L13.5 7.0448ZM6.5 6.24355C5.69792 6.24355 5.01132 5.95799 4.44021 5.38688C3.86896 4.81563 3.58333 4.12897 3.58333 3.32688C3.58333 2.5248 3.86896 1.8382 4.44021 1.26709C5.01132 0.695842 5.69792 0.410217 6.5 0.410217C7.30208 0.410217 7.98868 0.695842 8.55979 1.26709C9.13104 1.8382 9.41667 2.5248 9.41667 3.32688C9.41667 4.12897 9.13104 4.81563 8.55979 5.38688C7.98868 5.95799 7.30208 6.24355 6.5 6.24355ZM0.25 12.5898V10.7371C0.25 10.329 0.360833 9.95112 0.5825 9.60334C0.804167 9.25556 1.10042 8.9882 1.47125 8.80126C2.29486 8.39751 3.12576 8.09466 3.96396 7.89272C4.80215 7.69077 5.6475 7.5898 6.5 7.5898C7.3525 7.5898 8.19785 7.69077 9.03604 7.89272C9.87424 8.09466 10.7051 8.39751 11.5287 8.80126C11.8996 8.9882 12.1958 9.25556 12.4175 9.60334C12.6392 9.95112 12.75 10.329 12.75 10.7371V12.5898H0.25ZM1.5 11.3398H11.5V10.7371C11.5 10.5683 11.4511 10.4121 11.3533 10.2683C11.2556 10.1247 11.1228 10.0075 10.9552 9.91668C10.2372 9.56306 9.50507 9.29515 8.75896 9.11293C8.01271 8.93084 7.25972 8.8398 6.5 8.8398C5.74028 8.8398 4.98729 8.93084 4.24104 9.11293C3.49493 9.29515 2.76285 9.56306 2.04479 9.91668C1.87715 10.0075 1.74444 10.1247 1.64667 10.2683C1.54889 10.4121 1.5 10.5683 1.5 10.7371V11.3398ZM6.5 4.99355C6.95833 4.99355 7.35069 4.83036 7.67708 4.50397C8.00347 4.17758 8.16667 3.78522 8.16667 3.32688C8.16667 2.86855 8.00347 2.47619 7.67708 2.1498C7.35069 1.82341 6.95833 1.66022 6.5 1.66022C6.04167 1.66022 5.64931 1.82341 5.32292 2.1498C4.99653 2.47619 4.83333 2.86855 4.83333 3.32688C4.83333 3.78522 4.99653 4.17758 5.32292 4.50397C5.64931 4.83036 6.04167 4.99355 6.5 4.99355Z" fill="#6666F2"/>
                                                     </svg>
-                                                    Absent Today </button>
+                                                    Absent </button>
                                                     <button id="leave-tab" data-bs-toggle="pill" data-bs-target="#v-pills-on-leave" 
                                                     type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false" class="nav-link"
                                                     (click)="switchTab('leave')">
@@ -319,9 +326,9 @@
                                             <div class="leave-templete p-3">
                                                 <div class="tab-content" id="v-pills-tabContent">
                                                     <div class="tab-pane fade active show" id="v-pills-absent-today" rol="tabpanel">
-                                                       <div class="absent-data mt-3">
-                                                            <div class="absent-logs ">
-                                                                <div class="mb-4 pb-1">
+                                                       <div class="absent-data mt-3" *ngIf="tabName === ABSENT_TAB">
+                                                            <div class="absent-logs " *ngIf="leaveTeamOverviewResponse.length > 0 && !isLoaderLoading">
+                                                                <!-- <div class="mb-4 pb-1">
                                                                     <div class="d-flex align-items-center justify-content-between mb-4">
                                                                         <h5 class="mb-0 font-16 fw-light">Today</h5>
                                                                         <h5 class="mb-0 font-14 fw-semibold">03 Absent</h5>
@@ -370,154 +377,87 @@
                                                                         <span class="badge rounded-pill badge-soft-danger"> Leaves</span>
 
                                                                     </div>
-                                                                </div>
+                                                                </div> -->
 
-                                                                <div class="d-flex align-items-center justify-content-between mb-4 ">
-                                                                    <h5 class="mb-0 font-16 fw-light">Last 7 days</h5>
-                                                                </div>
-                                                                <div class="d-flex align-items-center justify-content-between mb-3">
+                                                                <!-- <div class="d-flex align-items-center justify-content-between mb-4 "> -->
+                                                                    <!-- <h5 class="mb-0 font-16 fw-light">Last 7 days</h5> -->
+                                                                <!-- </div> -->
+                                                                <div class="d-flex align-items-center justify-content-between mb-3" *ngFor="let log of leaveTeamOverviewResponse">
                                                                     <div class="d-flex align-items-center gap-2 ">
-                                                                        <img src="assets/images/pushpendra.jpeg"> 
+                                                                        <!-- <img src="assets/images/pushpendra.jpeg">  -->
+                                                                        <img src="{{log?.image}}"> 
                                                                         <div>
-                                                                            <h5 class="mb-1 font-14 fw-semibold">pushpendra</h5>
-                                                                            <p class="mb-0 fw-light">pushpendra@krenai.com | <span class="text-primary fw-normal">Backend Developer</span></p>
+                                                                            <h5 class="mb-1 font-14 fw-semibold">{{log?.name}} - <span class="mb-1 font-12">{{log?.date | date : 'd MMMM, y' || "N/A"}}</span></h5>
+                                                                            <p class="mb-0 fw-light">{{log?.email || 'N/A'}} | <span class="text-primary fw-normal">{{log?.position}}</span></p>
                                                                         </div>
                                                                     </div>
-                                                                    <span class="badge rounded-pill badge-soft-danger"> Leaves</span>
+                                                                    <span class="badge rounded-pill badge-soft-danger"> Absent</span>
+                                                                    <!-- <span class="badge badge-soft-danger"> {{log?.date}}</span> -->
 
                                                                 </div>
-                                                                <div class="d-flex align-items-center justify-content-between mb-3">
-                                                                    <div class="d-flex align-items-center gap-2 ">
-                                                                        <img src="assets/images/suman.jpg"> 
-                                                                        <div>
-                                                                            <h5 class="mb-1 font-14 fw-semibold">Suman</h5>
-                                                                            <p class="mb-0 fw-light">suman@krenai.com | <span class="text-primary fw-normal">Full stack Developer</span></p>
-                                                                        </div>
-                                                                    </div>
-                                                                    <span class="badge rounded-pill badge-soft-danger"> Leaves</span>
-
+                                                            </div>
+                                                            <div class="empty-file" style="margin-top: 5%; margin-bottom: 5%" *ngIf="leaveTeamOverviewResponse.length == 0 && !isLoaderLoading">
+                                                                <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                                                  [nzNotFoundContent]="contentTpl">
+                                                                  <ng-template #contentTpl>
+                                                                    <p class="mb-1 empty-detail font-16">
+                                                                      No data for now
+                                                                    </p>
+                                                                  </ng-template>
+                                                                </nz-empty>
+                                                            </div>
+                                                            <div class="empty-file" style="margin-top: 7%; margin-bottom: 7%"
+                                                                *ngIf="leaveTeamOverviewResponse.length == 0 && isLoaderLoading">
+                                                                <div class="text-center load-more-btn">
+                                                                <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
+                                                                <div>
+                                                                    <small>Loading...</small>
                                                                 </div>
-                                                                <div class="d-flex align-items-center justify-content-between mb-3">
-                                                                    <div class="d-flex align-items-center gap-2 ">
-                                                                        <img src="assets/images/abhi.jpg"> 
-                                                                        <div>
-                                                                            <h5 class="mb-1 font-14 fw-semibold">Abhijeet Verma</h5>
-                                                                            <p class="mb-0 fw-light">abhi@krenai.com | <span class="text-primary fw-normal">Backend Developer</span></p>
-                                                                        </div>
-                                                                    </div>
-                                                                    <span class="badge rounded-pill badge-soft-danger"> Leaves</span>
-
                                                                 </div>
-                                                                <div class="d-flex align-items-center justify-content-between mb-3">
-                                                                    <div class="d-flex align-items-center gap-2 ">
-                                                                        <img src="assets/images/suman.jpg"> 
-                                                                        <div>
-                                                                            <h5 class="mb-1 font-14 fw-semibold">Suman</h5>
-                                                                            <p class="mb-0 fw-light">suman@krenai.com | <span class="text-primary fw-normal">Full stack Developer</span></p>
-                                                                        </div>
-                                                                    </div>
-                                                                    <span class="badge rounded-pill badge-soft-danger"> Leaves</span>
 
-                                                                </div>
                                                             </div>
                                                        </div>
                                                     </div>
                                                     <div class="tab-pane fade" id="v-pills-on-leave" rol="tabpanel">
                                                         <div class="absent-data mt-3">
-                                                            <div class="absent-logs ">
-                                                                <div class="pb-0">
+                                                            <div class="absent-logs " *ngIf="tabName === ON_LEAVE_TAB">
+                                                                <div class="pb-0" *ngIf="leaveTeamOverviewResponse.length > 0 && !isLoaderLoading">
                                                                     <div class="d-flex align-items-center justify-content-between mb-4">
                                                                         <h5 class="mb-0 font-20 fw-semibold">05 <span class="font-13 fw-normal">On leave this month.</span></h5>
                                                                     </div>
-                                                                    <div class="d-flex align-items-center justify-content-between mb-3">
+                                                                    <div class="d-flex align-items-center justify-content-between mb-3" *ngFor="let log of leaveTeamOverviewResponse">
                                                                         <div class="d-flex align-items-center gap-2 ">
-                                                                            <img src="assets/images/pushpendra.jpeg"> 
+                                                                            <img src="{{log?.image}}"> 
                                                                             <div>
-                                                                                <h5 class="mb-1 font-14 fw-semibold">pushpendra</h5>
-                                                                                <p class="mb-0 fw-light">12th Jan - 13th Jan  | <span class="text-danger fw-normal">Earned Leave</span></p>
+                                                                                <h5 class="mb-1 font-14 fw-semibold">{{log?.username}}</h5>
+                                                                                <p class="mb-0 fw-light">{{log?.startDate | date : 'd MMMM, y' || "N/A" }} - {{log?.endDate | date : 'd MMMM, y' || "N/A"}}  | <span class="text-danger fw-normal">{{log?.leaveType}}</span></p>
                                                                             </div>
                                                                         </div>
-                                                                        <span class="badge rounded-pill badge-soft-secondary"> 1 Days</span>
+                                                                        <span class="badge rounded-pill badge-soft-secondary"> {{log?.totalValidDays}} Days</span>
 
                                                                     </div>
-                                                                    <div class="d-flex align-items-center justify-content-between mb-3">
-                                                                        <div class="d-flex align-items-center gap-2 ">
-                                                                            <img src="assets/images/suman.jpg"> 
-                                                                            <div>
-                                                                                <h5 class="mb-1 font-14 fw-semibold">Suman</h5>
-                                                                                <p class="mb-0 fw-light">12th Jan - 13th Jan  | <span class="text-primary fw-normal">Casual Leave</span></p>
-                                                                            </div>
-                                                                        </div>
-                                                                        <span class="badge rounded-pill badge-soft-secondary"> 1 Days</span>
-
-                                                                    </div>
-                                                                    <div class="d-flex align-items-center justify-content-between mb-3">
-                                                                        <div class="d-flex align-items-center gap-2 ">
-                                                                            <img src="assets/images/abhi.jpg"> 
-                                                                            <div>
-                                                                                <h5 class="mb-1 font-14 fw-semibold">Abhijeet Verma</h5>
-                                                                                <p class="mb-0 fw-light">12th Jan - 13th Jan  | <span class="text-primary fw-normal">Casual Leave</span></p>
-                                                                            </div>
-                                                                        </div>
-                                                                        <span class="badge rounded-pill badge-soft-secondary"> 1 Days</span>
-
-                                                                    </div>
-                                                                    <div class="d-flex align-items-center justify-content-between mb-3">
-                                                                        <div class="d-flex align-items-center gap-2 ">
-                                                                            <img src="assets/images/suman.jpg"> 
-                                                                            <div>
-                                                                                <h5 class="mb-1 font-14 fw-semibold">Suman</h5>
-                                                                                <p class="mb-0 fw-light">12th Jan - 13th Jan  | <span class="text-info fw-normal">Sick Leave</span></p>
-                                                                            </div>
-                                                                        </div>
-                                                                        <span class="badge rounded-pill badge-soft-secondary"> 1 Days</span>
-
-                                                                    </div>
-                                                                    <div class="d-flex align-items-center justify-content-between mb-3">
-                                                                        <div class="d-flex align-items-center gap-2 ">
-                                                                            <img src="assets/images/suman.jpg"> 
-                                                                            <div>
-                                                                                <h5 class="mb-1 font-14 fw-semibold">Suman</h5>
-                                                                                <p class="mb-0 fw-light">12th Jan - 13th Jan  | <span class="text-info fw-normal">Sick Leave</span></p>
-                                                                            </div>
-                                                                        </div>
-                                                                        <span class="badge rounded-pill badge-soft-secondary"> 1 Days</span>
-
-                                                                    </div>
-                                                                    <div class="d-flex align-items-center justify-content-between mb-3">
-                                                                        <div class="d-flex align-items-center gap-2 ">
-                                                                            <img src="assets/images/suman.jpg"> 
-                                                                            <div>
-                                                                                <h5 class="mb-1 font-14 fw-semibold">Suman</h5>
-                                                                                <p class="mb-0 fw-light">12th Jan - 13th Jan  | <span class="text-info fw-normal">Sick Leave</span></p>
-                                                                            </div>
-                                                                        </div>
-                                                                        <span class="badge rounded-pill badge-soft-secondary"> 1 Days</span>
-
-                                                                    </div>
-                                                                    <div class="d-flex align-items-center justify-content-between mb-3">
-                                                                        <div class="d-flex align-items-center gap-2 ">
-                                                                            <img src="assets/images/suman.jpg"> 
-                                                                            <div>
-                                                                                <h5 class="mb-1 font-14 fw-semibold">Suman</h5>
-                                                                                <p class="mb-0 fw-light">12th Jan - 13th Jan  | <span class="text-info fw-normal">Sick Leave</span></p>
-                                                                            </div>
-                                                                        </div>
-                                                                        <span class="badge rounded-pill badge-soft-secondary"> 1 Days</span>
-
-                                                                    </div>
-                                                                    <div class="d-flex align-items-center justify-content-between mb-3">
-                                                                        <div class="d-flex align-items-center gap-2 ">
-                                                                            <img src="assets/images/suman.jpg"> 
-                                                                            <div>
-                                                                                <h5 class="mb-1 font-14 fw-semibold">Suman</h5>
-                                                                                <p class="mb-0 fw-light">12th Jan - 13th Jan  | <span class="text-info fw-normal">Sick Leave</span></p>
-                                                                            </div>
-                                                                        </div>
-                                                                        <span class="badge rounded-pill badge-soft-secondary"> 1 Days</span>
-
-                                                                    </div>
+                            
                                                                 </div>
+                                                                <div class="empty-file" style="margin-top: 5%; margin-bottom: 5%" *ngIf="leaveTeamOverviewResponse.length == 0 && !isLoaderLoading">
+                                                                    <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                                                      [nzNotFoundContent]="contentTpl">
+                                                                      <ng-template #contentTpl>
+                                                                        <p class="mb-1 empty-detail font-16">
+                                                                          No data for now
+                                                                        </p>
+                                                                      </ng-template>
+                                                                    </nz-empty>
+                                                                </div>
+                                                                <div class="empty-file" style="margin-top: 7%; margin-bottom: 7%"
+                                                                        *ngIf="leaveTeamOverviewResponse.length == 0 && isLoaderLoading">
+                                                                        <div class="text-center load-more-btn">
+                                                                        <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
+                                                                        <div>
+                                                                            <small>Loading...</small>
+                                                                        </div>
+                                                                        </div>
+
+                                                                    </div>
 
                                                                 
                                                             </div>
@@ -1706,7 +1646,10 @@
                                 <p class="mb-0 font-13 fw-semibold text-black"> Date: {{
                                     leave?.leaveDate
                                     | date : "dd MMM yyyy hh:mm:ss a"
-                                    }}</p>
+                                    }}
+                                  
+                                 </p>
+                                 <p> Total Days: {{leave?.totalValidDays}}</p>  
                             </div>
                             <div class="leave-form-data">
                                 <div class="row p-3">
