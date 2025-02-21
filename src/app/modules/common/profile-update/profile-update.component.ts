@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output, QueryList, SimpleChanges, ViewChild, ViewChildren } from '@angular/core';
 import { Key } from 'src/app/constant/key';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
@@ -21,12 +21,22 @@ export class ProfileUpdateComponent implements OnInit {
   uuid: any;
   isModal: boolean = true;
   ngOnInit(): void {
-    this.uuid = this.data.uuid;
+    this.fetchData();
+  }
+  
+  ngOnChanges(changes: SimpleChanges) {
+      if (changes['data']) {
+       this.fetchData();
+      }
+    }
+
+    fetchData(){
+      this.uuid = this.data.uuid;
     if (this.data.isModal == 0) {
       this.isModal = false;
     }
     this.getRequestedData(this.uuid, this.data.id | 0);
-  }
+    }
 
   close() {
     this.closeDataRequestModal();
