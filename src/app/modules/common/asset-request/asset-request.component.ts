@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
 import { Key } from 'src/app/constant/key';
 import { AssetService } from 'src/app/services/asset.service';
 import { HelperService } from 'src/app/services/helper.service';
@@ -27,7 +27,14 @@ export class AssetRequestComponent implements OnInit {
     }
 
   }
-
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['data']) {
+      this.onViewRequest(this.data.asset);
+    if(this.data.isModal==0){
+      this.isModal= false;
+    }
+    }
+  }
     newStatus: string = 'Pending';
       selectedAsset: any;
       statuses: string[] = ['APPROVED', 'REJECTED'];
