@@ -157,7 +157,7 @@
             </div>
           </div>
           <ng-container *ngIf="!showPlaceholder; else notShowPlaceholder">
-            <div class="search-bar pt-2 pb-2 mt-3">
+            <!-- <div class="search-bar pt-2 pb-2 mt-3">
               <div class="row m-0 ">
                 <div class="col-md-12 d-flex align-items-center" style="border: 1px solid #f1f1f1">
                   <div class="" style="width: 200px">
@@ -199,19 +199,104 @@
                     </form>
                   </div>
                   <div class="d-flex align-items-center justify-content-end w-100" style="padding-right:10px;">
-                    <!-- TODO: uncomment -->
                     <button class="btn p-0 text-primary fw-semibold" type="button" data-bs-toggle="modal"
                       data-bs-target="#sampleFileModal">
                       <i class="bi bi-upload"></i> Upload Attendance
                     </button>
                   </div>
-
                 </div>
-                <!-- <div class="col-md-3">
-
-              </div> -->
               </div>
-            </div>
+            </div> -->
+
+            <div class="asset-assigned-search mt-3">
+              <div class="d-flex justify-content-start align-items-center">
+                  <div class="search-filter ">
+                      <button type="button" id="statusDropdown" class="btn btn-secondary new-dropdown d-flex align-items-center justify-content-between" (click)="changeShowFilter(true)" >
+                          Filters 
+                          <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23" fill="none">
+                              <mask id="mask0_7808_40" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="23" height="23">
+                              <rect x="0.262695" y="0.283112" width="22.4338" height="22.4338" fill="#1C1B1F"/>
+                              </mask>
+                              <g mask="url(#mask0_7808_40)">
+                              <path d="M9.61057 17.1084V15.239H13.3495V17.1084H9.61057ZM5.87161 12.4347V10.5653H17.0885V12.4347H5.87161ZM3.06738 7.76104V5.89156H19.8927V7.76104H3.06738Z" fill="#1C1B1F"/>
+                              </g>
+                          </svg>
+                      </button>
+                      
+                  </div>
+                  <div class="search-date d-flex align-items-center justify-content-between position-relative w-100">
+                          <div class="form-group w-100 position-relative">
+                              <!-- <input type="text" id="searchText" #searchInput placeholder="Search by name.." class="form-control me-2 w-100" style="padding: 10px 45px;" /> -->
+                              <input type="text" id="searchText" placeholder="Search by name and role"
+                              class="form-control me-2 ng-untouched ng-pristine ng-valid attendance-details-search font-13 w-100 bg-white border-rounded-2"
+                              (keyup)="searchUsers($event)" [(ngModel)]="searchText" [ngModelOptions]="{ standalone: true }"
+                              style="padding: 10px 40px" />
+                              <!-- <button *ngIf="searchText.length !== 0" type="button" class="btn close-btn fw-semibold font-20 text-primary pointer position-absolute"
+                              > -->
+                              <i class="bi bi-x pl-3 pointer font-20 search-icon d-flex align-items-center h-100" *ngIf="searchText.length > 0" (click)="clearSearchText()"></i>
+                              <i class="bi bi-search search-icon d-flex align-items-center h-100" *ngIf="searchText.length == 0"></i>
+                          </div>
+                  </div>
+                  <div>
+                      <button type="button" class="btn primaryBtnLink filter-btn d-block text-cennter" data-bs-toggle="modal"
+                      data-bs-target="#sampleFileModal">
+                        <i class="bi bi-upload"></i> Upload Attendance
+                      </button>
+                  </div>
+              </div>
+
+              <div class="not-assign-filter p-0 border position-absolute bg-white" [ngClass]="{'d-none': !showFilter}">                                   
+                <div class="d-flex align-items-center justify-content-between border-bottom p-3">
+                   <h5 class="mb-0 font-14 fw-semibold"> Status Filter</h5>
+                   <span class="pointer lh-1" (click)="changeShowFilter(false)">
+                   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="19" viewBox="0 0 18 19" fill="none" >
+                       <g opacity="0.8">
+                       <mask id="mask0_7729_258" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="18" height="19">
+                       <rect y="0.5" width="18" height="18" fill="#D9D9D9"/>
+                       </mask>
+                       <g mask="url(#mask0_7729_258)">
+                       <path d="M4.8 14.75L3.75 13.7L7.95 9.5L3.75 5.3L4.8 4.25L9 8.45L13.2 4.25L14.25 5.3L10.05 9.5L14.25 13.7L13.2 14.75L9 10.55L4.8 14.75Z" fill="#1C1B1F"/>
+                       </g>
+                       </g>
+                   </svg>
+                   </span>
+               </div>
+               <div class="row p-3">
+                   <div class="mt-2">
+                       <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2" (click)="selectFilterCriteria('ALL')">
+                           <input type="radio" class="form-check-input" id="all" name="attd-filter" [checked]="'ALL'== filterCriteria">
+                           <label class="form-check-label fw-normal" for="all">All</label>
+                         </div>
+                         <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2" (click)="selectFilterCriteria('PRESENT')">
+                           <input type="radio" class="form-check-input" id="Present " name="attd-filter" [checked]="'PRESENT'== filterCriteria">
+                           <label class="form-check-label fw-normal" for="Present "> Present  </label>
+                         </div>
+                         <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2" (click)="selectFilterCriteria('ABSENT')">
+                           <input type="radio" class="form-check-input" id="Absent" name="attd-filter" [checked]="'ABSENT'== filterCriteria">
+                           <label class="form-check-label fw-normal" for="Absent"> Absent </label>
+                         </div>
+                         <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2" (click)="selectFilterCriteria('HALFDAY')">
+                           <input type="radio" class="form-check-input" id="Halfday" name="attd-filter" [checked]="'HALFDAY'== filterCriteria">
+                           <label class="form-check-label fw-normal" for="Halfday">Halfday  </label>
+                         </div>
+                         <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2" (click)="selectFilterCriteria('LEAVE')">
+                          <input type="radio" class="form-check-input" id="Leave" name="attd-filter" [checked]="'LEAVE'== filterCriteria">
+                          <label class="form-check-label fw-normal" for="Leave">Leave   </label>
+                        </div>
+                   </div>
+               </div>
+               <div class="p-3 border-top d-flex gap-2 align-items-center justify-content-end">
+                   <button class="btn cancel-btn mt-0" (click)="resetFilterCriteria('ALL');">Reset it</button>
+                   <button class="btn submitActionBtn" (click)="applyFilterCriteria(); changeShowFilter(false);">Apply</button>
+               </div>
+           </div>
+          </div>
+
+          <div class="filter-bdg d-flex align-items-center gap-2 mt-3" *ngIf="filterCriteria!='ALL' && filterCriteria!=''">
+            <p class="filter-pills d-flex align-items-centar gap-2 pointer font-12 fw-semibold">{{filterCriteria}}
+              <i class="bi bi-x-lg pointer" (click)="resetFilterCriteria('ALL')"></i>
+            </p>
+          </div>
 
             <div>
               <ng-container *ngIf="
@@ -465,12 +550,12 @@
                         <div class="col-md-12 mb-3">
                           <label for="username" class="pb-2">Notes Title</label>
                           <input type="text" id="username" placeholder="Enter title ..." name="username" required=""
-                            class="form-control ng-untouched ng-pristine ng-invalid input-zorro"
+                            class="form-control fw-normal input-zorro font-12 border-rounded-2"
                             [(ngModel)]="additionalNotes.title" />
                         </div>
                         <div class="col-md-12 mb-3">
                           <label for="message" class="pb-2">Message</label>
-                          <textarea class="form-control nots-section" placeholder="Write the message" rows="5"
+                          <textarea class="form-control nots-section w-100" placeholder="Write the message" rows="5"
                             id="message" style="height: 100px !important"
                             [(ngModel)]="additionalNotes.message"></textarea>
                         </div>
@@ -3054,16 +3139,16 @@
                 <h4 class="alert-heading font-18">
                   Download the Sample Excel File!
                 </h4>
-                <p>
+                <p class="font-14 fw-light">
                   Look for the sample file titled "Sample_Data.xlsx" and click
                   on the download button to save it to your computer.
                 </p>
-                <p>
+                <p class="font-14 fw-light">
                   Take a moment to review the existing data in the Excel file.
                   This will help you understand the structure and content of the
                   data before making any updates.
                 </p>
-                <p>
+                <p class="font-14 fw-light">
                   <span class="text-primary">
                     <u><a class="text-primary" href="{{ sampleFileUrl }}">Download a sample Excel file</a></u>
                   </span>
@@ -3077,7 +3162,7 @@
                 <input id="fileSelect" type="file" accept=".xlsx,application/vnd.ms-excel" name="img[]" class="input"
                   (change)="selectFile($event)" />
                 <img src="assets/images/excel.svg" style="width: 50px" class="pb-3" />
-                <p>
+                <p class="font-14 fw-light">
                   Drag file here to upload or,
                   <u><a class="text-primary" href="#!">Choose file</a></u>
                 </p>
@@ -3196,7 +3281,7 @@
               <h4 class="alert-heading font-18">
                 Note:
               </h4>
-              <p class="mb-0">
+              <p class="mb-0 fot-14 fw-light">
                 Attendance for {{attendanceUploadCountForUser}} users has been uploaded successfully.
                 Please close this modal and select the date range from attendance date selector to check attendance for
                 the uploaded users.
@@ -3282,13 +3367,13 @@
                 <div class="col-md-12 mb-3">
                     <div class="form-group">
                         <label for="templateName" class="mb-2"> Note</label>
-                        <textarea id="requestReason" rows="3" class="form-control nots-section" maxlength="255" ></textarea>
+                        <textarea id="requestReason" rows="3" class="form-control nots-section w-10" maxlength="255" ></textarea>
                     </div>
                 </div>
                 <div class="col-md-12">
                     <div class="form-group">
                         <label for="templateName" class="mb-2"> Reason Of Rejection</label>
-                        <textarea id="requestReason" rows="3" class="form-control nots-section" maxlength="255" ></textarea>
+                        <textarea id="requestReason" rows="3" class="form-control nots-section w-100" maxlength="255" ></textarea>
                     </div>
                 </div>
             </div>
