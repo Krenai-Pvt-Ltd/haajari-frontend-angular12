@@ -89,7 +89,7 @@ export class SubscriptionComponent implements OnInit {
   orgSubscriptionPlanDetail: OrganizationSubscriptionDetail = new OrganizationSubscriptionDetail();
   progress:number=0;
   getCurrentSubscriptionPlan(){
-    this._subscriptionPlanService.getCurrentPlan().subscribe((response) => {
+    this._subscriptionPlanService.getCurrentPlan().subscribe((response:any) => {
       if(response.status){
         this.orgSubscriptionPlanDetail = response.object;
         if(this.orgSubscriptionPlanDetail != null){
@@ -206,23 +206,32 @@ export class SubscriptionComponent implements OnInit {
   taxAmount:number=0;
   subAmount:number =0;
   payableAmount:number=0;
+  taxableAmount:number=0;
+  planTaxableAmt : number=0;
   calculateByEmployeeSize() {
-    this.calcPlanPeriodicallyAmount();
+      this.calcPlanPeriodicallyAmount();
     if(this.selectedSubscriptionPlan.isMonthly==1){
-      this.payableAmount = this.employeeCount * this.selectedSubscriptionPlan.amount;
+
+      this.planTaxableAmt = Math.round((this.selectedSubscriptionPlan.amount / (1.18)) * 100.0) / 100.0;
+      this.taxableAmount =  Math.round(this.planTaxableAmt * this.employeeCount * 100.0) / 100.0;
+
+      this.subAmount = this.taxableAmount;
       if(this.isCouponVerified){
-        this.payableAmount = this.payableAmount - this.couponDiscount;
+        this.subAmount = this.subAmount - this.couponDiscount;
       }
-      this.subAmount = Math.round(( this.payableAmount / (1.18)) * 100.0) / 100.0;
-      this.taxAmount = Math.round(((this.payableAmount -  this.subAmount)) * 100.0) / 100.0;
+      this.taxAmount = Math.round((this.subAmount * 0.18) * 100.0) / 100.0;
+      this.payableAmount = Math.round(this.subAmount  + this.taxAmount);
 
     }else if(this.selectedSubscriptionPlan.isYearly==1){
-      this.payableAmount = this.employeeCount * this.selectedSubscriptionPlan.amount * 12;
+
+      this.planTaxableAmt = Math.round((this.selectedSubscriptionPlan.amount / (1.18)) * 100.0) / 100.0;
+      this.taxableAmount =  Math.round(this.planTaxableAmt * this.employeeCount * 12 * 100.0) / 100.0;
+      this.subAmount = this.taxableAmount;
       if(this.isCouponVerified){
-        this.payableAmount = this.payableAmount - this.couponDiscount;
+        this.subAmount = this.subAmount - this.couponDiscount;
       }
-      this.subAmount= Math.round(( this.payableAmount / (1.18)) * 100.0) / 100.0;
-      this.taxAmount = Math.round((this.payableAmount -  this.subAmount) * 100.0) / 100.0;
+      this.taxAmount = Math.round((this.subAmount * 0.18) * 100.0) / 100.0;
+      this.payableAmount = Math.round(this.subAmount  + this.taxAmount);
     }
   }
 
@@ -309,7 +318,7 @@ export class SubscriptionComponent implements OnInit {
     this.realtimeDbSubscriber = this.db.object("/subscription_plan/plan_purchased_by_" + orgUuid).valueChanges()
       .subscribe((res: any) => {
         this.ngZone.run(() => {
-          // console.log("/subscription_plan/plan_purchased_by_" + orgUuid + "---" + JSON.stringify(res));
+          console.log("/subscription_plan/plan_purchased_by_" + orgUuid + "---" + JSON.stringify(res));
           if (res != null) {
             if (res.status == "Processing") {
               this.isUnderProcess = true;
