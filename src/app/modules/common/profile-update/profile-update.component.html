@@ -1,7 +1,8 @@
-<div class="modal-content">
-  <div class="modal-header">
-    <h5 class="modal-title" id="exampleModalLabel">Update Request</h5>
-    <button #closeReqDataModal *ngIf="isModal" (click)="closeDataRequestModal()" type="button" class="close-btn"
+
+<div>
+  <div>
+    <h5 *ngIf="!isModal" class="p-3 pb-0">Update Request</h5>
+    <!-- <button #closeReqDataModal *ngIf="isModal" (click)="closeDataRequestModal()" type="button" class="close-btn"
       data-bs-dismiss="modal" aria-label="Close">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
         <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24"
@@ -13,13 +14,13 @@
             fill="black" />
         </g>
       </svg>
-    </button>
+    </button> -->
   </div>
-  <div class="modal-body">
+  <div class="p-0" [ngClass]="{'modal-body':isModal}" >
     <div *ngIf="isRequestedDataLoading" class="d-flex align-items-center justify-content-center">
       <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
     </div>
-    <div *ngIf="!isRequestedDataLoading" class="request-body">
+    <div *ngIf="!isRequestedDataLoading" class="request-body p-3 pb-0">
       <div class="d-flex align-items-center justify-content-between request-user p-3">
         <div class="d-flex align-items-center gap-2">
           <img onerror="this.src='./assets/images/broken-image-icon.jpg';" [src]="profilePic">
@@ -147,7 +148,7 @@
             </div>
           </span>
         </span>
-        <div *ngIf="isRejectModalOpen" class="col-md-12">
+        <div *ngIf="isRejectModalOpen" class="col-md-12 mb-3">
           <div class="position-relative" id="reject-request">
             <textarea id="exampleFormControlTextarea1" placeholder="Write the reason of refection.... "
               name="notesInput" rows="3" [(ngModel)]="rejectedReason"   class="form-control nots-section" #rejectedReasonRef="ngModel"></textarea>
@@ -161,7 +162,7 @@
     </div>
 
   </div>
-  <div *ngIf="remainingField!==0" class="modal-footer d-flex align-items-center justify-content-end gap-2">
+  <div *ngIf="remainingField!==0" class="p-3 d-flex align-items-center justify-content-end gap-2" [ngClass]="{'modal-footer':isModal}">
     <button type="button" (click)="rejectData()" [disabled]="rejectLoading || fieldLoading || approveLoading || (isRejectModalOpen && (!rejectedReason || rejectedReason.length < 10))"
       class="btn btn-soft-danger">
       <span *ngIf="!rejectLoading">Reject All</span>
@@ -178,7 +179,7 @@
         <span></span>
         <span></span>
         <span></span>
-      </div>
+      </div> 
     </button>
     <div *ngIf="isRejectModalOpen" class="d-flex align-items-center justify-content-end gap-2 ">
       <button type="button" (click)="isRejectModalOpen=false" [disabled]="rejectLoading"

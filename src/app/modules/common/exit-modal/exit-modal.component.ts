@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { Key } from 'src/app/constant/key';
 import { UserResignation } from 'src/app/models/UserResignation';
 import { DataService } from 'src/app/services/data.service';
@@ -33,8 +33,20 @@ export class ExitModalComponent {
   }
 
   ngOnInit(): void {
+    this.fetchData();
+    
 
-    this.userId= this.data.uuid;
+  }
+
+ngOnChanges(changes: SimpleChanges) {
+      if (changes['data']) {
+       this.fetchData();
+      }
+    }
+
+
+    fetchData(){
+      this.userId= this.data.uuid;
     this.id= this.data.id;
     if(this.data.id){
       this.getUserResignationInfoById();
@@ -48,11 +60,7 @@ export class ExitModalComponent {
 
     // this.startCarousel();
     this.ROLE= this.data.userType;
-
-  }
-
-
-
+    }
 /**
  * Method to handle the submission of a resignation request.
  *

@@ -85,6 +85,16 @@ span.request-count {
   overflow: scroll;
 }
 
+.cancel-btn {
+  background-color: #fbfbfb;
+  border: 1px solid #e6e7e9;
+  border-radius: 2px;
+  color: #4a4a4a;
+  font-size: 12px;
+  font-weight: 500;
+  min-width: 100px;
+}
+
 .edit-update-box span {
   background-color: #6666F2;
   width: 13px;
@@ -220,4 +230,11 @@ span.request-count {
 .pointer.btn[disabled] {
   opacity: 0.5; /* Gray out the button when disabled */
   cursor: not-allowed; /* Indicate it's not clickable */
+}
+
+.nots-section {
+  background-color: #ececec36 !important;
+  width: 100%;
+  height: 100px !important;
+  border: 1px dashed #e9e9e9;
 }

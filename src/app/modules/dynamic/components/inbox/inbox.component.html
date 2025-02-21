@@ -122,7 +122,7 @@
                       </p>
 
                         <h5 class="mb-0 font-18x fw-semibold">{{ currentMail?.message }}</h5>
-                        <div class="mt-4 leave-request">
+                        <div class="mt-4 leave-request p-3">
                           <app-exit-modal *ngIf="showExitComponent" [data]="exitData" (closeEvent)="onExitComponentClose()"></app-exit-modal>
 
                           <app-asset-request *ngIf="showAssetComponent" [data]="assetData" (closeEvent)="onAssetComponentClose()">
