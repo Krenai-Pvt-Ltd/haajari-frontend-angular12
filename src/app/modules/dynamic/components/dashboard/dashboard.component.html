@@ -1,29 +1,36 @@
-<div class="page-wrapper">
+<app-hajiri-page-loader *ngIf="isToDoStepsCompleted == undefined">
+</app-hajiri-page-loader>
+
+
+<app-to-do-step-dashboard *ngIf="!isToDoStepsCompleted && isToDoStepsCompleted != undefined"></app-to-do-step-dashboard>
+
+<div class="page-wrapper" *ngIf="isToDoStepsCompleted">
   <!-- Page Content-->
   <div class="page-content-tab">
     <div class="container-fluid">
       <!-- end page title end breadcrumb -->
-      <div class="row mb-1"> 
+      <div class="row mb-1 mt-4">
         <div class="col-md-6 col-lg-4 order-lg-1 order-md-1">
           <ng-container *ngIf="!showPlaceholder; else notShowPlaceholder">
-            <div class="card report-card">    
+            <div class="card report-card">
               <div class="card-body">
                 <div class="row d-flex justify-content-center">
                   <div class="col">
-                    <p class="text-dark mb-1 fw-semibold">Present</p>
+                    <p class="text-dark mb-2 fw-semibold">Present</p>
                     <h4 class="font-22 fw-bold">
                       <span>
-                        <!-- {{ attendanceDetailsCountResponse.presentUsers }}/{{
-                          attendanceDetailsCountResponse.totalUsers
-                        }} -->
+
                         <div *ngIf="!showPlaceholder">
-                        <a href="#" data-bs-toggle="modal" data-bs-target="#presentModal"
-                          (click)="getAttendanceDetailsReportByDateMethodCall('PRESENT')">
-                          {{ attendanceDetailsCountResponse.presentUsers }}/{{
-                          attendanceDetailsCountResponse.totalUsers
-                          }}
-                        </a>
-                      </div>
+                          <a href="#" data-bs-toggle="modal" data-bs-target="#presentModal" (click)="
+                              getAttendanceDetailsReportByDateMethodCall(
+                                'PRESENT'
+                              )
+                            ">
+                            {{ attendanceDetailsCountResponse.presentUsers }}/{{
+                            attendanceDetailsCountResponse.totalUsers
+                            }}
+                          </a>
+                        </div>
                       </span>
                     </h4>
                     <!-- <span class="text-muted">(Total Employees)</span> -->
@@ -39,44 +46,43 @@
               </div>
             </div>
 
-                      <!--end card-->
-          <div class="card report-card">
-            <div class="card-body">
-              <div class="row d-flex justify-content-center">
-                <div class="col">
-                  <p class="text-dark mb-1 fw-semibold">On Break</p>
-                  <h4 class="font-22 fw-bold">
-                    <a href="#" data-bs-toggle="modal" data-bs-target="#breakUsersModal" (click)="getBreakUsers()">
-                      {{ attendanceDetailsCountResponse.usersOnBreak }}
-                    </a>
-                    <!-- {{ attendanceDetailsCountResponse.usersOnBreak }} -->
-                  </h4>
-                </div>
-                <div class="col-auto align-self-center">
-                  <div
-                    class="bg-light-alt d-flex justify-content-center align-items-center thumb-md icons rounded-circle">
-                    <img src="assets/images/tea-cup.svg" style="width: 100%" />
+            <!--end card-->
+            <div class="card report-card">
+              <div class="card-body">
+                <div class="row d-flex justify-content-center">
+                  <div class="col">
+                    <p class="text-dark mb-2 fw-semibold">On Break</p>
+                    <h4 class="font-22 fw-bold">
+                      <a href="#" data-bs-toggle="modal" data-bs-target="#breakUsersModal" (click)="getBreakUsers()">
+                        {{ attendanceDetailsCountResponse.usersOnBreak }}
+                      </a>
+                      <!-- {{ attendanceDetailsCountResponse.usersOnBreak }} -->
+                    </h4>
+                  </div>
+                  <div class="col-auto align-self-center">
+                    <div
+                      class="bg-light-alt d-flex justify-content-center align-items-center thumb-md icons rounded-circle">
+                      <img src="assets/images/tea-cup.svg" style="width: 100%" />
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-          <!--end card-->
-          <div class="card report-card">
-            <div class="card-body">
-              <div class="row d-flex justify-content-center">
-                <div class="col" style="width: 70%">
-                  <!-- <p class="text-dark mb-1 fw-semibold" style="font-size: 11px;">On Leave / Absent / Not Marked</p>
+            <!--end card-->
+            <div class="card report-card">
+              <div class="card-body">
+                <div class="row d-flex justify-content-center">
+                  <div class="col" style="width: 70%">
+                    <!-- <p class="text-dark mb-1 fw-semibold" style="font-size: 11px;">On Leave / Absent / Not Marked</p>
                                     <h4 class="font-22 fw-bold">{{currentDayEmployeesData.allAbsentUsers}}</h4>    -->
-                  <div class="d-flex align-items-center" style="gap: 3px">
-                    <div class="Approved late text-center" style="cursor: pointer" data-bs-toggle="modal"
-                      data-bs-target="#lateUsersModal" (click)="getLateUsers()">
-
-                      <span class="total-holiday pb-2">Late</span>
-                      <p class="mb-0">
-                        {{ totalCountLate }}
-                        <!-- {{ lateEmployeeAttendanceDetailsResponseList.length }} -->
-                        <!-- <a
+                    <div class="d-flex align-items-center" style="gap: 3px">
+                      <div class="Approved late text-center" style="cursor: pointer" data-bs-toggle="modal"
+                        data-bs-target="#lateUsersModal" (click)="getLateUsers()">
+                        <span class="total-holiday pb-2">Late</span>
+                        <p class="mb-0">
+                          {{ totalCountLate }}
+                          <!-- {{ lateEmployeeAttendanceDetailsResponseList.length }} -->
+                          <!-- <a
                         href="#"
                         data-bs-toggle="modal"
                         data-bs-target="#lateUsersModal"
@@ -84,69 +90,203 @@
                       >
                         {{ totalCountLate }}
                       </a> -->
-                      </p>
-                    </div>
-                    <div class="Approved pending-css rejected-css text-center border-right" style="cursor: pointer"
-                      data-bs-toggle="modal" data-bs-target="#leaveUsersModal" (click)="getLeaveUsers()">
-                      <span class="total-holiday pb-2">Leave</span>
+                        </p>
+                      </div>
+                      <div class="Approved pending-css rejected-css text-center border-right pointer"
+                        data-bs-toggle="modal" data-bs-target="#leaveUsersModal" (click)="getLeaveUsers()">
+                        <span class="total-holiday pb-2">Leave</span>
 
-                      <p class="mb-0">
-                        {{ attendanceDetailsCountResponse.usersOnLeave }}
-                        <!-- <a href="#" data-bs-toggle="modal" data-bs-target="#leaveUsersModal" (click)="getLeaveUsers()">
+                        <p class="mb-0">
                           {{ attendanceDetailsCountResponse.usersOnLeave }}
-                        </a> -->
-                        <!-- {{ attendanceDetailsCountResponse.usersOnLeave }} -->
-                      </p>
-                    </div>
-                    <div class="Approved absents text-center border-right" style="cursor: pointer"
-                      data-bs-toggle="modal" data-bs-target="#presentModal"
-                      (click)="getAbsentAndNotMarkedUsers('ABSENT', attendanceDetailsCountResponse.absentUsers); getAbsentFlag('ABSENT', attendanceDetailsCountResponse.absentUsers)">
-                      <span class="total-holiday pb-2">Absent</span>
+                        </p>
+                      </div>
+                      <div class="Approved absents text-center border-right" style="cursor: pointer"
+                        data-bs-toggle="modal" data-bs-target="#presentModal" (click)="
+                          getAbsentAndNotMarkedUsers(
+                            'ABSENT',
+                            attendanceDetailsCountResponse.absentUsers
+                          );
+                          getAbsentFlag(
+                            'ABSENT',
+                            attendanceDetailsCountResponse.absentUsers
+                          )
+                        ">
+                        <span class="total-holiday pb-2">Absent</span>
 
-                      <p class="mb-0">
-                        {{ attendanceDetailsCountResponse.absentUsers }}
-                        <!-- <a href="#" data-bs-toggle="modal" data-bs-target="#presentModal"
+                        <p class="mb-0">
+                          {{ attendanceDetailsCountResponse.absentUsers }}
+                          <!-- <a href="#" data-bs-toggle="modal" data-bs-target="#presentModal"
                           (click)="getAttendanceDetailsReportByDateMethodCall('ABSENT')">
                           {{ attendanceDetailsCountResponse.absentUsers }}
                         </a> -->
-                        <!-- {{ attendanceDetailsCountResponse.absentUsers }} -->
-                      </p>
-                    </div>
-                    <div class="Approved na text-center" style="cursor: pointer" data-bs-toggle="modal"
-                      data-bs-target="#presentModal"
-                      (click)="getAbsentAndNotMarkedUsers('ABSENT', attendanceDetailsCountResponse.unmarkedUsers); getAbsentFlag('Not Marked', attendanceDetailsCountResponse.unmarkedUsers)">
-                      <span class="total-holiday pb-2">Not Marked</span>
-                      <p class="mb-0">
-                        {{ attendanceDetailsCountResponse.unmarkedUsers }}
-                        <!-- <a href="#" data-bs-toggle="modal" data-bs-target="#presentModal"
+                          <!-- {{ attendanceDetailsCountResponse.absentUsers }} -->
+                        </p>
+                      </div>
+                      <div class="Approved na text-center" style="cursor: pointer" data-bs-toggle="modal"
+                        data-bs-target="#presentModal" (click)="
+                          getAbsentAndNotMarkedUsers(
+                            'ABSENT',
+                            attendanceDetailsCountResponse.unmarkedUsers
+                          );
+                          getAbsentFlag(
+                            'Not Marked',
+                            attendanceDetailsCountResponse.unmarkedUsers
+                          )
+                        ">
+                        <span class="total-holiday pb-2">Not Marked</span>
+                        <p class="mb-0">
+                          {{ attendanceDetailsCountResponse.unmarkedUsers }}
+                          <!-- <a href="#" data-bs-toggle="modal" data-bs-target="#presentModal"
                           (click)="getAttendanceDetailsReportByDateMethodCall('ABSENT')">
                           {{ attendanceDetailsCountResponse.unmarkedUsers }}
                         </a> -->
-
-                      </p>
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div class="col-auto align-self-center">
-                  <div
-                    class="bg-light-alt d-flex justify-content-center align-items-center thumb-md icons rounded-circle">
-                    <img src="assets/images/secure.svg" style="width: 100%" />
+                  <div class="col-auto align-self-center">
+                    <div
+                      class="bg-light-alt d-flex justify-content-center align-items-center thumb-md icons rounded-circle">
+                      <img src="assets/images/secure.svg" style="width: 100%" />
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-          <!--end card-->
+            <!--end card-->
           </ng-container>
           <ng-template #notShowPlaceholder>
-              <div class="card fixheigt-section d-flex justify-content-center align-items-center">
-                <img src="assets/images/empty-box.svg" style="width: 100px; height: 103px ;" />
-                <h4>HOLIDAY</h4>
-                <p class="mb-0">Today is the holiday!</p> 
-              </div>
+            <div class="card fixheigt-section d-flex justify-content-center align-items-center">
+              <img src="assets/images/empty-box.svg" style="width: 100px; height: 103px" />
+              <h4>HOLIDAY</h4>
+              <p class="mb-0">Today is the holiday!</p>
+            </div>
           </ng-template>
         </div>
-       
+
+        <div class="col-md-6 col-lg-4 order-lg-1 order-md-1">
+          <div class="card fixheigt-section">
+            <div class="card-header">
+              <div class="row align-items-center justify-content-between">
+                <div class="col">
+                  <h6 class="mb-2">Last 6 Month Pattern</h6>
+                </div>
+                <div></div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="text-center mt-2">
+                <ngx-charts-bar-vertical-stacked [view]="view2" [results]="monthlyChartData" [scheme]="colorScheme"
+                  [gradient]="gradient" [xAxis]="true" [yAxis]="true" [legend]="false" [animations]="true">
+                </ngx-charts-bar-vertical-stacked>
+              </div>
+
+              <!-- <div class="upcoming-activities">
+                <div
+                  class="d-flex align-items-center justify-content-between leave-list p-3 pt-2 pb-2 mb-3"
+                >
+                  <div class="">
+                    <p class="mb-0 font-13">Holiday</p>
+                    <h3 class="mb-0">Dussehra</h3>
+                  </div>
+
+                  <h5 class="mb-0 font-14">Sat,12th October</h5>
+                </div>
+                <div
+                  class="d-flex align-items-center justify-content-between upcoming-holiday-list p-3 pt-0 pb-0 mb-3 success-border"
+                >
+                  <div class="">
+                    <p class="mb-0 font-13">Upcoming</p>
+                    <h3 class="mb-0">Dussehra</h3>
+                  </div>
+
+                  <h5 class="mb-0 font-14">Sat,12th October</h5>
+                </div>
+                <div
+                  class="d-flex align-items-center justify-content-between upcoming-holiday-list p-3 pt-0 pb-0"
+                >
+                  <div class="">
+                    <p class="mb-0 font-13">Upcoming</p>
+                    <h3 class="mb-0">Dussehra</h3>
+                  </div>
+
+                  <h5 class="mb-0 font-14">Sat,12th October</h5>
+                </div>
+
+                <div
+                  class="d-flex align-items-center justify-content-between all-holiday-list" style="padding-top: 10px;"
+                >
+                  <p class="mb-0 font-13">View All Holidays for This Year</p>
+                  <button
+                    class="p-0 btn text-primary font-13"
+                    data-bs-toggle="modal"
+                    data-bs-target="#holidayList"
+                  >
+                    View all
+                  </button>
+                </div>
+              </div> -->
+
+              <!-- <div class="upcoming-birthday">
+                <div
+                  class="d-flex align-items-end justify-content-between today-birthday mb-3 p-2"
+                  style="
+                    background-image: url(../assets/images/barthday-img.svg);
+                  "
+                >
+                  <div class="d-flex align-items-center gap-2">
+                    <img src="assets/images/media-upload.jpg" />
+                    <div>
+                      <p class="mb-0 font-13">Sat,12th October</p>
+                      <h5 class="mb-0 font-15">Ahaan Panady</h5>
+                    </div>
+                  </div>
+                  <p class="mb-0 font-12">Today</p>
+                </div>
+
+                <div
+                  class="d-flex align-items-end justify-content-between upcoming-birthday-box mb-3 p-2 pt-0 pb-0"
+                >
+                  <div class="d-flex align-items-center gap-2">
+                    <img src="assets/images/media-upload.jpg" />
+                    <div>
+                      <p class="mb-0 font-13">Sat,12th October</p>
+                      <h5 class="mb-0 font-15">Ahaan Panady</h5>
+                    </div>
+                  </div>
+                  <p class="mb-0 font-12">Upcoming</p>
+                </div>
+
+                <div
+                  class="d-flex align-items-end justify-content-between upcoming-birthday-box p-2 pt-0 pb-0"
+                >
+                  <div class="d-flex align-items-center gap-2">
+                    <img src="assets/images/media-upload.jpg" />
+                    <div>
+                      <p class="mb-0 font-13">Sat,12th October</p>
+                      <h5 class="mb-0 font-15">Ahaan Panady</h5>
+                    </div>
+                  </div>
+                  <p class="mb-0 font-12">Upcoming</p>
+                </div>
+
+                <div
+                  class="d-flex align-items-center justify-content-between all-holiday-list"
+                >
+                  <p class="mb-0 font-13">View All Barthday for This Year</p>
+                  <button
+                    class="p-0 btn text-primary font-13"
+                    data-bs-toggle="modal"
+                    data-bs-target="#birthdayList"
+                  >
+                    View all
+                  </button>
+                </div>
+              </div> -->
+            </div>
+          </div>
+        </div>
+
         <div class="col-md-6 col-lg-4 order-lg-1 order-md-1">
           <div class="card fixheigt-section">
             <div class="card-header">
@@ -154,67 +294,25 @@
                 <div class="col">
                   <h6 class="mb-2">Weekly Leave Pattern</h6>
                 </div>
-                <!-- <div class="col-auto">
-                  <div class="dropdown">
-                    <a
-                      href="#"
-                      class="btn btn-sm btn-outline-light dropdown-toggle"
-                      data-bs-toggle="dropdown"
-                      aria-haspopup="true"
-                      aria-expanded="false"
-                    >
-                      <i class="mdi mdi-dots-horizontal text-muted"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-end">
-                      <a class="dropdown-item" href="#">Purchases</a>
-                      <a class="dropdown-item" href="#">Emails</a>
-                    </div>
-                  </div>
-                </div> -->
               </div>
             </div>
 
             <div class="card-body">
-              <div class="text-center">
+              <div class="text-center mt-2">
                 <ngx-charts-bar-vertical-stacked [view]="view1" [results]="weeklyChartData" [scheme]="colorScheme"
                   [gradient]="gradient" [xAxis]="true" [yAxis]="true" [legend]="false" [animations]="true">
                 </ngx-charts-bar-vertical-stacked>
               </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-4 order-lg-1 order-md-1">
-          <div class="card fixheigt-section">
-            <div class="card-header">
-              <div class="row align-items-center">
-                <div class="col">
-                  <h6 class="mb-2">Last 6 Months Pattern</h6>
-                </div>
-                <!-- <div class="col-auto">
-                  <div class="dropdown">
-                    <a
-                      href="#"
-                      class="btn btn-sm btn-outline-light dropdown-toggle"
-                      data-bs-toggle="dropdown"
-                      aria-haspopup="true"
-                      aria-expanded="false"
-                    >
-                      <i class="mdi mdi-dots-horizontal text-muted"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-end">
-                      <a class="dropdown-item" href="#">Purchases</a>
-                      <a class="dropdown-item" href="#">Emails</a>
-                    </div>
-                  </div>
-                </div> -->
-              </div>
-            </div>
-            <div class="card-body">
-              <div class="text-center">
-                <ngx-charts-bar-vertical-stacked [view]="view2" [results]="monthlyChartData" [scheme]="colorScheme"
-                  [gradient]="gradient" [xAxis]="true" [yAxis]="true" [legend]="false" [animations]="true">
-                </ngx-charts-bar-vertical-stacked>
-              </div>
+              <!-- <div class="empty-file" style="margin-top: 10%">
+                <nz-empty
+                  nzNotFoundImage="assets/images/no-data-found-img-2.svg"
+                  [nzNotFoundContent]="contentTpl"
+                >
+                  <ng-template #contentTpl>
+                    <p class="mb-1 empty-detail font-16">No leave crated</p>
+                  </ng-template>
+                </nz-empty>
+              </div> -->
             </div>
           </div>
         </div>
@@ -224,7 +322,7 @@
       <div class="row mb-3" *ngIf="lateEmployeeAttendanceDetailsResponseList.length > 0">
         <div class="col-md-12">
           <div class="col d-flex align-items-center justify-content-between mb-3">
-            <h4 class="card-title" style="font-size: 18px" >Late Employee</h4>
+            <h4 class="card-title" style="font-size: 18px">Late Employee</h4>
             <ng-container *ngIf="lateEmployeeDataLoaderButton; else viewAllAndViewLess">
               <div class="dot-opacity-loader">
                 <span></span>
@@ -308,7 +406,7 @@
                           height: 60px;
                           border-radius: 50%;
                           object-fit: cover;
-                        " />
+                        " (error)="onError($event)" />
                     </div>
                   </ng-container>
                   <ng-template #imageNull>
@@ -332,8 +430,11 @@
                         }}</span>
                     </div>
 
-                    <h5 class="pro-title Regular-data"
-                            (click)="routeToUserProfile(lateEmployeeAttendanceDetailsResponse.uuid)" >
+                    <h5 class="pro-title Regular-data" (click)="
+                        routeToUserProfile(
+                          lateEmployeeAttendanceDetailsResponse.uuid
+                        )
+                      ">
                       {{ lateEmployeeAttendanceDetailsResponse.name }}
                     </h5>
                     <p class="mb-0 text-muted late-employ-email">
@@ -383,7 +484,8 @@
                     <p class="mb-0">
                       <span class="in-time"><b> Late by: </b></span>
                       <span class="teme-maneger">{{
-                        lateEmployeeAttendanceDetailsResponse.lateDuration | durationFormat
+                        lateEmployeeAttendanceDetailsResponse.lateDuration
+                        | durationFormat
                         }}</span>
                     </p>
                   </div>
@@ -429,7 +531,7 @@
         </ng-template>
       </div>
       <!--  ########best performer -->
-      <div>
+      <div *ngIf="bestPerformerAttendanceDetailsResponseList.length > 0">
         <div class="row mb-3" *ngIf="ROLE === ADMIN || ROLE === MANAGER">
           <div class="col-md-12">
             <div class="col mb-3">
@@ -439,8 +541,6 @@
             </div>
           </div>
           <div class="mt-3 dashnodata" *ngIf="errorToggleTop"></div>
-          <!-- *ngIf="(responseDto.attendanceLatePerformers).length!=0" -->
-          <!-- *ngFor="let performer of responseDto.attendanceTopPerformers" -->
           <div>
             <ng-container *ngIf="
                 isShimmerForBestPerfomer &&
@@ -481,19 +581,30 @@
                       <div class="card-body p-0">
                         <div class="media p-3 align-items-center">
                           <!-- <img src="" alt="user" class="rounded-circle thumb-xl"> -->
-                          <span *ngIf="performer.image != null">
-                            <img src="{{ performer.image }}" alt="user" class="rounded-circle" style="
+                          <ng-container *ngIf="
+                          performer.image !== null;
+                    else imageNull
+                  ">
+                          <span>
+                           
+                            <img [src]="performer.image" alt="user" class="rounded-circle" style="
                                 width: 60px;
                                 border-radius: 50%;
                                 height: 60px;
                                 object-fit: cover;
-                              " />
+                              " (error)="onError($event)" />
                           </span>
-                          <span class="members-name" *ngIf="performer.image == null"
-                          >{{ performer.name[0] }}</span>
+                          </ng-container>
+
+                          <ng-template #imageNull>
+                          <span class="members-name" *ngIf="!performer.image">
+                            {{ performer.name[0] }}
+                          </span>
+                        </ng-template>
                           <div class="media-body ms-3 align-self-center">
-                            <h5 class="pro-title m-0 Regular-data" 
-                            (click)="routeToUserProfile(performer.uuid)" >{{ performer.name }}</h5>
+                            <h5 class="pro-title m-0 Regular-data" (click)="routeToUserProfile(performer.uuid)">
+                              {{ performer.name }}
+                            </h5>
                             <p class="mb-0 text-muted late-employ-email">
                               {{ performer.email }}
                             </p>
@@ -515,7 +626,10 @@
               </ng-container>
             </ng-template>
             <ng-template #errorInFetchingBestPerformerData>
-              <div class="errorboxmain" *ngIf="networkConnectionErrorPlaceHolderForBestPerformer">
+              <!-- <div
+                class="errorboxmain"
+                *ngIf="networkConnectionErrorPlaceHolderForBestPerformer"
+              >
                 <div class="errorboxinner">
                   <div class="errorboxplaceholder mb-2">
                     <img src="assets/images/signal.svg" style="width: 65px" />
@@ -528,11 +642,28 @@
                     </p>
                   </div>
                 </div>
+              </div> -->
+
+              <div class="empty-file" style="margin-top: 5%; margin-bottom: 5%"
+                *ngIf="networkConnectionErrorPlaceHolderForBestPerformer">
+                <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
+                  <ng-template #contentTpl>
+                    <p class="mb-1 empty-detail font-16">
+                      Something went wrong!
+                    </p>
+                  </ng-template>
+                </nz-empty>
               </div>
-              <div class="errorboxmain" *ngIf="dataNotFoundPlaceholderForBestPerfomer">
+              <!-- <div
+                class="errorboxmain"
+                *ngIf="dataNotFoundPlaceholderForBestPerfomer"
+              >
                 <div class="errorboxinner">
                   <div class="errorboxplaceholder mb-2">
-                    <img src="assets/images/empty-box.svg" style="width: 65px" />
+                    <img
+                      src="assets/images/empty-box.svg"
+                      style="width: 65px"
+                    />
                   </div>
                   <div class="">
                     <h4 class="fs-5 mb-1">No Data Found</h4>
@@ -542,6 +673,14 @@
                     </p>
                   </div>
                 </div>
+              </div> -->
+              <div class="empty-file" style="margin-top: 5%; margin-bottom: 5%"
+                *ngIf="dataNotFoundPlaceholderForBestPerfomer">
+                <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
+                  <ng-template #contentTpl>
+                    <p class="mb-1 empty-detail font-16">No data for now</p>
+                  </ng-template>
+                </nz-empty>
               </div>
             </ng-template>
           </div>
@@ -684,48 +823,23 @@
         <div class="col-md-12" id="attendance-master-roll-reports">
           <div class="col">
             <h4 class="card-title" style="font-size: 18px; margin: 0px 0px 15px 0px">
-              Attendance Master Roll Report
+              Attendance Muster Roll Report
             </h4>
           </div>
 
           <div class="onboard-add row align-items-center">
             <div class="col-md-12">
               <div class="d-flex" style="border: 1px solid #f1f1f1">
-                <!-- <div class="" style="width: 15%">
-                  <div class="dropdown">
-                    <button
-                      class="btn btn-secondary dropdown-toggle new-deopdown"
-                      type="button"
-                      id="dropdownMenuButton1"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                      [disabled]="attendanceReportResponseList.length === 0"
-                    >
-                      Download <i class="bi bi-chevron-down"></i>
-                    </button>
-                    <ul
-                      class="dropdown-menu"
-                      aria-labelledby="dropdownMenuButton1"
-                      style="width: 100%"
-                    >
-                      <li>
-                        <a
-                          id="attendance-data-download-in-excel-format"
-                          class="dropdown-item"
-                          (click)="
-                            downloadAttendanceDataInExcelFormatMethodCall()
-                          "
-                          >Excel</a
-                        >
-                      </li>
-                      <li><a class="dropdown-item">CSV</a></li>
-                    </ul>
+                <div class="" style="width: 15%; border-right: 1px solid #f1f1f1">
+                  <div class="dropdown deshboard-date-filter">
+                    <nz-date-picker nzMode="month" [nzSize]="size" nzFormat="MMM, yyyy" [(ngModel)]="selectedDate"
+                      (ngModelChange)="onMonthChange($event)" [nzDisabledDate]="disableMonths"></nz-date-picker>
                   </div>
-                </div> -->
+                </div>
                 <div class="onboarding-date d-flex align-items-center" style="gap: 10px; width: 70%">
                   <form novalidate="" role="search" (submit)="searchUsers($event)"
                     class="searching ng-untouched ng-pristine ng-valid" style="width: 100%; position: relative">
-                    <div class="form-group" style="width: 100%; position: relative">
+                    <div class="form-group pr-2" style="width: 100%; position: relative">
                       <input type="text" id="searchText" placeholder="Search by name and email"
                         class="form-control me-2 deshboard-search-box" (keyup)="searchUsers($event)"
                         [(ngModel)]="searchText" [ngModelOptions]="{ standalone: true }" />
@@ -733,247 +847,58 @@
                         (click)="clearSearchText()">
                         <i class="bi bi-x mt-auto mb-auto pl-3"></i>
                       </button>
-                      <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px"></i>
+                      <i class="bi bi-search search-icon" style="margin: auto; margin-left: 15px"></i>
                     </div>
                   </form>
                 </div>
-                <div *ngIf="!errorToggleTop" style="width: 12%">
+                <div *ngIf="!errorToggleTop" style="width: 11%">
                   <div class="dropdown">
-                    <button class="btn btn-secondary new-deopdown" style="text-align: center" type="button"
+                    <button class="btn btn-secondary new-deopdown text-center bg-transparent" type="button"
                       (click)="toggleAllCollapse(isAllCollapsed)"
                       [disabled]="attendanceReportResponseList.length === 0">
                       {{ isAllCollapsed ? "Expand All" : "Collapse All" }}
                     </button>
                   </div>
                 </div>
-                <div class="" style="width: 15%">
+
+                <div class="" style="width: 10%">
                   <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle new-deopdown" type="button"
-                      id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
-                      [disabled]="attendanceReportResponseList.length === 0">
-                      Download <i class="bi bi-chevron-down"></i>
+                    <button class="btn btn-secondary dropdown-toggle new-deopdown"
+                      style="text-align: center; border-right: none" type="button" id="dropdownMenuButton1"
+                      data-bs-toggle="dropdown" aria-expanded="false"
+                      [disabled]="attendanceReportResponseList.length === 0"
+                      (click)="downloadAttendanceDataInExcelFormatMethodCall()">
+                      <span *ngIf="!downloadingFlag">Download</span>
+                      <div class="dot-opacity-loader" *ngIf="downloadingFlag">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                      </div>
                     </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 100%">
-                      <li>
-                        <a id="attendance-data-download-in-excel-format" class="dropdown-item" (click)="
-                            downloadAttendanceDataInExcelFormatMethodCall()
-                          ">Excel</a>
-                      </li>
-                      <li><a class="dropdown-item">CSV</a></li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="" style="width: 15%">
-                  <div class="dropdown deshboard-date-filter">
-                    <nz-date-picker nzMode="month" [nzSize]="size" [(ngModel)]="selectedDate"
-                      (ngModelChange)="onMonthChange($event)" [nzDisabledDate]="disableMonths"></nz-date-picker>
                   </div>
                 </div>
               </div>
             </div>
-
-            <!-- </div> -->
           </div>
-
-          <!-- <div class="row mb-3">
-            <div class="col-md-6 d-flex align-items-center">
-              <div class="col-md-12 mt-2">
-                <form
-          novalidate
-          role="search"
-          (submit)="searchUsers($event)"
-          class="searching ng-untouched ng-pristine ng-valid"
-        >
-          <div class="form-group" style="width: 100%; display: flex; align-items: center;">
-            <div style="width: 30%; position: relative; margin-right: 10px;">
-              <div class="dropdown" style="width: 100%">
-                <button
-                  type="button"
-                  id="dropdownMenuButton1"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                  class="btn btn-secondary dropdown-toggle new-dropdown"
-                >
-                  {{ selectedTeamName }}
-                  <i class="bi bi-chevron-down" style="color: #444; font-size: 15px"></i>
-                </button>
-                <ul
-                  aria-labelledby="dropdownMenuButton1"
-                  class="dropdown-menu team-dropdown"
-                  style="width: 100%; max-height: 200px; overflow-y: auto;"
-                >
-                  <li class="ng-star-inserted" (click)="selectTeam(0)">
-                    <a class="dropdown-item">All</a>
-                  </li>
-                  <li
-                    class="ng-star-inserted"
-                    *ngFor="let tn of teamNameList"
-                    (click)="selectTeam(tn.teamId)"
-                  >
-                    <a class="dropdown-item">{{ tn.teamName }}</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-    <div class="form-group" style="width: 350px; position: relative;">
-      <input
-        type="text"
-        id="searchText"
-        placeholder="Search by name and email"
-        class="form-control me-2 ng-untouched ng-pristine ng-valid"
-        (keyup)="searchUsers($event)"
-        [(ngModel)]="searchText"
-        [ngModelOptions]="{ standalone: true }"
-        style="padding: 10px 30px;"
-      />
-      <button
-        *ngIf="searchText.length !== 0"
-        type="button"
-        class="btn close-btn"
-        (click)="clearSearchText()"
-      >
-        <i class="bi bi-x mt-auto mb-auto pl-3"></i>
-      </button>
-      <i
-      class="bi bi-search search-icon"
-      style="margin: auto; margin-left: 10px"
-    ></i>
-    </div>
-  </div>
-</form>
-
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div
-                class="filtter-box d-flex align-items-center justify-content-end"
-                style="gap: 10px"
-              >
-                <div class="dropdown">
-                  <button
-                    class="btn btn-secondary new-deopdown"
-                    type="button"
-                    (click)="toggleAllCollapse(isAllCollapsed)"
-                    [disabled]="attendanceReportResponseList.length === 0"
-                  >
-                    {{ isAllCollapsed ? "Expand All" : "Collapse All" }}
-                  </button>
-                </div>
-
-                <div class="col-md-3" *ngIf="ROLE == ADMIN">
-                  <ng-container
-                    *ngIf="!downloadingFlag; else downloadingCondition"
-                  >
-                    <div class="dropdown">
-                      <button
-                        class="btn btn-secondary dropdown-toggle new-deopdown"
-                        type="button"
-                        id="dropdownMenuButton1"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                        [disabled]="attendanceReportResponseList.length === 0"
-                      >
-                        Download <i class="bi bi-chevron-down"></i>
-                      </button>
-                      <ul
-                        class="dropdown-menu"
-                        aria-labelledby="dropdownMenuButton1"
-                        style="width: 100%"
-                      >
-                        <li>
-                          <a
-                            id="attendance-data-download-in-excel-format"
-                            class="dropdown-item"
-                            (click)="
-                              downloadAttendanceDataInExcelFormatMethodCall()
-                            "
-                            >Excel</a
-                          >
-                        </li>
-                        <li><a class="dropdown-item">CSV</a></li>
-                      </ul>
-                    </div>
-                  </ng-container>
-                  <ng-template #downloadingCondition>
-                    <div class="dropdown">
-                      <button
-                        class="btn btn-secondary dropdown-toggle new-deopdown"
-                        type="button"
-                        id="dropdownMenuButton1"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                        [disabled]="attendanceReportResponseList.length === 0"
-                        style="
-                          display: flex;
-                          justify-content: space-evenly;
-                          align-items: center;
-                        "
-                      >
-                        Downloading
-
-                        <div class="download-button-loader">
-                          <span></span>
-                          <span></span>
-                          <span></span>
-                        </div>
-                      </button>
-                    </div>
-                  </ng-template>
-                </div>
-
-            
-
-                <div class="dropdown col-md-3">
-                  <nz-date-picker
-                    nzMode="month"
-                    [nzSize]="size"
-                    [(ngModel)]="selectedDate"
-                    (ngModelChange)="onMonthChange($event)"
-                    [nzDisabledDate]="disableMonths"
-                  ></nz-date-picker>
-                </div>
-              </div>
-            </div>
-
-       
-          </div> -->
 
           <div class="col-md-12">
             <div class="mt-3 dashnodata">
-              <!-- <div class="errorboxmain" > -->
-              <!-- <div class="errorboxinner ">
-                                      <div class="errorboxplaceholder mb-2">
-                                        <img src="assets/images/addnewproduct.svg" style="width:80px;" />
-                                      </div>
-                                     <div class="">
-                                         <h4>No Data Found</h4>
-                                         <p class="mb-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                                    </div>
-                                    </div> -->
-
-              <!-- </div> -->
-
-              <!-- *ngIf="isAttendanceShimer || (myAttendanceData | json )!= '{}' && !isAttendanceShimer " -->
               <div>
-                <!-- <h5>Monthly Regular</h5> -->
-
                 <div class="mt-3">
                   <table class="table">
                     <thead class="table-light">
                       <tr>
                         <th class="text-left">Staff Name</th>
-                        <th class="text-left">Present</th>
-                        <th class="text-left">Absent</th>
-                        <th class="text-left">Half Day</th>
-                        <th class="text-left">Overtime</th>
-                        <th class="text-left">Paid Leave</th>
-                        <th class="text-left">Unpaid Leave</th>
-                        <th class="text-left">Unmarked</th>
-                        <th class="text-left">Total Attendance</th>
+                        <th class="text-center">Present</th>
+                        <th class="text-center">Absent</th>
+                        <th class="text-center">Half Day</th>
+                        <th class="text-center">Overtime</th>
+                        <th class="text-center">Paid Leave</th>
+                        <th class="text-center">Unpaid Leave</th>
+                        <!-- <th class="center-left">Unmarked</th> -->
+                        <th class="text-center">Total Attendance</th>
                       </tr>
                     </thead>
-                    <!-- *ngIf="isAttendanceShimer" -->
 
                     <ng-container *ngIf="
                         isShimmerForAttendanceData &&
@@ -983,46 +908,13 @@
                         else attendanceDataCondition
                       ">
                       <tbody>
-                        <tr *ngFor="let item of [].constructor(6)">
+                        <tr *ngFor="let item of [].constructor(12)">
                           <td class="text-center">
                             <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
                           </td>
-                          <td class="text-center">
-                            <ngx-shimmer-loading [width]="'%'" [height]="'10px'"></ngx-shimmer-loading>
-                          </td>
-                          <td class="text-center">
+                          <td *ngFor="let number of [1,2,3,4,5,6,7]" class="text-center">
                             <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
                           </td>
-                          <td class="text-center">
-                            <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                          </td>
-                          <td class="text-center">
-                            <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                          </td>
-                          <td class="text-center">
-                            <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                          </td>
-                          <td class="text-center">
-                            <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                          </td>
-                          <td class="text-center">
-                            <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                          </td>
-                          <td class="text-center">
-                            <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                          </td>
-                          <!-- <td class="text-center">
-                                                    <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                                                </td> -->
-                          <!-- <td class="text-center">
-                                                    <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                                                </td>
-                                                <td class="text-center">
-                                                    <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                                                </td>
-                                                <td class="text-center">
-                                                    <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                                                </td> -->
                         </tr>
                       </tbody>
                     </ng-container>
@@ -1043,61 +935,71 @@
                                   ? 'none'
                                   : '1px solid #f7f7f7'
                               }">
-                              <td class="text-left plandtlMainicon " >
+                              <td class="text-left plandtlMainicon">
                                 <i class="bi bi-chevron-right month-d projectdIcon collapsed" data-bs-toggle="collapse"
                                   [attr.href]="'#collapseExamplesheet' + i" role="button" aria-expanded="false"
-                                  aria-controls="collapseExamplesheet0" (click)="toggleCollapse(i)"
-                                   ></i>
-                                   <span class = "Regular-data" (click)="routeToUserProfile(attendanceReportResponse.userUuid)"
-                                   style="cursor: pointer;">
-                                    {{ extractFirstNameFromEmail(attendanceReportResponse.userName) }}
-                                  </span>
+                                  aria-controls="collapseExamplesheet0" (click)="toggleCollapse(i)"></i>
+                                <span class="Regular-data" (click)="
+                                    routeToUserProfile(
+                                      attendanceReportResponse.userUuid
+                                    )
+                                  " style="cursor: pointer">
+                                  {{
+                                  extractFirstNameFromEmail(
+                                  attendanceReportResponse.userName
+                                  )
+                                  }}
+                                </span>
                                 <p class="attendance-name">
-                                  {{ attendanceReportResponse.userEmail }}
+                                  {{ attendanceReportResponse.email }}
                                 </p>
                               </td>
 
                               <td class="text-center">
-                                {{ attendanceReportResponse.presentUpToToday }}
+                                {{ attendanceReportResponse.presentCount }}
                               </td>
                               <td class="text-center">
-                                {{ attendanceReportResponse.absentUpToToday }}
+                                {{ attendanceReportResponse.totalAbsentCount }}
+
                               </td>
                               <td class="text-center">
-                                {{ attendanceReportResponse.halfDays }}
+                                {{ attendanceReportResponse.halfDayCount }}
                               </td>
                               <td class="text-center">
-                                {{ attendanceReportResponse.overTime }}
+                                <!-- {{ attendanceReportResponse.overTime }} -->
+                                0
                               </td>
                               <td class="text-center">
                                 {{
-                                attendanceReportResponse.paidLeaveUpToToday
+                                attendanceReportResponse.paidLeave
                                 }}
                               </td>
                               <td class="text-center">
                                 {{
-                                attendanceReportResponse.unpaidLeaveUpToToday
+                                attendanceReportResponse.unpaidLeave
                                 }}
                               </td>
+                              <!-- <td class="text-center">
+                                {{ attendanceReportResponse.unmarkedAttendanceCount }}
+                              </td> -->
                               <td class="text-center">
-                                {{ attendanceReportResponse.unmarkedUpToToday }}
-                              </td>
-                              <td class="text-center">
-                                {{
-                                attendanceReportResponse.totalPayOutDaysUpToToday
-                                }}
+                                <!-- {{
+                                  attendanceReportResponse.totalPayOutDaysUpToToday
+                                }} -->
+                                  <!-- {{attendanceReportResponse.presentCount}} -->
+                                {{attendanceReportResponse.totalDayInMonth - attendanceReportResponse.totalDeduction}}
                               </td>
                             </tr>
                             <tr class="collapse" [attr.id]="'collapseExamplesheet' + i">
                               <td colspan="9" class="p-1">
                                 <div class="month-deta">
-                                  <table class="table table-bordered day-deta">
+                                  <table class="table table-bordered day-data mb-0">
                                     <tr class="position-relative">
-                                      <th class="text-center ">Day</th>
+                                      <th class="text-center">Day</th>
                                       <ng-container *ngFor="
                                           let dayWiseStatus of attendanceReportResponse.dayWiseStatusList
                                         ">
-                                        <th class="text-center  ">
+                                        <th class="text-center">
                                           {{
                                           getDayNameFromDate(
                                           dayWiseStatus.date
@@ -1107,11 +1009,8 @@
                                           {{
                                           getDayFromDate(dayWiseStatus.date)
                                           }}
-
                                         </th>
                                       </ng-container>
-
-
                                     </tr>
                                     <tr>
                                       <td></td>
@@ -1129,84 +1028,93 @@
                                             blue:
                                               dayWiseStatus.status == WEEKEND ||
                                               dayWiseStatus.status == HOLIDAY
-                                          }"
-                                          (mouseenter)="fetchAttendanceDetails(attendanceReportResponse.userEmail, dayWiseStatus.date)">
+                                          }" (mouseenter)="
+                                            fetchAttendanceDetails(
+                                              attendanceReportResponse.email,
+                                              dayWiseStatus.date
+                                            )
+                                          ">
                                           {{
                                           dayWiseStatus.status[0] == "U"
                                           ? "A"
                                           : dayWiseStatus.status[0]
                                           }}
 
-                                          <span class="user-details p-3"
-                                            *ngIf=" dayWiseStatus.status == HALFDAY || dayWiseStatus.status == PRESENT">
-                                            <h5 class="p-0">Attendance Details</h5>
+                                          <span class="user-details p-3" *ngIf="
+                                              dayWiseStatus.status == HALFDAY ||
+                                              dayWiseStatus.status == PRESENT
+                                            ">
+                                            <h5 class="p-0">
+                                              Attendance Details
+                                            </h5>
                                             <!-- <div class=" p-0" *ngIf="loadingFlag">
                                               <div class="spinner-grow text-primary" role="status">
                                                 <span class="sr-only">Loading...</span>
                                               </div>  
                                             </div> -->
                                             <div class="p-0 d-flex justify-content-center" *ngIf="loadingFlag">
-                                              <div class="spinner-grow text-secondary"
-                                                style="width: 10px; height: 10px;" role="status">
+                                              <div class="spinner-grow text-secondary" style="
+                                                  width: 10px;
+                                                  height: 10px;
+                                                " role="status">
                                                 <span class="visually-hidden">Loading...</span>
                                               </div>
-                                              <div class="spinner-grow text-secondary"
-                                                style="width: 10px; height: 10px;" role="status">
+                                              <div class="spinner-grow text-secondary" style="
+                                                  width: 10px;
+                                                  height: 10px;
+                                                " role="status">
                                                 <span class="visually-hidden">Loading...</span>
                                               </div>
-                                              <div class="spinner-grow text-secondary"
-                                                style="width: 10px; height: 10px;" role="status">
+                                              <div class="spinner-grow text-secondary" style="
+                                                  width: 10px;
+                                                  height: 10px;
+                                                " role="status">
                                                 <span class="visually-hidden">Loading...</span>
                                               </div>
                                             </div>
 
-
-                                            <div class=" p-0"
-                                              *ngIf="userAttendanceDetailDateWise?.checkInTime!=null && !loadingFlag">
-                                              <p class="mb-0">Check In Time: {{userAttendanceDetailDateWise.checkInTime
-                                                | date:'shortTime' }}</p>
-                                              <p class="mb-0">Check Out Time:
-                                                {{userAttendanceDetailDateWise.checkOutTime | date:'shortTime' || '-'}}
+                                            <div class="p-0" *ngIf="
+                                                userAttendanceDetailDateWise?.checkInTime !=
+                                                  null && !loadingFlag
+                                              ">
+                                              <p class="mb-0">
+                                                Check In Time:
+                                                {{
+                                                userAttendanceDetailDateWise.checkInTime
+                                                | date : "shortTime"
+                                                }}
                                               </p>
-                                              <p class="mb-0">Total Hours:
-                                                {{userAttendanceDetailDateWise.totalWorkingHours}}</p>
-                                              <p class="mb-0">Total Break: {{userAttendanceDetailDateWise.breakCount}}
+                                              <p class="mb-0">
+                                                Check Out Time:
+                                                {{
+                                                userAttendanceDetailDateWise.checkOutTime
+                                                | date : "shortTime" || "-"
+                                                }}
                                               </p>
-                                              <p class="mb-0">Break Duration:
-                                                {{userAttendanceDetailDateWise.totalBreakHours}}</p>
+                                              <p class="mb-0">
+                                                Total Hours:
+                                                {{
+                                                userAttendanceDetailDateWise.totalWorkingHours
+                                                }}
+                                              </p>
+                                              <p class="mb-0">
+                                                Total Break:
+                                                {{
+                                                userAttendanceDetailDateWise.breakCount
+                                                }}
+                                              </p>
+                                              <p class="mb-0">
+                                                Break Duration:
+                                                {{
+                                                userAttendanceDetailDateWise.totalBreakHours
+                                                }}
+                                              </p>
                                             </div>
-                                            <!-- <div class=" p-0" *ngIf="userAttendanceDetailDateWise?.checkInTime==null">
-                                              <p class="mb-0">No Data Found :)</p>   
-                                            </div> -->
                                           </span>
-
                                         </td>
                                       </ng-container>
                                     </tr>
                                   </table>
-                                  <!-- Modal -->
-                                  <!-- <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#eventsModal" #openEventsModal id="openEventsModal"></button> 
-                                  <div class="modal fade" id="eventsModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true" #eventsModal>
-                                    <div class="modal-dialog modal-dialog-centered">
-                                      <div class="modal-content">
-                                        <div class="modal-header">
-                                          <h5 class="modal-title" id="deleteConfirmationModalLabel">Attendance Details</h5>
-                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                          <ng-container *ngIf="userAttendanceDetailDateWise">
-                                            <div class="calenInfo">
-                                              <p><b>Check In Time:</b> {{ userAttendanceDetailDateWise.checkInTime | timeFormat }}</p>
-                                              <p><b>Check Out Time:</b> {{ userAttendanceDetailDateWise.checkOutTime | timeFormat }}</p>
-                                              <p><b>Total Hours:</b> {{ userAttendanceDetailDateWise.totalWorkingHours }}</p>
-                                              <p><b>Total Break:</b> {{ userAttendanceDetailDateWise.breakCount }}</p>
-                                              <p><b>Break Duration:</b> {{ userAttendanceDetailDateWise.breakDuration }}</p>
-                                            </div>
-                                          </ng-container>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div> -->
                                 </div>
                               </td>
                             </tr>
@@ -1214,62 +1122,19 @@
                         </tbody>
                       </ng-container>
                     </ng-template>
-
-                    <!-- <tbody *ngIf="(attendanceReportResponseList | json )!= '{}' && !isAttendanceShimer">
-                                        <ng-container *ngFor="let attendanceReportResponse of attendanceReportResponseList let i = index">
-                                            <tr>
-                                                
-                                                <td class="text-left plandtlMainicon">
-                                                    <i class="bi bi-chevron-right month-d projectdIcon collapsed"
-                                                    data-bs-toggle="collapse" [attr.href]="'#collapseExamplesheet' + i"
-                                                    role="button" aria-expanded="false" aria-controls="collapseExamplesheet0"></i>
-                                                     {{attendanceReportResponse.userDetailsResponse.userName}}
-                                                        <p class="attendance-name" >{{attendanceReportResponse.userDetailsResponse.userEmail}}</p>
-                                                </td>
-                                                <td class="text-center">{{attendanceReportResponse.presentDaysCount}}</td>
-                                                <td class="text-center">{{attendanceReportResponse.absentDaysCount}}</td>
-                                                <td class="text-center">{{attendanceReportResponse.halfDaysCount}}</td>
-                                                <td class="text-center"> - </td>
-                                                <td class="text-center"> - </td>
-                                                <td class="text-center"> - </td>
-                                                <td class="text-center"> - </td>
-                                                <td class="text-center"> - </td>
-                                            </tr>
-                                            <tr class="collapse" [attr.id]="'collapseExamplesheet' + i">
-                                                <td colspan="9" class="p-1">
-                                                    <div class="month-deta">
-                                                        <table class="table table-bordered day-deta">
-                                                            <tr>
-                                                                <th class="text-center">Day</th>
-                                                                <ng-container>
-                                                                    <th class="text-center">{{ getDayNameFromDate(today)[0] }} <br> {{getDayFromDate(today)}}</th>
-                                                                </ng-container>
-                                                            </tr>
-                                                            <tr>
-                
-                                                                <td></td>
-                                                                <ng-container *ngFor="let attendance of entry.value">
-                                                                    <td class="text-center" [ngClass]="{'absent': (attendance.checkInTime==null && convertStringToDate(attendance)<today), 'present': attendance.checkInTime!=null }">{{( attendance.checkInTime==null && convertStringToDate(attendance) < today )?'A':(attendance.checkInTime != null )?'P':'-' }}</td>
-                                                                </ng-container>
-
-                                                                <ng-container>
-                                                                    <td class="text-center">P</td>
-                                                                </ng-container>
-                                                                
-                                                            </tr>
-                                                        </table>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </ng-container>
-                                    </tbody> -->
                   </table>
 
                   <ng-container>
-                    <div class="errorboxmain" *ngIf="networkConnectionErrorPlaceHolderForAttendanceData">
+                    <!-- <div
+                      class="errorboxmain"
+                      *ngIf="networkConnectionErrorPlaceHolderForAttendanceData"
+                    >
                       <div class="errorboxinner">
                         <div class="errorboxplaceholder mb-2">
-                          <img src="assets/images/signal.svg" style="width: 80px" />
+                          <img
+                            src="assets/images/signal.svg"
+                            style="width: 80px"
+                          />
                         </div>
                         <div class="">
                           <h4>Something went wrong!</h4>
@@ -1279,12 +1144,31 @@
                           </p>
                         </div>
                       </div>
+                    </div> -->
+
+                    <div class="empty-file" style="margin-top: 8%"
+                      *ngIf="networkConnectionErrorPlaceHolderForAttendanceData">
+                      <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
+                        <ng-template #contentTpl>
+                          <p class="mb-1 empty-detail font-16">
+                            Something went wrong!
+                          </p>
+                        </ng-template>
+                      </nz-empty>
                     </div>
-                    <div class="errorboxmain" *ngIf="dataNotFoundPlaceholderForAttendanceData">
-                      <!-- style="display: flex; flex-direction: column; align-items: center; text-align: center;" -->
-                      <div class="errorboxinner flex-column justify-content-center mx-auto py-2 text-center w-50">
+                    <!-- <div
+                      class="errorboxmain"
+                      *ngIf="dataNotFoundPlaceholderForAttendanceData"
+                    >
+                     
+                      <div
+                        class="errorboxinner flex-column justify-content-center mx-auto py-2 text-center w-50"
+                      >
                         <div class="errorboxplaceholder mb-2">
-                          <img src="assets/images/empty-box.svg" style="width: 80px" />
+                          <img
+                            src="assets/images/empty-box.svg"
+                            style="width: 80px"
+                          />
                         </div>
                         <div class="">
                           <h4 class="mb-2 fs-4">No Data Found</h4>
@@ -1294,18 +1178,22 @@
                           </p>
                         </div>
                       </div>
+                    </div> -->
+
+                    <div class="empty-file" style="margin-top: 8%" *ngIf="dataNotFoundPlaceholderForAttendanceData">
+                      <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
+                        <ng-template #contentTpl>
+                          <p class="mb-1 empty-detail font-16">
+                            No data for now
+                          </p>
+                        </ng-template>
+                      </nz-empty>
                     </div>
                   </ng-container>
                 </div>
 
-                <div class="pagination pl-3" *ngIf="
-                    (total > 11 &&
-                      attendanceReportResponseList.length > 11 &&
-                      !dataNotFoundPlaceholderForAttendanceData &&
-                      !networkConnectionErrorPlaceHolderForAttendanceData) ||
-                    (pageNumber === lastPageNumber &&
-                      firstPageNumber !== lastPageNumber)
-                  ">
+                <!-- Old Pagination -->
+                <!-- <div class="pagination pl-3">
                   <p class="mb-0" style="padding-left: 15px">
                     Showing {{ getStartIndex() }} - {{ getEndIndex() }} of
                     {{ total }} users
@@ -1333,7 +1221,23 @@
                       </nav>
                     </div>
                   </div>
+                </div> -->
+
+                  <!-- new pagination start -->
+                  <div class="pagination justify-content-between pl-3" *ngIf="total > 0">
+                    <p class="mb-0" style="padding-left: 15px">
+                      Showing {{ getStartIndex() }} - {{ getEndIndex() }} of {{ total }} users
+                    </p>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <ngb-pagination [collectionSize]="total" [rotate]="true"
+                                (pageChange)="pageChanged($event)" [pageSize]="databaseHelper.itemPerPage"
+                                [(page)]="databaseHelper.currentPage" [maxSize]="8"
+                                [boundaryLinks]="true"></ngb-pagination>
+                        </div>
+                    </div>
                 </div>
+
               </div>
             </div>
           </div>
@@ -1412,46 +1316,118 @@
           </div>
           <!--end form-switch-->
         </div>
-        <!--end /div-->
         <h6>General Settings</h6>
         <div class="p-2 text-start mt-3">
           <div class="form-check form-switch mb-2">
             <input class="form-check-input" type="checkbox" id="settings-switch4" />
             <label class="form-check-label" for="settings-switch4">Show me Online</label>
           </div>
-          <!--end form-switch-->
           <div class="form-check form-switch mb-2">
             <input class="form-check-input" type="checkbox" id="settings-switch5" checked />
             <label class="form-check-label" for="settings-switch5">Status visible to all</label>
           </div>
-          <!--end form-switch-->
           <div class="form-check form-switch">
             <input class="form-check-input" type="checkbox" id="settings-switch6" />
             <label class="form-check-label" for="settings-switch6">Notifications Popup</label>
           </div>
-          <!--end form-switch-->
         </div>
-        <!--end /div-->
       </div>
-      <!--end offcanvas-body-->
     </div>
-    <!--end Rightbar/offcanvas-->
-    <!--end Rightbar-->
-
-    <!--Start Footer-->
-    <!-- Footer Start -->
-    <!-- <footer class="footer text-center text-sm-start">
-            &copy; <script>
-                document.write(new Date().getFullYear())
-            </script> Unikit <span class="text-muted d-none d-sm-inline-block float-end">Crafted with <i
-                    class="mdi mdi-heart text-danger"></i> by Mannatthemes</span>
-        </footer> -->
-    <!-- end Footer -->
-    <!--end footer-->
+    
   </div>
-  <!-- end page content -->
 </div>
-<!-- end page-wrapper -->
+
+<div class="modal fade" id="leaveUsersModal" #leaveUsersModal tabindex="-1" aria-labelledby="leaveUsersModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="leaveUsersModalLabel">Leave Users</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="onboarding-date d-flex align-items-center w-100 gap-2" *ngIf="!hideSearchLeave">
+        <form role="search" class="searching ng-untouched ng-pristine ng-valid w-100">
+          <div class="form-group w-100 position-relative">
+            <input type="text" id="searchText" placeholder="Search by name or email..."
+              class="form-control me-2 ng-untouched ng-pristine ng-valid" (keyup)="searchLeave()"
+              [(ngModel)]="searchTermLeave" [ngModelOptions]="{ standalone: true }"
+              style="padding: 10px 40px; border: none" />
+           
+            <i class="bi bi-search search-icon" style="margin: auto; margin-left: 15px" *ngIf="!crossFlagLeave"></i>
+            <i class="bi bi-x search-icon" style="margin: auto; margin-left: 15px" *ngIf="crossFlagLeave"
+              (click)="reloadPageLeave()"></i>
+          </div>
+        </form>
+      </div>
+      <div class="empty-file" style="margin-top: 7%; margin-bottom: 7%"
+        *ngIf="leaveUsers.length == 0 && !isLeaveLoaderLoading">
+        <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
+          <ng-template #contentTpl>
+            <p class="mb-1 empty-detail font-16">No data for now</p>
+          </ng-template>
+        </nz-empty>
+      </div>
+      <div class="empty-file" style="margin-top: 7%; margin-bottom: 7%"
+        *ngIf="leaveUsers.length == 0 && isLeaveLoaderLoading">
+        <div class="text-center load-more-btn">
+          <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
+          <div>
+            <small>Loading...</small>
+          </div>
+        </div>
+      </div>
+      <div class="modal-body" *ngIf="leaveUsers.length > 0">
+        <div class="user-list-modal">
+          <ul class="pb-3 mb-3 border-bottom" style="padding-left: 5px;" *ngFor="let user of leaveUsers">
+            <li class="align-items-center d-flex justify-content-between">
+              <div class="media">
+                <div class="thumb-xs bg-soft-primary rounded-circle d-flex justify-content-center align-items-center">
+                  <img src="{{ user?.image }}" alt="" class="rounded-circle thumb-sm me-1" *ngIf="user?.image"
+                    (error)="onError($event)" />
+                  <span class="members-name-new" id="user-first-name-logo" *ngIf="!user?.image">{{ user.userName[0]
+                    }}</span>
+                  
+                </div>
+                <div class="media-body align-self-center ms-3">
+                  <div class="transaction-data">
+                    <h5 class="m-0 font-14">{{ user?.userName }}</h5>
+                    <p class="text-muted mb-0">{{ user?.email }}</p>
+                  </div>
+                </div>
+              </div>
+              <span class="text-success"> Leave-count : {{ user?.count }}</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="modal-footer d-flex align-items-center justify-content-between" *ngIf="totalCountLeave > itemsPerPageLeave">
+        <p class="mb-0">
+          Showing {{ startIndexLeave }} - {{ endIndexLeave }} of {{ totalCountLeave }} items
+        </p>
+        <nav aria-label="Page navigation example">
+          <ul class="pagination justify-content-end">
+            <li class="page-item" [class.disabled]="currentPageLeave === 1">
+              <a class="page-link" (click)="changePageLeave('prev')">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+            <li class="page-item" *ngFor="let page of getPagesLeave()" [class.active]="currentPageLeave === page"
+              [class.disabled]="page === '...'">
+              <a class="page-link" *ngIf="page !== '...'" (click)="changePageLeave(page)">
+                {{ page }}
+              </a>
+              <span class="page-link" *ngIf="page === '...'">{{ page }}</span>
+            </li>
+            <li class="page-item" [class.disabled]="currentPageLeave === totalPagesLeave">
+              <a class="page-link" (click)="changePageLeave('next')">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- Button to trigger the modal -->
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#presentModal">
@@ -1459,78 +1435,13 @@
 </button>
 
 <!-- Modal Structure -->
-<!-- <div
-  class="modal fade"
-  id="presentModal"
-  tabindex="-1"
-  aria-labelledby="transactionModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="transactionModalLabel">
-          Total Present Users
-        </h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="modal-body">
-        <div class="card-body">
-          <ul
-            class="list-unsyled m-0 ps-0 transaction-history"
-            *ngFor="let attendList of attendanceDetailsResponseList"
-          >
-            <li class="align-items-center d-flex justify-content-between">
-              <div class="media">
-                <div
-                  class="thumb-xs bg-soft-primary rounded-circle d-flex justify-content-center align-items-center"
-                >
-                  <img
-                    src="{{ attendList.image }}"
-                    alt=""
-                    class="rounded-circle thumb-sm me-1"
-                    *ngIf="attendList.image"
-                  />
-                </div>
-                <div class="media-body align-self-center ms-3">
-                  <div class="transaction-data">
-                    <h5 class="m-0 font-14">{{ attendList.name }}</h5>
-                    <p class="text-muted mb-0">{{ attendList.email }}</p>
-                  </div>
-                </div>
-                
-              </div>
-              <span class="text-success">{{
-                attendList.checkInTime | date : "medium"
-              }}</span>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-          Close
-        </button>
-      </div>
-    </div>
-  </div>
-</div> -->
-
-<!-- Modal Structure -->
 <div class="modal fade" id="presentModal" tabindex="-1" aria-labelledby="transactionModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-md">
+  <div class="modal-dialog modal-md modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-
         <h5 class="modal-title" id="transactionModalLabel" *ngIf="filterCriteria === 'PRESENT'">
           Present Users
         </h5>
-        <!-- {{absentFlag}} -->
         <h5 class="modal-title" id="transactionModalLabel" *ngIf="filterCriteria === 'ABSENT' && absentFlag">
           Absent Users
         </h5>
@@ -1538,201 +1449,141 @@
           Not Marked Users
         </h5>
 
-
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+          (click)="resetPresentModal()"></button>
       </div>
-      <div class="onboarding-date d-flex align-items-center" style="gap: 10px; width: 100%">
-        <form role="search" class="searching ng-untouched ng-pristine ng-valid" style="width: 100%">
-          <div class="form-group" style="width: 100%; position: relative">
+      <div class="onboarding-date d-flex align-items-center gap-2 w-100 search-box" *ngIf="!hideSearchBar">
+        <form role="search" class="searching ng-untouched ng-pristine ng-valid w-100">
+          <div class="form-group w-100 position-relative">
             <input type="text" id="searchText" placeholder="Search by {{ searchByNew }} ..."
               class="form-control me-2 ng-untouched ng-pristine ng-valid" (keyup)="searchUsersNew('any')"
-              [(ngModel)]="search" [ngModelOptions]="{ standalone: true }" style="padding: 10px 40px; border: none;" />
-            <!-- <button
-                type="button"
-                class="btn close-btn"
-                (click)="reloadPage()"
-                *ngIf="crossFlag"
-              >
-                <i class="bi bi-x mt-auto mb-auto pl-3"></i>
-              </button> -->
-            <i class="bi bi-search search-icon" style="margin: auto; margin-left: 15px" *ngIf="!crossFlag"></i>
+              [(ngModel)]="search" [ngModelOptions]="{ standalone: true }" style="padding: 10px 40px; border: none" />
+            <i class="bi bi-search search-icon" style="margin: auto; margin-left: 15px" *ngIf="search == ''"></i>
             <i class="bi bi-x search-icon" style="margin: auto; margin-left: 15px" (click)="reloadPage()"
-              *ngIf="crossFlag"></i>
+              *ngIf="search != ''"></i>
           </div>
         </form>
       </div>
-      <div class="errorboxmain text-center" *ngIf="attendanceDetailsResponseList.length == 0">
-        <div class="errorboxinner">
-          <div class="errorboxplaceholder mb-2">
-            <img src="assets/images/empty-box.svg" style="width: 80px" />
-          </div>
-          <div class="">
-            <h4>No Data Found</h4>
-            <p class="mb-0">
-              We're unable to locate a record associated with the
-              information you entered.
-            </p>
+      <div class="empty-file" style="margin-top: 7%; margin-bottom: 7%"
+        *ngIf="attendanceDetailsResponseList.length == 0 && !isLoaderLoading">
+        <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
+          <ng-template #contentTpl>
+            <p class="mb-1 empty-detail font-16">No data for now</p>
+          </ng-template>
+        </nz-empty>
+      </div>
+      <div class="empty-file" style="margin-top: 7%; margin-bottom: 7%"
+        *ngIf="attendanceDetailsResponseList.length == 0 && isLoaderLoading">
+        <div class="text-center load-more-btn">
+          <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
+          <div>
+            <small>Loading...</small>
           </div>
         </div>
+
       </div>
+      <div class="modal-body" *ngIf="attendanceDetailsResponseList.length > 0">
+       
 
-      <div class="modal-body mt-0 pt-0" *ngIf="attendanceDetailsResponseList.length > 0">
-        <!-- <div class="card-body"> -->
-
-        <ul class="list-unstyled m-0 ps-0 transaction-history" *ngFor="let attendList of attendanceDetailsResponseList">
+        <div class="user-list-modal">
+        <ul class="pb-3 mb-3 border-bottom" style="padding-left: 5px;" *ngFor="let attendList of attendanceDetailsResponseList">
           <li class="align-items-center d-flex justify-content-between">
-            <div class="media">
+            <div class="d-flex align-items-center gap-3">
               <div class="thumb-xs bg-soft-primary rounded-circle d-flex justify-content-center align-items-center">
-                <img src="{{ attendList.image }}" alt="" class="rounded-circle thumb-sm me-1"
-                  *ngIf="attendList.image" />
-                <span class="members-name-new" id="user-first-name-logo" *ngIf="!attendList.image">{{
-                  attendList.name[0]}}</span>
-                <!-- <span class="thumb-xl justify-content-center d-flex align-items-center bg-soft-success rounded-circle me-2" *ngIf="!attendList.image">{{ attendList.name[0] }}</span> -->
+                <img src="{{ attendList.image }}" alt="" class="rounded-circle thumb-sm" *ngIf="attendList.image"
+                  (error)="onError($event)" />
+                <span id="user-first-name-logo" *ngIf="!attendList.image">{{ attendList.name[0] }}</span>
               </div>
-              <div class="media-body align-self-center ms-3">
-                <div class="transaction-data">
+              <div>
                   <h5 class="m-0 font-14">{{ attendList.name }}</h5>
                   <p class="text-muted mb-0">{{ attendList.email }}</p>
-                </div>
               </div>
-              <!--end media body-->
             </div>
-            <span class="text-success" *ngIf="attendList.currentStatus!=='Late'">{{
-              attendList.checkInTime | date:'shortTime'
-              }}</span>
-            <span class="text-danger" *ngIf="attendList.currentStatus=='Late'">{{
-              attendList.checkInTime | date:'shortTime'
-              }}</span>
+            <span class="text-success" *ngIf="attendList.currentStatus !== 'Late'">{{ attendList.checkInTime | date :
+              "shortTime" }}</span>
+            <span class="text-danger" *ngIf="attendList.currentStatus == 'Late'">{{ attendList.checkInTime | date :
+              "shortTime" }}</span>
           </li>
         </ul>
-
-        <!-- Pagination -->
-        <div class="pagination pl-3" *ngIf="
-              (this.totalItems > 10) 
-            ">
-          <p class="mb-0" style="padding-left: 15px">
-            Showing {{ getStartIndexNew() }} - {{ getEndIndexNew() }} of
-            {{ totalItems }} items
-          </p>
-          <div class="row">
-            <div class="col-md-12">
+      </div>
+      </div>
+      <div class="modal-footer d-flex align-items-center justify-content-between" *ngIf="totalItems > 10">
+          <p class="mb-0">Showing {{ getStartIndexNew() }} - {{ getEndIndexNew() }} of {{ totalItems }} items</p>
               <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-end">
-                  <li class="page-item" [class.disabled]="pageNumberNew == 1">
+                  <li class="page-item" [class.disabled]="pageNumberNew === 1">
                     <a class="page-link" href="javascript:void(0);" aria-label="Previous"
                       (click)="changePageNew('prev')">
                       <span aria-hidden="true">&laquo;</span>
                     </a>
                   </li>
-                  <li class="page-item" *ngFor="let page of getPagesNew()" [class.active]="pageNumberNew == page">
-                    <a class="page-link" href="javascript:void(0);" (click)="changePageNew(page)">{{ page }}</a>
+                  <li class="page-item" *ngFor="let pageNew of getPagesNew()" [class.active]="pageNumberNew === pageNew"
+                    [class.disabled]="pageNew === '...'">
+                    <a class="page-link" href="javascript:void(0);" (click)="changePageNew(pageNew)"
+                      *ngIf="pageNew !== '...'">{{ pageNew }}</a>
+                    <span class="page-link" *ngIf="pageNew === '...'">{{ pageNew }}</span>
                   </li>
-                  <li class="page-item" [class.disabled]="pageNumberNew == lastPageNumberNew">
+                  <li class="page-item" [class.disabled]="pageNumberNew === lastPageNumberNew">
                     <a class="page-link" href="javascript:void(0);" aria-label="Next" (click)="changePageNew('next')">
                       <span aria-hidden="true">&raquo;</span>
                     </a>
                   </li>
                 </ul>
               </nav>
-            </div>
-          </div>
-        </div>
-
-        <!-- </div> -->
       </div>
-      <!-- <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-          Close
-        </button>
-      </div> -->
     </div>
   </div>
 </div>
 <!--  break modal  -->
 
 <div class="modal fade" id="breakUsersModal" tabindex="-1" aria-labelledby="breakUsersModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-md">
+  <div class="modal-dialog modal-md modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-
-        <h5 class="modal-title" id="transactionModalLabel">
-          Break Users
-        </h5>
-
-        <!-- <h5 class="modal-title" id="breakUsersModalLabel">
-          Break Users List
-        </h5> -->
+        <h5 class="modal-title" id="transactionModalLabel">Break Users</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="onboarding-date d-flex align-items-center" style="gap: 10px; width: 100%">
-        <form role="search" class="searching ng-untouched ng-pristine ng-valid" style="width: 100%">
-          <div class="form-group" style="width: 100%; position: relative">
+      <div class="onboarding-date d-flex align-items-center gap-2 w-100" style="gap: 10px; width: 100%" *ngIf="!hideSearchBreak">
+        <form role="search" class="searching ng-untouched ng-pristine ng-valid w-100" >
+          <div class="form-group position-relative w-100">
             <input type="text" id="searchText" placeholder="Search by name or email..."
               class="form-control me-2 ng-untouched ng-pristine ng-valid" (keyup)="searchBreak()"
               [(ngModel)]="searchTermBreak" [ngModelOptions]="{ standalone: true }"
-              style="padding: 10px 40px; border: none;" />
-            <!-- <button
-                type="button"
-                class="btn close-btn"
-                (click)="reloadPageBreak()"
-                *ngIf="crossFlagBreak"
-              >
-                <i class="bi bi-x mt-auto mb-auto pl-3"></i>
-              </button> -->
+              style="padding: 10px 40px; border: none" />
             <i class="bi bi-search search-icon" style="margin: auto; margin-left: 15px" *ngIf="!crossFlagBreak"></i>
             <i class="bi bi-x search-icon" style="margin: auto; margin-left: 15px" (click)="reloadPageBreak()"
               *ngIf="crossFlagBreak"></i>
           </div>
         </form>
       </div>
-
-      <div class="errorboxmain text-center" *ngIf="breakUsers.length == 0">
-        <div class="errorboxinner">
-          <div class="errorboxplaceholder mb-2">
-            <img src="assets/images/empty-box.svg" style="width: 80px" />
-          </div>
-          <div class="">
-            <h4>No Data Found</h4>
-            <p class="mb-0">
-              We're unable to locate a record associated with the
-              information you entered.
-            </p>
+      <div class="empty-file" style="margin-top: 7%; margin-bottom: 7%"
+        *ngIf="breakUsers.length == 0 && !isBreakLoaderLoading">
+        <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
+          <ng-template #contentTpl>
+            <p class="mb-1 empty-detail font-16">No data for now</p>
+          </ng-template>
+        </nz-empty>
+      </div>
+      <div class="empty-file" style="margin-top: 7%; margin-bottom: 7%"
+        *ngIf="breakUsers.length == 0 && isBreakLoaderLoading">
+        <div class="text-center load-more-btn">
+          <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
+          <div>
+            <small>Loading...</small>
           </div>
         </div>
+
       </div>
-      <div class="modal-body pt-0" *ngIf="breakUsers.length > 0">
-        <!-- <div class="card-body"> -->
-        <!-- Search Controls -->
-        <!-- <div class="row mb-3">
-            <div class="col-md-8">
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Search by Name or Email..."
-                [(ngModel)]="searchTermBreak"
-                (keyup)="searchBreak()"
-              />
-            </div>
-            <div class="col-md-4 text-end">
-              <button class="btn btn-secondary" (click)="reloadPageBreak()">
-                Clear Search
-              </button>
-            </div>
-          </div> -->
-        <!-- <div class="row mb-3"> -->
-
-
-        <!-- </div> -->
-
-        <!-- Attendance List -->
-        <ul class="list-unstyled m-0 ps-0 transaction-history" *ngFor="let user of breakUsers">
+      <div class="modal-body" *ngIf="breakUsers.length > 0">
+        <div class="user-list-modal">
+        <ul class="pb-3 mb-3 border-bottom" style="padding-left: 5px;" *ngFor="let user of breakUsers">
           <li class="align-items-center d-flex justify-content-between">
             <div class="media">
               <div class="thumb-xs bg-soft-primary rounded-circle d-flex justify-content-center align-items-center">
-                <img src="{{ user.image }}" alt="" class="rounded-circle thumb-sm me-1" *ngIf="user.image" />
+                <img src="{{ user.image }}" alt="" class="rounded-circle thumb-sm me-1" *ngIf="user.image"
+                  (error)="onError($event)" />
                 <span class="members-name-new" id="user-first-name-logo" *ngIf="!user?.image">{{ user.userName[0]
                   }}</span>
-                <!-- <span class="thumb-xl justify-content-center d-flex align-items-center bg-soft-success rounded-circle me-2" *ngIf="!user.image">{{ user.name[0] }}</span> -->
               </div>
               <div class="media-body align-self-center ms-3">
                 <div class="transaction-data">
@@ -1740,116 +1591,92 @@
                   <p class="text-muted mb-0">{{ user.userEmail }}</p>
                 </div>
               </div>
-              <!--end media body-->
             </div>
             <span class="text-success">{{
-              user.checkTime | date:'shortTime'
+              user.checkTime | date : "shortTime"
               }}</span>
           </li>
         </ul>
-
-        <!-- Pagination -->
-        <div class="pagination pl-3" *ngIf="totalCountBreak > 10">
+      </div>
+      
+      </div>
+      <div class="modal-footer d-flex align-items-center justify-content-between" *ngIf="totalCountBreak > 10">
           <p class="mb-0">
             Showing {{ startIndexBreak }} - {{ endIndexBreak }} of {{ totalCountBreak }} items
           </p>
-          <div class="row">
-            <div class="col-md-12">
-              <nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-end">
-                  <li class="page-item" [class.disabled]="currentPageBreak === 1">
-                    <a class="page-link" (click)="changePageBreak('prev')">
-                      <span aria-hidden="true">&laquo;</span>
-                    </a>
-                  </li>
-                  <li class="page-item" *ngFor="let page of pagesBreak" [class.active]="currentPageBreak === page">
-                    <a class="page-link" (click)="changePageBreak(page)">
-                      {{ page }}
-                    </a>
-                  </li>
-                  <li class="page-item" [class.disabled]="currentPageBreak === totalPagesBreak">
-                    <a class="page-link" (click)="changePageBreak('next')">
-                      <span aria-hidden="true">&raquo;</span>
-                    </a>
-                  </li>
-                </ul>
-              </nav>
-            </div>
-          </div>
-        </div>
-        <!-- </div> -->
+          <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-end">
+              <li class="page-item" [class.disabled]="pageNumberBreak === 1">
+                <a class="page-link" (click)="changePageBreak('prev')">
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+              <li class="page-item" *ngFor="let page of pagesBreak" [class.active]="pageNumberBreak === page"
+                [class.disabled]="page === '...'">
+                <a class="page-link" (click)="changePageBreak(page)" *ngIf="page !== '...'">{{ page }}</a>
+                <span class="page-link" *ngIf="page === '...'">{{ page }}</span>
+              </li>
+              <li class="page-item" [class.disabled]="pageNumberBreak === totalPagesBreak">
+                <a class="page-link" (click)="changePageBreak('next')">
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
       </div>
-      <!-- <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-          Close
-        </button>
-      </div> -->
     </div>
   </div>
 </div>
 
 <!--  Late employee -->
 <div class="modal fade" id="lateUsersModal" tabindex="-1" aria-labelledby="lateUsersModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-md">
+  <div class="modal-dialog modal-md modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="transactionModalLabel">
-          Late Users
-        </h5>
-
-
-        <!-- <h5 class="modal-title" id="lateUsersModalLabel">
-          Late Users List
-        </h5> -->
+        <h5 class="modal-title" id="transactionModalLabel">Late Users</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="onboarding-date d-flex align-items-center" style="gap: 10px; width: 100%">
+
+      <div class="onboarding-date d-flex align-items-center gap-2 w-100 search-box" *ngIf="!hideSearchLate">
         <form role="search" class="searching ng-untouched ng-pristine ng-valid" style="width: 100%">
-          <div class="form-group" style="width: 100%; position: relative">
+          <div class="form-group w-100 position-relative">
             <input type="text" id="searchText" placeholder="Search by name or email..."
               class="form-control me-2 ng-untouched ng-pristine ng-valid" (keyup)="searchLate()"
               [(ngModel)]="searchTermLate" [ngModelOptions]="{ standalone: true }"
-              style="padding: 10px 40px; border: none;" />
-            <!-- <button
-                  type="button"
-                  class="btn close-btn"
-                  (click)="reloadPageLate()"
-                  *ngIf="searchTermLate"
-                >
-                  <i class="bi bi-x mt-auto mb-auto pl-3"></i>
-                </button> -->
+              style="padding: 10px 40px; border: none" />
             <i class="bi bi-search search-icon" style="margin: auto; margin-left: 15px" *ngIf="!searchTermLate"></i>
             <i class="bi bi-x search-icon" style="margin: auto; margin-left: 15px" (click)="reloadPageLate()"
               *ngIf="searchTermLate"></i>
           </div>
         </form>
       </div>
-      <div class="errorboxmain text-center" *ngIf="lateUsers.length == 0">
-        <div class="errorboxinner">
-          <div class="errorboxplaceholder mb-2">
-            <img src="assets/images/empty-box.svg" style="width: 80px" />
-          </div>
-          <div class="">
-            <h4>No Data Found</h4>
-            <p class="mb-0">
-              We're unable to locate a record associated with the
-              information you entered.
-            </p>
+
+      <div class="empty-file" style="margin-top: 7%; margin-bottom: 7%"
+        *ngIf="lateUsers.length == 0  && !isLateLoaderLoading">
+        <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
+          <ng-template #contentTpl>
+            <p class="mb-1 empty-detail font-16">No data for now</p>
+          </ng-template>
+        </nz-empty>
+      </div>
+      <div class="empty-file" style="margin-top: 7%; margin-bottom: 7%"
+        *ngIf="lateUsers.length == 0 && isLateLoaderLoading">
+        <div class="text-center load-more-btn">
+          <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
+          <div>
+            <small>Loading...</small>
           </div>
         </div>
+
       </div>
       <div class="modal-body" *ngIf="lateUsers.length > 0">
-        <!-- <div class="card-body"> -->
-        <!-- <div class="row mb-3"> -->
-
-        <!-- </div> -->
-
-        <!-- Attendance List -->
-        <ul class="list-unstyled m-0 ps-0 transaction-history pt-0" *ngFor="let user of lateUsers">
+       <div class="user-list-modal" >
+        <ul class="pb-3 mb-3 border-bottom" style="padding-left: 5px;" *ngFor="let user of lateUsers">
           <li class="align-items-center d-flex justify-content-between">
             <div class="media">
               <div class="thumb-xs bg-soft-primary rounded-circle d-flex justify-content-center align-items-center">
-                <img src="{{ user.image }}" alt="" class="rounded-circle thumb-sm me-1" *ngIf="user.image" />
+                <img src="{{ user.image }}" alt="" class="rounded-circle thumb-sm me-1" *ngIf="user.image"
+                  (error)="onError($event)" />
                 <span class="members-name-new" id="user-first-name-logo" *ngIf="!user?.image">{{ user.name[0] }}</span>
                 <!-- <span class="thumb-xl justify-content-center d-flex align-items-center bg-soft-success rounded-circle me-2" *ngIf="!user.image">{{ user.name[0] }}</span> -->
               </div>
@@ -1861,18 +1688,16 @@
               </div>
               <!--end media body-->
             </div>
-            <span class="text-danger">{{ user.checkInTime | date:'shortTime'}} <span style="color: black;">|</span> Late
-              by - {{user.lateDuration | durationFormat }}</span>
+            <span class="text-danger">{{ user.checkInTime | date : "shortTime" }}
+              <span style="color: black">|</span> Late by -
+              {{ user.lateDuration | durationFormat }}</span>
           </li>
         </ul>
-
-        <!-- Pagination -->
-        <div class="pagination pl-3" *ngIf="totalCountLate > itemsPerPageLate">
-          <p class="mb-0">
-            Showing {{ startIndexLate }} - {{ endIndexLate }} of {{ totalCountLate }} items
-          </p>
+      </div>
+      </div>
+      <div class="modal-footer d-flex align-items-center justify-content-between" *ngIf="totalCountLate > itemsPerPageLate">
+          <p class="mb-0"> Showing {{ startIndexLate }} - {{ endIndexLate }} of {{ totalCountLate }} items</p>
           <div class="row">
-            <div class="col-md-12">
               <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-end">
                   <li class="page-item" [class.disabled]="currentPageLate === 1">
@@ -1880,10 +1705,12 @@
                       <span aria-hidden="true">&laquo;</span>
                     </a>
                   </li>
-                  <li class="page-item" *ngFor="let page of pagesLate" [class.active]="currentPageLate === page">
-                    <a class="page-link" (click)="changePageLate(page)">
+                  <li class="page-item" *ngFor="let page of getPagesLate()" [class.active]="currentPageLate === page"
+                    [class.disabled]="page === '...'">
+                    <a class="page-link" *ngIf="page !== '...'" (click)="changePageLate(page)">
                       {{ page }}
                     </a>
+                    <span class="page-link" *ngIf="page === '...'">{{ page }}</span>
                   </li>
                   <li class="page-item" [class.disabled]="currentPageLate === totalPagesLate">
                     <a class="page-link" (click)="changePageLate('next')">
@@ -1892,163 +1719,24 @@
                   </li>
                 </ul>
               </nav>
-            </div>
-          </div>
-        </div>
-        <!-- </div> -->
       </div>
-      <!-- <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-          Close
-        </button>
-      </div> -->
     </div>
   </div>
 </div>
 
 <!--  leave users  -->
 
-<div class="modal fade" id="leaveUsersModal" tabindex="-1" aria-labelledby="leaveUsersModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-md">
-    <div class="modal-content">
-      <div class="modal-header">
 
 
-        <h5 class="modal-title" id="leaveUsersModalLabel">
-          Leave Users
-        </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="onboarding-date d-flex align-items-center" style="gap: 10px; width: 100%">
-        <form role="search" class="searching ng-untouched ng-pristine ng-valid" style="width: 100%">
-          <div class="form-group" style="width: 100%; position: relative">
-            <input type="text" id="searchText" placeholder="Search by name or email..."
-              class="form-control me-2 ng-untouched ng-pristine ng-valid" (keyup)="searchLeave()"
-              [(ngModel)]="searchTermLeave" [ngModelOptions]="{ standalone: true }"
-              style="padding: 10px 40px; border: none;" />
-            <!-- <button
-                type="button"
-                class="btn close-btn"
-                (click)="reloadPageLeave()"
-                *ngIf="crossFlagLeave"
-              >
-                <i class="bi bi-x mt-auto mb-auto pl-3"></i>
-              </button> -->
-            <i class="bi bi-search search-icon" style="margin: auto; margin-left: 15px" *ngIf="!crossFlagLeave"></i>
-            <i class="bi bi-x search-icon" style="margin: auto; margin-left: 15px" *ngIf="crossFlagLeave"
-              (click)="reloadPageLeave()"></i>
-          </div>
-        </form>
-      </div>
 
-      <div class="errorboxmain text-center" *ngIf="leaveUsers.length == 0">
-        <div class="errorboxinner">
-          <div class="errorboxplaceholder mb-2">
-            <img src="assets/images/empty-box.svg" style="width: 80px" />
-          </div>
-          <div class="">
-            <h4>No Data Found</h4>
-            <p class="mb-0">
-              We're unable to locate a record associated with the
-              information you entered.
-            </p>
-          </div>
-        </div>
-      </div>
+    
 
-      <div class="modal-body pt-0" *ngIf="leaveUsers.length > 0">
-        <!-- <div class="card-body"> -->
-        <!-- Search Controls -->
-        <!-- <div class="row mb-3">
-            <div class="col-md-8">
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Search by Name or Email..."
-                [(ngModel)]="searchTermBreak"
-                (keyup)="searchBreak()"
-              />
-            </div>
-            <div class="col-md-4 text-end">
-              <button class="btn btn-secondary" (click)="reloadPageBreak()">
-                Clear Search
-              </button>
-            </div>
-          </div> -->
-        <!-- <div class="row mb-3"> -->
 
-        <!-- </div> -->
-
-        <!-- Attendance List -->
-        <ul class="list-unstyled m-0 ps-0 transaction-history" *ngFor="let user of leaveUsers">
-          <li class="align-items-center d-flex justify-content-between">
-            <div class="media">
-              <div class="thumb-xs bg-soft-primary rounded-circle d-flex justify-content-center align-items-center">
-                <img src="{{ user?.image }}" alt="" class="rounded-circle thumb-sm me-1" *ngIf="user?.image" />
-                <span class="members-name-new" id="user-first-name-logo" *ngIf="!user?.image">{{ user.userName[0]
-                  }}</span>
-                <!-- <span class="thumb-xl justify-content-center d-flex align-items-center bg-soft-success rounded-circle me-2" *ngIf="!user?.image">{{ user?.userName[0] }}</span> -->
-              </div>
-              <div class="media-body align-self-center ms-3">
-                <div class="transaction-data">
-                  <h5 class="m-0 font-14">{{ user?.userName }}</h5>
-                  <p class="text-muted mb-0">{{ user?.email }}</p>
-                </div>
-              </div>
-              <!--end media body-->
-            </div>
-            <span class="text-success"> Leave-count : {{
-              user?.count
-              }}</span>
-          </li>
-        </ul>
-
-        <!-- Pagination -->
-        <div class="pagination pl-3" *ngIf="totalCountLeave > 8">
-          <p class="mb-0">
-            Showing {{ startIndexLeave }} - {{ endIndexLeave }} of {{ totalCountLeave }} items
-          </p>
-          <div class="row">
-            <div class="col-md-12">
-              <nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-end">
-                  <li class="page-item" [class.disabled]="currentPageLeave === 1">
-                    <a class="page-link" (click)="changePageLeave('prev')">
-                      <span aria-hidden="true">&laquo;</span>
-                    </a>
-                  </li>
-                  <li class="page-item" *ngFor="let page of pagesLeave" [class.active]="currentPageLeave === page">
-                    <a class="page-link" (click)="changePageLeave(page)">
-                      {{ page }}
-                    </a>
-                  </li>
-                  <li class="page-item" [class.disabled]="currentPageLeave === totalPagesLeave">
-                    <a class="page-link" (click)="changePageLeave('next')">
-                      <span aria-hidden="true">&raquo;</span>
-                    </a>
-                  </li>
-                </ul>
-              </nav>
-            </div>
-          </div>
-        </div>
-        <!-- </div> -->
-      </div>
-      <!-- <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-          Close
-        </button>
-      </div> -->
-    </div>
-  </div>
-</div>
 
 
 <!-- Hidden button trigger modal -->
 <button type="button" id="billingModal" class="btn btn-primary" data-bs-toggle="modal" #billingModal
-  data-bs-target="#billingAndSubscriptionModal" style="display: none;">
-</button>
-
+  data-bs-target="#billingAndSubscriptionModal" style="display: none"></button>
 
 <div class="modal fade" id="billingAndSubscriptionModal" #billingAndSubscriptionModal data-bs-backdrop="static"
   tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" aria-hidden="true">
@@ -2061,17 +1749,25 @@
         </div>
       </div>
       <div class="modal-body">
-        <ng-container *ngIf="BILLING_AND_SUBSCRIPTION_MODAL_TOGGLE else billingAndSubscriptionModalToggle">
+        <ng-container *ngIf="
+            BILLING_AND_SUBSCRIPTION_MODAL_TOGGLE;
+            else billingAndSubscriptionModalToggle
+          ">
           <div class="row">
             <!-- Your modal content here -->
-            <div class="col-md-4" *ngFor="let subscription of subscriptionList" (click)="selectSubscription(subscription.id)">
-              <div class="bill-detail" [ngClass]="{'selected': subscription.id === selectedSubscriptionId}">
+            <div class="col-md-4" *ngFor="let subscription of subscriptionList"
+              (click)="selectSubscription(subscription.id)">
+              <div class="bill-detail" [ngClass]="{
+                  selected: subscription.id === selectedSubscriptionId
+                }">
                 <div class="d-flex justify-content-between align-items-center">
                   <div>
                     <div class="d-flex align-items-center" style="gap: 15px">
                       <h3>{{ subscription.name }}</h3>
                     </div>
-                    <small class="text-muted">{{ subscription.description }}</small>
+                    <small class="text-muted">{{
+                      subscription.description
+                      }}</small>
                   </div>
                   <div class="justify-content-end d-flex align-items-end" style="flex-direction: column">
                     <h3>₹{{ subscription.amount }}</h3>
@@ -2088,7 +1784,9 @@
                   </ul>
                 </div>
                 <div>
-                  <button type="button" class="btn free-trial" [ngClass]="{'filled': subscription.id === selectedSubscriptionId}" (click)="routeToBillingPaymentPage(subscription.id)">
+                  <button type="button" class="btn free-trial" [ngClass]="{
+                      filled: subscription.id === selectedSubscriptionId
+                    }" (click)="routeToBillingPaymentPage(subscription.id)">
                     Subscribe <i class="bi bi-arrow-right"></i>
                   </button>
                 </div>
@@ -2096,35 +1794,48 @@
             </div>
           </div>
           <div class="row d-flex mt-3">
-            <p><b>Attention!!</b> After starting the free trial, you will have access to all premium features of our service for 30 days. During this period, you can explore the full range of functionalities including advanced analytics, priority customer support, and seamless integration with third-party tools. Please note that the free trial is limited to one trial per user. At the end of the trial period, you will need to select a subscription plan to continue using the premium features. If you choose not to subscribe, your account will be downgraded to the free tier with limited access to features.</p>
+            <p>
+              <b>Attention!!</b> After starting the free trial, you will have
+              access to all premium features of our service for 30 days. During
+              this period, you can explore the full range of functionalities
+              including advanced analytics, priority customer support, and
+              seamless integration with third-party tools. Please note that the
+              free trial is limited to one trial per user. At the end of the
+              trial period, you will need to select a subscription plan to
+              continue using the premium features. If you choose not to
+              subscribe, your account will be downgraded to the free tier with
+              limited access to features.
+            </p>
           </div>
-          
-       
-      
-    
-      
         </ng-container>
         <ng-template #billingAndSubscriptionModalToggle>
           <div class="row">
             <div class="col-md-8">
               <div class="payment-detail mb-3">
                 <form #employeeForm="ngForm">
-                    <div class="form-group">
-                      <label for="exampleInputEmail1" class="mb-3">Total Employee</label>
-                      <!-- <input type="number" min="2"  class="form-control" id="exampleInputEmployee" aria-describedby="emailHelp" placeholder="Enter enployee" [(ngModel)]="sbscriptionPlanReq.noOfEmployee" oninput="this.value = this.value.replace(/^[^1-9]/g, '').replace(/(\..*)\./g, '$1');" required><span style="font-size: 12px;" *ngIf="employeeForm.invalid">minimum 2 employee required*</span> -->
-                      <input type="number" min="2" class="form-control" [(ngModel)]="sbscriptionPlanReq.noOfEmployee" name="employeeNumber" placeholder="Enter Employee" (keyup)="getCalcu(employeeNumber.value)" #employeeNumber="ngModel" required>
-                      <div *ngIf="employeeForm?.touched">
-                        <label *ngIf="employeeForm.invalid" id="cname-error2" class="error text-danger" for="ctile2">minimum 2 employee required*</label>
-                      </div>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1" class="mb-3">Total Employee</label>
+                    <!-- <input type="number" min="2"  class="form-control" id="exampleInputEmployee" aria-describedby="emailHelp" placeholder="Enter enployee" [(ngModel)]="sbscriptionPlanReq.noOfEmployee" oninput="this.value = this.value.replace(/^[^1-9]/g, '').replace(/(\..*)\./g, '$1');" required><span style="font-size: 12px;" *ngIf="employeeForm.invalid">minimum 2 employee required*</span> -->
+                    <input type="number" min="2" class="form-control" [(ngModel)]="sbscriptionPlanReq.noOfEmployee"
+                      name="employeeNumber" placeholder="Enter Employee" (keyup)="getCalcu(employeeNumber.value)"
+                      #employeeNumber="ngModel" required />
+                    <div *ngIf="employeeForm?.touched">
+                      <label *ngIf="employeeForm.invalid" id="cname-error2" class="error text-danger"
+                        for="ctile2">minimum 2 employee required*</label>
                     </div>
+                  </div>
                 </form>
                 <div class="row mt-3">
                   <div class="col-md-6">
-                    <div class="d-flex justify-content-between align-items-center monthly-plan" [ngStyle]="sbscriptionPlanReq.planType == 'annual'?{'border': '1px solid #6666f3'} : {'border': '1px dashed #6666f3'}">
+                    <div class="d-flex justify-content-between align-items-center monthly-plan" [ngStyle]="
+                        sbscriptionPlanReq.planType == 'annual'
+                          ? { border: '1px solid #6666f3' }
+                          : { border: '1px dashed #6666f3' }
+                      ">
                       <div class="">
                         <div class="d-flex align-items-center justify-content-between">
                           <div class="">
-                            <div class="d-flex align-items-center" style="gap:10px">
+                            <div class="d-flex align-items-center" style="gap: 10px">
                               <h4>Annual Plan (20% off)</h4>
                               <!-- <span class="annual-plan-active">Active</span> -->
                             </div>
@@ -2134,16 +1845,36 @@
                           </div> -->
                         </div>
                         <div class="d-flex">
-                          <p>Amount : </p>
-                          <p style="margin-left: 5px;">₹{{sbscriptionPlanReq.noOfEmployee*subscriptionPlan.amount*12 - (sbscriptionPlanReq.noOfEmployee*subscriptionPlan.amount*20*12)/100 | number: '1.0-0'}}</p>
+                          <p>Amount :</p>
+                          <p style="margin-left: 5px">
+                            ₹{{
+                            sbscriptionPlanReq.noOfEmployee *
+                            subscriptionPlan.amount *
+                            12 -
+                            (sbscriptionPlanReq.noOfEmployee *
+                            subscriptionPlan.amount *
+                            20 *
+                            12) /
+                            100 | number : "1.0-0"
+                            }}
+                          </p>
                         </div>
                       </div>
                       <div class="">
                         <div class="d-flex justify-content-end">
                           <!-- <button [ngClass]="{'btn selected-btn': (sbscriptionPlanReq.planType == 'monthly' || sbscriptionPlanReq.planType == null),'btn active-select': sbscriptionPlanReq.planType == 'annual'}" type="button" (click)="selecrPlanType(annual.value)" #annual value="annual">Select <i class="bi bi-arrow-up-right" style="padding-left: 5px;"></i></button> -->
-                          <button type="button" Class="btn selected-btn" *ngIf="sbscriptionPlanReq.planType == null || sbscriptionPlanReq.planType == '' || sbscriptionPlanReq.planType == 'monthly'" (click)="selecrPlanType(annual.value)" #annual value="annual">Select <i class="bi bi-arrow-up-right" style="padding-left: 5px;"></i>
+                          <button type="button" Class="btn selected-btn" *ngIf="
+                              sbscriptionPlanReq.planType == null ||
+                              sbscriptionPlanReq.planType == '' ||
+                              sbscriptionPlanReq.planType == 'monthly'
+                            " (click)="selecrPlanType(annual.value)" #annual value="annual">
+                            Select
+                            <i class="bi bi-arrow-up-right" style="padding-left: 5px"></i>
                           </button>
-                          <button type="button" Class="btn active-select" *ngIf="sbscriptionPlanReq.planType == 'annual'">Selected <i class="bi bi-arrow-up-right" style="padding-left: 5px;"></i>
+                          <button type="button" Class="btn active-select"
+                            *ngIf="sbscriptionPlanReq.planType == 'annual'">
+                            Selected
+                            <i class="bi bi-arrow-up-right" style="padding-left: 5px"></i>
                           </button>
                         </div>
                       </div>
@@ -2152,23 +1883,43 @@
                     </div>
                   </div>
                   <div class="col-md-6">
-                    <div class="d-flex justify-content-between align-items-center monthly-plan" [ngStyle]="sbscriptionPlanReq.planType == 'monthly'?{'border': '1px solid #6666f3'} : {'border': '1px dashed #6666f3'}">
+                    <div class="d-flex justify-content-between align-items-center monthly-plan" [ngStyle]="
+                        sbscriptionPlanReq.planType == 'monthly'
+                          ? { border: '1px solid #6666f3' }
+                          : { border: '1px dashed #6666f3' }
+                      ">
                       <div class="">
                         <div class="d-flex align-items-center justify-content-between">
                           <div class="">
-                            <div class="d-flex align-items-center" style="gap:10px">
+                            <div class="d-flex align-items-center" style="gap: 10px">
                               <h4>Monthly Plan</h4>
                             </div>
                           </div>
                         </div>
                         <div class="d-flex">
-                          <p>Amount : </p>
-                          <p style="margin-left: 5px;"> ₹{{sbscriptionPlanReq.noOfEmployee*subscriptionPlan.amount}}</p>
+                          <p>Amount :</p>
+                          <p style="margin-left: 5px">
+                            ₹{{
+                            sbscriptionPlanReq.noOfEmployee *
+                            subscriptionPlan.amount
+                            }}
+                          </p>
                         </div>
                       </div>
                       <div class="d-flex justify-content-end">
-                          <button type="button" Class="btn selected-btn" *ngIf="sbscriptionPlanReq.planType == null || sbscriptionPlanReq.planType == '' || sbscriptionPlanReq.planType == 'annual'" (click)="selecrPlanType(monthly.value)" #monthly value="monthly">Select <i class="bi bi-arrow-up-right" style="padding-left: 5px;"></i></button>
-                          <button type="button" Class="btn active-select" *ngIf="sbscriptionPlanReq.planType == 'monthly'">Selected <i class="bi bi-arrow-up-right" style="padding-left: 5px;"></i></button>
+                        <button type="button" Class="btn selected-btn" *ngIf="
+                            sbscriptionPlanReq.planType == null ||
+                            sbscriptionPlanReq.planType == '' ||
+                            sbscriptionPlanReq.planType == 'annual'
+                          " (click)="selecrPlanType(monthly.value)" #monthly value="monthly">
+                          Select
+                          <i class="bi bi-arrow-up-right" style="padding-left: 5px"></i>
+                        </button>
+                        <button type="button" Class="btn active-select"
+                          *ngIf="sbscriptionPlanReq.planType == 'monthly'">
+                          Selected
+                          <i class="bi bi-arrow-up-right" style="padding-left: 5px"></i>
+                        </button>
                       </div>
                       <!-- <hr class="border-line"> -->
                     </div>
@@ -2178,47 +1929,73 @@
                   <h5>Coupon</h5>
                   <div class="mt-3">
                     <div class="row d-flex justify-content-center align-items-center contract-plan">
-                      <div class="position-relative" style="width: 80%;">
-                        <input type="text" class="form-control" [(ngModel)]="couponCode" name="coupon" placeholder="Enter Coupon Code" (keyup)="getCouponInput()" required>
-                        <span class="position-absolute end-0 top-50 translate-middle-y text-decoration-none" style="font-size: 20px; color: green; right: 18px !important;" *ngIf="isCouponVerify">
+                      <div class="position-relative" style="width: 80%">
+                        <input type="text" class="form-control" [(ngModel)]="couponCode" name="coupon"
+                          placeholder="Enter Coupon Code" (keyup)="getCouponInput()" required />
+                        <span class="position-absolute end-0 top-50 translate-middle-y text-decoration-none" style="
+                            font-size: 20px;
+                            color: green;
+                            right: 18px !important;
+                          " *ngIf="isCouponVerify">
                           <i class="bi bi-check2-circle"></i>
                         </span>
                       </div>
-                      <div style="width: 20%;">
-                        <button class="btn btn-primary" (click)="applyCoupon()">Apply</button>
+                      <div style="width: 20%">
+                        <button class="btn btn-primary" (click)="applyCoupon()">
+                          Apply
+                        </button>
                       </div>
                     </div>
-                    
-                    <p *ngIf="message !=''" class="error text-danger">{{message}}</p>
+
+                    <p *ngIf="message != ''" class="error text-danger">
+                      {{ message }}
+                    </p>
                   </div>
                 </div>
                 <div class="mt-3 mb-3">
                   <div class="payment-option" (click)="selectPaymentMethod('razorpay')">
                     <div class="form-check">
-                      <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" [checked]="paymentMethod=='razorpay'">
-                      <label class="form-check-label" for="exampleRadios1"> Razorpay </label>
+                      <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1"
+                        value="option1" [checked]="paymentMethod == 'razorpay'" />
+                      <label class="form-check-label" for="exampleRadios1">
+                        Razorpay
+                      </label>
                     </div>
                   </div>
                   <div class="payment-option" (click)="selectPaymentMethod('wallet')">
                     <div class="form-check">
-                      <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2" [checked]="paymentMethod=='wallet'">
-                      <label class="form-check-label" for="exampleRadios2"> Wallet </label>
+                      <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2"
+                        value="option2" [checked]="paymentMethod == 'wallet'" />
+                      <label class="form-check-label" for="exampleRadios2">
+                        Wallet
+                      </label>
                     </div>
                   </div>
                   <div class="payment-option" (click)="selectPaymentMethod('upi')">
                     <div class="form-check">
-                      <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="option3" [checked]="paymentMethod=='upi'">
-                      <label class="form-check-label" for="exampleRadios3"> UPI </label>
+                      <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3"
+                        value="option3" [checked]="paymentMethod == 'upi'" />
+                      <label class="form-check-label" for="exampleRadios3">
+                        UPI
+                      </label>
                     </div>
                   </div>
                 </div>
-                <div class="" style="width:100%;">
-                  <button class="btn proceed-add" [disabled]="employeeForm.invalid || paymentMethod == '' || sbscriptionPlanReq.planType == '' || sbscriptionPlanReq.planType == null" (click)="proceedToPay()">Proceed to Payment</button>
+                <div class="" style="width: 100%">
+                  <button class="btn proceed-add" [disabled]="
+                      employeeForm.invalid ||
+                      paymentMethod == '' ||
+                      sbscriptionPlanReq.planType == '' ||
+                      sbscriptionPlanReq.planType == null
+                    " (click)="proceedToPay()">
+                    Proceed to Payment
+                  </button>
                 </div>
-                <div class="" style="width:100%;">
-                  <button class="btn btn-secondary proceed-add" (click)="toggleBack()">Go Back</button>
+                <div class="" style="width: 100%">
+                  <button class="btn btn-secondary proceed-add" (click)="toggleBack()">
+                    Go Back
+                  </button>
                 </div>
-                
               </div>
             </div>
             <!-- <div class="col-md-1"></div> -->
@@ -2228,19 +2005,29 @@
                 <div class="mt-3 border-bottom">
                   <div class="d-flex justify-content-between align-items-center contract-plan">
                     <p class="mb-0">No of Employee</p>
-                    <p class="mb-0">{{sbscriptionPlanReq.noOfEmployee ? sbscriptionPlanReq.noOfEmployee : 0}}</p>
+                    <p class="mb-0">
+                      {{
+                      sbscriptionPlanReq.noOfEmployee
+                      ? sbscriptionPlanReq.noOfEmployee
+                      : 0
+                      }}
+                    </p>
                   </div>
                   <div class="d-flex justify-content-between align-items-center contract-plan">
                     <p class="mb-0">Amount</p>
-                    <p class="mb-0">₹{{originalAmount | number: '1.0-0'}}</p>
+                    <p class="mb-0">₹{{ originalAmount | number : "1.0-0" }}</p>
                   </div>
-                  <div class="d-flex justify-content-between align-items-center contract-plan" *ngIf="couponDiscount > 0">
+                  <div class="d-flex justify-content-between align-items-center contract-plan"
+                    *ngIf="couponDiscount > 0">
                     <p class="mb-0">Coupon Discount Amount</p>
-                    <p class="mb-0">₹{{couponDiscount | number: '1.0-0'}}</p>
+                    <p class="mb-0">₹{{ couponDiscount | number : "1.0-0" }}</p>
                   </div>
-                  <div class="d-flex justify-content-between align-items-center contract-plan" *ngIf="couponDiscount > 0">
+                  <div class="d-flex justify-content-between align-items-center contract-plan"
+                    *ngIf="couponDiscount > 0">
                     <p class="mb-0">Discounted Amount</p>
-                    <p class="mb-0">₹{{sbscriptionPlanReq.amount | number: '1.0-0'}}</p>
+                    <p class="mb-0">
+                      ₹{{ sbscriptionPlanReq.amount | number : "1.0-0" }}
+                    </p>
                   </div>
                   <div class="d-flex justify-content-between align-items-center contract-plan">
                     <p class="mb-0">Tax</p>
@@ -2248,16 +2035,16 @@
                   </div>
                   <div class="d-flex justify-content-between align-items-center contract-plan">
                     <p class="mb-0">Tax Amount</p>
-                    <p class="mb-0">₹{{taxAmount | number: '1.0-0'}}</p>
+                    <p class="mb-0">₹{{ taxAmount | number : "1.0-0" }}</p>
                   </div>
                 </div>
                 <div class="mt-3">
                   <div class="d-flex justify-content-between align-items-center contract-plan mb-0">
-                    <p class="mb-0" style=" color: #6666f3; font-size: 14px;">
+                    <p class="mb-0" style="color: #6666f3; font-size: 14px">
                       <b>Total</b>
                     </p>
-                    <p class="mb-0" style=" color: #6666f3; font-size: 14px;">
-                      <b>₹{{totalAmount | number : '1.0-0'}}</b>
+                    <p class="mb-0" style="color: #6666f3; font-size: 14px">
+                      <b>₹{{ totalAmount | number : "1.0-0" }}</b>
                     </p>
                   </div>
                 </div>
@@ -2266,6 +2053,214 @@
           </div>
         </ng-template>
       </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="holidayList" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Holidays List</h5>
+        <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <mask id="mask0_4476_834" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24"
+              height="24">
+              <rect width="24" height="24" fill="#D9D9D9" />
+            </mask>
+            <g mask="url(#mask0_4476_834)">
+              <path d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z"
+                fill="black" />
+            </g>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="holiday-list-box">
+          <div class="d-flex align-items-center justify-content-between p-3 active-leave-list pt-2 pb-2">
+            <div>
+              <h4 class="mb-0 font-15 text-black">17th January</h4>
+              <p class="mb-0">Saturday</p>
+            </div>
+            <h5 class="mb-0 font-15">New Year</h5>
+          </div>
+          <div class="d-flex align-items-center justify-content-between p-3 upcoming-leave-list pb-2 pt-2 denger-border"
+            style="border-color: #6f6cff">
+            <div>
+              <h4 class="mb-0 font-15 text-black">17th January</h4>
+              <p class="mb-0">Saturday</p>
+            </div>
+            <h5 class="mb-0 font-15">New Year</h5>
+          </div>
+          <div
+            class="d-flex align-items-center justify-content-between p-3 upcoming-leave-list pb-2 pt-2 success-border"
+            style="border-color: #6f6cff">
+            <div>
+              <h4 class="mb-0 font-15 text-black">17th January</h4>
+              <p class="mb-0">Saturday</p>
+            </div>
+            <h5 class="mb-0 font-15">New Year</h5>
+          </div>
+          <div
+            class="d-flex align-items-center justify-content-between p-3 upcoming-leave-list pb-2 pt-2 warning-border"
+            style="border-color: #6f6cff">
+            <div>
+              <h4 class="mb-0 font-15 text-black">17th January</h4>
+              <p class="mb-0">Saturday</p>
+            </div>
+            <h5 class="mb-0 font-15">New Year</h5>
+          </div>
+          <div
+            class="d-flex align-items-center justify-content-between p-3 upcoming-leave-list pb-2 pt-2 primiry-border"
+            style="border-color: #6f6cff">
+            <div>
+              <h4 class="mb-0 font-15 text-black">17th January</h4>
+              <p class="mb-0">Saturday</p>
+            </div>
+            <h5 class="mb-0 font-15">New Year</h5>
+          </div>
+
+          <div
+            class="d-flex align-items-center justify-content-between p-3 upcoming-leave-list pb-2 pt-2 success-border"
+            style="border-color: #6f6cff">
+            <div>
+              <h4 class="mb-0 font-15 text-black">17th January</h4>
+              <p class="mb-0">Saturday</p>
+            </div>
+            <h5 class="mb-0 font-15">New Year</h5>
+          </div>
+          <div
+            class="d-flex align-items-center justify-content-between p-3 upcoming-leave-list pb-2 pt-2 warning-border"
+            style="border-color: #6f6cff">
+            <div>
+              <h4 class="mb-0 font-15 text-black">17th January</h4>
+              <p class="mb-0">Saturday</p>
+            </div>
+            <h5 class="mb-0 font-15">New Year</h5>
+          </div>
+          <div
+            class="d-flex align-items-center justify-content-between p-3 upcoming-leave-list pb-2 pt-2 primiry-border"
+            style="border-color: #6f6cff">
+            <div>
+              <h4 class="mb-0 font-15 text-black">17th January</h4>
+              <p class="mb-0">Saturday</p>
+            </div>
+            <h5 class="mb-0 font-15">New Year</h5>
+          </div>
+
+
+        </div>
+      </div>
+      <div class="modal-footer p-2" style="border-top: none"></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="birthdayList" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">
+          Employees Birthday
+        </h5>
+        <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <mask id="mask0_4476_834" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24"
+              height="24">
+              <rect width="24" height="24" fill="#D9D9D9" />
+            </mask>
+            <g mask="url(#mask0_4476_834)">
+              <path d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z"
+                fill="black" />
+            </g>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="holiday-list-box">
+          <div class="d-flex align-items-center justify-content-between p-3 active-leave-list pt-2 pb-2">
+            <div>
+              <h4 class="mb-0 font-15 text-black">Anchal</h4>
+              <p class="mb-0">Developer</p>
+            </div>
+            <h5 class="mb-0 font-14">January 29th, Saturday</h5>
+          </div>
+          <!-- [ngStyle]="{'border-color: #6f6cff':((i+1)%1)==0,'border-color: red':((i+1)%2)==0}" -->
+          <div
+            class="d-flex align-items-center justify-content-between p-3 upcoming-leave-list pt-2 pb-2 denger-border">
+            <div>
+              <h4 class="mb-0 font-15 text-black">Yogesh Yadav</h4>
+              <p class="mb-0">Designer</p>
+            </div>
+            <h5 class="mb-0 font-14">January 29th, Saturday</h5>
+          </div>
+          <div
+            class="d-flex align-items-center justify-content-between p-3 upcoming-leave-list pt-2 pb-2 success-border">
+            <div>
+              <h4 class="mb-0 font-15 text-black">Yogesh Yadav</h4>
+              <p class="mb-0">Designer</p>
+            </div>
+            <h5 class="mb-0 font-14">January 29th, Saturday</h5>
+          </div>
+          <div
+            class="d-flex align-items-center justify-content-between p-3 upcoming-leave-list pt-2 pb-2 warning-border">
+            <div>
+              <h4 class="mb-0 font-15 text-black">Yogesh Yadav</h4>
+              <p class="mb-0">Designer</p>
+            </div>
+            <h5 class="mb-0 font-14">January 29th, Saturday</h5>
+          </div>
+          <div
+            class="d-flex align-items-center justify-content-between p-3 upcoming-leave-list pt-2 pb-2 denger-border">
+            <div>
+              <h4 class="mb-0 font-15 text-black">Yogesh Yadav</h4>
+              <p class="mb-0">Designer</p>
+            </div>
+            <h5 class="mb-0 font-14">January 29th, Saturday</h5>
+          </div>
+          <div class="d-flex align-items-center justify-content-between p-3 upcoming-leave-list pt-2 pb-2">
+            <div>
+              <h4 class="mb-0 font-15 text-black">Yogesh Yadav</h4>
+              <p class="mb-0">Designer</p>
+            </div>
+            <h5 class="mb-0 font-14">January 29th, Saturday</h5>
+          </div>
+          <div
+            class="d-flex align-items-center justify-content-between p-3 upcoming-leave-list pt-2 pb-2 success-border">
+            <div>
+              <h4 class="mb-0 font-15 text-black">Yogesh Yadav</h4>
+              <p class="mb-0">Designer</p>
+            </div>
+            <h5 class="mb-0 font-14">January 29th, Saturday</h5>
+          </div>
+          <div
+            class="d-flex align-items-center justify-content-between p-3 upcoming-leave-list pt-2 pb-2 warning-border">
+            <div>
+              <h4 class="mb-0 font-15 text-black">Yogesh Yadav</h4>
+              <p class="mb-0">Designer</p>
+            </div>
+            <h5 class="mb-0 font-14">January 29th, Saturday</h5>
+          </div>
+          <div
+            class="d-flex align-items-center justify-content-between p-3 upcoming-leave-list pt-2 pb-2 denger-border">
+            <div>
+              <h4 class="mb-0 font-15 text-black">Yogesh Yadav</h4>
+              <p class="mb-0">Designer</p>
+            </div>
+            <h5 class="mb-0 font-14">January 29th, Saturday</h5>
+          </div>
+          <div class="d-flex align-items-center justify-content-between p-3 upcoming-leave-list pt-2 pb-2">
+            <div>
+              <h4 class="mb-0 font-15 text-black">Yogesh Yadav</h4>
+              <p class="mb-0">Designer</p>
+            </div>
+            <h5 class="mb-0 font-14">January 29th, Saturday</h5>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer p-2" style="border-top: none"></div>
     </div>
   </div>
 </div>

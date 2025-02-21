@@ -14,7 +14,7 @@ export class TestingComponent implements OnInit {
   ngOnInit(): void {
     window.scroll(0, 0);
     this.getTestingGetMethodCall();
-    console.log(this.getTimeZone());
+    // console.log(this.getTimeZone());
   }
   time = new Date();
 
@@ -23,7 +23,7 @@ export class TestingComponent implements OnInit {
   refresh() {
     this.dataService.testing(this.testing).subscribe(
       (data) => {
-        console.log(data);
+        // console.log(data);
       },
       (error) => {
         console.log(error);
@@ -44,12 +44,12 @@ export class TestingComponent implements OnInit {
   tempObject : Temp = new Temp();
   postTestingMethodCall(){
     this.dataService.postTesting(this.tempObject).subscribe((response) => {
-      console.log("Post testing method is called successfully.");
+      // console.log("Post testing method is called successfully.");
     })
   }
 
   changeDate(dateTime : Date){
-    console.log(dateTime);
+    // console.log(dateTime);
     this.tempObject.dateTime = dateTime;
   }
 

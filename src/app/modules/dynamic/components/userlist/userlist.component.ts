@@ -40,6 +40,7 @@ export class UserlistComponent implements OnInit {
     window.scroll(0, 0);
     this.getUsersByFiltersFunction();
     this.assignRole();
+    // this.helperService.saveOrgSecondaryToDoStepBarData(0);
   }
 
   getUsersByFiltersFunction() {
@@ -83,12 +84,12 @@ export class UserlistComponent implements OnInit {
     // this.userUuid is error remove
     this.dataService.changeStatusById(presenceStatus, this.userUuid).subscribe(
       (data) => {
-        console.log(data);
-        console.log('====================');
+        // console.log(data);
+        // console.log('====================');
       },
       (error) => {
         console.log(error);
-        console.log('-------------------------------');
+        // console.log('-------------------------------');
       }
     );
   }

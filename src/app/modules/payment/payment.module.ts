@@ -9,7 +9,6 @@ import { TdsComponent } from './tds/tds.component';
 import { BonusAndDeductionComponent } from './bonus-and-deduction/bonus-and-deduction.component';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { BrowserModule } from '@angular/platform-browser';
 import { DynamicModule } from '../dynamic/dynamic.module';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { DateFormatterPipe } from 'src/app/pipe/date-formatter.pipe';
@@ -18,10 +17,14 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
 import { LeaveSummaryComponent } from './leave-summary/leave-summary.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
-
-
-
-
+import { NzEmptyModule } from 'ng-zorro-antd/empty';
+import { EmployeeManagementComponent } from './employee-management/employee-management.component';
+import { EarningManagementComponent } from './earning-management/earning-management.component';
+import { SalaryDeductionManagementComponent } from './salary-deduction-management/salary-deduction-management.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzSwitchModule } from 'ng-zorro-antd/switch';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 
 @NgModule({
   declarations: [
@@ -31,8 +34,10 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     TdsComponent,
     BonusAndDeductionComponent,
     DateFormatterPipe,
-    LeaveSummaryComponent
-    
+    LeaveSummaryComponent,
+    EmployeeManagementComponent,
+    EarningManagementComponent,
+    SalaryDeductionManagementComponent,
   ],
   imports: [
     CommonModule,
@@ -45,7 +50,12 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     NzDropDownModule,
     NgxPaginationModule,
     NgxShimmerLoadingModule,
-    NgxChartsModule
+    NgxChartsModule,
+    NzEmptyModule,
+    NgbModule,
+    NzSelectModule,
+    NzSwitchModule,
+    NzToolTipModule
   ],
 })
 export class PaymentModule {}

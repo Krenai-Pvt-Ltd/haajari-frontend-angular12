@@ -12,7 +12,7 @@ export interface OrganizationAssetResponse {
     assetName: string;
     serialNumber: string;
     createdDate: Date;
-    purchaseDate: Date;
+    purchasedDate: any;
     expiryDate: Date;
     price: string;
     location: string;
@@ -22,6 +22,7 @@ export interface OrganizationAssetResponse {
     userImage: string;
     categoryName: string;
     categoryImage: string;
+    
 }
 
 export interface AssetCategoryRequest {
@@ -32,14 +33,14 @@ export interface AssetCategoryRequest {
   export interface OrganizationAssetRequest {
     assetName: string;
     serialNumber: string;
-    purchasedDate: any; 
-    expiryDate: any; 
+    purchasedDate: any;
+    expiryDate: any;
     price: string;
     location: string;
-    vendorName: string; 
-    userId: number; 
-    assignedDate: any; 
-    categoryId: number; 
+    vendorName: string;
+    userId: number;
+    assignedDate: any;
+    categoryId: number;
   }
 
   export interface StatusWiseTotalAssetsResponse {
@@ -52,13 +53,13 @@ export interface AssetCategoryRequest {
 export class CategoryCountDTO {
     month: string;
     categoryCounts: { [key: string]: number };
-    
+
     constructor(month: string, categoryCounts: { [key: string]: number }) {
       this.month = month;
       this.categoryCounts = categoryCounts;
     }
   }
-  
 
-  
+
+
 

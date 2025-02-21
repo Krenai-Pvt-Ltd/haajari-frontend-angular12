@@ -29,4 +29,7 @@ export class UserPersonalInformationRequest {
         employeeAttendanceFlag!: boolean;
         employeeAttendanceForManagerType!: number;
         updateRequest!: boolean;
+        isProbation!: boolean;
+        uan!: string;
+        esi!: string;
 }

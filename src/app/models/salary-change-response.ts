@@ -2,7 +2,8 @@ export class SalaryChangeResponse {
     uuid : string = '';
     name : string = '';
     email : string = '';
-    previousCTC : string = '';
-    updatedCTC : string = '';
+    phone:string='';
+    previousCtc : string = '';
+    updatedCtc : string = '';
     effectiveDate : string = '';
 }

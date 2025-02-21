@@ -1,0 +1,1324 @@
+<div class="employee-dashboard-box m-3 mt-4">
+    <div class="row">
+
+        <!-- mobile section -->
+        <div *ngIf="!shouldShowResignationRow() || requestModal" class="col-md-7 mobile-holiday-section">
+            <div class="holidays-list ">
+                <div class="d-flex align-items-center holidays-flex-column">
+                    <div class="holidays-cal-box">
+                        <div id="carouselExampleControlsmb" class="carousel slide" data-bs-ride="carousel"
+                            data-bs-interval="3000">
+                            <div class="carousel-inner">
+                                <div *ngFor="let hd of holidays; let i = index" class="carousel-item"
+                                    [class.active]="i === 0">
+                                    <div [ngClass]="getHolidayBoxClass(i)" class="p-3 holidays-box">
+                                        <div class="d-flex align-items-center justify-content-between mb-3">
+                                            <h6 class="text-white mb-0">Holidays</h6>
+                                            <button class="btn p-0 font-13 text-white fw-semibold mobile-holiday" data-bs-toggle="modal" data-bs-target="#calendarModal">View
+                                                All</button>
+                                        </div>
+                                        <div
+                                            class="d-flex align-items-center justify-content-between pl-3 pr-3">
+                                            <div>
+                                                <h5 class="mb-1 text-white font-24">{{ hd.name }}</h5>
+                                                <p class="mb-0 text-white">{{ hd.date | date:'EEE, MMM d, y' }}
+                                                </p>
+                                            </div>
+                                            <div class="position-absolute" style="top: 50px; right: 35px;">
+                                                <ng-container>
+                                                    <span class="holiday-initial font-24"
+                                                        [ngClass]="getHolidayBoxClass(i)">
+                                                        {{ hd.name.charAt(0).toUpperCase() }}
+                                                    </span>
+                                                </ng-container>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="empty-file d-flex align-items-center justify-content-center bg-soft-info"
+                                style="padding-top: 8%; padding-bottom: 8%; height: 149px;"
+                                *ngIf="holidays.length ==0">
+                                <p class="mb-1 empty-detail">No Holidays for Now</p>
+                            </div>
+
+                            <button class="carousel-control-prev" type="button"
+                                data-bs-target="#carouselExampleControlsmb" data-bs-slide="prev"
+                                *ngIf="holidays.length > 1">
+                                <i class="bi bi-chevron-left"></i>
+                            </button>
+                            <button class="carousel-control-next" type="button"
+                                data-bs-target="#carouselExampleControlsmb" data-bs-slide="next"
+                                *ngIf="holidays.length > 1">
+                                <i class="bi bi-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-3 holiday-date desktop-today-date">
+                    <div class="d-flex align-items-start justify-content-between flex-column gap-4">
+                        <p class="font-13">Today</p>
+                        <div>
+                            <h5 class="mb-1 font-20 text-start"> {{ today | date:'d' }}{{ getOrdinalSuffix(today.getDate())
+                                }}</h5>
+                            <p class="mb-0 font-13"> {{ today | date:'EEE, MMM y' }}</p>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="holiday-date p-3 mobile-today-date">
+                    <div class="d-flex align-items-start justify-content-between ">
+                        <p class="font-13 mb-0">Today</p>
+                        <h5 class="mb-0 font-16 fw-semibold"> {{ today | date:'d' }} {{ today | date:'EEE, MMM y' }}</h5>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- mobile section end -->
+        <div class="col-md-4">
+            <!-- attendance-report -->
+            <div class="attendance-report p-3 attendance-report-height">
+                <h5 class="font-14 border-bottom pb-3">Attendance Report</h5>
+                <div class="mb-4">
+                   
+                    <div class="chart-container w-100" *ngIf="!isPlaceholder">
+                        <canvas #chartCanvas id="workingHoursChart"></canvas>
+
+                        
+                    </div>
+                   
+                    <div class="empty-file d-flex align-items-center justify-content-center" *ngIf="isPlaceholder">
+                        <p class="mb-1 empty-detail">No data for now</p>
+                    </div>
+                </div>
+                <h6 class="pb-2 mt-3">{{currentDate | date: 'EEEE, MMMM d, y'}}</h6>
+
+                <div class="row">
+                    <div class="col-md-6 pr-1">
+                        <div class="employee-dashboard p-2 mb-3">
+                            <p class="mb-3 font-13">Check-In time</p>
+                            <h5 class="mb-2">{{(attendanceSummary?.inTime | date: 'hh:mm a')|| '--'}}</h5>
+                            <p class="mb-0  font-13"><span class="text-danger">{{attendanceSummary?.inLateTime}} </span></p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="employee-dashboard p-2 mb-3">
+                            <p class="mb-3 font-13">Check-Out time</p>
+                            <h5 class="mb-2">{{(attendanceSummary?.outTime | date: 'hh:mm a') || '--'}}</h5>
+                            <p class="mb-0  font-13"><span class="text-danger">{{attendanceSummary?.outLateTime}}</span></p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 pr-1">
+                        <div class="employee-dashboard p-2 mb-3">
+                            <p class="mb-3 font-13">Break Duration</p>
+                            <h5 class="mb-2">{{attendanceSummary?.breakDuration}}</h5>
+                            <p class="mb-0 font-13"><span class="text-danger">{{attendanceSummary?.breakRemaining}}</span></p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="employee-dashboard p-2 mb-3">
+                            <p class="mb-3 font-13">Break Count</p>
+                            <h5 class="mb-2">{{attendanceSummary?.breakCount}}</h5>
+                            <p class="mb-0  font-13">.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+
+            <div [ngClass]="{'d-none' : requestModal}" class="row mb-3" *ngIf="shouldShowResignationRow()">
+                <div class="col-md-12">
+                    <div class="resignation-request p-3 d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center gap-3">
+                            <img src="assets/images/resign-submit.svg" style="width:50px;">
+                            <div>
+                                <h5 class="mb-2">You have submitted your <br> resignation.</h5>
+                                <p class="mb-0 font-12">HR will finalise the exit request after consulting with
+                                    management</p>
+                            </div>
+                        </div>
+
+                        <div class="">
+                            <!-- <button class="btn view-request" data-bs-toggle="modal"
+                                data-bs-target="#initiateExitApprove">View Request -->
+                                <button class="btn view-request" (click)="onInitiateExitClick()">View Request
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"
+                                    fill="none">
+                                    <mask id="mask0_6339_5449" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0"
+                                        y="0" width="16" height="16">
+                                        <rect width="16" height="16" fill="#D9D9D9" />
+                                    </mask>
+                                    <g mask="url(#mask0_6339_5449)">
+                                        <path
+                                            d="M5.35033 14.6654L4.16699 13.482L9.65033 7.9987L4.16699 2.51536L5.35033 1.33203L12.017 7.9987L5.35033 14.6654Z"
+                                            fill="black" />
+                                    </g>
+                                </svg>
+                            </button>
+                            <span class="pointer request-close-btn" (click)="requestModal=!requestModal">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none">
+                                    <mask id="mask0_6348_5635" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0"
+                                        y="0" width="24" height="24">
+                                        <rect width="24" height="24" fill="#D9D9D9" />
+                                    </mask>
+                                    <g mask="url(#mask0_6348_5635)">
+                                        <path
+                                            d="M8.4 16.9984L7 15.5984L10.6 11.9984L7 8.42344L8.4 7.02344L12 10.6234L15.575 7.02344L16.975 8.42344L13.375 11.9984L16.975 15.5984L15.575 16.9984L12 13.3984L8.4 16.9984Z"
+                                            fill="black" />
+                                    </g>
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div *ngIf="!shouldShowResignationRow() || requestModal" class="col-md-5 desktop-notification">
+                    <div class="announcement p-3">
+                        <div class="d-flex align-items-start justify-content-between border-bottom pb-3">
+                            <h5 class="font-14 mb-0 ">Recent Notification</h5>
+                            <button class="btn p-0 text-primary font-13" (click)="clickViewAll()">View All</button>
+                        </div>
+                        <div *ngIf="!isLoadingTeamMembers">
+                            <div class="d-flex align-items-start gap-3 mt-3" *ngFor="let mail of mailList">
+                                <span
+                                    class="announcement-user d-flex align-items-center justify-content-center">{{mail.title?.charAt(0)|
+                                    uppercase}}</span>
+                                <div style="width:78%;">
+                                    <h5 class="text-black font-14">
+                                        {{mail.title}} &nbsp; <span>{{mail.createdDate | date:'dd MMM,yyyy'}}</span>
+                                    </h5>
+                                    <p class="mb-0 font-13">{{mail.message}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!--  -->
+                        <div class="feat-product-block mt-3" style="position: relative;" *ngIf="isLoadingTeamMembers">
+                            <div class="feat-bottom">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <ngx-shimmer-loading [width]="'40px'" [height]="'40px'"
+                                            [borderRadius]="'50%'"></ngx-shimmer-loading>
+                                    </div>
+                                    <div class="col-md-8 my-auto">
+                                        <ngx-shimmer-loading [height]="'15px'" [width]="'100%'"></ngx-shimmer-loading>
+                                        <ngx-shimmer-loading [height]="'10px'" [width]="'80%'"></ngx-shimmer-loading>
+                                        <ngx-shimmer-loading [height]="'10px'" [width]="'70%'"></ngx-shimmer-loading>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="empty-file d-flex align-items-center justify-content-center"
+                            style="margin-top: 8%; margin-bottom: 8%"
+                            *ngIf="mailList.length == 0 && !isLoadingTeamMembers">
+                            <p class="mb-1 empty-detail">No data for now</p>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="!shouldShowResignationRow() || requestModal" class="col-md-7">
+                    <div class="holidays-list desktop-holiday">
+                        <div class="d-flex align-items-center holidays-flex-column">
+                            <div class="holidays-cal-box">
+                                <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel"
+                                    data-bs-interval="3000">
+                                    <div class="carousel-inner">
+                                        <div *ngFor="let hd of holidays; let i = index" class="carousel-item"
+                                            [class.active]="i === 0">
+                                            <div [ngClass]="getHolidayBoxClass(i)" class="p-3 holidays-box">
+                                                <div class="d-flex align-items-center justify-content-between mb-3">
+                                                    <h6 class="text-white mb-0">Holidays</h6>
+                                                    <button class="btn p-0 font-13 text-white fw-semibold mobile-holiday" data-bs-toggle="modal" data-bs-target="#calendarModal">View
+                                                        All</button>
+                                                </div>
+                                                <div
+                                                    class="d-flex align-items-center justify-content-between pl-3 pr-3">
+                                                    <div>
+                                                        <h5 class="mb-1 text-white font-24">{{ hd.name }}</h5>
+                                                        <p class="mb-0 text-white">{{ hd.date | date:'EEE, MMM d, y' }}
+                                                        </p>
+                                                    </div>
+                                                    <div class="position-absolute" style="top: 50px; right: 35px;">
+                                                        <ng-container>
+                                                            <span class="holiday-initial font-24"
+                                                                [ngClass]="getHolidayBoxClass(i)">
+                                                                {{ hd.name.charAt(0).toUpperCase() }}
+                                                            </span>
+                                                        </ng-container>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="empty-file d-flex align-items-center justify-content-center bg-soft-info"
+                                        style="padding-top: 8%; padding-bottom: 8%; height: 149px;"
+                                        *ngIf="holidays.length ==0">
+                                        <p class="mb-1 empty-detail">No Holidays for Now</p>
+                                    </div>
+
+                                    <!-- Carousel controls -->
+                                    <button class="carousel-control-prev" type="button"
+                                        data-bs-target="#carouselExampleControls" data-bs-slide="prev"
+                                        *ngIf="holidays.length > 1">
+                                        <i class="bi bi-chevron-left"></i>
+                                    </button>
+                                    <button class="carousel-control-next" type="button"
+                                        data-bs-target="#carouselExampleControls" data-bs-slide="next"
+                                        *ngIf="holidays.length > 1">
+                                        <i class="bi bi-chevron-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="p-3 holiday-date desktop-today-date">
+                            <div class="d-flex align-items-start justify-content-between flex-column gap-4">
+                                <p class="font-13">Today</p>
+                                <div>
+                                    <h5 class="mb-1 font-20 text-start"> {{ today | date:'d' }}{{ getOrdinalSuffix(today.getDate())
+                                        }}</h5>
+                                    <p class="mb-0 font-13"> {{ today | date:'EEE, MMM y' }}</p>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12 mt-3">
+                    <div class="team-overview">
+                        <div class="d-flex align-items-center justify-content-between border-bottom p-2"
+                            *ngIf="teamNameList.length > 0">
+                            <h5 class="mb-0 font-14">Team Overview</h5>
+
+                            <nz-select class="request-dropdown placeholder-lines" nzSize="large"
+                                nzPlaceHolder="Select Team" [(ngModel)]="selectedTeamId"
+                                (ngModelChange)="onTeamChange($event)">
+                                <!-- <nz-option [nzValue]="0" [nzLabel]="'All Teams'"></nz-option> -->
+                                <nz-option *ngFor="let team of teamNameList" [nzValue]="team.teamId"
+                                    [nzLabel]="team.teamName"></nz-option>
+                            </nz-select>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-5 border-right">
+                                <div class="roles p-3">
+                                    <h5 class="mb-0 font-13">Roles</h5>
+                                    <div class="roles-list mt-3 mb-4 role-list-fix" *ngIf="!isLoadingTeamManager">
+                                        <div class="d-flex align-items-center gap-2 mb-3"
+                                            *ngFor="let tm of teamManagerInfo">
+                                            <img onerror="this.src='./assets/images/broken-image-icon.jpg';"
+                                                src="{{tm?.managerLogo}}">
+                                            <div>
+                                                <h5 class="mb-1 font-13">{{tm?.managerName}}</h5>
+                                                <p class="mb-0 font-12">
+                                                    Team:
+                                                    <ng-container *ngFor="let tn of tm?.teamName">
+                                                        {{tn}}</ng-container>
+                                                    |
+                                                    <span>{{tm?.managerPosition || ' - '}}</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-3 mb-3 " *ngIf="isLoadingTeamManager">
+                                        <div class="feat-product-block mb-2" style="position: relative; "
+                                            *ngFor="let item of [].constructor(3)">
+                                            <div class="feat-bottom">
+                                                <div class="row">
+                                                    <div class="col-md-2 my-auto">
+                                                        <ngx-shimmer-loading [width]="'40px'" [height]="'40px'"
+                                                            [borderRadius]="'50%'"></ngx-shimmer-loading>
+                                                    </div>
+                                                    <div class="col-md-8 my-auto">
+                                                        <ngx-shimmer-loading [height]="'15px'"
+                                                            [width]="'100%'"></ngx-shimmer-loading>
+                                                        <ngx-shimmer-loading [height]="'10px'"
+                                                            [width]="'70%'"></ngx-shimmer-loading>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="empty-file" style="margin-top: 18%; margin-bottom: 18%"
+                                        *ngIf="teamManagerInfo.length == 0 && !isLoadingTeamManager">
+                                        <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                            [nzNotFoundContent]="contentTpl">
+                                            <ng-template #contentTpl>
+                                                <p class="mb-1 empty-detail">No data for now</p>
+                                            </ng-template>
+                                        </nz-empty>
+                                    </div>
+
+                                    <h5 class="mb-0 font-13">Team </h5>
+                                    <div class="img-group d-flex mt-3"
+                                        *ngIf="!isLoadingTeamMembers  && images.length > 0">
+                                        <a class="user-avatar " *ngFor="let t of images; let i = index"
+                                            [ngClass]="{'user-avatar-icon': i > 0}">
+                                            <span class="members-name" *ngIf="!t?.image">{{t?.name?.charAt(0)|
+                                                uppercase}}</span>
+                                            <span class="">
+                                                <img onerror="this.src='./assets/images/broken-image-icon.jpg';"
+                                                    class="thumb-xs rounded-circle" src="{{t?.image}}" *ngIf="t?.image">
+                                            </span>
+                                        </a>
+                                        <span
+                                            class="justify-content-center d-flex align-items-center pl-2 team-member font-13 pointer">+
+                                            {{count}} People</span>
+                                    </div>
+                                    <div class="feat-product-block mb-2 mt-3" style="position: relative;"
+                                        *ngIf="isLoadingTeamMembers">
+                                        <div class="feat-bottom">
+                                            <div class="row">
+                                                <div class="col-md-12 my-auto">
+                                                    <ngx-shimmer-loading [width]="'100%'"
+                                                        [height]="'40px'"></ngx-shimmer-loading>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="empty-file d-flex align-items-center justify-content-center"
+                                        style="margin-top: 5%; margin-bottom: 5%"
+                                        *ngIf="images.length == 0 && !isLoadingTeamMembers">
+                                        <p class="mb-1 empty-detail">No data for now</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-7">
+                                <div class="status-tracker p-3">
+                                    <h5 class="mb-0 font-13">Status Tracker</h5>
+                                    <div class="roles-list status-list mt-3"
+                                        *ngIf="!isLoadingTeamMembers && teamMembers!.length>0"
+                                        (scroll)="onScroll($event)">
+                                        <div *ngFor="let member of teamMembers"
+                                            class="d-flex align-items-center justify-content-between">
+                                            <div class="d-flex align-items-center gap-2 mb-3">
+                                                <img [src]="member?.teamMemberImage || './assets/images/broken-image-icon.jpg'"
+                                                    onerror="this.src='./assets/images/broken-image-icon.jpg';"
+                                                    alt="User Image" />
+                                                <div>
+                                                    <h5 class="mb-1 font-14">{{ member?.teamMemberName }}</h5>
+                                                    <p class="mb-0 font-13">Team:
+                                                        <ng-container *ngFor="let tn of member?.teamName">
+                                                            {{tn}}</ng-container>
+                                                        | <span>{{
+                                                            member?.teamMemberPosition || '-' }}</span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <span class="badge rounded-pill" [ngClass]="{
+                                            'bg-soft-success': member?.todayStatus === 'Present',
+                                            'bg-soft-warning': member?.todayStatus === 'On Leave',
+                                            'bg-soft-danger': member?.todayStatus === 'Absent'
+                                          }">
+                                                {{ member?.todayStatus }}
+                                            </span>
+                                        </div>
+
+                                        <!-- Loading indicator -->
+
+                                    </div>
+                                    <!--  -->
+                                    <div *ngIf="isLoadingTeamMembers">
+                                        <div class="feat-product-block mb-2 mt-3" style="position: relative; "
+                                            *ngFor="let item of [].constructor(5)">
+                                            <div class="feat-bottom">
+                                                <div class="row">
+                                                    <div class="col-md-2 my-auto">
+                                                        <ngx-shimmer-loading [width]="'47px'" [height]="'47px'"
+                                                            [borderRadius]="'50%'"></ngx-shimmer-loading>
+                                                    </div>
+                                                    <div class="col-md-8 my-auto" style="left: -10px;">
+                                                        <ngx-shimmer-loading [height]="'15px'"
+                                                            [width]="'100%'"></ngx-shimmer-loading>
+                                                        <ngx-shimmer-loading [height]="'10px'"
+                                                            [width]="'70%'"></ngx-shimmer-loading>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="empty-file" style="margin-top: 19%; margin-bottom: 19%"
+                                        *ngIf="teamMembers.length == 0 && !isLoadingTeamMembers">
+                                        <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                            [nzNotFoundContent]="contentTpl">
+                                            <ng-template #contentTpl>
+                                                <p class="mb-1 empty-detail">No data for now</p>
+                                            </ng-template>
+                                        </nz-empty>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="row mt-3 mb-5">
+        <div class="col-md-7">
+            <div class="attendance-report p-3 desktop-attendance-update">
+                <div>
+                    <ul id="pills-tab" role="tablist" class="nav nav-pills">
+                        <li class="nav-item">
+                            <a id="pills-announcement-tab" data-bs-toggle="pill" href="#attendanceUpdate" role="tab"
+                                aria-controls="pills-announcement" aria-selected="false"
+                                class="nav-link active">Attendance Update</a>
+                        </li>
+                        <!-- <li class="nav-item">
+                            <a id="pills-notification-tab" data-bs-toggle="pill" href="#overtimeRequest" role="tab"
+                                (click)="getOvertimeRequestLogResponseByUserUuidMethodCall()"
+                                aria-controls="pills-notification" aria-selected="false" class="nav-link">Overtime
+                                Request</a>
+                        </li> -->
+                        <li class="nav-item">
+                            <a id="pills-notification-tab" data-bs-toggle="pill" href="#leaveRequest" role="tab"
+                                (click)="loadLeaveLogs()" aria-controls="pills-notification" aria-selected="false"
+                                class="nav-link">Leave Request</a>
+                        </li>
+                    </ul>
+                    <div id="pills-tabContent" class="tab-content">
+                        <div class="tab-pane active show pt-3" id="attendanceUpdate" role="tabpanel"
+                            aria-labelledby="attendanceUpdate-tab">
+
+                            <div class="birthday-section">
+                                <div class="table-responsive bg-white">
+
+                                    <table class="table empOnnoardtable">
+                                        <thead *ngIf="!isFullLogLoader && this.attendanceRequests?.length!=0"
+                                            class="thead-light">
+                                            <tr>
+                                                <th class="text-left font-13" style="width: 10%">Apply On</th>
+                                                <th class="text-left font-13" style="width: 10%">Type </th>
+                                                <th class="text-left font-13" style="width: 20%">Time</th>
+                                                <th class="text-left font-13" style="width: 10%">Requested To</th>
+                                                <th class="text-left font-13" style="width: 20%">Note</th>
+                                                <th class="text-left font-13" style="width: 10%">Status</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody *ngIf="isFullLogLoader">
+                                            <tr *ngFor="let item of [].constructor(7)">
+                                                <td *ngFor="let item of [].constructor(6)">
+                                                    <ngx-shimmer-loading [width]="'100%'"
+                                                        [height]="'15px'"></ngx-shimmer-loading>
+                                                </td>
+                                            
+                                            </tr>
+                                        </tbody>
+
+                                        <div class="d-flex align-items-center justify-content-center"
+                                            *ngIf="!isAttendanceLoading && attendanceRequests?.length==0">
+                                            <div class="empty-file" style="margin-top: 9%; margin-bottom: 9%">
+                                                <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                                    [nzNotFoundContent]="contentTpl">
+                                                    <ng-template #contentTpl>
+                                                        <p class="mb-1 empty-detail">No data for now</p>
+                                                    </ng-template>
+                                                </nz-empty>
+                                            </div>
+                                        </div>
+
+                                        <tbody *ngIf="!isAttendanceLoading && attendanceRequests?.length!=0">
+
+                                            <tr *ngFor="let item of attendanceRequests">
+                                                <td class="text-left">
+                                                    <span class="team-maneger mb-0">
+                                                        {{ item.createdDate | date: 'd MMM yy' }}</span>
+                                                    <p class="mb-0 font-10">{{ item.createdDate | date: 'EEE' }}</p>
+                                                </td>
+                                                <td class="text-left">
+                                                    <span class="team-maneger mb-0">{{ item.requestType }}</span>
+                                                </td>
+                                                <td class="text-left">
+                                                    <span class="team-maneger mb-0">
+                                                        {{ item.outRequestTime | date: 'd MMM yy' }}{{ item.updatedDate
+                                                        | date: 'd MMM yy' }}</span>
+                                                    <p class="mb-0 font-10">{{ item.updatedDate | date: 'hh:mm a' }}{{
+                                                        item.inRequestTime | date: 'hh:mm a' }} - {{ item.outRequestTime
+                                                        | date: 'hh:mm a' }}</p>
+                                                </td>
+                                                <td class="text-left">
+                                                    <span class="team-maneger mb-0 table-font-weight">{{
+                                                        item.managerName || 'N/A' }}</span>
+                                                </td>
+                                                <td class="text-left">
+                                                    <span class="team-maneger mb-0 table-font-weight">{{
+                                                        item.requestReason || 'N/A'}}</span>
+                                                </td>
+                                                <td>
+                                                    <div class="d-flex align-items-center gap-2">
+                                                        <span class="badge rounded-pill badge-soft-warning"> {{
+                                                            item.status | uppercase}}
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="tab-pane fade pt-3" id="overtimeRequest" role="tabpanel"
+                            aria-labelledby="overtimeRequest-tab">
+                            <div class="birthday-section">
+                                <div class="table-responsive bg-white">
+
+                                    <table class="table empOnnoardtable">
+                                        <thead *ngIf="!isFullLogLoader && !dataNotFoundPlaceholderForOvertimeLog"
+                                            class="thead-light">
+                                            <tr>
+                                                <th class="text-left font-13" style="width: 10%">Apply On</th>
+                                                <th class="text-left font-13" style="width: 10%">Date</th>
+                                                <th class="text-left font-13" style="width: 10%">Working hour</th>
+                                                <th class="text-left font-13" style="width: 10%">Requested to</th>
+                                                <th class="text-left font-13" style="width: 20%">Note</th>
+                                                <th class="text-left font-13" style="width: 10%">Status</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody *ngIf="isShimmerForOvertimeLog">
+                                            <tr *ngFor="let item of [].constructor(7)">
+                                                <td *ngFor="let item of [].constructor(6)">
+                                                    <ngx-shimmer-loading [width]="'100%'"
+                                                        [height]="'15px'"></ngx-shimmer-loading>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+
+                                        <div class="d-flex align-items-center justify-content-center"
+                                            *ngIf="!isShimmerForOvertimeLog && overtimeRequestLogResponseList?.length === 0">
+                                            <div class="empty-file" style="margin-top: 9%; margin-bottom: 9%">
+                                                <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                                    [nzNotFoundContent]="contentTpl">
+                                                    <ng-template #contentTpl>
+                                                        <p class="mb-1 empty-detail">No data for now</p>
+                                                    </ng-template>
+                                                </nz-empty>
+                                            </div>
+                                        </div>
+
+                                        <tbody
+                                            *ngIf="!isShimmerForOvertimeLog && !dataNotFoundPlaceholderForOvertimeLog">
+
+                                            <tr *ngFor="let item of overtimeRequestLogResponseList">
+                                                <td class="text-left">
+                                                    <span class="team-maneger mb-0">
+                                                        {{ item.createdDate | date: 'd MMM yy' }}</span>
+                                                    <p class="mb-0 font-10">{{ item.createdDate | date: 'EEE' }}</p>
+                                                </td>
+                                                <td class="text-left">
+                                                    <span class="team-maneger mb-0">{{ item.startTime | date: 'd MMM yy'
+                                                        }} - {{ item.endTime | date: 'd MMM yy' }}</span>
+                                                </td>
+                                                <td class="text-left">
+                                                    <span class="team-maneger mb-0 table-font-weight">{{
+                                                        item.workingHour }}</span>
+                                                </td>
+                                                <td class="text-left">
+                                                    <span class="team-maneger mb-0 table-font-weight">{{
+                                                        item.managerName || 'N/A' }}</span>
+                                                </td>
+                                                <td class="text-left">
+                                                    <span class="team-maneger mb-0 table-font-weight">{{ item.note ||
+                                                        'N/A'}}</span>
+                                                </td>
+                                                <td>
+                                                    <div class="d-flex align-items-center gap-2">
+                                                        <span class="badge rounded-pill badge-soft-warning">
+                                                            <!-- Dynamic Status -->
+                                                            {{item.statusName | uppercase}}
+
+                                                            <!-- Delete Button -->
+                                                            <!-- <button class="icon-button btn p-0" (click)="deleteRecord(item)">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
+                                                            <mask id="mask0_6083_5461" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
+                                                                <rect x="0.910156" y="0.910156" width="20" height="20" fill="#D9D9D9" />
+                                                            </mask>
+                                                            <g mask="url(#mask0_6083_5461)">
+                                                                <path
+                                                                    d="M6.74353 18.4102C6.2852 18.4102 5.89284 18.247 5.56645 17.9206C5.24006 17.5942 5.07686 17.2018 5.07686 16.7435V5.91016H4.24353V4.24349H8.4102V3.41016H13.4102V4.24349H17.5769V5.91016H16.7435V16.7435C16.7435 17.2018 16.5803 17.5942 16.2539 17.9206C15.9276 18.247 15.5352 18.4102 15.0769 18.4102H6.74353ZM15.0769 5.91016H6.74353V16.7435H15.0769V5.91016ZM8.4102 15.0768H10.0769V7.57682H8.4102V15.0768ZM11.7435 15.0768H13.4102V7.57682H11.7435V15.0768Z"
+                                                                    fill="#FF0404" />
+                                                            </g>
+                                                        </svg>
+                                                    </button> -->
+
+                                                            <!-- Edit Button -->
+                                                            <!-- <button class="btn p-0 icon-button" (click)="editRecord(item)">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
+                                                            <mask id="mask0_6083_5464" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
+                                                                <rect x="0.910156" y="0.910156" width="20" height="20" fill="#D9D9D9" />
+                                                            </mask>
+                                                            <g mask="url(#mask0_6083_5464)">
+                                                                <path
+                                                                    d="M5.07682 16.7435H6.26432L14.4102 8.59766L13.2227 7.41016L5.07682 15.556V16.7435ZM3.41016 18.4102V14.8685L14.4102 3.88932C14.5768 3.73655 14.7609 3.61849 14.9622 3.53516C15.1636 3.45182 15.3754 3.41016 15.5977 3.41016C15.8199 3.41016 16.0352 3.45182 16.2435 3.53516C16.4518 3.61849 16.6324 3.74349 16.7852 3.91016L17.931 5.07682C18.0977 5.2296 18.2192 5.41016 18.2956 5.61849C18.372 5.82682 18.4102 6.03516 18.4102 6.24349C18.4102 6.46571 18.372 6.67752 18.2956 6.87891C18.2192 7.0803 18.0977 7.26432 17.931 7.43099L6.95182 18.4102H3.41016ZM13.806 8.01432L13.2227 7.41016L14.4102 8.59766L13.806 8.01432Z"
+                                                                    fill="black" />
+                                                            </g>
+                                                        </svg>
+                                                    </button> -->
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="tab-pane fade pt-3" id="leaveRequest" role="tabpanel"
+                            aria-labelledby="leaveRequest-tab">
+                            <div class="birthday-section">
+                                <div class="table-responsive bg-white">
+
+                                    <table class="table empOnnoardtable">
+                                        <thead *ngIf="!isLoading && userLeaveLog?.length > 0" class="thead-light">
+                                            <tr>
+                                                <th class="text-left font-13" style="width: 10%">Apply On</th>
+                                                <th class="text-left font-13" style="width: 10%">Date</th>
+                                                <th class="text-left font-13" style="width: 10%">Type</th>
+                                                <th class="text-left font-13" style="width: 10%">Requested To</th>
+                                                <th class="text-left font-13" style="width: 20%">Note</th>
+                                                <th class="text-left font-13" style="width: 10%">Status</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody *ngIf="isLoading">
+                                            <tr *ngFor="let item of [].constructor(7)">
+                                                <td>
+                                                    <ngx-shimmer-loading [width]="'100%'"
+                                                        [height]="'15px'"></ngx-shimmer-loading>
+                                                </td>
+                                                <td>
+                                                    <ngx-shimmer-loading [width]="'100%'"
+                                                        [height]="'15px'"></ngx-shimmer-loading>
+                                                </td>
+                                                <td>
+                                                    <ngx-shimmer-loading [width]="'100%'"
+                                                        [height]="'15px'"></ngx-shimmer-loading>
+                                                </td>
+                                                <td>
+                                                    <ngx-shimmer-loading [width]="'100%'"
+                                                        [height]="'15px'"></ngx-shimmer-loading>
+                                                </td>
+                                                <td>
+                                                    <ngx-shimmer-loading [width]="'100%'"
+                                                        [height]="'15px'"></ngx-shimmer-loading>
+                                                </td>
+                                                <td>
+                                                    <ngx-shimmer-loading [width]="'100%'"
+                                                        [height]="'15px'"></ngx-shimmer-loading>
+                                                </td>
+                                                <td>
+                                                    <ngx-shimmer-loading [width]="'100%'"
+                                                        [height]="'15px'"></ngx-shimmer-loading>
+                                                </td>
+                                                <td>
+                                                    <ngx-shimmer-loading [width]="'100%'"
+                                                        [height]="'15px'"></ngx-shimmer-loading>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+
+                                        <div class="d-flex align-items-center justify-content-center"
+                                            *ngIf="!isLoading && userLeaveLog?.length === 0">
+                                            <div class="empty-file" style="margin-top: 9%; margin-bottom: 9%">
+                                                <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                                    [nzNotFoundContent]="contentTpl">
+                                                    <ng-template #contentTpl>
+                                                        <p class="mb-1 empty-detail">No data for now</p>
+                                                    </ng-template>
+                                                </nz-empty>
+                                            </div>
+                                        </div>
+
+                                        <tbody *ngIf="!isLoading">
+
+                                            <tr *ngFor="let item of userLeaveLog">
+                                                <td class="text-left">
+                                                    <span class="team-maneger mb-0">
+                                                        {{ item.createdDate | date: 'd MMM yy' }}</span>
+                                                    <p class="mb-0 font-10">{{ item.createdDate | date: 'EEE' }}</p>
+                                                </td>
+                                                <td class="text-left">
+                                                    <span class="team-maneger mb-0">{{ item.startDate | date: 'd MMM yy'
+                                                        }} - {{ item.endDate | date: 'd MMM yy' }}</span>
+                                                    <p class="mb-0 font-10">
+                                                        {{ item.totalDays }} Day
+                                                        <span class="text-primary" *ngIf="item.firstHalf">(1st
+                                                            half)</span>
+                                                        <span class="text-primary" *ngIf="item.secondHalf">(2nd
+                                                            half)</span>
+                                                    </p>
+                                                </td>
+                                                <td class="text-left">
+                                                    <span class="team-maneger mb-0 table-font-weight">{{ item.leaveType
+                                                        }}</span>
+                                                </td>
+                                                <td class="text-left">
+                                                    <span class="team-maneger mb-0 table-font-weight">{{
+                                                        item.requestedTo || 'N/A' }}</span>
+                                                </td>
+                                                <td class="text-left">
+                                                    <span class="team-maneger mb-0 table-font-weight">{{ item.optNotes
+                                                        || 'N/A'}}</span>
+                                                </td>
+                                                <td>
+                                                    <div class="d-flex align-items-center gap-2">
+                                                        <span class="badge rounded-pill badge-soft-warning">
+                                                            <!-- Dynamic Status -->
+                                                            {{ item.status | uppercase }}
+
+                                                            <!-- Delete Button -->
+                                                            <!-- <button class="icon-button btn p-0" (click)="deleteRecord(item)">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
+                                                            <mask id="mask0_6083_5461" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
+                                                                <rect x="0.910156" y="0.910156" width="20" height="20" fill="#D9D9D9" />
+                                                            </mask>
+                                                            <g mask="url(#mask0_6083_5461)">
+                                                                <path
+                                                                    d="M6.74353 18.4102C6.2852 18.4102 5.89284 18.247 5.56645 17.9206C5.24006 17.5942 5.07686 17.2018 5.07686 16.7435V5.91016H4.24353V4.24349H8.4102V3.41016H13.4102V4.24349H17.5769V5.91016H16.7435V16.7435C16.7435 17.2018 16.5803 17.5942 16.2539 17.9206C15.9276 18.247 15.5352 18.4102 15.0769 18.4102H6.74353ZM15.0769 5.91016H6.74353V16.7435H15.0769V5.91016ZM8.4102 15.0768H10.0769V7.57682H8.4102V15.0768ZM11.7435 15.0768H13.4102V7.57682H11.7435V15.0768Z"
+                                                                    fill="#FF0404" />
+                                                            </g>
+                                                        </svg>
+                                                    </button> -->
+
+                                                            <!-- Edit Button -->
+                                                            <!-- <button class="btn p-0 icon-button" (click)="editRecord(item)">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
+                                                            <mask id="mask0_6083_5464" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
+                                                                <rect x="0.910156" y="0.910156" width="20" height="20" fill="#D9D9D9" />
+                                                            </mask>
+                                                            <g mask="url(#mask0_6083_5464)">
+                                                                <path
+                                                                    d="M5.07682 16.7435H6.26432L14.4102 8.59766L13.2227 7.41016L5.07682 15.556V16.7435ZM3.41016 18.4102V14.8685L14.4102 3.88932C14.5768 3.73655 14.7609 3.61849 14.9622 3.53516C15.1636 3.45182 15.3754 3.41016 15.5977 3.41016C15.8199 3.41016 16.0352 3.45182 16.2435 3.53516C16.4518 3.61849 16.6324 3.74349 16.7852 3.91016L17.931 5.07682C18.0977 5.2296 18.2192 5.41016 18.2956 5.61849C18.372 5.82682 18.4102 6.03516 18.4102 6.24349C18.4102 6.46571 18.372 6.67752 18.2956 6.87891C18.2192 7.0803 18.0977 7.26432 17.931 7.43099L6.95182 18.4102H3.41016ZM13.806 8.01432L13.2227 7.41016L14.4102 8.59766L13.806 8.01432Z"
+                                                                    fill="black" />
+                                                            </g>
+                                                        </svg>
+                                                    </button> -->
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="p-3 attendance-report birthday-anniversaries">
+                <div>
+                    <ul id="pills-tab" role="tablist" class="nav nav-pills">
+                        <li class="nav-item">
+                            <a id="pills-announcement-tab" data-bs-toggle="pill" href="#birthday" role="tab"
+                                aria-controls="pills-announcement" aria-selected="false"
+                                class="nav-link active">Birthday</a>
+                        </li>
+                        <li class="nav-item">
+                            <a id="pills-notification-tab" data-bs-toggle="pill" href="#workAnniversaries" role="tab"
+                                aria-controls="pills-notification" aria-selected="false" class="nav-link"> Work
+                                Anniversaries</a>
+                        </li>
+                        <!-- <li class="nav-item">
+                            <a id="pills-notification-tab" data-bs-toggle="pill" href="#newJoinees" role="tab"
+                                aria-controls="pills-notification" aria-selected="false" class="nav-link">New Joinees</a>
+                        </li> -->
+                    </ul>
+                    <div id="pills-tabContent" class="tab-content">
+                        <div class="tab-pane active show pt-3" id="birthday" role="tabpanel"
+                            aria-labelledby="birthday-tab">
+                            <div class="birthday-section">
+                                <!-- <div *ngFor="let user of usersWithUpcomingBirthdays; let i= index;" class="birthday-box d-flex align-items-center justify-content-between position-relative mb-3" [ngClass]="{'birthday-box-+i'}"> -->
+                                <div *ngFor="let user of usersWithUpcomingBirthdays; let i = index;"
+                                    class="birthday-box-0 d-flex align-items-center justify-content-between position-relative mb-3"
+                                    [ngClass]="getDynamicClass(i)">
+                                    <div>
+                                        <h5 class="mb-1 font-16">{{ user.name }}</h5>
+                                        <p class="mb-0 font-13">{{ user.birthday | date: 'dd MMMM' }}, {{
+                                            changeDateToCurrentYear(user.birthday) | date: 'EEEE' }}</p>
+                                    </div>
+                                    <div class="birthday-img">
+                                        <img onerror="this.src='./assets/images/broken-image-icon.jpg';"
+                                            [src]="user.picture" alt="Birthday Image" />
+                                    </div>
+                                    <span>
+                                        <img src="assets/images/orange.svg" style="width:170px" />
+                                    </span>
+                                    <span *ngIf="isToday(user.birthday)" class="today-birthday">
+                                        <img src="assets/images/today-birthday.svg" />
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="d-flex align-items-center justify-content-center"
+                                *ngIf="usersWithUpcomingBirthdays?.length === 0 || usersWithUpcomingBirthdays == undefined">
+                                <div class="empty-file" style="margin-top: 9%; margin-bottom: 9%">
+                                    <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                        [nzNotFoundContent]="contentTpl">
+                                        <ng-template #contentTpl>
+                                            <p class="mb-1 empty-detail">No data for now</p>
+                                        </ng-template>
+                                    </nz-empty>
+                                </div>
+                            </div>
+
+
+
+
+                        </div>
+
+                        <div class="tab-pane fade pt-3" id="workAnniversaries" role="tabpanel"
+                            aria-labelledby="workAnniversaries-tab">
+                            <div class="birthday-section">
+                                <div class="anniversaries-section mb-2" *ngFor="let anniversary of anniversaries">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="anniversaries-box p-3">
+                                                <h4 class="pb-3 border-bottom">Congratulations</h4>
+                                                <h5 class="mb-1 font-16">{{ anniversary.name }}</h5>
+                                                <p class="mb-1 font-13">{{ anniversary.position }}</p>
+                                                <p class="mb-0 font-13">{{ anniversary.joiningDate }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="anniversaries-img p-4 d-flex align-items-center gap-3">
+                                                <img onerror="this.src='./assets/images/broken-image-icon.jpg';"
+                                                    [src]="anniversary.image" alt="{{ anniversary.name }}" />
+
+                                                <div class="anniversaries-year text-center">
+                                                    <h5 class="mb-1 font-22">{{ anniversary.yearsCompleted-1 }}</h5>
+                                                    <p class="mb-0">Years</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-flex align-items-center justify-content-center"
+                                *ngIf="anniversaries?.length === 0 || anniversaries == undefined">
+                                <div class="empty-file" style="margin-top: 9%; margin-bottom: 9%">
+                                    <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                        [nzNotFoundContent]="contentTpl">
+                                        <ng-template #contentTpl>
+                                            <p class="mb-1 empty-detail">No data for now</p>
+                                        </ng-template>
+                                    </nz-empty>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- <div class="tab-pane fade pt-3" id="newJoinees" role="tabpanel" aria-labelledby="newJoinees-tab">
+
+
+                            <div class="birthday-section">
+                              <div
+                                class="anniversaries-section mb-2"
+                                *ngFor="let joiner of newJoiners"
+                              >
+                                <div class="row">
+                                  <div class="col-md-7">
+                                    <div class="anniversaries-box p-3 pt-4">
+                                      <h4 class="pb-3 border-bottom">Welcome to the team!</h4>
+                                      <h5 class="mb-1 font-15">{{ joiner.name }}</h5>
+                                      <p class="mb-1 font-13">{{ joiner.position }}</p>
+                                      <p class="mb-0 font-13"> {{joiner.joiningDate}}</p>
+                                    </div>
+                                  </div>
+                                  <div class="col-md-5">
+                                    <div class="anniversaries-img p-4 d-flex align-items-center gap-3">
+                                      <img onerror="this.src='./assets/images/broken-image-icon.jpg';" [src]="joiner.picture" alt="{{ joiner.name }}" />
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<!-- Initiate Exit (UserResignation) Modal Start -->
+<div class="modal fade" id="initiateExitApprove" tabindex="-1" role="dialog" #assetRequestModal aria-hidden="true"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <!-- {{userId === UUID}} -->
+            <div class="modal-header" *ngIf="userRoleFlag">
+                <h5 class="modal-title" id="exampleModalLabel">Initiate Exit</h5>
+                <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeApproveModal>
+                    <!-- <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" (click)="clearFormData(resignationForm)" #closeResignationButton> -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                            width="24" height="24">
+                            <rect width="24" height="24" fill="#D9D9D9" />
+                        </mask>
+                        <g mask="url(#mask0_5037_2014)">
+                            <path
+                                d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z"
+                                fill="black" />
+                        </g>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body p-0">
+                <!-- <form #resignationForm="ngForm" (ngSubmit)="submitResignation(resignationForm)"> -->
+                <form #resignationForm="ngForm" (ngSubmit)="submitResignation()">
+
+                    <div class="row register-form-box">
+                        <!-- <div class="col-md-12">
+                                <div class="hr-notes p-3">
+                                  <p class="mb-0 font-13"> <span class="text-primary"> Note:</span> HR will take the final action on the exit request</p>
+                                </div>
+                            </div> -->
+
+                        <div class="p-4">
+
+                            <div class="col-md-12 mb-3">
+                                <label for="templateName" class="pb-2">
+                                    What is the reason for initiating the exit?
+                                </label>
+                                <input class="form-control input-zorro" [disabled]="ROLE == 'ADMIN'"
+                                    placeholder="Enter the reason" [(ngModel)]="userResignationInfo.reason"
+                                    nzSize="large" minlength="3" maxlength="50" id="reason" name="inputReason"
+                                    #inputReason="ngModel" required />
+                            </div>
+
+                            <div class="col-md-12 mb-3">
+                                <label for="templateName" class="pb-2">
+                                    Did you discussed this with the management?
+                                </label>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label
+                                            class="form-check assets-req d-flex align-items-center justify-content-start">
+                                            <input [disabled]="ROLE == 'ADMIN'" class="form-check-input" type="radio"
+                                                name="managerDiscussionInput" id="yes" value="Yes" required
+                                                (change)="selectManagerDiscussion('Yes')" [(ngModel)]="discussionType">
+                                            <p class="form-check-label mb-0" for="exampleRadios1">
+                                                Yes
+                                            </p>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label
+                                            class="form-check assets-req d-flex align-items-center justify-content-start">
+                                            <input [disabled]="ROLE == 'ADMIN'" class="form-check-input" type="radio"
+                                                name="managerDiscussionInput" id="no" value="No" required
+                                                (change)="selectManagerDiscussion('No')" [(ngModel)]="discussionType">
+                                            <p class="form-check-label mb-0" for="exampleRadios1">
+                                                No
+                                            </p>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 mb-3">
+                                <label for="templateName" class="pb-2">
+                                    Do You want to recommend a last woking day?
+                                </label>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label
+                                            class="form-check assets-req d-flex align-items-center justify-content-start">
+                                            <input [disabled]="ROLE == 'ADMIN'" type="radio" name="recommendDay"
+                                                id="complete" value="Complete" [(ngModel)]="recommendDay"
+                                                (change)="selectRecommendDay('Complete')" class="form-check-input">
+                                            <p for="exampleRadios3" class="form-check-label mb-0" required> Complete
+                                                notice periodes </p>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label
+                                            class="form-check assets-req d-flex align-items-center justify-content-start">
+                                            <input [disabled]="ROLE == 'ADMIN'" type="radio" name="recommendDay"
+                                                id="other" value="Other" required [(ngModel)]="recommendDay"
+                                                (change)="selectRecommendDay('Other')" class="form-check-input">
+                                            <p for="exampleRadios4" class="form-check-label mb-0"> Other Date </p>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div *ngIf="recommendDay == 'Other'" class="col-md-12 mb-3">
+                                <div class="form-group">
+                                    <label for="employeeTypeId" class="mb-2">Select your notice period duration?</label>
+                                    <!--
+                                <ng-container *ngIf="noticePeriodDuration == 0">
+                                    <nz-date-picker *ngIf="userResignationInfo.isRecommendLastDay == 1" [(ngModel)]="userResignationInfo.userLastWorkingDay"
+                                    nzPlaceHolder="dd/mm/yyyy"  id="selLastDate" name="lastDate" #lastDate="ngModel"
+                                    required class="form-control">
+                                </nz-date-picker>
+                                </ng-container> -->
+
+                                    <nz-date-picker *ngIf="userResignationInfo.isRecommendLastDay == 1"
+                                        [(ngModel)]="userResignationInfo.userLastWorkingDay" nzPlaceHolder="dd/mm/yyyy"
+                                        [nzDisabledDate]="disableFutureDates" id="selLastDate" name="lastDate"
+                                        #lastDate="ngModel" required class="form-control">
+                                    </nz-date-picker>
+
+                                </div>
+                            </div>
+
+                            <div *ngIf="recommendDay == 'Complete'" class="col-md-12 mb-3">
+                                <div class="d-flex align-items-center gap-3 p-3 notice-period-date">
+                                    <p class="mb-0">Notice period</p>
+                                    <span class="calendar-separator"></span>
+                                    <!-- <h6 class="mb-0">{{userResignationInfo.lastWorkingDay | date: 'dd MMM yyyy'}}</h6> -->
+                                    <h6 class="mb-0">{{userResignationInfo.userLastWorkingDay | date: 'dd MMM yyyy'}}
+                                    </h6>
+                                </div>
+                            </div>
+
+                            <div *ngIf="recommendDay == 'Other' && (userResignationInfo.userLastWorkingDay != null && userResignationInfo.userLastWorkingDay != '')"
+                                class="col-md-12 mb-3 ">
+                                <div class="notice-period-error p-3">
+                                    <div class="d-flex align-items-center gap-3 mb-2">
+                                        <p class="mb-0">Notice period</p>
+                                        <span class="calendar-separator"></span>
+                                        <h6 class="mb-0">
+                                            {{userResignationInfo.userLastWorkingDay | date: 'dd MMM yyyy'}}</h6>
+                                    </div>
+                                    <p class="mb-0 font-13">Your last working day may change based on Manager/HR's
+                                        decision.</p>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 mb-3" *ngIf="userResignationInfo.url != null">
+                                <div class="form-group ">
+                                    <label for="templateName" class="mb-2"> Attachment </label>
+
+                                    <!-- *ngIf="!isUploading && userResignationReq.url != ''" -->
+                                    <div *ngIf="userResignationInfo.url != ''"
+                                        class="hr-policy-file d-flex justify-content-between align-items-center p-3 mt-3 mb-3">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <div class="d-flex align-items-center gap-2">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="29"
+                                                    viewBox="0 0 25 29" fill="none">
+                                                    <path
+                                                        d="M19.9133 0.640764C20.3134 0.638561 20.71 0.715469 21.0803 0.867066C21.4506 1.01866 21.7873 1.24196 22.071 1.52411C22.3547 1.80627 22.5799 2.14172 22.7335 2.51118C22.8871 2.88065 22.9662 3.27683 22.9662 3.67696V24.3454C22.9662 24.7455 22.8871 25.1417 22.7335 25.5111C22.5799 25.8806 22.3547 26.2161 22.071 26.4982C21.7873 26.7804 21.4506 27.0037 21.0803 27.1553C20.71 27.3069 20.3134 27.3838 19.9133 27.3816H4.45379C3.64854 27.3816 2.87627 27.0617 2.30688 26.4923C1.73748 25.9229 1.41759 25.1506 1.41759 24.3454V7.26468C1.41089 6.90421 1.54708 6.55573 1.79642 6.29533L7.04987 1.04188C7.17898 0.91237 7.3328 0.810129 7.50219 0.741224C7.67158 0.67232 7.85309 0.638156 8.03594 0.640764H19.9133Z"
+                                                        fill="#F1F4F9" />
+                                                    <path
+                                                        d="M7.07193 1.0386C7.18754 0.923515 7.32356 0.830946 7.47304 0.765625V3.80739C7.47304 4.33262 7.36932 4.85268 7.16782 5.33772C6.96631 5.82276 6.671 6.26323 6.29883 6.63385C5.92666 7.00446 5.48496 7.29793 4.99908 7.4974C4.51321 7.69688 3.99272 7.79843 3.46749 7.79623H1.41736V7.23913C1.4165 6.88634 1.55226 6.54692 1.79619 6.29206L7.07193 1.0386Z"
+                                                        fill="#DCDFE2" />
+                                                    <path
+                                                        d="M1.54321 6.69317C1.60853 6.54369 1.7011 6.40767 1.81619 6.29206L7.06964 1.0386C7.18525 0.923515 7.32127 0.830946 7.47076 0.765625V3.65697C7.47076 4.05616 7.39204 4.45143 7.23911 4.82016C7.08618 5.18889 6.86203 5.52385 6.57951 5.80586C6.29698 6.08787 5.96161 6.3114 5.5926 6.46365C5.22359 6.61591 4.82818 6.6939 4.42899 6.69317H1.54321Z"
+                                                        fill="#6666F2" />
+                                                    <path
+                                                        d="M10.056 15.1756C10.0725 15.4554 10.0316 15.7357 9.93576 15.9992C9.83995 16.2626 9.69127 16.5037 9.49886 16.7076C9.29218 16.8993 9.04904 17.0474 8.78392 17.1431C8.5188 17.2388 8.23713 17.2801 7.95569 17.2647H6.67993V13.2703H8.05597C8.59329 13.234 9.12339 13.4101 9.53228 13.7605C9.71529 13.9455 9.85668 14.1675 9.94699 14.4115C10.0373 14.6555 10.0745 14.916 10.056 15.1756ZM8.94176 15.2146C8.96435 14.9266 8.88768 14.6396 8.72449 14.4012C8.64197 14.3105 8.53989 14.2398 8.42599 14.1945C8.3121 14.1491 8.18937 14.1303 8.06711 14.1394H7.75513V16.3678H7.99469C8.12824 16.3786 8.26249 16.3586 8.3871 16.3094C8.5117 16.2601 8.62332 16.1829 8.71335 16.0837C8.8838 15.8273 8.96416 15.5216 8.94176 15.2146Z"
+                                                        fill="#6666F2" />
+                                                    <path
+                                                        d="M14.35 15.2538C14.39 15.8102 14.2145 16.3608 13.8597 16.7914C13.6687 16.9739 13.4417 17.1148 13.1933 17.2049C12.9449 17.2951 12.6805 17.3326 12.4168 17.315C12.1516 17.3281 11.8866 17.2853 11.6389 17.1893C11.3913 17.0933 11.1666 16.9464 10.9795 16.7579C10.6203 16.3339 10.4422 15.7857 10.4837 15.2315C10.4428 14.6808 10.621 14.1362 10.9795 13.7162C11.1696 13.5322 11.3963 13.3904 11.645 13.3001C11.8937 13.2099 12.1586 13.1732 12.4224 13.1925C12.6848 13.1743 12.9482 13.211 13.1956 13.3002C13.4431 13.3894 13.6693 13.5292 13.8597 13.7106C14.219 14.1409 14.395 14.695 14.35 15.2538ZM11.6146 15.2538C11.6146 16.0226 11.882 16.407 12.4168 16.407C12.5325 16.4152 12.6484 16.394 12.7536 16.3453C12.8588 16.2966 12.95 16.222 13.0185 16.1284C13.1715 15.8635 13.2413 15.5588 13.2191 15.2538C13.2414 14.9469 13.1716 14.6404 13.0185 14.3735C12.9511 14.2798 12.8611 14.2046 12.7569 14.1549C12.6527 14.1053 12.5377 14.0827 12.4224 14.0894C11.882 14.0894 11.6146 14.4794 11.6146 15.2538Z"
+                                                        fill="#6666F2" />
+                                                    <path
+                                                        d="M16.7028 14.0928C16.5843 14.0893 16.4668 14.1161 16.3615 14.1707C16.2562 14.2253 16.1666 14.3059 16.1012 14.4048C15.9451 14.6667 15.8713 14.9695 15.8895 15.2739C15.8895 16.0371 16.1792 16.4215 16.7585 16.4215C16.9319 16.4205 17.1043 16.3962 17.2711 16.3491C17.4382 16.2989 17.6053 16.2377 17.7725 16.1708V17.0789C17.4203 17.2289 17.041 17.3048 16.6583 17.3017C16.4029 17.3213 16.1464 17.2857 15.906 17.1973C15.6657 17.1088 15.4472 16.9696 15.2655 16.7892C14.917 16.3663 14.7436 15.8261 14.7808 15.2794C14.7684 14.8947 14.8486 14.5125 15.0148 14.1652C15.1607 13.8642 15.3936 13.6138 15.6833 13.4466C15.9988 13.2738 16.3544 13.1873 16.714 13.1959C17.14 13.196 17.5606 13.2912 17.9452 13.4744L17.6165 14.3379C17.4744 14.2693 17.3272 14.2116 17.1764 14.1652C17.0235 14.1155 16.8636 14.091 16.7028 14.0928Z"
+                                                        fill="#6666F2" />
+                                                </svg>
+                                                <!-- <h5 class="mb-0 font-14">{{fileName}}</h5> -->
+                                                <h5 class="mb-0 font-14">attachment</h5>
+                                            </div><span class="separator"></span>
+                                            <!-- <p class="mb-0 font-13"> Uploaded: {{currentDate | date: 'dd MMM yyyy'}} </p> -->
+                                        </div>
+                                        <div class="d-flex align-items-center gap-2 action-icon-btn">
+                                            <span>
+                                                <a [href]="userResignationInfo.url" target="_blank" class="svg-link">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"
+                                                        viewBox="0 0 22 22" fill="none">
+                                                        <mask id="mask0_4339_1635" maskUnits="userSpaceOnUse" x="0"
+                                                            y="0" width="22" height="22" style="mask-type: alpha;">
+                                                            <rect width="21.8342" height="21.8342" fill="#D9D9D9">
+                                                            </rect>
+                                                        </mask>
+                                                        <g mask="url(#mask0_4339_1635)">
+                                                            <path
+                                                                d="M10.9189 14.1711C11.9498 14.1711 12.8254 13.8103 13.5456 13.0888C14.2658 12.3672 14.6259 11.4909 14.6259 10.46C14.6259 9.4291 14.2651 8.55354 13.5435 7.83331C12.822 7.11308 11.9457 6.75297 10.9148 6.75297C9.88389 6.75297 9.00833 7.11377 8.2881 7.83536C7.56788 8.55695 7.20776 9.4332 7.20776 10.4641C7.20776 11.495 7.56856 12.3706 8.29015 13.0908C9.01174 13.811 9.88799 14.1711 10.9189 14.1711ZM10.9168 12.9184C10.2345 12.9184 9.65456 12.6796 9.17694 12.202C8.69931 11.7243 8.4605 11.1444 8.4605 10.4621C8.4605 9.77974 8.69931 9.19977 9.17694 8.72214C9.65456 8.24452 10.2345 8.00571 10.9168 8.00571C11.5992 8.00571 12.1791 8.24452 12.6568 8.72214C13.1344 9.19977 13.3732 9.77974 13.3732 10.4621C13.3732 11.1444 13.1344 11.7243 12.6568 12.202C12.1791 12.6796 11.5992 12.9184 10.9168 12.9184ZM10.918 16.8304C8.826 16.8304 6.91983 16.2533 5.19947 15.0991C3.47912 13.9451 2.21243 12.3994 1.39941 10.4621C2.21243 8.52473 3.47867 6.97905 5.19811 5.82502C6.9177 4.67084 8.82357 4.09375 10.9157 4.09375C13.0077 4.09375 14.9139 4.67084 16.6342 5.82502C18.3546 6.97905 19.6213 8.52473 20.4343 10.4621C19.6213 12.3994 18.355 13.9451 16.6356 15.0991C14.916 16.2533 13.0101 16.8304 10.918 16.8304ZM10.9168 15.4657C12.6302 15.4657 14.2033 15.0146 15.6362 14.1125C17.0691 13.2103 18.1646 11.9935 18.9227 10.4621C18.1646 8.93063 17.0691 7.71383 15.6362 6.81165C14.2033 5.90948 12.6302 5.45839 10.9168 5.45839C9.20347 5.45839 7.63035 5.90948 6.19748 6.81165C4.76461 7.71383 3.66911 8.93063 2.91098 10.4621C3.66911 11.9935 4.76461 13.2103 6.19748 14.1125C7.63035 15.0146 9.20347 15.4657 10.9168 15.4657Z"
+                                                                fill="#1C1B1F"></path>
+                                                        </g>
+                                                    </svg>
+                                                </a>
+                                            </span>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 mb-3">
+                                <label for="templateName" class="pb-2">
+                                    Comment
+                                </label>
+                                <textarea [disabled]="ROLE == 'ADMIN'" class="form-control nots-section" id="comment"
+                                    name="inputComment" placeholder="Write description" rows="3"
+                                    [(ngModel)]="userResignationInfo.comment"></textarea>
+                            </div>
+
+                            <div class="col-md-12 mb-3" *ngIf="ROLE != 'ADMIN' && showRevokeDiv">
+                                <label for="templateName" class="pb-2">
+                                    Reason of revoke
+                                </label>
+                                <textarea class="form-control nots-section" id="revoke" name="inputRevoke"
+                                    placeholder="Write description" rows="3"
+                                    [(ngModel)]="userResignationInfo.revokeReason"></textarea>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="modal-footer d-flex align-items-center justify-content-end gap-2">
+                        <button type="button" class="btn cancel-btn" *ngIf="showRevokeDiv || ROLE == 'ADMIN'"
+                            data-bs-dismiss="modal" (click)="clearForm()" aria-label="Close"
+                            #closeApproveModal>Cancel</button>
+
+                        <button *ngIf="ROLE == 'ADMIN'" type="button" class="btn submitActionBtn"
+                            [disabled]="approveToggle" (click)="approveOrDenyResignation(userResignationInfo.id)">
+                            <span *ngIf="!approveToggle">Approve</span>
+                            <div class="dot-opacity-loader" *ngIf="approveToggle">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </button>
+
+                        <button *ngIf="ROLE != 'ADMIN'" type="button" class="btn submitActionBtn"
+                            [ngClass]="{'btn-border': (showRevokeDiv && userResignationInfo.revokeReason)}"
+                            [disabled]="(showRevokeDiv && !userResignationInfo.revokeReason) || approveToggle || resignationToggle"
+                            (click)="revokeResignation(userResignationInfo.id)">
+                            <span *ngIf="!approveToggle">{{!showRevokeDiv ? 'Revoke' : 'Submit'}}</span>
+                            <div class="dot-opacity-loader" *ngIf="approveToggle">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </button>
+
+                        <button *ngIf="!showRevokeDiv && ROLE != 'ADMIN'" type="submit" class="btn submitActionBtn"
+                            [ngClass]="{'btn-border':!(resignationForm.invalid)}"
+                            [disabled]="resignationForm.invalid || resignationToggle">
+                            <span *ngIf="!resignationToggle">Update</span>
+                            <div class="dot-opacity-loader" *ngIf="resignationToggle">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </button>
+
+                        <!-- <button *ngIf="!approveToggle && ROLE == 'ADMIN'" type="button" (click)="approveOrDenyResignation(userResignationInfo.id)" class="btn submitActionBtn">Approve</button> -->
+                        <!-- <button *ngIf="!approveToggle && ROLE != 'ADMIN'" [disabled]="showRevokeDiv && !userResignationInfo.revokeReason" type="button"
+                            class="btn submitActionBtn" (click)="revokeResignation(userResignationInfo.id)">{{!showRevokeDiv ? 'Revoke' : 'Submit'}}</button> -->
+
+                        <!-- <button *ngIf="!approveToggle && !showRevokeDiv && !resignationToggle && ROLE != 'ADMIN'" type="submit"
+                             class="btn submitActionBtn">Update</button>
+
+                            <div class="dot-opacity-loader" *ngIf="approveToggle || resignationToggle">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                              </div> -->
+
+                    </div>
+
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Initiate Exit (UserResignation) Modal End -->
+
+<div class="modal fade" id="calendarModal" tabindex="-1" aria-labelledby="calendarModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-xl" style="max-width: 1000px;">
+       <div class="modal-content">
+          <!-- <div class="modal-header">
+             <h5 class="modal-title" id="calendarModalLabel">Holidays Calendar</h5>
+             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div> -->
+          <div class="modal-body p-0">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                        width="24" height="24">
+                        <rect width="24" height="24" fill="#D9D9D9" />
+                    </mask>
+                    <g mask="url(#mask0_5037_2014)">
+                        <path
+                            d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z"
+                            fill="black" />
+                    </g>
+                </svg>
+            </button>
+            <div class="calendar-date d-flex align-items-center justify-content-between p-4">
+              <div class="d-flex align-items-center gap-2">
+                <span (click)="navigateMonth('prev')" class="pointer">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <mask id="mask0_7199_2580" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
+                      <rect width="20" height="20" fill="#D9D9D9" />
+                    </mask>
+                    <g mask="url(#mask0_7199_2580)">
+                      <path d="M13.3333 18.3307L5 9.9974L13.3333 1.66406L14.8125 3.14323L7.95833 9.9974L14.8125 16.8516L13.3333 18.3307Z" fill="#444444" />
+                    </g>
+                  </svg>
+                </span>
+                <h5 class="mb-0 font-24 fw-bold">{{ currentMonthYear }}</h5>
+                <span (click)="navigateMonth('next')" class="pointer">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <mask id="mask0_7199_2583" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
+                      <rect width="20" height="20" transform="matrix(-1 0 0 1 20 0)" fill="#D9D9D9" />
+                    </mask>
+                    <g mask="url(#mask0_7199_2583)">
+                      <path d="M6.66667 18.3307L15 9.9974L6.66667 1.66406L5.1875 3.14323L12.0417 9.9974L5.1875 16.8516L6.66667 18.3307Z" fill="#444444" />
+                    </g>
+                  </svg>
+                </span>
+              </div>
+            </div>
+
+            <div>
+              <nz-calendar [ngModel]="currentDate" (nzValueChange)="onYearChange($event)" >
+                <ul *nzDateCell="let date" class="events" [ngClass]="{ 'holiday-cell': isHoliday(date) }">
+                  <ng-container *ngFor="let item of getHolidayEvents(date)">
+                    <li class="holiday-item">
+                      {{ item.content }},
+                    </li>
+                  </ng-container>
+                </ul>
+                <ng-container *nzMonthCell="let month">
+                  <div *ngIf="getMonthHolidayCount(month) > 0" class="notes-month" [ngClass]="{ 'holiday-month': getMonthHolidayCount(month) > 0 }">
+                    <section>{{ getMonthHolidayCount(month) }}</section>
+                    <span>Holidays</span>
+                  </div>
+                </ng-container>
+              </nz-calendar>
+            </div>
+
+          </div>
+       </div>
+    </div>
+ </div>

@@ -1,0 +1,248 @@
+.upgradePlanSection {
+  background-color: #69e2a2;
+  padding: 5px;
+  z-index: 9999;
+  position: relative;
+}
+.upgradeNow {
+  color: #2f2e41;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 136.942%;
+}
+.upgradeNow a {
+  color: #2f2e41 !important;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 136.942%; /* 24.65px */
+  text-decoration-line: underline;
+  padding-right: 5px;
+}
+.upgradeNow svg {
+  width: 20px;
+}
+
+.allPageNotifaction {
+  border-radius: 28px;
+  border: 0.951px solid #c2c2ff;
+  background: #fcfcfc;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.allPageNotifaction:hover {
+  background: #6666f2 !important;
+}
+
+.flotingBtn {
+  position: fixed;
+  bottom: 15px;
+  right: 25px;
+}
+
+.allPageNotifaction svg {
+  width: 20px;
+}
+
+.onboaredinStapBox {
+  border-radius: 8px;
+  border: 0.3px solid #bcbcf5;
+  background: #fff;
+  box-shadow: -3px 5px 5.9px 0px rgba(98, 98, 98, 0.14);
+  backdrop-filter: blur(4.699999809265137px);
+  position: fixed;
+  bottom: 70px;
+  right: 25px;
+  width: 300px;
+  cursor: pointer;
+}
+.progress {
+  background-color: #f4f3fe;
+  height: 8px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.onboaredinStapBox h5 {
+  color: #3f3636;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 13.759px; /* 76.438% */
+  letter-spacing: 0.36px;
+}
+.onboaredinStapBox h4 {
+  background: linear-gradient(103deg, #6666f2 31.7%, #3b3b8c 82.9%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-size: 17px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 13.759px; /* 76.438% */
+  letter-spacing: 0.36px;
+}
+
+.showOnboardingStep {
+  border-radius: 4px;
+  border: 0.3px solid #bcbcf5;
+  background: #f8f7ff;
+  position: fixed;
+  bottom: 70px;
+  right: 25px;
+  width: 300px;
+  cursor: pointer;
+  height: 83vh;
+  z-index: 999;
+  transition: 0.3s linear;
+  transform: translateY(150%);
+}
+
+.showOnboardingStepHover {
+  transform: translateY(0%);
+}
+
+.onboardingStapsHedding {
+  background-color: #edebff;
+  border-radius: 4px 4px 0px 0px;
+}
+
+.onboardingStapsHedding h5 {
+  color: #000;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20.637px;
+  letter-spacing: 0.281px;
+  text-transform: capitalize;
+}
+.onboardingStapsHedding svg {
+  width: 20px;
+  cursor: pointer;
+}
+.planInfo h5 {
+  background: linear-gradient(103deg, #6666f2 31.7%, #3b3b8c 82.9%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 18px;
+  letter-spacing: 0.224px;
+  background-clip: text;
+  -webkit-background-clip: text;
+  text-transform: capitalize;
+}
+
+.planInfo p {
+  color: #717171;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 11px;
+  letter-spacing: 0.035px;
+}
+
+.onboardCount {
+  font-weight: 500 !important;
+  color: #6666f2 !important;
+}
+
+.planInfo h6 {
+  color: #4a4a4a;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 15px;
+  letter-spacing: 0.117px;
+}
+.border-bottom {
+  border-bottom: 1px solid #dadada !important;
+}
+
+.completeStepPoint {
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+.checdBox {
+  background-color: #22d26b;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+.completeStepPoint h4 {
+  color: #000;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 15px;
+  letter-spacing: 0.279px;
+  text-transform: capitalize;
+}
+
+.completeStepPoint p {
+  color: #979797;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 16.209px;
+  letter-spacing: 0.093px;
+}
+.pendingBox {
+  border: 1px solid #d9dade;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+.pendingStepPoint h4 {
+  color: #000;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 15px;
+  letter-spacing: 0.279px;
+  text-transform: capitalize;
+}
+
+.pendingStepPoint p {
+  color: #979797;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 16.209px;
+  letter-spacing: 0.093px;
+}
+
+.pendingStepPoint:hover .toStepArrow {
+  background-color: #6666f2;
+  border-radius: 4px;
+  width: 23px;
+  height: 23px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+}
+
+/* .topbar-fix{
+  position: sticky;
+  top: 0;
+  z-index: 99;
+  background-color: #fff;
+} */

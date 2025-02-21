@@ -2,6 +2,9 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "typeRoots": ["node_modules/@types"],
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
@@ -19,7 +22,8 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "types": ["@types/google.maps","xss"]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

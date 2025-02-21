@@ -1,0 +1,419 @@
+/* .emplyee-profile-sidebar-main-box {
+    border-right: 1px solid #f1f1f1;
+}
+
+.company-logo {
+    background-color: #F2F2FF;
+    height: 140px;
+}
+
+.employee-detail img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+
+.employee-detail {
+    margin-top: -75px;
+}
+
+.employee-detail h5 {
+    color: #000;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 26.208px;
+    letter-spacing: 0.357px;
+    text-transform: capitalize;
+}
+
+.employee-detail p {
+    color: #6B7280;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 26.208px;
+    letter-spacing: 0.357px;
+    text-transform: capitalize;
+}
+
+.full-time {
+    font-size: 13px;
+    font-weight: 500;
+    background-color: #D2F6D2;
+    border-radius: 2px;
+    columns: #000;
+    padding: 3px 10px;
+}
+
+.icon {
+    background-color: #EFEFEF;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon svg {
+    width: 15px;
+}
+
+.employ-contact-detail p {
+    color: #000;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 26.208px;
+    letter-spacing: 0.357px;
+    text-transform: capitalize;
+}
+
+.separator {
+    border-bottom: 1px solid #EDEDED;
+    height: 1px;
+    display: flex;
+}
+
+.employe-about h5 {
+    color: #444;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 26.208px;
+    letter-spacing: 0.357px;
+    text-transform: uppercase;
+}
+
+.employe-about p {
+    color: #6B7280;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 21px;
+    letter-spacing: 0.357px;
+    text-transform: capitalize;
+}
+
+.skill-set li {
+    display: inline-block;
+    border-radius: 40px;
+    border: 1px solid #CECDFF;
+    background: #FAFBFF;
+    font-size: 12px;
+    font-weight: 400;
+    padding: 3px 10px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    color: #000;
+}
+
+.skill-set {
+    list-style: none;
+    padding-left: 0px;
+}
+
+.skill-set span {
+    width: 28px;
+    height: 28px;
+    background-color: #6666f2;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 12px;
+    line-height: 24px;
+    cursor: pointer;
+}
+
+.download-icon {
+    border-radius: 2px;
+    background: #EDEFF5;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.employee-agreenment {
+    border-radius: 2px;
+    border: 1px solid #F2F2F2;
+}
+
+.activity .activity-info::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    top: 20px !important;
+    left: 2px;
+    border-left: 2px dotted #e8ebf3;
+}
+
+.icon-info-activity p {
+    background-color: #EDEDFF;
+    padding: 8px 3px;
+    font-size: 12px;
+    color: var(--primary-color);
+    border-radius: 10px;
+}
+
+.active-logs p {
+    background-color: var(--primary-background-color) !important;
+    padding: 8px 3px;
+    font-size: 12px;
+    color: #fff !important;
+    border-radius: 10px;
+}
+
+.activity-info-text h5 {
+    text-transform: capitalize !important;
+    line-height: 18px !important;
+}
+
+.activity .activity-info .activity-info-text {
+    margin-left: 10px;
+    margin-bottom: 25px;
+    width: 100%;
+}
+
+.activity:last-child .activity-info::before {
+    display: none;
+}
+
+.activity:last-child .activity-info-text {
+    margin-bottom: 0px !important;
+}
+
+.activity:last-child .activity-info {
+    min-height: fit-content;
+}
+
+.selery-logs {
+    max-height: 160px;
+    overflow: scroll;
+}
+
+.selery-logs::-webkit-scrollbar {
+    display: none;
+}
+
+.employee-detail-header h5 {
+    color: #000;
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: 0.357px;
+    text-transform: capitalize;
+}
+
+.employee-profile-menu ul {
+    list-style: none;
+    padding-left: 0px;
+    border-bottom: 1px solid #f1f1f1;
+}
+
+.employee-profile-menu ul li {
+    font-size: 12px;
+    padding: 8px 13px;
+    border-radius: 2px;
+    line-height: 20px;
+    display: inline-flex;
+    flex-wrap: nowrap;
+    margin-right: 15px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+
+
+.active-menu {
+    border-bottom: 2px solid var(--primary-background-color) !important;
+  color: var(--primary-color);
+}
+
+.attendance-history {
+    border: 1px solid #EDEDED;
+    border-radius: 2px;
+}
+
+.calendar-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #EDEDED;
+    cursor: pointer;
+}
+
+.calendar-icon svg {
+    width: 15px;
+}
+
+.attendance-date p {
+    color: #000;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 26.208px;
+    letter-spacing: 0.357px;
+    text-transform: capitalize;
+}
+
+.calendar-back {
+    width: 30px;
+    height: 30px;
+    border-radius: 2px;
+    border: 1px solid #EDEDED;
+}
+
+.calendar-back svg {
+    width: 17px;
+    position: relative;
+    top: 0px;
+}
+
+.nav.nav-pills {
+    background-color: transparent;
+    border-bottom: 1px solid #edeff5;
+}
+
+.nav-pills .nav-item.show .nav-link,
+.nav-pills .nav-link.active {
+    background: transparent !important;
+    color: var(--primary-color) !important;
+    border-radius: 0;
+    border-bottom: 2px solid var(--primary-color);
+}
+
+.nav-link {
+    margin-right: 20px;
+    display: block;
+    padding: 7px 10px;
+    color: #000;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 500;
+    text-align: left;
+}
+
+.attendance-summery {
+    background-color: #F9FAFC;
+    border-radius: 2px;
+    margin-bottom: 10px;
+}
+
+.table-font-weight {
+    font-weight: 400;
+}
+
+
+
+.table tr {
+    font-size: 12px !important;
+}
+
+.table td {
+    font-weight: 500;
+    vertical-align: middle;
+    font-size: 12px !important;
+    white-space: nowrap;
+    padding: 10px 15px !important
+}
+
+.table tbody {
+    border: 1px solid #f1f1f1;
+}
+
+.schedule {
+    border-left: var(--Border-Radius-4-px, 4px) solid #CECDFF;
+    background-color: #F6F6F6;
+    padding: 7px 10px;
+    border-radius: 2px;
+}
+
+span.lat {
+    color: #6B7280;
+    font-size: 11px;
+    letter-spacing: 0.357px;
+    text-transform: capitalize;
+}
+
+.attendance-summery p {
+    color: #6B7280 !important;
+}
+
+.attendance-summery h5 {
+    line-height: 22px;
+}
+
+.check-in-btn {
+    background-color: var(--primary-background-color);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 400;
+    min-width: 100px;
+}
+
+.break-btn {
+    border: 1px solid #BABABA;
+    background-color: transparent;
+    color: #BABABA;
+    font-size: 13px;
+    font-weight: 400;
+    min-width: 100px;
+}
+
+.teme-maneger p {
+    color: #54545C;
+}
+
+.check-in-btn svg{
+    width: 20px;
+    position: relative;
+    top: -2px;
+    padding-right: 3px;
+}
+.break-btn svg {
+    width: 20px;
+    position: relative;
+    top: -2px;
+    padding-right: 3px;
+}
+
+.checkin-active{
+    border: 1px solid #E0F4ED !important;
+    background-color: #E0F4ED !important;
+    color: #000 !important;
+    font-size: 13px;
+    font-weight: 400;
+    min-width: 100px;
+    height: 37px;
+}
+
+.checkin-active svg{
+    width: 24px;
+        padding-right: 3px;
+}
+
+.active-break-btn{
+    border: 1px solid var(--primary-background-color) !important;
+    color: var(--primary-color) !important;
+}
+
+.break-notifaction{
+    background-color: #FFF8F2;
+}
+.break-notifaction p{
+    color: #E27A17;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.back-btn{
+    background-color: #E27A17;
+    color: #fff;
+    border: none;
+    border-radius: 2px;
+    padding: 3px 5px;
+    min-width: 100px;
+}
+.back-btn svg{
+    position: relative;
+    top: -1px;
+} */

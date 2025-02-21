@@ -9,11 +9,14 @@ import { RoleBasedAccessControlService } from 'src/app/services/role-based-acces
 })
 export class EmployeeOnboardingComponent implements OnInit {
 
-  constructor(private router : Router, public roleBasedAccessControlService: RoleBasedAccessControlService) { 
+  constructor(private router : Router, public roleBasedAccessControlService: RoleBasedAccessControlService) {
   }
   isTrue: boolean=false;
   ngOnInit(): void {
-
+    const token = localStorage.getItem('token');
+    if (token==null) {
+      this.router.navigate(['/auth/login']);
+    }
   }
   showSidebar(){
     if(this.getBaseUrl(this.router.url) === '/employee-onboarding/employee-onboarding-preview'){

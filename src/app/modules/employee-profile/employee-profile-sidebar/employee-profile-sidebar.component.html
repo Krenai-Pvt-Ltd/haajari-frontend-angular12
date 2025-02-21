@@ -1,0 +1,1280 @@
+<div class="employee-profile-sidebar-main-box mobileMenufixed " [ngClass]="{'menuVisible' : helperService.isShowSidebar}">
+    <!--To Do employ exit class="exited-background"  -->
+    <div class="company-logo p-3 pt-4"
+        [ngClass]="{'exited-background': employeeProfileResponseData?.resignationStatus === 43}">
+        <img src="assets/images/HAjiRi.svg" alt="logo-" style="height: 30px">
+        <span class="sidebar-close-btn" (click)="helperService.toggleIsShowSidebar()">
+            <i class="bi bi-x font-30"></i>
+        </span>
+    </div>
+
+
+
+    <div class="employee-detail p-4 pb-0">
+        <div class="position-relative">
+            <div *ngIf="employeeProfileResponseData?.profilePic; else namePlaceholder">
+                <img onerror="this.src='./assets/images/broken-image-icon.jpg';"
+                    [src]="dataService.employeeData.profilePic" alt="Profile Picture">
+            </div>
+
+            <ng-template #namePlaceholder>
+                <div class="name-placeholder">
+                    {{ getFirstLetterOfName() }}
+                </div>
+            </ng-template>
+        </div>
+
+        <div class="mt-3 d-flex align-items-center gap-3">
+            <h5 class="mb-0">{{employeeProfileResponseData?.userName}}</h5>
+
+
+            <ng-container *ngIf="!toggle">
+                <span class="full-time"
+                    *ngIf="employeeProfileResponseData?.resignationStatus == null || (employeeProfileResponseData?.resignationStatus != 42 && employeeProfileResponseData?.resignationStatus != 43)">Full
+                    Time</span>
+                <h6 class="mb-0 text-danger font-13" *ngIf="employeeProfileResponseData?.resignationStatus == 42">On
+                    notice period</h6>
+            </ng-container>
+
+            <ng-container *ngIf="toggle">
+                <h6 class="mb-0 text-danger font-13 ">On notice period</h6>
+            </ng-container>
+
+            <h6 class="mb-0 text-danger font-13" *ngIf="employeeProfileResponseData?.resignationStatus == 43">EXITED
+            </h6>
+        </div>
+
+        <p class="mb-0">{{employeeProfileResponseData?.currentRole}}</p>
+
+        <div class="employ-contact-detail mt-2">
+            <div class="d-flex align-items-center gap-2 mb-2">
+                <span class="icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="10" height="16" viewBox="0 0 10 16" fill="none">
+                        <g clip-path="url(#clip0_4709_634)">
+                            <path
+                                d="M7.41149 0.0820312H2.16824C1.24293 0.0830805 0.493106 0.832904 0.492188 1.75821V14.1643C0.493106 15.0896 1.24293 15.8395 2.16824 15.8404H7.41149C8.33681 15.8395 9.08663 15.0896 9.08768 14.1643V1.75821C9.08663 0.832904 8.33681 0.0830805 7.41149 0.0820312ZM8.3713 14.1643C8.37078 14.6942 7.94137 15.1236 7.41149 15.1241H2.16824C1.63837 15.1236 1.20896 14.6942 1.20843 14.1643V1.75821C1.20896 1.22821 1.63837 0.798803 2.16824 0.798278H7.41149C7.94137 0.798803 8.37078 1.22821 8.3713 1.75821V14.1643Z"
+                                fill="black" />
+                            <path
+                                d="M5.86644 1.51562H3.71756C3.51978 1.51562 3.35938 1.6759 3.35938 1.87368C3.35938 2.07147 3.51978 2.23187 3.71756 2.23187H5.86644C6.06422 2.23187 6.22449 2.07147 6.22449 1.87368C6.22449 1.6759 6.06422 1.51562 5.86644 1.51562Z"
+                                fill="black" />
+                            <path
+                                d="M5.50684 13.6928C5.50684 14.0885 5.18617 14.4092 4.7906 14.4092C4.3949 14.4092 4.07422 14.0885 4.07422 13.6928C4.07422 13.2972 4.3949 12.9766 4.7906 12.9766C5.18617 12.9766 5.50684 13.2972 5.50684 13.6928Z"
+                                fill="black" />
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_4709_634">
+                                <rect width="8.5932" height="15.75" fill="white" transform="translate(0.5 0.0820312)" />
+                            </clipPath>
+                        </defs>
+                    </svg>
+                </span>
+                <p class="mb-0">{{employeeProfileResponseData?.phoneNumber || 'N/A'}}</p>
+            </div>
+            <div class="d-flex align-items-center gap-2 mb-2">
+                <span class="icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="19" viewBox="0 0 18 19" fill="none">
+                        <mask id="mask0_4709_647" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                            width="18" height="19">
+                            <rect y="0.582031" width="18" height="18" fill="#D9D9D9" />
+                        </mask>
+                        <g mask="url(#mask0_4709_647)">
+                            <path
+                                d="M3.46162 14.832C3.11637 14.832 2.82812 14.7164 2.59688 14.4852C2.36563 14.2539 2.25 13.9657 2.25 13.6204V5.54366C2.25 5.19841 2.36563 4.91016 2.59688 4.67891C2.82812 4.44766 3.11637 4.33203 3.46162 4.33203H14.5384C14.8836 4.33203 15.1719 4.44766 15.4031 4.67891C15.6344 4.91016 15.75 5.19841 15.75 5.54366V13.6204C15.75 13.9657 15.6344 14.2539 15.4031 14.4852C15.1719 14.7164 14.8836 14.832 14.5384 14.832H3.46162ZM9 9.66866L3 5.74541V13.6204C3 13.755 3.04325 13.8657 3.12975 13.9523C3.21637 14.0388 3.327 14.082 3.46162 14.082H14.5384C14.673 14.082 14.7836 14.0388 14.8703 13.9523C14.9568 13.8657 15 13.755 15 13.6204V5.74541L9 9.66866ZM9 8.83203L14.7692 5.08203H3.23081L9 8.83203ZM3 5.74541V5.08203V13.6204C3 13.755 3.04325 13.8657 3.12975 13.9523C3.21637 14.0388 3.327 14.082 3.46162 14.082H3V5.74541Z"
+                                fill="#060606" />
+                        </g>
+                    </svg>
+                </span>
+                <p class="mb-0" style="text-transform: none;">{{employeeProfileResponseData?.email || 'N/A'}}</p>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+                <span class="icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="19" viewBox="0 0 18 19" fill="none">
+                        <mask id="mask0_4709_655" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                            width="18" height="19">
+                            <rect y="0.582031" width="18" height="18" fill="#D9D9D9" />
+                        </mask>
+                        <g mask="url(#mask0_4709_655)">
+                            <path
+                                d="M11.7347 12.8473L12.2653 12.3167L9.375 9.42584V5.83203H8.625V9.73784L11.7347 12.8473ZM9.00244 16.332C8.06906 16.332 7.1915 16.1549 6.36975 15.8007C5.54813 15.4464 4.83337 14.9657 4.2255 14.3584C3.61763 13.7512 3.13644 13.037 2.78194 12.216C2.42731 11.3952 2.25 10.518 2.25 9.58447C2.25 8.65109 2.42712 7.77353 2.78137 6.95178C3.13562 6.13016 3.61637 5.41541 4.22362 4.80753C4.83087 4.19966 5.545 3.71847 6.366 3.36397C7.18687 3.00934 8.06406 2.83203 8.99756 2.83203C9.93094 2.83203 10.8085 3.00916 11.6303 3.36341C12.4519 3.71766 13.1666 4.19841 13.7745 4.80566C14.3824 5.41291 14.8636 6.12703 15.2181 6.94803C15.5727 7.76891 15.75 8.64609 15.75 9.57959C15.75 10.513 15.5729 11.3905 15.2186 12.2123C14.8644 13.0339 14.3836 13.7487 13.7764 14.3565C13.1691 14.9644 12.455 15.4456 11.634 15.8001C10.8131 16.1547 9.93594 16.332 9.00244 16.332ZM9 15.582C10.6625 15.582 12.0781 14.9977 13.2469 13.8289C14.4156 12.6602 15 11.2445 15 9.58203C15 7.91953 14.4156 6.50391 13.2469 5.33516C12.0781 4.16641 10.6625 3.58203 9 3.58203C7.3375 3.58203 5.92188 4.16641 4.75313 5.33516C3.58438 6.50391 3 7.91953 3 9.58203C3 11.2445 3.58438 12.6602 4.75313 13.8289C5.92188 14.9977 7.3375 15.582 9 15.582Z"
+                                fill="#060606" />
+                        </g>
+                    </svg>
+                </span>
+                <p class="mb-0">DOB: {{employeeProfileResponseData?.dateOfBirth | date}}</p>
+            </div>
+        </div>
+        <span class="separator mt-4 mb-4"></span>
+    </div>
+    <div class="employe-about p-4 pt-0 mb-4">
+        <div *ngIf="userRoleFlag">
+            <div *ngIf="employeeProfileResponseData?.resignationStatus != 43 && (status == 'out' || this.status== '' || this.status == null) "
+                class="check-in">
+                <div class="d-flex align-items-center gap-2 check-in-info p-2">
+                    <img src="assets/images/check-in-image.svg">
+                    <h5 class="mb-0">Time to Check In and <br> Start Your Shift</h5>
+                </div>
+                <button class="btn check-in w-100" (click)="checkinCheckout('/in');helperService.toggleIsShowSidebar()" [disabled]="InOutLoader">
+                    <svg *ngIf="!InOutLoader" xmlns="http://www.w3.org/2000/svg" width="18" height="19"
+                        viewBox="0 0 18 19" fill="none">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M7.70105 1.41406C5.60524 1.41406 3.90625 3.11305 3.90625 5.20886C3.90625 7.30468 5.60524 9.00366 7.70105 9.00366C9.79686 9.00366 11.4958 7.30468 11.4958 5.20886C11.4958 3.11305 9.79686 1.41406 7.70105 1.41406ZM4.99048 5.20886C4.99048 3.71187 6.20406 2.49829 7.70105 2.49829C9.19804 2.49829 10.4116 3.71187 10.4116 5.20886C10.4116 6.70586 9.19804 7.91943 7.70105 7.91943C6.20406 7.91943 4.99048 6.70586 4.99048 5.20886Z"
+                            fill="white" />
+                        <path
+                            d="M14.1474 10.4862C13.9269 10.6887 13.5839 10.6741 13.3814 10.4536L11.6389 8.55621C11.4485 8.34885 11.4485 8.0302 11.6389 7.82284L13.3814 5.92544C13.5839 5.7049 13.9269 5.69032 14.1474 5.89283C14.3679 6.09536 14.3825 6.43828 14.18 6.65881L13.2721 7.64741H16.9172C17.2166 7.64741 17.4593 7.89011 17.4593 8.18952C17.4593 8.48893 17.2166 8.73164 16.9172 8.73164H13.2721L14.18 9.72024C14.3825 9.94074 14.3679 10.2837 14.1474 10.4862Z"
+                            fill="white" />
+                        <path
+                            d="M5.94678 10.0859C3.32262 10.0859 1.19531 12.2132 1.19531 14.8374C1.19531 16.4049 2.46598 17.6755 4.03344 17.6755H6.3454C6.64481 17.6755 6.88751 17.4328 6.88751 17.1334C6.88751 16.834 6.64481 16.5913 6.3454 16.5913H4.03344C3.06479 16.5913 2.27954 15.8061 2.27954 14.8374C2.27954 12.812 3.92142 11.1702 5.94678 11.1702H9.45459C11.48 11.1702 13.1218 12.812 13.1218 14.8374C13.1218 15.8061 12.3366 16.5913 11.3679 16.5913H9.05597C8.75656 16.5913 8.51385 16.834 8.51385 17.1334C8.51385 17.4328 8.75656 17.6755 9.05597 17.6755H11.3679C12.9354 17.6755 14.2061 16.4049 14.2061 14.8374C14.2061 12.2132 12.0787 10.0859 9.45459 10.0859H5.94678Z"
+                            fill="white" />
+                    </svg>
+                    <span *ngIf="!InOutLoader">Check-In</span>
+                    <span *ngIf="InOutLoader" class="dot-opacity-loader">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </span>
+                </button>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+
+                <button *ngIf="status == 'in' || status == 'back'" class="btn break-back w-90"
+                    (click)="checkinCheckout('/break')" [disabled]="InOutLoader">
+                    <svg *ngIf="!breakLoader" xmlns="http://www.w3.org/2000/svg" width="19" height="19"
+                        viewBox="0 0 19 19" fill="none">
+                        <mask id="mask0_5673_6985" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                            width="19" height="19">
+                            <rect x="0.0463867" y="0.5" width="18" height="18" fill="#D9D9D9" />
+                        </mask>
+                        <g mask="url(#mask0_5673_6985)">
+                            <path
+                                d="M3.04639 16.25V14.75H15.0464V16.25H3.04639ZM6.04639 13.25C5.22139 13.25 4.51514 12.9563 3.92764 12.3687C3.34014 11.7812 3.04639 11.075 3.04639 10.25V2.75H15.0464C15.4589 2.75 15.812 2.89688 16.1058 3.19063C16.3995 3.48438 16.5464 3.8375 16.5464 4.25V6.5C16.5464 6.9125 16.3995 7.26562 16.1058 7.55937C15.812 7.85313 15.4589 8 15.0464 8H13.5464V10.25C13.5464 11.075 13.2526 11.7812 12.6651 12.3687C12.0776 12.9563 11.3714 13.25 10.5464 13.25H6.04639ZM6.04639 11.75H10.5464C10.9589 11.75 11.312 11.6031 11.6058 11.3094C11.8995 11.0156 12.0464 10.6625 12.0464 10.25V4.25H4.54639V10.25C4.54639 10.6625 4.69326 11.0156 4.98701 11.3094C5.28076 11.6031 5.63389 11.75 6.04639 11.75ZM13.5464 6.5H15.0464V4.25H13.5464V6.5ZM6.04639 11.75H4.54639H12.0464H6.04639Z"
+                                fill="white" />
+                        </g>
+                    </svg>
+                    <span *ngIf="!breakLoader">Break</span>
+                    <span *ngIf="breakLoader" class="dot-opacity-loader">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </span>
+                </button>
+                <button *ngIf="status == 'in' || status == 'back'" class="btn check-out-btn w-90"
+                    (click)="checkinCheckout('/out');helperService.toggleIsShowSidebar()" [disabled]="InOutLoader">
+                    <svg *ngIf="!outLoader" xmlns="http://www.w3.org/2000/svg" width="19" height="19"
+                        viewBox="0 0 19 19" fill="none">
+                        <g clip-path="url(#clip0_5673_6992)">
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M10.8271 1.0625C13.0018 1.0625 14.7646 2.82538 14.7646 5C14.7646 7.17462 13.0018 8.9375 10.8271 8.9375C8.65252 8.9375 6.88965 7.17462 6.88965 5C6.88965 2.82538 8.65252 1.0625 10.8271 1.0625ZM13.6396 5C13.6396 3.44671 12.3804 2.1875 10.8271 2.1875C9.27386 2.1875 8.01465 3.44671 8.01465 5C8.01465 6.55329 9.27386 7.8125 10.8271 7.8125C12.3804 7.8125 13.6396 6.55329 13.6396 5Z"
+                                fill="white" />
+                            <path
+                                d="M4.13864 10.4768C4.36746 10.6869 4.7233 10.6718 4.93342 10.443L6.74146 8.47423C6.93904 8.25908 6.93904 7.92844 6.74146 7.71328L4.93342 5.74453C4.7233 5.51571 4.36746 5.50058 4.13864 5.7107C3.90984 5.92085 3.89468 6.27666 4.10483 6.50548L5.04685 7.53126H1.26466C0.953987 7.53126 0.702155 7.78309 0.702155 8.09376C0.702155 8.40443 0.953987 8.65626 1.26466 8.65626H5.04685L4.10483 9.68203C3.89468 9.91083 3.90984 10.2667 4.13864 10.4768Z"
+                                fill="white" />
+                            <path
+                                d="M12.647 10.0625C15.3698 10.0625 17.5771 12.2698 17.5771 14.9926C17.5771 16.6191 16.2587 17.9375 14.6323 17.9375H12.2334C11.9227 17.9375 11.6709 17.6857 11.6709 17.375C11.6709 17.0643 11.9227 16.8125 12.2334 16.8125H14.6323C15.6374 16.8125 16.4521 15.9977 16.4521 14.9926C16.4521 12.8911 14.7485 11.1875 12.647 11.1875H9.00729C6.90576 11.1875 5.20215 12.8911 5.20215 14.9926C5.20215 15.9977 6.01693 16.8125 7.02201 16.8125H9.4209C9.73157 16.8125 9.9834 17.0643 9.9834 17.375C9.9834 17.6857 9.73157 17.9375 9.4209 17.9375H7.02201C5.39559 17.9375 4.07715 16.6191 4.07715 14.9926C4.07715 12.2698 6.28445 10.0625 9.00729 10.0625H12.647Z"
+                                fill="white" />
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_5673_6992">
+                                <rect width="18" height="18" fill="white" transform="matrix(-1 0 0 1 18.1396 0.5)" />
+                            </clipPath>
+                        </defs>
+                    </svg>
+                    <span *ngIf="!outLoader">Check-Out</span>
+                    <span *ngIf="outLoader" class="dot-opacity-loader">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </span>
+                </button>
+            </div>
+            <div *ngIf="status == 'break'" class="break-back">
+                <div class="d-flex align-items-center gap-2 back-info p-2">
+                    <img src="assets/images/back.svg">
+                    <h5 class="mb-0">You are currently on <br> break. Please come back.</h5>
+                </div>
+                <button class="btn back-btn w-100" (click)="checkinCheckout('/back')" [disabled]="InOutLoader">
+                    <svg *ngIf="!InOutLoader" xmlns="http://www.w3.org/2000/svg" width="15" height="15"
+                        viewBox="0 0 15 15" fill="none">
+                        <path
+                            d="M7.30069 14.5C11.1604 14.5 14.3005 11.3598 14.3005 7.49997C14.3005 3.64023 11.1604 0.5 7.30069 0.5C3.44094 0.5 0.300781 3.64023 0.300781 7.49997C0.300781 11.3598 3.44094 14.5 7.30069 14.5ZM7.30069 1.45824C10.6321 1.45824 13.3423 4.16854 13.3423 7.49997C13.3423 10.8314 10.6321 13.5417 7.30069 13.5418C3.96932 13.5417 1.25909 10.8314 1.25909 7.4999C1.25909 4.1686 3.96932 1.45824 7.30069 1.45824Z"
+                            fill="white" />
+                        <path
+                            d="M6.36217 10.4996C6.54928 10.6867 6.85266 10.6866 7.03971 10.4996C7.22689 10.3124 7.22689 10.0091 7.03965 9.82195L5.19854 7.98091L10.53 7.98039C10.7946 7.98033 11.0091 7.76588 11.0091 7.50115C11.009 7.23654 10.7946 7.02215 10.53 7.02215L5.19829 7.02266L7.03984 5.18124C7.22695 4.99412 7.22695 4.69068 7.03984 4.50363C6.94625 4.41011 6.82366 4.36328 6.701 4.36328C6.57841 4.36328 6.45582 4.41011 6.36223 4.50357L3.70285 7.16289C3.61297 7.2527 3.5625 7.37453 3.5625 7.50166C3.56256 7.62878 3.61303 7.75054 3.70291 7.84056L6.36217 10.4996Z"
+                            fill="white" />
+                    </svg>
+                    <span *ngIf="!InOutLoader">Back</span>
+                    <span *ngIf="InOutLoader" class="dot-opacity-loader">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </span>
+                </button>
+            </div>
+        </div>
+
+
+
+        <div class="mb-3 mt-4 d-flex align-items-center justify-content-between skill-set">
+            <h5 class="mb-0">Skill Set</h5>
+            <button class="btn p-0 text-primary font-13 " data-bs-toggle="modal" data-bs-target="#addSkills">
+                <i class="bi bi-plus"></i> Add Skills</button>
+        </div>
+        <ul class="skill-set">
+            <li *ngFor="let skill of fetchedSkills.slice(0, 5)">{{ skill }}</li>
+            <span (click)="viewLess=false" *ngIf="fetchedSkills.length>5 && viewLess" class="pointer" type="button"
+                data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false"
+                aria-controls="collapseExample">
+                +{{fetchedSkills.length-5}}</span>
+            <div class="collapse " id="collapseExample">
+                <ul class="skill-set">
+                    <li *ngFor="let skill of fetchedSkills.slice(5)">{{ skill }}</li>
+                </ul>
+                <button *ngIf="fetchedSkills.length>5" type="button" class="btn p-0 text-primary font-13 view-less"
+                    data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false"
+                    aria-controls="collapseExample" (click)="viewLess=true">View Less <i
+                        class="bi bi-chevron-up"></i></button>
+            </div>
+        </ul>
+
+        <div class="d-flex align-content-center gap-3 mt-5" *ngIf="adminRoleFlag">
+
+            <button class="btn check-out-btn w-90"
+                *ngIf="employeeProfileResponseData?.resignationStatus == null || (employeeProfileResponseData?.resignationStatus != 42 && employeeProfileResponseData?.resignationStatus != 43)"
+                data-bs-target="#upgradePosition" data-bs-toggle="modal"
+                (click)="openFormModal('Promotion')">Promotion</button>
+            <button class="btn check-out-btn w-90"
+                *ngIf="employeeProfileResponseData?.resignationStatus == null || (employeeProfileResponseData?.resignationStatus != 42 && employeeProfileResponseData?.resignationStatus != 43)"
+                data-bs-target="#upgradePosition" data-bs-toggle="modal" (click)="openFormModal('Journey')">Add
+                Journey</button>
+            <button class="btn check-out-btn w-90" *ngIf="employeeProfileResponseData?.isProbation && !(employeeProfileResponseData?.resignationStatus == 43) && !(employeeProfileResponseData?.resignationStatus == 42)"
+                (click)="openConfirmationModal(confirmationModal)">Complete Probation</button>
+        </div>
+        <h5 class="mb-3 mt-4" *ngIf="userPositionDTO?.length && userPositionDTO[userPositionDTO.length - 1]?.startDate">
+            Journey With Us
+        </h5>
+        <div *ngIf="userPositionDTO?.length && userPositionDTO[userPositionDTO.length - 1]?.startDate" class="">
+            <div class="">
+                <div class="d-flex align-items-center gap-2">
+                    <span class="download-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
+                            <mask id="mask0_4714_1177" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                                width="24" height="24">
+                                <rect y="0.5" width="24" height="24" fill="#D9D9D9" />
+                            </mask>
+                            <g mask="url(#mask0_4714_1177)">
+                                <path
+                                    d="M9.725 14.5L12 13.125L14.275 14.5L13.675 11.9L15.675 10.175L13.05 9.95L12 7.5L10.95 9.95L8.325 10.175L10.325 11.9L9.725 14.5ZM5 21.5V5.5C5 4.95 5.19583 4.47917 5.5875 4.0875C5.97917 3.69583 6.45 3.5 7 3.5H17C17.55 3.5 18.0208 3.69583 18.4125 4.0875C18.8042 4.47917 19 4.95 19 5.5V21.5L12 18.5L5 21.5ZM7 18.45L12 16.3L17 18.45V5.5H7V18.45Z"
+                                    fill="#1C1B1F" />
+                            </g>
+                        </svg>
+                    </span>
+                    <p class="mb-0">With us: <b class="text-black">{{ duration }}</b></p>
+                </div>
+
+                <div class="selery-logs mt-3">
+                    <ng-container *ngFor="let position of userPositionDTO; let i = index">
+                        <div class="activity" *ngIf="i !== userPositionDTO.length - 1">
+                            <div class="activity-info">
+                                <div class="icon-info-activity active-logs">
+                                    <p class="mb-0"></p>
+                                </div>
+                                <div class="activity-info-text">
+                                    <div class="media align-items-center">
+                                        <div class="media-body ms-2 align-self-center">
+                                            <div class="d-flex">
+                                                <h5 class="mb-1 font-13">{{ position.position || 'NA'}}</h5>
+                                                <div *ngIf="position.isProbation" class="probation-status">
+                                                    <span class=" bg-danger">Under Probation</span>
+                                                </div>
+                                            </div>
+                                            <p class="text-muted font-12 mb-0">{{ position.startDate }} - {{
+                                                position.endDate || 'present' }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div *ngIf="documents.length>0" class="mb-3 mt-4 d-flex align-items-center justify-content-between skill-set">
+            <h5 class="mb-0">EMPLOYEE AGREEMENT</h5>
+
+        </div>
+        <div *ngFor="let doc of documents"
+            class="d-flex align-items-center justify-content-between employee-agreenment p-2 mb-2">
+            <div class="d-flex align-items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+                    <path
+                        d="M7.5 0C6.46875 0 5.625 0.84375 5.625 1.875V28.125C5.625 29.1562 6.46875 30 7.5 30H26.25C27.2812 30 28.125 29.1562 28.125 28.125V7.5L20.625 0H7.5Z"
+                        fill="#E2E5E7" />
+                    <path d="M22.5 7.5H28.125L20.625 0V5.625C20.625 6.65625 21.4688 7.5 22.5 7.5Z" fill="#B0B7BD" />
+                    <path d="M28.125 13.125L22.5 7.5H28.125V13.125Z" fill="#CAD1D8" />
+                    <path
+                        d="M24.375 24.375C24.375 24.8906 23.9531 25.3125 23.4375 25.3125H2.8125C2.29688 25.3125 1.875 24.8906 1.875 24.375V15C1.875 14.4844 2.29688 14.0625 2.8125 14.0625H23.4375C23.9531 14.0625 24.375 14.4844 24.375 15V24.375Z"
+                        fill="#F15642" />
+                    <path
+                        d="M5.96484 17.7597C5.96484 17.5122 6.15984 17.2422 6.47391 17.2422H8.20547C9.18047 17.2422 10.058 17.8947 10.058 19.1453C10.058 20.3303 9.18047 20.9903 8.20547 20.9903H6.95391V21.9803C6.95391 22.3103 6.74391 22.4969 6.47391 22.4969C6.22641 22.4969 5.96484 22.3103 5.96484 21.9803V17.7597ZM6.95391 18.1863V20.0537H8.20547C8.70797 20.0537 9.10547 19.6103 9.10547 19.1453C9.10547 18.6212 8.70797 18.1863 8.20547 18.1863H6.95391Z"
+                        fill="white" />
+                    <path
+                        d="M11.5253 22.4997C11.2778 22.4997 11.0078 22.3647 11.0078 22.0356V17.7775C11.0078 17.5084 11.2778 17.3125 11.5253 17.3125H13.2419C16.6675 17.3125 16.5925 22.4997 13.3094 22.4997H11.5253ZM11.9978 18.2275V21.5856H13.2419C15.2659 21.5856 15.3559 18.2275 13.2419 18.2275H11.9978Z"
+                        fill="white" />
+                    <path
+                        d="M17.8088 18.2884V19.48H19.7203C19.9903 19.48 20.2603 19.75 20.2603 20.0116C20.2603 20.2591 19.9903 20.4616 19.7203 20.4616H17.8088V22.0356C17.8088 22.2981 17.6222 22.4997 17.3597 22.4997C17.0297 22.4997 16.8281 22.2981 16.8281 22.0356V17.7775C16.8281 17.5084 17.0306 17.3125 17.3597 17.3125H19.9913C20.3213 17.3125 20.5163 17.5084 20.5163 17.7775C20.5163 18.0175 20.3213 18.2875 19.9913 18.2875H17.8088V18.2884Z"
+                        fill="white" />
+                    <path
+                        d="M23.4375 25.3125H5.625V26.25H23.4375C23.9531 26.25 24.375 25.8281 24.375 25.3125V24.375C24.375 24.8906 23.9531 25.3125 23.4375 25.3125Z"
+                        fill="#CAD1D8" />
+                </svg>
+                <p class="mb-0">{{doc.name}}</p>
+            </div>
+
+            <span class="download-icon pointer" (click)="downloadSingleImage(doc.url)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
+                    <mask id="mask0_4714_1149" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21"
+                        height="21">
+                        <rect x="0.5" y="0.5" width="20" height="20" fill="#D9D9D9" />
+                    </mask>
+                    <g mask="url(#mask0_4714_1149)">
+                        <path
+                            d="M10.5026 13.832L6.33594 9.66536L7.5026 8.45703L9.66927 10.6237V3.83203H11.3359V10.6237L13.5026 8.45703L14.6693 9.66536L10.5026 13.832ZM5.5026 17.1654C5.04427 17.1654 4.65191 17.0022 4.32552 16.6758C3.99913 16.3494 3.83594 15.957 3.83594 15.4987V12.9987H5.5026V15.4987H15.5026V12.9987H17.1693V15.4987C17.1693 15.957 17.0061 16.3494 16.6797 16.6758C16.3533 17.0022 15.9609 17.1654 15.5026 17.1654H5.5026Z"
+                            fill="#1C1B1F" />
+                    </g>
+                </svg>
+            </span>
+
+        </div>
+
+        <span *ngIf="teams.length > 0">
+            <h5 class="mb-3 mt-4">TEAMS</h5>
+
+            <ul class="skill-set pb-3">
+                <li *ngFor="let team of teams.slice(0, 5)">{{ team }}</li>
+                <span (click)="viewTeamsLess=false" *ngIf="teams.length>5 && viewTeamsLess" class="pointer"
+                    type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false"
+                    aria-controls="collapseExample">
+                    +{{teams.length-5}}</span>
+                <div *ngIf="!viewTeamsLess" class="collapseTeam " id="collapseTeams">
+                    <ul class="skill-set">
+                        <li *ngFor="let team of teams.slice(5)">{{ team }}</li>
+                    </ul>
+                    <button *ngIf="teams.length>5" type="button" class="btn p-0 text-primary font-13 view-less"
+                        data-bs-toggle="collapseTeam" data-bs-target="#collapseTeams" aria-expanded="false"
+                        aria-controls="collapseTeams" (click)="viewTeamsLess=true">View Less <i
+                            class="bi bi-chevron-up"></i></button>
+                </div>
+            </ul>
+        </span>
+    </div>
+
+    <div *ngIf="userId===UUID" class="log-out-btn-box">
+
+        <div class="d-flex align-items-center position-relative login-user-detail gap-3">
+
+            <span class="members-namess">
+                {{
+                userInfo?.name?.charAt(0)
+                }}
+            </span>
+
+            <div>
+                <div class="login-user-name">{{ userInfo?.name }}</div>
+                <div class="login-user-phone-number">
+                    {{
+                    userInfo?.email
+                    ? userInfo?.email
+                    : userInfo?.phoneNumber
+                    }}
+                </div>
+            </div>
+            <div>
+                <div class="dropdown d-inline-block log-btn">
+                    <a class="dropdown-toggle" id="dLabel1" data-bs-toggle="dropdown" href="#" role="button"
+                        aria-haspopup="false" aria-expanded="false">
+                        <span class="logout-btn">
+                            <i class="bi bi-chevron-right"></i>
+                        </span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end list-top" aria-labelledby="dLabel1">
+                        <div class="manager-list pointer" (click)="routeToAccountPage('accountDetails')"
+                            target="_blank">
+                            <a class="dropdown-item d-flex align-items-center justify-content-start gap-2 btn-setting">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="19" viewBox="0 0 18 19"
+                                    fill="none">
+                                    <mask id="mask0_5673_9006" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0"
+                                        y="0" width="18" height="19">
+                                        <rect y="0.5" width="18" height="18" fill="#D9D9D9" />
+                                    </mask>
+                                    <g mask="url(#mask0_5673_9006)">
+                                        <path
+                                            d="M6.93838 17L6.63838 14.6C6.47588 14.5375 6.32275 14.4625 6.179 14.375C6.03525 14.2875 5.89463 14.1938 5.75713 14.0938L3.52588 15.0313L1.46338 11.4688L3.39463 10.0063C3.38213 9.91875 3.37588 9.83438 3.37588 9.75313V9.24688C3.37588 9.16563 3.38213 9.08125 3.39463 8.99375L1.46338 7.53125L3.52588 3.96875L5.75713 4.90625C5.89463 4.80625 6.03838 4.7125 6.18838 4.625C6.33838 4.5375 6.48838 4.4625 6.63838 4.4L6.93838 2H11.0634L11.3634 4.4C11.5259 4.4625 11.679 4.5375 11.8228 4.625C11.9665 4.7125 12.1071 4.80625 12.2446 4.90625L14.4759 3.96875L16.5384 7.53125L14.6071 8.99375C14.6196 9.08125 14.6259 9.16563 14.6259 9.24688V9.75313C14.6259 9.83438 14.6134 9.91875 14.5884 10.0063L16.5196 11.4688L14.4571 15.0313L12.2446 14.0938C12.1071 14.1938 11.9634 14.2875 11.8134 14.375C11.6634 14.4625 11.5134 14.5375 11.3634 14.6L11.0634 17H6.93838ZM8.25088 15.5H9.73213L9.99463 13.5125C10.3821 13.4125 10.7415 13.2656 11.0728 13.0719C11.404 12.8781 11.7071 12.6438 11.9821 12.3688L13.8384 13.1375L14.5696 11.8625L12.9571 10.6438C13.0196 10.4688 13.0634 10.2844 13.0884 10.0906C13.1134 9.89688 13.1259 9.7 13.1259 9.5C13.1259 9.3 13.1134 9.10313 13.0884 8.90938C13.0634 8.71563 13.0196 8.53125 12.9571 8.35625L14.5696 7.1375L13.8384 5.8625L11.9821 6.65C11.7071 6.3625 11.404 6.12188 11.0728 5.92813C10.7415 5.73438 10.3821 5.5875 9.99463 5.4875L9.75088 3.5H8.26963L8.00713 5.4875C7.61963 5.5875 7.26025 5.73438 6.929 5.92813C6.59775 6.12188 6.29463 6.35625 6.01963 6.63125L4.16338 5.8625L3.43213 7.1375L5.04463 8.3375C4.98213 8.525 4.93838 8.7125 4.91338 8.9C4.88838 9.0875 4.87588 9.2875 4.87588 9.5C4.87588 9.7 4.88838 9.89375 4.91338 10.0813C4.93838 10.2688 4.98213 10.4563 5.04463 10.6438L3.43213 11.8625L4.16338 13.1375L6.01963 12.35C6.29463 12.6375 6.59775 12.8781 6.929 13.0719C7.26025 13.2656 7.61963 13.4125 8.00713 13.5125L8.25088 15.5ZM9.03838 12.125C9.76338 12.125 10.3821 11.8688 10.8946 11.3563C11.4071 10.8438 11.6634 10.225 11.6634 9.5C11.6634 8.775 11.4071 8.15625 10.8946 7.64375C10.3821 7.13125 9.76338 6.875 9.03838 6.875C8.30088 6.875 7.679 7.13125 7.17275 7.64375C6.6665 8.15625 6.41338 8.775 6.41338 9.5C6.41338 10.225 6.6665 10.8438 7.17275 11.3563C7.679 11.8688 8.30088 12.125 9.03838 12.125Z"
+                                            fill="#6666f2" />
+                                    </g>
+                                </svg>
+                                Account Settings</a>
+                        </div>
+
+                        <div *ngIf=" (employeeProfileResponseData?.resignationStatus == null || employeeProfileResponseData?.resignationStatus == 47)"
+                            class="manager-list pointer" data-bs-toggle="modal" data-bs-target="#initiateExit">
+                            <a class="dropdown-item d-flex align-items-center justify-content-start gap-2 btn-setting">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="19" viewBox="0 0 18 19"
+                                    fill="none">
+                                    <mask id="mask0_5673_10364" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0"
+                                        y="0" width="18" height="19">
+                                        <rect y="0.5" width="18" height="18" fill="#D9D9D9" />
+                                    </mask>
+                                    <g mask="url(#mask0_5673_10364)">
+                                        <path
+                                            d="M8.99998 15.5C9.63748 15.5 10.25 15.4031 10.8375 15.2094C11.425 15.0156 11.975 14.7375 12.4875 14.375C11.975 14.0125 11.425 13.7344 10.8375 13.5406C10.25 13.3469 9.63748 13.25 8.99998 13.25C8.36248 13.25 7.74998 13.3469 7.16248 13.5406C6.57498 13.7344 6.02498 14.0125 5.51248 14.375C6.02498 14.7375 6.57498 15.0156 7.16248 15.2094C7.74998 15.4031 8.36248 15.5 8.99998 15.5ZM10.9875 9.35L9.91873 8.28125C9.98123 8.18125 10.0312 8.075 10.0687 7.9625C10.1062 7.85 10.125 7.7375 10.125 7.625C10.125 7.3125 10.0156 7.04688 9.79685 6.82813C9.5781 6.60938 9.31248 6.5 8.99998 6.5C8.88748 6.5 8.77498 6.51875 8.66248 6.55625C8.54998 6.59375 8.44373 6.64375 8.34373 6.70625L7.27498 5.6375C7.51248 5.425 7.7781 5.26563 8.07185 5.15938C8.3656 5.05313 8.67498 5 8.99998 5C9.72498 5 10.3437 5.25625 10.8562 5.76875C11.3687 6.28125 11.625 6.9 11.625 7.625C11.625 7.95 11.5719 8.25938 11.4656 8.55313C11.3594 8.84688 11.2 9.1125 10.9875 9.35ZM15.2625 13.625L14.175 12.5375C14.45 12.075 14.6562 11.5875 14.7937 11.075C14.9312 10.5625 15 10.0375 15 9.5C15 7.825 14.4187 6.40625 13.2562 5.24375C12.0937 4.08125 10.675 3.5 8.99998 3.5C8.46248 3.5 7.93748 3.56875 7.42498 3.70625C6.91248 3.84375 6.42498 4.05 5.96248 4.325L4.87498 3.2375C5.48748 2.8375 6.14373 2.53125 6.84373 2.31875C7.54373 2.10625 8.26248 2 8.99998 2C10.0375 2 11.0125 2.19688 11.925 2.59063C12.8375 2.98438 13.6312 3.51875 14.3062 4.19375C14.9812 4.86875 15.5156 5.6625 15.9094 6.575C16.3031 7.4875 16.5 8.4625 16.5 9.5C16.5 10.2375 16.3937 10.9563 16.1812 11.6563C15.9687 12.3563 15.6625 13.0125 15.2625 13.625ZM8.99998 17C7.96248 17 6.98748 16.8031 6.07498 16.4094C5.16248 16.0156 4.36873 15.4813 3.69373 14.8063C3.01873 14.1313 2.48435 13.3375 2.0906 12.425C1.69685 11.5125 1.49998 10.5375 1.49998 9.5C1.49998 8.7625 1.6031 8.04375 1.80935 7.34375C2.0156 6.64375 2.31873 5.98125 2.71873 5.35625L0.506226 3.125L1.57498 2.05625L16.425 16.9063L15.3562 17.975L3.82498 6.4625C3.54998 6.925 3.34373 7.4125 3.20623 7.925C3.06873 8.4375 2.99998 8.9625 2.99998 9.5C2.99998 10.2125 3.11873 10.8938 3.35623 11.5438C3.59373 12.1938 3.93748 12.7875 4.38748 13.325C5.06248 12.8125 5.7906 12.4219 6.57185 12.1531C7.3531 11.8844 8.16248 11.75 8.99998 11.75C9.47498 11.75 9.94998 11.8 10.425 11.9C10.9 12 11.3625 12.1375 11.8125 12.3125L14.3062 14.8063C13.5937 15.5188 12.7812 16.0625 11.8687 16.4375C10.9562 16.8125 9.99998 17 8.99998 17Z"
+                                            fill="#6666f2" />
+                                    </g>
+                                </svg>
+                                Initiate exit
+                            </a>
+                        </div>
+
+
+                        <div class="manager-list remove-team pointer" (click)="onLogout()">
+                            <a class="dropdown-item d-flex align-items-center justify-content-start gap-2 btn-logout">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="19" viewBox="0 0 18 19"
+                                    fill="none">
+                                    <mask id="mask0_3579_5071" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0"
+                                        y="0" width="18" height="19">
+                                        <rect width="18" height="18" transform="matrix(-1 0 0 1 18 0.5)"
+                                            fill="#D9D9D9" />
+                                    </mask>
+                                    <g mask="url(#mask0_3579_5071)">
+                                        <path
+                                            d="M2.8875 10.25H12V8.75H2.8875L4.05 7.5875L3 6.5L0 9.5L3 12.5L4.05 11.4125L2.8875 10.25ZM6.75 7.25V4.25H14.25V14.75H6.75V11.75H5.25V14.75C5.25 15.1625 5.39687 15.5156 5.69062 15.8094C5.98438 16.1031 6.3375 16.25 6.75 16.25H14.25C14.6625 16.25 15.0156 16.1031 15.3094 15.8094C15.6031 15.5156 15.75 15.1625 15.75 14.75V4.25C15.75 3.8375 15.6031 3.48438 15.3094 3.19063C15.0156 2.89688 14.6625 2.75 14.25 2.75H6.75C6.3375 2.75 5.98438 2.89688 5.69062 3.19063C5.39687 3.48438 5.25 3.8375 5.25 4.25V7.25H6.75Z"
+                                            fill="#FF3737" />
+                                    </g>
+                                </svg>
+                                Log out</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="modal fade" id="upgradePosition" tabindex="-1" role="dialog" #upgradepositionModal aria-hidden="true"
+    data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Upgrade Position</h5>
+                <button type="button" id="closePromotionButton" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closePromotionButton>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                            width="24" height="24">
+                            <rect width="24" height="24" fill="#D9D9D9" />
+                        </mask>
+                        <g mask="url(#mask0_5037_2014)">
+                            <path
+                                d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z"
+                                fill="black" />
+                        </g>
+                    </svg>
+                </button>
+            </div>
+            <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+                <div class="modal-body">
+
+                    <div class="col-md-12 mb-3">
+                        <label for="position" class="pb-2">Position</label>
+                        <input maxlength="50" class="seach-dropdown input-zorro" id="positionDropdown"
+                            name="positionDropdown" placeholder="Select Position" nz-input formControlName="position"
+                            [nzAutocomplete]="positionAuto" (ngModelChange)="onChange($event)"
+                            (keydown)="preventLeadingWhitespace($event)" required />
+                        <nz-autocomplete [nzDataSource]="positionFilteredOptions" #positionAuto></nz-autocomplete>
+
+                        <div *ngIf="myForm.get('position')?.touched && myForm.get('position')?.invalid">
+                            <p class="text-danger">Position is required</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 mb-3">
+                        <label for="effectiveDate" class="pb-2">Effective Date</label>
+
+                        <nz-date-picker nzBorderless formControlName="effectiveDate" class="form-control"
+                            [nzFormat]="'yyyy-MM-dd'" [nzSize]="'large'" nzId="effectiveDate">
+                        </nz-date-picker>
+
+                        <div *ngIf="myForm.get('effectiveDate')?.touched && myForm.get('effectiveDate')?.invalid">
+                            <p class="text-danger">Effective Date is required</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 mb-3" *ngIf="isPromotion">
+                        <label for="endDate" class="pb-2">End Date</label>
+
+                        <nz-date-picker nzBorderless formControlName="endDate" class="form-control"
+                            [nzFormat]="'yyyy-MM-dd'" [nzSize]="'large'" nzId="endDate">
+                        </nz-date-picker>
+                    </div>
+
+
+                    <div class="col-md-12 mb-3" *ngIf="employeeProfileResponseData?.isProbation">
+                        <label for="isProbation" class="pb-2">Probation Status</label>
+                        <select id="isProbation" formControlName="isProbation" class="form-control">
+                            <option [ngValue]="true">Under Probation</option>
+                            <option [ngValue]="false">Confirmed</option>
+                        </select>
+                    </div>
+                    <div class="col-md-12 mb-3" *ngIf="!isPromotion">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="salaryToggle" [checked]="changeSalary"
+                            (change)="updateSalaryToggle()">
+                            <label class="form-check-label" for="salaryToggle" (change)="updateSalaryToggle()">
+                                Would you like to revise the salary?
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-md-12  mb-3" *ngIf="changeSalary">
+                        <label for="annualCTC" class="pb-2">New Annual CTC</label>
+                        <input type="text" id="annualCTC" formControlName="newCTC" class="form-control" placeholder="Enter the amount here"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/^0+/, '').slice(0, 10);"
+                        pattern="^[1-9][0-9]{0,9}$" maxlength="10">
+
+                       <div *ngIf="myForm.get('newCTC')?.touched && myForm.get('newCTC')?.invalid">
+                        <p class="text-danger">Amount is required</p>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" [disabled]="myForm.invalid || (changeSalary && !myForm.get('newCTC')) || saveButtonLoader" class="btn submitActionBtn"
+                        [ngClass]="{'btn-border':!myForm.invalid}">
+                        <ng-container *ngIf="saveButtonLoader; else loginButton">
+                            <div class="dot-opacity-loader">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </ng-container>
+                        <ng-template #loginButton> Submit </ng-template>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<ng-template #confirmationModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">Confirm Completion</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <p>Are you sure you want to complete the probation?</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modal.close(false)">Cancel</button>
+        <button type="button" class="btn submitActionBtn" (click)="modal.close(true)">Confirm</button>
+    </div>
+</ng-template>
+
+
+
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#initiateExit">
+    Initiate Exit
+</button>
+
+<!-- <app-exit-modal></app-exit-modal> -->
+
+<div class="modal fade" id="resignApproveModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel"
+    aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 570px" role="document">
+        <div class="modal-content">
+            <div class="modal-body p-4">
+                <button type="button" class="leave-request-modal-close-btn" data-bs-dismiss="modal" aria-label="Close"
+                    (click)="clearApproveModal()" #closeApproveModal>
+                    <i class="bi bi-x" style="line-height: 20px"></i>
+                </button>
+                <div *ngIf="userResignationInfo != undefined" class="text-center leave-approve-modal">
+                    <div class="d-flex align-items-start justify-content-between">
+                        <div class="d-flex align-items-center profile-details" style="gap: 15px">
+                            <div class="profile-user-img">
+                                <img [src]="userResignationInfo.imageUrl || 'assets/images/user.png'"
+                                    style="width: 50px; height: 50px; object-fit: cover" />
+                            </div>
+
+                            <div>
+                                <h4 style="cursor: pointer">
+                                    {{ userResignationInfo.userName }}
+                                </h4>
+                                <p>{{ userResignationInfo.email }}</p>
+                            </div>
+                        </div>
+                        <div class="total-holiday-live">
+                            <h5 class="text-end">
+                                {{userResignationInfo.userLastWorkingDay | date : "dd MMM yyyy" || "N/A"}}
+                            </h5>
+                            <p *ngIf="userResignationInfo.userExitType != null">
+                                {{ userResignationInfo.userExitType.name }}
+                            </p>
+                            <a *ngIf="userResignationInfo.url != null" [href]="userResignationInfo.url" target="_blank"
+                                rel="noopener noreferrer">View <i class="fas fa-external-link-square-alt me-1"></i></a>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <div class="d-flex align-items-center">
+                            <div class="Approved rejected-css" *ngIf="userResignationInfo.userExitType != null">
+                                <p class="mb-0 text-black"></p>
+                                <span class="user-registration" class="total-holiday">{{
+                                    userResignationInfo.userExitType.name }}</span>
+                            </div>
+                        </div>
+
+                        <p class="mt-4 mb-4">{{ userResignationInfo.reason }}</p>
+                        <p class="mt-4 mb-4"
+                            *ngIf="userResignationInfo.comment != null && userResignationInfo.comment != ''">{{
+                            userResignationInfo.comment }}</p>
+
+                        <div class="d-flex align-items-center justify-content-end gap-2">
+                            <button class="btn approve-btn" type="button" [disabled]="approveToggle"
+                                (click)="approveOrDeny(userResignationInfo.id)">
+                                <div *ngIf="approveToggle ; else approveLabel">
+                                    <div class="dot-opacity-loader">
+                                        <span></span>
+                                        <span></span>
+                                        <span></span>
+                                    </div>
+                                </div>
+                                <ng-template #approveLabel>Approve</ng-template>
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#addSkills">
+    Add Skills
+</button>
+
+<div class="modal" id="addSkills" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Skills</h5>
+                <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" id="closeButton"
+                    #closeButton>
+
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                            width="24" height="24">
+                            <rect width="24" height="24" fill="#D9D9D9" />
+                        </mask>
+                        <g mask="url(#mask0_5037_2014)">
+                            <path
+                                d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z"
+                                fill="black" />
+                        </g>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="skill-set-modal">
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <div class="form-group position-relative">
+                                <label for="assetName" class="mb-2">Skills</label>
+                                <input type="text" (keyup.enter)="addSkill()" class="form-control input-zorro "
+                                    placeholder="Search Your Skills (Ex: Testing)" style="padding: 10px 70px 10px 40px;"
+                                    [(ngModel)]="searchSkill" (ngModelChange)="onSkillsChange($event)"
+                                    [nzAutocomplete]="skillsAuto" (keydown)="preventLeadingWhitespace($event)" />
+                                <i class="bi bi-search search-icon"></i>
+                                <nz-autocomplete [nzDataSource]="skillsFilteredOptions" #skillsAuto></nz-autocomplete>
+
+                                <button class="btn p-0 text-primary add-skill" (click)="addSkill()"><i
+                                        class="bi bi-plus font-18"></i> Add</button>
+                            </div>
+                        </div>
+                        <div class="col-md-12 mt-3">
+                            <div class="skill-set-add">
+                                <ul class="skill-set">
+                                    <li *ngFor="let skill of skills">
+                                        {{ skill }} <i class="bi bi-x" (click)="removeSkill(skill)"></i>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer d-flex align-items-center justify-content-end">
+                <button data-bs-dismiss="modal" aria-label="Close" class="btn submitActionBtn" (click)="saveSkills()"
+                    [disabled]="isSkillsLoading || checkSkillsArraysEqual()"
+                    [ngClass]="{'btn-border':!checkSkillsArraysEqual()}">
+                    <span *ngIf="!isSkillsLoading">Save</span>
+                    <span *ngIf="isSkillsLoading" class="dot-opacity-loader">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- TO DO: modal change in bootstrap -->
+
+<!-- <ng-template #urlModalTemplate let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">Mark Attendance</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body p-0">
+        <iframe *ngIf="modalUrl" [src]="modalUrl" style="width: 100%; height: 800px; border: none;"></iframe>
+    </div>
+</ng-template> -->
+
+
+
+<!-- TO DO: Bootstrap modal fix -->
+
+<button type="button" class="d-none btn" id="urlModalTemplate" #urlModalTemplate data-bs-toggle="modal"
+    data-bs-target="#markAttendance">
+</button>
+
+<!-- <div class="modal fade" id="markAttendance" tabindex="-1" role="dialog" aria-labelledby="markAttendanceLabel"
+    data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+
+            <div class="modal-body p-0">
+                <button type="button" class="btn-close d-flex align-items-center justify-content-center" (click)="getUserAttendanceStatus();"
+                    data-bs-dismiss="modal" aria-label="Close">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 16 15" fill="none">
+                        <path
+                            d="M2.09533 14.3667L0.619141 12.9707L6.5239 7.38648L0.619141 1.8023L2.09533 0.40625L8.00009 5.99044L13.9049 0.40625L15.381 1.8023L9.47628 7.38648L15.381 12.9707L13.9049 14.3667L8.00009 8.78253L2.09533 14.3667Z"
+                            fill="black" />
+                    </svg>
+                </button>
+                <iframe *ngIf="modalUrl" [src]="modalUrl" style="width: 100%; height: 800px; border: none;">
+                </iframe>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+
+
+<div class="modal fade" id="addDocument" name="addDocument" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Document</h5>
+                <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButton>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                            width="24" height="24">
+                            <rect width="24" height="24" fill="#D9D9D9" />
+                        </mask>
+                        <g mask="url(#mask0_5037_2014)">
+                            <path
+                                d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z"
+                                fill="black" />
+                        </g>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="assets-request-form">
+                    <form>
+                        <div class="row register-form-box">
+                            <div class="col-md-12 mb-3">
+                                <div class="form-group">
+                                    <label for="documentName" class="mb-2">Document Name</label>
+                                    <input type="text" class="form-control" id="documentName"
+                                        placeholder="Enter document name" [(ngModel)]="doc.name" name="documentName" />
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="fileInput" class="mb-2">Attach File</label>
+                                    <div
+                                        class="upload-file-input p-2 d-flex align-items-center justify-content-center flex-column add-other-file">
+                                        <input id="fileInput" type="file" name="file"
+                                            accept=".xlsx,.pdf,.docx,.jpg,.jpeg,.png" class="input"
+                                            (change)="handleFileChange($event)" />
+                                        <span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="46" height="45"
+                                                viewBox="0 0 46 45" fill="none">
+                                                <g clip-path="url(#clip0_4843_1408)">
+                                                    <path
+                                                        d="M12.0151 0H27.0758L39.8253 13.2948V39.1489C39.8253 42.3774 37.2027 45 33.9656 45H12.0152C8.78667 45 6.16406 42.3774 6.16406 39.1489V5.85114C6.16401 2.6226 8.78661 0 12.0151 0Z"
+                                                        fill="#6666F2" />
+                                                    <path opacity="0.302" fill-rule="evenodd" clip-rule="evenodd"
+                                                        d="M27.0625 0V13.191H39.8294L27.0625 0Z" fill="white" />
+                                                    <path
+                                                        d="M28.9285 23.4109H17.0618C16.5165 23.4109 16.0664 22.9695 16.0664 22.4242C16.0664 21.8789 16.5165 21.4375 17.0618 21.4375H28.9285C29.4738 21.4375 29.9152 21.8789 29.9152 22.4242C29.9152 22.9695 29.4738 23.4109 28.9285 23.4109ZM24.9729 35.2776H17.0618C16.5165 35.2776 16.0664 34.8362 16.0664 34.2909C16.0664 33.7456 16.5165 33.3042 17.0618 33.3042H24.9729C25.5183 33.3042 25.9596 33.7456 25.9596 34.2909C25.9596 34.8362 25.5183 35.2776 24.9729 35.2776ZM28.9285 31.322H17.0618C16.5165 31.322 16.0664 30.8806 16.0664 30.3353C16.0664 29.7901 16.5165 29.3486 17.0618 29.3486H28.9285C29.4738 29.3486 29.9152 29.7901 29.9152 30.3353C29.9152 30.8806 29.4738 31.322 28.9285 31.322ZM28.9285 27.3665H17.0618C16.5165 27.3665 16.0664 26.925 16.0664 26.3798C16.0664 25.8345 16.5165 25.3931 17.0618 25.3931H28.9285C29.4738 25.3931 29.9152 25.8345 29.9152 26.3798C29.9152 26.925 29.4738 27.3665 28.9285 27.3665Z"
+                                                        fill="white" />
+                                                </g>
+                                                <defs>
+                                                    <clipPath id="clip0_4843_1408">
+                                                        <rect width="45" height="45" fill="white"
+                                                            transform="translate(0.5)" />
+                                                    </clipPath>
+                                                </defs>
+                                            </svg>
+                                        </span>
+                                        <button type="button" class="btn add-file mt-2 font-14">
+                                            <i *ngIf="doc.fileName===''" class="bi bi-plus-lg"></i>{{doc.fileName!=''?
+                                            doc.fileName : 'Add File' }}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn cancel-btn" data-bs-dismiss="modal">
+                    Cancel
+                </button>
+                <button type="button" class="btn submitActionBtn" [disabled]="isDocumentLoading || doc.name.length<1"
+                    (click)="onDocumentSubmit()">
+                    <span *ngIf="!isDocumentLoading">Submit</span>
+                    <div class="dot-opacity-loader" *ngIf="isDocumentLoading">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#pdfModal" #pdfModalButton
+    id="pdfModalButton">
+    Launch demo modal
+</button>
+
+<div class="modal fade" id="pdfModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+    data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <!-- <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Agreement</h5>
+            </div> -->
+            <div class="modal-body position-relative">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div
+                            class="p-4 d-flex align-items-start justify-content-center agreement-sidebar h-100 flex-column">
+                            <h5 class="font-20 fw-simibold">Review and Accept <br> Applicable Agreements</h5>
+                            <p class="font-12 ">Below are all the agreements that <br> apply to you. Please review them
+                                <br>carefully
+                                before proceeding.
+                            </p>
+                            <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="51" height="26" viewBox="0 0 51 26"
+                                    fill="none">
+                                    <path
+                                        d="M49.7871 11.7885L38.3969 0.398164C37.9877 -0.0796163 37.2686 -0.135313 36.7909 0.273947C36.3131 0.68311 36.2574 1.40218 36.6666 1.87996C36.7048 1.9245 36.7463 1.9661 36.7909 2.00418L46.2334 11.4582H1.139C0.509985 11.4582 0 11.9682 0 12.5973C0 13.2264 0.509985 13.7363 1.139 13.7363H46.2334L36.7909 23.1788C36.3131 23.588 36.2574 24.3071 36.6666 24.7848C37.0759 25.2626 37.7949 25.3183 38.2727 24.9091C38.3172 24.8709 38.3588 24.8294 38.3969 24.7848L49.7872 13.3945C50.2288 12.9503 50.2288 12.2328 49.7871 11.7885Z"
+                                        fill="#6666F2" />
+                                </svg>
+                            </span>
+                            <div class="policy-step d-flex align-items-start gap-2">
+                                <!-- TO DO: class="active-step"  -->
+
+                                    <span *ngFor="let doc of hrPolicyDocuments; let i = index" [ngClass]="{ 'active-step': i == currentPdfIndex, 'inactive-step': i != currentPdfIndex }"></span>
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="dismissBtn" hidden>
+                        Dismiss
+                    </button>
+                    <div class="col-md-9">
+                        <!-- TO DO: policy download btn dynamic  -->
+                         <!-- *ngIf="*ngIf="isVideoPolicy"" -->
+                        <div class="pt-0" [ngClass]="{'policy-terms':!isVideoPolicy}">
+                            <div class=" d-flex align-items-center justify-content-between" [ngClass]="{'p-3 policy-name':!isVideoPolicy}">
+                                <!-- TO DO: policy file name dynamic  -->
+                                <h5 class="mb-0 font-14 fw-semibold text-white">{{this.hrPolicyDocuments[this.currentPdfIndex]?.name}}</h5>
+
+                                <span class="pointer">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none">
+                                        <mask id="mask0_7303_2177" style="mask-type:alpha" maskUnits="userSpaceOnUse"
+                                            x="0" y="0" width="24" height="24">
+                                            <rect width="24" height="24" fill="#D9D9D9" />
+                                        </mask>
+                                        <g mask="url(#mask0_7303_2177)">
+                                            <path
+                                                d="M12 16.459L7 11.3915L8.4 9.92188L11 12.557V4.29688H13V12.557L15.6 9.92188L17 11.3915L12 16.459ZM6 20.5131C5.45 20.5131 4.97917 20.3146 4.5875 19.9177C4.19583 19.5207 4 19.0435 4 18.4861V15.4455H6V18.4861H18V15.4455H20V18.4861C20 19.0435 19.8042 19.5207 19.4125 19.9177C19.0208 20.3146 18.55 20.5131 18 20.5131H6Z"
+                                                fill="white" />
+                                        </g>
+                                    </svg>
+                                </span>
+                            </div>
+                            <div class="p-3 text-center scroll" id="pdf-container" #pdfContainer></div>
+                        </div>
+                        <div class="modal-footer d-flex align-content-center justify-content-between w-100 p-0" style="border-top:none;" [ngClass]="{'policy-footer':!isVideoPolicy}"
+                            *ngIf="isLastPageRead">
+                            <div *ngIf="isLastPageRead" class="d-flex align-items-center gap-2">
+                                <input class="input-check" type="checkbox" id="acceptCheckbox"
+                                    (change)="onCheckboxChange($event)" />
+                                <label class="policy-label" for="acceptCheckbox"> I accept the terms and conditions</label>
+                            </div>
+                            <button *ngIf="isAccepted" type="button" [disabled]="!isLastPageRead"
+                                class="btn submitActionBtn" (click)="acceptAgreement()">
+                                <span *ngIf="currentPdfIndex < hrPolicyDocuments.length-1 && isAccepted">Approve &
+                                    Next</span>
+                                <span *ngIf="currentPdfIndex >= hrPolicyDocuments.length-1 && isAccepted"> Accept
+                                    Agreement</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="initiateExit" tabindex="-1" role="dialog" #assetRequestModal aria-hidden="true"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Initiate Exit</h5>
+                <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close"
+                    (click)="clearFormData(resignationForm)" #closeResignationButton>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                            width="24" height="24">
+                            <rect width="24" height="24" fill="#D9D9D9" />
+                        </mask>
+                        <g mask="url(#mask0_5037_2014)">
+                            <path
+                                d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z"
+                                fill="black" />
+                        </g>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body p-0">
+                <form #resignationForm="ngForm" (ngSubmit)="submitResignation(resignationForm)">
+                    <!-- <form> -->
+                    <div class="row register-form-box">
+                        <div class="col-md-12">
+                            <div class="hr-notes p-3">
+                                <p class="mb-0 font-13"> <span class="text-primary"> Note: </span> HR will take the
+                                    final action on the exit request</p>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <div class="col-md-12 mb-3">
+                                <label for="templateName" class="pb-2">
+                                    What is the reason for initiating the exit?
+                                </label>
+                                <input class="form-control input-zorro" placeholder="Enter the reason"
+                                    [(ngModel)]="userResignationReq.reason" nzSize="large" minlength="3" maxlength="50"
+                                    id="reason" name="inputReason" #inputReason="ngModel" required />
+
+                                <div *ngIf="inputReason.invalid && inputReason.touched" class="text-danger">
+                                    {{userResignationReq.reason.length == 0 ?
+                                    'Reason is required' : 'Reason must be between 3 and 50 characters'}}
+                                </div>
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <label for="templateName" class="pb-2">
+                                    Do you want them to complete their notice period?
+                                </label>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label
+                                            class="form-check assets-req d-flex align-items-center justify-content-start">
+                                            <input type="radio" name="exampleRadios" id="exampleRadios5" value="option5"
+                                                checked="" class="form-check-input">
+                                            <p for="exampleRadios5" class="form-check-label mb-0"> Complete notice
+                                                period </p>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label
+                                            class="form-check assets-req d-flex align-items-center justify-content-start">
+                                            <input type="radio" name="exampleRadios" id="exampleRadios6" value="option6"
+                                                class="form-check-input">
+                                            <p for="exampleRadios6" class="form-check-label mb-0"> Immediate Termination
+                                            </p>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <label for="templateName" class="pb-2">
+                                    Do You want to recommend a last woking day?
+                                </label>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label
+                                            class="form-check assets-req d-flex align-items-center justify-content-start">
+                                            <input type="radio" name="recommendDay" id="complete" value="Complete"
+                                                [(ngModel)]="recommendDay" (change)="selectRecommendDay('Complete')"
+                                                class="form-check-input">
+                                            <p for="exampleRadios3" class="form-check-label mb-0" required> Complete
+                                                notice period </p>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label
+                                            class="form-check assets-req d-flex align-items-center justify-content-start">
+                                            <input type="radio" name="recommendDay" id="other" value="Other" required
+                                                [(ngModel)]="recommendDay" (change)="selectRecommendDay('Other')"
+                                                class="form-check-input">
+                                            <p for="exampleRadios4" class="form-check-label mb-0"> Other Date </p>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div *ngIf="recommendDay == 'Other'" class="col-md-12 mb-3">
+                                <div class="form-group">
+                                    <label for="employeeTypeId" class="mb-2">Select your notice period duration?</label>
+                                    <ng-container *ngIf="noticePeriodDuration == 0">
+                                        <nz-date-picker *ngIf="userResignationReq.isRecommendLastDay == 1"
+                                            [(ngModel)]="userResignationReq.lastWorkingDay" nzPlaceHolder="dd/mm/yyyy"
+                                            id="selLastDate" (ngModelChange)="selectLastWorkingDay($event)"
+                                            name="lastDate" #lastDate="ngModel" required class="form-control">
+                                        </nz-date-picker>
+                                    </ng-container>
+
+                                    <ng-container *ngIf="noticePeriodDuration > 0">
+                                        <nz-date-picker *ngIf="userResignationReq.isRecommendLastDay == 1"
+                                            [(ngModel)]="userResignationReq.lastWorkingDay" nzPlaceHolder="dd/mm/yyyy"
+                                            [nzDisabledDate]="disableFutureDates" id="selLastDate"
+                                            (ngModelChange)="selectLastWorkingDay($event)" name="lastDate"
+                                            #lastDate="ngModel" required class="form-control">
+                                        </nz-date-picker>
+                                    </ng-container>
+
+                                </div>
+                            </div>
+                            <div *ngIf="recommendDay == 'Complete'" class="col-md-12 mb-3">
+                                <div class="d-flex align-items-center gap-3 p-3 notice-period-date">
+                                    <p class="mb-0">Notice period</p>
+                                    <span class="calendar-separator"></span>
+                                    <h6 class="mb-0">{{userResignationReq.userLastWorkingDay | date: 'dd MMM yyyy'}}
+                                    </h6>
+                                </div>
+                            </div>
+                            <div *ngIf="recommendDay == 'Other' && (userResignationReq.userLastWorkingDay != null && userResignationReq.userLastWorkingDay != '')"
+                                class="col-md-12 mb-3 ">
+
+                                <div class="notice-period-error p-3">
+                                    <div class="d-flex align-items-center gap-3 mb-2">
+                                        <p class="mb-0">Notice period</p>
+                                        <span class="calendar-separator"></span>
+                                        <h6 class="mb-0">{{userResignationReq.userLastWorkingDay | date: 'dd MMM yyyy'}}
+                                        </h6>
+                                    </div>
+                                    <p class="mb-0 font-13">Your last working day may change based on Manager/HR's
+                                        decision.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <div class="form-group ">
+                                    <label for="templateName" class="mb-2"> Attachment </label>
+
+
+                                    <div *ngIf="userResignationReq.url == ''"
+                                        class="d-flex align-items-center justify-content-between  requesting-half-leave p-2">
+
+                                        <p class="mb-0 font-13 " style="font-weight: 400;">Select attachment</p>
+                                        <button *ngIf="!isUploading && userResignationReq.url === ''" type="button"
+                                            (click)="fileInput.click()" class="btn p-0 text-primary font-13">
+                                            <i class="bi bi-plus-lg"></i> Add File
+                                        </button>
+
+                                        <div *ngIf="isUploading"
+                                            class="spinner-border spinner-border-sm text-primary m-2" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+
+                                        <input type="file" #fileInput (change)="onFileSelected($event)"
+                                            accept=".png, .jpg, .jpeg" style="display: none;" />
+                                    </div>
+
+                                    <div *ngIf="userResignationReq.url != ''"
+                                        class="hr-policy-file d-flex justify-content-between align-items-center p-3 mt-3 mb-3">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <div class="d-flex align-items-center gap-2">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="29"
+                                                    viewBox="0 0 25 29" fill="none">
+                                                    <path
+                                                        d="M19.9133 0.640764C20.3134 0.638561 20.71 0.715469 21.0803 0.867066C21.4506 1.01866 21.7873 1.24196 22.071 1.52411C22.3547 1.80627 22.5799 2.14172 22.7335 2.51118C22.8871 2.88065 22.9662 3.27683 22.9662 3.67696V24.3454C22.9662 24.7455 22.8871 25.1417 22.7335 25.5111C22.5799 25.8806 22.3547 26.2161 22.071 26.4982C21.7873 26.7804 21.4506 27.0037 21.0803 27.1553C20.71 27.3069 20.3134 27.3838 19.9133 27.3816H4.45379C3.64854 27.3816 2.87627 27.0617 2.30688 26.4923C1.73748 25.9229 1.41759 25.1506 1.41759 24.3454V7.26468C1.41089 6.90421 1.54708 6.55573 1.79642 6.29533L7.04987 1.04188C7.17898 0.91237 7.3328 0.810129 7.50219 0.741224C7.67158 0.67232 7.85309 0.638156 8.03594 0.640764H19.9133Z"
+                                                        fill="#F1F4F9" />
+                                                    <path
+                                                        d="M7.07193 1.0386C7.18754 0.923515 7.32356 0.830946 7.47304 0.765625V3.80739C7.47304 4.33262 7.36932 4.85268 7.16782 5.33772C6.96631 5.82276 6.671 6.26323 6.29883 6.63385C5.92666 7.00446 5.48496 7.29793 4.99908 7.4974C4.51321 7.69688 3.99272 7.79843 3.46749 7.79623H1.41736V7.23913C1.4165 6.88634 1.55226 6.54692 1.79619 6.29206L7.07193 1.0386Z"
+                                                        fill="#DCDFE2" />
+                                                    <path
+                                                        d="M1.54321 6.69317C1.60853 6.54369 1.7011 6.40767 1.81619 6.29206L7.06964 1.0386C7.18525 0.923515 7.32127 0.830946 7.47076 0.765625V3.65697C7.47076 4.05616 7.39204 4.45143 7.23911 4.82016C7.08618 5.18889 6.86203 5.52385 6.57951 5.80586C6.29698 6.08787 5.96161 6.3114 5.5926 6.46365C5.22359 6.61591 4.82818 6.6939 4.42899 6.69317H1.54321Z"
+                                                        fill="#6666F2" />
+                                                    <path
+                                                        d="M10.056 15.1756C10.0725 15.4554 10.0316 15.7357 9.93576 15.9992C9.83995 16.2626 9.69127 16.5037 9.49886 16.7076C9.29218 16.8993 9.04904 17.0474 8.78392 17.1431C8.5188 17.2388 8.23713 17.2801 7.95569 17.2647H6.67993V13.2703H8.05597C8.59329 13.234 9.12339 13.4101 9.53228 13.7605C9.71529 13.9455 9.85668 14.1675 9.94699 14.4115C10.0373 14.6555 10.0745 14.916 10.056 15.1756ZM8.94176 15.2146C8.96435 14.9266 8.88768 14.6396 8.72449 14.4012C8.64197 14.3105 8.53989 14.2398 8.42599 14.1945C8.3121 14.1491 8.18937 14.1303 8.06711 14.1394H7.75513V16.3678H7.99469C8.12824 16.3786 8.26249 16.3586 8.3871 16.3094C8.5117 16.2601 8.62332 16.1829 8.71335 16.0837C8.8838 15.8273 8.96416 15.5216 8.94176 15.2146Z"
+                                                        fill="#6666F2" />
+                                                    <path
+                                                        d="M14.35 15.2538C14.39 15.8102 14.2145 16.3608 13.8597 16.7914C13.6687 16.9739 13.4417 17.1148 13.1933 17.2049C12.9449 17.2951 12.6805 17.3326 12.4168 17.315C12.1516 17.3281 11.8866 17.2853 11.6389 17.1893C11.3913 17.0933 11.1666 16.9464 10.9795 16.7579C10.6203 16.3339 10.4422 15.7857 10.4837 15.2315C10.4428 14.6808 10.621 14.1362 10.9795 13.7162C11.1696 13.5322 11.3963 13.3904 11.645 13.3001C11.8937 13.2099 12.1586 13.1732 12.4224 13.1925C12.6848 13.1743 12.9482 13.211 13.1956 13.3002C13.4431 13.3894 13.6693 13.5292 13.8597 13.7106C14.219 14.1409 14.395 14.695 14.35 15.2538ZM11.6146 15.2538C11.6146 16.0226 11.882 16.407 12.4168 16.407C12.5325 16.4152 12.6484 16.394 12.7536 16.3453C12.8588 16.2966 12.95 16.222 13.0185 16.1284C13.1715 15.8635 13.2413 15.5588 13.2191 15.2538C13.2414 14.9469 13.1716 14.6404 13.0185 14.3735C12.9511 14.2798 12.8611 14.2046 12.7569 14.1549C12.6527 14.1053 12.5377 14.0827 12.4224 14.0894C11.882 14.0894 11.6146 14.4794 11.6146 15.2538Z"
+                                                        fill="#6666F2" />
+                                                    <path
+                                                        d="M16.7028 14.0928C16.5843 14.0893 16.4668 14.1161 16.3615 14.1707C16.2562 14.2253 16.1666 14.3059 16.1012 14.4048C15.9451 14.6667 15.8713 14.9695 15.8895 15.2739C15.8895 16.0371 16.1792 16.4215 16.7585 16.4215C16.9319 16.4205 17.1043 16.3962 17.2711 16.3491C17.4382 16.2989 17.6053 16.2377 17.7725 16.1708V17.0789C17.4203 17.2289 17.041 17.3048 16.6583 17.3017C16.4029 17.3213 16.1464 17.2857 15.906 17.1973C15.6657 17.1088 15.4472 16.9696 15.2655 16.7892C14.917 16.3663 14.7436 15.8261 14.7808 15.2794C14.7684 14.8947 14.8486 14.5125 15.0148 14.1652C15.1607 13.8642 15.3936 13.6138 15.6833 13.4466C15.9988 13.2738 16.3544 13.1873 16.714 13.1959C17.14 13.196 17.5606 13.2912 17.9452 13.4744L17.6165 14.3379C17.4744 14.2693 17.3272 14.2116 17.1764 14.1652C17.0235 14.1155 16.8636 14.091 16.7028 14.0928Z"
+                                                        fill="#6666F2" />
+                                                </svg>
+                                                <h5 class="mb-0 font-14">{{fileName}}</h5>
+                                            </div><span class="separator"></span>
+                                            <p class="mb-0 font-13"> Uploaded: {{currentDate | date: 'dd MMM yyyy'}}
+                                            </p>
+                                        </div>
+                                        <div class="d-flex align-items-center gap-2 action-icon-btn">
+                                            <span>
+                                                <a [href]="userResignationReq.url" target="_blank" class="svg-link">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"
+                                                        viewBox="0 0 22 22" fill="none">
+                                                        <mask id="mask0_4339_1635" maskUnits="userSpaceOnUse" x="0"
+                                                            y="0" width="22" height="22" style="mask-type: alpha;">
+                                                            <rect width="21.8342" height="21.8342" fill="#D9D9D9">
+                                                            </rect>
+                                                        </mask>
+                                                        <g mask="url(#mask0_4339_1635)">
+                                                            <path
+                                                                d="M10.9189 14.1711C11.9498 14.1711 12.8254 13.8103 13.5456 13.0888C14.2658 12.3672 14.6259 11.4909 14.6259 10.46C14.6259 9.4291 14.2651 8.55354 13.5435 7.83331C12.822 7.11308 11.9457 6.75297 10.9148 6.75297C9.88389 6.75297 9.00833 7.11377 8.2881 7.83536C7.56788 8.55695 7.20776 9.4332 7.20776 10.4641C7.20776 11.495 7.56856 12.3706 8.29015 13.0908C9.01174 13.811 9.88799 14.1711 10.9189 14.1711ZM10.9168 12.9184C10.2345 12.9184 9.65456 12.6796 9.17694 12.202C8.69931 11.7243 8.4605 11.1444 8.4605 10.4621C8.4605 9.77974 8.69931 9.19977 9.17694 8.72214C9.65456 8.24452 10.2345 8.00571 10.9168 8.00571C11.5992 8.00571 12.1791 8.24452 12.6568 8.72214C13.1344 9.19977 13.3732 9.77974 13.3732 10.4621C13.3732 11.1444 13.1344 11.7243 12.6568 12.202C12.1791 12.6796 11.5992 12.9184 10.9168 12.9184ZM10.918 16.8304C8.826 16.8304 6.91983 16.2533 5.19947 15.0991C3.47912 13.9451 2.21243 12.3994 1.39941 10.4621C2.21243 8.52473 3.47867 6.97905 5.19811 5.82502C6.9177 4.67084 8.82357 4.09375 10.9157 4.09375C13.0077 4.09375 14.9139 4.67084 16.6342 5.82502C18.3546 6.97905 19.6213 8.52473 20.4343 10.4621C19.6213 12.3994 18.355 13.9451 16.6356 15.0991C14.916 16.2533 13.0101 16.8304 10.918 16.8304ZM10.9168 15.4657C12.6302 15.4657 14.2033 15.0146 15.6362 14.1125C17.0691 13.2103 18.1646 11.9935 18.9227 10.4621C18.1646 8.93063 17.0691 7.71383 15.6362 6.81165C14.2033 5.90948 12.6302 5.45839 10.9168 5.45839C9.20347 5.45839 7.63035 5.90948 6.19748 6.81165C4.76461 7.71383 3.66911 8.93063 2.91098 10.4621C3.66911 11.9935 4.76461 13.2103 6.19748 14.1125C7.63035 15.0146 9.20347 15.4657 10.9168 15.4657Z"
+                                                                fill="#1C1B1F"></path>
+                                                        </g>
+                                                    </svg>
+                                                </a>
+                                            </span>
+
+                                            <span class="ng-star-inserted">
+                                                <svg *ngIf="!isUploading" (click)="editFileInput.click()"
+                                                    class="pointer" xmlns="http://www.w3.org/2000/svg" width="23"
+                                                    height="22" viewBox="0 0 23 22" fill="none">
+                                                    <mask id="mask0_4339_1623" maskUnits="userSpaceOnUse" x="0" y="0"
+                                                        width="23" height="22" style="mask-type: alpha;">
+                                                        <rect x="0.267578" width="21.8342" height="21.8342"
+                                                            fill="#444444"></rect>
+                                                    </mask>
+                                                    <g mask="url(#mask0_4339_1623)">
+                                                        <path
+                                                            d="M4.81581 17.2927H5.96347L15.2762 7.97992L14.1285 6.83226L4.81581 16.145V17.2927ZM3.45117 18.6573V15.5782L15.4513 3.58328C15.5889 3.45834 15.7407 3.36183 15.9069 3.29375C16.0732 3.22552 16.2476 3.19141 16.43 3.19141C16.6124 3.19141 16.7891 3.22378 16.9599 3.28852C17.131 3.35327 17.2824 3.45622 17.4141 3.59739L18.5252 4.7223C18.6663 4.85406 18.7669 5.00569 18.827 5.17718C18.887 5.34867 18.9171 5.52016 18.9171 5.69165C18.9171 5.87466 18.8858 6.04926 18.8234 6.21544C18.7609 6.38178 18.6615 6.53371 18.5252 6.67123L6.53025 18.6573H3.45117ZM14.6924 7.4161L14.1285 6.83226L15.2762 7.97992L14.6924 7.4161Z"
+                                                            fill="#444444"></path>
+                                                    </g>
+                                                </svg>
+
+
+                                                <div *ngIf="isUploading"
+                                                    class="spinner-border spinner-border-sm text-primary m-2"
+                                                    role="status">
+                                                    <span class="visually-hidden">Loading...</span>
+                                                </div>
+
+                                                <input type="file" #editFileInput (change)="onFileSelected($event)"
+                                                    accept=".png, .jpg, .jpeg" style="display: none;" />
+
+                                            </span>
+                                            <span>
+                                                <svg (click)="deleteImage()" xmlns="http://www.w3.org/2000/svg"
+                                                    class="pointer" width="23" height="22" viewBox="0 0 23 22"
+                                                    fill="none">
+                                                    <mask id="mask0_4339_1620" maskUnits="userSpaceOnUse" x="0" y="0"
+                                                        width="23" height="22" style="mask-type: alpha;">
+                                                        <rect x="0.535156" width="21.8342" height="21.8342"
+                                                            fill="#D9D9D9"></rect>
+                                                    </mask>
+                                                    <g mask="url(#mask0_4339_1620)">
+                                                        <path
+                                                            d="M7.18328 18.6577C6.72961 18.6577 6.34206 18.497 6.02061 18.1757C5.69931 17.8543 5.53866 17.4667 5.53866 17.0131V5.46619H4.62891V4.10156H8.72282V3.29688H14.1814V4.10156H18.2753V5.46619H17.3655V17.0131C17.3655 17.4726 17.2063 17.8616 16.8879 18.1801C16.5695 18.4985 16.1805 18.6577 15.7209 18.6577H7.18328ZM16.0009 5.46619H6.9033V17.0131C6.9033 17.0948 6.92953 17.1619 6.982 17.2144C7.03446 17.2668 7.10155 17.293 7.18328 17.293H15.7209C15.791 17.293 15.8551 17.2639 15.9133 17.2055C15.9717 17.1473 16.0009 17.0831 16.0009 17.0131V5.46619ZM9.09036 15.4735H10.4548V7.28571H9.09036V15.4735ZM12.4494 15.4735H13.8138V7.28571H12.4494V15.4735Z"
+                                                            fill="#FF0000"></path>
+                                                    </g>
+                                                </svg></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <label for="templateName" class="pb-2">
+                                    Comment
+                                </label>
+                                <textarea class="form-control nots-section" id="comment" name="inputComment"
+                                    placeholder="Write description" rows="3"
+                                    [(ngModel)]="userResignationReq.comment"></textarea>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="modal-footer d-flex align-items-center justify-content-end gap-2">
+                        <button type="button" class="btn cancel-btn" data-bs-dismiss="modal" aria-label="Close"
+                            (click)="clearFormData(resignationForm)" #closeResignationButton>Cancel</button>
+                        <button type="submit" class="btn submitActionBtn"
+                            [ngClass]="{'btn-border':!(resignationForm.invalid || isUploading)}"
+                            [disabled]="resignationForm.invalid || resignationToggle || isUploading">
+                            <span *ngIf="!resignationToggle">Submit</span>
+                            <div class="dot-opacity-loader" *ngIf="resignationToggle">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Button to open the modal -->
+
+<!-- Empty Modal -->
+<div class="modal fade" id="markAttendance" tabindex="-1" aria-labelledby="emptyModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <!-- <div class="modal-header">
+                <h5 class="modal-title" id="emptyModalLabel">Mark Attendance</h5>
+
+            </div> -->
+            <div class="modal-body p-0">
+                <button #closeAttendanceButton id="closeAttendanceButton" type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" (click)="showAttendanceComponent=false; getUserAttendanceStatus()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="15" viewBox="0 0 16 15" fill="none">
+                        <path d="M2.09533 14.3667L0.619141 12.9707L6.5239 7.38648L0.619141 1.8023L2.09533 0.40625L8.00009 5.99044L13.9049 0.40625L15.381 1.8023L9.47628 7.38648L15.381 12.9707L13.9049 14.3667L8.00009 8.78253L2.09533 14.3667Z" fill="black"/>
+                    </svg>
+                </button>
+                <!-- Add your content here -->
+                <ng-container *ngIf="showAttendanceComponent">
+                <app-attendance-url *ngIf="data && data!=null" [data]="data"></app-attendance-url>
+                </ng-container>
+            </div>
+            <!-- <div class="modal-footer">
+                <button type="button" (click)="getUserAttendanceStatus();" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div> -->
+        </div>
+    </div>
+</div>

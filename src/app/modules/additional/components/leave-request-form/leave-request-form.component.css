@@ -144,3 +144,79 @@ input[type="checkbox"] {
     opacity: 1;
   }
 }
+
+
+
+/* No Template found css*/
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f7f6;
+  color: #333;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  text-align: center;
+  width: 90%;
+  max-width: 600px;
+}
+
+.expired-message {
+  background-color: #ffffff;
+  border-radius: 2px;
+  width: 500px;
+  box-shadow: 0 4px 5px rgba(0, 0, 0, 0.1);
+}
+
+.not-assigned-text h1 {
+  line-height: 25px;
+}
+
+.not-assigned-text p {
+  color: #555;
+  line-height: 24px;
+}
+.not-assigned-text{
+  border: 1px solid #f2f2f2;
+  border-top: none;
+  padding-bottom: 40px !important;
+  padding-top: 40px !important;
+}
+
+
+.home-link {
+  display: inline-block;
+  background-color: #4CAF50;
+  color: #ffffff !important;
+  padding: 10px 20px;
+  margin-top: 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: normal;
+}
+
+.home-link:hover {
+  background-color: #43A047;
+}
+
+.leave-assigned-icon{
+     border-radius: 2px 2px 0px 0px;
+     background-color: #FFEBEA;
+     height: 170px;
+}
+.badge-soft-secondary{
+  border-radius: 5px;
+  border: 1px solid #6666f2;
+  background-color: #f1f1fc;
+}
+
+.badge-soft-secondary label{
+  font-weight: 400;
+  color: #6666f2;
+  line-height: 24px;
+}

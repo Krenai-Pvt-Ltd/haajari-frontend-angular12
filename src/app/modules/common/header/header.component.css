@@ -1,6 +1,7 @@
 .sidebar-menu:last-child {
   padding-bottom: 12px;
 }
+
 .sidebar-menu {
   position: relative;
   padding: 0px;
@@ -9,14 +10,17 @@
   --highlightY: 0px;
   overflow-x: hidden;
 }
+
 .sidebar-menu li {
   position: relative;
   margin-bottom: 0px;
 }
+
 .sidebar-menu-active[data-active="true"],
 .sidebar-menu-active.focus-visible {
   outline: none;
 }
+
 .sidebar-menu-active {
   position: relative;
   display: flex;
@@ -31,10 +35,11 @@
   /* transition: padding 350ms ease 0s; */
   background: rgb(233 233 255);
   border-radius: 8px;
-  color: rgb(102 102 243) !important;
+  color: var(--primary-color) !important;
   font-size: 14px !important;
   font-weight: 400 !important;
 }
+
 .project-list {
   background-color: #a69ff3;
   width: 25px;
@@ -47,18 +52,23 @@
   text-transform: uppercase;
   color: #444;
 }
+
 .color-orange {
   background-color: #fca503 !important;
 }
+
 .color-pink {
   background-color: #c2ff60 !important;
 }
+
 .color-orange {
   background-color: #f874e4 !important;
 }
+
 .color-rede {
   background-color: #81ffc8 !important;
 }
+
 .sidebar-menu-link {
   position: relative;
   display: flex;
@@ -75,7 +85,9 @@
   z-index: 1;
   transition: padding 350ms ease 0s;
   border-radius: 12px;
+  width: 100%;
 }
+
 .sidebar-menu-link:hover {
   position: relative;
   display: flex;
@@ -93,8 +105,9 @@
   transition: padding 350ms ease 0s;
   border-radius: 8px;
   /* background: rgb(233 233 255); */
-  color: rgb(102 102 243) !important;
+  color: var(--primary-color) !important;
 }
+
 .sidebar-menu-heding {
   font-size: 0.625rem;
   padding-left: 12px;
@@ -102,13 +115,16 @@
   color: #697786;
   font-weight: 600;
 }
+
 .menu-body.navbar-vertical {
   overflow-x: scroll;
   height: 90vh;
 }
+
 .menu-body.navbar-vertical::-webkit-scrollbar {
   display: none;
 }
+
 span.members-namess {
   background-color: #a69ff3;
   width: 30px;
@@ -121,21 +137,25 @@ span.members-namess {
   text-transform: uppercase;
   padding-top: 1px;
 }
+
 .log-out-btn-box {
   position: absolute;
   bottom: 0px;
   width: 100%;
-  left: -1px;
+  left: 0px;
   right: 0px;
   z-index: 999;
 }
+
 .topbar {
   padding-bottom: 15px;
   padding-top: 10px;
 }
+
 .krenai-deshboard {
   padding-left: 10px;
 }
+
 .krenai-deshboard p {
   font-size: 0.875rem;
   letter-spacing: 0px;
@@ -143,12 +163,14 @@ span.members-namess {
   font-weight: 400;
   color: rgb(75, 88, 101);
 }
+
 .krenai-deshboard h4 {
   font-size: 1.5rem;
   letter-spacing: 0px;
   line-height: 1.33333;
   font-weight: 500;
 }
+
 .login-user-phone-numbar {
   color: rgb(75, 88, 101);
   font-size: 0.625rem;
@@ -159,6 +181,7 @@ span.members-namess {
   white-space: nowrap;
   width: 110px;
 }
+
 .login-user-name {
   font-weight: 500;
   font-size: 0.75rem;
@@ -173,6 +196,7 @@ span.members-namess {
   white-space: nowrap;
   width: 115px;
 }
+
 .log-btn {
   width: 26px;
   height: 26px;
@@ -181,21 +205,25 @@ span.members-namess {
   align-items: center;
   justify-content: center;
   color: #444;
-  line-height: 21px;
   position: absolute;
   right: 15px;
-  top: 60px;
+  top: 25px;
 }
+
 .log-btn:hover {
   background-color: #f5f8fa;
 }
+
 .plan-box i {
   color: #f0ce09;
   font-size: 16px;
 }
+
 .manager-list a {
-  font-size: 12px !important;
+  font-size: 14px !important;
+  padding: 10px 15px;
 }
+
 .StaticMenuItemBase-button {
   color: #c92f54 !important;
   fill: #c92f54;
@@ -203,31 +231,38 @@ span.members-namess {
   border-top: 1px solid #edeae9;
   padding-top: 9px;
 }
+
 .log-btn span i {
   top: -1px;
   position: relative;
 }
+
 .sidebar-menu-link span {
   font-size: 14px;
   font-weight: 400;
 }
+
 .menu-icon {
   padding-right: 5px;
   font-size: 16px;
 }
+
 .plan-box {
-  padding: 10px;
-  background-color: #ffffff;
+  padding: 10px 20px;
+  background-color: #f1f1fc;
   border-top: 1px solid #f2f2f2;
 }
+
 .plan-box p {
   font-size: 13px;
   font-weight: 800;
 }
+
 .plan-box a {
   font-size: 13px;
   font-weight: 800;
 }
+
 span.add-project {
   background-color: rgb(198 198 255);
   font-size: 12px;
@@ -236,17 +271,20 @@ span.add-project {
   font-weight: 400;
   position: absolute;
   right: 10px;
-  color: rgb(102 102 243) !important;
+  color: var(--primary-color) !important;
 }
+
 .project-name ul {
   list-style: none;
   padding-left: 0.5rem !important;
 }
+
 .project-link {
   display: flex;
   gap: 10px;
   width: 250px;
 }
+
 .project-name ul li {
   line-height: 30px;
   padding-left: 7px;
@@ -258,28 +296,34 @@ span.add-project {
   border-radius: 6px;
   padding: 5px;
 }
+
 .project-name ul li:hover {
   background-color: rgb(233 233 255);
   padding: 5px;
 }
+
 .project-name ul li a:hover,
 .project-name ul li:hover a {
-  color: rgb(102 102 243) !important;
+  color: var(--primary-color) !important;
 }
+
 .project-name {
   padding-top: 5px;
   padding-bottom: 5px;
   width: 190px;
 }
+
 .projectIcon {
   transition: 0.2s linear;
   transform: rotate(90deg);
   display: inline-block;
 }
+
 .projectIcon.collapsed {
   /* transition:0.2s linear; */
   transform: rotate(0deg);
 }
+
 .project-link p {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -290,6 +334,74 @@ span.add-project {
 .project-name i {
   line-height: 22px;
 }
+
+.plan-box h3 {
+  color: #000;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 15px;
+  /* 58.077% */
+  letter-spacing: 0.119px;
+  text-transform: capitalize;
+}
+
+.plan-box p {
+  color: #717171;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 11px;
+  /* 88.478% */
+  letter-spacing: 0.035px;
+}
+
+.upgradeBtn {
+  background-color: var(--primary-background-color);
+  color: #fff;
+  font-size: 10px;
+  font-style: normal;
+  padding: 3px 10px;
+  font-weight: 700;
+  line-height: 5.682px;
+  /* 58.077% */
+  letter-spacing: 0.077px;
+  text-transform: capitalize;
+  border-radius: 4px;
+}
+
+.progress {
+  background-color: #f1f5fa;
+  height: 8px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.plan-box h4 {
+  color: var(--primary-color);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 11px;
+  letter-spacing: 0.035px;
+}
+
+.modifyBtn {
+  color: #000;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 5.682px;
+  /* 58.077% */
+  letter-spacing: 0.077px;
+  text-transform: capitalize;
+}
+
+.login-user-detail {
+  padding: 17px 10px 17px 10px;
+  background-color: #fff;
+  border-top: 1px solid #dfdfdf;
+}
+
 .sliderNav {
   position: absolute;
   top: 0;
@@ -299,20 +411,101 @@ span.add-project {
   transition: all 0.3s ease;
   width: 100%;
   right: 0;
-  border-radius:8px;
+  border-radius: 8px;
   border-top: 1px solid #fff;
   border-bottom: 1px solid #fff;
   opacity: 0;
 }
+
+.alert-badge {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background-color: red;
+  border-radius: 50%;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
 @media screen and (max-width: 2600px) {
   .menu-body.navbar-vertical {
     overflow-x: auto;
     height: 90vh;
   }
 }
+
 @media screen and (max-width: 1300px) {
   .menu-body.navbar-vertical {
     overflow-x: auto;
     height: 90vh;
   }
+
+
+
 }
+
+.manager-list svg {
+  width: 18px;
+  position: relative;
+  top: -1px;
+}
+
+.list-top {
+  background-color: rgb(255, 255, 255) !important;
+  position: absolute !important;
+  inset: auto 0px 0px auto !important;
+  margin: 0px !important;
+  transform: translate(175px, -55px) !important;
+  padding: 0px !important;
+  border: none !important;
+  min-width: 14rem;
+  filter: drop-shadow(0px 11.4px 13.7px rgba(71, 71, 71, 0.33));
+  border-radius: 2px !important;
+  z-index: 999 !important;
+}
+
+.dropdown-item:focus,
+.dropdown-item:hover {
+  background-color: #f5f5ff;
+  color: var(--primary-color) !important;
+}
+
+.btn-logout {
+  color: #ff3737;
+}
+
+.list-top::before {
+  content: "";
+  position: absolute;
+  left: 10px;
+  bottom: -18px;
+  width: 42px;
+  height: 30px;
+  border-top: solid 40px #fff;
+  border-left: solid 24px transparent;
+  border-right: solid 24px transparent;
+  border-radius: 10px;
+  z-index: -1;
+}
+
+.btn-logout:hover {
+  color: #ff3737 !important;
+  background-color: #fff4f4;
+}
+
+/* .image-container img {
+  transition: opacity 0.3s ease-in-out;
+}
+
+.image-container img.hover-img {
+  display: none;
+}
+
+.image-container:hover img.default-img {
+  display: block;
+}
+
+.image-container:hover img.hover-img {
+  display: block;
+} */

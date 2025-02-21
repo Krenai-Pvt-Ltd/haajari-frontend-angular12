@@ -8,7 +8,7 @@ export class OvertimeRuleDefinitionRequest {
     halfDayOvertimeTypeId : number = 0;
     fullDayOvertimeTypeId : number = 0;
 
-    customAmountInRupees : number = 0;
-    halfDayAmountInRupees : number = 0;
-    fullDayAmountInRupees : number = 0;
+    customAmountInRupees : any;
+    halfDayAmountInRupees : any;
+    fullDayAmountInRupees : any;
 }

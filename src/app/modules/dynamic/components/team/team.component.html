@@ -1,211 +1,87 @@
 <div class="page-wrapper">
   <!-- Page Content-->
   <div class="page-content-tab">
-    <div class="container-fluid">
+    <div class="container-fluid mb-5">
       <!-- end page title end breadcrumb -->
       <div class="row"></div>
-
-      <div
-        class="row mb-1 align-items-center"
-        style="padding-bottom: 15px"
-        *ngIf="
-          (teamsNew.length > 0 && !slackDataPlaceholderFlag) ||
-          searchTeamPlaceholderFlag
-        "
-      >
-        <div class="col-md-12">
-          <div
-            class="d-flex align-items-center"
-            style="border: 1px solid #f1f1f1"
-          >
+      <div class="row mb-1 align-items-center" style="padding-bottom: 15px" *ngIf="
+            (teamsNew.length > 0 && !slackDataPlaceholderFlag) ||
+            searchTeamPlaceholderFlag
+            ">
+        <div class="col-md-12 mt-4">
+          <div class="d-flex align-items-center" style="border: 1px solid #f1f1f1">
             <div class="" style="width: 70%">
-              <form
-                role="search"
-                class="searching ng-untouched ng-pristine ng-valid"
-                (submit)="searchTeams()"
-              >
+              <form role="search" class="searching ng-untouched ng-pristine ng-valid" (submit)="searchTeams()">
                 <div class="form-group" style="position: relative; width: 100%">
-                  <input
-                    type="text"
-                    id="searchText"
-                    placeholder="Search"
+                  <input type="text" id="searchText" placeholder="Search"
                     class="form-control me-2 ng-untouched ng-pristine ng-valid attendance-details-search"
-                    (keyup)="searchTeams()"
-                    [(ngModel)]="searchText"
-                    [ngModelOptions]="{ standalone: true }"
-                    style="padding: 10px 30px;"
-                  />
+                    (keyup)="searchTeams()" [(ngModel)]="searchText" [ngModelOptions]="{ standalone: true }"
+                    style="padding: 10px 35px" />
 
-                  <button
-                    type="button"
-                    class="btn close-btn"
-                    (click)="reloadPage()"
-                    *ngIf="crossFlag"
-                  >
-                    <i class="bi bi-x mt-auto mb-auto pl-3"></i>
-                  </button>
-
-                  <i
-                    class="bi bi-search search-icon"
-                    style="margin: auto; margin-left: 10px"
-                  ></i>
+                  <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px"
+                    *ngIf="searchText == ''"></i>
+                  <i class="bi bi-x search-icon" style="margin: auto; margin-left: 10px" (click)="reloadPage()"
+                    *ngIf="searchText != ''"></i>
                 </div>
               </form>
             </div>
-            <div
-              class="d-flex justify-content-end align-items-center"
-              style="gap: 10px; width: 30%; padding-right: 20px"
-            >
-              <div
-                class="add-filtter d-flex align-items-center justify-content-end gap-2"
-              >
-                <button
-                  data-bs-toggle="modal"
-                  data-bs-target="#createteam2"
-                  type="button"
-                  *ngIf="ROLE == 'ADMIN'"
-                  class="btn primaryBtnLink"
-                >
-                  <i class="bi bi-plus-lg" ></i> Create Team
+            <div class="d-flex justify-content-end align-items-center"
+              style="gap: 10px; width: 30%; padding-right: 20px">
+              <div class="add-filtter d-flex align-items-center justify-content-end gap-1">
+                <button data-bs-toggle="modal" data-bs-target="#createteam2" type="button" *ngIf="ROLE == 'ADMIN'"
+                  class="btn primaryBtnLink">
+                  <i class="bi bi-plus-lg"></i> Create Team
                 </button>
-
                 <!-- <p
-                  style="color: #a1a0a0; margin-bottom: 0px"
-                  *ngIf="ROLE == 'ADMIN' && onboardingVia == 'SLACK'"
-                >
-                  |
-                </p> -->
+                           style="color: #a1a0a0; margin-bottom: 0px"
+                           *ngIf="ROLE == 'ADMIN' && onboardingVia == 'SLACK'"
+                           >
+                           |
+                           </p> -->
                 <span class="btnSeprator" *ngIf="ROLE == 'ADMIN' && onboardingVia == 'SLACK'"></span>
-                <button class="btn primaryBtnLink"
-                  (click)="getFlagOfSlackPlaceholder2()"
-                  [ngClass]="{ 'disabled-lnk': rotateToggle }"
-                  *ngIf="ROLE == 'ADMIN' && onboardingVia == 'SLACK'"
-                  ><i
-                    style="
-                      font-size: 16px;
-                      color: #6666f3;
-                      height: 1rem;
-                      width: 1rem;
-                    "
-                    [ngClass]="{
-                      'spinner-border': rotateToggle,
-                      'bi bi-arrow-clockwise': !rotateToggle
-                    }"
-                  ></i>
+                <button class="btn primaryBtnLink" (click)="getFlagOfSlackPlaceholder2()"
+                  [ngClass]="{ 'disabled-lnk': rotateToggle }" *ngIf="ROLE == 'ADMIN' && onboardingVia == 'SLACK'">
+                  <i [ngClass]="{
+                           'spinner-border': rotateToggle,
+                           'bi bi-arrow-clockwise': !rotateToggle
+                           }"></i>
                   Data Sync
                 </button>
               </div>
             </div>
           </div>
         </div>
-        <!-- <div class="col-md-7">
-          <div
-            class="d-flex justify-content-end align-items-center"
-            style="gap: 10px"
-          >
-            <div
-              class="add-filtter d-flex align-items-center justify-content-end"
-              style="gap: 10px"
-            >
-              <a
-                data-bs-toggle="modal"
-                data-bs-target="#createteam"
-                type="button"
-                *ngIf="ROLE != 'USER'"
-                ><i class="bi bi-plus-circle"></i> Create Team
-              </a>
-
-              <p
-                style="color: #a1a0a0; margin-bottom: 0px"
-                *ngIf="ROLE == 'ADMIN' && onboardingVia == 'SLACK'"
-              >
-                |
-              </p>
-              <a
-                (click)="getFlagOfSlackPlaceholder2()"
-                [ngClass]="{ 'disabled-lnk': rotateToggle }"
-                *ngIf="ROLE == 'ADMIN' && onboardingVia == 'SLACK'"
-                ><i
-                  style="
-                    font-size: 16px;
-                    color: #6666f3;
-                    height: 1rem;
-                    width: 1rem;
-                  "
-                  [ngClass]="{
-                    'spinner-border': rotateToggle,
-                    'bi bi-arrow-clockwise': !rotateToggle
-                  }"
-                ></i>
-                Data Sync
-              </a>
-            </div>
-          </div>
-        </div> -->
       </div>
       <!-- *ngIf="firebaseDataReloadFlag && teamsNew.length > 0" -->
-      <div
-        class="mt-3 row"
-        *ngIf="firebaseDataReloadFlag && teamsNew.length > 0"
-      >
+      <div class="mt-3 row" *ngIf="firebaseDataReloadFlag && teamsNew.length > 0">
         <div class="col-md-3"></div>
         <div class="col-md-6 mb-3">
           <div class="d-flex align-items-center position-relative">
             <div class="">
-              <img
-                src="assets/images/rsz_slack_rgb.png"
-                alt="logo-large"
-                class="logo-lg logo-light"
-                style="height: 25px"
-              />
+              <img src="assets/images/rsz_slack_rgb.png" alt="logo-large" class="logo-lg logo-light"
+                style="height: 25px" />
             </div>
             <div class="loader">
               <span class="loaderIcon">
-                <img
-                  class=""
-                  src="assets/images/google-docs 2.svg"
-                  style="width: 30px"
-                />
+                <img class="" src="assets/images/google-docs 2.svg" style="width: 30px" />
               </span>
               <span class="loaderIcon">
-                <img
-                  class=""
-                  src="assets/images/group-team.svg"
-                  style="width: 25px"
-                />
+                <img class="" src="assets/images/group-team.svg" style="width: 25px" />
               </span>
               <span class="loaderIcon">
-                <img
-                  class="image-rotate"
-                  src="assets/images/file-deta.svg"
-                  style="width: 25px"
-                />
+                <img class="image-rotate" src="assets/images/file-deta.svg" style="width: 25px" />
               </span>
             </div>
             <div class="">
-              <img
-                src="assets/images/HAjiRi.svg"
-                alt="logo-large"
-                class="logo-lg logo-light"
-                style="height: 30px"
-              />
+              <img src="assets/images/HAjiRi.svg" alt="logo-large" class="logo-lg logo-light" style="height: 30px" />
             </div>
           </div>
-
           <div class="progress mt-3">
-            <div
-              class="progress-bar progress-bar-striped"
-              style="font-size: 10px"
-              role="progressbar"
-              [style.width]="percentage + '%'"
-              aria-valuenow="20"
-              aria-valuemin="0"
-              aria-valuemax="100"
-            >
+            <div class="progress-bar progress-bar-striped" style="font-size: 10px" role="progressbar"
+              [style.width]="percentage + '%'" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
               {{ percentage }}%
             </div>
           </div>
-
           <div class="text-center mt-3">
             <p class="deta-prosesing">
               Hang tight, we're getting your Slack channel's data...
@@ -213,9 +89,7 @@
           </div>
         </div>
         <!-- <div class="col-md-6">
-           
-        
-        </div> -->
+               </div> -->
         <div class="col-md-3"></div>
       </div>
       <!--  -->
@@ -229,53 +103,30 @@
           </div>
         </div>
       </div>
-
-      <div class="row mb-3 mt-3" *ngIf="isShimmer && !slackDataPlaceholderFlag">
-        <div class="col-md-4" *ngFor="let item of [].constructor(6)">
+      <div class="row mb-3 mt-4" *ngIf="isShimmer && !slackDataPlaceholderFlag">
+        <div class="col-md-4" *ngFor="let item of [].constructor(9)">
           <div class="bg-white p-3 shimmer-box">
             <div class="row">
               <div class="col-md-2">
-                <ngx-shimmer-loading
-                  [width]="'100%'"
-                  [height]="'40px'"
-                  style="border-radius: 50%"
-                ></ngx-shimmer-loading>
+                <ngx-shimmer-loading [width]="'100%'" [height]="'40px'"
+                  style="border-radius: 50%"></ngx-shimmer-loading>
               </div>
               <div class="col-md-8">
-                <ngx-shimmer-loading
-                  [width]="'50%'"
-                  [height]="'20px'"
-                ></ngx-shimmer-loading>
-                <ngx-shimmer-loading
-                  [width]="'70%'"
-                  [height]="'10px'"
-                ></ngx-shimmer-loading>
+                <ngx-shimmer-loading [width]="'50%'" [height]="'20px'"></ngx-shimmer-loading>
+                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
               </div>
             </div>
             <div class="mt-3">
-              <ngx-shimmer-loading
-                [width]="'50%'"
-                [height]="'15px'"
-              ></ngx-shimmer-loading>
-              <ngx-shimmer-loading
-                [width]="'70%'"
-                [height]="'10px'"
-              ></ngx-shimmer-loading>
+              <ngx-shimmer-loading [width]="'50%'" [height]="'15px'"></ngx-shimmer-loading>
+              <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
             </div>
-
             <div class="row mt-3">
               <div class="col-md-6">
-                <ngx-shimmer-loading
-                  [width]="'70%'"
-                  [height]="'30px'"
-                ></ngx-shimmer-loading>
+                <ngx-shimmer-loading [width]="'70%'" [height]="'30px'"></ngx-shimmer-loading>
               </div>
               <div class="col-md-6">
                 <div class="text-end">
-                  <ngx-shimmer-loading
-                    [width]="'70%'"
-                    [height]="'20px'"
-                  ></ngx-shimmer-loading>
+                  <ngx-shimmer-loading [width]="'70%'" [height]="'20px'"></ngx-shimmer-loading>
                 </div>
               </div>
             </div>
@@ -284,27 +135,14 @@
         <div class="col-md-4"></div>
         <div class="col-md-4"></div>
       </div>
-      <div
-        class="row app-emptiy-notifaction"
-        *ngIf="!isShimmer && total == 0 && searchTeamPlaceholderFlag"
-      >
-        <div
-          class="col-md-6 d-flex align-items-center justify-content-center"
-          style="flex-direction: column"
-        >
-          <div class="">
-            <h4>Team not found</h4>
-            <p>Create new team by clicking on 'Create Team' button.</p>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="">
-            <img src="assets/images/empty-2.png" style="width: 100%" />
-          </div>
-        </div>
+
+      <div class="empty-file" style="margin-top: 15%" *ngIf="!isShimmer && total == 0 && searchTeamPlaceholderFlag">
+        <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
+          <ng-template #contentTpl>
+            <p class="mb-1 empty-detail font-16">Team not found</p>
+          </ng-template>
+        </nz-empty>
       </div>
-      <!-- (click)="getFlagOfSlackPlaceholder()" -->
-      <!-- TO DO -->
       <div>
         <div class="errorboxmain" *ngIf="errorToggleTeam && !showNotification">
           <div class="errorboxinner text-center">
@@ -323,113 +161,76 @@
             </button>
           </div>
         </div>
-
-        <div
-          class="row app-emptiy-notifaction"
-          *ngIf="
-            !isShimmer &&
-            total == 0 &&
-            !searchTeamPlaceholderFlag &&
-            !slackDataPlaceholderFlag
-          "
-        >
-          <div
-            class="col-md-6 d-flex align-items-center justify-content-center"
-            style="flex-direction: column"
-          >
-            <div class="">
-              <h4>Click 'Create Team' to get started</h4>
-              <p>
-                Create a new team for your organization from here<br />
-                once they finish their onboarding.
+        <div class="row leave-management-settings p-3 mt-2 align-items-center" *ngIf="
+               !isShimmer &&
+               total == 0 &&
+               !searchTeamPlaceholderFlag &&
+               !slackDataPlaceholderFlag
+               ">
+          <div class="col-md-6">
+            <div class="leave-management-detail pt-5 pb-5">
+              <h3 class="mb-3">
+                Create and Manage <br />
+                Your Team Easily
+              </h3>
+              <p class="mb-0 font-14">
+                Easily customize your leave management preferences, define leave
+                <br />
+                types, set approval workflows, and streamline employee leave
+                tracking.
               </p>
-
-              <div class="mb-3">
-                <a href="" class="addinh-hiar"
-                  >Learn about adding hire
-                  <i
-                    class="bi bi-arrow-up-right"
-                    style="
-                      padding-left: 8px;
-                      font-size: 12px;
-                      color: #6666f3;
-                      font-weight: bold;
-                    "
-                  ></i
-                ></a>
-              </div>
-
-              <div
-                class="align-items-center justify-content-center mt-4"
-                style="gap: 20px"
-              >
-                <button
-                  type="button"
-                  class="btn create-team"
-                  data-bs-toggle="modal"
-                  data-bs-target="#createteam2"
-                >
-                  Create Team
-                </button>
-                <button
-                  type="button"
-                  class="btn create-team-on-slack"
-                  (click)="getFlagOfSlackPlaceholder()"
-                  *ngIf="onboardingVia == 'SLACK'"
-                >
-                  Slack Data Sync..
-                </button>
-              </div>
+              <!-- <button class="btn add-leave-btn mt-4 mb-2">Create Team</button> -->
+              <button type="button" class="btn add-leave-btn mt-4 mb-2" data-bs-toggle="modal"
+                data-bs-target="#createteam2">
+                Create Team
+              </button>
+              <button type="button" class="btn add-leave-btn mt-4 mb-2" (click)="getFlagOfSlackPlaceholder()"
+                *ngIf="onboardingVia == 'SLACK' && ROLE == 'ADMIN'">
+                Slack Data Sync..
+              </button>
+              <hr />
+              <span class="mb-0">
+                By signing, you are creating
+                <a href="#!">
+                  Learn more about it
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
+                    <mask id="mask0_4244_1588" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                      width="20" height="21">
+                      <rect y="0.546875" width="20" height="20" fill="#6666F2" />
+                    </mask>
+                    <g mask="url(#mask0_4244_1588)">
+                      <path
+                        d="M4.50016 17.2148L3.3335 16.0482L13.0002 6.38151H7.50016V4.71484H15.8335V13.0482H14.1668V7.54818L4.50016 17.2148Z"
+                        fill="#6666F2" />
+                    </g>
+                  </svg>
+                </a>
+              </span>
             </div>
           </div>
           <div class="col-md-6">
-            <div class="">
-              <img src="assets/images/group.svg" style="width: 80%" />
+            <div class="leave-management-detail-img text-end">
+              <img src="assets/images/team-icon-image.svg" style="width: 380px" />
             </div>
           </div>
         </div>
       </div>
-
-      <div
-        class="detaworkspace"
-        *ngIf="
-          slackDataPlaceholderFlag &&
-          !searchTeamPlaceholderFlag &&
-          !errorToggleTeam
-        "
-        style="height: 80vh; background-color: #fff"
-      >
+      <div class="detaworkspace" *ngIf="
+            slackDataPlaceholderFlag &&
+            !searchTeamPlaceholderFlag &&
+            !errorToggleTeam
+            " style="height: 80vh; background-color: #fff">
         <div class="d-flex align-items-center position-relative">
           <div class="left-folder">
-            <img
-              src="assets/images/slack-img.svg"
-              alt="logo-large"
-              class="logo-lg logo-light"
-              style="height: 110px"
-            />
+            <img src="assets/images/slack-img.svg" alt="logo-large" class="logo-lg logo-light" style="height: 110px" />
           </div>
-
           <div class="arc">
             <img class="image-rotate" src="assets/images/google-docs 2.svg" />
-            <img
-              class="image-rotate"
-              src="assets/images/group-team.svg"
-              style="width: 40px"
-            />
-            <img
-              class="image-rotate"
-              src="assets/images/file-deta.svg"
-              style="width: 40px"
-            />
+            <img class="image-rotate" src="assets/images/group-team.svg" style="width: 40px" />
+            <img class="image-rotate" src="assets/images/file-deta.svg" style="width: 40px" />
           </div>
-
           <div class="right-folder">
-            <img
-              src="assets/images/folder.svg"
-              alt="logo-large"
-              class="logo-lg logo-light"
-              style="height: 110px"
-            />
+            <img src="assets/images/folder.svg" alt="logo-large" class="logo-lg logo-light" style="height: 110px" />
           </div>
         </div>
         <div class="progress-main text-center">
@@ -438,7 +239,6 @@
               <div class="progressNumber">{{ percentage }}%</div>
             </div>
           </div>
-
           <div class="mt-5">
             <p class="pb-0 wait-text">
               Please wait, while processing your request...
@@ -446,98 +246,46 @@
           </div>
         </div>
       </div>
-
-      <div
-        class="row"
-        *ngIf="!isShimmer && teamsNew.length > 0 && !slackDataPlaceholderFlag"
-      >
-        <div
-          class="col-lg-4"
-          *ngFor="
-            let i = index;
-            let team;
-            of: teamsNew
-              | paginate
-                : {
-                    itemsPerPage: itemPerPage,
-                    currentPage: pageNumber,
-                    totalItems: total
-                  }
-          "
-        >
+      <div class="row" *ngIf="!isShimmer && teamsNew.length > 0 && !slackDataPlaceholderFlag">
+        <div class="col-lg-4" *ngFor="
+               let i = index;
+               let team;
+               of: teamsNew
+               | paginate
+               : {
+               itemsPerPage: itemPerPage,
+               currentPage: pageNumber,
+               totalItems: total
+               }
+               ">
           <div class="card team-card" style="height: 185px; overflow: hidden">
-            <!-- <span class="profile-image-name-span">
-                <i class="bi bi-patch-check-fill"></i>
-              </span> -->
 
-            <!-- <div class="ribbon3 rib3-primary">
-                <span class="text-white text-center rib3-primary">50% off</span>                                        
-            </div> -->
             <div class="card-body">
               <div class="float-end">
                 <div class="dropdown d-inline-block">
-                  <a
-                    class="dropdown-toggle"
-                    id="dLabel1"
-                    data-bs-toggle="dropdown"
-                    href="#"
-                    role="button"
-                    aria-haspopup="false"
-                    aria-expanded="false"
-                  >
+                  <a class="dropdown-toggle" id="dLabel1" data-bs-toggle="dropdown" href="#" role="button"
+                    aria-haspopup="false" aria-expanded="false">
                     <i class="las la-ellipsis-v font-24 text-muted"></i>
                   </a>
-                  <div
-                    class="dropdown-menu dropdown-menu-end"
-                    aria-labelledby="dLabel1"
-                  >
-                    <!-- <a class="dropdown-item" href="#">Open Project</a> -->
-                    <!-- <a class="dropdown-item" href="#">Edit Card</a> -->
-                    <a
-                      class="dropdown-item"
-                      data-bs-toggle="modal"
-                      data-bs-target="#deleteConfirmationModal"
-                      (click)="
-                        openDeleteConfirmationModal(team.uuid, logInUserUuid)
-                      "
-                      *ngIf="team.exitFromTeam"
-                      >Exit From Team!</a
-                    >
-                    <a
-                      class="dropdown-item"
-                      (click)="deleteTeamByTeamId(team.id)"
-                      *ngIf="localStorageRoleAdminFlag"
-                      >Delete Team</a
-                    >
+                  <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dLabel1">
+
+                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" (click)="
+                              openDeleteConfirmationModal(team.uuid, logInUserUuid)
+                              " *ngIf="team.exitFromTeam">Exit From Team!</a>
+                    <a class="dropdown-item" (click)="deleteTeamByTeamId(team.id)"
+                      *ngIf="localStorageRoleAdminFlag">Delete Team</a>
                   </div>
                 </div>
               </div>
-
               <div class="media align-items-center">
                 <div class="img-group">
                   <a class="user-avatar me-1" href="#">
-                    <!-- <img src="assets/images/user.png" alt="" class="rounded-circle thumb-md"> -->
-
                     <span class="members-icon">{{
                       capitalizeFirstLetter(team.name[0])
-                    }}</span>
-
+                      }}</span>
                     <span class="avatar-badge online"></span>
                   </a>
-                  <!-- <div *ngIf="team.manager.image!==null">
-                                              <a class="user-avatar me-1" href="#" >
-                                                  <img src={{team.manager.image}} alt="user" class="rounded-circle thumb-md">
-                                                  <span class="avatar-badge online"></span>
-                                              </a>
-                                          </div> -->
-                  <!-- <div>
-                                              <a class="user-avatar me-1" href="#" >
-                                                  <img src="assets/images/user.png" alt="" class="rounded-circle thumb-md">
-                                                  
-                                                  <span class="avatar-badge online"></span>
-      
-                                              </a>
-                                          </div> -->
+
                 </div>
                 <div class="media-body ms-2 align-self-center">
                   <div class="d-flex align-items-start" style="gap: 10px">
@@ -545,296 +293,146 @@
                       {{ capitalizeFirstLetter(team.name) }}
                     </h5>
                   </div>
-
                   <!-- <p class="text-muted font-12 mb-0">Team Name</p>  -->
-                  <p
-                    class="text-muted mb-0 fw-semibold team-description"
-                    style="
-                      font-size: 12px;
-                      padding-top: 2px;
-                      font-weight: 400 !important;
-                    "
-                  >
+                  <p class="text-muted mb-0 fw-semibold team-description" style="
+                              font-size: 12px;
+                              padding-top: 2px;
+                              font-weight: 400 !important;
+                              ">
                     {{ team.description }}
                     <!-- {{ team.teamLocation.addressLine1 }} -->
                   </p>
                 </div>
               </div>
-
               <div class="d-flex align-items-center justify-content-between">
                 <div class="" *ngIf="team.manager !== null">
                   <!-- <div *ngIf="team.manager === null">
-                                          <p class="m-0 mt-3 font-12 mb-0" style="color: red;">Manager isn't assigned yet!</p>
-                                      </div> -->
+                              <p class="m-0 mt-3 font-12 mb-0" style="color: red;">Manager isn't assigned yet!</p>
+                              </div> -->
                   <div>
-                    <h4 class="m-0 mt-3 font-13 mb-0 fw-bold Regular-data" (click)="routeToUserDetails(team.manager.uuid)" >
+                    <h4 class="m-0 mt-3 font-13 mb-0 fw-bold Regular-data"
+                      (click)="routeToUserDetails(team.manager.uuid)" *ngIf="ROLE == 'ADMIN'">
                       {{ capitalizeFirstLetter(team.manager.name) }}
                       <span style="padding-left: 8px" class="maneger-point">
-                        <i
-                          class="bi bi-patch-check-fill"
-                          *ngIf="team.showTick"
-                        ></i
-                      ></span>
+                        <i class="bi bi-patch-check-fill" *ngIf="team.showTick"></i></span>
+                    </h4>
+                    <h4 class="m-0 mt-3 font-13 mb-0 fw-bold" *ngIf="ROLE != 'ADMIN'">
+                      {{ capitalizeFirstLetter(team.manager.name) }}
+                      <span style="padding-left: 8px" class="maneger-point">
+                        <i class="bi bi-patch-check-fill" *ngIf="team.showTick"></i></span>
                     </h4>
                   </div>
-
                   <p class="text-muted font-12 mb-0">Team Manager</p>
                 </div>
               </div>
-
-              <div
-                class="d-flex align-items-center justify-content-between"
-                style="gap: 10px; margin-top: 15px"
-                data-bs-toggle="modal"
-                data-bs-target="#addteam"
-                *ngIf="
-                  localStorageRoleAdminFlag == true && team.manager == null
-                "
-              >
+              <div class="d-flex align-items-center justify-content-between" style="gap: 10px; margin-top: 15px"
+                data-bs-toggle="modal" data-bs-target="#addteam" *ngIf="
+                        localStorageRoleAdminFlag == true && team.manager == null
+                        ">
                 <div class="">
-                  <button
-                    class="btn add-team"
-                    type="button"
-                    (click)="toGetTeamId(team.uuid)"
-                  >
+                  <button class="btn add-team" type="button" (click)="toGetTeamId(team.uuid)">
                     Assign Manager
                   </button>
                 </div>
               </div>
-
               <div class="mt-3 d-flex justify-content-between">
                 <!-- <div class="bottom-absolute"> -->
                 <div class="img-group d-flex">
-                  <ng-container
-                    *ngFor="
-                      let ul of team.userList;
-                      let i = index;
-                      last as isLast
-                    "
-                  >
-                    <a
-                      class="user-avatar"
-                      href=""
-                      [ngClass]="i === 0 ? '' : 'ms-n3'"
-                      *ngIf="i < 3"
-                    >
+                  <ng-container *ngFor="
+                              let ul of team.userList;
+                              let i = index;
+                              last as isLast
+                              ">
+                    <a class="user-avatar" href="" [ngClass]="i === 0 ? '' : 'ms-n3'" *ngIf="i < 3">
                       <span *ngIf="ul.image !== null">
-                        <img
-                          src="{{ ul.image }}"
-                          alt="u"
-                          class="thumb-xs rounded-circle"
-                        />
+                        <img onerror="this.src='./assets/images/broken-image-icon.jpg';" src="{{ ul.image }}" alt="u"
+                          class="thumb-xs rounded-circle" />
                       </span>
                       <span class="members-name" *ngIf="ul.image == null">{{
                         ul.name[0]
-                      }}</span>
+                        }}</span>
                     </a>
-                    <!-- <a class="user-avatar" [routerLink]="'/dynamic/team-detail'" [queryParams]="{ teamId: team.id }" (click)="openTeamModal(team.id)">
-                                              <span class="thumb-xs justify-content-center d-flex align-items-center bg-soft-info rounded-circle fw-semibold" *ngIf="isLast && i<3">+</span>
-                                            </a> -->
+
                   </ng-container>
                   <!-- (click)="openTeamModal(team.id)" -->
-                  <a
-                    class="user-avatar"
-                    *ngIf="
-                      team.userList.length >= 3 && team.userList.length > 3
-                    "
-                  >
+                  <a class="user-avatar" *ngIf="
+                              team.userList.length >= 3 && team.userList.length > 3
+                              ">
                     <span
-                      class="thumb-xs justify-content-center d-flex align-items-center bg-soft-info rounded-circle fw-semibold"
-                      >+{{ team.userList.length - 3 }}</span
-                    >
+                      class="thumb-xs justify-content-center d-flex align-items-center bg-soft-info rounded-circle fw-semibold">+{{
+                      team.userList.length - 3 }}</span>
                   </a>
                 </div>
-
                 <div class="align-self-center">
-                  <button
-                    type="button"
-                    class="btn btn-xs btn-light btn-round"
-                    *ngIf="team.manager != null"
-                    (click)="routeToTeamDetails(team.uuid, team.manager.uuid)"
-                  >
+                  <button type="button" class="btn btn-xs btn-light btn-round" *ngIf="team.manager != null"
+                    (click)="routeToTeamDetails(team.uuid, team.manager.uuid)">
                     View Details <i class="mdi mdi-arrow-right"></i>
                   </button>
-
-                  <button
-                    type="button"
-                    class="btn btn-xs btn-light btn-round"
-                    *ngIf="team.manager == null"
-                    (click)="routeToTeamDetails(team.uuid, 'noManager')"
-                  >
+                  <button type="button" class="btn btn-xs btn-light btn-round" *ngIf="team.manager == null"
+                    (click)="routeToTeamDetails(team.uuid, 'noManager')">
                     View Details <i class="mdi mdi-arrow-right"></i>
                   </button>
                 </div>
-
                 <!-- </div> -->
               </div>
             </div>
-            <!-- <hr class="hr-dashed my-3"> -->
-            <!-- <div class="media align-items-center">                                                
-                                      <img src="assets/images/small/project-2.jpg" alt="" class="rounded-circle thumb-sm">
-                                      <div class="media-body ms-3 align-self-center">
-                                          <h6 class="m-0 font-15">Banking</h6>
-                                          <div class="d-flex justify-content-between">
-                                              <span>
-                                                  <a class="" href="#">
-                                                      <i class="mdi mdi-format-list-bulleted text-success"></i>
-                                                      <span class="text-muted">50/100</span>
-                                                  </a>
-                                              </span>
-                                              <span class="text-muted">55% Complete</span>
-                                          </div>
-                                          <div class="progress mt-0" style="height:3px;">
-                                              <div class="progress-bar bg-warning" role="progressbar" style="width: 55%;" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
-                                          </div>                                           
-                                      </div>                                                                           
-                                  </div>      -->
+
           </div>
           <!--end card-body-->
         </div>
-        <!--end card-->
-        <!-- <div class = "pagination">
-                              <pagination-controls 
-                                  perviousLabel="Prev"
-                                  nextLabel="Next"
-                                  (pageChange)="onTableDataChange($event)">
-                              </pagination-controls>
-                          </div>  -->
-        <!-- <div class="row">
-                              <div class="col-md-12">
-                                <nav aria-label="Page navigation example">
-                                 
-                                  <ul class="pagination justify-content-end">
-                                    <span class="justify-content-start">Showing 6 of 18 </span>
-                                    <li class="page-item" [class.disabled]="pageNumber == 1">
-                                      <a class="page-link" href="javascript:void(0);" aria-label="Previous" (click)="changePage('prev')">
-                                        <span aria-hidden="true">&laquo;</span>
-                                      </a>
-                                    </li>
-                                    <li class="page-item" *ngFor="let page of getPages()" [class.active]="pageNumber == page">
-                                      <a class="page-link" href="javascript:void(0);" (click)="changePage(page)">{{ page }}</a>
-                                    </li>
-                                    <li class="page-item" [class.disabled]="pageNumber == totalPages">
-                                      <a class="page-link" href="javascript:void(0);" aria-label="Next" (click)="changePage('next')">
-                                        <span aria-hidden="true">&raquo;</span>
-                                      </a>
-                                    </li>
-                                 
-                                  </ul>
-                             
-                                </nav>
-                              </div>
-                            </div> -->
 
-        <div
-          class="pagination pl-3"
-          *ngIf="isShimmer == false && teamsNew.length > 0 && total > 12"
-        >
-          <p class="mb-0" style="padding-left: 15px">
+        <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top"
+          *ngIf="isShimmer == false && teamsNew.length > 0 && total > 12">
+          <p class="mb-0">
             Showing {{ getStartIndex() }} - {{ getEndIndex() }} of
             {{ total }} teams
           </p>
-          <div class="row">
-            <div class="col-md-12">
-              <nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-end">
-                  <li class="page-item" [class.disabled]="pageNumber == 1">
-                    <a
-                      class="page-link"
-                      href="javascript:void(0);"
-                      aria-label="Previous"
-                      (click)="changePage('prev')"
-                    >
-                      <span aria-hidden="true">&laquo;</span>
-                    </a>
-                  </li>
-                  <li
-                    class="page-item"
-                    *ngFor="let page of getPages()"
-                    [class.active]="pageNumber == page"
-                  >
-                    <a
-                      class="page-link"
-                      href="javascript:void(0);"
-                      (click)="changePage(page)"
-                      >{{ page }}</a
-                    >
-                  </li>
-                  <li
-                    class="page-item"
-                    [class.disabled]="pageNumber == totalPages"
-                  >
-                    <a
-                      class="page-link"
-                      href="javascript:void(0);"
-                      aria-label="Next"
-                      (click)="changePage('next')"
-                    >
-                      <span aria-hidden="true">&raquo;</span>
-                    </a>
-                  </li>
-                </ul>
-              </nav>
-            </div>
-          </div>
+          <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-end">
+              <li class="page-item" [class.disabled]="pageNumber == 1">
+                <a class="page-link" href="javascript:void(0);" aria-label="Previous" (click)="changePage('prev')">
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+              <li class="page-item" *ngFor="let page of getPages()" [class.active]="pageNumber == page">
+                <a class="page-link" href="javascript:void(0);" (click)="changePage(page)">{{ page }}</a>
+              </li>
+              <li class="page-item" [class.disabled]="pageNumber == totalPages">
+                <a class="page-link" href="javascript:void(0);" aria-label="Next" (click)="changePage('next')">
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
         </div>
       </div>
       <!--end col-->
     </div>
     <!-- container -->
-
     <!--Start Rightbar-->
     <!--Start Rightbar/offcanvas-->
-    <div
-      class="offcanvas offcanvas-end"
-      tabindex="-1"
-      id="Appearance"
-      aria-labelledby="AppearanceLabel"
-    >
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="Appearance" aria-labelledby="AppearanceLabel">
       <div class="offcanvas-header border-bottom">
         <h5 class="m-0 font-14" id="AppearanceLabel">Appearance</h5>
-        <button
-          type="button"
-          class="btn-close text-reset p-0 m-0 align-self-center"
-          data-bs-dismiss="offcanvas"
-          aria-label="Close"
-        ></button>
+        <button type="button" class="btn-close text-reset p-0 m-0 align-self-center" data-bs-dismiss="offcanvas"
+          aria-label="Close"></button>
       </div>
       <div class="offcanvas-body">
         <h6>Account Settings</h6>
         <div class="p-2 text-start mt-3">
           <div class="form-check form-switch mb-2">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              id="settings-switch1"
-            />
-            <label class="form-check-label" for="settings-switch1"
-              >Auto updates</label
-            >
+            <input class="form-check-input" type="checkbox" id="settings-switch1" />
+            <label class="form-check-label" for="settings-switch1">Auto updates</label>
           </div>
           <!--end form-switch-->
           <div class="form-check form-switch mb-2">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              id="settings-switch2"
-              checked
-            />
-            <label class="form-check-label" for="settings-switch2"
-              >Location Permission</label
-            >
+            <input class="form-check-input" type="checkbox" id="settings-switch2" checked />
+            <label class="form-check-label" for="settings-switch2">Location Permission</label>
           </div>
           <!--end form-switch-->
           <div class="form-check form-switch">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              id="settings-switch3"
-            />
-            <label class="form-check-label" for="settings-switch3"
-              >Show offline Contacts</label
-            >
+            <input class="form-check-input" type="checkbox" id="settings-switch3" />
+            <label class="form-check-label" for="settings-switch3">Show offline Contacts</label>
           </div>
           <!--end form-switch-->
         </div>
@@ -842,37 +440,18 @@
         <h6>General Settings</h6>
         <div class="p-2 text-start mt-3">
           <div class="form-check form-switch mb-2">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              id="settings-switch4"
-            />
-            <label class="form-check-label" for="settings-switch4"
-              >Show me Online</label
-            >
+            <input class="form-check-input" type="checkbox" id="settings-switch4" />
+            <label class="form-check-label" for="settings-switch4">Show me Online</label>
           </div>
           <!--end form-switch-->
           <div class="form-check form-switch mb-2">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              id="settings-switch5"
-              checked
-            />
-            <label class="form-check-label" for="settings-switch5"
-              >Status visible to all</label
-            >
+            <input class="form-check-input" type="checkbox" id="settings-switch5" checked />
+            <label class="form-check-label" for="settings-switch5">Status visible to all</label>
           </div>
           <!--end form-switch-->
           <div class="form-check form-switch">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              id="settings-switch6"
-            />
-            <label class="form-check-label" for="settings-switch6"
-              >Notifications Popup</label
-            >
+            <input class="form-check-input" type="checkbox" id="settings-switch6" />
+            <label class="form-check-label" for="settings-switch6">Notifications Popup</label>
           </div>
           <!--end form-switch-->
         </div>
@@ -885,423 +464,145 @@
   </div>
   <!-- end page content -->
 </div>
-
-<button
-  type="button"
-  style="display: none"
-  data-bs-toggle="modal"
-  data-bs-target="#createteam2"
-  #createteam
-  id="createteam"
-></button>
-<div
-  class="modal fade"
-  id="createteam2"
-  #createteam2
-  tabindex="-1"
-  aria-labelledby="exampleModalFullscreenLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-fullscreen" role="document">
+<button type="button" style="display: none" data-bs-toggle="modal" data-bs-target="#createteam2" #createteam
+  id="createteam"></button>
+<div class="modal fade" id="createteam2" #createteam2 tabindex="-1" aria-labelledby="exampleModalFullscreenLabel"
+  aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
-      <div class="modal-header" style="background-color: #fff">
-        <h5
-          class="modal-title m-0"
-          style="color: #111; font-size: 18px"
-          id="exampleModalDefaultLabel"
-        >
-          <div class="back-btns-box" data-bs-dismiss="modal" aria-label="Close">
-            <i class="bi bi-chevron-left"></i>
-          </div>
+      <div class="modal-header">
+        <h5 class="modal-title m-0">
+
+          Create a new team
         </h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-          #closeCreateTeam
-        ></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeCreateTeam></button>
       </div>
       <!--end modal-header-->
-      <div class="modal-body p-0">
+      <div class="modal-body">
         <div class="containerhh">
-          <div class="row">
-            <div class="col-md-6">
-              <div class="createteam-form pt-4">
-                <div class="create-new mt-3">
-                  <h4>Create a new team</h4>
-                </div>
-
-                <div class="mt-3">
-                  <div class="form-group">
-                    <label for="username" class="mb-2" style="font-size: 13px"
-                      >Team Name</label
-                    >
-                    <div class="input-group mb-3">
-                      <input
-                        type="text"
-                        class="form-control"
-                        name="teamname"
-                        id="teamname"
-                        placeholder='For example: "Marketing" or "Design"'
-                        [(ngModel)]="teamName"
-                      />
-                    </div>
+          <div class="form-group">
+            <label for="username" class="mb-2" style="font-size: 13px">Team Name</label>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control input-zorro" name="teamname" id="teamname"
+                placeholder='Enter team name' [(ngModel)]="teamName" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="username" class="mb-2" style="font-size: 13px">Team Description</label>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control input-zorro" name="teamdesc" id="teamdesc"
+                placeholder='Enter team description' [(ngModel)]="teamDescription" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="username" class="mb-2 font-13">
+              Members
+            </label>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control input-zorro" name="members" id="members"
+                placeholder="Add team members by name or email…" [(ngModel)]="searchQuery" (input)="searchUsers()" />
+              <div class="user-dropdown new-membear-list" *ngIf="userList.length > 0">
+                <div id="user-item" class="user-item" *ngFor="let user of userList" (click)="toggleUserSelection(user)">
+                  <div *ngIf="user.image === null">
+                    <span id="user-list-details">
+                      <span class="members-name" id="user-first-name-logo">{{ user.name[0] }}</span>&nbsp;&nbsp;
+                      <span class="user-name-email"><b>{{ user.name }}</b> &nbsp;
+                        {{ user.email }}</span>
+                    </span>
                   </div>
-                  <div class="form-group">
-                    <label for="username" class="mb-2" style="font-size: 13px"
-                      >Team Description</label
-                    >
-                    <div class="input-group mb-3">
-                      <input
-                        type="text"
-                        class="form-control"
-                        name="teamdesc"
-                        id="teamdesc"
-                        placeholder='For example: "Marketing" or "Design"'
-                        [(ngModel)]="teamDescription"
-                      />
-                    </div>
-                  </div>
-
-                  <div class="form-group">
-                    <label for="username" class="mb-2" style="font-size: 13px">
-                      Members
-                    </label>
-                    <div class="input-group mb-3">
-                      <input
-                        type="text"
-                        class="form-control"
-                        name="members"
-                        id="members"
-                        placeholder="Add team members by name or email…"
-                        [(ngModel)]="searchQuery"
-                        (input)="searchUsers()"
-                      />
-                      <div
-                        class="user-dropdown new-membear-list"
-                        *ngIf="userList.length > 0"
-                      >
-                        <div
-                          id="user-item"
-                          class="user-item"
-                          *ngFor="let user of userList"
-                          (click)="toggleUserSelection(user)"
-                        >
-                          <div *ngIf="user.image === null">
-                            <span id="user-list-details">
-                              <span
-                                class="members-name"
-                                id="user-first-name-logo"
-                                >{{ user.name[0] }}</span
-                              >&nbsp;&nbsp;
-                              <span class="user-name-email"
-                                ><b>{{ user.name }}</b> &nbsp;
-                                {{ user.email }}</span
-                              >
-                            </span>
-                          </div>
-
-                          <div *ngIf="user.image !== null">
-                            <span id="user-list-details">
-                              <img [src]="user.image" alt="User Logo" />
-                              &nbsp;&nbsp; <b>{{ user.name }}</b> &nbsp;
-                              {{ user.email }}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="selected-users">
-                        <div
-                          class="d-flex selected-userss align-items-center"
-                          *ngFor="let selectedUser of selectedUsers"
-                        >
-                          <span class="members-namess">{{
-                            selectedUser.name[0]
-                          }}</span>
-                          <p class="mb-0">{{ selectedUser.name }}</p>
-                          <span
-                            class="remove-icon"
-                            style="line-height: 0px"
-                            (click)="removeSelectedUser(selectedUser)"
-                            ><i
-                              class="bi bi-x"
-                              style="color: #fff; font-size: 20px"
-                            ></i
-                          ></span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="username" class="mb-2" style="font-size: 13px">
-                      Manager
-                    </label>
-                    <div class="input-group mb-3">
-                      <input
-                        type="text"
-                        class="form-control"
-                        name="manager"
-                        id="manager"
-                        placeholder="Add team manager by name or email…"
-                        [(ngModel)]="searchQueryManager"
-                        (input)="searchUsersManager()"
-                      />
-                      <div
-                        class="user-dropdown new-membear-list"
-                        *ngIf="userListManager.length > 0"
-                      >
-                        <div
-                          id="manager-item"
-                          class="user-item"
-                          *ngFor="let user of userListManager"
-                          (click)="toggleUserSelectionManager(user)"
-                        >
-                          <div *ngIf="user.image === null">
-                            <span id="manager-list-details">
-                              <span
-                                class="members-name"
-                                id="manager-first-name-logo"
-                                >{{ user.name[0] }}</span
-                              >&nbsp;&nbsp;
-                              <span class="user-name-email"
-                                ><b>{{ user.name }}</b> &nbsp;
-                                {{ user.email }}</span
-                              >
-                            </span>
-                          </div>
-
-                          <div *ngIf="user.image !== null">
-                            <span id="manager-list-details">
-                              <img [src]="user.image" alt="User Logo" />
-                              &nbsp;&nbsp; <b>{{ user.name }}</b> &nbsp;
-                              {{ user.email }}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        class="selected-users"
-                        *ngIf="selectedManager != null"
-                      >
-                        <div class="d-flex selected-userss align-items-center">
-                          <span class="members-namess">{{
-                            selectedManager!.name[0]
-                          }}</span>
-                          <p class="mb-0">{{ selectedManager!.name }}</p>
-                          <span
-                            class="remove-icon"
-                            style="line-height: 0px"
-                            (click)="
-                              removeSelectedUserOfSelectionManager(
-                                selectedManager
-                              )
-                            "
-                            ><i
-                              class="bi bi-x"
-                              style="color: #fff; font-size: 20px"
-                            ></i
-                          ></span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="form-check-label" for="enableLocation">
-                      Enable Location
-                    </label>
-                    <input
-                      type="checkbox"
-                      id="enableLocation"
-                      class="form-check-input"
-                      [(ngModel)]="locationEnabled"
-                      (change)="handleLocationToggle()"
-                    />
-                  </div>
-
-                  <div class="">
-                    <button
-                      style="width: 100%"
-                      type="button"
-                      (click)="registerTeamSubmitButton()"
-                      class="btn btn-de-primary"
-                    >
-                      Create new team
-                    </button>
+                  <div *ngIf="user.image !== null">
+                    <span id="user-list-details">
+                      <img onerror="this.src='../assets/images/broken-image-icon.jpg';" [src]="user.image"
+                        alt="User Logo" />
+                      &nbsp;&nbsp; <b>{{ user.name }}</b> &nbsp;
+                      {{ user.email }}
+                    </span>
                   </div>
                 </div>
               </div>
+              <div class="selected-users">
+                <div class="d-flex selected-userss align-items-center" *ngFor="let selectedUser of selectedUsers">
+                  <span class="members-namess">{{
+                    selectedUser.name[0]
+                    }}</span>
+                  <p class="mb-0">{{ selectedUser.name }}</p>
+                  <span class="remove-icon" style="line-height: 0px" (click)="removeSelectedUser(selectedUser)"><i
+                      class="bi bi-x" style="color: #fff; font-size: 20px"></i></span>
+                </div>
+              </div>
             </div>
-            <div class="col-md-6 pt-4">
-              <div
-                class="createteam-box"
-                style="
-                  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12),
-                    0 1px 2px rgba(0, 0, 0, 0.24);
-                "
-              >
-                <div class="team-user-main">
-                  <div class="team-user">
-                    <i class="bi bi-people-fill"></i>
+          </div>
+          <div class="form-group">
+            <label for="username" class="mb-2 font-13">
+              Manager
+            </label>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control input-zorro w-100" name="manager" id="manager"
+                placeholder="Add team manager by name or email…" [(ngModel)]="searchQueryManager"
+                (input)="searchUsersManager()" />
+              <div class="user-dropdown new-membear-list" *ngIf="userListManager.length > 0">
+                <div id="manager-item" class="user-item" *ngFor="let user of userListManager"
+                  (click)="toggleUserSelectionManager(user)">
+                  <div *ngIf="user.image === null">
+                    <span id="manager-list-details">
+                      <span class="members-name" id="manager-first-name-logo">{{ user.name[0]
+                        }}</span>&nbsp;&nbsp;
+                      <span class="user-name-email"><b>{{ user.name }}</b> &nbsp;
+                        {{ user.email }}</span>
+                    </span>
+                  </div>
+                  <div *ngIf="user.image !== null">
+                    <span id="manager-list-details">
+                      <img onerror="this.src='../assets/images/broken-image-icon.jpg';" [src]="user.image"
+                        alt="User Logo" />
+                      &nbsp;&nbsp; <b>{{ user.name }}</b> &nbsp;
+                      {{ user.email }}
+                    </span>
                   </div>
                 </div>
-                <div class="members-box p-3">
-                  <div class="border-bottom">
-                    <h5>Members</h5>
-                  </div>
-
-                  <div class="row mt-3">
-                    <div class="col-md-6">
-                      <div
-                        class="members-list d-flex align-items-center"
-                        style="gap: 10px"
-                      >
-                        <span class="members-name">YK</span>
-                        <p class="mb-0">Yogesh Kumar</p>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div
-                        class="members-list d-flex align-items-center"
-                        style="gap: 10px"
-                      >
-                        <span class="members-name dummy-nmae"></span>
-                        <p class="mb-0 dummy-member-nmae"></p>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div
-                        class="members-list d-flex align-items-center"
-                        style="gap: 10px"
-                      >
-                        <span class="members-name dummy-nmae"></span>
-                        <p class="mb-0 dummy-member-nmae"></p>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div
-                        class="members-list d-flex align-items-center"
-                        style="gap: 10px"
-                      >
-                        <span class="members-name dummy-nmae"></span>
-                        <p class="mb-0 dummy-member-nmae"></p>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div
-                        class="members-list d-flex align-items-center"
-                        style="gap: 10px"
-                      >
-                        <span class="members-name dummy-nmae"></span>
-                        <p class="mb-0 dummy-member-nmae"></p>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div
-                        class="members-list d-flex align-items-center"
-                        style="gap: 10px"
-                      >
-                        <span class="members-name dummy-nmae"></span>
-                        <p class="mb-0 dummy-member-nmae"></p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="members-box p-3">
-                  <div class="border-bottom">
-                    <h5>Projects</h5>
-                  </div>
-
-                  <div class="row mt-3">
-                    <div class="col-md-8">
-                      <div
-                        class="members-list d-flex align-items-center"
-                        style="gap: 10px"
-                      >
-                        <div class="">
-                          <span class="new-project"></span>
-                        </div>
-                        <div class="" style="width: 60%">
-                          <p class="mb-0 dummy-member-new"></p>
-                          <p
-                            class="mb-0 dummy-member-new dummy-member-newe"
-                          ></p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-8">
-                      <div
-                        class="members-list d-flex align-items-center"
-                        style="gap: 10px"
-                      >
-                        <div class="">
-                          <span class="new-project"></span>
-                        </div>
-                        <div class="" style="width: 60%">
-                          <p class="mb-0 dummy-member-new"></p>
-                          <p
-                            class="mb-0 dummy-member-new dummy-member-newe"
-                          ></p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+              </div>
+              <div class="selected-users" *ngIf="selectedManager != null">
+                <div class="d-flex selected-userss align-items-center">
+                  <span class="members-namess">{{
+                    selectedManager!.name[0]
+                    }}</span>
+                  <p class="mb-0">{{ selectedManager!.name }}</p>
+                  <span class="remove-icon" style="line-height: 0px" (click)="
+                                    removeSelectedUserOfSelectionManager(
+                                    selectedManager
+                                    )
+                                    "><i class="bi bi-x" style="color: #fff; font-size: 20px"></i></span>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-
-      <!-- <div class="modal-footer">
-                  <button type="button" class="btn btn-primary btn-sm">Submit</button>
-              </div> -->
-      <!--end modal-footer-->
+      <div class="modal-footer">
+        <button type="button" (click)="registerTeamSubmitButton()" class="btn submitActionBtn">
+          Create new team
+        </button>
+      </div>
     </div>
-    <!--end modal-content-->
   </div>
-  <!--end modal-dialog-->
 </div>
 <!--end modal-->
 
-<button
-  type="button"
-  style="display: none"
-  data-bs-toggle="modal"
-  data-bs-target="#teamLocationss2"
-  #teamLocationss
-  id="teamLocationss"
-></button>
 
-<div
-  class="modal fade"
-  id="teamLocationss2"
-  tabindex="-1"
-  role="dialog"
-  #teamLocationss2
-  aria-labelledby="teamLocationss2"
-  aria-hidden="true"
->
+
+<button type="button" style="display: none" data-bs-toggle="modal" data-bs-target="#teamLocationss2" #teamLocationss
+  id="teamLocationss"></button>
+<div class="modal fade" id="teamLocationss2" tabindex="-1" role="dialog" #teamLocationss2
+  aria-labelledby="teamLocationss2" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
-    <form
-      #teamLocationForm="ngForm"
-      ngNativeValidate
-      (ngSubmit)="reopenCreateTeamModal()"
-    >
+    <form #teamLocationForm="ngForm" ngNativeValidate (ngSubmit)="reopenCreateTeamModal()">
       <div class="modal-content">
         <div class="modal-header">
           <h6 class="modal-title m-0" id="exampleModalDefaultLabel">
             Staff Attendance With Location
           </h6>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            (click)="refreshTeamLocationsForm(true)"
-            #closeTeamLocationModal
-            aria-label="Close"
-          ></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" (click)="refreshTeamLocationsForm(true)"
+            #closeTeamLocationModal aria-label="Close"></button>
         </div>
         <!--end modal-header-->
         <div class="modal-body">
@@ -1310,88 +611,48 @@
               <div class="col-md-12">
                 <div class="mb-3">
                   <label for="addressLine1" class="pb-2">Address </label>
-                  <input
-                    type="text"
-                    id="addressLine1"
-                    placeholder="Address line 1"
-                    ngx-google-places-autocomplete
-                    #placesRef="ngx-places"
-                    (onAddressChange)="handleAddressChange($event)"
-                    required=""
-                    name="addressLine1"
-                    class="form-control ng-untouched ng-pristine ng-invalid"
-                    [(ngModel)]="teamLocationRequest.addressLine1"
-                  />
+                  <input type="text" id="addressLine1" placeholder="Address line 1" ngx-google-places-autocomplete
+                    #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)" required=""
+                    name="addressLine1" class="form-control ng-untouched ng-pristine ng-invalid"
+                    [(ngModel)]="teamLocationRequest.addressLine1" />
                 </div>
               </div>
               <div class="col-md-12">
                 <div class="mb-3">
                   <label for="addressLine2" class="pb-2">Street Address</label>
-                  <input
-                    type="text"
-                    id="addressLine2"
-                    placeholder="Address line 2"
-                    required=""
-                    name="addressLine2"
+                  <input type="text" id="addressLine2" placeholder="Address line 2" required="" name="addressLine2"
                     class="form-control ng-untouched ng-pristine ng-invalid"
-                    [(ngModel)]="teamLocationRequest.addressLine2"
-                  />
+                    [(ngModel)]="teamLocationRequest.addressLine2" />
                 </div>
               </div>
               <div class="col-md-4">
                 <div class="mb-3">
                   <label for="city" class="pb-2"> City </label>
-                  <input
-                    type="text"
-                    id="city"
-                    placeholder="City"
-                    required=""
-                    name="city"
-                    class="form-control ng-untouched ng-pristine ng-invalid"
-                    [(ngModel)]="teamLocationRequest.city"
-                  />
+                  <input type="text" id="city" placeholder="City" required="" name="city"
+                    class="form-control ng-untouched ng-pristine ng-invalid" [(ngModel)]="teamLocationRequest.city" />
                 </div>
               </div>
               <div class="col-md-4">
                 <div class="mb-3">
                   <label for="state" class="pb-2"> State </label>
-                  <input
-                    type="text"
-                    id="state"
-                    placeholder="State"
-                    required=""
-                    name="state"
-                    class="form-control ng-untouched ng-pristine ng-invalid"
-                    [(ngModel)]="teamLocationRequest.state"
-                  />
+                  <input type="text" id="state" placeholder="State" required="" name="state"
+                    class="form-control ng-untouched ng-pristine ng-invalid" [(ngModel)]="teamLocationRequest.state" />
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="mb-3">
                   <label for="country" class="pb-2">Country</label>
-                  <input
-                    type="text"
-                    id="country"
-                    placeholder="Country"
-                    required=""
-                    name="country"
+                  <input type="text" id="country" placeholder="Country" required="" name="country"
                     class="form-control ng-untouched ng-pristine ng-invalid"
-                    [(ngModel)]="teamLocationRequest.country"
-                  />
+                    [(ngModel)]="teamLocationRequest.country" />
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="mb-3">
                   <label for="pincode" class="pb-2">Pincode</label>
-                  <input
-                    type="text"
-                    id="pincode"
-                    placeholder="Pincode"
-                    required=""
-                    name="pincode"
+                  <input type="text" id="pincode" placeholder="Pincode" required="" name="pincode"
                     class="form-control ng-untouched ng-pristine ng-invalid"
-                    [(ngModel)]="teamLocationRequest.pincode"
-                  />
+                    [(ngModel)]="teamLocationRequest.pincode" />
                 </div>
               </div>
               <div class="col-md-4">
@@ -1399,15 +660,8 @@
                   <label for="radius" class="pb-2">
                     Employee Location Must be in
                   </label>
-                  <input
-                    type="text"
-                    id="radius"
-                    placeholder="in meters"
-                    required=""
-                    name="radius"
-                    class="form-control ng-untouched ng-pristine ng-invalid"
-                    [(ngModel)]="teamLocationRequest.range"
-                  />
+                  <input type="text" id="radius" placeholder="in meters" required="" name="radius"
+                    class="form-control ng-untouched ng-pristine ng-invalid" [(ngModel)]="teamLocationRequest.range" />
                 </div>
               </div>
             </div>
@@ -1418,10 +672,10 @@
             <!-- [disabled]="toggle" -->
             <!-- *ngIf="!toggle" -->
             <!-- <div *ngIf="toggle" class="dot-opacity-loader">
-              <span></span>
-              <span></span>
-              <span></span>
-            </div> -->
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  </div> -->
             <span>
               Set Location
               <i class="bi bi-arrow-right" style="padding-left: 8px"></i>
@@ -1432,33 +686,16 @@
     </form>
   </div>
 </div>
-
 <!--  ########################33  Modal ##################################33333 -->
-
-<div
-  class="modal fade"
-  id="addteam"
-  tabindex="-1"
-  aria-labelledby="exampleModalFullscreenLabel"
-  aria-hidden="true"
->
+<div class="modal fade" id="addteam" tabindex="-1" aria-labelledby="exampleModalFullscreenLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" style="max-width: 600px" role="document">
     <div class="modal-content">
       <div class="modal-header" style="background-color: #fff">
-        <h5
-          class="modal-title m-0"
-          style="color: #111; font-size: 18px"
-          id="exampleModalDefaultLabel"
-        >
+        <h5 class="modal-title m-0" style="color: #111; font-size: 18px" id="exampleModalDefaultLabel">
           {{ team.name }}
         </h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-          #assignManagerModalCloseButton
-        ></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+          #assignManagerModalCloseButton></button>
       </div>
       <!--end modal-header-->
       <div class="modal-body p-0">
@@ -1466,145 +703,93 @@
           <!-- Nav tabs -->
           <ul class="nav nav-tabs" role="tablist">
             <!-- <li class="nav-item">
-                              <a class="nav-link active" data-bs-toggle="tab" href="#general" role="tab" aria-selected="true">General</a>
-                          </li> -->
+                     <a class="nav-link active" data-bs-toggle="tab" href="#general" role="tab" aria-selected="true">General</a>
+                     </li> -->
             <li class="nav-item">
-              <a
-                class="nav-link active"
-                data-bs-toggle="tab"
-                href="#members-add"
-                role="tab"
-                aria-selected="false"
-                >Members</a
-              >
+              <a class="nav-link active" data-bs-toggle="tab" href="#members-add" role="tab"
+                aria-selected="false">Members</a>
             </li>
             <!-- <li class="nav-item">
-                              <a class="nav-link" data-bs-toggle="tab" href="#advanced" role="tab" aria-selected="false">Advanced</a>
-                          </li> -->
+                     <a class="nav-link" data-bs-toggle="tab" href="#advanced" role="tab" aria-selected="false">Advanced</a>
+                     </li> -->
           </ul>
-
           <!-- Tab panes -->
           <div class="tab-content">
             <!-- <div class="tab-pane  p-3 active" id="general" role="tabpanel">
-                           <p>General</p>
-                              
-                            
-                          </div> -->
+                     <p>General</p>
+                        
+                      
+                     </div> -->
             <div class="tab-pane p-3 active" id="members-add" role="tabpanel">
               <div class="">
                 <div class="">
                   <div class="">
                     <h5>Members</h5>
                   </div>
-
-                  <div
-                    class="Members-list-box d-flex align-items-center justify-content-between"
-                    *ngFor="let ul of team.userList; let i = index"
-                  >
+                  <div class="Members-list-box d-flex align-items-center justify-content-between"
+                    *ngFor="let ul of team.userList; let i = index">
                     <div class="d-flex align-items-center" style="gap: 10px">
                       <div>
                         <span *ngIf="ul.image !== null">
-                          <img
-                            src="{{ ul.image }}"
-                            alt="u"
-                            class="thumb-xs rounded-circle"
-                          />
+                          <img src="{{ ul.image }}" alt="u" class="thumb-xs rounded-circle" />
                         </span>
                         <span class="members-name" *ngIf="ul.image == null">{{
                           ul.name[0]
-                        }}</span>
+                          }}</span>
                         <!-- <span class="mamber-list-ui" *ngIf="ul.image==null">{{ul.name[0]}}</span> -->
                       </div>
                       <div>
                         <h6 class="mb-0 mt-0">
-                       {{ capitalizeFirstLetter(ul.name) }}
-                    </h6>
+                          {{ capitalizeFirstLetter(ul.name) }}
+                        </h6>
                         <p class="mb-0">{{ ul.email }}</p>
                       </div>
                     </div>
                     <div class="manegir-dropdown">
                       <div class="dropdown d-inline-block">
                         <!-- <a class="dropdown-toggle" *ngIf="i==0" id="dLabel1" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                                                      Team admin <i class="bi bi-chevron-down font-14 text-muted"></i>
-                                                  </a> -->
+                                       Team admin <i class="bi bi-chevron-down font-14 text-muted"></i>
+                                       </a> -->
                         <!-- *ngIf="i>0" -->
-
-                        <a
-                          class="dropdown-toggle"
-                          id="dLabel1"
-                          data-bs-toggle="dropdown"
-                          href="#"
-                          role="button"
-                          aria-haspopup="false"
-                          aria-expanded="false"
-                          *ngIf="ul.roleId == 2"
-                        >
+                        <a class="dropdown-toggle" id="dLabel1" data-bs-toggle="dropdown" href="#" role="button"
+                          aria-haspopup="false" aria-expanded="false" *ngIf="ul.roleId == 2">
                           {{
-                            capitalizeFirstLetterAndSmallOtherLetters("MEMBER")
+                          capitalizeFirstLetterAndSmallOtherLetters("MEMBER")
                           }}
                           <i class="bi bi-chevron-down font-14 text-muted"></i>
                         </a>
-
-                        <a
-                          class="dropdown-toggle"
-                          id="dLabel1"
-                          data-bs-toggle="dropdown"
-                          href="#"
-                          role="button"
-                          aria-haspopup="false"
-                          aria-expanded="false"
-                          *ngIf="ul.roleId == 3"
-                        >
+                        <a class="dropdown-toggle" id="dLabel1" data-bs-toggle="dropdown" href="#" role="button"
+                          aria-haspopup="false" aria-expanded="false" *ngIf="ul.roleId == 3">
                           {{
-                            capitalizeFirstLetterAndSmallOtherLetters("MANAGER")
+                          capitalizeFirstLetterAndSmallOtherLetters("MANAGER")
                           }}
                           <i class="bi bi-chevron-down font-14 text-muted"></i>
                         </a>
-
-                        <div
-                          class="dropdown-menu dropdown-menu-end list-top"
-                          aria-labelledby="dLabel1"
-                        >
+                        <div class="dropdown-menu dropdown-menu-end list-top" aria-labelledby="dLabel1">
                           <div class="manager-list">
-                            <a
-                              class="dropdown-item"
-                              *ngIf="ul.roleId == 2"
-                              (click)="
-                                assignManagerRoleToMemberMethodCall(
-                                  team.uuid,
-                                  ul.uuid
-                                )
-                              "
-                              >Make Manager
+                            <a class="dropdown-item" *ngIf="ul.roleId == 2" (click)="
+                                          assignManagerRoleToMemberMethodCall(
+                                          team.uuid,
+                                          ul.uuid
+                                          )
+                                          ">Make Manager
                             </a>
                           </div>
                           <div class="manager-list">
-                            <a
-                              class="dropdown-item"
-                              *ngIf="ul.roleId == 3"
-                              (click)="
-                                assignMemberRoleToManagerMethodCall(
-                                  team.uuid,
-                                  ul.uuid
-                                )
-                              "
-                              >Remove Manager</a
-                            >
+                            <a class="dropdown-item" *ngIf="ul.roleId == 3" (click)="
+                                          assignMemberRoleToManagerMethodCall(
+                                          team.uuid,
+                                          ul.uuid
+                                          )
+                                          ">Remove Manager</a>
                           </div>
                           <div class="manager-list">
-                            <a
-                              class="dropdown-item"
-                              (click)="routeToUserDetails(ul.uuid)"
-                              >View Profile</a
-                            >
+                            <a class="dropdown-item" (click)="routeToUserDetails(ul.uuid)">View Profile</a>
                           </div>
                           <div class="manager-list remove-team">
-                            <a
-                              class="dropdown-item StaticMenuItemBase-button"
-                              (click)="removeUserFromTeam(team.uuid, ul.uuid)"
-                            >
-                              <span>Remove from team</span></a
-                            >
+                            <a class="dropdown-item StaticMenuItemBase-button"
+                              (click)="removeUserFromTeam(team.uuid, ul.uuid)">
+                              <span>Remove from team</span></a>
                           </div>
                         </div>
                       </div>
@@ -1622,10 +807,9 @@
         </div>
         <!--end card-body-->
       </div>
-
       <!-- <div class="modal-footer">
-                  <button type="button" class="btn btn-primary btn-sm">Submit</button>
-              </div> -->
+            <button type="button" class="btn btn-primary btn-sm">Submit</button>
+            </div> -->
       <!--end modal-footer-->
     </div>
     <!--end modal-content-->
@@ -1633,53 +817,25 @@
   <!--end modal-dialog-->
 </div>
 <!--end modal-->
-
-<div
-  class="modal fade"
-  id="deleteConfirmationModal"
-  #deleteConfirmationModal
-  tabindex="-1"
-  aria-labelledby="confirmationModalLabel"
-  aria-hidden="true"
-  data-bs-backdrop="false"
->
-  <div
-    class="modal-dialog modal-dialog-centered mx-auto mx-auto"
-    style="max-width: 400px !important"
-  >
+<div class="modal fade" id="deleteConfirmationModal" #deleteConfirmationModal tabindex="-1"
+  aria-labelledby="confirmationModalLabel" aria-hidden="true" data-bs-backdrop="false">
+  <div class="modal-dialog modal-dialog-centered mx-auto mx-auto" style="max-width: 400px !important">
     <div class="modal-content p-0" style="border-radius: 15px">
       <form #confirmationForm="ngForm">
         <div class="modal-body text-center mt-1 mb-3">
           <img src="assets/images/delete.svg" style="width: 70px" />
-
           <h4 class="confirm-detail">Are you sure you wish to proceed?</h4>
-
           <h6 style="color: aquamarine">
             Caution :
-            <span style="color: #a1a0a0"
-              >Exiting this team will lead to the removal of all team-related
-              privileges.</span
-            >
+            <span style="color: #a1a0a0">Exiting this team will lead to the removal of all team-related
+              privileges.</span>
           </h6>
-
-          <div
-            class="d-flex align-items-center justify-content-center mt-4"
-            style="gap: 15px"
-          >
-            <button
-              type="button"
-              class="btn btn-primary btnmarkcancel"
-              data-bs-dismiss="modal"
-              #closeUserDeleteModal
-            >
+          <div class="d-flex align-items-center justify-content-center mt-4" style="gap: 15px">
+            <button type="button" class="btn btn-primary btnmarkcancel" data-bs-dismiss="modal" #closeUserDeleteModal>
               Cancel
             </button>
-            <button
-              type="button"
-              class="btn btnmarkdelete"
-              (click)="exitUserFromTeam()"
-              *ngIf="!exitUserFromTeamLoader"
-            >
+            <button type="button" class="btn btnmarkdelete" (click)="exitUserFromTeam()"
+              *ngIf="!exitUserFromTeamLoader">
               Delete
             </button>
             <div class="dot-opacity-loader" *ngIf="exitUserFromTeamLoader">

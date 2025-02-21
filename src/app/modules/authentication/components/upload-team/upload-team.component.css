@@ -1,0 +1,478 @@
+.leave-delet-btn {
+  top: 0px;
+  right: 11px;
+}
+.leave-delet-btn i {
+  color: #eb5050;
+}
+
+p.tableinfo.mb-0 {
+  font-size: 13px !important;
+  font-weight: 500 !important;
+}
+
+.invalid-input {
+  border-color: red !important; /* Change the border color to red */
+  /* Optionally, you can also change the background color or other styles */
+  background-color: #010101 !important; /* Light red background */
+}
+
+.munal-deta-upload-modal {
+  max-height: 400px;
+  overflow-x: scroll;
+}
+.munal-deta-upload-modal::-webkit-scrollbar {
+  display: none;
+}
+.munal-add-more-btn {
+  color: var(--primary-color) !important;
+  font-size: 14px;
+  font-weight: 400;
+  background-color: transparent;
+  padding: 0px;
+  border: none;
+}
+.munal-add-more-btn svg {
+  width: 20px;
+  position: relative;
+  top: -1px;
+}
+.tableinfo i {
+  font-size: 16px;
+  color: var(--primary-color);
+}
+/* Pushpendra's Code  */
+.card-header {
+  border: 0;
+  border-bottom: 1px dashed #e8ebf3;
+}
+.bg-soft-warning:hover {
+  background-color: rgba(255, 159, 67, 0.08) !important;
+}
+
+.btn.add-excel {
+  font-size: 14px !important;
+  font-weight: 500;
+  color: var(--primary-color) !important;
+  padding: 0px;
+}
+.mt-130 {
+  margin-top: 130px;
+}
+.img-fluid {
+  width: 91.3% !important;
+}
+.munal-add-more-btn.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.excel-spinner {
+  height: 20px;
+  width: 20px;
+}
+
+.bg-soft-warning:hover {
+  background-color: rgba(255, 159, 67, 0.08) !important;
+}
+/* .alert-light:hover .alert-heading {
+  color: orange !important;
+} */
+.create-password-warning > p {
+  color: #6b6b6b;
+  font-size: 13px;
+  font-weight: 300;
+}
+
+.textDecrotion:hover {
+  text-decoration: underline;
+  color: var(--primary-color) !important;
+}
+.dot-opacity-loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 6px;
+}
+
+.dot-opacity-loader span {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #fff !important; /* Change to your preferred color */
+  margin: 0 4px;
+  animation: dotOpacity 1.4s infinite ease-in-out both;
+}
+
+.dot-opacity-loader span:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.dot-opacity-loader span:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+@keyframes dotOpacity {
+  0%,
+  80%,
+  100% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+}
+
+.submit-loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 6px;
+}
+
+.submit-loader span {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #efeff4 !important; /* Change to your preferred color */
+  margin: 0 4px;
+  animation: dotOpacity 1.4s infinite ease-in-out both;
+}
+
+.submit-loader span:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.submit-loader span:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+.sampleExcelFileBox {
+  border: 1px dashed rgba(102, 102, 242, 0.4);
+  background-color: rgba(244, 247, 255, 0.5) !important;
+  padding: 20px 15px;
+}
+.excelUploadBtn {
+  background-color: transparent;
+  color: var(--primary-color);
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 2px;
+}
+.excelUploadBtn svg {
+  position: relative;
+  top: -1px;
+  width: 20px;
+  padding-left: 3px;
+}
+.add-excel svg {
+  width: 16px;
+  position: relative;
+  top: -3px;
+}
+.spreter {
+  height: 25px;
+  border-right: 1px solid #e6e7e9;
+}
+
+.error-spreter {
+  height: 15px;
+  border-right: 1px solid #d9d9d9;
+}
+.close-btn {
+  background-color: transparent;
+  border: none;
+  padding: 0px;
+}
+.side-img {
+  height: 160px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.total-people {
+  background-color: #b7b7ff;
+  border-radius: 2px;
+  padding: 10px 10px 10px 20px;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 600;
+  width: 255px;
+}
+
+.mannualSubmit {
+  background-color: var(--primary-background-color);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 2px;
+}
+.userName {
+  background-color: #e4e7ff;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--primary-color);
+  line-height: 22px;
+}
+.userList:first-child {
+  padding-top: 0px !important;
+}
+.userList:last-child {
+  padding-bottom: 0px !important;
+}
+
+.addUserRemvo {
+  color: #2f2e41;
+  font-size: 14px;
+  font-weight: 500px;
+}
+
+.addUserRemvo svg {
+  width: 15px;
+  position: relative;
+  top: -1px;
+}
+@keyframes dotOpacity {
+  0%,
+  80%,
+  100% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+}
+
+.download-eroor {
+  background-color: #fff;
+  color: #ff2f2f;
+}
+
+.download-eroor svg {
+  width: 20px;
+}
+
+.manualemployList {
+  max-height: 220px;
+  overflow: scroll;
+}
+
+.manualemployList::-webkit-scrollbar {
+  display: none;
+}
+
+.editDeleteBtn svg {
+  position: relative;
+  top: -1px;
+  width: 17px;
+  height: 17px;
+}
+
+.headTag {
+  font-weight: 500;
+  font-size: 13px;
+  margin: 0;
+}
+.excel-uplode-file-box {
+  padding-right: 40px;
+}
+.delete-text h5 {
+  line-height: 26px;
+}
+
+.edit-delet-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+.submit-add-more {
+  background-color: #fbfbfb;
+  border: 1px solid #e6e7e9;
+  border-radius: 2px;
+  color: #4a4a4a;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.pagnition p span {
+  color: #444;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.pagnition p {
+  color: #444;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
+}
+
+.pagnition-left {
+  border: 1px solid #444;
+  border-radius: 20px 0px 0px 20px;
+  padding: 2px 12px;
+  background-color: transparent;
+  color: #444;
+  line-height: 24px;
+}
+.pagnition-right {
+  border: 1px solid #444;
+  border-radius: 0px 20px 20px 0px;
+  padding: 2px 12px;
+  background-color: transparent;
+  color: #444;
+  border-left: none;
+  line-height: 24px;
+}
+
+.selectAll {
+  background-color: #f4f8ff;
+  border: 1px solid #e4e7ff;
+  padding: 4px 15px;
+  border-radius: 2px;
+  font-weight: 400;
+}
+
+.dot-opacity-white-loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 6px;
+}
+
+.dot-opacity-white-loader span {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #e8e8f2 !important; /* Change to your preferred color */
+  margin: 0 4px;
+  animation: dotOpacity 1.4s infinite ease-in-out both;
+}
+
+.dot-opacity-white-loader span:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.addMoreUser svg {
+  width: 15px;
+  position: relative;
+  top: -2px;
+}
+
+.saperater {
+  border-right: 1px solid #ccc;
+  height: 16px;
+  margin-bottom: 0px;
+}
+.uploadEmployee p {
+  color: #121212;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 20px; /* 166.378% */
+  letter-spacing: 0.128px;
+}
+
+.alreadyMemberBox {
+  background-color: #fff8f2;
+  border-radius: 2px;
+}
+
+.alreadyUser {
+  background-color: #e27a17;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.alreadyUser svg {
+  width: 18px;
+}
+.alreadyMemberBox h5 {
+  color: #e27a17;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: 0.501px;
+  text-transform: lowercase;
+}
+.alreadyMemberBox p {
+  color: #2f2e41;
+  font-weight: 400;
+  line-height: 115%; /* 18.4px */
+  letter-spacing: 0.16px;
+}
+.alreadyMemberBox p span {
+  color: var(--primary-color);
+}
+.deleteSelecetdUser {
+  background-color: rgb(255 252 252);
+  color: #fd0808;
+  border-color: #fd0808;
+}
+.employee-list {
+  border-bottom: 1px dashed #e8ebf3;
+}
+span.Duplicate-number-count {
+  background-color: #fff;
+  color: red;
+  font-size: 11px;
+  font-weight: 500;
+  border-radius: 2px;
+  padding: 2px 5px;
+  margin-left: 5px;
+}
+
+.admin{
+  border: 1px solid rgba(102, 102, 242, 0.4);
+  background-color: rgba(244, 247, 255, 0.5) !important;
+  border-radius: 2px;
+  padding: 5px 15px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 22px;
+}
+
+span.request-count {
+  background-color: rgb(241 241 253) !important;
+  color: var(--primary-color) !important;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+}
+
+.sucsuce-msg-box {
+  background-color: green;
+  width: 400px;
+  margin: 0 auto;
+  padding: 5px;
+  border-radius: 6px;
+}
+
+.sucsuce-msg {
+  color: #fff;
+  text-align: center;
+  font-weight: 500;
+  margin-bottom: 0px;
+  font-size: 12px;
+}
+
+.excel-file-error{
+  bottom: 69px !important;
+}

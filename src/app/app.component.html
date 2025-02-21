@@ -1,20 +1,26 @@
-
-<!-- 
-<app-header *ngIf="showHeader"></app-header>
-
-<app-topbar></app-topbar>
- -->
-<!-- <app-header *ngIf="showHeader"></app-header> -->
-
-
-
-
-<div class="container-scroller" *ngIf="(key.TOPBAR_ROUTES.includes(this._router.url.split('?')[0])) && this.rbacService.isUserInfoInitialized">
-    <div class="horizontal-menu">
-        <app-topbar></app-topbar>
-    </div>
+<div
+  class="container-scroller topbar-fix"
+  *ngIf="
+    key.TOPBAR_ROUTES.includes(this._router.url.split('?')[0]) &&
+    this.rbacService.isUserInfoInitialized
+  "
+>
+  <div class="horizontal-menu">
+    <app-topbar></app-topbar>
+  </div>
 </div>
-<router-outlet></router-outlet>
-<app-notifaction-tost *ngIf="isShowToast"></app-notifaction-tost>
+<div
+  class="container-scroller"
+  *ngIf="key.HEADER_ROUTES.includes(this._router.url.split('?')[0]) &&  this.rbacService.userInfo.role != 'USER'"
+>
+  <div class="horizontal-menu">
+    <app-header></app-header>
+  </div>
+</div>
+<router-outlet  *ngIf="!onboardingService.isLoadingOnboardingStatus"></router-outlet>
 
-<!-- <app-confirmation-dialog></app-confirmation-dialog> -->
+<app-hajiri-page-loader *ngIf="onboardingService.isLoadingOnboardingStatus">
+</app-hajiri-page-loader>
+
+<app-notifaction-tost *ngIf="isShowToast"></app-notifaction-tost>
+<!-- <app-exit-modal></app-exit-modal>  -->

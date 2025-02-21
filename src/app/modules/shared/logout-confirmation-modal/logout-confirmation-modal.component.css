@@ -1,0 +1,33 @@
+.confirm-modal h5 {
+  font-weight: 600;
+}
+.mannualSubmit {
+  background-color: var(--primary-background-color);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 2px;
+  min-width: 100px;
+}
+
+.submit-add-more {
+  background-color: #fbfbfb;
+  border: 1px solid #e6e7e9;
+  border-radius: 2px;
+  color: #4a4a4a;
+  font-size: 12px;
+  font-weight: 500;
+  min-width: 100px;
+}
+
+.close-btn {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+}
+
+.close-btn svg {
+  width: 15px;
+  position: relative;
+  top: -1px;
+}

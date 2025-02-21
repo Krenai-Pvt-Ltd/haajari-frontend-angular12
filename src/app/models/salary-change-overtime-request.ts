@@ -6,9 +6,8 @@ export class SalaryChangeOvertimeRequest {
     comment : string = '';
     payActionTypeId : number = 0;
 
-    constructor(uuid: string, payActionTypeId: number, comment : string) {
+    constructor(uuid: string, payActionTypeId: number) {
         this.uuid = uuid;
         this.payActionTypeId = payActionTypeId;
-        this.comment = comment;
     }
 }

@@ -1,0 +1,11 @@
+.onboarding-successfull{
+    height: 100vh;
+}
+
+b{
+    font-weight: 500;
+}
+.onboarding-successfull p:first-child{
+    color: #444;
+    font-size: 400;
+}

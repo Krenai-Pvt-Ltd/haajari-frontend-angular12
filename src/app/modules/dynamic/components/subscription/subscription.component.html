@@ -1,0 +1,1738 @@
+<div class="page-wrapper">
+  <div class="page-content-tab">
+    <div class="container-fluid pr-0">
+      <div class="mt-3" *ngIf="!planSwitch">
+        <ul id="pills-tab" role="tablist" class="nav nav-pills">
+          <li class="nav-item">
+            <a id="pills-home-tab" data-bs-toggle="pill" href="#subscription" role="tab" aria-controls="pills-home"
+              aria-selected="true" class="nav-link active">Subscription</a>
+          </li>
+          <li class="nav-item" *ngIf="_subscriptionPlanService.isSubscription && !_subscriptionPlanService.isTrialPlan">
+            <a id="pills-profile-tab" data-bs-toggle="pill" href="#billing" role="tab" aria-controls="pills-profile"
+              aria-selected="false" class="nav-link" (click)="getInvoices()">Billing</a>
+          </li>
+        </ul>
+        <div id="pills-tabContent" class="tab-content">
+          <div class="tab-pane fade active show" id="subscription" role="tabpanel" aria-labelledby="subscription-tab">
+            <div class="row">
+              <div class="col-md-3"
+                *ngIf="_subscriptionPlanService.isSubscription && !_subscriptionPlanService.isTrialPlan">
+                <div class="current-plan-box pt-4" *ngIf="!RulesRegulation">
+                  <h2 class="font-18">Current</h2>
+
+                  <div class="d-flex align-items-start justify-content-between mt-5">
+                    <div>
+                      <h5 class="mb-0">{{orgSubscriptionPlanDetail?.planName}} Plan</h5>
+
+                      <p class="mb-0 font-14 pt-2">
+                        Our most popular plan for<br />
+                        small teams.
+                      </p>
+                    </div>
+
+                    <span class="plan-tag" *ngIf="!orgSubscriptionPlanDetail.expired">{{orgSubscriptionPlanDetail?.yearly?'Yearly':'Monthly'}}</span>
+                    <!-- <span class="plan-tag">Monthly</span> -->
+                    <span class="plan-expired" *ngIf="orgSubscriptionPlanDetail.expired">Plan Expired </span> 
+                  </div>
+                  <div class="mt-5 d-flex align-items-center gap-2 active-plan-velue">
+                    <h4>₹{{orgSubscriptionPlanDetail?.planAmount | number: '1.0-2'}}</h4>
+                    <p class="mb-0 font-16">Per month</p>
+                  </div>
+
+                  <h3 *ngIf="orgSubscriptionPlanDetail!=undefined">Employee {{orgSubscriptionPlanDetail.quotaUsed >
+                    orgSubscriptionPlanDetail.employeeQuota ? orgSubscriptionPlanDetail.employeeQuota:
+                    orgSubscriptionPlanDetail.quotaUsed}}/{{orgSubscriptionPlanDetail.employeeQuota}}
+                    ({{((orgSubscriptionPlanDetail.quotaUsed > orgSubscriptionPlanDetail.employeeQuota ?
+                    orgSubscriptionPlanDetail.employeeQuota: orgSubscriptionPlanDetail.quotaUsed)/
+                    orgSubscriptionPlanDetail.employeeQuota)* 100 | number: '1.0-2'}}%)</h3>
+
+                  <div class="progress w-100">
+                    <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': progress + '%'}"
+                      aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+
+                  <span class="saperater-border mt-4 mb-4"></span>
+
+                  <div class="start-end-date">
+                    <div class="d-flex align-items-center justify-content-between">
+                      <div class="d-flex align-items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="24" viewBox="0 0 23 24" fill="none">
+                          <mask id="mask0_3746_3195" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                            width="23" height="24">
+                            <rect x="0.0551758" y="0.988281" width="22.6395" height="22.6395" fill="#878A9A" />
+                          </mask>
+                          <g mask="url(#mask0_3746_3195)">
+                            <path
+                              d="M4.77188 21.7374C4.25306 21.7374 3.80892 21.5526 3.43945 21.1832C3.06999 20.8137 2.88525 20.3696 2.88525 19.8507V6.64435C2.88525 6.12553 3.06999 5.68138 3.43945 5.31192C3.80892 4.94245 4.25306 4.75772 4.77188 4.75772H5.7152V2.87109H7.60182V4.75772H15.1483V2.87109H17.035V4.75772H17.9783C18.4971 4.75772 18.9412 4.94245 19.3107 5.31192C19.6802 5.68138 19.8649 6.12553 19.8649 6.64435V19.8507C19.8649 20.3696 19.6802 20.8137 19.3107 21.1832C18.9412 21.5526 18.4971 21.7374 17.9783 21.7374H4.77188ZM4.77188 19.8507H17.9783V10.4176H4.77188V19.8507ZM4.77188 8.53098H17.9783V6.64435H4.77188V8.53098ZM11.3751 14.1909C11.1078 14.1909 10.8838 14.1005 10.703 13.9197C10.5222 13.7389 10.4318 13.5148 10.4318 13.2475C10.4318 12.9803 10.5222 12.7562 10.703 12.5754C10.8838 12.3946 11.1078 12.3042 11.3751 12.3042C11.6424 12.3042 11.8664 12.3946 12.0472 12.5754C12.228 12.7562 12.3184 12.9803 12.3184 13.2475C12.3184 13.5148 12.228 13.7389 12.0472 13.9197C11.8664 14.1005 11.6424 14.1909 11.3751 14.1909ZM7.60182 14.1909C7.33455 14.1909 7.11051 14.1005 6.92971 13.9197C6.74891 13.7389 6.65851 13.5148 6.65851 13.2475C6.65851 12.9803 6.74891 12.7562 6.92971 12.5754C7.11051 12.3946 7.33455 12.3042 7.60182 12.3042C7.8691 12.3042 8.09313 12.3946 8.27394 12.5754C8.45474 12.7562 8.54514 12.9803 8.54514 13.2475C8.54514 13.5148 8.45474 13.7389 8.27394 13.9197C8.09313 14.1005 7.8691 14.1909 7.60182 14.1909ZM15.1483 14.1909C14.8811 14.1909 14.657 14.1005 14.4762 13.9197C14.2954 13.7389 14.205 13.5148 14.205 13.2475C14.205 12.9803 14.2954 12.7562 14.4762 12.5754C14.657 12.3946 14.8811 12.3042 15.1483 12.3042C15.4156 12.3042 15.6396 12.3946 15.8204 12.5754C16.0012 12.7562 16.0917 12.9803 16.0917 13.2475C16.0917 13.5148 16.0012 13.7389 15.8204 13.9197C15.6396 14.1005 15.4156 14.1909 15.1483 14.1909ZM11.3751 17.9641C11.1078 17.9641 10.8838 17.8737 10.703 17.6929C10.5222 17.5121 10.4318 17.2881 10.4318 17.0208C10.4318 16.7535 10.5222 16.5295 10.703 16.3487C10.8838 16.1679 11.1078 16.0775 11.3751 16.0775C11.6424 16.0775 11.8664 16.1679 12.0472 16.3487C12.228 16.5295 12.3184 16.7535 12.3184 17.0208C12.3184 17.2881 12.228 17.5121 12.0472 17.6929C11.8664 17.8737 11.6424 17.9641 11.3751 17.9641ZM7.60182 17.9641C7.33455 17.9641 7.11051 17.8737 6.92971 17.6929C6.74891 17.5121 6.65851 17.2881 6.65851 17.0208C6.65851 16.7535 6.74891 16.5295 6.92971 16.3487C7.11051 16.1679 7.33455 16.0775 7.60182 16.0775C7.8691 16.0775 8.09313 16.1679 8.27394 16.3487C8.45474 16.5295 8.54514 16.7535 8.54514 17.0208C8.54514 17.2881 8.45474 17.5121 8.27394 17.6929C8.09313 17.8737 7.8691 17.9641 7.60182 17.9641ZM15.1483 17.9641C14.8811 17.9641 14.657 17.8737 14.4762 17.6929C14.2954 17.5121 14.205 17.2881 14.205 17.0208C14.205 16.7535 14.2954 16.5295 14.4762 16.3487C14.657 16.1679 14.8811 16.0775 15.1483 16.0775C15.4156 16.0775 15.6396 16.1679 15.8204 16.3487C16.0012 16.5295 16.0917 16.7535 16.0917 17.0208C16.0917 17.2881 16.0012 17.5121 15.8204 17.6929C15.6396 17.8737 15.4156 17.9641 15.1483 17.9641Z"
+                              fill="#878A9A" />
+                          </g>
+                        </svg>
+                        <p class="mb-0 font-14">Start Day</p>
+                      </div>
+
+                      <span class="mb-0">{{orgSubscriptionPlanDetail?.startDate | date: "dd MMM yyyy"}}</span>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between mt-3">
+                      <div class="d-flex align-items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="24" viewBox="0 0 23 24" fill="none">
+                          <mask id="mask0_3746_3195" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                            width="23" height="24">
+                            <rect x="0.0551758" y="0.988281" width="22.6395" height="22.6395" fill="#878A9A" />
+                          </mask>
+                          <g mask="url(#mask0_3746_3195)">
+                            <path
+                              d="M4.77188 21.7374C4.25306 21.7374 3.80892 21.5526 3.43945 21.1832C3.06999 20.8137 2.88525 20.3696 2.88525 19.8507V6.64435C2.88525 6.12553 3.06999 5.68138 3.43945 5.31192C3.80892 4.94245 4.25306 4.75772 4.77188 4.75772H5.7152V2.87109H7.60182V4.75772H15.1483V2.87109H17.035V4.75772H17.9783C18.4971 4.75772 18.9412 4.94245 19.3107 5.31192C19.6802 5.68138 19.8649 6.12553 19.8649 6.64435V19.8507C19.8649 20.3696 19.6802 20.8137 19.3107 21.1832C18.9412 21.5526 18.4971 21.7374 17.9783 21.7374H4.77188ZM4.77188 19.8507H17.9783V10.4176H4.77188V19.8507ZM4.77188 8.53098H17.9783V6.64435H4.77188V8.53098ZM11.3751 14.1909C11.1078 14.1909 10.8838 14.1005 10.703 13.9197C10.5222 13.7389 10.4318 13.5148 10.4318 13.2475C10.4318 12.9803 10.5222 12.7562 10.703 12.5754C10.8838 12.3946 11.1078 12.3042 11.3751 12.3042C11.6424 12.3042 11.8664 12.3946 12.0472 12.5754C12.228 12.7562 12.3184 12.9803 12.3184 13.2475C12.3184 13.5148 12.228 13.7389 12.0472 13.9197C11.8664 14.1005 11.6424 14.1909 11.3751 14.1909ZM7.60182 14.1909C7.33455 14.1909 7.11051 14.1005 6.92971 13.9197C6.74891 13.7389 6.65851 13.5148 6.65851 13.2475C6.65851 12.9803 6.74891 12.7562 6.92971 12.5754C7.11051 12.3946 7.33455 12.3042 7.60182 12.3042C7.8691 12.3042 8.09313 12.3946 8.27394 12.5754C8.45474 12.7562 8.54514 12.9803 8.54514 13.2475C8.54514 13.5148 8.45474 13.7389 8.27394 13.9197C8.09313 14.1005 7.8691 14.1909 7.60182 14.1909ZM15.1483 14.1909C14.8811 14.1909 14.657 14.1005 14.4762 13.9197C14.2954 13.7389 14.205 13.5148 14.205 13.2475C14.205 12.9803 14.2954 12.7562 14.4762 12.5754C14.657 12.3946 14.8811 12.3042 15.1483 12.3042C15.4156 12.3042 15.6396 12.3946 15.8204 12.5754C16.0012 12.7562 16.0917 12.9803 16.0917 13.2475C16.0917 13.5148 16.0012 13.7389 15.8204 13.9197C15.6396 14.1005 15.4156 14.1909 15.1483 14.1909ZM11.3751 17.9641C11.1078 17.9641 10.8838 17.8737 10.703 17.6929C10.5222 17.5121 10.4318 17.2881 10.4318 17.0208C10.4318 16.7535 10.5222 16.5295 10.703 16.3487C10.8838 16.1679 11.1078 16.0775 11.3751 16.0775C11.6424 16.0775 11.8664 16.1679 12.0472 16.3487C12.228 16.5295 12.3184 16.7535 12.3184 17.0208C12.3184 17.2881 12.228 17.5121 12.0472 17.6929C11.8664 17.8737 11.6424 17.9641 11.3751 17.9641ZM7.60182 17.9641C7.33455 17.9641 7.11051 17.8737 6.92971 17.6929C6.74891 17.5121 6.65851 17.2881 6.65851 17.0208C6.65851 16.7535 6.74891 16.5295 6.92971 16.3487C7.11051 16.1679 7.33455 16.0775 7.60182 16.0775C7.8691 16.0775 8.09313 16.1679 8.27394 16.3487C8.45474 16.5295 8.54514 16.7535 8.54514 17.0208C8.54514 17.2881 8.45474 17.5121 8.27394 17.6929C8.09313 17.8737 7.8691 17.9641 7.60182 17.9641ZM15.1483 17.9641C14.8811 17.9641 14.657 17.8737 14.4762 17.6929C14.2954 17.5121 14.205 17.2881 14.205 17.0208C14.205 16.7535 14.2954 16.5295 14.4762 16.3487C14.657 16.1679 14.8811 16.0775 15.1483 16.0775C15.4156 16.0775 15.6396 16.1679 15.8204 16.3487C16.0012 16.5295 16.0917 16.7535 16.0917 17.0208C16.0917 17.2881 16.0012 17.5121 15.8204 17.6929C15.6396 17.8737 15.4156 17.9641 15.1483 17.9641Z"
+                              fill="#878A9A" />
+                          </g>
+                        </svg>
+                        <p class="mb-0 font-14">Next Renewal Date</p>
+                      </div>
+
+                      <span class="mb-0 text-primary">
+                        {{orgSubscriptionPlanDetail?.endDate | date: "dd MMM yyyy"}}</span>
+                    </div>
+
+                    <div class="footer-action">
+                      <h3 class="mb-0">Rules & Regulation</h3>
+                      <p class="text-black font-16 mb-0">
+                        Guidelines and Policies to Follow
+                      </p>
+                      <button class="btn p-0 font-18 text-primary subscription-rule mt-2"
+                        (click)="switchRulesRegulation()">
+                        Know More
+                        <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="none">
+                          <mask id="mask0_3746_4160" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                            width="19" height="19">
+                            <rect width="19" height="19" fill="#6666F2" />
+                          </mask>
+                          <g mask="url(#mask0_3746_4160)">
+                            <path
+                              d="M4.27484 15.832L3.1665 14.7237L12.3498 5.54036H7.12484V3.95703H15.0415V11.8737H13.4582V6.6487L4.27484 15.832Z"
+                              fill="#6666F2" />
+                          </g>
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+
+                  <button
+                    class="btn w-100 text-white proceed-payment mt-3"
+                    style="background-color: #ec4b42"
+                    *ngIf="orgSubscriptionPlanDetail.expired" (click)="selectPlan(orgSubscriptionPlanDetail.plan)">
+                    Make Payment
+                  </button>
+                </div>
+
+                <div class="rules-regulation-box pt-4" *ngIf="RulesRegulation">
+                  <div class="d-flex align-items-start justify-content-between">
+                    <!-- <span
+                      class="rules-regulatio-back d-flex align-items-center justify-content-center pointer"
+                      (click)="switchRulesRegulation()"
+                    >
+                      <i class="bi bi-chevron-left"></i>
+                    </span> -->
+                    <div>
+                      <h5 class="font-20 mb-1">Rules & Regulation</h5>
+                      <p class="mb-0 font-14">
+                        Guidelines and Policies to Follow
+                      </p>
+                    </div>
+                    <span (click)="switchRulesRegulation()">
+                      <i class="bi bi-x-lg"></i>
+                    </span>
+                  </div>
+
+                  <div class="mt-3">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 19 19" fill="none"
+                        style="width: 25px">
+                        <g clip-path="url(#clip0_3746_4210)">
+                          <path
+                            d="M18.4574 2.59314C18.1779 2.31314 17.7244 2.31266 17.4448 2.59195L8.85429 11.1598L5.75484 7.79353C5.48702 7.50282 5.03421 7.48396 4.74301 7.75175C4.45204 8.01956 4.43341 8.4726 4.70123 8.76357L8.30552 12.6779C8.43751 12.8214 8.62224 12.9047 8.81703 12.9087C8.82226 12.9089 8.82731 12.9089 8.83232 12.9089C9.02161 12.9089 9.20371 12.8338 9.33786 12.7001L18.456 3.60589C18.7362 3.32664 18.7367 2.87313 18.4574 2.59314Z"
+                            fill="#6666F2" />
+                          <path
+                            d="M18.2839 8.78781C17.8884 8.78781 17.5678 9.10836 17.5678 9.50391C17.5678 13.9527 13.9488 17.5717 9.5 17.5717C5.05148 17.5717 1.43216 13.9527 1.43216 9.50391C1.43216 5.05538 5.05148 1.43607 9.5 1.43607C9.89551 1.43607 10.2161 1.11552 10.2161 0.720006C10.2161 0.324457 9.89551 0.00390625 9.5 0.00390625C4.26164 0.00390625 0 4.26555 0 9.50391C0 14.742 4.26164 19.0039 9.5 19.0039C14.7381 19.0039 19 14.742 19 9.50391C19 9.10839 18.6794 8.78781 18.2839 8.78781Z"
+                            fill="#6666F2" />
+                        </g>
+                        <defs>
+                          <clipPath id="clip0_3746_4210">
+                            <rect width="19" height="19" fill="white" />
+                          </clipPath>
+                        </defs>
+                      </svg>
+                      <p class="mb-0 font-16">
+                        <b>Access Restrictions :</b> The subscription is for personal use and cannot be shared with
+                        others.
+                      </p>
+                    </div>
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 19 19" fill="none"
+                        style="width: 32px">
+                        <g clip-path="url(#clip0_3746_4210)">
+                          <path
+                            d="M18.4574 2.59314C18.1779 2.31314 17.7244 2.31266 17.4448 2.59195L8.85429 11.1598L5.75484 7.79353C5.48702 7.50282 5.03421 7.48396 4.74301 7.75175C4.45204 8.01956 4.43341 8.4726 4.70123 8.76357L8.30552 12.6779C8.43751 12.8214 8.62224 12.9047 8.81703 12.9087C8.82226 12.9089 8.82731 12.9089 8.83232 12.9089C9.02161 12.9089 9.20371 12.8338 9.33786 12.7001L18.456 3.60589C18.7362 3.32664 18.7367 2.87313 18.4574 2.59314Z"
+                            fill="#6666F2" />
+                          <path
+                            d="M18.2839 8.78781C17.8884 8.78781 17.5678 9.10836 17.5678 9.50391C17.5678 13.9527 13.9488 17.5717 9.5 17.5717C5.05148 17.5717 1.43216 13.9527 1.43216 9.50391C1.43216 5.05538 5.05148 1.43607 9.5 1.43607C9.89551 1.43607 10.2161 1.11552 10.2161 0.720006C10.2161 0.324457 9.89551 0.00390625 9.5 0.00390625C4.26164 0.00390625 0 4.26555 0 9.50391C0 14.742 4.26164 19.0039 9.5 19.0039C14.7381 19.0039 19 14.742 19 9.50391C19 9.10839 18.6794 8.78781 18.2839 8.78781Z"
+                            fill="#6666F2" />
+                        </g>
+                        <defs>
+                          <clipPath id="clip0_3746_4210">
+                            <rect width="19" height="19" fill="white" />
+                          </clipPath>
+                        </defs>
+                      </svg>
+                      <p class="mb-0 font-16">
+                        <b>Payment Terms : </b> Subscription fees must be paid on or before the due date to avoid
+                        service disruption.
+                      </p>
+                    </div>
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 19 19" fill="none">
+                        <g clip-path="url(#clip0_3746_4210)">
+                          <path
+                            d="M18.4574 2.59314C18.1779 2.31314 17.7244 2.31266 17.4448 2.59195L8.85429 11.1598L5.75484 7.79353C5.48702 7.50282 5.03421 7.48396 4.74301 7.75175C4.45204 8.01956 4.43341 8.4726 4.70123 8.76357L8.30552 12.6779C8.43751 12.8214 8.62224 12.9047 8.81703 12.9087C8.82226 12.9089 8.82731 12.9089 8.83232 12.9089C9.02161 12.9089 9.20371 12.8338 9.33786 12.7001L18.456 3.60589C18.7362 3.32664 18.7367 2.87313 18.4574 2.59314Z"
+                            fill="#6666F2" />
+                          <path
+                            d="M18.2839 8.78781C17.8884 8.78781 17.5678 9.10836 17.5678 9.50391C17.5678 13.9527 13.9488 17.5717 9.5 17.5717C5.05148 17.5717 1.43216 13.9527 1.43216 9.50391C1.43216 5.05538 5.05148 1.43607 9.5 1.43607C9.89551 1.43607 10.2161 1.11552 10.2161 0.720006C10.2161 0.324457 9.89551 0.00390625 9.5 0.00390625C4.26164 0.00390625 0 4.26555 0 9.50391C0 14.742 4.26164 19.0039 9.5 19.0039C14.7381 19.0039 19 14.742 19 9.50391C19 9.10839 18.6794 8.78781 18.2839 8.78781Z"
+                            fill="#6666F2" />
+                        </g>
+                        <defs>
+                          <clipPath id="clip0_3746_4210">
+                            <rect width="19" height="19" fill="white" />
+                          </clipPath>
+                        </defs>
+                      </svg>
+                      <p class="mb-0 font-16">
+                        <b>Plan Switching : </b>Users can upgrade or downgrade plans mid-cycle, resulting in the
+                        collapse of the current plan and the activation of a new plan.
+                      </p>
+                    </div>
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 19 19" fill="none">
+                        <g clip-path="url(#clip0_3746_4210)">
+                          <path
+                            d="M18.4574 2.59314C18.1779 2.31314 17.7244 2.31266 17.4448 2.59195L8.85429 11.1598L5.75484 7.79353C5.48702 7.50282 5.03421 7.48396 4.74301 7.75175C4.45204 8.01956 4.43341 8.4726 4.70123 8.76357L8.30552 12.6779C8.43751 12.8214 8.62224 12.9047 8.81703 12.9087C8.82226 12.9089 8.82731 12.9089 8.83232 12.9089C9.02161 12.9089 9.20371 12.8338 9.33786 12.7001L18.456 3.60589C18.7362 3.32664 18.7367 2.87313 18.4574 2.59314Z"
+                            fill="#6666F2" />
+                          <path
+                            d="M18.2839 8.78781C17.8884 8.78781 17.5678 9.10836 17.5678 9.50391C17.5678 13.9527 13.9488 17.5717 9.5 17.5717C5.05148 17.5717 1.43216 13.9527 1.43216 9.50391C1.43216 5.05538 5.05148 1.43607 9.5 1.43607C9.89551 1.43607 10.2161 1.11552 10.2161 0.720006C10.2161 0.324457 9.89551 0.00390625 9.5 0.00390625C4.26164 0.00390625 0 4.26555 0 9.50391C0 14.742 4.26164 19.0039 9.5 19.0039C14.7381 19.0039 19 14.742 19 9.50391C19 9.10839 18.6794 8.78781 18.2839 8.78781Z"
+                            fill="#6666F2" />
+                        </g>
+                        <defs>
+                          <clipPath id="clip0_3746_4210">
+                            <rect width="19" height="19" fill="white" />
+                          </clipPath>
+                        </defs>
+                      </svg>
+                      <p class="mb-0 font-16">
+                        <b>Feature Additions : </b> Additional features or benefits may be introduced during the
+                        subscription period.
+                      </p>
+                    </div>
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 19 19" fill="none">
+                        <g clip-path="url(#clip0_3746_4210)">
+                          <path
+                            d="M18.4574 2.59314C18.1779 2.31314 17.7244 2.31266 17.4448 2.59195L8.85429 11.1598L5.75484 7.79353C5.48702 7.50282 5.03421 7.48396 4.74301 7.75175C4.45204 8.01956 4.43341 8.4726 4.70123 8.76357L8.30552 12.6779C8.43751 12.8214 8.62224 12.9047 8.81703 12.9087C8.82226 12.9089 8.82731 12.9089 8.83232 12.9089C9.02161 12.9089 9.20371 12.8338 9.33786 12.7001L18.456 3.60589C18.7362 3.32664 18.7367 2.87313 18.4574 2.59314Z"
+                            fill="#6666F2" />
+                          <path
+                            d="M18.2839 8.78781C17.8884 8.78781 17.5678 9.10836 17.5678 9.50391C17.5678 13.9527 13.9488 17.5717 9.5 17.5717C5.05148 17.5717 1.43216 13.9527 1.43216 9.50391C1.43216 5.05538 5.05148 1.43607 9.5 1.43607C9.89551 1.43607 10.2161 1.11552 10.2161 0.720006C10.2161 0.324457 9.89551 0.00390625 9.5 0.00390625C4.26164 0.00390625 0 4.26555 0 9.50391C0 14.742 4.26164 19.0039 9.5 19.0039C14.7381 19.0039 19 14.742 19 9.50391C19 9.10839 18.6794 8.78781 18.2839 8.78781Z"
+                            fill="#6666F2" />
+                        </g>
+                        <defs>
+                          <clipPath id="clip0_3746_4210">
+                            <rect width="19" height="19" fill="white" />
+                          </clipPath>
+                        </defs>
+                      </svg>
+                      <p class="mb-0 font-16">
+                        <b>Plan Restrictions : </b> Certain features or services may only be available under higher-tier
+                        plans.
+                      </p>
+                    </div>
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 19 19" fill="none">
+                        <g clip-path="url(#clip0_3746_4210)">
+                          <path
+                            d="M18.4574 2.59314C18.1779 2.31314 17.7244 2.31266 17.4448 2.59195L8.85429 11.1598L5.75484 7.79353C5.48702 7.50282 5.03421 7.48396 4.74301 7.75175C4.45204 8.01956 4.43341 8.4726 4.70123 8.76357L8.30552 12.6779C8.43751 12.8214 8.62224 12.9047 8.81703 12.9087C8.82226 12.9089 8.82731 12.9089 8.83232 12.9089C9.02161 12.9089 9.20371 12.8338 9.33786 12.7001L18.456 3.60589C18.7362 3.32664 18.7367 2.87313 18.4574 2.59314Z"
+                            fill="#6666F2" />
+                          <path
+                            d="M18.2839 8.78781C17.8884 8.78781 17.5678 9.10836 17.5678 9.50391C17.5678 13.9527 13.9488 17.5717 9.5 17.5717C5.05148 17.5717 1.43216 13.9527 1.43216 9.50391C1.43216 5.05538 5.05148 1.43607 9.5 1.43607C9.89551 1.43607 10.2161 1.11552 10.2161 0.720006C10.2161 0.324457 9.89551 0.00390625 9.5 0.00390625C4.26164 0.00390625 0 4.26555 0 9.50391C0 14.742 4.26164 19.0039 9.5 19.0039C14.7381 19.0039 19 14.742 19 9.50391C19 9.10839 18.6794 8.78781 18.2839 8.78781Z"
+                            fill="#6666F2" />
+                        </g>
+                        <defs>
+                          <clipPath id="clip0_3746_4210">
+                            <rect width="19" height="19" fill="white" />
+                          </clipPath>
+                        </defs>
+                      </svg>
+                      <p class="mb-0 font-16">
+                        <b>Renewal Notice : </b> Subscribers will receive reminders before the renewal date to ensure
+                        continuity of service.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-9"
+                [ngClass]="{'col-md-12':(!_subscriptionPlanService.isSubscription || (_subscriptionPlanService.isSubscription && _subscriptionPlanService.isTrialPlan))}">
+                <div class="plan-box p-4">
+                  <div class="d-flex align-items-center justify-content-between">
+                    <p class="mb-0 font-14">
+                      Compare differences by toggling between monthly and yearly
+                      plans
+                    </p>
+
+                    <div class="d-flex align-items-center gap-3">
+                      <p class="mb-0 font-14" *ngIf="showYearlyPlans">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="23" viewBox="0 0 22 23" fill="none">
+                          <g clip-path="url(#clip0_3746_2357)">
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                              d="M14.5378 14.2728C10.5167 14.2728 7.26889 11.0121 7.26889 7.00391C7.26889 11.0121 4.0082 14.2728 0 14.2728C4.0082 14.2728 7.26889 17.5206 7.26889 21.5288C7.26889 17.5206 10.5167 14.2728 14.5378 14.2728Z"
+                              fill="#FFD93B" />
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                              d="M22 18.0215C19.7961 18.0215 18.0176 16.23 18.0176 14.0391C18.0176 16.23 16.2261 18.0215 14.0352 18.0215C16.2261 18.0215 18.0176 19.8 18.0176 22.0039C18.0176 19.8 19.7961 18.0215 22 18.0215Z"
+                              fill="#FFB030" />
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                              d="M19.706 5.90843C17.0253 5.90843 14.8601 3.74323 14.8601 1.0625C14.8601 3.74323 12.6949 5.90843 10.0142 5.90843C12.6949 5.90843 14.8601 8.07363 14.8601 10.7544C14.8601 8.07363 17.0253 5.90843 19.706 5.90843Z"
+                              fill="#FFB030" />
+                          </g>
+                          <defs>
+                            <clipPath id="clip0_3746_2357">
+                              <rect width="22" height="22" fill="white" transform="translate(0 0.535156)" />
+                            </clipPath>
+                          </defs>
+                        </svg>
+                        &nbsp;
+                        <span class="discount-tag">30%off</span> &nbsp;On Yearly
+                        Plan
+                      </p>
+
+                      <form>
+                        <div class="btn-container w-100">
+                          <input type="radio" id="r_Yearly" name="radio_choices" value="Yearly"
+                            [checked]="showYearlyPlans==1" (click)="showYearlyPlans = 1">
+                          <label for="r_Yearly">Yearly</label>
+                          <br>
+                          <input type="radio" id="r_Monthly" name="radio_choices" value="Monthly"
+                            [checked]="showYearlyPlans==0" (click)="showYearlyPlans = 0">
+                          <label for="r_Monthly">Monthly</label>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <div class="mt-3">
+                    <div class="tab-content">
+
+                      <ng-container *ngIf="isShimmerForSubscriptionPlan; else subscriptionPlansDataCondition">
+                        <div class="row">
+                          <div class="col-md-4" *ngFor="let item of [].constructor(3)">
+                            <div class="bg-white p-3 pt-4 pb-4">
+                              <div class="feat-product-img">
+                                <ngx-shimmer-loading [width]="'50%'" [height]="'15px'">
+                                </ngx-shimmer-loading>
+                              </div>
+                              <div class="feat-product-img">
+                                <ngx-shimmer-loading [width]="'90%'" [height]="'10px'">
+                                </ngx-shimmer-loading>
+                              </div>
+                              <div class="feat-product-img">
+                                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'">
+                                </ngx-shimmer-loading>
+                              </div>
+
+                              <div class="feat-product-img mt-5 mb-2">
+                                <ngx-shimmer-loading [width]="'40%'" [height]="'25px'">
+                                </ngx-shimmer-loading>
+                              </div>
+                              <div class="feat-product-img">
+                                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'">
+                                </ngx-shimmer-loading>
+                              </div>
+                              <div class="feat-product-img mt-3 mb-3">
+                                <ngx-shimmer-loading [width]="'100%'" [height]="'25px'">
+                                </ngx-shimmer-loading>
+                              </div>
+
+                              <div class="feat-product-img">
+                                <ngx-shimmer-loading [width]="'70%'" [height]="'8px'">
+                                </ngx-shimmer-loading>
+                              </div>
+
+                              <div class="feat-product-img">
+                                <ngx-shimmer-loading [width]="'80%'" [height]="'8px'">
+                                </ngx-shimmer-loading>
+                              </div>
+                              <div class="feat-product-img">
+                                <ngx-shimmer-loading [width]="'60%'" [height]="'8px'">
+                                </ngx-shimmer-loading>
+                              </div>
+
+                              <div class="feat-product-img">
+                                <ngx-shimmer-loading [width]="'70%'" [height]="'8px'">
+                                </ngx-shimmer-loading>
+                              </div>
+
+                              <div class="feat-product-img">
+                                <ngx-shimmer-loading [width]="'50%'" [height]="'8px'">
+                                </ngx-shimmer-loading>
+                              </div>
+
+                              <div class="feat-product-img">
+                                <ngx-shimmer-loading [width]="'30%'" [height]="'8px'">
+                                </ngx-shimmer-loading>
+                              </div>
+                              <div class="feat-product-img">
+                                <ngx-shimmer-loading [width]="'70%'" [height]="'8px'">
+                                </ngx-shimmer-loading>
+                              </div>
+
+                              <div class="feat-product-img">
+                                <ngx-shimmer-loading [width]="'80%'" [height]="'8px'">
+                                </ngx-shimmer-loading>
+                              </div>
+                              <div class="feat-product-img">
+                                <ngx-shimmer-loading [width]="'60%'" [height]="'8px'">
+                                </ngx-shimmer-loading>
+                              </div>
+
+                              <div class="feat-product-img">
+                                <ngx-shimmer-loading [width]="'70%'" [height]="'8px'">
+                                </ngx-shimmer-loading>
+                              </div>
+
+                              <div class="feat-product-img">
+                                <ngx-shimmer-loading [width]="'50%'" [height]="'8px'">
+                                </ngx-shimmer-loading>
+                              </div>
+
+                              <div class="feat-product-img">
+                                <ngx-shimmer-loading [width]="'30%'" [height]="'8px'">
+                                </ngx-shimmer-loading>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </ng-container>
+                      <ng-template #subscriptionPlansDataCondition>
+                        <div class="row">
+                          <div class="col-md-4" [ngClass]="{'d-none':showYearlyPlans==plan.isMonthly}"
+                            *ngFor="let plan of subscriptionPlans; let i=index;">
+                            <div class="plan-detail-box p-3 pt-4 pb-4">
+                              <h5 class="mb-0 font-20">{{plan.name}}</h5>
+                              <p class="mb-0 font-13 mt-2">
+                                {{plan.description}}
+                              </p>
+
+                              <div class="d-flex align-items-center gap-2 mt-4 mb-3"
+                                [ngClass]="{'yearlyHeight':showYearlyPlans==0}">
+                                <h3 class="mb-0">₹{{plan.amount}}</h3>
+
+                                <div>
+                                  <h4 class="mb-0" *ngIf="plan.isYearly==1">₹{{plan.amount + plan.discountAmount}}</h4>
+                                  <h6 class="mb-0 font-14">
+                                    month/per employee
+                                  </h6>
+                                </div>
+                              </div>
+
+                              <p class="mb-0 font-14" *ngIf="plan.isYearly==1">
+                                <span class="plan-year-off"> 30% off </span>
+                                with annual contract
+                              </p>
+                              <span class="saperater-border mt-4 mb-4"></span>
+
+                              <button class="btn current-plan w-100 mb-4" *ngIf="plan.isPurchased==0"
+                                (click)="selectPlan(plan)">
+                                Purchase plan
+                              </button>
+                              <!-- style="background-color: #8b8aff; color: #fff;" -->
+                              <button class="btn current-plan w-100 mb-4 " *ngIf="plan.isPurchased==1"
+                                (click)="selectPlan(plan)">
+                                Current plan
+                              </button>
+
+                              <ul class="plan-pints pl-0" *ngIf="plan.planType=='BASIC'">
+                                <li>
+                                  <i class="bi bi-check2"></i> Onboarding &
+                                  Documents - Employee
+                                </li>
+                                <li>
+                                  <i class="bi bi-check2"></i> Shift-based
+                                  attendance management
+                                </li>
+                                <li>
+                                  <i class="bi bi-check2"></i> Slack & WhatsApp
+                                  Integration
+                                </li>
+                                <li>
+                                  <i class="bi bi-check2"></i> Salary Structure
+                                  & Compliance
+                                </li>
+                                <li>
+                                  <i class="bi bi-check2"></i> Leave Request &
+                                  Approval Management
+                                </li>
+                                <li>
+                                  <i class="bi bi-check2"></i> Automation rule
+                                </li>
+                                <li>
+                                  <i class="bi bi-check2"></i> User Roles &
+                                  Privileges
+                                </li>
+                                <li>
+                                  <i class="bi bi-check2"></i> Reminders &
+                                  Alerts - Notifications
+                                </li>
+                                <li>
+                                  <i class="bi bi-check2"></i> Report - Basic
+                                </li>
+                              </ul>
+
+                              <ul class="plan-pints pl-0" *ngIf="plan.planType=='PREMIUM'">
+                                <div class="mt-2 font-14" style="color: #01be4f">
+                                  All Basic Features +
+                                </div>
+                                <li>
+                                  <i class="bi bi-check2"></i> Payroll and
+                                  Salary Slip Automation
+                                </li>
+                                <li>
+                                  <i class="bi bi-check2"></i> Employee Tax
+                                  Management
+                                </li>
+                                <li>
+                                  <i class="bi bi-check2"></i> Advance
+                                  Automation Rules
+                                </li>
+                                <li>
+                                  <i class="bi bi-check2"></i> Custom Roles &
+                                  Privileges
+                                </li>
+                                <li>
+                                  <i class="bi bi-check2"></i> Employee Exit -
+                                  Documentation
+                                </li>
+                                <li>
+                                  <i class="bi bi-check2"></i> Assets
+                                  Allocation/ Management
+                                </li>
+                                <li>
+                                  <i class="bi bi-check2"></i> Report - Advance
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+
+                          <div class="col-md-4">
+                            <div class="plan-detail-box p-3 pt-4">
+                              <h5 class="mb-0 font-20">Custom</h5>
+                              <p class="mb-0 font-13 mt-2">
+                                Ideal for small businesses looking to start
+                                digital attendance management.
+                              </p>
+
+                              <h1 class="requestQuote mb-0 mt-2" *ngIf="!orgSubscriptionPlanDetail?.custom">
+                                Request a quote
+                              </h1>
+
+                              <h1 class="requestQuote mb-0 mt-2" *ngIf="orgSubscriptionPlanDetail?.custom">
+                                Active
+                              </h1>
+
+                              <span class="saperater-border mt-4 mb-4"></span>
+
+                              <button class="btn change-plan w-100 mb-4" data-bs-toggle="modal"
+                                data-bs-target="#createRequest"
+                                *ngIf="!pendingSubscriptionRequestStatus &&  !orgSubscriptionPlanDetail?.custom">
+                                Request
+                              </button>
+
+                              <button class="btn change-plan w-100 mb-4 disabled" style="pointer-events: none;"
+                                *ngIf="pendingSubscriptionRequestStatus &&  !orgSubscriptionPlanDetail?.custom">
+                                Requested
+                              </button>
+
+                              <button class="btn current-plan w-100 mb-4" style="background-color: #c1c1ff;"
+                                *ngIf="orgSubscriptionPlanDetail?.custom">
+                                Current plan
+                              </button>
+
+                              <ul class="plan-pints pl-0">
+                                <li>
+                                  <i class="bi bi-check2"></i> Custom workflows
+                                  and HR processes
+                                </li>
+                                <li>
+                                  <i class="bi bi-check2"></i> Dedicated
+                                  deployment & onboarding support
+                                </li>
+                                <li>
+                                  <i class="bi bi-check2"></i> Integrations with
+                                  your existing systems
+                                </li>
+                                <li>
+                                  <i class="bi bi-check2"></i> Scalable
+                                  solutions for future growth
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </ng-template>
+                    </div>
+                  </div>
+
+
+                  <div class="mt-4 mb-4 d-flex align-items-center justify-content-between footer-rule"
+                    *ngIf="!_subscriptionPlanService.isSubscription || _subscriptionPlanService.isTrialPlan">
+                    <div>
+                      <h5 class="mb-1">Rules & Regulation</h5>
+                      <p class="mb-b font-14">Guidelines and Policies to Follow
+                        <a class="text-primary" (click)="RulesRegulation = !RulesRegulation;">Know More
+                          <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19"
+                            fill="none">
+                            <mask id="mask0_3851_4565" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                              width="19" height="19">
+                              <rect width="19" height="19" fill="#6666F2" />
+                            </mask>
+                            <g mask="url(#mask0_3851_4565)">
+                              <path
+                                d="M4.27484 15.834L3.1665 14.7257L12.3498 5.54232H7.12484V3.95898H15.0415V11.8757H13.4582V6.65065L4.27484 15.834Z"
+                                fill="#6666F2" />
+                            </g>
+                          </svg>
+                        </a>
+                      </p>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-2">
+                      <span class="subscription-help d-flex align-items-center justify-content-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                          <mask id="mask0_3851_4855" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                            width="24" height="24">
+                            <rect x="0.262207" y="0.261719" width="23.4908" height="23.4908" fill="#D9D9D9" />
+                          </mask>
+                          <g mask="url(#mask0_3851_4855)">
+                            <path
+                              d="M4.17827 19.8383C3.63994 19.8383 3.1791 19.6466 2.79574 19.2633C2.41238 18.8799 2.2207 18.4191 2.2207 17.8807V6.1353C2.2207 5.59697 2.41238 5.13613 2.79574 4.75277C3.1791 4.36941 3.63994 4.17773 4.17827 4.17773H19.8388C20.3772 4.17773 20.838 4.36941 21.2214 4.75277C21.6047 5.13613 21.7964 5.59697 21.7964 6.1353V17.8807C21.7964 18.4191 21.6047 18.8799 21.2214 19.2633C20.838 19.6466 20.3772 19.8383 19.8388 19.8383H4.17827ZM12.0086 12.9868L4.17827 8.09287V17.8807H19.8388V8.09287L12.0086 12.9868ZM12.0086 11.0292L19.8388 6.1353H4.17827L12.0086 11.0292ZM4.17827 8.09287V6.1353V17.8807V8.09287Z"
+                              fill="#1C1B1F" />
+                          </g>
+                        </svg>
+                      </span>
+                      <span class="subscription-help d-flex align-items-center justify-content-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                          <mask id="mask0_3851_4859" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                            width="24" height="24">
+                            <rect x="0.262207" y="0.261719" width="23.4908" height="23.4908" fill="#D9D9D9" />
+                          </mask>
+                          <g mask="url(#mask0_3851_4859)">
+                            <path
+                              d="M15.9229 11.0275V8.09119H12.9866V6.13362H15.9229V3.19727H17.8805V6.13362H20.8169V8.09119H17.8805V11.0275H15.9229ZM19.7891 20.8154C17.75 20.8154 15.7353 20.3709 13.7451 19.4818C11.7549 18.5927 9.94419 17.3326 8.31288 15.7012C6.68157 14.0699 5.42139 12.2592 4.53233 10.269C3.64326 8.27879 3.19873 6.26413 3.19873 4.22499C3.19873 3.93135 3.29661 3.68666 3.49237 3.4909C3.68812 3.29514 3.93282 3.19727 4.22645 3.19727H8.19053C8.41892 3.19727 8.62283 3.27475 8.80227 3.42973C8.98172 3.5847 9.08775 3.76822 9.12038 3.98029L9.75659 7.40604C9.78922 7.66705 9.78106 7.88728 9.73212 8.06672C9.68318 8.24616 9.59346 8.40114 9.46295 8.53164L7.0894 10.9297C7.41566 11.5333 7.8031 12.1164 8.25171 12.6792C8.70032 13.242 9.19379 13.7845 9.73212 14.3065C10.2378 14.8122 10.768 15.2812 11.3226 15.7135C11.8773 16.1458 12.4646 16.5414 13.0845 16.9003L15.3846 14.6001C15.5314 14.4533 15.7231 14.3432 15.9596 14.2698C16.1962 14.1964 16.4286 14.176 16.657 14.2086L20.0338 14.8937C20.2622 14.959 20.4498 15.0773 20.5966 15.2486C20.7435 15.4198 20.8169 15.6115 20.8169 15.8236V19.7877C20.8169 20.0813 20.719 20.326 20.5232 20.5218C20.3275 20.7175 20.0828 20.8154 19.7891 20.8154ZM6.15956 9.06998L7.77455 7.45498L7.35857 5.15484H5.18077C5.26234 5.82367 5.37653 6.48435 5.52334 7.13688C5.67016 7.7894 5.88223 8.43377 6.15956 9.06998ZM14.9197 17.8301C15.5559 18.1074 16.2043 18.3277 16.865 18.4908C17.5257 18.6539 18.1905 18.7599 18.8593 18.8089V16.6556L16.5591 16.1906L14.9197 17.8301Z"
+                              fill="#1C1B1F" />
+                          </g>
+                        </svg>
+                      </span>
+                    </div>
+
+                  </div>
+                  <div class="row"
+                    *ngIf="RulesRegulation && (!_subscriptionPlanService.isSubscription || _subscriptionPlanService.isTrialPlan)">
+                    <div class="rules-regulation p-3 showOnboardingStepHover ">
+                      <div class="d-flex align-items-start justify-content-between">
+
+                        <div>
+                          <h5 class="font-20 mb-1">Rules & Regulation</h5>
+                          <p class="mb-0 font-14">
+                            Guidelines and Policies to Follow
+                          </p>
+                        </div>
+                        <span (click)="RulesRegulation = !RulesRegulation">
+                          <i class="bi bi-x-lg"></i>
+                        </span>
+                      </div>
+
+                      <div class="mt-3">
+                        <div class="d-flex align-items-center gap-2 mb-3">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 19 19" fill="none"
+                            style="width: 25px">
+                            <g clip-path="url(#clip0_3746_4210)">
+                              <path
+                                d="M18.4574 2.59314C18.1779 2.31314 17.7244 2.31266 17.4448 2.59195L8.85429 11.1598L5.75484 7.79353C5.48702 7.50282 5.03421 7.48396 4.74301 7.75175C4.45204 8.01956 4.43341 8.4726 4.70123 8.76357L8.30552 12.6779C8.43751 12.8214 8.62224 12.9047 8.81703 12.9087C8.82226 12.9089 8.82731 12.9089 8.83232 12.9089C9.02161 12.9089 9.20371 12.8338 9.33786 12.7001L18.456 3.60589C18.7362 3.32664 18.7367 2.87313 18.4574 2.59314Z"
+                                fill="#6666F2" />
+                              <path
+                                d="M18.2839 8.78781C17.8884 8.78781 17.5678 9.10836 17.5678 9.50391C17.5678 13.9527 13.9488 17.5717 9.5 17.5717C5.05148 17.5717 1.43216 13.9527 1.43216 9.50391C1.43216 5.05538 5.05148 1.43607 9.5 1.43607C9.89551 1.43607 10.2161 1.11552 10.2161 0.720006C10.2161 0.324457 9.89551 0.00390625 9.5 0.00390625C4.26164 0.00390625 0 4.26555 0 9.50391C0 14.742 4.26164 19.0039 9.5 19.0039C14.7381 19.0039 19 14.742 19 9.50391C19 9.10839 18.6794 8.78781 18.2839 8.78781Z"
+                                fill="#6666F2" />
+                            </g>
+                            <defs>
+                              <clipPath id="clip0_3746_4210">
+                                <rect width="19" height="19" fill="white" />
+                              </clipPath>
+                            </defs>
+                          </svg>
+                          <p class="mb-0 font-16">
+                            <b>Access Restrictions :</b> The subscription is for personal use and cannot be shared with
+                            others.
+                          </p>
+                        </div>
+                        <div class="d-flex align-items-center gap-2 mb-3">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 19 19" fill="none"
+                            style="width: 32px">
+                            <g clip-path="url(#clip0_3746_4210)">
+                              <path
+                                d="M18.4574 2.59314C18.1779 2.31314 17.7244 2.31266 17.4448 2.59195L8.85429 11.1598L5.75484 7.79353C5.48702 7.50282 5.03421 7.48396 4.74301 7.75175C4.45204 8.01956 4.43341 8.4726 4.70123 8.76357L8.30552 12.6779C8.43751 12.8214 8.62224 12.9047 8.81703 12.9087C8.82226 12.9089 8.82731 12.9089 8.83232 12.9089C9.02161 12.9089 9.20371 12.8338 9.33786 12.7001L18.456 3.60589C18.7362 3.32664 18.7367 2.87313 18.4574 2.59314Z"
+                                fill="#6666F2" />
+                              <path
+                                d="M18.2839 8.78781C17.8884 8.78781 17.5678 9.10836 17.5678 9.50391C17.5678 13.9527 13.9488 17.5717 9.5 17.5717C5.05148 17.5717 1.43216 13.9527 1.43216 9.50391C1.43216 5.05538 5.05148 1.43607 9.5 1.43607C9.89551 1.43607 10.2161 1.11552 10.2161 0.720006C10.2161 0.324457 9.89551 0.00390625 9.5 0.00390625C4.26164 0.00390625 0 4.26555 0 9.50391C0 14.742 4.26164 19.0039 9.5 19.0039C14.7381 19.0039 19 14.742 19 9.50391C19 9.10839 18.6794 8.78781 18.2839 8.78781Z"
+                                fill="#6666F2" />
+                            </g>
+                            <defs>
+                              <clipPath id="clip0_3746_4210">
+                                <rect width="19" height="19" fill="white" />
+                              </clipPath>
+                            </defs>
+                          </svg>
+                          <p class="mb-0 font-16">
+                            <b>Payment Terms : </b> Subscription fees must be paid on or before the due date to avoid
+                            service disruption.
+                          </p>
+                        </div>
+                        <div class="d-flex align-items-center gap-2 mb-3">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 19 19" fill="none">
+                            <g clip-path="url(#clip0_3746_4210)">
+                              <path
+                                d="M18.4574 2.59314C18.1779 2.31314 17.7244 2.31266 17.4448 2.59195L8.85429 11.1598L5.75484 7.79353C5.48702 7.50282 5.03421 7.48396 4.74301 7.75175C4.45204 8.01956 4.43341 8.4726 4.70123 8.76357L8.30552 12.6779C8.43751 12.8214 8.62224 12.9047 8.81703 12.9087C8.82226 12.9089 8.82731 12.9089 8.83232 12.9089C9.02161 12.9089 9.20371 12.8338 9.33786 12.7001L18.456 3.60589C18.7362 3.32664 18.7367 2.87313 18.4574 2.59314Z"
+                                fill="#6666F2" />
+                              <path
+                                d="M18.2839 8.78781C17.8884 8.78781 17.5678 9.10836 17.5678 9.50391C17.5678 13.9527 13.9488 17.5717 9.5 17.5717C5.05148 17.5717 1.43216 13.9527 1.43216 9.50391C1.43216 5.05538 5.05148 1.43607 9.5 1.43607C9.89551 1.43607 10.2161 1.11552 10.2161 0.720006C10.2161 0.324457 9.89551 0.00390625 9.5 0.00390625C4.26164 0.00390625 0 4.26555 0 9.50391C0 14.742 4.26164 19.0039 9.5 19.0039C14.7381 19.0039 19 14.742 19 9.50391C19 9.10839 18.6794 8.78781 18.2839 8.78781Z"
+                                fill="#6666F2" />
+                            </g>
+                            <defs>
+                              <clipPath id="clip0_3746_4210">
+                                <rect width="19" height="19" fill="white" />
+                              </clipPath>
+                            </defs>
+                          </svg>
+                          <p class="mb-0 font-16">
+                            <b>Plan Switching : </b>Users can upgrade or downgrade plans mid-cycle, resulting in the
+                            collapse of the current plan and the activation of a new plan.
+                          </p>
+                        </div>
+                        <div class="d-flex align-items-center gap-2 mb-3">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 19 19" fill="none">
+                            <g clip-path="url(#clip0_3746_4210)">
+                              <path
+                                d="M18.4574 2.59314C18.1779 2.31314 17.7244 2.31266 17.4448 2.59195L8.85429 11.1598L5.75484 7.79353C5.48702 7.50282 5.03421 7.48396 4.74301 7.75175C4.45204 8.01956 4.43341 8.4726 4.70123 8.76357L8.30552 12.6779C8.43751 12.8214 8.62224 12.9047 8.81703 12.9087C8.82226 12.9089 8.82731 12.9089 8.83232 12.9089C9.02161 12.9089 9.20371 12.8338 9.33786 12.7001L18.456 3.60589C18.7362 3.32664 18.7367 2.87313 18.4574 2.59314Z"
+                                fill="#6666F2" />
+                              <path
+                                d="M18.2839 8.78781C17.8884 8.78781 17.5678 9.10836 17.5678 9.50391C17.5678 13.9527 13.9488 17.5717 9.5 17.5717C5.05148 17.5717 1.43216 13.9527 1.43216 9.50391C1.43216 5.05538 5.05148 1.43607 9.5 1.43607C9.89551 1.43607 10.2161 1.11552 10.2161 0.720006C10.2161 0.324457 9.89551 0.00390625 9.5 0.00390625C4.26164 0.00390625 0 4.26555 0 9.50391C0 14.742 4.26164 19.0039 9.5 19.0039C14.7381 19.0039 19 14.742 19 9.50391C19 9.10839 18.6794 8.78781 18.2839 8.78781Z"
+                                fill="#6666F2" />
+                            </g>
+                            <defs>
+                              <clipPath id="clip0_3746_4210">
+                                <rect width="19" height="19" fill="white" />
+                              </clipPath>
+                            </defs>
+                          </svg>
+                          <p class="mb-0 font-16">
+                            <b>Feature Additions : </b> Additional features or benefits may be introduced during the
+                            subscription period.
+                          </p>
+                        </div>
+                        <div class="d-flex align-items-center gap-2 mb-3">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 19 19" fill="none">
+                            <g clip-path="url(#clip0_3746_4210)">
+                              <path
+                                d="M18.4574 2.59314C18.1779 2.31314 17.7244 2.31266 17.4448 2.59195L8.85429 11.1598L5.75484 7.79353C5.48702 7.50282 5.03421 7.48396 4.74301 7.75175C4.45204 8.01956 4.43341 8.4726 4.70123 8.76357L8.30552 12.6779C8.43751 12.8214 8.62224 12.9047 8.81703 12.9087C8.82226 12.9089 8.82731 12.9089 8.83232 12.9089C9.02161 12.9089 9.20371 12.8338 9.33786 12.7001L18.456 3.60589C18.7362 3.32664 18.7367 2.87313 18.4574 2.59314Z"
+                                fill="#6666F2" />
+                              <path
+                                d="M18.2839 8.78781C17.8884 8.78781 17.5678 9.10836 17.5678 9.50391C17.5678 13.9527 13.9488 17.5717 9.5 17.5717C5.05148 17.5717 1.43216 13.9527 1.43216 9.50391C1.43216 5.05538 5.05148 1.43607 9.5 1.43607C9.89551 1.43607 10.2161 1.11552 10.2161 0.720006C10.2161 0.324457 9.89551 0.00390625 9.5 0.00390625C4.26164 0.00390625 0 4.26555 0 9.50391C0 14.742 4.26164 19.0039 9.5 19.0039C14.7381 19.0039 19 14.742 19 9.50391C19 9.10839 18.6794 8.78781 18.2839 8.78781Z"
+                                fill="#6666F2" />
+                            </g>
+                            <defs>
+                              <clipPath id="clip0_3746_4210">
+                                <rect width="19" height="19" fill="white" />
+                              </clipPath>
+                            </defs>
+                          </svg>
+                          <p class="mb-0 font-16">
+                            <b>Plan Restrictions : </b> Certain features or services may only be available under higher-tier
+                            plans.
+                          </p>
+                        </div>
+                        <div class="d-flex align-items-center gap-2 mb-3">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 19 19" fill="none">
+                            <g clip-path="url(#clip0_3746_4210)">
+                              <path
+                                d="M18.4574 2.59314C18.1779 2.31314 17.7244 2.31266 17.4448 2.59195L8.85429 11.1598L5.75484 7.79353C5.48702 7.50282 5.03421 7.48396 4.74301 7.75175C4.45204 8.01956 4.43341 8.4726 4.70123 8.76357L8.30552 12.6779C8.43751 12.8214 8.62224 12.9047 8.81703 12.9087C8.82226 12.9089 8.82731 12.9089 8.83232 12.9089C9.02161 12.9089 9.20371 12.8338 9.33786 12.7001L18.456 3.60589C18.7362 3.32664 18.7367 2.87313 18.4574 2.59314Z"
+                                fill="#6666F2" />
+                              <path
+                                d="M18.2839 8.78781C17.8884 8.78781 17.5678 9.10836 17.5678 9.50391C17.5678 13.9527 13.9488 17.5717 9.5 17.5717C5.05148 17.5717 1.43216 13.9527 1.43216 9.50391C1.43216 5.05538 5.05148 1.43607 9.5 1.43607C9.89551 1.43607 10.2161 1.11552 10.2161 0.720006C10.2161 0.324457 9.89551 0.00390625 9.5 0.00390625C4.26164 0.00390625 0 4.26555 0 9.50391C0 14.742 4.26164 19.0039 9.5 19.0039C14.7381 19.0039 19 14.742 19 9.50391C19 9.10839 18.6794 8.78781 18.2839 8.78781Z"
+                                fill="#6666F2" />
+                            </g>
+                            <defs>
+                              <clipPath id="clip0_3746_4210">
+                                <rect width="19" height="19" fill="white" />
+                              </clipPath>
+                            </defs>
+                          </svg>
+                          <p class="mb-0 font-16">
+                            <b>Renewal Notice : </b> Subscribers will receive reminders before the renewal date to ensure
+                            continuity of service.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="billing" role="tabpanel" aria-labelledby="billing-tab">
+            <div class="col-md-12 mt-3" style="padding-right: 15px">
+              <ul class="nav historyToggleMain" id="pills-tab" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <button class="historyToggleBtn active" id="payment-history-tab" data-bs-toggle="pill"
+                    data-bs-target="#payment-history" type="button" role="tab" aria-controls="payment-history"
+                    aria-selected="true">
+                    Payment History
+                  </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="historyToggleBtn" id="due-payment-tab" data-bs-toggle="pill"
+                    data-bs-target="#due-payment" type="button" role="tab" aria-controls="due-payment"
+                    aria-selected="false" tabindex="-1" *ngIf="dueInvoices.length>0">
+                    Due payment
+
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 43 40" fill="none"
+                      *ngIf="dueInvoices.length>0">
+                      <path
+                        d="M41.1459 30.7012L26.3026 3.41549C23.9178 -0.599372 18.1043 -0.604706 15.7163 3.41549L0.873772 30.7012C-1.56415 34.8037 1.38744 39.9988 6.1657 39.9988H35.8528C40.627 39.9988 43.5839 34.8079 41.1459 30.7012ZM21.0095 35.0747C19.6522 35.0747 18.5474 33.9699 18.5474 32.6127C18.5474 31.2554 19.6522 30.1506 21.0095 30.1506C22.3667 30.1506 23.4715 31.2554 23.4715 32.6127C23.4715 33.9699 22.3667 35.0747 21.0095 35.0747ZM23.4715 25.2265C23.4715 26.5838 22.3667 27.6886 21.0095 27.6886C19.6522 27.6886 18.5474 26.5838 18.5474 25.2265V12.9163C18.5474 11.559 19.6522 10.4542 21.0095 10.4542C22.3667 10.4542 23.4715 11.559 23.4715 12.9163V25.2265Z"
+                        fill="#FF2F2F" />
+                    </svg>
+                  </button>
+                </li>
+              </ul>
+
+              <div class="tab-content" id="pills-tabContent">
+                <div class="tab-pane fade active show" id="payment-history" aria-labelledby="payment-history-tab">
+                  <div class="table-responsive bg-white mt-3">
+                    <table class="table empOnnoardtable">
+                      <thead class="thead-light">
+                        <tr>
+                          <th class="stickyColTh text-center" style="width: 10%">
+                            Invoice ID
+                          </th>
+                          <th class="text-center" style="width: 10%">Plan</th>
+                          <th class="text-center" style="width: 10%">
+                            Payment Date
+                          </th>
+                          <th class="text-center" style="width: 10%">
+                            Transaction ID
+                          </th>
+                          <th class="text-center" style="width: 10%">Amount</th>
+                          <th class="text-center" style="width: 10%">
+                            Valid From
+                          </th>
+                          <th class="text-center" style="width: 10%">
+                            Valid Till
+                          </th>
+                          <!-- <th class="text-center" style="width: 10%">
+                            Payment Mode
+                          </th> -->
+
+                          <th class="text-center stickyColThend" style="width: 10%">
+                            Action
+                          </th>
+                        </tr>
+                      </thead>
+
+
+                      <tbody *ngIf="!invoiceLoading && invoices.length == 0">
+                        <tr>
+                          <td colspan="8">
+                            <div class="empty-file" style="margin-top: 7%; margin-bottom: 7%">
+                              <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                [nzNotFoundContent]="contentTpl">
+                                <ng-template #contentTpl>
+                                  <p class="mb-1 empty-detail">No data for now</p>
+                                </ng-template>
+                              </nz-empty>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+
+                      <tbody *ngIf="invoiceLoading">
+                        <tr *ngFor="let item of [].constructor(6)">
+                          <td class="stickyColTd">
+                            <div class="feat-product-img">
+                              <ngx-shimmer-loading [width]="'100%'" [height]="'10px'">
+                              </ngx-shimmer-loading>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="feat-product-img">
+                              <ngx-shimmer-loading [width]="'100%'" [height]="'10px'">
+                              </ngx-shimmer-loading>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="feat-product-img">
+                              <ngx-shimmer-loading [width]="'100%'" [height]="'10px'">
+                              </ngx-shimmer-loading>
+                            </div>
+
+                          </td>
+                          <td>
+                            <div class="feat-product-img">
+                              <ngx-shimmer-loading [width]="'100%'" [height]="'10px'">
+                              </ngx-shimmer-loading>
+                            </div>
+
+                          </td>
+                          <td>
+                            <div class="feat-product-img">
+                              <ngx-shimmer-loading [width]="'100%'" [height]="'10px'">
+                              </ngx-shimmer-loading>
+                            </div>
+
+                          </td>
+                          <td>
+                            <div class="feat-product-img">
+                              <ngx-shimmer-loading [width]="'100%'" [height]="'10px'">
+                              </ngx-shimmer-loading>
+                            </div>
+
+                          </td>
+                          <td>
+                            <div class="feat-product-img">
+                              <ngx-shimmer-loading [width]="'100%'" [height]="'10px'">
+                              </ngx-shimmer-loading>
+                            </div>
+
+                          </td>
+                          <td class="stickyColTdend">
+                            <div class="feat-product-img">
+                              <ngx-shimmer-loading [width]="'100%'" [height]="'10px'">
+                              </ngx-shimmer-loading>
+                            </div>
+
+                          </td>
+                        </tr>
+                      </tbody>
+                      <tbody *ngIf="!invoiceLoading">
+                        <tr class="" *ngFor="let invoice of invoices;">
+                          <td class="stickyColTd text-center">
+                            <span class="teme-maneger mb-0 table-font-weight">
+                              {{invoice.invoiceNo}}</span>
+                          </td>
+                          <td class="text-center">
+                            <div class="badge rounded-pill"
+                              [ngClass]="{'badge-soft-primary': invoice.planName == 'Basic', 'badge-soft-warning': invoice.planName == 'Premium', 'badge-soft-success': invoice.planName == 'Custom'}">
+                              <span> {{invoice.planName}}</span>
+                            </div>
+                          </td>
+                          <td>
+                            <span class="teme-maneger text-center mb-0 table-font-weight">
+                              {{invoice.paymentDate | date:'dd MMM yyyy'}}</span>
+                          </td>
+                          <td class="text-center">
+                            <span class="teme-maneger mb-0 table-font-weight">
+                              {{invoice.transactionId}}</span>
+                          </td>
+                          <td class="text-center">
+                            <span class="teme-maneger mb-0"> ₹{{invoice.payableAmount}}</span>
+                          </td>
+                          <td class="text-center">
+                            <span class="teme-maneger mb-0 table-font-weight">
+                              {{invoice.fromDate | date:'dd MMM yyyy'}}</span>
+                          </td>
+                          <td class="text-center">
+                            <span class="teme-maneger mb-0 table-font-weight">
+                              {{invoice.toDate | date:'dd MMM yyyy'}}</span>
+                          </td>
+                          <!-- 31 Aug 2024 -->
+                          <!-- <td class="text-center">
+                            <span class="teme-maneger mb-0"> {{invoice.paymentMode}}</span>
+                          </td> -->
+
+
+                          <td class="stickyColTdend text-center">
+                            <button type="button" class="btn btnAction" (click)="download(invoice)">
+                              <svg *ngIf="!downloadInvoiceLoading" xmlns="http://www.w3.org/2000/svg" width="12"
+                                height="11" viewBox="0 0 12 11" fill="none">
+                                <path
+                                  d="M6.00006 8.24863L2.56313 4.8117L3.52548 3.81499L5.31268 5.6022V0H6.68745V5.6022L8.47465 3.81499L9.43699 4.8117L6.00006 8.24863ZM1.87575 10.9982C1.49769 10.9982 1.17404 10.8636 0.904816 10.5943C0.63559 10.3251 0.500977 10.0015 0.500977 9.6234V7.56125H1.87575V9.6234H10.1244V7.56125H11.4992V9.6234C11.4992 10.0015 11.3645 10.3251 11.0953 10.5943C10.8261 10.8636 10.5024 10.9982 10.1244 10.9982H1.87575Z"
+                                  fill="#6666F2" />
+                              </svg>
+
+                              <div class="dot-opacity-loader" *ngIf="downloadInvoiceLoading">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                              </div>
+                              <span *ngIf="!downloadInvoiceLoading">Download</span>
+                            </button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+
+                  </div>
+
+                  <div class="pagination justify-content-between pl-3 "
+                    *ngIf="paidInvoiceDatabaseHelper.itemPerPage < totalInvoices">
+                    <p class="mb-0" style="padding-left: 15px">
+                      Showing {{ invoices.length }} of
+                      {{ totalInvoices }}
+                    </p>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <ngb-pagination [collectionSize]="totalInvoices" [rotate]="true"
+                          (pageChange)="invoicePageChanged($event)" [pageSize]="paidInvoiceDatabaseHelper.itemPerPage"
+                          [(page)]="paidInvoiceDatabaseHelper.currentPage" [maxSize]="4"
+                          [boundaryLinks]="true"></ngb-pagination>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-pane fade" id="due-payment" aria-labelledby="due-payment-tab">
+
+                  <div class="mt-3 payment-summary p-3 d-flex align-items-center justify-content-between">
+                    <h5 class="mb-0 font-18">Payments due summary</h5>
+                    <button class="btn contactActionBtn bg-white">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
+                        <mask id="mask0_3851_5474" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                          width="17" height="17">
+                          <rect x="0.5" y="0.765625" width="16" height="16" fill="#D9D9D9" />
+                        </mask>
+                        <g mask="url(#mask0_3851_5474)">
+                          <path
+                            d="M11.1667 8.09896V6.09896H9.16667V4.76562H11.1667V2.76562H12.5V4.76562H14.5V6.09896H12.5V8.09896H11.1667ZM13.8 14.7656C12.4111 14.7656 11.0389 14.4628 9.68333 13.8573C8.32778 13.2517 7.09444 12.3934 5.98333 11.2823C4.87222 10.1712 4.01389 8.93785 3.40833 7.58229C2.80278 6.22674 2.5 4.85451 2.5 3.46563C2.5 3.26563 2.56667 3.09896 2.7 2.96563C2.83333 2.83229 3 2.76562 3.2 2.76562H5.9C6.05556 2.76562 6.19444 2.8184 6.31667 2.92396C6.43889 3.02951 6.51111 3.15451 6.53333 3.29896L6.96667 5.63229C6.98889 5.81007 6.98333 5.96007 6.95 6.08229C6.91667 6.20451 6.85556 6.31007 6.76667 6.39896L5.15 8.03229C5.37222 8.4434 5.63611 8.84063 5.94167 9.22396C6.24722 9.60729 6.58333 9.97674 6.95 10.3323C7.29444 10.6767 7.65556 10.9962 8.03333 11.2906C8.41111 11.5851 8.81111 11.8545 9.23333 12.099L10.8 10.5323C10.9 10.4323 11.0306 10.3573 11.1917 10.3073C11.3528 10.2573 11.5111 10.2434 11.6667 10.2656L13.9667 10.7323C14.1222 10.7767 14.25 10.8573 14.35 10.974C14.45 11.0906 14.5 11.2212 14.5 11.3656V14.0656C14.5 14.2656 14.4333 14.4323 14.3 14.5656C14.1667 14.699 14 14.7656 13.8 14.7656ZM4.51667 6.76562L5.61667 5.66563L5.33333 4.09896H3.85C3.90556 4.55451 3.98333 5.00451 4.08333 5.44896C4.18333 5.8934 4.32778 6.33229 4.51667 6.76562ZM10.4833 12.7323C10.9167 12.9212 11.3583 13.0712 11.8083 13.1823C12.2583 13.2934 12.7111 13.3656 13.1667 13.399V11.9323L11.6 11.6156L10.4833 12.7323Z"
+                            fill="#1C1B1F" />
+                        </g>
+                      </svg>
+                      Contact us
+                    </button>
+                  </div>
+                  <div class="d-flex align-items-center justify-content-between pt-3 pb-3 p-3 summary-detail">
+                    <div classs="">
+                      <p class="mb-2 font-14">Total amount due</p>
+                      <h5 class="font-16 mb-0">INR {{totalDuesAmount | number: '1.2-2'}}</h5>
+                    </div>
+                    <div classs="">
+                      <p class="mb-2 font-14">Total amount scheduled</p>
+                      <h5 class="font-16 mb-0">INR 0.00</h5>
+                    </div>
+                    <div classs="">
+                      <p class="mb-2 font-14">Total amount past due</p>
+                      <h5 class="font-16 mb-0">INR 0.00</h5>
+                    </div>
+                    <div classs="">
+                      <p class="mb-2 font-14">Total amount processing</p>
+                      <h5 class="font-16 mb-0">INR 0.00</h5>
+                    </div>
+                  </div>
+                  <div class="table-responsive bg-white mt-3">
+                    <table class="table empOnnoardtable">
+                      <thead class="thead-light">
+                        <tr>
+                          <th class="stickyColTh text-center" style="width: 10%">
+                            Issued date
+                          </th>
+                          <th class="text-center" style="width: 10%">Type</th>
+                          <th class="text-center" style="width: 10%">Status</th>
+                          <th class="text-center" style="width: 10%">
+                            Currency
+                          </th>
+                          <th class="text-center" style="width: 10%">
+                            Amount
+                          </th>
+                          <th class="text-center stickyColThend" style="width: 10%">
+                            Action
+                          </th>
+                        </tr>
+                      </thead>
+
+                      <tbody *ngIf="invoiceLoading">
+                        <tr *ngFor="let item of [].constructor(6)">
+                          <td class="stickyColTd">
+                            <div class="feat-product-img">
+                              <ngx-shimmer-loading [width]="'100%'" [height]="'10px'">
+                              </ngx-shimmer-loading>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="feat-product-img">
+                              <ngx-shimmer-loading [width]="'100%'" [height]="'10px'">
+                              </ngx-shimmer-loading>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="feat-product-img">
+                              <ngx-shimmer-loading [width]="'100%'" [height]="'10px'">
+                              </ngx-shimmer-loading>
+                            </div>
+
+                          </td>
+                          <td>
+                            <div class="feat-product-img">
+                              <ngx-shimmer-loading [width]="'100%'" [height]="'10px'">
+                              </ngx-shimmer-loading>
+                            </div>
+
+                          </td>
+                          <td>
+                            <div class="feat-product-img">
+                              <ngx-shimmer-loading [width]="'100%'" [height]="'10px'">
+                              </ngx-shimmer-loading>
+                            </div>
+
+                          </td>
+                          <td>
+                            <div class="feat-product-img">
+                              <ngx-shimmer-loading [width]="'100%'" [height]="'10px'">
+                              </ngx-shimmer-loading>
+                            </div>
+
+                          </td>
+
+                        </tr>
+                      </tbody>
+
+
+
+
+                      <tbody class="">
+                        <tr class="" *ngFor="let dueInvoice of dueInvoices">
+                          <td class="stickyColTd text-center">
+                            <span class="teme-maneger mb-0 table-font-weight">
+                              {{dueInvoice.createdDate | date: 'dd MMM yyyy'}}</span>
+                          </td>
+                          <td class="text-center">
+                            <span class="teme-maneger mb-0 table-font-weight">
+                              {{dueInvoice.invoiceType}}</span>
+                          </td>
+
+                          <td class="text-center">
+                            <div class="badge rounded-pill badge-soft-danger">
+                              <span> Pending</span>
+                            </div>
+                          </td>
+                          <td class="text-center">
+                            <span class="teme-maneger mb-0 table-font-weight">
+                              INR</span>
+                          </td>
+
+                          <td class="text-center">
+                            <span class="teme-maneger mb-0"> {{dueInvoice.payableAmount | number: '1.0-2'}}</span>
+                          </td>
+                          <td class="stickyColTdend text-center">
+                            <button type="button" class="btn btnPayNow" (click)="selectedDuesInvoice(dueInvoice)">
+                              Pay Now
+                            </button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-4" style="padding-right: 15px" *ngIf="planSwitch">
+        <h5 class="font-22 mb-0 d-flex align-items-center gap-3">
+          <span class="back-subscription-page d-flex align-items-center justify-content-center pointer"
+            (click)="switchSubscriptionPlan()"><i class="bi bi-chevron-left"></i></span>
+          Back
+        </h5>
+
+        <div class="mt-4 row">
+          <div class="col-md-7">
+            <div class="subscription-plan-box">
+              <div class="d-flex align-items-center justify-content-between TotalEmployee pb-3 mb-3">
+                <div>
+                  <h5 class="mb-1 font-16">Total Employee</h5>
+                  <p class="mb-0">
+                    Set the employee count for Hajiri usage
+                  </p>
+                </div>
+
+
+                <div class="">
+                  <div class="gradient-border d-flex align-items-end flex-column">
+                    <input type="text" class="form-control employee-count-form " placeholder="Enter Employee Count"
+                      name="employee-count" pattern="^[1-9][0-9]{0,5}$" maxlength="6" [(ngModel)]="employeeCount"
+                      (keyup)="calculateEmployeeSize()" #employeeNumber="ngModel"
+                      oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/^0+/, '').slice(0, 6);"
+                      required />
+                    <p class="mb-0 text-danger mt-2 font-13" *ngIf="!isValidEmployeeCount">
+                      You have {{totalEmployee}} active members, so the employee count must be at least
+                      {{totalEmployee}}.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="TotalEmployee" style="border: none">
+                <div>
+                  <h5 class="mb-1 font-16">Subscription Plan</h5>
+                  <p class="mb-0 ">
+                    Choose a subscription plan that aligns with your needs
+                  </p>
+                </div>
+                <div class="mt-3">
+                  <h5 class="mb-0 plan-selected p-3 pl-4 font-18">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+                      <g clip-path="url(#clip0_3806_6149)">
+                        <path
+                          d="M17.4492 2.43818C17.1991 2.18767 16.7933 2.18723 16.5432 2.43712L8.85692 10.1031L6.08373 7.09117C5.8441 6.83106 5.43896 6.81419 5.17841 7.05378C4.91806 7.29341 4.9014 7.69875 5.14102 7.9591L8.36591 11.4614C8.48401 11.5898 8.6493 11.6643 8.82358 11.6679C8.82826 11.6681 8.83278 11.6681 8.83726 11.6681C9.00663 11.6681 9.16956 11.6009 9.28959 11.4813L17.4479 3.34433C17.6986 3.09448 17.699 2.6887 17.4492 2.43818Z"
+                          fill="#6666F2" />
+                        <path
+                          d="M17.2938 7.99209C16.94 7.99209 16.6532 8.2789 16.6532 8.63281C16.6532 12.6133 13.4151 15.8514 9.43457 15.8514C5.45431 15.8514 2.21598 12.6133 2.21598 8.63281C2.21598 4.65255 5.45431 1.41422 9.43457 1.41422C9.78845 1.41422 10.0753 1.12741 10.0753 0.773533C10.0753 0.419621 9.78845 0.132812 9.43457 0.132812C4.74762 0.132812 0.93457 3.94586 0.93457 8.63281C0.93457 13.3196 4.74762 17.1328 9.43457 17.1328C14.1213 17.1328 17.9346 13.3196 17.9346 8.63281C17.9346 8.27893 17.6478 7.99209 17.2938 7.99209Z"
+                          fill="#6666F2" />
+                      </g>
+                      <defs>
+                        <clipPath id="clip0_3806_6149">
+                          <rect width="17" height="17" fill="white" transform="translate(0.93457 0.128906)" />
+                        </clipPath>
+                      </defs>
+                    </svg>
+                    &nbsp; Selected
+                  </h5>
+                  <div class="p-3 plan-detail d-flex align-items-center justify-content-between p-4">
+                    <div class="col-md-9">
+                      <h1 class="mb-3">{{selectedSubscriptionPlan.name}} Plan</h1>
+                      <!-- <p class="mb-0 text-black font-16">
+                        Perfect for growing businesses that need <br />
+                        advanced workforce management
+                      </p> -->
+                      <p *ngIf="selectedSubscriptionPlan.isYearly==1" class="mb-0 text-black font-16">
+                        <span><b>30% off</b></span> with annual contract
+                      </p>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-3 col-md-3">
+                      <div>
+                        <div class="d-flex align-items-center gap-3">
+                          <h3 class="mb-0" *ngIf="selectedSubscriptionPlan.isYearly==1">
+                            ₹{{selectedSubscriptionPlan.amount + selectedSubscriptionPlan.discountAmount}}</h3>
+                          <h2 class="mt-2">₹{{selectedSubscriptionPlan.amount}}</h2>
+                        </div>
+                        <h5 class="font-14">Month/Per Employee</h5>
+
+
+                      </div>
+                    </div>
+                  </div>
+                  <ng-container  *ngIf="selectedSubscriptionPlan.isCustom==0">
+                    <label class="mt-3 d-flex align-items-center justify-content-between p-3 annual-plan"
+                      *ngFor="let typeByPlan of typeBySubscriptionPlans; let i=index;">
+                      <div class="d-flex align-items-center gap-3">
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios{{i}}"
+                            [checked]="typeByPlan.id == selectedSubscriptionPlan.id"
+                            (change)="selectPlanPeriodically(typeByPlan)" />
+                        </div>
+                        <div *ngIf="typeByPlan.isMonthly==1">
+                          <h5 class="mb-1 font-18">Monthly Plan</h5>
+                          <p class="mb-0">Ideal for trials</p>
+                        </div>
+                        <div *ngIf="typeByPlan.isYearly==1">
+                          <h5 class="mb-1 font-18">Annual Plan</h5>
+                          <p class="mb-0">
+                            <span class="text-primary"><b>30% off</b> </span> On
+                            Yearly Plan
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22"
+                              fill="none">
+                              <g clip-path="url(#clip0_3806_6114)">
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                  d="M14.5378 13.7376C10.5167 13.7376 7.26889 10.477 7.26889 6.46875C7.26889 10.477 4.0082 13.7376 0 13.7376C4.0082 13.7376 7.26889 16.9854 7.26889 20.9936C7.26889 16.9854 10.5167 13.7376 14.5378 13.7376Z"
+                                  fill="#FFD93B" />
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                  d="M22 17.4863C19.7961 17.4863 18.0176 15.6949 18.0176 13.5039C18.0176 15.6949 16.2261 17.4863 14.0352 17.4863C16.2261 17.4863 18.0176 19.2649 18.0176 21.4688C18.0176 19.2649 19.7961 17.4863 22 17.4863Z"
+                                  fill="#FFB030" />
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                  d="M19.706 5.37327C17.0253 5.37327 14.8601 3.20807 14.8601 0.527344C14.8601 3.20807 12.6949 5.37327 10.0142 5.37327C12.6949 5.37327 14.8601 7.53847 14.8601 10.2192C14.8601 7.53847 17.0253 5.37327 19.706 5.37327Z"
+                                  fill="#FFB030" />
+                              </g>
+                              <defs>
+                                <clipPath id="clip0_3806_6114">
+                                  <rect width="22" height="22" fill="white" />
+                                </clipPath>
+                              </defs>
+                            </svg>
+                          </p>
+                        </div>
+                      </div>
+  
+                      <div class="d-flex align-items-center gap-3 ">
+                        <div class="d-flex align-items-center gap-2">
+                          <div class="planPriceList mb-0">
+                            <div class="d-flex align-items-center gap-2">
+                              <h4 class="actual-price font-22 text-muted mb-0" *ngIf="typeByPlan.isYearly==1">
+                                ₹{{typeByPlan.amount + typeByPlan.discountAmount}} </h4>
+                              <h4 class="text-black font-22 mb-0">₹{{typeByPlan.amount}}</h4>
+                            </div>
+                          </div>
+                          <p class="text-muted mb-0">
+                            Month Per<br />
+                            Employee
+                          </p>
+                        </div>
+                        <span class="separator"></span>
+                        <h4 class="mb-0">
+                          <h4 class="text-primary font-20 mb-0" *ngIf="typeByPlan.isYearly==1">₹{{annualAmount}}</h4>
+                          <h4 class="text-primary font-20 mb-0" *ngIf="typeByPlan.isMonthly==1">₹{{monthlyAmount}}</h4>
+                        </h4>
+                      </div>
+                    </label>
+                  </ng-container>
+
+                  <div class="mt-3 mb-5">
+                    <div class="form-check pl-0">
+                      <input type="checkbox" id="termsAndConditions" class="position-relative check-box"
+                        [checked]="isGstAvailable" (change)="checkedGst()" />
+                      <label class="form-check-label font-16" for="termsAndConditions" (change)="checkedGst()">
+                        Do you want GST invoice?
+                      </label>
+                    </div>
+                    <div *ngIf="isGstAvailable">
+
+                      <div class="gst-number-box d-flex align-items-center justify-content-between mt-3">
+                        <div>
+                          <h5 class="font-18 mb-1">GST Number</h5>
+                          <p class="mb-0 font-14">
+                            Please enter a valid 15-digit GST number.
+                          </p>
+                        </div>
+                        <div>
+                          <!-- -->
+                          <div class="position-relative"
+                            [ngClass]="{'verified-gst':isVerified && verifyGstInputField() , 'incorrect-gst': !isVerified && verifyGstInputField()}">
+
+                            <input type="text" class="form-control employee-gst-form text-center" id="gst" name="gst"
+                              minlength="15" maxlength="15" placeholder="Enter GST Number" [(ngModel)]="gstNumber"
+                              #gstnumber="ngModel"
+                              oninput="this.value = this.value.replace(/[^a-zA-Z0-9]/g,'').replace(/(\..*)\./g, '$1');"
+                              (keyup)="checkGst()">
+                          </div>
+
+                          <div class="loader-line" *ngIf="gstLoading"></div>
+                          <div class="text-end mt-2" *ngIf="!isVerified && verifyGstInputField()">
+                            <p class="font-13 text-danger" style="font-weight: 400;">Incorrect GST Number</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="veified-gst-address p-3 d-flex align-items-center justify-content-between mt-3 pb-4"
+                        *ngIf="isVerified">
+                        <div style="width: 70%">
+                          <p class="mb-1 font-16">Name</p>
+                          <h5 class="mb-3 font-18">{{gstResponse.tradeName}}</h5>
+
+                          <p class="mb-1 font-16">Address</p>
+                          <h5 class="mb-0 font-18 gst-address">
+                            {{gstResponse.fullAddress}}
+                          </h5>
+                        </div>
+
+                        <div style="width: 30%" class="text-end">
+                          <span class="verifed-user mb-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"
+                              fill="none">
+                              <g clip-path="url(#clip0_4063_92)">
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                  d="M8.59322 0.410156C3.85352 0.410156 0 4.26368 0 9.00337C0 13.7431 3.85352 17.5966 8.59322 17.5966C13.3329 17.5966 17.1864 13.7431 17.1864 9.00337C17.1864 4.26368 13.3329 0.410156 8.59322 0.410156Z"
+                                  fill="#4BAE4F" />
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                  d="M12.7496 6.10001C12.9577 6.30813 12.9577 6.65051 12.7496 6.85863L7.71448 11.8937C7.61042 11.9978 7.47279 12.0515 7.33517 12.0515C7.19754 12.0515 7.05992 11.9978 6.95586 11.8937L4.43831 9.37618C4.2302 9.16806 4.2302 8.82567 4.43831 8.61756C4.64643 8.40944 4.98882 8.40944 5.19693 8.61756L7.33517 10.7558L11.9909 6.10001C12.1991 5.88854 12.5414 5.88854 12.7496 6.10001Z"
+                                  fill="white" />
+                              </g>
+                              <defs>
+                                <clipPath id="clip0_4063_92">
+                                  <rect width="17.1864" height="17.1864" fill="white"
+                                    transform="translate(0 0.40625)" />
+                                </clipPath>
+                              </defs>
+                            </svg>
+                            Verified Users</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-5">
+            <div class="order-recap">
+              <div class="d-flex align-items-center justify-content-between p-3 border-bottom">
+                <h5 class="mb-0 font-20">Order Recap</h5>
+                <button class="btn contactActionBtn bg-white d-flex align-items-center gap-2"
+                  *ngIf="!isCouponVerified && !Constant.EMPTY_STRINGS.includes(employeeCount+'')">
+                  <span (click)="showCoupon=true;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 21 21" fill="none">
+                      <mask id="mask0_3881_6095" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                        width="21" height="21">
+                        <rect x="0.5" y="0.765625" width="20" height="20" fill="#D9D9D9" />
+                      </mask>
+                      <g mask="url(#mask0_3881_6095)">
+                        <path
+                          d="M18.3332 12.6419L12.3748 18.6003C12.2082 18.7669 12.0207 18.8919 11.8123 18.9753C11.604 19.0586 11.3957 19.1003 11.1873 19.1003C10.979 19.1003 10.7707 19.0586 10.5623 18.9753C10.354 18.8919 10.1665 18.7669 9.99984 18.6003L2.64567 11.2461C2.49289 11.0933 2.37484 10.9162 2.2915 10.7148C2.20817 10.5135 2.1665 10.3016 2.1665 10.0794V4.10026C2.1665 3.64193 2.3297 3.24957 2.65609 2.92318C2.98248 2.59679 3.37484 2.43359 3.83317 2.43359H9.81234C10.0346 2.43359 10.2498 2.47873 10.4582 2.56901C10.6665 2.65929 10.8471 2.78082 10.9998 2.93359L18.3332 10.2878C18.4998 10.4544 18.6214 10.6419 18.6978 10.8503C18.7741 11.0586 18.8123 11.2669 18.8123 11.4753C18.8123 11.6836 18.7741 11.8885 18.6978 12.0898C18.6214 12.2912 18.4998 12.4753 18.3332 12.6419ZM11.1873 17.4336L17.1457 11.4753L9.7915 4.10026H3.83317V10.0586L11.1873 17.4336ZM5.9165 7.43359C6.26373 7.43359 6.55887 7.31207 6.80192 7.06901C7.04498 6.82595 7.1665 6.53082 7.1665 6.18359C7.1665 5.83637 7.04498 5.54123 6.80192 5.29818C6.55887 5.05512 6.26373 4.93359 5.9165 4.93359C5.56928 4.93359 5.27414 5.05512 5.03109 5.29818C4.78803 5.54123 4.6665 5.83637 4.6665 6.18359C4.6665 6.53082 4.78803 6.82595 5.03109 7.06901C5.27414 7.31207 5.56928 7.43359 5.9165 7.43359Z"
+                          fill="#1C1B1F" />
+                      </g>
+                    </svg>
+                    Apply Coupon
+                  </span>
+
+                  <span class="" *ngIf="showCoupon" (click)="showCoupon=false; couponErrorMessage=''; couponCode='';">
+                    <span class="separator"></span>
+                    <i class="bi bi-x-lg" style="padding-left: 10px;"></i>
+                  </span>
+                </button>
+                <button class="btn contactActionBtn bg-white d-flex align-items-center gap-2" *ngIf="isCouponVerified">
+
+                  {{couponCode}}
+
+
+                  <i class="bi bi-x-lg" *ngIf="showCoupon"
+                    (click)="showCoupon=false; couponCode=''; isCouponVerified = false"></i>
+
+                </button>
+              </div>
+              <div class="p-3">
+                <div class="mb-2 position-relative" *ngIf="showCoupon && !isCouponVerified">
+                  <input class="form-control" type="text" placeholder="Apply Coupon code " name="couponCode"
+                    [(ngModel)]="couponCode" (keyup)="couponErrorMessage=''" (keydown.enter)="applyCoupon()" />
+                  <button class="btn btn-outline-krenai" [disabled]="couponCode.length==0"
+                    (click)="applyCoupon()">Apply</button>
+                </div>
+                <div class="p-1">
+                  <div *ngIf="couponErrorMessage.length>0" class="mb-2">
+                    <p class="font-14 mb-0 text-danger"> <i class="bi bi-exclamation-circle"></i> {{couponErrorMessage}}
+                    </p>
+                  </div>
+                  <div class="d-flex align-items-center justify-content-between pt-2 pb-2">
+                    <h5 class="font-16">No of Employee</h5>
+                    <h5 class="font-16">{{employeeCount || '0'}}</h5>
+                  </div>
+                  <div class="d-flex align-items-center justify-content-between pt-2 pb-2">
+                    <h5 class="font-16">Amount</h5>
+                    <h5 class="font-16">₹{{subAmount | number : '1.2-2'}}</h5>
+                  </div>
+
+                  <div class="d-flex align-items-center justify-content-between pt-2 pb-2"
+                    *ngIf="couponDiscount>0 && isCouponVerified">
+                    <h5 class="font-16">Coupon Discount</h5>
+                    <h5 class="font-16">- ₹{{couponDiscount}}</h5>
+                  </div>
+                  <div class="d-flex align-items-center justify-content-between pt-2 pb-2">
+                    <h5 class="font-16">Tax Amount (18%)</h5>
+                    <h5 class="font-16">₹{{taxAmount | number : '1.2-2' }}</h5>
+                  </div>
+                  <div class="d-flex align-items-center justify-content-between pt-3 pb-2 border-top">
+                    <h5 class="text-primary font-16">Total Amount</h5>
+                    <h5 class="text-primary font-16">₹{{payableAmount | number : '1.2-2'}}</h5>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button class="btn w-100 text-white proceed-payment mt-3"
+              [disabled]="payableAmount == 0 || isUnderProcess || !isValidEmployeeCount" (click)="activatePlan()">
+              Proceed To Payment <span *ngIf="isUnderProcess" class="spinner-border spinner-border-sm" role="status"
+                aria-hidden="true"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button class="d-none" data-bs-toggle="modal" data-bs-target="#success-payment" #sucessPaymentModalButton></button>
+<div class="modal fade" id="success-payment" tabindex="-1" role="dialog" aria-hidden="true" data-bs-backdrop="static"
+  data-bs-keyboard="false">
+  <div class="modal-dialog modal-dialog-centered" style="max-width: 550px" role="document">
+    <div class="modal-content">
+      <div class="modal-body p-0" *ngIf="isUnderProcess">
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+      <div *ngIf="!isUnderProcess">
+        <div class="modal-body p-0">
+          <div class="payment-confirmed p-5 d-flex align-items-center justify-content-center flex-column">
+            <div class="d-flex align-items-center justify-content-end pt-2" style="padding-right: 10px">
+              <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButton
+                (click)="switchSubscriptionPlan()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+                  <mask id="mask0_3881_6289" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="30"
+                    height="30">
+                    <rect width="30" height="30" fill="#D9D9D9" />
+                  </mask>
+                  <g mask="url(#mask0_3881_6289)">
+                    <path
+                      d="M8 23.75L6.25 22L13.25 15L6.25 8L8 6.25L15 13.25L22 6.25L23.75 8L16.75 15L23.75 22L22 23.75L15 16.75L8 23.75Z"
+                      fill="black" />
+                  </g>
+                </svg>
+              </button>
+            </div>
+
+            <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 102 101" fill="none">
+              <g clip-path="url(#clip0_3826_7181)">
+                <path
+                  d="M50.5215 0C22.6321 0 0.0214844 22.6027 0.0214844 50.5C0.0214844 78.3973 22.6321 101 50.5215 101C78.4109 101 101.021 78.3835 101.021 50.5C101.021 22.6165 78.4109 0 50.5215 0Z"
+                  fill="#2AD352" />
+                <path
+                  d="M0.0215313 50.5001C0.0101314 58.8473 2.07718 67.066 6.03616 74.4146C11.08 75.8955 16.3101 76.6455 21.5669 76.6417C51.9261 76.6417 76.5369 52.0308 76.5369 21.6717C76.5415 16.3316 75.7679 11.0193 74.2408 5.90226C66.9403 2.0136 58.7931 -0.0137047 50.5215 6.97256e-05C22.6321 6.97256e-05 0.0215313 22.6028 0.0215313 50.5001Z"
+                  fill="#74DA7F" />
+                <path
+                  d="M79.3225 42.1307L48.9692 74.0068C48.142 74.8746 47.1482 75.5665 46.0472 76.041C44.9463 76.5156 43.7609 76.763 42.562 76.7686H42.5226C41.3304 76.7689 40.1503 76.5296 39.0524 76.0651C37.9544 75.6005 36.961 74.92 36.1312 74.064L20.0244 57.474C19.1922 56.6386 18.5342 55.6463 18.0886 54.5546C17.643 53.4629 17.4186 52.2935 17.4285 51.1144C17.4385 49.9353 17.6825 48.7699 18.1465 47.6858C18.6104 46.6018 19.285 45.6207 20.1312 44.7994C20.9774 43.9782 21.9782 43.3332 23.0757 42.9019C24.1731 42.4706 25.3453 42.2616 26.5242 42.2869C27.7031 42.3123 28.8652 42.5715 29.9431 43.0496C31.021 43.5277 31.9932 44.2151 32.8033 45.0719L42.4595 55.018L66.4253 29.8509C67.2281 28.99 68.1936 28.2969 69.266 27.8116C70.3385 27.3263 71.4964 27.0584 72.673 27.0235C73.8496 26.9885 75.0215 27.1872 76.1208 27.608C77.2201 28.0288 78.2251 28.6635 79.0776 29.4751C79.9301 30.2868 80.6132 31.2595 81.0874 32.3369C81.5616 33.4142 81.8175 34.5749 81.8403 35.7518C81.8631 36.9287 81.6523 38.0984 81.2201 39.1934C80.7879 40.2883 80.143 41.2866 79.3225 42.1307Z"
+                  fill="white" />
+              </g>
+              <defs>
+                <clipPath id="clip0_3826_7181">
+                  <rect width="101" height="101" fill="white" transform="translate(0.0214844)" />
+                </clipPath>
+              </defs>
+            </svg>
+
+            <h5 class="mb-0 mt-4">Payment Confirmed</h5>
+            <p class="mb-0 mt-2">Your payment has been processed successfully.</p>
+          </div>
+
+          <div class="p-4">
+            <h5 class="mb-0 font-20 border-bottom pb-3 mb-2">Plan details</h5>
+
+            <div class="d-flex align-items-center justify-content-between pt-2 pb-2">
+              <h5 class="mb-0 font-16">Employee</h5>
+              <h5 class="mb-0 font-16">{{invoiceDetail.employeeQuota}}</h5>
+            </div>
+            <div class="d-flex align-items-center justify-content-between pt-2 pb-2">
+              <h5 class="mb-0 font-16">Plan Opted</h5>
+              <h5 class="mb-0 font-16">{{invoiceDetail.planName}}/ {{invoiceDetail.periodically | titlecase}}</h5>
+            </div>
+            <div class="d-flex align-items-center justify-content-between pt-2 pb-2">
+              <h5 class="mb-0 font-16">Amount</h5>
+              <h5 class="mb-0 font-16">₹{{invoiceDetail.payableAmount}}</h5>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer p-3 d-flex align-items-center justify-content-between"
+          style="background-color: #f8f8f8">
+          <div class="d-flex align-items-center gap-3">
+            <span class="download-invoice-icon d-flex align-items-center justify-content-center bg-white">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="27" viewBox="0 0 28 27" fill="none">
+                <path
+                  d="M21.896 1.35938H6.44146C6.17695 1.36242 5.92232 1.46036 5.72393 1.63535C6.51116 1.91232 7.20379 2.40671 7.72153 3.06121C8.23928 3.71572 8.56095 4.50356 8.64926 5.3334C8.66613 5.4801 8.66613 5.62826 8.64926 5.77496V24.5412C8.64873 24.7523 8.70877 24.9592 8.82226 25.1372C8.93574 25.3153 9.0979 25.4571 9.28952 25.5457C9.48158 25.6342 9.695 25.6656 9.90439 25.6362C10.1138 25.6068 10.3103 25.518 10.4707 25.3802L13.6168 22.6866L16.7629 25.3802C16.9628 25.5512 17.2173 25.6452 17.4804 25.6452C17.7435 25.6452 17.998 25.5512 18.198 25.3802L21.3441 22.6866L24.4902 25.3802C24.6901 25.5512 24.9446 25.6451 25.2077 25.6451C25.3674 25.644 25.5252 25.6101 25.6713 25.5457C25.863 25.4571 26.0251 25.3153 26.1386 25.1372C26.2521 24.9592 26.3121 24.7523 26.3116 24.5412V5.77496C26.3116 4.60387 25.8464 3.48075 25.0183 2.65267C24.1902 1.82459 23.0671 1.35938 21.896 1.35938ZM20.7921 16.8139H14.1687C13.876 16.8139 13.5952 16.6976 13.3882 16.4906C13.1811 16.2836 13.0648 16.0028 13.0648 15.71C13.0648 15.4173 13.1811 15.1365 13.3882 14.9295C13.5952 14.7224 13.876 14.6061 14.1687 14.6061H20.7921C21.0849 14.6061 21.3657 14.7224 21.5727 14.9295C21.7797 15.1365 21.896 15.4173 21.896 15.71C21.896 16.0028 21.7797 16.2836 21.5727 16.4906C21.3657 16.6976 21.0849 16.8139 20.7921 16.8139ZM20.7921 12.3983H14.1687C13.876 12.3983 13.5952 12.282 13.3882 12.075C13.1811 11.868 13.0648 11.5872 13.0648 11.2944C13.0648 11.0017 13.1811 10.7209 13.3882 10.5139C13.5952 10.3068 13.876 10.1905 14.1687 10.1905H20.7921C21.0849 10.1905 21.3657 10.3068 21.5727 10.5139C21.7797 10.7209 21.896 11.0017 21.896 11.2944C21.896 11.5872 21.7797 11.868 21.5727 12.075C21.3657 12.282 21.0849 12.3983 20.7921 12.3983ZM20.7921 7.98275H14.1687C13.876 7.98275 13.5952 7.86645 13.3882 7.65943C13.1811 7.45241 13.0648 7.17163 13.0648 6.87886C13.0648 6.58608 13.1811 6.3053 13.3882 6.09828C13.5952 5.89126 13.876 5.77496 14.1687 5.77496H20.7921C21.0849 5.77496 21.3657 5.89126 21.5727 6.09828C21.7797 6.3053 21.896 6.58608 21.896 6.87886C21.896 7.17163 21.7797 7.45241 21.5727 7.65943C21.3657 7.86645 21.0849 7.98275 20.7921 7.98275ZM6.44146 5.77496V14.6061H3.12978C2.837 14.6061 2.55622 14.4898 2.3492 14.2828C2.14218 14.0758 2.02588 13.795 2.02588 13.5022V5.77496C2.02588 5.62041 2.02588 5.47691 2.02588 5.3334C2.08443 4.74786 2.3732 4.20956 2.82864 3.83692C3.28409 3.46428 3.86891 3.28783 4.45445 3.34639C5.03999 3.40494 5.57829 3.6937 5.95093 4.14915C6.32357 4.6046 6.50002 5.18942 6.44146 5.77496Z"
+                  fill="black" />
+              </svg>
+            </span>
+            <div>
+              <h5 class="mb-1 font-16 text-black">Download Invoice</h5>
+              <div class="d-flex align-items-center gap-3">
+                <p class="mb-0 font-14">Perfect for growing businesses</p>
+                <button class="p-0 btn font-16 text-primary download-btn" [disabled]="downloadingInvoice"
+                  (click)="downloadInvoice(invoiceDetail.invoiceId)">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
+                    <path
+                      d="M7.49825 11.2474L2.81184 6.56097L4.12404 5.20191L6.56097 7.63884V0H8.43553V7.63884L10.8725 5.20191L12.1847 6.56097L7.49825 11.2474ZM1.87456 14.9965C1.35906 14.9965 0.917755 14.813 0.550653 14.4459C0.183551 14.0787 0 13.6374 0 13.1219V10.3101H1.87456V13.1219H13.1219V10.3101H14.9965V13.1219C14.9965 13.6374 14.813 14.0787 14.4459 14.4459C14.0787 14.813 13.6374 14.9965 13.1219 14.9965H1.87456Z"
+                      fill="#6666F2" />
+                  </svg>
+                  Download
+                </button>
+              </div>
+            </div>
+          </div>
+          <button class="btn payment-done" data-bs-dismiss="modal" (click)="switchSubscriptionPlan()">Done</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- downgrade modal -->
+
+<button class="d-none" data-bs-toggle="modal" data-bs-target="#downgrade-plan" #downgradeModalButton></button>
+<div class="modal fade" id="downgrade-plan" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" style="max-width: 550px" role="document">
+    <div class="modal-content">
+      <div class="modal-body p-0">
+        <div class="downgrade-plan-detail bg-white d-flex align-items-center justify-content-center flex-column">
+          <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButton>
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+              <mask id="mask0_3881_6289" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="30"
+                height="30">
+                <rect width="30" height="30" fill="#D9D9D9" />
+              </mask>
+              <g mask="url(#mask0_3881_6289)">
+                <path
+                  d="M8 23.75L6.25 22L13.25 15L6.25 8L8 6.25L15 13.25L22 6.25L23.75 8L16.75 15L23.75 22L22 23.75L15 16.75L8 23.75Z"
+                  fill="black" />
+              </g>
+            </svg>
+          </button>
+
+          <img src="assets/images/downgrade-plan-img.svg" />
+
+          <h5 class="mb-4 mt-4 font-22 text-center">
+            Are you sure you want to downgrade<br />
+            your plan?
+          </h5>
+
+          <div class="action-pointer p-3 w-100 d-flex align-items-start gap-2 mt-3">
+            <div>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <mask id="mask0_3851_4151" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24"
+                  height="24">
+                  <rect width="24" height="24" fill="#D9D9D9" />
+                </mask>
+                <g mask="url(#mask0_3851_4151)">
+                  <path
+                    d="M11 17H13V11H11V17ZM12 9C12.2833 9 12.5208 8.90417 12.7125 8.7125C12.9042 8.52083 13 8.28333 13 8C13 7.71667 12.9042 7.47917 12.7125 7.2875C12.5208 7.09583 12.2833 7 12 7C11.7167 7 11.4792 7.09583 11.2875 7.2875C11.0958 7.47917 11 7.71667 11 8C11 8.28333 11.0958 8.52083 11.2875 8.7125C11.4792 8.90417 11.7167 9 12 9ZM12 22C10.6167 22 9.31667 21.7375 8.1 21.2125C6.88333 20.6875 5.825 19.975 4.925 19.075C4.025 18.175 3.3125 17.1167 2.7875 15.9C2.2625 14.6833 2 13.3833 2 12C2 10.6167 2.2625 9.31667 2.7875 8.1C3.3125 6.88333 4.025 5.825 4.925 4.925C5.825 4.025 6.88333 3.3125 8.1 2.7875C9.31667 2.2625 10.6167 2 12 2C13.3833 2 14.6833 2.2625 15.9 2.7875C17.1167 3.3125 18.175 4.025 19.075 4.925C19.975 5.825 20.6875 6.88333 21.2125 8.1C21.7375 9.31667 22 10.6167 22 12C22 13.3833 21.7375 14.6833 21.2125 15.9C20.6875 17.1167 19.975 18.175 19.075 19.075C18.175 19.975 17.1167 20.6875 15.9 21.2125C14.6833 21.7375 13.3833 22 12 22ZM12 20C14.2333 20 16.125 19.225 17.675 17.675C19.225 16.125 20 14.2333 20 12C20 9.76667 19.225 7.875 17.675 6.325C16.125 4.775 14.2333 4 12 4C9.76667 4 7.875 4.775 6.325 6.325C4.775 7.875 4 9.76667 4 12C4 14.2333 4.775 16.125 6.325 17.675C7.875 19.225 9.76667 20 12 20Z"
+                    fill="#E27A17" />
+                </g>
+              </svg>
+            </div>
+            <div>
+              <p class="mb-0 font-16 text-black">
+                This action may affect the following
+              </p>
+
+              <ul class="mt-2">
+                <li>Access to premium features will be removed.</li>
+                <li>Reduced user limit.</li>
+                <li>Limited support options.</li>
+                <li>Current discounts and benefits will no longer apply.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-3 border-top">
+        <div class="form-check pl-0">
+          <input type="checkbox" id="termsAndConditions" required class="position-relative check-box"
+            [checked]="validateDowngrade" (change)="validateDowngradeConfirm()" />
+          <label class="form-check-label iHaveRead" for="termsAndConditions" (change)="validateDowngradeConfirm()">
+            I have validated the information and will proceed with it .
+          </label>
+        </div>
+
+        <div class="d-flex align-items-center justify-content-end gap-3 mt-3">
+          <button class="btn submit-add-more" data-bs-dismiss="modal" aria-label="Close" #closeButton>
+            Cancel
+          </button>
+
+          <button class="btn mannualSubmit" data-bs-dismiss="modal" [disabled]="!validateDowngrade"
+            (click)="switchSubscriptionPlan()">Confirm</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- downgrade modal end -->
+
+
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#loaderModal"
+  #loaderModalButton>
+  Dues Paid Loader
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="loaderModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-body p-0" *ngIf="isUnderProcess">
+          <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+        Numquam omnis possimus placeat vitae aspernatur dolores at voluptate sit,
+        adipisci quas fugit dolor dicta reprehenderit earum excepturi, rem, recusandae aliquam delectus!
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Request form -->
+
+<button type="button" data-bs-toggle="modal" data-bs-target="#createRequest">
+  Open Form
+</button>
+
+<div class="modal fade" id="createRequest" tabindex="-1" aria-labelledby="exampleModalFullscreenLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Raise Request</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closemodal></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="requestForm">
+          <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" id="name" class="form-control" formControlName="name">
+            <div *ngIf="requestForm.get('name')?.invalid && requestForm.get('name')?.touched" class="text-danger">
+              Name is required.
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" id="email" class="form-control" formControlName="email">
+            <div *ngIf="requestForm.get('email')?.invalid && requestForm.get('email')?.touched" class="text-danger">
+              Enter a valid email address.
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="phone" class="form-label">Phone</label>
+            <input type="text" id="phone" class="form-control" formControlName="phone">
+            <div *ngIf="requestForm.get('phone')?.invalid && requestForm.get('phone')?.touched" class="text-danger">
+              Enter a valid 10-digit phone number.
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="empCount" class="form-label">Employee Count</label>
+            <input type="number" id="empCount" class="form-control" formControlName="empCount">
+            <div *ngIf="requestForm.get('empCount')?.invalid && requestForm.get('empCount')?.touched"
+              class="text-danger">
+              Employee count must be greater than 0.
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea id="description" class="form-control" formControlName="description"></textarea>
+            <div *ngIf="requestForm.get('description')?.invalid && requestForm.get('description')?.touched"
+              class="text-danger">
+              Description is required.
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" [disabled]="requestForm.invalid" (click)="submitRequest()">
+          Submit
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

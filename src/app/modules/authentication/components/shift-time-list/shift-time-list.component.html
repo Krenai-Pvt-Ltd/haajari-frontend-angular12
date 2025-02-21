@@ -1,0 +1,1123 @@
+<div class="page-wrapper">
+  <div class="page-content-tab-onbording">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="persnol-details">
+            <div class="card-header p-0 pb-3 bg-white">
+              <h4 class="card-title-headding mb-1">Shift Time</h4>
+              <p class="mb-0">
+                To enhance your experience and ensure accurate shift scheduling
+                and communication within our platform, we kindly ask you to
+                review and update your shift information.
+              </p>
+            </div>
+
+            <ng-container *ngIf="allShiftTimingsLoader">
+              <div class="">
+                <div class="text-end">
+                  <ngx-shimmer-loading [width]="'40%'" [height]="'20px'"
+                    style="border-radius: 50%"></ngx-shimmer-loading>
+                </div>
+              </div>
+
+              <div class="mt-3" style="
+                  border: 1px solid #f5f5f5;
+                  padding: 5px;
+                  border-radius: 6px;
+                ">
+                <div class="row" style="
+                    border-bottom: 1px solid #f5f5f5;
+                    padding-top: 10px;
+                    padding-bottom: 10px;
+                  ">
+                  <div class="col-md-4">
+                    <div class="">
+                      <ngx-shimmer-loading [width]="'100%'" [height]="'20px'"
+                        style="border-radius: 50%"></ngx-shimmer-loading>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row mt-3">
+                  <div class="col-md-3">
+                    <div class="">
+                      <ngx-shimmer-loading [width]="'100%'" [height]="'20px'"
+                        style="border-radius: 50%"></ngx-shimmer-loading>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row mt-3">
+                  <div class="col-md-4">
+                    <div class="">
+                      <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                        style="border-radius: 50%"></ngx-shimmer-loading>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="">
+                      <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                        style="border-radius: 50%"></ngx-shimmer-loading>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="">
+                      <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                        style="border-radius: 50%"></ngx-shimmer-loading>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="">
+                      <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                        style="border-radius: 50%"></ngx-shimmer-loading>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="">
+                      <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                        style="border-radius: 50%"></ngx-shimmer-loading>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="">
+                      <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                        style="border-radius: 50%"></ngx-shimmer-loading>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+            <div class="add-shift-main-box mt-3 pb-1" *ngIf="
+                !allShiftTimingsLoader &&
+                organizationShiftTimingWithShiftTypeResponseList.length > 0
+              ">
+              <div class="add-shift-box d-flex align-items-center justify-content-between p-3 border-bottom">
+                <div class="">
+                  <h6 class="text-truncate mb-0">Shifts</h6>
+                </div>
+                <div >
+                  <!--  routerLink="/organization-onboarding/add-shift-time" -->
+                  <a class="add-shift-time-btn" [routerLink]="constant.ORG_ONBOARDING_ADD_SHIFT_TIME_ROUTE">
+                    <i class="bi bi-plus-lg"></i>
+                    Add Shift Time
+                  </a>
+                </div>
+              </div>
+              <div *ngFor="
+                  let organizationShiftTimingWithShiftTypeResponse of organizationShiftTimingWithShiftTypeResponseList
+                ">
+                <div class="shift-time m-3" *ngFor="
+                    let organizationShiftTimingResponse of organizationShiftTimingWithShiftTypeResponse.organizationShiftTimingResponseList;
+                    let i = index
+                  ">
+                  <div class="">
+                    <div class="d-flex align-items-center justify-content-between">
+                      <div class="d-flex align-items-center gap-3">
+                        <!-- [attr.aria-expanded]="
+                              activeIndex == i ? 'true' : 'false' -->
+                        <div class="">
+                          <span data-bs-toggle="collapse" role="button" class="automation-rules-toogel-btn pointer"
+                            [attr.data-bs-target]="'#multiCollapseExample' + i"
+                            [attr.aria-controls]="'multiCollapseExample' + i" [attr.aria-expanded]="true"
+                            (click)="toggleCollapse(i)">
+                            {{ i + 1 }}
+                          </span>
+                        </div>
+                        <div class="">
+                          <h5 class="alert-heading font-14 mb-0" style="font-weight: 400">
+                            {{ organizationShiftTimingResponse.name }} (
+                            {{organizationShiftTimingResponse.shiftType.name}} )
+                          </h5>
+                        </div>
+                      </div>
+                      <div class="employ-list d-flex align-items-center gap-3">
+                        <!-- <span
+                          data-bs-toggle="modal"
+                          data-bs-target="#usersAlreadyAssigned"
+                          >Employee List</span -->
+                        <!-- > -->
+                        <span class="pointer" data-bs-toggle="modal" data-bs-target="#shiftTime" (click)="
+                            updateOrganizationShiftTimingUser(
+                              organizationShiftTimingResponse,
+                              'SHIFT_TIME'
+                            )
+                          ">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22"
+                            fill="none">
+                            <mask id="mask0_3457_1567" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                              width="22" height="22">
+                              <rect width="22" height="22" fill="#D9D9D9" />
+                            </mask>
+                            <g mask="url(#mask0_3457_1567)">
+                              <path
+                                d="M1.64844 17.698V15.66C1.64844 15.1876 1.77035 14.766 2.01419 14.3952C2.25802 14.0244 2.58367 13.736 2.99113 13.5299C3.86226 13.1038 4.73822 12.7753 5.61898 12.5443C6.4999 12.3134 7.46797 12.198 8.52321 12.198C9.5786 12.198 10.5467 12.3134 11.4274 12.5443C12.3084 12.7753 13.1844 13.1038 14.0555 13.5299C14.463 13.736 14.7886 14.0244 15.0325 14.3952C15.2763 14.766 15.3982 15.1876 15.3982 15.66V17.698H1.64844ZM17.2315 17.698V15.5473C17.2315 14.9456 17.0843 14.3722 16.7897 13.8269C16.495 13.2818 16.077 12.8141 15.5357 12.4237C16.1503 12.5154 16.7339 12.6572 17.2863 12.8493C17.8386 13.0415 18.3657 13.2686 18.8676 13.5306C19.3412 13.7833 19.7069 14.0811 19.9648 14.4241C20.2227 14.7669 20.3517 15.1413 20.3517 15.5473V17.698H17.2315ZM8.52321 10.7171C7.64092 10.7171 6.88566 10.403 6.25744 9.77478C5.62922 9.1464 5.31511 8.39107 5.31511 7.50878C5.31511 6.62649 5.62922 5.87123 6.25744 5.24301C6.88566 4.61463 7.64092 4.30045 8.52321 4.30045C9.4055 4.30045 10.1608 4.61463 10.7892 5.24301C11.4174 5.87123 11.7315 6.62649 11.7315 7.50878C11.7315 8.39107 11.4174 9.1464 10.7892 9.77478C10.1608 10.403 9.4055 10.7171 8.52321 10.7171ZM16.4382 7.50878C16.4382 8.39107 16.1241 9.1464 15.4958 9.77478C14.8676 10.403 14.1124 10.7171 13.2301 10.7171C13.1266 10.7171 12.995 10.7053 12.8352 10.6818C12.6753 10.6583 12.5436 10.6325 12.4404 10.6044C12.8018 10.1697 13.0797 9.68754 13.2738 9.15786C13.4679 8.62818 13.5649 8.07818 13.5649 7.50786C13.5649 6.93739 13.4659 6.38945 13.2679 5.86405C13.0699 5.3388 12.794 4.85526 12.4404 4.41342C12.5719 4.36637 12.7035 4.33581 12.8352 4.32176C12.9668 4.30755 13.0984 4.30045 13.2301 4.30045C14.1124 4.30045 14.8676 4.61463 15.4958 5.24301C16.1241 5.87123 16.4382 6.62649 16.4382 7.50878ZM3.02321 16.323H14.0232V15.66C14.0232 15.4686 13.9753 15.2982 13.8795 15.149C13.7839 14.9997 13.632 14.8692 13.4239 14.7576C12.6695 14.3686 11.8927 14.0739 11.0935 13.8734C10.2944 13.6731 9.43759 13.573 8.52321 13.573C7.60899 13.573 6.75229 13.6731 5.9531 13.8734C5.15392 14.0739 4.37713 14.3686 3.62271 14.7576C3.41463 14.8692 3.26269 14.9997 3.1669 15.149C3.0711 15.2982 3.02321 15.4686 3.02321 15.66V16.323ZM8.52321 9.34211C9.02738 9.34211 9.45897 9.1626 9.818 8.80357C10.177 8.44454 10.3565 8.01295 10.3565 7.50878C10.3565 7.00461 10.177 6.57302 9.818 6.21399C9.45897 5.85496 9.02738 5.67545 8.52321 5.67545C8.01904 5.67545 7.58745 5.85496 7.22842 6.21399C6.86939 6.57302 6.68988 7.00461 6.68988 7.50878C6.68988 8.01295 6.86939 8.44454 7.22842 8.80357C7.58745 9.1626 8.01904 9.34211 8.52321 9.34211Z"
+                                fill="black" />
+                            </g>
+                          </svg>
+                          Members
+
+                          <span class="members-count">{{
+                            organizationShiftTimingResponse.userUuids.length
+                            }}</span>
+                        </span>
+                        <div class="spreter"></div>
+                        <span class="pointer" data-bs-toggle="modal" data-bs-target="#munal-upload" (click)="
+                            updateOrganizationShiftTiming(
+                              organizationShiftTimingResponse,
+                              'SHIFT_TIME'
+                            )
+                          ">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22"
+                            fill="none">
+                            <mask id="mask0_3457_1575" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                              width="22" height="22">
+                              <rect width="22" height="22" fill="#444444" />
+                            </mask>
+                            <g mask="url(#mask0_3457_1575)">
+                              <path
+                                d="M4.58203 17.4166H5.73841L15.1219 8.03316L13.9655 6.87678L4.58203 16.2602V17.4166ZM3.20703 18.7916V15.6892L15.2983 3.60314C15.4369 3.47725 15.5899 3.38 15.7573 3.31141C15.9249 3.24266 16.1006 3.20828 16.2844 3.20828C16.4682 3.20828 16.6462 3.2409 16.8184 3.30614C16.9907 3.37137 17.1433 3.47511 17.276 3.61734L18.3955 4.7508C18.5377 4.88357 18.6391 5.03634 18.6996 5.20914C18.7601 5.38193 18.7904 5.55472 18.7904 5.72751C18.7904 5.91191 18.7589 6.08784 18.6959 6.25528C18.633 6.42288 18.5329 6.57596 18.3955 6.71453L6.30949 18.7916H3.20703ZM14.5336 7.46505L13.9655 6.87678L15.1219 8.03316L14.5336 7.46505Z"
+                                fill="black" />
+                            </g>
+                          </svg>
+                          Edit
+                        </span>
+                        <div class="spreter"></div>
+                        <span class="pointer" style="color: red" (click)="
+                            deleteOrganizationShiftTimingMethodCall(
+                              organizationShiftTimingResponse.id
+                            )
+                          ">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22"
+                            fill="none">
+                            <mask id="mask0_3457_1581" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                              width="22" height="22">
+                              <rect width="22" height="22" fill="#D9D9D9" />
+                            </mask>
+                            <g mask="url(#mask0_3457_1581)">
+                              <path
+                                d="M6.69877 18.7914C6.24166 18.7914 5.85116 18.6296 5.52727 18.3058C5.20353 17.9819 5.04167 17.5914 5.04167 17.1343V5.49976H4.125V4.12476H8.25V3.31396H13.75V4.12476H17.875V5.49976H16.9583V17.1343C16.9583 17.5974 16.7979 17.9893 16.4771 18.3102C16.1563 18.631 15.7643 18.7914 15.3012 18.7914H6.69877ZM15.5833 5.49976H6.41667V17.1343C6.41667 17.2167 6.4431 17.2843 6.49596 17.3371C6.54882 17.39 6.61642 17.4164 6.69877 17.4164H15.3012C15.3718 17.4164 15.4364 17.387 15.4951 17.3282C15.5539 17.2695 15.5833 17.2049 15.5833 17.1343V5.49976ZM8.62033 15.5831H9.9951V7.33309H8.62033V15.5831ZM12.0049 15.5831H13.3797V7.33309H12.0049V15.5831Z"
+                                fill="#FF0000" />
+                            </g>
+                          </svg>
+                          Delete
+                        </span>
+                      </div>
+                    </div>
+
+                    <div class="collapse multi-collapse show" [id]="'multiCollapseExample' + i">
+                      <div class="shift-in-out-box row mt-3 p-3 m-0">
+                        <div class="col-md-4">
+                          <div class="shift-in-out-time mb-3">
+                            <p class="mb-0">
+                              In Time |
+                              <span style="color: #3f988f">{{
+                                organizationShiftTimingResponse.inTime
+                                | date : "shortTime"
+                                }}</span>
+                            </p>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="shift-in-out-time mb-3">
+                            <p class="mb-0">
+                              Out Time |
+                              <span style="color: #3f988f">{{
+                                organizationShiftTimingResponse.outTime
+                                | date : "shortTime"
+                                }}</span>
+                            </p>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="shift-in-out-time mb-3">
+                            <p class="mb-0">
+                              Working Time |
+                              <span style="color: #3f988f">{{
+                                organizationShiftTimingResponse.workingHour
+                                }}</span>
+                            </p>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="shift-in-out-time">
+                            <p class="mb-0">
+                              Break Time |
+                              <span style="color: #3f988f">{{
+                                organizationShiftTimingResponse.startLunch
+                                | date : "shortTime"
+                                }}</span>
+                            </p>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="shift-in-out-time">
+                            <p class="mb-0">
+                              Back Time |
+                              <span style="color: #3f988f">{{
+                                organizationShiftTimingResponse.endLunch
+                                | date : "shortTime"
+                                }}</span>
+                            </p>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="shift-in-out-time">
+                            <p class="mb-0">
+                              Total Break Hour |
+                              <span style="color: #3f988f">{{
+                                organizationShiftTimingResponse.lunchHour
+                                }}</span>
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-8">
+              <div class="next-btn-box d-flex align-items-center justify-content-between">
+                <button class="btn previousBtn previous-btn p-0" type="button" (click)="backPage()">
+                  <span *ngIf="!isShiftTimeBackLoading">
+                    <!-- <i
+                      class="bi bi-arrow-left"
+                      style="
+                        padding-right: 3px;
+                        padding-right: 1px;
+                        position: relative;
+                        top: -1px;
+                      "
+                    ></i> -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
+                      <path
+                        d="M19.75 10.6714C19.75 10.8588 19.6914 11.011 19.5743 11.1281C19.4572 11.2452 19.305 11.3038 19.1177 11.3038H3.59011L7.73547 15.4491C7.87599 15.5896 7.94625 15.7536 7.94625 15.9409C7.94625 16.1283 7.87599 16.2805 7.73547 16.3976C7.59495 16.5147 7.43101 16.5733 7.24365 16.5733C7.05628 16.5733 6.89234 16.5264 6.75182 16.4328L1.48229 11.1632C1.38861 11.0227 1.34177 10.8588 1.34177 10.6714C1.34177 10.484 1.38861 10.3201 1.48229 10.1796L6.75182 4.91005C6.89234 4.81637 7.05628 4.76953 7.24365 4.76953C7.43101 4.76953 7.59495 4.82808 7.73547 4.94518C7.87599 5.06228 7.94625 5.21451 7.94625 5.40188C7.94625 5.58924 7.87599 5.75318 7.73547 5.8937L3.59011 10.0391H19.1177C19.305 10.0391 19.4572 10.0976 19.5743 10.2147C19.6914 10.3318 19.75 10.484 19.75 10.6714Z"
+                        fill="black" />
+                    </svg>
+                    Previous</span>
+
+                  <div class="dot-opacity-loader" *ngIf="isShiftTimeBackLoading">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                </button>
+
+                <button type="submit" class="btn nextBtn p-0 btn-border" (click)="nextPage()">
+                  <span *ngIf="!isShiftListNextLoading">Next
+                    <!-- <i class="bi bi-arrow-right" style="padding-left: 8px"></i> -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
+                      <path
+                        d="M2.25293 11.0001C2.25293 11.1875 2.31148 11.3397 2.42858 11.4568C2.54568 11.5739 2.69791 11.6325 2.88527 11.6325H18.4128L14.2675 15.7779C14.1269 15.9184 14.0567 16.0823 14.0567 16.2697C14.0567 16.457 14.1269 16.6093 14.2675 16.7264C14.408 16.8435 14.5719 16.902 14.7593 16.902C14.9466 16.902 15.1106 16.8552 15.2511 16.7615L20.5206 11.492C20.6143 11.3514 20.6612 11.1875 20.6612 11.0001C20.6612 10.8128 20.6143 10.6488 20.5206 10.5083L15.2511 5.23879C15.1106 5.14511 14.9466 5.09827 14.7593 5.09827C14.5719 5.09827 14.408 5.15682 14.2675 5.27392C14.1269 5.39102 14.0567 5.54325 14.0567 5.73061C14.0567 5.91797 14.1269 6.08191 14.2675 6.22243L18.4128 10.3678H2.88527C2.69791 10.3678 2.54568 10.4263 2.42858 10.5434C2.31148 10.6606 2.25293 10.8128 2.25293 11.0001Z"
+                        fill="#6666F2" />
+                    </svg>
+                  </span>
+
+                  <div class="dot-opacity-loader" *ngIf="isShiftListNextLoading">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="shiftTime" data-bs-dismiss="static" tabindex="-1" role="dialog"
+  aria-labelledby="exampleModalDefaultLabel" aria-hidden="true" data-bs-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered" style="max-width: 1000px" role="document">
+    <div class="modal-content">
+      <div class="modal-body p-0 employee-List-heigt">
+        <div class="row">
+          <div class="col-md-3" style="padding-right: 0px">
+            <div class="employee-List-side-image persnol-details d-flex align-items-start justify-content-center gap-2"
+              style="
+                background-image: url(../assets/images/employee-List-side-image.svg);
+                border-radius: 0px;
+                flex-direction: column;
+              ">
+              <div class="text-center mb-3">
+                <img src="assets/images/employee-list-img.svg" style="width: 70%" />
+              </div>
+              <h5 class="alert-heading font-16 text-white mb-0">
+                Employee List
+              </h5>
+              <p class="mb-0 text-white">
+                This is the list of Employee who are part of this shift
+              </p>
+
+              <div class="left-arrow">
+                <svg xmlns="http://www.w3.org/2000/svg" width="41" height="42" viewBox="0 0 41 42" fill="none">
+                  <g clip-path="url(#clip0_1633_4694)">
+                    <path
+                      d="M31.5083 20.5045L22.2229 11.2191C21.8894 10.8296 21.3032 10.7842 20.9137 11.1179C20.5242 11.4514 20.4788 12.0376 20.8125 12.4271C20.8436 12.4634 20.8774 12.4973 20.9137 12.5283L28.6113 20.2352H-8.14961C-8.66239 20.2352 -9.07812 20.651 -9.07812 21.1638C-9.07812 21.6767 -8.66239 22.0923 -8.14961 22.0923H28.6113L20.9137 29.7899C20.5242 30.1234 20.4788 30.7096 20.8125 31.0991C21.1461 31.4886 21.7322 31.534 22.1217 31.2004C22.158 31.1692 22.1919 31.1354 22.2229 31.0991L31.5084 21.8137C31.8683 21.4516 31.8683 20.8667 31.5083 20.5045Z"
+                      fill="white" />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_1633_4694">
+                      <rect width="40.8564" height="40.8564" fill="white" transform="translate(0 0.726562)" />
+                    </clipPath>
+                  </defs>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-9" style="padding-left: 0px">
+            <div class="p-3">
+              <div>
+                <div class="row">
+                  <div class="">
+                    <div class="userModalCloseBtn">
+                      <button _ngcontent-vta-c393="" type="button" data-bs-dismiss="modal" aria-label="Close"
+                        class="close-btn employ-list-close-btn" #closeButtonEditStaffInfo>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                          <mask id="mask0_1633_4750" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                            width="24" height="24">
+                            <rect width="23.5" height="23.5" fill="#D9D9D9" />
+                          </mask>
+                          <g mask="url(#mask0_1633_4750)">
+                            <path
+                              d="M6.26146 18.6068L4.89062 17.2359L10.374 11.7526L4.89062 6.26927L6.26146 4.89844L11.7448 10.3818L17.2281 4.89844L18.599 6.26927L13.1156 11.7526L18.599 17.2359L17.2281 18.6068L11.7448 13.1234L6.26146 18.6068Z"
+                              fill="#070707" />
+                          </g>
+                        </svg>
+                      </button>
+                    </div>
+                    <div class="col-md-12 mb-3">
+                      <form novalidate="" role="search" (submit)="searchUsers()" class="searching">
+                        <div class="form-group" style="position: relative">
+                          <input type="search" id="searchText" placeholder="Search by Name "
+                            class="form-control profile-input me-2" (keyup)="searchUsers()" [(ngModel)]="searchText"
+                            [ngModelOptions]="{ standalone: true }" style="padding: 10px 30px" />
+                          <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px"></i>
+                        </div>
+                      </form>
+                    </div>
+
+                    <div class="d-flex align-items-center justify-content-between mb-3"
+                      *ngIf="selectedStaffsUuids.length > 0">
+                      <h5 class="alert-heading font-14 mb-0">
+                        Selected Employee List
+                      </h5>
+
+                      <div class="d-flex align-items-center gap-2">
+                        <p class="mb-0 selected-text">
+                          <span class="text-primary">
+                            {{ selectedStaffsUuids.length }}
+                          </span>
+                          selected of
+                          <span class="text-primary"> {{ total }} </span>
+                        </p>
+                        <p class="mb-0 selectAll" (click)="selectAllUsers(true)">
+                          Select all {{ total }} users
+                        </p>
+
+                        <button class="p-0 btn removeBtn pointer" (click)="unselectAllUsers()">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                            fill="none">
+                            <mask id="mask0_1624_4338" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                              width="24" height="24">
+                              <rect y="0.25" width="23.5" height="23.5" fill="#D9D9D9" />
+                            </mask>
+                            <g mask="url(#mask0_1624_4338)">
+                              <path
+                                d="M6.26146 18.8568L4.89062 17.4859L10.374 12.0026L4.89062 6.51927L6.26146 5.14844L11.7448 10.6318L17.2281 5.14844L18.599 6.51927L13.1156 12.0026L18.599 17.4859L17.2281 18.8568L11.7448 13.3734L6.26146 18.8568Z"
+                                fill="#FD0808" />
+                            </g>
+                          </svg>
+                          Remove All
+                        </button>
+                      </div>
+                    </div>
+                    <div class="employ-list-height table-responsive">
+                      <table class="table table-striped">
+                        <thead class="thead-light">
+                          <tr>
+                            <th style="width: 2%" class="text-center">
+                              <input type="checkbox" class="form-check-input pointer" [(ngModel)]="isAllSelected"
+                                (change)="selectAll(isAllSelected)" />
+                            </th>
+                            <th style="width: 15%" class="text-center">
+                              Sr No.
+                            </th>
+                            <th style="width: 20%" class="text-left">Name</th>
+                            <th style="width: 20%" class="text-left">
+                              Email Address
+                            </th>
+                            <th style="width: 20%" class="text-left">
+                              Phone Number
+                            </th>
+                            <!-- <th style="width: 20%" class="text-left">Shift</th>
+                            <th style="width: 5%"></th> -->
+
+                            <!-- <th style="width: 5%" class="text-center"></th> -->
+                          </tr>
+                        </thead>
+                        <tbody *ngIf="staffs.length == 0">
+                          <tr>
+                            <td colspan="5">
+                              <div class="errorboxmain bg-white d-flex align-items-center justify-content-center">
+                                <div class="errorboxinner">
+                                  <div class="errorboxplaceholder mb-2">
+                                    <img src="assets/images/addnewproduct.svg" style="width: 100px" />
+                                  </div>
+
+                                  <h4>No Data Found</h4>
+                                </div>
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                        <tbody class="">
+                          <tr *ngFor="
+                              let staff of staffs
+                                | paginate
+                                  : {
+                                      itemsPerPage: itemPerPage,
+                                      currentPage: pageNumber,
+                                      totalItems: total
+                                    };
+                              let i = index
+                            ">
+                            <td class="text-center">
+                              <input type="checkbox" class="form-check-input pointer" [(ngModel)]="staff.selected"
+                                (change)="checkIndividualSelection()" />
+                            </td>
+                            <td class="text-center">{{ getRowNumber(i) }}</td>
+                            <td>{{ staff.name }}</td>
+                            <td>{{ staff.email || "N/A" }}</td>
+                            <td>
+                              {{
+                              staff.phoneNumber ? staff.phoneNumber : "N/A"
+                              }}
+                            </td>
+                            <!-- <td>
+                              <div class="dropdown">
+                                <button
+                                  class="btn dropdown-toggle profile-input searchSelect"
+                                  style="
+                                    height: 30px !important;
+                                    width: 100px;
+                                    border: 0.938px solid #eff0f0;
+                                    background: #fff;
+                                  "
+                                  type="button"
+                                  id="dropdownMenuButton1"
+                                  data-bs-toggle="dropdown"
+                                  aria-expanded="false"
+                                  [ngClass]="{
+                                    'is-invalid':
+                                      !selectedShiftType?.name &&
+                                      shiftForm.submitted
+                                  }"
+                                >
+                                  Shift
+                                  <i class="bi bi-chevron-down"></i>
+                                </button>
+                                <ul
+                                  class="dropdown-menu searchSelectList"
+                                  aria-labelledby="dropdownMenuButton1"
+                                  style="width: 100%"
+                                >
+                                  <li>
+                                    <a class="dropdown-item"> Hajiri </a>
+                                  </li>
+                                  <li>
+                                    <a class="dropdown-item"> Krenai </a>
+                                  </li>
+                                  <li>
+                                    <a class="dropdown-item"> Wekreta </a>
+                                  </li>
+                                </ul>
+                              </div>
+                            </td> -->
+
+                            <!-- <td>
+                              <a
+                                class="pointer d-flex align-items-center justify-content-center gap-2 delete-icon"
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="26"
+                                  height="26"
+                                  viewBox="0 0 26 26"
+                                  fill="none"
+                                >
+                                  <mask
+                                    id="mask0_3422_4377"
+                                    style="mask-type: alpha"
+                                    maskUnits="userSpaceOnUse"
+                                    x="0"
+                                    y="0"
+                                    width="26"
+                                    height="26"
+                                  >
+                                    <rect
+                                      x="0.730469"
+                                      y="0.872589"
+                                      width="24.8565"
+                                      height="24.8565"
+                                      fill="#D9D9D9"
+                                    />
+                                  </mask>
+                                  <g mask="url(#mask0_3422_4377)">
+                                    <path
+                                      d="M8.29857 22.1039C7.78211 22.1039 7.34091 21.921 6.97497 21.5552C6.6092 21.1893 6.42631 20.7481 6.42631 20.2316V7.08645H5.39062V5.53292H10.0512V4.61685H16.2653V5.53292H20.9259V7.08645H19.8902V20.2316C19.8902 20.7548 19.709 21.1977 19.3465 21.5602C18.984 21.9227 18.5412 22.1039 18.018 22.1039H8.29857ZM18.3367 7.08645H7.97984V20.2316C7.97984 20.3247 8.0097 20.4011 8.06943 20.4608C8.12915 20.5205 8.20554 20.5504 8.29857 20.5504H18.018C18.0977 20.5504 18.1707 20.5171 18.237 20.4507C18.3035 20.3844 18.3367 20.3114 18.3367 20.2316V7.08645ZM10.4696 18.479H12.0229V9.15782H10.4696V18.479ZM14.2936 18.479H15.8469V9.15782H14.2936V18.479Z"
+                                      fill="#FF0000"
+                                    />
+                                  </g>
+                                </svg>
+                              </a>
+                            </td> -->
+                          </tr>
+                        </tbody>
+                      </table>
+
+                      <div class="pagination pl-3 align-items-center justify-content-between" *ngIf="total > 5">
+                        <p style="padding-left: 15px">
+                          Showing {{ getStartIndex() }} - {{ getEndIndex() }} of
+                          {{ total }} teams
+                        </p>
+                        <div>
+                          <nav aria-label="Page navigation example">
+                            <ul class="pagination justify-content-end">
+                              <li class="page-item" [class.disabled]="pageNumber == 1">
+                                <a class="page-link" href="javascript:void(0);" aria-label="Previous"
+                                  (click)="changePage('prev')">
+                                  <span aria-hidden="true">&laquo;</span>
+                                </a>
+                              </li>
+                              <li class="page-item" *ngFor="let page of getPages()" [class.active]="pageNumber == page">
+                                <a class="page-link" href="javascript:void(0);" (click)="changePage(page)">{{ page
+                                  }}</a>
+                              </li>
+                              <li class="page-item" [class.disabled]="pageNumber == totalPages">
+                                <a class="page-link" href="javascript:void(0);" aria-label="Next"
+                                  (click)="changePage('next')">
+                                  <span aria-hidden="true">&raquo;</span>
+                                </a>
+                              </li>
+                            </ul>
+                          </nav>
+                        </div>
+                      </div>
+                      <!-- <div
+                        class="shiftManagement d-flex gap-3 align-items-center memberNotes"
+                        style="
+                          background-image: url(../assets/images/vector-3.svg);
+                        "
+                        *ngIf="userNameWithShiftName?.length != 0"
+                      >
+                        <div class="">
+                          <h5 class="alert-heading text-warning font-13 mb-2">
+                            Note:
+                          </h5>
+                          <p
+                            class="mb-1 font-12 d-flex align-items-center gap-3"
+                            *ngFor="let list of userNameWithShiftName"
+                          >
+                            <b>Shift Name:</b> {{ list.shiftName }}
+                            <b>User Name:</b> {{ list.userName }}
+                          </p>
+                         
+                          <div class="form-check">
+                            <input
+                              type="checkbox"
+                              class="form-check-input"
+                              id="validationCheck"
+                              [(ngModel)]="isValidated"
+                              (change)="checkValidation()"
+                            />
+                            <label
+                              class="form-check-label"
+                              for="validationCheck"
+                            >
+                              Validate Information
+                            </label>
+                          </div>
+                         
+                          <p class="font-12 text-danger">
+                            {{
+                              isValidated
+                                ? "You have validated the information and are proceeding to add users to the current shift."
+                                : "These users are already registered with a different shift type!"
+                            }}
+                          </p>
+                        </div>
+                      </div> -->
+                    </div>
+
+                    <div class="employ-lost-footer border-top p-2 d-flex align-items-center justify-content-end">
+                      <!-- [disabled]="
+                          userNameWithShiftName?.length > 0 && !isValidated
+                        " -->
+                      <button class="btn mannualSubmit" (click)="editShiftStaffInfo()"
+                        *ngIf="this.userNameWithShiftName?.length < 1">
+                        <span *ngIf="!isEditStaffLoader">Submit</span>
+                        <div class="dot-opacity-white-loader" *ngIf="isEditStaffLoader">
+                          <span></span>
+                          <span></span>
+                          <span></span>
+                        </div>
+                        <!-- Submit -->
+                      </button>
+                      <button class="btn mannualSubmit" *ngIf="
+                        this.userNameWithShiftName?.length > 0 &&
+                        !this.isValidated
+                      " data-bs-target="#usersAlreadyAssigned" data-bs-toggle="modal">
+                        <span *ngIf="!isEditStaffLoader">Submit</span>
+                        <div class="dot-opacity-white-loader" *ngIf="isEditStaffLoader">
+                          <span></span>
+                          <span></span>
+                          <span></span>
+                        </div>
+
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button class="d-none" data-bs-toggle="modal" data-bs-target="#munal-upload"></button>
+<div class="modal fade" id="munal-upload" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" style="max-width: 500px" role="document">
+    <div class="modal-content">
+      <div class="modal-body manualUpload p-0" style="
+          background-image: url(../assets/images/manual-upload-back-img.svg);
+        ">
+        <div class="d-flex align-items-center justify-content-end pt-2" style="padding-right: 10px">
+          <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButton>
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+              <mask id="mask0_1531_457" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="30"
+                height="30">
+                <rect width="30" height="30" fill="#D9D9D9" />
+              </mask>
+              <g mask="url(#mask0_1531_457)">
+                <path
+                  d="M8 23.75L6.25 22L13.25 15L6.25 8L8 6.25L15 13.25L22 6.25L23.75 8L16.75 15L23.75 22L22 23.75L15 16.75L8 23.75Z"
+                  fill="white" />
+              </g>
+            </svg>
+          </button>
+        </div>
+
+        <div class="row p-3 pb-4 pt-0 align-items-center">
+          <div class="col-md-8">
+            <div class="manualUploadDetail persnol-details p-0">
+              <h5 class="alert-heading text-white font-18 mb-2">
+                Shift Timing
+              </h5>
+              <p class="mb-0 text-white">
+                The time slot when this shift will begin.
+              </p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="side-img" style="background-image: url(../assets/images/shift-time.svg)"></div>
+          </div>
+        </div>
+        <div class="manualUploadForm p-3">
+          <form #shiftForm="ngForm" ngNativeValidate>
+            <div class="row" *ngIf="SHIFT_TIME_STEP_ID == SHIFT_TIME_ID">
+              <div class="col-md-12">
+                <div class="form-fild mb-3">
+                  <label for="exampleInputEmail1" class="pb-2">Shift Type</label>
+
+                  <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle profile-input" type="button"
+                      id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" style="
+                        text-align: left;
+                        background-color: white;
+                        color: black;
+                        border-color: #ced4da;
+                        width: 100%;
+                      " disabled>
+                      {{ selectedShiftType?.name || "Day Shift" }}
+                      <i class="bi bi-chevron-down"></i>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 100%">
+                      <!-- <li>
+                        <a class="dropdown-item"> Day Shift </a>
+                      </li> -->
+                      <li *ngFor="let shiftType of shiftTypeList">
+                        <a class="dropdown-item" (click)="selectShiftType(shiftType)">
+                          {{ shiftType.name }}
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                <div class="mb-3">
+                  <label for="shiftName" class="pb-2">Shift Name</label>
+                  <input type="text" class="form-control profile-input" id="shiftName" placeholder="Shift name" required
+                    [(ngModel)]="organizationShiftTimingRequest.name" name="shiftName" disabled />
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="mb-3">
+                  <label for="inTime" class="pb-2">In Time</label>
+                  <nz-time-picker [(ngModel)]="organizationShiftTimingRequest.inTime" [nzUse12Hours]="true"
+                    nzFormat="h:mm a" [nzDefaultOpenValue]="defaultInOpenTime"
+                    (ngModelChange)="onTimeChange('inTime', $event)"
+                    [ngModelOptions]="{ standalone: true }"></nz-time-picker>
+                  <div *ngIf="organizationShiftTimingValidationErrors['inTime']" class="text-danger">
+                    {{ organizationShiftTimingValidationErrors["inTime"] }}
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="mb-3">
+                  <label for="outTime" class="pb-2">Out Time</label>
+                  <nz-time-picker [(ngModel)]="organizationShiftTimingRequest.outTime" [nzUse12Hours]="true"
+                    nzFormat="h:mm a" [nzDefaultOpenValue]="defaultOutOpenTime"
+                    (ngModelChange)="onTimeChange('outTime', $event)"
+                    [ngModelOptions]="{ standalone: true }"></nz-time-picker>
+                  <div *ngIf="organizationShiftTimingValidationErrors['outTime']" class="text-danger">
+                    {{ organizationShiftTimingValidationErrors["outTime"] }}
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="mb-3">
+                  <label for="workingHours" class="pb-2">Working Hours</label>
+                  <input id="workingHours" type="text" class="form-control" readonly
+                    [(ngModel)]="organizationShiftTimingRequest.workingHour" name="workingHours"
+                    placeholder="Working hours" />
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="mb-3">
+                  <label for="lunchBreakStartTime" class="pb-2">Lunch Start Time</label>
+                  <nz-time-picker [(ngModel)]="organizationShiftTimingRequest.startLunch" [nzUse12Hours]="true"
+                    nzFormat="h:mm a" [nzDefaultOpenValue]="defaultStartLunchOpenTime"
+                    (ngModelChange)="onTimeChange('startLunch', $event)"
+                    [ngModelOptions]="{ standalone: true }"></nz-time-picker>
+                  <div *ngIf="
+                      organizationShiftTimingValidationErrors['startLunch']
+                    " class="text-danger">
+                    {{ organizationShiftTimingValidationErrors["startLunch"] }}
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="mb-3">
+                  <label for="lunchBreakEndTime" class="pb-2">Lunch End Time</label>
+                  <nz-time-picker [(ngModel)]="organizationShiftTimingRequest.endLunch" [nzUse12Hours]="true"
+                    nzFormat="h:mm a" [nzDefaultOpenValue]="defaultEndLunchOpenTime"
+                    (ngModelChange)="onTimeChange('endLunch', $event)"
+                    [ngModelOptions]="{ standalone: true }"></nz-time-picker>
+                  <div *ngIf="organizationShiftTimingValidationErrors['endLunch']" class="text-danger">
+                    {{ organizationShiftTimingValidationErrors["endLunch"] }}
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="mb-3">
+                  <label for="totalLunchBreakDuration" class="pb-2">
+                    Lunch Total Time</label>
+                  <input id="totalLunchBreakDuration" type="text" class="form-control" readonly
+                    [(ngModel)]="organizationShiftTimingRequest.lunchHour" name="totalLunchBreakDuration"
+                    placeholder="Lunch Total Time" />
+                </div>
+              </div>
+            </div>
+            <div class="row mt-3 personalInformationForm" *ngIf="SHIFT_TIME_STEP_ID == WEEK_OFF_ID">
+              <div class="staf-list-box mt-3">
+                <div class="row mb-1 mt-3 align-items-center" style="padding-bottom: 15px">
+                  <div class="col-md-12">
+                    <div class="week-checkbox d-flex align-items-center gap-3"
+                      *ngFor="let day of weekDay; let i = index">
+                      <div class="form-check d-flex align-items-center gap-2">
+                        <input class="form-check-input" type="checkbox" [(ngModel)]="day.selected"
+                          [id]="'weekDay' + i" [name]="'weekDay' + i" (click)="toggleSelection(i)" />
+                        <label class="form-check-label align-label" [for]="'weekDay' + i">{{ day.name }}</label>
+                      </div>
+                      <div *ngIf="day.selected">
+                        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                          <input type="radio" class="btn-check" name="btnradio{{ i }}" id="btnradio1-{{ i }}"
+                            autocomplete="off" (click)="toggleAlternate(i, false)" [value]="false"
+                            [(ngModel)]="day.isAlternate" />
+                          <label class="btn btn-outline-primary" for="btnradio1-{{ i }}">All</label>
+                          <input type="radio" class="btn-check" name="btnradio{{ i }}" id="btnradio2-{{ i }}"
+                            autocomplete="off" (click)="toggleAlternate(i, true)" [value]="true"
+                            [(ngModel)]="day.isAlternate" />
+                          <label class="btn btn-outline-primary" for="btnradio2-{{ i }}">Alternate</label>
+                        </div>
+                        <div class="btn-group radio-btn" role="group"
+                          aria-label="Basic radio toggle button group" *ngIf="day.isAlternate">
+                          <input type="radio" class="btn-check" name="btnradioAlt{{ i }}" id="btnradio3-{{ i }}"
+                            autocomplete="off" (click)="day.weekOffType = 1" [value]="1"
+                            [(ngModel)]="day.weekOffType" />
+                          <label class="btn btn-outline-primary" for="btnradio3-{{ i }}">ODD</label>
+                          <input type="radio" class="btn-check" name="btnradioAlt{{ i }}" id="btnradio4-{{ i }}"
+                            autocomplete="off" (click)="day.weekOffType = 2" [value]="2"
+                            [(ngModel)]="day.weekOffType" />
+                          <label class="btn btn-outline-primary" for="btnradio4-{{ i }}">EVEN</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="border-top d-flex align-items-center justify-content-end p-3" *ngIf="SHIFT_TIME_STEP_ID == SHIFT_TIME_ID">
+        <button class="btn mannualSubmit"  [disabled]="
+            shiftForm.invalid ||
+            !organizationShiftTimingRequest.inTimeDate ||
+            !organizationShiftTimingRequest.outTimeDate ||
+            !organizationShiftTimingRequest.startLunchDate ||
+            !organizationShiftTimingRequest.endLunchDate
+          " (click)="goToWeekOffTab()">
+          <span *ngIf="!editShiftTimeLoader">Next</span>
+          <div class="dot-opacity-white-loader" *ngIf="editShiftTimeLoader">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </button>
+      </div> 
+      <div class="border-top d-flex align-items-center justify-content-between p-3" *ngIf="SHIFT_TIME_STEP_ID == WEEK_OFF_ID">
+          <button class="btn mannualSubmit" (click)="goToShiftTab()">
+        <span >Back</span>
+      </button> 
+        <button class="btn mannualSubmit" [disabled]="
+            shiftForm.invalid ||
+            !organizationShiftTimingRequest.inTimeDate ||
+            !organizationShiftTimingRequest.outTimeDate ||
+            !organizationShiftTimingRequest.startLunchDate ||
+            !organizationShiftTimingRequest.endLunchDate
+          " (click)="submitShiftTimingForm()">
+          <span *ngIf="!editShiftTimeLoader">Submit</span>
+          <div class="dot-opacity-white-loader" *ngIf="editShiftTimeLoader">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </button>
+      </div>
+     
+    </div>
+  </div>
+</div>
+
+<button class="d-none" data-bs-toggle="modal" data-bs-target="#delete-modal"></button>
+<div class="modal fade" id="delete-modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" style="max-width: 500px" role="document">
+    <div class="modal-content">
+      <div class="modal-body p-0 delete-text">
+        <div class="delete-image d-flex align-items-center justify-content-center pt-4 pb-4">
+          <div class="delete-close-btn">
+            <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButtonDeleteUser>
+              <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+                <mask id="mask0_2031_1331" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="30"
+                  height="30">
+                  <rect width="30" height="30" fill="#D9D9D9" />
+                </mask>
+                <g mask="url(#mask0_2031_1331)">
+                  <path
+                    d="M8 23.75L6.25 22L13.25 15L6.25 8L8 6.25L15 13.25L22 6.25L23.75 8L16.75 15L23.75 22L22 23.75L15 16.75L8 23.75Z"
+                    fill="black" />
+                </g>
+              </svg>
+            </button>
+          </div>
+          <img src="/assets/images/delete-img.svg" style="width: 70px" />
+        </div>
+        <div class="bg-white p-4 text-center">
+          <h5 class="alert-heading font-18 mb-2">
+            Are you sure you want to delete <br />
+            this Employee ?
+          </h5>
+          <p class="font-11">You will not be able to recover this</p>
+
+          <div class="mt-4 d-flex align-items-center flex-column">
+            <button class="btn continue-btn">Continue</button>
+            <button class="btn cancel-btn pt-2" type="button" data-bs-dismiss="modal" aria-label="Close">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button class="d-none" data-bs-toggle="modal" data-bs-target="#usersAlreadyAssigned"></button>
+<div class="modal fade" id="usersAlreadyAssigned" tabindex="-1" role="dialog" aria-hidden="true"
+  data-bs-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered" style="max-width: 500px" role="document">
+    <div class="modal-content">
+      <div class="modal-body manualUpload p-0" style="background-image: url(../assets/images/user-alredy-img.svg)">
+        <div class="d-flex align-items-center justify-content-end pt-2 close-icon-btn" style="padding-right: 10px">
+          <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButton3
+            (click)="closeModal()" data-bs-toggle="modal" data-bs-target="#shiftTime">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="31" viewBox="0 0 32 31" fill="none">
+              <mask id="mask0_3479_11687" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="32"
+                height="31">
+                <rect x="0.972656" y="0.505066" width="30.0938" height="30.075" fill="#D9D9D9" />
+              </mask>
+              <g mask="url(#mask0_3479_11687)">
+                <path
+                  d="M8.99766 24.3144L7.24219 22.5601L14.2641 15.5426L7.24219 8.52507L8.99766 6.77069L16.0195 13.7882L23.0414 6.77069L24.7969 8.52507L17.775 15.5426L24.7969 22.5601L23.0414 24.3144L16.0195 17.2969L8.99766 24.3144Z"
+                  fill="#181818" />
+              </g>
+            </svg>
+          </button>
+        </div>
+
+        <!-- data-bs-toggle="modal"
+        data-bs-target="#shiftTime" -->
+        <div class="row p-3 pb-4 pt-4 align-items-center">
+          <div class="col-md-8">
+            <div class="manualUploadDetail persnol-details p-0 quickGuideHeading">
+              <h5 class="alert-heading text-warning font-16 mb-2">
+                Users Already Assigned to Another Shift
+              </h5>
+              <p class="mb-0 text-black">
+                Do you want to add them to the new shift? Doing so <br />will
+                remove them from the current shift.
+              </p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="side-img" style="background-image: url(../assets/images/user-img.svg)"></div>
+          </div>
+        </div>
+
+        <div class="p-3 employee-list bg-white">
+          <h4 class="mb-1">Employee List</h4>
+
+          <div *ngIf="isRemovingDuplicateUsers">
+            <div>
+              <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"></ngx-shimmer-loading>
+            </div>
+            <div>
+              <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"></ngx-shimmer-loading>
+            </div>
+            <div>
+              <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"></ngx-shimmer-loading>
+            </div>
+            <div>
+              <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"></ngx-shimmer-loading>
+            </div>
+            <div>
+              <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"></ngx-shimmer-loading>
+            </div>
+            <div>
+              <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"></ngx-shimmer-loading>
+            </div>
+          </div>
+
+          <div class="manualemployList" *ngIf="userNameWithShiftName?.length > 0 && !isRemovingDuplicateUsers">
+            <div class="d-flex align-items-center justify-content-between persnol-details userList p-0 pt-2 pb-2"
+              *ngFor="let list of userNameWithShiftName">
+              <div class="d-flex align-items-center gap-3 w-100">
+                <span class="userName">{{
+                  list.userName.charAt(0).toUpperCase()
+                  }}</span>
+
+                <div class="w-100">
+                  <h5 class="alert-heading font-13 mb-1"> {{ list.userName }}</h5>
+                  <div class="d-flex align-items-center justify-content-between w-100">
+                    <p class="mb-0 font-12">{{ list.userEmail || "N/A" }}</p>
+                    <!-- <span class="spreter-line"></span> -->
+                    <span class="fw-semibold text-primary font-12 pointer"
+                      (click)="removeUser(list.userUuid)"><span>{{constant.REMOVE_SHIFT_STRING}}</span> {{
+                      list.shiftName }} </span>
+                  </div>
+                </div>
+              </div>
+              <!-- <div>
+                <button class="btn p-0 addUserRemvo" (click)="removeUser(list.userUuid)">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="22"
+                    height="23"
+                    viewBox="0 0 22 23"
+                    fill="none"
+                  >
+                    <mask
+                      id="mask0_3479_11708"
+                      style="mask-type: alpha"
+                      maskUnits="userSpaceOnUse"
+                      x="0"
+                      y="0"
+                      width="22"
+                      height="23"
+                    >
+                      <rect
+                        x="0.015625"
+                        y="0.57843"
+                        width="21.8948"
+                        height="21.8948"
+                        fill="white"
+                      />
+                    </mask>
+                    <g mask="url(#mask0_3479_11708)">
+                      <path
+                        d="M6.40482 19.7378C5.90306 19.7378 5.47353 19.5592 5.11622 19.2019C4.75891 18.8446 4.58025 18.415 4.58025 17.9133V6.05359H3.66797V4.22903H8.22939V3.31674H13.7031V4.22903H18.2645V6.05359H17.3522V17.9133C17.3522 18.415 17.1736 18.8446 16.8163 19.2019C16.4589 19.5592 16.0294 19.7378 15.5277 19.7378H6.40482ZM15.5277 6.05359H6.40482V17.9133H15.5277V6.05359ZM8.22939 16.0887H10.054V7.87816H8.22939V16.0887ZM11.8785 16.0887H13.7031V7.87816H11.8785V16.0887Z"
+                        fill="#FF0404"
+                      />
+                    </g>
+                  </svg>
+                  Remove
+                </button>
+              </div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="border-top p-3">
+        <div class="form-check" style="padding-left: 0px !important">
+          <input type="checkbox" id="validationCheck" style="height: auto !important; position: relative; top: 2px"
+            class="ng-dirty ng-touched" [(ngModel)]="isValidated" (change)="checkValidation()" /><label
+            for="termsAndConditions" class="form-check-label iHaveRead">
+            I have validated the information and will proceed to add users to
+            the new shift.
+          </label>
+        </div>
+        <div class="d-flex align-items-center justify-content-end gap-3 mt-3">
+          <button class="btn submit-add-more d-none" data-bs-dismiss="modal" aria-label="Close" #closeButton2>
+            Cancel
+          </button>
+
+          <button class="btn mannualSubmit" [disabled]="!isValidated" (click)="registerShift()">
+            <span *ngIf="!isRegisterLoad">Add all</span>
+            <div class="dot-opacity-loader" *ngIf="isRegisterLoad">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

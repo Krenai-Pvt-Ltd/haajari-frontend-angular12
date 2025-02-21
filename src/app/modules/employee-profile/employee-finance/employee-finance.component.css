@@ -1,0 +1,490 @@
+.nav.nav-pills {
+    background-color: transparent;
+    border-bottom: none;
+}
+
+.nav-pills .nav-item.show .nav-link,
+.nav-pills .nav-link.active {
+    background: transparent !important;
+    color: var(--primary-color) !important;
+    border-radius: 0;
+    border-bottom: 2px solid var(--primary-color);
+}
+
+.nav-link {
+    margin-right: 20px;
+    display: block;
+    padding: 7px 10px;
+    color: #000;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 500;
+    text-align: left;
+}
+.nav-item {
+    margin-right: 0px;
+}
+.attendance-date {
+    border-radius: 2px;
+    border: 1px solid #DCDCE4;
+    width: 160px;
+}
+
+.payroll-count {
+    background-color: #F9FAFC;
+    border-radius: 2px;
+}
+
+.collem-5 .col-md-3 {
+    width: 20%;
+}
+
+.payroll-count-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 5px;
+    border: 1px solid #DCDCE4;
+}
+
+.payroll-count h5 svg {
+    width: 10px;
+    position: relative;
+    top: -2px;
+}
+
+.payroll-count-icon svg {
+    width: 28px;
+}
+
+.payroll-summary {
+    border: 1px solid #f1f1f1;
+}
+
+
+.progress-ring {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+}
+
+.line {
+    transform-origin: center;
+    transition: stroke 0.3s ease;
+}
+
+.progress-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.fraction {
+    line-height: 24px;
+}
+
+.subtitle {
+    color: #666;
+    margin-top: 5px;
+}
+
+.payroll-summary-hedding span {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #ECEBFF;
+}
+
+.payroll-summary-hedding p span {
+    background-color: transparent;
+}
+
+.progress-text span {
+    font-size: 30px;
+}
+
+.border-right {
+    border-right: 1px solid #f1f1f1
+}
+
+.standard-days {
+    border-left: 1px solid #EDEDED;
+    padding-left: 10px;
+}
+
+.standard-days::before {
+    content: '';
+    position: absolute;
+    top: 30px;
+    left: 8px;
+    background-color: var(--primary-color);
+    width: 2px;
+    height: 20px;
+    border-radius: 5px;
+
+}
+
+.table td {
+    /* border: 1px solid #f1f1f1; */
+    font-size: 13px !important;
+}
+
+.table thead tr th {
+    font-size: 15px !important;
+}
+
+.payment-information {
+    border: 1px solid #f1f1f1;
+    height: 290px;
+}
+
+.payment-information-box p {
+    color: #787486;
+}
+
+.summary-btn {
+    position: absolute;
+    top: 10px;
+    right: 24px;
+    text-decoration: underline;
+}
+
+.summary-btn svg {
+    position: relative;
+    top: 1px;
+    width: 14px;
+    height: 14px;
+}
+
+.payroll-box {
+    border-left: 1px solid #EDEDED;
+    padding-left: 25px;
+}
+
+.payroll-box::before {
+    content: '';
+    position: absolute;
+    top: 22px;
+    left: -1px;
+    background-color: var(--primary-color);
+    width: 2px;
+    height: 18px;
+    border-radius: 5px;
+}
+
+.salary-simeline {
+    background-color: #F5F5F5;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+}
+
+.salary-simeline-box {
+    border: 1px solid #f1f1f1;
+    border-radius: 2px;
+}
+
+.salary-simeline-icon {
+    background-color: #F9F9F9;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    border: 1px solid #DEDEDE;
+}
+
+.down-icon {
+    background-color: #F5F5F5;
+    border-radius: 5px;
+    width: 40px;
+    height: 40px;
+}
+
+.down-icon i {
+    font-size: 20px;
+}
+
+i::before {
+    font-weight: 600 !important;
+}
+
+.summary-box {
+    padding-right: 200px;
+}
+
+.universal-holiday {
+    background-color: #F9FAFC;
+    border-left: 4px solid #dcf1ff;
+    border-radius: 2px;
+}
+
+.down-icon i {
+    transition: -webkit-transform 0.2s linear;
+    transition: transform 0.2s linear;
+    transform: rotate(0deg);
+}
+
+.down-icon i.collapsed {
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
+
+.blurre {
+    filter: blur(10px);
+    user-select: none;
+    /* border-radius: 10px; */
+    /* background: linear-gradient(165deg, rgba(123, 123, 123, 0.10) -5.23%, rgba(249, 250, 252, 0.10) 89.41%); */
+
+}
+
+.security {
+    visibility: visible !important;
+}
+
+
+
+.scene {
+    display: inline-block;
+    perspective: 600px;
+    width: 100%;
+}
+
+.card {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    transform-style: preserve-3d;
+    transform-origin: center right;
+    transition: transform 1s;
+    border: none;
+}
+
+.card.is-flipped {
+    transform: translateX(-100%) rotateY(-180deg);
+}
+
+.card__face {
+    position: absolute;
+    width: 100%;
+    /* height: 100%; */
+    backface-visibility: hidden;
+}
+
+
+
+.overview-summary {
+    background-color: #F9FAFC;
+    transform: rotateY(180deg);
+}
+
+.overview-summary svg {
+    position: relative;
+    top: -1px;
+}
+
+.total-working-day {
+    border-left: 3px solid #000;
+    height: 40px;
+}
+
+.present {
+    border-color: #99C789;
+    background-color: #99C789 !important;
+}
+
+.absent {
+    border-color: #F1914C;
+    background-color: #F1914C;
+}
+
+.leave {
+    border-color: #EC5F54;
+    background-color: #EC5F54;
+}
+
+.week-off {
+    border-color: #D9D9D9;
+    background-color: #D9D9D9;
+}
+
+.holiday {
+    border-color: #B4B3FF;
+    background-color: #B4B3FF;
+}
+
+.half-day {
+    border-color: #F6BD41;
+    background-color: #F6BD41;
+}
+
+.late {
+    border-color: #717171;
+    background-color: #717171;
+}
+
+.unmarked {
+    border-color: #e9e4e4;
+    background-color: #e9e4e4;
+}
+
+
+.summary-count {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+
+}
+
+.pay-slip {
+    color: #444;
+
+}
+
+.pay-slip-box {
+    border: 1px solid #f1f1f1;
+    border-radius: 2px;
+}
+
+.pay-slip-box ul {
+    list-style: none;
+}
+
+.pay-slip-box ul li {
+    padding: 15px;
+    border-bottom: 1px solid #f1f1f1;
+    font-weight: 500;
+}
+
+.pay-slip-box ul li:hover {
+    background-color: #E9E9FF;
+}
+
+.pay-slip-box ul li:last-child {
+    border-bottom: none;
+}
+
+.pay-slip-file {
+    background-color: #363A3F;
+    height: 100vh;
+}
+
+.active-month {
+    background-color: #E9E9FF;
+}
+
+.pay-slip-heading {
+    background-color: #4D5462;
+
+}
+
+.pay-slip-file .btn svg {
+    position: relative;
+    top: -1px;
+}
+
+.down-icon svg {
+    transition: transform 1s;
+    transform: rotate(180deg);
+}
+
+.down-icon.collapsed svg {
+    transform: rotate(0deg);
+    transition: transform 1s;
+}
+
+.security-reasons {
+    border: 1px solid #6666F2;
+    background-color: #fff;
+    position: fixed;
+    top: 60%;
+    left: 60%;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+    border-radius: 10px;
+    visibility: hidden;
+}
+
+.submitActionBtn {
+    background-color: var(--primary-background-color);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 500;
+    border-radius: 2px;
+    width: 130px;
+}
+
+.cancel-btn {
+    background-color: #fbfbfb;
+    border: 1px solid #e6e7e9;
+    border-radius: 2px;
+    color: #4a4a4a;
+    font-size: 12px;
+    font-weight: 500;
+    width: 100px;
+}
+
+.input-zorro {
+    border-radius: 2px !important;
+    border: 1.021px solid #e9e9e9 !important;
+    background: rgba(236, 236, 236, 0.21) !important;
+    height: 45px !important;
+    font-size: 0.875rem !important;
+    font-weight: 400 !important;
+}
+
+::ng-deep.anticon-close-circle {
+    display: none;
+}
+
+.earning {
+    width: 70%;
+    border-right: 1px solid #f1f1f1;
+    height: 100%;
+}
+
+.table th {
+    border: none !important;
+}
+
+.deduction {
+    width: 30%;
+
+}
+
+.spinner-border {
+    width: 3rem !important;
+    height: 3rem !important;
+}
+.component-btn{
+    right: 8px;
+    top: 0px;
+    height: 45px;
+    width: 80px;
+}
+::ng-deep .placeholder-line .ant-select-selection-placeholder {
+    line-height: 43px !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+  }
+  
+  ::ng-deep .placeholder-line .ant-select-selection-item {
+    line-height: 43px !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+  }
+  .calendar-separator {
+    border-left: 1px solid #DCDCE4;
+    height: 20px;
+}
+
+::ng-deep .ant-input-number{
+    padding: 0px !important;
+}
+.template-table td{
+    padding: 10px 15px !important;
+}
+.tex-regime{
+    background-color: #f2f2f2;
+    padding: 10px 15px;
+}

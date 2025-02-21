@@ -6,6 +6,8 @@ import { UserExperience } from 'src/app/models/user-experience';
 import { Form, NgForm } from '@angular/forms';
 import { HelperService } from 'src/app/services/helper.service';
 import { Key } from 'src/app/constant/key';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { PreviewFormComponent } from '../preview-form/preview-form.component';
 
 @Component({
   selector: 'app-employee-experience',
@@ -17,10 +19,11 @@ export class EmployeeExperienceComponent implements OnInit {
   userExperiences: UserExperience[] = []; // Array to hold user experiences
   experiences: any;
 
-  constructor(private dataService: DataService, private router: Router, private helperService: HelperService) { }
+  constructor(public dataService: DataService, private router: Router,
+    private helperService: HelperService, private modalService: NgbModal) { }
 
   ngOnInit(): void {
-    
+
     const userUuid = this.getUserUuid();
     if (userUuid) {
       this.getEmployeeExperiencesDetailsMethodCall(userUuid);
@@ -35,15 +38,15 @@ export class EmployeeExperienceComponent implements OnInit {
 
   backRedirectUrl() {
     const userUuid = new URLSearchParams(window.location.search).get('userUuid');
-    
+
     // Initialize an empty object for queryParams
     let queryParams: any = {};
-    
+
     // Add userUuid to queryParams if it exists
     if (userUuid) {
       queryParams['userUuid'] = userUuid;
     }
-    
+
     // Conditionally add adminUuid to queryParams if updateRequest is true
     if (this.isAdminPresent) {
       const adminUuid = new URLSearchParams(window.location.search).get('adminUuid');
@@ -51,10 +54,30 @@ export class EmployeeExperienceComponent implements OnInit {
         queryParams['adminUuid'] = adminUuid;
       }
     }
-  
+
     // Create NavigationExtras object with the queryParams
     let navExtra: NavigationExtras = { queryParams };
-    this.router.navigate(['/employee-onboarding/acadmic'], navExtra);
+    if(this.dataService.isRoutePresent('/acadmic')){
+      this.router.navigate(
+        ['/employee-onboarding/acadmic'],
+        navExtra
+      );
+  } else if(this.dataService.isRoutePresent('/employee-document')){
+      this.router.navigate(
+        ['/employee-onboarding/employee-document'],
+        navExtra
+      );
+  } else if(this.dataService.isRoutePresent('/employee-address-detail')){
+        this.router.navigate(
+          ['/employee-onboarding/employee-address-detail'],
+          navExtra
+        );
+  }else {
+    this.router.navigate(
+      ['/employee-onboarding/employee-onboarding-form'],
+      navExtra
+    );
+}
   }
 
   deleteExperience(index: number): void {
@@ -67,7 +90,7 @@ export class EmployeeExperienceComponent implements OnInit {
   // @ViewChild("experienceTab") experienceTab!: ElementRef;
 
   addExperience(): void {
-    this.userExperiences.push(new UserExperience()); 
+    this.userExperiences.push(new UserExperience());
     // this.experienceTab.nativeElement.click();
 
   }
@@ -91,8 +114,8 @@ export class EmployeeExperienceComponent implements OnInit {
 //     this.userExperiences.push(newExperience);
 // }
 
-  
-  
+
+
   prepareUserExperienceDetailRequest(): UserExperience[] {
     return this.userExperiences;
   }
@@ -101,7 +124,17 @@ export class EmployeeExperienceComponent implements OnInit {
     let navExtra: NavigationExtras = {
       queryParams: { userUuid: this.getUserUuid() },
     };
-    this.router.navigate(['/employee-onboarding/bank-details'], navExtra);
+    if(this.dataService.isRoutePresent('/bank-details')){
+      this.router.navigate(
+        ['/employee-onboarding/bank-details'],
+        navExtra
+      );
+    }else if(this.dataService.isRoutePresent('/emergency-contact')){
+      this.router.navigate(
+        ['/employee-onboarding/emergency-contact'],
+        navExtra
+      );
+    }
   }
 
 
@@ -117,40 +150,40 @@ export class EmployeeExperienceComponent implements OnInit {
     }
     if(this.buttonType=='next'){
       this.toggle = true;
-    
+
     } else if (this.buttonType=='save'){
       this.toggleSave = true;
-  
+
     } else if (this.buttonType=='update'){
       this.toggle = true;
-      
+
     }
-    
+
     this.dataService.setEmployeeExperienceDetails(this.userExperiences, userUuid)
       .subscribe(
-        response => { 
-          console.log('Response:', response);
+        response => {
+          // console.log('Response:', response);
           if(response!= null){
             this.employeeOnboardingFormStatus = response.employeeOnboardingStatus;
             this.handleOnboardingStatus(response.employeeOnboardingStatus);
           }
-          
+
           this.dataService.markStepAsCompleted(response.statusId);
-          
+
           if(this.buttonType=='next'){
             this.routeToUserDetails();
           } else if (this.buttonType=='save'){
-            
+
             if(this.employeeOnboardingFormStatus!='REJECTED'){
               this.successMessageModalButton.nativeElement.click();
             }
           setTimeout(() => {
-            
-            this.routeToFormPreview();  
+
+            this.routeToFormPreview();
           }, 2000);
           } else if (this.buttonType=='update'){
             this.helperService.showToast("Information Updated Successfully", Key.TOAST_STATUS_SUCCESS);
-  
+
            }
           this.toggle = false;
         },
@@ -162,7 +195,7 @@ export class EmployeeExperienceComponent implements OnInit {
   }
 
   isNewUser: boolean = true;
-  isLoading: boolean = true; 
+  isLoading: boolean = true;
   isFresher:boolean=true;
   employeeOnboardingFormStatus:string|null=null;
   @ViewChild("successMessageModalButton") successMessageModalButton!:ElementRef;
@@ -181,20 +214,20 @@ export class EmployeeExperienceComponent implements OnInit {
         if(experiences[0].employeeOnboardingStatus == "PENDING"){
           this.isNewUser = false;
         }
-        
+
                 if(experiences[0].employeeOnboardingFormStatus=='USER_REGISTRATION_SUCCESSFUL' && this.employeeOnboardingFormStatus != 'REJECTED' && !this.isAdminPresent){
                   this.successMessageModalButton.nativeElement.click();
                 }
                 this.handleOnboardingStatus(experiences[0].employeeOnboardingStatus);
         if (experiences[0].companyName!=null && experiences.length > 0 && experiences[0].fresher== false) {
-          
+
           this.isLoading = false;
           this.isFresher=false;
           this.userExperiences = experiences;
-          
+
           this.dataService.markStepAsCompleted(experiences[0].statusId);
-          
-          
+
+
         } else {
           this.isLoading = false;
         //  this.userExperienceDetailRequest.experiences[0].fresher = true;
@@ -202,7 +235,7 @@ export class EmployeeExperienceComponent implements OnInit {
           experiences[0].fresher=false;
           this.addExperience();
         } else {
-          
+
           if(experiences[0].fresher==true){
             this.addExperience();
             this.userExperiences[0].fresher=true;
@@ -211,7 +244,7 @@ export class EmployeeExperienceComponent implements OnInit {
           }
         }
           this.isFresher=true;
-          
+
           // this.addExperience(); // Call addExperience if experiences is null or empty
           this.dataService.markStepAsCompleted(experiences[0].statusId);
         }
@@ -395,12 +428,12 @@ export class EmployeeExperienceComponent implements OnInit {
     'Web Developer',
     'Workplace Safety Officer'
   ];
-  
+
   selectPositionForExperience(title: string, index: number): void {
     debugger
     this.userExperiences[index].lastJobPosition = title;
   }
-  
+
 
 
   departments: string[] = [
@@ -428,6 +461,12 @@ selectButtonType(type:string){
   this.buttonType=type;
   this.userExperiences[0].directSave = false;
   this.formSubmitButton.nativeElement.click();
+  if(type === 'preview'){
+    const modalRef = this.modalService.open(PreviewFormComponent, {
+      centered: true,
+      size: 'lg', backdrop: 'static'
+    });
+    }
 }
 
 directSave: boolean = false;
@@ -468,11 +507,11 @@ isFormInvalid: boolean = false;
 // @ViewChild ('experienceInformationForm') experienceInformationForm !: NgForm
 checkFormValidation() {
   if (this.experienceInformationForm.invalid) {
-    console.log('Invalid controls:', this.experienceInformationForm.controls);
+    // console.log('Invalid controls:', this.experienceInformationForm.controls);
     Object.keys(this.experienceInformationForm.controls).forEach(key => {
       const control = this.experienceInformationForm.controls[key];
       if (control.invalid) {
-        console.log(key, 'is invalid', control.errors);
+        // console.log(key, 'is invalid', control.errors);
       }
     });
     this.isFormInvalid = true;
@@ -487,7 +526,7 @@ routeToFormPreview() {
   this.dismissSuccessModalButton.nativeElement.click();
   setTimeout(x=>{
   let navExtra: NavigationExtras = {
-    
+
     queryParams: { userUuid: new URLSearchParams(window.location.search).get('userUuid') },
   };
   this.router.navigate(['/employee-onboarding/employee-onboarding-preview'], navExtra);
@@ -500,7 +539,7 @@ displayModal = false;
   handleOnboardingStatus(response: string) {
     this.displayModal = true;
     switch (response) {
-      
+
       case 'REJECTED':
         this.allowEdit = true;
         break;
@@ -535,7 +574,7 @@ displayModal = false;
     }
     return false;
   };
-  
+
   departmentInputValue?: string;
 positionInputValue?: string;
 
@@ -603,7 +642,7 @@ getAdminVerifiedForOnboardingUpdateMethodCall(): Promise<boolean> {
       this.dataService.getAdminVerifiedForOnboardingUpdate(userUuid, adminUuid).subscribe(
         (isAdminPresent: boolean) => {
           this.isAdminPresent = isAdminPresent;
-          console.log('Admin verification successful.');
+          // console.log('Admin verification successful.');
           resolve(isAdminPresent); // Resolve the promise with the result
         },
         (error: any) => {
@@ -623,7 +662,10 @@ goBackToProfile() {
   let navExtra: NavigationExtras = {
     queryParams: { userId: new URLSearchParams(window.location.search).get('userUuid') },
   };
-  this.router.navigate(['/employee-profile'], navExtra);
+  // this.router.navigate([Key.EMPLOYEE_PROFILE_ROUTE], navExtra);
+  const url = this.router.createUrlTree([Key.EMPLOYEE_PROFILE_ROUTE], navExtra).toString();
+    window.open(url, '_blank');
+    return;
 }
 
 

@@ -1,4 +1,24 @@
-<div class="form-container">
+
+<div *ngIf="leaveLoading" class="d-flex align-items-center justify-content-center" style="height: 100vh;">
+  <img src="assets/images/load-8.gif" style="width: 80px;">
+</div>
+
+<div *ngIf="!leaveLoading && userLeave.length == 0" class="container d-flex align-items-center justify-content-center vh-100" >
+  <div class="expired-message">
+    <div class="leave-assigned-icon text-center d-flex align-items-center justify-content-center">
+      <img src="assets/images/leave-not-assigned.svg" style="width: 120px;">
+    </div>
+    <div class="p-4 not-assigned-text">
+      <h1 class="font-20 fw-semibold mb-3 text-black">No Leave Is Assigned</h1>
+      <p class="font-14 ">You have currently no leave allocated..</p>
+      <p class="font-14 mb-0">Please check with your administrator or refer<br> to the leave  policy for further assistance.</p>
+    </div>
+
+  </div>
+</div>
+
+
+<div *ngIf="!leaveLoading && userLeave.length > 0" class="form-container">
   <div class="form-header">Apply for a Leave</div>
   <form
     [formGroup]="userLeaveForm"
@@ -32,12 +52,21 @@
     <!-- Leave Type -->
     <div class="form-field">
       <label>Select the type of leave you want to request</label>
-      <select formControlName="leaveType">
+      <!-- <select formControlName="leaveType">
         <option value="">Select Leave Type</option>
         <option *ngFor="let ul of userLeave" [ngValue]="ul.leaveType">
           {{ ul.leaveType }}
         </option>
-      </select>
+      </select> -->
+
+      <select class="form-select" id="exampleFormControlSelect1" formControlName="leaveType"
+       (ngModelChange)="onLeaveTypeChange($event)">
+      <option value="">Select Leave Type</option>
+      <option *ngFor="let ul of userLeave" [ngValue]="ul.userLeaveTemplateId">
+        {{ ul.leaveType }}
+      </option>
+    </select>
+
       <div
         *ngIf="
           userLeaveForm.get('leaveType')?.touched &&
@@ -50,9 +79,9 @@
     </div>
 
     <!-- Half Day Leave Checkbox -->
-    <div class="form-field">
+    <div class="form-field d-flex">
       <input type="checkbox" id="half-leave" formControlName="halfDayLeave" />
-      <label for="half-leave">Half Leave (optional)</label>
+      <label class="mt-1" for="half-leave">Half Leave (optional)</label>
     </div>
 
     <!-- Shift Selection -->
@@ -87,7 +116,13 @@
     </div>
 
     <!-- Manager Selection -->
-    <div class="form-field">
+
+    <div class="form-field" *ngIf = "isAdmin">
+      <div class="badge-soft-secondary p-3">
+          <label class="mb-0 font-14"><i class="bi bi-exclamation-circle"></i> Since you are an Admin, the Manager/Admin selection is not applicable for you. Your team members will see their respective manager or admin when they log in.</label>
+      </div>
+    </div>
+    <div class="form-field" *ngIf = "!isAdmin">
       <label>Select user to request the leave from</label>
       <select formControlName="managerId">
         <option value="">Select Manager</option>
@@ -147,7 +182,7 @@
     </div>
 
     <!-- Submit Button -->
-    <div class="form-field">
+    <div class="d-flex form-field gap-3 justify-content-end">
       <button
         type="button"
         class="btn btn-de-secondary close-button"

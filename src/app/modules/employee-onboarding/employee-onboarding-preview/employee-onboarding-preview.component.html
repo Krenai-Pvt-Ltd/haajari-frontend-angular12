@@ -14,7 +14,7 @@
                             <h5>Personal Information</h5>
                         </div>
                     </div>
-                   
+
                     <div class="col-md-4">
                         <div class="detail-deta">
                             <p class="mb-0">Name - N/A</p>
@@ -164,7 +164,7 @@
                                         <h5>Employee Documents</h5>
                                     </div>
                                 </div>
-                               
+
                                 <div class="col-md-6">
                                     <div class="detail-deta">
                                         <p class="mb-0">10th Marksheet - N/A</p>
@@ -198,21 +198,21 @@
                                                 <p class="mb-0">Name - N/A</p>
                                             </div>
                                         </div>
-            
+
                                         <div class="col-md-4">
                                             <div class="detail-deta">
                                                 <p class="mb-0">Phone Number - N/A</p>
                                             </div>
                                         </div>
-            
-            
+
+
                                         <div class="col-md-4">
                                             <div class="detail-deta">
                                                 <p class="mb-0">Email - N/A</p>
                                             </div>
                                         </div>
-            
-                                    
+
+
                             </div>
 
                             <div class="row mt-3">
@@ -221,7 +221,7 @@
                                         <h5>Academic Details</h5>
                                     </div>
                                 </div>
-                               
+
                                 <div class="col-md-4">
                                     <div class="detail-deta">
                                         <p class="mb-0">Highest Qualification - N/A</p>
@@ -250,7 +250,7 @@
                                                 <p class="mb-0">Grade/CGPA - N/A</p>
                                             </div>
                                         </div>
-            
+
                                         <div class="col-md-4">
                                             <div class="detail-deta">
                                                 <p class="mb-0">Graduating Year - N/A</p>
@@ -265,7 +265,7 @@
                                         <h5> Experience</h5>
                                     </div>
                                 </div>
-                               
+
                                 <div class="col-md-4">
                                     <div class="detail-deta">
                                         <p class="mb-0">Company Name - N/A</p>
@@ -297,7 +297,7 @@
                                             </div>
                                         </div>
                             </div>
-                           
+
 
 
                             <div class="row mt-3">
@@ -306,7 +306,7 @@
                                         <h5> Bank Details</h5>
                                     </div>
                                 </div>
-                               
+
                                 <div class="col-md-4">
                                     <div class="detail-deta">
                                         <p class="mb-0">Account Holder Name - N/A</p>
@@ -336,7 +336,7 @@
                                         <h5> Emergency Contact</h5>
                                     </div>
                                 </div>
-                               
+
                                 <div class="col-md-4">
                                     <div class="detail-deta">
                                         <p class="mb-0">Relation with Employee - N/A</p>
@@ -358,24 +358,24 @@
                 <div class="col-md-6">
                     <div class="oonbording-bhadding">
                         <h1> Employee Onboarding Form</h1>
-                
+
                         <p>Status - <span [ngClass]="{
                             'status-approved': onboardingPreviewData.user.employeeOnboardingStatus.response === 'APPROVED',
                             'status-rejected': onboardingPreviewData.user.employeeOnboardingStatus.response === 'REJECTED',
                             'status-pending': onboardingPreviewData.user.employeeOnboardingStatus.response === 'PENDING'
                         }">{{ onboardingPreviewData.user.employeeOnboardingStatus.response }}</span></p>
-                        
+                        <span *ngIf="onboardingPreviewData.user.employeeOnboardingStatus.response === 'APPROVED'"><a href="/dashboard">Click here</a> to go to dashboard</span>
                         <!-- Conditionally display the rejection reason -->
                         <p *ngIf="onboardingPreviewData.user.employeeOnboardingStatus.response === 'REJECTED'">
                             Reason for Rejection: {{ onboardingPreviewData.reasonOfRejection || 'N/A' }}
                         </p>
-                
+
                         <!-- <button type="button" class="btn btn-primary" *ngIf="allowEdit" (click)="routeToUserDetails()">
                             Edit
                         </button> -->
                     </div>
                 </div>
-                
+
                 <div class="col-md-6">
                     <div class="oonbording-logo text-end ">
                         <img [src]="companyLogoUrl || 'assets/images/HAjiRi.svg'" style="width: 150px;" alt="Company Logo">
@@ -385,18 +385,19 @@
 
             <div class="row mb-3">
                 <div class="col-md-12">
-                    <div class="onboarding-deta mb-3">
+
+                    <div class="onboarding-deta" *ngIf="isRoutePresent('/employee-onboarding-form')">
                         <table class="table mb-0">
                             <tr style="background-color: #f1f1f1;">
                                   <td>
                                     <p class="mb-0 persnaol">  Personal Information <i class="bi bi-pencil-square" *ngIf="onboardingPreviewData.user.employeeOnboardingStatus.response === 'REJECTED' " (click)="routeToUserDetails('/employee-onboarding/employee-onboarding-form')" ></i></p>
-                                    
+
                                   </td>
                                 </tr>
                           </table>
 
                           <table class="table table-bordered">
-                         
+
                             <tbody class="table-design">
                               <tr>
                                 <td>Name : {{ onboardingPreviewData.user.name }}</td>
@@ -404,26 +405,31 @@
                                 <td>Phone : {{ onboardingPreviewData.user.phoneNumber }}</td>
                               </tr>
                               <tr>
-                                <td>DOB : {{ onboardingPreviewData.user.dateOfBirth  | date : 'dd/MM/yyyy'  }}</td>
-                                <td>Gender : {{ onboardingPreviewData.user.gender }}</td>
-                                <td>Father's Name :   {{ onboardingPreviewData.user.fatherName }}</td>
+                                <td>DOB : {{ (onboardingPreviewData.user.dateOfBirth  | date : 'dd/MM/yyyy') || 'N/A' }}</td>
+                                <td>Gender : {{ onboardingPreviewData.user.gender || 'N/A' }}</td>
+                                <td>Father's Name :   {{ onboardingPreviewData.user.fatherName || 'N/A' }}</td>
                               </tr>
                               <tr>
-                                <td>Marital Status : {{ onboardingPreviewData.user.maritalStatus }}</td>
+                                <td>Marital Status : {{ onboardingPreviewData.user.maritalStatus || 'N/A'}}</td>
                                 <td>Joining Date : {{ onboardingPreviewData.user.joiningDate | date : 'dd/MM/yyyy' }}</td>
                                 <td>Current CTC : {{ onboardingPreviewData.user.currentSalary ? (onboardingPreviewData.user.currentSalary | numberToWord) : 'N/A' }}</td>
                               </tr>
                               <tr>
-                                <td>Department : {{ onboardingPreviewData.user.department }}</td>
-                                <td>Current Position : {{ onboardingPreviewData.user.position }}</td>
-                                <td>Nationality : {{ onboardingPreviewData.user.nationality }}</td>
+                                <td>Department : {{ onboardingPreviewData.user.department || 'N/A' }}</td>
+                                <td>Current Position : {{ onboardingPreviewData.user.position || 'N/A' }}</td>
+                                <td>Nationality : {{ onboardingPreviewData.user.nationality || 'N/A'}}</td>
+                              </tr>
+                              <tr>
+                                <td>UAN Number : {{ onboardingPreviewData.user.uan || 'N/A' }}</td>
+                                <td>ESI Number : {{ onboardingPreviewData.user.esi || 'N/A' }}</td>
+                                <td></td>
                               </tr>
                             </tbody>
                           </table>
                     </div>
 
 
-                    <div class="onboarding-deta">
+                    <div class="onboarding-deta" *ngIf="isRoutePresent('/employee-address-detail')">
                         <table class="table mb-0">
                             <tr style="background-color: #f1f1f1;">
                                   <td>
@@ -437,9 +443,9 @@
                                 <p class="mb-0 subheading">Current Address :</p>
                             </td>
                         </tr>
-                        
+
                           <table class="table table-bordered">
-                         
+
                             <tbody class="table-design" *ngIf="onboardingPreviewData.userAddress!=undefined">
                               <tr>
                                 <td colspan="12"> Address Line 1 : {{ onboardingPreviewData.userAddress[0].addressLine1 || 'N/A' }}</td>
@@ -447,14 +453,14 @@
                               <tr>
                                 <td colspan="12"> Address Line 2 : {{ onboardingPreviewData.userAddress[0].addressLine2 || 'N/A' }}</td>
                               </tr>
-                            
+
                               <tr>
                                 <td colspan="3">Pincode : {{ onboardingPreviewData.userAddress[0].pincode || 'N/A' }}</td>
                                 <td colspan="3">City : {{ onboardingPreviewData.userAddress[0].city || 'N/A' }}</td>
                                 <td colspan="3">State : {{ onboardingPreviewData.userAddress[0].state || 'N/A' }}</td>
                                 <td colspan="3">Country : {{ onboardingPreviewData.userAddress[0].country || 'N/A' }}</td>
                               </tr>
-                              
+
                             </tbody>
                           </table>
 
@@ -484,9 +490,9 @@
                           </table>
                     </div>
 
-                    
 
-                    <div class="onboarding-deta">
+
+                    <div class="onboarding-deta" *ngIf="isRoutePresent('/employee-document')">
                         <table class="table mb-0">
                             <tr style="background-color: #f1f1f1;">
                                   <td>
@@ -496,41 +502,22 @@
                           </table>
 
                           <table class="table table-bordered">
-                         
+
                             <tbody class="table-design">
-                                <tr>
-                                    <td colspan="3" > 
-                                        Aadhaar Card :  {{ aadhaarCardFileName || 'N/A' }}</td>
-                                  
-                                    <td colspan="3" > 
-                                        Pancard : {{ pancardFileName || 'N/A' }}</td>
-                                  </tr>
-                              <tr>
-                                <td colspan="3" *ngIf="!isSchoolDocument"> 
-                                    10th Marksheet :  {{ secondarySchoolCertificateFileName || 'N/A' }}</td>
-                              
-                                <td colspan="3" *ngIf="!isHighSchoolDocument"> 
-                                    12th Marksheet : {{ highSchoolCertificateFileName1 || 'N/A' }}</td>
+                              <tr *ngFor="let row of employeeAdditionalDocument | slice: 0:employeeAdditionalDocument.length; let i = index">
+                                <td *ngFor="let document of employeeAdditionalDocument.slice(i * 3, (i + 1) * 3)">
+                                  {{ document.name }}: {{ document.fileName }}
+                                </td>
                               </tr>
-                              <tr>
-                                <td colspan="3"> 
-                                    Highest Qualification :  {{ highestQualificationDegreeFileName1 || 'N/A' }}</td>
-                              
-                                    <td colspan="3" *ngFor="let document of employeeAdditionalDocument; let i = index">
-                                        {{ document.name }}: {{ document.fileName }}
-                                    </td>
-                              </tr>
-                            
-                              
-                              
                             </tbody>
+
                           </table>
                     </div>
 
-                    
 
 
-                    <div class="onboarding-deta">
+
+                    <div class="onboarding-deta" *ngIf="isRoutePresent('/employee-document')">
                         <table class="table mb-0">
                             <tr style="background-color: #f1f1f1;">
                                   <td>
@@ -540,36 +527,36 @@
                           </table>
 
                           <table class="table table-bordered">
-                         
+
                             <tbody class="table-design" *ngIf="onboardingPreviewData.userGuarantorInformation!=undefined && onboardingPreviewData.userGuarantorInformation.length>0">
-                            
-                            
+
+
                               <tr>
                                 <td>Relation : {{ onboardingPreviewData.userGuarantorInformation[0].relation || 'N/A' }}</td>
                                 <td>Name : {{ onboardingPreviewData.userGuarantorInformation[0].name || 'N/A'}}</td>
                                 <td>Phone Number : {{ onboardingPreviewData.userGuarantorInformation[0].phoneNumber || 'N/A'}}</td>
                                 <td>Email : {{ onboardingPreviewData.userGuarantorInformation[0].emailId ? onboardingPreviewData.userGuarantorInformation[0].emailId : 'N/A' }}</td>
                               </tr>
-                              
+
                             </tbody>
                           </table>
-<!-- 
+<!--
                           <table class="table table-bordered">
-                         
+
                             <tbody class="table-design" *ngIf="onboardingPreviewData.userGuarantorInformation!=undefined && onboardingPreviewData.userGuarantorInformation.length>0">
-                            
-                            
+
+
                               <tr>
                                 <td>Relation : {{ onboardingPreviewData.userGuarantorInformation[1].relation }}</td>
                                 <td>Name : {{ onboardingPreviewData.userGuarantorInformation[1].name }}</td>
                                 <td>Phone Number : {{ onboardingPreviewData.userGuarantorInformation[1].phoneNumber }}</td>
                                 <td>Email : {{ onboardingPreviewData.userGuarantorInformation[1].emailId ? onboardingPreviewData.userGuarantorInformation[1].emailId : 'N/A' }}</td>
                               </tr>
-                              
+
                             </tbody>
                           </table> -->
                     </div>
-                    <div class="onboarding-deta">
+                    <div class="onboarding-deta" *ngIf="isRoutePresent('/acadmic')">
                         <table class="table mb-0">
                             <tr style="background-color: #f1f1f1;">
                                   <td>
@@ -579,10 +566,10 @@
                           </table>
 
                           <table class="table table-bordered">
-                         
+
                             <tbody class="table-design">
-                            
-                            
+
+
                               <tr>
                                 <td>Highest Qualification : {{ onboardingPreviewData.userAcademics.highestEducationalLevel || 'N/A' }}</td>
                                 <td>Degree/Diploma : {{ onboardingPreviewData.userAcademics.degreeObtained || 'N/A' }}</td>
@@ -593,12 +580,12 @@
                               <td>{{ onboardingPreviewData.userAcademics.gradeType || 'N/A' }} : {{ onboardingPreviewData.userAcademics.grade || 'N/A' }}</td>
                               <td>Graduating Year :  {{ onboardingPreviewData.userAcademics.graduationYear || 'N/A' }}</td>
                             </tr>
-                              
+
                             </tbody>
                           </table>
                     </div>
 
-                    <div class="onboarding-deta">
+                    <div class="onboarding-deta" *ngIf="isRoutePresent('/employee-experience')">
                         <table class="table mb-0">
                             <tr style="background-color: #f1f1f1;">
                                   <td>
@@ -609,31 +596,31 @@
                           <div *ngIf="!isFresher">
                           <div  *ngFor="let userExperience of userExperienceArray; let i = index">
                           <table class="table table-bordered">
-                         
+
                             <tbody class="table-design" *ngIf="onboardingPreviewData.userExperience!=undefined && onboardingPreviewData.userExperience.length>0">
                               <tr>
-                                <td colspan="3"> 
+                                <td colspan="3">
                                     Company Name :  {{userExperience.companyName || 'N/A'}}</td>
-                             
-                                <td colspan="3"> 
+
+                                <td colspan="3">
                                     Duration : {{userExperience.startDate | date : 'dd/MM/yyyy'}} - {{userExperience.endDate | date : 'dd/MM/yyyy'}} </td>
-                              
-                                <td colspan="3"> 
+
+                                <td colspan="3">
                                     Department :  {{userExperience.lastJobDepartment || 'N/A'}}</td>
                               </tr>
                               <tr>
-                                <td colspan="3"> 
+                                <td colspan="3">
                                     Last Salary :  {{userExperience.lastSalary | numberToWord }}</td>
-                             
-                                <td colspan="3"> 
+
+                                <td colspan="3">
                                     Position :  {{userExperience.lastJobPosition || 'N/A'}}</td>
-                             
-                                <td colspan="3"> 
+
+                                <td colspan="3">
                                     Responsibilities :  {{userExperience.jobResponisibilities || 'N/A'}}</td>
                               </tr>
-                            
-                              
-                              
+
+
+
                             </tbody>
                           </table>
                           </div>
@@ -648,9 +635,9 @@
                             </table>
                         </div>
                     </div>
-                    
 
-                    <div class="onboarding-deta">
+
+                    <div class="onboarding-deta" *ngIf="isRoutePresent('/bank-details')">
                         <table class="table mb-0">
                             <tr style="background-color: #f1f1f1;">
                                   <td>
@@ -660,23 +647,22 @@
                           </table>
 
                           <table class="table table-bordered">
-                         
+
                             <tbody class="table-design">
-                            
-                            
+
+
                               <tr>
                                 <td> Account Holder Name : {{ onboardingPreviewData.userBankDetails.accountHolderName || 'N/A' }}</td>
                                 <td>Bank Name : {{ onboardingPreviewData.userBankDetails.bankName || 'N/A' }}</td>
                                 <td> Account Number : {{ onboardingPreviewData.userBankDetails.accountNumber || 'N/A' }}</td>
                                 <td> IFSC Number :  {{ onboardingPreviewData.userBankDetails.ifsc || 'N/A' }}</td>
                               </tr>
-                             
-                              
+
+
                             </tbody>
                           </table>
                     </div>
-
-                    <div class="onboarding-deta">
+                    <div class="onboarding-deta" *ngIf="isRoutePresent('/emergency-contact')">
                         <table class="table mb-0">
                             <tr style="background-color: #f1f1f1;">
                                   <td>
@@ -686,17 +672,17 @@
                           </table>
                           <div  *ngFor="let userEmergencyContact of userEmergencyContactArray; let i = index">
                           <table class="table table-bordered">
-                         
+
                             <tbody class="table-design" *ngIf="onboardingPreviewData.userEmergencyContacts!=undefined && onboardingPreviewData.userEmergencyContacts.length>0">
-                            
-                            
+
+
                               <tr>
                                 <td> Relation with Employee : {{userEmergencyContact.relationWithEmployee || 'N/A'}}</td>
                                 <td>Name :  {{userEmergencyContact.contactName || 'N/A'}}</td>
                                 <td>Phone Number  : {{userEmergencyContact.contactNumber || 'N/A'}}</td>
                               </tr>
-                              
-                              
+
+
                             </tbody>
                           </table>
                           <ng-template #noData>
@@ -709,8 +695,12 @@
 
                 </div>
 
+                <div class="d-flex align-items-center justify-content-center mt-2">
+                  <button (click)="navigateToDashboard()" *ngIf="onboardingPreviewData.user.employeeOnboardingStatus.response === 'APPROVED'" class="btn action-btn">Go to Dashboard</button>
+                </div>
+
             </div>
-           
+
             </div>
         </div>
        </div>

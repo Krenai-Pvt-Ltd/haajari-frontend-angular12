@@ -51,6 +51,7 @@ export class LiveManagerComponent implements OnInit {
   ngOnInit(): void {
     window.scroll(0, 0);
     this.getUserLeaveReq();
+    // this.helperService.saveOrgSecondaryToDoStepBarData(0);
   }
 
   userLeaveRequest: UserLeaveRequest = new UserLeaveRequest();
@@ -76,8 +77,8 @@ export class LiveManagerComponent implements OnInit {
       .subscribe(
         (data) => {
           debugger;
-          console.log(data);
-          console.log(data.body);
+          // console.log(data);
+          // console.log(data.body);
           this.resetUserLeave();
           this.requestLeaveCloseModel.nativeElement.click();
         },
@@ -103,12 +104,12 @@ export class LiveManagerComponent implements OnInit {
   getUserLeaveReq() {
     debugger;
     this.dataService
-      .getUserLeaveRequests(this.getLoginDetailsOrgRefId())
+      .getUserLeaveRequests(this.getLoginDetailsOrgRefId(),0,0)
       .subscribe(
         (data) => {
           this.userLeave = data.body;
           debugger;
-          console.log(this.userLeave);
+          // console.log(this.userLeave);
         },
         (error) => {
           debugger;

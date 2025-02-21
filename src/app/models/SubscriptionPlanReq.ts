@@ -1,5 +1,5 @@
 export class SubscriptionPlanReq{
-    noOfEmployee: number = 0;
+    noOfEmployee!: number;
     amount: number = 0;
     planType: any;
 

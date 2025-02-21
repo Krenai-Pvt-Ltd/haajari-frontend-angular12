@@ -1,4 +1,5 @@
 export class OvertimeRequestLogResponse {
+    userUuid : string = '';
     userName : string = '';
     userEmail : string = '';
     managerName : string = '';
@@ -8,4 +9,5 @@ export class OvertimeRequestLogResponse {
     createdDate !: Date;
     requestStatusId : number = 0;
     note : string = '';
+    statusName : string= '';
 }

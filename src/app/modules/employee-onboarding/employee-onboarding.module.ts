@@ -35,6 +35,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
+import { PreviewFormComponent } from './preview-form/preview-form.component';
 
 // import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
 @NgModule({
@@ -50,6 +51,7 @@ import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
     EmployeeOnboardingComponent,
     EmployeeOnboardingSidebarComponent,
     NumberToWordsPipe,
+    PreviewFormComponent,
   ],
   imports: [
     RouterModule,

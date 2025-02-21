@@ -1,7 +1,7 @@
 <!-- <app-employee-onboarding-sidebar></app-employee-onboarding-sidebar> -->
 <div class="page-wrapper">
     <div class="page-content-tab">
-       
+
         <div class="container-fluid">
              <!-- Loader -->
             <app-hajiri-page-loader *ngIf="isLoading"></app-hajiri-page-loader>
@@ -13,21 +13,21 @@
                         <p class="mb-0">Fields with * are mandatory</p>
                         <form #experienceInformationForm="ngForm"  (ngSubmit)="submit()">
                             <!-- Loop for Experience Fields -->
-                         
+
                         <br>
                         <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
                             <!-- Fresher Radio Button -->
                             <input type="radio" class="btn-check" name="btnradio1" id="btnradio1" autocomplete="off"
                                    [(ngModel)]="userExperiences[0].fresher" [value]="true">
                             <label class="btn" [class.btn-custom-selected]="userExperiences[0].fresher === true" [class.btn-outline-primary]="userExperiences[0].fresher !== true" for="btnradio1">Fresher</label>
-                          
+
                             <!-- Experience Radio Button -->
                             <input type="radio" class="btn-check" name="btnradio2" id="btnradio2" autocomplete="off"
                                    [(ngModel)]="userExperiences[0].fresher" [value]="false">
                             <label class="btn" [class.btn-custom-selected]="userExperiences[0].fresher === false" [class.btn-outline-primary]="userExperiences[0].fresher !== false" for="btnradio2">Experience</label>
                           </div>
-                          
-                              
+
+
                             <!-- <div class="col-md-3">
                                 <div class="mb-3">
                                     <div class="form-check">
@@ -38,7 +38,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="col-md-3" >
                                 <div class="mb-3">
                                     <div class="form-check">
@@ -54,7 +54,7 @@
                                 <div class="row">
                                 <!-- Fresher Radio Button -->
                                 </div>
-                            
+
                                 <!-- Experience Fields (Hidden for Freshers) -->
                                 <div class="row">
                                     <!-- Company Name Field -->
@@ -80,18 +80,18 @@
                                             <label for="duration{{i}}" class="pb-2">Duration <span class="text-optional">*</span></label>
                                             <br>
                                             <!-- NZ Range Picker -->
-                                            <nz-range-picker 
+                                            <nz-range-picker
                                             (keydown)="preventLeadingWhitespace($event)"
                                             id="duration{{i}}" name="duration{{i}}"
-                                                nzBorderless 
-                                                [(ngModel)]="experience.dateRange" 
-                                                required 
-                                                #rangePicker="ngModel" 
+                                                nzBorderless
+                                                [(ngModel)]="experience.dateRange"
+                                                required
+                                                #rangePicker="ngModel"
                                                 (ngModelChange)="onDateRangeChange($event, i)"
                                                 [nzDisabledDate]="disabledDate"
                                                 >
                                             </nz-range-picker>
-                                    
+
                                             <!-- Error Messages for Range Picker -->
                                             <div *ngIf="rangePicker.touched || isFormInvalid">
                                                 <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="rangePicker.errors?.required">
@@ -101,9 +101,9 @@
                                             </div>
                                         </div>
                                     </div>
-                                    
-                                      
-                                   
+
+
+
                                         <!-- <div class="col-md-6">
                                             <label for="lastJobDepartmentDropdown{{i}}" class="pb-2">Department <span class="text-optional">*</span></label>
                                             <div class="dropdown" style="width: 100%;">
@@ -116,7 +116,7 @@
                                                 </ul>
                                             </div>
                                             <input type="hidden" [(ngModel)]="experience.lastJobDepartment" required #lastJobDepartmentField="ngModel" >
-                                            
+
                                             <div *ngIf="lastJobDepartmentField.touched">
                                                 <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="lastJobDepartmentField.errors?.required">
                                                     <i class="bi bi-exclamation-circle"></i>
@@ -139,7 +139,7 @@
                                               (ngModelChange)="onChangeDepartment($event, i)"
                                               [nzAutocomplete]="departmentAuto"
                                               required #lastJobDepartmentField="ngModel"
-                                              
+
                                             />
                                             <nz-autocomplete [nzDataSource]="departmentFilteredOptions" #departmentAuto></nz-autocomplete>
                                             <!-- Error Message for Department -->
@@ -150,14 +150,14 @@
                                               </p>
                                             </div>
                                           </div>
-                                          
-                                   
-                                    
-                                    
-                                    
+
+
+
+
+
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            
+
                                             <label for="lastSalary{{i}}" class="pb-2">Last Salary <span class="text-optional">*</span></label>
                                             <input type="text" (keydown)="preventAlphabets($event)"      maxlength="10" class="form-control " id="lastSalary{{i}}" name="lastSalary{{i}}" placeholder="Last salary" [(ngModel)]="experience.lastSalary" required #lastSalaryField="ngModel" >
                                             <!-- Error Message for Last Salary -->
@@ -194,7 +194,7 @@
                                         <label for="lastJobPositionDropdown{{i}}" class="pb-2">Position <span class="text-optional">*</span></label>
                                         <!-- Replacing the dropdown with nz-autocomplete -->
                                         <input
-                                        (keydown)="preventLeadingWhitespace($event)" 
+                                        (keydown)="preventLeadingWhitespace($event)"
                                           class="seach-dropdown"
                                           [id]="'lastJobPositionDropdown' + i"
                                           [name]="'lastJobPositionDropdown' + i"
@@ -204,7 +204,7 @@
                                           (ngModelChange)="onChangePosition($event, i)"
                                           [nzAutocomplete]="positionAuto"
                                           required #lastJobPositionField="ngModel"
-                                          
+
                                         />
                                         <nz-autocomplete [nzDataSource]="positionFilteredOptions" #positionAuto></nz-autocomplete>
                                         <!-- Error Message for Position -->
@@ -215,8 +215,8 @@
                                           </p>
                                         </div>
                                       </div>
-                                      
-                                    
+
+
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="lastJobResponsibilities{{i}}" class="pb-2">Responsibilities <span class="text-optional">*</span></label>
@@ -225,7 +225,7 @@
                                             <div *ngIf="lastJobResponsibilitiesField.touched || isFormInvalid">
                                                 <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="lastJobResponsibilitiesField.errors?.required">
                                                     <i class="bi bi-exclamation-circle"></i>
-                                                    Responsibilities are required. 
+                                                    Responsibilities are required.
                                                 </p>
                                                 <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="lastJobResponsibilitiesField.errors?.maxlength">
                                                     <i class="bi bi-exclamation-circle"></i> Maximum 150 characters allowed.
@@ -238,21 +238,21 @@
                                         <i class="bi bi-trash" style="color: red;"></i> Delete
                                     </span>
                                 </div> -->
-                        
+
                         <div class="row align-items-center">
-                            
+
                             <!-- Delete Button -->
                             <div class="add-filtter d-flex justify-content-end " *ngIf="userExperiences.length!=1">
                                 <a type="button" style="color: red !important;" (click)="deleteExperience(i)"><i class="bi bi-trash" style="font-size: 16px;"></i> Delete</a>
                             </div>
                             <!-- <div class="col-md-6 " style="text-align: right;">
-                                
+
                             </div> -->
                         </div>
                                 </div>
-               
+
                         <!-- Navigation Buttons -->
-                                </div> 
+                                </div>
                             </div>
                         <div class="row align-items-center">
                             <div class="col-md-6" *ngIf="!userExperiences[0].fresher">
@@ -302,7 +302,7 @@
                                         </span>
                                     </button>
                                     <!-- Original Next Button, shown only when updateRequest is not true -->
-                                    <button *ngIf="!this.isAdminPresent" (click)="selectButtonType('next')" class="btn btn-primary save-button" type="button" [disabled]="toggle" aria-label="Next Step">
+                                    <button *ngIf="!this.isAdminPresent && !this.dataService.isLastRoute('/employee-experience')" (click)="selectButtonType('next')" class="btn btn-primary save-button" type="button" [disabled]="toggle" aria-label="Next Step">
                                         <div *ngIf="toggle" class="dot-opacity-loader">
                                             <span></span>
                                             <span></span>
@@ -315,16 +315,26 @@
                                             Save & Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
                                         </span>
                                     </button>
+                                    <button *ngIf="this.dataService.isLastRoute('/employee-experience')" (click)="selectButtonType('preview')" class="btn btn-primary save-button" type="button" [disabled]="toggle"  aria-label="Next Step">
+                                        <div *ngIf="toggle" class="dot-opacity-loader">
+                                          <span></span>
+                                          <span></span>
+                                          <span></span>
+                                        </div>
+                                        <span>
+                                          Preview Form <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
+                                      </span>
+                                      </button>
                                 </div>
-                                
-                                
+
+
                             </div>
                         </div>
                         <button type="submit" style="display: none;" name="formSubmitButton" id="formSubmitButton"  #formSubmitButton></button>
                         <!-- </div> -->
                     </form>
                     <!-- Add More Button -->
-                   
+
                    <!--  -->
                     </div>
                 </div>
@@ -342,7 +352,7 @@
          <div class="modal-body text-center">
              <i class="bi bi-check-circle" *ngIf="employeeOnboardingFormStatus != 'REJECTED'" style="font-size: 48px; color: green;"></i>
              <i class="bi bi-exclamation-triangle-fill" *ngIf="employeeOnboardingFormStatus == 'REJECTED'" style="font-size: 48px; color: red;"></i>
-             
+
              <!-- Conditional Messages -->
              <p class="mt-2" *ngIf="employeeOnboardingFormStatus == 'PENDING'">
                  Your registration is successful. Pending for verification.

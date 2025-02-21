@@ -17,10 +17,10 @@ declare var bootstrap: any;
 export class EmergencyContactComponent implements OnInit {
   userEmergencyContactDetails: UserEmergencyContactDetailsRequest[] = [];
 
-  constructor(private dataService: DataService, private router: Router, private cd: ChangeDetectorRef, private helperService:HelperService) { }
+  constructor(public dataService: DataService, private router: Router, private cd: ChangeDetectorRef, private helperService:HelperService) { }
 
   ngOnInit(): void {
-    this.getOnboardingFormPreviewMethodCall();
+    //this.getOnboardingFormPreviewMethodCall();
     this.getEmployeeEmergencyContactsDetailsMethodCall();
   }
 @ViewChild("dismissSuccessModalButton") dismissSuccessModalButton!:ElementRef;
@@ -35,23 +35,23 @@ debugger
       };
       this.router.navigate(['/employee-onboarding/employee-onboarding-preview'], navExtra);
     },2000);
-  
-  
-  
+
+
+
   }
 
   backRedirectUrl() {
     debugger
     const userUuid = new URLSearchParams(window.location.search).get('userUuid');
-    
+
     // Initialize an empty object for queryParams
     let queryParams: any = {};
-    
+
     // Add userUuid to queryParams if it exists
     if (userUuid) {
       queryParams['userUuid'] = userUuid;
     }
-    
+
     // Conditionally add adminUuid to queryParams if updateRequest is true
     if (this.isAdminPresent) {
       const adminUuid = new URLSearchParams(window.location.search).get('adminUuid');
@@ -59,28 +59,58 @@ debugger
         queryParams['adminUuid'] = adminUuid;
       }
     }
-  
+
     // Create NavigationExtras object with the queryParams
     let navExtra: NavigationExtras = { queryParams };
-    this.router.navigate(['/employee-onboarding/bank-details'], navExtra);
+    if(this.dataService.isRoutePresent('/bank-details')){
+      this.router.navigate(
+        ['/employee-onboarding/bank-details'],
+        navExtra
+      );
+  } else if(this.dataService.isRoutePresent('/employee-experience')){
+      this.router.navigate(
+        ['/employee-onboarding/employee-experience'],
+        navExtra
+      );
+  } else if(this.dataService.isRoutePresent('/acadmic')){
+      this.router.navigate(
+        ['/employee-onboarding/acadmic'],
+        navExtra
+      );
+  } else if(this.dataService.isRoutePresent('/employee-document')){
+      this.router.navigate(
+        ['/employee-onboarding/employee-document'],
+        navExtra
+      );
+  } else if(this.dataService.isRoutePresent('/employee-address-detail')){
+        this.router.navigate(
+          ['/employee-onboarding/employee-address-detail'],
+          navExtra
+        );
+  }else {
+    this.router.navigate(
+      ['/employee-onboarding/employee-onboarding-form'],
+      navExtra
+    );
+  }
   }
 
   deleteEmergencyContact(index: number) {
     this.userEmergencyContactDetails.splice(index, 1);
   }
   addEmergencyContact(): void {
-    this.userEmergencyContactDetails.push(new UserEmergencyContactDetailsRequest()); 
+    this.userEmergencyContactDetails.push(new UserEmergencyContactDetailsRequest());
   }
   displaySuccessModal = false;
-  
+
   showSuccess() {
     debugger
-    
+
     this.setEmployeeEmergencyContactDetailsMethodCall();
     this.displaySuccessModal = true;
     this.cd.detectChanges();
     // setTimeout(() => this.displaySuccessModal = false, 3000);
-   
+
   }
 
 
@@ -88,11 +118,11 @@ debugger
   @ViewChild("successMessageModalButton") successMessageModalButton!:ElementRef;
   setEmployeeEmergencyContactDetailsMethodCall() {
     debugger
-    
+
     this.allowEdit = false;
     this.toggle = true;
     const userUuid = new URLSearchParams(window.location.search).get('userUuid') || '';
-    
+
     if (!userUuid) {
       console.error('User UUID is not available in localStorage.');
       return;
@@ -100,15 +130,15 @@ debugger
 
     this.dataService.setEmployeeEmergencyContactDetails(this.userEmergencyContactDetails, userUuid)
       .subscribe(
-        (response: UserEmergencyContactDetailsRequest) => { 
+        (response: UserEmergencyContactDetailsRequest) => {
           console.log('Response:', response);
-          
+
           this.dataService.markStepAsCompleted(response.statusId);
           if(this.buttonType=='update'){
             this.toggle = false;
             this.helperService.showToast("Information Updated Successfully", Key.TOAST_STATUS_SUCCESS);
           }
-          if(response.employeeOnboardingFormStatus == 'USER_REGISTRATION_SUCCESSFUL' && this.buttonType !='update'){
+          if( this.buttonType !='update'){
           this.getOnboardingFormPreviewMethodCall();
           }
              response.employeeOnboardingStatus;
@@ -121,12 +151,12 @@ debugger
             // setTimeout(()=>{
             //   this.routeToFormPreview();
             // },500);
-          
-         
-          
+
+
+
           // this.userEmergencyContactDetailsStatus = response.statusResponse;
-          
-         
+
+
             // localStorage.setItem('statusResponse', JSON.stringify(this.userEmergencyContactDetailsStatus));
           // this.router.navigate(['/next-route']); // Update the route as needed
         },
@@ -153,8 +183,8 @@ delete(index:number){
     if (userUuid) {
       this.dataService.getEmployeeContactsDetails(userUuid).subscribe(
        async (contacts) => {
-       
-          console.log(contacts);
+
+          // console.log(contacts);
           this.dataService.markStepAsCompleted(contacts[0].statusId);
           this.isLoading = false;
           if (contacts[0].contactName && contacts.length > 0) {
@@ -162,14 +192,14 @@ delete(index:number){
           if(adminUuid){
             await this.getAdminVerifiedForOnboardingUpdateMethodCall();
           }
-         
+
             this.employeeOnboardingFormStatus=this.userEmergencyContactDetails[0].employeeOnboardingStatus;
             if(contacts[0].employeeOnboardingFormStatus=='USER_REGISTRATION_SUCCESSFUL' && this.employeeOnboardingFormStatus != 'REJECTED' && !this.isAdminPresent){
               this.successMessageModalButton.nativeElement.click();
           }
-            
+
           this.handleOnboardingStatus(contacts[0].employeeOnboardingStatus);
-        
+
         } else {
           this.addEmergencyContact();
         }
@@ -190,7 +220,7 @@ delete(index:number){
   handleOnboardingStatus(response: string) {
     this.displaySuccessModal = true;
     switch (response) {
-      
+
       case 'REJECTED':
         this.allowEdit = true;
         break;
@@ -215,7 +245,7 @@ delete(index:number){
   }
 
   @ViewChild("confirmationModalButton") confirmationModalButton!:ElementRef;
-  
+
   @ViewChild("previewModalCallButton") previewModalCallButton!: ElementRef;
   openModal() {
     debugger
@@ -231,17 +261,17 @@ delete(index:number){
     } else {
       this.setEmployeeEmergencyContactDetailsMethodCall();
     }
-    
-    
+
+
     // this.confirmationModalButton.nativeElement.click();
   }
   }
 
   preventLeadingWhitespace(event: KeyboardEvent): void {
     const input = event.target as HTMLInputElement;
-    
+
     if (event.key === ' ' && input.selectionStart === 0 && !input.value.trim()) {
-        
+
         event.preventDefault();
     }
     if (!isNaN(Number(event.key)) && event.key !== ' ') {
@@ -286,46 +316,46 @@ getOnboardingFormPreviewMethodCall() {
   if (userUuid) {
     this.dataService.getOnboardingFormPreview(userUuid).subscribe(
       (preview) => {
-        console.log(preview);
+        // console.log(preview);
         this.toggle = false;
         this.onboardingPreviewData = preview;
-       
+
         this.isLoading = false;
         this.handleOnboardingStatus(preview.user.employeeOnboardingStatus.response);
-        
+
         // if (preview.employeeAdditionalDocument && preview.employeeAdditionalDocument.length > 0) {
           this.employeeAdditionalDocument = preview.employeeAdditionalDocuments;
-          console.log(this.employeeAdditionalDocument);
+          // console.log(this.employeeAdditionalDocument);
       // } else {
       //   console.log("eroor ")
       //     // Handle the case where employeeAdditionalDocument is undefined, null, or empty
       //     this.employeeAdditionalDocument = [];
       // }
-      
-        if(preview.userDocuments.secondarySchoolCertificate){
+
+        if(preview.userDocuments!=null && preview.userDocuments.secondarySchoolCertificate){
           this.isSchoolDocument = false;
         }
-        if(preview.userDocuments.highSchoolCertificate){
+        if(preview.userDocuments!=null && preview.userDocuments.highSchoolCertificate){
           this.isHighSchoolDocument = false;
         }
         if(preview.userExperience){
           this.userExperienceArray = preview.userExperience;
         }
         if(preview.fresher==true){
-          
+
           this.isFresher=true;
         }
         if (preview.userEmergencyContacts) {
           this.userEmergencyContactArray = preview.userEmergencyContacts;
         } else {
-          
-          console.log('No guarantor information available.');
+
+          // console.log('No guarantor information available.');
           this.userEmergencyContactArray = [];
         }
         if(preview.userDocuments!=null){
-          
+
         this.secondarySchoolCertificateFileName = this.getFilenameFromUrl(preview.userDocuments.secondarySchoolCertificate);
-        this.highSchoolCertificateFileName1 = this.getFilenameFromUrl(preview.userDocuments.highSchoolCertificate);     
+        this.highSchoolCertificateFileName1 = this.getFilenameFromUrl(preview.userDocuments.highSchoolCertificate);
         this.highestQualificationDegreeFileName1 = this.getFilenameFromUrl(preview.userDocuments.highestQualificationDegree);
         this.testimonialReccomendationFileName1 = this.getFilenameFromUrl(preview.userDocuments.testimonialReccomendation);
        this.aadhaarCardFileName = this.getFilenameFromUrl(preview.userDocuments.aadhaarCard);
@@ -337,26 +367,26 @@ getOnboardingFormPreviewMethodCall() {
       },
       (error: any) => {
         console.error('Error fetching user details:', error);
-        this.userEmergencyContactArray = []; 
+        this.userEmergencyContactArray = [];
       }
     );
   } else {
     console.error('User UUID not found');
-    this.userEmergencyContactArray = []; 
+    this.userEmergencyContactArray = [];
   }
 }
 
 getFilenameFromUrl(url: string): string {
   if (!url) return '';
-  
+
   const decodedUrl = decodeURIComponent(url);
- 
+
   const parts = decodedUrl.split('/');
-  
+
   const filenameWithQuery = parts.pop() || '';
-  
+
   const filename = filenameWithQuery.split('?')[0];
- 
+
   const cleanFilename = filename.replace(/^\d+_/,'');
   return cleanFilename;
 }
@@ -377,10 +407,10 @@ saveUserOnboardingFormStatusMethodCall(){
   const userUuid = new URLSearchParams(window.location.search).get('userUuid') || '';
   this.dataService.saveUserOnboardingFormStatus(userUuid)
   .subscribe(
-    (response: UserEmergencyContactDetailsRequest) => { 
-      console.log('Response:', response);
+    (response: UserEmergencyContactDetailsRequest) => {
+      // console.log('Response:', response);
     this.toggle= false;
-        if(response.employeeOnboardingFormStatus == 'USER_REGISTRATION_SUCCESSFUL' && response.employeeOnboardingStatus == 'PENDING' ){
+        if( response.employeeOnboardingStatus == 'PENDING' ){
           this.handleOnboardingStatus(response.employeeOnboardingStatus);
           this.routeToFormPreview();
         }
@@ -388,7 +418,7 @@ saveUserOnboardingFormStatusMethodCall(){
     },
     (error) => {
       console.error('Error occurred:', error);
-      
+
     }
   );
 }
@@ -402,7 +432,7 @@ getAdminVerifiedForOnboardingUpdateMethodCall(): Promise<boolean> {
     if (userUuid && adminUuid) {
       this.dataService.getAdminVerifiedForOnboardingUpdate(userUuid, adminUuid).subscribe(
         (data: boolean) => {
-         
+
           this.isAdminPresent = data;
           console.log('Admin verification successful.');
           resolve(data); // Resolve the promise with the result
@@ -432,7 +462,10 @@ goBackToProfile() {
   let navExtra: NavigationExtras = {
     queryParams: { userId: new URLSearchParams(window.location.search).get('userUuid') },
   };
-  this.router.navigate(['/employee-profile'], navExtra);
+  // this.router.navigate([Key.EMPLOYEE_PROFILE_ROUTE], navExtra);
+  const url = this.router.createUrlTree([Key.EMPLOYEE_PROFILE_ROUTE], navExtra).toString();
+    window.open(url, '_blank');
+    return;
 }
 
 

@@ -1,0 +1,160 @@
+<div
+  class="onboarding-box d-flex align-items-center justify-content-center flex-column"
+>
+  <div class="back-img">
+    <div
+      class="onboardingRightImg"
+      style="background-image: url(assets/images/onbording-right-img.svg)"
+    ></div>
+    <div
+      class="onboardingLeftImg"
+      style="background-image: url(assets/images/onbording-left-img.svg)"
+    ></div>
+  </div>
+
+  <div class="container ">
+    <div class="bg-white p-5" *ngIf="ROLE === 'ADMIN'">
+      <div class="row align-items-center" *ngIf="_subscriptionService.isTrialPlan">      
+        <div class="col-md-6" >
+          <div class="subscription-ended-text" >
+            <img src="assets/images/HAjiRi.svg" style="width: 120px" />
+            <h5 class="mb-3 mt-5">
+              Your Free trial has just <br />
+              ended
+            </h5>
+            <p class="mb-0">
+              
+                We are reaching out to remind you that your
+                account subscription plan is expired.
+              
+            </p>
+            <button class="btn get-subscription mt-4 mb-4" (click)="routeToSubscription()">
+              Get the Subscription
+            </button>
+            <br />
+            <span class="p-0 text-primary pointer">
+              Contact Help & support
+            </span>
+          </div>
+        </div>
+        <div class="col-md-6 text-end">
+           <img src="assets/images/subscription-end.svg" style="width: 450px;">
+        </div>
+      </div>
+      <div class="row align-items-center" *ngIf="!_subscriptionService.isTrialPlan">
+        <div class="col-md-6" >
+          
+          <div class="subscription-ended-text" >
+            <img src="assets/images/HAjiRi.svg" style="width: 120px" />
+            <h5 class="mb-3 mt-5" style="font-size: 32px">
+              Your Subscription has been <br />
+              Canceled
+            </h5>
+            <p class="mb-2">Hi,</p>
+            <p>
+              We are reaching out to remind you that your
+              account subscription plan is expired on
+              <b>{{orgSubscriptionPlanDetail.endDate | date :'fullDate'}}</b>
+            </p>
+            <!-- <p class="mb-2">
+              ultrices mauris. Maecenas vitae mattis tellus. Nullam quis
+              imperdiet augue. Vestibulum auctor ornare leo, non suscipit magna
+              interdum eu. Curabitur pellentesque nibh nibh,
+            </p> -->
+            <p class="mb-0">Team Hajiri</p>
+            <!-- <p class="mb-0">@1234</p> -->
+      
+            <button class="btn get-subscription mt-4 mb-4" (click)="routeToSubscription()">
+              Reactivate Subscription
+            </button>
+            &nbsp;&nbsp;&nbsp;
+      
+            <span class="p-0 text-primary pointer">
+              Contact Help & support
+            </span>
+      
+            <p class="mb-0 font-13">
+              By signing, you are creating a Hajiri account, and you agree to
+              Hajiri <a class="text-primary">Terms of Use</a> and
+              <a class="text-primary">Privacy Policy.</a>
+            </p>
+          </div>
+          <!--  -->
+        </div>
+        <div class="col-md-6">
+          <img src="assets/images/subscription.svg" style="width: 500px;">
+        </div>
+      </div>
+    </div>
+    <div class="bg-white p-5" *ngIf="(ROLE != 'ADMIN' && ROLE != 'USER')">
+      <div class="row align-items-center" *ngIf="_subscriptionService.isTrialPlan">      
+        <div class="col-md-6" >
+          <div class="subscription-ended-text" >
+            <img src="assets/images/HAjiRi.svg" style="width: 120px" />
+            <h5 class="mb-3 mt-5">
+              Your Free trial has just <br />
+              ended
+            </h5>
+            <p class="mb-0">
+              Your plan has just ended. Please contact your admin to purchase the plan.
+            </p>
+            <!-- <button class="btn get-subscription mt-4 mb-4" (click)="routeToSubscription()">
+              Get the Subscription
+            </button> -->
+            <!-- <br /> -->
+            <!-- <span class="p-0 text-primary pointer">
+              Contact Help & support
+            </span> -->
+          </div>
+        </div>
+        <div class="col-md-6 text-end">
+           <img src="assets/images/subscription-end.svg" style="width: 450px;">
+        </div>
+      </div>
+      <div class="row align-items-center" *ngIf="!_subscriptionService.isTrialPlan">
+        <div class="col-md-6" >
+          
+          <div class="subscription-ended-text" >
+            <img src="assets/images/HAjiRi.svg" style="width: 120px" />
+            <h5 class="mb-3 mt-5" style="font-size: 32px">
+              Your Subscription has been <br />
+              Canceled
+            </h5>
+            <p class="mb-2">Hi,</p>
+            <!-- <p>
+              We are reaching out to remind you that you
+              <b>tail@1234</b> account is set to expired on
+              <b>23rd June 2022</b>
+            </p> -->
+            <p class="mb-2">
+              Your plan has just ended. Please contact your admin to purchase the plan.
+            </p>
+            <!-- <p class="mb-0">Cheers,</p>
+            <p class="mb-0">@1234</p> -->
+      
+            <!-- <button class="btn get-subscription mt-4 mb-4" (click)="routeToSubscription()">
+              Reactivate Subscription
+            </button> -->
+            <!-- &nbsp;&nbsp;&nbsp;
+      
+            <span class="p-0 text-primary pointer">
+              Contact Help & support
+            </span> -->
+      
+            <p class="mb-0 font-13">
+              By signing, you are creating a Hajiri account, and you agree to
+              Hajiri <a class="text-primary">Terms of Use</a> and
+              <a class="text-primary">Privacy Policy.</a>
+            </p>
+          </div>
+          <!--  -->
+        </div>
+        <div class="col-md-6">
+          <img src="assets/images/subscription.svg" style="width: 500px;">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+</div>

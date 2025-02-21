@@ -20,7 +20,7 @@ import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 // import { ImageTransform } from 'ngx-image-cropper';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { OrganizationPersonalInformationComponent } from '../../organization-onboarding/components/organization-personal-information/organization-personal-information.component';
+import { OrganizationPersonalInformationComponent } from '../../authentication/components/organization-personal-information/organization-personal-information.component';
 // import { Constant } from 'src/app/constants/Constants';
 // import { SharedService } from 'src/app/services/data-sharing/shared.service';
 // import { AuthenticationService } from 'src/app/services/-authentication.service';
@@ -402,7 +402,7 @@ export class MediaManagerCropComponent implements OnInit {
       return;
     }
     this.cropedFiles = this.file;
-    console.log(this.cropedFiles);
+    // console.log(this.cropedFiles);
     // console.log(this.cropedFiles[0].);
     var mediaUploaded = await this.uploadSingleMediaToFireBaseAndGetUrl(
       this.cropedFiles,

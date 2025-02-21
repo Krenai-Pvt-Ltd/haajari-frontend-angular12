@@ -2,264 +2,294 @@
   <!-- Page Content-->
   <div class="page-content-tab">
     <div class="container-fluid">
-      <div
-        class="row mb-1 mt-3 align-items-center"
-        style="padding-bottom: 15px"
-      >
-        <div class="col-md-12">
-          <div
-            class="d-flex align-items-center"
-            style="border: 1px solid #f1f1f1"
-          >
-            <div style="width: 20%; position: relative">
-              <div class="dropdown bonus-payroll">
-                <nz-date-picker nzMode="month" [nzSize]="size" [(ngModel)]="selectedDate"
-                (ngModelChange)="onMonthChange($event)" [nzDisabledDate]="disableMonths"></nz-date-picker>
-              </div>
-            </div>
-            <!-- <div style="width: 20%; position: relative">
-              <div class="dropdown" style="width: 100%">
-                <button
-                  type="button"
-                  id="dropdownMenuButton1"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                  class="btn btn-secondary dropdown-toggle new-deopdown"
-                >
-                  Select Search
-                  <i
-                    class="bi bi-chevron-down"
-                    style="color: #444; font-size: 15px"
-                  ></i>
-                </button>
-                <ul
-                  aria-labelledby="dropdownMenuButton1"
-                  class="dropdown-menu"
-                  style="width: 100%"
-                >
-                  <li><a class="dropdown-item">Reset All</a></li>
-                  <li><a class="dropdown-item">Approved</a></li>
-                  <li><a class="dropdown-item">Pending</a></li>
-                  <li><a class="dropdown-item">Rejected</a></li>
-                </ul>
-              </div>
-            </div> -->
-            <div class="" style="width: 80%">
-              <form
-                role="search"
-                class="searching ng-untouched ng-pristine ng-valid"
-                (submit)="searchUsers($event)"
-              >
-                <div class="form-group" style="position: relative; width: 100%">
-                  <input
-                    type="text"
-                    id="searchText"
-                    placeholder="Search"
-                    class="form-control me-2 ng-untouched ng-pristine ng-valid attendance-details-search"
-                    style="padding: 10px 40px; padding-right:20px;"
-                    (keyup)="searchUsers($event)" [(ngModel)]="search"
-                    [ngModelOptions]="{ standalone: true }"
-                  />
-            
-                  <i
-                  class="bi bi-search search-icon"
-                  style="margin: auto; margin-left: 15px"
-                ></i>
-                  <button *ngIf="search.length !== 0" type="button" class="btn close-btn"
-                  (click)="clearSearch()" style="position: absolute; right: 20px;  top:3px;">
-                    <i class="bi bi-x mt-auto mb-auto"></i>
-                  </button>
 
-                </div>
-              </form>
-            </div>
+      <!-- <div class="row leave-management-settings p-3 mt-2 align-items-center" *ngIf="mainPlaceholderFlag">
+        <div class="col-md-6">
+          <div class="leave-management-detail pt-5 pb-5">
+            <h3 class="mb-3">
+              Bonuses & Discounts <br />
+              Management
+            </h3>
+            <p class="mb-0 font-14">
+              Manage and track all employee bonuses and <br />available
+              discounts in one place.
+            </p>
 
-          
+           
+
+            <hr />
+            <span class="mb-0">
+              By signing, you are creating
+              <a href="#!">
+                Learn more about it
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="21"
+                  viewBox="0 0 20 21"
+                  fill="none"
+                >
+                  <mask
+                    id="mask0_4244_1588"
+                    style="mask-type: alpha"
+                    maskUnits="userSpaceOnUse"
+                    x="0"
+                    y="0"
+                    width="20"
+                    height="21"
+                  >
+                    <rect y="0.546875" width="20" height="20" fill="#6666F2" />
+                  </mask>
+                  <g mask="url(#mask0_4244_1588)">
+                    <path
+                      d="M4.50016 17.2148L3.3335 16.0482L13.0002 6.38151H7.50016V4.71484H15.8335V13.0482H14.1668V7.54818L4.50016 17.2148Z"
+                      fill="#6666F2"
+                    />
+                  </g>
+                </svg>
+              </a>
+            </span>
           </div>
         </div>
-      </div>
+        <div class="col-md-6">
+          <div class="leave-management-detail-img text-end">
+            <img
+              src="assets/images/bonuses-discounts.svg"
+              style="width: 380px"
+            />
+          </div>
+        </div>
+      </div> -->
 
-      <div class="table-responsive">
-        <table class="table border-dashed mb-0">
-          <thead>
+      <div>
+        <div class="row mb-1 mt-4 align-items-center pb-3">
+          <div class="col-md-12">
+            <div class="d-flex align-items-center" style="border: 1px solid #f1f1f1">
+              <div class="position-relative" style="width: 20%;">
+                <div class="dropdown bonus-payroll">
+                  <nz-date-picker nzMode="month" [nzSize]="size" [(ngModel)]="selectedDate"
+                    (ngModelChange)="onMonthChange()"
+                    [nzDisabledDate]="_helperService.disableMonths"></nz-date-picker>
+                </div>
+              </div>
+
+              <div style="width: 80%">
+                <form role="search" class="searching ng-untouched ng-pristine ng-valid" (submit)="searchUsers($event)">
+                  <div class="form-group position-relative w-100">
+                    <input type="text" id="searchText" placeholder="Search"
+                      class="form-control me-2 ng-untouched ng-pristine ng-valid attendance-details-search"
+                      style="padding: 10px 40px; padding-right: 20px" (keyup)="searchUsers($event)" [(ngModel)]="search"
+                      [ngModelOptions]="{ standalone: true }" />
+
+                    <i class="bi bi-search search-icon"></i>
+                    <button *ngIf="search.length !== 0" type="button" class="btn close-btn position-absolute"
+                      (click)="clearSearch()">
+                      <i class="bi bi-x mt-auto mb-auto"></i>
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table border-dashed mb-0">
+            <thead>
+              <tr>
+                <th>Employee</th>
+                <th>Email</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Action Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <ng-container *ngIf="
+              isShimmer &&
+                bonusAndDeductionDataList.length === 0 &&
+                !dataNotFoundPlaceholder &&
+                !networkConnectionErrorPlaceHolder;
+              else attendanceDataCondition
+            ">
+              <tbody>
+                <tr *ngFor="let item of [].constructor(8)">
+                  <td class="text-center" *ngFor="let item of [].constructor(6)">
+                    <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                  </td>
+                </tr>
+              </tbody>
+            </ng-container>
+
+            <ng-template #attendanceDataCondition>
+              <ng-container *ngIf="
+                bonusAndDeductionDataList.length !== 0 &&
+                  !dataNotFoundPlaceholder &&
+                  !networkConnectionErrorPlaceHolder;
+                else errorConditionWhileFetchingEmployeeSalaryData
+              ">
+                <tbody>
+                  <tr *ngFor="let log of bonusAndDeductionDataList">
+                    <td>
+                      <img [src]="
+                        log.image
+                          ? log.image
+                          : 'assets/images/users/user-3.jpg'
+                      " alt="" class="rounded-circle thumb-xs me-1" />
+                      {{ log.name }}
+                    </td>
+                    <td>{{ log.email || 'N/A'}}</td>
+                    <td>₹{{ log.amount }}</td>
+
+
+                    <td>
+                      <span class="badge rounded-pill" [ngClass]="{
+                        'badge-soft-success': log.status == 'APPROVED',
+                        'badge-soft-warning': log.status == 'PENDING'
+                      }">
+                        {{ log.status ? log.status : "-" }}
+                      </span>
+                    </td>
+                    <td>
+                      <small>{{
+                        log.createdDate | date : "MMM dd, yyyy hh:mm a"
+                        }}</small>
+                    </td>
+                    <td>
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                        <button type="button" class="btn btn-light" ngbTooltip="Edit" placement="top"
+                          *ngIf="log.status == 'PENDING'" (click)="openEditModal(log)">
+                          <i class="ti ti-pencil"></i>
+                        </button>
+                        <button type="button" class="btn btn-light" ngbTooltip="Delete" placement="top"
+                          *ngIf="log.status == 'PENDING'" (click)="openDeleteModal(log.id)">
+                          <i class="far fa-trash-alt"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr *ngIf="bonusAndDeductionDataList.length === 0">
+                    <td colspan="8" class="text-center">No data available</td>
+                  </tr>
+                </tbody>
+              </ng-container>
+            </ng-template>
+          </table>
+
+          <!--end /table-->
+        </div>
+        <ng-template #errorConditionWhileFetchingEmployeeSalaryData>
+          <tbody *ngIf="dataNotFoundPlaceholder">
             <tr>
-              <th>EMPLOYEE</th>
-              <th>Email</th>
-              <th>AMOUNT</th>
-              <th>BONUS/DEDUCTION</th>
-              <!-- <th>COMMENT</th> -->
-              <th>STATUS</th>
-              <th>ACTION DATE</th>
-              <th>ACTIONS</th>
-            </tr>
-          </thead>
-          <ng-container *ngIf="
-                        isShimmer &&
-                        bonusAndDeductionDataList.length === 0 &&
-                          !dataNotFoundPlaceholder &&
-                          !networkConnectionErrorPlaceHolder;
-                        else attendanceDataCondition
-                      ">
-                      <tbody>
-                        <tr *ngFor="let item of [].constructor(6)">
-                          <td class="text-center">
-                            <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
-                          </td>
-                          <td class="text-center">
-                            <ngx-shimmer-loading [width]="'%'" [height]="'10px'"></ngx-shimmer-loading>
-                          </td>
-                          <td class="text-center">
-                            <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                          </td>
-                          <td class="text-center">
-                            <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                          </td>
-                          <td class="text-center">
-                            <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                          </td>
-                          <td class="text-center">
-                            <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                          </td>
-                          <td class="text-center">
-                            <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                          </td>
-                          <td class="text-center">
-                            <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                          </td>
-                          <td class="text-center">
-                            <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                          </td>
-                        
-                        </tr>
-                      </tbody>
-                    </ng-container>
+              <td colspan="8">
+                <div class="empty-file" style="margin-top: 5%; margin-bottom: 5%">
+                  <nz-empty nzNotFoundImage="assets/images/no-data-found-img-2.svg" [nzNotFoundContent]="contentTpl">
+                    <ng-template #contentTpl>
+                      <p class="mb-1 empty-detail font-16">No data for now</p>
+                    </ng-template>
+                  </nz-empty>
+                </div>
 
-                    <ng-template #attendanceDataCondition>
-                      <ng-container *ngIf="
-                          bonusAndDeductionDataList.length !== 0 &&
-                          !dataNotFoundPlaceholder &&
-                          !networkConnectionErrorPlaceHolder; else errorConditionWhileFetchingEmployeeSalaryData
-                        ">
-          <tbody>
-            <tr *ngFor="let log of bonusAndDeductionDataList">
-              <td>
-                <img src="{{ log.image }}" alt="" class="rounded-circle thumb-xs me-1" />
-                {{ log.name }}
-              </td>
-              <td>{{ log.email }}</td>
-              <td>₹{{ log.amount }}</td>
-              <td>
-                <span class="badge rounded-pill" [ngClass]="{
-                  'badge-soft-success': log.source == 'Bonus',
-                  'badge-soft-danger': log.source == 'Deduction'
-                }">{{ log.source }}</span>
-              </td>
-              <!-- <td>{{ log.comment ? log.comment : '-' }}</td> -->
-              
-              <td>
-                
-                <span class="badge rounded-pill" [ngClass]="{
-                  'badge-soft-success': log.payStatus == 'APPROVED',
-                  'badge-soft-warning': log.payStatus == 'PENDING'
-                }">
-                {{ log.payStatus ? log.payStatus : "-"}}
-              </span>
-              </td>
-              <td><small>{{ log.createdDate | date: 'MMM dd, yyyy hh:mm a' }}</small></td>
-              <td>
-                <div class="btn-group" role="group" aria-label="Basic example">
-                  <button type="button" class="btn btn-light" ngbTooltip="Edit" placement="top">
-                    <i class="ti ti-pencil"></i>
-                  </button>
-                  <button type="button" class="btn btn-light" ngbTooltip="Delete" placement="top">
-                    <i class="far fa-trash-alt"></i>
-                  </button>
+                <div class="empty-file" *ngIf="networkConnectionErrorPlaceHolder">
+                  <nz-empty nzNotFoundImage="assets/images/no-data-found-img-2.svg" [nzNotFoundContent]="contentTpl">
+                    <ng-template #contentTpl>
+                      <p class="mb-1 empty-detail font-16">
+                        Something went wrong
+                      </p>
+                    </ng-template>
+                  </nz-empty>
                 </div>
               </td>
-            </tr>
-            <tr *ngIf="bonusAndDeductionDataList.length === 0">
-              <td colspan="8" class="text-center">No data available</td>
             </tr>
           </tbody>
-        </ng-container>
-      </ng-template>
-        </table>
-
-        
-        <!--end /table-->
+        </ng-template>
       </div>
-      <ng-template #errorConditionWhileFetchingEmployeeSalaryData>
-        <tbody>
-          <tr>
-            <td colspan="8">
-              <div class="errorboxmain" *ngIf="
-                  networkConnectionErrorPlaceHolder
-                ">
-                <div class="errorboxinner text-center">
-                  <div class="errorboxplaceholder mb-2">
-                    <img src="assets/images/signal.svg" style="width: 100px" />
-                  </div>
-                  <div class="">
-                    <h4>Something went wrong</h4>
-                    <p> An error occurred while processing your request. Please refresh the page and
-                      try again. </p>
-                  </div>
-                </div>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-        <tbody>
-          <tr>
-            <td colspan="8">
-              <div class="errorboxmain" *ngIf="
-                  dataNotFoundPlaceholder
-                ">
-                <div class="errorboxinner text-center">
-                  <div class="errorboxplaceholder mb-2">
-                    <img src="assets/images/empty-folder.svg" style="width: 100px" />
-                  </div>
-                  <h4>No Data Found</h4>
-                  <p> Sorry, We can't show you the data at this moment! </p>
-                </div>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </ng-template>
+      <!-- Pagination -->
+      <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top"
+        *ngIf="totalItems > 0">
+        <p class="mb-0"> Showing {{_helperService.startIndex(pageNumber,itemPerPage) }} - {{_helperService.lastIndex(pageNumber,itemPerPage,totalItems)}} of {{ totalItems }} results</p>
+        <div class="pagition-box">
+          <ngb-pagination [collectionSize]="totalItems" [page]="pageNumber" [pageSize]="itemPerPage" [maxSize]="5"
+            [boundaryLinks]="true" [ellipses]="true" (pageChange)="pageChange($event)">
+          </ngb-pagination>
+        </div>
+      </div>
     </div>
-    <!-- Pagination -->
-  <div class="pagination pl-3 align-items-center justify-content-between" *ngIf="
-  (total > itemPerPage - 1 ||
-    (pageNumber === lastPageNumber &&
-      lastPageNumber !== 1)) &&
-  !dataNotFoundPlaceholder &&
-  !networkConnectionErrorPlaceHolder
-">
-<p style="padding-left: 15px"> Showing {{ getStartIndex() }} - {{ getEndIndex() }} of {{ total
-  }} employees </p>
-<div>
-  <nav aria-label="Page navigation example">
-    <ul class="pagination justify-content-end">
-      <li class="page-item" [class.disabled]="pageNumber == 1">
-        <a class="page-link" href="javascript:void(0);" aria-label="Previous"
-          (click)="changePage('prev')">
-          <span aria-hidden="true">&laquo;</span>
-        </a>
-      </li>
-      <li class="page-item" *ngFor="let page of getPages()" [class.active]="pageNumber == page">
-        <a class="page-link" href="javascript:void(0);" (click)="changePage(page)">{{ page
-          }}</a>
-      </li>
-      <li class="page-item" [class.disabled]="pageNumber == totalPages">
-        <a class="page-link" href="javascript:void(0);" aria-label="Next"
-          (click)="changePage('next')">
-          <span aria-hidden="true">&raquo;</span>
-        </a>
-      </li>
-    </ul>
-  </nav>
-</div>
-</div>
   </div>
 </div>
+
+
+<!-- Bonus Edit Modal Start -->
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#bonusEditModal"
+  #bonusEditButton>
+  Bonus Edit Modal
+</button>
+<div class="modal fade" id="bonusEditModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Update Bonus</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form #bonusForm="ngForm" (ngSubmit)="updateBonus()">
+
+          <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" id="name" name="name" class="form-control" [(ngModel)]="bonusEditReq.name" required
+              #name="ngModel" readonly>
+          </div>
+          <div class="mb-3">
+            <label for="amount" class="form-label">Amount</label>
+            <input type="number" id="amount" name="amount" class="form-control" [(ngModel)]="bonusEditReq.amount"
+              required #amount="ngModel">
+
+            <div *ngIf="amount.touched && amount.invalid">
+              <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="amount.errors?.required">
+                <i class="bi bi-exclamation-circle"></i> Amount is required.
+              </p>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="comments" class="form-label">Comments</label>
+            <textarea id="comments" name="comments" class="form-control" placeholder="Please specify the reason"
+              [(ngModel)]="bonusEditReq.comment"></textarea>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Bonus Edit Modal End -->
+
+
+<!-- Bonus Delete Modal Start -->
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#bonusDeleteModal"
+  #bonusDeleteButton>
+  Bonus Delete Modal
+</button>
+<div class="modal fade" id="bonusDeleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="">
+          <span class="d-flex justify-content-center"><i class="bi bi-question-circle"></i></span>
+          <h2>Are you sure, you want to proceed?</h2>
+          <p class="d-flex justify-content-center">Note: By clicking on proceed, your changes will get reflected.</p>
+        </div>
+        <div class="d-flex justify-content-center" style="gap:25px">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="deleteBonus()"> Proceed
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Bonus Delete Modal End -->

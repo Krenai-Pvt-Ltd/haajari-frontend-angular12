@@ -20,7 +20,7 @@
                     <div class="col-md-12">
                       <div class="mb-3">
                         <label for="currentVillage" class="pb-2">Address Line 1</label>
-                        <input type="text" class="form-control" id="currentVillage" name="currentVillage" ngx-google-places-autocomplete #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)" 
+                        <input type="text" class="form-control" id="currentVillage" name="currentVillage" ngx-google-places-autocomplete #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)"
                           placeholder="House/Floor No. Building Name or Street, Locality"
                           [(ngModel)]="userAddressRequest[0].addressLine1"
                           minlength="5" maxlength="150" required #addressLine1="ngModel" (keydown)="preventWhitespace($event)">
@@ -38,7 +38,7 @@
                           <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="addressLine1.errors?.maxlength">
                             <i class="bi bi-exclamation-circle"></i> Maximum 150 characters allowed.
                         </p>
-                         
+
                         </div>
                       </div>
                     </div>
@@ -48,9 +48,9 @@
                           <label for="addressLine2" class="pb-2">Address Line 2</label>
                           <input type="text" class="form-control" id="addressLine2" name="addressLine2"
                             placeholder="Apartment, suite, unit, building, floor, etc."
-                            [(ngModel)]="userAddressRequest[0].addressLine2" 
+                            [(ngModel)]="userAddressRequest[0].addressLine2"
                             minlength="5" maxlength="100" #addressLine2="ngModel" (keydown)="preventWhitespace($event)">
-  
+
                           <!-- Error Message for Required Field -->
                           <div *ngIf="addressLine2.touched || isFormInvalid">
                             <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="addressLine2.errors?.required">
@@ -148,7 +148,7 @@
                         <input type="checkbox" class="form-check-input" id="exampleCheck1"
                               (change)="showPermanent()"
                               [checked]="!isPermanent"
-                              
+
                               name="sameAddress">
                         <label class="form-check-label" for="exampleCheck1">
                           Is your current address the same as the permanent address?
@@ -168,7 +168,7 @@
                     <div class="col-md-12">
                         <div class="mb-3">
                             <label for="permanentVillage" class="pb-2">Address Line 1</label>
-                            <input type="text" minlength="" maxlength="150" class="form-control" #permanentAddress="ngModel" id="permanentVillage" name="permanentVillage" placeholder="House/Floor No. Building Name or Street, Locality"  
+                            <input type="text" minlength="" maxlength="150" class="form-control" #permanentAddress="ngModel" id="permanentVillage" name="permanentVillage" placeholder="House/Floor No. Building Name or Street, Locality"
                             [(ngModel)]="userAddressRequest[1].addressLine1" ngx-google-places-autocomplete #placesRefPermanent="ngx-places" (onAddressChange)="handleAddressChangePermanent($event)"  required  (keydown)="preventWhitespace($event)">
                             <!-- Error Message for Complete Address -->
                             <div *ngIf="permanentAddress.touched">
@@ -190,7 +190,7 @@
                           <label for="permanentAddressLine2" class="pb-2">Address Line 2</label>
                           <input type="text" class="form-control" id="permanentAddressLine2" name="permanentAddressLine2"
                             placeholder="Apartment, suite, unit, building, floor, etc."
-                            [(ngModel)]="userAddressRequest[1].addressLine2" 
+                            [(ngModel)]="userAddressRequest[1].addressLine2"
                             minlength="5" maxlength="100" #address="ngModel" (keydown)="preventWhitespace($event)">
                         </div>
                         </div>
@@ -249,7 +249,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label for="permanentCountry" class="pb-2">Country</label>
@@ -305,17 +305,27 @@
                             </span>
                           </button>
 
-                          <button *ngIf="!this.userAddressDetailsRequest.updateRequest" (click)="selectButtonType('next')" class="btn btn-primary save-button" type="button" [disabled]="toggle"  aria-label="Next Step">
+                          <button *ngIf="!this.userAddressDetailsRequest.updateRequest && !this.dataService.isLastRoute('/employee-address-detail')" (click)="selectButtonType('next')" class="btn btn-primary save-button" type="button" [disabled]="toggle"  aria-label="Next Step">
                               <div *ngIf="toggle" class="dot-opacity-loader">
                                 <span></span>
                                 <span></span>
                                 <span></span>
                               </div>
-                              <span *ngIf="!toggle && isNewUser">
+                              <span *ngIf="!toggle && isNewUser && !this.dataService.isLastRoute('/employee-address-detail')">
                                 Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
                               </span>
-                              <span *ngIf="!toggle && !isNewUser">
+                              <span *ngIf="!toggle && !isNewUser && !this.dataService.isLastRoute('/employee-address-detail')">
                                 Save & Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
+                            </span>
+                          </button>
+                            <button *ngIf="this.dataService.isLastRoute('/employee-address-detail')" (click)="selectButtonType('preview')" class="btn btn-primary save-button" type="button" [disabled]="toggle"  aria-label="Next Step">
+                              <div *ngIf="toggle" class="dot-opacity-loader">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                              </div>
+                              <span>
+                                Preview Form <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
                             </span>
                             </button>
                       </div>
@@ -343,7 +353,7 @@
             <div class="modal-body text-center">
                 <i class="bi bi-check-circle" *ngIf="employeeOnboardingFormStatus != 'REJECTED'" style="font-size: 48px; color: green;"></i>
                 <i class="bi bi-exclamation-triangle-fill" *ngIf="employeeOnboardingFormStatus == 'REJECTED'" style="font-size: 48px; color: red;"></i>
-                
+
                 <!-- Conditional Messages -->
                 <p class="mt-2" *ngIf="employeeOnboardingFormStatus == 'PENDING'">
                     Your registration is successful. Pending for verification.

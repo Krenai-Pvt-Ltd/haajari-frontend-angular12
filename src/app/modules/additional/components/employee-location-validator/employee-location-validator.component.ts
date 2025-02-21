@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
-import { WebcamImage, WebcamInitError, WebcamUtil } from 'ngx-webcam';
+import { WebcamImage} from 'ngx-webcam';
 import { Observable, Subject } from 'rxjs';
 import { Key } from 'src/app/constant/key';
 import { EmployeeAttendanceLocation } from 'src/app/models/employee-attendance-location';
@@ -43,7 +43,9 @@ export class EmployeeLocationValidatorComponent implements OnInit {
 
   ngOnInit(): void {
     debugger
+
     window.scroll(0, 0);
+    this.getFlexibleAttendanceMode()
     this.checkAttendanceLocationLinkStatusMethodCall();
     const userUuid = new URLSearchParams(window.location.search).get(
       'userUuid'
@@ -52,6 +54,7 @@ export class EmployeeLocationValidatorComponent implements OnInit {
     //   queryParams: { userUuid: userUuid },
     // };
     // this.router.navigate(['/location-validator'], navExtra);
+    // this.getFlexibleAttendanceMode();
   }
 
 
@@ -61,9 +64,10 @@ export class EmployeeLocationValidatorComponent implements OnInit {
       if (PermissionStatus.state == 'granted') {
         if (Key.GEOLOCATION in navigator) {
           navigator.geolocation.getCurrentPosition((position) => {
-            
+            this.disableButton = false;
             this.lat = position.coords.latitude;
             this.lng = position.coords.longitude;
+            this.accuracy=position.coords.accuracy;
             this.getCurrentLocation();
           },
           (error) => {
@@ -75,13 +79,15 @@ export class EmployeeLocationValidatorComponent implements OnInit {
           }
           );
         }
-      } else {
+      } else {  
         this.requestPermission();
       } 
     
     });
 
   }
+
+  accuracy:number=5;
   requestPermission(){
     window.alert('To enable Location Services and allow the site to determine your location, click the location icon in the address bar and select "Always allow.');  
     if (Key.GEOLOCATION in navigator) {
@@ -89,6 +95,8 @@ export class EmployeeLocationValidatorComponent implements OnInit {
         (position) => {
           this.lat = position.coords.latitude;
           this.lng = position.coords.longitude;
+          this.accuracy=position.coords.accuracy;
+          // console.log("🚀 ~ EmployeeLocationValidatorComponent ~ requestPermission ~ this.accuracy:", this.accuracy)
           this.getCurrentLocation();
           // console.log('Geolocation obtained after prompting:', position);
         },
@@ -129,6 +137,7 @@ export class EmployeeLocationValidatorComponent implements OnInit {
         // Initialize the Geocoder
         const geocoder = new google.maps.Geocoder();
         const latlng = { lat: this.lat, lng: this.lng };
+        // console.log(latlng); 
         geocoder.geocode(
           { location: latlng },
           (results: { formatted_address: string }[], status: string) => {
@@ -209,18 +218,33 @@ export class EmployeeLocationValidatorComponent implements OnInit {
   //   }
   // }
 
+  disableButton: boolean = false;
   calculateDistance() {
+    // console.log("calculate distance called",this.organizationAddressDetails)
+    debugger
     this.enableSubmitToggle = false;
 
+    this.disableButton = true;
     const userLatLng = new google.maps.LatLng(this.lat, this.lng);
     let isWithinAnyLocation = false;
 
     for (const addressDetail of this.organizationAddressDetails) {
         const organizationLatLng = new google.maps.LatLng(Number(addressDetail.latitude), Number(addressDetail.longitude));
-        const distance = google.maps.geometry.spherical.computeDistanceBetween(userLatLng, organizationLatLng);
+        var distance = google.maps.geometry.spherical.computeDistanceBetween(userLatLng, organizationLatLng);
+        // window.alert("radius"+addressDetail.radius)
 
-        console.log(distance + '---' + addressDetail.radius);
-        if (distance <= addressDetail.radius) {
+        if(this.accuracy>0){
+          addressDetail.radius=String(+addressDetail.radius+this.accuracy);
+        // window.alert("🚀 ~ EmployeeLocationValidatorComponent ~ calculateDistance ~ distance=distance+this.accuracy;: AFTER"+ (addressDetail.radius+(this.accuracy)))
+        }
+        // window.alert(usee)
+
+        // window.alert(distance + '---' + addressDetail.radius);
+        if (distance <= addressDetail.radius && !this.isFlexible) {
+            isWithinAnyLocation = true;
+            this.attendanceMode = addressDetail.attendanceMode;
+            break;
+        }else if(this.isFlexible) {
             isWithinAnyLocation = true;
             this.attendanceMode = addressDetail.attendanceMode;
             break;
@@ -232,7 +256,7 @@ export class EmployeeLocationValidatorComponent implements OnInit {
             "Oops! Looks like you're not close enough to the company to mark your attendance. Please try again when you're nearby!",
             Key.TOAST_STATUS_ERROR
         );
-        console.log('Cannot mark attendance');
+        // console.log('Cannot mark attendance');
     } else {
         if (this.attendanceMode == 3) {
             this.dataService.saveEmployeeCurrentLocationLatLng(this.lat, this.lng, this.radius, this.attendanceMode, this.address);
@@ -241,6 +265,18 @@ export class EmployeeLocationValidatorComponent implements OnInit {
             this.markAttendaceWithLocationMethodCall();
         }
     }
+}
+
+isFlexible: boolean = false;
+getFlexibleAttendanceMode() {
+  const userUuid = new URLSearchParams(window.location.search).get('userUuid');
+  if(userUuid) {
+  this.dataService.getFlexibleAttendanceModeByUserUuid(userUuid).subscribe((response) => {
+     this.isFlexible = response.object;
+  },(error) =>{
+     console.log(error);
+  })
+  }
 }
 
 
@@ -256,7 +292,9 @@ export class EmployeeLocationValidatorComponent implements OnInit {
             (response: OrganizationAddressDetail[]) => {
                 if (response && response.length > 0) {
                     this.organizationAddressDetails = response;
-                    console.log(response);
+                    // console.log("API RESPONSE", this.organizationAddressDetails[0].radius)
+
+                    // console.log(response);
                 } else {
                     console.log('No address details found');
                 }
@@ -287,7 +325,7 @@ export class EmployeeLocationValidatorComponent implements OnInit {
       .markAttendaceWithLocation(this.employeeAttendanceLocation, userUuid)
       .subscribe(
         (response: EmployeeAttendanceLocation) => {
-          console.log(response);
+          // console.log(response);
           this.enableSubmitToggle = true;
           if (response.status == 'Already Checked In') {
             this.helper.showToast(
@@ -301,16 +339,37 @@ export class EmployeeLocationValidatorComponent implements OnInit {
               "You're Successfully Checked In",
               Key.TOAST_STATUS_SUCCESS
             );
+            
             this.toggle = true;
 
-            if(response.onboardingVia == 'WHATSAPP') {
+          
+            
+
+          }
+          if (response.status == 'Out') {
+            this.helper.showToast(
+              "You've Successfully Checked Out",
+              Key.TOAST_STATUS_SUCCESS
+            );
+            
+            this.toggle = true;
+          }
+
+          if(response.onboardingVia == 'SLACK') {
+            this.helper.showToast(
+              response.status,
+              Key.TOAST_STATUS_SUCCESS
+            );
+            this.toggle = true;
+          }
+
+          if(response.onboardingVia == 'WHATSAPP' || !response.onboardingVia || response.onboardingVia== null ) {
             window.location.href =
               'https://api.whatsapp.com/send/?phone=918700822872&type=phone_number&app_absent=0';
             } else if(response.onboardingVia == 'SLACK'){
               window.location.href = Key.SLACK_WORKSPACE_URL;
             }
-
-          }
+          this.helper.closeModal();
           this.toggle = false;
         },
         (error) => {
@@ -371,7 +430,7 @@ export class EmployeeLocationValidatorComponent implements OnInit {
     this.imageFile = new File([imageBlob], 'captured_image.png', {
       type: 'image/png',
     });
-    console.log(this.imageFile);
+    // console.log(this.imageFile);
     // Upload file to Firebase
     this.uploadFile(this.imageFile, 'webcamImage');
   }
@@ -388,7 +447,7 @@ export class EmployeeLocationValidatorComponent implements OnInit {
         finalize(() => {
           fileRef.getDownloadURL().subscribe(
             (url) => {
-              console.log(url);
+              // console.log(url);
               this.employeeAttendanceLocation.imageUrl = url;
             },
             (error) => {
@@ -399,7 +458,7 @@ export class EmployeeLocationValidatorComponent implements OnInit {
       )
       .subscribe(
         () => {
-          console.log('Upload snapshotChanges observable received an event');
+          // console.log('Upload snapshotChanges observable received an event');
         },
         (error) => {
           console.error('Error during file upload:', error);
@@ -431,4 +490,13 @@ export class EmployeeLocationValidatorComponent implements OnInit {
       console.error('No uniqueId found in the URL');
     }
   }
+
+
+  
+
+
+
+
+
+
 }

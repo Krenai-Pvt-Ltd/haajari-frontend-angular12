@@ -5,6 +5,8 @@ import { Key } from 'src/app/constant/key';
 import { UserAcademicsDetailRequest } from 'src/app/models/user-academics-detail-request';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
+import { PreviewFormComponent } from '../preview-form/preview-form.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-acadmic',
@@ -14,22 +16,23 @@ import { HelperService } from 'src/app/services/helper.service';
 export class AcadmicComponent implements OnInit {
   userAcademicsDetailRequest: UserAcademicsDetailRequest = new UserAcademicsDetailRequest();
 
-  constructor(private dataService: DataService, private router: Router, private helperService: HelperService) { }
+  constructor(public dataService: DataService, private router: Router,
+    private helperService: HelperService, private modalService: NgbModal) { }
 
   ngOnInit(): void {
     this.getUserAcademicDetailsMethodCall();
   }
   backRedirectUrl(){
     const userUuid = new URLSearchParams(window.location.search).get('userUuid');
-    
+
     // Initialize an empty object for queryParams
     let queryParams: any = {};
-    
+
     // Add userUuid to queryParams if it exists
     if (userUuid) {
       queryParams['userUuid'] = userUuid;
     }
-    
+
     // Conditionally add adminUuid to queryParams if updateRequest is true
     if (this.userAcademicsDetailRequest.updateRequest) {
       const adminUuid = new URLSearchParams(window.location.search).get('adminUuid');
@@ -37,11 +40,25 @@ export class AcadmicComponent implements OnInit {
         queryParams['adminUuid'] = adminUuid;
       }
     }
-  
+
     // Create NavigationExtras object with the queryParams
     let navExtra: NavigationExtras = { queryParams };
-  
-    this.router.navigate(['/employee-onboarding/employee-document'], navExtra);
+   if(this.dataService.isRoutePresent('/employee-document')){
+      this.router.navigate(
+        ['/employee-onboarding/employee-document'],
+        navExtra
+      );
+  } else if(this.dataService.isRoutePresent('/employee-address-detail')){
+        this.router.navigate(
+          ['/employee-onboarding/employee-address-detail'],
+          navExtra
+        );
+  }else {
+    this.router.navigate(
+      ['/employee-onboarding/employee-onboarding-form'],
+      navExtra
+    );
+}
   }
 
 
@@ -50,7 +67,22 @@ export class AcadmicComponent implements OnInit {
     let navExtra: NavigationExtras = {
       queryParams: { userUuid: new URLSearchParams(window.location.search).get('userUuid') },
     };
-    this.router.navigate(['/employee-onboarding/employee-experience'], navExtra);
+    if(this.dataService.isRoutePresent('/employee-experience')){
+      this.router.navigate(
+        ['/employee-onboarding/employee-experience'],
+        navExtra
+      );
+    }else if(this.dataService.isRoutePresent('/bank-details')){
+      this.router.navigate(
+        ['/employee-onboarding/bank-details'],
+        navExtra
+      );
+    }else if(this.dataService.isRoutePresent('/emergency-contact')){
+      this.router.navigate(
+        ['/employee-onboarding/emergency-contact'],
+        navExtra
+      );
+    }
   }
 
   userAcademicDetailsStatus = "";
@@ -72,13 +104,13 @@ export class AcadmicComponent implements OnInit {
       this.userAcademicsDetailRequest.updateRequest = true;
     }
     const userUuid = new URLSearchParams(window.location.search).get('userUuid') || '';
-    
+
     this.dataService.setEmployeeAcademics(this.userAcademicsDetailRequest, userUuid)
       .subscribe(
         (response: UserAcademicsDetailRequest) => {
-          console.log(response);  
+          // console.log(response);
           this.employeeOnboardingFormStatus = response.employeeOnboardingStatus;
-       
+
           this.toggle = false
           if(this.buttonType=='next'){
             this.routeToUserDetails();
@@ -89,12 +121,12 @@ export class AcadmicComponent implements OnInit {
               this.successMessageModalButton.nativeElement.click();
             }
           setTimeout(() => {
-            
-            this.routeToFormPreview();  
+
+            this.routeToFormPreview();
           }, 2000);
           } else if (this.buttonType=='update'){
             this.helperService.showToast("Information Updated Successfully", Key.TOAST_STATUS_SUCCESS);
-  
+
            }
           this.userAcademicDetailsStatus = response.statusResponse;
           // localStorage.setItem('statusResponse', JSON.stringify(this.userAcademicDetailsStatus));
@@ -133,20 +165,20 @@ export class AcadmicComponent implements OnInit {
             this.isNewUser = false;
           }
           this.handleOnboardingStatus(response.employeeOnboardingStatus);
-          
-          this.isLoading = false; 
+
+          this.isLoading = false;
         }
-        this.isLoading = false; 
+        this.isLoading = false;
         },(error: any) => {
           console.error('Error fetching user details:', error);
         }
       );
     } else {
       console.error('uuidNewUser not found in localStorage');
-      
+
     }
   })
-  } 
+  }
 
   @ViewChild("formSubmitButton") formSubmitButton!:ElementRef;
 
@@ -155,6 +187,12 @@ selectButtonType(type:string){
   this.buttonType=type;
   this.userAcademicsDetailRequest.directSave = false;
   this.formSubmitButton.nativeElement.click();
+  if(type === 'preview'){
+    const modalRef = this.modalService.open(PreviewFormComponent, {
+      centered: true,
+      size: 'lg', backdrop: 'static'
+    });
+    }
 }
 
 directSave: boolean = false;
@@ -202,7 +240,7 @@ routeToFormPreview() {
   this.dismissSuccessModalButton.nativeElement.click();
   setTimeout(x=>{
   let navExtra: NavigationExtras = {
-    
+
     queryParams: { userUuid: new URLSearchParams(window.location.search).get('userUuid') },
   };
   this.router.navigate(['/employee-onboarding/employee-onboarding-preview'], navExtra);
@@ -215,7 +253,7 @@ displayModal = false;
   handleOnboardingStatus(response: string) {
     this.displayModal = true;
     switch (response) {
-      
+
       case 'REJECTED':
         this.allowEdit = true;
         break;
@@ -245,8 +283,8 @@ displayModal = false;
 }
     // Default value set
   qualifications = [
-    
-  
+
+
     'Elementary School',
     'Middle School',
     'High School Diploma',
@@ -321,28 +359,28 @@ displayModal = false;
   //     this.degreeDropdownTouched = true; // Indicate that the dropdown has been interacted with
   //   }
   // }
-  
+
   selectType(type: string): void {
     debugger
     this.userAcademicsDetailRequest.gradeType = type;
     // Reset the grade value when the type changes
     this.userAcademicsDetailRequest.grade = '';
   }
-  
+
   selectGrade(grade: string): void {
     this.userAcademicsDetailRequest.grade = grade;
   }
-  
+
   // You may also need to define formatter and parser functions for percentage values
 
-  
+
   // Array of grades for the dropdown
   grades: string[] = [
     'O (Outstanding)', 'A+ (Excellent)', 'A (Very Good)',
     'B+ (Good)', 'B (Above Average)', 'C (Average)',
     'D (Pass)', 'F (Fail)'
   ];
-  
+
   temporaryValue: number = 0;
 
 
@@ -359,7 +397,7 @@ displayModal = false;
         this.dataService.getAdminVerifiedForOnboardingUpdate(userUuid, adminUuid).subscribe(
           (isAdminPresent: boolean) => {
             this.userAcademicsDetailRequest.updateRequest = isAdminPresent;
-            console.log('Admin verification successful.');
+            // console.log('Admin verification successful.');
             resolve(isAdminPresent); // Resolve the promise with the result
           },
           (error: any) => {
@@ -373,13 +411,16 @@ displayModal = false;
       }
     });
   }
-  
-  
+
+
   goBackToProfile() {
     let navExtra: NavigationExtras = {
       queryParams: { userId: new URLSearchParams(window.location.search).get('userUuid') },
     };
-    this.router.navigate(['/employee-profile'], navExtra);
+    // this.router.navigate([Key.EMPLOYEE_PROFILE_ROUTE], navExtra);
+    const url = this.router.createUrlTree([Key.EMPLOYEE_PROFILE_ROUTE], navExtra).toString();
+    window.open(url, '_blank');
+    return;
   }
 
 }

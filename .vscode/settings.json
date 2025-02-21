@@ -1,6 +1,21 @@
 {
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "[html]": {
-    "editor.defaultFormatter": "vscode.html-language-features"
-  }
+    "cSpell.words": [
+<<<<<<< HEAD
+        "Hajiri",
+        "hajiri",
+=======
+        "ASSETSMANAGEMENT",
+        "ATTENDANCESETTING",
+>>>>>>> staging
+        "BONUSDEDUCTION",
+        "COMPANYSETTING",
+        "EMPLOYEEONBOARDING",
+        "EPFESITDS",
+        "hajiri",
+        "LEAVEMANAGEMENT",
+        "LEAVESETTING",
+        "nzplaceholder",
+        "PAYMENTHISTORY",
+        "PAYROLLDASHBOARD"
+    ]
 }

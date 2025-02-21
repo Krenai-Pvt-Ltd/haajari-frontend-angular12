@@ -18,9 +18,7 @@
   box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, 0.05);
 }
 
-/* ::ng-deep .cal-month-view .cal-events {
-    display: none !important;
-} */
+
 ::ng-deep .cal-month-view .cal-day-badge {
   background-color: #13c56b !important;
   display: none !important;
@@ -135,9 +133,9 @@
   font-style: normal;
   border-radius: 0px 0 0 0;
   border: none;
-  padding: 7px 10px;
+  padding: 10px 18px;
   font-weight: 500;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 21px;
   color: #404040;
 }
@@ -499,7 +497,8 @@ span.optional {
   font-size: 12px;
 }
 
-.apply-leave-main-box, .overtime-request-main-box {
+.apply-leave-main-box,
+.overtime-request-main-box {
   max-height: 400px;
   overflow: auto;
 }
@@ -1428,9 +1427,12 @@ tbody tr {
 }
 
 .met-profile-main-pic img {
-  width: 128px;
+  /* width: 128px;
   height: 128px;
   margin-right: 24px;
+  object-fit: cover; */
+  width: 100px;
+  height: 100px;
   object-fit: cover;
 }
 
@@ -1455,11 +1457,6 @@ tbody tr {
   cursor: pointer; /* Changes the cursor to a pointer (hand icon) */
 }
 
-
-
-
-
-
 /* CSS copied from salary setting section for the salary template */
 .add-shift-main-box {
   border: 1px solid #f1f1f1;
@@ -1474,7 +1471,8 @@ tbody tr {
   font-size: 14px;
 }
 
-.add-shift-time-btn, .bonus-appraisal-configuration {
+.add-shift-time-btn,
+.bonus-appraisal-configuration {
   font-size: 14px;
   color: #6666f3 !important;
   font-weight: 500;
@@ -1576,8 +1574,6 @@ tbody tr {
   opacity: 0.7; /* Optional: to visually indicate that the div is disabled */
 }
 
-
-
 /*####################### -- CSS for finance tab -- ################### */
 
 /* CSS for payslip section */
@@ -1650,7 +1646,7 @@ tbody tr {
 .document-item i {
   font-size: 1rem;
 }
-.document-actions i{
+.document-actions i {
   cursor: pointer;
   color: #6666f3;
 }
@@ -1670,21 +1666,22 @@ tbody tr {
   height: 16px;
 }
 
-
 /* CSS for chart and the data at the side of chart */
-.grosspay-border{
-  border: 3px solid #02E59C;
+.grosspay-border {
+  border: 3px solid #02e59c;
 }
 
-.deduction-border{
-  border: 3px solid #FE3636;
+.deduction-border {
+  border: 3px solid #fe3636;
 }
 
-.netpay-border{
+.netpay-border {
   border: 3px solid #6666f3;
 }
 
-.grosspay-border, .deduction-border, .netpay-border{
+.grosspay-border,
+.deduction-border,
+.netpay-border {
   border-radius: 3px;
 }
 .amounts {
@@ -1707,31 +1704,30 @@ tbody tr {
   font-weight: bold;
 }
 
-
 /* CSS for the salary breakups */
-.pay-slip-breakup .card{
+.pay-slip-breakup .card {
   border-radius: 5px;
-  border-color: #C6C6FF;
+  border-color: #c6c6ff;
 }
 
-.card-body-header{
+.card-body-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.card-body-header-icon{
+.card-body-header-icon {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 50px;
   height: 50px;
   color: #6666f3;
-  background-color: #E9E9FF;
+  background-color: #e9e9ff;
   border-radius: 50%;
 }
 
-.card-body-header-icon>i{
+.card-body-header-icon > i {
   font-size: 22px;
 }
 
@@ -1749,7 +1745,7 @@ tbody tr {
   background-color: #f5f5f5;
   text-align: left;
 }
-.table td{
+.table td {
   font-size: 12px;
   line-height: 21px;
   font-weight: 200 !important;
@@ -1780,7 +1776,7 @@ tbody tr {
   align-items: center;
   text-align: center;
 }
-tbody tr:last-child{
+tbody tr:last-child {
   border-bottom: none;
 }
 
@@ -1804,10 +1800,10 @@ tbody tr:last-child{
   font-weight: bold;
 }
 
-.form-control,
+/* .form-control,
 .form-select {
   margin-top: 10px;
-}
+} */
 
 .mb-3 {
   margin-bottom: 15px;
@@ -1840,11 +1836,11 @@ hr {
   margin: 10px 0;
 }
 .text-muted {
-  color: #6c757d; 
+  color: #6c757d;
 }
 
 .mt-2 {
-  margin-top: 0.5rem; 
+  margin-top: 0.5rem;
 }
 
 .d-block {
@@ -1855,13 +1851,297 @@ hr {
   width: 24px;
   height: 24px;
 }
-.thumb-xl{
-  height: 52px;
-  width: 52px;
+.thumb-xl {
+  height: 100px;
+  width: 100px;
   margin-right: 10px;
 }
 
 /* Finance section blur */
-.blurred{
+.blurred {
   filter: blur(5px);
+}
+
+/* New Dashoard Css */
+
+.dashCardInner h3 {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.2px;
+  font-weight: 500;
+  color: #6666f4;
+  margin-bottom: 10px;
+  line-height: normal;
+}
+.checkInTime {
+  font-size: 24px;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.85);
+  line-height: normal;
+  margin-bottom: 20px;
+}
+.checkInLate {
+  display: inline-block;
+  font-size: 12px;
+  color: #ff0000;
+  /* background-color: #fff6f6; */
+  padding: 1px 7px;
+  border-radius: 4px;
+  font-weight: 400;
+  letter-spacing: 0.3px;
+  position: absolute;
+  right: 15px;
+  top: 10px;
+}
+.dashCardMain {
+  border: 1px solid var(--borderColor);
+  padding: 12px 12px;
+  position: relative;
+  height: 100%;
+  border-radius: 2px;
+  overflow: hidden;
+}
+.tttlWrkHrs {
+  display: inline-block;
+  font-size: 12px;
+  color: #038e61;
+  /* background-color: #ebfff9; */
+  padding: 1px 7px;
+  border-radius: 4px;
+  font-weight: 400;
+  letter-spacing: 0.3px;
+  position: absolute;
+  right: 15px;
+  top: 10px;
+}
+.chckINBtn {
+  background-color: #f3f3ff;
+  font-size: 14px;
+  color: #6666f3 !important;
+  border-radius: 4px;
+}
+.chckOutBtn {
+  background-color: #fff6f6;
+  font-size: 14px;
+  color: #ff0000 !important;
+  border-radius: 4px;
+}
+.dashSectitle h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 0;
+  /* color: #6666f2; */
+}
+.dashSectitle p {
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 300;
+  color: #707070;
+}
+.dashSectitle {
+  margin-bottom: 1.2rem;
+}
+.dasMainCardrow:not(:last-child) {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--seprator);
+}
+.dashCardIcon {
+  position: absolute;
+  max-width: 50px;
+  z-index: 0;
+  right: 15px;
+  filter: contrast(0) brightness(1.9);
+  opacity: 0.9;
+  transform: translateY(1px);
+}
+.upHolidyDate {
+  min-width: 40px;
+  height: 40px;
+  text-align: center;
+  line-height: 40px;
+  font-size: 22px;
+  /* background-color: #f3f3ff;
+    color: #6666f3; */
+  background-color: rgba(34, 183, 131, 0.08) !important;
+  color: #22b783 !important;
+  font-weight: 600;
+  border-radius: 3px;
+}
+.upHolidyDateInfo span {
+  font-size: 12px;
+  font-weight: 500;
+  /* color: #6666f3; */
+  color: #22b783;
+  line-height: 20px;
+  display: block;
+  letter-spacing: 0.2px;
+}
+
+.leaveMsg {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: 12px;
+}
+.leeavReqfromDate {
+  font-size: 18px;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.85);
+  position: relative;
+  z-index: 1;
+  line-height: 32px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.chkInTime > span {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  color: #1c1c1c;
+}
+.chkInTime > p {
+  font-weight: 700;
+}
+.chkInTime {
+  position: relative;
+  z-index: 1;
+}
+@media (max-width: 1280px) {
+  .checkInLate,
+  .tttlWrkHrs {
+    font-size: 10px;
+    font-weight: 500;
+  }
+}
+.dot-opacity-loader-update-request {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 6px;
+}
+
+.dot-opacity-loader-update-request span {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: white; /* Change to your preferred color */
+  margin: 0 4px;
+  animation: dotOpacity 1.4s infinite ease-in-out both;
+}
+
+.dot-opacity-loader-update-request span:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.dot-opacity-loader-update-request span:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+@keyframes dotOpacity {
+  0%,
+  80%,
+  100% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+}
+
+
+/** Table Shimmer Start */
+
+.shimmer-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.shimmer {
+  height: 20px;
+  width: 100%;
+  background: #f6f7f8;
+  background-image: linear-gradient(
+    to right,
+    #f6f7f8 0%,
+    #e0e0e0 20%,
+    #f6f7f8 40%,
+    #f6f7f8 100%
+  );
+  background-repeat: no-repeat;
+  background-size: 1000px 100%;
+  animation: shimmer 1.5s infinite linear;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+/** Table Shimmer End */
+
+.cancel-btn{
+    background-color: #fbfbfb;
+    border: 1px solid #e6e7e9;
+    border-radius: 2px;
+    color: #4a4a4a;
+    font-size: 12px;
+    font-weight: 500;
+    width: 100px;
+}
+
+.submitActionBtn{
+    background-color: var(--primary-background-color);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 500;
+    border-radius: 2px;
+    width: 100px;
+}
+.nots-section{
+      background-color: rgba(236, 236, 236, 0.21) !important;
+        width: 100%;
+        height: 80px !important;
+        border: 1px solid #e9e9e9;
+}
+.whatapp-login-input{
+  border-radius: 2px !important;
+    border: 1.021px solid #e9e9e9 !important;
+    background: rgba(236, 236, 236, 0.21) !important;
+    height: 45px !important;
+    font-size: 12px !important;
+    font-weight: 400 !important;
+}
+.continue-btn{
+  background-color: var(--primary-background-color);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 500;
+    border-radius: 2px;
+    min-width: 80px;
+}
+.no-btn {
+  background-color: #fbfbfb;
+  border: 1px solid #e6e7e9;
+  border-radius: 2px;
+  color: #4a4a4a;
+  font-size: 12px;
+  font-weight: 500;
+  min-width: 60px;
+}
+.do-you-continue{
+  background-color: rgba(236, 236, 236, 0.21);
+  border: 1px solid #e9e9e9;
+}
+.add-file i{
+   position: relative;
+   top: -2px;
 }

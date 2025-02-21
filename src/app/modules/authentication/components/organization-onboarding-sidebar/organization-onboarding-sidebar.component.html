@@ -1,0 +1,419 @@
+<div class="employee-onboarding-section" *ngIf = "STEP_ID < 5">
+  <div class="container-scroller">
+    <div class="left-sidebar-onbording">
+      <div [ngClass]="getStepClass()">
+        <img src="assets/images/polygon-2.svg" />
+      </div>
+      <div class="step-personal-information">
+        <p class="mb-0 step-count">
+          Step <span class="text-primary">{{ STEP_ID }}/4</span>
+        </p>
+      </div>
+      <div class="logout-btn" (click)="openLogoutModal()">
+        <i class="bi bi-x"></i>
+      </div>
+
+      <div class="">
+        <div class="complete-step pt-3 border-bottom" *ngIf="STEP_ID > 1">
+          <h5 class="font-14 d-flex align-items-center gap-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="29"
+              height="30"
+              viewBox="0 0 29 30"
+              fill="none"
+            >
+              <g clip-path="url(#clip0_1622_2931)">
+                <path
+                  d="M14.5 29.5C22.5081 29.5 29 23.0081 29 15C29 6.99187 22.5081 0.5 14.5 0.5C6.49187 0.5 0 6.99187 0 15C0 23.0081 6.49187 29.5 14.5 29.5Z"
+                  fill="#00BA00"
+                />
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M9.96999 22.0711L4.66687 16.3952C3.94084 15.6181 3.98251 14.3887 4.75958 13.6627C5.53664 12.9367 6.76606 12.9785 7.49208 13.7554L11.5827 18.1335L18.0576 12.0838C18.1158 12.0293 18.1766 11.9794 18.2396 11.9335L21.2844 9.08869C22.0615 8.36266 23.291 8.40445 24.0169 9.18151C24.743 9.95846 24.7012 11.188 23.9242 11.914L14.6244 20.6032L14.6144 20.5926L11.3975 23.5983L9.96999 22.0711Z"
+                  fill="white"
+                />
+              </g>
+              <defs>
+                <clipPath id="clip0_1622_2931">
+                  <rect
+                    width="29"
+                    height="29"
+                    fill="white"
+                    transform="translate(0 0.5)"
+                  />
+                </clipPath>
+              </defs>
+            </svg>
+            Personal Information
+          </h5>
+          <h5
+            class="font-14 d-flex align-items-center gap-2"
+            *ngIf="STEP_ID > 2"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="29"
+              height="30"
+              viewBox="0 0 29 30"
+              fill="none"
+            >
+              <g clip-path="url(#clip0_1622_2931)">
+                <path
+                  d="M14.5 29.5C22.5081 29.5 29 23.0081 29 15C29 6.99187 22.5081 0.5 14.5 0.5C6.49187 0.5 0 6.99187 0 15C0 23.0081 6.49187 29.5 14.5 29.5Z"
+                  fill="#00BA00"
+                />
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M9.96999 22.0711L4.66687 16.3952C3.94084 15.6181 3.98251 14.3887 4.75958 13.6627C5.53664 12.9367 6.76606 12.9785 7.49208 13.7554L11.5827 18.1335L18.0576 12.0838C18.1158 12.0293 18.1766 11.9794 18.2396 11.9335L21.2844 9.08869C22.0615 8.36266 23.291 8.40445 24.0169 9.18151C24.743 9.95846 24.7012 11.188 23.9242 11.914L14.6244 20.6032L14.6144 20.5926L11.3975 23.5983L9.96999 22.0711Z"
+                  fill="white"
+                />
+              </g>
+              <defs>
+                <clipPath id="clip0_1622_2931">
+                  <rect
+                    width="29"
+                    height="29"
+                    fill="white"
+                    transform="translate(0 0.5)"
+                  />
+                </clipPath>
+              </defs>
+            </svg>
+            Employee Creation
+          </h5>
+          <h5
+            class="font-14 d-flex align-items-center gap-2"
+            *ngIf="STEP_ID > 3"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="29"
+              height="30"
+              viewBox="0 0 29 30"
+              fill="none"
+            >
+              <g clip-path="url(#clip0_1622_2931)">
+                <path
+                  d="M14.5 29.5C22.5081 29.5 29 23.0081 29 15C29 6.99187 22.5081 0.5 14.5 0.5C6.49187 0.5 0 6.99187 0 15C0 23.0081 6.49187 29.5 14.5 29.5Z"
+                  fill="#00BA00"
+                />
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M9.96999 22.0711L4.66687 16.3952C3.94084 15.6181 3.98251 14.3887 4.75958 13.6627C5.53664 12.9367 6.76606 12.9785 7.49208 13.7554L11.5827 18.1335L18.0576 12.0838C18.1158 12.0293 18.1766 11.9794 18.2396 11.9335L21.2844 9.08869C22.0615 8.36266 23.291 8.40445 24.0169 9.18151C24.743 9.95846 24.7012 11.188 23.9242 11.914L14.6244 20.6032L14.6144 20.5926L11.3975 23.5983L9.96999 22.0711Z"
+                  fill="white"
+                />
+              </g>
+              <defs>
+                <clipPath id="clip0_1622_2931">
+                  <rect
+                    width="29"
+                    height="29"
+                    fill="white"
+                    transform="translate(0 0.5)"
+                  />
+                </clipPath>
+              </defs>
+            </svg>
+            Shift Management
+          </h5>
+        </div>
+        <div class="company-information pb-4">
+          <div *ngIf="STEP_ID === 1">
+            <div class="text-center">
+              <img
+                src="assets/images/company-information-img.svg"
+                style="width: 70%"
+              />
+            </div>
+            <h5 class="font-16 mt-3">
+              Enter Your Company and Contact Information
+            </h5>
+            <p class="font-14">
+              Please provide your company and contact details to set up your
+              Hajiri account and ensure accurate communication.
+            </p>
+
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="41"
+              height="42"
+              viewBox="0 0 41 42"
+              fill="none"
+            >
+              <g clip-path="url(#clip0_1524_649)">
+                <path
+                  d="M31.6489 20.278L22.3636 10.9926C22.03 10.6031 21.4438 10.5577 21.0544 10.8913C20.6649 11.2248 20.6195 11.811 20.9531 12.2005C20.9842 12.2368 21.018 12.2707 21.0544 12.3018L28.7519 20.0087H-8.00899C-8.52176 20.0087 -8.9375 20.4244 -8.9375 20.9373C-8.9375 21.4501 -8.52176 21.8658 -8.00899 21.8658H28.7519L21.0544 29.5633C20.6649 29.8969 20.6195 30.4831 20.9531 30.8725C21.2867 31.262 21.8728 31.3074 22.2623 30.9738C22.2986 30.9427 22.3325 30.9088 22.3636 30.8725L31.649 21.5871C32.009 21.2251 32.009 20.6402 31.6489 20.278Z"
+                  fill="#6666F2"
+                />
+              </g>
+              <defs>
+                <clipPath id="clip0_1524_649">
+                  <rect
+                    width="40.8564"
+                    height="40.8564"
+                    fill="white"
+                    transform="translate(0.140625 0.5)"
+                  />
+                </clipPath>
+              </defs>
+            </svg>
+          </div>
+          <div *ngIf="STEP_ID === 2">
+            <div class="text-center">
+              <img
+                src="assets/images/complete-employee-img.svg"
+                style="width: 70%"
+              />
+            </div>
+            <h5 class="font-18 mt-3">Complete Employee Information</h5>
+            <p class="font-14">
+              Enter the necessary employee information to streamline your setup
+              process and keep everything organized moving forward.
+            </p>
+
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="41"
+              height="42"
+              viewBox="0 0 41 42"
+              fill="none"
+            >
+              <g clip-path="url(#clip0_1524_649)">
+                <path
+                  d="M31.6489 20.278L22.3636 10.9926C22.03 10.6031 21.4438 10.5577 21.0544 10.8913C20.6649 11.2248 20.6195 11.811 20.9531 12.2005C20.9842 12.2368 21.018 12.2707 21.0544 12.3018L28.7519 20.0087H-8.00899C-8.52176 20.0087 -8.9375 20.4244 -8.9375 20.9373C-8.9375 21.4501 -8.52176 21.8658 -8.00899 21.8658H28.7519L21.0544 29.5633C20.6649 29.8969 20.6195 30.4831 20.9531 30.8725C21.2867 31.262 21.8728 31.3074 22.2623 30.9738C22.2986 30.9427 22.3325 30.9088 22.3636 30.8725L31.649 21.5871C32.009 21.2251 32.009 20.6402 31.6489 20.278Z"
+                  fill="#6666F2"
+                />
+              </g>
+              <defs>
+                <clipPath id="clip0_1524_649">
+                  <rect
+                    width="40.8564"
+                    height="40.8564"
+                    fill="white"
+                    transform="translate(0.140625 0.5)"
+                  />
+                </clipPath>
+              </defs>
+            </svg>
+          </div>
+          <div *ngIf="STEP_ID === 3">
+            <div class="text-center">
+              <img
+                src="assets/images/organization-shifts-img.svg"
+                style="width: 70%"
+              />
+            </div>
+            <h5 class="font-18 mt-3">
+              Define Your<br />
+              Organization's Shifts
+            </h5>
+            <p class="font-14">
+              Establish your organization's working hours by creating shifts
+              with specific check-in, check-out, and lunch break times.
+            </p>
+
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="41"
+              height="42"
+              viewBox="0 0 41 42"
+              fill="none"
+            >
+              <g clip-path="url(#clip0_1524_649)">
+                <path
+                  d="M31.6489 20.278L22.3636 10.9926C22.03 10.6031 21.4438 10.5577 21.0544 10.8913C20.6649 11.2248 20.6195 11.811 20.9531 12.2005C20.9842 12.2368 21.018 12.2707 21.0544 12.3018L28.7519 20.0087H-8.00899C-8.52176 20.0087 -8.9375 20.4244 -8.9375 20.9373C-8.9375 21.4501 -8.52176 21.8658 -8.00899 21.8658H28.7519L21.0544 29.5633C20.6649 29.8969 20.6195 30.4831 20.9531 30.8725C21.2867 31.262 21.8728 31.3074 22.2623 30.9738C22.2986 30.9427 22.3325 30.9088 22.3636 30.8725L31.649 21.5871C32.009 21.2251 32.009 20.6402 31.6489 20.278Z"
+                  fill="#6666F2"
+                />
+              </g>
+              <defs>
+                <clipPath id="clip0_1524_649">
+                  <rect
+                    width="40.8564"
+                    height="40.8564"
+                    fill="white"
+                    transform="translate(0.140625 0.5)"
+                  />
+                </clipPath>
+              </defs>
+            </svg>
+          </div>
+          <div *ngIf="STEP_ID === 4">
+            <div class="text-center">
+              <img
+                src="assets/images/attendance-method.svg"
+                style="width: 70%"
+              />
+            </div>
+            <h5 class="font-18 mt-3">Configure Attendance Method</h5>
+            <p class="font-14">
+              Choose the attendance tracking method that aligns with your
+              company’s policy and security requirements.
+            </p>
+
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="41"
+              height="42"
+              viewBox="0 0 41 42"
+              fill="none"
+            >
+              <g clip-path="url(#clip0_1524_649)">
+                <path
+                  d="M31.6489 20.278L22.3636 10.9926C22.03 10.6031 21.4438 10.5577 21.0544 10.8913C20.6649 11.2248 20.6195 11.811 20.9531 12.2005C20.9842 12.2368 21.018 12.2707 21.0544 12.3018L28.7519 20.0087H-8.00899C-8.52176 20.0087 -8.9375 20.4244 -8.9375 20.9373C-8.9375 21.4501 -8.52176 21.8658 -8.00899 21.8658H28.7519L21.0544 29.5633C20.6649 29.8969 20.6195 30.4831 20.9531 30.8725C21.2867 31.262 21.8728 31.3074 22.2623 30.9738C22.2986 30.9427 22.3325 30.9088 22.3636 30.8725L31.649 21.5871C32.009 21.2251 32.009 20.6402 31.6489 20.278Z"
+                  fill="#6666F2"
+                />
+              </g>
+              <defs>
+                <clipPath id="clip0_1524_649">
+                  <rect
+                    width="40.8564"
+                    height="40.8564"
+                    fill="white"
+                    transform="translate(0.140625 0.5)"
+                  />
+                </clipPath>
+              </defs>
+            </svg>
+          </div>
+        </div>
+
+        <div class="pending-step pt-3 border-top">
+          <h5
+            class="font-14 d-flex align-items-center gap-2"
+            *ngIf="STEP_ID < 2"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="none"
+            >
+              <path
+                d="M11.6641 17.5C15.8062 17.5 19.1641 14.1421 19.1641 10C19.1641 5.85786 15.8062 2.5 11.6641 2.5C7.52193 2.5 4.16406 5.85786 4.16406 10C4.16406 14.1421 7.52193 17.5 11.6641 17.5Z"
+                fill="#CECDFF"
+              />
+              <path
+                d="M10 1.875C5.52 1.875 1.875 5.52 1.875 10C1.875 14.48 5.52 18.125 10 18.125C14.48 18.125 18.125 14.48 18.125 10C18.125 5.52 14.48 1.875 10 1.875ZM10 16.875C6.20917 16.875 3.125 13.7908 3.125 10C3.125 6.20917 6.20917 3.125 10 3.125C13.7908 3.125 16.875 6.20917 16.875 10C16.875 13.7908 13.7908 16.875 10 16.875Z"
+                fill="#112D55"
+              />
+            </svg>
+            Employee Creation
+          </h5>
+          <h5
+            class="font-14 d-flex align-items-center gap-2"
+            *ngIf="STEP_ID < 3"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="none"
+            >
+              <path
+                d="M11.6641 17.5C15.8062 17.5 19.1641 14.1421 19.1641 10C19.1641 5.85786 15.8062 2.5 11.6641 2.5C7.52193 2.5 4.16406 5.85786 4.16406 10C4.16406 14.1421 7.52193 17.5 11.6641 17.5Z"
+                fill="#CECDFF"
+              />
+              <path
+                d="M10 1.875C5.52 1.875 1.875 5.52 1.875 10C1.875 14.48 5.52 18.125 10 18.125C14.48 18.125 18.125 14.48 18.125 10C18.125 5.52 14.48 1.875 10 1.875ZM10 16.875C6.20917 16.875 3.125 13.7908 3.125 10C3.125 6.20917 6.20917 3.125 10 3.125C13.7908 3.125 16.875 6.20917 16.875 10C16.875 13.7908 13.7908 16.875 10 16.875Z"
+                fill="#112D55"
+              />
+            </svg>
+            Shift Management
+          </h5>
+          <h5
+            class="font-14 d-flex align-items-center gap-2"
+            *ngIf="STEP_ID < 4"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="none"
+            >
+              <path
+                d="M11.6641 17.5C15.8062 17.5 19.1641 14.1421 19.1641 10C19.1641 5.85786 15.8062 2.5 11.6641 2.5C7.52193 2.5 4.16406 5.85786 4.16406 10C4.16406 14.1421 7.52193 17.5 11.6641 17.5Z"
+                fill="#CECDFF"
+              />
+              <path
+                d="M10 1.875C5.52 1.875 1.875 5.52 1.875 10C1.875 14.48 5.52 18.125 10 18.125C14.48 18.125 18.125 14.48 18.125 10C18.125 5.52 14.48 1.875 10 1.875ZM10 16.875C6.20917 16.875 3.125 13.7908 3.125 10C3.125 6.20917 6.20917 3.125 10 3.125C13.7908 3.125 16.875 6.20917 16.875 10C16.875 13.7908 13.7908 16.875 10 16.875Z"
+                fill="#112D55"
+              />
+            </svg>
+            Attendance Mode
+          </h5>
+        </div>
+      </div>
+      <div class="login-new-text d-flex align-items-center">
+        <img src="assets/images/HAjiRi.svg" style="height: 30px" />
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Logout Confirmation Modal -->
+<div
+  class="modal fade"
+  id="logoutModal"
+  #logoutModal
+  tabindex="-1"
+  aria-labelledby="confirmationModalLabel"
+  aria-hidden="true"
+  data-bs-backdrop="true"
+>
+  <div
+    class="modal-dialog modal-dialog-centered mx-auto mx-auto"
+    style="max-width: 600px !important"
+  >
+    <div class="modal-content">
+      <!--end modal-header-->
+      <div class="modal-body">
+        <!-- <form #confirmationForm="ngForm"> -->
+        <div class="row">
+          <div class="col-lg-3 text-center align-self-center">
+            <img src="assets/images/recycle-bin.svg" alt="" class="img-fluid" />
+          </div>
+          <!--end col-->
+          <div class="col-lg-9">
+            <h5>Log Out</h5>
+            <span class="badge bg-warning font-14"
+              >Are you sure want to logout?</span
+            >
+            <ul class="mt-3 mb-0">
+              <li>This action will logged you out from the system</li>
+            </ul>
+          </div>
+          <!--end col-->
+        </div>
+        <!--end row-->
+        <!-- </form> -->
+      </div>
+      <!--end modal-body-->
+      <div
+        class="modal-footer d-flex align-items-center justify-content-between"
+      >
+        <button
+          type="button"
+          class="btn btn-de-secondary btn-sm"
+          data-bs-dismiss="modal"
+          #closeLogoutModal
+        >
+          Close
+        </button>
+        <button
+          type="button"
+          class="btn btn-danger btn-sm"
+          (click)="logoutFunction()"
+        >
+          Log-Out
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

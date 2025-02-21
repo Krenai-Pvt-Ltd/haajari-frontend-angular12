@@ -50,6 +50,7 @@ export class TeamDetailComponent implements OnInit {
     this.getLoginDetailsId();
     this.getTeamMemberById();
     this.getUsersRoleFromLocalStorage();
+    // this.helperService.saveOrgSecondaryToDoStepBarData(0);
   }
 
   // ngAfterViewInit() {
@@ -348,7 +349,7 @@ export class TeamDetailComponent implements OnInit {
       const tid = this.teamId;
       this.dataService.addUsersToTeam(tid, this.userIds).subscribe(
         (response: any) => {
-          console.log("retunred value " + response.object);
+          // console.log("retunred value " + response.object);
           this.alreadyAddedEmails = response.object;
 
           // Remove already added emails from userEmails
@@ -396,7 +397,10 @@ export class TeamDetailComponent implements OnInit {
     let navExtra: NavigationExtras = {
       queryParams: { userId: uuid },
     };
-    this.router.navigate(['/employee-profile'], navExtra);
+    // this.router.navigate([Key.EMPLOYEE_PROFILE_ROUTE], navExtra);
+    const url = this.router.createUrlTree([Key.EMPLOYEE_PROFILE_ROUTE], navExtra).toString();
+    window.open(url, '_blank');
+    return;
   }
 
   delUserUuid: string = '';

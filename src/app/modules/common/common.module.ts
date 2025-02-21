@@ -7,6 +7,12 @@ import { CommonComponent } from './common.component';
 import { TopbarComponent } from './topbar/topbar.component';
 import { HajiriPageLoaderComponent } from './hajiri-page-loader/hajiri-page-loader.component';
 import { HeaderComponent } from './header/header.component';
+import { NewEmployeeProfileSidebarComponent } from './new-employee-profile-sidebar/new-employee-profile-sidebar.component';
+import { AgmCoreModule } from '@agm/core';
+import { HolidayDatePickerComponent } from './holiday-date-picker/holiday-date-picker.component';
+import { NzEmptyModule } from 'ng-zorro-antd/empty';
+
+
 
 @NgModule({
   declarations: [
@@ -17,8 +23,17 @@ import { HeaderComponent } from './header/header.component';
     DurationPickerComponent,
     CommonComponent,
     HeaderComponent,
+    NewEmployeeProfileSidebarComponent,
+    HolidayDatePickerComponent
+    
+    
   ],
-  imports: [CommonModule, CommonRoutingModule],
+  imports: [CommonModule, CommonRoutingModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyB6SQE_TmOLpGLohpMLl-6FzdwJJAU9MnA',
+      libraries: ['places'],
+    }),
+  ],
   exports: [],
 })
-export class CommonModule {}
+export class CommonModule { }

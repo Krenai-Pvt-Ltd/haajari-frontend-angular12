@@ -1,386 +1,509 @@
 <div class="page-wrapper">
   <!-- Page Content-->
+
   <div class="page-content-tab">
-    <div class="container-fluid">
-      <div class="row mt-3">
-        <div class="row">
-          <div class="col-lg-4">
-            <div class="card">
-              <div class="card-header">
-                <div class="row align-items-center">
-                  <div class="col">
-                    <h4 class="card-title">Categories</h4>
-                  </div>
-                  <!--end col-->
-                  <div class="col-auto">
-                    <a type="button" data-bs-toggle="modal" data-bs-target="#createCategoryModal"
-                      (click)="assignCategoryId(0)">
-                      <i class="bi bi-plus" style="font-size: 18px"></i> Create Category </a>
-                  </div>
-                  <!--end col-->
-                </div>
-                <!--end row-->
-              </div>
-              <!--end card-header-->
-              <div class="table-responsive category" [ngClass]="{'scrollable-table': assetCategoryData.length > 0}">
-                <table class="table border-dashed mb-0">
-                  <thead>
-                    <tr>
-                      <th>#</th>
-                      <th class="text-end">Assigned</th>
-                      <th class="text-end">Available</th>
-                      <th class="text-end">Unavailable</th>
-                      <th class="text-end">Action</th>
+    <div class="mt-3 ml-2" style="margin-right: 10px;">
+      <ul id="pills-tab" role="tablist" class="nav nav-pills">
+        <li class="nav-item">
+          <a id="pills-home-tab" data-bs-toggle="pill" href="#assigned-assets" role="tab" aria-controls="pills-home"
+            aria-selected="true" class="nav-link active">Assigned assets</a>
+        </li>
+        <li class="nav-item d-flex align-items-center">
+          <a id="pills-profile-tab" data-bs-toggle="pill" href="#asset-request" role="tab" aria-controls="pills-profile"
+            aria-selected="false" (click)="this.getAssetRequests()" class="nav-link">Asset request</a>
+          <!-- <span class="request-count d-flex align-items-center justify-content-center">{{pendingRequestsCounter}}</span> -->
+        </li>
+      </ul>
+      <div id="pills-tabContent" class="tab-content">
+        <div class="tab-pane active show pt-3" id="assigned-assets" role="tabpanel"
+          aria-labelledby="assigned-assets-tab">
+          <div class="row">
+            <div class="col-lg-12 mb-3">
+              <div class="row">
+                <div class="col-md-3">
+                  <div class="assets-count p-3 orderpcardleft">
+                    <h6>
+                      Total Assets
+                    </h6>
+                    <h5>{{ totalAssetData?.totalAsset || 0 }}</h5>
 
-                    </tr>
-                  </thead>
-                  <tbody *ngIf="assetCategoryData.length == 0" style="height: 40px;">
-                    <tr>
-                      <td colspan="4">
-                        <div class="errorboxmain text-center">
-                          <div class="errorboxinner">
-                            <div class="errorboxplaceholder mb-2">
-                              <img src="assets/images/empty-box.svg" style="width: 80px" />
-                            </div>
-                            <div class="">
-                              <h4>No Data Found</h4>
-                              <p class="mb-0">
-                                We're unable to locate a record associated with the
-                                information you entered.
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                  <tbody *ngIf="assetCategoryData.length > 0">
-                    <tr *ngFor="let acd of assetCategoryData">
-                      <td>{{acd.categoryName}}</td>
-                      <td class="text-end"><b>{{acd.assignedCount}}</b></td>
-                      <td class="text-end"><b>{{acd.availableCount}}</b></td>
-                      <td class="text-end"><b>{{acd.unavailableCount}}</b></td>
-                      <td class="text-end" style="cursor: pointer;"><i class="bi bi-pencil" data-bs-toggle="modal"
-                          data-bs-target="#createCategoryModal" (click)="assignCategoryId(acd.categoryId)"></i></td>
-                    </tr>
-                  </tbody>
-                </table>
-                <!--end /table-->
-              </div>
-              <!--end /div-->
-            </div>
-            <!--end card-->
-            <div class="row">
-              <div class="col-12 col-lg-6">
-                <div class="card">
-                  <div class="card-body">
-                    <div class="row align-items-center">
-                      <!-- style="cursor: pointer;" data-bs-toggle="modal"
-                        data-bs-target="#systemEntriesModal" (click)="getTotalAssetsStatusWiseData('ALL')" -->
-                      <div class="col text-center" >
-                        <span class="h5  fw-bold">{{totalAssetData?.totalAsset || 0}}</span>
-                        <h6 class="text-uppercase text-muted mt-2 m-0 font-11">Total Assets</h6>
-                      </div>
-                      <!--end col-->
-                    </div>
-                    <!-- end row -->
                   </div>
-                  <!--end card-body-->
                 </div>
-                <!--end card-body-->
-              </div>
-              <!--end col-->
-              <div class="col-12 col-lg-6">
-                <div class="card">
-                  <div class="card-body">
-                    <div class="row align-items-center">
-                      <!-- style="cursor: pointer;" data-bs-toggle="modal"
-                        data-bs-target="#systemEntriesModal" (click)="getTotalAssetsStatusWiseData('AVAILABLE')" -->
-                      <div class="col text-center" >
-                        <span class="h5  fw-bold">{{totalAssetData?.totalAvailableAsset || 0}}</span>
-                        <h6 class="text-uppercase text-muted mt-2 m-0 font-11">Available Assets</h6>
-                      </div>
-                      <!--end col-->
-                    </div>
-                    <!-- end row -->
-                  </div>
-                  <!--end card-body-->
-                </div>
-                <!--end card-body-->
-              </div>
-              <!--end col-->
-              <div class="col-12 col-lg-6">
-                <div class="card">
-                  <div class="card-body">
-                    <div class="row align-items-center">
-                      <!-- style="cursor: pointer;" data-bs-toggle="modal"
-                        data-bs-target="#systemEntriesModal" (click)="getTotalAssetsStatusWiseData('ASSIGNED')" -->
-                      <div class="col text-center" >
-                        <span class="h5  fw-bold">{{totalAssetData?.totalAssignedAsset || 0}}</span>
-                        <h6 class="text-uppercase text-muted mt-2 m-0 font-11">Assigned Assets</h6>
-                      </div>
-                      <!--end col-->
-                    </div>
-                    <!-- end row -->
-                  </div>
-                  <!--end card-body-->
-                </div>
-                <!--end card-body-->
-              </div>
-              <!--end col-->
-              <div class="col-12 col-lg-6">
-                <div class="card">
-                  <div class="card-body">
-                    <div class="row align-items-center">
-                      <!-- style="cursor: pointer;" data-bs-toggle="modal"
-                        data-bs-target="#systemEntriesModal" (click)="getTotalAssetsStatusWiseData('UNAVAILABLE')" -->
-                      <div class="col text-center" >
-                        <span class="h5  fw-bold">{{totalAssetData?.totalUnavailableAsset || 0}}</span>
-                        <h6 class="text-uppercase text-muted mt-2 m-0 font-11">Unavailable Assets</h6>
-                      </div>
-                      <!--end col-->
-                    </div>
-                    <!-- end row -->
-                  </div>
-                  <!--end card-body-->
-                </div>
-                <!--end card-->
-              </div>
-              <!--end col-->
-            </div>
-            <!--end row-->
-          </div>
-          <!-- end col-->
-          <div class="col-lg-8">
-            <div class="card">
-              <div class="card-header">
-                <div class="row align-items-center">
-                  <div class="col">
-                    <h4 class="card-title">Assets Allocation By Condition</h4>
-                  </div>
-                  <!--end col-->
+                <!--end col-->
+                <div class="col-md-3">
+                  <div class="assets-count p-3 orderpcardleft">
+                    <h6>
+                      Available Assets
+                    </h6>
+                    <h5>{{ totalAssetData?.totalAvailableAsset || 0 }}</h5>
 
-                  <!--end col-->
-                </div>
-                <!--end row-->
-              </div>
-              <!--end card-header-->
-              <div class="card-body">
-                <div class="text-center" *ngIf="categoryCounts.length > 0">
-                  <ngx-charts-bar-vertical-stacked [view]="view" [scheme]="colorScheme" [results]="categoryCounts"
-                    [gradient]="false" [xAxis]="true" [yAxis]="true" [legend]="false" [animations]="true">
-                  </ngx-charts-bar-vertical-stacked>
-                </div>
-                <div class="errorboxmain text-center" style="height: 340px;" *ngIf="categoryCounts.length == 0">
-                  <div class="errorboxinner mt-10">
-                    <div class="errorboxplaceholder mb-2">
-                      <img src="assets/images/empty-box.svg" style="width: 80px" />
-                    </div>
-                    <div class="">
-                      <h4>No Data Found</h4>
-                      <p class="mb-0">
-                        We're unable to locate a record associated with the information you entered.
-                      </p>
-                    </div>
                   </div>
                 </div>
-              </div>
+                <!--end col-->
+                <div class="col-md-3">
+                  <div class="assets-count p-3 orderpcardleft">
+                    <h6>
+                      Assigned Assets
+                    </h6>
+                    <h5>{{
+                      totalAssetData?.totalAssignedAsset || 0
+                      }}</h5>
 
-              <!--end card-body-->
-            </div>
-            <!--end card-->
-          </div>
-          <!-- end col-->
-          <div class="col-md-12">
-            <div class="card">
-              <div class="card-header" style="padding: 0%; padding-right: 30px;">
-                <div class="row align-items-center">
-                  <div class="col">
-                    <!-- <h4 class="card-title">Assets</h4>-->
-                    <form role="search" class="searching ms-3 mb-0" style="width: 100%">
-                      <div class="form-group mb-0" style="width: 100%; position: relative; margin-top: 19px">
-                        <input type="text" id="searchText" placeholder="Search by name or serial number..."
-                          class="form-control me-2" (keyup)="searchAssets()" [(ngModel)]="search"
-                          [ngModelOptions]="{ standalone: true }" style="padding: 10px 40px; border: none;" />
-                        <i class="bi bi-search search-icon"
-                          style="position: absolute; top: 50%; transform: translateY(-50%); left: 10px;"
-                          *ngIf="!crossFlag"></i>
-                        <i class="bi bi-x search-icon"
-                          style="position: absolute; top: 50%; transform: translateY(-50%); left: 10px;"
-                          *ngIf="crossFlag" (click)="clearSearch()"></i>
-                      </div>
-                    </form>
-                  </div><!--end col-->
-                  <div class="col-auto">
-                    <a type="button" data-bs-toggle="modal" data-bs-target="#createAssetModal"
-                      (click)="assignAssetId(0)">
-                      <i class="bi bi-plus" style="font-size: 18px"></i> Create Asset </a>
                   </div>
-                </div> <!--end row-->
-              </div><!--end card-header-->
-                <div class="table-responsive">
+                </div>
+                <div class="col-md-3">
+                  <div class="assets-count p-3 orderpcardleft">
+                    <h6>
+                      Unavailable Assets
+                    </h6>
+                    <h5>{{ totalAssetData?.totalUnavailableAsset || 0 }}</h5>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="card" style="border:none;">
+                <div class="card-header" style="border: 1px solid #f1f1f1; border-radius: 0px;">
+                  <div class="row align-items-center">
+                    <div class="col">
+                      <h4 class="card-title">Categories</h4>
+                    </div>
+                    <!--end col-->
+                    <div class="col-auto">
+                      <button type="button" data-bs-toggle="modal" data-bs-target="#createCategoryModal"
+                        (click)="assignCategoryId(0)" class="btn p-0 text-primary font-14 add-icon fw-semibold">
+                        <i class="bi bi-plus position-relative font-20"></i> Create
+                        Category
+                      </button>
+                    </div>
+                    <!--end col-->
+                  </div>
+                  <!--end row-->
+                </div>
+                <!--end card-header-->
+                <div class="table-responsive category" style="border-bottom: 1px solid #f1f1f1;"
+                  [ngClass]="{ 'scrollable-table': assetCategoryData.length > 0 }">
                   <table class="table mb-0">
-                    <thead class="table-light">
+                    <thead>
                       <tr>
-                        <!-- <th>Assets_ID</th> -->
-                        <th style="min-width: 100px;">Assets Name</th>
-                        <th>Sr Number</th>
-                        <th>Expire Date</th>
-                        <th>Purchased</th>
-                        <th>Category</th>
-                        <th>Price</th>
-                        <th>Location</th>
-                        <th>Vendor Name</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                      </tr><!--end tr-->
+                        <th style="width: 5%;" class="pointer">#</th>
+                        <th class="text-center pointer">
+                          <div ngbTooltip="Assigned">As</div>
+                        </th>
+                        <th class="text-center pointer">
+                          <div ngbTooltip="Available">Ab</div>
+                        </th>
+                        <th class="text-center pointer">
+                          <div ngbTooltip="Unavailable">Un</div>
+                        </th>
+                        <!-- <th class="text-end">Action</th> -->
+                      </tr>
                     </thead>
-                    <tbody *ngIf="totalCount == 0">
+                    <tbody *ngIf="assetCategoryData.length == 0" style="height: 40px">
                       <tr>
-                        <td colspan="11">
-                          <div class="errorboxmain text-center">
-                            <div class="errorboxinner">
-                              <div class="errorboxplaceholder mb-2">
-                                <img src="assets/images/empty-box.svg" style="width: 80px" />
-                              </div>
-                              <div class="">
-                                <h4>No Data Found</h4>
-                                <p class="mb-0">
-                                  We're unable to locate a record associated with the information you entered.
+                        <td colspan="5">
+                          <div class="empty-file" style="margin-top: 28%; margin-bottom: 28%">
+                            <nz-empty nzNotFoundImage="assets/images/assets-categories-img.svg"
+                              [nzNotFoundContent]="contentTpl">
+                              <ng-template #contentTpl>
+                                <p class="mb-1 empty-detail font-16">
+                                  No data for now
                                 </p>
-                              </div>
-                            </div>
+                              </ng-template>
+                            </nz-empty>
                           </div>
                         </td>
                       </tr>
                     </tbody>
-                    <tbody *ngIf="totalCount > 0" class="table-design">
-                      <tr *ngFor="let ad of assetData; let i = index">
-                        <!-- <td>#{{ad.assetId || 'N/A'}}</td> -->
-                        <!-- <td>#{{ i + 1 + (pageNumber - 1) * itemPerPage }}</td> -->
-                        <td>{{ad.assetName || 'N/A'}}</td>
-                        <td>{{ad.serialNumber || 'N/A'}}</td>
-                        <td>{{ad.expiryDate || 'N/A'}}</td>
-                        <td>{{ad.purchaseDate || 'N/A'}}</td>
-                        <td>{{ad.categoryName || 'N/A'}}</td>
-                        <td>{{ad.price || 'N/A'}}</td>
-                        <td>{{ad.location || 'N/A'}}</td>
-                        <td>{{ad.vendorName || 'N/A'}}</td>
+                    <tbody *ngIf="assetCategoryData.length > 0">
+                      <tr *ngFor="let acd of assetCategoryData">
                         <td>
-
-                          <span [ngClass]="{
-                            'badge-outline-success': ad.status === 'ASSIGNED',
-                            'badge-outline-danger': ad.status === 'UNAVAILABLE',
-                            'badge-outline-warning': ad.status === 'AVAILABLE'
-                          }" class="badge rounded-pill" data-bs-toggle="modal" data-bs-target="#assignRejectModal"
-                          (click)="assignOrRejectModalStrings(ad.status, ad.assetId)">{{ ad.status }} <i class="ti ti-edit-circle"></i></span>
-                          <br><span class="badge bg-light text-dark" *ngIf="ad.status === 'ASSIGNED'">{{ad.userName}}</span>
-                        </td>
-
-                        <td *ngIf="ad.status === 'UNAVAILABLE'">
-                          <!-- <i class="bi bi-trash text-danger" data-bs-toggle="modal"
-                            data-bs-target="#deleteConfirmationModal" (click)="openDeleteAssetModal(ad.assetId)"></i> -->
-                            <div class="btn-group">
-                              <div class="thumb-xs bg-soft-primary rounded-circle d-flex justify-content-center align-items-center" style="margin-left: 5px;" data-bs-toggle="modal"
-                              data-bs-target="#deleteConfirmationModal" (click)="openDeleteAssetModal(ad.assetId)">
-                                <i class="fas fa-trash-alt font-16"></i>
-                              </div>
-                             </div>
-                        </td>
-                        <td *ngIf="ad.status === 'AVAILABLE'">
-                          <!-- <i class="fas fa-bullhorn text-success" ngbTooltip="Assign User" style="cursor: pointer"
-                            data-bs-toggle="modal" data-bs-target="#assignRejectModal"
-                            (click)="assignOrRejectModalStrings(ad.status, ad.assetId)"></i>
-                          <span style="cursor: pointer" (click)="makeAssetUnavailable('UNAVAILABLE', ad.assetId)"
-                            ngbTooltip="Mark as unavailable" placement="top"><i
-                              class="mdi mdi-arrow-up-drop-circle-outline text-success ml-1"></i></span>
-                          <i class="bi bi-trash text-danger" data-bs-toggle="modal"
-                            data-bs-target="#deleteConfirmationModal" (click)="openDeleteAssetModal(ad.assetId)"></i>
-                          <i class="bi bi-pencil" style="cursor: pointer;" data-bs-toggle="modal"
-                            data-bs-target="#createAssetModal" ngbTooltip="Update Asset"
-                            (click)="assignAssetId(ad.assetId)"></i> -->
-
-                            <div class="btn-group">
-
-                              <div class="thumb-xs bg-soft-primary rounded-circle d-flex justify-content-center align-items-center" style="margin-left: 5px;" (click)="makeAssetUnavailable('UNAVAILABLE', ad.assetId)"
-                              ngbTooltip="Mark as unavailable">
-                                <i class="fas fa-ban font-16"></i>
-                              </div>
-                              <div class="thumb-xs bg-soft-primary rounded-circle d-flex justify-content-center align-items-center" style="margin-left: 5px;" data-bs-toggle="modal"
-                              data-bs-target="#createAssetModal" ngbTooltip="Update Asset" (click)="assignAssetId(ad.assetId)">
-                                <i class="fas fa-wrench font-16"></i>
-                              </div>
-                              <div class="thumb-xs bg-soft-primary rounded-circle d-flex justify-content-center align-items-center" style="margin-left: 5px;" data-bs-toggle="modal"
-                              data-bs-target="#deleteConfirmationModal" (click)="openDeleteAssetModal(ad.assetId)">
-                                <i class="fas fa-trash-alt font-16"></i>
-                              </div>
-                             </div>
-                        </td>
-                        <td *ngIf="ad.status === 'ASSIGNED'">
-                        
-
-                          <div class="btn-group">
-
-                            <div class="thumb-xs bg-soft-primary rounded-circle d-flex justify-content-center align-items-center" style="margin-left: 5px;" (click)="makeAssetUnavailable('UNAVAILABLE', ad.assetId)"
-                            ngbTooltip="Mark as unavailable">
-                              <i class="fas fa-ban font-16"></i>
-                            </div>
-                            <div class="thumb-xs bg-soft-primary rounded-circle d-flex justify-content-center align-items-center" style="margin-left: 5px;" data-bs-toggle="modal"
-                            data-bs-target="#createAssetModal" ngbTooltip="Update Asset" (click)="assignAssetId(ad.assetId)">
-                              <i class="fas fa-wrench font-16"></i>
-                            </div>
-                            <div class="thumb-xs bg-soft-primary rounded-circle d-flex justify-content-center align-items-center" style="margin-left: 5px;" data-bs-toggle="modal"
-                            data-bs-target="#deleteConfirmationModal" (click)="openDeleteAssetModal(ad.assetId)">
-                              <i class="fas fa-trash-alt font-16"></i>
-                            </div>
-                           </div>
-                        </td>
-                      </tr><!--end tr-->
-                      <tr>
-                        <td colspan="11">
-                          <!-- Pagination section -->
-                          <div class="pagination pl-3" *ngIf="totalCount > itemPerPage">
-                            <p class="mb-0">
-                              Showing {{ startIndex }} - {{ endIndex }} of {{ totalCount }} items
-                            </p>
-                            <div class="row">
-                              <div class="col-md-12">
-                                <nav aria-label="Page navigation example">
-                                  <ul class="pagination justify-content-end">
-                                    <li class="page-item" [class.disabled]="pageNumber === 1">
-                                      <a class="page-link" (click)="changePage('prev')">
-                                        <span aria-hidden="true">&laquo;</span>
-                                      </a>
-                                    </li>
-                                    <li class="page-item" *ngFor="let page of pages"
-                                      [class.active]="pageNumber === page">
-                                      <a class="page-link" (click)="changePage(page)">
-                                        {{ page }}
-                                      </a>
-                                    </li>
-                                    <li class="page-item" [class.disabled]="pageNumber === totalPages()">
-                                      <a class="page-link" (click)="changePage('next')">
-                                        <span aria-hidden="true">&raquo;</span>
-                                      </a>
-                                    </li>
-                                  </ul>
-                                </nav>
-                              </div>
-                            </div>
+                          <div class="d-flex align-items-center gap-2 edit-btn pointer">
+                            <p class="mb-0"> {{ acd.categoryName }}</p>
+                            <i class="bi bi-pencil" data-bs-toggle="modal" data-bs-target="#createCategoryModal"
+                              (click)="assignCategoryId(acd.categoryId)"></i>
                           </div>
-
+                        </td>
+                        <td class="text-center">
+                          {{ acd.assignedCount }}
+                        </td>
+                        <td class="text-center">
+                          {{ acd.availableCount }}
+                        </td>
+                        <td class="text-center">
+                          {{ acd.unavailableCount }}
                         </td>
                       </tr>
                     </tbody>
                   </table>
+                  <!--end /table-->
+                </div>
+                <!--end /div-->
+              </div>
+              <!--end card-->
+              <!--end row-->
+            </div>
+            <!-- end col-->
+            <div class="col-lg-6">
+              <div class="card">
+                <div class="card-header">
+                  <div class="row align-items-center">
+                    <div class="col">
+                      <h4 class="card-title">Assets By Category</h4>
+                    </div>
+                    <!--end col-->
+                    <!--end col-->
+                  </div>
+                  <!--end row-->
+                </div>
+                <!--end card-header-->
+                <!-- [view]="view" -->
+                <div class="card-body">
+                  <div class="text-center chart-container" *ngIf="categoryCounts.length > 0">
+                    <ngx-charts-bar-vertical-stacked [scheme]="colorScheme" [results]="categoryCounts" [xAxisHeight]="2"
+                      yAxisWidth='4' [gradient]="false" [xAxis]="true" [yAxis]="true" [legend]="false"
+                      [animations]="true">
+                    </ngx-charts-bar-vertical-stacked>
+                  </div>
+                  <div class="empty-file" style="margin-top: 23%; margin-bottom: 23%"
+                    *ngIf="categoryCounts.length == 0">
+                    <nz-empty nzNotFoundImage="assets/images/assets-allocation-img.svg"
+                      [nzNotFoundContent]="contentTpl">
+                      <ng-template #contentTpl>
+                        <p class="mb-1 empty-detail font-16">No data for now</p>
+                      </ng-template>
+                    </nz-empty>
+                  </div>
+                </div>
+                <!--end card-body-->
+              </div>
+              <!--end card-->
+            </div>
+            <!-- end col-->
+            <div class="col-md-12">
+              <div class="card" style="border: none;">
+                <div class="card-header"
+                  style="padding: 0%; padding-right: 20px; height: 50px; border: 1px solid #f1f1f1; border-radius: 0px;">
+                  <div class="row align-items-center">
+                    <div class="col">
+                      <!-- <h4 class="card-title">Assets</h4>-->
+                      <form role="search" class="searching mb-0" style="width: 100%">
+                        <div class="form-group mb-0" style="width: 100%; position: relative">
+                          <input type="text" id="searchText" placeholder="Search by name or serial number..."
+                            class="form-control mb-0" (keyup)="searchAssets()" [(ngModel)]="search"
+                            [ngModelOptions]="{ standalone: true }" style="padding: 10px 40px; border: none" />
+                          <i class="bi bi-search search-icon" style="
+                                            position: absolute;
+                                            top: 50%;
+                                            transform: translateY(-50%);
+                                            left: 10px;
+                                            " *ngIf="!crossFlag"></i>
+                          <i class="bi bi-x search-icon" style="
+                                         position: absolute;
+                                         top: 50%;
+                                         transform: translateY(-50%);
+                                         left: 10px;
+                                         " *ngIf="crossFlag" (click)="clearSearch()"></i>
+                        </div>
+                      </form>
+                    </div>
+                    <!--end col-->
+                    <div class="col-auto">
+                      <button #createAssetButton id="createAssetButton" type="button" data-bs-toggle="modal"
+                        data-bs-target="#createAssetModal" (click)="assignAssetId(0)"
+                        class="text-primary p-0 btn fw-semibold font-14 add-icon">
+                        <i class="bi bi-plus position-relative font-20"></i> Create
+                        Asset
+                      </button>
+                    </div>
+                  </div>
+                  <!--end row-->
+                </div>
+                <!--end card-header-->
+                <div class="table-responsive mt-3">
+                  <table class="table mb-0">
+                    <thead class="table-light">
+                      <tr>
+                        <!-- <th>Assets_ID</th> -->
+                        <th style="min-width: 100px">Assets Name</th>
+                        <th>Sr Number</th>
+                        <th>Expire Date</th>
+                        <th>Purchased Date</th>
+                        <th>Category</th>
+                        <th>Price</th>
+                        <th>Location</th>
+                        <th>Vendor Name</th>
+                        <th>Assigned To</th>
+                        <th>Status</th>
+                        <th class="stickyColThend bg-white">Action</th>
+                      </tr>
+                      <!--end tr-->
+                    </thead>
+                    <tbody *ngIf="totalCount == 0">
+                      <tr>
+                        <td colspan="11">
+                          <div class="empty-file" style="margin-top: 5%; margin-bottom: 5%">
+                            <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                              [nzNotFoundContent]="contentTpl">
+                              <ng-template #contentTpl>
+                                <p class="mb-1 empty-detail font-16">
+                                  No data for now
+                                </p>
+                              </ng-template>
+                            </nz-empty>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                    <tbody *ngIf="totalCount > 0">
+                      <tr *ngFor="let ad of assetData; let i = index">
+                        <!-- <td>#{{ad.assetId || 'N/A'}}</td> -->
+                        <!-- <td>#{{ i + 1 + (pageNumber - 1) * itemPerPage }}</td> -->
+                        <td>
+                          <span class="white-space table-font-weight">{{ ad.assetName || "N/A" }}</span>
+                        </td>
+                        <td><span class="table-font-weight">{{ ad.serialNumber || "N/A" }}</span>
+                        </td>
+                        <td><span class="table-font-weight">{{ (ad.expiryDate | date: 'dd-MM-yyyy') || "N/A" }}</span>
+                        </td>
+                        <td>
+                          <span class="table-font-weight">{{ (ad.purchasedDate | date: 'dd-MM-yyyy')|| "N/A" }}</span>
+                        </td>
+                        <td>
+                          <span>{{ ad.categoryName || "N/A" }}</span>
+                        </td>
+                        <td>
+                          <span class="table-font-weight">{{ ad.price || "N/A" }}</span>
+                        </td>
+                        <td>
+                          <span class="table-font-weight">{{ ad.location || "N/A" }}</span>
+                        </td>
+                        <td>
+                          <span class="table-font-weight">{{ ad.vendorName || "N/A" }}</span>
+                        </td>
+                        <td> <span class="able-font-weight">{{ad.userName ?? '--'}} </span></td>
+                        <td>
+                          <span class="badge rounded-pill"
+                            [ngClass]="{'badge-soft-success': ad.status === 'ASSIGNED', 'badge-soft-danger': ad.status === 'UNAVAILABLE', 'badge-soft-warning': ad.status === 'AVAILABLE'}">{{
+                            ad.status }} </span> <br /><span class="badge bg-light text-dark"
+                            *ngIf="ad.status === 'ASSIGNED'"></span>
+                        </td>
+                        <td class="stickyColThend bg-white">
+                          <div class="dropdown">
+                            <button class="btn btnAction dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                              aria-expanded="false">
+                              <i class="bi bi-three-dots-vertical"></i>
+                            </button>
+                            <div class="dropdown-menu actionMenuList">
+                              <li (click)="makeAssetUnavailable('UNAVAILABLE', ad.assetId)"
+                                *ngIf="ad.status === 'ASSIGNED' ||ad.status === 'AVAILABLE' ">
+                                <a class="dropdown-item"><i class="bi bi-ban"></i> Mark as unavailable</a>
+                              </li>
+                              <li data-bs-toggle="modal" data-bs-target="#createAssetModal"
+                                (click)="assignAssetId(ad.assetId)"
+                                *ngIf="ad.status === 'ASSIGNED' ||ad.status === 'AVAILABLE' ">
+                                <a class="dropdown-item"><i class="bi bi-tools"></i> Update Assets</a>
+                              </li>
+                              <li *ngIf="ad.status != 'ASSIGNED'" data-bs-toggle="modal"
+                                data-bs-target="#assignRejectModal"
+                                (click)="assignOrRejectModalStrings(ad.status, ad.assetId) ">
+                                <a class="dropdown-item"><i class="bi bi-arrow-left-right"></i> Assign Asset</a>
+                              </li>
+                              <li data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"
+                                (click)="openDeleteAssetModal(ad.assetId)">
+                                <a class="dropdown-item"><i class="bi bi-trash3"></i> Delete Assets</a>
+                              </li>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                      <!--end tr-->
+                    </tbody>
+                  </table>
+                </div>
+                <div class="pagination pl-3 mt-3 d-flex align-items-center justify-content-between"
+                  *ngIf="totalCount > itemPerPage">
+                  <p class="mb-0">
+                    Showing {{ startIndex }} - {{ endIndex }} of
+                    {{ totalCount }} items
+                  </p>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-end">
+                          <li class="page-item" [class.disabled]="pageNumber === 1">
+                            <a class="page-link" (click)="changePage('prev')">
+                              <span aria-hidden="true">&laquo;</span>
+                            </a>
+                          </li>
+                          <li class="page-item" *ngFor="let page of pages" [class.active]="pageNumber === page">
+                            <a class="page-link" (click)="changePage(page)">
+                              {{ page }}
+                            </a>
+                          </li>
+                          <li class="page-item" [class.disabled]="
+                                            pageNumber === totalPages()
+                                            ">
+                            <a class="page-link" (click)="changePage('next')">
+                              <span aria-hidden="true">&raquo;</span>
+                            </a>
+                          </li>
+                        </ul>
+                      </nav>
+                    </div>
+                  </div>
                 </div>
                 <!-- Pagination -->
+              </div>
             </div>
           </div>
         </div>
+        <div class="tab-pane fade pt-3" id="asset-request" role="tabpanel" aria-labelledby="assigned-assets-tab">
+          <div class="obboard-employee-list" *ngIf="!isAssetRequestArrayEmpty(); else noAssets">
+
+
+            <div class="onboard-add row align-items-center mx-0">
+              <div class="col-md-12 p-0">
+                <div class="d-flex justify-content-start align-items-center">
+                  <div class="dropdown empFilerDropfilter">
+                    <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
+                      class="btn btn-secondary dropdown-toggle new-deopdown">
+                      {{ statusFilter || 'All' }} <i class="bi bi-chevron-down"></i>
+                    </button>
+                    <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu">
+                      <li><a class="dropdown-item" (click)="filterStatus('')">All</a></li>
+                      <li><a class="dropdown-item" (click)="filterStatus('Approved')">Approved</a></li>
+                      <li><a class="dropdown-item" (click)="filterStatus('Allocated')">Allocated</a></li>
+                      <li><a class="dropdown-item" (click)="filterStatus('Rejected')">Rejected</a></li>
+                      <li><a class="dropdown-item" (click)="filterStatus('Pending')">Pending</a></li>
+                    </ul>
+                  </div>
+                  <div class="onboarding-date d-flex align-items-center position-relative">
+                    <form novalidate="" role="search" class="searching ng-untouched ng-pristine ng-valid"
+                      style="width: 100%;">
+                      <div class="form-group" style="width: 100%; position: relative;">
+                        <input type="text" id="searchText" placeholder="Search..."
+                          class="form-control mb-0 ng-pristine ng-valid ng-touched"
+                          (input)="searchAssetsRequest($event)" style="padding: 10px 40px;" ng-reflect-model=""
+                          ng-reflect-options="[object Object]">
+                        <i class="bi bi-search search-icon" style="margin: auto; margin-left: 15px;"></i>
+                      </div>
+                    </form>
+                  </div>
+
+                  <div class="w-100 d-flex align-content-center justify-content-end" style="padding-right: 20px;">
+                    <!-- [disabled]="downloadFlag" -->
+                    <button class="btn primaryBtnLink " data-bs-toggle="modal" (click)="downloadExcel()" type="button">
+                      <i class="bi bi-download"></i>
+                      <span *ngIf="!downloadFlag">Export</span>
+                      <div class="dot-opacity-loader" *ngIf="downloadFlag">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                      </div>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="table-responsive bg-white mt-3">
+              <div *ngIf="isLoading" class="shimmer-wrapper">
+                <div class="shimmer"></div>
+              </div>
+              <table *ngIf="!isLoading" class="table empOnnoardtable">
+                <thead class="thead-light">
+                  <tr>
+                    <th class="text-left font-13" style="width: 10%">Requested on</th>
+                    <th class="text-left font-13" style="width: 10%">Asset Name</th>
+                    <th class="text-left font-13" style="width: 10%">Asset Type</th>
+                    <th class="text-left font-13" style="width: 10%">Asset Category</th>
+                    <th class="text-left font-13" style="width: 10%">Requested By</th>
+                    <!-- <th class="text-left font-13" style="width: 10%">Approved by</th> -->
+                    <th class="text-left font-13" style="width: 10%">Action Taken on</th>
+                    <th class="text-left font-13" style="width: 10%">Note</th>
+                    <th class="text-left font-13" style="width: 10%">Status</th>
+                    <th class="text-left font-13" style="width: 10%">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngIf="assetRequests?.length === 0">
+                    <td colspan="9" class="text-center">No data found</td>
+                  </tr>
+                  <tr *ngFor="let asset of assetRequests">
+                    <td class="text-left">{{ (asset.requestedOn | date: 'EEE, MMM d yyyy') || '--' }}</td>
+                    <td class="text-left">{{ asset.assetName || '--' }}</td>
+                    <td class="text-left">{{ asset.assetType || '--' }}</td>
+                    <td class="text-left">{{ asset.assetCategoryName || '--' }}</td>
+                    <td class="text-left">
+                      <button class="btn btn-link text-primary p-0" [routerLink]="['/employee']"
+                        [queryParams]="{ userId: asset.userUuid }">
+                        {{ asset.requestedBy || '--'}}
+                      </button>
+                    </td>
+                    <!--  <td class="text-left">{{ asset.approvedBy }}</td> -->
+                    <td class="text-left">{{ (asset.actionTakenOn | date: 'dd-MM-yyyy') || '--' }}</td>
+                    <td class="text-left">
+                      <span class="white-space table-font-weight" style="width: 40px !important;" nz-popover
+                        nzPopoverTitle="Note" [nzPopoverContent]="contentTemplate"
+                        [nzPopoverOverlayStyle]="{'width':'300px'}" nzPopoverPlacement="top"> {{ asset.note || '--'}}
+                      </span>
+                      <ng-template #contentTemplate>
+                        <div>
+                          {{asset.note}}
+                        </div>
+                      </ng-template>
+                    </td>
+                    <td class="text-left">
+                      <span class="badge rounded-pill "
+                        [ngClass]="{'badge-soft-warning': asset.status == 'PENDING', 'badge-soft-danger': asset.status == 'REJECTED', 'badge-soft-success': asset.status == 'APPROVED' || asset.status == 'ASSIGNED' }">
+                        {{ asset.status || '--' }}
+                      </span>
+                    </td>
+                    <td (click)="openStatusChangeModal(asset, statusChangeModal)">
+                      <button class="btn p-0 text-primary View-btn fw-semibold"> <i class="bi bi-eye"></i> View
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div *ngIf="this.assetRequestsTotalPage>1"
+                class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top">
+                <p class="mb-0">
+                  Showing items
+                  {{ (assetRequestsPage - 1) * assetRequestsSize + 1 }} –
+                  {{ Math.min(assetRequestsPage * assetRequestsSize, assetRequestsTotalCount) }}
+                  of {{ assetRequestsTotalCount }} records
+                </p>
+
+                <ngb-pagination class="pagition-box" [collectionSize]="assetRequestsTotalCount" [rotate]="true"
+                  (pageChange)="pageChangedRequest($event)" [pageSize]="assetRequestsSize" [(page)]="assetRequestsPage"
+                  [maxSize]="5" [boundaryLinks]="true">
+                </ngb-pagination>
+              </div>
+
+
+            </div>
+          </div>
+          <ng-template #noAssets>
+            <div class="empty-file" style="margin-top: 13%; margin-bottom: 13%">
+              <nz-empty nzNotFoundImage="assets/images/no-assets.svg" [nzNotFoundContent]="contentTpl">
+                <ng-template #contentTpl>
+                  <p class="mb-1 empty-detail font-18">No assets request for now</p>
+                  <span class="empty-details">
+                    Your assets request will be shown here once they have<br>been raised
+                  </span>
+                </ng-template>
+              </nz-empty>
+            </div>
+          </ng-template>
+        </div>
       </div>
     </div>
+
   </div>
+
+
 </div>
 
 <!-- Modal -->
@@ -389,144 +512,221 @@
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="createCategoryModalLabel">Create Category</h5>
+        <h5 class="modal-title" id="createCategoryModalLabel">
+          Create Category
+        </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
-        <!-- {{categoryId}} -->
-        <form (ngSubmit)="saveOrUpdateCategory()" #categoryForm="ngForm">
-          <div class="mb-3">
-            <label for="categoryName" class="form-label">Category Name <span class="text-optional">*</span></label>
-            <input type="text" class="form-control" id="categoryName" name="categoryName"
-              placeholder="Type category name here..." [(ngModel)]="newCategory.categoryName" required
-              #categoryName="ngModel">
-            <div *ngIf="categoryName.invalid && (categoryName.dirty || categoryName.touched)" class="text-danger">
-              Category Name is required.
+      <form (ngSubmit)="saveOrUpdateCategory()" #categoryForm="ngForm">
+        <div class="modal-body assets-label">
+          <div class="row">
+            <div class="col-md-12 mb-3">
+              <label for="categoryName" class="form-label pb-2">Category Name <span
+                  class="text-optional">*</span></label>
+              <input type="text" class="form-control input-zorro" id="categoryName" name="categoryName"
+                placeholder="Type category name here..." [(ngModel)]="newCategory.categoryName" required
+                #categoryName="ngModel" />
+              <div *ngIf="
+                  categoryName.invalid &&
+                  (categoryName.dirty || categoryName.touched)
+                " class="text-danger">
+                Category Name is required.
+              </div>
+            </div>
+            <div class="col-md-12 mb-3">
+              <label for="categoryImage" class="form-label pb-2">Category Image <span
+                  class="text-optional">(optional)</span></label>
+              <label for="fileInput" class="image-upload-label">
+                <div class="bannerplacehld ">
+                  <div *ngIf="imagePreviewUrl; else placeholder" class="position-relative">
+                    <img [src]="imagePreviewUrl" style="width:200px;" alt="Image Preview" />
+                    <span class="assets-images-close pointer d-flex align-content-center justify-content-center"><i
+                        class="bi bi-x"></i></span>
+                  </div>
+                  <ng-template #placeholder>
+                    <img src="assets/images/media-upload.jpg" style="width:70px;" alt="Placeholder" />
+                    <span class="p-0 btn text-primary mt-3"><i class="bi bi-plus"></i> Add category image</span>
+                  </ng-template>
+                </div>
+                <p *ngIf="imagePreviewUrl == ''">Upload category image</p>
+              </label>
+              <input type="file" class="form-control-file" id="fileInput" (change)="onFileSelected($event)"
+                accept="image/jpeg, image/png, image/jpg" hidden />
             </div>
           </div>
-          <div class="mb-3">
-            <label for="categoryImage" class="form-label">Category Image <span
-                class="text-optional">(optional)</span></label>
-            <label for="fileInput" class="image-upload-label">
-              <div class="bannerplacehld">
-                <img *ngIf="imagePreviewUrl; else placeholder" [src]="imagePreviewUrl" alt="Image Preview">
-                <ng-template #placeholder>
-                  <img src="assets/images/update-min.svg" alt="Placeholder">
-                </ng-template>
-              </div>
-              <p *ngIf="imagePreviewUrl==''">Upload category image</p>
-            </label>
-            <input type="file" class="form-control-file" id="fileInput" (change)="onFileSelected($event)"
-              accept="image/jpeg, image/png, image/jpg" hidden>
-          </div>
-          <div class="d-flex justify-content-end">
-            <button type="submit" class="btn btn-primary" [disabled]="categoryForm.invalid">Add Category</button>
-          </div>
-        </form>
-      </div>
+        </div>
+        <div class="modal-footer ">
+          <button type="submit" class="btn submitActionBtn" [disabled]="categoryForm.invalid"> Add</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
-<div class="modal fade" id="createAssetModal" tabindex="-1" aria-labelledby="createAssetModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-  <div class="modal-dialog modal-dialog-centered">
+<div #createAssetModal class="modal fade" id="createAssetModal" tabindex="-1" aria-labelledby="createAssetModalLabel"
+  aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="createAssetModalLabel">Create Asset</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+          #closeCreateAssetModal></button>
       </div>
       <!-- {{assetIdToUpdate}} -->
-      <div class="modal-body">
-        <form [formGroup]="assetForm" (ngSubmit)="updateOrSaveAsset()">
-          <div class="mb-3">
-            <label for="assetName" class="form-label">Asset Name <span class="text-danger">*</span></label>
-            <input type="text" class="form-control" id="assetName" formControlName="assetName"
-              placeholder="Type asset name here...">
-            <div
-              *ngIf="assetForm.get('assetName')!.invalid && (assetForm.get('assetName')!.dirty || assetForm.get('assetName')!.touched)"
-              class="text-danger">
-              Asset Name is required.
+      <form [formGroup]="assetForm" (ngSubmit)="updateOrSaveAsset()">
+        <div class="modal-body">
+
+          <div *ngIf="selectedAsset" class="row">
+            <div>
+              <div style="display: flex; justify-content: space-between;">
+                <div>
+                  <label>Requested Date</label>
+                  <p>{{ selectedAsset.requestedOn | date: 'dd-MM-yyyy'}}</p>
+                </div>
+                <div>
+                  <label>Category</label>
+                  <p>{{ selectedAsset.assetCategoryName }}</p>
+                </div>
+                <div>
+                  <label>Asset Name</label>
+                  <p>{{ selectedAsset.assetName }}</p>
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="mb-3">
-            <label for="serialNumber" class="form-label">Serial Number <span class="text-danger">*</span></label>
-            <input type="text" class="form-control" id="serialNumber" formControlName="serialNumber"
-              placeholder="Type serial number here...">
-            <div
-              *ngIf="assetForm.get('serialNumber')!.invalid && (assetForm.get('serialNumber')!.dirty || assetForm.get('serialNumber')!.touched)"
-              class="text-danger">
-              Serial Number is required.
-            </div>
-          </div>
-          <!-- {{assetForm.get('purchasedDate')}} -->
-          <div class="mb-3">
-            <label for="purchasedDate" class="form-label">Purchased Date <span class="text-danger">*</span></label>
-            <nz-date-picker nzFormat="yyyy/MM/dd" formControlName="purchasedDate"
-              [nzDisabledDate]="disabledDate"></nz-date-picker>
-            <div
-              *ngIf="assetForm.get('purchasedDate')!.invalid && (assetForm.get('purchasedDate')!.dirty || assetForm.get('purchasedDate')!.touched)"
-              class="text-danger">
-              Purchased Date is required.
+
+            <div style="display: flex; justify-content: space-between;">
+              <div>
+                <label>Requested Type</label>
+                <p>{{ selectedAsset.assetType }}</p>
+              </div>
+              <div>
+                <label>Note</label>
+                <p>{{ selectedAsset.note }}</p>
+              </div>
+              <div>
+                <label>Current Status</label>
+                <p>{{ selectedAsset.status }}</p>
+              </div>
             </div>
           </div>
 
-          <div class="mb-3">
-            <label for="expiryDate" class="form-label">Expiry Date <span class="text-optional">(optional)</span></label>
-            <nz-date-picker nzFormat="yyyy/MM/dd" formControlName="expiryDate"></nz-date-picker>
-          </div>
-          <div class="mb-3">
-            <label for="price" class="form-label">Price <span class="text-danger">*</span></label>
-            <input type="text" class="form-control" id="price" formControlName="price" placeholder="Type price here...">
-            <div
-              *ngIf="assetForm.get('price')!.invalid && (assetForm.get('price')!.dirty || assetForm.get('price')!.touched)"
-              class="text-danger">
-              Price is required.
+
+          <div class="row assets-label">
+            <div class="col-md-6 mb-3">
+              <label for="assetName" class="form-label">Asset Name <span class="text-danger">*</span></label>
+              <input type="text" class="form-control input-zorro" id="assetName" formControlName="assetName"
+                placeholder="Type asset name here..." />
+              <div *ngIf="
+                assetForm.get('assetName')!.invalid &&
+                (assetForm.get('assetName')!.dirty ||
+                  assetForm.get('assetName')!.touched)
+              " class="text-danger">
+                Asset Name is required.
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="serialNumber" class="form-label">Serial Number <span class="text-danger">*</span></label>
+              <input type="text" class="form-control input-zorro" id="serialNumber" formControlName="serialNumber"
+                placeholder="Type serial number here..." />
+              <div *ngIf="
+                assetForm.get('serialNumber')!.invalid &&
+                (assetForm.get('serialNumber')!.dirty ||
+                  assetForm.get('serialNumber')!.touched)
+              " class="text-danger">
+                Serial Number is required.
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="purchasedDate" class="form-label">Purchased Date <span class="text-danger">*</span></label>
+              <nz-date-picker nzFormat="yyyy/MM/dd" formControlName="purchasedDate"
+                [nzDisabledDate]="disabledDate"></nz-date-picker>
+              <div *ngIf="
+                assetForm.get('purchasedDate')!.invalid &&
+                (assetForm.get('purchasedDate')!.dirty ||
+                  assetForm.get('purchasedDate')!.touched)
+              " class="text-danger">
+                Purchased Date is required.
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="expiryDate" class="form-label">Expiry Date <span
+                  class="text-optional">(optional)</span></label>
+              <nz-date-picker nzFormat="yyyy/MM/dd" formControlName="expiryDate"></nz-date-picker>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="price" class="form-label">Price <span class="text-danger">*</span></label>
+              <input type="text" class="form-control input-zorro" id="price" formControlName="price"
+                placeholder="Type price here..." />
+              <div *ngIf="
+                assetForm.get('price')!.invalid &&
+                (assetForm.get('price')!.dirty ||
+                  assetForm.get('price')!.touched)
+              " class="text-danger">
+                Price is required.
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="location" class="form-label">Location <span class="text-danger">*</span></label>
+              <input type="text" class="form-control input-zorro" id="location" formControlName="location"
+                placeholder="Type location here..." />
+              <div *ngIf="
+                assetForm.get('location')!.invalid &&
+                (assetForm.get('location')!.dirty ||
+                  assetForm.get('location')!.touched)
+              " class="text-danger">
+                Location is required.
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="vendorName" class="form-label">Vendor Name <span
+                  class="text-optional">(optional)</span></label>
+              <input type="text" class="form-control input-zorro" id="vendorName" formControlName="vendorName"
+                placeholder="Type vendor name here..." />
+            </div>
+            <div *ngIf="selectedAsset==null || selectedAsset==undefined" class="col-md-6 mb-3">
+              <label for="userId" class="form-label">Select User <span class="text-optional">(optional)</span></label>
+              <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a user" formControlName="userId"
+                class="w-100 form-control placeholder-line">
+                <nz-option *ngFor="let user of allAssetUserListData" [nzLabel]="user.userName"
+                  [nzValue]="user.userId"></nz-option>
+              </nz-select>
+            </div>
+            <div *ngIf="selectedAsset && selectedAsset.status == 'APPROVED' " class="col-md-6 mb-3">
+              <label for="userId" class="form-label">Select User <span class="text-optional">(optional)</span></label>
+              <input type="text" class="form-control input-zorro" [value]="selectedAsset?.requestedBy" disabled
+                placeholder="Requested by..." />
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="assignedDate" class="form-label">Assigned Date
+                <span class="text-optional">(optional)</span></label>
+              <nz-date-picker nzFormat="yyyy/MM/dd" formControlName="assignedDate"
+                [nzDisabledDate]="disabledDate"></nz-date-picker>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="categoryId" class="form-label">Select Category <span class="text-danger">*</span></label>
+              <nz-select class="w-100 form-control placeholder-line" nzShowSearch nzAllowClear
+                nzPlaceHolder="Select a category" formControlName="categoryId">
+                <nz-option *ngFor="let category of allAssetCategoryData" [nzLabel]="category.categoryName"
+                  [nzValue]="category.categoryId"></nz-option>
+              </nz-select>
+              <div *ngIf="
+                assetForm.get('categoryId')!.invalid &&
+                (assetForm.get('categoryId')!.dirty ||
+                  assetForm.get('categoryId')!.touched)
+              " class="text-danger">
+                Category is required.
+              </div>
             </div>
           </div>
-          <div class="mb-3">
-            <label for="location" class="form-label">Location <span class="text-danger">*</span></label>
-            <input type="text" class="form-control" id="location" formControlName="location"
-              placeholder="Type location here...">
-            <div
-              *ngIf="assetForm.get('location')!.invalid && (assetForm.get('location')!.dirty || assetForm.get('location')!.touched)"
-              class="text-danger">
-              Location is required.
-            </div>
-          </div>
-          <div class="mb-3">
-            <label for="vendorName" class="form-label">Vendor Name <span class="text-optional">(optional)</span></label>
-            <input type="text" class="form-control" id="vendorName" formControlName="vendorName"
-              placeholder="Type vendor name here...">
-          </div>
-          <div class="mb-3">
-            <label for="userId" class="form-label">Select User <span class="text-optional">(optional)</span></label>
-            <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a user" formControlName="userId">
-              <nz-option *ngFor="let user of allAssetUserListData" [nzLabel]="user.userName"
-                [nzValue]="user.userId"></nz-option>
-            </nz-select>
-          </div>
-          <div class="mb-3">
-            <label for="assignedDate" class="form-label">Assigned Date <span
-                class="text-optional">(optional)</span></label>
-            <nz-date-picker nzFormat="yyyy/MM/dd" formControlName="assignedDate"
-              [nzDisabledDate]="disabledDate"></nz-date-picker>
-          </div>
-          <div class="mb-3">
-            <label for="categoryId" class="form-label">Select Category <span class="text-danger">*</span></label>
-            <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a category" formControlName="categoryId">
-              <nz-option *ngFor="let category of allAssetCategoryData" [nzLabel]="category.categoryName"
-                [nzValue]="category.categoryId"></nz-option>
-            </nz-select>
-            <div
-              *ngIf="assetForm.get('categoryId')!.invalid && (assetForm.get('categoryId')!.dirty || assetForm.get('categoryId')!.touched)"
-              class="text-danger">
-              Category is required.
-            </div>
-          </div>
-          <div class="d-flex justify-content-end">
-            <button type="submit" class="btn btn-primary" [disabled]="assetForm.invalid">Add Asset</button>
-          </div>
-        </form>
-      </div>
+
+
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn submitActionBtn" [disabled]="assetForm.invalid"
+            [ngClass]="{'btn-border':!assetForm.invalid}">
+            Add Asset
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
@@ -536,16 +736,18 @@
   <div class="modal-dialog modal-md">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="systemEntriesModalLabel">{{systemModalString}}</h5>
+        <h5 class="modal-title" id="systemEntriesModalLabel">
+          {{ systemModalString }}
+        </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>      
+      </div>
       <div class="onboarding-date d-flex align-items-center" style="gap: 10px; width: 100%">
         <form role="search" class="searching ng-untouched ng-pristine ng-valid" style="width: 100%">
           <div class="form-group" style="width: 100%; position: relative">
             <input type="text" id="searchText" placeholder="Search by name or sr. number..."
               class="form-control me-2 ng-untouched ng-pristine ng-valid" (keyup)="searchSystem()"
               [(ngModel)]="searchTermSystem" [ngModelOptions]="{ standalone: true }"
-              style="padding: 10px 40px; border: none;" />
+              style="padding: 10px 40px; border: none" />
             <i class="bi bi-search search-icon" style="margin: auto; margin-left: 15px"
               *ngIf="searchTermSystem == ''"></i>
             <i class="bi bi-x search-icon" style="margin: auto; margin-left: 15px" *ngIf="searchTermSystem != ''"
@@ -553,19 +755,14 @@
           </div>
         </form>
       </div>
-      <div class="errorboxmain text-center" *ngIf="totalAssetsStatusWiseData.length == 0">
-        <div class="errorboxinner">
-          <div class="errorboxplaceholder mb-2">
-            <img src="assets/images/empty-box.svg" style="width: 80px" />
-          </div>
-          <div class="">
-            <h4>No Data Found</h4>
-            <p class="mb-0">
-              We're unable to locate a record associated with the
-              information you entered.
-            </p>
-          </div>
-        </div>
+
+
+      <div class="empty-file" style="margin-top: 28%; margin-bottom: 28%" *ngIf="totalAssetsStatusWiseData.length == 0">
+        <nz-empty nzNotFoundImage="assets/images/report-img.svg" [nzNotFoundContent]="contentTpl">
+          <ng-template #contentTpl>
+            <p class="mb-1 empty-detail font-16">No data for now</p>
+          </ng-template>
+        </nz-empty>
       </div>
 
       <div class="modal-body pt-0" *ngIf="totalAssetsStatusWiseData.length > 0">
@@ -582,14 +779,17 @@
                 </div>
               </div>
             </div>
-            <span class="text-success">{{ system.createdDate | date:"MMM dd, yyyy 'at' hh:mm a" }}</span>
+            <span class="text-success">{{
+              system.createdDate | date : "MMM dd, yyyy 'at' hh:mm a"
+              }}</span>
           </li>
         </ul>
 
         <!-- Pagination -->
         <div class="pagination pl-3" *ngIf="totalPagesSystem > 10">
           <p class="mb-0">
-            Showing {{ startIndexSystem }} - {{ endIndexSystem }} of {{ totalCountSystem }} items
+            Showing {{ startIndexSystem }} - {{ endIndexSystem }} of
+            {{ totalCountSystem }} items
           </p>
           <div class="row">
             <div class="col-md-12">
@@ -625,82 +825,178 @@
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="assignRejectModalLabel">{{modalHeadString}}</h5>
+        <h5 class="modal-title" id="assignRejectModalLabel">
+          {{ modalHeadString }}
+        </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
-        <form [formGroup]="assignRejectForm" (ngSubmit)="submitAssignRejectForm()">
-          <div class="mb-3">
-            <label for="userId" class="form-label">Select User <span class="text-danger">*</span></label>
-            <nz-select formControlName="userId" nzShowSearch nzAllowClear nzPlaceHolder="Select a user">
-              <nz-option *ngFor="let user of allAssetUserListData" [nzLabel]="user.userName"
-                [nzValue]="user.userId"></nz-option>
-            </nz-select>
-            <div *ngIf="assignRejectForm.get('userId')!.invalid && assignRejectForm.get('userId')!.touched"
-              class="text-danger">
-              User is required.
+      <form [formGroup]="assignRejectForm" (ngSubmit)="submitAssignRejectForm()">
+        <div class="modal-body">
+          <div class="row assets-label">
+
+            <div class="col-md-12 mb-3">
+              <label for="userId" class="form-label pb-2">Select User <span class="text-danger">*</span></label>
+              <nz-select class="form-control placeholder-line" formControlName="userId" nzShowSearch nzAllowClear
+                nzPlaceHolder="Select a user">
+                <nz-option *ngFor="let user of allAssetUserListData" [nzLabel]="user.userName"
+                  [nzValue]="user.userId"></nz-option>
+              </nz-select>
+              <div *ngIf="
+                assignRejectForm.get('userId')!.invalid &&
+                assignRejectForm.get('userId')!.touched
+              " class="text-danger">
+                User is required.
+              </div>
+            </div>
+            <div class="col-md-12 mb-3">
+              <label for="assignedDate" class="form-label pb-2">{{ modalDateString }}<span
+                  class="text-danger">*</span></label>
+              <nz-date-picker formControlName="assignedDate" nzFormat="yyyy/MM/dd"></nz-date-picker>
+              <div *ngIf="
+                assignRejectForm.get('assignedDate')!.invalid &&
+                assignRejectForm.get('assignedDate')!.touched
+              " class="text-danger">
+                Date is required.
+              </div>
             </div>
           </div>
-          <div class="mb-3">
-            <label for="assignedDate" class="form-label">{{modalDateString}}<span class="text-danger">*</span></label>
-            <nz-date-picker formControlName="assignedDate" nzFormat="yyyy/MM/dd"></nz-date-picker>
-            <div *ngIf="assignRejectForm.get('assignedDate')!.invalid && assignRejectForm.get('assignedDate')!.touched"
-              class="text-danger">
-              Date is required.
+
+
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn submitActionBtn" [ngClass]="{'btn-border':!assignRejectForm.valid}"
+            [disabled]="assignRejectForm.invalid">
+            Submit
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<button class="d-none" data-bs-toggle="modal" data-bs-target="#delete-leave"></button>
+<div class="modal fade" id="deleteConfirmationModal" #deleteConfirmationModal tabindex="-1"
+  aria-labelledby="confirmationModalLabel" aria-hidden="true" data-bs-backdrop="false">
+  <div class="modal-dialog modal-dialog-centered" style="max-width: 500px" role="document">
+    <div class="modal-content">
+      <div class="modal-body p-0 delete-text">
+        <div class="delete-image d-flex align-items-center justify-content-center pt-4 pb-4">
+          <div class="delete-close-btn">
+            <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButtonDeleteLeave>
+              <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+                <mask id="mask0_2031_1331" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="30"
+                  height="30">
+                  <rect width="30" height="30" fill="#D9D9D9" />
+                </mask>
+                <g mask="url(#mask0_2031_1331)">
+                  <path
+                    d="M8 23.75L6.25 22L13.25 15L6.25 8L8 6.25L15 13.25L22 6.25L23.75 8L16.75 15L23.75 22L22 23.75L15 16.75L8 23.75Z"
+                    fill="black" />
+                </g>
+              </svg>
+            </button>
+          </div>
+          <img src="/assets/images/delete-img.svg" style="width: 70px" />
+        </div>
+        <div class="bg-white p-4 text-center">
+          <div class="mb-4">
+            <h5 class="alert-heading font-18 mb-2">
+              Remove Asset from your Organization
+            </h5>
+            <p class="font-15">Are you sure want to remove this asset?</p>
+            <p class="font-13">This action will delete this asset from your <br> organization for
+              assigned users also.</p>
+          </div>
+
+
+          <button class="btn continue-btn" (click)="deleteAssetData()">
+            <span *ngIf="!disableLoader">Continue</span>
+            <div class="dot-opacity-loader" *ngIf="disableLoader">
+              <span></span>
+              <span></span>
+              <span></span>
             </div>
-          </div>
-          <div class="d-flex justify-content-end">
-            <button type="submit" class="btn btn-primary" [disabled]="assignRejectForm.invalid">Submit</button>
-          </div>
-        </form>
+          </button>
+          <br>
+          <button class="btn p-0 mt-3 text-black" type="button" data-bs-dismiss="modal" aria-label="Close"
+            #closeUserDeleteModal>
+            Cancel
+          </button>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
-<div class="modal fade" id="deleteConfirmationModal" #deleteConfirmationModal tabindex="-1"
-  aria-labelledby="confirmationModalLabel" aria-hidden="true" data-bs-backdrop="false">
-  <div class="modal-dialog modal-dialog-centered mx-auto mx-auto" style="max-width: 600px !important">
-    <div class="modal-content">
-      <!--end modal-header-->
-      <div class="modal-body">
-        <form #confirmationForm="ngForm">
-          <div class="row">
-            <div class="col-lg-3 text-center align-self-center">
-              <img src="assets/images/recycle-bin.svg" alt="" class="img-fluid" />
-            </div>
-            <!--end col-->
-            <div class="col-lg-9">
-              <h5>Remove Asset from your Organization</h5>
-              <span class="badge bg-warning font-14">Are you sure want to remove this asset?</span>
-              <ul class="mt-3 mb-0">
-                <li>
-                  This action will delete this asset from your organization for assigned
-                  users also.
-                </li>
-                <!-- <li>Other associated information from the system</li> -->
-              </ul>
-            </div>
-            <!--end col-->
-          </div>
-          <!--end row-->
-        </form>
+
+
+<ng-template #statusChangeModal let-modal>
+
+  <!-- <button type="button" class="btn btn-primary d-none" data-toggle="modal" data-target="#assetRequest"> Change Asset Details</button>
+
+  <div class="modal fade" id="assetRequest" tabindex="-1" role="dialog" aria-hidden="true" #assetRequestModal aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content"> -->
+  <div class="modal-header">
+    <h4 class="modal-title">Asset Details</h4>
+    <button (click)="modal.dismiss('cancel')" type="button" class="btn-close" aria-label="Close"></button>
+  </div>
+
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-12 mb-3">
+        <label class="mb-2">Requested Date </label>
+        <div class="requesting-half-leave p-2">
+          <p class="mb-0 font-13">{{ selectedAsset.requestedOn | date: 'dd-MM-yyyy' }}</p>
+        </div>
       </div>
-      <!--end modal-body-->
-      <div class="modal-footer d-flex align-items-center justify-content-between">
-        <button type="button" class="btn btn-de-secondary btn-sm" data-bs-dismiss="modal" #closeUserDeleteModal>
-          Close
-        </button>
-        <button type="button" class="btn btn-danger btn-sm" (click)="deleteAssetData()">
-          <span *ngIf="!disableLoader"> Delete Asset</span>
-          <div class="dot-opacity-loader" *ngIf="disableLoader">
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-        </button>
+      <div class="col-md-6 mb-3">
+        <label class="mb-2">Category </label>
+        <div class="requesting-half-leave p-2">
+          <p class="mb-0 font-13">{{ selectedAsset.assetCategoryName }}</p>
+        </div>
       </div>
-      <!--end modal-footer-->
+      <div class="col-md-6 mb-3">
+        <label class="mb-2">Asset Name </label>
+        <div class="requesting-half-leave p-2 ">
+          <p class="mb-0 font-13" style="font-weight: 400;">{{ selectedAsset.assetName }}</p>
+        </div>
+      </div>
+      <div class="col-md-12 mb-3">
+        <label class="mb-2">Requested Type </label>
+        <div class="requesting-half-leave p-2">
+          <p class="mb-0 font-13" style="font-weight: 400;">{{ selectedAsset.assetType }}</p>
+        </div>
+      </div>
+
+      <div class="col-md-12 mb-3">
+        <label class="mb-2">Note </label>
+        <div class="requesting-half-leave p-2">
+          <p class="mb-0 font-13" style="font-weight: 400;">{{ selectedAsset.note }}</p>
+        </div>
+      </div>
+      <div class="col-md-12 mb-3">
+        <label class="mb-2">Current Status </label>
+        <div class="pt-2 pb-2">
+          <span class="badge rounded-pill"
+            [ngClass]="{'badge-soft-warning': selectedAsset.status == 'PENDING', 'badge-soft-danger': selectedAsset.status == 'REJECTED', 'badge-soft-success': selectedAsset.status == 'APPROVED' || selectedAsset.status == 'ASSIGNED' }">{{
+            selectedAsset.status }}</span>
+        </div>
+      </div>
+      <div *ngIf="selectedAsset.status!='ASSIGNED'" class="col-md-12">
+        <label class="mb-2">Change Status</label>
+        <div>
+          <nz-select [(ngModel)]="newStatus" nzPlaceHolder="Select Status" class="w-100 form-control" nzSize="large">
+            <nz-option *ngFor="let status of statuses" [nzValue]="status" [nzLabel]="status"></nz-option>
+          </nz-select>
+        </div>
+      </div>
     </div>
   </div>
-</div>
+
+  <div *ngIf="selectedAsset.status!='ASSIGNED'"
+    class="modal-footer d-flex align-content-center justify-content-end gap-2">
+    <button type="button" class="btn cancel-btn mt-0" (click)="modal.dismiss('cancel')">Cancel</button>
+    <button type="button" class="btn submitActionBtn" (click)="changeStatus(selectedAsset)"> Save </button>
+  </div>

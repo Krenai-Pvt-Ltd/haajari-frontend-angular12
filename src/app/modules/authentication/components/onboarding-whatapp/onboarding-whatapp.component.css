@@ -1,0 +1,197 @@
+.onboarding-box {
+  background: linear-gradient(
+    182deg,
+    #e4e7ff -9.67%,
+    #f2f4ff 8.88%,
+    #fff 68.76%
+  );
+  height: 100vh;
+}
+
+.onboardingRightImg {
+  background-size: contain;
+  background-position: right top;
+  height: 50%;
+  background-repeat: no-repeat;
+}
+
+.onboardingLeftImg {
+  background-size: contain;
+  background-position: left bottom;
+  height: 50%;
+  background-repeat: no-repeat;
+}
+
+.container {
+  max-width: 1200px;
+}
+.onboarding-step {
+  height: 85vh;
+}
+.onboarding-step h5 {
+  color: #000;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 38px; /* 112.239% */
+  letter-spacing: 0.096px;
+  margin-bottom: 4px;
+}
+
+.onboarding-step p {
+  color: #8b97a6;
+  text-align: center;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 24px; /* 160% */
+}
+
+.continueBtn {
+  color: #6666f2;
+  font-family: Roboto;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 23.667px; /* 131.485% */
+  letter-spacing: 0.108px;
+}
+.continueBtn svg {
+  width: 15px;
+  position: relative;
+  top: -1px;
+}
+.knowMoreBtn {
+  border-radius: 80.08px;
+  border: 0.801px solid #6666f2;
+  background: #6666f2;
+  box-shadow: 3.365px 5.888px 7.402px 0px #dcdbff;
+  text-align: center;
+  font-family: "IBM Plex Sans";
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 12.813px; /* 84.622% */
+  letter-spacing: 0.303px;
+  color: #fff;
+}
+.knowMoreBtn svg {
+  position: relative;
+  top: -1px;
+}
+
+.closebtn .close {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  border: none;
+  background-color: #fff;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  justify-content: center;
+  box-shadow: rgb(99 99 99 / 0.2) 0 2px 8px 0;
+}
+
+.onboarding-form {
+  width: 390px;
+}
+
+.btn-fix-height {
+  height: 48px;
+  font-weight: 600;
+}
+.noteText {
+  color: #878a9a !important;
+  text-align: center;
+  font-size: 12px !important;
+  font-style: normal;
+  font-weight: 300 !important;
+  line-height: 20px !important;
+}
+.footer-text p {
+  color: #8b97a6;
+  text-align: center;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 10px;
+  position: absolute;
+  bottom: 32px;
+}
+.onboarding-form label {
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 12px !important;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px; /* 148.799% */
+  letter-spacing: 0.118px;
+}
+
+.onboarding-form input {
+  border-radius: 2px !important;
+  border: 1.179px solid #cacaca;
+  background: rgba(255, 255, 255, 0.75);
+  height: 48px !important;
+}
+
+.verificationActionBtn p {
+  color: #878a9a !important;
+  text-align: center;
+  font-size: 12px !important;
+  font-style: normal;
+  font-weight: 400 !important;
+  line-height: 21px;
+}
+
+.verificationActionBtn button {
+  color: #878a9a !important;
+  text-align: center;
+  font-size: 12px !important;
+  font-style: normal;
+  font-weight: 400 !important;
+}
+
+.editNumber svg {
+  position: relative;
+  top: -1px;
+}
+.otpInput input {
+  height: 48px !important;
+  border-radius: 0px !important;
+  text-align: center;
+}
+
+.active-input {
+  border: 1px solid #6666f2 !important;
+  border-bottom: 4px solid #6666f2 !important;
+}
+
+.active-input:before {
+  contain: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 3px solid #6666f2;
+}
+.otpSection {
+  color: #e7e7e7;
+  font-size: 22px;
+}
+/* .otpInputBox {
+  border: 1px solid #ccc;
+} */
+
+.disabled-link {
+  pointer-events: none;
+  color: gray;
+}
+
+.back-btn{
+  border: 1px solid var(--primary-color);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  position: relative;
+}

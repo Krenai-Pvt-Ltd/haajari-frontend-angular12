@@ -8,5 +8,18 @@ export class EmployeeOnboardingDataDto {
   presenceStatus!: boolean;
   isEnable!: boolean;
   onboardingStatus!: string;
-  teamNames!: string[];
+  teamsNameList!: UserTeamDetails[];
+  slackUserId!: string;
+  resignationStatus: any;
+  userExistInExitPolicy: number = 0;
+  employeeCode!: string;
+  userShiftName!: string;
+  userLeavePolicyName!: string;
+}
+
+export class UserTeamDetails {
+   teamId!: number;
+   teamName!: string;
+   uuid!: string;
+   createdDate!: Date;
 }

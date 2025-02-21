@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ErrorPageComponent } from './modules/common/error-page/error-page.component';
+import { SubscriptionExpiredComponent } from './modules/common/subscription-expired/subscription-expired.component';
 
 const routes: Routes = [
   // { path: '', redirectTo: '/login', pathMatch:'full'},
@@ -9,13 +10,13 @@ const routes: Routes = [
     loadChildren: () =>
       import('./modules/dynamic/dynamic.module').then((m) => m.DynamicModule),
   },
-  {
-    path: 'organization-onboarding',
-    loadChildren: () =>
-      import(
-        './modules/organization-onboarding/organization-onboarding.module'
-      ).then((m) => m.OrganizationOnboardingModule),
-  },
+  // {
+  //   path: 'organization-onboarding',
+  //   loadChildren: () =>
+  //     import(
+  //       './modules/organization-onboarding/organization-onboarding.module'
+  //     ).then((m) => m.OrganizationOnboardingModule),
+  // },
   {
     path: 'employee-onboarding',
     loadChildren: () =>
@@ -53,6 +54,12 @@ const routes: Routes = [
         (m) => m.AuthenticationModule
       ),
   },
+  { path: 'employee', loadChildren: () => import('./modules/employee-profile/employee-profile.module').then(m => m.EmployeeProfileModule) },
+  
+  {path:'subscription/expired', component: SubscriptionExpiredComponent},
+
+
+
   { path: '**', component: ErrorPageComponent },
 ];
 

@@ -3,25 +3,33 @@
   min-width: 150px;
   border-radius: 2px;
 }
+
 .hr {
   padding: 0px !important;
   margin: 0px !important;
 }
+
 .text-truncate {
   padding: 0px !important;
 }
+
 .file-box-content .file-box {
   padding: 6px;
 }
+
 .invoice-head {
   border-bottom: none;
+  border: 1px solid #f1f1f1;
 }
+
 .invoice-head .contact-detail li {
   border-left: 1px dashed #f1f1f1;
 }
+
 .ps-3 {
   padding-left: 2rem !important;
 }
+
 .bg-soft-success:hover {
   background-color: #f1f1f1 !important;
   color: #000 !important;
@@ -46,37 +54,39 @@
 .file-box-content {
   overflow-x: scroll;
 }
+
 .file-box-content::-webkit-scrollbar {
   display: none;
 }
 
 .payroll-next {
   top: 28px;
-  left: -1px;
+  left: -3px;
   width: 25px;
   height: 25px;
-  background-color: #6666f3;
+  background-color: #6666F2;
   color: #fff;
   border-radius: 50%;
   line-height: 23px;
 }
 
 .payroll-next i {
-  top: -1px;
+  top: -2px;
 }
+
 .payroll-prev {
   top: 28px;
-  right: -1px;
+  right: -3px;
   width: 25px;
   height: 25px;
-  background-color: #6666f3;
+  background-color: #6666f2;
   color: #fff;
   border-radius: 50%;
   line-height: 23px;
 }
 
 .payroll-prev i {
-  top: -1px;
+  top: -2px;
 }
 
 [class^="bi-"]::before,
@@ -108,7 +118,7 @@
   outline: none !important;
 }
 
-#count-input{
+#count-input {
   width: 100% !important;
 }
 
@@ -146,11 +156,11 @@
   z-index: 99999;
 }
 
-.payroll-step{
+.payroll-step {
   cursor: pointer;
 }
 
-.payroll-step:hover{
+.payroll-step:hover {
   color: #000 !important;
   background-color: #F1F1F1 !important;
 }
@@ -181,11 +191,13 @@
 }
 
 @keyframes dotOpacity {
+
   0%,
   80%,
   100% {
     opacity: 0;
   }
+
   40% {
     opacity: 1;
   }
@@ -259,11 +271,37 @@
   font-size: 14px;
   color: #777;
 }
+
 /* payroll-dashboard.component.css */
 ngx-charts-legend text {
   display: none;
 }
 
 ngx-charts-legend .legend-title {
+  display: none;
+}
+
+
+.modal-backdrop {
+  z-index: 1040 !important;
+}
+
+.modal {
+  z-index: 1050 !important;
+}
+
+
+.ant-empty-image img {
+  width: 90px;
+}
+
+.table tbody {
+  border: 1px solid #f1f1f1;
+}
+.payroll-history-data{
+  max-height: 500px;
+  overflow: scroll;
+}
+.payroll-history-data::-webkit-scrollbar{
   display: none;
 }

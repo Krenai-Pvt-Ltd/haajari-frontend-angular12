@@ -73,6 +73,14 @@
 .status-pending {
   color: rgb(255, 153, 0); /* Purple color for pending */
 }
+.action-btn{
+  background-color: var(--primary-background-color);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  height: 45px;
+  min-width: 150px;
+}
 
 @media (max-width: 600px) {
   .employee-previeww {

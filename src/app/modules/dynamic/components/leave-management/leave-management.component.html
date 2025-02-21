@@ -1,75 +1,22 @@
 <div class="page-wrapper">
   <div class="page-content-tab">
-    <div class="container-fluid">
-      <div class="row"></div>
-      <!-- <div class="d-flex align-items-center justify-content-between p-2" ><div class="centrel-leave-management-heding"><h3>Goog afternoon, Yogesh!</h3><p>You have 2 leave request pending.</p></div><div class="month-celender d-flex align-items-center justify-content-between" ><div class=""><p>Current time</p><h4>26 Sept 2023,12.10 PM</h4></div><div class=""><i class="bi bi-clock-history" style="font-size: 18px;"></i></div></div></div> -->
-      <div class="row p-2 mt-3">
+    <div class="container-fluid mt-4">
+
+      <div class="row">
         <div class="col-md-4">
           <div class="chart-box">
             <h4 class="mb-2">Weekly Leave Pattern</h4>
-            <!-- <img src="assets/images/wekly.png" style="width:100%"> -->
-
-            <!-- <div class="errorboxmain text-center" *ngIf="weeklyPlaceholderFlag">
-              <div class="errorboxinner">
-                <div class="errorboxplaceholder mb-2">
-                  <img src="assets/images/empty-box.svg" style="width: 80px" />
-                </div>
-                <div class="">
-                  <h4>No Data Found</h4>
-                  <p class="mb-0">
-                    We're unable to locate a record associated with the
-                    information you entered.
-                  </p>
-                </div>
-              </div>
-            </div> -->
-
-            <ngx-charts-bar-vertical-stacked
-              [view]="view"
-              [results]="weeklyChartData"
-              [scheme]="colorScheme"
-              [gradient]="gradient"
-              [xAxis]="true"
-              [yAxis]="true"
-              [legend]="false"
-              [animations]="true"
-            >
-            </ngx-charts-bar-vertical-stacked>
+            <ngx-charts-bar-vertical-stacked [view]="view" [results]="weeklyChartData" [scheme]="colorScheme"
+              [gradient]="gradient" [xAxis]="true" [yAxis]="true" [legend]="false"
+              [animations]="true"></ngx-charts-bar-vertical-stacked>
           </div>
         </div>
         <div class="col-md-4">
           <div class="chart-box">
             <h4 class="mb-2">Last 6 Months Pattern</h4>
-            <!-- <img src="assets/images/monthly.png" style="width:100%"> -->
-            <!-- <div
-              class="errorboxmain text-center"
-              *ngIf="monthlyPlaceholderFlag"
-            >
-              <div class="errorboxinner">
-                <div class="errorboxplaceholder mb-2">
-                  <img src="assets/images/empty-box.svg" style="width: 80px" />
-                </div>
-                <div class="">
-                  <h4>No Data Found</h4>
-                  <p class="mb-0">
-                    We're unable to locate a record associated with the
-                    information you entered.
-                  </p>
-                </div>
-              </div>
-            </div> -->
-
-            <ngx-charts-bar-vertical-stacked
-              [view]="view"
-              [results]="monthlyChartData"
-              [scheme]="colorScheme"
-              [gradient]="gradient"
-              [xAxis]="true"
-              [yAxis]="true"
-              [legend]="false"
-              [animations]="true"
-            >
-            </ngx-charts-bar-vertical-stacked>
+            <ngx-charts-bar-vertical-stacked [view]="view" [results]="monthlyChartData" [scheme]="colorScheme"
+              [gradient]="gradient" [xAxis]="true" [yAxis]="true" [legend]="false"
+              [animations]="true"></ngx-charts-bar-vertical-stacked>
           </div>
         </div>
         <div class="col-md-4">
@@ -77,449 +24,80 @@
             <h4 class="mb-2">Consumed leave types</h4>
             <div class="d-flex flex-column" style="gap: 3px">
               <ng-container *ngFor="let leave of consumedLeaveArray">
-                <div
-                  class="d-flex justify-content-between align-items-center pt-2"
-                >
+                <div class="d-flex justify-content-between align-items-center pt-2">
                   <div class="leave-detail">
                     <b>{{ getLeaveInitials(leave?.leaveType) }}</b>
                     {{ leave?.leaveType }}
                   </div>
                   <div class="leave-count">
-                    <span
-                      >{{ leave?.consumedCount }} /
-                      {{ leave?.totalLeaveCount }}</span
-                    >
+                    <span>{{ leave?.consumedCount }} /
+                      {{ leave?.totalLeaveCount }}</span>
                   </div>
                 </div>
               </ng-container>
             </div>
 
-            <!-- <div class="d-flex align-items-center " style="gap:20px;">
-                <div class="d-flex align-items-center pt-2" style="width: 100%; gap:10px;">
-                  <div class="leave-type" *ngFor="let leave of consumedLeaveArray">
-                    <p  >
-                      <b>{{getLeaveInitials(leave?.leaveType)}}</b> {{leave?.leaveType}}
-                      <span> {{leave?.consumedCount}} / {{leave?.totalLeaveCount}}</span>
-                    </p>
-                    
-                  </div>
-                </div>
-                <div class="" style="width: 30%;"></div>
-              </div> -->
             <div class="leave-progress">
-              <!-- <div
-                class="errorboxmain text-center"
-                *ngIf="consumedLeavesPlaceholderFlag"
-              >
-                <div class="errorboxinner">
-                  <div class="errorboxplaceholder mb-2">
-                    <img
-                      src="assets/images/empty-box.svg"
-                      style="width: 80px"
-                    />
-                  </div>
-                  <div class="">
-                    <h4>No Data Found</h4>
-                    <p class="mb-0">
-                      We're unable to locate a record associated with the
-                      information you entered.
-                    </p>
-                  </div>
-                </div>
-              </div> -->
-
-              <ngx-charts-bar-horizontal-normalized
-                *ngIf="dataReady"
-                [view]="views"
-                [scheme]="colorSchemeConsumed"
-                [results]="consumedLeaveData"
-                [gradient]="false"
-                [xAxis]="showXAxis"
-                [yAxis]="showYAxis"
-                [legend]="showLegend"
-              >
-              </ngx-charts-bar-horizontal-normalized>
-              <!-- <div class="d-flex align-items-center" style="gap: 20px; margin-bottom: 3px;" *ngFor="let leaves of consumedLeaveArray">
-                  <span class="progress-heading">{{ getLeaveInitials(leaves?.leaveType) }}</span>
-                  <div class="progress">
-                      <div 
-                          class="progress-bar progress-bar-striped" 
-                          role="progressbar" 
-                          [style.width]="(leaves?.consumedCount / leaves?.totalLeaveCount * 100) + '%'" 
-                          [attr.aria-valuenow]="leaves?.consumedCount" 
-                          aria-valuemin="0" 
-                          aria-valuemax="100">
-                      </div>
-                  </div>
-                  <span class="progress-heading">
-                      {{ leaves?.consumedCount }} 
-                      <span class="total-leave-detail">/{{ leaves?.totalLeaveCount }}</span>
-                  </span>
-              </div> -->
-
-              <!-- <div class="d-flex align-items-center" style="gap:20px; margin-bottom: 3px;" *ngFor="let leaves of consumedLeaveArray">
-                      <span class="progress-heading">{{getLeaveInitials(leaves?.leaveType)}}</span>
-                      <div class="progress">
-                      <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 30%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
-                      </div>
-                      <span class="progress-heading">{{leaves?.consumedCount}} <span class="total-leave-deta">/{{leaves?.totalLeaveCount}}</span>
-                      </span>
-                  </div> -->
-              <!-- <div class="d-flex align-items-center" style="gap:20px; margin-bottom: 3px;">
-                      <span class="progress-heading">CL</span>
-                      <div class="progress">
-                      <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 80%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
-                      </div>
-                      <span class="progress-heading">8 <span class="total-leave-deta">/12</span>
-                      </span>
-                  </div> -->
+              <ngx-charts-bar-horizontal-normalized *ngIf="dataReady" [view]="views" [scheme]="colorSchemeConsumed"
+                [results]="consumedLeaveData" [gradient]="false" [xAxis]="showXAxis" [yAxis]="showYAxis"
+                [legend]="showLegend"></ngx-charts-bar-horizontal-normalized>
             </div>
+            <!-- <div class="empty-file" style="margin-top: 15%">
+              <nz-empty
+                nzNotFoundImage="assets/images/no-data-found-img-2.svg"
+                [nzNotFoundContent]="contentTpl"
+              >
+                <ng-template #contentTpl>
+                  <p class="mb-1 empty-detail font-16">No leave crated</p>
+                </ng-template>
+              </nz-empty>
+            </div> -->
           </div>
         </div>
       </div>
-      <div class="row p-2 mt-3">
-        <div class="col-md-6">
-          <div class="my-leave-log">
-            <div class="my-leave-log-hedding">
-              <h4>My Leaves</h4>
-
-              <!-- <a href="" class="view-loges-btn">Apply for leaves <i class="bi bi-chevron-right"></i></a> -->
-              <!-- <div class="dropdown" style="width: 30%;" *ngIf="(ROLE!='USER')"><button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown"> Select Team <i class="bi bi-chevron-down" style="color: #444; font-size: 15px;"></i></button><ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu" style="width: 100%;"><li class="ng-star-inserted" *ngFor="let tn of teamNameList"><a class="dropdown-item"> {{tn}} </a></li></ul></div> -->
-            </div>
-            <hr style="margin-bottom: 10px" />
-            <!-- <div class="mb-3"><div class="form-group pb-1" style="width: 100%; position: relative; border-bottom: 1px solid #e8ebf3"><input  type="text" id="searchText" placeholder="Search" class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px; border: none !important;"><i  class="bi bi-search search-icon" style="margin: auto; margin-left: 10px;"></i></div></div> -->
-            <div
-              class="mb-3 d-flex align-items-center"
-              style="border: 1px solid #f1f1f1; border-radius: 2px"
-              *ngIf="ROLE != 'USER'"
-            >
-              <div
-                class="dropdown"
-                style="width: 35%"
-                *ngIf="ROLE != 'USER' || fullLeaveLogs.length > 0"
-              >
-                <button
-                  type="button"
-                  id="dropdownMenuButton1"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                  class="btn btn-secondary dropdown-toggle new-deopdown"
-                >
-                  {{ selectedTeamName ? selectedTeamName : "All" }}
-                  <i
-                    class="bi bi-chevron-down"
-                    style="color: #444; font-size: 15px"
-                  ></i>
-                </button>
-                <ul
-                  aria-labelledby="dropdownMenuButton1"
-                  class="dropdown-menu team-dropdown"
-                  style="width: 100%"
-                >
-                  <li
-                    class="ng-star-inserted"
-                    *ngIf="selectedTeamName"
-                    (click)="selectTeam('')"
-                  >
-                    <a class="dropdown-item">All</a>
-                  </li>
-                  <li 
-                 
-                    class="ng-star-inserted"
-                    *ngFor="let tn of teamNameList"
-                    (click)="selectTeam(tn.teamName)"
-                  >
-                    <a class="dropdown-item" > {{ tn.teamName }} </a>
-                  </li>
-                </ul>
-              </div>
-              <div
-                class="form-group pb-1"
-                style="width: 65%; position: relative"
-              >
-                <input
-                  type="text"
-                  id="searchText"
-                  placeholder="Search"
-                  [(ngModel)]="searchString"
-                  class="form-control me-2 ng-untouched ng-pristine ng-valid"
-                  style="padding: 10px 30px; border: none !important"
-                  (keyup)="searchLeaves()"
-                />
-                <i
-                  class="bi bi-search search-icon"
-                  style="margin: auto; margin-left: 10px"
-                  *ngIf="searchString == ''"
-                ></i>
-                <i
-                  class="bi bi-x search-icon"
-                  style="margin: auto; margin-left: 10px"
-                  *ngIf="searchString != ''"
-                  (click)="clearSearchUsers()"
-                ></i>
-              </div>
-            </div>
-            <div
-              class="leave-logs"
-              #logContainer
-              (scroll)="scrollDownRecentActivity($event)"
-            >
-              <div
-                class="errorboxmain text-center"
-                *ngIf="fullLeaveLogs.length == 0"
-              >
-                <div class="errorboxinner">
-                  <div class="errorboxplaceholder mb-2">
-                    <img
-                      src="assets/images/empty-box.svg"
-                      style="width: 80px"
-                    />
-                  </div>
-                  <div class="">
-                    <h4>No Data Found</h4>
-                    <p class="mb-0">
-                      We're unable to locate a record associated with the
-                      information you entered.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div class="activity" *ngFor="let fullLogList of fullLeaveLogs">
-                <div class="activity-info">
-                  <div class="icon-info-activity">
-                    <i
-                      class="ti ti-clock bg-soft-warning"
-                      *ngIf="fullLogList.status == 'pending'"
-                    ></i>
-                    <i
-                      class="ti ti-clock bg-soft-warning"
-                      *ngIf="fullLogList.status == 'requested'"
-                    ></i>
-                    <i
-                      class="ti ti-checks bg-soft-success"
-                      *ngIf="fullLogList.status == 'approved'"
-                    ></i>
-                    <i
-                      class="ti ti-x bg-soft-danger"
-                      *ngIf="fullLogList.status == 'rejected'"
-                    ></i>
-                  </div>
-                  <div class="activity-info-text">
-                    <div>
-                      <div class="float-end">
-                        <div class="dropdown d-inline-block">
-                          <div class="align-self-center">
-                            <div class="btn btn-xs btn-light btn-round">
-                              {{
-                                fullLogList.leaveDate | date:'medium' || "N/A"
-                              }}
-                              <!-- &nbsp; -->
-                              <!-- <span>{{
-                                fullLogList.leaveDate | date:'medium' || "N/A"
-                              }}</span> -->
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="media align-items-center">
-                        <div class="media-body ms-2 align-self-center">
-                          <h5
-                            class="m-0 Regular-data"
-                            (click)="routeToUserProfile(fullLogList.uuid)"
-                          >
-                            {{ fullLogList.username }}
-                          </h5>
-                          <p class="text-muted font-12 mb-0">
-                            <span
-                              style="color: orange"
-                              class="ng-star-inserted"
-                              *ngIf="fullLogList.status == 'pending'"
-                              >Applied <span> To </span>
-                            </span>
-                            <span
-                              style="color: green"
-                              class="ng-star-inserted"
-                              *ngIf="fullLogList.status == 'approved'"
-                              >Approved <span> By </span>
-                            </span>
-                            <span
-                              style="color: rgb(255, 55, 0)"
-                              class="ng-star-inserted"
-                              *ngIf="fullLogList.status == 'rejected'"
-                              >Rejected <span> By </span>
-                            </span>
-                            <span
-                              style="color: rgb(155, 235, 234)"
-                              class="ng-star-inserted"
-                              *ngIf="fullLogList.status == 'requested'"
-                              >Requested <span> To </span>
-                            </span>
-                            {{ fullLogList.managerName }}
-                          </p>
-                        </div>
-                      </div>
-                      <hr class="hr-dashed" />
-                      <div class="d-flex justify-content-between">
-                        <p>
-                          Duration:
-                          <u
-                            >{{
-                              formatDateIn(formatDate(fullLogList.startDate))
-                            }}
-                            -
-                            {{
-                              formatDateIn(formatDate(fullLogList.endDate))
-                            }}</u
-                          >
-                        </p>
-                        <h6 class="fw-semibold">
-                          <span class="badge badge-outline-primary"
-                            >{{ fullLogList.totalDays }} Days |
-                            {{ fullLogList.leaveType }}</span
-                          >
-                        </h6>
-                      </div>
-                      <p class="text-muted mb-0">{{ fullLogList.notes }}</p>
-                    </div>
-
-                    <a
-                      class="text-primary"
-                      *ngIf="fullLogList.docFileLink != null"
-                      (click)="downloadSingleImage(fullLogList.docFileLink)"
-                    >
-                      Declaration <i class="bi bi-arrow-down"></i>
-                    </a>
-                    <hr class="hr-dashed" />
-                  </div>
-                </div>
-              </div>
-              <!--end activity-->
-            </div>
-
-            <!-- [ngStyle]="{'background-color': initialLoadDone ? '#9999f7' : ''}" -->
-            <div
-              class="align-self-center text-center mt-2"
-              *ngIf="!isFullLeaveLoader && !initialLoadDone"
-            >
-              <button
-                type="button"
-                class="btn btn-xs btn-light btn-round"
-                *ngIf="fullLeaveLogSize > 9"
-                (click)="loadMoreLogs()"
-              >
-                Load More <i class="bi bi-chevron-down"></i>
-              </button>
-            </div>
-            <div
-              class="text-center load-more-btn"
-              *ngIf="isFullLeaveLoader && fullLeaveLogSize > 9"
-            >
-              <div
-                class="spinner-border spinner-border-custom-1 text-primary"
-                role="status"
-              ></div>
-              <div><small>Loading...</small></div>
-            </div>
-            <!-- <div class="text-center load-more-btn">
-                <p *ngIf='fullLeaveLogSize>9' (click)="loadMoreLogs()"> Load more <i class="bi bi-chevron-down"></i>
-                </p>
-              </div> -->
-          </div>
-        </div>
+      <div class="row mt-3">
         <div class="col-md-6">
           <div class="my-leave-log">
             <div
-              class="my-leave-log-hedding d-flex align-items-center justify-content-between leave-request-padding mb-1"
-            >
+              class="my-leave-log-hedding d-flex align-items-center justify-content-between leave-request-padding mb-1">
               <h4>Leave Requests</h4>
-              <!-- <a href="" class="view-loges-btn">View All <i class="bi bi-chevron-right"></i></a> -->
-              <a
-                href=""
-                class="view-loges-btn"
-                *ngIf="ROLE != 'ADMIN'"
-                data-bs-toggle="modal"
-                data-bs-target=".apply-leave"
-                >Apply for leaves <i class="bi bi-chevron-right"></i>
-              </a>
+              <!-- <a href="" class="view-loges-btn" *ngIf="ROLE != 'ADMIN'" data-bs-toggle="modal"
+                data-bs-target=".apply-leave">Apply for leaves <i class="bi bi-chevron-right"></i>
+              </a> -->
             </div>
-
             <ul class="nav nav-tabs bg-white border-top" role="tablist">
-              <li class="nav-item" (click)="activeTabs('home')">
-                <a
-                  class="nav-link active"
-                  data-bs-toggle="tab"
-                  href="#home"
-                  role="tab"
-                  aria-selected="true"
-                  >Pending Leave
-                  <span
-                    class="badge rounded-pill badge-outline-warning"
-                    style="margin-left: 10px"
-                    *ngIf="totalCountOfPendingCounts > 0"
-                    >{{ totalCountOfPendingCounts }}</span
-                  ></a
-                >
+              <li class="nav-item d-flex align-items-center" >
+                <a class="nav-link active" data-bs-toggle="tab" href="#pendingLeaves" role="tab"
+                 aria-selected="true" (click)="onTabChange(PENDING)">Pending Leave
+                </a>
+                <span class="request-count d-flex align-items-center justify-content-center"
+                  *ngIf="totalCountOfPendingCounts > 0">{{ totalItems[PENDING] }}</span>
               </li>
-              <li class="nav-item" (click)="activeTabs('attendance')">
-                <a
-                  class="nav-link"
-                  data-bs-toggle="tab"
-                  href="#attendance"
-                  role="tab"
-                  aria-selected="true"
-                  >Leaves History</a
-                >
+              <li class="nav-item" >
+                <a class="nav-link" data-bs-toggle="tab" href="#leaveHistory" role="tab" 
+                aria-selected="true" (click)="onTabChange(HISTORY)">Leaves  History</a>
               </li>
             </ul>
             <div class="tab-content">
-              <div
-                class="pt-3 pb-3"
-                id="home"
-                role=""
-                *ngIf="activeHomeTabFlag"
-              >
-                <div
-                  class="leave-history-box"
-                  #logContainerOfPendingLeaves
-                  (scroll)="scrollDownRecentActivityOfPendingLeaves($event)"
-                >
-                  <div
-                    class="errorboxmain text-center"
-                    *ngIf="pendingLeaves.length == 0"
-                  >
-                    <div class="errorboxinner">
-                      <div class="errorboxplaceholder mb-2">
-                        <img
-                          src="assets/images/empty-box.svg"
-                          style="width: 80px"
-                        />
-                      </div>
-                      <div class="">
-                        <h4>No Data Found</h4>
-                        <p class="mb-0">
-                          We're unable to locate a record associated with the
-                          information you entered.
+              <!-------------PENDING LEAVE TAB STARTS ------------------>
+              <div class=" tab-pane active pt-3 pb-3" id="pendingLeaves" #pendingLeaves role="tabpanel" >
+                <div class="leave-history-box" #logContainerOfPendingLeaves
+                 >
+                  <div class="empty-file" style="margin-top: 25%" *ngIf="totalItems[PENDING]==0  && !isLoadingLeaves[PENDING]">
+                    <nz-empty nzNotFoundImage="assets/images/pending-leave.svg" [nzNotFoundContent]="contentTpl">
+                      <ng-template #contentTpl>
+                        <p class="mb-1 empty-detail font-16">
+                          No pending for now
                         </p>
-                      </div>
-                    </div>
+                      </ng-template>
+                    </nz-empty>
                   </div>
-                  <div class="row mt-2" *ngFor="let pl of pendingLeaves">
+                  <div class="row mt-2" *ngFor="let pl of leaves[PENDING]">
                     <div class="col-auto">
-                      <img
-                        *ngIf="pl.image"
-                        src="{{ pl.image }}"
-                        alt=""
-                        class="thumb-md rounded-circle"
-                        style="width: 32px; height: 32px"
-                      />
-                      <img
-                        *ngIf="!pl.image"
-                        src="assets/images/user.png"
-                        alt=""
-                        class="thumb-md rounded-circle"
-                        style="width: 32px; height: 32px"
-                      />
+                      <img *ngIf="pl.image" src="{{ pl.image }}" alt="" class="thumb-md rounded-circle"
+                        style="width: 32px; height: 32px" (error)="onError($event)" />
+                      <img *ngIf="!pl.image" src="assets/images/user.png" alt="" class="thumb-md rounded-circle"
+                        style="width: 32px; height: 32px" />
                     </div>
                     <!--end col-->
                     <div class="col">
@@ -530,15 +108,10 @@
                               <div class="align-self-center">
                                 <h6 class="fw-semibold">
                                   <span class="badge badge-outline-primary">
-                                    {{ pl.totalDays }} Days |
-                                    {{ pl.leaveType }}</span
-                                  >
+                                    {{ pl.totalValidDays }} Days |
+                                    {{ pl.leaveType }}</span>
                                 </h6>
-                                <small
-                                  >{{
-                                    pl.leaveDate | date:'medium' ||
-                                      "N/A"
-                                  }}
+                                <small>{{ pl.leaveDate | date : "medium" || "N/A" }}
                                   <!-- &nbsp;
                                   <span>{{
                                     pl.leaveDate | date:'medium' || "N/A"
@@ -549,142 +122,79 @@
                           </div>
                           <div class="media align-items-center">
                             <div class="media-body ms-2 align-self-center">
-                              <h5
-                                class="m-0 Regular-data"
-                                (click)="routeToUserProfile(pl.uuid)"
-                              >
+                              <h5 class="m-0 Regular-data" (click)="routeToUserProfile(pl.uuid)">
                                 {{ pl.username }}
                               </h5>
                               <p>
                                 Duration:
-                                <u
-                                  >{{ formatDateIn(formatDate(pl.startDate)) }}
+                                <u>{{ pl.startDate | date : 'd MMMM, y' || "N/A" }}
                                   -
-                                  {{ formatDateIn(formatDate(pl.endDate)) }}</u
-                                >
+                                  {{ pl.endDate | date : 'd MMMM, y' || "N/A" }}</u>
                               </p>
                             </div>
                           </div>
                         </div>
-                        <a
-                          href="#"
-                          class="text-primary"
-                          (click)="getPendingLeave(pl.id, pl.leaveType)"
-                          data-bs-toggle="modal"
-                          data-bs-target="#leave-appervo"
-                        >
-                          <i class="fas fa-external-link-square-alt me-1"></i
-                          >View
+                        <a href="#" class="text-primary" (click)="viewPendingLeave(pl)"
+                          data-bs-toggle="modal" data-bs-target="#leave-appervo">
+                          <i class="fas fa-external-link-square-alt me-1"></i>View
                         </a>
                       </div>
                     </div>
                     <!--end col-->
                   </div>
-                </div>
-                <div
-                  class="align-self-center text-center mt-2"
-                  *ngIf="!initialLoadDoneOfPendingLeaves"
-                >
-                  <button
-                    type="button"
-                    class="btn btn-xs btn-light btn-round"
-                    *ngIf="pendingLeavesSize > 4"
-                    (click)="loadMorePendingLeaves()"
-                  >
-                    Load More <i class="bi bi-chevron-down"></i>
-                  </button>
-                </div>
-                <div
-                  class="text-center load-more-btn"
-                  *ngIf="isPendingLoader && pendingLeavesSize > 4"
-                >
-                  <div
-                    class="spinner-border spinner-border-custom-1 text-primary"
-                    role="status"
-                  ></div>
-                  <div><small>Loading...</small></div>
-                </div>
-              </div>
-
-              <!--  [ngClass]="{
-                    'leave-history-box': pendingLeavesSize > 1,
-                    'leave-history-box-if-pending-null': pendingLeavesSize == 0,
-                    'leave-history-box-if-pending-one': pendingLeavesSize == 1
-                  }" -->
-              <div
-                class="pt-3 pb-3"
-                id="attendance"
-                role=""
-                *ngIf="activeAttendanceTabFlag"
-              >
-                <div class = "leave-history-box-if-pending-null"
-                  #logContainerOfApprovedRejected
-                  (scroll)="scrollDownRecentActivityOfApprovedRejected($event)"
-                >
-                  <div
-                    class="errorboxmain text-center"
-                    *ngIf="approvedRejectedLeaves.length == 0"
-                  >
-                    <div class="errorboxinner">
-                      <div class="errorboxplaceholder mb-2">
-                        <img
-                          src="assets/images/empty-box.svg"
-                          style="width: 80px"
-                        />
-                      </div>
-                      <div class="">
-                        <h4>No Data Found</h4>
-                        <p class="mb-0">
-                          We're unable to locate a record associated with the
-                          information you entered.
-                        </p>
-                      </div>
+                  <div class="align-self-center text-center mt-2" *ngIf="leaves[PENDING]?.length!=totalItems[PENDING] && !isLoadingLeaves[PENDING] &&  totalItems[PENDING]!=0">
+                    <button type="button" class="btn btn-xs btn-light btn-round"
+                      (click)="loadMoreLeaves(PENDING)">
+                      Load More <i class="bi bi-chevron-down"></i>
+                    </button>
+                  </div>
+                  <div class="text-center load-more-btn"  *ngIf="isLoadingLeaves[PENDING]">
+                    <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
+                    <div>
+                      <small>Loading...</small>
                     </div>
                   </div>
+                </div>
+                
+              </div>
+              <!-------------PENDING LEAVE TAB ENDS ------------------>
 
-                  <div
-                    class="row mt-2"
-                    *ngFor="let arl of approvedRejectedLeaves"
-                  >
+              <!-------------LEAVE HISTORY TAB STARTS ------------------>
+              <div class="tab-pane pt-3 pb-3" id="leaveHistory" #leaveHistory role="tabpanel" >
+                <div class="leave-history-box-if-pending-null" #logContainerOfApprovedRejected >
+                  <div class="empty-file" style="margin-top: 25%" *ngIf="totalItems[HISTORY]==0 && !isLoadingLeaves[HISTORY]">
+                    <nz-empty nzNotFoundImage="assets/images/pending-leave.svg" [nzNotFoundContent]="contentTpl">
+                      <ng-template #contentTpl>
+                        <p class="mb-1 empty-detail font-16">
+                          No leaves history for now
+                        </p>
+                      </ng-template>
+                    </nz-empty>
+                  </div>
+                  <div class="row mt-2" *ngFor="let arl of leaves[HISTORY]">
                     <div class="col-auto">
-                      <img
-                        *ngIf="arl.image"
-                        src="{{ arl.image }}"
-                        alt=""
-                        class="thumb-md rounded-circle"
-                        style="width: 32px; height: 32px"
-                      />
-                      <img
-                        *ngIf="!arl.image"
-                        src="assets/images/user.png"
-                        alt=""
-                        class="thumb-md rounded-circle"
-                        style="width: 32px; height: 32px"
-                      />
+                      <img *ngIf="arl.image" src="{{ arl.image }}" alt="" class="thumb-md rounded-circle"
+                        style="width: 32px; height: 32px" (error)="onError($event)" />
+                      <img *ngIf="!arl.image" src="assets/images/user.png" alt="" class="thumb-md rounded-circle"
+                        style="width: 32px; height: 32px" />
                     </div>
                     <!--end col-->
                     <div class="col">
-                      <div
-                        class="comment-body ms-n2 p-3"
-                        [ngClass]="{
+                      <div class="comment-body ms-n2 p-3" [ngClass]="{
                           'bg-soft-success': arl.status == 'approved',
                           'bg-soft-danger': arl.status == 'rejected'
-                        }"
-                      >
+                        }">
                         <div class="activity-info-text">
                           <div class="float-end">
                             <div class="dropdown d-inline-block">
                               <div class="align-self-center">
                                 <h6 class="fw-semibold">
                                   <span class="badge badge-outline-primary">
-                                    {{ arl.totalDays }} Days |
-                                    {{ arl.leaveType }}</span
-                                  >
+                                    {{ arl.totalValidDays }} Days |
+                                    {{ arl.leaveType }}</span>
                                 </h6>
-                                <small
-                                  >{{
-                                    arl.leaveDate | date:'medium' ||
-                                      "N/A"
+                                <small>{{
+                                  arl.leaveDate | date : "medium" || "N/A"
                                   }}
                                   <!-- &nbsp;
                                   <span>{{
@@ -696,27 +206,16 @@
                           </div>
                           <div class="media align-items-center">
                             <div class="media-body ms-2 align-self-center">
-                              <h5
-                                class="m-0 Regular-data"
-                                (click)="routeToUserProfile(arl.uuid)"
-                              >
+                              <h5 class="m-0 Regular-data" (click)="routeToUserProfile(arl.uuid)">
                                 {{ arl.username }}
-                                <i
-                                  class="ti ti-checks bg-soft-success"
-                                  *ngIf="arl.status == 'approved'"
-                                ></i>
-                                <i
-                                  class="ti ti-x bg-soft-danger"
-                                  *ngIf="arl.status == 'rejected'"
-                                ></i>
+                                <i class="ti ti-checks bg-soft-success" *ngIf="arl.status == 'approved'"></i>
+                                <i class="ti ti-x bg-soft-danger" *ngIf="arl.status == 'rejected'"></i>
                               </h5>
                               <p>
                                 Duration:
-                                <u
-                                  >{{ formatDateIn(formatDate(arl.startDate)) }}
+                                <u>{{arl.startDate | date : 'd MMMM, y' || "N/A" }}
                                   -
-                                  {{ formatDateIn(formatDate(arl.endDate)) }}</u
-                                >
+                                  {{arl.endDate | date : 'd MMMM, y' || "N/A" }}</u>
                               </p>
                             </div>
                           </div>
@@ -726,730 +225,384 @@
                     <!--end col-->
                   </div>
                 </div>
-
-                <div
-                  class="align-self-center text-center mt-2"
-                  *ngIf="!initialLoadDoneOfApprovedRejected"
-                >
-                  <button
-                    type="button"
-                    class="btn btn-xs btn-light btn-round"
-                    *ngIf="approvedRejectedLeavesSize > 4"
-                    (click)="loadMoreApprovedRejectedLogs()"
-                  >
+                <div class="align-self-center text-center mt-2" *ngIf="leaves[HISTORY]?.length!=totalItems[HISTORY] && !isLoadingLeaves[HISTORY] &&  totalItems[HISTORY]!=0">
+                  <button type="button" class="btn btn-xs btn-light btn-round" 
+                    (click)="loadMoreLeaves(HISTORY)">
                     Load More <i class="bi bi-chevron-down"></i>
                   </button>
                 </div>
-                <div
-                  class="text-center load-more-btn"
-                  *ngIf="
-                    isApprovedRejectedLoader && approvedRejectedLeavesSize > 4
-                  "
-                >
-                  <div
-                    class="spinner-border spinner-border-custom-1 text-primary"
-                    role="status"
-                  ></div>
-                  <div><small>Loading...</small></div>
+                <div class="text-center load-more-btn" *ngIf="isLoadingLeaves[HISTORY]">
+                  <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
+                  <div>
+                    <small>Loading...</small>
+                  </div>
+                </div>
+              </div>
+              <!-------------LEAVE HISTORY TAB ENDS ------------------>
+
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="my-leave-log">
+            <div class="my-leave-log-hedding">
+              <h4>My Leaves</h4>
+            </div>
+            <hr style="margin-bottom: 10px" />
+            <div class="mb-3 d-flex align-items-center" style="border: 1px solid #f1f1f1; border-radius: 2px"
+              *ngIf="ROLE != 'USER' && (totalItems[ALL]!=0 || searchTerm != '' || this.selectedTeam )">
+              <!-- TEAM FILTER DROPDOWN START -->
+              <div class="dropdown" style="width: 35%" *ngIf="ROLE != 'USER' ">
+                <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
+                  class="btn btn-secondary dropdown-toggle new-deopdown">
+                  {{ selectedTeam ? selectedTeam.teamName : "All" }}
+                  <i class="bi bi-chevron-down" style="color: #444; font-size: 15px"></i>
+                </button>
+                <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu team-dropdown" style="width: 100%">
+                  <li class="ng-star-inserted" *ngIf="selectedTeam" >
+                    <a class="dropdown-item" (click)="applyTeamFilter(null,ALL)">All</a>
+                  </li>
+                  <li class="ng-star-inserted" *ngFor="let tn of teamNameList" >
+                    <a (click)="applyTeamFilter(tn,ALL)" class="dropdown-item"> {{ tn.teamName }} </a>
+                  </li>
+                </ul>
+              </div>
+              <!-- TEAM FILTER DROPDOWN END -->
+
+              <!-- ALL EAVES SEARCH START -->
+              <div class="form-group pb-1" style="width: 65%; position: relative">
+                <input type="text" id="searchText" placeholder="Search" [(ngModel)]="searchTerm"
+                  class="form-control me-2 ng-untouched ng-pristine ng-valid"
+                  style="padding: 10px 30px; border: none !important"  (keyup)="searchLeaves(ALL)"  />
+                <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px"
+                  *ngIf="searchTerm == ''"></i>
+                <i class="bi bi-x search-icon" style="margin: auto; margin-left: 10px" *ngIf="searchTerm != ''"
+                (click)="getLeaves(ALL,true)"></i>
+              </div>
+              <!-- ALL EAVES SEARCH END -->
+
+            </div>
+            <div class="leave-logs" #logContainer >
+              <div class="empty-file" style="margin-top: 25%" *ngIf="totalItems[ALL]==0 && !isLoadingLeaves[ALL] ">
+                <nz-empty nzNotFoundImage="assets/images/no-data-found-img-2.svg" [nzNotFoundContent]="contentTpl">
+                  <ng-template #contentTpl>
+                    <p class="mb-1 empty-detail font-16">No data for now</p>
+                  </ng-template>
+                </nz-empty>
+              </div> 
+              <div class="activity" *ngFor="let fullLogList of leaves[ALL]">
+                <div class="activity-info" *ngIf="fullLogList.status != PENDING && fullLogList.status != REQUESTED">
+                  <div class="icon-info-activity">
+                    <i [ngClass]="{
+                      'ti ti-clock bg-soft-warning': fullLogList.status === PENDING || fullLogList.status === REQUESTED,
+                      'ti ti-checks bg-soft-success': fullLogList.status === APPROVED,
+                      'ti ti-x bg-soft-danger': fullLogList.status === REJECTED
+                    }"></i>
+                  </div>
+                  <div class="activity-info-text">
+                    <div>
+                      <div class="float-end">
+                        <div class="dropdown d-inline-block">
+                          <div class="align-self-center">
+                            <div class="btn btn-xs btn-light btn-round">
+                              {{
+                              fullLogList.leaveDate | date : "medium" || "N/A"
+                              }}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="media align-items-center">
+                        <div class="media-body ms-2 align-self-center">
+                          <h5 class="m-0 Regular-data" (click)="routeToUserProfile(fullLogList.uuid)">
+                            {{ fullLogList.username }}
+                          </h5>
+                          <p class="text-muted font-12 mb-0">
+                            <ng-container [ngSwitch]="fullLogList.status">
+                              <span *ngSwitchCase='PENDING' style="color: orange" class="ng-star-inserted">
+                                Applied <span> To </span>
+                              </span>
+                              <span *ngSwitchCase='APPROVED' style="color: green" class="ng-star-inserted">
+                                Approved <span> By </span>
+                              </span>
+                              <span *ngSwitchCase='REJECTED' style="color: rgb(255, 55, 0)" class="ng-star-inserted">
+                                Rejected <span> By </span>
+                              </span>
+                              <span *ngSwitchCase='REQUESTED' style="color: rgb(155, 235, 234)" class="ng-star-inserted">
+                                Requested <span> To </span>
+                              </span>
+                            </ng-container>
+                            {{ fullLogList.managerName }}
+                          </p>
+                        </div>
+                      </div>
+                      <hr class="hr-dashed" />
+                      <div class="d-flex justify-content-between">
+                        <p>
+                          Duration:
+                          <u>{{fullLogList.startDate | date : 'd MMMM, y'|| "N/A"}}
+                            -
+                            {{fullLogList.endDate| date : 'd MMMM, y' || "N/A"}}</u>
+                        </p>
+                        <h6 class="fw-semibold">
+                          <span class="badge badge-outline-primary">{{ fullLogList.totalValidDays }} Days |
+                            {{ fullLogList.leaveType }}</span>
+                        </h6>
+                      </div>
+                      <p class="text-muted mb-0">{{ fullLogList.notes }}</p>
+                      <p class="text-danger mb-0"
+                        *ngIf="fullLogList.rejectionReason != null && fullLogList.rejectionReason != ''">Reason: {{
+                        fullLogList.rejectionReason }} </p>
+                    </div>
+                    <a *ngIf="fullLogList.docFileLink != null" [href]="fullLogList.docFileLink" target="_blank"
+                      rel="noopener noreferrer">
+                      Declaration <i class="bi bi-arrow-down"></i>
+                    </a>
+
+                    <hr class="hr-dashed" />
+                  </div>
+                </div>
+                <!-- SECTOND DIV OLY FOR APPLIED  -->
+                <div class="activity-info">
+                  <div class="icon-info-activity">
+                    <i class="ti ti-clock bg-soft-warning"></i>
+                  </div>
+                  <div class="activity-info-text">
+                    <div>
+                      <div class="float-end">
+                        <div class="dropdown d-inline-block">
+                          <div class="align-self-center">
+                            <div class="btn btn-xs btn-light btn-round">
+                              {{
+                              fullLogList.leaveDate | date : "medium" || "N/A"
+                              }}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="media align-items-center">
+                        <div class="media-body ms-2 align-self-center">
+                          <h5 class="m-0 Regular-data" (click)="routeToUserProfile(fullLogList.uuid)">
+                            {{ fullLogList.username }}
+                          </h5>
+                          <p class="text-muted font-12 mb-0">
+                              <span style="color: orange" class="ng-star-inserted">
+                                Applied <span> To </span>
+                              </span>
+                            {{ fullLogList.managerName }}
+                          </p>
+                        </div>
+                      </div>
+                      <hr class="hr-dashed" />
+                      <div class="d-flex justify-content-between">
+                        <p>
+                          Duration:
+                          <u>{{fullLogList.startDate | date : 'd MMMM, y'|| "N/A"}}
+                            -
+                            {{fullLogList.endDate| date : 'd MMMM, y' || "N/A"}}</u>
+                        </p>
+                        <h6 class="fw-semibold">
+                          <span class="badge badge-outline-primary">{{ fullLogList.totalValidDays }} Days |
+                            {{ fullLogList.leaveType }}</span>
+                        </h6>
+                      </div>
+                      <p class="text-muted mb-0">{{ fullLogList.notes }}</p>
+                      <p class="text-danger mb-0"
+                        *ngIf="fullLogList.rejectionReason != null && fullLogList.rejectionReason != ''">Reason: {{
+                        fullLogList.rejectionReason }} </p>
+                    </div>
+                    <a *ngIf="fullLogList.docFileLink != null" [href]="fullLogList.docFileLink" target="_blank"
+                      rel="noopener noreferrer">
+                      Declaration <i class="bi bi-arrow-down"></i>
+                    </a>
+
+                    <hr class="hr-dashed" />
+                  </div>
+                </div>
+              </div>
+              <!--end activity-->
+              <div class="align-self-center text-center mt-2" *ngIf="!isLoadingLeaves[ALL] && leaves[ALL]?.length != totalItems[ALL] && totalItems[ALL]!=0">
+                <button type="button" class="btn btn-xs btn-light btn-round" 
+                  (click)="loadMoreLeaves(ALL)">
+                  Load More <i class="bi bi-chevron-down"></i>
+                </button>
+              </div>
+              <div class="text-center load-more-btn" *ngIf="isLoadingLeaves[ALL]">
+                <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
+                <div>
+                  <small>Loading...</small>
                 </div>
               </div>
             </div>
-
-            <!-- <div class="panding-leave-box" *ngIf="pendingLeavesSize > 0">
-              <p>
-                Pending Leave
-                <span class="badge rounded-pill badge-outline-success">{{
-                  totalCountOfPendingCounts
-                }}</span>
-              </p>
-              <div
-                class="leave-history-box"
-                #logContainerOfPendingLeaves
-                (scroll)="scrollDownRecentActivityOfPendingLeaves($event)"
-              >
-                <div class="row mt-2" *ngFor="let pl of pendingLeaves">
-                  <div class="col-auto">
-                    <img
-                      *ngIf="pl.image"
-                      src="{{ pl.image }}"
-                      alt=""
-                      class="thumb-md rounded-circle"
-                      style="width: 32px; height: 32px"
-                    />
-                    <img
-                      *ngIf="!pl.image"
-                      src="assets/images/user.png"
-                      alt=""
-                      class="thumb-md rounded-circle"
-                      style="width: 32px; height: 32px"
-                    />
-                  </div>
-                  <div class="col">
-                    <div class="comment-body ms-n2 bg-light-alt p-3">
-                      <div class="activity-info-text">
-                        <div class="float-end">
-                          <div class="dropdown d-inline-block">
-                            <div class="align-self-center">
-                              <h6 class="fw-semibold">
-                                <span class="badge badge-outline-primary">
-                                  {{ pl.totalDays }} Days |
-                                  {{ pl.leaveType }}</span
-                                >
-                              </h6>
-                              <small
-                                >{{
-                                  formatDateIn(formatDate(pl.leaveDate)) ||
-                                    "N/A"
-                                }}&nbsp;
-                                <span>{{
-                                  formatTime(pl.leaveDate) || "N/A"
-                                }}</span>
-                              </small>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="media align-items-center">
-                          <div class="media-body ms-2 align-self-center">
-                            <h5 class="m-0">{{ pl.username }}</h5>
-                            <p>
-                              Duration:
-                              <u
-                                >{{ formatDateIn(formatDate(pl.startDate)) }} -
-                                {{ formatDateIn(formatDate(pl.endDate)) }}</u
-                              >
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                      <a
-                        href="#"
-                        class="text-primary"
-                        (click)="getPendingLeave(pl.id, pl.leaveType)"
-                        data-bs-toggle="modal"
-                        data-bs-target="#leave-appervo"
-                      >
-                        <i class="fas fa-external-link-square-alt me-1"></i>View
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="align-self-center text-center mt-2"
-                *ngIf="!initialLoadDoneOfPendingLeaves"
-              >
-                <button
-                  type="button"
-                  class="btn btn-xs btn-light btn-round"
-                  *ngIf="pendingLeavesSize > 4"
-                  (click)="loadMorePendingLeaves()"
-                >
-                  Load More <i class="bi bi-chevron-down"></i>
-                </button>
-              </div>
-              <div
-                class="text-center load-more-btn"
-                *ngIf="isPendingLoader && pendingLeavesSize > 4"
-              >
-                <div
-                  class="spinner-border spinner-border-custom-1 text-primary"
-                  role="status"
-                ></div>
-                <div><small>Loading...</small></div>
-              </div>
-            </div> -->
-            <!-- <div class="panding-leave-box mt-3">
-              <p>Leaves History</p>
-              <div
-                [ngClass]="{
-                  'leave-history-box': pendingLeavesSize > 1,
-                  'leave-history-box-if-pending-null': pendingLeavesSize == 0,
-                  'leave-history-box-if-pending-one': pendingLeavesSize == 1
-                }"
-                #logContainerOfApprovedRejected
-                (scroll)="scrollDownRecentActivityOfApprovedRejected($event)"
-              >
-                <div
-                  class="errorboxmain text-center"
-                  *ngIf="approvedRejectedLeaves.length == 0"
-                >
-                  <div class="errorboxinner">
-                    <div class="errorboxplaceholder mb-2">
-                      <img
-                        src="assets/images/empty-box.svg"
-                        style="width: 80px"
-                      />
-                    </div>
-                    <div class="">
-                      <h4>No Data Found</h4>
-                      <p class="mb-0">
-                        We're unable to locate a record associated with the
-                        information you entered.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <div
-                  class="row mt-2"
-                  *ngFor="let arl of approvedRejectedLeaves"
-                >
-                  <div class="col-auto">
-                    <img
-                      *ngIf="arl.image"
-                      src="{{ arl.image }}"
-                      alt=""
-                      class="thumb-md rounded-circle"
-                      style="width: 32px; height: 32px"
-                    />
-                    <img
-                      *ngIf="!arl.image"
-                      src="assets/images/user.png"
-                      alt=""
-                      class="thumb-md rounded-circle"
-                      style="width: 32px; height: 32px"
-                    />
-                  </div>
-                  <div class="col">
-                    <div
-                      class="comment-body ms-n2 p-3"
-                      [ngClass]="{
-                        'bg-soft-success': arl.status == 'approved',
-                        'bg-soft-danger': arl.status == 'rejected'
-                      }"
-                    >
-                      <div class="activity-info-text">
-                        <div class="float-end">
-                          <div class="dropdown d-inline-block">
-                            <div class="align-self-center">
-                              <h6 class="fw-semibold">
-                                <span class="badge badge-outline-primary">
-                                  {{ arl.totalDays }} Days |
-                                  {{ arl.leaveType }}</span
-                                >
-                              </h6>
-                              <small
-                                >{{
-                                  formatDateIn(formatDate(arl.leaveDate)) ||
-                                    "N/A"
-                                }}&nbsp;
-                                <span>{{
-                                  formatTime(arl.leaveDate) || "N/A"
-                                }}</span>
-                              </small>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="media align-items-center">
-                          <div class="media-body ms-2 align-self-center">
-                            <h5 class="m-0">
-                              {{ arl.username }}
-                              <i
-                                class="ti ti-checks bg-soft-success"
-                                *ngIf="arl.status == 'approved'"
-                              ></i>
-                              <i
-                                class="ti ti-x bg-soft-danger"
-                                *ngIf="arl.status == 'rejected'"
-                              ></i>
-                            </h5>
-                            <p>
-                              Duration:
-                              <u
-                                >{{ formatDateIn(formatDate(arl.startDate)) }} -
-                                {{ formatDateIn(formatDate(arl.endDate)) }}</u
-                              >
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div
-                class="align-self-center text-center mt-2"
-                *ngIf="!initialLoadDoneOfApprovedRejected"
-              >
-                <button
-                  type="button"
-                  class="btn btn-xs btn-light btn-round"
-                  *ngIf="approvedRejectedLeavesSize > 4"
-                  (click)="loadMoreApprovedRejectedLogs()"
-                >
-                  Load More <i class="bi bi-chevron-down"></i>
-                </button>
-              </div>
-              <div
-                class="text-center load-more-btn"
-                *ngIf="
-                  isApprovedRejectedLoader && approvedRejectedLeavesSize > 4
-                "
-              >
-                <div
-                  class="spinner-border spinner-border-custom-1 text-primary"
-                  role="status"
-                ></div>
-                <div><small>Loading...</small></div>
-              </div>
-            </div> -->
+           
           </div>
         </div>
       </div>
     </div>
   </div>
+
   <!-- Modal for Viewing Leave Details -->
-  <div
-    class="modal fade"
-    id="leave-appervo"
-    tabindex="-1"
-    role="dialog"
-    aria-labelledby="exampleModalDefaultLabel"
-    aria-hidden="true"
-    data-bs-backdrop="static"
-    data-bs-keyboard="false"
-  >
-    <div
-      class="modal-dialog modal-dialog-centered"
-      style="max-width: 570px"
-      role="document"
-    >
+  <div class="modal fade" id="leave-appervo" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel"
+    aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 570px" role="document">
       <div class="modal-content">
-        <div class="modal-body p-5">
-          <button
-            type="button"
-            class="leave-request-modat-close-btn"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-            #closeModal
-          >
+        <div class="modal-body p-4">
+          <button type="button" class="leave-request-modat-close-btn" (click)="rejectLeaveModalClose()"
+            data-bs-dismiss="modal" aria-label="Close" #closeModal>
             <i class="bi bi-x" style="line-height: 20px"></i>
           </button>
-          <div
-            class="text-center leave-appervo-modal"
-            *ngIf="specificLeaveRequest"
-          >
-            <div class="d-flex align-items-start justify-content-between">
-              <div
-                class="d-flex align-items-center profile-details"
-                style="gap: 15px"
-              >
-                <div class="profile-user-img">
-                  <img
-                    [src]="
-                      specificLeaveRequest.image || 'assets/images/user.png'
-                    "
-                    style="width: 50px; height: 50px; object-fit: cover"
-                  />
-                </div>
-                <div>
-                  <h4
-                    style="cursor: pointer"
-                    (click)="
+
+          <div *ngIf="!rejectLeaveToggle">
+            <div class="text-center leave-appervo-modal" *ngIf="leave">
+              <div class="d-flex align-items-start justify-content-between">
+                <div class="d-flex align-items-center profile-details" style="gap: 15px">
+                  <div class="profile-user-img">
+                    <img [src]="
+                      leave.image || 'assets/images/user.png'
+                    " style="width: 50px; height: 50px; object-fit: cover" />
+                  </div>
+
+                  <div>
+                    <h4 style="cursor: pointer" (click)="
                       routeToUserProfileAfterClosePending(
-                        specificLeaveRequest.uuid
+                        leave.uuid
                       )
-                    "
-                  >
-                    {{ specificLeaveRequest.name }}
-                  </h4>
-                  <p>{{ specificLeaveRequest.email }}</p>
+                    ">
+                      {{ leave.name }}
+                    </h4>
+                    <p>{{ leave.email }}</p>
+                  </div>
+                </div>
+                <div class="total-holidey-live">
+                  <h5>
+                    {{
+                    leave.startDate
+                    | date : "dd MMM yyyy" || "N/A"
+                    }}
+                    -
+                    {{
+                    leave.endDate | date : "dd MMM yyyy" || "N/A"
+                    }}
+                  </h5>
+                  <p>
+                    {{ leave.leaveType }} (
+                    {{ leave.totalValidDays }} Days )
+                  </p>
+                  <p>
+                    {{
+                    leave.leaveDate
+                    | date : "dd MMM yyyy hh:mm:ss a"
+                    }}
+                  </p>
+                  <p>Applied To : {{ leave.managerName }}</p>
+
+                  <div *ngIf="leave.attachment != null" class="text-end">
+                    <a [href]="leave.attachment" target="_blank" rel="noopener noreferrer"
+                      style="font-size: 13px;">View Attachment <i class="fas fa-external-link-square-alt me-1"></i> </a>
+                  </div>
+
                 </div>
               </div>
-              <div class="total-holidey-live">
-                <h5>
-                  {{
-                    specificLeaveRequest.startDate
-                      | date : "dd MMM yyyy" || "N/A"
-                  }}
-                  -
-                  {{
-                    specificLeaveRequest.endDate | date : "dd MMM yyyy" || "N/A"
-                  }}
-                </h5>
-                <!-- <h5>{{ formatDateIn(formatDate(specificLeaveRequest.startDate)) }} - {{ formatDateIn(formatDate(specificLeaveRequest.endDate)) }}</h5> -->
-                <p>
-                  {{ specificLeaveRequest.leaveType }} (
-                  {{ specificLeaveRequest.totalDays }} Days )
-                </p>
-                <p>
-                  {{
-                    specificLeaveRequest.leaveDate
-                      | date : "dd MMM yyyy hh:mm:ss a"
-                  }}
-                  <!-- <span
-                    style="cursor: pointer"
-                    *ngIf="specificLeaveRequest.docFileLink != null"
-                    (click)="
-                      downloadSingleImage(specificLeaveRequest.docFileLink)
-                    "
-                  >
-                    Doc<i class="bi bi-file-arrow-down"></i
-                  ></span> -->
-                </p>
-                <p>Applied To : {{ specificLeaveRequest.managerName }}</p>
-              </div>
-            </div>
-            <div class="mt-4">
-              <div class="d-flex align-items-center">
-                <div class="Approved rejected-css">
-                  <p class="mb-0" style="color: black"></p>
-                  <span
-                    style="
+              <div class="mt-4">
+                <!-- <div class="d-flex align-items-center" *ngIf="!isFetchingQuotaFailed">
+                  <div class="Approved rejected-css">
+                    <p class="mb-0" style="color: black"></p>
+                    <span style="
                       color: #9196a4 !important;
                       text-align: left;
                       font-size: 14px;
                       font-weight: 400;
-                    "
-                    class="total-holiday"
-                    >{{ specificLeaveRequest.leaveType }}</span
-                  >
-                </div>
-                <div class="Approved">
-                  <p class="mb-0">{{ specificLeaveRequest.approvedLeaves }}</p>
-                  <span class="total-holiday">Approved</span>
-                </div>
-                <div class="Approved pending-css">
-                  <p class="mb-0">{{ specificLeaveRequest.pendingLeaves }}</p>
-                  <span class="total-holiday">Pending</span>
-                </div>
-                <div class="Approved remaining-css">
-                  <p class="mb-0">{{ specificLeaveRequest.remainingLeaves }}</p>
-                  <span class="total-holiday">Remaining</span>
-                </div>
-              </div>
-              <p class="mt-4 mb-4">{{ specificLeaveRequest.notes }}</p>
-              <!-- <div class="d-flex align-items-center justify-content-end" style="gap:10px"><button class="btn approve-btn" type="button">Approve</button><button class="btn reject-btn" type="button">Reject</button></div> -->
-              <div class="mb-3" style="text-align: left">
-                <a
-                  class="text-primary"
-                  *ngIf="specificLeaveRequest.docFileLink != null"
-                  (click)="
-                    downloadSingleImage(specificLeaveRequest.docFileLink)
-                  "
-                >
-                  Declaration <i class="bi bi-arrow-down"></i>
-                </a>
-              </div>
+                    " class="total-holiday">{{ leave.leaveType }}</span>
+                  </div>
+                  <div class="Approved">
+                    <p class="mb-0">{{ leave.approved }}</p>
+                    <span class="total-holiday">Approved</span>
+                  </div>
+                  <div class="Approved pending-css">
+                    <p class="mb-0">{{ leave.applied }}</p>
+                    <span class="total-holiday">Pending</span>
+                  </div>
+                  <div class="Approved remaining-css">
+                    <p class="mb-0">{{ leave.remainingQuota }}</p>
+                    <span class="total-holiday">Remaining</span>
+                  </div>
+                </div> -->
 
-              <div
-                class="d-flex align-items-center justify-content-end"
-                style="gap: 10px"
-                *ngIf="
-                  specificLeaveRequest.managerUuid === logInUserUuid ||
+                <p class="mt-4 mb-4">{{ leave.notes }}</p>
+                <div class="mb-3" style="text-align: left">
+                  <a *ngIf="leave.docFileLink != null" [href]="leave.docFileLink"
+                    target="_blank" rel="noopener noreferrer">
+                    Declaration <i class="bi bi-arrow-down"></i>
+                  </a>
+
+                </div>
+                <!-- {{leave|json }}--{{logInUserUuid}} -->
+                <div class="d-flex align-items-center justify-content-end" style="gap: 10px" *ngIf="
+                  leave.managerUuid === logInUserUuid ||
                   ROLE == 'ADMIN'
-                "
-              >
-                <!-- <button class="btn approve-btn" type="button" (click)="approveOrDeny(specificLeaveRequest.id, 'approved')">Approve</button>
-                  <button class="btn reject-btn" type="button" (click)="approveOrDeny(specificLeaveRequest.id, 'rejected')">Reject</button> -->
-
-                <!-- Approve Button -->
-                <button
-                  class="btn approve-btn"
-                  type="button"
-                  (click)="approveOrDeny(specificLeaveRequest.id, 'approved')"
-                >
-                  <div *ngIf="approvedLoader; else approveLabel">
-                    <div class="dot-opacity-loader">
-                      <span></span>
-                      <span></span>
-                      <span></span>
-                    </div>
-                  </div>
-                  <ng-template #approveLabel>Approve</ng-template>
-                </button>
-
-                <!-- Reject Button -->
-                <button
-                  class="btn reject-btn"
-                  type="button"
-                  (click)="approveOrDeny(specificLeaveRequest.id, 'rejected')"
-                >
-                  <div *ngIf="rejecetdLoader; else rejectLabel">
-                    <div class="dot-opacity-loader">
-                      <span></span>
-                      <span></span>
-                      <span></span>
-                    </div>
-                  </div>
-                  <ng-template #rejectLabel>Reject</ng-template>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div
-  class="modal fade apply-leave"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="mySmallModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-dialog-centered mx-auto">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h6 class="modal-title m-0" id="exampleModalCenterTitle">
-          Apply for a Leave
-        </h6>
-        <button
-          type="button"
-          class="btn-close"
-          id="requestLeaveCloseModel"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-          #requestLeaveCloseModel
-        ></button>
-      </div>
-      <div class="modal-body">
-        <div class="apply-leave-main-box">
-          <div class="mb-2">
-            <p class="mb-0" style="color: #000444">
-              Please fill out the following fields:
-            </p>
-          </div>
-          <form [formGroup]="userLeaveForm" #formDirective="ngForm">
-            <div class="mb-2">
-              <label for="username" style="padding-bottom: 6px"
-                >Pick a starting date</label
-              >
-              <input
-                type="date"
-                id="username"
-                placeholder="Enter title ..."
-                required=""
-                class="form-control ng-untouched ng-pristine ng-invalid"
-                formControlName="startDate"
-                [(ngModel)]="userLeaveRequest.startDate"
-                [min]="currentNewDate"
-              />
-              <div
-                class="form-text text-danger"
-                *ngIf="
-                  StartDate?.errors?.['required'] &&
-                  (StartDate?.touched || StartDate?.dirty)
-                "
-              >
-                Start Date is Required.
-              </div>
-            </div>
-            <!-- <span class="optional">(optional)</span> -->
-            <div class="mb-2">
-              <label for="username" style="padding-bottom: 6px"
-                >Pick an ending date
-              </label>
-              <input
-                type="date"
-                id="username"
-                placeholder="Enter title ..."
-                class="form-control ng-untouched ng-pristine ng-invalid"
-                formControlName="endDate"
-                [(ngModel)]="userLeaveRequest.endDate"
-                [min]="userLeaveRequest.startDate"
-              />
-            </div>
-            <div class="mb-2">
-              <label for="username" style="padding-bottom: 6px"
-                >Select the type of leave you want to request</label
-              >
-              <div class="" style="width: 100%; position: relative">
-                <div class="dropdown" style="width: 100%">
-                  <!-- <button type="button"id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown"> Select leave type <i class="bi bi-chevron-down" style="color: #444; font-size: 15px;"></i>
-                    </button> -->
-                  <select
-                    class="form-select"
-                    id="exampleFormControlSelect1"
-                    formControlName="leaveType"
-                    [(ngModel)]="userLeaveRequest.leaveType"
-                  >
-                    <option value="">Select Leave Type</option>
-                    <option *ngFor="let ul of userLeave">
-                      {{ ul.leaveType }}
-                    </option>
-                  </select>
-                  <div
-                    class="form-text text-danger"
-                    *ngIf="
-                      LeaveType?.errors?.['required'] &&
-                      (LeaveType?.touched || LeaveType?.dirty)
-                    "
-                  >
-                    Leave Type Required.
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="mb-2">
-              <label for="username" style="padding-bottom: 6px"
-                >Select if you are requesting Half Leave
-                <span class="optional">(optional)</span></label
-              >
-              <div class="form-check">
-                <input
-                  type="checkbox"
-                  class="form-check-input"
-                  id="halfLeaveToggle"
-                  [checked]="halfDayLeaveShiftToggle"
-                  formControlName="halfDayLeave"
-                  [(ngModel)]="userLeaveRequest.halfDayLeave"
-                  (click)="halfLeaveShiftToggle()"
-                />
-                <label class="form-check-label" for="halfLeaveToggle"
-                  >Half Day Leave</label
-                >
-              </div>
-            </div>
-            <div class="mb-2" *ngIf="halfDayLeaveShiftToggle">
-              <label style="padding-bottom: 6px">Select Shift:</label>
-              <div class="form-check">
-                <input
-                  type="radio"
-                  class="form-check-input"
-                  id="dayShiftType"
-                  [checked]="dayShiftToggle"
-                  (change)="dayShiftToggleFun('day')"
-                />
-                <label class="form-check-label" for="dayShiftType"
-                  >Day Shift</label
-                >
-              </div>
-              <div class="form-check">
-                <input
-                  type="radio"
-                  class="form-check-input"
-                  id="eveningShiftType"
-                  [checked]="eveningShiftToggle"
-                  (change)="dayShiftToggleFun('evening')"
-                />
-                <label class="form-check-label" for="eveningShiftType"
-                  >Night Shift</label
-                >
-              </div>
-            </div>
-
-            <div class="mb-2">
-              <label for="username" style="padding-bottom: 6px"
-                >Select user to request the leave from</label
-              >
-              <div class="" style="width: 100%; position: relative">
-                <div class="dropdown" style="width: 100%">
-                  <select
-                    class="form-select"
-                    id="manager"
-                    formControlName="managerId"
-                    [(ngModel)]="selectedManagerId"
-                  >
-                    <option [ngValue]="undefined">Select Manager</option>
-                    <option
-                      *ngFor="let manager of managers"
-                      [ngValue]="manager.id"
+                ">
+                  <!-- Approve Button -->
+                   <!-- (click)="approveOrDeny(leave.id, 'approved')" -->
+                  <button class="btn approve-btn" type="button" (click)="approveOrDeny(leave.id, 'approved')"
                     >
-                      {{ manager.name }}
-                    </option>
-                  </select>
+                    <div *ngIf="approvedLoader; else approveLabel">
+                      <div class="dot-opacity-loader">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                      </div>
+                    </div>
+                    <ng-template #approveLabel>Approve</ng-template>
+                  </button>
+                  <!-- Reject Button -->
+          
 
-                  <div
-                    class="form-text text-danger"
-                    *ngIf="
-                      ManagerId?.errors?.['required'] &&
-                      (ManagerId?.touched || ManagerId?.dirty)
-                    "
-                  >
-                    Select User to Request Leave Required.
-                  </div>
+                  <button class="btn reject-btn" type="button" (click)="approveOrDeny(leave.id, 'rejected')">
+                    <div *ngIf="rejecetdLoader; else rejectLabel">
+                      <div class="dot-opacity-loader">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                      </div>
+                    </div>
+                    <ng-template #rejectLabel>Reject</ng-template>
+                  </button>
+
                 </div>
               </div>
             </div>
-            <!-- <span class="optional">(optional)</span> -->
-            <div class="mb-2">
-              <label for="username" style="padding-bottom: 6px">Notes </label>
-              <textarea
-                class="form-control"
-                #maxWords
-                id="exampleFormControlTextarea1"
-                placeholder="Notes"
-                rows="3"
-                required
-                style="height: 100px !important"
-                formControlName="optNotes"
-                [maxLength]="255"
-                [(ngModel)]="userLeaveRequest.optNotes"
-              >
-              </textarea>
-              <div
-                class="form-text text-danger"
-                *ngIf="
-                  OptNotes?.errors?.['required'] &&
-                  (OptNotes?.touched || OptNotes?.dirty)
-                "
-              >
-                Notes is Required.
-              </div>
-              <small *ngIf="maxWords.value.length > 254" style="color: red"
-                >The maximum number of characters allowed in above field is
-                255!</small
-              >
-            </div>
-            <div class="mb-2">
-              <!-- {{ imagePreviewUrl }} {{ pdfPreviewUrl }} -->
-              <label for="selectDocuments">
-                Select Proof Document (optional)
-              </label>
-              <br />
-              <input
-                type="file"
-                #fileInput
-                class="form-control-file"
-                id="selectDocuments"
-                (change)="onFileSelected($event)"
-                accept="image/jpeg, image/png, image/jpg,  application/pdf"
-              />
-            </div>
-          </form>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button
-          type="button"
-          class="btn btn-de-secondary"
-          data-bs-dismiss="modal"
-        >
-          Close
-        </button>
-        <button
-          type="button"
-          class="btn btn-primary save-changes"
-          [disabled]="userLeaveForm.invalid || isFileUploaded"
-          (click)="saveLeaveRequestUser()"
-        >
-          <ng-container *ngIf="!submitLeaveLoader; else loader"
-            >Submit</ng-container
-          >
-          <ng-template #loader>
-            <div class="dot-opacity-loader">
-              <span></span>
-              <span></span>
-              <span></span>
-            </div>
-          </ng-template>
-        </button>
+          </div>
 
-        <!-- <button type="button" class="btn btn-primary save-changes" [disabled]="userLeaveForm.invalid"
-            (click)="saveLeaveRequestUser()" *ngIf="!submitLeaveLoader">
-            Submit
-          </button>
-          <div class="dot-opacity-loader" *ngIf="submitLeaveLoader">
-            <span></span>
-            <span></span>
-            <span></span>
-          </div> -->
+          <div *ngIf="rejectLeaveToggle">
+            <div>
+              <label for="" class="mb-3">Rejection Reason</label>
+              <textarea class="nots-section" name="inputReason" id="reason" [(ngModel)]="rejectionReason"></textarea>
+            </div>
+
+            <div class="d-flex align-items-center justify-content-end gap-2 mt-3">
+
+              <button type="button" class="btn btn-warning" (click)="rejectLeave()" aria-label="Close">Close</button>
+              <!-- (click)="approveOrDeny(leave.id, 'rejected')" -->
+              <button class="btn reject-btn" type="button" [disabled]="rejectionReason == ''"
+                >
+                <div *ngIf="rejecetdLoader; else rejectLabel">
+                  <div class="dot-opacity-loader">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                </div>
+                <ng-template #rejectLabel>Submit</ng-template>
+              </button>
+
+            </div>
+          </div>
+
+          <!-- </div> -->
+
+        </div>
       </div>
     </div>
   </div>
 </div>
-<!-- <div class="modal fade" id="leave-appervo" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false"><div class="modal-dialog modal-dialog-centered" style="max-width: 570px;" role="document"><div class="modal-content"><div class="modal-body p-5"><button type="button" class="leave-request-modat-close-btn" data-bs-dismiss="modal" aria-label="Close"><i class="bi bi-x" style="line-height: 20px;"></i></button><div class="text-center leave-appervo-modal"><div class="d-flex align-items-start justify-content-between"><div class="d-flex align-items-center profile-details" style="gap:15px;"><div class="profile-user-img"><img src="assets/images/user.png" style="width:50px"></div><div class=""><h4>Yogesh Kumar</h4><p>yogesh@krenai.com</p></div></div><div class="total-holidey-live"><h5>10 - 11 August 2023</h5><p>Sick Leave ( 3 Days )</p></div></div><div class="mt-4"><div class="d-flex align-items-center"><div class="Approved rejected-css"><p class="mb-0" style="color: black"></p><span style="color: #9196a4 !important; text-align: left; font-size: 14px; font-weight: 400;" class="total-holiday">Sick Leave</span></div><div class="Approved"><p class="mb-0">0</p><span class="total-holiday">Approved</span></div><div class="Approved pending-css"><p class="mb-0">0</p><span class="total-holiday">Pending</span></div><div class="Approved remaining-css"><p class="mb-0">10</p><span class="total-holiday">Remaining</span></div></div></div><p class="mt-4 mb-4">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p><div class="d-flex align-items-center justify-content-end" style="gap:10px"><button class="btn approve-btn" type="button">Apporve</button><button class="btn reject-btn" type="button">Rejected</button></div></div></div></div></div></div> -->
+

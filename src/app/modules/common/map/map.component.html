@@ -1,0 +1,64 @@
+<!-- {{address}} -->
+<div class="mb-10">
+    <section>
+      <div class="el-card-item">
+        <div class="el-card-avatar el-overlay-1">
+          <div class="map">
+            <agm-map
+              style="height: 350px"
+              [latitude]="lat"
+              [longitude]="lng"
+              [zoom]="zoom"
+              [maxZoom]="20"
+              [minZoom]="14"
+              [disableDefaultUI]="true"
+              [keyboardShortcuts]="false"
+              [usePanning]="true"
+              (centerChange)="centerChanged($event)"
+              (zoomChange)="onZoomChange($event)"
+              (mapReady)="mapReady($event)"
+            >
+            </agm-map>
+            <!--  #placesRef="ngx-places" -->
+            <!-- <div class="map-search-overlay input-group mb-2">
+              <input
+                class="form-control"
+                [(ngModel)]="address"
+                name="mapaddress"
+                #LocationCtrl="ngModel"
+                ngx-google-places-autocomplete
+                (onAddressChange)="handleAddressChange($event)"
+              />
+            </div> -->
+  
+            <!-- <div class="order-search d-flex map-search-overlay input-group mb-2">
+              <i class="bi bi-search mt-auto mb-auto" style="padding-left: 10px;"></i>
+              <input placeholder="Search a new address ..." class="form-control bg-transparent" [(ngModel)]="address"
+                name="searchaddress" #LocationCtrl="ngModel" ngx-google-places-autocomplete
+                (onAddressChange)="handleAddressChange($event)" />
+            
+              <button class="btn search-tag-remvo" *ngIf="address.length>0" (click)="address=''">
+                <i class="bi bi-x"></i>
+              </button>
+            </div> -->
+            <div class="map-center-overlay">
+                <img src="../assets/images/location.svg" width="70" height="70" />
+              </div>
+            <!-- <div class="map-locate-me">
+              <button
+                type="button"
+                class="locate-btn btn btn-sm text-white"
+                (click)="locateMe()"
+              >
+                <i class="fa fa-crosshairs"></i>
+  
+                Locate Me
+              </button>
+            </div> -->
+          </div>
+        </div>
+      </div>
+      <!-- </div> -->
+    </section>
+  </div>
+  

@@ -1,23 +1,16 @@
 <div class="page-wrapper">
   <div class="page-content-tab">
     <div class="container-fluid">
-      <div class="employee-reports">
+      <div class="employee-reports mt-4">
         <div class="row">
           <div class="col-md-7">
-            <div class="employee-report-deta mt-4">
+            <div class="employee-report-deta">
               <h4 class="heading">Attendance Reports</h4>
               <div class="">
                 <div class="Attendance-report-deta">
-                  <h5>Attendance Summary</h5>
-                  <div
-                    class="report-icon"
-                    data-bs-toggle="modal"
-                    data-bs-target="#dateRangeModal"
-                  >
-                    <i
-                      *ngIf="!isLoading; else loadingTemplate"
-                      class="bi bi-chevron-right"
-                    ></i>
+                  <h5>Attendance Summary Report</h5>
+                  <div class="report-icon" data-bs-toggle="modal" data-bs-target="#dateRangeModal">
+                    <i *ngIf="!isLoading; else loadingTemplate" class="bi bi-chevron-right"></i>
                   </div>
                 </div>
                 <ng-template #loadingTemplate>
@@ -26,258 +19,62 @@
 
                 <div class="Attendance-report-deta">
                   <h5>Attendance Report</h5>
-                  <div
-                    class="report-icon"
-                    data-bs-toggle="modal"
-                    data-bs-target="#dateRangeModal2"
-                  >
-                    <i
-                      *ngIf="!isLoading2; else loadingTemplate2"
-                      class="bi bi-chevron-right"
-                    ></i>
+                  <div class="report-icon" data-bs-toggle="modal" data-bs-target="#dateRangeModal2">
+                    <i *ngIf="!isLoading2; else loadingTemplate2" class="bi bi-chevron-right"></i>
                   </div>
                 </div>
                 <ng-template #loadingTemplate2>
                   <div class="loading-icon">Loading...</div>
                 </ng-template>
-                <div class="Attendance-report-deta">
+                <!-- <div class="Attendance-report-deta">
                   <h5>Salary Report</h5>
-                  <div
-                    class="report-icon"
-                    data-bs-toggle="modal"
-                    data-bs-target="#dateRangeModal3"
-                  >
-                    <i
-                      *ngIf="!isLoading3; else loadingTemplate3"
-                      class="bi bi-chevron-right"
-                    ></i>
+                  <div class="report-icon" data-bs-toggle="modal" data-bs-target="#dateRangeModal3">
+                    <i *ngIf="!isLoading3; else loadingTemplate3" class="bi bi-chevron-right"></i>
                   </div>
-                </div>
+                </div> -->
                 <ng-template #loadingTemplate3>
                   <div class="loading-icon">Loading...</div>
                 </ng-template>
                 <div class="Attendance-report-deta">
                   <h5>Daily Attendance Report</h5>
-                  <div class="report-icon">
-                    <i class="bi bi-chevron-right"></i>
+                  <div class="report-icon" data-bs-toggle="modal" data-bs-target="#dateRangeModal4">
+                    <i *ngIf="!isLoading4; else loadingTemplate4" class="bi bi-chevron-right"></i>
                   </div>
+
                 </div>
-                <div class="Attendance-report-deta">
-                  <h5>Leave Balance</h5>
-                  <div class="report-icon">
-                    <i class="bi bi-chevron-right"></i>
-                  </div>
-                </div>
+                <ng-template #loadingTemplate4>
+                  <div class="loading-icon">Loading...</div>
+                </ng-template>
+
               </div>
             </div>
-            <div class="employee-report-deta mt-4">
-              <h4 class="heading">Compliance Reports</h4>
-              <div class="">
-                <div class="Attendance-report-deta">
-                  <h5>Attendance Report (Staff leave summry cycle)</h5>
-                  <div class="report-icon">
-                    <i class="bi bi-chevron-right"></i>
-                  </div>
-                </div>
-                <div class="Attendance-report-deta">
-                  <h5>Daily Attendance Report</h5>
-                  <div class="report-icon">
-                    <i class="bi bi-chevron-right"></i>
-                  </div>
-                </div>
-                <div class="Attendance-report-deta">
-                  <h5>Leave Balance</h5>
-                  <div class="report-icon">
-                    <i class="bi bi-chevron-right"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="employee-report-deta mt-4">
-              <h4 class="heading">Miscellaneous Reports</h4>
-              <div class="">
-                <div class="Attendance-report-deta">
-                  <h5>Staff Details</h5>
-                  <div class="report-icon">
-                    <i class="bi bi-chevron-right"></i>
-                  </div>
-                </div>
-                <div class="Attendance-report-deta">
-                  <h5>Bulk Salary Slip</h5>
-                  <div class="report-icon">
-                    <i class="bi bi-chevron-right"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
+
           </div>
           <div class="col-md-5">
-            <div class="report-download">
+            <div class="report-download pl-3 pr-3">
               <h4 class="heading">Reports Logs</h4>
 
-              <!-- <div class="report-main-div pb-3 tracking-item">
-
-                                <div class="d-flex align-items-center new-stap" style="gap:20px; position: relative;">
-                                    <div class="tracing-icon">
-                                        <i class="bi bi-box-arrow-down"></i>
-                                    </div>
-                               
-    
-                                <div class="" style="width:100%;">
-                                    <div class="d-flex align-items-center justify-content-between ">
-                                        <div class=""> 
-                                            <h5> Report Download</h5>
-                                            <p class="mb-0">20-09-2023</p>
-                                        </div>
-    
-                                        <div class="attendance-log-download ">
-                                            <ul>
-                                                <li>
-                                                    <a href="" ngbTooltip="DownLoad Excel" placement="top"><img src="assets/images/excel.svg" style="width:23px"></a>
-                                                </li>
-                                                <li>
-                                                    <a href="" ngbTooltip="DownLoad Pdf" placement="top"><img src="assets/images/pdf.svg" style="width:23px"></a>
-                                                </li>
-                                                <li>
-                                                    <a href="#!" ngbTooltip="DownLoad Doc" placement="top"><img src="assets/images/doc.svg" style="width:23px"></a>
-                                                </li>
-    
-                                            </ul>
-                                        </div>
-                                       
-                                    </div>
-                                    
-                                </div>
-    
-                            </div>
-    
-                            </div>
-
-                        <div class="report-main-div pb-3  tracking-item">
-
-                            <div class="d-flex align-items-center new-stap" style="gap:20px; position: relative;">
-                                <div class="tracing-icon">
-                                    <i class="bi bi-box-arrow-down"></i>
-                                </div>
-                           
-
-                            <div class="" style="width:100%;">
-                                <div class="d-flex align-items-center justify-content-between">
-
-                                    <div class=""> 
-                                        <h5> Report Download</h5>
-                                        <p class="mb-0">20-09-2023</p>
-                                    </div>
-
-
-                                    <div class="attendance-log-download ">
-                                        <ul>
-                                            <li>
-                                                <a href="" ngbTooltip="DownLoad Excel" placement="top"><img src="assets/images/excel.svg" style="width:23px"></a>
-                                            </li>
-                                            <li>
-                                                <a href="" ngbTooltip="DownLoad Pdf" placement="top"><img src="assets/images/pdf.svg" style="width:23px"></a>
-                                            </li>
-                                            <li>
-                                                <a href="#!" ngbTooltip="DownLoad Doc" placement="top"><img src="assets/images/doc.svg" style="width:23px"></a>
-                                            </li>
-
-                                        </ul>
-                                    </div>
-                                   
-                                </div>
-                                
-                                
-                            </div>
-
-                        </div>
-
-                        </div>
-
-                        <div class="report-main-div pb-3  tracking-item">
-
-                            <div class="d-flex align-items-center new-stap" style="gap:20px; position: relative;">
-                                <div class="tracing-icon">
-                                    <i class="bi bi-box-arrow-down"></i>
-                                </div>
-                           
-
-                            <div class="" style="width:100%;">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div class=""> 
-                                        <h5> Report Download</h5>
-                                        <p class="mb-0">20-09-2023</p>
-                                    </div>
-
-                                    <div class="attendance-log-download ">
-                                        <ul>
-                                            <li>
-                                                <a href="" ngbTooltip="DownLoad Excel" placement="top"><img src="assets/images/excel.svg" style="width:23px"></a>
-                                            </li>
-                                            <li>
-                                                <a href="" ngbTooltip="DownLoad Pdf" placement="top"><img src="assets/images/pdf.svg" style="width:23px"></a>
-                                            </li>
-                                            <li>
-                                                <a href="#!" ngbTooltip="DownLoad Doc" placement="top"><img src="assets/images/doc.svg" style="width:23px"></a>
-                                            </li>
-
-                                        </ul>
-                                    </div>
-                                   
-                                </div>
-                            </div>
-
-                        </div>
-
-                        </div> -->
-
               <div class="downlord-report">
-                <!-- {{isAttendanceLogsPlaceholder}} -->
-                <!-- reports.component.html -->
-                <div
-                  class=""
-                  style="
+                <div class="" style="
                     text-align: left;
                     border-bottom: 1px solid #f2f2f2;
                     padding-bottom: 15px;
-                  "
-                  *ngIf="!isAttendanceLogsPlaceholder; else placeholderTemplate"
-                >
-                  <div
-                    *ngFor="
+                  " *ngIf="!isAttendanceLogsPlaceholder; else placeholderTemplate">
+                  <div *ngFor="
                       let date of groupedLogs | keyvalue : sortDatesDescending
-                    "
-                    class="scroll-box-logs"
-                    style="margin-top: 30px"
-                  >
+                    " class="scroll-box-logs" style="margin-top: 30px">
                     <h5 class="mb-3">
                       {{ formatDateIn(date.key | date : "mediumDate") }}
                     </h5>
                     <ul class="acitivity-timeline-2 list-unstyled mb-0">
                       <li *ngFor="let log of date.value">
-                        <div
-                          class="d-flex align-items-center justify-content-between"
-                        >
+                        <div class="d-flex align-items-center justify-content-between">
                           <h6 class="fs-md mt-0">{{ log.reportName }}</h6>
-                          <div
-                            class="attendance-log-download d-flex"
-                            style="gap: 20px"
-                          >
-                            <a
-                              href="{{ log.reportExcelLink }}"
-                              target="_blank"
-                              ngbTooltip="DownLoad Excel"
-                              placement="top"
-                              ><img
-                                src="assets/images/excel.svg"
-                                style="width: 20px"
-                            /></a>
-                            <a href="{{ log.reportPdfLink }}" target="_blank"
-                              ><img
-                                src="assets/images/pdf.svg"
-                                style="width: 20px"
-                                *ngIf="log.reportPdfLink"
-                            /></a>
+                          <div class="attendance-log-download d-flex" style="gap: 20px">
+                            <a href="{{ log.reportExcelLink }}" target="_blank" ngbTooltip="DownLoad Excel"
+                              placement="top"><img src="assets/images/excel.svg" style="width: 20px" /></a>
+                            <a href="{{ log.reportPdfLink }}" target="_blank"><img src="assets/images/pdf.svg"
+                                style="width: 20px" *ngIf="log.reportPdfLink" /></a>
                           </div>
                         </div>
                         <div class="d-flex align-items-center mb-2 gap-3">
@@ -288,11 +85,11 @@
                           <p class="mb-0">
                             <i class="bi bi-calendar align-baseline me-1"></i>
                             {{
-                              formatDateIn(formatDate2(log.createdDate)) ||
-                                "N/A"
+                            formatDateIn(formatDate2(log.createdDate)) ||
+                            "N/A"
                             }}&nbsp; - &nbsp;<span>{{
                               formatTime(log.createdDate) || "N/A"
-                            }}</span>
+                              }}</span>
                           </p>
                         </div>
                       </li>
@@ -301,7 +98,7 @@
                 </div>
 
                 <ng-template #placeholderTemplate>
-                  <div class="errorboxmain" style="text-align: center">
+                  <!-- <div class="errorboxmain" style="text-align: center">
                     <div class="errorboxinner">
                       <div class="errorboxplaceholder mb-2">
                         <img
@@ -317,6 +114,16 @@
                         </p>
                       </div>
                     </div>
+                  </div> -->
+
+                  <div class="empty-file" style="margin-top: 50%">
+                    <nz-empty nzNotFoundImage="assets/images/report-img.svg" [nzNotFoundContent]="contentTpl">
+                      <ng-template #contentTpl>
+                        <p class="mb-1 empty-detail font-16">
+                          No report logs for now
+                        </p>
+                      </ng-template>
+                    </nz-empty>
                   </div>
                 </ng-template>
 
@@ -493,45 +300,58 @@
     </div>
   </div>
 
-  <div
-    class="modal fade"
-    id="dateRangeModal"
-    tabindex="-1"
-    role="dialog"
-    aria-labelledby="dateRangeModalLabel"
-    aria-hidden="true"
-    #dateRangeModal
-  >
-    <div class="modal-dialog" role="document">
+  <div class="modal fade" id="dateRangeModal" tabindex="-1" role="dialog" aria-labelledby="dateRangeModalLabel"
+    aria-hidden="true" #dateRangeModal>
+    <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="dateRangeModalLabel">
-            Select Month and Year
+            Attendance Summary Report
           </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
-          <!-- Month and Year Picker for Start Date -->
-          <nz-date-picker
-            nzMode="month"
-            [(ngModel)]="selectedMonth"
-            nzPlaceHolder="Select Month"
-            [nzDisabledDate]="disableBeforeOnboarding"
-          ></nz-date-picker>
+          <div class="row">
+            <div class="col-md-12 mb-3">
+              <label class="pb-2">Select date range</label>
+              <nz-range-picker [(ngModel)]="selectedDateRange" [nzPlaceHolder]="['Start Date', 'End Date']"
+                [nzDisabledDate]="disableBeforeOnboarding"></nz-range-picker>
+            </div>
+
+            <!-- Radio Toggle for Select All Users -->
+            <div class="col-md-12 mb-3 d-flex align-items-center gap-3">
+              <label>Generate a report for all user data</label>
+              <!-- <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="selectAllUsersToggle" [(ngModel)]="isSelectAllUsers"
+                  (change)="onToggleSelectAllUsers(isSelectAllUsers)">
+              
+              </div> -->
+              <nz-switch nzSize="small" id="selectAllUsersToggle" [(ngModel)]="isSelectAllUsers"
+                (change)="onToggleSelectAllUsers(isSelectAllUsers)"></nz-switch>
+            </div>
+
+
+            <!-- Select User Dropdown (visible only if Select All is off) -->
+            <div class="col-md-12 mb-3" *ngIf="!isSelectAllUsers">
+              <label for="selectUser" class="mb-2">Select users</label>
+
+
+              <nz-select class="placeholder-line w-100" nzMode="tags" nzPlaceHolder="Select users"
+                [(ngModel)]="selectedUserIds" style="border: 1px solid #e9e9e9">
+                <nz-option *ngFor="let option of userOptions" [nzLabel]="option.label"
+                  [nzValue]="option.value"></nz-option>
+              </nz-select>
+            </div>
+          </div>
+
+
+
         </div>
-        <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-secondary"
-            data-bs-dismiss="modal"
-            #dateRangeModalClose
-          >
-            Close
+        <div class="modal-footer d-flex align-content-center justify-content-end gap-2">
+          <button type="button" class="btn cancel-btn" data-bs-dismiss="modal" #dateRangeModalClose>
+            Cancel
           </button>
-          <button
-            type="button"
-            class="btn btn-primary"
-            (click)="handleOkOfAttendanceSummary()"
-          >
+          <button type="button" class="btn submitActionBtn " (click)="handleOkOfAttendanceSummary()">
             Generate
           </button>
         </div>
@@ -539,45 +359,58 @@
     </div>
   </div>
 
-  <div
-    class="modal fade"
-    id="dateRangeModal2"
-    tabindex="-1"
-    role="dialog"
-    aria-labelledby="dateRangeModalLabel"
-    aria-hidden="true"
-    #dateRangeModal2
-  >
-    <div class="modal-dialog" role="document">
+  <div class="modal fade" id="dateRangeModal2" tabindex="-1" role="dialog" aria-labelledby="dateRangeModalLabel"
+    aria-hidden="true" #dateRangeModal2>
+    <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="dateRangeModalLabel">
-            Select Month and Year
+            Attendance Report
           </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
-          <!-- Month and Year Picker for Start Date -->
-          <nz-date-picker
-            nzMode="month"
-            [(ngModel)]="selectedMonth"
-            nzPlaceHolder="Select Month"
-            [nzDisabledDate]="disableBeforeOnboarding"
-          ></nz-date-picker>
+
+          <div class="row">
+            <div class="col-md-12 mb-3">
+              <label class="pb-2">Select date range</label>
+              <nz-range-picker [(ngModel)]="selectedDateRange" [nzPlaceHolder]="['Start Date', 'End Date']"
+                [nzDisabledDate]="disableBeforeOnboarding">
+              </nz-range-picker>
+            </div>
+            <!-- Radio Toggle for Select All Users -->
+            <div class="col-md-12 mb-3 d-flex align-items-center gap-3">
+              <label>Generate a report for all user data</label>
+              <!-- <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="selectAllUsersToggle2"
+                [(ngModel)]="isSelectAllUsers2" (change)="onToggleSelectAllUsers2(isSelectAllUsers2)">
+            </div> -->
+
+              <nz-switch nzSize="small" id="selectAllUsersToggle2" [(ngModel)]="isSelectAllUsers2"
+                (change)="onToggleSelectAllUsers2(isSelectAllUsers2)"></nz-switch>
+            </div>
+
+
+            <!-- Select User Dropdown (visible only if Select All is off) -->
+            <div class="col-md-12 mb-3" *ngIf="!isSelectAllUsers2">
+              <label for="selectUser" class="mb-2">Select users</label>
+
+
+              <nz-select class="placeholder-line w-100" nzMode="tags" nzPlaceHolder="Select users"
+                [(ngModel)]="selectedUserIds" style="border: 1px solid #e9e9e9">
+                <nz-option *ngFor="let option of userOptions" [nzLabel]="option.label"
+                  [nzValue]="option.value"></nz-option>
+              </nz-select>
+            </div>
+
+          </div>
         </div>
-        <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-secondary"
-            data-bs-dismiss="modal"
-            #closeDateRangeModal2
-          >
-            Close
+
+        <div class="modal-footer d-flex align-content-center justify-content-end gap-2">
+          <button type="button" class="btn cancel-btn" data-bs-dismiss="modal" #closeDateRangeModal2>
+            Cancel
           </button>
-          <button
-            type="button"
-            class="btn btn-primary"
-            (click)="handleOkOfAttendanceReport()"
-          >
+          <button type="button" class="btn submitActionBtn" (click)="handleOkOfAttendanceReport()">
             Generate
           </button>
         </div>
@@ -585,45 +418,32 @@
     </div>
   </div>
 
-  <div
-    class="modal fade"
-    id="dateRangeModal3"
-    tabindex="-1"
-    role="dialog"
-    aria-labelledby="dateRangeModalLabel"
-    aria-hidden="true"
-    #dateRangeModal3
-  >
-    <div class="modal-dialog" role="document">
+  <div class="modal fade" id="dateRangeModal3" tabindex="-1" role="dialog" aria-labelledby="dateRangeModalLabel"
+    aria-hidden="true" #dateRangeModal3>
+    <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="dateRangeModalLabel">
-            Select Month and Year
+            Salary Report
           </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
-          <!-- Month and Year Picker for Start Date -->
-          <nz-date-picker
-            nzMode="month"
-            [(ngModel)]="selectedMonth"
-            nzPlaceHolder="Select Month"
-            [nzDisabledDate]="disableBeforeOnboardingForSalary"
-          ></nz-date-picker>
+          <div class="row">
+            <div class="col-md-12 mb-3">
+              <label class="pb-2">Select Month</label>
+              <nz-date-picker nzMode="month" [(ngModel)]="selectedMonth" nzPlaceHolder="Select Month"
+                [nzDisabledDate]="disableBeforeOnboardingForSalary">
+              </nz-date-picker>
+            </div>
+          </div>
+
         </div>
-        <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-secondary"
-            data-bs-dismiss="modal"
-            #closeDateRangeModal3
-          >
-            Close
+        <div class="modal-footer d-flex align-content-center justify-content-end gap-2">
+          <button type="button" class="btn cancel-btn" data-bs-dismiss="modal" #closeDateRangeModal3>
+            Cancel
           </button>
-          <button
-            type="button"
-            class="btn btn-primary"
-            (click)="handleOkOfSalaryReport()"
-          >
+          <button type="button" class="btn submitActionBtn" (click)="handleOkOfSalaryReport()">
             Generate
           </button>
         </div>
@@ -631,23 +451,76 @@
     </div>
   </div>
 
-  <!-- <div class="modal fade" id="dateRangeModal" tabindex="-1" role="dialog" aria-labelledby="dateRangeModalLabel" aria-hidden="true" #dateRangeModal>
-    <div class="modal-dialog" role="document">
+
+
+  <div class="modal fade" id="dateRangeModal4" tabindex="-1" role="dialog" aria-labelledby="dateRangeModalLabel"
+    aria-hidden="true" #dateRangeModal4>
+    <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="dateRangeModalLabel">Select Date Range</h5>
+          <h5 class="modal-title" id="dateRangeModalLabel">
+            Daily Attendance Report
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
-          <nz-date-picker nzMode="date" [(ngModel)]="startDate" nzPlaceHolder="Start Date"></nz-date-picker>
-          <br>
-          <br>
-          <nz-date-picker nzMode="date" [(ngModel)]="endDate" nzPlaceHolder="End Date"></nz-date-picker>
+          <div class="row">
+            <div class="col-md-12 mb-3">
+              <label class="pb-2">Select Day</label>
+              <nz-date-picker nzMode="date" [(ngModel)]="selectedMonthOfDailyReport" nzPlaceHolder="Select Day"
+                [nzDisabledDate]="disableBeforeOnboardingForDailyReport">
+              </nz-date-picker>
+            </div>
+            <!-- Radio Toggle for Select All Users -->
+            <!-- <div class="col-md-12 mb-3">
+              <label class="pb-2">User Selection Mode</label>
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="selectAllUsersToggle2"
+                  [(ngModel)]="isSelectAllUsers3" (change)="onToggleSelectAllUsers3(isSelectAllUsers3)">
+                <label class="form-check-label" for="selectAllUsersToggle2">
+                  Select All Users
+                </label>
+              </div>
+            </div> -->
+
+            <!-- Radio Toggle for Select All Users -->
+            <div class="col-md-12 mb-3 d-flex align-items-center gap-3">
+              <label>Generate a report for all user data</label>
+
+
+              <nz-switch nzSize="small" id="selectAllUsersToggle2" [(ngModel)]="isSelectAllUsers3"
+                (change)="onToggleSelectAllUsers3(isSelectAllUsers3)"></nz-switch>
+            </div>
+
+
+            <!-- Select User Dropdown (visible only if Select All is off) -->
+            <!-- <div class="col-md-12 mb-3" *ngIf="!isSelectAllUsers3">
+              <label for="selectUser" class="mb-2">Select users</label>
+              <nz-select class="form-control placeholder-line w-100" nzSize="large" nzMode="multiple"
+                nzPlaceHolder="Select users" [(ngModel)]="selectedUserIds" [nzOptions]="userOptions"
+                (ngModelChange)="onUsersChange($event)">
+              </nz-select>
+            </div> -->
+
+            <div class="col-md-12 mb-3" *ngIf="!isSelectAllUsers3">
+              <label for="selectUser" class="mb-2">Select users</label>
+              <nz-select class="placeholder-line w-100" nzMode="tags" nzPlaceHolder="Select users"
+                [(ngModel)]="selectedUserIds" style="border: 1px solid #e9e9e9">
+                <nz-option *ngFor="let option of userOptions" [nzLabel]="option.label"
+                  [nzValue]="option.value"></nz-option>
+              </nz-select>
+            </div>
+          </div>
+
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" #dateRangeModalClose>Close</button>
-          <button type="button" class="btn btn-primary" (click)="handleOk()">Save changes</button>
+        <div class="modal-footer d-flex align-content-center justify-content-end gap-2">
+          <button type="button" class="btn cancel-btn" data-bs-dismiss="modal" #closeDateRangeModal4>
+            Cancel
+          </button>
+          <button type="button" class="btn submitActionBtn" (click)="downloadAttedanceReport()">
+            Generate
+          </button>
         </div>
       </div>
     </div>
-  </div> -->
-</div>
+  </div>

@@ -17,6 +17,8 @@ export class EmployeeOnboardingPreviewComponent implements OnInit {
 
   ngOnInit(): void {
     this.getOnboardingFormPreviewMethodCall();
+    this.userUuid = new URLSearchParams(window.location.search).get('userUuid') || null;
+    this.loadRoutes();
   }
 
   routeToUserDetails(routePath: string) {
@@ -26,7 +28,7 @@ export class EmployeeOnboardingPreviewComponent implements OnInit {
     this.router.navigate([routePath], navExtra);
 }
 
-
+  private userUuid: string | null = null;
   secondarySchoolCertificateFileName: string = '';
   highSchoolCertificateFileName1: string = '';
   highestQualificationDegreeFileName1: string = '';
@@ -50,47 +52,47 @@ export class EmployeeOnboardingPreviewComponent implements OnInit {
     if (userUuid) {
       this.dataService.getOnboardingFormPreview(userUuid).subscribe(
         (preview) => {
-          console.log(preview);
+          // console.log(preview);
           this.onboardingPreviewData = preview;
           if(preview.companyLogo){
             this.companyLogoUrl = preview.companyLogo;
           }
           this.isLoading = false;
           this.handleOnboardingStatus(preview.user.employeeOnboardingStatus.response);
-          
+
           // if (preview.employeeAdditionalDocument && preview.employeeAdditionalDocument.length > 0) {
             this.employeeAdditionalDocument = preview.employeeAdditionalDocuments;
-            console.log(this.employeeAdditionalDocument);
+            // console.log(this.employeeAdditionalDocument);
         // } else {
         //   console.log("eroor ")
         //     // Handle the case where employeeAdditionalDocument is undefined, null, or empty
         //     this.employeeAdditionalDocument = [];
         // }
-        
-          if(preview.userDocuments.secondarySchoolCertificate){
+
+          if(preview.userDocuments!=null && preview.userDocuments.secondarySchoolCertificate){
             this.isSchoolDocument = false;
           }
-          if(preview.userDocuments.highSchoolCertificate){
+          if(preview.userDocuments!=null && preview.userDocuments.highSchoolCertificate){
             this.isHighSchoolDocument = false;
           }
           if(preview.userExperience){
             this.userExperienceArray = preview.userExperience;
           }
           if(preview.fresher==true){
-            
+
             this.isFresher=true;
           }
           if (preview.userEmergencyContacts) {
             this.userEmergencyContactArray = preview.userEmergencyContacts;
           } else {
-            
+
             console.log('No guarantor information available.');
             this.userEmergencyContactArray = [];
           }
           if(preview.userDocuments!=null){
-            
+
           this.secondarySchoolCertificateFileName = this.getFilenameFromUrl(preview.userDocuments.secondarySchoolCertificate);
-          this.highSchoolCertificateFileName1 = this.getFilenameFromUrl(preview.userDocuments.highSchoolCertificate);     
+          this.highSchoolCertificateFileName1 = this.getFilenameFromUrl(preview.userDocuments.highSchoolCertificate);
           this.highestQualificationDegreeFileName1 = this.getFilenameFromUrl(preview.userDocuments.highestQualificationDegree);
           this.testimonialReccomendationFileName1 = this.getFilenameFromUrl(preview.userDocuments.testimonialReccomendation);
          this.aadhaarCardFileName = this.getFilenameFromUrl(preview.userDocuments.aadhaarCard);
@@ -101,26 +103,26 @@ export class EmployeeOnboardingPreviewComponent implements OnInit {
         },
         (error: any) => {
           console.error('Error fetching user details:', error);
-          this.userEmergencyContactArray = []; 
+          this.userEmergencyContactArray = [];
         }
       );
     } else {
       console.error('User UUID not found');
-      this.userEmergencyContactArray = []; 
+      this.userEmergencyContactArray = [];
     }
   }
-  
+
   getFilenameFromUrl(url: string): string {
     if (!url) return '';
-    
+
     const decodedUrl = decodeURIComponent(url);
-   
+
     const parts = decodedUrl.split('/');
-    
+
     const filenameWithQuery = parts.pop() || '';
-    
+
     const filename = filenameWithQuery.split('?')[0];
-   
+
     const cleanFilename = filename.replace(/^\d+_/,'');
     return cleanFilename;
   }
@@ -130,7 +132,7 @@ export class EmployeeOnboardingPreviewComponent implements OnInit {
   handleOnboardingStatus(response: string) {
     // this.displaySuccessModal = true;
     switch (response) {
-      
+
       case 'REJECTED':
         this.allowEdit = true;
         break;
@@ -142,5 +144,24 @@ export class EmployeeOnboardingPreviewComponent implements OnInit {
         // this.displaySuccessModal = false;
         break;
     }
+  }
+  isRoutePresent(routeToCheck: string): boolean {
+    const isPresent = this.dataService.onboardingRoutes.includes(routeToCheck);
+    console.log(`Is route present: ${isPresent}`);
+    return isPresent;
+  }
+  private loadRoutes(): void {
+    this.dataService.getRoutesByOrganization(this.userUuid).subscribe(
+      (routes: string[]) => {
+        this.dataService.onboardingRoutes=routes;
+      },
+      error => {
+        console.error('Error fetching routes', error);
+      }
+    );
+  }
+
+  navigateToDashboard() {
+    window.location.href = '/dashboard';
   }
 }

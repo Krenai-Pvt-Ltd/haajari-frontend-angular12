@@ -1,0 +1,204 @@
+<div
+  class="onboaredinStapBox p-3"
+  (click)="saveOrgSecondaryToDoStepBarData(1); scrollToView()"
+  *ngIf="
+    ROLE == 'ADMIN' &&
+    isToDoStepsCompletedFlag == 0 &&
+     !closeFlg && !isShowSecondaryToDoSteps
+  "
+>
+<!-- (!isToDoStep) && -->
+<!-- {{showToDo}} {{isToDoStep}} -->
+  <div class="d-flex align-items-center justify-content-between">
+    <h5 class="mb-0">Onboarding Steps</h5>
+    <h4 class="mb-0">
+      {{ stepsData?.totalCompletedSteps || 0 }}/{{ stepsData?.totalSteps || 0 }}
+    </h4>
+  </div>
+  <div class="progress mt-3">
+   
+    <div
+      class="progress-bar"
+      role="progressbar"
+      [style.width.%]="getProgressPercentage()"
+      [attr.aria-valuenow]="getProgressPercentage()"
+      aria-valuemin="0"
+      aria-valuemax="100"
+    ></div>
+  </div>
+
+  <span class="onboarding-steps-close-icon" *ngIf="!closeFlg" (click)="closeFlagFunc()">
+    <i class="bi bi-x-lg"></i>
+  </span>
+</div>
+
+
+<div
+  class="showOnboardingStep"
+  [ngClass]="{
+    showOnboardingStepHover: isShowSecondaryToDoSteps,
+    'd-none': ROLE == 'ADMIN' && isToDoStepsCompletedFlag == 1
+  }"
+>
+  <div class="onboardingStapsHedding p-3 position-relative">
+    <div
+      class="d-flex align-items-center justify-content-between border-bottom pb-2"
+    >
+      <h5 class="mb-0">Onboarding Steps</h5>
+      <div (click)="saveOrgSecondaryToDoStepBarData(0)">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="25"
+          viewBox="0 0 24 25"
+          fill="none"
+        >
+          <mask
+            id="mask0_2612_4547"
+            style="mask-type: alpha"
+            maskUnits="userSpaceOnUse"
+            x="0"
+            y="0"
+            width="24"
+            height="25"
+          >
+            <rect y="0.941406" width="24" height="24" fill="#D9D9D9" />
+          </mask>
+          <g mask="url(#mask0_2612_4547)">
+            <path
+              d="M8.4 17.9359L7 16.5359L10.6 12.9359L7 9.36094L8.4 7.96094L12 11.5609L15.575 7.96094L16.975 9.36094L13.375 12.9359L16.975 16.5359L15.575 17.9359L12 14.3359L8.4 17.9359Z"
+              fill="black"
+            />
+          </g>
+        </svg>
+      </div>
+    </div>
+    <div class="planInfo mt-3">
+      <h5 class="mb-2">Get Ready To start</h5>
+      <p class="mb-0">Let’s get you all set up</p>
+
+      <div
+        class="d-flex align-items-center justify-content-between gap-3 mt-3 mb-2"
+      >
+        <div class="progress">
+          <div
+            class="progress-bar"
+            role="progressbar"
+            [style.width.%]="getProgressPercentage()"
+            [attr.aria-valuenow]="getProgressPercentage()"
+            aria-valuemin="0"
+            aria-valuemax="100"
+          ></div>
+        </div>
+        <p class="mb-0 onboardCount">
+          {{ getProgressPercentage() | number : "1.0-0" }}%
+        </p>
+      </div>
+
+      <h6>
+        {{ stepsData?.totalCompletedSteps || 0 }}/{{
+          stepsData?.totalSteps || 0
+        }}
+        Steps Completed
+      </h6>
+    </div>
+  </div>
+
+  <div class="onboardingStapsPoint mt-3 p-2" #onboardingview>
+    <div
+      class="d-flex align-items-center justify-content-between pendingStepPoint pb-3"
+      *ngFor="let step of organizationRegistrationProcessResponse"
+    >
+      <div class="d-flex align-items-start gap-2" style="width: 90%">
+        <div>
+          <span class="checdBox" *ngIf="step?.statusId == 36">
+            <i class="bi bi-check-lg"></i
+          ></span>
+          <span class="pendingBox" *ngIf="step?.statusId == 35"> </span>
+        </div>
+
+        <div (click)="routeToStep(step?.route, step?.name)">
+          <h4>{{ step?.name }}</h4>
+          <p class="mb-0">
+            {{ step?.description }}
+          </p>
+        </div>
+      </div>
+      <div>
+        <div (click)="routeToStep(step?.route, step?.name)">
+          <span class="toStepArrow">
+            <i class="bi bi-chevron-right"></i>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button
+  id="stepCompletionModal"
+  class="d-none"
+  #stepCompletionModal
+  data-bs-toggle="modal"
+  style="position: absolute; right: 0px; bottom: 0px"
+  data-bs-target="#to-do-complete-modal"
+  *ngIf="count == 0 && ROLE == 'ADMIN'"
+>
+  To Do Complete
+</button>
+
+<div
+  class="modal fade"
+  id="to-do-complete-modal"
+  data-bs-backdrop="false"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
+  <div
+    class="modal-dialog modal-dialog-centered"
+    style="max-width: 500px"
+    role="document"
+  >
+    <div class="modal-content">
+      <div class="modal-body p-0">
+      
+
+        <div class="congration-modal-box">
+          <div class="congration-modal-img p-5 pb-2 text-center">
+            <img
+              src="assets/images/congratulation-img.svg"
+              style="width: 270px"
+            />
+          </div>
+
+          <div
+            class="bg-white p-5 congratulation-info"
+            style="padding-top: 35px !important"
+          >
+            <h5 class="mb-2 font-20">Congratulation, You did it!</h5>
+            <p class="mb-3 font-13">
+              Great job! You've successfully completed all the steps required to
+              set up your organization in Hajiri.
+            </p>
+
+            <p class="mb-3 font-13">
+              Your organization is now fully onboarded, and you're ready to
+              start managing your team seamlessly. From setting up your company
+              profile to configuring user roles and attendance settings, you're
+              all set to maximize productivity with Hajiri.
+            </p>
+            <p class="mb-0 font-13">
+              Let's get started on your journey to efficient team management!
+            </p>
+          </div>
+          <div class="p-5 pt-0 pb-4">
+            <button class="btn action-btn w-100" (click)="routeToDashboard()">
+              Finish setup and view dashboard
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

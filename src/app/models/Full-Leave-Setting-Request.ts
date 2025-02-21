@@ -2,6 +2,7 @@ export class FullLeaveSettingRequest {
   leaveSettingResponse: LeaveSettingResponse = new LeaveSettingResponse();
   leaveSettingCategoryResponse: LeaveSettingCategoryResponse[] = new Array();
   userUuids!: string[];
+  userIds!: number[];
   // userLeaveRule: UserLeaveSettingRule = new UserLeaveSettingRule();
 }
 

@@ -63,6 +63,7 @@ export class AccountSettingsComponent implements OnInit, AfterViewInit {
     this.getOnboardingVia();
     this.getOrganizationIsInstalledFlag();
     this.getSlackAuthUrl();
+    this.helper.saveOrgSecondaryToDoStepBarData(0);
   }
 
   @ViewChild('account') account!: ElementRef;
@@ -102,7 +103,7 @@ export class AccountSettingsComponent implements OnInit, AfterViewInit {
   @ViewChild('passwordUpdateModal') passwordUpdateModal!: ElementRef;
   onSubmit(formValue: any) {
     debugger;
-    console.log(formValue);
+    // console.log(formValue);
     this._data.updateUserProfilePassword(formValue).subscribe({
       next: (response) => {
         // Handle successful response here
@@ -264,7 +265,7 @@ export class AccountSettingsComponent implements OnInit, AfterViewInit {
       this.isInvalidFileType = false;
       return true;
     }
-    console.log(this.isInvalidFileType);
+    // console.log(this.isInvalidFileType);
     this.isInvalidFileType = true;
     return false;
   }
@@ -284,13 +285,13 @@ export class AccountSettingsComponent implements OnInit, AfterViewInit {
           .getDownloadURL()
           .toPromise()
           .then((url) => {
-            console.log('File URL:', url);
+            // console.log('File URL:', url);
 
             this.userPersonalInformationRequest.image = url;
             this._data
               .updateProfilePicture(this.userPersonalInformationRequest)
               .subscribe((x) => {
-                console.log(x);
+                // console.log(x);
               });
           })
           .catch((error) => {
@@ -611,7 +612,7 @@ export class AccountSettingsComponent implements OnInit, AfterViewInit {
       this.otpModalButton.nativeElement.click();
       this.notifications.whatsapp = true;
       this.notifications.slack = false;
-      console.log('OTP sent successfully', response);
+      // console.log('OTP sent successfully', response);
     } else {
       this.helper.showToast(
         'Invalid number or WhatsApp account not found',
@@ -678,7 +679,7 @@ export class AccountSettingsComponent implements OnInit, AfterViewInit {
     this._data.getSlackAuthUrl().subscribe(
       (response: any) => {
         this.authUrl = response.message;
-        console.log('authUrl' + this.authUrl);
+        // console.log('authUrl' + this.authUrl);
       },
       (error) => {
         console.error('Error fetching Slack auth URL', error);

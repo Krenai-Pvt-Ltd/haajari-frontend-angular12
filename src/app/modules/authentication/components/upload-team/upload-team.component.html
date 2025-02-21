@@ -1,0 +1,1611 @@
+<div class="page-wrapper">
+  <div class="page-content-tab-onbording">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="persnol-details">
+            <!-- <div
+              class="d-flex justify-content-between mb-2"
+              *ngIf="selectedMethod == ''"
+            >
+              <div class="d-flex align-items-center" style="gap: 15px">
+                <div class="">
+                  <h5 class="mb-0">Employee Details</h5>
+                </div>
+              </div>
+            </div> -->
+            <div class="row">
+              <div class="col-md-12">
+                <div class="card-header p-0 pb-3 bg-white">
+                  <h4 class="card-title-headding mb-1">
+                    Provide Your Employee Information
+                  </h4>
+                  <p class="mb-0">
+                    Please ensure that all fields are completed accurately to
+                    create and maintain precise employee records. This will
+                    ensure smooth HR operations and effective management of your
+                    workforce.
+                  </p>
+                </div>
+              </div>
+
+              <!-- <div class="card-body mt-3 p-0" *ngIf="adminUser != null">
+                <div class="alert alert-light mb-0 sampleExcelFileBox">
+                  <h4 class="alert-heading font-14">Admin Detail</h4>
+                  <div class="d-flex align-items-center gap-5 mt-3">
+                    <h5 class="alert-heading font-13 mb-0">
+                      {{ adminUser.name || "N/A" }}
+                    </h5>
+                    <p class="saperater"></p>
+                    <p class="mb-0">{{ adminUser.email || "N/A" }}</p>
+                    <p class="saperater"></p>
+                    <p class="mb-0">{{ adminUser.phoneNumber || "N/A" }}</p>
+                  </div>
+                </div>
+              </div> -->
+
+              <ng-container *ngIf="!isShimmer && !networkConnectionErrorPlaceholder">
+                <!-- && onboardingViaString != 'SLACK' -->
+                <div class="col-md-12 mb-100" *ngIf="
+                    onboardUserList.length == 0 
+                   
+                  ">
+                  <div class="col-md-12 mt-3" *ngIf="adminUser != null">
+                    <div class="alreadyMemberBox p-3 d-flex align-items-center justify-content-between">
+                      <div class="d-flex align-items-center gap-2">
+                        <span class="alreadyUser">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="23" viewBox="0 0 24 23"
+                            fill="none">
+                            <mask id="mask0_3510_3972" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                              width="24" height="23">
+                              <rect x="0.675781" y="0.148651" width="22.7027" height="22.7027" fill="white" />
+                            </mask>
+                            <g mask="url(#mask0_3510_3972)">
+                              <path
+                                d="M9.92378 11.5C9.35621 11.5 8.88324 11.2871 8.50486 10.8615C8.12648 10.4358 7.9767 9.93916 8.05553 9.37159L8.36297 7.05403C8.48909 6.15538 8.899 5.41044 9.5927 4.81923C10.2864 4.22801 11.0983 3.9324 12.0285 3.9324C12.9587 3.9324 13.7706 4.22801 14.4643 4.81923C15.158 5.41044 15.5679 6.15538 15.694 7.05403L16.0015 9.37159C16.0803 9.93916 15.9305 10.4358 15.5522 10.8615C15.1738 11.2871 14.7008 11.5 14.1332 11.5H9.92378ZM9.92378 9.60808H14.1332L13.8258 7.33781C13.7627 6.89637 13.5617 6.53376 13.2228 6.24997C12.8838 5.96619 12.4857 5.8243 12.0285 5.8243C11.5713 5.8243 11.1732 5.96619 10.8342 6.24997C10.4953 6.53376 10.2943 6.89637 10.2312 7.33781L9.92378 9.60808ZM4.46094 19.0675V16.4189C4.46094 15.8829 4.59889 15.3902 4.87479 14.9409C5.15069 14.4915 5.51724 14.1486 5.97445 13.9121C6.95193 13.4234 7.94517 13.0568 8.95418 12.8125C9.96319 12.5681 10.988 12.4459 12.0285 12.4459C13.069 12.4459 14.0938 12.5681 15.1028 12.8125C16.1118 13.0568 17.1051 13.4234 18.0826 13.9121C18.5398 14.1486 18.9063 14.4915 19.1822 14.9409C19.4581 15.3902 19.5961 15.8829 19.5961 16.4189V19.0675H4.46094ZM6.35283 17.1756H17.7042V16.4189C17.7042 16.2455 17.6608 16.0878 17.5741 15.9459C17.4874 15.804 17.3731 15.6937 17.2312 15.6148C16.3799 15.1892 15.5206 14.8699 14.6535 14.6571C13.7864 14.4442 12.9114 14.3378 12.0285 14.3378C11.1456 14.3378 10.2706 14.4442 9.40351 14.6571C8.53639 14.8699 7.67715 15.1892 6.8258 15.6148C6.68391 15.6937 6.56961 15.804 6.4829 15.9459C6.39619 16.0878 6.35283 16.2455 6.35283 16.4189V17.1756Z"
+                                fill="white" />
+                            </g>
+                          </svg>
+                        </span>
+                        <h5 class="mb-0">
+                          You’re added as admin of this organization.
+                        </h5>
+                      </div>
+                      <div class="d-flex align-items-center gap-2">
+                        <p class="mb-0 font-13 pointer">
+                          Your Name: <span> {{ adminUser.name || "N/A" }}</span>
+                        </p>
+                        <span class="spreter" style="height: 15px"></span>
+                        <p class="mb-0 font-13 pointer">
+                          Email: <span>{{ adminUser.email || "N/A" }}</span>
+                        </p>
+                        <span class="spreter" style="height: 15px"></span>
+                        <p class="mb-0 font-13 pointer">
+                          Mobile Number:
+                          <span>{{ adminUser.phoneNumber || "N/A" }}</span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-body mt-3 p-0">
+                    <div class="alert alert-light mb-0 sampleExcelFileBox">
+                      <h4 class="alert-heading font-16">
+                        Download the Sample Excel File!
+                      </h4>
+                      <p class="mb-0 font-12">
+                        Use this Excel template to organise and input your
+                        employee data correctly. Review the sample structure to
+                        avoid errors.
+                        <a class="text-primary textDecrotion" href="{{ sampleFileUrl }}">Download a sample Excel
+                          file.</a>
+
+                        Once you've updated the file, upload it back to the
+                        platform for enrol all employees.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="card-body mt-3 p-0">
+                    <div class="alert alert-light mb-0 excel-uplode-file-box">
+                      <div class="d-flex align-items-center justify-content-between gap-3">
+                        <div style="width: 11%">
+                          <img src="assets/images/excel-img.svg" style="width: 100%" />
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between" style="width: 88%">
+                          <div class="uploadEmployee">
+                            <h5 class="alert-heading font-14 mb-2">
+                              Upload Employee Data via Excel
+                            </h5>
+                            <p class="mb-0 font-12">
+                              Streamline the process by uploading your organized
+                              employee data directly <br />
+                              from the Excel sheet
+                            </p>
+                          </div>
+                          <div class="">
+                            <button class="btn excelUploadBtn" onclick="document.getElementById('fileSelect').click();">
+                              <!-- <div
+                            *ngIf="isProgressToggle"
+                            class="spinner-border text-success"
+                            role="status"
+                            ></div> -->
+                              <!-- <div class="spinner-border text-light" role="status" *ngIf="isProgressToggle">
+                              <span class="sr-only">Loading...</span>
+                            </div> -->
+                              <!-- class="dot-opacity-loader" -->
+                              <div *ngIf="isProgressToggle">
+                                <!-- <span></span>
+                                <span></span>
+                                <span></span> -->
+                                <div class="progress mt-3">
+                                  <div class="progress-bar progress-bar-striped" style="font-size: 10px"
+                                    role="progressbar" [style.width]="percentage + '%'" aria-valuenow="20"
+                                    aria-valuemin="0" aria-valuemax="100">
+                                    {{ percentage }}%
+                                  </div>
+                                </div>
+                                <div class="text-center mt-3">
+                                  <p class="deta-prosesing">
+                                    Hang tight, we're getting your Excel data...
+                                  </p>
+                                </div>
+
+                              </div>
+
+                              <span *ngIf="!isProgressToggle">
+                                Excel Upload
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22"
+                                  fill="none">
+                                  <mask id="mask0_2163_292" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0"
+                                    y="0" width="22" height="22">
+                                    <rect x="0.117188" y="0.515625" width="20.9709" height="20.9709" fill="#D9D9D9" />
+                                  </mask>
+                                  <g mask="url(#mask0_2163_292)">
+                                    <path
+                                      d="M14.2477 11.8758H3.60938V10.1282H14.2477L9.35452 5.23502L10.5997 4.01172L17.59 11.002L10.5997 17.9923L9.35452 16.769L14.2477 11.8758Z"
+                                      fill="#6666F2" />
+                                  </g>
+                                </svg>
+                              </span>
+                            </button>
+                            <input id="fileSelect" type="file" name="img[]" accept=".xlsx,application/vnd.ms-excel"
+                              class="input" style="display: none" (change)="selectFile($event)" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-body mt-3 p-0">
+                    <div class="alert alert-light mb-0 excel-uplode-file-box">
+                      <div class="d-flex align-items-center justify-content-between gap-3">
+                        <div style="width: 11%">
+                          <img src="assets/images/manually-img.svg" style="width: 100%" />
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between" style="width: 88%">
+                          <div>
+                            <h5 class="alert-heading font-14 mb-2">
+                              Manually Enter Employee Details
+                            </h5>
+                            <p class="mb-0 font-12">
+                              Add employee details individually if you prefer to
+                              build a <br />
+                              customized and specific list tailored to your
+                              organizational needs.
+                            </p>
+                          </div>
+                          <div class="">
+                            <button class="btn excelUploadBtn" data-bs-toggle="modal" data-bs-target="#munal-upload"
+                              [disabled]="isProgressToggle">
+                              Single Enrollment
+                              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22"
+                                fill="none">
+                                <mask id="mask0_2163_292" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0"
+                                  y="0" width="22" height="22">
+                                  <rect x="0.117188" y="0.515625" width="20.9709" height="20.9709" fill="#D9D9D9" />
+                                </mask>
+                                <g mask="url(#mask0_2163_292)">
+                                  <path
+                                    d="M14.2477 11.8758H3.60938V10.1282H14.2477L9.35452 5.23502L10.5997 4.01172L17.59 11.002L10.5997 17.9923L9.35452 16.769L14.2477 11.8758Z"
+                                    fill="#6666F2" />
+                                </g>
+                              </svg>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-body mt-3 p-0" *ngIf="
+                  onboardUserList.length == 0 &&
+                  onboardingViaString === 'SLACK'
+                ">
+                    <div class="alert alert-light mb-0 excel-uplode-file-box">
+                      <div class="d-flex align-items-center justify-content-between gap-3">
+                        <div style="width: 11%">
+                          <img src="assets/images/slack-placeholder.svg" style="width: 100%" />
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between" style="width: 88%">
+                          <div>
+                            <h5 class="alert-heading font-14 mb-2">
+                              Sync Employee From Slack
+                            </h5>
+                            <p class="mb-0 font-12">
+                              Use this feature to import and sync your Slack workspace<br> users directly into Hajiri
+                              for seamless management of employee details.
+                              <!-- Easily integrate your Slack workspace with Hajiri by<br> importing user details, enabling efficient and centralized management of your team. -->
+                            </p>
+                          </div>
+                          <div class="">
+                            <button class="btn excelUploadBtn" (click)="syncSlackUsersToDatabaseData()">
+                              <div class="dot-opacity-loader" *ngIf="isSyncFlag">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                              </div>
+                              <span *ngIf="!isSyncFlag">
+                                Sync Data
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22"
+                                  fill="none">
+                                  <mask id="mask0_2163_292" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0"
+                                    y="0" width="22" height="22">
+                                    <rect x="0.117188" y="0.515625" width="20.9709" height="20.9709" fill="#D9D9D9" />
+                                  </mask>
+                                  <g mask="url(#mask0_2163_292)">
+                                    <path
+                                      d="M14.2477 11.8758H3.60938V10.1282H14.2477L9.35452 5.23502L10.5997 4.01172L17.59 11.002L10.5997 17.9923L9.35452 16.769L14.2477 11.8758Z"
+                                      fill="#6666F2" />
+                                  </g>
+                                </svg>
+                              </span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+                </div>
+
+              </ng-container>
+
+
+
+              <ng-container *ngIf="
+                  isShimmer
+                  else onboardUserListCondition
+                ">
+                <div class="">
+                  <div class="text-end">
+                    <ngx-shimmer-loading [width]="'30%'" [height]="'40px'"
+                      style="border-radius: 50%"></ngx-shimmer-loading>
+                  </div>
+                </div>
+                <div class="mt-3 mb-2" style="
+                    border: 1px solid #f5f5f5;
+                    padding: 5px;
+                    border-radius: 6px;
+                  " *ngFor="let number of [1, 2, 3, 4, 5]">
+                  <div class="row mt-3">
+                    <div class="col-md-2">
+                      <div class="">
+                        <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                          style="border-radius: 50%"></ngx-shimmer-loading>
+                      </div>
+                    </div>
+                    <div class="col-md-2">
+                      <div class="">
+                        <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                          style="border-radius: 50%"></ngx-shimmer-loading>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="">
+                        <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                          style="border-radius: 50%"></ngx-shimmer-loading>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="">
+                        <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                          style="border-radius: 50%"></ngx-shimmer-loading>
+                      </div>
+                    </div>
+                    <div class="col-md-2">
+                      <div class="">
+                        <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                          style="border-radius: 50%"></ngx-shimmer-loading>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+
+              <ng-template #onboardUserListCondition>
+                <ng-container *ngIf="
+                    !isShimmer &&
+                      onboardUserList.length != 0 &&
+                      !networkConnectionErrorPlaceholder;
+                    else errorInOnboardUserListCondition
+                  ">
+                  <div class="col-md-12 mt-3" *ngIf="adminUser != null">
+                    <div class="alreadyMemberBox p-3 d-flex align-items-center justify-content-between">
+                      <div class="d-flex align-items-center gap-2">
+                        <span class="alreadyUser">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="23" viewBox="0 0 24 23"
+                            fill="none">
+                            <mask id="mask0_3510_3972" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                              width="24" height="23">
+                              <rect x="0.675781" y="0.148651" width="22.7027" height="22.7027" fill="white" />
+                            </mask>
+                            <g mask="url(#mask0_3510_3972)">
+                              <path
+                                d="M9.92378 11.5C9.35621 11.5 8.88324 11.2871 8.50486 10.8615C8.12648 10.4358 7.9767 9.93916 8.05553 9.37159L8.36297 7.05403C8.48909 6.15538 8.899 5.41044 9.5927 4.81923C10.2864 4.22801 11.0983 3.9324 12.0285 3.9324C12.9587 3.9324 13.7706 4.22801 14.4643 4.81923C15.158 5.41044 15.5679 6.15538 15.694 7.05403L16.0015 9.37159C16.0803 9.93916 15.9305 10.4358 15.5522 10.8615C15.1738 11.2871 14.7008 11.5 14.1332 11.5H9.92378ZM9.92378 9.60808H14.1332L13.8258 7.33781C13.7627 6.89637 13.5617 6.53376 13.2228 6.24997C12.8838 5.96619 12.4857 5.8243 12.0285 5.8243C11.5713 5.8243 11.1732 5.96619 10.8342 6.24997C10.4953 6.53376 10.2943 6.89637 10.2312 7.33781L9.92378 9.60808ZM4.46094 19.0675V16.4189C4.46094 15.8829 4.59889 15.3902 4.87479 14.9409C5.15069 14.4915 5.51724 14.1486 5.97445 13.9121C6.95193 13.4234 7.94517 13.0568 8.95418 12.8125C9.96319 12.5681 10.988 12.4459 12.0285 12.4459C13.069 12.4459 14.0938 12.5681 15.1028 12.8125C16.1118 13.0568 17.1051 13.4234 18.0826 13.9121C18.5398 14.1486 18.9063 14.4915 19.1822 14.9409C19.4581 15.3902 19.5961 15.8829 19.5961 16.4189V19.0675H4.46094ZM6.35283 17.1756H17.7042V16.4189C17.7042 16.2455 17.6608 16.0878 17.5741 15.9459C17.4874 15.804 17.3731 15.6937 17.2312 15.6148C16.3799 15.1892 15.5206 14.8699 14.6535 14.6571C13.7864 14.4442 12.9114 14.3378 12.0285 14.3378C11.1456 14.3378 10.2706 14.4442 9.40351 14.6571C8.53639 14.8699 7.67715 15.1892 6.8258 15.6148C6.68391 15.6937 6.56961 15.804 6.4829 15.9459C6.39619 16.0878 6.35283 16.2455 6.35283 16.4189V17.1756Z"
+                                fill="white" />
+                            </g>
+                          </svg>
+                        </span>
+                        <h5 class="mb-0">
+                          You’re added as admin of this organization.
+                        </h5>
+                      </div>
+                      <div class="d-flex align-items-center gap-2">
+                        <p class="mb-0 font-13 pointer">
+                          Your Name: <span> {{ adminUser.name || "N/A" }}</span>
+                        </p>
+                        <span class="spreter" style="height: 15px"></span>
+                        <p class="mb-0 font-13 pointer">
+                          Email: <span>{{ adminUser.email || "N/A" }}</span>
+                        </p>
+                        <span class="spreter" style="height: 15px"></span>
+                        <p class="mb-0 font-13 pointer">
+                          Mobile Number:
+                          <span>{{ adminUser.phoneNumber || "N/A" }}</span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- *ngIf="onboardingViaString != 'SLACK'" -->
+                  <div class="col-md-12 mt-3">
+                    <div class="d-flex align-items-center justify-content-between p-0 employee-list pb-3">
+                      <div>
+                        <h5 class="alert-heading font-14 mb-0">
+                          Employee List [{{ totalOnboardingUserListCount }}]
+                        </h5>
+                      </div>
+
+                      <div class="d-flex gap-3">
+
+                       
+                          <button class="btn p-0 text-primary fw-semibold" type="button" data-bs-toggle="modal"
+                            data-bs-target="#sampleFileModal2" [disabled]="isProgressToggle || percentage > 0">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            *ngIf="!isProgressToggle">
+                            <mask id="mask0_1549_4381" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                              width="24" height="24">
+                              <rect width="24" height="24" fill="#D9D9D9" />
+                            </mask>
+                            <g mask="url(#mask0_1549_4381)">
+                              <path
+                                d="M8 18H16V16H8V18ZM8 14H16V12H8V14ZM6 22C5.45 22 4.97917 21.8042 4.5875 21.4125C4.19583 21.0208 4 20.55 4 20V4C4 3.45 4.19583 2.97917 4.5875 2.5875C4.97917 2.19583 5.45 2 6 2H14L20 8V20C20 20.55 19.8042 21.0208 19.4125 21.4125C19.0208 21.8042 18.55 22 18 22H6ZM13 9V4H6V20H18V9H13Z"
+                                fill="#6666F2" />
+                            </g>
+                          </svg>  
+                          Excel Upload
+                          </button>
+                       
+                        <!-- <input #fileInput id="fileSelect" type="file" name="img[]"
+                          accept=".xlsx,application/vnd.ms-excel" class="input" style="display: none"
+                          (change)="selectFile($event)" />
+                        <button type="button" class="btn add-excel" (click)="fileInput.click()"
+                          [disabled]="isProgressToggle || percentage > 0">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            *ngIf="!isProgressToggle">
+                            <mask id="mask0_1549_4381" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                              width="24" height="24">
+                              <rect width="24" height="24" fill="#D9D9D9" />
+                            </mask>
+                            <g mask="url(#mask0_1549_4381)">
+                              <path
+                                d="M8 18H16V16H8V18ZM8 14H16V12H8V14ZM6 22C5.45 22 4.97917 21.8042 4.5875 21.4125C4.19583 21.0208 4 20.55 4 20V4C4 3.45 4.19583 2.97917 4.5875 2.5875C4.97917 2.19583 5.45 2 6 2H14L20 8V20C20 20.55 19.8042 21.0208 19.4125 21.4125C19.0208 21.8042 18.55 22 18 22H6ZM13 9V4H6V20H18V9H13Z"
+                                fill="#6666F2" />
+                            </g>
+                          </svg>
+
+                          <div *ngIf="isProgressToggle" class="spinner-border text-primary excel-spinner" role="status">
+                          </div>
+                          Excel Upload
+                        </button> -->
+
+                        <span class="spreter"></span>
+                        <button type="button" class="btn add-excel" data-bs-toggle="modal"
+                          data-bs-target="#munal-upload" (click)="selectMethod('mannual')"
+                          [disabled]="isProgressToggle || percentage > 0">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                            fill="none">
+                            <mask id="mask0_1549_4386" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                              width="24" height="24">
+                              <rect width="24" height="24" fill="#D9D9D9" />
+                            </mask>
+                            <g mask="url(#mask0_1549_4386)">
+                              <path
+                                d="M9.94844 21C9.49844 21 9.06927 20.9042 8.66094 20.7125C8.2526 20.5208 7.90677 20.25 7.62344 19.9L1.14844 11.925L1.79844 11.3C2.1151 10.9833 2.4901 10.8 2.92344 10.75C3.35677 10.7 3.74844 10.8 4.09844 11.05L6.99844 13.075V3C6.99844 2.71667 7.09427 2.47917 7.28594 2.2875C7.4776 2.09583 7.7151 2 7.99844 2C8.28177 2 8.51927 2.09583 8.71094 2.2875C8.9026 2.47917 8.99844 2.71667 8.99844 3V16.925L6.22344 14.975L9.17344 18.625C9.27344 18.7417 9.3901 18.8333 9.52344 18.9C9.65677 18.9667 9.79844 19 9.94844 19H16.9984C17.5484 19 18.0193 18.8042 18.4109 18.4125C18.8026 18.0208 18.9984 17.55 18.9984 17V10C18.9984 9.71667 19.0943 9.47917 19.2859 9.2875C19.4776 9.09583 19.7151 9 19.9984 9C20.2818 9 20.5193 9.09583 20.7109 9.2875C20.9026 9.47917 20.9984 9.71667 20.9984 10V17C20.9984 18.1 20.6068 19.0417 19.8234 19.825C19.0401 20.6083 18.0984 21 16.9984 21H9.94844ZM10.9984 13V7C10.9984 6.71667 11.0943 6.47917 11.2859 6.2875C11.4776 6.09583 11.7151 6 11.9984 6C12.2818 6 12.5193 6.09583 12.7109 6.2875C12.9026 6.47917 12.9984 6.71667 12.9984 7V13H10.9984ZM14.9984 13V8C14.9984 7.71667 15.0943 7.47917 15.2859 7.2875C15.4776 7.09583 15.7151 7 15.9984 7C16.2818 7 16.5193 7.09583 16.7109 7.2875C16.9026 7.47917 16.9984 7.71667 16.9984 8V13H14.9984Z"
+                                fill="#6666F2" />
+                            </g>
+                          </svg>
+                          Single Enrollment
+                        </button>
+                      </div>
+                    </div>
+
+                    <div>
+                      <div *ngIf="percentage">
+                        <div class="progress mt-3">
+                          <div class="progress-bar progress-bar-striped" style="font-size: 10px" role="progressbar"
+                            [style.width]="percentage + '%'" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+                            {{ percentage }}%
+                          </div>
+                        </div>
+                        <div class="text-center mt-3">
+                          <p class="deta-prosesing">
+                            Hang tight, we're getting your Excel data...
+                          </p>
+                        </div>
+                      </div>
+                      <div class="row mb-3" *ngIf="showNotification">
+                        <div class="col-md-12">
+                          <div class="text-center sucsuce-msg-box">
+                            <p class="sucsuce-msg">
+                              You're good to go excel data loaded!
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="d-flex align-items-center justify-content-between mb-3 mt-3"
+                      *ngIf="listOfIds.length > 0">
+                      <div class="d-flex align-items-center gap-3">
+                        <p class="mb-0" style="font-weight: 400">
+                          All
+                          <span class="text-primary">
+                            {{ listOfIds?.length }}
+                          </span>
+                          Employees on this page are selected
+                        </p>
+                      </div>
+                      <div class="d-flex align-items-center gap-3">
+                        <p class="mb-0 selectAll" style="font-weight: 400; cursor: pointer"
+                          (click)="selectAllPageUsers()" *ngIf="totalOnboardingUserListCount > size">
+                          Select all
+                          <span class="text-primary">
+                            {{ totalOnboardingUserListCount }}
+                          </span>
+                          Users
+                        </p>
+                        <p class="mb-0 selectAll deleteSelecetdUser" style="cursor: pointer" (click)="deleteUsers()">
+                          Delete Selected Users
+                        </p>
+                        <!-- <span class="error-spreter"></span> -->
+                        <button class="p-0 btn removeBtn pointer" (click)="unselectAllUsers()">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                            fill="none">
+                            <mask id="mask0_1624_4338" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                              width="24" height="24">
+                              <rect y="0.25" width="23.5" height="23.5" fill="#D9D9D9" />
+                            </mask>
+                            <g mask="url(#mask0_1624_4338)">
+                              <path
+                                d="M6.26146 18.8568L4.89062 17.4859L10.374 12.0026L4.89062 6.51927L6.26146 5.14844L11.7448 10.6318L17.2281 5.14844L18.599 6.51927L13.1156 12.0026L18.599 17.4859L17.2281 18.8568L11.7448 13.3734L6.26146 18.8568Z"
+                                fill="#FD0808" />
+                            </g>
+                          </svg>
+                          Clear Selection
+                        </button>
+                      </div>
+                    </div>
+
+                    <table class="table table-striped mt-3">
+                      <thead class="thead-light">
+                        <tr>
+                          <!-- {{isSelectAll}} -->
+                          <th style="width: 5%" class="text-center">
+                            <input type="checkbox" style="cursor: pointer" class="form-check-input"
+                              (change)="toggleSelectAll($event)" [checked]="isSelectAll" />
+                          </th>
+                          <th style="width: 10%" class="text-center">Sr No.</th>
+                          <th style="width: 25%" class="text-left">Name</th>
+                          <th style="width: 25%" class="text-left">
+                            Email Address
+                          </th>
+                          <th style="width: 20%" class="text-left" *ngIf="onboardingViaString != 'SLACK'">
+                            Phone Number
+                          </th>
+
+                          <th style="width: 10%" class="text-center">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody class="">
+                        <tr *ngFor="
+                            let onboardUser of onboardUserList;
+                            let i = index
+                          ">
+                          <td class="text-center">
+                            <input type="checkbox" style="cursor: pointer" class="form-check-input" (change)="
+                                toggleUserSelection(onboardUser.id, $event)
+                              " [checked]="listOfIds?.includes(onboardUser.id)" />
+                          </td>
+                          <td class="text-center">
+                            {{ getRowNumber(i) }}
+                          </td>
+                          <td>{{ onboardUser.name }}</td>
+                          <td>
+                            {{ onboardUser.email ? onboardUser.email : "N/A" }}
+                          </td>
+                          <td *ngIf="onboardingViaString != 'SLACK'">
+                            {{ onboardUser.phone }}
+                          </td>
+
+                          <td>
+                            <div class="d-flex align-items-center justify-content-center gap-2 edit-delet-btn">
+                              <!-- *ngIf="onboardingViaString != 'SLACK'" -->
+                              <a (click)="openUserEditModal(onboardUser)">
+                                <!-- <i class="las la-pen text-primary font-16"></i> -->
+                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24"
+                                  fill="none">
+                                  <mask id="mask0_2026_635" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0"
+                                    y="0" width="25" height="24">
+                                    <rect x="0.429688" y="0.269531" width="23.7026" height="23.7026" fill="#D9D9D9" />
+                                  </mask>
+                                  <g mask="url(#mask0_2026_635)">
+                                    <path
+                                      d="M5.36584 19.0322H6.77319L16.4271 9.37834L15.0197 7.97099L5.36584 17.6249V19.0322ZM3.39062 21.0074V16.8101L16.4271 3.79834C16.6246 3.61728 16.8427 3.47737 17.0814 3.37861C17.32 3.27985 17.571 3.23047 17.8344 3.23047C18.0978 3.23047 18.3529 3.27985 18.5998 3.37861C18.8467 3.47737 19.0607 3.62551 19.2418 3.82303L20.5997 5.20569C20.7972 5.38675 20.9413 5.60073 21.0318 5.84763C21.1223 6.09454 21.1676 6.34144 21.1676 6.58834C21.1676 6.8517 21.1223 7.10272 21.0318 7.34139C20.9413 7.58006 20.7972 7.79816 20.5997 7.99568L7.58796 21.0074H3.39062ZM15.7111 8.68701L15.0197 7.97099L16.4271 9.37834L15.7111 8.68701Z"
+                                      fill="#6666F2" />
+                                  </g>
+                                </svg>
+                              </a>
+                              <!-- (click)="deleteUser(onboardUser.id)" -->
+                              <a data-bs-toggle="modal" data-bs-target="#delete-modal" type="button"
+                                (click)="deleteUserId(onboardUser.id)">
+                                <!-- <i class="las la-trash-alt text-danger font-16" ></i> -->
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                  fill="none">
+                                  <mask id="mask0_2026_632" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0"
+                                    y="0" width="24" height="24">
+                                    <rect y="0.269531" width="23.7026" height="23.7026" fill="#D9D9D9" />
+                                  </mask>
+                                  <g mask="url(#mask0_2026_632)">
+                                    <path
+                                      d="M6.91595 21.0074C6.37277 21.0074 5.90777 20.814 5.52095 20.4272C5.13414 20.0404 4.94073 19.5754 4.94073 19.0322V6.1933H3.95312V4.21808H8.89117V3.23047H14.8168V4.21808H19.7549V6.1933H18.7673V19.0322C18.7673 19.5754 18.5739 20.0404 18.187 20.4272C17.8002 20.814 17.3352 21.0074 16.792 21.0074H6.91595ZM16.792 6.1933H6.91595V19.0322H16.792V6.1933ZM8.89117 17.057H10.8664V8.16852H8.89117V17.057ZM12.8416 17.057H14.8168V8.16852H12.8416V17.057Z"
+                                      fill="#FF0404" />
+                                  </g>
+                                </svg>
+                              </a>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <div class="col-md-12 mt-2 d-flex align-items-center justify-content-end pagnition"
+                    *ngIf="totalOnboardingUserListCount > size">
+                    <div class="d-flex align-items-center justify-content-end" style="gap: 15px">
+                      <p class="mb-0">
+                        <span>{{ currentDisplayedCount }}</span> of
+                        <span>{{ totalOnboardingUserListCount }}</span>
+                      </p>
+                      <div>
+                        <button class="pagnition-left" (click)="previousPage()" [disabled]="page === 0">
+                          <i class="bi bi-caret-left-fill"></i>
+                        </button>
+                        <button class="pagnition-right" (click)="nextPage()" [disabled]="onboardUserList.length < size">
+                          <i class="bi bi-caret-right-fill"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+              </ng-template>
+
+              <ng-template #errorInOnboardUserListCondition>
+                <div style="height: 30%; margin-top: 20%" class="errorboxmain"
+                  *ngIf="networkConnectionErrorPlaceholder">
+                  <nz-empty nzNotFoundImage="assets/images/signal.svg" [nzNotFoundContent]="contentTpl">
+                    <ng-template #contentTpl>
+                      <h4>Something went wrong!</h4>
+
+                      <p>An error occurred while processing your request!</p>
+                    </ng-template>
+                  </nz-empty>
+                </div>
+              </ng-template>
+            </div>
+            <div class="row">
+              <div class="col-md-4"></div>
+              <div class="col-md-8">
+                <div class="excel-file-error d-flex align-items-center justify-content-between"
+                  style="background-image: url(../assets/images/vector-3.svg)" *ngIf="
+                    alreadyUsedPhoneNumberArray.length > 0 ||
+                    alreadyUsedEmailArray.length > 0 ||
+                    isErrorToggle
+                  ">
+                  <div class="d-flex align-items-center gap-3 previous-btn">
+                    <div>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="36" height="34" viewBox="0 0 36 34" fill="none">
+                        <path
+                          d="M35.252 25.9588L22.5349 2.58153C20.4917 -0.858226 15.511 -0.862796 13.4651 2.58153L0.748609 25.9588C-1.34009 29.4736 1.1887 33.9245 5.2825 33.9245H30.7171C34.8074 33.9245 37.3407 29.4772 35.252 25.9588ZM18 29.7058C16.8372 29.7058 15.8906 28.7592 15.8906 27.5964C15.8906 26.4336 16.8372 25.487 18 25.487C19.1628 25.487 20.1094 26.4336 20.1094 27.5964C20.1094 28.7592 19.1628 29.7058 18 29.7058ZM20.1094 21.2683C20.1094 22.4311 19.1628 23.3777 18 23.3777C16.8372 23.3777 15.8906 22.4311 15.8906 21.2683V10.7214C15.8906 9.55857 16.8372 8.61203 18 8.61203C19.1628 8.61203 20.1094 9.55857 20.1094 10.7214V21.2683Z"
+                          fill="#FF2F2F" />
+                      </svg>
+                    </div>
+                    <div class="">
+                      <h5 class="alert-heading text-danger font-12 mb-1">
+                        Attention! It seems like some of the list are not
+                        matching with the requirements. These list you can see
+                        here.
+                      </h5>
+                      <div class="d-flex align-items-center gap-2">
+                        <p class="mb-0 font-11" *ngIf="alreadyUsedPhoneNumberArray.length > 0">
+                          <!-- <b>Duplicate phone number</b> -->
+                          <b>Duplicate phone number</b>
+                          <span class="Duplicate-number-count">{{alreadyUsedPhoneNumberArray.length}}</span>
+                        </p>
+                        <span class="error-spreter"></span>
+                        <p class="mb-0 font-11" *ngIf="alreadyUsedEmailArray.length > 0">
+                          <b>Duplicate email id <span
+                              class="Duplicate-number-count">{{alreadyUsedEmailArray.length}}</span> :</b> You can check
+                          this error
+                          log here.
+                        </p>
+                        <P class="mb-0 font-11" *ngIf="isErrorToggle">
+                          <b>Error :</b> {{ errorMessage }}
+                        </P>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="" *ngIf="excelLogLink">
+                    <button class="btn download-eroor" style="margin-right: 15px" (click)="downloadExcelLog()">
+                      Preview Error log
+                    </button>
+                  </div>
+                </div>
+                <div class="next-btn-box d-flex align-items-center justify-content-between">
+                  <button class="btn previousBtn previous-btn p-0" type="button" (click)="backPage()">
+                    <span *ngIf="!isPreviousLoading">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
+                        <path
+                          d="M19.75 10.6714C19.75 10.8588 19.6914 11.011 19.5743 11.1281C19.4572 11.2452 19.305 11.3038 19.1177 11.3038H3.59011L7.73547 15.4491C7.87599 15.5896 7.94625 15.7536 7.94625 15.9409C7.94625 16.1283 7.87599 16.2805 7.73547 16.3976C7.59495 16.5147 7.43101 16.5733 7.24365 16.5733C7.05628 16.5733 6.89234 16.5264 6.75182 16.4328L1.48229 11.1632C1.38861 11.0227 1.34177 10.8588 1.34177 10.6714C1.34177 10.484 1.38861 10.3201 1.48229 10.1796L6.75182 4.91005C6.89234 4.81637 7.05628 4.76953 7.24365 4.76953C7.43101 4.76953 7.59495 4.82808 7.73547 4.94518C7.87599 5.06228 7.94625 5.21451 7.94625 5.40188C7.94625 5.58924 7.87599 5.75318 7.73547 5.8937L3.59011 10.0391H19.1177C19.305 10.0391 19.4572 10.0976 19.5743 10.2147C19.6914 10.3318 19.75 10.484 19.75 10.6714Z"
+                          fill="black" />
+                      </svg>
+                      Previous</span>
+
+                    <div class="dot-opacity-loader" *ngIf="isPreviousLoading">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </div>
+                  </button>
+                  <!-- {{onboardUserList.length}} -->
+                  <button type="submit" class="btn nextBtn p-0" [disabled]="totalOnboardingUserListCount === 0"
+                    (click)="next()" [ngClass]="{'btn-border':!(totalOnboardingUserListCount === 0)}">
+                    <span *ngIf="!isNextloading">Next
+                      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
+                        <path
+                          d="M2.25293 11.0001C2.25293 11.1875 2.31148 11.3397 2.42858 11.4568C2.54568 11.5739 2.69791 11.6325 2.88527 11.6325H18.4128L14.2675 15.7779C14.1269 15.9184 14.0567 16.0823 14.0567 16.2697C14.0567 16.457 14.1269 16.6093 14.2675 16.7264C14.408 16.8435 14.5719 16.902 14.7593 16.902C14.9466 16.902 15.1106 16.8552 15.2511 16.7615L20.5206 11.492C20.6143 11.3514 20.6612 11.1875 20.6612 11.0001C20.6612 10.8128 20.6143 10.6488 20.5206 10.5083L15.2511 5.23879C15.1106 5.14511 14.9466 5.09827 14.7593 5.09827C14.5719 5.09827 14.408 5.15682 14.2675 5.27392C14.1269 5.39102 14.0567 5.54325 14.0567 5.73061C14.0567 5.91797 14.1269 6.08191 14.2675 6.22243L18.4128 10.3678H2.88527C2.69791 10.3678 2.54568 10.4263 2.42858 10.5434C2.31148 10.6606 2.25293 10.8128 2.25293 11.0001Z"
+                          fill="#6666F2" />
+                      </svg>
+                    </span>
+                    <div class="dot-opacity-loader" *ngIf="isNextloading">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </div>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- user edit modal -->
+    <button #userEditModal class="d-none" data-bs-toggle="modal" data-bs-target="#editUser"></button>
+    <div class="modal fade" id="editUser" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Edit User</h5>
+            <button type="button" #closeUserEditModal class="btn-close" data-bs-dismiss="modal"
+              aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form #editUserForm="ngForm">
+              <div class="form-group row mb-3">
+                <div class="col-md-4">
+                  <label class="mb-2"> Name</label>
+                  <input type="text" name="Name" [(ngModel)]="user.name" class="form-control" placeholder="Enter Name"
+                    required />
+                </div>
+                <!-- {{user.phone}} -->
+                <div class="col-md-4">
+                  <label class="mb-2">Phone Number</label>
+                  <input type="tel" name="phone" [(ngModel)]="user.phone" placeholder="Phone Number" minlength="10"
+                    maxlength="10" class="form-control"
+                    oninput="this.value = this.value.replace(/^[^1-9]/g, '').replace(/(\..*)\./g, '$1');"
+                    (keyup)="checkNumberExistence(-1, user.phone, user.uuid)" required />
+                  <p *ngIf="isNumberExist" class="error text-danger">
+                    This number already exist
+                  </p>
+                </div>
+                <div class="col-md-4">
+                  <label class="mb-2">Email </label>
+                  <input type="email" name="email" [(ngModel)]="user.email" placeholder="Email" class="form-control"
+                    (keyup)="checkEmailExistence(-1, user.email, user.uuid)" />
+                  <p *ngIf="isEmailExist" class="error text-danger">
+                    This email already exist
+                  </p>
+                </div>
+              </div>
+              <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary" [disabled]="
+                    editUserForm.invalid || isNumberExist || isEmailExist
+                  " (click)="editUser()">
+                  <span *ngIf="!editLoader">Submit</span>
+                  <div class="dot-opacity-loader" *ngIf="editLoader">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- user edit modal -->
+    <button class="d-none" data-bs-toggle="modal" data-bs-target="#munal-upload"></button>
+    <div class="modal fade" id="munal-upload" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" style="max-width: 500px" role="document">
+        <div class="modal-content">
+          <div class="modal-body manualUpload p-0" style="
+              background-image: url(../assets/images/manual-upload-back-img.svg);
+            ">
+            <div class="d-flex align-items-center justify-content-end pt-2" style="padding-right: 10px">
+              <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButton
+                (click)="resetManualUploadModal()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+                  <mask id="mask0_1531_457" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="30"
+                    height="30">
+                    <rect width="30" height="30" fill="#D9D9D9" />
+                  </mask>
+                  <g mask="url(#mask0_1531_457)">
+                    <path
+                      d="M8 23.75L6.25 22L13.25 15L6.25 8L8 6.25L15 13.25L22 6.25L23.75 8L16.75 15L23.75 22L22 23.75L15 16.75L8 23.75Z"
+                      fill="white" />
+                  </g>
+                </svg>
+              </button>
+            </div>
+            <div class="row p-3 pb-0 pt-0">
+              <div class="col-md-8">
+                <div class="manualUploadDetail persnol-details p-0">
+                  <h5 class="alert-heading text-white font-18 mb-2">
+                    Manual Employee Entry
+                  </h5>
+                  <p class="mb-0 text-white">
+                    Enter employee details one at a time to create a
+                    personalized and accurate employee list
+                  </p>
+
+                  <div class="total-people mt-4 d-flex align-items-center justify-content-between">
+                    <h5 class="mb-0 alert-heading text-white font-16">
+                      {{ userList.length}} People
+                    </h5>
+                    <!-- {{ userList.length - 1}} People -->
+                    <span *ngIf="!showUserList && userList.length > 0" class="font-14 pointer" style="font-weight: 500"
+                      ngIg="viewMore" (click)="viewUserList()">
+                      View <i class="bi bi-caret-down-fill"></i>
+                    </span>
+                    <span *ngIf="showUserList" class="font-14 pointer addMoreUser" style="font-weight: 500"
+                      (click)="viewUserList()">
+                      Add More
+                      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
+                        <mask id="mask0_2382_343" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                          width="22" height="22">
+                          <rect width="22" height="22" fill="#D9D9D9" />
+                        </mask>
+                        <g mask="url(#mask0_2382_343)">
+                          <path
+                            d="M10.0781 11.9193H4.57812V10.0859H10.0781V4.58594H11.9115V10.0859H17.4115V11.9193H11.9115V17.4193H10.0781V11.9193Z"
+                            fill="white" />
+                        </g>
+                      </svg>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="side-img" style="background-image: url(../assets/images/side-img.svg)"></div>
+              </div>
+            </div>
+            <!-- {{showUserList}} -->
+            <div class="p-3 bg-white" *ngIf="showUserList">
+              <div class="manualemployList">
+                <div class="d-flex align-items-center justify-content-between">
+
+                  <div class="d-flex align-items-center gap-3">
+                    <div>
+                      <span class="userName">{{
+                        adminUser.name.charAt(0).toUpperCase()
+                        }}</span>
+                    </div>
+                    <div>
+                      <h5 class="alert-heading font-13 mb-1">
+                        {{ adminUser.name }}
+                      </h5>
+                      <div class="d-flex align-items-center gap-2">
+                        <p class="mb-0 font-11">
+                          {{ adminUser.email || "N/A" }}
+                        </p>
+                        <span class="error-spreter"></span>
+                        <p class="mb-0 font-11">{{ adminUser.phoneNumber || "N/A"}}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <span class="admin pointer">Admin</span>
+                  </div>
+                </div>
+                <div class="d-flex align-items-center justify-content-between persnol-details userList p-0 pt-3 pb-1"
+                  *ngFor="let user of userList | slice : 0 : -1; let i = index">
+                  <!-- {{ i }}  entry ii  -->
+                  <!-- <div class="d-flex align-items-center gap-3" *ngIf="i== 0">
+                  <div>
+                    <span class="userName">{{
+                      adminUser.name.charAt(0).toUpperCase()
+                    }}</span>
+                  </div>
+                  <div>
+                    <h5 class="alert-heading font-13 mb-1">
+                      {{ adminUser.name }}
+                    </h5>
+                    <div class="d-flex align-items-center gap-2">
+                      <p class="mb-0 font-11">
+                        {{ adminUser.email || "N/A" }}
+                      </p>
+                      <span class="error-spreter"></span>
+                      <p class="mb-0 font-11">{{ adminUser.phoneNumber }}</p>
+                    </div>
+                  </div>
+                 </div> -->
+                  <div class="d-flex align-items-center gap-3">
+                    <div>
+                      <span class="userName">{{
+                        user.name.charAt(0).toUpperCase()
+                        }}</span>
+                    </div>
+                    <div>
+                      <h5 class="alert-heading font-13 mb-1">
+                        {{ user.name }}
+                      </h5>
+                      <div class="d-flex align-items-center gap-2">
+                        <p class="mb-0 font-11">
+                          {{ user.email || "N/A" }}
+                        </p>
+                        <span class="error-spreter"></span>
+                        <p class="mb-0 font-11">{{ user.phone }}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <button class="btn p-0 addUserRemvo" (click)="removeUser(i)">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="23" viewBox="0 0 22 23" fill="none">
+                        <mask id="mask0_2382_269" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                          width="22" height="23">
+                          <rect y="0.550781" width="21.8948" height="21.8948" fill="white" />
+                        </mask>
+                        <g mask="url(#mask0_2382_269)">
+                          <path
+                            d="M6.38529 19.7102C5.88353 19.7102 5.454 19.5315 5.09669 19.1742C4.73938 18.8169 4.56072 18.3874 4.56072 17.8856V6.02591H3.64844V4.20135H8.20985V3.28906H13.6836V4.20135H18.245V6.02591H17.3327V17.8856C17.3327 18.3874 17.154 18.8169 16.7967 19.1742C16.4394 19.5315 16.0099 19.7102 15.5081 19.7102H6.38529ZM15.5081 6.02591H6.38529V17.8856H15.5081V6.02591ZM8.20985 16.061H10.0344V7.85048H8.20985V16.061ZM11.859 16.061H13.6836V7.85048H11.859V16.061Z"
+                            fill="#2F2E41" />
+                        </g>
+                      </svg>
+                      Remove
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="manualUploadForm p-3" *ngIf="!showUserList">
+              <div class="row" *ngFor="let user of userList | slice : -1; let i = index">
+                <div class="col-md-12">
+                  <div class="mb-3">
+                    <label class="mb-2">
+                      Employee Name <span class="text-optional">*</span></label>
+                    <input type="text" name="userName{{ i }}" [(ngModel)]="user.name" class="form-control profile-input"
+                      placeholder="Enter Employee Name" #name="ngModel" minlength="3" required />
+                    <div *ngIf="name?.dirty || isFormInvalid">
+                      <p class="errortxt mt-2 mb-2 text-danger" *ngIf="name.errors?.required">
+                        <i class="bi bi-exclamation-circle"></i> Name is
+                        required.
+                      </p>
+                      <p class="errortxt mt-2 mb-2 text-danger" *ngIf="name.errors?.minlength">
+                        <i class="bi bi-exclamation-circle"></i> Please enter a
+                        valid name.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="mb-3">
+                    <label class="mb-2">
+                      Phone Number <span class="text-optional">*</span>
+                    </label>
+                    <input type="tel" name="userPhone{{ i }}" [(ngModel)]="user.phone"
+                      placeholder="Enter Whatsapp Number" minlength="10" maxlength="10"
+                      class="form-control profile-input" (keyup)="checkNumberExistance(i, user.phone, user.uuid)"
+                      #phone="ngModel" required />
+                    <!-- Showing phone existence error first if it exists -->
+                    <p *ngIf="userList[i].isPhoneExist" class="error text-danger mt-2 mb-2">
+                      <i class="bi bi-exclamation-circle"></i> Phone number already exists.
+                    </p>
+
+                    <!-- Showing other validation errors only if the phone doesn't already exist -->
+                    <div *ngIf="(phone?.dirty || isFormInvalid) && !userList[i].isPhoneExist">
+                      <p class="errortxt mt-2 mb-2 text-danger" *ngIf="phone.errors?.required">
+                        <i class="bi bi-exclamation-circle"></i> Phone number is required.
+                      </p>
+                      <p class="errortxt mt-2 mb-2 text-danger" *ngIf="phone.errors?.minlength">
+                        <i class="bi bi-exclamation-circle"></i> Please enter a valid phone number.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                  <div class="mb-3">
+                    <label class="mb-2">Email Id
+                      <span class="text-optional" *ngIf="onboardingViaString != 'SLACK'">(optional)</span>
+                      <span class="text-optional" *ngIf="onboardingViaString === 'SLACK'">*</span></label>
+
+                    <input type="email" name="userEmail{{ i }}" [(ngModel)]="user.email" #email="ngModel"
+                      pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z0-9.-]{2,20}" placeholder="Enter Email"
+                      class="form-control profile-input" (keyup)="checkEmailExistance(i, user.email, user.uuid)" />
+                    <p *ngIf="userList[i].isEmailExist" class="error mt-2 mb-2 text-danger">
+                      This email already exist.
+                    </p>
+                    <div *ngIf="email?.dirty || isFormInvalid">
+                      <p class="errortxt mt-2 mb-2 text-danger" *ngIf="email.errors?.required">
+                        <i class="bi bi-exclamation-circle"></i> Email Id is
+                        required.
+                      </p>
+                      <p class="errortxt mt-2 mb-2 text-danger" *ngIf="email.errors?.email">
+                        <i class="bi bi-exclamation-circle"></i> Please enter a
+                        valid email.
+                      </p>
+                      <p class="errortxt mb-2 text-danger" *ngIf="email.errors?.pattern">
+                        <i class="bi bi-exclamation-circle"></i> Please enter a
+                        valid email.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer border-top d-flex align-items-center justify-content-end p-3 bg-white gap-3">
+              <button class="btn submit-add-more" (click)="addUser()" [disabled]="!currentUsersValid()"
+                *ngIf="!showUserList">
+                Save & Add more
+              </button>
+              <button class="btn submit-add-more" *ngIf="showUserList" (click)="viewUserList()">
+                Add more
+              </button>
+              <!-- {{this.userList.length}} -->
+              <!-- <button
+                class="btn mannualSubmit"
+                (click)="submit()"
+                [disabled]="this.userList.length < 1"
+              >
+                Submit
+              </button> -->
+<!-- {{allUsersValid}}-- {{this.userList.length}} -- {{isNumberExist}} -- {{isEmailExist}} -->
+              <button class="btn mannualSubmit" (click)="submit()"
+                [disabled]="!allUsersValid() || this.userList.length < 1 || isNumberExist || isEmailExist">
+                <span *ngIf="!isManualUploadSubmitLoader">Submit</span>
+                <div class="dot-opacity-white-loader" *ngIf="isManualUploadSubmitLoader">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Trigger Button for Modal -->
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#sampleFileModal"
+  id="uploadMembersModal" #sampleFileModalButton>
+  Open Sample File Modal
+</button>
+<!-- Modal -->
+<div class="modal fade" id="sampleFileModal" tabindex="-1" aria-labelledby="sampleFileModalLabel" aria-hidden="true"
+  #sampleFileModal>
+  <div class="modal-dialog modal-xl" style="max-width: 1400px !important;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="sampleFileModalLabel">Sample Excel File</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+          #closeButtonExcelModal></button>
+      </div>
+      <div class="modal-body">
+        <ng-container *ngIf="
+            !isShimmer &&
+            onboardUserList.length == 0 &&
+            !networkConnectionErrorPlaceholder
+          ">
+          <div class="col-md-12">
+            <div class="card-body mt-0 p-0">
+              <div class="alert alert-light mb-0" role="alert">
+                <h4 class="alert-heading font-18">
+                  Download the Sample Excel File!
+                </h4>
+                <p>
+                  Look for the sample file titled "Sample_Data.xlsx" and click
+                  on the download button to save it to your computer.
+                </p>
+                <p>
+                  Take a moment to review the existing data in the Excel file.
+                  This will help you understand the structure and content of the
+                  data before making any updates.
+                </p>
+                <p>
+                  <span class="text-primary">
+                    <u><a class="text-primary" href="{{ sampleFileUrl }}">Download a sample Excel file</a></u>
+                  </span>
+                  , update its data, and upload it back with the updated content
+                  on our platform
+                </p>
+              </div>
+            </div>
+            <div class="card-body mt-3 p-0">
+              <div class="alert alert-light mb-0 excel-uplode-file-box text-center" style="border: 2px dashed #dddd">
+                <input id="fileSelect" type="file" name="img[]" accept=".xlsx" class="input"
+                  (change)="selectFile($event)" />
+                <img src="assets/images/excel.svg" style="width: 50px" class="pb-3" />
+                <p>
+                  Drag file here to upload or,
+                  <u><a class="text-primary" href="#!">Choose file</a></u>
+                </p>
+                <div *ngIf="isProgressToggle" class="spinner-border text-success" role="status">
+
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <div class="alert alert-light mb-0 mt-4 bg-soft-warning create-password-warning text-start" role="alert"
+            *ngIf="
+              alreadyUsedPhoneNumberArray.length > 0 ||
+              alreadyUsedEmailArray.length > 0 ||
+              this.mismatches.length > 0 ||
+              isErrorToggle
+            ">
+            <h4 class="alert-heading font-18">Attention!!</h4>
+            <p *ngIf="this.mismatches.length > 0">
+
+              {{ this.mismatches }}
+            </p>
+            <p *ngIf="alreadyUsedPhoneNumberArray.length > 0">
+              Phone Numbers:
+              {{ formatAsCommaSeparated(alreadyUsedPhoneNumberArray) }}
+            </p>
+            <p *ngIf="alreadyUsedEmailArray.length > 0">
+              Emails: {{ formatAsCommaSeparated(alreadyUsedEmailArray) }}
+            </p>
+            <p *ngIf="isErrorToggle">Error: {{ errorMessage }}</p>
+            <!-- <div *ngFor="let pn of alreadyUsedPhoneNumberArray">
+                  {{ pn }}
+                </div>
+                <div *ngFor="let ea of alreadyUsedEmailArray">
+                  {{ ea }}
+                </div> -->
+            <p *ngIf="!isErrorToggle">
+              These credentials are already registered with us!
+            </p>
+          </div>
+          <!-- <div
+            class="alert alert-light mb-0 mt-4 bg-soft-warning create-password-warning text-start"
+            role="alert"
+            *ngIf="
+              data.length > 0
+              && isinvalid
+            "
+          >
+            <h4 class="alert-heading font-18">Attention</h4>
+            <p *ngIf="isExcel.length > 0">
+              {{ isExcel }}
+            </p>
+            <div *ngIf="data.length > 0">
+              <h3>Uploaded Data</h3>
+              <div class="table-responsive">
+                <table border="1">
+                  <thead>
+                    <tr>
+                      <th *ngFor="let col of fileColumnName">{{ col }}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    
+                    <tr *ngFor="let row of paginatedData; let i = index">
+                      <td *ngFor="let cell of fileColumnName; let j = index">
+                        <ng-container *ngIf="fileColumnName[j] === 'shift*' && (currentPage - 1) * pageSize + i  !== 0; else leaveColumns">
+                          <nz-select
+                              [(ngModel)]="row[j]"
+                              [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}"
+                              (ngModelChange)="onValueChange((currentPage - 1) * pageSize + i, j)"
+                              nzPlaceHolder="Select Shift"
+                              [nzDropdownRender]="customDropdownShift">
+
+                              <nz-option *ngFor="let shift of shiftList" [nzValue]="shift.label" [nzLabel]="shift.label"></nz-option>
+
+                          </nz-select>
+
+                          <ng-template #customDropdownShift>
+                            <div class="custom-dropdown-footer">
+                              <button nz-button nzType="link" (click)="openAddShiftModal()">Add Shift</button>
+                            </div>
+                          </ng-template>
+                        </ng-container>
+
+                        <ng-template #leaveColumns>
+                          <ng-container *ngIf="this.fileColumnName[j] === 'leavenames' && (currentPage - 1) * pageSize + i  !== 0; else otherColumns">
+                            <nz-select
+                              class="whatapp-login-input"
+                              nzMode="multiple"
+                              nzPlaceHolder="Select leave"
+                              nzAllowClear
+                              nzShowSearch
+                              nzServerSearch
+                              [(ngModel)]="row[j]"
+                              [ngModelOptions]="{ standalone: true }"
+                              (ngModelChange)="onMultiSelectChange($event, (currentPage - 1) * pageSize + i, j)"
+                              (nzOnSearch)="onSearchLeave($event)"
+                              [nzDropdownRender]="customDropdown"
+                              [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}">
+                              <ng-container *ngFor="let o of originalLeaveNameList">
+                                <nz-option *ngIf="!isLoadingLeave" [nzValue]="o.label" [nzLabel]="o.label"></nz-option>
+                              </ng-container>
+
+                              <nz-option *ngIf="isLoadingLeave" nzDisabled nzCustomContent>
+                                <span nz-icon nzType="loading" class="loading-icon"></span>
+                                Loading Data...
+                              </nz-option>
+                            </nz-select>
+                            <ng-template #customDropdown>
+                              <div class="custom-dropdown-footer">
+                                <button nz-button nzType="link" (click)="openAddLeaveModal()">Add Leave</button>
+                              </div>
+                            </ng-template>
+                          </ng-container>
+                        </ng-template>
+
+                        <ng-template #otherColumns>
+                          <ng-container *ngIf="this.fileColumnName[j] === 'joiningdate*' && (currentPage - 1) * pageSize + i  !== 0; else teamColumns">
+                            <nz-date-picker
+                              id="joiningDate"
+                              name="joiningDate"
+                              #joiningDate="ngModel"
+                              [(ngModel)]="data[(currentPage - 1) * pageSize + i][j]"
+                              required
+                              (ngModelChange)="onDateChange($event, (currentPage - 1) * pageSize + i , j)"
+                              [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}"
+                              [nzAllowClear]="false"
+                              nzPlaceHolder="Select Joining Date">
+                            </nz-date-picker>
+                          </ng-container>
+                        </ng-template>
+
+                        <ng-template #teamColumns>
+                          <ng-container *ngIf="this.fileColumnName[j] === 'team' && (currentPage - 1) * pageSize + i  !== 0; else genderColumns">
+                            <nz-select
+                              nzAllowClear
+                              nzShowSearch
+                              nzServerSearch
+                              nzMode="multiple"
+                              nzPlaceHolder="Select teams"
+                              [(ngModel)]="row[j]"
+                              [ngModelOptions]="{ standalone: true }"
+                              (ngModelChange)="onTeamSelectionChanges($event, (currentPage - 1) * pageSize + i, j)"
+                              (nzOnSearch)="onSearch($event)"
+                              [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}"
+                              [nzDropdownRender]="customDropdownTeam">
+                              <ng-container *ngFor="let o of originalTeamNameList">
+                                <nz-option *ngIf="!isLoadingTeams" [nzValue]="o.label" [nzLabel]="o.label"></nz-option>
+                              </ng-container>
+                              <nz-option *ngIf="isLoadingTeams" nzDisabled nzCustomContent>
+                                <span nz-icon nzType="loading" class="loading-icon"></span>
+                                Loading Data...
+                              </nz-option>
+                            </nz-select>
+                            <ng-template #customDropdownTeam>
+                              <div class="custom-dropdown-footer">
+                                <button nz-button nzType="link" (click)="openAddTeamModal()">Add Team</button>
+                              </div>
+                            </ng-template>
+                          </ng-container>
+                        </ng-template>
+
+                        <ng-template #genderColumns>
+                          <ng-container *ngIf="this.fileColumnName[j] === 'gender*' && (currentPage - 1) * pageSize + i  !== 0; else defaultInput">
+                            <nz-select
+                              id="gender"
+                              name="gender"
+                              [(ngModel)]="row[j]"
+                              [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}"
+                              (ngModelChange)="onValueChange((currentPage - 1) * pageSize + i, j)"
+                              nzPlaceHolder="Select Gender">
+                              <nz-option *ngFor="let gender of genders" [nzValue]="gender" [nzLabel]="gender"></nz-option>
+                            </nz-select>
+                          </ng-container>
+                        </ng-template>
+
+                        
+                        <ng-template #defaultInput>
+                          <input
+                            [(ngModel)]="row[j]"
+                            [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}"
+                            (ngModelChange)="onValueChange((currentPage - 1) * pageSize + i, j)" />
+                        </ng-template>
+
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <ngb-pagination
+                  [rotate]="true"
+                  [maxSize]="4"
+                  [collectionSize]="data.length - 1"
+                  [pageSize]="pageSize"
+                  [(page)]="currentPage"
+                  (pageChange)="onPageChange($event)">
+                </ngb-pagination>
+
+                <button (click)="saveFile()">Save Changes</button>
+              </div>
+            </div>
+
+            <p *ngIf="isErrorToggle">Error: {{ errorMessage }}</p>
+            <p *ngIf="!isErrorToggle">
+            </p>
+          </div> -->
+        </ng-container>
+        <ng-container *ngIf="
+            isShimmer &&
+              onboardUserList.length == 0 &&
+              !networkConnectionErrorPlaceholder;
+            else onboardUserListCondition
+          ">
+          <div class="">
+            <div class="text-end">
+              <ngx-shimmer-loading [width]="'30%'" [height]="'40px'" style="border-radius: 50%"></ngx-shimmer-loading>
+            </div>
+          </div>
+          <div class="mt-3 mb-2" style="border: 1px solid #f5f5f5; padding: 5px; border-radius: 6px"
+            *ngFor="let number of [1, 2, 3, 4, 5]">
+            <div class="row mt-3">
+              <div class="col-md-2">
+                <div class="">
+                  <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                    style="border-radius: 50%"></ngx-shimmer-loading>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="">
+                  <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                    style="border-radius: 50%"></ngx-shimmer-loading>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="">
+                  <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                    style="border-radius: 50%"></ngx-shimmer-loading>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="">
+                  <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                    style="border-radius: 50%"></ngx-shimmer-loading>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="">
+                  <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                    style="border-radius: 50%"></ngx-shimmer-loading>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+        <ng-template #onboardUserListCondition>
+          <ng-container *ngIf="
+              !isShimmer &&
+                onboardUserList.length != 0 &&
+                !networkConnectionErrorPlaceholder;
+              else errorInOnboardUserListCondition
+            ">
+            <div class="row mt-0">
+              <div class="d-flex align-items-center justify-content-end mb-2 p-0">
+                <input #fileInput id="fileSelect" type="file" name="img[]" accept=".xlsx" class="input"
+                  style="display: none" (change)="selectFile($event)" />
+                <button type="button" class="btn add-excel" (click)="fileInput.click()">
+                  <i *ngIf="!isProgressToggle" class="bi bi-file-earmark-excel"
+                    style="position: relative; top: -1px; padding-right: 6px"></i>
+                  <div *ngIf="isProgressToggle" class="spinner-border text-primary excel-spinner" role="status"></div>
+                  Excel Upload
+                </button>
+                <!-- <p
+                      style="color: #d7d7d7; margin-bottom: 0px"
+                      class="ng-star-inserted"
+                    >
+                      |
+                    </p>
+                    <button
+                      type="button"
+                      class="btn add-excel"
+                      data-bs-toggle="modal"
+                      data-bs-target="#munal-upload"
+                      (click)="selectMethod('mannual')"
+                    >
+                      <i class="bi bi-journal-check"></i> Manual Upload
+                    </button> -->
+              </div>
+              <div class="alert alert-light mb-0 mt-4 bg-soft-warning create-password-warning text-start" role="alert"
+                *ngIf="
+                  alreadyUsedPhoneNumberArray.length > 0 ||
+                  alreadyUsedEmailArray.length > 0 ||
+                  isErrorToggle
+                ">
+                <h4 class="alert-heading font-18">Attention!</h4>
+                <!-- <div *ngFor="let pn of alreadyUsedPhoneNumberArray">
+                      {{ pn }}
+                    </div>
+                    <div *ngFor="let ea of alreadyUsedEmailArray">
+                      {{ ea }}
+                    </div> -->
+                <p *ngIf="isErrorToggle">Error: {{ errorMessage }}</p>
+                <p *ngIf="alreadyUsedPhoneNumberArray.length > 0">
+                  Phone Numbers:
+                  {{ formatAsCommaSeparated(alreadyUsedPhoneNumberArray) }}
+                </p>
+                <p *ngIf="alreadyUsedEmailArray.length > 0">
+                  Emails: {{ formatAsCommaSeparated(alreadyUsedEmailArray) }}
+                </p>
+                <p *ngIf="!isErrorToggle">
+                  These credentials are already registered with us!
+                </p>
+              </div>
+              <table class="table">
+                <!-- <thead class="thead-light table-design"> -->
+                <thead class="thead-light">
+                  <tr>
+                    <th style="width: 5%" class="text-center">#</th>
+                    <th style="width: 25%" class="text-left">Name</th>
+                    <th style="width: 20%" class="text-left">Phone</th>
+                    <th style="width: 25%" class="text-left">Email</th>
+                    <th style="width: 20%" class="text-center">Action</th>
+                  </tr>
+                </thead>
+                <!-- <tbody class="table-design"> -->
+                <tbody>
+                  <tr *ngFor="let onboardUser of onboardUserList; let i = index">
+                    <td>
+                      <p class="tableinfo mb-0 text-left">
+                        <b>{{ i + 1 }}</b>
+                      </p>
+                    </td>
+                    <td>
+                      <p class="tableinfo mb-0 text-left">
+                        <b>{{ onboardUser.name }}</b>
+                      </p>
+                    </td>
+                    <td>
+                      <p class="tableinfo mb-0 text-left">
+                        <b>{{ onboardUser.phone }}</b>
+                      </p>
+                    </td>
+                    <td>
+                      <p class="tableinfo mb-0 text-left">
+                        <b>{{
+                          onboardUser.email ? onboardUser.email : "N/A"
+                          }}</b>
+                      </p>
+                    </td>
+                    <td>
+                      <div class="d-flex justify-content-center gap-3">
+                        <!-- <p
+                              class="tableinfo mb-0 pointer text-center"
+                              style="color: darkblue"
+
+                              (click)="openUserEditModal(onboardUser)"
+                            >
+                              <i class="bi bi-pencil-square"></i>
+                            </p> -->
+                        <p class="tableinfo mb-0 pointer text-center text-danger mb-2"
+                          (click)="deleteNewUser(onboardUser.id)">
+                          <i class="bi bi-trash text-danger"></i>
+                        </p>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="d-flex justify-content-end mt-3">
+                <button type="button" class="btn btn-primary" (click)="sendEmailToUsers(true)">
+                  <span *ngIf="!sendMailExcelUserFlag"> Send Email </span>
+                  <div class="dot-opacity-loader" *ngIf="sendMailExcelUserFlag">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                </button>
+
+
+                <button type="button" class="btn btn-primary" style="background-color: white; color: black;"
+                  (click)="sendEmailToUsers(false)">
+                  <span *ngIf="!sendMailExcelUserFlag"> Cancel</span>
+                  <div class="dot-opacity-loader" *ngIf="sendMailExcelUserFlag">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                </button>
+              </div>
+
+
+
+            </div>
+          </ng-container>
+        </ng-template>
+
+        <ng-template #errorInOnboardUserListCondition>
+          <div class="errorboxmain" *ngIf="networkConnectionErrorPlaceholder">
+            <div class="errorboxinner text-center">
+              <div class="errorboxplaceholder mb-2">
+                <img src="assets/images/signal.svg" style="width: 80px" />
+              </div>
+
+              <h4>Something went wrong!</h4>
+
+              <p>An error occurred while processing your request!</p>
+            </div>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<button class="d-none" data-bs-toggle="modal" data-bs-target="#delete-modal"></button>
+<div class="modal fade" id="delete-modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" style="max-width: 500px" role="document">
+    <div class="modal-content">
+      <div class="modal-body p-0 delete-text">
+        <div class="delete-image d-flex align-items-center justify-content-center pt-4 pb-4">
+          <div class="delete-close-btn">
+            <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButtonDeleteUser>
+              <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+                <mask id="mask0_2031_1331" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="30"
+                  height="30">
+                  <rect width="30" height="30" fill="#D9D9D9" />
+                </mask>
+                <g mask="url(#mask0_2031_1331)">
+                  <path
+                    d="M8 23.75L6.25 22L13.25 15L6.25 8L8 6.25L15 13.25L22 6.25L23.75 8L16.75 15L23.75 22L22 23.75L15 16.75L8 23.75Z"
+                    fill="black" />
+                </g>
+              </svg>
+            </button>
+          </div>
+          <img src="/assets/images/delete-img.svg" style="width: 70px" />
+        </div>
+        <div class="bg-white p-4 text-center">
+          <h5 class="alert-heading font-18 mb-2">
+            Are you sure you want to delete <br />
+            this Employee ?
+          </h5>
+          <p class="font-11">You will not be able to recover this</p>
+
+          <div class="mt-4 d-flex align-items-center flex-column">
+            <button class="btn continue-btn" (click)="deleteUser()">
+              Continue
+            </button>
+            <button class="btn cancel-btn pt-2" type="button" data-bs-dismiss="modal" aria-label="Close">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--  new modal to download excel  -->
+
+
+
+
+<!-- Trigger Button for Modal -->
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#sampleFileModal2"
+  id="uploadMembersModal" #sampleFileModalButton>
+  Open Sample File Modal
+</button>
+<!-- Modal -->
+<div class="modal fade" id="sampleFileModal2" tabindex="-1" aria-labelledby="sampleFileModalLabel" aria-hidden="true"
+  #sampleFileModal2>
+  <div class="modal-dialog modal-xl" style="max-width: 1400px !important;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="sampleFileModalLabel">Sample Excel File</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+          #closeButtonExcelModal2></button>
+      </div>
+      <div class="modal-body">
+        <ng-container>
+          <div class="col-md-12">
+            <div class="card-body mt-0 p-0">
+              <div class="alert alert-light mb-0" role="alert">
+                <h4 class="alert-heading font-18">
+                  Download the Sample Excel File!
+                </h4>
+                <p>
+                  Look for the sample file titled "Sample_Data.xlsx" and click
+                  on the download button to save it to your computer.
+                </p>
+                <p>
+                  Take a moment to review the existing data in the Excel file.
+                  This will help you understand the structure and content of the
+                  data before making any updates.
+                </p>
+                <p>
+                  <span class="text-primary">
+                    <u><a class="text-primary" href="{{ sampleFileUrl }}">Download a sample Excel file</a></u>
+                  </span>
+                  , update its data, and upload it back with the updated content
+                  on our platform
+                </p>
+              </div>
+            </div>
+            <div class="card-body mt-3 p-0">
+              <div class="alert alert-light mb-0 excel-uplode-file-box text-center" style="border: 2px dashed #dddd">
+                <input id="fileSelect" type="file" name="img[]" accept=".xlsx, application/vnd.ms-excel" class="input"
+                  (change)="selectFile($event)" />
+                <img src="assets/images/excel.svg" style="width: 50px" class="pb-3" />
+                <p>
+                  Drag file here to upload or,
+                  <u><a class="text-primary" href="#!">Choose file</a></u>
+                </p>
+                <div *ngIf="isProgressToggle" class="spinner-border text-success" role="status">
+
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>

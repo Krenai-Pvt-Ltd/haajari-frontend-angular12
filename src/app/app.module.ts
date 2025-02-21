@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
-import { CommonModule } from '@angular/common';
+import { CommonModule, registerLocaleData } from '@angular/common';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -22,18 +22,20 @@ import { SlackDataLoaderComponent } from './modules/common/slack-data-loader/sla
 import { SettingModule } from './modules/setting/setting.module';
 import { SharedModule } from './shared/shared.module';
 import { Ng2TelInputModule } from 'ng2-tel-input';
-import { NgxMaskModule, IConfig } from 'ngx-mask';
+import { NgxMaskModule } from 'ngx-mask';
 import { UnauthorizedComponent } from './modules/sharable/unauthorized/unauthorized.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ConfirmationDialogComponent } from './modules/sharable/confirmation-dialog/confirmation-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
-import { BillAndSubscriptionComponent } from './modules/sharable/bill-and-subscription/bill-and-subscription.component';
-
-
-// import { OnboardingSidebarResponse } from './models/onboarding-sidebar-response';
-
+import { HeaderComponent } from './modules/common/header/header.component';
+import { NzPopoverModule } from 'ng-zorro-antd/popover';
+import { SubscriptionExpiredComponent } from './modules/common/subscription-expired/subscription-expired.component';
+import { SubscriptionRestrictedComponent } from './modules/common/subscription-restricted/subscription-restricted.component';
+import { AgmCoreModule } from '@agm/core';
+import { ExitModalComponent } from './modules/common/exit-modal/exit-modal.component';
+import { NzEmptyModule } from 'ng-zorro-antd/empty';
 @NgModule({
   declarations: [
     AppComponent,
@@ -42,9 +44,10 @@ import { BillAndSubscriptionComponent } from './modules/sharable/bill-and-subscr
     DurationPickerComponent,
     UnauthorizedComponent,
     ConfirmationDialogComponent,
-    BillAndSubscriptionComponent,
-
-    // AuthenticationComponent,
+    HeaderComponent,
+    SubscriptionExpiredComponent,
+    SubscriptionRestrictedComponent,
+    ExitModalComponent
   ],
   imports: [
     CommonModule,
@@ -68,7 +71,9 @@ import { BillAndSubscriptionComponent } from './modules/sharable/bill-and-subscr
     DragDropModule,
     MatDialogModule,
     MatButtonModule,
-    NzSwitchModule
+    NzSwitchModule,
+    NzPopoverModule,
+
     // OnboardingSidebarResponse
 
     // CalendarModule.forRoot({
@@ -76,6 +81,10 @@ import { BillAndSubscriptionComponent } from './modules/sharable/bill-and-subscr
     //   useFactory: adapterFactory,
     // }),
     // AngularFireModule.initializeApp(environment.firebase),
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyB6SQE_TmOLpGLohpMLl-6FzdwJJAU9MnA',
+      libraries: ['places'],
+    }),
   ],
   providers: [
     {
@@ -83,9 +92,9 @@ import { BillAndSubscriptionComponent } from './modules/sharable/bill-and-subscr
       useClass: RequestInterceptorService,
       multi: true,
     },
-    AngularFireStorage,
+    AngularFireStorage
     // Compiler
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

@@ -1,0 +1,458 @@
+.waiting-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.detaworkspace {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.left-folder {
+  position: absolute;
+  top: 130px;
+  left: -63px;
+  z-index: 9;
+}
+
+.right-folder {
+  position: absolute;
+  top: 130px;
+  right: -63px;
+  z-index: 9;
+}
+
+.arc {
+  width: 415px;
+  aspect-ratio: 2/1;
+  border: 3px dashed #dfe8ff;
+  border-bottom: 0;
+  border-radius: 400px 400px 0 0;
+  box-sizing: border-box;
+  display: grid;
+}
+.arc:before,
+.arc:after,
+.arc img {
+  content: "";
+  width: 50px;
+  aspect-ratio: 1/1;
+  grid-area: 1/1;
+}
+.arc > img:nth-child(1) {
+  margin: auto auto -10px;
+  animation: a 4s linear both infinite;
+  animation-delay: var(--duration, 600ms);
+}
+
+.arc > img:nth-child(2) {
+  margin: auto auto -10px;
+  animation: a 4s linear both infinite;
+  animation-delay: var(--duration, 2s);
+}
+
+.arc > img:nth-child(3) {
+  margin: auto auto -10px;
+  animation: a 4s linear both infinite;
+  animation-delay: var(--duration, 3.5s);
+}
+
+@keyframes a {
+  /* 115px = (250px - 20px)/2 */
+  from {
+    transform: rotate(-180deg) translate(207px);
+  }
+  to {
+    transform: rotate(0deg) translate(207px);
+  }
+}
+
+.arc:before {
+  margin: auto auto -10px -20px;
+}
+.arc:after {
+  margin: auto -20px -10px auto;
+}
+
+.progress-main {
+  width: 400px;
+  margin-top: 80px;
+}
+
+.containerr {
+  height: 7px;
+  width: auto;
+  background: #eee;
+  border-radius: 5px;
+}
+
+.progressBar {
+  position: relative;
+  width: 0%;
+  height: 100%;
+  background: #84a5ff;
+  border-radius: 5px;
+  transition: width 0.2s ease;
+}
+
+.progressNumber {
+  position: absolute;
+  right: 0px;
+  top: -1.4em;
+  color: #84a5ff;
+}
+
+.wait-text {
+  font-size: 12px;
+  color: #000;
+  font-size: 12px;
+  font-weight: 300;
+  line-height: normal;
+}
+
+/* ################################## */
+.loader-line {
+  width: 30vh;
+  height: 3px;
+  position: relative;
+  overflow: hidden;
+  background-color: #ddd;
+  margin-top: 20px;
+  /* margin: 100px auto; */
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+}
+
+.loader-line:before {
+  content: "";
+  position: absolute;
+  left: -50%;
+  height: 3px;
+  width: 40%;
+  background-color: #6666f3;
+  -webkit-animation: lineAnim 1s linear infinite;
+  -moz-animation: lineAnim 1s linear infinite;
+  animation: lineAnim 1s linear infinite;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+}
+
+@keyframes lineAnim {
+  0% {
+    left: -40%;
+  }
+
+  50% {
+    left: 20%;
+    width: 80%;
+  }
+
+  100% {
+    left: 100%;
+    width: 100%;
+  }
+}
+
+.slack-addes-successfully-main {
+  height: 95vh;
+}
+
+.slack-addes-successfully-main h4 {
+  color: #404040;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.slack-addes-successfully-main p {
+  color: #878a98;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: normal;
+  margin-bottom: 0px;
+}
+
+.btn-successfull {
+  border-radius: 6px;
+  padding: 7px 30px;
+  color: #6666f3;
+  font-size: 16px;
+  font-weight: 400;
+  border: 1px dashed #6666f3;
+  background-color: #6666f326;
+}
+
+[class^="bi-"]::before,
+[class*=" bi-"]::before {
+  display: inline-block;
+  font-family: bootstrap-icons !important;
+  font-style: normal;
+  font-weight: bold !important;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  vertical-align: text-bottom;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.btn-successfull:hover {
+  background-color: #6666f3;
+  color: #fff;
+}
+
+.error-page {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.error-page h1 {
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 30px;
+  color: #444444;
+  margin-bottom: 15px;
+}
+
+.add-filtter {
+  border-radius: 6px;
+  padding: 7px 30px;
+  color: #6666f3;
+  font-size: 16px;
+  font-weight: 400;
+  border: 1px dashed #6666f3;
+  background-color: #6666f326;
+}
+
+.error-page p {
+  color: #878a98;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: normal;
+  margin-bottom: 0px;
+}
+
+.add-filtter:hover {
+  background-color: #6666f3;
+  color: #fff;
+}
+
+/* new success page css  */
+
+.add-to-slack-btn {
+  background-color: #4a154b;
+  color: #fff !important;
+  padding: 0px 30px;
+  font-size: 14px !important;
+  border-radius: 70px;
+}
+
+.add-to-slack-btn:hover {
+  background-color: #4a154b;
+  color: #fff !important;
+}
+
+.slack-icon {
+  height: 30px !important;
+  padding-right: 10px;
+  margin-top: 13px;
+  margin-bottom: 13px;
+}
+
+.bg-pattern-dot-white-sm {
+  background-image: url("/assets/images/dot-a-white.png");
+  background-repeat: repeat;
+  background-size: 20px 20px;
+  background-position: center;
+  height: 100vh;
+}
+
+.is-dark {
+  background-color: #071321;
+}
+
+.slack-addes-successfully-main h1 {
+  color: #fff;
+  font-weight: 700;
+  font-size: 40px;
+}
+
+.slack-addes-para {
+  color: #fff !important ;
+  text-align: center;
+  font-size: 14px !important;
+  font-weight: 400;
+  line-height: 28px !important;
+}
+
+.slack-addes-para a {
+  color: #6666f3 !important;
+}
+
+.onboarding-box {
+  background: linear-gradient(
+    182deg,
+    #e4e7ff -9.67%,
+    #f2f4ff 8.88%,
+    #fff 68.76%
+  );
+  height: 100vh;
+}
+
+.onboardingRightImg {
+  background-size: contain;
+  background-position: right top;
+  height: 50%;
+  background-repeat: no-repeat;
+}
+
+.onboardingLeftImg {
+  background-size: contain;
+  background-position: left bottom;
+  height: 50%;
+  background-repeat: no-repeat;
+}
+
+.container {
+  max-width: 1200px;
+}
+.onboarding-step {
+  height: 85vh;
+}
+
+nz-progress {
+  margin-right: 8px;
+  margin-bottom: 8px;
+  display: inline-block;
+}
+.onboarding-step p {
+  color: #8b97a6;
+  text-align: center;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 24px;
+}
+
+.onboarding-step h5 {
+  color: #000;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 38px;
+  letter-spacing: 0.096px;
+  margin-bottom: 4px;
+}
+
+.sign-slack {
+  border-radius: 2px;
+  background: #fff;
+  height: 43px;
+  color: #000;
+  min-width: 230px;
+  font-size: 14px !important;
+  font-weight: 500;
+  line-height: 26px !important;
+  letter-spacing: 0.086px;
+  border: 1px solid #ddd;
+}
+.sign-slack:hover {
+  background-color: #441a49 !important;
+  color: #fff !important;
+  border-color: #441a49;
+}
+.begin-onboarding {
+  border-radius: 2px;
+  background: #6666f2;
+  height: 43px;
+  color: #fff;
+  min-width: 230px;
+  font-size: 14px !important;
+  font-weight: 500;
+  letter-spacing: 0.086px;
+  line-height: 28px !important;
+  border: 1px solid #6666f2;
+}
+.begin-onboarding:hover {
+  color: #fff !important;
+}
+
+.successfull-icon svg {
+  width: 60px;
+  height: 60px;
+}
+.footer-text p {
+  color: #0b0b0b;
+  text-align: center;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 10px;
+}
+::ng-deep .ant-progress-inner {
+  width: 30px !important;
+  height: 30px !important;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+}
+.footer-text {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
+/* neww   */
+
+
+.circle-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.bg-circle {
+  fill: none;
+  stroke: #e7e8ea;
+  stroke-width: 10;
+}
+
+.progress-circle {
+  fill: none;
+  stroke: #4882c2;
+  stroke-width: 10;
+  transition: stroke-dashoffset 1s linear;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+}
+
+
+.progress-complete {
+  fill: none;
+  stroke: #35c759 !important;
+  stroke-width: 10;
+  transition: stroke-dashoffset 1s linear;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+  stroke-dashoffset: 0;
+}
+
+.countdown-text {
+  font-size: 18px;
+  font-weight: bold;
+  fill: #333;
+}
+

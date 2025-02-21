@@ -13,9 +13,11 @@
   border: none;
   background-color: transparent;
 }
+
 .cusser {
   cursor: pointer;
 }
+
 .search-icon {
   font-size: 12px;
   position: absolute;
@@ -60,6 +62,7 @@
 .file-box-content .file-box {
   padding: 6px;
 }
+
 .file-box {
   cursor: pointer;
   min-width: 150px;
@@ -85,9 +88,11 @@
   border-radius: 50%;
   line-height: 23px;
 }
+
 .payroll-next i {
   top: -1px;
 }
+
 .payroll-prev {
   top: 28px;
   right: -1px;
@@ -98,6 +103,7 @@
   border-radius: 50%;
   line-height: 23px;
 }
+
 .payroll-prev i {
   top: -1px;
 }
@@ -105,12 +111,117 @@
 .file-box-content {
   overflow-x: scroll;
 }
+
 .selected-month-color {
   border: 1px dashed #6666f3;
   background-color: #f1f1fd;
 }
+
 .disabled {
   pointer-events: none;
   opacity: 0.6;
   background-color: #f1f1f1;
+}
+
+.leave-management-settings {
+  background-color: #f5f6ff;
+}
+
+.add-leave-btn {
+  background-color: var(--primary-background-color);
+  color: #fff;
+  font-size: 14px;
+  height: 40px;
+  min-width: 160px;
+  border-radius: 2px;
+  font-weight: 400;
+}
+
+.add-leave-btn i {
+  padding-right: 5px;
+}
+
+.excel-upload-members {
+  background-color: #fff;
+  color: var(--primary-color);
+  border: 1px solid var(--primary-background-color);
+  font-size: 14px;
+  height: 40px;
+  min-width: 160px;
+  border-radius: 2px;
+  font-weight: 400;
+}
+
+.excel-upload-members i {
+  padding-right: 5px;
+}
+
+.excel-upload-members:hover {
+  color: #fff;
+  background-color: var(--primary-background-color);
+}
+
+.leave-management-detail h3 {
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 40px;
+}
+
+.leave-management-detail p {
+  font-weight: 300;
+  color: #444;
+}
+
+.leave-management-detail svg {
+  width: 15px;
+  position: relative;
+  top: -1px;
+}
+
+.leave-management-detail a {
+  color: var(--primary-color) !important;
+}
+
+.leave-management-detail a:hover {
+  text-decoration: underline;
+  color: var(--primary-color) !important;
+}
+
+::ng-deep.ant-picker {
+  background-color: #fff;
+}
+
+.empty-detail {
+  color: #6b7280;
+  line-height: 20px;
+}
+
+::ng-deep.ant-empty-image img {
+  width: 90px;
+}
+
+.pagination-box {
+  position: fixed;
+  bottom: 0;
+  z-index: 999;
+  left: 0px;
+  padding-left: 270px !important;
+}
+
+.table tbody {
+  border: 1px solid #f1f1f1;
+}
+
+.table tbody {
+  border: 1px solid #f1f1f1;
+}
+
+.search-icon {
+  margin: auto;
+  margin-left: 15px;
+}
+
+.close-btn {
+  right: 20px;
+  top: 3px;
 }

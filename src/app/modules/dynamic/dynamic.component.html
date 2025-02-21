@@ -1,9 +1,27 @@
-<div class="container-scroller"
-    *ngIf="(key.HEADER_ROUTES.includes(this._router.url.split('?')[0])) && this.roleBasedAccessControlService.isUserInfoInitialized  && this.roleBasedAccessControlService.userInfo">
-    <div class="horizontal-menu">
-        <app-header></app-header>
-        {{this.roleBasedAccessControlService.isUserInfoInitialized}}
-    </div>
+<div
+  class="container-scroller"
+  *ngIf="
+    key.HEADER_ROUTES.includes(this._router.url.split('?')[0]) &&
+    this.roleBasedAccessControlService.isUserInfoInitialized &&
+    this.roleBasedAccessControlService.userInfo &&
+    this.roleBasedAccessControlService.ROLE != 'USER'
+  "
+>
+  <!-- <div class="horizontal-menu">
+    <app-header></app-header>
+  </div> -->
 </div>
-<router-outlet *ngIf="this.roleBasedAccessControlService.isUserInfoInitialized"></router-outlet>
 
+<router-outlet
+  *ngIf="this.roleBasedAccessControlService.isUserInfoInitialized && this.helperService.orgStepId  && !onboardingService.isLoadingOnboardingStatus"
+></router-outlet>
+
+<!-- {{this.roleBasedAccessControlService.isUserInfoInitialized}}
+{{this.helperService.orgStepId}}
+{{!onboardingService.isLoadingOnboardingStatus}} -->
+<app-hajiri-page-loader *ngIf="!(this.roleBasedAccessControlService.isUserInfoInitialized && this.helperService.orgStepId  && !onboardingService.isLoadingOnboardingStatus)">
+</app-hajiri-page-loader>
+ 
+<app-common-to-do-steps
+  *ngIf="isToDoStepsCompleted == 0 && (!this._helperService.isDashboardActive || (this._helperService.isDashboardActive && !isToDoStep))"
+></app-common-to-do-steps>

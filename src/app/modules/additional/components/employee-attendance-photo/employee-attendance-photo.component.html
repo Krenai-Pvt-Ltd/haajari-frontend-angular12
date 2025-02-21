@@ -1,105 +1,76 @@
 <div class="staff-location-section">
     <div class="containernn">
-      <div class="row">
-        <div class="col-md-3 border-right">
-           <div class="location-sidebar">
-             <div class="d-flex align-items-center justify-content-between loaction-side-div" >
-                <div class="pagnition-list">
-
-                    <ul class="staff-page-list">
-                        <li class="staff-pagnition">1</li>
-                        <li class="staff-pagnition active-pagnition">2</li>
-                    </ul>
-
-                </div>
-                <div class="set-new-location">
-                    <img src="assets/images/gallery.svg" style="width: 80px;">
-                    <h4>Add Photo</h4>
-                    <p>Make Every Attendance Count with a Snapshot!</p>
-                    
-                </div>
-                <div class="set-new-location" >
-                    <!-- <h6 style="">Save and Exit</h6>
-                    <p class="mb-0" style="">Call 0000-000-000</p> -->
-                    
-                </div>
-
-             </div>
-           </div>
-        </div>
-        <div class="col-md-9">
-            <div class="set-loation">
-
-                <div class="location-setting pb-2">
-                    <h4>Upload Photo</h4>
-                </div>
-
-             
-                <form #attendancePhoto="ngForm"  (ngSubmit)="markAttendaceWithLocationMethodCall()">
-                    <div class="form-group">
-
-
-
-                        <!-- <div *ngIf="isShimmer">
-                            <ngx-shimmer-loading [width]="'100%%'" [height]="'510px'"
-                                    style="border-radius: 50%"></ngx-shimmer-loading>
-                         </div> -->
-                <div class="location-map mt-3">
-                    <!-- Webcam component -->
-                    <webcam *ngIf="!captureImage" [trigger]="triggerObservable" [videoOptions]="{deviceId: currentDeviceId}" (imageCapture)="handleImage($event)"></webcam>
-                    <!-- Button to trigger snapshot -->
-                    <!-- <button *ngIf="!captureImage" class="btn btn-success" (click)="triggerSnapshot();">Take A Snapshot</button> -->
-                   
-                    <!-- Display captured image -->
-                    <div *ngIf="captureImage" id="results">
-                        <!-- Your captured image will appear here... -->
-                        <img [src]="captureImage">
+        <div class="row">
+            <div class="col-md-3 border-right">
+                <div class="location-sidebar">
+                    <div class="d-flex align-items-center justify-content-between loaction-side-div">
+                        <div class="pagnition-list">
+                            <ul class="staff-page-list">
+                                <li class="staff-pagnition">1</li>
+                                <li class="staff-pagnition active-pagnition">2</li>
+                            </ul>
+                        </div>
+                        <div class="set-new-location">
+                            <img src="assets/images/gallery.svg" style="width: 80px;">
+                            <h4>Add Photo</h4>
+                            <p>Make Every Attendance Count with a Snapshot!</p>
+                        </div>
+                        <div class="set-new-location">
+                        </div>
                     </div>
                 </div>
-                
-
-                <div class="set-location-btn d-flex align-items-center justify-content-between mt-4" >
-                    <!-- <button class="btn previous-stap"> <i class="bi bi-chevron-left pl-2"></i> Previous</button> -->
-
-                    <div >
-                        <!-- <button type="button" (click)="routeToLocationValidator()" class="btn previous-stap"> <i class="bi bi-chevron-left pl-2"></i> Previous</button> -->
-                        <button *ngIf="submitButton" class="btn next-stap mobile-margin" (click)="clickAgain();">Click Again <i class="bi bi-camera pl-2"></i></button>
-                    </div>
-                    
-                    <!-- Button to take a snapshot, shown only if captureImage is false -->
-                    <button type="button" *ngIf="!captureImage; else markAttendance" (click)="triggerSnapshot()" class="btn next-stap mobile-margin">
-                        <div *ngIf="toggle" class="dot-opacity-loader">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                          </div>
-                          <span *ngIf="!toggle">
-                        Take a Snapshot <i class="bi bi-camera pl-2"></i>
-                          </span>
-                    </button>
-                    
-                    <!-- Alternative button template for marking attendance, shown when captureImage is true -->
-                    <ng-template #markAttendance>
-                        <button type="submit" class="btn next-stap" [disabled]="!submitButton">
-                            <div *ngIf="toggle" class="dot-opacity-loader">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                              </div>
-                              <span *ngIf="!toggle">
-                        Mark Attendance <i class="bi bi-chevron-right pl-2"></i>
-                              </span>
-                        </button>
-                    </ng-template>
-  
-                </div>
-
-                    </div>
-                </form>
-
             </div>
+            <div class="col-md-9">
+                <div class="set-loation">
+                    <div class="location-setting pb-2">
+                        <h4>Upload Photo</h4>
+                    </div>
+                    <form #attendancePhoto="ngForm" (ngSubmit)="markAttendaceWithLocationMethodCall()">
+                        <div class="form-group">
+                            <div class="location-map mt-3">
+                                <webcam *ngIf="!captureImage" [trigger]="triggerObservable"
+                                    [videoOptions]="{deviceId: currentDeviceId}" (imageCapture)="handleImage($event)">
+                                </webcam>
+                                <div *ngIf="captureImage" id="results">
+                                    <img [src]="captureImage">
+                                </div>
+                            </div>
 
+
+                            <div class="set-location-btn d-flex align-items-center justify-content-between mt-4">
+                                <div>
+                                    <button *ngIf="submitButton" class="btn next-stap mobile-margin"
+                                        (click)="clickAgain();">Click Again <i class="bi bi-camera pl-2"></i></button>
+                                </div>
+                                <button type="button" *ngIf="!captureImage; else markAttendance"
+                                    (click)="triggerSnapshot()" class="btn next-stap mobile-margin">
+                                    <div *ngIf="toggle" class="dot-opacity-loader">
+                                        <span></span>
+                                        <span></span>
+                                        <span></span>
+                                    </div>
+                                    <span *ngIf="!toggle">
+                                        Take a Snapshot <i class="bi bi-camera pl-2"></i>
+                                    </span>
+                                </button>
+                                <ng-template #markAttendance>
+                                    <button type="submit" class="btn next-stap"
+                                        [disabled]="!submitButton || disableButton">
+                                        <div *ngIf="toggle" class="dot-opacity-loader">
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                        </div>
+                                        <span *ngIf="!toggle">
+                                            Mark Attendance <i class="bi bi-chevron-right pl-2"></i>
+                                        </span>
+                                    </button>
+                                </ng-template>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
 </div>

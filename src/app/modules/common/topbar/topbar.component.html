@@ -1,179 +1,172 @@
-<!-- Top Bar Start -->
-<!-- Top Bar Start -->
-<div class="topbar pb-3 pt-3">            
-    <!-- Navbar -->
-    <nav class="navbar-custom" id="navbar-custom">    
-        <ul class="list-unstyled topbar-nav float-end mb-0">
-         
-            <li class="dropdown notification-list" >
-                <a class="nav-link dropdown-toggle arrow-none nav-icon" data-bs-toggle="dropdown" href="#" role="button"
-                    aria-haspopup="false" aria-expanded="false" (click)="fetchNotification('mail')">
-                    <i class="ti ti-mail"></i>
-                    <span class="alert-badge" *ngIf="totalNewMailNotification>0"></span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-end dropdown-lg pt-0">
-        
-                    <h6 class="dropdown-item-text font-15 m-0 py-3 border-bottom d-flex justify-content-between align-items-center">
-                        Messages <span class="badge bg-soft-primary badge-pill" *ngIf="totalNewMailNotification>0">{{totalNewMailNotification}}</span>
-                    </h6> 
-                    
-                    <!-- <div class="notification-menu" data-simplebar *ngIf="mailLoading">
-                        <div class="text-center" style="height: 80px; padding-top: 30px;">
-                            <div class="spinner-border text-center" role="status" style="margin-left: 40px;">
-                                <span class="visually-hidden">Loading...</span>
-                            </div>
-                        </div>
-                    </div> -->
-                    <div class="notification-menu" data-simplebar *ngIf="!mailLoading && mailList.length==0">
-                        <div class="text-center" style="height: 80px; padding-top: 30px;">
-                        <h6>No Pending Message</h6>
-                        </div>
-                    </div>
-                    <!-- <div class="scroll" (scroll)="onMailScroll($event)" *ngIf="mailList.length > 0">
-                        <a class="dropdown-item py-3" *ngFor="let mail of mailList"
-                        [ngClass]="{'notification': mail.isRead==0}" (click)="routeToPage(mail.id)">
-                            <small class="float-end text-muted ps-2">{{timeAgo(mail.createdDate)}}</small>
-                            <div class="media">
-                                <div class="avatar-md bg-soft-primary">
-                                    <i class="bi bi-envelope" *ngIf="mail.isRead==0"></i>
-                                    <i class="bi bi-envelope-open" *ngIf="mail.isRead==1"></i>
-                                </div>
-                                <div class="media-body align-self-center ms-2 text-truncate">
-                                    <h6 class="my-0 fw-normal text-dark">{{mail.title}}</h6>
-                                    <small class="text-muted mb-0">{{mail.message}}</small>
-                                </div>
-                            </div>
-                        </a>
-                        <div class="notification-menu" data-simplebar *ngIf="mailLoading">
-                            <div class="text-center" style="height: 80px; padding-top: 30px;">
-                                <div class="spinner-border text-center" role="status" style="margin-left: 40px;">
-                                    <span class="visually-hidden">Loading...</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
-                    
-                    <div class="notification-menu" data-simplebar *ngIf="!mailLoading && mailList.length > 0">
-                        <a class="dropdown-item py-3" *ngFor="let mail of mailList"
-                        [ngClass]="{'notification': mail.isRead==0}" (click)="routeToPage(mail.id)">
-                            <small class="float-end text-muted ps-2">{{timeAgo(mail.createdDate)}}</small>
-                            <div class="media">
-                                <div class="avatar-md bg-soft-primary">
-                                    <i class="bi bi-envelope" *ngIf="mail.isRead==0"></i>
-                                    <i class="bi bi-envelope-open" *ngIf="mail.isRead==1"></i>
-                                </div>
-                                <div class="media-body align-self-center ms-2 text-truncate">
-                                    <h6 class="my-0 fw-normal text-dark">{{mail.title}}</h6>
-                                    <small class="text-muted mb-0">{{mail.message}}</small>
-                                </div>
-                            </div>
-                        </a>
-                        <div class="notification-menu" data-simplebar *ngIf="mailLoading">
-                            <div class="text-center" style="height: 80px; padding-top: 30px;">
-                                <div class="spinner-border text-center" role="status" style="margin-left: 40px;">
-                                    <span class="visually-hidden">Loading...</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="border-top text-center text-primary pt-1" style="cursor: pointer;" *ngIf="totalNewMailNotification > 0" (click)="markMailAsReadAll('mail')">
-                        <span>Mark as read all</span>
-                        </div>
-                </div>
-                
-            </li>
 
-                <li class="dropdown notification-list">
-                    <a class="nav-link dropdown-toggle arrow-none nav-icon" data-bs-toggle="dropdown" href="#" role="button"
-                        aria-haspopup="false" aria-expanded="false" (click)="fetchNotification('notify')">
-                        <i class="ti ti-bell"></i>
-                        <span class="alert-badge" *ngIf="newNotiication"></span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-end dropdown-lg pt-0">
+<div class="topbar pb-3 pt-3">
+    <nav class="d-flex align-items-center justify-content-between" [ngClass]="ROLE == 'USER' ? 'navbar-custom employeeLoginHead' : 'navbar-custom'" id="navbar-custom">
+      
+      <ul class="list-unstyled mb-0 krenai-deshboard" *ngIf="ROLE != 'USER'">
+        <li>
+          <h3 class="mb-1">{{topbarValue}}</h3>
+          <p class="mb-0">{{routeDesc}}</p>
+        </li>
+      </ul>
+      <ul *ngIf="ROLE == 'USER'" (click)="routeToEmployeeProfilePage()">
+        <img
+          src="assets/images/HAjiRi.svg"
+          alt="logo-large"
+          class="logo-lg logo-light"
+          style="height: 40px"
+        />
+      </ul>
+      <ul class="list-unstyled float-end mb-0 d-flex align-items-center">
+       
+        <li class="dropdown notification-list">
+          <a class="nav-link dropdown-toggle arrow-none nav-icon" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false" (click)="fetchNotification('mail')">
+            <i class="ti ti-mail"></i>
+            <span class="alert-badge" *ngIf="totalNewMailNotification>0"></span>
+          </a>
+          <div class="dropdown-menu dropdown-menu-end dropdown-lg pt-0">
+            <h6 class="dropdown-item-text font-15 m-0 py-3 border-bottom d-flex justify-content-between align-items-center"> Request <span class="badge bg-soft-primary badge-pill" *ngIf="totalNewMailNotification>0">{{totalNewMailNotification}}</span>
+            </h6>
+           
+            <div class="notification-menu" data-simplebar *ngIf="!mailLoading && mailList.length==0">
+              <div class="text-center" style="height: 80px; padding-top: 30px;">
+                <h6>No Pending Request</h6>
+              </div>
+            </div>
             
-                        <h6 class="dropdown-item-text font-15 m-0 py-3 border-bottom d-flex justify-content-between align-items-center">
-                            Notifications <span class="badge bg-soft-primary badge-pill" *ngIf="totalNewNotification>0">{{totalNewNotification}}</span>
-                        </h6>
-                        <!-- <div class="notification-menu" data-simplebar *ngIf="loading">
-                            <div class="text-center" style="height: 80px; padding-top: 30px;">
-                                <div class="spinner-border text-center" role="status" style="margin-left: 40px;">
-                                    <span class="visually-hidden">Loading...</span>
-                                </div>
-                            </div>
-                        </div> -->
-                        <div class="notification-menu" data-simplebar *ngIf="!loading && notificationList.length==0">
-                            <div class="text-center" style="height: 80px; padding-top: 30px;">
-                            <h6>No Pending Notifications</h6>
-                            </div>
-                        </div>
-                        <div class="scroll" (scroll)="onNotificationScroll($event)" *ngIf="notificationList.length > 0">
-                            <a class="dropdown-item py-3" *ngFor="let notification of notificationList"
-                            [ngClass]="{'notification': notification.isRead==0}">
-                                <small class="float-end text-muted ps-2">{{timeAgo(notification.createdDate)}}</small>
+            <div class="notification-menu" data-simplebar *ngIf="!mailLoading && mailList.length > 0">
+              <a class="dropdown-item py-3" *ngFor="let mail of mailList" [ngClass]="{'notification': mail.isRead==0}" (click)="routeToPage(mail.id)">
+                <small class="float-end text-muted ps-2">{{timeAgo(mail.createdDate)}}</small>
+                <div class="media">
+                  <div class="avatar-md bg-soft-primary">
+                    <i class="bi bi-envelope" *ngIf="mail.isRead==0"></i>
+                    <i class="bi bi-envelope-open" *ngIf="mail.isRead==1"></i>
+                  </div>
+                  <div class="media-body align-self-center ms-2 text-truncate">
+                    <h6 class="my-0 fw-normal text-dark">{{mail.title}}</h6>
+                    <small class="text-muted mb-0">{{mail.message}}</small>
+                  </div>
+                </div>
+              </a>
+              <div class="notification-menu" data-simplebar *ngIf="mailLoading">
+                <div class="text-center" style="height: 80px; padding-top: 30px;">
+                  <div class="spinner-border text-center" role="status" style="margin-left: 40px;">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="border-top text-center text-primary pt-1" style="cursor: pointer;" *ngIf="totalNewMailNotification > 0" (click)="markMailAsReadAll('mail')">
+              <span>Mark as read all</span>
+            </div>
+          </div>
+        </li>
+        <li class="dropdown notification-list">
+          <div class="dropdown-menu dropdown-menu-end dropdown-lg pt-0">
+            <h6 class="dropdown-item-text font-15 m-0 py-3 border-bottom d-flex justify-content-between align-items-center"> Notifications <span class="badge bg-soft-primary badge-pill" *ngIf="totalNewNotification>0">{{totalNewNotification}}</span>
+            </h6>
+            
+            <div class="notification-menu" data-simplebar *ngIf="!loading && notificationList.length==0">
+              <div class="text-center" style="height: 80px; padding-top: 30px;">
+                <h6>No Pending Notifications</h6>
+              </div>
+            </div>
+            <div class="scroll" (scroll)="onNotificationScroll($event)" *ngIf="notificationList.length > 0">
+              <a class="dropdown-item py-3" *ngFor="let notification of notificationList" [ngClass]="{'notification': notification.isRead==0}">
+                <small class="float-end text-muted ps-2">{{timeAgo(notification.createdDate)}}</small>
+                <div class="media">
+                  <div class="avatar-md bg-soft-primary">
+                    <i class="bi bi-bell" *ngIf="notification.isRead==1"></i>
+                    <i class="bi bi-bell-fill" *ngIf="notification.isRead==0"></i>
+                  </div>
+                  <div class="media-body align-self-center ms-2 text-truncate">
+                    <h6 class="my-0 fw-normal text-dark">{{notification.title}}</h6>
+                    <small class="text-muted mb-0">{{notification.message}}</small>
+                  </div>
+                </div>
+              </a>
+              <div class="notification-menu" data-simplebar *ngIf="loading">
+                <div class="text-center" style="height: 80px; padding-top: 30px;">
+                  <div class="spinner-border text-center" role="status" style="margin-left: 40px;">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="border-top text-center text-primary pt-1" style="cursor: pointer;" *ngIf="totalNewNotification > 0" (click)="markAsReadAll('notify')">
+              <span>Mark as read all</span>
+            </div>
+          </div>
+        </li>
+        <li class="nav-item" *ngIf="this.rbacService.shouldDisplay('dashboard')">
+          <a class="nav-link nav-icon" [href]="employeeProfileRoute" target="_blank" role="button" aria-expanded="false" data-bs-toggle="tooltip" data-bs-placement="bottom" title="My Profile">
+            <i class="ti ti-user"></i>
+          </a>
+        </li>
+        <li *ngIf="ROLE == 'USER'">
+            <button class="btn btn-outline-danger btn-round" (click)="logout()"> Logout </button>
+        </li>
+        <li *ngIf="ROLE == 'USER'">
+          <div
+          class="manager-list pointer"
+          (click)="routeToAccountPage('accountDetails')"
+        >
+          <a
+            class="dropdown-item d-flex align-items-center justify-content-start gap-2"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="19"
+              height="19"
+              viewBox="0 0 19 19"
+              fill="none"
+            >
+              <mask
+                id="mask0_3579_5056"
+                style="mask-type: alpha"
+                maskUnits="userSpaceOnUse"
+                x="0"
+                y="0"
+                width="19"
+                height="19"
+              >
+                <rect
+                  x="0.226562"
+                  y="0.5"
+                  width="18"
+                  height="18"
+                  fill="#D9D9D9"
+                />
+              </mask>
+              <g mask="url(#mask0_3579_5056)">
+                <path
+                  d="M7.16445 16.999L6.86445 14.599C6.70195 14.5365 6.54883 14.4615 6.40508 14.374C6.26133 14.2865 6.1207 14.1928 5.9832 14.0928L3.75195 15.0303L1.68945 11.4678L3.6207 10.0053C3.6082 9.91777 3.60195 9.8334 3.60195 9.75215V9.2459C3.60195 9.16465 3.6082 9.08027 3.6207 8.99277L1.68945 7.53027L3.75195 3.96777L5.9832 4.90527C6.1207 4.80527 6.26445 4.71152 6.41445 4.62402C6.56445 4.53652 6.71445 4.46152 6.86445 4.39902L7.16445 1.99902H11.2895L11.5895 4.39902C11.752 4.46152 11.9051 4.53652 12.0488 4.62402C12.1926 4.71152 12.3332 4.80527 12.4707 4.90527L14.702 3.96777L16.7645 7.53027L14.8332 8.99277C14.8457 9.08027 14.852 9.16465 14.852 9.2459V9.75215C14.852 9.8334 14.8395 9.91777 14.8145 10.0053L16.7457 11.4678L14.6832 15.0303L12.4707 14.0928C12.3332 14.1928 12.1895 14.2865 12.0395 14.374C11.8895 14.4615 11.7395 14.5365 11.5895 14.599L11.2895 16.999H7.16445ZM8.47695 15.499H9.9582L10.2207 13.5115C10.6082 13.4115 10.9676 13.2646 11.2988 13.0709C11.6301 12.8771 11.9332 12.6428 12.2082 12.3678L14.0645 13.1365L14.7957 11.8615L13.1832 10.6428C13.2457 10.4678 13.2895 10.2834 13.3145 10.0896C13.3395 9.8959 13.352 9.69902 13.352 9.49902C13.352 9.29902 13.3395 9.10215 13.3145 8.9084C13.2895 8.71465 13.2457 8.53027 13.1832 8.35527L14.7957 7.13652L14.0645 5.86152L12.2082 6.64902C11.9332 6.36152 11.6301 6.1209 11.2988 5.92715C10.9676 5.7334 10.6082 5.58652 10.2207 5.48652L9.97695 3.49902H8.4957L8.2332 5.48652C7.8457 5.58652 7.48633 5.7334 7.15508 5.92715C6.82383 6.1209 6.5207 6.35527 6.2457 6.63027L4.38945 5.86152L3.6582 7.13652L5.2707 8.33652C5.2082 8.52402 5.16445 8.71152 5.13945 8.89902C5.11445 9.08652 5.10195 9.28652 5.10195 9.49902C5.10195 9.69902 5.11445 9.89277 5.13945 10.0803C5.16445 10.2678 5.2082 10.4553 5.2707 10.6428L3.6582 11.8615L4.38945 13.1365L6.2457 12.349C6.5207 12.6365 6.82383 12.8771 7.15508 13.0709C7.48633 13.2646 7.8457 13.4115 8.2332 13.5115L8.47695 15.499ZM9.26445 12.124C9.98945 12.124 10.6082 11.8678 11.1207 11.3553C11.6332 10.8428 11.8895 10.224 11.8895 9.49902C11.8895 8.77402 11.6332 8.15527 11.1207 7.64277C10.6082 7.13027 9.98945 6.87402 9.26445 6.87402C8.52695 6.87402 7.90508 7.13027 7.39883 7.64277C6.89258 8.15527 6.63945 8.77402 6.63945 9.49902C6.63945 10.224 6.89258 10.8428 7.39883 11.3553C7.90508 11.8678 8.52695 12.124 9.26445 12.124Z"
+                  fill="#6666f2"
+                />
+              </g>
+            </svg>
+            </a
+          >
+        </div>
+        </li>
+      </ul>
+      <!-- <div class="d-flex align-items-center gap-3">
 
-                                <div class="media">
-                                    <div class="avatar-md bg-soft-primary">
-                                        <i class="bi bi-bell"*ngIf="notification.isRead==1"></i>
-                                        <i class="bi bi-bell-fill"*ngIf="notification.isRead==0"></i>
-                                    </div>
-                                    <div class="media-body align-self-center ms-2 text-truncate">
-                                        <h6 class="my-0 fw-normal text-dark">{{notification.title}}</h6>
-                                        <small class="text-muted mb-0">{{notification.message}}</small>
-                                    </div>
-                                </div>
-                            </a>
-                            <div class="notification-menu" data-simplebar *ngIf="loading">
-                                <div class="text-center" style="height: 80px; padding-top: 30px;">
-                                    <div class="spinner-border text-center" role="status" style="margin-left: 40px;">
-                                        <span class="visually-hidden">Loading...</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- <div class="notification-menu" data-simplebar *ngIf="!loading && notificationList.length > 0">
-                            <a class="dropdown-item py-3" *ngFor="let notification of notificationList"
-                            [ngClass]="{'notification': notification.isRead==0}">
-                                <small class="float-end text-muted ps-2">{{timeAgo(notification.createdDate)}}</small>
+        <button class="btn p-0 text-black fw-semibold font-14 inbox-btn" (click)="routeToInbox()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+            <mask id="mask0_8356_292" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="18" height="18">
+            <rect width="18" height="18" fill="#D9D9D9"/>
+            </mask>
+            <g mask="url(#mask0_8356_292)">
+            <path d="M3.75 15.75C3.3375 15.75 2.98438 15.6031 2.69063 15.3094C2.39688 15.0156 2.25 14.6625 2.25 14.25V3.75C2.25 3.3375 2.39688 2.98438 2.69063 2.69063C2.98438 2.39688 3.3375 2.25 3.75 2.25H14.25C14.6625 2.25 15.0156 2.39688 15.3094 2.69063C15.6031 2.98438 15.75 3.3375 15.75 3.75V14.25C15.75 14.6625 15.6031 15.0156 15.3094 15.3094C15.0156 15.6031 14.6625 15.75 14.25 15.75H3.75ZM3.75 14.25H14.25V12H12C11.625 12.475 11.1781 12.8438 10.6594 13.1063C10.1406 13.3688 9.5875 13.5 9 13.5C8.4125 13.5 7.85938 13.3688 7.34062 13.1063C6.82188 12.8438 6.375 12.475 6 12H3.75V14.25ZM9 12C9.475 12 9.90625 11.8625 10.2938 11.5875C10.6813 11.3125 10.95 10.95 11.1 10.5H14.25V3.75H3.75V10.5H6.9C7.05 10.95 7.31875 11.3125 7.70625 11.5875C8.09375 11.8625 8.525 12 9 12Z" fill="#1C1B1F"/>
+            </g>
+          </svg>
+          My Inbox
+        </button>
+        <span class="admin-name font-20 fw-bold d-flex align-items-center justify-content-center text-white">
+          Y
+        </span>
 
-                                <div class="media">
-                                    <div class="avatar-md bg-soft-primary">
-                                        <i class="bi bi-bell"*ngIf="notification.isRead==1"></i>
-                                        <i class="bi bi-bell-fill"*ngIf="notification.isRead==0"></i>
-                                    </div>
-                                    <div class="media-body align-self-center ms-2 text-truncate">
-                                        <h6 class="my-0 fw-normal text-dark">{{notification.title}}</h6>
-                                        <small class="text-muted mb-0">{{notification.message}}</small>
-                                    </div>
-                                </div>
-                            </a>
-                        </div> -->
-                        
-                        <div class="border-top text-center text-primary pt-1" style="cursor: pointer;" *ngIf="totalNewNotification > 0" (click)="markAsReadAll('notify')">
-                        <span>Mark as read all</span>
-                        </div>
-                    </div>
-                    
-                </li>
-
-                <li class="nav-item" *ngIf="(ROLE=='ADMIN' || ROLE=='MANAGER')">
-                    <a class="nav-link nav-icon" href="employee-profile?userId={{UUID}}" role="button" aria-expanded="false"
-                       data-bs-toggle="tooltip" data-bs-placement="bottom" title="My Profile">
-                        <i class="ti ti-user"></i>
-                    </a>
-                </li>
-                
-                
-        </ul><!--end topbar-nav-->
-
-        <ul class="list-unstyled topbar-nav mb-0 krenai-deshboard" >                        
-            <li>
-             <h3 class="mb-1">{{topbarValue}}</h3>
-             <p class="mb-0">Here's what's going on today.</p>
-            </li>  
-                                  
-        </ul>
+      </div> -->
     </nav>
-    <!-- end navbar-->
-</div>
-<!-- Top Bar End -->
-<!-- Top Bar End -->
+  </div>

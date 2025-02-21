@@ -1,0 +1,284 @@
+.setting-side-menu .col-md-3{
+    width:20%;
+}
+.setting-side-menu .col-md-9{
+    width:80%;
+}
+
+.setting-side-menu {
+    height: 90vh;
+}
+
+.spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-left-color: #6666F2;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin-left: 15px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.setting-sidebar-menu {
+    border-right: 1px solid #f1f1f1;
+    min-height: 100vh;
+}
+
+.setting-sidebar-menu .nav-pills .nav-link svg {
+    position: relative;
+    top: -1px;
+    padding-right: 2px;
+}
+
+.setting-sidebar-menu .nav-pills .nav-link {
+    background: #fff;
+    padding: 15px 10px;
+    color: #444;
+    border-left: 5px solid transparent;
+    font-size: 15px;
+    font-weight: 400;
+    text-align: left;
+    padding-left: 25px;
+}
+
+.setting-sidebar-menu .nav-link.active {
+    background: #f2f3ff !important;
+    color: #6666F2 !important;
+    /* border-left: 5px solid var(--primary-background-color) !important; */
+}
+
+.exit-btn {
+    color: red;
+}
+
+.account-setting {
+    padding: 50px 50px 50px 50px;
+}
+
+.profile-image img {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+}
+
+.w-90 {
+    width: 90%;
+}
+
+.image-edit-btn {
+    background-color: #fff;
+    border: 1px solid #f1f1f1;
+    border-radius: 50%;
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    left: 105px;
+    top: 60%;
+}
+
+.image-edit-btn svg {
+    width: 18px;
+}
+
+.acount-name p {
+    color: #787486;
+}
+
+.personal-details button svg {
+    width: 15px;
+    position: relative;
+    top: -2px;
+}
+
+.personal-details p {
+    color: #787486;
+}
+
+.input-zorro {
+    border-radius: 2px !important;
+    border: 1.021px solid #e9e9e9 !important;
+    background: rgba(236, 236, 236, 0.21) !important;
+    height: 45px !important;
+    font-size: 14px !important;
+    color: #000;
+    font-weight: 400 !important;
+}
+
+.textarea-zerro {
+    border-radius: 2px !important;
+    border: 1.021px solid #e9e9e9 !important;
+    background: rgba(236, 236, 236, 0.21) !important;
+    min-height: 250px !important;
+    font-size: 14px !important;
+    color: #000;
+    font-weight: 400 !important;
+
+}
+
+.submitActionBtn {
+    background-color: var(--primary-background-color);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 500;
+    border-radius: 2px;
+    width: 100px;
+}
+
+.personal-details h4 {
+    color: #000;
+    font-weight: 400;
+}
+
+.notification-setting p {
+    color: #787486;
+}
+
+.notification-setting {
+    border: 1px solid #f1f1f1;
+}
+
+.notification-switch {
+    background-color: #F8F8F8;
+    border-radius: 2px;
+    padding: 10px 15px;
+    width: 150px;
+}
+
+.switch {
+    position: relative;
+    top: -1px;
+}
+
+.notifaction-req {
+    border: 1px solid #e9e9e9;
+    border-radius: 2px;
+    height: 45px;
+    margin-bottom: 0px;
+    background-color: #fbfbfb;
+}
+
+.notifaction-req input {
+    left: 15px !important;
+    position: relative;
+    top: -2px;
+}
+
+.notifaction-req p {
+    padding-left: 25px;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    color: #1f1f1f;
+}
+
+.edit-btn {
+    position: absolute;
+    right: 15px;
+    top: 38px;
+}
+
+.file-attech-icon {
+    position: absolute;
+    bottom: 15px;
+    right: 25px;
+    background-color: #fff !important;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 2px;
+    border: 1px solid #DCDCE4;
+}
+
+.file-attech-icon svg {
+    width: 14px;
+}
+
+.help-contact {
+    color: #444;
+}
+
+.support-img img {
+    width: 70px;
+    height: 45px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.support {
+    position: absolute;
+    bottom: 60px;
+    left: 20px;
+}
+
+.close-btn {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #6666F2;
+    position: absolute;
+    right: -8px;
+    top: -8px;
+    color: #fff;
+}
+
+.guide-policy p {
+    color: #444;
+    font-weight: 300;
+    line-height: 22px;
+}
+
+.employee-agreement {
+    border-radius: 2px;
+    border: 1px solid #F2F2F2;
+}
+
+.download-icon {
+    border-radius: 2px;
+    background: #EDEFF5;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.side-nav {
+    position: sticky;
+    top: 90px;
+}
+.attendance-border{
+    border-bottom: 1px solid #E7E7E7;
+    width: 100%;
+}
+.notification-settings p{ 
+    color: #444;
+}
+.notification-settings svg{
+    width: 14px;
+    position: relative;
+    top: -2px;
+}
+.notification-heading .w-15{
+    width: 15%;
+}
+.nav-pills .nav-item.show .nav-link,
+.nav-pills .nav-link.active {
+  background: #f2f3ff !important;
+  color: #6666F2 !important;
+  border-left: 5px solid var(--primary-background-color);
+  border-bottom: none;
+  border-left: 5px solid #6666F2 !important;
+}

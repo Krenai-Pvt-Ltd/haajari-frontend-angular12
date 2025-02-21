@@ -1,7 +1,9 @@
 export class AppraisalRequest {
 
-    effectiveDate !: Date;
-    userUuid !: string;
+    effectiveDate !: string;
+    userUuid : string='';
     previousCtc !: number;
     updatedCtc !: number;
+    checked:boolean=false;
+    position:string='';
 }

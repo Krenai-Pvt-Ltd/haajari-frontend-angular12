@@ -1,0 +1,378 @@
+<div class="onboarding-box">
+  <div
+    class="onboardingRightImg"
+    style="background-image: url(assets/images/onbording-right-img.svg)"
+  >
+    <div class="container">
+      <div style="padding-top: 32px" class="d-flex align-items-center justify-content-start gap-4"> 
+        <span class="back-btn d-flex align-items-center justify-content-center pointer" (click)="routeToSignup()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
+            <mask id="mask0_4022_409" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="22" height="22">
+              <rect x="0.199219" y="0.200195" width="21.6" height="21.6" fill="#D9D9D9" />
+            </mask>
+            <g mask="url(#mask0_4022_409)">
+              <path d="M14.5977 20L5.59766 11L14.5977 2L16.1952 3.5975L8.79266 11L16.1952 18.4025L14.5977 20Z" fill="#6666F2" />
+            </g>
+          </svg>
+        
+        </span>
+        <img src="assets/images/HAjiRi.svg" style="width: 120px" />
+      </div>
+      <div
+        class="onboarding-step d-flex align-items-center justify-content-center flex-column"
+      >
+        <div
+          class="d-flex align-items-center justify-content-center gap-2 pb-5"
+        >
+          <img src="assets/images/whatsapp-logo-1.svg" style="width: 35px" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="30"
+            height="30"
+            viewBox="0 0 30 30"
+            fill="none"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M8.91365 18.5045H21.8137L19.0195 21.2987L20.7426 23.0218L25.617 18.1474C25.9655 17.7989 26.0703 17.2749 25.8814 16.8191C25.6925 16.3646 25.2477 16.0673 24.7554 16.0673H8.91365V18.5045ZM21.0996 11.1929H8.21784L11.0316 8.4023L9.31579 6.67188L4.39998 11.5463C4.04902 11.8936 3.94299 12.4188 4.13066 12.8758C4.31954 13.3315 4.76433 13.6301 5.25786 13.6301H21.0996V11.1929Z"
+              fill="black"
+            />
+          </svg>
+          <img src="assets/images/hajiri-white-logo.png" style="width: 30px" />
+        </div>
+        <div
+          class="text-center whatsApp-number-box"
+          *ngIf="isWhatsappLogin && !showOtpInput"
+        >
+        <div class="d-flex align-items-start">
+         
+          <h5>
+            Enter Your <br />
+            WhatsApp Number
+          </h5>
+          </div>
+          <p>Please provide a registered WhatsApp number.</p>
+        </div>
+
+        <div
+          class="text-center enter-otp"
+          *ngIf="showOtpInput && verifyOtpButtonFlag"
+        >
+          <h5>
+            Check your <br />
+            WhatsApp for OTP
+          </h5>
+          <p>
+            We’ve sent a 6-digit OTP on
+            <span class="text-primary"
+              ><b>{{ whatsappOtp ? phoneNumber : email }}</b></span
+            >.
+            This code expires <br />
+            shortly, so please enter it soon.
+          </p>
+        </div>
+
+        <div class="row mt-4" *ngIf="isWhatsappLogin && !showOtpInput">
+          <div class="col-md-12">
+            <div class="onboarding-form">
+              <label class="mb-2">Enter Number</label>
+              <!-- <input
+                type="text"
+                required=""
+                mask="0000000000"
+                id="examplePhoneNumber1"
+                name="examplePhoneNumber1"
+                a
+                placeholder="Enter Number"
+                class="form-control whatapp-login-input"
+              /> -->
+              <input
+                type="text"
+                required
+                mask="0000000000"
+                class="form-control whatapp-login-input"
+                id="examplePhoneNumber1"
+                name="examplePhoneNumber1"
+                aria-describedby="phoneHelp"
+                placeholder="7678******"
+                #phoneNumberOtp="ngModel"
+                [(ngModel)]="phoneNumber"
+                (ngModelChange)="onPhoneNumberChange()"
+              />
+
+              <div
+                *ngIf="
+                  (phoneNumberOtp.touched && phoneNumberOtp.invalid) ||
+                  isFormInvalid
+                "
+              >
+                <p
+                  class="errortxt mt-3 mb-0 text-danger text-start"
+                  *ngIf="phoneNumberOtp.errors?.required"
+                >
+                  <i class="bi bi-exclamation-circle"></i>
+                  Phone Number is required.
+                </p>
+              </div>
+
+              <!-- <button
+                type="submit"
+                class="btn btn-soft-primary w-100 mt-4 btn-fix-height"
+              >
+                <span>Send OTP</span>
+              </button> -->
+              <button
+                class="btn btn-soft-primary w-100 mt-4 btn-fix-height"
+                type="submit"
+                [disabled]="
+                  phoneNumber == null ||
+                  phoneNumber == '' ||
+                  phoneNumber.length != 10
+                "
+                *ngIf="isWhatsappLogin && !showOtpInput"
+                (click)="signInByWhatsapp()"
+              >
+                <span *ngIf="!sendOtpLoader">Send OTP</span>
+                <div class="dot-opacity-loader" *ngIf="sendOtpLoader">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+              </button>
+
+              <p class="mb-0 mt-4 noteText">
+                <span class="text-primary">Note:</span> Please ensure that the
+                mobile number provided is registered with WhatsApp to receive
+                OTP and other process-related notifications.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="whatapp-otp-verification row mt-4"
+          *ngIf="showOtpInput && verifyOtpButtonFlag"
+        >
+          <div class="col-md-12">
+            <div class="onboarding-form">
+              <div
+                class="d-flex align-items-center justify-content-center gap-3 otpInput"
+              >
+                <!-- {{activeInputIndex}} -->
+                <div class="d-flex align-items-center otpInputBox">
+                  <input
+                    type="text"
+                    maxlength="1"
+                    [(ngModel)]="otp1"
+                    (input)="moveToNext($event, otp2Input, 2)"
+                    (keydown)="moveToPrevious($event, otp1Input, 1)"
+                    (paste)="handleOtpPaste($event)"
+                    class="form-control whatapp-login-input"
+                    [ngClass]="{ 'active-input': activeInputIndex === 1 }"
+                    #otp1Input
+                    autofocus
+                  />
+                  <input
+                    type="text"
+                    maxlength="1"
+                    [(ngModel)]="otp2"
+                    (input)="moveToNext($event, otp3Input, 3)"
+                    (keydown)="moveToPrevious($event, otp1Input, 1)"
+                    class="form-control whatapp-login-input"
+                    [ngClass]="{ 'active-input': activeInputIndex === 2 }"
+                    #otp2Input
+                  />
+                  <input
+                    type="text"
+                    maxlength="1"
+                    [(ngModel)]="otp3"
+                    (input)="moveToNext($event, otp4Input, 4)"
+                    (keydown)="moveToPrevious($event, otp2Input, 2)"
+                    class="form-control whatapp-login-input"
+                    [ngClass]="{ 'active-input': activeInputIndex === 3 }"
+                    #otp3Input
+                  />
+                </div>
+
+                <i class="bi bi-dash-lg otpSection"></i>
+
+                <div class="d-flex align-items-center otpInputBox">
+                  <input
+                    type="text"
+                    maxlength="1"
+                    [(ngModel)]="otp4"
+                    (input)="moveToNext($event, otp5Input, 5)"
+                    (keydown)="moveToPrevious($event, otp3Input, 3)"
+                    class="form-control whatapp-login-input"
+                    [ngClass]="{ 'active-input': activeInputIndex === 4 }"
+                    #otp4Input
+                  />
+                  <input
+                    type="text"
+                    maxlength="1"
+                    [(ngModel)]="otp5"
+                    (input)="moveToNext($event, otp6Input, 6)"
+                    (keydown)="moveToPrevious($event, otp4Input, 4)"
+                    class="form-control whatapp-login-input"
+                    [ngClass]="{ 'active-input': activeInputIndex === 5 }"
+                    #otp5Input
+                  />
+                  <input
+                    type="text"
+                    maxlength="1"
+                    [(ngModel)]="otp6"
+                    (input)="
+                      onOtpChange(otp1 + otp2 + otp3 + otp4 + otp5 + otp6)
+                    "
+                    (keydown)="moveToPrevious($event, otp5Input, 5)"
+                    class="form-control whatapp-login-input"
+                    [ngClass]="{ 'active-input': activeInputIndex === 6 }"
+                    #otp6Input
+                  />
+                </div>
+
+                <!-- <div class="otp-input-container">
+                  <ng-otp-input (onInputChange)="onOtpChange($event)" [config]="{ length: 6 }"></ng-otp-input>
+                </div> -->
+              </div>
+              <div *ngIf="otpErrorMessage">
+                <p class="errortxt mt-3 mb-0 text-danger text-start">
+                  <i class="bi bi-exclamation-circle"></i> {{ otpErrorMessage }}
+                </p>
+              </div>
+              <!-- <button
+                type="submit"
+                class="btn btn-soft-primary w-100 mt-4 btn-fix-height"
+              >
+                <span>Verify</span>
+              </button> -->
+              <button
+                class="btn btn-soft-primary w-100 mt-4 btn-fix-height"
+                type="submit"
+                [disabled]="otp == null || otp == '' || otp.length != 6"
+                *ngIf="showOtpInput && verifyOtpButtonFlag"
+                (click)="verifyOtp()"
+              >
+                <span *ngIf="!loading">Verify</span>
+                <div class="dot-opacity-loader" *ngIf="loading">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+              </button>
+
+              <div
+                class="mt-3 d-flex align-items-center justify-content-between verificationActionBtn"
+              >
+                <button
+                  href=""
+                  class="editNumber p-0 btn"
+                  type="button"
+                  (click)="changeNumber()"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="15"
+                    height="16"
+                    viewBox="0 0 15 16"
+                    fill="none"
+                  >
+                    <mask
+                      id="mask0_2510_502"
+                      style="mask-type: alpha"
+                      maskUnits="userSpaceOnUse"
+                      x="0"
+                      y="0"
+                      width="15"
+                      height="16"
+                    >
+                      <rect width="14.25" height="15.1997" fill="#878A9A" />
+                    </mask>
+                    <g mask="url(#mask0_2510_502)">
+                      <path
+                        d="M1.1875 15.1987V12.6654H13.0625V15.1987H1.1875ZM3.5625 10.1321H4.39375L9.025 5.20804L8.17891 4.30556L3.5625 9.24545V10.1321ZM2.375 11.3987V8.70713L9.025 1.62978C9.13385 1.51368 9.26003 1.42395 9.40352 1.36062C9.54701 1.29729 9.69792 1.26562 9.85625 1.26562C10.0146 1.26562 10.168 1.29729 10.3164 1.36062C10.4648 1.42395 10.5984 1.51895 10.7172 1.64562L11.5336 2.53226C11.6523 2.64837 11.7389 2.78559 11.7934 2.94392C11.8478 3.10225 11.875 3.26586 11.875 3.43474C11.875 3.59307 11.8478 3.74877 11.7934 3.90182C11.7389 4.05487 11.6523 4.19473 11.5336 4.32139L4.89844 11.3987H2.375Z"
+                        fill="#878A9A"
+                      />
+                    </g>
+                  </svg>
+                  {{ whatsappOtp ? "Edit Number" : "Change Email Id" }}
+                </button>
+                <p class="mb-0">
+                  Can’t find your code?
+                  <a
+                    
+                    class="text-primary"
+                    (click)="resendOtp()"
+                    [ngClass]="{ 'disabled-link': time > 0 }"
+                  >
+                    Resend code <span *ngIf="time > 0">({{ time }})</span></a
+                  >
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex align-items-center justify-content-center footer-text">
+        <p class="mb-0">
+          By signing, you are creating a Hajiri account, and you agree to Hajiri
+          <a href="" class="text-primary"> Terms of Use</a> and
+          <a href="" class="text-primary"> Privacy Policy.</a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="onboardingLeftImg"
+    style="background-image: url(assets/images/onbording-left-img.svg)"
+  ></div>
+</div>
+
+<!--video Modal -->
+<div
+  class="modal fade"
+  id="video-modal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  data-bs-backdrop="static"
+  aria-hidden="true"
+>
+  <div
+    class="modal-dialog modal-dialog-centered"
+    role="document"
+    style="max-width: 800px"
+  >
+    <div class="modal-content">
+      <div
+        class="modal-body p-0"
+        id="youtube-video"
+        style="border: 2px solid #fff; height: 504px"
+      >
+        <div class="closebtn">
+          <button
+            type="button"
+            id="close_one"
+            onclick="stop()"
+            class="close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+            style="top: -15px; right: -15px"
+          >
+            <i class="bi bi-x"></i>
+          </button>
+        </div>
+        <iframe
+          width="100%"
+          id="videoId"
+          height="500"
+          src="https://www.youtube.com/embed/m1vxzFLCwCI?si=PrImOedKUTzaaTkY"
+          title="YouTube video player"
+        ></iframe>
+      </div>
+    </div>
+  </div>
+</div>
+<!--video Modal -->

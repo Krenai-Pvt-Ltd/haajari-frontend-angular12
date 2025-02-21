@@ -1,0 +1,137 @@
+.onboarding-box {
+  background: linear-gradient(
+    182deg,
+    #e4e7ff -9.67%,
+    #f2f4ff 8.88%,
+    #fff 68.76%
+  );
+  height: 100vh;
+}
+
+.onboardingRightImg {
+  background-size: contain;
+  background-position: right top;
+  height: 50%;
+  background-repeat: no-repeat;
+}
+
+.onboardingLeftImg {
+  background-size: contain;
+  background-position: left bottom;
+  height: 50%;
+  background-repeat: no-repeat;
+}
+
+.container {
+  max-width: 1200px;
+}
+.onboarding-step {
+  height: 80vh;
+}
+.onboarding-step h5 {
+  color: #000;
+  font-family: "IBM Plex Sans";
+  font-size: 38px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 30px; /* 112.239% */
+  letter-spacing: 0.096px;
+}
+
+.onboarding-step p {
+  color: #8b97a6;
+  text-align: center;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 24px; /* 160% */
+}
+.onboarding-step-box {
+  border-radius: 2px;
+  background: #fff;
+  box-shadow: 0px 13.348px 33.37px 13.348px rgba(238, 243, 255, 0.45);
+  width: 350px;
+  border: 1px solid #fff;
+  padding-top: 30px !important;
+  padding-bottom: 30px !important;
+}
+
+.onboarding-step-box h5 {
+  color: #000;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 15px;
+  margin-top: 30px;
+}
+.onboarding-step-box p {
+  color: #121212;
+  text-align: center;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 22px;
+  letter-spacing: 0.106px;
+}
+.continueBtn {
+  color: #6666f2;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 23.667px;
+  letter-spacing: 0.108px;
+}
+.continueBtn svg {
+  width: 15px;
+  position: relative;
+  top: -1px;
+}
+.knowMoreBtn {
+  text-align: center;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 400;
+  padding: 0px;
+  line-height: 12.813px;
+  letter-spacing: 0.303px;
+  color: #6666f2;
+  text-decoration: underline;
+  bottom: 32px;
+  position: absolute;
+}
+
+.closebtn .close {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  border: none;
+  background-color: #fff;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  justify-content: center;
+  box-shadow: rgb(99 99 99 / 0.2) 0 2px 8px 0;
+}
+
+.signWhatsApp {
+  border-radius: 2px;
+  background: #fff;
+  height: 43px;
+  color: #000;
+  min-width: 230px;
+  font-size: 14px !important;
+  font-weight: 500;
+  line-height: 20px !important;
+  letter-spacing: 0.086px;
+  border: 1px solid #ddd;
+}
+.signWhatsApp:hover {
+  background-color: #22b85e;
+  color: #fff;
+  border-color: #22b85e;
+}
+.signSlack:hover {
+  background-color: #441a49 !important;
+  color: #fff;
+  border-color: #441a49;
+}

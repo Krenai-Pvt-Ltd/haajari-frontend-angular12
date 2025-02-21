@@ -45,4 +45,39 @@ export interface PendingLeaveResponse {
   approvedLeaves: number;
   pendingLeaves: number;
   remainingLeaves: number;
+  attachment: any;
+  totalValidDays:number;
+
+  remainingQuota: any;
+  applied: any;
+  approved: any;
+}
+
+export interface LeaveResponse {
+  id: number;
+  name: string;
+  username:string;
+  uuid: string;
+  image: string;
+  email: string;
+  leaveDate: Date;
+  startDate: Date;
+  endDate: Date;
+  notes: string;
+  leaveType: string;
+  halfDay: string;
+  docFileLink: string;
+  managerName: string;
+  managerUuid: string;
+  totalDays: any;
+  approvedLeaves: number;
+  pendingLeaves: number;
+  remainingLeaves: number;
+  attachment: any;
+  status:string;
+
+  remainingQuota: any;
+  applied: any;
+  approved: any;
+  rejectionReason:string;
 }

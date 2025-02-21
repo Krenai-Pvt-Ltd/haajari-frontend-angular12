@@ -1,0 +1,295 @@
+.toStepVideoBox {
+  background-color: #6666f2;
+  position: relative;
+  border-radius: 4px;
+  padding: 20px 40px !important;
+}
+
+.LeftBoxImage {
+  position: absolute;
+  left: -45px;
+  width: 160px;
+  top: 0px;
+}
+
+.rightBoxImage {
+  position: absolute;
+  right: -88px;
+  top: -79px;
+  width: fit-content;
+  height: 320px;
+}
+.videoIntro h6 {
+  color: #fff;
+  font-family: Quicksand;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.videoIntro h4 {
+  color: #fff;
+  font-size: 26px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+.videoIntro h4 span {
+  color: #22d26b;
+}
+.videoIntro h6 span {
+  color: #22d26b;
+}
+
+.assisHeding h5 {
+  color: #000;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 24px; /* 155.792% */
+  letter-spacing: 0.357px;
+  text-transform: capitalize;
+}
+
+.assisHeding p {
+  color: #717171;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 24.778px; /* 190.616% */
+  letter-spacing: 0.119px;
+}
+
+.assisHeddingBox {
+  background-color: #f9f9f9;
+  border-radius: 4px;
+}
+
+.assisHeddingBox h5 {
+  color: #000;
+  font-weight: 600;
+  line-height: 24px; /* 155.792% */
+  letter-spacing: 0.357px;
+}
+.assisHeddingBox p {
+  color: #717171;
+  font-weight: 400;
+  line-height: 20px; /* 190.616% */
+  letter-spacing: 0.119px;
+}
+.playBtn {
+  position: absolute;
+  top: 50%;
+  left: 56%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+}
+
+.to-step-box {
+  height: 100vh;
+  position: relative;
+  border-left: 1px solid #e6e7e7;
+  position: fixed;
+  bottom: 0;
+  top: 0;
+  right: 0;
+  width: 20%;
+}
+
+.toDoStap {
+  position: fixed;
+  bottom: 0px;
+  right: 0px;
+  width: fit-content;
+  height: 200px;
+}
+
+.onboardingStapsHedding {
+  background-color: #f4f3fe;
+  top: 0px;
+  position: relative;
+  width: 100%;
+}
+
+.onboardingStapsHedding h5 {
+  color: #000;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20.637px; /* 128.98% */
+  letter-spacing: 0.281px;
+  text-transform: capitalize;
+}
+.onboardingStapsHedding svg {
+  width: 20px;
+  cursor: pointer;
+}
+
+.progress {
+  background-color: #fff;
+  height: 8px;
+  width: 100%;
+  margin: 0 auto;
+}
+.planInfo h5 {
+  background: linear-gradient(103deg, #6666f2 31.7%, #3b3b8c 82.9%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 18px; /* 74.629% */
+  letter-spacing: 0.224px;
+  background-clip: text;
+  -webkit-background-clip: text;
+  text-transform: capitalize;
+}
+.planInfo p {
+  color: #717171;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 11px; /* 88.478% */
+  letter-spacing: 0.035px;
+}
+
+.planInfo h6 {
+  color: #4a4a4a;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 15px; /* 203.478% */
+  letter-spacing: 0.117px;
+}
+
+.onboardCount {
+  font-weight: 500 !important;
+  color: #6666f2 !important;
+}
+
+.checdBox {
+  background-color: #22d26b;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+.checdBox i {
+  font-size: 14px;
+  position: relative;
+  top: 1px;
+  left: -1px;
+}
+
+.completeStepPoint h4 {
+  color: #000;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 15px;
+  letter-spacing: 0.279px;
+  text-transform: capitalize;
+}
+.completeStepPoint p {
+  color: #979797;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 16.209px; /* 115.781% */
+  letter-spacing: 0.093px;
+}
+.completeStepPoint {
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.pendingBox {
+  border: 1px solid #d9dade;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+.pendingStepPoint h4 {
+  color: #000;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 15px;
+  letter-spacing: 0.279px;
+  text-transform: capitalize;
+}
+.pendingStepPoint p {
+  color: #979797;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 16.209px; /* 115.781% */
+  letter-spacing: 0.093px;
+}
+
+.onboardingStapsPoint::-webkit-scrollbar {
+  display: none;
+}
+@media screen and (max-width: 2600px) {
+  .onboardingStapsPoint {
+    z-index: 999;
+    position: relative;
+    overflow: scroll;
+    max-height: 70vh ;
+  }
+}
+@media screen and (max-width: 1280px) {
+  .onboardingStapsPoint {
+    z-index: 999;
+    position: relative;
+    overflow: scroll;
+    max-height: 70vh ;
+  }
+}
+
+.pendingStepPoint {
+  /* border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px; */
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.pendingStepPoint:hover .toStepArrow {
+  background-color: #6666f2;
+  border-radius: 4px;
+  width: 23px;
+  height: 23px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+}
+
+.bi::before,
+[class*=" bi-"]::before,
+[class^="bi-"]::before {
+  font-weight: 600 !important;
+}
+.closebtn .close {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  border: none;
+  background-color: #fff;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  justify-content: center;
+  box-shadow: rgb(99 99 99 / 0.2) 0 2px 8px 0;
+}

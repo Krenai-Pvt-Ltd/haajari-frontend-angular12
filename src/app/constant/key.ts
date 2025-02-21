@@ -1,4 +1,10 @@
+import { BASE_URL } from 'src/environments/environment';
 export class Key {
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  base_url = BASE_URL;
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
   public static LOGGED_IN_USER = new Object();
 
   public static PRIVILEGE_VIEW = 1;
@@ -8,7 +14,7 @@ export class Key {
   public static DYNAMIC = '/dynamic';
   public static LOGIN = `${Key.DYNAMIC}/login`;
   public static ONBOARDING = `${Key.DYNAMIC}/onboarding`;
-  public static DASHBOARD = `${Key.DYNAMIC}/dashboard`;
+  public static DASHBOARD = `/dashboard`;
   public static HEADER = `${Key.DYNAMIC}/header`;
   public static TOPBAR = `${Key.DYNAMIC}/topbar`;
   public static TIMETABLE = `${Key.DYNAMIC}/timetable`;
@@ -62,6 +68,18 @@ export class Key {
     '/payment/bonus-and-deduction',
     '/payment/payment-history',
     '/payment/payroll-dashboard/leave-summary',
+    '/to-do-step-dashboard',
+    '/setting/subscription',
+    '/setting/onboarding-setting',
+    '/refer-friend',
+    '/expense',
+    '/exit-policy',
+    '/leave-managements',
+    '/inbox',
+    '/assets-management',
+    '/faq',
+    '/faq-detail',
+    '/expense-management'
   ];
 
   public static TOPBAR_ROUTES = [
@@ -102,21 +120,33 @@ export class Key {
     '/payment/bonus-and-deduction',
     '/payment/payment-history',
     '/payment/payroll-dashboard/leave-summary',
+    '/setting/subscription',
+    '/setting/onboarding-setting',
+    '/refer-friend',
+    '/expense',
+    '/exit-policy',
+    '/leave-managements',
+    '/inbox',
+    '/assets-management',
+    '/faq',
+    '/faq-detail',
+    '/expense-management'
   ];
 
   public static ORGANIZATION_ONBOARDING_SIDEBAR_ROUTES = [
-    '/organization-onboarding/personal-information',
-    '/organization-onboarding/attendance-rule-setup',
-    '/organization-onboarding/leave-rule-setup',
-    '/organization-onboarding/holiday-rule-setup',
-    '/organization-onboarding/automation-rules',
-    '/organization-onboarding/creat-rule',
-    '/organization-onboarding/leave-setting-create',
-    '/organization-onboarding/add-shift-time',
-    '/organization-onboarding/holiday-setting',
-    '/organization-onboarding/upload-team',
-    '/organization-onboarding/shift-time-list',
-    '/organization-onboarding/attendance-mode',
+    '/auth/personal-information',
+    '/auth/attendance-rule-setup',
+    '/auth/leave-rule-setup',
+    '/auth/holiday-rule-setup',
+    '/auth/automation-rules',
+    '/auth/creat-rule',
+    '/auth/leave-setting-create',
+    '/auth/add-shift-time',
+    '/auth/holiday-setting',
+    '/auth/upload-team',
+    '/auth/shift-time-list',
+    '/auth/attendance-mode',
+    '/auth/add-shift-placeholder',
   ];
 
   // Deduction Ids
@@ -155,7 +185,8 @@ export class Key {
   // Toast statusResponse
   public static TOAST_STATUS_SUCCESS = 'Success';
   public static TOAST_STATUS_ERROR = 'Error';
-
+  public static TOAST_STATUS_WARNING = 'Warning';
+  public static TOAST_STATUS_INFO = 'Info';
   // Current status of employee
   public static WORKING = 'Working';
   public static ON_BREAK = 'On Break';
@@ -202,42 +233,31 @@ export class Key {
 
   // Shift Time steps
   public static SHIFT_TIME = 1;
-  public static STAFF_SELECTION = 2;
+  public static WEEK_OFF = 2;
+  public static STAFF_SELECTION = 3;
+  
+
 
   // Attendance mode id
   public static MANUAL_ATTENDANCE = 1;
-
-  
 
   // Krenai UUID
   public static KRENAI_UUID = '60811bf3-ae1e-11ee-9597-784f4361d885';
   public static DEMO_ORGANIZATION_UUID = '8d3cc5c2-21a7-11ef-98b2-0a3b903b1973';
 
-  // base_url = 'http://localhost:8080/api/v2';
-
-  /* ------------------  Staging urls ----------------*/
-  // base_url = 'https://staging.hajiri.work/api/v2';
-
-  /* ------------------  Production urls ----------------*/
-  base_url = 'https://production.hajiri.work/api/v2';
-
   //subscription plan
-  get_subscription = '/subcription-plan';
-  get_active_user_count = '/users/active-user-count';
-  get_purchased_status = '/organization-subs-plan/status';
-
-  add_more_employee = '/organization-subs-plan/add-more-employee';
-
   get_invoices = '/invoices';
-  get_last_invoices = '/invoices/last-invoices';
-  get_due_invoices = '/invoices/due-invoices';
-  get_due_pending_Status = '/invoices/due-pending-status';
+  download_invoice = '/invoices/download';
+  get_active_user_count = '/users/active-user-count';
+  get_restricted_modules = '/module/restriction'
 
-  get_plan_purchased_log = '/subcription-plan-log';
-  get_plan_purchased_status = '/organization-subs-plan/plan-purchased-status';
-
-  get_org_subs_plan_month_detail = '/organization-subs-plan-month-detail';
-  cancel_subscription = '/organization-subs-plan-month-detail';
+  //NEW SUBSCRIPTION PLAN API KEY
+  get_subscription_plans = '/subscription/plan';
+  get_current_subscription_plan='/subscription/current';
+  get_subscription_plan_light_detail='/subscription/plan/detail';
+  verify_gst_number='/subscription/gst';
+  get_subscription_payment_detail='/subscription/payment';
+  is_plan_expired = '/subscription/is-expired';
 
   //user notification
   get_notification = '/user-notification';
@@ -261,6 +281,8 @@ export class Key {
   edit_onboarding_user = '/whatsapp-user-onboarding/update';
 
   user_import = '/whatsapp-user-onboarding/import';
+  user_import_onboarding = '/whatsapp-user-onboarding/import/onboarding';
+
   get_report = '/user-import';
 
   // base_url = "http://localhost:8080/api/v2";
@@ -270,6 +292,9 @@ export class Key {
 
   check_number_existence = '/whatsapp-user-onboarding/check-number-existence';
   check_email_existence = '/whatsapp-user-onboarding/check-email-existence';
+
+  check_number_existence_without_token = '/users/check-number-existence';
+  check_email_existence_without_token = '/users/check-email-existence';
 
   save_organization_onboarding_step = '/organization/save-onboarding-step';
   get_organization_onboarding_step = '/organization/onboarding-step';
@@ -339,8 +364,8 @@ export class Key {
 
   // RazorPay Key
 
-  // public static razorKey =  'rzp_test_Wd1RYd0fng3673'; // Test
-  public static razorKey = 'rzp_live_twiokSC5krYrnQ'  // Live
+  public static razorKey = 'rzp_test_Wd1RYd0fng3673'; // Test
+  // public static razorKey = 'rzp_live_twiokSC5krYrnQ'; // Live
   //
   public static ENABLE = 1;
   public static DISABLE = 2;
@@ -349,8 +374,82 @@ export class Key {
   public static LEAVE_LOG = 1;
   public static OVERTIME_LOG = 2;
   public static LOP_REVERSAL_LOG = 3;
+  public static ATTENDANCE_UPDATE_REQUEST_LOG = 4;
 
-  public static SLACK_WORKSPACE_URL = `https://slack.com/app_redirect?app=A07AT94EHK7&tab=home`;
-  static GEOLOCATION = 'geolocation'
+  // public static SLACK_WORKSPACE_URL = `https://slack.com/app_redirect?app=A07AT94EHK7&tab=home`;
+  // static GEOLOCATION = 'geolocation'
+  // Tabs in Attendance Section
+  public static ATTENDANCE_TAB = 1;
+  public static OVERTIME_TAB = 2;
+  public static ATTENDANCE_UPDATE_REQUEST_TAB = 3;
+  public static ATTENDANCE_UPDATE_REQUEST_TAB_NEW = 4;
+
+  // Tabs in Overtime Section
+  public static OVERTIME_PENDING_REQUEST_TAB = 1;
+  public static OVERTIME_HISTORY_TAB = 2;
+
+  // Tabs in Updation request section
+  public static ATTENDANCE_UPDATE_PENDING_REQUEST_TAB = 1;
+  public static ATTENDANCE_UPDATE_REQUEST_HISTORY_TAB = 2;
+
+  // Gender
+  public static ALL = 1;
+  public static MALE = 2;
+  public static FEMALE = 3;
+  public static OTHERS = 4;
+
+  // Unused leave action
+  public static LAPSE = 1;
+  public static CARRY_FORWARD = 2;
+  public static ENCASH = 3;
+
+  // Leave Cycle
+  public static MONTHLY = 1;
+  public static QUARTERLY = 2;
+  public static HALF_YEARLY = 3;
+  public static YEARLY = 4;
+
+  // Leave renewal cycle
+  public static ANNUAL_YEAR = 'Annual Year (Jan - Dec)';
+  public static FINANCIAL_YEAR = 'Financial Year (Apr - Mar)';
+
+  // Sandwitch rule
+  public static YES = 'Yes';
+  public static NO = 'No';
+
+  //  Attendance Main Modes
+  public static MODE1 = 'Slack_and_Whatsapp';
+  public static MODE2 = 'Machine';
+  public static MODE3 = 'Lens';
+
+  // OnboardingProcessStep
+  public static COMPANY_SETTING_ID = 1;
+  public static ATTENDANCE_MODE_ID = 2;
+  public static SHIFT_TIME_ID = 3;
+  public static AUTOMATION_RULE_ID = 4;
+  public static LEAVE_TEMPLATE_ID = 5;
+  public static SALARY_TEMPLATE_ID = 6;
+
+  public static PROCESS_COMPLETED = 36;
+  public static PROCESS_PENDING = 35;
+
+  // redirect to slack
+
+  public static SLACK_WORKSPACE_URL = `https://slack.com/app_redirect?app=A05QD5T9EK1&tab=home`;   //prod
+  // public static SLACK_WORKSPACE_URL = `https://slack.com/app_redirect?app=A07AT94EHK7&tab=home`;
+
+  static GEOLOCATION = 'geolocation';
+
+  // Automation rule definition component count to apply CSS dynamically
+  public static COL_MD_4 = 3;
+  public static COL_MD_6 = 2;
+  public static COL_MD_12 = 1;
+
+  // employee profile old and new routes
+  // public static EMPLOYEE_PROFILE_ROUTE = '/employee-profile';
+  public static EMPLOYEE_PROFILE_ROUTE = '/employee';
+  public static ATTENDANCE_SETTING_ROUTE = '/setting/attendance-setting';
+  public static LEAVE_SETTING_ROUTE = '/setting/leave-setting';
 }
+
 

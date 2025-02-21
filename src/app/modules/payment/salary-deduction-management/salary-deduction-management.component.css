@@ -1,0 +1,33 @@
+.nav.nav-pills {
+    background-color: transparent;
+    border-bottom: 1px solid #edeff5;
+}
+
+.nav-pills .nav-item.show .nav-link,
+.nav-pills .nav-link.active {
+    background: transparent !important;
+    color: var(--primary-color) !important;
+    border-radius: 0;
+    border-bottom: 2px solid var(--primary-color);
+}
+
+.nav-link {
+    margin-right: 20px;
+    display: block;
+    padding: 7px 10px;
+    color: #000;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 500;
+    text-align: left;
+}
+
+.search-icon {
+    font-size: 12px !important;
+    position: absolute !important;
+    top: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    color: var(--tb-secondary-color) !important;
+  }

@@ -19,7 +19,7 @@
                                     <div class="mb-3">
                                       <label for="relation{{i}}" class="pb-2">Relation with Employee <span class="text-optional">*</span></label>
                                       <div class="dropdown" style="width: 100%;">
-                                        <button type="button" id="relationDropdown{{i}}" data-bs-toggle="dropdown" aria-expanded="false" 
+                                        <button type="button" id="relationDropdown{{i}}" data-bs-toggle="dropdown" aria-expanded="false"
                                                 class="btn btn-secondary dropdown-toggle new-deopdown" name="relationWithEmployee{{i}}">
                                           {{ contact.relationWithEmployee || 'Select Relation' }}
                                           <i class="bi bi-chevron-down"></i> <!-- Use the Font Awesome chevron-down icon -->
@@ -44,8 +44,8 @@
                                       </div>
                                     </div>
                                   </div>
-                                  
-                                  
+
+
                                       <div class="col-md-4">
                                         <div class="mb-3">
                                           <label for="name{{i}}" class="pb-2">Name <span class="text-optional">*</span></label>
@@ -62,7 +62,7 @@
                                           </div>
                                         </div>
                                       </div>
-                                      
+
                                       <div class="col-md-4">
                                         <div class="mb-3">
                                           <label for="phoneNumber{{i}}" class="pb-2">Phone Number <span class="text-optional">*</span></label>
@@ -91,13 +91,13 @@
                                 </div>
                                 <div class="row align-items-center" >
                                   <div class="col-md-6">
-                                   
+
                                 </div>
                                   <div class="col-md-6" style="text-align: right;">
                                       <div class="add-filtter" *ngIf="userEmergencyContactDetails.length!=1">
                                           <a type="button" (click)="delete(i)" style="color: red !important;"><i class="bi bi-trash" style="font-size: 16px;"></i> Delete</a>
                                       </div>
-                                     
+
                                   </div>
                               </div>
                             </div>
@@ -120,10 +120,10 @@
                                         <i class="bi bi-plus" style="margin-bottom: 14px;"></i> Add More
                                     </span> -->
                                 </div>
-                  
+
                             </div>
 
-                           
+
 
 
 
@@ -153,9 +153,9 @@
                                           Update <i class="bi bi-pencil-square" style="padding-left: 8px;"></i>
                                       </span>
                                   </button>
-                              
-                                
-                              
+
+
+
                                   <!-- Button to trigger confirmation modal for Preview, shown only when there's no update request -->
                                   <button *ngIf="!this.isAdminPresent" type="submit" class="btn btn-primary save-button" [disabled]="toggle" aria-label="Save">
                                       <div *ngIf="toggle" class="dot-opacity-loader">
@@ -189,7 +189,7 @@
             <div class="modal-body text-center">
                 <i class="bi bi-check-circle" *ngIf="employeeOnboardingFormStatus != 'REJECTED'" style="font-size: 48px; color: green;"></i>
                 <i class="bi bi-exclamation-triangle-fill" *ngIf="employeeOnboardingFormStatus == 'REJECTED'" style="font-size: 48px; color: red;"></i>
-                
+
                 <!-- Conditional Messages -->
                 <p class="mt-2" *ngIf="employeeOnboardingFormStatus == 'PENDING'">
                     Your registration is successful. Pending for verification.
@@ -234,7 +234,7 @@
 
                  <h4 class="confirm-detail">Confirm Details  </h4>
 
-                 <p class="mt-0 confram-msg">Are you sure you want to save these details?</p> 
+                 <p class="mt-0 confram-msg">Are you sure you want to save these details?</p>
 
 
                  <div class="d-flex align-items-center justify-content-center mt-4" style="gap: 15px;">
@@ -245,7 +245,7 @@
                  </div>
               </div>
               <!-- <div class="modal-footer">
-                 
+
               </div> -->
           </form>
       </div>
@@ -273,7 +273,7 @@
 
                  <h4 class="confirm-detail">Confirm Details  </h4>
 
-                 <p class="mt-0 confram-msg">Are you sure you want to save these details?</p> 
+                 <p class="mt-0 confram-msg">Are you sure you want to save these details?</p>
 
 
                  <div class="d-flex align-items-center justify-content-center mt-4" style="gap: 15px;">
@@ -284,7 +284,7 @@
                  </div>
               </div>
               <!-- <div class="modal-footer">
-                 
+
               </div> -->
           </form>
       </div>
@@ -314,18 +314,18 @@
         <!-- Form Details Start Here -->
         <div class="maxHeight">
           <div class="col-md-12">
-            <div class="onboarding-deta mb-lg-3">
+            <div class="onboarding-deta mb-lg-3" *ngIf="this.dataService.isRoutePresent('/employee-onboarding-form')">
                 <table class="table mb-0">
                     <tr style="background-color: #f1f1f1;">
                           <td>
                             <p class="mb-0 persnaol">  Personal Information <i class="bi bi-pencil-square"  (click)="routeToUserDetails('/employee-onboarding/employee-onboarding-form')" ></i></p>
-                            
+
                           </td>
                         </tr>
                   </table>
 
         <table class="table table-bordered">
-                         
+
           <tbody class="table-design">
             <tr>
               <td>Name : {{ onboardingPreviewData.user.name }}</td>
@@ -347,12 +347,17 @@
               <td>Current Position : {{ onboardingPreviewData.user.position }}</td>
               <td>Nationality : {{ onboardingPreviewData.user.nationality }}</td>
             </tr>
+            <tr>
+              <td>UAN Number : {{ onboardingPreviewData.user.uan }}</td>
+              <td>ESI Number : {{ onboardingPreviewData.user.esi }}</td>
+              <td></td>
+            </tr>
           </tbody>
         </table>
       </div>
 
 
-  <div class="onboarding-deta">
+  <div class="onboarding-deta" *ngIf="this.dataService.isRoutePresent('/employee-address-detail')">
       <table class="table mb-0">
           <tr style="background-color: #f1f1f1;">
                 <td>
@@ -366,9 +371,9 @@
               <p class="mb-0 subheading">Current Address :</p>
           </td>
       </tr>
-      
+
         <table class="table table-bordered">
-       
+
           <tbody class="table-design" *ngIf="onboardingPreviewData.userAddress!=undefined">
             <tr>
               <td colspan="12"> Address Line 1 : {{ onboardingPreviewData.userAddress[0]?.addressLine1 }}</td>
@@ -376,14 +381,14 @@
             <tr>
               <td colspan="12"> Address Line 2 : {{ onboardingPreviewData.userAddress[0]?.addressLine2 }}</td>
             </tr>
-          
+
             <tr>
               <td colspan="3">Pincode : {{ onboardingPreviewData.userAddress[0]?.pincode }}</td>
               <td colspan="3">City : {{ onboardingPreviewData.userAddress[0]?.city }}</td>
               <td colspan="3">State : {{ onboardingPreviewData.userAddress[0]?.state }}</td>
               <td colspan="3">Country : {{ onboardingPreviewData.userAddress[0]?.country }}</td>
             </tr>
-            
+
           </tbody>
         </table>
 
@@ -413,9 +418,9 @@
         </table>
   </div>
 
-  
 
-  <div class="onboarding-deta">
+
+  <div class="onboarding-deta" *ngIf="this.dataService.isRoutePresent('/employee-document')">
       <table class="table mb-0">
           <tr style="background-color: #f1f1f1;">
                 <td>
@@ -425,41 +430,41 @@
         </table>
 
         <table class="table table-bordered">
-       
+
           <tbody class="table-design">
               <tr>
-                  <td colspan="3" > 
+                  <td colspan="3" >
                       Aadhaar Card :  {{ aadhaarCardFileName }}</td>
-                
-                  <td colspan="3" > 
+
+                  <td colspan="3" >
                       Pancard : {{ pancardFileName }}</td>
                 </tr>
             <tr>
-              <td colspan="3" *ngIf="!isSchoolDocument"> 
+              <td colspan="3" *ngIf="!isSchoolDocument">
                   10th Marksheet :  {{ secondarySchoolCertificateFileName }}</td>
-            
-              <td colspan="3" *ngIf="!isHighSchoolDocument"> 
+
+              <td colspan="3" *ngIf="!isHighSchoolDocument">
                   12th Marksheet : {{ highSchoolCertificateFileName1 }}</td>
             </tr>
             <tr>
-              <td colspan="3"> 
+              <td colspan="3">
                   Highest Qualification :  {{ highestQualificationDegreeFileName1 }}</td>
-            
+
                   <td colspan="3" *ngFor="let document of employeeAdditionalDocument; let i = index">
                       {{ document.name }}: {{ document.fileName }}
                   </td>
             </tr>
-          
-            
-            
+
+
+
           </tbody>
         </table>
   </div>
 
-  
 
 
-  <div class="onboarding-deta">
+
+  <div class="onboarding-deta" *ngIf="this.dataService.isRoutePresent('/employee-document')">
       <table class="table mb-0">
           <tr style="background-color: #f1f1f1;">
                 <td>
@@ -469,36 +474,36 @@
         </table>
 
         <table class="table table-bordered">
-       
+
           <tbody class="table-design" *ngIf="onboardingPreviewData.userGuarantorInformation!=undefined && onboardingPreviewData.userGuarantorInformation.length>0">
-          
-          
+
+
             <tr>
               <td>Relation : {{ onboardingPreviewData.userGuarantorInformation[0].relation || 'N/A' }}</td>
               <td>Name : {{ onboardingPreviewData.userGuarantorInformation[0].name || 'N/A'}}</td>
               <td>Phone Number : {{ onboardingPreviewData.userGuarantorInformation[0].phoneNumber || 'N/A'}}</td>
               <td>Email : {{ onboardingPreviewData.userGuarantorInformation[0].emailId ? onboardingPreviewData.userGuarantorInformation[0].emailId : 'N/A' }}</td>
             </tr>
-            
+
           </tbody>
         </table>
-<!-- 
+<!--
         <table class="table table-bordered">
-       
+
           <tbody class="table-design" *ngIf="onboardingPreviewData.userGuarantorInformation!=undefined && onboardingPreviewData.userGuarantorInformation.length>0">
-          
-          
+
+
             <tr>
               <td>Relation : {{ onboardingPreviewData.userGuarantorInformation[1].relation }}</td>
               <td>Name : {{ onboardingPreviewData.userGuarantorInformation[1].name }}</td>
               <td>Phone Number : {{ onboardingPreviewData.userGuarantorInformation[1].phoneNumber }}</td>
               <td>Email : {{ onboardingPreviewData.userGuarantorInformation[1].emailId ? onboardingPreviewData.userGuarantorInformation[1].emailId : 'N/A' }}</td>
             </tr>
-            
+
           </tbody>
         </table> -->
   </div>
-  <div class="onboarding-deta">
+  <div class="onboarding-deta" *ngIf="this.dataService.isRoutePresent('/acadmic')">
       <table class="table mb-0">
           <tr style="background-color: #f1f1f1;">
                 <td>
@@ -508,10 +513,10 @@
         </table>
 
         <table class="table table-bordered">
-       
+
           <tbody class="table-design">
-          
-          
+
+
             <tr>
               <td>Highest Qualification : {{ onboardingPreviewData.userAcademics?.highestEducationalLevel }}</td>
               <td>Degree/Diploma : {{ onboardingPreviewData.userAcademics?.degreeObtained }}</td>
@@ -522,12 +527,12 @@
             <td>{{ onboardingPreviewData.userAcademics?.gradeType }} : {{ onboardingPreviewData.userAcademics?.grade }}</td>
             <td>Graduating Year :  {{ onboardingPreviewData.userAcademics?.graduationYear }}</td>
           </tr>
-            
+
           </tbody>
         </table>
   </div>
 
-  <div class="onboarding-deta">
+  <div class="onboarding-deta" *ngIf="this.dataService.isRoutePresent('/employee-experience')">
       <table class="table mb-0">
           <tr style="background-color: #f1f1f1;">
                 <td>
@@ -538,31 +543,31 @@
         <div *ngIf="!isFresher">
         <div  *ngFor="let userExperience of userExperienceArray; let i = index">
         <table class="table table-bordered">
-       
+
           <tbody class="table-design" *ngIf="onboardingPreviewData?.userExperience!=undefined && onboardingPreviewData.userExperience.length>0">
             <tr>
-              <td colspan="3"> 
+              <td colspan="3">
                   Company Name :  {{userExperience.companyName}}</td>
-           
-              <td colspan="3"> 
+
+              <td colspan="3">
                   Duration : {{userExperience.startDate | date : 'dd/MM/yyyy'}} - {{userExperience.endDate | date : 'dd/MM/yyyy'}} </td>
-            
-              <td colspan="3"> 
+
+              <td colspan="3">
                   Department :  {{userExperience.lastJobDepartment}}</td>
             </tr>
             <tr>
-              <td colspan="3"> 
+              <td colspan="3">
                   Last Salary :  {{userExperience.lastSalary | numberToWord }}</td>
-           
-              <td colspan="3"> 
+
+              <td colspan="3">
                   Position :  {{userExperience.lastJobPosition}}</td>
-           
-              <td colspan="3"> 
+
+              <td colspan="3">
                   Responsibilities :  {{userExperience.jobResponisibilities}}</td>
             </tr>
-          
-            
-            
+
+
+
           </tbody>
         </table>
         </div>
@@ -577,9 +582,9 @@
           </table>
       </div>
   </div>
-  
 
-  <div class="onboarding-deta">
+
+  <div class="onboarding-deta" *ngIf="this.dataService.isRoutePresent('/bank-details')">
       <table class="table mb-0">
           <tr style="background-color: #f1f1f1;">
                 <td>
@@ -589,23 +594,23 @@
         </table>
 
         <table class="table table-bordered">
-       
+
           <tbody class="table-design">
-          
-          
+
+
             <tr>
               <td> Account Holder Name : {{ onboardingPreviewData.userBankDetails?.accountHolderName }}</td>
               <td>Bank Name : {{ onboardingPreviewData.userBankDetails?.bankName }}</td>
               <td> Account Number : {{ onboardingPreviewData.userBankDetails?.accountNumber }}</td>
               <td> IFSC Number :  {{ onboardingPreviewData.userBankDetails?.ifsc }}</td>
             </tr>
-           
-            
+
+
           </tbody>
         </table>
   </div>
 
-  <div class="onboarding-deta">
+  <div class="onboarding-deta" *ngIf="this.dataService.isRoutePresent('/emergency-contact')">
       <table class="table mb-0">
           <tr style="background-color: #f1f1f1;">
                 <td>
@@ -615,17 +620,17 @@
         </table>
         <div  *ngFor="let userEmergencyContact of userEmergencyContactArray; let i = index">
         <table class="table table-bordered">
-       
+
           <tbody class="table-design" *ngIf="onboardingPreviewData?.userEmergencyContacts!=undefined && onboardingPreviewData.userEmergencyContacts.length>0">
-          
-          
+
+
             <tr>
               <td> Relation with Employee : {{userEmergencyContact.relationWithEmployee}}</td>
               <td>Name :  {{userEmergencyContact.contactName}}</td>
               <td>Phone Number  : {{userEmergencyContact.contactNumber}}</td>
             </tr>
-            
-            
+
+
           </tbody>
         </table>
         <ng-template #noData>
@@ -639,7 +644,7 @@
 
         <!-- Form Details End Here -->
       </div>
-     
+
     </div>
   </div>
   <div class="modal-footer">
