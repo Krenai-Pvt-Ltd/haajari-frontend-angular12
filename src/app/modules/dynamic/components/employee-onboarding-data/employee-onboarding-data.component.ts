@@ -2125,6 +2125,19 @@ console.log(this.data);
   approveStates: string[]=[];
   rejectedReason: string = '';
   @ViewChildren('collapsibleDiv') collapsibleDivs!: QueryList<ElementRef>;
+
+  isProfileReqModalOpen: boolean = false;
+  requestModalData: any = {};
+  onProfileComponentClose() {
+    this.isProfileReqModalOpen = false;
+  }
+  onProfileUpdateModalOpen(uuid:any) {
+    this.requestModalData = {
+      uuid: uuid,
+    };
+    this.isProfileReqModalOpen = true;
+
+  }
   getRequestedData(uuid: string) {
     debugger;
     this.isRequestedDataLoading = true;
