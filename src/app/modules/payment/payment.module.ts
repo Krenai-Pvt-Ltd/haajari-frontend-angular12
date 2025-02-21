@@ -37,7 +37,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
     LeaveSummaryComponent,
     EmployeeManagementComponent,
     EarningManagementComponent,
-    SalaryDeductionManagementComponent,
+    SalaryDeductionManagementComponent
   ],
   imports: [
     CommonModule,

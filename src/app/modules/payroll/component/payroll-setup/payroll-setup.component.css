@@ -1,0 +1,61 @@
+.payroll-step .col-md-6{
+    width: 60%;
+}
+.payroll-step .col-md-3{
+    width: 20%;
+}
+
+
+.payroll-to-do .progress {
+    background-color: #f1f5fa;
+    height: 11px;
+    width: 90%;
+    margin: 0;
+    position: relative;
+    top: 3px;
+    width: 300px;
+}
+
+.payroll-to-do .progress-bar{
+    background-color: #47539F;
+}
+.step-no{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #fff;
+}
+.active-step{
+    background-color: #F2F2FF;
+}
+.submitActionBtn {
+    background-color: var(--primary-background-color);
+    min-width: 100px;
+}
+.step-normal{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #E8E8EE;
+}
+.normal-btn{
+    background-color: #FBFBFF;
+    min-width: 100px;
+    border: 1px solid #EDEDFF;
+    color: #6666f2;
+}
+.normal-btn:hover{
+    background-color: #6666f2;
+    min-width: 100px;
+    border: 1px solid #6666f2;
+    color: #fff;
+}
+.complete-check{
+    background-color: #388E3C;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+.complete-check SVG{
+    width: 20px;
+}

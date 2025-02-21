@@ -746,11 +746,12 @@ onSearch(searchText: string): void {
     assetModalData:any = {};
     isAssetRequestModalOpen: boolean = false;
     onAssetRequestOpen(asset: any): void {
-      this.assetModalData.asset = asset;
+      this.assetModalData ={isModal:true, asset:asset};
       this.isAssetRequestModalOpen = true;
     }
 
     onAssetComponentClose(): void {
+      this.assetModalData={};
       this.assetRequestTab();
       this.isAssetRequestModalOpen = false;
       console.log('Asset request tab closed');

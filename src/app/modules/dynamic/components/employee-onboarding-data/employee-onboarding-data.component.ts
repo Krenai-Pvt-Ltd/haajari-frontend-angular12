@@ -33,6 +33,7 @@ import {
   ApexPlotOptions,
   ApexGrid,
 } from "ng-apexcharts";
+import { AttendanceTimeUpdateRequestDto } from 'src/app/models/user-dto.model';
 
 export interface Team {
   label: string;
@@ -2664,18 +2665,25 @@ console.log(this.data);
     this.getUserExitType()
     this.getNoticePeriodDuration();
   }
-
+  exitData: any;
+  showExitModal:boolean=false;
   onInitiateExitClick(uuid:string) {
-    this.modalService.openInitiateExitModal(uuid, 'ADMIN').then(
-      (result) => {
-        this.loadResignations();
-        this.getUsersCountByStatus();
-      },
-      (reason) => {
-        this.loadResignations();
-        this.getUsersCountByStatus();
-      }
-    );
+    console.log('Initiate Exit Clicked');
+    this.exitData = {};
+      this.exitData.uuid = uuid;
+      this.exitData.userType = 'ADMIN';
+      this.exitData.isModal = 0;
+      this.showExitModal=true;
+    // this.modalService.openInitiateExitModal(uuid, 'ADMIN').then(
+    //   (result) => {
+    //     this.loadResignations();
+    //     this.getUsersCountByStatus();
+    //   },
+    //   (reason) => {
+    //     this.loadResignations();
+    //     this.getUsersCountByStatus();
+    //   }
+    // );
   }
 
 
@@ -3009,7 +3017,12 @@ console.log(this.data);
       },
     });
   }
+  @ViewChild('viewExitRequestDismiss') viewExitRequestDismiss!: ElementRef
 
+  onExitComponentClose() {
+      this.viewExitRequestDismiss.nativeElement.click()
+
+  }
   closeNotificationModalFlag: boolean = false;
 
   closeNotificationModal() {

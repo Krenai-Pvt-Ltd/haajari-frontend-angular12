@@ -1254,16 +1254,14 @@
  <div class="modal fade" id="AssetsDetailModal" tabindex="10000" aria-labelledby="AssetsDetailModalLabel" data-bs-backdrop="static" data-bs-keyboard="false"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
-      <div class="modal-content">
-         <div class="modal-header">
-            <h5 class="modal-title">
+      <div  class="modal-content">
+         <div  class="modal-header">
+            <h5  class="modal-title">
                Asset Details
             </h5>
-            <button type="button" #assetRequestClose class="btn-close" data-bs-dismiss="modal" (click)="onAssetComponentClose()" aria-label="Close"></button>
+
+            <button type="button" #assetRequestClose class="btn-close"  data-bs-dismiss="modal"  aria-label="Close" ></button>
          </div>
-        </div>
-      </div>
-    <div class="modal-dialog">
       <div class="modal-content">
 
         <app-asset-request
@@ -1271,9 +1269,13 @@
           [data]="assetModalData"
           (closeEvent)="onAssetComponentClose()">
         </app-asset-request>
-      </div>
     </div>
  </div>
+ </div>
+
+
+
+
  <nz-drawer
  [nzOffsetX]="childrenVisible ? 180 : 0"
  [nzWidth]="400"
@@ -1327,6 +1329,7 @@
     </div>
  </ng-container>
  </nz-drawer>
+
  <div class="modal fade" id="addDescriptionModal" tabindex="-1" aria-labelledby="addDescriptionModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered modal-md">
        <div class="modal-content">
