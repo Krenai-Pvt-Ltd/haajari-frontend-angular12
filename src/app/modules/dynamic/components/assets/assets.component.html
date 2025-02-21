@@ -460,7 +460,7 @@
                         {{ asset.status || '--' }}
                       </span>
                     </td>
-                    <td (click)="openStatusChangeModal(asset, statusChangeModal)">
+                    <td >
                       <button class="btn p-0 text-primary View-btn fw-semibold"> <i class="bi bi-eye"></i> View
                       </button>
                     </td>
@@ -929,74 +929,3 @@
 </div>
 
 
-
-<ng-template #statusChangeModal let-modal>
-
-  <!-- <button type="button" class="btn btn-primary d-none" data-toggle="modal" data-target="#assetRequest"> Change Asset Details</button>
-
-  <div class="modal fade" id="assetRequest" tabindex="-1" role="dialog" aria-hidden="true" #assetRequestModal aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content"> -->
-  <div class="modal-header">
-    <h4 class="modal-title">Asset Details</h4>
-    <button (click)="modal.dismiss('cancel')" type="button" class="btn-close" aria-label="Close"></button>
-  </div>
-
-  <div class="modal-body">
-    <div class="row">
-      <div class="col-md-12 mb-3">
-        <label class="mb-2">Requested Date </label>
-        <div class="requesting-half-leave p-2">
-          <p class="mb-0 font-13">{{ selectedAsset.requestedOn | date: 'dd-MM-yyyy' }}</p>
-        </div>
-      </div>
-      <div class="col-md-6 mb-3">
-        <label class="mb-2">Category </label>
-        <div class="requesting-half-leave p-2">
-          <p class="mb-0 font-13">{{ selectedAsset.assetCategoryName }}</p>
-        </div>
-      </div>
-      <div class="col-md-6 mb-3">
-        <label class="mb-2">Asset Name </label>
-        <div class="requesting-half-leave p-2 ">
-          <p class="mb-0 font-13" style="font-weight: 400;">{{ selectedAsset.assetName }}</p>
-        </div>
-      </div>
-      <div class="col-md-12 mb-3">
-        <label class="mb-2">Requested Type </label>
-        <div class="requesting-half-leave p-2">
-          <p class="mb-0 font-13" style="font-weight: 400;">{{ selectedAsset.assetType }}</p>
-        </div>
-      </div>
-
-      <div class="col-md-12 mb-3">
-        <label class="mb-2">Note </label>
-        <div class="requesting-half-leave p-2">
-          <p class="mb-0 font-13" style="font-weight: 400;">{{ selectedAsset.note }}</p>
-        </div>
-      </div>
-      <div class="col-md-12 mb-3">
-        <label class="mb-2">Current Status </label>
-        <div class="pt-2 pb-2">
-          <span class="badge rounded-pill"
-            [ngClass]="{'badge-soft-warning': selectedAsset.status == 'PENDING', 'badge-soft-danger': selectedAsset.status == 'REJECTED', 'badge-soft-success': selectedAsset.status == 'APPROVED' || selectedAsset.status == 'ASSIGNED' }">{{
-            selectedAsset.status }}</span>
-        </div>
-      </div>
-      <div *ngIf="selectedAsset.status!='ASSIGNED'" class="col-md-12">
-        <label class="mb-2">Change Status</label>
-        <div>
-          <nz-select [(ngModel)]="newStatus" nzPlaceHolder="Select Status" class="w-100 form-control" nzSize="large">
-            <nz-option *ngFor="let status of statuses" [nzValue]="status" [nzLabel]="status"></nz-option>
-          </nz-select>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div *ngIf="selectedAsset.status!='ASSIGNED'"
-    class="modal-footer d-flex align-content-center justify-content-end gap-2">
-    <button type="button" class="btn cancel-btn mt-0" (click)="modal.dismiss('cancel')">Cancel</button>
-    <button type="button" class="btn submitActionBtn" (click)="changeStatus(selectedAsset)"> Save </button>
-  </div>

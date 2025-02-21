@@ -1,14 +1,14 @@
 
-    <div *ngIf="selectedAsset?.status!='APPROVED'" class="modal-dialog modal-dialog-centered modal-lg">
-       <div class="modal-content">
-          <div class="modal-header">
-             <h5 class="modal-title">
+    <div *ngIf="selectedAsset?.status!='APPROVED'" >
+       <div >
+          <div   *ngIf="!isModal">
+             <h5>
                 Asset Details
              </h5>
-             <button type="button" #assetRequestClose class="btn-close" (click)="close()" aria-label="Close" *ngIf="isModal"></button>
+             <!-- <button type="button" #assetRequestClose class="btn-close" (click)="close()" aria-label="Close" *ngIf="isModal"></button> -->
           </div>
           <form #categoryForm="ngForm">
-             <div class="modal-body">
+             <div  [ngClass]="{'modal-body':isModal}">
                 <div class="row">
                    <div class="col-md-6 mb-3">
                       <label class="mb-2">Requested Date </label>
@@ -50,7 +50,7 @@
                    </div>
                 </div>
              </div>
-             <div class="modal-footer">
+             <div [ngClass]="{'modal-footer':isModal}">
                 <div *ngIf="selectedAsset?.status=='PENDING'"
                    class="d-flex align-content-center justify-content-end gap-2">
                    <!-- <button type="button" class="btn cancel-btn mt-0" data-bs-dismiss="modal" >Cancel</button> -->
@@ -75,13 +75,13 @@
           </form>
        </div>
     </div>
-    <div *ngIf="selectedAsset?.status=='APPROVED'" class="modal-dialog modal-dialog-centered modal-lg">
-       <div class="modal-content">
-          <div class="modal-header">
-             <h5 class="modal-title" id="staticBackdropLabel"> Assets Assigned</h5>
-             <button type="button" #assetAssignClose class="btn-close" data-bs-dismiss="modal" aria-label="Close" *ngIf="isModal"></button>
+    <div *ngIf="selectedAsset?.status=='APPROVED'" >
+       <div >
+          <div  *ngIf="!isModal">
+             <h5 > Assign Asset</h5>
+             <!-- <button type="button" #assetAssignClose class="btn-close" data-bs-dismiss="modal" aria-label="Close" *ngIf="isModal"></button> -->
           </div>
-          <div class="modal-body">
+          <div [ngClass]="{'modal-body':isModal}">
              <div class="assets-list">
                 <!-- <div class="row">
                     <div class="col-md-4" *ngFor="let item of [].constructor(9)">
@@ -137,7 +137,7 @@
              </ngb-pagination>
           </div>
        </div>
-       <div class="modal-footer d-flex gap-2 align-items-center">
+       <div class="d-flex gap-2 align-items-center" [ngClass]="{'modal-footer':isModal}">
           <button type="button" class="btn cancel-btn" data-bs-dismiss="modal" (click)="selectedAsset.status='Approved'">Cancel</button>
           <button [ngClass]="{'btn-border': !(assetAssignedLoading || selectedAvailableAsset==null || selectedAvailableAsset== undefined)}" [disabled]="assetAssignedLoading || selectedAvailableAsset==null || selectedAvailableAsset== undefined" type="button" class="btn submitActionBtn" (click)="assignAsset()">
           <span *ngIf="!assetAssignedLoading">Assign</span>
