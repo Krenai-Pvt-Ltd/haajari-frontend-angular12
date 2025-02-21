@@ -1,14 +1,14 @@
 
     <div *ngIf="selectedAsset?.status!='APPROVED'" >
-       <div >
-          <div   *ngIf="!isModal">
+       <div>
+          <div *ngIf="!isModal">
              <h5>
                 Asset Details
              </h5>
              <!-- <button type="button" #assetRequestClose class="btn-close" (click)="close()" aria-label="Close" *ngIf="isModal"></button> -->
           </div>
           <form #categoryForm="ngForm">
-             <div  [ngClass]="{'modal-body':isModal}">
+             <div [ngClass]="{'modal-body':isModal}">
                 <div class="row">
                    <div class="col-md-6 mb-3">
                       <label class="mb-2">Requested Date </label>
