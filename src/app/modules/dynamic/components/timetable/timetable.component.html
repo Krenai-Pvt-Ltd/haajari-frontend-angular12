@@ -5,7 +5,7 @@
       <div class="row">
         <div class="col-md-12 mt-3 d-flex align-items-center justify-content-between border-bottom">
 
-          <ul id="pills-tab" role="tablist" class="nav nav-pills position-relative" style="top: 2px;">
+          <ul id="pills-tab" role="tablist" class="nav nav-pills position-relative attendance-tab">
             <li class="nav-item">
               <a id="pills-announcement-tab" role="tab" (click)="changeTab(ATTENDANCE_TAB)"
                 [ngClass]="{ 'active-tab': ACTIVE_TAB == ATTENDANCE_TAB }" aria-controls="pills-announcement"
@@ -35,12 +35,11 @@
             </li>
           </ul>
           <ng-container *ngIf="ACTIVE_TAB == ATTENDANCE_TAB; else attendanceSectionOtherTabCondition">
-            <div class="d-flex align-items-center attendance-date position-relative" style="top: -7px">
+            <div class="d-flex align-items-center attendance-date position-relative attendance-date-picker">
               <span class="d-flex align-items-center justify-content-center pointer calendar-back-btn"
                 (click)="selectPreviousDay()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
-                  <mask id="mask0_4719_1625" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21"
-                    style="mask-type: alpha;">
+                  <mask id="mask0_4719_1625" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
                     <rect x="0.5" y="0.5" width="20" height="20" fill="#D9D9D9"></rect>
                   </mask>
                   <g mask="url(#mask0_4719_1625)">
@@ -59,8 +58,7 @@
               <span class="d-flex align-items-center justify-content-center pointer calendar-back-btn"
                 (click)="selectNextDay()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
-                  <mask id="mask0_4719_1639" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21"
-                    style="mask-type: alpha;">
+                  <mask id="mask0_4719_1639" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
                     <rect width="20" height="20" transform="matrix(-1 0 0 1 20.5 0.5)" fill="#D9D9D9"></rect>
                   </mask>
                   <g mask="url(#mask0_4719_1639)">
@@ -73,12 +71,11 @@
             </div>
           </ng-container>
           <ng-template #attendanceSectionOtherTabCondition>
-            <div class="d-flex align-items-center attendance-date position-relative" style="top: -7px">
+            <div class="d-flex align-items-center attendance-date position-relative attendance-date-picker">
               <span class="d-flex align-items-center justify-content-center pointer calendar-back-btn"
                 (click)="selectPreviousMonth()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
-                  <mask id="mask0_4719_1625" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21"
-                    style="mask-type: alpha;">
+                  <mask id="mask0_4719_1625" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
                     <rect x="0.5" y="0.5" width="20" height="20" fill="#D9D9D9"></rect>
                   </mask>
                   <g mask="url(#mask0_4719_1625)">
@@ -97,8 +94,7 @@
               <span class="d-flex align-items-center justify-content-center pointer calendar-back-btn"
                 (click)="selectNextMonth()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
-                  <mask id="mask0_4719_1639" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21"
-                    style="mask-type: alpha;">
+                  <mask id="mask0_4719_1639" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
                     <rect width="20" height="20" transform="matrix(-1 0 0 1 20.5 0.5)" fill="#D9D9D9"></rect>
                   </mask>
                   <g mask="url(#mask0_4719_1639)">
@@ -157,57 +153,7 @@
             </div>
           </div>
           <ng-container *ngIf="!showPlaceholder; else notShowPlaceholder">
-            <!-- <div class="search-bar pt-2 pb-2 mt-3">
-              <div class="row m-0 ">
-                <div class="col-md-12 d-flex align-items-center" style="border: 1px solid #f1f1f1">
-                  <div class="" style="width: 200px">
-                    <div class="position-relative">
-                      <div class="dropdown w-100">
-                        <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
-                          class="btn btn-secondary dropdown-toggle new-dropdown font-13 w-100 fw-semibold text-left bg-white">
-                          {{ filterCriteria }}
-                          <i class="bi bi-chevron-down font-15 position-absolute" style="color: #444;"></i>
-                        </button>
-                        <ul aria-labelledby="dropdownMenuButton1 w-100" class="dropdown-menu">
-                          <li *ngFor="
-                              let filterCriteriaIterator of filterCriteriaList
-                            ">
-                            <a class="dropdown-item" (click)="
-                                selectFilterCriteria(filterCriteriaIterator)
-                              ">
-                              {{ filterCriteriaIterator }}
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="searchbr-ui " style="width:70%;" id="attendanceDataTopbar">
-                    <form novalidate="" role="search" (submit)="searchUsers($event)"
-                      class="searching ng-untouched ng-pristine ng-valid">
-                      <div class="form-group position-relative">
-                        <input type="text" id="searchText" placeholder="Search by name and role"
-                          class="form-control me-2 ng-untouched ng-pristine ng-valid attendance-details-search font-13 w-100 bg-white border-rounded-2"
-                          (keyup)="searchUsers($event)" [(ngModel)]="searchText" [ngModelOptions]="{ standalone: true }"
-                          style="padding: 10px 40px" />
-                        <button *ngIf="searchText.length !== 0" type="button" class="btn close-btn fw-semibold font-20 text-primary pointer position-absolute"
-                          (click)="clearSearchText()">
-                          <i class="bi bi-x mt-auto mb-auto pl-3"></i>
-                        </button>
-                        <i class="bi bi-search search-icon mx-3 font-12 position-absolute d-flex align-items-cennter"></i>
-                      </div>
-                    </form>
-                  </div>
-                  <div class="d-flex align-items-center justify-content-end w-100" style="padding-right:10px;">
-                    <button class="btn p-0 text-primary fw-semibold" type="button" data-bs-toggle="modal"
-                      data-bs-target="#sampleFileModal">
-                      <i class="bi bi-upload"></i> Upload Attendance
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div> -->
-
+           
             <div class="asset-assigned-search mt-3">
               <div class="d-flex justify-content-start align-items-center">
                   <div class="search-filter ">
@@ -226,13 +172,10 @@
                   </div>
                   <div class="search-date d-flex align-items-center justify-content-between position-relative w-100">
                           <div class="form-group w-100 position-relative">
-                              <!-- <input type="text" id="searchText" #searchInput placeholder="Search by name.." class="form-control me-2 w-100" style="padding: 10px 45px;" /> -->
+                             
                               <input type="text" id="searchText" placeholder="Search by name and role"
                               class="form-control me-2 ng-untouched ng-pristine ng-valid attendance-details-search font-13 w-100 bg-white border-rounded-2"
-                              (keyup)="searchUsers($event)" [(ngModel)]="searchText" [ngModelOptions]="{ standalone: true }"
-                              style="padding: 10px 40px" />
-                              <!-- <button *ngIf="searchText.length !== 0" type="button" class="btn close-btn fw-semibold font-20 text-primary pointer position-absolute"
-                              > -->
+                              (keyup)="searchUsers($event)" [(ngModel)]="searchText" [ngModelOptions]="{ standalone: true }" />
                               <i class="bi bi-x pl-3 pointer font-20 search-icon d-flex align-items-center h-100" *ngIf="searchText.length > 0" (click)="clearSearchText()"></i>
                               <i class="bi bi-search search-icon d-flex align-items-center h-100" *ngIf="searchText.length == 0"></i>
                           </div>
@@ -245,7 +188,7 @@
                   </div>
               </div>
 
-              <div class="not-assign-filter p-0 border position-absolute bg-white" [ngClass]="{'d-none': !showFilter}">                                   
+              <div class="attendance-list-filter p-0 p-0 border position-absolute bg-white border-rounded-2" [ngClass]="{'d-none': !showFilter}">                                   
                 <div class="d-flex align-items-center justify-content-between border-bottom p-3">
                    <h5 class="mb-0 font-14 fw-semibold"> Status Filter</h5>
                    <span class="pointer lh-1" (click)="changeShowFilter(false)">
@@ -439,9 +382,9 @@
                                 )
                               ">
                               <span class="font-12 fw-semibold">Break Timings</span> <span>|</span>
-                              <p class="mb-0">
-                                &nbsp; &nbsp;<i style="color: black" id="dropdownMenuButton"
-                                  class="bi bi-chevron-down"></i>
+                              <p class="mb-0 ">
+                                &nbsp; &nbsp;<i id="dropdownMenuButton"
+                                  class="bi bi-chevron-down text-black"></i>
                               </p>
                               
                               <div class="total-braek-time bg-white position-absolute">
@@ -512,7 +455,7 @@
 
               <ng-template #errorInFetchingAttendanceDetailsResponseData>
 
-                <div class="empty-file" style="margin-top: 20%;" *ngIf="networkConnectionErrorForAttendanceDetailsResponse">
+                <div class="empty-file mt-20p" *ngIf="networkConnectionErrorForAttendanceDetailsResponse">
                   <nz-empty nzNotFoundImage="assets/images/signal.svg"
                     [nzNotFoundContent]="contentTpl">
                     <ng-template #contentTpl>
@@ -526,7 +469,7 @@
                 </div>
 
 
-                <div class="empty-file" style="margin-top: 6%" *ngIf="dataNotFoundForAttendanceDetailsResponse">
+                <div class="empty-file mt-6p" *ngIf="dataNotFoundForAttendanceDetailsResponse">
                   <nz-empty nzNotFoundImage="assets/images/report-img.svg" [nzNotFoundContent]="contentTpl">
                     <ng-template #contentTpl>
                       <p class="mb-1 empty-detail font-16">No data for now</p>
@@ -550,7 +493,7 @@
                         <div class="col-md-12 mb-3">
                           <label for="username" class="pb-2">Notes Title</label>
                           <input type="text" id="username" placeholder="Enter title ..." name="username" required=""
-                            class="form-control fw-normal input-zorro font-12 border-rounded-2"
+                            class="form-control fw-normal input-zorro font-13 border-rounded-2"
                             [(ngModel)]="additionalNotes.title" />
                         </div>
                         <div class="col-md-12 mb-3">
@@ -751,7 +694,7 @@
                         <ng-template #errorInFetchingAttendanceLogData>
 
 
-                          <div class="empty-file" style="margin-top: 20%;" *ngIf="dataNotFoundPlaceholder">
+                          <div class="empty-file mt-20p" *ngIf="dataNotFoundPlaceholder">
                             <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
                               [nzNotFoundContent]="contentTpl">
                               <ng-template #contentTpl>
@@ -762,7 +705,7 @@
 
                          
 
-                          <div class="empty-file" style="margin-top: 20%;" *ngIf="networkConnectionErrorPlaceHolder">
+                          <div class="empty-file mt-20p" *ngIf="networkConnectionErrorPlaceHolder">
                             <nz-empty nzNotFoundImage="assets/images/signal.svg"
                               [nzNotFoundContent]="contentTpl">
                               <ng-template #contentTpl>
@@ -813,7 +756,7 @@
           </ng-container>
           <ng-template #notShowPlaceholder>
 
-            <div class="empty-file" style="margin-top: 6%">
+            <div class="empty-file mt-6p">
               <nz-empty nzNotFoundImage="assets/images/report-img.svg" [nzNotFoundContent]="contentTpl">
                 <ng-template #contentTpl>
                   <p class="mb-1 empty-detail font-16">No data for now</p>
@@ -830,7 +773,7 @@
                 <div class="my-leave-log-heading">
                   <h4 class="font-14 mb-0 fw-semibold">Requests</h4>
                 </div>
-                <hr style="margin-bottom: 10px" />
+                <hr class="mb-2"/>
                 <ul class="nav nav-tabs bg-white" role="tablist">
                   <li class="nav-item d-flex align-items-center" (click)="
                       changeLogTabInOvertimeTab(OVERTIME_PENDING_REQUEST_TAB);
@@ -884,11 +827,10 @@
                             <div class="col-auto">
                               <img *ngIf="overtimePendingRequestResponse.userImage" src="{{
                                   overtimePendingRequestResponse.userImage
-                                }}" alt="" class="thumb-md rounded-circle" style="width: 32px; height: 32px" />
+                                }}" alt="" class="thumb-md rounded-circle img img-32" />
                               <img *ngIf="
                                   !overtimePendingRequestResponse.userImage
-                                " src="assets/images/user.png" alt="" class="thumb-md rounded-circle"
-                                style="width: 32px; height: 32px" />
+                                " src="assets/images/user.png" alt="" class="thumb-md rounded-circle img-32" />
                             </div>
                             <!--end col-->
                             <div class="col">
@@ -958,7 +900,7 @@
 
                     <ng-template #errorWhileFetchingOvertimePendingRequestResponseListCondition>
                       
-                      <div class="empty-file" style="margin-top: 25%" *ngIf="
+                      <div class="empty-file mt-25p" *ngIf="
                           dataNotFoundForOvertimePendingRequestResponse &&
                           !networkConnectionErrorForOvertimePendingRequestResponse
                         ">
@@ -997,10 +939,9 @@
                             ">
                             <div class="col-auto">
                               <img *ngIf="overtimeRequestResponse.userImage"
-                                src="{{ overtimeRequestResponse.userImage }}" alt="" class="thumb-md rounded-circle"
-                                style="width: 32px; height: 32px" />
+                                src="{{ overtimeRequestResponse.userImage }}" alt="" class="thumb-md rounded-circle img-32" />
                               <img *ngIf="!overtimeRequestResponse.userImage" src="assets/images/user.png" alt=""
-                                class="thumb-md rounded-circle" style="width: 32px; height: 32px" />
+                                class="thumb-md rounded-circle img-32" />
                             </div>
                             <!--end col-->
                             <div class="col">
@@ -1079,7 +1020,7 @@
                     </ng-template>
                     <ng-template #errorWhileFetchingOvertimeRequestResponseListCondition>
                       
-                      <div class="empty-file" style="margin-top: 25%" *ngIf="
+                      <div class="empty-fil mt-25p" *ngIf="
                           dataNotFoundForOvertimeRequestResponse &&
                           !networkConnectionErrorForOvertimeRequestResponse
                         ">
@@ -1102,8 +1043,8 @@
                 <div class="my-leave-log-heading">
                   <h4  class="font-14 mb-0 fw-semibold">Logs</h4>
                 </div>
-                <hr style="margin-bottom: 10px" />
-                <div class="mb-3 d-flex align-items-center border-rounded-2" style="border: 1px solid #f1f1f1;">
+                <hr class="mb-2" />
+                <div class="mb-3 d-flex align-items-center border-rounded-2">
                  
                 </div>
                 
@@ -1227,7 +1168,7 @@
                 </ng-template>
                 <ng-template #errorWhileFetchingOvertimeRequestLogResponseListCondition>
                   
-                  <div class="empty-file" style="margin-top: 25%" *ngIf="
+                  <div class="empty-file mt-25p" *ngIf="
                       dataNotFoundForOvertimeRequestLogResponse &&
                       !networkConnectionErrorForOvertimeRequestLogResponse
                     ">
@@ -1250,7 +1191,7 @@
                 <div class="my-leave-log-heading">
                   <h4 class="font-14 mb-0 fw-semibold">Requests</h4>
                 </div>
-                <hr style="margin-bottom: 10px" />
+                <hr class="mb-2"/>
                 <ul class="nav nav-tabs bg-white" role="tablist">
                   <li class="nav-item d-flex align-items-center" (click)="
                       changeLogTabInAttendanceUpdateRequestTab(
@@ -1307,9 +1248,9 @@
                           <div class="row mt-2" *ngFor="let attendanceRequest of attendanceRequests">
                             <div class="col-auto">
                               <img *ngIf="attendanceRequest.userImage" src="{{ attendanceRequest.userImage }}" alt=""
-                                class="thumb-md rounded-circle" style="width: 32px; height: 32px" />
+                                class="thumb-md rounded-circle img-32" />
                               <img *ngIf="!attendanceRequest.userImage" src="assets/images/user.png" alt=""
-                                class="thumb-md rounded-circle" style="width: 32px; height: 32px" />
+                                class="thumb-md rounded-circle img-32" />
                             </div>
                             <!--end col-->
                             <div class="col">
@@ -1318,10 +1259,7 @@
                                   <div class="float-end">
                                     <div class="dropdown d-inline-block">
                                       <div class="align-self-center text-end">
-                                        <small>{{
-                                          attendanceRequest.createdDate
-                                          | date : "medium" || "N/A"
-                                          }}</small>
+                                        <small>{{ attendanceRequest.createdDate | date : "medium" || "N/A"  }}</small>
                                         <h5 class="fw-semibold">
                                           <!-- Request Type | {{attendanceRequest.attendanceStatus}} -->
                                           <span class="badge badge-outline-primary" *ngIf="
@@ -1411,7 +1349,7 @@
 
                     <ng-template #errorWhileFetchingAttendanceUpdatePendingRequestResponseListCondition>
                      
-                      <div class="empty-file" style="margin-top: 25%" *ngIf="
+                      <div class="empty-file mt-25p" *ngIf="
                           dataNotFoundForAttendanceUpdatePendingRequestResponse &&
                           !networkConnectionErrorForAttendanceUpdatePendingRequestResponse
                         ">
@@ -1454,10 +1392,10 @@
                             ">
                             <div class="col-auto">
                               <img *ngIf="attendanceRequestHistory.userImage"
-                                src="{{attendanceRequestHistory.userImage}}" alt="" class="thumb-md rounded-circle"
+                                src="{{attendanceRequestHistory.userImage}}" alt="" class="thumb-md rounded-circle img-32"
                                 style="width: 32px; height: 32px" />
                               <img *ngIf="!attendanceRequestHistory.userImage" src="assets/images/user.png" alt=""
-                                class="thumb-md rounded-circle" style="width: 32px; height: 32px" />
+                                class="thumb-md rounded-circle img-32" />
                             </div>
                             <!--end col-->
                             <div class="col">
@@ -1564,7 +1502,7 @@
                     <ng-template #errorWhileFetchingAttendanceUpdateRequestResponseListCondition>
                      
 
-                      <div class="empty-file" style="margin-top: 25%" *ngIf="
+                      <div class="empty-file mt-25p" *ngIf="
                           dataNotFoundForOvertimeRequestResponse &&
                           !networkConnectionErrorForOvertimeRequestResponse
                         ">
@@ -1587,7 +1525,7 @@
                 <div class="my-leave-log-heading">
                   <h4 class="font-14 mb-0 fw-semibold"> Logs</h4>
                 </div>
-                <hr style="margin-bottom: 10px" />
+                <hr class="mb-0" />
                 
 
                 <ng-container *ngIf="
@@ -1703,7 +1641,7 @@
                   </ng-container>
                 </ng-template>
                 <ng-template #errorWhileFetchingAttendanceUpdateRequestLogResponseListCondition>
-                  <div class="empty-file" style="margin-top: 25%" *ngIf="
+                  <div class="empty-file mb-25p" *ngIf="
                       dataNotFoundForAttendanceUpdateRequestLogResponse &&
                       !networkConnectionErrorForAttendanceUpdateRequestLogResponse
                     ">
@@ -1758,7 +1696,7 @@
                           </div>
                           <div class="search-date d-flex align-items-center justify-content-between position-relative w-100">
                                   <div class="form-group w-100 position-relative">
-                                      <input type="text" id="searchText" #searchInput placeholder="Search by name.." class="form-control me-2 w-100" style="padding: 10px 45px;" />
+                                      <input type="text" id="searchText" #searchInput placeholder="Search by name.." class="form-control me-2 w-100 search-padding" />
                                       <i class="bi bi-search search-icon d-flex align-items-center h-100"></i>
                                   </div>
                           </div>
@@ -2208,7 +2146,7 @@
                           </div>
                           <div class="search-date d-flex align-items-center justify-content-between position-relative w-100">
                                   <div class="form-group w-100 position-relative">
-                                      <input type="text" id="searchText" #searchInput placeholder="Search by name.." class="form-control me-2 w-100" style="padding: 10px 45px;" />
+                                      <input type="text" id="searchText" #searchInput placeholder="Search by name.." class="form-control me-2 w-100 search-padding"  />
                                       <i class="bi bi-search search-icon d-flex align-items-center h-100"></i>
                                   </div>
                           </div>
@@ -2531,861 +2469,843 @@
   </div>
 </div>
 
-<button type="button" style="display: none" data-bs-toggle="modal" data-bs-target="#attendancewithlocationss"
-  #attendancewithlocationssButton id="attendancewithlocationssButton"></button>
-<div class="modal fade" id="attendancewithlocationss" tabindex="-1" role="dialog"
-  aria-labelledby="attendancewithlocation" aria-hidden="true">
-  <div class="modal-dialog modal-md" role="document">
-    <form>
-      <div class="modal-content">
-        <div class="modal-header">
-          <h6 class="modal-title m-0" id="exampleModalDefaultLabel">
-            Staff Attendance Location
-          </h6>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-bs-toggle="modal"
-            data-bs-target="#viewlog"></button>
+
+
+<!-- attendance location modal start -->
+    <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#attendancewithlocationss"
+      #attendancewithlocationssButton id="attendancewithlocationssButton"></button>
+    <div class="modal fade" id="attendancewithlocationss" tabindex="-1" role="dialog"
+      aria-labelledby="attendancewithlocation" aria-hidden="true">
+      <div class="modal-dialog modal-md" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h6 class="modal-title m-0" id="exampleModalDefaultLabel"> Staff Attendance Location  </h6>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-bs-toggle="modal" data-bs-target="#viewlog"></button>
+            </div>
+            <div class="modal-body">
+              <div class="mb-10">
+                  <div class="el-card-item">
+                    <div class="el-card-avatar el-overlay-1">
+                      <div class="map">
+                        <agm-map class="map-height" [latitude]="lat" [longitude]="lng" [zoom]="zoom" [maxZoom]="20"
+                          [zoomControl]="true" [disableDefaultUI]="true" [keyboardShortcuts]="false">
+                          <agm-marker *ngIf="lat && lng" [latitude]="lat" [longitude]="lng" draggable="true"
+                            [agmFitBounds]="true"></agm-marker>
+                        </agm-map>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+<!-- attendance location modal ed -->
+
+<!-- attendance selfie modal start -->
+    <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#showDocModal"
+      #openDocModalButton id="openDocModalButton"></button>
+    <div class="modal blur-bg-2" id="showDocModal" tabindex="-1" data-bs-keyboard="false"
+      aria-labelledby="showDocModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-md">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="showDocModalLabel">Attendance Selfie</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-bs-toggle="modal"
+              data-bs-target="#viewlog"></button>
+          </div>
+          <div class="modal-body text-center attendance-selfie-modal">
+            <img *ngIf="isImage" [src]="previewString" alt="Attendance Selfie" class="img-100" />
+          </div>
+          <div class="modal-footer d-flex align-items-center justify-content-end gap-3">
+            <button class="btn btn-primary btn-sm" *ngIf="imageDownUrl" (click)="downloadFile(imageDownUrl)">
+              <span><i class="bi bi-download"></i> Download</span>
+            </button>
+          </div>
         </div>
-        <!--end modal-header-->
-        <div class="modal-body">
-          <div class="mb-10">
-            <section>
-              <div class="el-card-item">
-                <div class="el-card-avatar el-overlay-1">
-                  <div class="map">
-                    <agm-map style="height: 350px" [latitude]="lat" [longitude]="lng" [zoom]="zoom" [maxZoom]="20"
-                      [zoomControl]="true" [disableDefaultUI]="true" [keyboardShortcuts]="false">
-                      <agm-marker *ngIf="lat && lng" [latitude]="lat" [longitude]="lng" draggable="true"
-                        [agmFitBounds]="true"></agm-marker>
-                    </agm-map>
-                    <!--  #placesRef="ngx-places" -->
+      </div>
+    </div>
+<!-- attendance selfie modal end -->
+
+<!-- unprocessed logs modal start -->
+    <div class="modal fade" id="unprocessedLogsModal" tabindex="-1" aria-labelledby="unprocessedLogsModalLabel"
+      aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="unprocessedLogsModalLabel">
+              Unprocessed Logs
+              <span *ngIf="attendanceRequestCount > 0" class="badge bg-danger rounded-circle">
+                {{ attendanceRequestCount }}
+              </span>
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+
+          <div class="modal-body">
+            <!-- Nav Tabs -->
+            <ul class="nav nav-tabs" id="unprocessedLogsTabs" role="tablist">
+              <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="requests-tab" data-bs-toggle="tab" data-bs-target="#requests"
+                  type="button" role="tab" aria-controls="requests" aria-selected="true">
+                  Requests
+                </button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link" id="logs-tab" data-bs-toggle="tab" data-bs-target="#logs" type="button" role="tab"
+                  aria-controls="logs" aria-selected="false" (click)="openLogs()">
+                  Logs
+                </button>
+              </li>
+            </ul>
+            <!-- Tab Content -->
+            <div class="tab-content" id="unprocessedLogsTabsContent">
+              <div class="tab-pane fade show active" id="requests" role="tabpanel" aria-labelledby="requests-tab">
+                <!-- <div #logContainer
+                (scroll)="scrollDownRecentActivity($event)"> -->
+                <!-- Requests Content -->
+                <div class="search-bar mb-1 mt-2 form-group position-relative">
+                  <input type="text" class="form-control search-padding-40" placeholder="Search by user name..."
+                    [(ngModel)]="attendanceRequestSearchString" (ngModelChange)="onSearchChange($event)" />
+                  <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px"
+                    *ngIf="attendanceRequestSearchString == ''"></i>
+                  <i class="bi bi-x search-icon" style="margin: auto; margin-left: 10px"
+                    *ngIf="attendanceRequestSearchString != ''" (click)="clearSearchUsersOfRequestLogs()"></i>
+                </div>
+              
+
+                <div class="empty-file" *ngIf="fullAttendanceRequestCount == 0">
+                  <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
+                    <ng-template #contentTpl>
+                      <p class="mb-1 empty-detail font-16">No pending requests!</p>
+                    </ng-template>
+                  </nz-empty>
+                </div>
+                <div class="logs-container" *ngIf="fullAttendanceRequestCount > 0" #logContainer
+                  (scroll)="scrollDownRecentActivity($event)">
+                  <div class="log-entry p-3 mb-2 border-rounded-2" *ngFor="let log of attendanceRequests">
+                    <!-- <h6>Attendance Update Request</h6> -->
+                    <div class="log-header d-flex align-items-center justify-content-between" *ngIf="log.requestType === 'UPDATE'">
+                      <h6 class="m-0">
+                        Request Type:
+                        <span class="badge bg-soft-primary">Update ({{ log.attendanceStatus }})</span>
+                      </h6>
+                      <span class="badge bg-soft-warning" *ngIf="log.status == 'PENDING'">Pending</span>
+                      <span class="badge bg-soft-success" *ngIf="log.status == 'APPROVED'">Approved</span>
+                      <span class="badge bg-soft-danger" *ngIf="log.status == 'REJECTED'">Rejected</span>
+                    </div>
+                    <div class="log-header d-flex align-items-center justify-content-between" *ngIf="log.requestType === 'CREATE'">
+                      <h6 class="m-0">
+                        Request Type:
+                        <span class="badge bg-soft-primary">Create</span>
+                      </h6>
+                      <span class="badge bg-soft-warning" *ngIf="log.status == 'PENDING'">Pending</span>
+                      <span class="badge bg-soft-success" *ngIf="log.status == 'APPROVED'">Approved</span>
+                      <span class="badge bg-soft-danger" *ngIf="log.status == 'REJECTED'">Rejected</span>
+                    </div>
+                    <span *ngIf="log.requestType == 'UPDATE'">
+                      <p>
+                        <strong>Date:</strong>
+                        {{ log.createdDate | date : "MMM dd, yyyy 'at' hh:mm a" }}
+                      </p>
+                      <p>
+                        <strong>Original Date:</strong>
+                        {{ log.oldDate | date : "MMM dd, yyyy 'at' hh:mm a" }}
+                      </p>
+                      <p>
+                        <strong>Updated Date:</strong>
+                        {{ log.updatedDate | date : "MMM dd, yyyy 'at' hh:mm a" }}
+                      </p>
+                    </span>
+                    <span *ngIf="log.requestType == 'CREATE'">
+                      <p>
+                        <strong>In Request Date:</strong>
+                        {{ log.inRequestTime | date : "MMM dd, yyyy 'at' hh:mm a" }}
+                      </p>
+                      <p>
+                        <strong>Out Request Date:</strong>
+                        {{
+                        log.outRequestTime | date : "MMM dd, yyyy 'at' hh:mm a"
+                        }}
+                      </p>
+                    </span>
+                    <p><strong>User:</strong> {{ log.userName }}</p>
+                    <p><strong>Manager:</strong> {{ log.managerName }}</p>
+                    <p><strong>Reason:</strong> {{ log.requestReason }}</p>
+                    <div class="action-buttons d-flex align-items-center justify-contant-end" *ngIf="log.managerUuid === logInUserUuid || role == 'ADMIN'">
+                      <button class="btn btn-soft-success mx-2" (click)="approveOrReject(log.id, 'APPROVE')">
+                        Approve
+                      </button>
+                      <button class="btn btn-soft-danger mx-2" (click)="approveOrReject(log.id, 'REJECT')">
+                        Reject
+                      </button>
+                    </div>
+                  </div>
+                  <!-- Load More Button -->
+                  <div class="align-self-center text-center mt-2" *ngIf="
+                      fullAttendanceRequestCount > itemPerPageAttendanceRequest &&
+                      !isFullRequestLoader &&
+                      !initialLoadDone
+                    ">
+                    <button type="button" class="btn btn-xs btn-light btn-round" (click)="loadMoreAttendanceRequestLogs()">
+                      Load More <i class="bi bi-chevron-down"></i>
+                    </button>
+                  </div>
+                  <div class="text-center load-more-btn" *ngIf="isFullRequestLoader && !initialLoadDone">
+                    <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
+                    <div><small>Loading...</small></div>
                   </div>
                 </div>
               </div>
-              <!-- </div> -->
-            </section>
+              <div class="tab-pane fade" id="logs" role="tabpanel" aria-labelledby="logs-tab">
+                <!-- Logs Content -->
+                <div class="modal-body">
+                  <!-- <div #logContainerforFullLogs
+                  (scroll)="scrollDownRecentActivityforFullLogs($event)" > -->
+                  <div class="search-bar mb-1 mt-2 form-group position-relative">
+                    <input type="text" class="form-control search-padding-40" placeholder="Search by user name..."
+                      [(ngModel)]="fullAttendanceRequestSearchString" (input)="
+                        onSearchChangeOfFullAttendanceLogs( fullAttendanceRequestSearchString ) " />
+                    <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px"
+                      *ngIf="fullAttendanceRequestSearchString == ''"></i>
+                    <i class="bi bi-x search-icon" style="margin: auto; margin-left: 10px"
+                      *ngIf="fullAttendanceRequestSearchString != ''" (click)="clearSearchUsersOfFullLogs()"></i>
+                  </div>
+
+                
+
+                  <div class="empty-file" *ngIf="totalAttendanceRequestCount == 0">
+                    <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
+                      <ng-template #contentTpl>
+                        <p class="mb-1 empty-detail font-16">No data for now</p>
+                      </ng-template>
+                    </nz-empty>
+                  </div>
+                  <div class="logs-container" *ngIf="totalAttendanceRequestCount > 0" #logContainerforFullLogs
+                    (scroll)="scrollDownRecentActivityforFullLogs($event)">
+                    <div class="activity" *ngFor="let log of attendanceFullRequestLog">
+                      <div class="activity-info">
+                        <div class="icon-info-activity">
+                          <i class="ti ti-clock bg-soft-warning" *ngIf="log.status == 'PENDING'"></i>
+                          <i class="ti ti-checks bg-soft-success" *ngIf="log.status == 'APPROVED'"></i>
+                          <i class="ti ti-x bg-soft-danger" *ngIf="log.status == 'REJECTED'"></i>
+                        </div>
+                        <div class="activity-info-text">
+                          <div>
+                            <div class="float-end">
+                              <div class="btn btn-xs btn-light btn-round">
+                                {{ log.createdDate | date : "medium" || "N/A" }}
+                              </div>
+                            </div>
+                            <div class="media align-items-center">
+                              <div class="media-body ms-2 align-self-center">
+                                <h5 class="m-0 font-16">
+                                  {{ log.userName }}
+                                </h5>
+                                <p class="text-muted font-12 mb-0">
+                                  <span class="text-warning" *ngIf="log.status == 'PENDING'">Requested To</span>
+                                  <span class="text-success" *ngIf="log.status == 'APPROVED'">Approved By</span>
+                                  <span class="text-danger" *ngIf="log.status == 'REJECTED'">Rejected By</span>
+                                  {{ log.managerName }}
+                                </p>
+                              </div>
+                            </div>
+                            <hr class="hr-dashed" />
+                            <div class="d-flex justify-content-between flex-column" *ngIf="log.requestType == 'UPDATE'">
+                              <h6>
+                                Request Type:
+                                <span class="badge bg-soft-primary">{{
+                                  log.attendanceStatus
+                                  }}</span>
+                              </h6>
+                              <p>
+                                Original Date:
+                                <u>{{
+                                  log.oldDate | date : "MMM dd, yyyy 'at' hh:mm a"
+                                  }}</u>
+                              </p>
+                              <p>
+                                Updated Date:
+                                <u>{{
+                                  log.updatedDate
+                                  | date : "MMM dd, yyyy 'at' hh:mm a"
+                                  }}</u>
+                              </p>
+                            </div>
+                            <div class="d-flex justify-content-between flex-column" *ngIf="log.requestType == 'CREATE'">
+                              <p>
+                                In Time Date:
+                                <u>{{
+                                  log.inRequestTime
+                                  | date : "MMM dd, yyyy 'at' hh:mm a"
+                                  }}</u>
+                              </p>
+                              <p>
+                                Out Time Date:
+                                <u>{{
+                                  log.outRequestTime
+                                  | date : "MMM dd, yyyy 'at' hh:mm a"
+                                  }}</u>
+                              </p>
+                            </div>
+                            <h6>Reason:</h6>
+                            <p class="text-muted mb-0">
+                              {{ log.requestReason }}
+                            </p>
+                          </div>
+                          <hr class="hr-dashed" />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="align-self-center text-center mt-2" *ngIf="
+                        totalAttendanceRequestCount >
+                          itemPerPageFullAttendanceRequest &&
+                        !isRequestLoader &&
+                        !initialLoadDoneforFullLogs
+                      ">
+                      <button type="button" class="btn btn-xs btn-light btn-round" (click)="loadMoreLogs()">
+                        Load More <i class="bi bi-chevron-down"></i>
+                      </button>
+                    </div>
+                    <div class="text-center load-more-btn" *ngIf="isRequestLoader && !initialLoadDoneforFullLogs">
+                      <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
+                      <div><small>Loading...</small></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </form>
-  </div>
-</div>
-<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#showDocModal"
-  #openDocModalButton id="openDocModalButton"></button>
-<div class="modal blur-bg-2" id="showDocModal" tabindex="-1" data-bs-keyboard="false"
-  aria-labelledby="showDocModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-md">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="showDocModalLabel">Attendance Selfie</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-bs-toggle="modal"
-          data-bs-target="#viewlog"></button>
-      </div>
-      <div class="modal-body text-center" style="overflow: scroll; max-height: 350px">
-        <!-- <iframe *ngIf="previewString" [src]="previewString" style="width: 100%; height: 100vh" frameborder="0"></iframe> -->
-        <img *ngIf="isImage" [src]="previewString" alt="Attendance Selfie" style="max-width: 100%; height: 350px" />
-      </div>
-      <div class="modal-footer d-flex align-items-center justify-content-end gap-3">
-        <!-- <button type="button" class="btn btn-de-secondary" data-bs-dismiss="modal" aria-label="Close">Cancel</button> -->
-        <button class="btn btn-primary btn-sm" *ngIf="imageDownUrl" (click)="downloadFile(imageDownUrl)">
-          <span><i class="bi bi-download"></i> Download</span>
-        </button>
-      </div>
     </div>
-  </div>
-</div>
+<!-- unprocessed logs modal end -->
 
-<!-- Modal -->
-<div class="modal fade" id="unprocessedLogsModal" tabindex="-1" aria-labelledby="unprocessedLogsModalLabel"
-  aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="unprocessedLogsModalLabel">
-          Unprocessed Logs
-          <span *ngIf="attendanceRequestCount > 0" class="badge bg-danger rounded-circle">
-            {{ attendanceRequestCount }}
-          </span>
-        </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-
-      <div class="modal-body">
-        <!-- Nav Tabs -->
-        <ul class="nav nav-tabs" id="unprocessedLogsTabs" role="tablist">
-          <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="requests-tab" data-bs-toggle="tab" data-bs-target="#requests"
-              type="button" role="tab" aria-controls="requests" aria-selected="true">
-              Requests
+<!-- overtime request modal start -->
+    <div class="modal fade" id="overtime-request-action" tabindex="-1" role="dialog"
+      aria-labelledby="exampleModalDefaultLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+      <div class="modal-dialog modal-dialog-centered overtime-request-modal" role="document">
+        <div class="modal-content">
+          <div class="modal-body p-5">
+            <button type="button" class="overtime-request-action-close-btn position-absolute bg-white d-flex align-items-center justify-content-center" data-bs-dismiss="modal" aria-label="Close"
+              #closeOvertimeRequestActionModal>
+              <i class="bi bi-x lh-sm"></i>
             </button>
-          </li>
-          <li class="nav-item" role="presentation">
-            <button class="nav-link" id="logs-tab" data-bs-toggle="tab" data-bs-target="#logs" type="button" role="tab"
-              aria-controls="logs" aria-selected="false" (click)="openLogs()">
-              Logs
-            </button>
-          </li>
-        </ul>
-        <!-- Tab Content -->
-        <div class="tab-content" id="unprocessedLogsTabsContent">
-          <div class="tab-pane fade show active" id="requests" role="tabpanel" aria-labelledby="requests-tab">
-            <!-- <div #logContainer
-            (scroll)="scrollDownRecentActivity($event)"> -->
-            <!-- Requests Content -->
-            <div class="search-bar mb-1 mt-2 form-group position-relative">
-              <input type="text" class="form-control" placeholder="Search by user name..."
-                [(ngModel)]="attendanceRequestSearchString" (ngModelChange)="onSearchChange($event)"
-                style="padding: 10px 40px" />
-              <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px"
-                *ngIf="attendanceRequestSearchString == ''"></i>
-              <i class="bi bi-x search-icon" style="margin: auto; margin-left: 10px"
-                *ngIf="attendanceRequestSearchString != ''" (click)="clearSearchUsersOfRequestLogs()"></i>
-            </div>
-          
-
-            <div class="empty-file" *ngIf="fullAttendanceRequestCount == 0">
-              <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
-                <ng-template #contentTpl>
-                  <p class="mb-1 empty-detail font-16">No pending requests!</p>
-                </ng-template>
-              </nz-empty>
-            </div>
-            <div class="logs-container" *ngIf="fullAttendanceRequestCount > 0" #logContainer
-              (scroll)="scrollDownRecentActivity($event)">
-              <div class="log-entry p-3 mb-2 border-rounded-2" *ngFor="let log of attendanceRequests">
-                <!-- <h6>Attendance Update Request</h6> -->
-                <div class="log-header d-flex align-items-center justify-content-between" *ngIf="log.requestType === 'UPDATE'">
-                  <h6 class="m-0">
-                    Request Type:
-                    <span class="badge bg-soft-primary">Update ({{ log.attendanceStatus }})</span>
-                  </h6>
-                  <span class="badge bg-soft-warning" *ngIf="log.status == 'PENDING'">Pending</span>
-                  <span class="badge bg-soft-success" *ngIf="log.status == 'APPROVED'">Approved</span>
-                  <span class="badge bg-soft-danger" *ngIf="log.status == 'REJECTED'">Rejected</span>
+            <div class="text-center overtime-request-action-modal">
+              <div class="d-flex align-items-start justify-content-between">
+                <div class="d-flex align-items-center profile-details gap-3">
+                  <div class="profile-user-img">
+                    <img [src]="
+                        overtimeRequestActionResponse.userImage ||
+                        'assets/images/user.png'
+                      "/>
+                  </div>
+                  <div>
+                    <h4 class="font-18 text-black fw-semibold pointer pb-1 mb-0" (click)="
+                        this.helperService.routeToUserProfile(
+                          overtimeRequestActionResponse.userUuid
+                        )
+                      ">
+                      {{ overtimeRequestActionResponse.userName }}
+                    </h4>
+                    <p class="font-13 fw-normal pb-0 text-left lh-base mb-0">{{ overtimeRequestActionResponse.userEmail }}</p>
+                  </div>
                 </div>
-                <div class="log-header d-flex align-items-center justify-content-between" *ngIf="log.requestType === 'CREATE'">
-                  <h6 class="m-0">
-                    Request Type:
-                    <span class="badge bg-soft-primary">Create</span>
-                  </h6>
-                  <span class="badge bg-soft-warning" *ngIf="log.status == 'PENDING'">Pending</span>
-                  <span class="badge bg-soft-success" *ngIf="log.status == 'APPROVED'">Approved</span>
-                  <span class="badge bg-soft-danger" *ngIf="log.status == 'REJECTED'">Rejected</span>
+                <div class="total-holidey-live">
+                  <h5 class="fw-normal mb-3 pb-0 fw-semibold">
+                    <p class="font-13 fw-normal pb-0 text-right lh-base mb-0">
+                      {{
+                      overtimeRequestActionResponse.createdDate
+                      | date : "dd MMM yyyy hh:mm a"
+                      }}
+                    </p>
+                  </h5>
                 </div>
-                <span *ngIf="log.requestType == 'UPDATE'">
-                  <p>
-                    <strong>Date:</strong>
-                    {{ log.createdDate | date : "MMM dd, yyyy 'at' hh:mm a" }}
+              </div>
+              <div class="mt-4">
+                <div class="overtime-request-action-field">
+                  <p  class="font-13 fw-normal pb-0 text-left lh-base">
+                    <span>Time: </span><u>{{
+                      overtimeRequestActionResponse.startTime
+                      | date : "d MMM, h:mm a"
+                      }}
+                      -
+                      {{
+                      overtimeRequestActionResponse.endTime
+                      | date : "d MMM, h:mm a"
+                      }}</u>
                   </p>
-                  <p>
-                    <strong>Original Date:</strong>
-                    {{ log.oldDate | date : "MMM dd, yyyy 'at' hh:mm a" }}
-                  </p>
-                  <p>
-                    <strong>Updated Date:</strong>
-                    {{ log.updatedDate | date : "MMM dd, yyyy 'at' hh:mm a" }}
-                  </p>
-                </span>
-                <span *ngIf="log.requestType == 'CREATE'">
-                  <p>
-                    <strong>In Request Date:</strong>
-                    {{ log.inRequestTime | date : "MMM dd, yyyy 'at' hh:mm a" }}
-                  </p>
-                  <p>
-                    <strong>Out Request Date:</strong>
-                    {{
-                    log.outRequestTime | date : "MMM dd, yyyy 'at' hh:mm a"
+                  <p class="font-13 fw-normal pb-0 text-left lh-base">
+                    <span>Duration: </span>{{
+                    this.helperService.formatHHmmssToHHmm(
+                    overtimeRequestActionResponse.workingHour
+                    )
                     }}
+                    hrs.
                   </p>
-                </span>
-                <p><strong>User:</strong> {{ log.userName }}</p>
-                <p><strong>Manager:</strong> {{ log.managerName }}</p>
-                <p><strong>Reason:</strong> {{ log.requestReason }}</p>
-                <div class="action-buttons d-flex align-items-center justify-contant-end" *ngIf="log.managerUuid === logInUserUuid || role == 'ADMIN'">
-                  <button class="btn btn-soft-success mx-2" (click)="approveOrReject(log.id, 'APPROVE')">
-                    Approve
+                  <p class="font-13 fw-normal pb-0 text-left lh-base">
+                    <span>Applied To: </span>{{ overtimeRequestActionResponse.managerName }}
+                  </p>
+                  <p class="font-13 fw-normal pb-0 text-left lh-base"><span>Note: </span>{{ overtimeRequestActionResponse.note }}</p>
+                </div>
+                <!-- *ngIf="
+                specificLeaveRequest.managerUuid === logInUserUuid ||
+                ROLE == 'ADMIN'" -->
+                <div class="d-flex align-items-center justify-content-end gap-2">
+                  <!-- Reject Button -->
+                  <button class="btn reject-btn" type="button" (click)="
+                      approveOrRejectOvertimeRequestMethodCall(
+                        overtimeRequestActionResponse.overtimeRequestId,
+                        this.key.REJECTED
+                      )
+                    ">
+                    <div *ngIf="rejectLoader; else rejectLabel">
+                      <div class="dot-opacity-loader-reject">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                      </div>
+                    </div>
+                    <ng-template #rejectLabel>Reject</ng-template>
                   </button>
-                  <button class="btn btn-soft-danger mx-2" (click)="approveOrReject(log.id, 'REJECT')">
-                    Reject
+                  <!-- Approve Button -->
+                  <button class="btn approve-btn" type="button" (click)="
+                      approveOrRejectOvertimeRequestMethodCall(
+                        overtimeRequestActionResponse.overtimeRequestId,
+                        this.key.APPROVED
+                      )
+                    ">
+                    <div *ngIf="approveLoader; else approveLabel">
+                      <div class="dot-opacity-loader-approve">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                      </div>
+                    </div>
+                    <ng-template #approveLabel>Approve</ng-template>
                   </button>
                 </div>
-              </div>
-              <!-- Load More Button -->
-              <div class="align-self-center text-center mt-2" *ngIf="
-                  fullAttendanceRequestCount > itemPerPageAttendanceRequest &&
-                  !isFullRequestLoader &&
-                  !initialLoadDone
-                ">
-                <button type="button" class="btn btn-xs btn-light btn-round" (click)="loadMoreAttendanceRequestLogs()">
-                  Load More <i class="bi bi-chevron-down"></i>
-                </button>
-              </div>
-              <div class="text-center load-more-btn" *ngIf="isFullRequestLoader && !initialLoadDone">
-                <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
-                <div><small>Loading...</small></div>
               </div>
             </div>
           </div>
-          <div class="tab-pane fade" id="logs" role="tabpanel" aria-labelledby="logs-tab">
-            <!-- Logs Content -->
-            <div class="modal-body">
-              <!-- <div #logContainerforFullLogs
-               (scroll)="scrollDownRecentActivityforFullLogs($event)" > -->
-              <div class="search-bar mb-1 mt-2 form-group position-relative">
-                <input type="text" class="form-control" placeholder="Search by user name..."
-                  [(ngModel)]="fullAttendanceRequestSearchString" (input)="
-                    onSearchChangeOfFullAttendanceLogs(
-                      fullAttendanceRequestSearchString
-                    )
-                  " style="padding: 10px 40px" />
-                <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px"
-                  *ngIf="fullAttendanceRequestSearchString == ''"></i>
-                <i class="bi bi-x search-icon" style="margin: auto; margin-left: 10px"
-                  *ngIf="fullAttendanceRequestSearchString != ''" (click)="clearSearchUsersOfFullLogs()"></i>
+        </div>
+      </div>
+    </div>
+<!-- overtime request modal end -->
+
+<!-- attendance update request modal start -->
+    <div class="modal fade" id="attendance-update-request-action" tabindex="-1" role="dialog"
+      aria-labelledby="exampleModalDefaultLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+      <div class="modal-dialog modal-dialog-centered overtime-request-modal" role="document">
+        <div class="modal-content">
+          <div class="modal-body p-5">
+            <button type="button" class="overtime-request-action-close-btn position-absolute bg-white d-flex align-items-center justify-content-center" data-bs-dismiss="modal" aria-label="Close"
+              #closeAttendanceUpdateRequestActionModal>
+              <i class="bi bi-x lh-sm"></i>
+            </button>
+            <div class="text-center overtime-request-action-modal">
+              <div class="d-flex align-items-start justify-content-between">
+                <div class="d-flex align-items-center profile-details gap-3">
+                  <div class="profile-user-img">
+                    <img [src]="
+                        attendanceUpdateRequestActionResponse.userImage ||
+                        'assets/images/user.png'
+                      " />
+                  </div>
+                  <div>
+                    <h4 class="font-18 text-black fw-semibold pointer pb-1 mb-0" (click)="
+                        this.helperService.routeToUserProfile(
+                          attendanceUpdateRequestActionResponse.userUuid
+                        )
+                      ">
+                      {{ attendanceUpdateRequestActionResponse.userName }}
+                    </h4>
+                    <p class="font-13 fw-normal pb-0 text-left lh-base mb-0">{{ attendanceUpdateRequestActionResponse.userEmail }}</p>
+                  </div>
+                </div>
+                <div class="total-holidey-live text-end">
+                  <h5 class="font-14 fw-normal mb-3 pb-0 fw-semibold">
+                    <p class="font-13 fw-normal pb-0 text-right lh-base  mb-0">
+                      {{
+                      attendanceUpdateRequestActionResponse.createdDate
+                      | date : "dd MMM yyyy hh:mm a"
+                      }}
+                    </p>
+                    <span class="badge badge-outline-primary" *ngIf="
+                        attendanceUpdateRequestActionResponse.requestType ===
+                        'UPDATE'
+                      ">Request Type |
+                      {{
+                      attendanceUpdateRequestActionResponse.attendanceStatus
+                      | uppercase
+                      }}</span>
+                    <span class="badge badge-outline-primary" *ngIf="
+                        attendanceUpdateRequestActionResponse.requestType ===
+                        'CREATE'
+                      ">New Request !</span>
+                  </h5>
+                  <!-- <h5>{{ formatDateIn(formatDate(specificLeaveRequest.startDate)) }} - {{ formatDateIn(formatDate(specificLeaveRequest.endDate)) }}</h5> -->
+                </div>
+              </div>
+              <div class="mt-4">
+                <div class="overtime-request-action-field">
+                  <ng-container *ngIf="
+                      attendanceUpdateRequestActionResponse.requestType === 'UPDATE'
+                    ">
+                    <p class="font-13 fw-normal pb-0 text-left lh-base">
+                      <span>Previous Time: </span><u>{{
+                        attendanceUpdateRequestActionResponse.oldDate
+                        | date : "d MMM, h:mm a"
+                        }}</u>
+                    </p>
+                    <p class="font-13 fw-normal pb-0 text-left lh-base">
+                      <span>Requested Time: </span><u>{{
+                        attendanceUpdateRequestActionResponse.updatedDate
+                        | date : "d MMM, h:mm a"
+                        }}</u>
+                    </p>
+                  </ng-container>
+                  <ng-container *ngIf="
+                      attendanceUpdateRequestActionResponse.requestType === 'CREATE'
+                    ">
+                    <p class="font-13 fw-normal pb-0 text-left lh-base">
+                      <span>In Time: </span><u>{{
+                        attendanceUpdateRequestActionResponse.inRequestTime
+                        | date : "d MMM, h:mm a"
+                        }}</u>
+                    </p>
+                    <p class="font-13 fw-normal pb-0 text-left lh-base">
+                      <span>Out Time: </span><u>{{
+                        attendanceUpdateRequestActionResponse.outRequestTime
+                        | date : "d MMM, h:mm a"
+                        }}</u>
+                    </p>
+                  </ng-container>
+                  <p class="font-13 fw-normal pb-0 text-left lh-base">
+                    <span>Applied To: </span>{{ attendanceUpdateRequestActionResponse.managerName }}
+                  </p>
+                  <p class="font-13 fw-normal pb-0 text-left lh-base">
+                    <span>Note: </span>{{ attendanceUpdateRequestActionResponse.requestReason }}
+                  </p>
+                </div>
+                <!-- *ngIf="
+                specificLeaveRequest.managerUuid === logInUserUuid ||
+                ROLE == 'ADMIN'" -->
+                <div class="d-flex align-items-center justify-content-end gap-2">
+                  <!-- Reject Button -->
+                  <button class="btn reject-btn" type="button" (click)="
+                      approveOrReject(
+                        attendanceUpdateRequestActionResponse.id,
+                        'REJECT'
+                      )
+                    ">
+                    <div *ngIf="attendanceUpdateRequestRejectLoader; else rejectLabel">
+                      <div class="dot-opacity-loader-reject">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                      </div>
+                    </div>
+                    <ng-template #rejectLabel>Reject</ng-template>
+                  </button>
+                  <!-- Approve Button -->
+                  <button class="btn approve-btn" type="button" (click)="
+                      approveOrReject(
+                        attendanceUpdateRequestActionResponse.id,
+                        'APPROVE'
+                      )
+                    ">
+                    <div *ngIf="
+                        attendanceUpdateRequestApproveLoader;
+                        else approveLabel
+                      ">
+                      <div class="dot-opacity-loader-approve">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                      </div>
+                    </div>
+                    <ng-template #approveLabel>Approve</ng-template>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+<!-- attendance update request modal end -->
+
+<!-- attenbdance bulk upload modal  -->
+    <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#sampleFileModal"
+      id="uploadMembersModal" #sampleFileModalButton>
+      Open Sample File Modal
+    </button>
+
+    <div class="modal fade" id="sampleFileModal" tabindex="-1" aria-labelledby="sampleFileModalLabel" aria-hidden="true"
+      #sampleFileModal>
+      <div class="modal-dialog modal-xl modal-dialog-centered bulk-upload-modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="sampleFileModalLabel">Sample Excel File</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="resetModal()"
+              #closeSampleFileModal></button>
+          </div>
+          <div class="modal-body">
+            <ng-container *ngIf="
+            !isShimmerModal &&
+            attendanceUploadCountForUser == 0 &&
+            !networkConnectionErrorPlaceholderModal
+          ">
+              <div class="col-md-12">
+                <div class="card-body mt-0 p-0">
+                  <div class="alert alert-light mb-0" role="alert">
+                    <h4 class="alert-heading font-18">
+                      Download the Sample Excel File!
+                    </h4>
+                    <p class="font-14 fw-light">
+                      Look for the sample file titled "Sample_Data.xlsx" and click
+                      on the download button to save it to your computer.
+                    </p>
+                    <p class="font-14 fw-light">
+                      Take a moment to review the existing data in the Excel file.
+                      This will help you understand the structure and content of the
+                      data before making any updates.
+                    </p>
+                    <p class="font-14 fw-light">
+                      <span class="text-primary">
+                        <u><a class="text-primary" href="{{ sampleFileUrl }}">Download a sample Excel file</a></u>
+                      </span>
+                      , update its data, and upload it back with the updated content
+                      on our platform
+                    </p>
+                  </div>
+                </div>
+                <div class="card-body mt-3 p-0">
+                  <div class="alert alert-light mb-0 excel-upload-file-box text-center">
+                    <input id="fileSelect" type="file" accept=".xlsx,application/vnd.ms-excel" name="img[]" class="input"
+                      (change)="selectFile($event)" />
+                    <img src="assets/images/excel.svg" class="pb-3 img-50 " />
+                    <p class="font-14 fw-light">
+                      Drag file here to upload or,
+                      <u><a class="text-primary" href="#!">Choose file</a></u>
+                    </p>
+                    <div *ngIf="isProgressToggle" class="spinner-border text-success" role="status"></div>
+                  </div>
+                </div>
+              </div>
+              <div #attention class="create-password-warning waring-box p-3 mb-0 mt-4 ng-star-inserted text-start" *ngIf="
+                  phoneNumberNotFoundArray.length > 0 ||
+                  emailNotFoundArray.length > 0 ||
+                  this.mismatches.length > 0 ||
+                  isErrorToggle">
+                <h4 class="alert-heading font-18 text-danger">Attention!!</h4>
+                <ul  class="pl-3">
+                  <li class="mb-1" *ngIf="this.mismatches.length > 0">
+
+                    {{ this.mismatches }}
+                  </li>
+                  <li class="mb-1" *ngIf="phoneNumberNotFoundArray.length > 0">
+                    Phone Numbers:
+                    {{ formatAsCommaSeparated(phoneNumberNotFoundArray) }}
+                  </li>
+                  <li class="mb-1" *ngIf="emailNotFoundArray.length > 0">
+                    Emails: {{ formatAsCommaSeparated(emailNotFoundArray) }}
+                  </li>
+                  <li class="mb-1" *ngIf="isErrorToggle">Error: {{ errorMessage }}
+                    <a href="{{uploadedExcelLink}}" class="button" download="CreateAttendance_1733998263065.xlsx"
+                      *ngIf="uploadedExcelLink">
+                      Download Attendance Excel
+                    </a>
+                  </li>
+
+
+                </ul>
               </div>
 
-            
+            </ng-container>
+            <ng-container *ngIf="
+                isShimmerModal &&
+                attendanceUploadCountForUser == 0 &&
+                  !networkConnectionErrorPlaceholderModal
+                else onboardUserListCondition
+              ">
+              <div class="">
+                <div class="text-end">
+                  <ngx-shimmer-loading [width]="'30%'" [height]="'40px'" class="radius-50" ></ngx-shimmer-loading>
+                </div>
+              </div>
+              <div class="mt-3 mb-2 border-rounded-2 p-2 attendance-border" *ngFor="let number of [1, 2, 3, 4, 5]">
+                <div class="row mt-3">
+                  <div class="col-md-2">
+                    <div class="">
+                      <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                      class="radius-50" ></ngx-shimmer-loading>
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="">
+                      <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                      class="radius-50"></ngx-shimmer-loading>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="">
+                      <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                      class="radius-50"></ngx-shimmer-loading>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="">
+                      <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                      class="radius-50" ></ngx-shimmer-loading>
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="">
+                      <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                      class="radius-50" ></ngx-shimmer-loading>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
 
-              <div class="empty-file" *ngIf="totalAttendanceRequestCount == 0">
-                <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
+            <ng-template #onboardUserListCondition>
+              <ng-container *ngIf="
+                  !isShimmerModal &&
+                  attendanceUploadCountForUser != 0 &&
+                    !networkConnectionErrorPlaceholderModal;
+                  else errorInOnboardUserListCondition
+                ">
+                <div>
+                  <div class="d-flex align-items-start justify-content-between">
+                    <h5>Attendance Upload : <span class="font-14"> {{attendanceUploadCountForUser}} Users Attendance
+                        Uploaded Successfully. </span></h5>
+                    <a href="{{uploadedExcelLink}}" class="text-primary font-13 fw-semibold"
+                      download="CreateAttendance_1733998263065.xlsx" *ngIf="uploadedExcelLink"><i
+                        class="bi bi-download"></i> Download Attendance Excel
+                    </a>
+                  </div>
+
+
+
+                  <p class="mb-1" *ngIf="phoneNumberNotFoundArray.length > 0">
+
+                    <span class="fw-semibold"> 1. Phone Numbers: </span> {{ formatAsCommaSeparated(phoneNumberNotFoundArray)
+                    }} Not Found.
+                  </p>
+                  <p class="mb-1" *ngIf="emailNotFoundArray.length > 0">
+                    <span class="fw-semibold"> 2. Emails: </span> {{ formatAsCommaSeparated(emailNotFoundArray) }} Not
+                    Found.
+                  </p>
+                </div>
+                <div class="alert alert-light mb-0 mt-3 bg-soft-success" role="alert">
+                  <h4 class="alert-heading font-18">
+                    Note:
+                  </h4>
+                  <p class="mb-0 fot-14 fw-light">
+                    Attendance for {{attendanceUploadCountForUser}} users has been uploaded successfully.
+                    Please close this modal and select the date range from attendance date selector to check attendance for
+                    the uploaded users.
+                  </p>
+                </div>
+              </ng-container>
+            </ng-template>
+
+            <ng-template #errorInOnboardUserListCondition>
+
+              <div class="empty-file mt-20p" *ngIf="networkConnectionErrorPlaceholderModal">
+                <nz-empty nzNotFoundImage="assets/images/signal.svg"
+                  [nzNotFoundContent]="contentTpl">
                   <ng-template #contentTpl>
-                    <p class="mb-1 empty-detail font-16">No data for now</p>
+                    <p class="mb-3 empty-detail font-16">Something went wrong</p>
+                    <p class="mb-0 font-13"> An error occurred while processing your request! </p>
                   </ng-template>
                 </nz-empty>
               </div>
-              <div class="logs-container" *ngIf="totalAttendanceRequestCount > 0" #logContainerforFullLogs
-                (scroll)="scrollDownRecentActivityforFullLogs($event)">
-                <div class="activity" *ngFor="let log of attendanceFullRequestLog">
-                  <div class="activity-info">
-                    <div class="icon-info-activity">
-                      <i class="ti ti-clock bg-soft-warning" *ngIf="log.status == 'PENDING'"></i>
-                      <i class="ti ti-checks bg-soft-success" *ngIf="log.status == 'APPROVED'"></i>
-                      <i class="ti ti-x bg-soft-danger" *ngIf="log.status == 'REJECTED'"></i>
-                    </div>
-                    <div class="activity-info-text">
-                      <div>
-                        <div class="float-end">
-                          <div class="btn btn-xs btn-light btn-round">
-                            {{ log.createdDate | date : "medium" || "N/A" }}
-                          </div>
-                        </div>
-                        <div class="media align-items-center">
-                          <div class="media-body ms-2 align-self-center">
-                            <h5 class="m-0 font-16">
-                              {{ log.userName }}
-                            </h5>
-                            <p class="text-muted font-12 mb-0">
-                              <span class="text-warning" *ngIf="log.status == 'PENDING'">Requested To</span>
-                              <span class="text-success" *ngIf="log.status == 'APPROVED'">Approved By</span>
-                              <span class="text-danger" *ngIf="log.status == 'REJECTED'">Rejected By</span>
-                              {{ log.managerName }}
-                            </p>
-                          </div>
-                        </div>
-                        <hr class="hr-dashed" />
-                        <div class="d-flex justify-content-between flex-column" *ngIf="log.requestType == 'UPDATE'">
-                          <h6>
-                            Request Type:
-                            <span class="badge bg-soft-primary">{{
-                              log.attendanceStatus
-                              }}</span>
-                          </h6>
-                          <p>
-                            Original Date:
-                            <u>{{
-                              log.oldDate | date : "MMM dd, yyyy 'at' hh:mm a"
-                              }}</u>
-                          </p>
-                          <p>
-                            Updated Date:
-                            <u>{{
-                              log.updatedDate
-                              | date : "MMM dd, yyyy 'at' hh:mm a"
-                              }}</u>
-                          </p>
-                        </div>
-                        <div class="d-flex justify-content-between flex-column" *ngIf="log.requestType == 'CREATE'">
-                          <p>
-                            In Time Date:
-                            <u>{{
-                              log.inRequestTime
-                              | date : "MMM dd, yyyy 'at' hh:mm a"
-                              }}</u>
-                          </p>
-                          <p>
-                            Out Time Date:
-                            <u>{{
-                              log.outRequestTime
-                              | date : "MMM dd, yyyy 'at' hh:mm a"
-                              }}</u>
-                          </p>
-                        </div>
-                        <h6>Reason:</h6>
-                        <p class="text-muted mb-0">
-                          {{ log.requestReason }}
-                        </p>
-                      </div>
-                      <hr class="hr-dashed" />
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Load More Button -->
-                <!-- {{initialLoadDoneforFullLogs}} -->
-                <div class="align-self-center text-center mt-2" *ngIf="
-                    totalAttendanceRequestCount >
-                      itemPerPageFullAttendanceRequest &&
-                    !isRequestLoader &&
-                    !initialLoadDoneforFullLogs
-                  ">
-                  <button type="button" class="btn btn-xs btn-light btn-round" (click)="loadMoreLogs()">
-                    Load More <i class="bi bi-chevron-down"></i>
-                  </button>
-                </div>
-                <div class="text-center load-more-btn" *ngIf="isRequestLoader && !initialLoadDoneforFullLogs">
-                  <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
-                  <div><small>Loading...</small></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-      </div> -->
-    </div>
-  </div>
-</div>
-
-<!-- overtime request action modal -->
-<div class="modal fade" id="overtime-request-action" tabindex="-1" role="dialog"
-  aria-labelledby="exampleModalDefaultLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-  <div class="modal-dialog modal-dialog-centered" style="max-width: 570px" role="document">
-    <div class="modal-content">
-      <div class="modal-body p-5">
-        <button type="button" class="overtime-request-action-close-btn position-absolute bg-white d-flex align-items-center justify-content-center" data-bs-dismiss="modal" aria-label="Close"
-          #closeOvertimeRequestActionModal>
-          <i class="bi bi-x" style="line-height: 20px"></i>
-        </button>
-        <div class="text-center overtime-request-action-modal">
-          <div class="d-flex align-items-start justify-content-between">
-            <div class="d-flex align-items-center profile-details gap-3">
-              <div class="profile-user-img">
-                <img [src]="
-                    overtimeRequestActionResponse.userImage ||
-                    'assets/images/user.png'
-                  "/>
-              </div>
-              <div>
-                <h4 class="font-18 text-black fw-semibold pointer pb-1 mb-0" (click)="
-                    this.helperService.routeToUserProfile(
-                      overtimeRequestActionResponse.userUuid
-                    )
-                  ">
-                  {{ overtimeRequestActionResponse.userName }}
-                </h4>
-                <p class="font-13 fw-normal pb-0 text-left lh-base mb-0">{{ overtimeRequestActionResponse.userEmail }}</p>
-              </div>
-            </div>
-            <div class="total-holidey-live">
-              <h5 class="fw-normal mb-3 pb-0 fw-semibold">
-                <p class="font-13 fw-normal pb-0 text-right lh-base mb-0">
-                  {{
-                  overtimeRequestActionResponse.createdDate
-                  | date : "dd MMM yyyy hh:mm a"
-                  }}
-                </p>
-              </h5>
-              <!-- <h5>{{ formatDateIn(formatDate(specificLeaveRequest.startDate)) }} - {{ formatDateIn(formatDate(specificLeaveRequest.endDate)) }}</h5> -->
-            </div>
-          </div>
-          <div class="mt-4">
-            <div class="overtime-request-action-field">
-              <p  class="font-13 fw-normal pb-0 text-left lh-base">
-                <span>Time: </span><u>{{
-                  overtimeRequestActionResponse.startTime
-                  | date : "d MMM, h:mm a"
-                  }}
-                  -
-                  {{
-                  overtimeRequestActionResponse.endTime
-                  | date : "d MMM, h:mm a"
-                  }}</u>
-              </p>
-              <p class="font-13 fw-normal pb-0 text-left lh-base">
-                <span>Duration: </span>{{
-                this.helperService.formatHHmmssToHHmm(
-                overtimeRequestActionResponse.workingHour
-                )
-                }}
-                hrs.
-              </p>
-              <p class="font-13 fw-normal pb-0 text-left lh-base">
-                <span>Applied To: </span>{{ overtimeRequestActionResponse.managerName }}
-              </p>
-              <p class="font-13 fw-normal pb-0 text-left lh-base"><span>Note: </span>{{ overtimeRequestActionResponse.note }}</p>
-            </div>
-            <!-- *ngIf="
-            specificLeaveRequest.managerUuid === logInUserUuid ||
-            ROLE == 'ADMIN'" -->
-            <div class="d-flex align-items-center justify-content-end" style="gap: 10px">
-              <!-- Reject Button -->
-              <button class="btn reject-btn" type="button" (click)="
-                  approveOrRejectOvertimeRequestMethodCall(
-                    overtimeRequestActionResponse.overtimeRequestId,
-                    this.key.REJECTED
-                  )
-                ">
-                <div *ngIf="rejectLoader; else rejectLabel">
-                  <div class="dot-opacity-loader-reject">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                  </div>
-                </div>
-                <ng-template #rejectLabel>Reject</ng-template>
-              </button>
-              <!-- Approve Button -->
-              <button class="btn approve-btn" type="button" (click)="
-                  approveOrRejectOvertimeRequestMethodCall(
-                    overtimeRequestActionResponse.overtimeRequestId,
-                    this.key.APPROVED
-                  )
-                ">
-                <div *ngIf="approveLoader; else approveLabel">
-                  <div class="dot-opacity-loader-approve">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                  </div>
-                </div>
-                <ng-template #approveLabel>Approve</ng-template>
-              </button>
-            </div>
+            </ng-template>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</div>
+<!-- attenbdance bulk upload modal end -->
 
-<!-- attendance update request action modal -->
-<div class="modal fade" id="attendance-update-request-action" tabindex="-1" role="dialog"
-  aria-labelledby="exampleModalDefaultLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-  <div class="modal-dialog modal-dialog-centered" style="max-width: 570px" role="document">
-    <div class="modal-content">
-      <div class="modal-body p-5">
-        <button type="button" class="overtime-request-action-close-btn position-absolute bg-white d-flex align-items-center justify-content-center" data-bs-dismiss="modal" aria-label="Close"
-          #closeAttendanceUpdateRequestActionModal>
-          <i class="bi bi-x" style="line-height: 20px"></i>
-        </button>
-        <div class="text-center overtime-request-action-modal">
-          <div class="d-flex align-items-start justify-content-between">
-            <div class="d-flex align-items-center profile-details gap-3">
-              <div class="profile-user-img">
-                <img [src]="
-                    attendanceUpdateRequestActionResponse.userImage ||
-                    'assets/images/user.png'
-                  " />
-              </div>
-              <div>
-                <h4 class="font-18 text-black fw-semibold pointer pb-1 mb-0" (click)="
-                    this.helperService.routeToUserProfile(
-                      attendanceUpdateRequestActionResponse.userUuid
-                    )
-                  ">
-                  {{ attendanceUpdateRequestActionResponse.userName }}
-                </h4>
-                <p class="font-13 fw-normal pb-0 text-left lh-base mb-0">{{ attendanceUpdateRequestActionResponse.userEmail }}</p>
-              </div>
-            </div>
-            <div class="total-holidey-live text-end">
-              <h5 class="font-14 fw-normal mb-3 pb-0 fw-semibold">
-                <p class="font-13 fw-normal pb-0 text-right lh-base  mb-0">
-                  {{
-                  attendanceUpdateRequestActionResponse.createdDate
-                  | date : "dd MMM yyyy hh:mm a"
-                  }}
-                </p>
-                <span class="badge badge-outline-primary" *ngIf="
-                    attendanceUpdateRequestActionResponse.requestType ===
-                    'UPDATE'
-                  ">Request Type |
-                  {{
-                  attendanceUpdateRequestActionResponse.attendanceStatus
-                  | uppercase
-                  }}</span>
-                <span class="badge badge-outline-primary" *ngIf="
-                    attendanceUpdateRequestActionResponse.requestType ===
-                    'CREATE'
-                  ">New Request !</span>
-              </h5>
-              <!-- <h5>{{ formatDateIn(formatDate(specificLeaveRequest.startDate)) }} - {{ formatDateIn(formatDate(specificLeaveRequest.endDate)) }}</h5> -->
-            </div>
+<!--attendance request modal start -->
+    <div class="modal fade" id="attendanceRequest" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+      <div class="modal-dialog modal-dialog-centered" style="max-width: 600px;">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Attendance Request</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <div class="mt-4">
-            <div class="overtime-request-action-field">
-              <ng-container *ngIf="
-                  attendanceUpdateRequestActionResponse.requestType === 'UPDATE'
-                ">
-                <p class="font-13 fw-normal pb-0 text-left lh-base">
-                  <span>Previous Time: </span><u>{{
-                    attendanceUpdateRequestActionResponse.oldDate
-                    | date : "d MMM, h:mm a"
-                    }}</u>
-                </p>
-                <p class="font-13 fw-normal pb-0 text-left lh-base">
-                  <span>Requested Time: </span><u>{{
-                    attendanceUpdateRequestActionResponse.updatedDate
-                    | date : "d MMM, h:mm a"
-                    }}</u>
-                </p>
-              </ng-container>
-              <ng-container *ngIf="
-                  attendanceUpdateRequestActionResponse.requestType === 'CREATE'
-                ">
-                <p class="font-13 fw-normal pb-0 text-left lh-base">
-                  <span>In Time: </span><u>{{
-                    attendanceUpdateRequestActionResponse.inRequestTime
-                    | date : "d MMM, h:mm a"
-                    }}</u>
-                </p>
-                <p class="font-13 fw-normal pb-0 text-left lh-base">
-                  <span>Out Time: </span><u>{{
-                    attendanceUpdateRequestActionResponse.outRequestTime
-                    | date : "d MMM, h:mm a"
-                    }}</u>
-                </p>
-              </ng-container>
-              <p class="font-13 fw-normal pb-0 text-left lh-base">
-                <span>Applied To: </span>{{ attendanceUpdateRequestActionResponse.managerName }}
-              </p>
-              <p class="font-13 fw-normal pb-0 text-left lh-base">
-                <span>Note: </span>{{ attendanceUpdateRequestActionResponse.requestReason }}
-              </p>
-            </div>
-            <!-- *ngIf="
-            specificLeaveRequest.managerUuid === logInUserUuid ||
-            ROLE == 'ADMIN'" -->
-            <div class="d-flex align-items-center justify-content-end" style="gap: 10px">
-              <!-- Reject Button -->
-              <button class="btn reject-btn" type="button" (click)="
-                  approveOrReject(
-                    attendanceUpdateRequestActionResponse.id,
-                    'REJECT'
-                  )
-                ">
-                <div *ngIf="attendanceUpdateRequestRejectLoader; else rejectLabel">
-                  <div class="dot-opacity-loader-reject">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                  </div>
-                </div>
-                <ng-template #rejectLabel>Reject</ng-template>
-              </button>
-              <!-- Approve Button -->
-              <button class="btn approve-btn" type="button" (click)="
-                  approveOrReject(
-                    attendanceUpdateRequestActionResponse.id,
-                    'APPROVE'
-                  )
-                ">
-                <div *ngIf="
-                    attendanceUpdateRequestApproveLoader;
-                    else approveLabel
-                  ">
-                  <div class="dot-opacity-loader-approve">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                  </div>
-                </div>
-                <ng-template #approveLabel>Approve</ng-template>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- attenbdance upload modal  -->
-
-<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#sampleFileModal"
-  id="uploadMembersModal" #sampleFileModalButton>
-  Open Sample File Modal
-</button>
-<!-- Modal -->
-<div class="modal fade" id="sampleFileModal" tabindex="-1" aria-labelledby="sampleFileModalLabel" aria-hidden="true"
-  #sampleFileModal>
-  <div class="modal-dialog modal-xl modal-dialog-centered" style="max-width: 1400px !important;">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="sampleFileModalLabel">Sample Excel File</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="resetModal()"
-          #closeSampleFileModal></button>
-      </div>
-      <div class="modal-body">
-        <ng-container *ngIf="
-        !isShimmerModal &&
-        attendanceUploadCountForUser == 0 &&
-        !networkConnectionErrorPlaceholderModal
-      ">
-          <div class="col-md-12">
-            <div class="card-body mt-0 p-0">
-              <div class="alert alert-light mb-0" role="alert">
-                <h4 class="alert-heading font-18">
-                  Download the Sample Excel File!
-                </h4>
-                <p class="font-14 fw-light">
-                  Look for the sample file titled "Sample_Data.xlsx" and click
-                  on the download button to save it to your computer.
-                </p>
-                <p class="font-14 fw-light">
-                  Take a moment to review the existing data in the Excel file.
-                  This will help you understand the structure and content of the
-                  data before making any updates.
-                </p>
-                <p class="font-14 fw-light">
-                  <span class="text-primary">
-                    <u><a class="text-primary" href="{{ sampleFileUrl }}">Download a sample Excel file</a></u>
-                  </span>
-                  , update its data, and upload it back with the updated content
-                  on our platform
-                </p>
-              </div>
-            </div>
-            <div class="card-body mt-3 p-0">
-              <div class="alert alert-light mb-0 excel-uplode-file-box text-center" style="border: 2px dashed #dddd">
-                <input id="fileSelect" type="file" accept=".xlsx,application/vnd.ms-excel" name="img[]" class="input"
-                  (change)="selectFile($event)" />
-                <img src="assets/images/excel.svg" style="width: 50px" class="pb-3" />
-                <p class="font-14 fw-light">
-                  Drag file here to upload or,
-                  <u><a class="text-primary" href="#!">Choose file</a></u>
-                </p>
-                <div *ngIf="isProgressToggle" class="spinner-border text-success" role="status"></div>
-              </div>
-            </div>
-          </div>
-          <div #attention class="create-password-warning waring-box p-3 mb-0 mt-4 ng-star-inserted text-start" *ngIf="
-              phoneNumberNotFoundArray.length > 0 ||
-              emailNotFoundArray.length > 0 ||
-              this.mismatches.length > 0 ||
-              isErrorToggle">
-            <h4 class="alert-heading font-18 text-danger">Attention!!</h4>
-            <ul style="padding-left: 15px;">
-              <li class="mb-1" *ngIf="this.mismatches.length > 0">
-
-                {{ this.mismatches }}
-              </li>
-              <li class="mb-1" *ngIf="phoneNumberNotFoundArray.length > 0">
-                Phone Numbers:
-                {{ formatAsCommaSeparated(phoneNumberNotFoundArray) }}
-              </li>
-              <li class="mb-1" *ngIf="emailNotFoundArray.length > 0">
-                Emails: {{ formatAsCommaSeparated(emailNotFoundArray) }}
-              </li>
-              <li class="mb-1" *ngIf="isErrorToggle">Error: {{ errorMessage }}
-                <a href="{{uploadedExcelLink}}" class="button" download="CreateAttendance_1733998263065.xlsx"
-                  *ngIf="uploadedExcelLink">
-                  Download Attendance Excel
-                </a>
-              </li>
-
-
-            </ul>
-          </div>
-
-        </ng-container>
-        <ng-container *ngIf="
-            isShimmerModal &&
-            attendanceUploadCountForUser == 0 &&
-              !networkConnectionErrorPlaceholderModal
-            else onboardUserListCondition
-          ">
-          <div class="">
-            <div class="text-end">
-              <ngx-shimmer-loading [width]="'30%'" [height]="'40px'" style="border-radius: 50%"></ngx-shimmer-loading>
-            </div>
-          </div>
-          <div class="mt-3 mb-2" style="border: 1px solid #f5f5f5; padding: 5px; border-radius: 6px"
-            *ngFor="let number of [1, 2, 3, 4, 5]">
-            <div class="row mt-3">
-              <div class="col-md-2">
-                <div class="">
-                  <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
-                    style="border-radius: 50%"></ngx-shimmer-loading>
-                </div>
-              </div>
-              <div class="col-md-2">
-                <div class="">
-                  <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
-                    style="border-radius: 50%"></ngx-shimmer-loading>
-                </div>
-              </div>
-              <div class="col-md-3">
-                <div class="">
-                  <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
-                    style="border-radius: 50%"></ngx-shimmer-loading>
-                </div>
-              </div>
-              <div class="col-md-3">
-                <div class="">
-                  <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
-                    style="border-radius: 50%"></ngx-shimmer-loading>
-                </div>
-              </div>
-              <div class="col-md-2">
-                <div class="">
-                  <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
-                    style="border-radius: 50%"></ngx-shimmer-loading>
-                </div>
-              </div>
-            </div>
-          </div>
-        </ng-container>
-
-        <ng-template #onboardUserListCondition>
-          <ng-container *ngIf="
-              !isShimmerModal &&
-              attendanceUploadCountForUser != 0 &&
-                !networkConnectionErrorPlaceholderModal;
-              else errorInOnboardUserListCondition
-            ">
+          <div class="modal-body p-0">
             <div>
-              <div class="d-flex align-items-start justify-content-between">
-                <h5>Attendance Upload : <span class="font-14"> {{attendanceUploadCountForUser}} Users Attendance
-                    Uploaded Successfully. </span></h5>
-                <a href="{{uploadedExcelLink}}" class="text-primary font-13 fw-semibold"
-                  download="CreateAttendance_1733998263065.xlsx" *ngIf="uploadedExcelLink"><i
-                    class="bi bi-download"></i> Download Attendance Excel
-                </a>
-              </div>
-
-
-
-              <p class="mb-1" *ngIf="phoneNumberNotFoundArray.length > 0">
-
-                <span class="fw-semibold"> 1. Phone Numbers: </span> {{ formatAsCommaSeparated(phoneNumberNotFoundArray)
-                }} Not Found.
-              </p>
-              <p class="mb-1" *ngIf="emailNotFoundArray.length > 0">
-                <span class="fw-semibold"> 2. Emails: </span> {{ formatAsCommaSeparated(emailNotFoundArray) }} Not
-                Found.
-              </p>
-            </div>
-            <div class="alert alert-light mb-0 mt-3 bg-soft-success" role="alert">
-              <h4 class="alert-heading font-18">
-                Note:
-              </h4>
-              <p class="mb-0 fot-14 fw-light">
-                Attendance for {{attendanceUploadCountForUser}} users has been uploaded successfully.
-                Please close this modal and select the date range from attendance date selector to check attendance for
-                the uploaded users.
-              </p>
-            </div>
-          </ng-container>
-        </ng-template>
-
-        <ng-template #errorInOnboardUserListCondition>
-
-          <div class="empty-file" style="margin-top: 20%;" *ngIf="networkConnectionErrorPlaceholderModal">
-            <nz-empty nzNotFoundImage="assets/images/signal.svg"
-              [nzNotFoundContent]="contentTpl">
-              <ng-template #contentTpl>
-                <p class="mb-3 empty-detail font-16">Something went wrong</p>
-                <p class="mb-0 font-13"> An error occurred while processing your request! </p>
-              </ng-template>
-            </nz-empty>
-          </div>
-        </ng-template>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
-
-<!-- Modal -->
-<div class="modal fade" id="attendanceRequest" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-  <div class="modal-dialog modal-dialog-centered" style="max-width: 600px;">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Attendance Request</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body p-0">
-        <div>
-          <div class="user-details d-flex align-items-center justify-content-between p-3">
-              <div class="d-flex align-items-center gap-2">
-                <img src="assets/images/user.png" >
-                <div>
-                  <h5 class="mb-0 font-15">Yogesh Kumar </h5>
-                  <p class="mb-0 font-12">yogesh@krenai.com </p>
-              </div>
-              </div>
-              <p class="mb-0 font-13 fw-semibold text-black"> Date: 6th NOV 2024 </p>
-          </div>
-          <div class="leave-form-data">
-            <div class="row p-3">
-                <div class="col-md-6 mb-3">
-                    <label for="leave-type" class="pb-2">Attendance Update type</label>
-                    <div class="requested-to">
-                        <p class="mb-0 fw-semibold"> Missed Punch</p>
-                    </div>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label for="leave-type" class="pb-2">Total Leave</label>
-                    <div class="total-leave">
+              <div class="user-details d-flex align-items-center justify-content-between p-3">
+                  <div class="d-flex align-items-center gap-2">
+                    <img src="assets/images/user.png" class="img-50 radius-50">
                     <div>
-                        <p class="mb-0 fw-semibold"> Check-in Update Request</p>
+                      <h5 class="mb-0 font-15">Yogesh Kumar </h5>
+                      <p class="mb-0 font-12">yogesh@krenai.com </p>
+                  </div>
+                  </div>
+                  <p class="mb-0 font-13 fw-semibold text-black"> Date: 6th NOV 2024 </p>
+              </div>
+              <div class="leave-form-data">
+                <div class="row p-3">
+                    <div class="col-md-6 mb-3">
+                        <label for="leave-type" class="pb-2">Attendance Update type</label>
+                        <div class="requested-to p-3 border-rounded-2">
+                            <p class="mb-0 fw-semibold"> Missed Punch</p>
+                        </div>
                     </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="leave-type" class="pb-2">Total Leave</label>
+                        <div class="total-leave">
+                        <div>
+                            <p class="mb-0 fw-semibold"> Check-in Update Request</p>
+                        </div>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label for="starting-date" class="pb-2">Actual Time</label>
-                    <div class="requested-to">
-                        <p class="mb-0 fw-semibold"> 12th Jan 2023</p>
+                    <div class="col-md-6 mb-3">
+                        <label for="starting-date" class="pb-2">Actual Time</label>
+                        <div class="requested-to p-3 border-rounded-2">
+                            <p class="mb-0 fw-semibold"> 12th Jan 2023</p>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label for="ending-date" class="pb-2">Expected Time</label>
-                    <div class="requested-to">
-                        <p class="mb-0 fw-semibold"> 12th Jan 2023</p>
+                    <div class="col-md-6 mb-3">
+                        <label for="ending-date" class="pb-2">Expected Time</label>
+                        <div class="requested-to  p-3 border-rounded-2">
+                            <p class="mb-0 fw-semibold"> 12th Jan 2023</p>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-12 mb-3">
-                    <label for="ending-date" class="pb-2">Requested To</label>
-                    <div class="requested-to">
-                        <p class="mb-0"> You: <span class="fw-semibold text-primary"> @Esther Howard </span></p>
+                    <div class="col-md-12 mb-3">
+                        <label for="ending-date" class="pb-2">Requested To</label>
+                        <div class="requested-to p-3 border-rounded-2">
+                            <p class="mb-0"> You: <span class="fw-semibold text-primary"> @Esther Howard </span></p>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-12 mb-3">
-                    <div class="form-group">
-                        <label for="templateName" class="mb-2"> Note</label>
-                        <textarea id="requestReason" rows="3" class="form-control nots-section w-10" maxlength="255" ></textarea>
+                    <div class="col-md-12 mb-3">
+                        <div class="form-group">
+                            <label for="templateName" class="mb-2"> Note</label>
+                            <textarea id="requestReason" rows="3" class="form-control nots-section w-10" maxlength="255" ></textarea>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label for="templateName" class="mb-2"> Reason Of Rejection</label>
-                        <textarea id="requestReason" rows="3" class="form-control nots-section w-100" maxlength="255" ></textarea>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="templateName" class="mb-2"> Reason Of Rejection</label>
+                            <textarea id="requestReason" rows="3" class="form-control nots-section w-100" maxlength="255" ></textarea>
+                        </div>
                     </div>
                 </div>
             </div>
+            </div>
+          </div>
+          <div class="modal-footer d-flex align-items-center justify-contant-end gap-2">
+            <button type="button" class="btn reject-btn fw-semibold font-13">Reject</button>
+            <button type="submit" class="btn approved-btn fw-semibold font-13">Approved</button>
+          </div>
         </div>
-        </div>
-      </div>
-      <div class="modal-footer d-flex align-items-center justify-contant-end gap-2">
-        <button type="button" class="btn reject-btn fw-semibold font-13">Reject</button>
-        <button type="submit" class="btn approved-btn fw-semibold font-13">Approved</button>
-        <!-- <button type="button" class="btn cancel-btn fw-semibold font-13">Cancel</button>
-        <button type="submit" class="btn submitActionBtn fw-semibold font-13">Submit</button> -->
       </div>
     </div>
-  </div>
-</div>
+<!--attendance request modal end -->

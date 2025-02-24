@@ -1408,11 +1408,11 @@
                                   <div
                                   class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top"
                                   *ngIf="!isLoadingLeaves && leaves.length > 0 && totalItems >itemPerPage">
-                                  <p class="mb-0">
+                                  <p class="mb-0 p-0">
                                     Showing {{ (currentPage - 1) * itemPerPage + 1 }} -
                                     {{ ((currentPage - 1) * itemPerPage + 1)+(leaves.length-1) }} of {{ totalItems}} Leaves
                                   </p>
-                                  <div class="pagition-box">
+                                  <div class="pagition-box p-0">
                                     <ngb-pagination [collectionSize]="totalItems" [(page)]="currentPage" [pageSize]="itemPerPage"
                                       [maxSize]="5" [boundaryLinks]="true" [ellipses]="true"
                                       (pageChange)="onPageChange($event)">
