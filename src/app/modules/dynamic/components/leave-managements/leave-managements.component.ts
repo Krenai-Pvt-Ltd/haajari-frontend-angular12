@@ -35,6 +35,7 @@ export type ChartOptions1 = {
   fill: ApexFill;
   title: ApexTitleSubtitle;
   stroke?: ApexStroke;
+  grid?: ApexGrid;
 };
 
 
@@ -863,8 +864,8 @@ onMonthChange(month: Date): void {
     const minDate = Math.min(...dates);
     const maxDate = Math.max(...dates);
     const extendedMaxDate = new Date(maxDate);
-    // extendedMaxDate.setDate(extendedMaxDate.getDate() + 1);
-    extendedMaxDate.setDate(extendedMaxDate.getDate()); // Extend by 2 days for better visualization
+    extendedMaxDate.setDate(extendedMaxDate.getDate() + 1);
+    // extendedMaxDate.setDate(extendedMaxDate.getDate()); // Extend by 2 days for better visualization
 
     this.xaxis = { ...this.xaxis, min: minDate, max: extendedMaxDate.getTime() };
 
@@ -934,9 +935,16 @@ onMonthChange(month: Date): void {
       currentDate.setDate(weekEnd.getDate() + 1);  // Move to the next week's start
     }
   
+
     this.chartOptions = {
       series: seriesData,
-      chart: { height: 350, type: 'heatmap' },
+      chart: { height: 350, 
+        type: 'heatmap',  
+        toolbar: {
+        show: false,
+        tools: { zoomin: false, zoomout: false, pan: false, reset: false },
+      }
+    },
       stroke: {  
             width: 1.5,
             colors: ['#ffffff'], 
@@ -1029,7 +1037,10 @@ onMonthChange(month: Date): void {
       ],
       chart: {
         type: 'bar',
-        height: 400,
+        height: 500, // ✅ Increased chart height
+        toolbar: {
+          show: false, // ✅ Removed hamburger menu (toolbar)
+        },
       },
       plotOptions: {
         bar: {
@@ -1050,9 +1061,18 @@ onMonthChange(month: Date): void {
       xaxis: {
         categories: categories,
         title: { text: 'Percentage (%)' },
+        axisBorder: { show: false }, // ✅ Remove x-axis border
+        axisTicks: { show: false },  // ✅ Remove x-axis ticks
+        labels: { show: true },
       },
       yaxis: {
         title: { text: 'Teams' },
+        axisBorder: { show: false }, // ✅ Remove y-axis border
+        axisTicks: { show: false },  // ✅ Remove y-axis ticks
+        labels: { show: true },
+      },
+      grid: {
+        show: false, // ✅ Removed grid lines
       },
       tooltip: {
         y: {
@@ -1068,6 +1088,7 @@ onMonthChange(month: Date): void {
         style: { fontSize: '16px', fontWeight: 'bold' },
       },
     };
+    
   }
 
 
