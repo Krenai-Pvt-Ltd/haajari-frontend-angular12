@@ -60,8 +60,8 @@ export type ChartOptions1 = {
 export class LeaveManagementsComponent implements OnInit {
 
   constructor(private leaveService:LeaveService,private helperService: HelperService,  private dataService: DataService,   private rbacService: RoleBasedAccessControlService,private datePipe: DatePipe
-  ,private cdr: ChangeDetectorRef) { 
-    
+  ,private cdr: ChangeDetectorRef) {
+
   }
   showFilter: boolean = false;
   logInUserUuid: string = '';
@@ -72,7 +72,7 @@ export class LeaveManagementsComponent implements OnInit {
     this.getLeaves(false,false);
     this.selectedDate = new Date();
     this.getLeaveCategoryDetailsForLeaveTeamOverview();
-    
+
     this.getOrganizationRegistrationDateMethodCall();
     this.calculateDateRange();
     this.setDefaultWeekTab();
@@ -137,7 +137,7 @@ export class LeaveManagementsComponent implements OnInit {
       default:
         return '';
     }
-   
+
   }
 
   changeShowFilter(flag : boolean) {
@@ -175,12 +175,12 @@ export class LeaveManagementsComponent implements OnInit {
   ROLE: string | null |any = '';
   isShimmer: boolean = false;
 
-  //  getLeaves(resetSearch = false, applyDateRange = false){ 
+  //  getLeaves(resetSearch = false, applyDateRange = false){
   //     debugger
   //     if(resetSearch){
   //       this.resetSearch();
   //     }
-    
+
   //     this.filters.leaveType = this.filters.leaveType.map((type: any) => typeof type === 'string' ? type : type.value);
   //     this.filters.status = this.filters.status.map((status: any) => typeof status === 'string' ? status : status.value);
 
@@ -191,14 +191,14 @@ export class LeaveManagementsComponent implements OnInit {
   //     if(applyDateRange){
   //       params={ status: this.status ,itemPerPage: this.itemPerPage, currentPage: this.currentPage,search: this.searchTerm,
   //         startDate: moment(this.filters.fromDate).format(this.networkDateFormat),endDate: moment(this.filters.toDate).format(this.networkDateFormat),leaveType: this.filters.leaveType};
-           
+
   //     }else{
   //       params={ status: this.filters.status ,itemPerPage: this.itemPerPage, currentPage: this.currentPage, search: this.searchTerm,
   //         leaveType:this.filters.leaveType};
-         
+
   //     }
-  
-     
+
+
   //   this.leaveService
   //   .get(params)
   //   .pipe(
@@ -211,7 +211,7 @@ export class LeaveManagementsComponent implements OnInit {
   //         this.leaves = [];
   //         this.totalItems = 0;
   //       }
-        
+
   //     }),
   //     finalize(() => {
   //       this.isLoadingLeaves = false;
@@ -229,33 +229,33 @@ export class LeaveManagementsComponent implements OnInit {
   //       );
   //     },
   //   });
-      
+
   //   }
 
 
-  getLeaves(resetSearch = false, applyDateRange = false) { 
+  getLeaves(resetSearch = false, applyDateRange = false) {
     if (resetSearch) {
       this.resetSearch();
     }
-  
+
     // this.filters.leaveType = this.filters.leaveType.map((type: any) => typeof type === 'string' ? type : type.value);
     // this.filters.status = this.filters.status.map((status: any) => typeof status === 'string' ? status : status.value);
-  
+
     const params: any = {
-      status: this.filters.status,     
-      leaveType: this.filters.leaveType, 
+      status: this.filters.status,
+      leaveType: this.filters.leaveType,
       itemPerPage: this.itemPerPage,
       currentPage: this.currentPage,
       search: this.searchTerm || undefined
     };
-  
+
     if (applyDateRange) {
       params.startDate = moment(this.filters.fromDate).format(this.networkDateFormat);
       params.endDate = moment(this.filters.toDate).format(this.networkDateFormat);
     }
-  
+
     this.isLoadingLeaves = true;
-  
+
     this.leaveService.get(params)
       .pipe(finalize(() => this.isLoadingLeaves = false))
       .subscribe({
@@ -273,12 +273,27 @@ export class LeaveManagementsComponent implements OnInit {
         },
       });
   }
-  
+
 
     leave!: LeaveResponse;
+    leaveData: any =  {
+      leave: {}
+    };
+    isModalOpen: boolean = false;
+    closeModalHandler(): void {
+      this.leaveData = null;
+      this.isModalOpen = false;
+      this.getLeaves(true);
+    }
       viewLeave(leave:any){
+        this.isModalOpen = false;
         this.leave = leave;
-      
+        this.leaveData.leave = leave;
+        setTimeout(() => {
+        this.isModalOpen = true;
+        this.cdr.detectChanges();
+        this.cdr.markForCheck();
+        }, 10);
       }
 
       imageError: boolean = false;
@@ -292,24 +307,24 @@ openInNewTab(url: string) {
 }
 
 onPageChange(page: number) {
-  this.searchTerm = ''; 
-  // this.currentPage = 1; 
+  this.searchTerm = '';
+  // this.currentPage = 1;
   this.currentPage = page;
   this.getLeaves();
 }
 
 resetSearch(){
   debugger
-  this.searchTerm = ''; 
-  this.currentPage = 1; 
+  this.searchTerm = '';
+  this.currentPage = 1;
   this.leaves= [];
-  // this.cdr.detectChanges();  
+  // this.cdr.detectChanges();
 }
 
 
 searchTermChanged(event: any) {
   debugger
-  this.currentPage = 1; 
+  this.currentPage = 1;
   this.searchTerm = event.target.value;
   this.searchTerm.trim().length === 0 ? this.resetSearch() :this.getLeaves();
 }
@@ -320,7 +335,7 @@ searchLeaves() {
 }
 resetValues(){
   // this.searchTerm = '';
-  this.leaves=[]; 
+  this.leaves=[];
   this.totalItems = 0;
   this.currentPage= 1;
 }
@@ -443,7 +458,7 @@ approveOrRejectLeave(leaveId: number, operationString: string) {
   this.isLoading = true;
   this.leaveService.approveOrRejectLeaveOfUser(leaveId, operationString, this.rejectionReason).subscribe({
     next: (response: any) => {
-      
+
       this.isLoading = false;
       this.rejectionReason = '';
       this.rejectionReasonFlag = false;
@@ -555,7 +570,7 @@ isAllDataLoaded: boolean = false;
 //      this.leaveTeamOverviewResponse = response.object;
 //      this.isLoaderLoading = false;
 //      console.log(response);
-     
+
 //     },
 //     error: (error) => {
 //       this.isLoaderLoading = false;
@@ -610,7 +625,7 @@ onScroll(event: any) {
 //     next: (response: any) => {
 //      this.leaveReportResponse = response.object;
 //      console.log(response);
-     
+
 //     },
 //     error: (error) => {
 //       this.isLoaderLoading = false;
@@ -621,7 +636,7 @@ onScroll(event: any) {
 
 
 
-//  new 
+//  new
 
 
 size: 'large' | 'small' | 'default' = 'small';
@@ -813,7 +828,7 @@ onMonthChange(month: Date): void {
     // this.resetData();
     this.isShimmer = true;
     this.calculateDateRangeWeek();
-    
+
   }
 
   calculateDateRangeWeek(): void {
@@ -892,7 +907,7 @@ onMonthChange(month: Date): void {
   }
 
 
-  //  report graphb code 
+  //  report graphb code
 
 
   @ViewChild('chart') chart1: ChartComponent | undefined;
@@ -990,7 +1005,7 @@ onMonthChange(month: Date): void {
   }
 
 
-  //  new for heat map 
+  //  new for heat map
 
   @ViewChild('chartHeatMap') chartHeatMap!: ChartComponent;
   public chartOptions!: Partial<ChartOptions>;
@@ -1075,21 +1090,21 @@ onMonthChange(month: Date): void {
   initChartDataHeatMap(approvedLeaveCounts: any[]): void {
     const dateMap = new Map<string, number>();
     approvedLeaveCounts.forEach(item => dateMap.set(item.date, item.totalCount));
-  
+
     const start = new Date(this.startDate);
     const end = new Date(this.endDate);
-  
+
     const seriesData: any[] = [];
     let currentDate = new Date(start);
     let weekIndex = 1;
-  
+
     while (currentDate <= end) {
       const weekStart = new Date(currentDate);
       const potentialWeekEnd = new Date(currentDate);
       potentialWeekEnd.setDate(weekStart.getDate() + 6);  // Each week covers 7 days
-  
+
       const weekEnd = potentialWeekEnd > end ? end : potentialWeekEnd;  // Handle last week ending
-  
+
       const weekData: any[] = [];
       for (let date = new Date(weekStart); date <= weekEnd; date.setDate(date.getDate() + 1)) {
         const formattedDate = date.toISOString().split('T')[0];
@@ -1097,16 +1112,16 @@ onMonthChange(month: Date): void {
         // weekData.push({ x: formattedDate, y: count });
         weekData.push({ x: "Total Approved", y: count });
       }
-  
+
       seriesData.push({
         name: `Week ${weekIndex} (${this.formatDateToDDMMM(weekStart)} - ${this.formatDateToDDMMM(weekEnd)})`,
         data: weekData,
       });
-  
+
       weekIndex++;
       currentDate.setDate(weekEnd.getDate() + 1);  // Move to the next week's start
     }
-  
+
     // this.chartOptions = {
     //   series: seriesData,
     //   chart: { height: 350, type: 'heatmap' },
@@ -1137,8 +1152,8 @@ onMonthChange(month: Date): void {
     // };
     this.chartOptions = {
       series: seriesData,
-      chart: { 
-        height: 350, 
+      chart: {
+        height: 350,
         type: 'heatmap',
         toolbar: { show: false },
       },
@@ -1164,17 +1179,17 @@ onMonthChange(month: Date): void {
         },
       },
       dataLabels: { enabled: false },
-      xaxis: { 
-        type: 'category', 
+      xaxis: {
+        type: 'category',
         labels: { show: false },
         axisBorder: { show: false },
         axisTicks: { show: false },
       },
-      yaxis: { 
+      yaxis: {
         title: { text: 'Weeks of the Month' },
         labels: { style: { fontSize: '12px' } },
       },
-      grid: { 
+      grid: {
         padding: { left: 10, right: 10, top: 10, bottom: 10 },
       },
       tooltip: {
@@ -1183,20 +1198,20 @@ onMonthChange(month: Date): void {
       },
       theme: { mode: 'light' },
     };
-    
+
   }
 
   // formatDateToYYYYMMDD(date: Date): string {
   //   return date.toISOString().split('T')[0];
   // }
-  
+
   formatDateToDDMMM(date: Date): string {
     return date.toLocaleDateString('en-US', { day: '2-digit', month: 'short' });
   }
-  
 
 
-//  leave category details code 
+
+//  leave category details code
   leaveCategoryDetails: any;
   getLeaveCategoryDetailsForLeaveTeamOverview(): void {
     this.leaveService.getLeaveCategoryDetailsForLeaveTeamOverview().subscribe({
@@ -1209,7 +1224,7 @@ onMonthChange(month: Date): void {
   }
 
 
-  //  chart for department 
+  //  chart for department
 
 
   @ViewChild('departmentChart') departmentChart!: ChartComponent;
@@ -1282,7 +1297,7 @@ onMonthChange(month: Date): void {
 
 
 
-//  leave category details code 
+//  leave category details code
 topDefaulterUser: any;
 isDefaulterEmployeeLoading: boolean = false;
 getLeaveTopDefaulterUser(): void {
@@ -1299,7 +1314,7 @@ getLeaveTopDefaulterUser(): void {
       console.error('Error fetching leave data', err)},
   });
 }
-  
-  
-  
+
+
+
 }

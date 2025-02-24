@@ -24,6 +24,7 @@ import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
 import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { AttendanceUpdateComponent } from '../modules/common/attendance-update/attendance-update.component';
+import { LeaveRequestComponent } from '../modules/common/leave-request/leave-request.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { AttendanceUpdateComponent } from '../modules/common/attendance-update/a
     AssetRequestComponent,
     ProfileUpdateComponent,
     ExpenseRequestComponent,
-    AttendanceUpdateComponent
+    AttendanceUpdateComponent,
+    LeaveRequestComponent
   ],
 
   imports: [CommonModule,
@@ -75,6 +77,7 @@ import { AttendanceUpdateComponent } from '../modules/common/attendance-update/a
     ProfileUpdateComponent,
     ExpenseRequestComponent,
     AttendanceUpdateComponent,
+    LeaveRequestComponent
 
   ],
 })
