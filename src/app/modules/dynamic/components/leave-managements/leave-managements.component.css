@@ -463,3 +463,9 @@
   margin-bottom: 0 !important;
   background-color: #557ef826;
 }
+
+.scrollable-container {
+  max-height: 400px; /* Adjust height as needed */
+  overflow-y: auto;
+  padding-right: 10px;
+}
