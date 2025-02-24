@@ -76,15 +76,15 @@
                                               </nz-select> -->
                                         </div>
                                     </div>
-                                    <div class="p-0">
-                                        <h5 class="font-24 mb-4 fw-bold">{{leaveReportResponse?.reportGraphUserLeave?.totalLeaves}}<span class="font-13 fw-semibold" style="color: #444;">leaves utilised.</span></h5>
+                                    <div class="p-3">
+                                        <h5 class="font-24 mb-4 fw-bold">{{leaveReportResponse?.reportGraphUserLeave?.totalApproved}}<span class="font-13 fw-semibold" style="color: #444;">leaves utilised.</span></h5>
                                         <!-- <img src="assets/images/report-chart.png" class="w-100"> -->
                                         <div *ngIf="isChartInitialized; else loading" class="p-3">
                                             <apx-chart
                                               [series]="series"
                                               [chart]="chart"
                                               [xaxis]="xaxis"
-                                              [yaxis]="yaxis"
+                                              [yaxis]="yaxis" 
                                               [dataLabels]="dataLabels"
                                               [tooltip]="tooltip"
                                               [grid]="grid"
@@ -176,9 +176,9 @@
                                                 <h5 class="font-22 mb-1 fw-semibold">{{leaveCategoryDetails?.length || 0}} <span class="font-13 fw-semibold" style="color: #444;">Leave Types</span></h5>
                                             <p class="mb-0 font-13">Defined By Your organisation</p>
                                             </div>
-                                            <div style="width: 130px;">
+                                            <!-- <div style="width: 130px;">
                                                <img src="assets/images/categories-chart.png" class="w-100">
-                                            </div>
+                                            </div> -->
                                         </div>
                                         <div class="leave-count" *ngIf="leaveCategoryDetails?.length > 0 && !leaveCategoryDetailsLoader">
                                             <div class="d-flex align-items-center justify-content-between leave-count-list p-2 mb-3" *ngFor ="let deets of leaveCategoryDetails">
@@ -638,7 +638,7 @@
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="report-chart mb-3">
+                            <!-- <div class="report-chart mb-3">
                                 <div class="report-header p-3">
                                     <h5 class="mb-0 font-16 fw-semibold">Earned Leave Funds</h5>
                                 </div>
@@ -656,7 +656,7 @@
                                         <h5 class="mb-0 font-20 fw-normal">₹3,24,420</h5>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="report-chart">
                                 <div class="report-header p-3">
                                     <h5 class="mb-0 font-16 fw-semibold">Defaulter Employee </h5>
@@ -758,7 +758,7 @@
                                                     </div>
                                                 </form>
                                             </div>
-                                            <div>
+                                            <!-- <div>
                                                 <button type="button" class="btn primaryBtnLink leave-request d-block text-end">Download
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
                                                         <mask id="mask0_7808_52" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
@@ -769,7 +769,7 @@
                                                         </g>
                                                         </svg>
                                                 </button>
-                                            </div>
+                                            </div> -->
                                         </div>
 
                                         <div class="actionMenuList filter-box p-0 position-absolute bg-white border" [ngClass]="{'d-none': !showFilter}">
