@@ -37,6 +37,7 @@ export type ChartOptions = {
   theme: ApexTheme;
   stroke?: ApexStroke;
   grid?: ApexGrid;
+  colors: any;
 };
 
 export type ChartOptions1 = {
@@ -49,6 +50,7 @@ export type ChartOptions1 = {
   tooltip: ApexTooltip;
   fill: ApexFill;
   title: ApexTitleSubtitle;
+  stroke?: ApexStroke;
 };
 
 
@@ -952,7 +954,7 @@ onMonthChange(month: Date): void {
     },
   };
 
-  public grid: ApexGrid = { show: false };
+  public grid: ApexGrid = { show: false, padding: { top: 0, right: 0, bottom: 0, left: 0 } };
   public fill: ApexFill = {
     type: 'gradient',
     gradient: { shadeIntensity: 1, opacityFrom: 0.5, opacityTo: 0, stops: [0, 90, 100] },
@@ -1141,19 +1143,20 @@ onMonthChange(month: Date): void {
         heatmap: {
           shadeIntensity: 0.5,
           radius: 6,
-          useFillColorAsStroke: true,
+          useFillColorAsStroke: false,
             // distributed: true,
-          colorScale: {
-            ranges: [
-              { from: 0, to: 0, name: 'No Leaves', color: '#E0E0E0' },
-              { from: 1, to: 2, name: 'Low', color: '#90CAF9' },
-              { from: 3, to: 4, name: 'Medium', color: '#42A5F5' },
-              { from: 5, to: 6, name: 'High', color: '#1E88E5' },
-              { from: 7, to: 10, name: 'Very High', color: '#1565C0' },
-            ],
-          },
+          // colorScale: {
+          //   ranges: [
+          //     { from: 0, to: 0, name: 'No Leaves', color: '#E0E0E0' },
+          //     { from: 1, to: 2, name: 'Low', color: '#90CAF9' },
+          //     { from: 3, to: 4, name: 'Medium', color: '#42A5F5' },
+          //     { from: 5, to: 6, name: 'High', color: '#1E88E5' },
+          //     { from: 7, to: 10, name: 'Very High', color: '#1565C0' },
+          //   ],
+          // },
         },
       },
+      colors: ["#E0E0E0"],
       dataLabels: { enabled: false },
       xaxis: { type: 'category', labels: { show: false } },
       yaxis: { title: { text: 'Weeks of the Month' } },
@@ -1248,7 +1251,6 @@ onMonthChange(month: Date): void {
 
   //  chart for department
 
-
   @ViewChild('departmentChart') departmentChart!: ChartComponent;
   public chartOptions1!: Partial<ChartOptions1>;
 
@@ -1265,7 +1267,7 @@ onMonthChange(month: Date): void {
     const maxCount = sortedData[0]?.totalApprovedLeaveCount || 1;
     const categories = sortedData.map((item) => item.teamName);
     const seriesData = sortedData.map((item) => Number(((item.totalApprovedLeaveCount / maxCount) * 100).toFixed(2)));
-
+   
     this.chartOptions1 = {
       series: [
         {
