@@ -988,7 +988,7 @@
                                                 <div class="dropdown-menu actionMenuList">
 
                                                     <li *ngIf="leave.status == PENDING">
-                                                        <span (click)="approveOrRejectLeaveCall(leave.id, APPROVED)">
+                                                        <span (click)="approveOrRejectLeave(leave.id, APPROVED)">
                                                         <a class="dropdown-item" >
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
                                                                 <mask id="mask0_7683_19165" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
@@ -1003,7 +1003,7 @@
                                                         </span>
                                                     </li>
                                                     <li *ngIf="leave.status == PENDING">
-                                                        <span (click)="approveOrRejectLeaveCall(leave.id, REJECTED)">
+                                                        <span (click)="approveOrRejectLeave(leave.id, REJECTED)">
                                                         <a class="dropdown-item" >
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
                                                                 <mask id="mask0_7683_19197" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
