@@ -8,6 +8,34 @@ import { RoleBasedAccessControlService } from 'src/app/services/role-based-acces
 import moment from 'moment';  // Import Moment.js
 import { DatePipe } from '@angular/common';
 import { DataService } from 'src/app/services/data.service';
+import {
+  ApexAxisChartSeries,
+  ApexChart,
+  ApexXAxis,
+  ApexYAxis,
+  ApexDataLabels,
+  ApexTooltip,
+  ApexGrid,
+  ApexFill,
+  ApexMarkers,
+  ApexTitleSubtitle,
+  ChartComponent,
+  ApexPlotOptions,
+  ApexTheme,
+} from 'ng-apexcharts';
+
+
+export type ChartOptions = {
+  series: ApexAxisChartSeries;
+  chart: ApexChart;
+  dataLabels: ApexDataLabels;
+  plotOptions: ApexPlotOptions;
+  xaxis: ApexXAxis;
+  yaxis: ApexYAxis;
+  tooltip: ApexTooltip;
+  theme: ApexTheme;
+};
+
 
 @Component({
   selector: 'app-leave-managements',
@@ -17,7 +45,9 @@ import { DataService } from 'src/app/services/data.service';
 export class LeaveManagementsComponent implements OnInit {
 
   constructor(private leaveService:LeaveService,private helperService: HelperService,  private dataService: DataService,   private rbacService: RoleBasedAccessControlService,private datePipe: DatePipe
-  ,private cdr: ChangeDetectorRef) { }
+  ,private cdr: ChangeDetectorRef) { 
+    
+  }
   showFilter: boolean = false;
   logInUserUuid: string = '';
 
@@ -26,8 +56,14 @@ export class LeaveManagementsComponent implements OnInit {
     this.ROLE = await this.rbacService.getRole();
     this.getLeaves(false,false);
     this.selectedDate = new Date();
+    
+    this.getOrganizationRegistrationDateMethodCall();
     this.calculateDateRange();
+    this.setDefaultWeekTab();
+    this.calculateDateRangeWeek();
+    // this.updateWeekLabels();
     this.getDetailsForLeaveTeamOverview(this.tabName);
+    this.getReportDetailsForLeaveTeamOverviewForHeatMap();
   }
 
 
@@ -325,7 +361,7 @@ applyFilters(): void {
 
   this.changeShowFilter(false);
   this.currentPage = 1;
-  this.getLeaves(); // Fetch data with applied filters
+  this.getLeaves(false, true); // Fetch data with applied filters
 }
 
 resetFilters(): void {
@@ -500,6 +536,24 @@ getDetailsForLeaveTeamOverview(tabName:string) {
   });
 }
 
+// leaveReportResponse: any;
+// getReportDetailsForLeaveTeamOverview() {
+//   debugger
+//   this.isLoaderLoading = true;
+//   this.leaveService.getReportDetailsForLeaveTeamOverview(this.startDate, this.endDate).subscribe({
+//     next: (response: any) => {
+//      this.leaveReportResponse = response.object;
+//      console.log(response);
+     
+//     },
+//     error: (error) => {
+//       this.isLoaderLoading = false;
+//     },
+//   });
+// }
+
+
+
 
 //  new 
 
@@ -511,6 +565,9 @@ endDate: string = '';
 selectedTab: string = 'Week 1';
 weekLabels: string[] = [];
 
+startDateWeek: string = '';
+endDateWeek: string = '';
+
 
 organizationRegistrationDate: string = '';
 getOrganizationRegistrationDateMethodCall() {
@@ -518,6 +575,8 @@ getOrganizationRegistrationDateMethodCall() {
   this.dataService.getOrganizationRegistrationDate().subscribe(
     (response: string) => {
       this.organizationRegistrationDate = response;
+      console.log("fghjklkjhgf", this.organizationRegistrationDate);
+      this.updateWeekLabels();
     },
     (error: any) => {
       console.log(error);
@@ -583,6 +642,8 @@ formatDateToYYYYMMDD(date: Date): string {
 
 onMonthChange(month: Date): void {
   this.selectedDate = month;
+  // this.updateThirtyDaysLabel();
+  this.updateWeekLabels();
 
   // Select the first week containing or after the joining date
   const joiningDate = new Date(this.organizationRegistrationDate);
@@ -601,9 +662,11 @@ onMonthChange(month: Date): void {
   console.log('Selected Tab:', this.selectedTab);
 
   this.calculateDateRange();
+  this.calculateDateRangeWeek();
   // this.tab = 'absent';
   // this.tabName = this.ABSENT_TAB;
   this.getDetailsForLeaveTeamOverview(this.tabName);
+  this.getReportDetailsForLeaveTeamOverviewForHeatMap();
 }
 
 
@@ -651,5 +714,295 @@ onMonthChange(month: Date): void {
   }
 
 
+  presentWeek: boolean = false;
+  setDefaultWeekTab(): void {
+    debugger
+    const currentDate = new Date();
+    const isCurrentMonth =
+      this.selectedDate.getFullYear() === currentDate.getFullYear() &&
+      this.selectedDate.getMonth() === currentDate.getMonth();
+
+    if (isCurrentMonth) {
+      // Determine the current week of the month
+      const currentDay = currentDate.getDate();
+      const currentWeek = Math.ceil(currentDay / 7);
+
+      // Set the selectedTab to the current week
+      this.selectedTab = `Week ${currentWeek}`;
+      this.presentWeek = true;
+      // this.selectedTab = `Current Week`;
+    } else {
+      // Default to Week 1 for other months
+      this.selectedTab = 'Week 1';
+      this.presentWeek = false;
+    }
+  }
+
+
+  onTabChange(tab: string): void {
+    debugger
+    this.selectedTab = tab;
+    this.presentWeek = false;
+    // this.resetData();
+    this.isShimmer = true;
+    this.calculateDateRangeWeek();
+    
+  }
+
+  calculateDateRangeWeek(): void {
+    debugger
+    const currentDate = new Date();
+    const isCurrentMonth =
+      this.selectedDate.getFullYear() === currentDate.getFullYear() &&
+      this.selectedDate.getMonth() === currentDate.getMonth();
+      const weekNumber = parseInt(this.selectedTab.replace('Week ', ''), 10);
+      this.setWeekRange(this.selectedDate, weekNumber);
+      this.getReportDetailsForLeaveTeamOverview();
+  }
+
+
+  updateWeekLabels(): void {
+    debugger
+    const currentDate = new Date();
+    const daysInMonth = new Date(
+      this.selectedDate.getFullYear(),
+      this.selectedDate.getMonth() + 1,
+      0
+    ).getDate();
+    const isCurrentMonth =
+      this.selectedDate.getFullYear() === currentDate.getFullYear() &&
+      this.selectedDate.getMonth() === currentDate.getMonth();
+
+    const lastDay = isCurrentMonth ? currentDate.getDate() : daysInMonth;
+    const joiningDate = new Date(this.organizationRegistrationDate);
+
+    this.weekLabels = Array.from({ length: Math.ceil(lastDay / 7) }, (_, i) => {
+      const weekStart = new Date(this.selectedDate.getFullYear(), this.selectedDate.getMonth(), i * 7 + 1);
+      const weekEnd = new Date(weekStart);
+      weekEnd.setDate(weekStart.getDate() + 6);
+
+      // Include only weeks where the end date is on or after the joining date
+      return weekEnd >= joiningDate ? `Week ${i + 1}` : null;
+    }).filter(week => week !== null) as string[];
+
+    console.log("&^%$#$%^&*(&^%$#@#$%^&*()*&^%$#@", this.weekLabels);
+  }
+
+
+  setWeekRange(date: Date, weekNumber: number): void {
+    debugger
+    const currentDate = new Date();
+    const startOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
+    const lastDayOfMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+
+    const weekStart = new Date(
+      startOfMonth.getFullYear(),
+      startOfMonth.getMonth(),
+      (weekNumber - 1) * 7 + 1
+    );
+    const weekEnd = new Date(
+      weekStart.getFullYear(),
+      weekStart.getMonth(),
+      weekStart.getDate() + 6
+    );
+
+    this.startDateWeek = this.formatDateToYYYYMMDD(weekStart);
+
+    // Update end date logic
+    if (weekEnd > lastDayOfMonth) {
+      // If it's the last week of the month, adjust to the last day of the month
+      this.endDateWeek = this.formatDateToYYYYMMDD(
+        currentDate >= weekStart && currentDate <= lastDayOfMonth
+          ? currentDate // Use current date if within the selected week's range
+          : lastDayOfMonth
+      );
+    } else if (currentDate >= weekStart && currentDate <= weekEnd) {
+      // If the current week is the selected week, adjust to the current date
+      this.endDateWeek = this.formatDateToYYYYMMDD(currentDate);
+    } else {
+      this.endDateWeek = this.formatDateToYYYYMMDD(weekEnd);
+    }
+  }
+
+
+  //  report graphb code 
+
+
+  @ViewChild('chart') chart1: ChartComponent | undefined;
+
+  public series: ApexAxisChartSeries = [];
+  public chart: ApexChart = {
+    type: 'area',
+    stacked: false,
+    height: 150,
+    background: '#FFFFFF',
+    zoom: { enabled: false },
+    toolbar: {
+      show: false,
+      tools: { zoomin: false, zoomout: false, pan: false, reset: false },
+    },
+  };
+
+  public xaxis: ApexXAxis = {
+    type: 'datetime',
+    labels: {
+      format: 'dd MMM', // Show day and month (e.g., "23 Feb")
+      rotate: -45,
+      hideOverlappingLabels: false,
+    },
+    tickPlacement: 'on',
+  };
+
+  public yaxis: ApexYAxis = {
+    title: { text: 'Approved Leaves' },
+    labels: { show: false },
+    min: 0,
+  };
+
+  public dataLabels: ApexDataLabels = { enabled: false };
+  public tooltip: ApexTooltip = {
+    x: { format: 'dd MMM yyyy' },
+    y: {
+      formatter: (value: number) => `${value} Leave${value !== 1 ? 's' : ''}`,
+    },
+  };
+
+  public grid: ApexGrid = { show: false };
+  public fill: ApexFill = {
+    type: 'gradient',
+    gradient: { shadeIntensity: 1, opacityFrom: 0.5, opacityTo: 0, stops: [0, 90, 100] },
+  };
+
+  public markers: ApexMarkers = { size: 5 };
+  public title: ApexTitleSubtitle = {
+    text: 'Daily Approved Leaves',
+    align: 'left',
+  };
+
+  public isChartInitialized: boolean = false;
+  public leaveReportResponse: any;
+
+  getReportDetailsForLeaveTeamOverview(): void {
+    this.leaveService.getReportDetailsForLeaveTeamOverview(this.startDateWeek, this.endDateWeek).subscribe({
+      next: (response: any) => {
+        this.leaveReportResponse = response.object;
+        const approvedLeaveCounts = response.object?.approvedLeaveCounts ?? [];
+        this.initChartData(approvedLeaveCounts);
+      },
+      error: (err) => console.error('Error fetching leave data', err),
+    });
+  }
+
+  private initChartData(approvedLeaveCounts: { totalCount: number; date: string }[]): void {
+    if (!approvedLeaveCounts.length) {
+      console.warn('No approved leave data available.');
+      return;
+    }
+
+    const dataPoints = approvedLeaveCounts.map(item => ({
+      x: new Date(item.date).getTime(),
+      y: item.totalCount,
+    }));
+
+    const dates = approvedLeaveCounts.map(item => new Date(item.date).getTime());
+    const minDate = Math.min(...dates);
+    const maxDate = Math.max(...dates);
+    const extendedMaxDate = new Date(maxDate);
+    // extendedMaxDate.setDate(extendedMaxDate.getDate() + 1);
+    extendedMaxDate.setDate(extendedMaxDate.getDate()); // Extend by 2 days for better visualization
+
+    this.xaxis = { ...this.xaxis, min: minDate, max: extendedMaxDate.getTime() };
+
+    this.series = [{ name: 'Approved Leaves', data: dataPoints }];
+
+    setTimeout(() => {
+      this.cdr.markForCheck();
+      this.cdr.detectChanges();
+      this.isChartInitialized = true;
+    }, 100);
+  }
+
+
+  //  new for heat map 
+
+  @ViewChild('chartHeatMap') chartHeatMap!: ChartComponent;
+  public chartOptions!: Partial<ChartOptions>;
+  leaveReportResponseHeatMap: any;
+
+  getReportDetailsForLeaveTeamOverviewForHeatMap(): void {
+    this.leaveService.getReportDetailsForLeaveTeamOverview(this.startDate, this.endDate).subscribe({
+      next: (response: any) => {
+        const approvedLeaveCounts = response.object?.approvedLeaveCounts ?? [];
+        this.initChartDataHeatMap(approvedLeaveCounts);
+      },
+      error: (err) => console.error('Error fetching leave data', err),
+    });
+  }
+
+  initChartDataHeatMap(approvedLeaveCounts: any[]): void {
+    const dateMap = new Map<string, number>();
+    approvedLeaveCounts.forEach(item => dateMap.set(item.date, item.totalCount));
+
+    const start = new Date(this.startDate);
+    const end = new Date(this.endDate);
+
+    const seriesData: any[] = [];
+    let currentWeekStart = new Date(start);
+
+    // Function to get the end of the current week (Sunday)
+    const getWeekEndDate = (date: Date): Date => {
+      const weekEnd = new Date(date);
+      weekEnd.setDate(weekEnd.getDate() + (6 - weekEnd.getDay()));
+      return weekEnd > end ? new Date(end) : weekEnd;
+    };
+
+    let weekIndex = 1;
+    while (currentWeekStart <= end) {
+      const currentWeekEnd = getWeekEndDate(currentWeekStart);
+      const weekData: any[] = [];
+
+      for (let date = new Date(currentWeekStart); date <= currentWeekEnd; date.setDate(date.getDate() + 1)) {
+        const formattedDate = date.toISOString().split('T')[0];
+        const count = dateMap.get(formattedDate) ?? 0;
+
+        // weekData.push({ x: formattedDate, y: count });
+        weekData.push({ x: "Approved", y: count });
+      }
+
+      seriesData.push({ name: `Week ${weekIndex}`, data: weekData });
+      weekIndex++;
+
+      currentWeekStart.setDate(currentWeekEnd.getDate() + 1); // Move to next week's start
+    }
+
+    this.chartOptions = {
+      series: seriesData,
+      chart: {
+        height: 350,
+        type: 'heatmap',
+      },
+      plotOptions: {
+        heatmap: {
+          shadeIntensity: 0.5,
+          radius: 4,
+          useFillColorAsStroke: true,
+          colorScale: {
+            ranges: [
+              { from: 0, to: 0, name: 'No Leaves', color: '#E0E0E0' },
+              { from: 1, to: 2, name: 'Low', color: '#90CAF9' },
+              { from: 3, to: 4, name: 'Medium', color: '#42A5F5' },
+              { from: 5, to: 6, name: 'High', color: '#1E88E5' },
+              { from: 7, to: 10, name: 'Very High', color: '#1565C0' },
+            ],
+          },
+        },
+      },
+      dataLabels: { enabled: false },
+      xaxis: { type: 'category', labels: { show: false } },
+      yaxis: { title: { text: 'Weeks of the Month' } },
+      tooltip: { y: { formatter: (val) => `${val} Leave(s)` } },
+      theme: { mode: 'light' },
+    };
+  }
 
 }

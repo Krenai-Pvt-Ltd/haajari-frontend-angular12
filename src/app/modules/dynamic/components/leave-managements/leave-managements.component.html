@@ -81,31 +81,56 @@
                                     <div class="report-header p-3 d-flex align-items-center justify-content-between">
                                         <h5 class="mb-0 font-15 fw-semibold">Report</h5>
                                         <div>
-                                            <nz-select class="week-filter" ngModel="Week 1" style="width: 120px;">
+                                            <!-- <nz-radio-group *ngIf="weekLabels?.length" [(ngModel)]="selectedTab" nzButtonStyle="solid" nzSize="large" (ngModelChange)="onTabChange($event)">
+                                                <label nz-radio-button [nzValue]="week" *ngFor="let week of weekLabels">{{ week }}</label>
+                                            </nz-radio-group> -->
+                                            <!-- {{selectedTab}} -->
+                                            <nz-select class="week-filter" [(ngModel)]="selectedTab" style="width: 120px;" (ngModelChange)="onTabChange($event)">
+                                                <nz-option *ngFor="let week of weekLabels" [nzValue]="week" [nzLabel]="week"></nz-option>
+                                              </nz-select>
+                                              
+                                            <!-- <nz-select class="week-filter" ngModel="Week 1" style="width: 120px;">
                                                 <nz-option nzValue="Week 1" nzLabel="Week 1"></nz-option>
                                                 <nz-option nzValue="Week 2" nzLabel="Week 2"></nz-option>
                                                 <nz-option nzValue="Week 3" nzLabel="Week 3"></nz-option>
                                                 <nz-option nzValue="Week 4" nzLabel="Week 4"></nz-option>
-                                              </nz-select>
+                                              </nz-select> -->
                                         </div>
                                     </div>
                                     <div class="p-3">
-                                        <h5 class="font-24 mb-4 fw-bold">123 <span class="font-13 fw-semibold" style="color: #444;">leaves utilised this month.</span></h5>
-                                        <img src="assets/images/report-chart.png" class="w-100">
+                                        <h5 class="font-24 mb-4 fw-bold">{{leaveReportResponse?.reportGraphUserLeave?.totalLeaves}}<span class="font-13 fw-semibold" style="color: #444;">leaves utilised this month.</span></h5>
+                                        <!-- <img src="assets/images/report-chart.png" class="w-100"> -->
+                                        <div *ngIf="isChartInitialized; else loading" class="p-3">
+                                            <apx-chart
+                                              [series]="series"
+                                              [chart]="chart"
+                                              [xaxis]="xaxis"
+                                              [yaxis]="yaxis"
+                                              [dataLabels]="dataLabels"
+                                              [tooltip]="tooltip"
+                                              [grid]="grid"
+                                              [fill]="fill"
+                                            ></apx-chart>
+                                          </div>
+                                          
+                                          <ng-template #loading>
+                                            <p class="text-center">Loading chart...</p>
+                                          </ng-template>
+                                          
                                         <div class="mt-3 mb-2 d-flex align-items-center gap-5 justify-content-between">
                                             <div class="approved position-relative">
                                                 <h5 class="font-13 mb-3">Approved</h5>
-                                                <h5 class="font-22 mb-1 fw-semibold">55 <span class="font-13 fw-semibold" style="color: #444;">leaves</span></h5>
+                                                <h5 class="font-22 mb-1 fw-semibold">{{leaveReportResponse?.reportGraphUserLeave?.totalApproved}}<span class="font-13 fw-semibold" style="color: #444;">leaves</span></h5>
                                                 <p class="mb-0 font-13 fw-light">Since least week</p>
                                             </div>
                                             <div class="pending position-relative">
                                                 <h5 class="font-13 mb-3">Pending </h5>
-                                                <h5 class="font-22 mb-1 fw-semibold">30 <span class="font-13 fw-semibold" style="color: #444;">leaves</span></h5>
+                                                <h5 class="font-22 mb-1 fw-semibold">{{leaveReportResponse?.reportGraphUserLeave?.totalPending}} <span class="font-13 fw-semibold" style="color: #444;">leaves</span></h5>
                                                 <p class="mb-0 font-13 fw-light">Since least week</p>
                                             </div>
                                             <div class="rejected position-relative">
                                                 <h5 class="font-13 mb-3">Rejected</h5>
-                                                <h5 class="font-22 mb-1 fw-semibold">40 <span class="font-13 fw-semibold" style="color: #444;">leaves</span></h5>
+                                                <h5 class="font-22 mb-1 fw-semibold">{{leaveReportResponse?.reportGraphUserLeave?.totalRejected}} <span class="font-13 fw-semibold" style="color: #444;">leaves</span></h5>
                                                 <p class="mb-0 font-13 fw-light">Since least week</p>
                                             </div>
                                         </div>
@@ -129,7 +154,20 @@
                                             </div>
                                             <h5 class="font-13 mb-0 fw-semibold">January, 2025</h5>
                                         </div>
-                                        <img src="assets/images/months-report.png" class="w-100 text-center">
+                                        <!-- <img src="assets/images/months-report.png" class="w-100 text-center"> -->
+                                        <apx-chart
+                                        *ngIf="chartOptions?.series?.length"
+                                        [series]="chartOptions.series!"
+                                        [chart]="chartOptions.chart!"
+                                        [plotOptions]="chartOptions.plotOptions!"
+                                        [dataLabels]="chartOptions.dataLabels!"
+                                        [xaxis]="chartOptions.xaxis!"
+                                        [yaxis]="chartOptions.yaxis!"
+                                        [tooltip]="chartOptions.tooltip!"
+                                        [theme]="chartOptions.theme!">
+                                        </apx-chart>
+
+                                      
                                        
 
                                   </div>
@@ -260,14 +298,14 @@
                                 <div class="report-chart">
                                     <div class="report-header p-3 d-flex align-items-center justify-content-between">
                                         <h5 class="mb-0 font-16 fw-semibold">Team Overview</h5>
-                                        <div>
+                                        <!-- <div>
                                             <nz-select class="week-filter" ngModel="Week 1" style="width: 120px;">
                                                 <nz-option nzValue="Week 1" nzLabel="Week 1"></nz-option>
                                                 <nz-option nzValue="Week 2" nzLabel="Week 2"></nz-option>
                                                 <nz-option nzValue="Week 3" nzLabel="Week 3"></nz-option>
                                                 <nz-option nzValue="Week 4" nzLabel="Week 4"></nz-option>
                                               </nz-select>
-                                        </div>
+                                        </div> -->
                                     </div>
                                     <div class="row">
                                         <div class="col-md-3">
@@ -465,25 +503,25 @@
                                                     </div>
                                                     <div class="tab-pane fade" id="v-pills-defaulter" rol="tabpanel">
                                                         <div class="absent-data mt-3">
-                                                            <div class="absent-logs ">
-                                                                <div class="pb-0">
+                                                            <div class="absent-logs " *ngIf="tabName === DEFAULTER_TAB">
+                                                                <div class="pb-0" *ngIf="leaveTeamOverviewResponse.length > 0 && !isLoaderLoading">
                                                                     <div class="d-flex align-items-center justify-content-between mb-4">
                                                                         <h5 class="mb-0 font-20 fw-semibold">12 <span class="font-13 fw-normal">Defaulter</span></h5>
                                                                     </div>
-                                                                    <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-3">
+                                                                    <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-3" *ngFor="let log of leaveTeamOverviewResponse">
                                                                         <div class="d-flex align-items-center gap-2 ">
-                                                                            <img src="assets/images/pushpendra.jpeg"> 
+                                                                            <img src="{{log?.userImage}}"> 
                                                                             <div>
-                                                                                <h5 class="mb-1 font-14 fw-semibold">pushpendra</h5>
-                                                                                <p class="mb-0 fw-light font-13">Backend Developer</p>
+                                                                                <h5 class="mb-1 font-14 fw-semibold"> {{log?.userName}}</h5>
+                                                                                <p class="mb-0 fw-light font-13">{{log?.userPosition}}</p>
                                                                             </div>
                                                                         </div>
                                                                         <div class="d-flex align-items-center gap-3">
                                                                             <div>
-                                                                                <h5 class="font-13 fw-semibold">Earned Leave </h5>
-                                                                                <p class="mb-0 font-12 text-black"><span class="text-danger font-16 fw-bold">2</span> Out of 2</p>
+                                                                                <h5 class="font-13 fw-semibold"> Total Taken Leave</h5>
+                                                                                <p class="mb-0 font-12 text-black"><span class="text-danger font-16 fw-bold">{{log?.userTotalLeaveCount}}</span></p>
                                                                             </div>
-                                                                            <span class="defaulter-separator"></span>
+                                                                            <!-- <span class="defaulter-separator"></span>
                                                                             <div>
                                                                                 <h5 class="font-13 fw-semibold">Sick Leave   </h5>
                                                                                 <p class="mb-0 font-12 text-black"><span class="text-danger font-16 fw-bold">3</span> Out of 2</p>
@@ -492,193 +530,31 @@
                                                                             <div>
                                                                                 <h5 class="font-13 fw-semibold">Casual Leave </h5>
                                                                                 <p class="mb-0 font-12 text-black"><span class="text-danger font-16 fw-bold">4</span> Out of 3</p>
-                                                                            </div>
+                                                                            </div> -->
                                                                         </div>
-
                                                                     </div>
-                                                                    <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-3">
-                                                                        <div class="d-flex align-items-center gap-2 ">
-                                                                            <img src="assets/images/suman.jpg"> 
-                                                                            <div>
-                                                                                <h5 class="mb-1 font-14 fw-semibold">Suman</h5>
-                                                                                <p class="mb-0 fw-light font-13">Backend Developer</p>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="d-flex align-items-center gap-3">
-                                                                            <div>
-                                                                                <h5 class="font-13 fw-semibold">Earned Leave </h5>
-                                                                                <p class="mb-0 font-12 text-black"><span class="text-danger font-16 fw-bold">2</span> Out of 2</p>
-                                                                            </div>
-                                                                            <span class="defaulter-separator"></span>
-                                                                            <div>
-                                                                                <h5 class="font-13 fw-semibold">Sick Leave   </h5>
-                                                                                <p class="mb-0 font-12 text-black"><span class="text-danger font-16 fw-bold">3</span> Out of 2</p>
-                                                                            </div>
-                                                                            <span class="defaulter-separator"></span>
-                                                                            <div>
-                                                                                <h5 class="font-13 fw-semibold">Casual Leave </h5>
-                                                                                <p class="mb-0 font-12 text-black"><span class="text-danger font-16 fw-bold">4</span> Out of 3</p>
-                                                                            </div>
-                                                                        </div>
-
-                                                                    </div>
-                                                                    <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-3">
-                                                                        <div class="d-flex align-items-center gap-2 ">
-                                                                            <img src="assets/images/abhi.jpg"> 
-                                                                            <div>
-                                                                                <h5 class="mb-1 font-14 fw-semibold">Abhijeet Verma</h5>
-                                                                                <p class="mb-0 fw-light font-13">Backend Developer</p>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="d-flex align-items-center gap-3">
-                                                                            <div>
-                                                                                <h5 class="font-13 fw-semibold">Earned Leave </h5>
-                                                                                <p class="mb-0 font-12 text-black"><span class="text-danger font-16 fw-bold">2</span> Out of 2</p>
-                                                                            </div>
-                                                                            <span class="defaulter-separator"></span>
-                                                                            <div>
-                                                                                <h5 class="font-13 fw-semibold">Sick Leave   </h5>
-                                                                                <p class="mb-0 font-12 text-black"><span class="text-danger font-16 fw-bold">3</span> Out of 2</p>
-                                                                            </div>
-                                                                            <span class="defaulter-separator"></span>
-                                                                            <div>
-                                                                                <h5 class="font-13 fw-semibold">Casual Leave </h5>
-                                                                                <p class="mb-0 font-12 text-black"><span class="text-danger font-16 fw-bold">4</span> Out of 3</p>
-                                                                            </div>
-                                                                        </div>
-
-                                                                    </div>
-                                                                    <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-3">
-                                                                        <div class="d-flex align-items-center gap-2 ">
-                                                                            <img src="assets/images/suman.jpg"> 
-                                                                            <div>
-                                                                                <h5 class="mb-1 font-14 fw-semibold">Suman</h5>
-                                                                                <p class="mb-0 fw-light font-13">Backend Developer</p>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="d-flex align-items-center gap-3">
-                                                                            <div>
-                                                                                <h5 class="font-13 fw-semibold">Earned Leave </h5>
-                                                                                <p class="mb-0 font-12 text-black"><span class="text-danger font-16 fw-bold">2</span> Out of 2</p>
-                                                                            </div>
-                                                                            <span class="defaulter-separator"></span>
-                                                                            <div>
-                                                                                <h5 class="font-13 fw-semibold">Sick Leave   </h5>
-                                                                                <p class="mb-0 font-12 text-black"><span class="text-danger font-16 fw-bold">3</span> Out of 2</p>
-                                                                            </div>
-                                                                            <span class="defaulter-separator"></span>
-                                                                            <div>
-                                                                                <h5 class="font-13 fw-semibold">Casual Leave </h5>
-                                                                                <p class="mb-0 font-12 text-black"><span class="text-danger font-16 fw-bold">4</span> Out of 3</p>
-                                                                            </div>
-                                                                        </div>
-
-                                                                    </div>
-                                                                    <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-3">
-                                                                        <div class="d-flex align-items-center gap-2 ">
-                                                                            <img src="assets/images/suman.jpg"> 
-                                                                            <div>
-                                                                                <h5 class="mb-1 font-14 fw-semibold">Suman</h5>
-                                                                                <p class="mb-0 fw-light font-13">Backend Developer</p>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="d-flex align-items-center gap-3">
-                                                                            <div>
-                                                                                <h5 class="font-13 fw-semibold">Earned Leave </h5>
-                                                                                <p class="mb-0  font-12 text-black"><span class="text-danger font-16 fw-bold">2</span> Out of 2</p>
-                                                                            </div>
-                                                                            <span class="defaulter-separator"></span>
-                                                                            <div>
-                                                                                <h5 class="font-13 fw-semibold">Sick Leave   </h5>
-                                                                                <p class="mb-0 font-12 text-black"><span class="text-danger font-16 fw-bold">3</span> Out of 2</p>
-                                                                            </div>
-                                                                            <span class="defaulter-separator"></span>
-                                                                            <div>
-                                                                                <h5 class="font-13 fw-semibold">Casual Leave </h5>
-                                                                                <p class="mb-0 font-12 text-black"><span class="text-danger font-16 fw-bold">4</span> Out of 3</p>
-                                                                            </div>
-                                                                        </div>
-
-                                                                    </div>
-                                                                    <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-3">
-                                                                        <div class="d-flex align-items-center gap-2 ">
-                                                                            <img src="assets/images/suman.jpg"> 
-                                                                            <div>
-                                                                                <h5 class="mb-1 font-14 fw-semibold">Suman</h5>
-                                                                                <p class="mb-0 fw-light font-13">Backend Developer</p>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="d-flex align-items-center gap-3">
-                                                                            <div>
-                                                                                <h5 class="font-13 fw-semibold">Earned Leave </h5>
-                                                                                <p class="mb-0  font-12 text-black"><span class="text-danger font-16 fw-bold">2</span> Out of 2</p>
-                                                                            </div>
-                                                                            <span class="defaulter-separator"></span>
-                                                                            <div>
-                                                                                <h5 class="font-13 fw-semibold">Sick Leave   </h5>
-                                                                                <p class="mb-0 font-12 text-black"><span class="text-danger font-16 fw-bold">3</span> Out of 2</p>
-                                                                            </div>
-                                                                            <span class="defaulter-separator"></span>
-                                                                            <div>
-                                                                                <h5 class="font-13 fw-semibold">Casual Leave </h5>
-                                                                                <p class="mb-0 font-12 text-black"><span class="text-danger font-16 fw-bold">4</span> Out of 3</p>
-                                                                            </div>
-                                                                        </div>
-
-                                                                    </div>
-                                                                    <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-3">
-                                                                        <div class="d-flex align-items-center gap-2 ">
-                                                                            <img src="assets/images/suman.jpg"> 
-                                                                            <div>
-                                                                                <h5 class="mb-1 font-14 fw-semibold">Suman</h5>
-                                                                                <p class="mb-0 fw-light font-13">Backend Developer</p>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="d-flex align-items-center gap-3">
-                                                                            <div>
-                                                                                <h5 class="font-13 fw-semibold">Earned Leave </h5>
-                                                                                <p class="mb-0 font-12 text-black"><span class="text-danger font-16 fw-bold">2</span> Out of 2</p>
-                                                                            </div>
-                                                                            <span class="defaulter-separator"></span>
-                                                                            <div>
-                                                                                <h5 class="font-13 fw-semibold">Sick Leave   </h5>
-                                                                                <p class="mb-0 font-12 text-black"><span class="text-danger font-16 fw-bold">3</span> Out of 2</p>
-                                                                            </div>
-                                                                            <span class="defaulter-separator"></span>
-                                                                            <div>
-                                                                                <h5 class="font-13 fw-semibold">Casual Leave </h5>
-                                                                                <p class="mb-0 font-12  text-black"><span class="text-danger font-16 fw-bold">4</span> Out of 3</p>
-                                                                            </div>
-                                                                        </div>
-
-                                                                    </div>
-                                                                    <div class="d-flex align-items-center justify-content-between mb-3">
-                                                                        <div class="d-flex align-items-center gap-2 ">
-                                                                            <img src="assets/images/suman.jpg"> 
-                                                                            <div>
-                                                                                <h5 class="mb-1 font-14 fw-semibold">Suman</h5>
-                                                                                <p class="mb-0 fw-light font-13">Backend Developer</p>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="d-flex align-items-center gap-3">
-                                                                            <div>
-                                                                                <h5 class="font-13 fw-semibold">Earned Leave </h5>
-                                                                                <p class="mb-0 font-12 text-black"><span class="text-danger font-16 fw-bold">2</span> Out of 2</p>
-                                                                            </div>
-                                                                            <span class="defaulter-separator"></span>
-                                                                            <div>
-                                                                                <h5 class="font-13 fw-semibold">Sick Leave   </h5>
-                                                                                <p class="mb-0 font-12 text-black"><span class="text-danger font-16 fw-bold">3</span> Out of 2</p>
-                                                                            </div>
-                                                                            <span class="defaulter-separator"></span>
-                                                                            <div>
-                                                                                <h5 class="font-13 fw-semibold">Casual Leave </h5>
-                                                                                <p class="mb-0 font-12 text-black"><span class="text-danger font-16 fw-bold">4</span> Out of 3</p>
-                                                                            </div>
-                                                                        </div>
-
-                                                                    </div>
+                                                                   
                                                                 </div>
+                                                                <div class="empty-file" style="margin-top: 5%; margin-bottom: 5%" *ngIf="leaveTeamOverviewResponse.length == 0 && !isLoaderLoading">
+                                                                    <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                                                      [nzNotFoundContent]="contentTpl">
+                                                                      <ng-template #contentTpl>
+                                                                        <p class="mb-1 empty-detail font-16">
+                                                                          No data for now
+                                                                        </p>
+                                                                      </ng-template>
+                                                                    </nz-empty>
+                                                                </div>
+                                                                <div class="empty-file" style="margin-top: 7%; margin-bottom: 7%"
+                                                                        *ngIf="leaveTeamOverviewResponse.length == 0 && isLoaderLoading">
+                                                                        <div class="text-center load-more-btn">
+                                                                        <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
+                                                                        <div>
+                                                                            <small>Loading...</small>
+                                                                        </div>
+                                                                        </div>
+
+                                                                    </div>
 
                                                                 
                                                             </div>
@@ -686,118 +562,48 @@
                                                     </div>
                                                     <div class="tab-pane fade" id="v-pills-consistent-employee" rol="tabpanel">
                                                         <div class="absent-data mt-3">
-                                                            <div class="absent-logs ">
-                                                                <div class="pb-0">
+                                                            <div class="absent-logs " *ngIf="tabName === CONSISTENT_TAB">
+                                                                <div class="pb-0" *ngIf="leaveTeamOverviewResponse.length > 0 && !isLoaderLoading">
                                                                     <div class="d-flex align-items-center justify-content-between mb-4">
                                                                         <h5 class="mb-0 font-20 fw-semibold">12 <span class="font-13 fw-normal">Outstanding Employee</span></h5>
                                                                     </div>
-                                                                    <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-3">
+                                                                    <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-3" *ngFor="let log of leaveTeamOverviewResponse">
                                                                         <div class="d-flex align-items-center gap-2 ">
-                                                                            <img src="assets/images/pushpendra.jpeg"> 
+                                                                            <img src="{{log?.userImage}}"> 
                                                                             <div>
-                                                                                <h5 class="mb-1 font-14 fw-semibold">pushpendra</h5>
-                                                                                <p class="mb-0 fw-light font-13">Backend Developer</p>
+                                                                                <h5 class="mb-1 font-14 fw-semibold">{{log?.userName}}</h5>
+                                                                                <p class="mb-0 fw-light font-13">{{log?.userPosition}}</p>
                                                                             </div>
                                                                         </div>
                                                                         <div class="text-end">
-                                                                            <p class="mb-1 text-black"><span class="text-danger fw-semibold font-15"> O</span> Leave /Out 0f <span class="text-black fw-semibold font-15">24</span></p>
-                                                                            <p class="mb-0 text-black">Sick Leave</p>
+                                                                            <p class="mb-0 text-black">Total Taken Leave</p>
+                                                                            <p class="mb-1 text-black"><span class="text-danger fw-semibold font-15"> {{log?.userTotalLeaveCount}}</span></p>
+                                                                            <!-- <p class="mb-0 text-black">Sick Leave</p> -->
                                                                         </div>
 
                                                                     </div>
-                                                                    <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-3">
-                                                                        <div class="d-flex align-items-center gap-2 ">
-                                                                            <img src="assets/images/suman.jpg"> 
-                                                                            <div>
-                                                                                <h5 class="mb-1 font-14 fw-semibold">Suman</h5>
-                                                                                <p class="mb-0 fw-light font-13">Backend Developer</p>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="text-end">
-                                                                            <p class="mb-1 text-black"><span class="text-danger fw-semibold font-15"> 2</span> Leave /Out 0f <span class="text-black fw-semibold font-15">24</span></p>
-                                                                            <p class="mb-0 text-black">Casual Leave  |  Sick Leave  </p>
-                                                                        </div>
-
-                                                                    </div>
-                                                                    <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-3">
-                                                                        <div class="d-flex align-items-center gap-2 ">
-                                                                            <img src="assets/images/abhi.jpg"> 
-                                                                            <div>
-                                                                                <h5 class="mb-1 font-14 fw-semibold">Abhijeet Verma</h5>
-                                                                                <p class="mb-0 fw-light font-13">Backend Developer</p>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div>
-                                                                            <p class="mb-0 text-black"><span class="text-danger fw-semibold font-15"> O</span> Leave /Out 0f <span class="text-black fw-semibold font-15">24</span></p>
-                                                                        </div>
-
-                                                                    </div>
-                                                                    <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-3">
-                                                                        <div class="d-flex align-items-center gap-2 ">
-                                                                            <img src="assets/images/suman.jpg"> 
-                                                                            <div>
-                                                                                <h5 class="mb-1 font-14 fw-semibold">Suman</h5>
-                                                                                <p class="mb-0 fw-light font-13">Backend Developer</p>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div>
-                                                                            <p class="mb-0 text-black"><span class="text-danger fw-semibold font-15"> O</span> Leave /Out 0f <span class="text-black fw-semibold font-15">24</span></p>
-                                                                        </div>
-
-                                                                    </div>
-                                                                    <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-3">
-                                                                        <div class="d-flex align-items-center gap-2 ">
-                                                                            <img src="assets/images/suman.jpg"> 
-                                                                            <div>
-                                                                                <h5 class="mb-1 font-14 fw-semibold">Suman</h5>
-                                                                                <p class="mb-0 fw-light font-13">Backend Developer</p>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div>
-                                                                            <p class="mb-0 text-black"><span class="text-danger fw-semibold font-15"> O</span> Leave /Out 0f <span class="text-black fw-semibold font-15">24</span></p>
-                                                                        </div>
-
-                                                                    </div>
-                                                                    <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-3">
-                                                                        <div class="d-flex align-items-center gap-2 ">
-                                                                            <img src="assets/images/suman.jpg"> 
-                                                                            <div>
-                                                                                <h5 class="mb-1 font-14 fw-semibold">Suman</h5>
-                                                                                <p class="mb-0 fw-light font-13">Backend Developer</p>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div>
-                                                                            <p class="mb-0 text-black"><span class="text-danger fw-semibold font-15"> O</span> Leave /Out 0f <span class="text-black fw-semibold font-15">24</span></p>
-                                                                        </div>
-
-                                                                    </div>
-                                                                    <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-3">
-                                                                        <div class="d-flex align-items-center gap-2 ">
-                                                                            <img src="assets/images/suman.jpg"> 
-                                                                            <div>
-                                                                                <h5 class="mb-1 font-14 fw-semibold">Suman</h5>
-                                                                                <p class="mb-0 fw-light font-13">Backend Developer</p>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div>
-                                                                            <p class="mb-0 text-black"><span class="text-danger fw-semibold font-15"> O</span> Leave /Out 0f <span class="text-black fw-semibold font-15">24</span></p>
-                                                                        </div>
-
-                                                                    </div>
-                                                                    <div class="d-flex align-items-center justify-content-between mb-3">
-                                                                        <div class="d-flex align-items-center gap-2 ">
-                                                                            <img src="assets/images/suman.jpg"> 
-                                                                            <div>
-                                                                                <h5 class="mb-1 font-14 fw-semibold">Suman</h5>
-                                                                                <p class="mb-0 fw-light font-13">Backend Developer</p>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div>
-                                                                            <p class="mb-0 text-black"><span class="text-danger fw-semibold font-15"> O</span> Leave /Out 0f <span class="text-black fw-semibold font-15">24</span></p>
-                                                                        </div>
-
-                                                                    </div>
+                                                                  
                                                                 </div>
+                                                                <div class="empty-file" style="margin-top: 5%; margin-bottom: 5%" *ngIf="leaveTeamOverviewResponse.length == 0 && !isLoaderLoading">
+                                                                    <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                                                      [nzNotFoundContent]="contentTpl">
+                                                                      <ng-template #contentTpl>
+                                                                        <p class="mb-1 empty-detail font-16">
+                                                                          No data for now
+                                                                        </p>
+                                                                      </ng-template>
+                                                                    </nz-empty>
+                                                                </div>
+                                                                <div class="empty-file" style="margin-top: 7%; margin-bottom: 7%"
+                                                                        *ngIf="leaveTeamOverviewResponse.length == 0 && isLoaderLoading">
+                                                                        <div class="text-center load-more-btn">
+                                                                        <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
+                                                                        <div>
+                                                                            <small>Loading...</small>
+                                                                        </div>
+                                                                        </div>
+
+                                                                    </div>
                                                             </div>
                                                        </div>
                                                     </div>
