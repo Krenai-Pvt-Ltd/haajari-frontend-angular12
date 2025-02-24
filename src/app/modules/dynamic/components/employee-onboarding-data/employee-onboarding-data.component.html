@@ -1247,13 +1247,28 @@
             <div class="row">
               <div class="col-md-6 mb-3">
                 <label for="name" class="pb-2">Name <span class="text-danger">*</span></label>
-                <input type="text" class="form-control input-zorro" id="name" name="name" placeholder="Name"
-                  [(ngModel)]="userPersonalInformationRequest.name" required #nameField="ngModel" />
+                <input
+                  type="text"
+                  class="form-control input-zorro"
+                  id="name"
+                  name="name"
+                  placeholder="Name"
+                  [(ngModel)]="userPersonalInformationRequest.name"
+                  required
+                  #nameField="ngModel"
+                  minlength="3"
+                  pattern="[a-zA-Z]+( [a-zA-Z]+)*"
+                />
 
                 <div *ngIf="nameField.invalid && nameField.touched">
-                  <p class="errortxt mt-2 mb-0" style="color: red">
-                    <i class="bi bi-exclamation-circle"></i> Name is
-                    required.
+                  <p class="errortxt mt-2 mb-0" style="color: red" *ngIf="nameField.errors?.required">
+                    <i class="bi bi-exclamation-circle"></i> Name is required.
+                  </p>
+                  <p class="errortxt mt-2 mb-0" style="color: red" *ngIf="nameField.errors?.minlength">
+                    <i class="bi bi-exclamation-circle"></i> Name must be at least 3 characters long.
+                  </p>
+                  <p class="errortxt mt-2 mb-0" style="color: red" *ngIf="nameField.errors?.pattern">
+                    <i class="bi bi-exclamation-circle"></i> Name can only contain letters and single spaces between words (e.g., John Doe).
                   </p>
                 </div>
               </div>
@@ -1517,10 +1532,36 @@
           </svg>
         </button>
       </div>
-      
+
         <app-profile-update *ngIf="isProfileReqModalOpen" [data]="requestModalData" (closeEvent)="onProfileComponentClose()"> </app-profile-update>
-     
-    
+
+      <!-- <div *ngIf="remainingField!==0" class="modal-footer d-flex align-items-center justify-content-end gap-2">
+        <button type="button" (click)="rejectData()" [disabled]="rejectLoading || fieldLoading || approveLoading || (isRejectModalOpen && (!rejectedReason || rejectedReason.length < 10))"
+          class="btn btn-soft-danger">
+          <span *ngIf="!rejectLoading">Reject All</span>
+          <div class="dot-opacity-loader" *ngIf="rejectLoading">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </button>
+        <button *ngIf="!isRejectModalOpen" type="button" (click)="approveRequestedData()" [disabled]="rejectLoading || approveLoading || fieldLoading"
+          class="btn  btn-soft-success">
+          <span *ngIf="!approveLoading">Approve All</span>
+          <div class="dot-opacity-loader" *ngIf="approveLoading">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </button>
+        <div *ngIf="isRejectModalOpen" class="d-flex align-items-center justify-content-end gap-2 ">
+          <button type="button" (click)="isRejectModalOpen=false" [disabled]="rejectLoading"
+            class="btn cancel-btn mt-0">
+            <span>Back</span>
+          </button>
+
+      </div>
+    </div> -->
     <div *ngIf="remainingField==0" class="d-flex align-items-center justify-content-end gap-2">
       <button type="button" #closeReqDataModal (click)="closeDataRequestModal()"
       data-bs-dismiss="modal" aria-label="Close" class="btn cancel-btn mt-0">

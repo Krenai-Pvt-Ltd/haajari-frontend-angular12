@@ -165,7 +165,8 @@
   <div *ngIf="remainingField!==0" class="p-3 d-flex align-items-center justify-content-end gap-2" [ngClass]="{'modal-footer':isModal}">
     <button type="button" (click)="rejectData()" [disabled]="rejectLoading || fieldLoading || approveLoading || (isRejectModalOpen && (!rejectedReason || rejectedReason.length < 10))"
       class="btn btn-soft-danger">
-      <span *ngIf="!rejectLoading">Reject All</span>
+      <span *ngIf="!rejectLoading && !isRejectModalOpen">Reject All</span>
+      <span *ngIf="!rejectLoading && isRejectModalOpen">Reject & Submit</span>
       <div class="dot-opacity-loader" *ngIf="rejectLoading">
         <span></span>
         <span></span>
@@ -179,7 +180,7 @@
         <span></span>
         <span></span>
         <span></span>
-      </div> 
+      </div>
     </button>
     <div *ngIf="isRejectModalOpen" class="d-flex align-items-center justify-content-end gap-2 ">
       <button type="button" (click)="isRejectModalOpen=false" [disabled]="rejectLoading"

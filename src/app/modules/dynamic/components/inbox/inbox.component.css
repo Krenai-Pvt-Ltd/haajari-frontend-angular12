@@ -167,3 +167,19 @@
         flex-direction: column;
         gap: 8px;
       }
+
+      .yellow-fill {
+        fill: rgb(255, 51, 0) !important;  /* or #FFFF00 */
+      }
+
+      .active-filter {
+        color: #ff5500 !important;  /* Optional: changes text color too */
+      }
+
+      .filter-icon svg path {
+        transition: fill 0.3s ease;  /* Smooth color transition */
+      }
+
+      .dropdown-item svg path {
+        transition: fill 0.3s ease;  /* Smooth color transition */
+      }
