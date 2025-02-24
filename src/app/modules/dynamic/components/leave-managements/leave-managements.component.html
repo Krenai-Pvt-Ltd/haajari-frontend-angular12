@@ -420,7 +420,8 @@
                                                                         <h5 class="mb-0 font-20 fw-semibold"> {{leaveTeamOverviewResponseTotalCount || 0}} <span class="font-13 fw-normal">On leave this month.</span></h5>
                                                                     </div>
                                                                     <div class="d-flex align-items-center justify-content-between mb-3" *ngFor="let log of leaveTeamOverviewResponse">
-                                                                        <div class="d-flex align-items-center gap-2 ">
+                                                                       
+                                                                        <div class="d-flex align-items-center gap-2 " *ngIf="log?.totalValidDays>0">
                                                                             <img src="{{log?.image}}" class="thumb-md rounded-circle"  style="width: 32px; height: 32px" *ngIf="log?.image">
                                                                             <img src="assets/images/user.png" alt="" class="thumb-md rounded-circle"
                                                                             style="width: 32px; height: 32px" *ngIf="!log?.image">
@@ -429,7 +430,7 @@
                                                                                 <p class="mb-0 fw-light">{{log?.startDate | date : 'd MMMM, y' || "N/A" }} - {{log?.endDate | date : 'd MMMM, y' || "N/A"}}  | <span class="text-danger fw-normal">{{log?.leaveType}}</span></p>
                                                                             </div>
                                                                         </div>
-                                                                        <span class="badge rounded-pill badge-soft-secondary"> {{log?.totalValidDays}} Days</span>
+                                                                        <span class="badge rounded-pill badge-soft-secondary" *ngIf="log?.totalValidDays>0"> {{log?.totalValidDays}} Days</span>
 
                                                                     </div>
                                                                    
@@ -469,7 +470,8 @@
                                                                         <h5 class="mb-0 font-20 fw-semibold"> {{leaveTeamOverviewResponseTotalCount || 0}} <span class="font-13 fw-normal">Defaulter</span></h5>
                                                                     </div>
                                                                     <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-3" *ngFor="let log of leaveTeamOverviewResponse">
-                                                                        <div class="d-flex align-items-center gap-2 ">
+                                                                       
+                                                                        <div class="d-flex align-items-center gap-2 " >
                                                                             <img src="{{log?.userImage}}" class="thumb-md rounded-circle" style="width: 32px; height: 32px" *ngIf="log?.userImage">
                                                                             <img src="assets/images/user.png" alt="" class="thumb-md rounded-circle"
                                                                             style="width: 32px; height: 32px" *ngIf="!log?.userImage">
@@ -494,6 +496,7 @@
                                                                                 <p class="mb-0 font-12 text-black"><span class="text-danger font-16 fw-bold">4</span> Out of 3</p>
                                                                             </div> -->
                                                                         </div>
+                                                                    
                                                                     </div>
                                                                     <div class="empty-file" style="margin-top: 7%; margin-bottom: 7%"
                                                                     *ngIf=" isLoaderLoading">
@@ -985,7 +988,7 @@
                                                 <div class="dropdown-menu actionMenuList">
 
                                                     <li *ngIf="leave.status == PENDING">
-                                                        <span (click)="approveOrRejectLeaveCall(leave.id, APPROVED)">
+                                                        <span (click)="approveOrRejectLeave(leave.id, APPROVED)">
                                                         <a class="dropdown-item" >
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
                                                                 <mask id="mask0_7683_19165" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
@@ -1000,7 +1003,7 @@
                                                         </span>
                                                     </li>
                                                     <li *ngIf="leave.status == PENDING">
-                                                        <span (click)="approveOrRejectLeaveCall(leave.id, REJECTED)">
+                                                        <span (click)="approveOrRejectLeave(leave.id, REJECTED)">
                                                         <a class="dropdown-item" >
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
                                                                 <mask id="mask0_7683_19197" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
