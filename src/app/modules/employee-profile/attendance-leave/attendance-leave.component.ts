@@ -56,7 +56,7 @@ Chart.register(
 })
 export class AttendanceLeaveComponent implements OnInit {
 
- 
+
 
 
   userLeaveForm!: FormGroup;
@@ -103,7 +103,7 @@ export class AttendanceLeaveComponent implements OnInit {
   }
   public async getUuid() {
     this.UUID = await this.roleService.getUuid();
-   
+
     // this.currentUserUuid = await this.roleService.getUuid();
   }
 
@@ -116,7 +116,7 @@ export class AttendanceLeaveComponent implements OnInit {
     //   note: [null, Validators.required],
     // });
     this.ROLE = await this.roleService.getRole();
-    
+
     this.userLeaveForm = this.fb.group({
       startDate: [null, Validators.required],
       endDate: [null, Validators.required],
@@ -131,10 +131,10 @@ export class AttendanceLeaveComponent implements OnInit {
     } else {
       this.userLeaveForm.get('selectedUser')?.clearValidators();
     }
-  
+
     // Update validity after changing validators
     this.userLeaveForm.get('selectedUser')?.updateValueAndValidity();
-  
+
     // this.getAttendanceRequests();
     this.fetchAttendanceRequests();
     this.fetchManagerNames();
@@ -408,6 +408,9 @@ export class AttendanceLeaveComponent implements OnInit {
   };
 
 
+  handleModalClose(): void{
+    this.modalService.dismissAll();
+  }
 
 
 
@@ -471,7 +474,7 @@ export class AttendanceLeaveComponent implements OnInit {
       );
   }
   resetUserLeave() {
-   
+
     this.isHalfLeaveSelected = false;
    this.userLeaveRequest= new UserLeaveRequest();
     this.selectedManagerId = 0;
@@ -966,15 +969,15 @@ export class AttendanceLeaveComponent implements OnInit {
     if (seconds === null || seconds < 0) {
       return 'N/A'; // Return "N/A" for invalid or null values
     }
-  
+
     const hrs = Math.floor(seconds / 3600);
     const mins = Math.floor((seconds % 3600) / 60);
     const secs = seconds % 60;
-  
+
     return `${hrs}h ${mins}m`;
   }
-  
-  
+
+
 
   resetData() {
     this.attendanceDetails = [];
@@ -1338,13 +1341,13 @@ export class AttendanceLeaveComponent implements OnInit {
   // };
 
   /* @Input() currentDate: Date = new Date();
- 
+
    holidays: { [key: string]: string } = {
      '2024-12-25': 'Christmas Day',
      '2024-12-31': 'New Year\'s Eve',
      '2025-01-01': 'New Year\'s Day'
    };
- 
+
    // Function to format the date to 'yyyy-MM-dd' for comparison with holidays
    private formatDate(date: Date): string {
      const year = date.getFullYear();
@@ -1352,14 +1355,14 @@ export class AttendanceLeaveComponent implements OnInit {
      const day = date.getDate().toString().padStart(2, '0');
      return `${year}-${month}-${day}`;
    }
- 
+
    // Function to get the holiday name
    getHolidayName(): string {
      if (!this.currentDate) return '';
      const formattedDate = this.formatDate(this.currentDate);
      return this.holidays[formattedDate] || ''; // Return holiday name if found
    }
- 
+
    // Function to check if the date is a holiday
    isHoliday(): boolean {
      if (!this.currentDate) return false;
@@ -1488,7 +1491,7 @@ export class AttendanceLeaveComponent implements OnInit {
         this.chart.destroy();
       }
 
-      
+
 
       // Create the new chart
       this.chart = new Chart(ctx, {
@@ -1566,7 +1569,7 @@ export class AttendanceLeaveComponent implements OnInit {
     }
   }
 
-  //  attendance update 
+  //  attendance update
 
 
   updateStatusString: string = 'In';
@@ -1589,10 +1592,10 @@ export class AttendanceLeaveComponent implements OnInit {
     if (this.attendanceTimeUpdateForm.get('attendanceRequestType')?.value === 'UPDATE') {
       this.checkAttendance = false;
     } else if (this.attendanceTimeUpdateForm.get('attendanceRequestType')?.value === 'CREATE') {
-      this.getAttendanceExistanceStatus(this.selectedDateAttendance);    
+      this.getAttendanceExistanceStatus(this.selectedDateAttendance);
     }
     this.getHolidayForOrganization(this.selectedDateAttendance);
-   
+
   }
 
   attendanceTimeUpdateForm!: FormGroup;
@@ -1768,7 +1771,7 @@ export class AttendanceLeaveComponent implements OnInit {
   //   }
   //   return false;
   // }
-  
+
   isAttendanceFormValid(): boolean {
 
     if (this.checkHoliday === true || this.checkAttendance === true) {
@@ -1834,7 +1837,7 @@ export class AttendanceLeaveComponent implements OnInit {
   }
 
 
-  //  logs 
+  //  logs
 
   viewLogs(selectedDate: string) {
     debugger
@@ -2009,7 +2012,7 @@ export class AttendanceLeaveComponent implements OnInit {
   }
 
 
-  //  break timings 
+  //  break timings
 
 
    breakTimingsList : BreakTimings[] = [];

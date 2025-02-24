@@ -56,12 +56,19 @@ export class InboxComponent implements OnInit {
             this.finished = true;
           }
           if(this.pageNumber == 0){
-            this.currentMail = this.mails[0];
+            if(this.mails && this.mails.length>0){
+              this.currentMail = this.mails[0];
+            }
+
           }
           this.pageNumber++;
         }else{
           this.loading = false;
           this.finished = true;
+          if(this.pageNumber == 0){
+            this.currentMail = null;
+          }
+
         }
         },
         (error) => {
@@ -85,7 +92,6 @@ export class InboxComponent implements OnInit {
     async getUuids() {
       this.UUID = await this.rbacService.getUUID();
       this.orgUuid = await this.rbacService.getOrgRefUUID();
-      this.fetchNotification('mail');
       this.fetchMails();
     }
 
@@ -149,6 +155,9 @@ export class InboxComponent implements OnInit {
   showExpenseComponent: boolean = false;
   expenseData: any= {};
   currentExpenseId: any = 0;
+
+  showAttendanceUpdate: boolean = false;
+  attendanceUpdateData: any = {};
   onExpenseComponentClose() {
     this.showExpenseComponent = false;
     this.getCompanyExpense(this.currentExpenseId);
@@ -156,7 +165,7 @@ export class InboxComponent implements OnInit {
 
 
   isAnyModalOpen(): boolean{
-    return this.showExitComponent || this.showAssetComponent || this.isProfileReqModalOpen || this.showExpenseComponent;
+    return this.showExitComponent || this.showAssetComponent || this.isProfileReqModalOpen || this.showExpenseComponent || this.showAttendanceUpdate;
   }
 
   onProfileComponentClose() {
@@ -170,6 +179,10 @@ export class InboxComponent implements OnInit {
   }
   onAssetComponentClose() {
     this.showAssetComponent = false;
+  }
+
+  onAttendanceUpdateClose(){
+    this.showAttendanceUpdate=false;
   }
 
   readNotification(mail: any){
@@ -206,9 +219,7 @@ export class InboxComponent implements OnInit {
       this.requestModalData.uuid = '';
       this.requestModalData.userType = 'ADMIN';
       this.requestModalData.isModal = 0;
-      setTimeout(() => {
-        this.isProfileReqModalOpen = true;
-      } , 1);
+      this.checkPendingRequest(mail.resourceId);
     }else if(mail.categoryId === 71 || mail.categoryId === 72) {
       this.showExpenseComponent = false;
       this.expenseData = {};
@@ -217,12 +228,40 @@ export class InboxComponent implements OnInit {
       this.expenseData.isModal = 0;
       this.currentExpenseId = mail.resourceId;
       this.getCompanyExpense(mail.resourceId);
+    }else if(mail.categoryId === 30) {
+      this.showAttendanceUpdate=false;
+      this.attendanceUpdateData = {};
+      this.attendanceUpdateData.id = mail.resourceId;
+      this.attendanceUpdateData.userType = 'ADMIN';
+      this.attendanceUpdateData.isModal = 0;
+      this.getAttendanceUpdateById(mail.resourceId);
     }
     else{
       this.showExitComponent = false;
       this.showAssetComponent = false;
       this.isProfileReqModalOpen = false;
     }
+  }
+
+  getAttendanceUpdateById(id: number): void {
+    this.isLoadingData = true;
+    this.dataService.getAttendanceRequestById(id).subscribe(
+      (data) => {
+        this.isLoadingData = false;
+        if (data.status) {
+          this.attendanceUpdateData.attendanceRequest=data.object;
+          setTimeout(() => {
+            this.showAttendanceUpdate=true;
+          }, 1);
+        } else {
+
+        }
+      },
+      (error) => {
+        this.isLoadingData = false;
+        console.error('Error fetching attendance update:', error);
+      }
+    );
   }
 
   isLoadingData: boolean = false;
@@ -267,6 +306,20 @@ export class InboxComponent implements OnInit {
     });
   }
 
+  checkPendingRequest(resourceId: number) {
+    this.dataService.isPendingRequest(resourceId).subscribe(response => {
+      if (response.status) {
+        this.requestModalData.id = response.object;
+        setTimeout(() => {
+          this.isProfileReqModalOpen = true;
+        } , 1);
+      }else{
+        this.isProfileReqModalOpen = false;
+      }
+    }, error => {
+      console.error('Error fetching pending request status:', error);
+    });
+  }
 
 
 
@@ -298,7 +351,9 @@ export class InboxComponent implements OnInit {
     }
   }
 
+  activeFilter: string = 'All';
   onFilterClick(filter: any): void {
+    this.activeFilter = filter.type;
     this.categoryIds = filter.ids;
     this.pageNumber = 0; // Reset pagination
     this.mails = []; // Clear existing mails
