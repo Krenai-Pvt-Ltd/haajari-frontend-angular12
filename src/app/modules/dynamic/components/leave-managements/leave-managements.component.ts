@@ -544,6 +544,7 @@ tabName : string = Key.ABSENT_TAB;
 itemPerPageTeamOverview : number = 10;
 currentPageTeamOverView : number = 1;
 leaveTeamOverviewResponse: any[] = [];
+leaveTeamOverviewResponseTotalCount: number = 0;
 isLoaderLoading: boolean = false;
 isAllDataLoaded: boolean = false;
 // getDetailsForLeaveTeamOverview(tabName:string) {
@@ -573,10 +574,10 @@ getDetailsForLeaveTeamOverview(tabName: string) {
     .getDetailsForLeaveTeamOverview(tabName, this.startDate, this.endDate, this.itemPerPageTeamOverview, this.currentPageTeamOverView)
     .subscribe({
       next: (response: any) => {
-        const fetchedData = response.object || [];
+        const fetchedData = response.object.response || [];
         if (fetchedData.length > 0) {
           this.leaveTeamOverviewResponse = [...this.leaveTeamOverviewResponse, ...fetchedData];
-
+          this.leaveTeamOverviewResponseTotalCount = response.object.total;
           if(this.tabName == this.LEAVE_BY_DEPARTMENT_TAB) {
             this.prepareChartData(fetchedData);
           }
@@ -1107,51 +1108,19 @@ onMonthChange(month: Date): void {
       currentDate.setDate(weekEnd.getDate() + 1);  // Move to the next week's start
     }
   
-    // this.chartOptions = {
-    //   series: seriesData,
-    //   chart: { height: 350, type: 'heatmap' },
-    //   plotOptions: {
-    //     heatmap: {
-    //       shadeIntensity: 0.5,
-    //       radius: 4,
-    //       useFillColorAsStroke: true,
-    //       colorScale: {
-    //         ranges: [
-    //           { from: 0, to: 0, name: 'No Leaves', color: '#E0E0E0' },
-    //           { from: 1, to: 2, name: 'Low', color: '#90CAF9' },
-    //           { from: 3, to: 4, name: 'Medium', color: '#42A5F5' },
-    //           { from: 5, to: 6, name: 'High', color: '#1E88E5' },
-    //           { from: 7, to: 10, name: 'Very High', color: '#1565C0' },
-    //         ],
-    //       },
-    //     },
-    //   },
-    //   dataLabels: { enabled: false },
-    //   xaxis: { type: 'category', labels: { show: false } },
-    //   yaxis: { title: { text: 'Weeks of the Month' } },
-    //   tooltip: {
-    //     y: { formatter: (val) => `${val} Leave(s)` },
-    //     x: { formatter: (val) => `${val}` },
-    //   },
-    //   theme: { mode: 'light' },
-    // };
     this.chartOptions = {
       series: seriesData,
-      chart: { 
-        height: 350, 
-        type: 'heatmap',
-        toolbar: { show: false },
-      },
-      stroke: {  // ✅ Moved to top-level (outside `chart`)
-        width: 2,
-        colors: ['#ffffff'],  // White borders around heatmap boxes
+      chart: { height: 350, type: 'heatmap' },
+      stroke: {  
+            width: 2,
+            colors: ['#ffffff'], 
       },
       plotOptions: {
         heatmap: {
-          shadeIntensity: 0.3,
-          radius: 6, // Rounded box corners
+          shadeIntensity: 0.5,
+          radius: 6,
           useFillColorAsStroke: true,
-          distributed: true,
+            // distributed: true,
           colorScale: {
             ranges: [
               { from: 0, to: 0, name: 'No Leaves', color: '#E0E0E0' },
@@ -1164,18 +1133,10 @@ onMonthChange(month: Date): void {
         },
       },
       dataLabels: { enabled: false },
-      xaxis: { 
-        type: 'category', 
-        labels: { show: false },
-        axisBorder: { show: false },
-        axisTicks: { show: false },
-      },
-      yaxis: { 
-        title: { text: 'Weeks of the Month' },
-        labels: { style: { fontSize: '12px' } },
-      },
+      xaxis: { type: 'category', labels: { show: false } },
+      yaxis: { title: { text: 'Weeks of the Month' } },
       grid: { 
-        padding: { left: 10, right: 10, top: 10, bottom: 10 },
+            padding: { left: 20, right: 20, top: 20, bottom: 20 },
       },
       tooltip: {
         y: { formatter: (val) => `${val} Leave(s)` },
@@ -1183,6 +1144,54 @@ onMonthChange(month: Date): void {
       },
       theme: { mode: 'light' },
     };
+    // this.chartOptions = {
+    //   series: seriesData,
+    //   chart: { 
+    //     height: 350, 
+    //     type: 'heatmap',
+    //     toolbar: { show: false },
+    //   },
+    //   stroke: {  // ✅ Moved to top-level (outside `chart`)
+    //     width: 2,
+    //     colors: ['#ffffff'],  // White borders around heatmap boxes
+    //   },
+    //   plotOptions: {
+    //     heatmap: {
+    //       shadeIntensity: 0.3,
+    //       radius: 6, // Rounded box corners
+    //       useFillColorAsStroke: true,
+    //       distributed: true,
+    //       colorScale: {
+    //         ranges: [
+    //           { from: 0, to: 0, name: 'No Leaves', color: '#E0E0E0' },
+    //           { from: 1, to: 2, name: 'Low', color: '#90CAF9' },
+    //           { from: 3, to: 4, name: 'Medium', color: '#42A5F5' },
+    //           { from: 5, to: 6, name: 'High', color: '#1E88E5' },
+    //           { from: 7, to: 10, name: 'Very High', color: '#1565C0' },
+    //         ],
+    //       },
+    //     },
+    //   },
+    //   dataLabels: { enabled: false },
+    //   xaxis: { 
+    //     type: 'category', 
+    //     labels: { show: false },
+    //     axisBorder: { show: false },
+    //     axisTicks: { show: false },
+    //   },
+    //   yaxis: { 
+    //     title: { text: 'Weeks of the Month' },
+    //     labels: { style: { fontSize: '12px' } },
+    //   },
+    //   grid: { 
+    //     padding: { left: 10, right: 10, top: 10, bottom: 10 },
+    //   },
+    //   tooltip: {
+    //     y: { formatter: (val) => `${val} Leave(s)` },
+    //     x: { formatter: (val) => `${val}` },
+    //   },
+    //   theme: { mode: 'light' },
+    // };
     
   }
 
@@ -1198,13 +1207,19 @@ onMonthChange(month: Date): void {
 
 //  leave category details code 
   leaveCategoryDetails: any;
+  leaveCategoryDetailsLoader: boolean = false;
   getLeaveCategoryDetailsForLeaveTeamOverview(): void {
+    this.leaveCategoryDetailsLoader = true;
     this.leaveService.getLeaveCategoryDetailsForLeaveTeamOverview().subscribe({
       next: (response: any) => {
        this.leaveCategoryDetails = response.object;
+       this.leaveCategoryDetailsLoader = false;
 
       },
-      error: (err) => console.error('Error fetching leave data', err),
+      error: (err) => {
+        this.leaveCategoryDetailsLoader = false;
+        console.error('Error fetching leave data', err)}
+      ,
     });
   }
 
@@ -1299,6 +1314,22 @@ getLeaveTopDefaulterUser(): void {
       console.error('Error fetching leave data', err)},
   });
 }
+
+
+getLeaveClass(leaveCategoryName: string): string {
+  const leaveClassMap: { [key: string]: string } = {
+    'Casual Leave': 'casual-leave',
+    'Earned Leave': 'earned-leave',
+    'Sick Leave': 'sick-leave',
+    'Maternity Leave': 'maternity-leave',
+    'Paternity Leave': 'paternity-leave',
+    'WFH': 'wfh-leave',
+    'Week Off': 'week-off-leave'
+  };
+
+  return leaveClassMap[leaveCategoryName] || 'default-leave'; // fallback class
+}
+
   
   
   
