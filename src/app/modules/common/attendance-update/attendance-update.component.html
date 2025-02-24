@@ -73,7 +73,7 @@
                       </nz-select>
                     </nz-form-control>
                   </div>
-                  <div class="col-md-6">
+                  <div *ngIf="isCreate" class="col-md-6">
                     <nz-form-control>
                       <nz-select class="form-control" formControlName="attendanceId" id="attendanceId" nzPlaceHolder="Select time to be updated" style="width: 100%" nzSize="large" [nzDisabled]="!isCreate">
                         <nz-option *ngFor="let time of attendanceCheckTimeResponse" [nzValue]="time.attendanceId" [nzLabel]="time.checkTime | date: 'shortTime'"></nz-option>
