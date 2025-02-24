@@ -119,10 +119,15 @@ export class LeaveService {
 
 
   getLeaveCategoryDetailsForLeaveTeamOverview(
+    startDate: string,
+    endDate: string
   ): Observable<any> {
+    const params = new HttpParams()
+      .set('startDate', startDate)
+      .set('endDate', endDate);
     return this.http.get<any>(
       `${API_URLS.base_url}/leave/leave-categories`,
-      { }
+      {params }
     );
   }
 

@@ -489,3 +489,13 @@
   overflow-y: auto;
   padding-right: 10px;
 }
+
+
+.Regular-data {
+  cursor: pointer;
+}
+
+.Regular-data:hover {
+  color: #6666f3 !important;
+  text-decoration: underline;
+}
