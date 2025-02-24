@@ -1,0 +1,153 @@
+/* Modal Header */
+.modal-header {
+  background-color: #fff; /* Assuming a default white background */
+}
+
+/* Close Button */
+.close-btn {
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+/* User Detail Section */
+.user-detail {
+  background-color: #FAFAFA;
+  padding: 15px; /* Adjusted from p-3 assuming 15px padding */
+}
+.user-detail p {
+  color: #6B7280;
+  margin-bottom: 0; /* Matches mb-0 */
+}
+.user-detail img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+.font-15 {
+  font-size: 15px;
+}
+.font-12 {
+  font-size: 12px;
+}
+.font-13 {
+  font-size: 13px;
+}
+.fw-semibold {
+  font-weight: 600;
+}
+
+/* Leave Form Data */
+.leave-form-data {
+  padding: 15px; /* Matches p-3 */
+}
+.requested-to {
+  background-color: #fbfbfb;
+  border: 1px solid #e9e9e9;
+  padding: 15px;
+  border-radius: 2px;
+}
+.requested-to p {
+  margin-bottom: 0; /* Matches mb-0 */
+}
+.requested-to span {
+  color: #6666F2;
+}
+.total-leave {
+  background-color: #fbfbfb;
+  border-left: 3px solid #F3A73D;
+  padding: 5px 15px;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  gap: 15px; /* Matches gap-3 assuming 15px */
+}
+.total-leave p {
+  margin-bottom: 0; /* Matches mb-1 with slight adjustment */
+  font-size: 11px; /* Matches font-11 */
+}
+.total-leave h5 {
+  margin-bottom: 0; /* Matches mb-0 */
+  font-size: 13px; /* Matches fot-13 (assuming typo for font-13) */
+  font-weight: 600; /* Matches fw-semibold */
+}
+.nots-section {
+  background-color: rgba(236, 236, 236, 0.21);
+  width: 100%;
+  height: 80px;
+  border: 1px solid #e9e9e9;
+  resize: none; /* Assuming textarea should not be resizable */
+}
+
+/* Modal Footer */
+.modal-footer {
+  background-color: #fff;
+  padding: 15px; /* Matches p-3 */
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px; /* Matches gap-2 assuming 10px */
+}
+.reject-btn {
+  background-color: #FAECEA;
+  color: #FF3014;
+  border: 1px solid #FF3014;
+  font-size: 13px;
+  border-radius: 2px;
+  min-width: 100px;
+  font-weight: 500;
+  padding: 5px 15px; /* Standard button padding */
+  cursor: pointer;
+}
+.approved-btn {
+  background-color: #E0F4ED;
+  color: #388E3C;
+  border: 1px solid #388E3C;
+  font-size: 13px;
+  border-radius: 2px;
+  min-width: 100px;
+  font-weight: 500;
+  padding: 5px 15px; /* Standard button padding */
+  cursor: pointer;
+}
+
+/* General Layout */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+}
+.col-md-5 {
+  flex: 0 0 41.666667%;
+  max-width: 41.666667%;
+}
+.col-md-6 {
+  flex: 0 0 50%;
+  max-width: 50%;
+}
+.col-md-7 {
+  flex: 0 0 58.333333%;
+  max-width: 58.333333%;
+}
+.col-md-12 {
+  flex: 0 0 100%;
+  max-width: 100%;
+}
+.mb-3 {
+  margin-bottom: 15px; /* Assuming 15px for mb-3 */
+}
+.pb-2 {
+  padding-bottom: 10px; /* Assuming 10px for pb-2 */
+}
+.p-0 {
+  padding: 0;
+}
+
+/* Attachment Image */
+img[alt="Attachment"] {
+  max-width: 100px;
+  height: auto;
+  cursor: pointer;
+}
+a[rel="noopener noreferrer"] {
+  font-size: 13px;
+  color: red;
+}

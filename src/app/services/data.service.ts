@@ -3962,6 +3962,13 @@ getHolidayForOrganizationWhatsapp(userUuid: string, date: string): Observable<an
     return this.httpClient.post<any>(url, attendanceTimeUpdateRequestDto, {});
   }
 
+  getAttendanceRequestById(id: any): Observable<any> {
+    const params = new HttpParams()
+    .set('id', id);
+    const url = `${this.baseUrl}/attendance/by-id`;
+    return this.httpClient.get<any>(url,{params});
+  }
+
   sendAttendanceTimeUpdateRequestWhatsapp(attendanceTimeUpdateRequestDto: AttendanceTimeUpdateRequestDto, userUuid: string): Observable<any> {
     const params = new HttpParams()
     .set('userUuid', userUuid);
@@ -4824,6 +4831,10 @@ getHolidayForOrganizationWhatsapp(userUuid: string, date: string): Observable<an
   getEditedFieldsByUserUuid(uuid: string): Observable<any> {
     const params = new HttpParams().set('uuid', uuid);
     return this.httpClient.get<any>(`${this.baseUrl}/get/onboarding/edited-fields`, { params });
+  }
+
+  isPendingRequest(resourceId: number): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/get/onboarding/is-pending-request`, { params: { resourceId } });
   }
 
   getPendingRequestsCounter(): Observable<any> {
