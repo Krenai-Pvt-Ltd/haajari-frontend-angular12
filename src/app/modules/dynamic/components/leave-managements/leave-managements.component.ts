@@ -204,8 +204,11 @@ organizationRegistrationDate: string = '';
     };
 
     if (applyDateRange) {
-      params.startDate = moment(this.filters.fromDate).format(this.networkDateFormat);
-      params.endDate = moment(this.filters.toDate).format(this.networkDateFormat);
+      
+      params.startDate = moment(this.filters.fromDate).format(this.displayDateFormatNew);
+      params.endDate = moment(this.filters.toDate).format(this.displayDateFormatNew);
+      // params.startDate = moment(this.filters.fromDate).format(this.networkDateFormat);
+      // params.endDate = moment(this.filters.toDate).format(this.networkDateFormat);
     }
 
     this.isLoadingLeaves = true;
@@ -314,6 +317,7 @@ filters:{
 };
 
 displayDateFormat: string = 'DD-MM-YYYY'; // Date format for date picker
+displayDateFormatNew: string = 'YYYY-MM-DD';
 networkDateFormat: string = "yyyy-MM-DD HH:mm:ss";
 
 // Disable dates greater than 'fromDate' for the 'toDate' field
@@ -357,7 +361,12 @@ applyFilters(): void {
 
   this.changeShowFilter(false);
   this.currentPage = 1;
+
+  if(this.filters.fromDate && this.filters.toDate) {
   this.getLeaves(false, true); // Fetch data with applied filters
+  } else {
+    this.getLeaves(false, false); 
+  }
 }
 
 resetFilters(): void {
