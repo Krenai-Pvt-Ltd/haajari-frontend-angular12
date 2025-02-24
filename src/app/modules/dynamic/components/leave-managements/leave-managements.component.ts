@@ -8,7 +8,7 @@ import { RoleBasedAccessControlService } from 'src/app/services/role-based-acces
 import moment from 'moment';  // Import Moment.js
 import { DatePipe } from '@angular/common';
 import { DataService } from 'src/app/services/data.service';
-import {ApexAxisChartSeries, ApexChart,ApexXAxis,ApexYAxis,ApexDataLabels,ApexTooltip,ApexGrid,ApexFill,ApexMarkers,ApexTitleSubtitle,ChartComponent,ApexPlotOptions,ApexTheme,ApexStroke,} from 'ng-apexcharts';
+import {ApexAxisChartSeries, ApexChart,ApexXAxis,ApexYAxis,ApexDataLabels,ApexTooltip,ApexGrid,ApexFill,ApexMarkers,ApexTitleSubtitle,ChartComponent,ApexPlotOptions,ApexTheme,ApexStroke, ApexLegend,} from 'ng-apexcharts';
 
 
 export type ChartOptions = {
@@ -22,6 +22,7 @@ export type ChartOptions = {
   theme: ApexTheme;
   stroke?: ApexStroke;
   grid?: ApexGrid;
+  legend?: ApexLegend
 };
 
 export type ChartOptions1 = {
@@ -127,7 +128,7 @@ organizationRegistrationDate: string = '';
     this.ROLE = await this.rbacService.getRole();
     this.getLeaves(false,false);
     this.selectedDate = new Date();
-    this.getLeaveCategoryDetailsForLeaveTeamOverview();
+    
 
     this.getOrganizationRegistrationDateMethodCall();
     this.calculateDateRange();
@@ -136,6 +137,7 @@ organizationRegistrationDate: string = '';
     this.getDetailsForLeaveTeamOverview(this.tabName);
     this.getReportDetailsForLeaveTeamOverviewForHeatMap();
     this.getLeaveTopDefaulterUser();
+    this.getLeaveCategoryDetailsForLeaveTeamOverview();
   }
 
 
@@ -634,6 +636,7 @@ onMonthChange(month: Date): void {
   this.getDetailsForLeaveTeamOverview(this.tabName);
   this.getReportDetailsForLeaveTeamOverviewForHeatMap();
   this.getLeaveTopDefaulterUser();
+  this.getLeaveCategoryDetailsForLeaveTeamOverview();
 }
 
 
@@ -987,6 +990,8 @@ onMonthChange(month: Date): void {
         x: { formatter: (val) => `${val}` },
       },
       theme: { mode: 'light' },
+      legend: { show: false },
+
     };
         
   }
@@ -1004,7 +1009,7 @@ onMonthChange(month: Date): void {
   leaveCategoryDetailsLoader: boolean = false;
   getLeaveCategoryDetailsForLeaveTeamOverview(): void {
     this.leaveCategoryDetailsLoader = true;
-    this.leaveService.getLeaveCategoryDetailsForLeaveTeamOverview().subscribe({
+    this.leaveService.getLeaveCategoryDetailsForLeaveTeamOverview(this.startDate, this.endDate).subscribe({
       next: (response: any) => {
        this.leaveCategoryDetails = response.object;
        this.leaveCategoryDetailsLoader = false;
@@ -1136,6 +1141,11 @@ getLeaveClass(leaveCategoryName: string): string {
   return leaveClassMap[leaveCategoryName] || 'default-leave'; // fallback class
 }
 
+
+
+routeToUserProfile(uuid: string) {
+  this.helperService.routeToUserProfile(uuid);
+}
   
   
   
