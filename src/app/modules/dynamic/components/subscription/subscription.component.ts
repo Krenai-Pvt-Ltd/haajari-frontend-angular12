@@ -117,6 +117,7 @@ export class SubscriptionComponent implements OnInit {
   validateDowngrade:boolean=false;
   @ViewChild('downgradeModalButton')downgradeModalButton!:ElementRef;
   selectPlan(plan:SubscriptionPlan){
+    debugger
     // console.log("======Soooo",this.orgSubscriptionPlanDetail )
     this.selectedSubscriptionPlan = plan;
     this.typeBySubscriptionPlans = new Array();
