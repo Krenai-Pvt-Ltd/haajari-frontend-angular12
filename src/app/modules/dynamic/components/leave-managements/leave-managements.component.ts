@@ -22,6 +22,7 @@ import {
   ChartComponent,
   ApexPlotOptions,
   ApexTheme,
+  ApexStroke,
 } from 'ng-apexcharts';
 
 
@@ -34,6 +35,20 @@ export type ChartOptions = {
   yaxis: ApexYAxis;
   tooltip: ApexTooltip;
   theme: ApexTheme;
+  stroke?: ApexStroke;
+  grid?: ApexGrid;
+};
+
+export type ChartOptions1 = {
+  series: ApexAxisChartSeries;
+  chart: ApexChart;
+  plotOptions: ApexPlotOptions;
+  dataLabels: ApexDataLabels;
+  xaxis: ApexXAxis;
+  yaxis: ApexYAxis;
+  tooltip: ApexTooltip;
+  fill: ApexFill;
+  title: ApexTitleSubtitle;
 };
 
 
@@ -56,6 +71,7 @@ export class LeaveManagementsComponent implements OnInit {
     this.ROLE = await this.rbacService.getRole();
     this.getLeaves(false,false);
     this.selectedDate = new Date();
+    this.getLeaveCategoryDetailsForLeaveTeamOverview();
     
     this.getOrganizationRegistrationDateMethodCall();
     this.calculateDateRange();
@@ -64,6 +80,7 @@ export class LeaveManagementsComponent implements OnInit {
     // this.updateWeekLabels();
     this.getDetailsForLeaveTeamOverview(this.tabName);
     this.getReportDetailsForLeaveTeamOverviewForHeatMap();
+    this.getLeaveTopDefaulterUser();
   }
 
 
@@ -559,6 +576,10 @@ getDetailsForLeaveTeamOverview(tabName: string) {
         const fetchedData = response.object || [];
         if (fetchedData.length > 0) {
           this.leaveTeamOverviewResponse = [...this.leaveTeamOverviewResponse, ...fetchedData];
+
+          if(this.tabName == this.LEAVE_BY_DEPARTMENT_TAB) {
+            this.prepareChartData(fetchedData);
+          }
         } else {
           this.isAllDataLoaded = true; // No more data
         }
@@ -712,6 +733,7 @@ onMonthChange(month: Date): void {
   // this.tabName = this.ABSENT_TAB;
   this.getDetailsForLeaveTeamOverview(this.tabName);
   this.getReportDetailsForLeaveTeamOverviewForHeatMap();
+  this.getLeaveTopDefaulterUser();
 }
 
 
@@ -1085,14 +1107,51 @@ onMonthChange(month: Date): void {
       currentDate.setDate(weekEnd.getDate() + 1);  // Move to the next week's start
     }
   
+    // this.chartOptions = {
+    //   series: seriesData,
+    //   chart: { height: 350, type: 'heatmap' },
+    //   plotOptions: {
+    //     heatmap: {
+    //       shadeIntensity: 0.5,
+    //       radius: 4,
+    //       useFillColorAsStroke: true,
+    //       colorScale: {
+    //         ranges: [
+    //           { from: 0, to: 0, name: 'No Leaves', color: '#E0E0E0' },
+    //           { from: 1, to: 2, name: 'Low', color: '#90CAF9' },
+    //           { from: 3, to: 4, name: 'Medium', color: '#42A5F5' },
+    //           { from: 5, to: 6, name: 'High', color: '#1E88E5' },
+    //           { from: 7, to: 10, name: 'Very High', color: '#1565C0' },
+    //         ],
+    //       },
+    //     },
+    //   },
+    //   dataLabels: { enabled: false },
+    //   xaxis: { type: 'category', labels: { show: false } },
+    //   yaxis: { title: { text: 'Weeks of the Month' } },
+    //   tooltip: {
+    //     y: { formatter: (val) => `${val} Leave(s)` },
+    //     x: { formatter: (val) => `${val}` },
+    //   },
+    //   theme: { mode: 'light' },
+    // };
     this.chartOptions = {
       series: seriesData,
-      chart: { height: 350, type: 'heatmap' },
+      chart: { 
+        height: 350, 
+        type: 'heatmap',
+        toolbar: { show: false },
+      },
+      stroke: {  // ✅ Moved to top-level (outside `chart`)
+        width: 2,
+        colors: ['#ffffff'],  // White borders around heatmap boxes
+      },
       plotOptions: {
         heatmap: {
-          shadeIntensity: 0.5,
-          radius: 4,
+          shadeIntensity: 0.3,
+          radius: 6, // Rounded box corners
           useFillColorAsStroke: true,
+          distributed: true,
           colorScale: {
             ranges: [
               { from: 0, to: 0, name: 'No Leaves', color: '#E0E0E0' },
@@ -1105,14 +1164,26 @@ onMonthChange(month: Date): void {
         },
       },
       dataLabels: { enabled: false },
-      xaxis: { type: 'category', labels: { show: false } },
-      yaxis: { title: { text: 'Weeks of the Month' } },
+      xaxis: { 
+        type: 'category', 
+        labels: { show: false },
+        axisBorder: { show: false },
+        axisTicks: { show: false },
+      },
+      yaxis: { 
+        title: { text: 'Weeks of the Month' },
+        labels: { style: { fontSize: '12px' } },
+      },
+      grid: { 
+        padding: { left: 10, right: 10, top: 10, bottom: 10 },
+      },
       tooltip: {
         y: { formatter: (val) => `${val} Leave(s)` },
         x: { formatter: (val) => `${val}` },
       },
       theme: { mode: 'light' },
     };
+    
   }
 
   // formatDateToYYYYMMDD(date: Date): string {
@@ -1122,6 +1193,113 @@ onMonthChange(month: Date): void {
   formatDateToDDMMM(date: Date): string {
     return date.toLocaleDateString('en-US', { day: '2-digit', month: 'short' });
   }
+  
+
+
+//  leave category details code 
+  leaveCategoryDetails: any;
+  getLeaveCategoryDetailsForLeaveTeamOverview(): void {
+    this.leaveService.getLeaveCategoryDetailsForLeaveTeamOverview().subscribe({
+      next: (response: any) => {
+       this.leaveCategoryDetails = response.object;
+
+      },
+      error: (err) => console.error('Error fetching leave data', err),
+    });
+  }
+
+
+  //  chart for department 
+
+
+  @ViewChild('departmentChart') departmentChart!: ChartComponent;
+  public chartOptions1!: Partial<ChartOptions1>;
+
+  public bestTeam: string = '';
+  public slowestTeam: string = '';
+
+  prepareChartData(data: any[]) {
+    if (!data || data.length === 0) return;
+
+    const sortedData = [...data].sort((a, b) => b.totalApprovedLeaveCount - a.totalApprovedLeaveCount);
+    this.bestTeam = sortedData[0]?.teamName || 'N/A';
+    this.slowestTeam = sortedData[sortedData.length - 1]?.teamName || 'N/A';
+
+    const maxCount = sortedData[0]?.totalApprovedLeaveCount || 1;
+    const categories = sortedData.map((item) => item.teamName);
+    const seriesData = sortedData.map((item) => Number(((item.totalApprovedLeaveCount / maxCount) * 100).toFixed(2)));
+
+    this.chartOptions1 = {
+      series: [
+        {
+          name: 'Leave Percentage',
+          data: seriesData,
+        },
+      ],
+      chart: {
+        type: 'bar',
+        height: 400,
+      },
+      plotOptions: {
+        bar: {
+          horizontal: true,
+          dataLabels: {
+            position: 'right',
+          },
+        },
+      },
+      dataLabels: {
+        enabled: true,
+        formatter: (val) => `${val}%`,
+        style: {
+          fontSize: '12px',
+          colors: ['#333'],
+        },
+      },
+      xaxis: {
+        categories: categories,
+        title: { text: 'Percentage (%)' },
+      },
+      yaxis: {
+        title: { text: 'Teams' },
+      },
+      tooltip: {
+        y: {
+          formatter: (val) => `${val}%`,
+        },
+      },
+      fill: {
+        colors: ['#1E90FF'],
+      },
+      title: {
+        text: 'Team Leave Performance',
+        align: 'center',
+        style: { fontSize: '16px', fontWeight: 'bold' },
+      },
+    };
+  }
+
+
+
+
+//  leave category details code 
+topDefaulterUser: any;
+isDefaulterEmployeeLoading: boolean = false;
+getLeaveTopDefaulterUser(): void {
+  this.isDefaulterEmployeeLoading = true;
+  this.leaveService.getLeaveTopDefaulterUser(this.startDate, this.endDate).subscribe({
+    next: (response: any) => {
+     this.topDefaulterUser = response.object;
+     this.isDefaulterEmployeeLoading = false
+
+    },
+    error: (err) => {
+      this.topDefaulterUser = null;
+      this.isDefaulterEmployeeLoading = false;
+      console.error('Error fetching leave data', err)},
+  });
+}
+  
   
   
 }
