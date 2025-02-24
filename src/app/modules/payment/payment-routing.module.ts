@@ -37,6 +37,11 @@ const routes: Routes = [{ path: '', redirectTo: '/payment/payroll-dashboard', pa
       path: 'payroll-dashboard/leave-summary',
       component: LeaveSummaryComponent,
       canActivate: [AuthGuard, SubscriptionGuard]
+    },
+    {
+      path: 'payroll-dashboard/payroll-setup',
+      component: LeaveSummaryComponent,
+      canActivate: [AuthGuard, SubscriptionGuard]
     }
   ]
 }

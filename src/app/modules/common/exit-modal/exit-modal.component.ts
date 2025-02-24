@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { Key } from 'src/app/constant/key';
 import { UserResignation } from 'src/app/models/UserResignation';
 import { DataService } from 'src/app/services/data.service';
@@ -33,8 +33,21 @@ export class ExitModalComponent {
   }
 
   ngOnInit(): void {
+    this.fetchData();
+    
 
-    this.userId= this.data.uuid;
+  }
+
+ngOnChanges(changes: SimpleChanges) {
+      if (changes['data']) {
+        console.log("changes deetcted");
+       this.fetchData();
+      }
+    }
+
+
+    fetchData(){
+      this.userId= this.data.uuid;
     this.id= this.data.id;
     if(this.data.id){
       this.getUserResignationInfoById();
@@ -48,11 +61,7 @@ export class ExitModalComponent {
 
     // this.startCarousel();
     this.ROLE= this.data.userType;
-
-  }
-
-
-
+    }
 /**
  * Method to handle the submission of a resignation request.
  *
@@ -75,7 +84,7 @@ export class ExitModalComponent {
     this.dataService.submitResignation(this.userResignationReq).subscribe((res: any) => {
       if (res.status) {
         this.resignationToggle = false
-        this.closeApproveModal.nativeElement.click()
+        this.viewExitRequestDismiss.nativeElement.click()
         this.getUserResignationInfo()
         // this.clearForm();
         this.close();
@@ -127,7 +136,7 @@ export class ExitModalComponent {
     })
   }
 
-    @ViewChild('closeApproveModal') closeApproveModal!: ElementRef
+    @ViewChild('viewExitRequestDismiss') viewExitRequestDismiss!: ElementRef
     approveToggle: boolean = false
     hideResignationModal: boolean = false;
     approveOrDenyResignation(id: number) {
@@ -146,8 +155,8 @@ export class ExitModalComponent {
           );
 
           this.close();
-          if(this.closeApproveModal){
-            this.closeApproveModal.nativeElement.click()
+          if(this.viewExitRequestDismiss){
+            this.viewExitRequestDismiss.nativeElement.click()
           }
         } else {
           this.approveToggle = false;
@@ -210,7 +219,7 @@ export class ExitModalComponent {
       // this.closeApproveModal.nativeElement.click()
       this.dataService.revokeResignation(id, this.userResignationInfo.revokeReason).subscribe((res: any) => {
         if (res.status) {
-          this.closeApproveModal.nativeElement.click()
+          this.viewExitRequestDismiss.nativeElement.click()
           this.approveToggle = false
           // this.helperService.profileChangeStatus.next(true);
           this.helperService.showToast(

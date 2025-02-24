@@ -1380,6 +1380,12 @@ span.request-count {
   border-radius: 50%;
 }
 
+.team-list-count:not(:last-child){
+  border-bottom: 1px solid #F2F2F2;
+}
+.team-list-count:not(:first-child){
+  padding-top: 15px;
+}
 .request-user {
   background-color: #F5F5F5;
   border-radius: 2px;

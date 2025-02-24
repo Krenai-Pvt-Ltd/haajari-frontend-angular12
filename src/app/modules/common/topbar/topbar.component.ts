@@ -199,6 +199,11 @@ export class TopbarComponent implements OnInit {
       routeDesc="Manage Employee Expense Reimbursements"
       break;
     }
+    case this.Routes.PAYROLL:{
+      routeValue = 'Payroll Overview';
+      routeDesc="Manage and Review Payroll Processes"
+      break;
+    }
 
    }
 
