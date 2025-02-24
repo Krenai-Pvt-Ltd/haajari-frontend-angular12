@@ -47,8 +47,8 @@
               <ng-container *ngIf="!isShimmer && !networkConnectionErrorPlaceholder">
                 <!-- && onboardingViaString != 'SLACK' -->
                 <div class="col-md-12 mb-100" *ngIf="
-                    onboardUserList.length == 0 
-                   
+                    onboardUserList.length == 0
+
                   ">
                   <div class="col-md-12 mt-3" *ngIf="adminUser != null">
                     <div class="alreadyMemberBox p-3 d-flex align-items-center justify-content-between">
@@ -376,7 +376,7 @@
 
                       <div class="d-flex gap-3">
 
-                       
+
                           <button class="btn p-0 text-primary fw-semibold" type="button" data-bs-toggle="modal"
                             data-bs-target="#sampleFileModal2" [disabled]="isProgressToggle || percentage > 0">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -390,10 +390,10 @@
                                 d="M8 18H16V16H8V18ZM8 14H16V12H8V14ZM6 22C5.45 22 4.97917 21.8042 4.5875 21.4125C4.19583 21.0208 4 20.55 4 20V4C4 3.45 4.19583 2.97917 4.5875 2.5875C4.97917 2.19583 5.45 2 6 2H14L20 8V20C20 20.55 19.8042 21.0208 19.4125 21.4125C19.0208 21.8042 18.55 22 18 22H6ZM13 9V4H6V20H18V9H13Z"
                                 fill="#6666F2" />
                             </g>
-                          </svg>  
+                          </svg>
                           Excel Upload
                           </button>
-                       
+
                         <!-- <input #fileInput id="fileSelect" type="file" name="img[]"
                           accept=".xlsx,application/vnd.ms-excel" class="input" style="display: none"
                           (change)="selectFile($event)" />
@@ -923,17 +923,28 @@
                 <div class="col-md-12">
                   <div class="mb-3">
                     <label class="mb-2">
-                      Employee Name <span class="text-optional">*</span></label>
-                    <input type="text" name="userName{{ i }}" [(ngModel)]="user.name" class="form-control profile-input"
-                      placeholder="Enter Employee Name" #name="ngModel" minlength="3" required />
+                      Employee Name <span class="text-optional">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="userName{{ i }}"
+                      [(ngModel)]="user.name"
+                      class="form-control profile-input"
+                      placeholder="Enter Employee Name"
+                      #name="ngModel"
+                      minlength="3"
+                      required
+                      pattern="[a-zA-Z]+( [a-zA-Z]+)*"
+                    />
                     <div *ngIf="name?.dirty || isFormInvalid">
                       <p class="errortxt mt-2 mb-2 text-danger" *ngIf="name.errors?.required">
-                        <i class="bi bi-exclamation-circle"></i> Name is
-                        required.
+                        <i class="bi bi-exclamation-circle"></i> Name is required.
                       </p>
                       <p class="errortxt mt-2 mb-2 text-danger" *ngIf="name.errors?.minlength">
-                        <i class="bi bi-exclamation-circle"></i> Please enter a
-                        valid name.
+                        <i class="bi bi-exclamation-circle"></i> Name must be at least 3 characters long.
+                      </p>
+                      <p class="errortxt mt-2 mb-2 text-danger" *ngIf="name.errors?.pattern">
+                        <i class="bi bi-exclamation-circle"></i> Name can only contain letters and single spaces between words (e.g., John Doe).
                       </p>
                     </div>
                   </div>
@@ -1142,7 +1153,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    
+
                     <tr *ngFor="let row of paginatedData; let i = index">
                       <td *ngFor="let cell of fileColumnName; let j = index">
                         <ng-container *ngIf="fileColumnName[j] === 'shift*' && (currentPage - 1) * pageSize + i  !== 0; else leaveColumns">
@@ -1256,7 +1267,7 @@
                           </ng-container>
                         </ng-template>
 
-                        
+
                         <ng-template #defaultInput>
                           <input
                             [(ngModel)]="row[j]"

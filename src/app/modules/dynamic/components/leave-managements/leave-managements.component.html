@@ -5,7 +5,7 @@
            <div class="col-md-12 mt-3">
             <ul id="pills-tab" role="tablist" class="nav nav-pills ">
                 <li class="nav-item">
-                  <a id="pills-announcement-tab" data-bs-toggle="pill" href="#dashboard" role="tab" 
+                  <a id="pills-announcement-tab" data-bs-toggle="pill" href="#dashboard" role="tab"
                     aria-controls="pills-dashboard" aria-selected="false"
                     class="nav-link active">Dashboard</a>
                 </li>
@@ -39,7 +39,7 @@
                                             <nz-date-picker nzMode="month" [nzSize]="size" nzFormat="MMM, yyyy"
                                                 [(ngModel)]="selectedDate"  (ngModelChange)="onMonthChange($event)"
                                                 [nzDisabledDate]="disableMonths"></nz-date-picker>
-            
+
                                             <!-- <nz-date-picker nzMode="month" nzFormat="MMM, yyyy"></nz-date-picker> -->
                                         </div>
                                         <!-- <div class="dropdown">
@@ -88,7 +88,7 @@
                                             <nz-select class="week-filter" [(ngModel)]="selectedTab" style="width: 120px;" (ngModelChange)="onTabChange($event)">
                                                 <nz-option *ngFor="let week of weekLabels" [nzValue]="week" [nzLabel]="week"></nz-option>
                                               </nz-select>
-                                              
+
                                             <!-- <nz-select class="week-filter" ngModel="Week 1" style="width: 120px;">
                                                 <nz-option nzValue="Week 1" nzLabel="Week 1"></nz-option>
                                                 <nz-option nzValue="Week 2" nzLabel="Week 2"></nz-option>
@@ -112,11 +112,11 @@
                                               [fill]="fill"
                                             ></apx-chart>
                                           </div>
-                                          
+
                                           <ng-template #loading>
                                             <p class="text-center">Loading chart...</p>
                                           </ng-template>
-                                          
+
                                         <div class="mt-3 mb-2 d-flex align-items-center gap-5 justify-content-between">
                                             <div class="approved position-relative">
                                                 <h5 class="font-13 mb-3">Approved</h5>
@@ -169,8 +169,8 @@
                                         [grid]="chartOptions.grid!">
                                         </apx-chart>
 
-                                      
-                                       
+
+
 
                                   </div>
                                 </div>
@@ -217,7 +217,7 @@
                                                         ((deets?.totalMappedUsers / deets?.totalUsers) * 100) | number : '1.0-0'
                                                       }}%</span></p>
                                                 </div>
-                                                
+
                                             </div>
                                             <!-- <div class="d-flex align-items-center justify-content-between leave-count-list p-2 mb-3">
                                                 <div class="d-flex align-items-center gap-2">
@@ -234,7 +234,7 @@
                                                     </span>
                                                     <p class="mb-0 text-black font-13"><span class="fw-semibold">4%</span></p>
                                                 </div>
-                                                
+
                                             </div> -->
                                             <!-- <div class="d-flex align-items-center justify-content-between leave-count-list p-2 mb-3">
                                                 <div class="d-flex align-items-center gap-2">
@@ -250,7 +250,7 @@
                                                     </span>
                                                     <p class="mb-0 text-black font-13"><span class="fw-semibold">55%</span></p>
                                                 </div>
-                                                
+
                                             </div> -->
                                             <!-- <div class="d-flex align-items-center justify-content-between leave-count-list p-2 mb-3">
                                                 <div class="d-flex align-items-center gap-2">
@@ -267,7 +267,7 @@
                                                     </span>
                                                     <p class="mb-0 text-black font-13"><span class="fw-semibold">4% </span></p>
                                                 </div>
-                                                
+
                                             </div> -->
                                             <!-- <div class="d-flex align-items-center justify-content-between leave-count-list p-2 mb-3">
                                                 <div class="d-flex align-items-center gap-2">
@@ -275,10 +275,10 @@
                                                    <p class="mb-0 text-black fw-semibold font-13">Maternity Leave </p>
                                                 </div>
                                                 <div class="d-flex align-items-center gap-2">
-                                                    
+
                                                     <button class="btn text-primary font-13 fw-semibold  p-0">Add</button>
                                                 </div>
-                                                
+
                                             </div> -->
                                             <!-- <div class="d-flex align-items-center justify-content-between leave-count-list p-2">
                                                 <div class="d-flex align-items-center gap-2">
@@ -286,10 +286,10 @@
                                                    <p class="mb-0 text-black fw-semibold font-13">Paternity Leave</p>
                                                 </div>
                                                 <div class="d-flex align-items-center gap-2">
-                                                   
+
                                                     <button class="btn text-primary font-13 fw-semibold p-0">Add</button>
                                                 </div>
-                                                
+
                                             </div> -->
                                         </div>
                                         <div class="empty-file" style="margin-top: 5%; margin-bottom: 5%" *ngIf="leaveCategoryDetails?.length == 0 && !leaveCategoryDetailsLoader">
@@ -335,7 +335,7 @@
                                         <div class="col-md-3">
                                             <div class="overview-sidebar-menu">
                                                 <div id="v-pills-tab" role="tablist" aria-orientation="vertical" class="nav flex-column nav-pills pt-3 pb-5">
-                                                    <button id="v-pills-absent-tab" data-bs-toggle="pill" data-bs-target="#v-pills-absent-today" 
+                                                    <button id="v-pills-absent-tab" data-bs-toggle="pill" data-bs-target="#v-pills-absent-today"
                                                     type="button" role="tab" aria-controls="v-pills-home" aria-selected="true" class="nav-link active"
                                                     (click)="switchTab('absent')">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="13" viewBox="0 0 18 13" fill="none">
@@ -343,7 +343,7 @@
                                                         <path *ngIf="tab == 'absent'" d="M13.5 7.0448L12.6219 6.16668L14.359 4.41668L12.6219 2.68751L13.5 1.79647L15.25 3.54647L16.9792 1.79647L17.8702 2.68751L16.1281 4.41668L17.8702 6.16668L16.9792 7.0448L15.25 5.31563L13.5 7.0448ZM6.5 6.24355C5.69792 6.24355 5.01132 5.95799 4.44021 5.38688C3.86896 4.81563 3.58333 4.12897 3.58333 3.32688C3.58333 2.5248 3.86896 1.8382 4.44021 1.26709C5.01132 0.695842 5.69792 0.410217 6.5 0.410217C7.30208 0.410217 7.98868 0.695842 8.55979 1.26709C9.13104 1.8382 9.41667 2.5248 9.41667 3.32688C9.41667 4.12897 9.13104 4.81563 8.55979 5.38688C7.98868 5.95799 7.30208 6.24355 6.5 6.24355ZM0.25 12.5898V10.7371C0.25 10.329 0.360833 9.95112 0.5825 9.60334C0.804167 9.25556 1.10042 8.9882 1.47125 8.80126C2.29486 8.39751 3.12576 8.09466 3.96396 7.89272C4.80215 7.69077 5.6475 7.5898 6.5 7.5898C7.3525 7.5898 8.19785 7.69077 9.03604 7.89272C9.87424 8.09466 10.7051 8.39751 11.5287 8.80126C11.8996 8.9882 12.1958 9.25556 12.4175 9.60334C12.6392 9.95112 12.75 10.329 12.75 10.7371V12.5898H0.25ZM1.5 11.3398H11.5V10.7371C11.5 10.5683 11.4511 10.4121 11.3533 10.2683C11.2556 10.1247 11.1228 10.0075 10.9552 9.91668C10.2372 9.56306 9.50507 9.29515 8.75896 9.11293C8.01271 8.93084 7.25972 8.8398 6.5 8.8398C5.74028 8.8398 4.98729 8.93084 4.24104 9.11293C3.49493 9.29515 2.76285 9.56306 2.04479 9.91668C1.87715 10.0075 1.74444 10.1247 1.64667 10.2683C1.54889 10.4121 1.5 10.5683 1.5 10.7371V11.3398ZM6.5 4.99355C6.95833 4.99355 7.35069 4.83036 7.67708 4.50397C8.00347 4.17758 8.16667 3.78522 8.16667 3.32688C8.16667 2.86855 8.00347 2.47619 7.67708 2.1498C7.35069 1.82341 6.95833 1.66022 6.5 1.66022C6.04167 1.66022 5.64931 1.82341 5.32292 2.1498C4.99653 2.47619 4.83333 2.86855 4.83333 3.32688C4.83333 3.78522 4.99653 4.17758 5.32292 4.50397C5.64931 4.83036 6.04167 4.99355 6.5 4.99355Z" fill="#6666F2"/>
                                                     </svg>
                                                     Absent </button>
-                                                    <button id="leave-tab" data-bs-toggle="pill" data-bs-target="#v-pills-on-leave" 
+                                                    <button id="leave-tab" data-bs-toggle="pill" data-bs-target="#v-pills-on-leave"
                                                     type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false" class="nav-link"
                                                     (click)="switchTab('leave')">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="19" height="13" viewBox="0 0 19 13" fill="none">
@@ -351,7 +351,7 @@
                                                         <path *ngIf="tab == 'leave'" d="M13.625 6.20355L10.9631 3.54168L11.8542 2.67147L13.625 4.4423L17.1667 0.900634L18.0448 1.79168L13.625 6.20355ZM6.5 6.24355C5.69792 6.24355 5.01132 5.95799 4.44021 5.38688C3.86896 4.81563 3.58333 4.12897 3.58333 3.32688C3.58333 2.5248 3.86896 1.8382 4.44021 1.26709C5.01132 0.695842 5.69792 0.410217 6.5 0.410217C7.30208 0.410217 7.98868 0.695842 8.55979 1.26709C9.13104 1.8382 9.41667 2.5248 9.41667 3.32688C9.41667 4.12897 9.13104 4.81563 8.55979 5.38688C7.98868 5.95799 7.30208 6.24355 6.5 6.24355ZM0.25 12.5898V10.7371C0.25 10.329 0.360833 9.95112 0.5825 9.60334C0.804167 9.25556 1.10042 8.9882 1.47125 8.80126C2.29486 8.39751 3.12576 8.09466 3.96396 7.89272C4.80215 7.69077 5.6475 7.5898 6.5 7.5898C7.3525 7.5898 8.19785 7.69077 9.03604 7.89272C9.87424 8.09466 10.7051 8.39751 11.5288 8.80126C11.8996 8.9882 12.1958 9.25556 12.4175 9.60334C12.6392 9.95112 12.75 10.329 12.75 10.7371V12.5898H0.25ZM1.5 11.3398H11.5V10.7371C11.5 10.5683 11.4511 10.4121 11.3533 10.2683C11.2556 10.1247 11.1228 10.0075 10.9552 9.91668C10.2372 9.56306 9.50507 9.29515 8.75896 9.11293C8.01271 8.93084 7.25972 8.8398 6.5 8.8398C5.74028 8.8398 4.98729 8.93084 4.24104 9.11293C3.49493 9.29515 2.76285 9.56306 2.04479 9.91668C1.87715 10.0075 1.74444 10.1247 1.64667 10.2683C1.54889 10.4121 1.5 10.5683 1.5 10.7371V11.3398ZM6.5 4.99355C6.95833 4.99355 7.3507 4.83036 7.67708 4.50397C8.00347 4.17758 8.16667 3.78522 8.16667 3.32688C8.16667 2.86855 8.00347 2.47619 7.67708 2.1498C7.3507 1.82341 6.95833 1.66022 6.5 1.66022C6.04167 1.66022 5.64931 1.82341 5.32292 2.1498C4.99653 2.47619 4.83333 2.86855 4.83333 3.32688C4.83333 3.78522 4.99653 4.17758 5.32292 4.50397C5.64931 4.83036 6.04167 4.99355 6.5 4.99355Z" fill="#6666F2"/>
                                                     </svg>
                                                     On leave  </button>
-                                                    <button id="leave-tab" data-bs-toggle="pill" data-bs-target="#v-pills-defaulter" 
+                                                    <button id="leave-tab" data-bs-toggle="pill" data-bs-target="#v-pills-defaulter"
                                                     type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false" class="nav-link"
                                                     (click)="switchTab('defaulter')">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 17 16" fill="none">
@@ -359,7 +359,7 @@
                                                         <path *ngIf="tab == 'defaulter'" d="M15.5031 15.7852L13.3077 13.5898H2.74999V11.7371C2.74999 11.329 2.86082 10.9511 3.08249 10.6033C3.30416 10.2556 3.60041 9.9882 3.97124 9.80125C4.64957 9.46583 5.33305 9.20354 6.02166 9.01438C6.71027 8.82535 7.40395 8.7009 8.1027 8.64104H8.23478C8.2802 8.64104 8.3243 8.64368 8.36707 8.64896L0.714783 0.996876L1.60582 0.105835L16.3942 14.8942L15.5031 15.7852ZM3.99999 12.3398H12.0577L9.5977 9.87979C9.48978 9.8691 9.3902 9.85972 9.29895 9.85167C9.20756 9.84375 9.10791 9.83979 8.99999 9.83979C8.23819 9.83979 7.48471 9.93084 6.73957 10.1129C5.99444 10.2951 5.26284 10.5631 4.54478 10.9167C4.37714 11.0075 4.24444 11.1247 4.14666 11.2683C4.04888 11.4121 3.99999 11.5683 3.99999 11.7371V12.3398ZM14.2052 9.88938C14.453 10.0091 14.6495 10.1908 14.7948 10.4344C14.9401 10.6778 15.017 10.9406 15.0256 11.2227L13.3077 9.50479C13.4616 9.56466 13.6133 9.62452 13.7629 9.68438C13.9124 9.74424 14.0598 9.81257 14.2052 9.88938ZM10.6169 6.75792L9.70041 5.84146C9.99305 5.70577 10.2273 5.5009 10.4031 5.22688C10.5788 4.95271 10.6667 4.65271 10.6667 4.32688C10.6667 3.86854 10.5035 3.47618 10.1771 3.14979C9.85069 2.8234 9.45833 2.66021 8.99999 2.66021C8.67416 2.66021 8.37423 2.74813 8.1002 2.92396C7.82617 3.09965 7.62131 3.33389 7.48562 3.62667L6.56895 2.71C6.84562 2.29653 7.19631 1.97653 7.62103 1.75C8.04576 1.52347 8.50541 1.41021 8.99999 1.41021C9.80444 1.41021 10.4917 1.69521 11.0617 2.26521C11.6317 2.83521 11.9167 3.52243 11.9167 4.32688C11.9167 4.8216 11.8034 5.28125 11.5769 5.70583C11.3503 6.13056 11.0303 6.48125 10.6169 6.75792Z" fill="#6666F2"/>
                                                     </svg>
                                                     Defaulter Employe  </button>
-                                                    <button id="v-pills-consistent-tab" data-bs-toggle="pill" data-bs-target="#v-pills-consistent-employee" 
+                                                    <button id="v-pills-consistent-tab" data-bs-toggle="pill" data-bs-target="#v-pills-consistent-employee"
                                                     type="button" role="tab" aria-controls="v-pills-messages" aria-selected="false" class="nav-link"
                                                     (click)="switchTab('consistent')">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="13" viewBox="0 0 18 13" fill="none">
@@ -367,10 +367,10 @@
                                                         <path *ngIf="tab == 'consistent'" d="M13.1185 8.42313C12.5994 8.42313 12.1571 8.24043 11.7917 7.87501C11.4263 7.50959 11.2435 7.0673 11.2435 6.54813C11.2435 6.02883 11.4263 5.58647 11.7917 5.22105C12.1571 4.85577 12.5994 4.67313 13.1185 4.67313C13.6378 4.67313 14.0801 4.85577 14.4454 5.22105C14.8108 5.58647 14.9935 6.02883 14.9935 6.54813C14.9935 7.0673 14.8108 7.50959 14.4454 7.87501C14.0801 8.24043 13.6378 8.42313 13.1185 8.42313ZM9.16021 12.5898V11.6315C9.16021 11.3355 9.2359 11.0638 9.38729 10.8163C9.53868 10.5688 9.75361 10.3907 10.0321 10.2821C10.5168 10.079 11.0183 9.92674 11.5367 9.82522C12.055 9.72383 12.5823 9.67313 13.1185 9.67313C13.6441 9.67313 14.1663 9.72383 14.685 9.82522C15.2038 9.92674 15.7105 10.079 16.2052 10.2821C16.4837 10.3907 16.6985 10.5688 16.8498 10.8163C17.0012 11.0638 17.0769 11.3355 17.0769 11.6315V12.5898H9.16021ZM7.17313 6.24355C6.37104 6.24355 5.68438 5.95799 5.11313 5.38688C4.54202 4.81563 4.25646 4.12897 4.25646 3.32688C4.25646 2.5248 4.54202 1.8382 5.11313 1.26709C5.68438 0.695842 6.37104 0.410217 7.17313 0.410217C7.97521 0.410217 8.66181 0.695842 9.23292 1.26709C9.80417 1.8382 10.0898 2.5248 10.0898 3.32688C10.0898 4.12897 9.80417 4.81563 9.23292 5.38688C8.66181 5.95799 7.97521 6.24355 7.17313 6.24355ZM0.923126 12.5898V10.7371C0.923126 10.3208 1.03181 9.9382 1.24917 9.58918C1.46667 9.24015 1.765 8.97751 2.14417 8.80126C2.92945 8.40598 3.74452 8.10522 4.58938 7.89897C5.43424 7.69286 6.29549 7.5898 7.17313 7.5898C7.58438 7.5898 7.9957 7.61945 8.40708 7.67876C8.81834 7.73806 9.22965 7.80987 9.64104 7.89418C9.46368 8.07418 9.28632 8.25425 9.10896 8.43438L8.57688 8.97438C8.34299 8.91827 8.10903 8.88181 7.875 8.86501C7.64097 8.8482 7.40702 8.8398 7.17313 8.8398C6.39424 8.8398 5.62875 8.92897 4.87667 9.1073C4.12445 9.28577 3.40486 9.55556 2.71792 9.91668C2.55764 10.0021 2.42674 10.114 2.32521 10.2523C2.22382 10.3908 2.17313 10.5524 2.17313 10.7371V11.3398H7.17313V12.5898H0.923126ZM7.17313 4.99355C7.63146 4.99355 8.02382 4.83036 8.35021 4.50397C8.6766 4.17758 8.83979 3.78522 8.83979 3.32688C8.83979 2.86855 8.6766 2.47619 8.35021 2.1498C8.02382 1.82341 7.63146 1.66022 7.17313 1.66022C6.71479 1.66022 6.32243 1.82341 5.99604 2.1498C5.66965 2.47619 5.50646 2.86855 5.50646 3.32688C5.50646 3.78522 5.66965 4.17758 5.99604 4.50397C6.32243 4.83036 6.71479 4.99355 7.17313 4.99355Z" fill="#6666F2"/>
                                                     </svg>
                                                     Consistent Employee </button>
-                                                    <button id="v-pills-department-tab" data-bs-toggle="pill" data-bs-target="#v-pills-department-leave" 
+                                                    <button id="v-pills-department-tab" data-bs-toggle="pill" data-bs-target="#v-pills-department-leave"
                                                     type="button" role="tab" aria-controls="v-pills-messages" aria-selected="false" class="nav-link"
                                                     (click)="switchTab('department')">
-                                                    
+
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
                                                         <mask id="mask0_7639_9768" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
                                                         <rect y="0.5" width="20" height="20" fill="#D9D9D9"/>
@@ -394,7 +394,7 @@
                                                                 <div class="d-flex align-items-center justify-content-between mb-3" *ngFor="let log of leaveTeamOverviewResponse">
                                                                     <div class="d-flex align-items-center gap-2 ">
                                                                         <!-- <img src="assets/images/pushpendra.jpeg">  -->
-                                                                        <img src="{{log?.image}}"> 
+                                                                        <img src="{{log?.image}}">
                                                                         <div>
                                                                             <h5 class="mb-1 font-14 fw-semibold">{{log?.name}} - <span class="mb-1 font-12">{{log?.date | date : 'd MMMM, y' || "N/A"}}</span></h5>
                                                                             <p class="mb-0 fw-light">{{log?.email || 'N/A'}} | <span class="text-primary fw-normal">{{log?.position}}</span></p>
@@ -438,7 +438,7 @@
                                                                     </div>
                                                                     <div class="d-flex align-items-center justify-content-between mb-3" *ngFor="let log of leaveTeamOverviewResponse">
                                                                         <div class="d-flex align-items-center gap-2 ">
-                                                                            <img src="{{log?.image}}"> 
+                                                                            <img src="{{log?.image}}">
                                                                             <div>
                                                                                 <h5 class="mb-1 font-14 fw-semibold">{{log?.username}}</h5>
                                                                                 <p class="mb-0 fw-light">{{log?.startDate | date : 'd MMMM, y' || "N/A" }} - {{log?.endDate | date : 'd MMMM, y' || "N/A"}}  | <span class="text-danger fw-normal">{{log?.leaveType}}</span></p>
@@ -485,7 +485,7 @@
                                                                     </div>
                                                                     <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-3" *ngFor="let log of leaveTeamOverviewResponse">
                                                                         <div class="d-flex align-items-center gap-2 ">
-                                                                            <img src="{{log?.userImage}}"> 
+                                                                            <img src="{{log?.userImage}}">
                                                                             <div>
                                                                                 <h5 class="mb-1 font-14 fw-semibold"> {{log?.userName}}</h5>
                                                                                 <p class="mb-0 fw-light font-13">{{log?.userPosition}}</p>
@@ -532,7 +532,7 @@
                                                                 </div>
                                                                
 
-                                                                
+
                                                             </div>
                                                        </div>
                                                     </div>
@@ -545,7 +545,7 @@
                                                                     </div>
                                                                     <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-3" *ngFor="let log of leaveTeamOverviewResponse">
                                                                         <div class="d-flex align-items-center gap-2 ">
-                                                                            <img src="{{log?.userImage}}"> 
+                                                                            <img src="{{log?.userImage}}">
                                                                             <div>
                                                                                 <h5 class="mb-1 font-14 fw-semibold">{{log?.userName}}</h5>
                                                                                 <p class="mb-0 fw-light font-13">{{log?.userPosition}}</p>
@@ -750,7 +750,7 @@
                                         <div class="d-flex justify-content-start align-items-center">
                                             <div class="empFilerDropfilter dropdown">
                                                 <button type="button" id="statusDropdown" class="btn btn-secondary new-deopdown d-flex align-items-center justify-content-between" (click)="changeShowFilter(true)">
-                                                    Filters 
+                                                    Filters
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23" fill="none">
                                                         <mask id="mask0_7808_40" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="23" height="23">
                                                         <rect x="0.262695" y="0.283112" width="22.4338" height="22.4338" fill="#1C1B1F"/>
@@ -761,7 +761,7 @@
                                                         </svg>
                                                 </button>
 
-                                              
+
                                             </div>
                                             <div
                                                 class="onboarding-date d-flex align-items-center justify-content-between position-relative w-100">
@@ -769,16 +769,16 @@
                                                     class="searching d-flex align-items-center justify-content-between w-100">
                                                     <div class="form-group w-100 position-relative">
                                                         <input type="text" name="search" id="searchInput" #searchInput="ngModel" placeholder="Search by name.."
-                                                         class="form-control me-2 w-100" style="padding: 10px 45px;"  [(ngModel)]="searchTerm"  
+                                                         class="form-control me-2 w-100" style="padding: 10px 45px;"  [(ngModel)]="searchTerm"
                                                          (keyup)="searchTermChanged($event)" />
                                                         <i class="bi bi-search search-icon d-flex align-items-center  h-100" *ngIf="searchTerm == ''"></i>
                                                         <i class="bi bi-x-lg search-icon d-flex align-items-center  h-100" *ngIf="searchTerm != ''"
                                                         (click)="getLeaves(true)"></i>
-                                                      
+
                                                     </div>
                                                 </form>
                                             </div>
-                                            <div>
+                                            <!-- <div>
                                                 <button type="button" class="btn primaryBtnLink leave-request d-block text-end">Download
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
                                                         <mask id="mask0_7808_52" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
@@ -787,9 +787,9 @@
                                                         <g mask="url(#mask0_7808_52)">
                                                         <path d="M10 13.6571L6.44229 10.0994L7.32063 9.19563L9.375 11.25V4.25H10.625V11.25L12.6794 9.19563L13.5577 10.0994L10 13.6571ZM5.25646 16.75C4.83549 16.75 4.47917 16.6042 4.1875 16.3125C3.89583 16.0208 3.75 15.6645 3.75 15.2435V12.984H5V15.2435C5 15.3077 5.02674 15.3665 5.08021 15.4198C5.13354 15.4733 5.19229 15.5 5.25646 15.5H14.7435C14.8077 15.5 14.8665 15.4733 14.9198 15.4198C14.9733 15.3665 15 15.3077 15 15.2435V12.984H16.25V15.2435C16.25 15.6645 16.1042 16.0208 15.8125 16.3125C15.5208 16.6042 15.1645 16.75 14.7435 16.75H5.25646Z" fill="#6666F2"/>
                                                         </g>
-                                                        </svg>    
+                                                        </svg>
                                                 </button>
-                                            </div>
+                                            </div> -->
                                         </div>
 
                                         <div class="actionMenuList filter-box p-0 position-absolute bg-white border" [ngClass]="{'d-none': !showFilter}">
@@ -826,7 +826,7 @@
                                                     <label for="type" class="pb-2">Leave Type</label>
                                                     <nz-select [(ngModel)]="filters.leaveType" nzMode="multiple"  class="w-100 form-control placeholder-lines">
                                                         <nz-option *ngFor="let type of leaveTypes" [nzValue]="type" nzLabel="{{ type | titlecase }}"></nz-option>
-                                                        
+
                                                       </nz-select>
                                                 </div>
                                                 <div class="col-md-12 mb-3">
@@ -851,7 +851,7 @@
                                 {{filter.key  | titlecase}} : {{ filter.value  | titlecase}}
                                 <i class="bi bi-x-lg pointer" (click)="removeFilter(filter)"></i>
                               </p>
-                           
+
                           </div>
 
                         <div class="table-responsive bg-white mt-3">
@@ -871,7 +871,7 @@
                                </thead>
                                <!-- TO DO: Shimmer Loading Ui -->
                                <tbody *ngIf="isLoadingLeaves">
-                                   <tr *ngFor="let item of [].constructor(10)"> 
+                                   <tr *ngFor="let item of [].constructor(10)">
                                        <td>
                                            <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
                                        </td>
@@ -934,12 +934,12 @@
                                             {{ leave.endDate | date : 'd MMMM, y' || "N/A" }}
                                         </span>
                                         <!-- <p class="mb-0 font-12 fw-semibold" >
-                                            Monday  
+                                            Monday
                                         </p> -->
                                      </td>
                                      <td class="text-left"><span class="team-maneger mb-0">{{leave.managerName}} </span></td>
-                                    
-                                     
+
+
                                      <td>
                                         <span class="team-maneger mb-0 table-font-weight white-space"  nzPopoverTitle="Title" nzPopoverContent="Content">{{leave.notes}}</span>
                                      </td>
@@ -953,21 +953,21 @@
                                                 'badge-soft-primary': leave.status == PENDING || leave.status == REQUESTED,
                                                 'badge-soft-success': leave.status == APPROVED
                                             }">{{leave.status|  uppercase}} </span>
-                                          
+
                                         </div>
                                         <p class="mb-0 mt-1 fw-normal font-13">By: {{leave.managerName}} </p>
                                     </td>
                                      <td class="text-end">
                                         <div class="d-flex align-items-center justify-content-end gap-2">
-                                            <span *ngIf="!isExpanded(i)" 
-                                            class="action-btn d-flex align-items-center justify-content-center" 
+                                            <span *ngIf="!isExpanded(i)"
+                                            class="action-btn d-flex align-items-center justify-content-center"
                                             (click)="toggleCollapse(i); openCloseMonthCalender(); getDayWiseLeaveStatus(leave.id)">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="17" height="21" viewBox="0 0 17 21" fill="none">
                                                   <path d="M1.80775 20.0576C1.30258 20.0576 0.875 19.8826 0.525 19.5326C0.175 19.1826 0 18.7551 0 18.2499V4.86538C0 4.36022 0.175 3.93263 0.525 3.58263C0.875 3.23263 1.30258 3.05763 1.80775 3.05763H3.19225V0.942383H4.73075V3.05763H12.3077V0.942383H13.8077V3.05763H15.1923C15.6974 3.05763 16.125 3.23263 16.475 3.58263C16.825 3.93263 17 4.36022 17 4.86538V18.2499C17 18.7551 16.825 19.1826 16.475 19.5326C16.125 19.8826 15.6974 20.0576 15.1923 20.0576H1.80775ZM1.80775 18.5576H15.1923C15.2692 18.5576 15.3398 18.5256 15.4038 18.4614C15.4679 18.3974 15.5 18.3269 15.5 18.2499V8.86538H1.5V18.2499C1.5 18.3269 1.53208 18.3974 1.59625 18.4614C1.66025 18.5256 1.73075 18.5576 1.80775 18.5576ZM1.5 7.36538H15.5V4.86538C15.5 4.78838 15.4679 4.71788 15.4038 4.65388C15.3398 4.58972 15.2692 4.55763 15.1923 4.55763H1.80775C1.73075 4.55763 1.66025 4.58972 1.59625 4.65388C1.53208 4.71788 1.5 4.78838 1.5 4.86538V7.36538ZM8.5 12.6346C8.25517 12.6346 8.0465 12.5484 7.874 12.3759C7.70167 12.2035 7.6155 11.9949 7.6155 11.7499C7.6155 11.505 7.70167 11.2964 7.874 11.1239C8.0465 10.9515 8.25517 10.8654 8.5 10.8654C8.74483 10.8654 8.9535 10.9515 9.126 11.1239C9.29833 11.2964 9.3845 11.505 9.3845 11.7499C9.3845 11.9949 9.29833 12.2035 9.126 12.3759C8.9535 12.5484 8.74483 12.6346 8.5 12.6346ZM4.5 12.6346C4.25517 12.6346 4.0465 12.5484 3.874 12.3759C3.70167 12.2035 3.6155 11.9949 3.6155 11.7499C3.6155 11.505 3.70167 11.2964 3.874 11.1239C4.0465 10.9515 4.25517 10.8654 4.5 10.8654C4.74483 10.8654 4.9535 10.9515 5.126 11.1239C5.29833 11.2964 5.3845 11.505 5.3845 11.7499C5.3845 11.9949 5.29833 12.2035 5.126 12.3759C4.9535 12.5484 4.74483 12.6346 4.5 12.6346ZM12.5 12.6346C12.2552 12.6346 12.0465 12.5484 11.874 12.3759C11.7017 12.2035 11.6155 11.9949 11.6155 11.7499C11.6155 11.505 11.7017 11.2964 11.874 11.1239C12.0465 10.9515 12.2552 10.8654 12.5 10.8654C12.7448 10.8654 12.9535 10.9515 13.126 11.1239C13.2983 11.2964 13.3845 11.505 13.3845 11.7499C13.3845 11.9949 13.2983 12.2035 13.126 12.3759C12.9535 12.5484 12.7448 12.6346 12.5 12.6346ZM8.5 16.5576C8.25517 16.5576 8.0465 16.4714 7.874 16.2989C7.70167 16.1265 7.6155 15.918 7.6155 15.6731C7.6155 15.4281 7.70167 15.2195 7.874 15.0471C8.0465 14.8746 8.25517 14.7884 8.5 14.7884C8.74483 14.7884 8.9535 14.8746 9.126 15.0471C9.29833 15.2195 9.3845 15.4281 9.3845 15.6731C9.3845 15.918 9.29833 16.1265 9.126 16.2989C8.9535 16.4714 8.74483 16.5576 8.5 16.5576ZM4.5 16.5576C4.25517 16.5576 4.0465 16.4714 3.874 16.2989C3.70167 16.1265 3.6155 15.918 3.6155 15.6731C3.6155 15.4281 3.70167 15.2195 3.874 15.0471C4.0465 14.8746 4.25517 14.7884 4.5 14.7884C4.74483 14.7884 4.9535 14.8746 5.126 15.0471C5.29833 15.2195 5.3845 15.4281 5.3845 15.6731C5.3845 15.918 5.29833 16.1265 5.126 16.2989C4.9535 16.4714 4.74483 16.5576 4.5 16.5576ZM12.5 16.5576C12.2552 16.5576 12.0465 16.4714 11.874 16.2989C11.7017 16.1265 11.6155 15.918 11.6155 15.6731C11.6155 15.4281 11.7017 15.2195 11.874 15.0471C12.0465 14.8746 12.2552 14.7884 12.5 14.7884C12.7448 14.7884 12.9535 14.8746 13.126 15.0471C13.2983 15.2195 13.3845 15.4281 13.3845 15.6731C13.3845 15.918 13.2983 16.1265 13.126 16.2989C12.9535 16.4714 12.7448 16.5576 12.5 16.5576Z" fill="#1C1B1F"/>
                                                 </svg>
                                             </span>
-                                            <span *ngIf="isExpanded(i)" 
-                                            class="action-btn staff-month-sheet d-flex align-items-center justify-content-center" 
+                                            <span *ngIf="isExpanded(i)"
+                                            class="action-btn staff-month-sheet d-flex align-items-center justify-content-center"
                                             (click)="toggleCollapse(i); openCloseMonthCalender()">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23" fill="none">
                                                     <mask id="mask0_7808_168" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="23" height="23">
@@ -990,7 +990,7 @@
                                                     </svg>
                                                 </span>
                                                 <div class="dropdown-menu actionMenuList">
-                                                  
+
                                                     <li *ngIf="leave.status == PENDING">
                                                         <span (click)="approveOrRejectLeaveCall(leave.id, APPROVED)">
                                                         <a class="dropdown-item" >
@@ -1034,14 +1034,14 @@
                                                              View request
                                                         </a>
                                                     </li>
-                                                   
+
                                                 </div>
                                             </div>
                                         </div>
                                      </td>
                                   </tr>
 
-                                  <tr class="collapse" [id]="'collapseExamplesheet' + i" 
+                                  <tr class="collapse" [id]="'collapseExamplesheet' + i"
                                   [ngClass]="{'show': isExpanded(i)}">
                                     <td colspan="9" class="p-1">
                                        <div class="month-deta">
@@ -1053,9 +1053,9 @@
                                                       </div>
                                                 </th>
                                             </tr>
-                                           
+
                                           </table>
-                                          <table class="table table-bordesick-leaves day-data mb-0" *ngIf="!dayWiseLeaveStatusLoader"> 
+                                          <table class="table table-bordesick-leaves day-data mb-0" *ngIf="!dayWiseLeaveStatusLoader">
                                              <tr class="position-relative">
                                                 <ng-container *ngFor="
                                                 let dayWiseStatus of dayWiseLeaveStatus
@@ -1087,7 +1087,7 @@
                                                         dayWiseStatus.status == 'Apply'||
                                                         dayWiseStatus.status == HOLIDAY,
                                                         'text-primary':
-                                                        dayWiseStatus.status == 'W-off' 
+                                                        dayWiseStatus.status == 'W-off'
                                                     }">
                                                     {{
                                                     dayWiseStatus.status[0] == "U"
@@ -1101,125 +1101,125 @@
                                                             <td class="text-center position-relative attendance-detail sick-leaves">
                                                                 SL
                                                             </td>
-                                                            
+
                                                             <td class="text-center position-relative attendance-detail ">
                                                             -
                                                             </td>
-                                                            
+
                                                             <td class="text-center position-relative attendance-detail ">
                                                             -
                                                             </td>
-                                                            
+
                                                             <td class="text-center position-relative attendance-detail">
                                                             -
                                                             </td>
-                                                            
+
                                                             <td class="text-center position-relative attendance-detail">
                                                             -
                                                             </td>
-                                                            
+
                                                             <td class="text-center position-relative attendance-detail earned-leaves">
                                                                 W-off
                                                             </td>
-                                                            
+
                                                             <td class="text-center position-relative attendance-detail earned-leaves">
-                                                                W-off 
+                                                                W-off
                                                             </td>
-                                                            
+
                                                             <td class="text-center position-relative attendance-detail">
                                                             -
                                                             </td>
-                                                            
+
                                                             <td class="text-center position-relative attendance-detail">
                                                             -
                                                             </td>
-                                                            
+
                                                             <td class="text-center position-relative attendance-detail earned-leaves">
                                                                 CL
                                                             </td>
-                                                            
+
                                                             <td class="text-center position-relative attendance-detail">
                                                             -
                                                             </td>
-                                                            
+
                                                             <td class="text-center position-relative attendance-detail">
                                                             -
                                                             </td>
-                                                            
+
                                                             <td class="text-center position-relative attendance-detail earned-leaves">
-                                                                W-off 
+                                                                W-off
                                                             </td>
-                                                            
+
                                                             <td class="text-center position-relative attendance-detail earned-leaves">
-                                                                W-off 
+                                                                W-off
                                                             </td>
-                                                            
+
                                                             <td class="text-center position-relative attendance-detail text-warning">
                                                                 Half-D
                                                             </td>
-                                                            
+
                                                             <td class="text-center position-relative attendance-detail">
                                                             -
                                                             </td>
-                                                            
+
                                                             <td class="text-center position-relative attendance-detail text-danger">
                                                                 Reject
                                                             </td>
-                                                            
+
                                                             <td class="text-center position-relative attendance-detail">
                                                             -
                                                             </td>
-                                                            
+
                                                             <td class="text-center position-relative attendance-detail ">
                                                             -
                                                             </td>
-                                                            
+
                                                             <td class="text-center position-relative attendance-detail">
                                                             -
                                                             </td>
-                                                            
+
                                                             <td class="text-center position-relative attendance-detail earned-leaves">
                                                                 W-off
                                                             </td>
-                                                            
+
                                                             <td class="text-center position-relative attendance-detail earned-leaves">
                                                                 W-off
                                                             </td>
-                                                            
+
                                                             <td class="text-center position-relative attendance-detail text-primary">
                                                             Apply
                                                             </td>
-                                                            
+
                                                             <td class="text-center position-relative attendance-detail">
                                                             -
                                                             </td>
-                                                            
+
                                                             <td class="text-center position-relative attendance-detail text-warning">
                                                                 Holiday
                                                             </td>
-                                                            
+
                                                             <td class="text-center position-relative attendance-detail blue">
                                                             -
                                                             </td>
-                                                            
+
                                                             <td class="text-center position-relative attendance-detail">
-                                                            - 
+                                                            -
                                                             </td>
-                                                            
+
                                                             <td class="text-center position-relative attendance-detail earned-leaves">
                                                                 W-off
                                                             </td>
-                                                            
+
                                                             <td class="text-center position-relative attendance-detail  earned-leaves">
                                                                 W-off
                                                             </td>
-                                                            
+
                                                             <td class="text-center position-relative attendance-detail">
-                                                            - 
+                                                            -
                                                             </td>
-                                                            
+
                                                             <td class="text-center position-relative attendance-detail">
-                                                            - 
+                                                            -
                                                             </td>
                                                 </tr> -->
                                           </table>
@@ -1236,11 +1236,11 @@
                                      <td class="text-left">
                                         <span class="team-maneger mb-0">16-17 Jun,23</span>
                                         <p class="mb-0 font-10">
-                                            Monday  
+                                            Monday
                                         </p>
                                      </td>
                                      <td class="text-left"><span class="team-maneger mb-0"> Sam Michael </span></td>
-                                     
+
                                      <td>
                                         <span class="team-maneger mb-0 table-font-weight white-space" nzPopoverTitle="Title" nzPopoverContent="Content">it was also a testing leaveit was also a testing leave</span>
                                      </td>
@@ -1324,11 +1324,11 @@
                                      <td class="text-left">
                                         <span class="team-maneger mb-0">16-17 Jun,23</span>
                                         <p class="mb-0 font-10 fw-semibold">
-                                            Monday  
+                                            Monday
                                         </p>
                                      </td>
                                      <td class="text-left"><span class="team-maneger mb-0"> Sam Michael </span></td>
-                                     
+
                                      <td>
                                         <span class="team-maneger mb-0 table-font-weight white-space" nzPopoverTitle="Title" nzPopoverContent="Content">it was also a testing leaveit was also a testing leave</span>
                                      </td>
@@ -1399,7 +1399,7 @@
                                                          View request
                                                     </a>
                                                 </li>
-                                               
+
                                             </div>
                                         </div>
                                       </div>
@@ -1408,11 +1408,11 @@
                                   <div
                                   class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top"
                                   *ngIf="!isLoadingLeaves && leaves.length > 0 && totalItems >itemPerPage">
-                                  <p class="mb-0">
+                                  <p class="mb-0 p-0">
                                     Showing {{ (currentPage - 1) * itemPerPage + 1 }} -
                                     {{ ((currentPage - 1) * itemPerPage + 1)+(leaves.length-1) }} of {{ totalItems}} Leaves
                                   </p>
-                                  <div class="pagition-box">
+                                  <div class="pagition-box p-0">
                                     <ngb-pagination [collectionSize]="totalItems" [(page)]="currentPage" [pageSize]="itemPerPage"
                                       [maxSize]="5" [boundaryLinks]="true" [ellipses]="true"
                                       (pageChange)="onPageChange($event)">
@@ -1436,153 +1436,11 @@
 <div class="modal fade" id="leave-request" tabindex="-1" role="dialog" aria-hidden="true"  data-bs-backdrop="static" data-bs-keyboard="false"
     aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered"  [ngStyle]="{'max-width: 700px': !leave?.attachment,'max-width: 1060px': leave?.attachment}" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Leave Request</h5>
-                <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closebutton>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
-                            width="24" height="24">
-                            <rect width="24" height="24" fill="#D9D9D9" />
-                        </mask>
-                        <g mask="url(#mask0_5037_2014)">
-                            <path
-                                d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z"
-                                fill="black" />
-                        </g>
-                    </svg>
-                </button>
-            </div>
-            <div class="modal-body p-0">
-                 <div class="row">
-                    <div class="col-md-5" *ngIf="leave?.attachment">
-                        <div >
-                            <!-- Image with error handling -->
-                            <img [src]="leave?.attachment" (error)="handleImageError()" [hidden]="imageError" alt="Attachment"
-                                 style="max-width: 100px; height: auto; cursor: pointer;" (click)="openInNewTab(leave.attachment)">
-                          
-                            <!-- Show link if image fails to load -->
-                            <a *ngIf="imageError" [href]="leave?.attachment" target="_blank" rel="noopener noreferrer"
-                               style="font-size: 13px; color: red;">
-                              View Attachment <i class="fas fa-external-link-square-alt me-1"></i>
-                            </a>
-                          </div>
-                          
-                        
-                    </div>
-                    <div  [ngClass]="{'col-md-12': !leave?.attachment,'col-md-7': leave?.attachment}">
-                        <div class="request-detail position-relative">
-                            <div class="d-flex align-items-center justify-content-between p-3 user-detail">
-                                <div class="d-flex align-items-center gap-2">
-                                        <img src="assets/images/user.png" >
-                                        <div>
-                                          <h5 class="mb-0 font-15">{{leave?.username}} </h5>
-                                          <p class="mb-0 font-12">{{ leave?.email }}</p>
-                                      </div>
-                                </div>
-                                <p class="mb-0 font-13 fw-semibold text-black"> Date: {{
-                                    leave?.leaveDate
-                                    | date : "dd MMM yyyy hh:mm:ss a"
-                                    }}
-                                  
-                                 </p>
-                                 <p> Total Days: {{leave?.totalValidDays}}</p>  
-                            </div>
-                            <div class="leave-form-data">
-                                <div class="row p-3">
-                                    <div class="col-md-6 mb-3">
-                                        <label for="leave-type" class="pb-2">Leave Type</label>
-                                        <div class="requested-to">
-                                            <p class="mb-0 fw-semibold">  {{ leave?.leaveType }}</p>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="leave-type" class="pb-2">Total Leave</label>
-                                        <div class="total-leave d-flex align-items-center gap-3">
-                                        <div>
-                                            <p class="mb-1 font-11"> Approved</p>
-                                            <h5 class="mb-0 fot-13 fw-semibold">{{leave?.approvedCount}}</h5>
-                                        </div>
-                                        <div>
-                                            <p class="mb-1 font-11"> Rejected</p>
-                                            <h5 class="mb-0 fot-13 fw-semibold">{{leave?.rejectedCount}}</h5>
-                                        </div>
-                                        <div>
-                                            <p class="mb-1 font-11"> Remaining</p>
-                                            <h5 class="mb-0 fot-13 fw-semibold">{{leave?.remainingCount}}</h5>
-                                        </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="starting-date" class="pb-2">Starting Date</label>
-                                        <div class="requested-to">
-                                            <p class="mb-0 fw-semibold"> {{
-                                                leave?.startDate
-                                                | date : "dd MMM yyyy" || "N/A"
-                                                }}</p>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="ending-date" class="pb-2">Ending Date</label>
-                                        <div class="requested-to">
-                                            <p class="mb-0 fw-semibold">  {{
-                                                leave?.endDate | date : "dd MMM yyyy" || "N/A"
-                                                }}</p>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12 mb-3">
-                                        <label for="ending-date" class="pb-2">Requested To</label>
-                                        <div class="requested-to">
-                                            <p class="mb-0"> You: <span class="fw-semibold"> {{ leave?.managerName }}</span></p>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12 mb-3">
-                                        <div class="form-group">
-                                            <label for="templateName" class="mb-2"> Note</label>
-                                            <textarea id="requestReason" [value]="leave?.notes" rows="3" class="form-control nots-section" maxlength="255" ></textarea>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="col-md-12" *ngIf="(leave?.status === 'REJECTED'|| leave?.rejectionReason) && !rejectionReasonFlag">
-                                        <div class="form-group">
-                                            <label for="templateName" class="mb-2"> Reason Of Rejection</label>
-                                            <textarea id="requestReason"[value]="leave?.rejectionReason" rows="3" class="form-control nots-section" maxlength="255" ></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12" *ngIf="rejectionReasonFlag">
-                                        <div class="form-group">
-                                            <label for="templateName" class="mb-2"> Reason Of Rejection</label>
-                                            <textarea
-                                                id="requestReason"
-                                                [(ngModel)]="rejectionReason"
-                                                rows="3"
-                                                class="form-control nots-section"
-                                                maxlength="255"
-                                                placeholder="Enter rejection reason">
-                                            </textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                        </div>
-                    </div>
-                </div>
-                <div class="d-flex align-items-center justify-content-end gap-2 p-3 modal-footer bg-white" *ngIf="
-                leave?.managerUuid === logInUserUuid ||
-                ROLE == 'ADMIN' && leave?.status == PENDING
-              ">
-                    <button type="button" class="btn reject-btn" *ngIf="rejectionReasonFlag" (click)="approveOrRejectLeave(leave?.id || 0, REJECTED)">
-                        Save
-                    </button>
-                    <button type="button" class="btn reject-btn" *ngIf="!rejectionReasonFlag" (click)="approveOrRejectLeaveCall(leave?.id || 0, REJECTED)">
-                        Reject
-                    </button>
-                    <button type="submit" class="btn approved-btn" *ngIf="!rejectionReasonFlag" (click)="approveOrRejectLeaveCall(leave?.id || 0, APPROVED)">
-                        Approved
-                    </button>
-                </div>
-            </div>
-        </div>
+      <div *ngIf="isModalOpen" class="modal-content">
+      <app-leave-request
+      [data]="leaveData"
+      (closeModal)="closeModalHandler()"
+    ></app-leave-request>
+  </div>
     </div>
 </div>
