@@ -15,75 +15,10 @@
 
 
                         <div class="payroll-todo-list mt-4">
-                            <!-- <div class="p-3 d-flex align-items-center justify-content-between complete-step">
-                                <div class="d-flex align-items-start gap-3">
-                                    <span class="complete-check d-flex align-items-center justify-content-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                            <mask id="mask0_8989_6606" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
-                                            <rect x="0.5" y="0.5" width="23" height="23" fill="white" stroke="#388E3C"/>
-                                            </mask>
-                                            <g mask="url(#mask0_8989_6606)">
-                                            <path d="M9.55894 15.1584L18.7251 5.99229L20.1324 7.39961L9.5501 17.9819L3.86778 12.2996L5.2751 10.8923L9.54126 15.1584L9.5501 15.1673L9.55894 15.1584Z" fill="white" stroke="#388E3C" stroke-width="0.025"/>
-                                            </g>
-                                        </svg>
-                                    </span>
-                                    <div>
-                                        <h5 class="mb-1 font-14 fw-semibold text-black">Organization Profile Setup</h5>
-                                        <p class="font-13 fw-light">Set up your organization details and work locations for accurate payroll processing.</p>
-                                    </div>
-                                </div>
-                                <button class="btn p-0 text-success font-14 fw-semibold">Complete</button>
-                            </div> -->
-
-                            <!-- <div class="p-3 payroll-step d-flex align-items-center justify-content-between active-step rounded">
-                                <div class="d-flex align-items-start gap-3">
-                                    <span class="step-no bg-white d-flex align-items-center justify-content-center fw-semibold font-14">1</span>
-                                    <div>
-                                        <h5 class="mb-1 font-14 fw-semibold text-black">Organization Profile Setup</h5>
-                                        <p class="font-13 fw-light">Set up your organization details and work locations for accurate payroll processing.</p>
-                                        <button class="btn submitActionBtn text-white font-13 fw-normal mt-2">Complete Now</button>
-                                    </div>
-                                </div>
-                                <img src="assets/images/sidebar-icon/payroll-step-iconn.svg">
-                            </div> -->
-
-                            <!-- <ng-container *ngFor="let step of toDoStepList; let i= index;">
-                                <div class="mt-4">
-                                   <div class="d-flex align-items-center justify-content-between normal-step p-3" [ngClass]="{'normal-step': step.isComplete==0 && step.active==0, 'complete-step': step.isComplete==1 , 'active-step': step.isComplete==0 && step.active==1}">
-                                    <div class="d-flex align-items-start gap-3">
-                                        <span class=" d-flex align-items-center justify-content-center fw-semibold font-14" [ngClass]="{'step-normal': step.isComplete==0 && step.active==0, 'complete-check': step.isComplete==1}">
-                                            <ng-container *ngIf="step.isComplete==0">
-                                                {{i+1}}
-                                            </ng-container>
-                                            <ng-container  *ngIf="step.isComplete==1">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                                    <mask id="mask0_8989_6606" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
-                                                    <rect x="0.5" y="0.5" width="23" height="23" fill="white" stroke="#388E3C"/>
-                                                    </mask>
-                                                    <g mask="url(#mask0_8989_6606)">
-                                                    <path d="M9.55894 15.1584L18.7251 5.99229L20.1324 7.39961L9.5501 17.9819L3.86778 12.2996L5.2751 10.8923L9.54126 15.1584L9.5501 15.1673L9.55894 15.1584Z" fill="white" stroke="#388E3C" stroke-width="0.025"/>
-                                                    </g>
-                                                </svg>
-                                            </ng-container>
-                                        </span>
-                                        <div>
-                                            <h5 class="mb-1 font-14 fw-semibold text-black">{{step.name}}</h5>
-                                            <p class="font-13 fw-light">{{step.description}}</p>
-
-                                            <button class="btn submitActionBtn text-white font-13 fw-normal mt-2" *ngIf="step.isComplete==0 && step.active==1">Complete Now</button>
-                                        </div>
-                                    </div>
-                                    <button class="btn normal-btn font-13 fw-normal mt-2"  *ngIf="step.isComplete==0" (click)="activeStep(step.id);" [ngClass]="{'d-none': step.isComplete==0 && step.active==1}">Complete Now</button>
-                                    <img src="assets/images/sidebar-icon/payroll-step-iconn.svg" *ngIf="step.isComplete==0 && step.active==1">
-                                    <button class="btn p-0 text-success font-14 fw-semibold" *ngIf="step.isComplete==1">Complete</button>
-
-                                   </div>
-                                </div>
-                            </ng-container> -->
                             <ng-container *ngFor="let step of toDoStepList; let i = index;">
                                 <div class="mt-3">
                                     <div class="d-flex align-items-center justify-content-between p-3" 
-                                        [ngClass]="{ 'normal-step': !step.isComplete && !step.active, 'complete-step': step.isComplete, 'active-step rounded': !step.isComplete && step.active }">
+                                        [ngClass]="{'normal-step': !step.isComplete && !step.active, 'complete-step': step.isComplete, 'active-step rounded': !step.isComplete && step.active }">
                                         <div class="d-flex align-items-start gap-3">
                                             <span class="d-flex align-items-center justify-content-center fw-semibold font-14" 
                                                 [ngClass]="{ 'step-normal': !step.isComplete && !step.active, 'complete-check': step.isComplete , 'step-no': !step.isComplete && step.active}">
@@ -106,7 +41,8 @@
                                             </div>
                                         </div>
                                         <ng-container *ngIf="!step.isComplete">
-                                            <button class="btn normal-btn font-13 fw-normal mt-2" *ngIf="!step.active" (click)="activeStep(step.id);">Complete Now</button>
+                                            <!-- (click)="activeStep(step.id);" -->
+                                            <button class="btn normal-btn font-13 fw-normal mt-2" *ngIf="!step.active">Complete Now</button>
                                             <img src="assets/images/payrollstep-img/profile-setup.svg" *ngIf="step.active">
                                         </ng-container>
                                         <button class="btn p-0 text-success font-14 fw-semibold" *ngIf="step.isComplete">Complete</button>
