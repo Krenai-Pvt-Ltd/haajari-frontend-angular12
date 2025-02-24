@@ -77,7 +77,7 @@
                                         </div>
                                     </div>
                                     <div class="p-3">
-                                        <h5 class="font-24 mb-4 fw-bold">{{leaveReportResponse?.reportGraphUserLeave?.totalApproved}}<span class="font-13 fw-semibold" style="color: #444;">leaves utilised.</span></h5>
+                                        <h5 class="font-24 mb-4 fw-bold">{{leaveReportResponse?.reportGraphUserLeave?.totalApproved}} <span class="font-13 fw-semibold" style="color: #444;">leaves utilised.</span></h5>
                                         <!-- <img src="assets/images/report-chart.png" class="w-100"> -->
                                         <div *ngIf="isChartInitialized; else loading" class="p-3">
                                             <apx-chart
@@ -90,6 +90,7 @@
                                               [grid]="grid"
                                               [fill]="fill"
                                               [stroke]="{width:1.5}"
+                                            
                                             ></apx-chart>
                                           </div>
 
@@ -100,18 +101,18 @@
                                         <div class="mt-3 mb-2 d-flex align-items-center gap-5 justify-content-between">
                                             <div class="approved position-relative">
                                                 <h5 class="font-13 mb-3">Approved</h5>
-                                                <h5 class="font-22 mb-1 fw-semibold">{{leaveReportResponse?.reportGraphUserLeave?.totalApproved}}<span class="font-13 fw-semibold" style="color: #444;">leaves</span></h5>
-                                                <p class="mb-0 font-13 fw-light">Since least week</p>
+                                                <h5 class="font-22 mb-1 fw-semibold">{{leaveReportResponse?.reportGraphUserLeave?.totalApproved}} <span class="font-13 fw-semibold" style="color: #444;">leaves</span></h5>
+                                                <!-- <p class="mb-0 font-13 fw-light">Since least week</p> -->
                                             </div>
                                             <div class="pending position-relative">
                                                 <h5 class="font-13 mb-3">Pending </h5>
                                                 <h5 class="font-22 mb-1 fw-semibold">{{leaveReportResponse?.reportGraphUserLeave?.totalPending}} <span class="font-13 fw-semibold" style="color: #444;">leaves</span></h5>
-                                                <p class="mb-0 font-13 fw-light">Since least week</p>
+                                                <!-- <p class="mb-0 font-13 fw-light">Since least week</p> -->
                                             </div>
                                             <div class="rejected position-relative">
                                                 <h5 class="font-13 mb-3">Rejected</h5>
                                                 <h5 class="font-22 mb-1 fw-semibold">{{leaveReportResponse?.reportGraphUserLeave?.totalRejected}} <span class="font-13 fw-semibold" style="color: #444;">leaves</span></h5>
-                                                <p class="mb-0 font-13 fw-light">Since least week</p>
+                                                <!-- <p class="mb-0 font-13 fw-light">Since least week</p> -->
                                             </div>
                                         </div>
 
@@ -374,7 +375,9 @@
                                                                 <div class="d-flex align-items-center justify-content-between mb-3" *ngFor="let log of leaveTeamOverviewResponse">
                                                                     <div class="d-flex align-items-center gap-2 ">
                                                                         <!-- <img src="assets/images/pushpendra.jpeg">  -->
-                                                                        <img src="{{log?.image}}">
+                                                                        <img src="{{log?.image}}" class="thumb-md rounded-circle" style="width: 32px; height: 32px" *ngIf="log?.image">
+                                                                        <img src="assets/images/user.png" alt="" class="thumb-md rounded-circle"
+                                                                        style="width: 32px; height: 32px" *ngIf="!log?.image">
                                                                         <div>
                                                                             <h5 class="mb-1 font-14 fw-semibold">{{log?.name}} - <span class="mb-1 font-12">{{log?.date | date : 'd MMMM, y' || "N/A"}}</span></h5>
                                                                             <p class="mb-0 fw-light">{{log?.email || 'N/A'}} | <span class="text-primary fw-normal">{{log?.position}}</span></p>
@@ -418,7 +421,9 @@
                                                                     </div>
                                                                     <div class="d-flex align-items-center justify-content-between mb-3" *ngFor="let log of leaveTeamOverviewResponse">
                                                                         <div class="d-flex align-items-center gap-2 ">
-                                                                            <img src="{{log?.image}}">
+                                                                            <img src="{{log?.image}}" class="thumb-md rounded-circle"  style="width: 32px; height: 32px" *ngIf="log?.image">
+                                                                            <img src="assets/images/user.png" alt="" class="thumb-md rounded-circle"
+                                                                            style="width: 32px; height: 32px" *ngIf="!log?.image">
                                                                             <div>
                                                                                 <h5 class="mb-1 font-14 fw-semibold">{{log?.username}}</h5>
                                                                                 <p class="mb-0 fw-light">{{log?.startDate | date : 'd MMMM, y' || "N/A" }} - {{log?.endDate | date : 'd MMMM, y' || "N/A"}}  | <span class="text-danger fw-normal">{{log?.leaveType}}</span></p>
@@ -465,7 +470,9 @@
                                                                     </div>
                                                                     <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-3" *ngFor="let log of leaveTeamOverviewResponse">
                                                                         <div class="d-flex align-items-center gap-2 ">
-                                                                            <img src="{{log?.userImage}}">
+                                                                            <img src="{{log?.userImage}}" class="thumb-md rounded-circle" style="width: 32px; height: 32px" *ngIf="log?.userImage">
+                                                                            <img src="assets/images/user.png" alt="" class="thumb-md rounded-circle"
+                                                                            style="width: 32px; height: 32px" *ngIf="!log?.userImage">
                                                                             <div>
                                                                                 <h5 class="mb-1 font-14 fw-semibold"> {{log?.userName}}</h5>
                                                                                 <p class="mb-0 fw-light font-13">{{log?.userPosition}}</p>
@@ -525,7 +532,9 @@
                                                                     </div>
                                                                     <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-3" *ngFor="let log of leaveTeamOverviewResponse">
                                                                         <div class="d-flex align-items-center gap-2 ">
-                                                                            <img src="{{log?.userImage}}">
+                                                                            <img src="{{log?.userImage}}" class="thumb-md rounded-circle" style="width: 32px; height: 32px" *ngIf="log?.userImage">
+                                                                            <img src="assets/images/user.png" alt="" class="thumb-md rounded-circle"
+                                                                            style="width: 32px; height: 32px" *ngIf="!log?.userImage">
                                                                             <div>
                                                                                 <h5 class="mb-1 font-14 fw-semibold">{{log?.userName}}</h5>
                                                                                 <p class="mb-0 fw-light font-13">{{log?.userPosition}}</p>
@@ -601,8 +610,9 @@
                                                                         [tooltip]="chartOptions1.tooltip!"
                                                                         [fill]="chartOptions1.fill!"
                                                                         [title]="chartOptions1.title!"
+                                                                        [grid]="chartOptions1.grid!"
                                                                         class="w-100"
-                                                                        style="min-height: 400px;"
+                                                                        style="min-height: 500px;"
                                                                         ></apx-chart>
                                                                     <!-- <div id="teamPerformanceChart" class="w-100" style="min-height: 400px;"></div> -->
                                                                     <!-- <img src="assets/images/team-performanse1.png" class="w-100"> -->
@@ -664,7 +674,10 @@
                                 <div class="p-3 defaulter-employee" *ngIf="topDefaulterUser!=null && !isDefaulterEmployeeLoading">
                                     <div class="d-flex align-items-center justify-content-between mb-3">
                                         <div class="d-flex align-items-center gap-2">
-                                           <img src="{{topDefaulterUser?.topDefaulterUser?.userImage}}">
+                                            <img src="{{topDefaulterUser?.topDefaulterUser?.userImage}}" class="thumb-md rounded-circle" style="width: 32px; height: 32px" *ngIf="topDefaulterUser?.topDefaulterUser?.userImage">
+                                                                            <img src="assets/images/user.png" alt="" class="thumb-md rounded-circle"
+                                                                            style="width: 32px; height: 32px" *ngIf="!topDefaulterUser?.topDefaulterUser?.userImage">
+                                           <!-- <img src="{{topDefaulterUser?.topDefaulterUser?.userImage}}"> -->
                                            <div>
                                               <h5 class="mb-1 font-14 fw-semibold">{{topDefaulterUser?.topDefaulterUser?.userName}}</h5>
                                               <p class="mb-0 fw-light font-13">{{topDefaulterUser?.topDefaulterUser?.userEmail}} | <span class="text-black fw-normal">{{topDefaulterUser?.topDefaulterUser?.userPosition}}</span></p>
