@@ -69,6 +69,8 @@ export class LeaveManagementsComponent implements OnInit {
   async ngOnInit() {
     this.logInUserUuid = await this.rbacService.getUUID();
     this.ROLE = await this.rbacService.getRole();
+    // this.filters.status = ['approved'];
+    // this.applyFilters();
     this.getLeaves(false,false);
     this.selectedDate = new Date();
     this.getLeaveCategoryDetailsForLeaveTeamOverview();
