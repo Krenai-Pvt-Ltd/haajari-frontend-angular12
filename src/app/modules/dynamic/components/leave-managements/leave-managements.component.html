@@ -389,61 +389,8 @@
                                                 <div class="tab-content" id="v-pills-tabContent">
                                                     <div class="tab-pane fade active show" id="v-pills-absent-today" rol="tabpanel">
                                                        <div class="absent-data mt-3" *ngIf="tabName === ABSENT_TAB">
-                                                            <div class="absent-logs scrollable-container" *ngIf="leaveTeamOverviewResponse.length > 0 && !isLoaderLoading" (scroll)="onScroll($event)">
-                                                                <!-- <div class="mb-4 pb-1">
-                                                                    <div class="d-flex align-items-center justify-content-between mb-4">
-                                                                        <h5 class="mb-0 font-16 fw-light">Today</h5>
-                                                                        <h5 class="mb-0 font-14 fw-semibold">03 Absent</h5>
-                                                                    </div>
-                                                                    <div class="d-flex align-items-center justify-content-between mb-3">
-                                                                        <div class="d-flex align-items-center gap-2 ">
-                                                                            <img src="assets/images/pushpendra.jpeg"> 
-                                                                            <div>
-                                                                                <h5 class="mb-1 font-14 fw-semibold">pushpendra</h5>
-                                                                                <p class="mb-0 fw-light">pushpendra@krenai.com | <span class="text-primary fw-normal">Backend Developer</span></p>
-                                                                            </div>
-                                                                        </div>
-                                                                        <span class="badge rounded-pill badge-soft-danger"> Leaves</span>
-
-                                                                    </div>
-                                                                    <div class="d-flex align-items-center justify-content-between mb-3">
-                                                                        <div class="d-flex align-items-center gap-2 ">
-                                                                            <img src="assets/images/suman.jpg"> 
-                                                                            <div>
-                                                                                <h5 class="mb-1 font-14 fw-semibold">Suman</h5>
-                                                                                <p class="mb-0 fw-light">suman@krenai.com | <span class="text-primary fw-normal">Full stack Developer</span></p>
-                                                                            </div>
-                                                                        </div>
-                                                                        <span class="badge rounded-pill badge-soft-danger"> Leaves</span>
-
-                                                                    </div>
-                                                                    <div class="d-flex align-items-center justify-content-between mb-3">
-                                                                        <div class="d-flex align-items-center gap-2 ">
-                                                                            <img src="assets/images/abhi.jpg"> 
-                                                                            <div>
-                                                                                <h5 class="mb-1 font-14 fw-semibold">Abhijeet Verma</h5>
-                                                                                <p class="mb-0 fw-light">abhi@krenai.com | <span class="text-primary fw-normal">Backend Developer</span></p>
-                                                                            </div>
-                                                                        </div>
-                                                                        <span class="badge rounded-pill badge-soft-danger"> Leaves</span>
-
-                                                                    </div>
-                                                                    <div class="d-flex align-items-center justify-content-between mb-3">
-                                                                        <div class="d-flex align-items-center gap-2 ">
-                                                                            <img src="assets/images/suman.jpg"> 
-                                                                            <div>
-                                                                                <h5 class="mb-1 font-14 fw-semibold">Suman</h5>
-                                                                                <p class="mb-0 fw-light">suman@krenai.com | <span class="text-primary fw-normal">Full stack Developer</span></p>
-                                                                            </div>
-                                                                        </div>
-                                                                        <span class="badge rounded-pill badge-soft-danger"> Leaves</span>
-
-                                                                    </div>
-                                                                </div> -->
-
-                                                                <!-- <div class="d-flex align-items-center justify-content-between mb-4 "> -->
-                                                                    <!-- <h5 class="mb-0 font-16 fw-light">Last 7 days</h5> -->
-                                                                <!-- </div> -->
+                                                            <div class="absent-logs scrollable-container" *ngIf="leaveTeamOverviewResponse.length > 0" (scroll)="onScroll($event)">
+                                                               
                                                                 <div class="d-flex align-items-center justify-content-between mb-3" *ngFor="let log of leaveTeamOverviewResponse">
                                                                     <div class="d-flex align-items-center gap-2 ">
                                                                         <!-- <img src="assets/images/pushpendra.jpeg">  -->
@@ -457,6 +404,16 @@
                                                                     <!-- <span class="badge badge-soft-danger"> {{log?.date}}</span> -->
 
                                                                 </div>
+                                                                <div class="empty-file" style="margin-top: 7%; margin-bottom: 7%"
+                                                                *ngIf="isLoaderLoading">
+                                                                <div class="text-center load-more-btn">
+                                                                <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
+                                                                <div>
+                                                                    <small>Loading...</small>
+                                                                </div>
+                                                                </div>
+
+                                                            </div>
                                                             </div>
                                                             <div class="empty-file" style="margin-top: 5%; margin-bottom: 5%" *ngIf="leaveTeamOverviewResponse.length == 0 && !isLoaderLoading">
                                                                 <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
@@ -468,22 +425,14 @@
                                                                   </ng-template>
                                                                 </nz-empty>
                                                             </div>
-                                                            <div class="empty-file" style="margin-top: 7%; margin-bottom: 7%"
-                                                                *ngIf="isLoaderLoading">
-                                                                <div class="text-center load-more-btn">
-                                                                <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
-                                                                <div>
-                                                                    <small>Loading...</small>
-                                                                </div>
-                                                                </div>
-
-                                                            </div>
+                                                           
                                                        </div>
                                                     </div>
                                                     <div class="tab-pane fade" id="v-pills-on-leave" rol="tabpanel">
                                                         <div class="absent-data mt-3">
                                                             <div class="absent-logs " *ngIf="tabName === ON_LEAVE_TAB">
-                                                                <div class="pb-0 scrollable-container" *ngIf="leaveTeamOverviewResponse.length > 0 && !isLoaderLoading" (scroll)="onScroll($event)">
+                                                                <!-- {{isLoaderLoading}} -->
+                                                                <div class="pb-0 scrollable-container" *ngIf="leaveTeamOverviewResponse.length > 0" (scroll)="onScroll($event)">
                                                                     <div class="d-flex align-items-center justify-content-between mb-4">
                                                                         <h5 class="mb-0 font-20 fw-semibold"> {{leaveTeamOverviewResponseTotalCount || 0}} <span class="font-13 fw-normal">On leave this month.</span></h5>
                                                                     </div>
@@ -498,6 +447,18 @@
                                                                         <span class="badge rounded-pill badge-soft-secondary"> {{log?.totalValidDays}} Days</span>
 
                                                                     </div>
+                                                                   
+                                                                    <div class="empty-file" style="margin-top: 7%; margin-bottom: 7%"
+                                                                    *ngIf="isLoaderLoading">
+                                                                    <div class="text-center load-more-btn">
+                                                                    <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
+                                                                    <div>
+                                                                        <small>Loading...</small>
+                                                                    </div>
+                                                                    </div>
+
+                                                                </div>
+
                             
                                                                 </div>
                                                                 <div class="empty-file" style="margin-top: 5%; margin-bottom: 5%" *ngIf="leaveTeamOverviewResponse.length == 0 && !isLoaderLoading">
@@ -510,17 +471,7 @@
                                                                       </ng-template>
                                                                     </nz-empty>
                                                                 </div>
-                                                                <div class="empty-file" style="margin-top: 7%; margin-bottom: 7%"
-                                                                        *ngIf="leaveTeamOverviewResponse.length == 0 && isLoaderLoading">
-                                                                        <div class="text-center load-more-btn">
-                                                                        <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
-                                                                        <div>
-                                                                            <small>Loading...</small>
-                                                                        </div>
-                                                                        </div>
-
-                                                                    </div>
-
+                                                               
                                                                 
                                                             </div>
                                                        </div>
@@ -528,7 +479,7 @@
                                                     <div class="tab-pane fade" id="v-pills-defaulter" rol="tabpanel">
                                                         <div class="absent-data mt-3">
                                                             <div class="absent-logs " *ngIf="tabName === DEFAULTER_TAB">
-                                                                <div class="pb-0 scrollable-container" *ngIf="leaveTeamOverviewResponse.length > 0 && !isLoaderLoading" (scroll)="onScroll($event)">
+                                                                <div class="pb-0 scrollable-container" *ngIf="leaveTeamOverviewResponse.length > 0" (scroll)="onScroll($event)">
                                                                     <div class="d-flex align-items-center justify-content-between mb-4">
                                                                         <h5 class="mb-0 font-20 fw-semibold"> {{leaveTeamOverviewResponseTotalCount || 0}} <span class="font-13 fw-normal">Defaulter</span></h5>
                                                                     </div>
@@ -557,6 +508,16 @@
                                                                             </div> -->
                                                                         </div>
                                                                     </div>
+                                                                    <div class="empty-file" style="margin-top: 7%; margin-bottom: 7%"
+                                                                    *ngIf=" isLoaderLoading">
+                                                                    <div class="text-center load-more-btn">
+                                                                    <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
+                                                                    <div>
+                                                                        <small>Loading...</small>
+                                                                    </div>
+                                                                    </div>
+
+                                                                </div>
                                                                    
                                                                 </div>
                                                                 <div class="empty-file" style="margin-top: 5%; margin-bottom: 5%" *ngIf="leaveTeamOverviewResponse.length == 0 && !isLoaderLoading">
@@ -569,16 +530,7 @@
                                                                       </ng-template>
                                                                     </nz-empty>
                                                                 </div>
-                                                                <div class="empty-file" style="margin-top: 7%; margin-bottom: 7%"
-                                                                        *ngIf="leaveTeamOverviewResponse.length == 0 && isLoaderLoading">
-                                                                        <div class="text-center load-more-btn">
-                                                                        <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
-                                                                        <div>
-                                                                            <small>Loading...</small>
-                                                                        </div>
-                                                                        </div>
-
-                                                                    </div>
+                                                               
 
                                                                 
                                                             </div>
@@ -587,7 +539,7 @@
                                                     <div class="tab-pane fade" id="v-pills-consistent-employee" rol="tabpanel">
                                                         <div class="absent-data mt-3">
                                                             <div class="absent-logs " *ngIf="tabName === CONSISTENT_TAB">
-                                                                <div class="pb-0 scrollable-container" *ngIf="leaveTeamOverviewResponse.length > 0 && !isLoaderLoading" (scroll)="onScroll($event)">
+                                                                <div class="pb-0 scrollable-container" *ngIf="leaveTeamOverviewResponse.length > 0" (scroll)="onScroll($event)">
                                                                     <div class="d-flex align-items-center justify-content-between mb-4">
                                                                         <h5 class="mb-0 font-20 fw-semibold"> {{leaveTeamOverviewResponseTotalCount || 0}}<span class="font-13 fw-normal">Outstanding Employee</span></h5>
                                                                     </div>
@@ -606,6 +558,16 @@
                                                                         </div>
 
                                                                     </div>
+                                                                    <div class="empty-file" style="margin-top: 7%; margin-bottom: 7%"
+                                                                    *ngIf="isLoaderLoading">
+                                                                    <div class="text-center load-more-btn">
+                                                                    <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
+                                                                    <div>
+                                                                        <small>Loading...</small>
+                                                                    </div>
+                                                                    </div>
+
+                                                                </div>
                                                                   
                                                                 </div>
                                                                 <div class="empty-file" style="margin-top: 5%; margin-bottom: 5%" *ngIf="leaveTeamOverviewResponse.length == 0 && !isLoaderLoading">
@@ -618,16 +580,7 @@
                                                                       </ng-template>
                                                                     </nz-empty>
                                                                 </div>
-                                                                <div class="empty-file" style="margin-top: 7%; margin-bottom: 7%"
-                                                                        *ngIf="leaveTeamOverviewResponse.length == 0 && isLoaderLoading">
-                                                                        <div class="text-center load-more-btn">
-                                                                        <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
-                                                                        <div>
-                                                                            <small>Loading...</small>
-                                                                        </div>
-                                                                        </div>
-
-                                                                    </div>
+                                                               
                                                             </div>
                                                        </div>
                                                     </div>

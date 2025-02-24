@@ -884,10 +884,12 @@ onMonthChange(month: Date): void {
           ? currentDate // Use current date if within the selected week's range
           : lastDayOfMonth
       );
-    } else if (currentDate >= weekStart && currentDate <= weekEnd) {
-      // If the current week is the selected week, adjust to the current date
-      this.endDateWeek = this.formatDateToYYYYMMDD(currentDate);
-    } else {
+    } 
+    // else if (currentDate >= weekStart && currentDate <= weekEnd) {
+    //   // If the current week is the selected week, adjust to the current date
+    //   this.endDateWeek = this.formatDateToYYYYMMDD(currentDate);
+    // }
+     else {
       this.endDateWeek = this.formatDateToYYYYMMDD(weekEnd);
     }
   }
@@ -1099,10 +1101,15 @@ onMonthChange(month: Date): void {
         weekData.push({ x: "Total Approved", y: count });
       }
   
+      // seriesData.push({
+      //   name: `Week ${weekIndex} (${this.formatDateToDDMMM(weekStart)} - ${this.formatDateToDDMMM(weekEnd)})`,
+      //   data: weekData,
+      // });
       seriesData.push({
-        name: `Week ${weekIndex} (${this.formatDateToDDMMM(weekStart)} - ${this.formatDateToDDMMM(weekEnd)})`,
+        name: `Week ${weekIndex}`,
         data: weekData,
       });
+      
   
       weekIndex++;
       currentDate.setDate(weekEnd.getDate() + 1);  // Move to the next week's start
