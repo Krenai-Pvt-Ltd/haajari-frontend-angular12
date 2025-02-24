@@ -75,6 +75,8 @@ export class LeaveManagementsComponent implements OnInit {
       case 'absent':
         this.currentPageTeamOverView = 1;
         this.itemPerPageTeamOverview = 10;
+        this.isLoaderLoading = false;
+        this.isAllDataLoaded = false;
         this.leaveTeamOverviewResponse = [];
         this.tabName = this.ABSENT_TAB;
         this.getDetailsForLeaveTeamOverview(this.tabName);
@@ -82,6 +84,8 @@ export class LeaveManagementsComponent implements OnInit {
       case 'leave':
         this.currentPageTeamOverView = 1;
         this.itemPerPageTeamOverview = 10;
+        this.isLoaderLoading = false;
+        this.isAllDataLoaded = false;
         this.leaveTeamOverviewResponse = [];
         this.tabName = this.ON_LEAVE_TAB;
         this.getDetailsForLeaveTeamOverview(this.tabName);
@@ -89,6 +93,8 @@ export class LeaveManagementsComponent implements OnInit {
       case 'defaulter':
         this.currentPageTeamOverView = 1;
         this.itemPerPageTeamOverview = 10;
+        this.isLoaderLoading = false;
+        this.isAllDataLoaded = false;
         this.leaveTeamOverviewResponse = [];
         this.tabName = this.DEFAULTER_TAB;
         this.getDetailsForLeaveTeamOverview(this.tabName);
@@ -96,6 +102,8 @@ export class LeaveManagementsComponent implements OnInit {
       case 'consistent':
         this.currentPageTeamOverView = 1;
         this.itemPerPageTeamOverview = 10;
+        this.isLoaderLoading = false;
+        this.isAllDataLoaded = false;
         this.leaveTeamOverviewResponse = [];
         this.tabName = this.CONSISTENT_TAB;
         this.getDetailsForLeaveTeamOverview(this.tabName);
@@ -103,6 +111,8 @@ export class LeaveManagementsComponent implements OnInit {
       case 'department':
         this.currentPageTeamOverView = 1;
         this.itemPerPageTeamOverview = 10;
+        this.isLoaderLoading = false;
+        this.isAllDataLoaded = false;
         this.leaveTeamOverviewResponse = [];
         this.tabName = this.LEAVE_BY_DEPARTMENT_TAB;
         this.getDetailsForLeaveTeamOverview(this.tabName);
@@ -518,22 +528,57 @@ itemPerPageTeamOverview : number = 10;
 currentPageTeamOverView : number = 1;
 leaveTeamOverviewResponse: any[] = [];
 isLoaderLoading: boolean = false;
-getDetailsForLeaveTeamOverview(tabName:string) {
-  debugger
-  this.leaveTeamOverviewResponse = [];
-  this.isLoaderLoading = true;
-  this.leaveService.getDetailsForLeaveTeamOverview(tabName, this.startDate, this.endDate, this.itemPerPageTeamOverview, this.currentPageTeamOverView).subscribe({
-    next: (response: any) => {
-     this.leaveTeamOverviewResponse = response.object;
-     this.isLoaderLoading = false;
-     console.log(response);
+isAllDataLoaded: boolean = false;
+// getDetailsForLeaveTeamOverview(tabName:string) {
+//   debugger
+//   this.leaveTeamOverviewResponse = [];
+//   this.isLoaderLoading = true;
+//   this.leaveService.getDetailsForLeaveTeamOverview(tabName, this.startDate, this.endDate, this.itemPerPageTeamOverview, this.currentPageTeamOverView).subscribe({
+//     next: (response: any) => {
+//      this.leaveTeamOverviewResponse = response.object;
+//      this.isLoaderLoading = false;
+//      console.log(response);
      
-    },
-    error: (error) => {
-      this.isLoaderLoading = false;
-      console.error('Failed to fetch', error);
-    },
-  });
+//     },
+//     error: (error) => {
+//       this.isLoaderLoading = false;
+//       console.error('Failed to fetch', error);
+//     },
+//   });
+// }
+
+getDetailsForLeaveTeamOverview(tabName: string) {
+  if (this.isLoaderLoading || this.isAllDataLoaded) return; // Prevent multiple calls
+
+  this.isLoaderLoading = true;
+
+  this.leaveService
+    .getDetailsForLeaveTeamOverview(tabName, this.startDate, this.endDate, this.itemPerPageTeamOverview, this.currentPageTeamOverView)
+    .subscribe({
+      next: (response: any) => {
+        const fetchedData = response.object || [];
+        if (fetchedData.length > 0) {
+          this.leaveTeamOverviewResponse = [...this.leaveTeamOverviewResponse, ...fetchedData];
+        } else {
+          this.isAllDataLoaded = true; // No more data
+        }
+        this.isLoaderLoading = false;
+      },
+      error: (error) => {
+        console.error('Failed to fetch', error);
+        this.isLoaderLoading = false;
+      },
+    });
+}
+
+onScroll(event: any) {
+  const target = event.target;
+
+  // Check if the user scrolled to the bottom
+  if (target.scrollHeight - target.scrollTop <= target.clientHeight + 10 && !this.isLoaderLoading && !this.isAllDataLoaded) {
+    this.currentPageTeamOverView++; // Increase page number for next set of data
+    this.getDetailsForLeaveTeamOverview(this.tabName); // Load more data
+  }
 }
 
 // leaveReportResponse: any;
@@ -939,48 +984,110 @@ onMonthChange(month: Date): void {
     });
   }
 
+  // initChartDataHeatMap(approvedLeaveCounts: any[]): void {
+  //   const dateMap = new Map<string, number>();
+  //   approvedLeaveCounts.forEach(item => dateMap.set(item.date, item.totalCount));
+
+  //   const start = new Date(this.startDate);
+  //   const end = new Date(this.endDate);
+
+  //   const seriesData: any[] = [];
+  //   let currentWeekStart = new Date(start);
+
+  //   // Function to get the end of the current week (Sunday)
+  //   const getWeekEndDate = (date: Date): Date => {
+  //     const weekEnd = new Date(date);
+  //     weekEnd.setDate(weekEnd.getDate() + (6 - weekEnd.getDay()));
+  //     return weekEnd > end ? new Date(end) : weekEnd;
+  //   };
+
+  //   let weekIndex = 1;
+  //   while (currentWeekStart <= end) {
+  //     const currentWeekEnd = getWeekEndDate(currentWeekStart);
+  //     const weekData: any[] = [];
+
+  //     for (let date = new Date(currentWeekStart); date <= currentWeekEnd; date.setDate(date.getDate() + 1)) {
+  //       const formattedDate = date.toISOString().split('T')[0];
+  //       const count = dateMap.get(formattedDate) ?? 0;
+
+  //       // weekData.push({ x: formattedDate, y: count });
+  //       weekData.push({ x: "Approved", y: count });
+  //     }
+
+  //     seriesData.push({ name: `Week ${weekIndex}`, data: weekData });
+  //     weekIndex++;
+
+  //     currentWeekStart.setDate(currentWeekEnd.getDate() + 1); // Move to next week's start
+  //   }
+
+  //   this.chartOptions = {
+  //     series: seriesData,
+  //     chart: {
+  //       height: 350,
+  //       type: 'heatmap',
+  //     },
+  //     plotOptions: {
+  //       heatmap: {
+  //         shadeIntensity: 0.5,
+  //         radius: 4,
+  //         useFillColorAsStroke: true,
+  //         colorScale: {
+  //           ranges: [
+  //             { from: 0, to: 0, name: 'No Leaves', color: '#E0E0E0' },
+  //             { from: 1, to: 2, name: 'Low', color: '#90CAF9' },
+  //             { from: 3, to: 4, name: 'Medium', color: '#42A5F5' },
+  //             { from: 5, to: 6, name: 'High', color: '#1E88E5' },
+  //             { from: 7, to: 10, name: 'Very High', color: '#1565C0' },
+  //           ],
+  //         },
+  //       },
+  //     },
+  //     dataLabels: { enabled: false },
+  //     xaxis: { type: 'category', labels: { show: false } },
+  //     yaxis: { title: { text: 'Weeks of the Month' } },
+  //     tooltip: { y: { formatter: (val) => `${val} Leave(s)` } },
+  //     theme: { mode: 'light' },
+  //   };
+  // }
+
   initChartDataHeatMap(approvedLeaveCounts: any[]): void {
     const dateMap = new Map<string, number>();
     approvedLeaveCounts.forEach(item => dateMap.set(item.date, item.totalCount));
-
+  
     const start = new Date(this.startDate);
     const end = new Date(this.endDate);
-
+  
     const seriesData: any[] = [];
-    let currentWeekStart = new Date(start);
-
-    // Function to get the end of the current week (Sunday)
-    const getWeekEndDate = (date: Date): Date => {
-      const weekEnd = new Date(date);
-      weekEnd.setDate(weekEnd.getDate() + (6 - weekEnd.getDay()));
-      return weekEnd > end ? new Date(end) : weekEnd;
-    };
-
+    let currentDate = new Date(start);
     let weekIndex = 1;
-    while (currentWeekStart <= end) {
-      const currentWeekEnd = getWeekEndDate(currentWeekStart);
+  
+    while (currentDate <= end) {
+      const weekStart = new Date(currentDate);
+      const potentialWeekEnd = new Date(currentDate);
+      potentialWeekEnd.setDate(weekStart.getDate() + 6);  // Each week covers 7 days
+  
+      const weekEnd = potentialWeekEnd > end ? end : potentialWeekEnd;  // Handle last week ending
+  
       const weekData: any[] = [];
-
-      for (let date = new Date(currentWeekStart); date <= currentWeekEnd; date.setDate(date.getDate() + 1)) {
+      for (let date = new Date(weekStart); date <= weekEnd; date.setDate(date.getDate() + 1)) {
         const formattedDate = date.toISOString().split('T')[0];
         const count = dateMap.get(formattedDate) ?? 0;
-
         // weekData.push({ x: formattedDate, y: count });
-        weekData.push({ x: "Approved", y: count });
+        weekData.push({ x: "Total Approved", y: count });
       }
-
-      seriesData.push({ name: `Week ${weekIndex}`, data: weekData });
+  
+      seriesData.push({
+        name: `Week ${weekIndex} (${this.formatDateToDDMMM(weekStart)} - ${this.formatDateToDDMMM(weekEnd)})`,
+        data: weekData,
+      });
+  
       weekIndex++;
-
-      currentWeekStart.setDate(currentWeekEnd.getDate() + 1); // Move to next week's start
+      currentDate.setDate(weekEnd.getDate() + 1);  // Move to the next week's start
     }
-
+  
     this.chartOptions = {
       series: seriesData,
-      chart: {
-        height: 350,
-        type: 'heatmap',
-      },
+      chart: { height: 350, type: 'heatmap' },
       plotOptions: {
         heatmap: {
           shadeIntensity: 0.5,
@@ -1000,9 +1107,21 @@ onMonthChange(month: Date): void {
       dataLabels: { enabled: false },
       xaxis: { type: 'category', labels: { show: false } },
       yaxis: { title: { text: 'Weeks of the Month' } },
-      tooltip: { y: { formatter: (val) => `${val} Leave(s)` } },
+      tooltip: {
+        y: { formatter: (val) => `${val} Leave(s)` },
+        x: { formatter: (val) => `${val}` },
+      },
       theme: { mode: 'light' },
     };
   }
 
+  // formatDateToYYYYMMDD(date: Date): string {
+  //   return date.toISOString().split('T')[0];
+  // }
+  
+  formatDateToDDMMM(date: Date): string {
+    return date.toLocaleDateString('en-US', { day: '2-digit', month: 'short' });
+  }
+  
+  
 }
