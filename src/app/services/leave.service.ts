@@ -1,3 +1,4 @@
+import { BASE_URL } from './../../environments/environment.staging';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -24,14 +25,14 @@ export class LeaveService {
   //       }
   //       return acc;
   //     }, {});
-  
+
   //   return this.http.get(`${API_URLS.base_url}${API_URLS.leaves}`, { params });
   // }
-  
+
 
 
   get(paramsObj?: Record<string, any>): Observable<any> {
-    
+
      // Remove any keys where the value is undefined
     const params = Object.entries(paramsObj || {})
       .filter(([key, value]) => value !== undefined)
@@ -39,12 +40,12 @@ export class LeaveService {
         acc[key] = value;
         return acc;
       }, {});
-  
-  
+
+
     return this.http.get(`${API_URLS.base_url}${API_URLS.leaves}`, { params });
 
   }
-  
+
 
   getLeaveCountersByDateRange(paramsObj?: Record<string, any>): Observable<any> {
     const params = new HttpParams({ fromObject: paramsObj || {} });
@@ -145,6 +146,7 @@ export class LeaveService {
     );
   }
 
+<<<<<<< HEAD
   
 
   getTopAbsentDays(
@@ -163,7 +165,15 @@ export class LeaveService {
   
   
   
+=======
+  getLeaveById(id: number): Observable<any> {
+    const params = new HttpParams().set('id', id.toString());
+    return this.http.get<any>(`${API_URLS.base_url}/leave/by-id`, { params });
+  }
 
 
-  
+
+>>>>>>> cf031f1d5af77d73c0f289431aa021b9604c6d65
+
+
 }
