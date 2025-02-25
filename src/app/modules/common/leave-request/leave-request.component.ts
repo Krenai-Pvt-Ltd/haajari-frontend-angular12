@@ -21,8 +21,14 @@ export class LeaveRequestComponent implements OnInit {
   ) { }
 
   ROLE: any = '';
-   @Input() data: any; // Existing input for passing data
-    @Output() closeModal: EventEmitter<void> = new EventEmitter<void>();
+    @Input() data: any; // Existing input for passing data
+    @Output() closeModal: EventEmitter<any> = new EventEmitter<any>();
+
+    sendBulkDataToComponent() {
+      this.closeModal.emit(this.userLeaveQuota);
+    }
+
+    
     isModal: boolean = true;
   ngOnInit(): void {
     this.ROLE = this.rbacService.userInfo.role;
@@ -82,6 +88,9 @@ export class LeaveRequestComponent implements OnInit {
         isLoading: boolean = false;
         rejectionReasonFlag: boolean = false;
         rejectLoading: boolean = false;
+        LEAVE_QUOTA_EXCEEDED = Key.LEAVE_QUOTA_EXCEEDED;
+       showLeaveQuotaModal: boolean = false;
+        userLeaveQuota: any = null;
         approveOrRejectLeave(leaveId: number, operationString: string) {
           debugger
           if (operationString === this.REJECTED ) {
@@ -96,14 +105,25 @@ export class LeaveRequestComponent implements OnInit {
               this.rejectionReason = '';
               this.rejectionReasonFlag = false;
              // this.getLeaves(true);
-              this.closeModal.emit();
+             
               if(this.closebutton){
                 this.closebutton.nativeElement.click();
               }
               this.leave.status = operationString;
               this.cdr.detectChanges();
               this.cdr.markForCheck();
-              this.helperService.showToast(`Leave ${operationString} successfully.`, Key.TOAST_STATUS_SUCCESS);
+              // this.helperService.showToast(`Leave ${operationString} successfully.`, Key.TOAST_STATUS_SUCCESS);
+              if (response.message === 'approved' || response.message === 'rejected') {
+                this.helperService.showToast(`Leave ${operationString} successfully.`, Key.TOAST_STATUS_SUCCESS);
+                this.sendBulkDataToComponent();
+              } else if (response.message === this.LEAVE_QUOTA_EXCEEDED) {
+                this.helperService.showToast('Leave quota exceeded.', Key.TOAST_STATUS_ERROR);
+                this.fetchUserLeaveQuota(leaveId); // Fetch and open leave quota modal
+              } else {
+                this.helperService.showToast(response.message, Key.TOAST_STATUS_ERROR);
+                this.sendBulkDataToComponent();
+              }
+             
             },
             error: (error) => {
               this.helperService.showToast('Error.', Key.TOAST_STATUS_ERROR);
@@ -113,6 +133,32 @@ export class LeaveRequestComponent implements OnInit {
             },
           });
         }
+
+
+
+            // Fetch user leave quota details
+            fetchUserLeaveQuota(leaveId: number) {
+              this.leaveService.getUserLeaveQuota(leaveId).subscribe({
+                next: (quota: any) => {
+                  this.userLeaveQuota = quota.object; // Assign quota details
+                  this.sendBulkDataToComponent();
+                },
+                error: (err) => {
+                  console.error('Failed to fetch user leave quota:', err);
+                  this.helperService.showToast('Failed to load leave quota.', Key.TOAST_STATUS_ERROR);
+                }
+              });
+            }
+
+            // // Open modal
+            // openLeaveQuotaModal() {
+            //   this.showLeaveQuotaModal = true;
+            // }
+
+            // // Close modal
+            // closeLeaveQuotaModal() {
+            //   this.showLeaveQuotaModal = false;
+            // }
 
         approveOrRejectLeaveCall(leaveId: number, operationString: string) {
           debugger

@@ -226,11 +226,15 @@ organizationRegistrationDate: string = '';
           if (Array.isArray(response.object)) {
             this.leaves = response.object;
             this.totalItems = response.totalItems;
-
-            if (this.isFirstLoad && this.filters.status.includes('pending')) {
+            // console.log("execute" + this.filters.status.length);
+            if (this.filters.status.length == 1 && this.filters.status.includes('pending')) {
+              // console.log("execute" + this.filters.status);
               this.pendingLeaveCount = response.totalItems;
-              this.isFirstLoad = false;  // Prevent further updates on subsequent calls
             }
+            
+            // this.isFirstLoad = false;   
+            // this.isPendingChange = false;
+            
 
           } else {
             this.leaves = [];
@@ -248,16 +252,31 @@ organizationRegistrationDate: string = '';
     leaveData: any =  {
       leave: {}
     };
+
     isModalOpen: boolean = false;
-    closeModalHandler(): void {
+    closeModalHandler(event:any): void {
+      console.log("event" + event);
       this.leaveData = null;
       this.isModalOpen = false;
       this.applyFilters();
+      if(event!=null) {
+        this.userLeaveQuota = event;
+        this.openLeaveQuotaModal(); 
+      }
       // this.getLeaves(true);
     }
+
       viewLeave(leave:any){
+        console.log("leave" , leave);
+        if (!leave) {
+          console.log("Leave data is undefined or null.");
+          return;
+        }
         this.isModalOpen = false;
         this.leave = leave;
+        this.leaveData = {
+          leave: {}
+        };
         this.leaveData.leave = leave;
         setTimeout(() => {
         this.isModalOpen = true;
@@ -281,7 +300,12 @@ onPageChange(page: number) {
   // this.currentPage = 1;
   this.currentPage = page;
 
-  this.applyFilters();
+  
+  if(this.filters.fromDate && this.filters.toDate) {
+    this.getLeaves(false, true); // Fetch data with applied filters
+    } else {
+      this.getLeaves(false, false); 
+    }
 
   // if(this.filters.fromDate && this.filters.toDate) {
   //   this.getLeaves(false, true); // Fetch data with applied filters
@@ -444,6 +468,12 @@ removeFilter(filter: { key: string; value: string }): void {
 }
 
 
+isPendingChange: boolean = false;
+LEAVE_QUOTA_EXCEEDED = Key.LEAVE_QUOTA_EXCEEDED;
+
+// Component properties
+showLeaveQuotaModal: boolean = false;
+userLeaveQuota: any = null;
 
 // -- new start
 approveOrRejectLeave(leaveId: number, operationString: string) {
@@ -455,18 +485,64 @@ approveOrRejectLeave(leaveId: number, operationString: string) {
       this.isLoading = false;
       this.rejectionReason = '';
       this.rejectionReasonFlag = false;
+      this.isPendingChange = true;
       this.applyFilters();
       // this.getLeaves(true);
-      this.closebutton.nativeElement.click();
-      this.helperService.showToast(`Leave ${operationString} successfully.`, Key.TOAST_STATUS_SUCCESS);
+      if (this.closebutton) {
+        this.closebutton.nativeElement.click();
+      } else {
+        console.log('Close button reference not found.');
+      }
+
+      if (response.message === 'approved' || response.message === 'rejected') {
+        this.helperService.showToast(`Leave ${operationString} successfully.`, Key.TOAST_STATUS_SUCCESS);
+      } else if (response.message === this.LEAVE_QUOTA_EXCEEDED) {
+        this.helperService.showToast('Leave quota exceeded.', Key.TOAST_STATUS_ERROR);
+        this.fetchUserLeaveQuota(leaveId); // Fetch and open leave quota modal
+      } else {
+        this.helperService.showToast(response.message, Key.TOAST_STATUS_ERROR);
+      }
+      // if(response.status) {
+      // this.helperService.showToast(`Leave ${operationString} successfully.`, Key.TOAST_STATUS_SUCCESS);
+      // }else {
+      //   this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
+      // }
     },
     error: (error) => {
+      this.isPendingChange = false;
       this.helperService.showToast('Error.', Key.TOAST_STATUS_ERROR);
       console.error('Failed to fetch approve/reject leaves:', error);
       this.isLoading = false;
     },
   });
 }
+
+
+
+// Fetch user leave quota details
+fetchUserLeaveQuota(leaveId: number) {
+  this.leaveService.getUserLeaveQuota(leaveId).subscribe({
+    next: (quota: any) => {
+      this.userLeaveQuota = quota.object; // Assign quota details
+      this.openLeaveQuotaModal(); // Show the modal
+    },
+    error: (err) => {
+      console.error('Failed to fetch user leave quota:', err);
+      this.helperService.showToast('Failed to load leave quota.', Key.TOAST_STATUS_ERROR);
+    }
+  });
+}
+
+// Open modal
+openLeaveQuotaModal() {
+  this.showLeaveQuotaModal = true;
+}
+
+// Close modal
+closeLeaveQuotaModal() {
+  this.showLeaveQuotaModal = false;
+}
+
 
 approveOrRejectLeaveCall(leaveId: number, operationString: string) {
   debugger

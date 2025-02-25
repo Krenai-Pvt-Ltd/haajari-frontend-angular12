@@ -425,6 +425,13 @@ export class AttendanceLeaveComponent implements OnInit {
   @ViewChild('fileInput') fileInput!: ElementRef;
   @ViewChild(FormGroupDirective) formGroupDirective!: FormGroupDirective;
   @ViewChild('cancelBtn') cancelBtn!: ElementRef;
+
+  LEAVE_QUOTA_EXCEEDED = Key.LEAVE_QUOTA_EXCEEDED;
+
+// Component properties
+showLeaveQuotaModal: boolean = false;
+userLeaveQuota: any = null;
+
   saveLeaveRequestUser() {
     debugger
     this.isLoadingLeaveForm = true;
@@ -463,6 +470,11 @@ export class AttendanceLeaveComponent implements OnInit {
             this.isLeavePlaceholder = false;
             this.isFileUploaded = false;
             this.helperService.showToast(data.message, Key.TOAST_STATUS_ERROR);
+
+            if (data.message === this.LEAVE_QUOTA_EXCEEDED) {
+              this.cancelBtn.nativeElement.click();
+              this.fetchUserLeaveQuota(this.userLeaveRequest.userLeaveTemplateId); // Fetch and open leave quota modal
+            }
           }
           this.isLoadingLeaveForm = false;
 
@@ -474,6 +486,32 @@ export class AttendanceLeaveComponent implements OnInit {
         }
       );
   }
+
+
+// Fetch user leave quota details
+fetchUserLeaveQuota(userLeaveTemplateId: number) {
+  this.dataService.getUserLeaveQuota(userLeaveTemplateId).subscribe({
+    next: (quota: any) => {
+      this.userLeaveQuota = quota.object; // Assign quota details
+      this.openLeaveQuotaModal(); // Show the modal
+    },
+    error: (err) => {
+      console.error('Failed to fetch user leave quota:', err);
+      this.helperService.showToast('Failed to load leave quota.', Key.TOAST_STATUS_ERROR);
+    }
+  });
+}
+
+// Open modal
+openLeaveQuotaModal() {
+  this.showLeaveQuotaModal = true;
+}
+
+// Close modal
+closeLeaveQuotaModal() {
+  this.showLeaveQuotaModal = false;
+}
+
   resetUserLeave() {
 
     this.isHalfLeaveSelected = false;

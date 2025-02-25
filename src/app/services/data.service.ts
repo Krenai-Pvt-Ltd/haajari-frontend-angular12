@@ -5168,6 +5168,13 @@ getHolidayForOrganizationWhatsapp(userUuid: string, date: string): Observable<an
     return this.httpClient.post<any>(`${this.baseUrl}/assets/assigned-requested-asset`, {}, { params });
   }
 
+
+    getUserLeaveQuota(userLeaveTemplateId: number): Observable<any> {
+      const params = new HttpParams().set('userLeaveTemplateId', userLeaveTemplateId);
+      return this.httpClient.get<any>(`${this.baseUrl}/leave/quota/by-user-leave-template-id`,{ params });
+    }
+  
+
 }
 
 
