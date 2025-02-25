@@ -53,7 +53,7 @@ export class LeaveSettingComponent implements OnInit {
     this.getTeamNames();
 
     this.getUserByFiltersMethodCall(0);
-    
+
     const leaveId = localStorage.getItem('tempId');
     this.filteredLeaveCategories = []
     this.leaveCategories1 = []
@@ -92,7 +92,7 @@ export class LeaveSettingComponent implements OnInit {
   get categories(): FormArray {
     return this.form.get('categories') as FormArray;
   }
-  
+
 
   addRow() {
     debugger
@@ -422,6 +422,67 @@ export class LeaveSettingComponent implements OnInit {
     }, debounceTime);
   }
 
+  // New method to select all staff with joining dates across all pages
+  selectAllPages: boolean = false;
+selectAllStaffAcrossPages() {
+  console.log('Select all staff across all pages:', this.selectAllPages);
+  // Reset current selections
+if (this.selectAllPages) {
+  this.allselected = true;
+  this.selectAllPages = true;
+  this.selectedStaffIdsUser = [];
+
+  // Get all users without pagination (assuming the API can handle this)
+  this.dataService.getUsersByFilterForLeaveSetting(
+    0, // 0 items per page to get all records (adjust based on your API)
+    1, // Start from page 1
+    'asc',
+    'id',
+    this.searchText,
+    '',
+    this.idOfLeaveSetting,
+    this.selectedTeamId,
+    this.selectedUserIds
+  ).subscribe(
+    (response) => {
+      // Filter staff with joining dates and select them
+      const staffWithJoiningDate = response.users.filter((staff: { joiningDate: any; }) => staff.joiningDate);
+
+      // Update selectedStaffIdsUser with all qualifying staff IDs
+      this.selectedStaffIdsUser = staffWithJoiningDate.map((staff: { id: any; }) => staff.id);
+
+      // Remove duplicates
+      this.selectedStaffIdsUser = Array.from(new Set(this.selectedStaffIdsUser));
+
+      // Update current page display
+      this.staffs.forEach(staff => {
+        staff.checked = !!staff.joiningDate && this.selectedStaffIdsUser.includes(staff.id);
+      });
+
+      console.log('Selected staff across all pages: ', this.selectedStaffIdsUser);
+
+      // Optional: If you need to refresh the current page
+      this.getUserByFiltersMethodCall(this.idOfLeaveSetting, 0);
+    },
+    (error) => {
+      console.error('Error fetching all staff:', error);
+      this.allselected = false;
+    }
+  );
+} else {
+    this.allselected = false;
+    this.selectAllPages = false;
+    this.selectedStaffIdsUser = [];
+
+    // Update current page display
+    this.staffs.forEach(staff => {
+      staff.checked = false;
+    });
+    this.getUserByFiltersMethodCall(this.idOfLeaveSetting, 0);
+}
+}
+
+
   getUserByUpdateMethodCall(leaveSettingId: number) {
 
     debugger
@@ -591,6 +652,7 @@ export class LeaveSettingComponent implements OnInit {
  totalItems: number = 0;
  pageChanged(page: any) {
    if (page != this.databaseHelper.currentPage) {
+      this.allselected=false;
      this.databaseHelper.currentPage = page;
      this.getUserByFiltersMethodCall(this.idOfLeaveSetting);
    }
@@ -1250,6 +1312,21 @@ export class LeaveSettingComponent implements OnInit {
     }
   }
 
+  allUserUuids: string[] = [];
+  async getAllUserUuidsMethodCall() {
+    return new Promise<string[]>((resolve, reject) => {
+      this.dataService.getAllUserUuids().subscribe({
+        next: (response) => {
+          this.allUserUuids = response.listOfObject;
+          resolve(this.allUserUuids);
+        },
+        error: (error) => {
+          reject(error);
+        },
+      });
+    });
+  }
+
   selectAllUser(checked: boolean) {
     this.isAllSelectedUser = checked;
     this.staffsUser.forEach((staff) => (staff.selected = checked));
@@ -1862,7 +1939,7 @@ export class LeaveSettingComponent implements OnInit {
     this.selectedAccrualTypeId = id;  // Store the selected gender ID
   }
 
-  
+
   leaveCycleStartDate: any;
   leaveCycleEndDate: any;
   onLeaveCycleChange(id: number) {
@@ -2208,8 +2285,11 @@ export class LeaveSettingComponent implements OnInit {
   selectAllEmployee(event: any) {
     if (!this.allselected) {
       this.staffs.forEach((element) => {
-        this.selectedStaffIdsUser.push(element.id);
-        element.checked = true;
+        // Only select if joiningDate exists
+        if (element.joiningDate) {
+          this.selectedStaffIdsUser.push(element.id);
+          element.checked = true;
+        }
       });
       this.allselected = true;
     } else {
@@ -2219,12 +2299,11 @@ export class LeaveSettingComponent implements OnInit {
       this.allselected = false;
       this.selectedStaffIdsUser = [];
     }
-    console.log('all Ids: ',this.selectedStaffIdsUser)
+    console.log('all Ids: ', this.selectedStaffIdsUser);
 
-    // Assuming selectedStaffIdsUser contains duplicates
-this.selectedStaffIdsUser = Array.from(new Set(this.selectedStaffIdsUser));
-console.log('After SET Ids: ',this.selectedStaffIdsUser)
-
+    // Remove duplicates using Set
+    this.selectedStaffIdsUser = Array.from(new Set(this.selectedStaffIdsUser));
+    console.log('After SET Ids: ', this.selectedStaffIdsUser);
   }
 
   selectSingle1(event: any, i: any) {
@@ -2490,7 +2569,7 @@ setUnusedLeaveAction(index: number, value: any): void {
 showError: boolean = false;
 showErrorCount: boolean = false;
 // leaveCount: number = 1
-tempLeaveCount!: number  
+tempLeaveCount!: number
 
 // validateAndAdjustLeaveCount(value: number, index: number): void {
 validateAndAdjustLeaveCount(value: number, index: number): void {
@@ -2677,7 +2756,7 @@ editingStaff: Staff = new Staff(); // Tracks which staff row is being edited
       this.dataService.updateJoiningDate(staff.id, this.tempJoiningDate).subscribe({
         next: (response) => {
           if(response.status){
-            
+
             this.getUserByFiltersMethodCall(this.idOfLeaveSetting);
             this.helperService.showToast('Joining date added for '+ staff.name, Key.TOAST_STATUS_SUCCESS);
           }else{
@@ -2686,7 +2765,7 @@ editingStaff: Staff = new Staff(); // Tracks which staff row is being edited
         },
         error: (err) => {
           console.error('Error:', err);
-         
+
         }
       });
       staff.joiningDate = this.tempJoiningDate;
@@ -2710,7 +2789,7 @@ editingStaff: Staff = new Staff(); // Tracks which staff row is being edited
   //   console.log(this.form);
 
   //   // Print the invalid values
-    
+
   //   // Loop through invalid controls and print their missing validations
   //   invalidControls.forEach(controlName => {
   //     const control = this.form.get(controlName);
@@ -2741,7 +2820,7 @@ editingStaff: Staff = new Staff(); // Tracks which staff row is being edited
 //   this.categories.controls[i]!.get('carryover')?.setValue(null);
 
 //   if(this.categories.controls[i]!.get('isReset')?.value.getValue == true) {
-    
+
 //   }
 // }
 
@@ -2758,7 +2837,7 @@ resetCarryOverAction(i: number) {
     categoryControl.get('carryover')?.clearValidators();
   } else {
     // Add required validation when `isReset` is false
-   
+
     if(this.categories.controls[i]!.get('carryoverAction')?.value=='Restricted') {
        categoryControl.get('carryover')?.setValidators([Validators.required]);
     }else {
@@ -2778,5 +2857,5 @@ resetCarryOverAction(i: number) {
 
 
 
-  
+
 }
