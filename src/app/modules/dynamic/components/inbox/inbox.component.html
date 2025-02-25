@@ -106,7 +106,7 @@
                                 : mail.title.substring(0, 2).toUpperCase()
                             }}
                           </span>
-                          <span class="active-notification"></span>
+                          <span class="active-notification" *ngIf="!mail.isRead"></span>
                           <div>
                             <p class="mb-0 font-13 fw-normal">
                               {{ mail.title }} | {{ mail.createdDate | date: 'd MMM, yyyy' }}
