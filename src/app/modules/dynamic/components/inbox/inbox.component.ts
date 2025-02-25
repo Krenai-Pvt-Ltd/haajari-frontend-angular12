@@ -82,6 +82,8 @@ export class InboxComponent implements OnInit {
     this.showExitComponent=false;
     this.isProfileReqModalOpen=false;
     this.showExpenseComponent=false;
+    this.showLeaveComponent=false;
+    this.showAttendanceUpdate=false;
     this.onMessageClick(mail);
   }
 
@@ -158,6 +160,9 @@ export class InboxComponent implements OnInit {
 
   showAttendanceUpdate: boolean = false;
   attendanceUpdateData: any = {};
+
+  showLeaveComponent: boolean = false;
+  leaveData: any = {};
   onExpenseComponentClose() {
     this.showExpenseComponent = false;
     this.getCompanyExpense(this.currentExpenseId);
@@ -165,7 +170,7 @@ export class InboxComponent implements OnInit {
 
 
   isAnyModalOpen(): boolean{
-    return this.showExitComponent || this.showAssetComponent || this.isProfileReqModalOpen || this.showExpenseComponent || this.showAttendanceUpdate;
+    return this.showExitComponent || this.showAssetComponent || this.isProfileReqModalOpen || this.showExpenseComponent || this.showAttendanceUpdate || this.showLeaveComponent;
   }
 
   onProfileComponentClose() {
@@ -184,6 +189,11 @@ export class InboxComponent implements OnInit {
   onAttendanceUpdateClose(){
     this.showAttendanceUpdate=false;
   }
+
+  onLeaveComponentClose() {
+    // this.showLeaveComponent = false;
+  }
+
 
   readNotification(mail: any){
     if(!mail.isRead ){
@@ -235,14 +245,31 @@ export class InboxComponent implements OnInit {
       this.attendanceUpdateData.userType = 'ADMIN';
       this.attendanceUpdateData.isModal = 0;
       this.getAttendanceUpdateById(mail.resourceId);
+    }else if(mail.categoryId === 24) {
+      this.showLeaveComponent = false;
+      this.leaveData = {};
+      this.leaveData.id = mail.resourceId;
+      this.leaveData.userType = 'ADMIN';
+      this.leaveData.isModal = 0;
+      setTimeout(() => {
+        this.showLeaveComponent = true;
+      }
+      , 10);
     }
     else{
-      this.showExitComponent = false;
-      this.showAssetComponent = false;
-      this.isProfileReqModalOpen = false;
+     this.markAllFalse();
+
     }
   }
 
+  markAllFalse(){
+    this.showExitComponent = false;
+    this.showAssetComponent = false;
+    this.isProfileReqModalOpen = false;
+    this.showExpenseComponent = false;
+    this.showAttendanceUpdate = false;
+    this.showLeaveComponent = false;
+  }
   getAttendanceUpdateById(id: number): void {
     this.isLoadingData = true;
     this.dataService.getAttendanceRequestById(id).subscribe(
@@ -326,6 +353,7 @@ export class InboxComponent implements OnInit {
 
   selectedDate: Date | null = null;
   onDateChange(date: Date | null): void {
+    this.markAllFalse();
     if (date) {
       const dateStr = date.toISOString().split('T')[0]; // Format as YYYY-MM-DD (e.g., "2025-02-20")
       this.startDate = dateStr;
@@ -353,6 +381,7 @@ export class InboxComponent implements OnInit {
 
   activeFilter: string = 'All';
   onFilterClick(filter: any): void {
+    this.markAllFalse();
     this.activeFilter = filter.type;
     this.categoryIds = filter.ids;
     this.pageNumber = 0; // Reset pagination
@@ -379,7 +408,7 @@ export class InboxComponent implements OnInit {
     },
     {
       type: "Leave Request",
-      ids: [20, 21, 22, 23],
+      ids: [20, 21, 22, 23, 24],
       svgPath: "M17 3h-1v-1h-2v1h-6v-1h-2v1h-1c-1.11 0-2 .9-2 2v12c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-12c0-1.1-.9-2-2-2zm0 14h-14v-8h14v8zm0-10h-14v-2h14v2z" // Calendar icon
     },
     {

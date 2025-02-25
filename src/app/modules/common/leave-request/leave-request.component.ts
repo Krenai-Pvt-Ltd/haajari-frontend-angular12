@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { Key } from 'src/app/constant/key';
 import { LeaveResponse } from 'src/app/models/leave-responses.model';
 import { HelperService } from 'src/app/services/helper.service';
@@ -17,14 +17,39 @@ export class LeaveRequestComponent implements OnInit {
     private leaveService: LeaveService,
     private helperService: HelperService,
     private rbacService: RoleBasedAccessControlService,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ROLE: any = '';
    @Input() data: any; // Existing input for passing data
     @Output() closeModal: EventEmitter<void> = new EventEmitter<void>();
+    isModal: boolean = true;
   ngOnInit(): void {
     this.ROLE = this.rbacService.userInfo.role;
-    this.leave = this.data.leave;
+    if(this.data.leave) {
+      this.leave = this.data.leave;
+    }
+    if(this.data.id){
+      this.fetchLeaveById(this.data.id);
+    }
+    if(this.data.isModal==0){
+      this.isModal = false;
+    }
+  }
+
+  fetchLeaveById(id: number) {
+    this.leaveService.getLeaveById(id).subscribe(
+      (response) => {
+        if(response.status) {
+          this.leave = response.object;
+          this.cdr.detectChanges();
+          this.cdr.markForCheck();
+        }
+      },
+      (error) => {
+        console.error('Error fetching leave:', error);
+      }
+    );
   }
 
   APPROVED: string = 'approved';
@@ -56,23 +81,35 @@ export class LeaveRequestComponent implements OnInit {
         rejectionReason: string = '';
         isLoading: boolean = false;
         rejectionReasonFlag: boolean = false;
+        rejectLoading: boolean = false;
         approveOrRejectLeave(leaveId: number, operationString: string) {
           debugger
-          this.isLoading = true;
+          if (operationString === this.REJECTED ) {
+            this.rejectLoading= true;
+          }else{
+            this.isLoading = true;
+          }
           this.leaveService.approveOrRejectLeaveOfUser(leaveId, operationString, this.rejectionReason).subscribe({
             next: (response: any) => {
-
+              this.rejectLoading= false;
               this.isLoading = false;
               this.rejectionReason = '';
               this.rejectionReasonFlag = false;
              // this.getLeaves(true);
-              this.closebutton.nativeElement.click();
+              this.closeModal.emit();
+              if(this.closebutton){
+                this.closebutton.nativeElement.click();
+              }
+              this.leave.status = operationString;
+              this.cdr.detectChanges();
+              this.cdr.markForCheck();
               this.helperService.showToast(`Leave ${operationString} successfully.`, Key.TOAST_STATUS_SUCCESS);
             },
             error: (error) => {
               this.helperService.showToast('Error.', Key.TOAST_STATUS_ERROR);
               console.error('Failed to fetch approve/reject leaves:', error);
               this.isLoading = false;
+              this.rejectLoading= false;
             },
           });
         }

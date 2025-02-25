@@ -95,7 +95,7 @@
                               'overtime-notification': mail.title.includes('Overtime'),
                               'leave-notification': mail.title.includes('Leave'),
                               'expense-notification': mail.title.includes('Expense'),
-                              'assets-notification': mail.title.includes('Assets')
+                              'assets-notification': mail.title.includes('Asset')
                             }"
                           >
                             {{
@@ -160,6 +160,8 @@
                           <app-expense-request *ngIf="showExpenseComponent" [data]="expenseData" (closeEvent)="onExpenseComponentClose()">
                           </app-expense-request>
                           <app-attendance-update *ngIf="showAttendanceUpdate" [isCreate]="false" [data]="attendanceUpdateData" (closeModal)="onAttendanceUpdateClose()"></app-attendance-update>
+
+                          <app-leave-request *ngIf="showLeaveComponent" [data]="leaveData" (closeModal)="onLeaveComponentClose()"></app-leave-request>
 
                           <div *ngIf="!isAnyModalOpen() &&  !isLoadingData" class=" d-flex align-items-centar justify-content-center w-100" style="margin-top: 12%; margin-bottom: 12%;">
                             <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
