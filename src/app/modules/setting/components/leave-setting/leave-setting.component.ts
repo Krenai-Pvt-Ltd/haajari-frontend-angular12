@@ -74,6 +74,9 @@ export class LeaveSettingComponent implements OnInit {
       // employeeTypeId: [null, Validators.required], // The form control for employee type
       // Other form controls...
     });
+    setTimeout(() => {
+      this.loadStaffIdsCache();
+    }, 2000);
   }
 
 
@@ -424,17 +427,14 @@ export class LeaveSettingComponent implements OnInit {
 
   // New method to select all staff with joining dates across all pages
   selectAllPages: boolean = false;
-selectAllStaffAcrossPages() {
-  console.log('Select all staff across all pages:', this.selectAllPages);
-  // Reset current selections
-if (this.selectAllPages) {
-  this.allselected = true;
-  this.selectAllPages = true;
-  this.selectedStaffIdsUser = [];
-
-  // Get all users without pagination (assuming the API can handle this)
+// Properties
+private cachedStaffIdsWithJoiningDate: number[] = []; // Cache for staff IDs with joining dates
+private isCacheLoaded: boolean = false; // Flag to track if cache is initialized
+ cachedStaffIdsWithoutJoiningDate: number[] = [];
+// Separate method to load and cache staff IDs
+private loadStaffIdsCache() {
   this.dataService.getUsersByFilterForLeaveSetting(
-    0, // 0 items per page to get all records (adjust based on your API)
+    0, // 0 items per page to get all records
     1, // Start from page 1
     'asc',
     'id',
@@ -445,42 +445,71 @@ if (this.selectAllPages) {
     this.selectedUserIds
   ).subscribe(
     (response) => {
-      // Filter staff with joining dates and select them
-      const staffWithJoiningDate = response.users.filter((staff: { joiningDate: any; }) => staff.joiningDate);
+      // Filter staff with joining dates and cache their IDs
+      this.cachedStaffIdsWithJoiningDate = response.users
+        .filter((staff: { joiningDate: any }) => staff.joiningDate)
+        .map((staff: { id: any }) => staff.id);
 
-      // Update selectedStaffIdsUser with all qualifying staff IDs
-      this.selectedStaffIdsUser = staffWithJoiningDate.map((staff: { id: any; }) => staff.id);
+        this.cachedStaffIdsWithoutJoiningDate = response.users
+        .filter((staff: { joiningDate: any }) => !staff.joiningDate)
+        .map((staff: { id: any }) => staff.id);
 
-      // Remove duplicates
-      this.selectedStaffIdsUser = Array.from(new Set(this.selectedStaffIdsUser));
+      // Remove duplicates from both caches
+      this.cachedStaffIdsWithJoiningDate = Array.from(new Set(this.cachedStaffIdsWithJoiningDate));
+      this.cachedStaffIdsWithoutJoiningDate = Array.from(new Set(this.cachedStaffIdsWithoutJoiningDate));
+      this.isCacheLoaded = true;
 
-      // Update current page display
-      this.staffs.forEach(staff => {
-        staff.checked = !!staff.joiningDate && this.selectedStaffIdsUser.includes(staff.id);
-      });
 
-      console.log('Selected staff across all pages: ', this.selectedStaffIdsUser);
-
-      // Optional: If you need to refresh the current page
-      this.getUserByFiltersMethodCall(this.idOfLeaveSetting, 0);
+      // Update current page if "Select all" is active
+      if (this.selectAllPages) {
+        this.selectedStaffIdsUser = [...this.cachedStaffIdsWithJoiningDate];
+        this.updateCurrentPageSelection();
+      }
     },
     (error) => {
-      console.error('Error fetching all staff:', error);
+      console.error('Error loading staff IDs cache:', error);
+      this.isCacheLoaded = false;
       this.allselected = false;
+      this.selectAllPages = false; // Reset checkbox on error
     }
   );
-} else {
+}
+
+// Modified selectAllStaffAcrossPages method
+selectAllStaffAcrossPages() {
+  if (this.selectAllPages) {
+    this.allselected = true;
+    this.selectedStaffIdsUser = [];
+
+    if (this.isCacheLoaded) {
+      // Use cached data
+      this.selectedStaffIdsUser = [...this.cachedStaffIdsWithJoiningDate];
+      this.updateCurrentPageSelection();
+      console.log('Selected staff from cache: ', this.selectedStaffIdsUser);
+    } else {
+      // Load cache and proceed
+      this.loadStaffIdsCache();
+    }
+  } else {
     this.allselected = false;
-    this.selectAllPages = false;
     this.selectedStaffIdsUser = [];
 
     // Update current page display
-    this.staffs.forEach(staff => {
-      staff.checked = false;
-    });
+    this.updateCurrentPageSelection();
+
+    // Optional: Refresh current page
     this.getUserByFiltersMethodCall(this.idOfLeaveSetting, 0);
+  }
 }
+
+// Helper method to update current page display
+private updateCurrentPageSelection() {
+  this.staffs.forEach(staff => {
+    staff.checked = !!staff.joiningDate && this.selectedStaffIdsUser.includes(staff.id);
+  });
 }
+
+
 
 
   getUserByUpdateMethodCall(leaveSettingId: number) {
