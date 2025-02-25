@@ -36,13 +36,13 @@
                          </div>
                          <div class="dropdown">
 
-                          <span class="filter-icon d-flex align-items-center justify-content-center pointer" type="button" data-bs-toggle="dropdown">
+                          <span class="filter-icon d-flex align-items-center justify-content-center pointer" [ngClass]="{'active-color': activeFilter !== 'All'}" type="button" data-bs-toggle="dropdown">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                                 <mask id="mask0_7733_521" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
                                 <rect width="20" height="20" fill="#D9D9D9"/>
                                 </mask>
                                 <g mask="url(#mask0_7733_521)">
-                                <path [ngClass]="{'yellow-fill': activeFilter !== 'All'}" d="M9.16665 16.6666C8.93054 16.6666 8.73262 16.5867 8.5729 16.427C8.41318 16.2673 8.33332 16.0694 8.33332 15.8333V10.8333L3.49999 4.66659C3.29165 4.38881 3.2604 4.09714 3.40624 3.79159C3.55207 3.48603 3.80554 3.33325 4.16665 3.33325H15.8333C16.1944 3.33325 16.4479 3.48603 16.5937 3.79159C16.7396 4.09714 16.7083 4.38881 16.5 4.66659L11.6667 10.8333V15.8333C11.6667 16.0694 11.5868 16.2673 11.4271 16.427C11.2673 16.5867 11.0694 16.6666 10.8333 16.6666H9.16665ZM9.99999 10.2499L14.125 4.99992H5.87499L9.99999 10.2499Z" fill="#1C1B1F"/>
+                                <path [ngClass]="{'active-color': activeFilter !== 'All'}" d="M9.16665 16.6666C8.93054 16.6666 8.73262 16.5867 8.5729 16.427C8.41318 16.2673 8.33332 16.0694 8.33332 15.8333V10.8333L3.49999 4.66659C3.29165 4.38881 3.2604 4.09714 3.40624 3.79159C3.55207 3.48603 3.80554 3.33325 4.16665 3.33325H15.8333C16.1944 3.33325 16.4479 3.48603 16.5937 3.79159C16.7396 4.09714 16.7083 4.38881 16.5 4.66659L11.6667 10.8333V15.8333C11.6667 16.0694 11.5868 16.2673 11.4271 16.427C11.2673 16.5867 11.0694 16.6666 10.8333 16.6666H9.16665ZM9.99999 10.2499L14.125 4.99992H5.87499L9.99999 10.2499Z" fill="#1C1B1F"/>
                                 </g>
                             </svg>
                          </span>
@@ -71,7 +71,7 @@
                                       fill="black"
                                     />
                                   </g>
-                                </svg>
+                                </svg>&nbsp;
                                 {{ filter.type }}
                               </a>
                             </li>
@@ -86,7 +86,7 @@
                       >
                         <div class="d-flex align-items-center gap-3" (click)="openMail(mail)">
                           <span
-                            class="notification-name d-flex align-items-center justify-content-center fw-semibold font-16"
+                            class="notification-name d-flex align-items-center justify-content-center fw-semibold font-14"
                             [ngClass]="{
                               'attendance-notification': mail.title.includes('Attendance'),
                               'onboarding-notification': mail.title.includes('Onboarding'),
@@ -107,25 +107,36 @@
                             }}
                           </span>
                           <div>
-                            <p class="mb-1 font-13 fw-normal">
+                            <p class="mb-0 font-13 fw-normal">
                               {{ mail.title }} | {{ mail.createdDate | date: 'd MMM, yyyy' }}
                             </p>
-                            <h5 class="mb-0 font-15">
+                            <h5 class="mb-0 font-14">
                               {{ mail.message }}
                             </h5>
                           </div>
                         </div>
                         <span class="text-end pointer">
-                          <i class="bi bi-chevron-right font-18"></i>
+                          <i class="bi bi-chevron-right font-16"></i>
                         </span>
                       </div>
-
-                      <!-- Optional Loading Indicator -->
-                      <div *ngIf="loading" class="text-center py-2">
-                        Loading more...
+                      <div *ngIf="loading" class="p-3">
+                        <div class="row mb-3 border-bottom pb-2" *ngFor="let item of [].constructor(10)">
+                          <div class="col-md-2 feat-product-img">
+                              <ngx-shimmer-loading [width]="'75%'" [height]="'45px'">
+                              </ngx-shimmer-loading>
+                          </div>
+                          <div class="col-md-10">
+                            <ngx-shimmer-loading [width]="'70%'" [height]="'10px'" >
+                            </ngx-shimmer-loading>
+                              
+                            <ngx-shimmer-loading [width]="'80%'" [height]="'15px'">
+                            </ngx-shimmer-loading>
+                            
+                          </div>
+                      </div>
                       </div>
 
-                      <div *ngIf="!loading && mails.length==0" class=" d-flex align-items-centar justify-content-center w-100" style="margin-top: 12%; margin-bottom: 12%;">
+                      <div *ngIf="!loading && mails.length==0" class="empyt-notifaction d-flex align-items-centar justify-content-center w-100">
                         <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
                            [nzNotFoundContent]="contentTpl">
                            <ng-template #contentTpl>
