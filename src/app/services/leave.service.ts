@@ -146,7 +146,6 @@ export class LeaveService {
     );
   }
 
-<<<<<<< HEAD
   
 
   getTopAbsentDays(
@@ -165,7 +164,6 @@ export class LeaveService {
   
   
   
-=======
   getLeaveById(id: number): Observable<any> {
     const params = new HttpParams().set('id', id.toString());
     return this.http.get<any>(`${API_URLS.base_url}/leave/by-id`, { params });
@@ -173,7 +171,6 @@ export class LeaveService {
 
 
 
->>>>>>> cf031f1d5af77d73c0f289431aa021b9604c6d65
 
 
 }
