@@ -2131,6 +2131,9 @@ console.log(this.data);
   requestModalData: any = {};
   onProfileComponentClose() {
     this.isProfileReqModalOpen = false;
+    this.closeReqDataModal.nativeElement.click();
+    this.fetchPendingRequests();
+    this.getUsersCountByStatus();
   }
   onProfileUpdateModalOpen(uuid:any) {
     this.requestModalData = {
@@ -2244,9 +2247,8 @@ console.log(this.data);
         if (response.success) {
           this.helperService.showToast('Data Rejected successfully', Key.TOAST_STATUS_SUCCESS);
           this.remainingField=response.message;
-          if(this.remainingField==0){
-            this.fetchPendingRequests();
-          }
+          this.fetchPendingRequests();
+
           this.disabledStates[index] = true;
           this.approveStates[index] = 'Rejected';
           this.divElement.nativeElement.click();
@@ -2277,9 +2279,8 @@ console.log(this.data);
           this.disabledStates[index] = true;
           this.approveStates[index] = 'Approved';
           this.remainingField=response.message;
-          if(this.remainingField==0){
             this.fetchPendingRequests();
-          }
+
           const divToClick = document.getElementById('collapsibleDiv-' + index);
           if (divToClick) {
             divToClick.click();
