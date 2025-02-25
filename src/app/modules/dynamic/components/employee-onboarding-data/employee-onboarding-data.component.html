@@ -691,7 +691,7 @@
                             <div class="team-name d-flex align-items-center justify-content-between" *ngIf="user?.teamsNameList?.length && user.teamsNameList.length > 2">
                               <span class="team-name-one fw-normal text-left font-13 fw-semibold"> {{ user.teamsNameList[0]?.teamName || 'N/A'}} </span>
 
-                             
+
 
                              <span class="team-count d-flex align-items-center justify-content-center font-13 fw-normal"
                                   nz-popover [nzPopoverContent]="teamTemplate" nzPopoverTitle="Team List"
@@ -1108,7 +1108,7 @@
                         <!-- class="stickyColTd" -->
                         <td>
                           <a (click)="routeToUserDetails(user.uuid)" class="mb-0 weekly-pro-name text-capitalize font-14 fw-normal">{{ user.name }}</a>
-                         
+
                         </td>
                         <td>
                           <a (click)="routeToUserDetails(user.uuid)" class="mb-0 weekly-pro-email font-14 fw-normal">
@@ -1324,6 +1324,9 @@
                     Loading Shifts...
                   </nz-option>
                 </nz-select>
+                <button type="button" (click)="routeToAddUserInShift()" class="btn p-0 text-primary font-13 fw-semibold" *ngIf="shiftList.length === 0 && !isLoadingShifts">
+                  + Add Shift
+                </button>
                 <div *ngIf="shiftField.invalid && shiftField.touched" class="errortxt mt-2 mb-0" style="color: red">
                   <i class="bi bi-exclamation-circle"></i> Please select a
                   shift.
@@ -1896,7 +1899,7 @@
               else errorInOnboardUserListCondition
             ">
             <div class="mt-0">
-             
+
               <div class="create-password-warning waring-box p-3 mt-3 mb-3 text-start" role="alert" *ngIf="
                   alreadyUsedPhoneNumberArray.length > 0 ||
                   alreadyUsedEmailArray.length > 0 ||

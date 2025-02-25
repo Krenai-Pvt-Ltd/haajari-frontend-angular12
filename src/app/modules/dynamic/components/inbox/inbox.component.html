@@ -7,7 +7,7 @@
                    <div class="pt-3 inbox-list-box">
                     <div class="d-flex align-items-center justify-content-between">
                         <div class="d-flex align-items-center inbox-filter">
-                            <span class="d-flex align-items-center justify-content-center pointer calendar-back-btn">
+                            <span (click)="changeDate(-1)" class="d-flex align-items-center justify-content-center pointer calendar-back-btn">
                                <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
                                   <mask id="mask0_4719_1625" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21" style="mask-type: alpha;">
                                      <rect x="0.5" y="0.5" width="20" height="20" fill="#D9D9D9"></rect>
@@ -23,7 +23,7 @@
                                 [nzPlaceHolder]="'Select date'"></nz-date-picker>
                             </div>
                             <span class="calendar-separator"></span>
-                            <span class="d-flex align-items-center justify-content-center pointer calendar-back-btn disabled">
+                            <span (click)="changeDate(1)" class="d-flex align-items-center justify-content-center pointer calendar-back-btn disabled">
                                <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
                                   <mask id="mask0_4719_1639" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21" style="mask-type: alpha;">
                                      <rect width="20" height="20" transform="matrix(-1 0 0 1 20.5 0.5)" fill="#D9D9D9"></rect>
@@ -129,10 +129,10 @@
                           <div class="col-md-10">
                             <ngx-shimmer-loading [width]="'70%'" [height]="'10px'" >
                             </ngx-shimmer-loading>
-                              
+
                             <ngx-shimmer-loading [width]="'80%'" [height]="'15px'">
                             </ngx-shimmer-loading>
-                            
+
                           </div>
                       </div>
                       </div>

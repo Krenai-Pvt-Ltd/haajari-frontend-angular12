@@ -98,7 +98,7 @@
       </div>
         <div class="d-flex align-items-center gap-2 mb-0">
           <p class="mb-0 text-primary font-14">{{ user.position || '--'}}</p>
-          <span *ngIf=" requestedData && requestedData?.user?.position"
+          <span *ngIf="requestedData?.user?.position != undefined && requestedData?.user?.position != null"
             class="profile-editrequest d-flex align-items-center justify-content-center pointer position-relative">
 
             <span style="width: 40px !important;" nz-popover [nzPopoverContent]="contentTemplate"
@@ -183,7 +183,8 @@
           </span>
           <span class="separator-border"></span>
           <p class="mb-0 font-13">Department: {{ user.department || '--'}}</p>
-          <span *ngIf=" requestedData && requestedData?.user?.department"
+
+          <span *ngIf="requestedData?.user?.department !== null && requestedData?.user?.department !== undefined"
             class="profile-editrequest d-flex align-items-center justify-content-center pointer position-relative">
 
             <span style="width: 40px !important;" nz-popover [nzPopoverContent]="contentTemplate"
@@ -3413,15 +3414,10 @@
                 <input type="text" formControlName="phoneNumber" class="form__field" />
                 <label class="form__label">Phone Number</label>
               </div>
-              <div
-                *ngIf="(reference.get('phoneNumber')?.touched || isFormInvalid) && reference.get('phoneNumber')?.hasError('required')"
-                class="error-text">
-                Phone number is required.
-              </div>
-              <div
-                *ngIf="(reference.get('phoneNumber')?.touched || isFormInvalid) && reference.get('phoneNumber')?.hasError('pattern')"
-                class="error-text">
-                Please enter a valid phone number.
+              <div *ngIf="reference.get('phoneNumber')?.touched && reference.get('phoneNumber')?.errors" class="error-text">
+                <span *ngIf="reference.get('phoneNumber')?.errors?.['required']">Phone number is required.</span>
+                <span *ngIf="reference.get('phoneNumber')?.errors?.['pattern']">Please enter a valid phone number.</span>
+                <span *ngIf="reference.get('phoneNumber')?.errors?.['duplicateUserPhone']">Phone number cannot be the same as the user's phone number.</span>
               </div>
             </div>
 
@@ -3430,15 +3426,10 @@
                 <input type="text" formControlName="emailId" class="form__field" />
                 <label class="form__label">Email</label>
               </div>
-              <div
-                *ngIf="(reference.get('emailId')?.touched || isFormInvalid) && reference.get('emailId')?.hasError('required')"
-                class="error-text">
-                Email is required.
-              </div>
-              <div
-                *ngIf="(reference.get('emailId')?.touched || isFormInvalid) && reference.get('emailId')?.hasError('email')"
-                class="error-text">
-                Please enter a valid .
+              <div *ngIf="reference.get('emailId')?.touched && reference.get('emailId')?.errors" class="error-text">
+                <span *ngIf="reference.get('emailId')?.errors?.['required']">Email is required.</span>
+                <span *ngIf="reference.get('emailId')?.errors?.['email']">Please enter a valid email.</span>
+                <span *ngIf="reference.get('emailId')?.errors?.['duplicateUserEmail']">Email cannot be the same as the user's email.</span>
               </div>
             </div>
             <div class="d-flex"
@@ -3809,15 +3800,10 @@
                 <input minlength="10" maxlength="10" type="text" class="form__field" formControlName="contactNumber" />
                 <label class="form__label">Phone Number</label>
               </div>
-              <div
-                *ngIf="(emergencyContact.get('contactNumber')?.touched || isFormInvalid) && emergencyContact.get('contactNumber')?.hasError('required')"
-                class="error-text">
-                Phone Number is required.
-              </div>
-              <div
-                *ngIf="(emergencyContact.get('contactNumber')?.touched || isFormInvalid) && emergencyContact.get('contactNumber')?.hasError('pattern')"
-                class="error-text">
-                Please enter a valid phone number.
+              <div *ngIf="emergencyContact.get('contactNumber')?.touched && emergencyContact.get('contactNumber')?.errors" class="error-text">
+                <span *ngIf="emergencyContact.get('contactNumber')?.errors?.['required']">Phone Number is required.</span>
+                <span *ngIf="emergencyContact.get('contactNumber')?.errors?.['pattern']">Please enter a valid phone number.</span>
+                <span *ngIf="emergencyContact.get('contactNumber')?.errors?.['duplicateUserPhone']">Phone number cannot be the same as the user's phone number.</span>
               </div>
             </div>
 
