@@ -691,34 +691,7 @@
                             <div class="team-name d-flex align-items-center justify-content-between" *ngIf="user?.teamsNameList?.length && user.teamsNameList.length > 2">
                               <span class="team-name-one fw-normal text-left font-13 fw-semibold"> {{ user.teamsNameList[0]?.teamName || 'N/A'}} </span>
 
-                              <!-- <span class="team-count d-flex align-items-center justify-content-center font-13 fw-normal"
-                              nz-popover [nzPopoverContent]="teamTemplate"  nzPopoverTitle="Team List" (mouseover)="getTeamNamesNew(user.teamNameList)"
-                              [nzPopoverOverlayStyle]="{'width':'250px'}" nzPopoverPlacement="rightTop" *ngIf="user.teamNameList.length > 1">+{{ user.teamNameList.length - 1 }}</span>
-
-
-                             <ng-template #teamTemplate>
-                               <div class="team-list p-0" *ngIf="onboardUserTeam?.length; else noDataTemplate">
-                                <div class="border-bottom pb-3 pt-3" *ngFor="let tm of onboardUserTeam; let i = index">
-                                  <p class="text-black font-12 fw-semibold">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
-                                      <mask id="mask0_8190_19422" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="14" height="14">
-                                      <rect width="14" height="14" fill="#D9D9D9"/>
-                                      </mask>
-                                      <g mask="url(#mask0_8190_19422)">
-                                      <path d="M0.583008 11.6663V10.033C0.583008 9.70245 0.668077 9.39863 0.838216 9.12155C1.00836 8.84447 1.2344 8.63301 1.51634 8.48717C2.11912 8.18579 2.73162 7.95974 3.35384 7.80905C3.97606 7.65835 4.60801 7.58301 5.24967 7.58301C5.89134 7.58301 6.52329 7.65835 7.14551 7.80905C7.76773 7.95974 8.38023 8.18579 8.98301 8.48717C9.26495 8.63301 9.49099 8.84447 9.66113 9.12155C9.83127 9.39863 9.91634 9.70245 9.91634 10.033V11.6663H0.583008ZM11.083 11.6663V9.91634C11.083 9.48856 10.9639 9.0778 10.7257 8.68405C10.4875 8.2903 10.1497 7.95245 9.71217 7.67051C10.208 7.72884 10.6747 7.82849 11.1122 7.96947C11.5497 8.11044 11.958 8.28301 12.3372 8.48717C12.6872 8.68162 12.9545 8.89794 13.1393 9.13613C13.324 9.37433 13.4163 9.6344 13.4163 9.91634V11.6663H11.083ZM5.24967 6.99967C4.60801 6.99967 4.0587 6.7712 3.60176 6.31426C3.14481 5.85731 2.91634 5.30801 2.91634 4.66634C2.91634 4.02467 3.14481 3.47537 3.60176 3.01842C4.0587 2.56148 4.60801 2.33301 5.24967 2.33301C5.89134 2.33301 6.44065 2.56148 6.89759 3.01842C7.35454 3.47537 7.58301 4.02467 7.58301 4.66634C7.58301 5.30801 7.35454 5.85731 6.89759 6.31426C6.44065 6.7712 5.89134 6.99967 5.24967 6.99967ZM11.083 4.66634C11.083 5.30801 10.8545 5.85731 10.3976 6.31426C9.94065 6.7712 9.39134 6.99967 8.74967 6.99967C8.64273 6.99967 8.50662 6.98752 8.34134 6.96322C8.17606 6.93891 8.03995 6.91217 7.93301 6.88301C8.19551 6.5719 8.39724 6.22676 8.53822 5.84759C8.67919 5.46842 8.74967 5.07467 8.74967 4.66634C8.74967 4.25801 8.67919 3.86426 8.53822 3.48509C8.39724 3.10592 8.19551 2.76079 7.93301 2.44967C8.06912 2.40106 8.20523 2.36947 8.34134 2.35488C8.47745 2.3403 8.61356 2.33301 8.74967 2.33301C9.39134 2.33301 9.94065 2.56148 10.3976 3.01842C10.8545 3.47537 11.083 4.02467 11.083 4.66634ZM1.74967 10.4997H8.74967V10.033C8.74967 9.92606 8.72294 9.82884 8.66947 9.74134C8.61599 9.65384 8.54551 9.58579 8.45801 9.53717C7.93301 9.27467 7.40315 9.0778 6.86842 8.94655C6.3337 8.8153 5.79412 8.74967 5.24967 8.74967C4.70523 8.74967 4.16565 8.8153 3.63092 8.94655C3.0962 9.0778 2.56634 9.27467 2.04134 9.53717C1.95384 9.58579 1.88336 9.65384 1.82988 9.74134C1.77641 9.82884 1.74967 9.92606 1.74967 10.033V10.4997ZM5.24967 5.83301C5.57051 5.83301 5.84516 5.71877 6.07363 5.4903C6.3021 5.26183 6.41634 4.98717 6.41634 4.66634C6.41634 4.34551 6.3021 4.07086 6.07363 3.84238C5.84516 3.61391 5.57051 3.49967 5.24967 3.49967C4.92884 3.49967 4.65419 3.61391 4.42572 3.84238C4.19724 4.07086 4.08301 4.34551 4.08301 4.66634C4.08301 4.98717 4.19724 5.26183 4.42572 5.4903C4.65419 5.71877 4.92884 5.83301 5.24967 5.83301Z" fill="#6666F2"/>
-                                      </g>
-                                    </svg>
-                                    Team {{i + 1}}</p>
-                                    <h5 class="mb-2 font-15 fw-bold">{{tm?.teamName}}</h5>
-                                    <p class="mb-0 font-14 fw-normal"> {{tm?.createdDate | date}}</p>
-                                </div>
-
-
-                               </div>
-                               <ng-template #noDataTemplate>
-                                <p>No team available.</p>
-                              </ng-template>
-                             </ng-template> -->
+                             
 
                              <span class="team-count d-flex align-items-center justify-content-center font-13 fw-normal"
                                   nz-popover [nzPopoverContent]="teamTemplate" nzPopoverTitle="Team List"
@@ -795,12 +768,12 @@
                             </div>
                           </td>
                           <td *ngIf="constants.EMPTY_STRINGS.includes(user?.resignationStatus)">
-                            <span class="font-13"
+                            <span class="font-13 fw-semibold"
                               [ngClass]="{'text-success': user.onboardingStatus === 'APPROVED'||user.onboardingStatus === 'NEW_USER' , 'text-danger': user.onboardingStatus === 'REJECTED', 'text-warning': user.onboardingStatus === 'PENDING', 'text-secondary': user.onboardingStatus === 'REQUESTED' }">
                               {{ user.onboardingStatus }}</span>
                           </td>
                           <td *ngIf="!constants.EMPTY_STRINGS.includes(user?.resignationStatus)">
-                            <span class="font-13"
+                            <span class="font-13 fw-semibold"
                               [ngClass]="{'text-info': user.resignationStatus.id == 13 || user.resignationStatus.id == 47, 'text-warning': user.resignationStatus.id == 42, 'text-danger': user.resignationStatus.id == 43 }">{{
                               user.resignationStatus.response }}</span>
                           </td>
@@ -1029,7 +1002,7 @@
             </div>
             <div class="tab-pane fade pt-3" id="resignationRequest" role="tabpanel" aria-labelledby="resignation-tab">
               <!-- <div> -->
-              <div class="onboard-add row align-items-center mx-0">
+              <div class="onboard-add row align-items-center mx-0 attendance-border">
                 <!-- <div *ngIf="users.length!=0"> -->
                 <!-- || (searchUserPlaceholderFlag) -->
                 <div class="col-md-12">
@@ -1880,7 +1853,7 @@
           ">
           <div class="">
             <div class="text-end">
-              <ngx-shimmer-loading [width]="'30%'" [height]="'40px'" style="border-radius: 50%"></ngx-shimmer-loading>
+              <ngx-shimmer-loading [width]="'30%'" [height]="'40px'" class="radius-50" ></ngx-shimmer-loading>
             </div>
           </div>
           <div class="mt-3 mb-2" style="border: 1px solid #f5f5f5; padding: 5px; border-radius: 6px"
@@ -1888,32 +1861,27 @@
             <div class="row mt-3">
               <div class="col-md-2">
                 <div class="">
-                  <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
-                    style="border-radius: 50%"></ngx-shimmer-loading>
+                  <ngx-shimmer-loading [width]="'100%'" [height]="'30px'" class="radius-50"></ngx-shimmer-loading>
                 </div>
               </div>
               <div class="col-md-2">
                 <div class="">
-                  <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
-                    style="border-radius: 50%"></ngx-shimmer-loading>
+                  <ngx-shimmer-loading [width]="'100%'" [height]="'30px'" class="radius-50"></ngx-shimmer-loading>
                 </div>
               </div>
               <div class="col-md-3">
                 <div class="">
-                  <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
-                    style="border-radius: 50%"></ngx-shimmer-loading>
+                  <ngx-shimmer-loading [width]="'100%'" [height]="'30px'" class="radius-50"></ngx-shimmer-loading>
                 </div>
               </div>
               <div class="col-md-3">
                 <div class="">
-                  <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
-                    style="border-radius: 50%"></ngx-shimmer-loading>
+                  <ngx-shimmer-loading [width]="'100%'" [height]="'30px'" class="radius-50"></ngx-shimmer-loading>
                 </div>
               </div>
               <div class="col-md-2">
                 <div class="">
-                  <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
-                    style="border-radius: 50%"></ngx-shimmer-loading>
+                  <ngx-shimmer-loading [width]="'100%'" [height]="'30px'" class="radius-50"></ngx-shimmer-loading>
                 </div>
               </div>
             </div>
@@ -2180,7 +2148,7 @@ aria-labelledby="exampleModalLabel" aria-hidden="true">
             </div>
             <div class="col-md-12 mb-3"
               *ngIf="recommendDay == 'Other' && (userResignationReq.lastWorkingDay != null && userResignationReq.lastWorkingDay != '')">
-              <div class="notice-period-error p-3">
+              <div class="notice-period-error p-3 border-rounded-2">
                 <div class="d-flex align-items-center gap-3 mb-2">
                   <p class="mb-0">Notice period</p>
                   <span class="calendar-separator"></span>
