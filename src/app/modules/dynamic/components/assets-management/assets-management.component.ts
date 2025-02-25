@@ -108,14 +108,15 @@ export class AssetsManagementComponent implements OnInit {
     });
   }
 
-
+  @ViewChild('closeButtonDeleteCategory') closeButtonDeleteCategory!: ElementRef<HTMLButtonElement>;
   deleteLoading: boolean = false;
   deleteCategory(id: number) {
     this.deleteLoading = true;
       this.assetService.deleteAssetCategory(id).subscribe({
         next: (response) => {
           this.deleteLoading = false;
-          if (response.success) {
+          if (response.status) {
+            this.closeButtonDeleteCategory.nativeElement.click();
             this.helperService.showToast('Category deleted successfully', Key.TOAST_STATUS_SUCCESS);
             this.dashboard();
           } else {

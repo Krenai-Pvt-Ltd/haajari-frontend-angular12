@@ -353,6 +353,7 @@ export class InboxComponent implements OnInit {
 
   selectedDate: Date | null = null;
   onDateChange(date: Date | null): void {
+    console.log('Selected date:', date);
     this.markAllFalse();
     if (date) {
       const dateStr = date.toISOString().split('T')[0]; // Format as YYYY-MM-DD (e.g., "2025-02-20")
@@ -376,6 +377,15 @@ export class InboxComponent implements OnInit {
       this.mails = [];
       this.finished = false;
       this.fetchMails();
+    }
+  }
+
+  changeDate(days: number): void {
+    if (this.selectedDate) {
+      const newDate = new Date(this.selectedDate);
+      newDate.setDate(newDate.getDate() + days);
+      this.selectedDate = newDate;
+      this.onDateChange(this.selectedDate);
     }
   }
 
