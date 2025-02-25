@@ -13,7 +13,7 @@
                   <a id="pills-notification-tab" data-bs-toggle="pill" href="#request" role="tab"
                      aria-controls="pills-request" aria-selected="false"
                     class="nav-link">Leave Request </a>
-                    <span class="request-count d-flex align-items-center justify-content-center">10</span>
+                    <span class="request-count d-flex align-items-center justify-content-center" *ngIf="pendingLeaveCount > 0">{{ pendingLeaveCount }}</span>
                 </li>
               </ul>
               <div id="pills-tabContent" class="tab-content">
@@ -129,10 +129,15 @@
                                     </div>
                                     <div class="p-3">
                                         <div class="d-flex align-items-center justify-content-between mt-2 mb-4 border-bottom pb-4">
-                                            <div>
-                                            <h5 class="mb-1 font-16 fw-normal">Friday & Monday</h5>
-                                            <p class="mb-0 font-13">Which Days Employees Were Absent the Most</p>
+                                           
+                                            <div *ngIf = "topTwoLeaveDaysFormatted">
+                                            <h5 class="mb-1 font-16 fw-normal"> {{ topTwoLeaveDaysFormatted }}</h5>
+                                              <p class="mb-0 font-13">On these Days Employees Were Absent the Most</p>
                                             </div>
+                                            <div *ngIf = "!topTwoLeaveDaysFormatted">
+                                                <h5 class="mb-1 font-16 fw-normal"> {{ topTwoLeaveDaysFormatted }}</h5>
+                                                 
+                                                </div>
                                             <h5 class="font-13 mb-0 fw-semibold"> {{selectedDate | date:"MMMM, yyyy" }}</h5>
                                         </div>
                                         <!-- <img src="assets/images/months-report.png" class="w-100 text-center"> -->
@@ -150,9 +155,6 @@
                                         [grid]="chartOptions.grid!"
                                         [legend]="chartOptions.legend!">
                                         </apx-chart>
-
-
-
 
                                   </div>
                                 </div>
@@ -770,7 +772,7 @@
                                                          (keyup)="searchTermChanged($event)" />
                                                         <i class="bi bi-search search-icon d-flex align-items-center  h-100" *ngIf="searchTerm == ''"></i>
                                                         <i class="bi bi-x-lg search-icon d-flex align-items-center  h-100" *ngIf="searchTerm != ''"
-                                                        (click)="getLeaves(true)"></i>
+                                                        (click)="resetFiltersSearch()"></i>
 
                                                     </div>
                                                 </form>
@@ -952,7 +954,7 @@
                                             }">{{leave.status|  uppercase}} </span>
 
                                         </div>
-                                        <p class="mb-0 mt-1 fw-normal font-13">By: {{leave.managerName}} </p>
+                                        <p class="mb-0 mt-1 fw-normal font-13">By: {{leave.managerName || '-'}} </p>
                                     </td>
                                      <td class="text-end">
                                         <div class="d-flex align-items-center justify-content-end gap-2">
@@ -1076,15 +1078,15 @@
                                                     ">
                                                     <td class="text-center position-relative attendance-detail" [ngClass]="{
                                                         'text-success':
-                                                        dayWiseStatus.status?.includes('Leave') ||  dayWiseStatus.status == 'LWP'  ||
+                                                        dayWiseStatus.status?.includes('Leave') ||
                                                         dayWiseStatus.status == 'Half-D',
                                                         'text-danger':
                                                         dayWiseStatus.status == 'Reject',
                                                         'text-warning':
-                                                        dayWiseStatus.status == 'Apply'||
-                                                        dayWiseStatus.status == HOLIDAY,
+                                                        dayWiseStatus.status == 'Apply' ||  dayWiseStatus.status == 'LWP',
                                                         'text-primary':
-                                                        dayWiseStatus.status == 'W-off'
+                                                        dayWiseStatus.status == 'W-off' ||
+                                                        dayWiseStatus.status == HOLIDAY
                                                     }">
                                                     {{
                                                     dayWiseStatus.status[0] == "U"
