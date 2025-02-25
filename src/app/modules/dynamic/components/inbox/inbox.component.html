@@ -84,7 +84,7 @@
                         class="d-flex align-items-center justify-content-between pointer border-bottom p-3"
                         [ngClass]="{ 'active': mail.isRead === 0 }"
                       >
-                        <div class="d-flex align-items-center gap-3" (click)="openMail(mail)">
+                        <div class="d-flex align-items-start gap-3 position-relative" (click)="openMail(mail)">
                           <span
                             class="notification-name d-flex align-items-center justify-content-center fw-semibold font-14"
                             [ngClass]="{
@@ -106,6 +106,7 @@
                                 : mail.title.substring(0, 2).toUpperCase()
                             }}
                           </span>
+                          <span class="active-notification"></span>
                           <div>
                             <p class="mb-0 font-13 fw-normal">
                               {{ mail.title }} | {{ mail.createdDate | date: 'd MMM, yyyy' }}
@@ -136,7 +137,7 @@
                       </div>
                       </div>
 
-                      <div *ngIf="!loading && mails.length==0" class="empyt-notifaction d-flex align-items-centar justify-content-center w-100">
+                      <div *ngIf="!loading && mails.length==0" class="empty-notification d-flex align-items-centar justify-content-center w-100">
                         <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
                            [nzNotFoundContent]="contentTpl">
                            <ng-template #contentTpl>
@@ -158,7 +159,7 @@
                         {{ currentMail?.createdDate | date:'d MMMM,yyyy' }} | {{ currentMail?.createdDate | date:'h:mma' }}
                       </p>
 
-                        <h5 *ngIf="currentMail" class="mb-0 font-18x fw-semibold">{{ currentMail?.message }}</h5>
+                        <h5 *ngIf="currentMail" class="mb-0 font-16 lh-base fw-semibold">{{ currentMail?.message }}</h5>
                         <div class="mt-4 leave-request p-3">
                           <app-exit-modal *ngIf="showExitComponent" [data]="exitData" (closeEvent)="onExitComponentClose()"></app-exit-modal>
 
