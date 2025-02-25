@@ -1,11 +1,11 @@
 <div class="page-wrapper">
-    <div class="page-content-tab">
+    <div class="page-content-tab p-0">
       <div class="container-fluid ">
         <div class="row">
             <div class="row">
                 <div class="col-md-5">
                    <div class="pt-3 inbox-list-box">
-                    <div class="d-flex align-items-center justify-content-between">
+                    <div class=" list-not d-flex align-items-center justify-content-between">
                         <div class="d-flex align-items-center inbox-filter">
                             <span class="d-flex align-items-center justify-content-center pointer calendar-back-btn">
                                <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
@@ -106,7 +106,7 @@
                                 : mail.title.substring(0, 2).toUpperCase()
                             }}
                           </span>
-                          <span class="active-notification"></span>
+                          <span class="active-notification" *ngIf="!mail.isRead"></span>
                           <div>
                             <p class="mb-0 font-13 fw-normal">
                               {{ mail.title }} | {{ mail.createdDate | date: 'd MMM, yyyy' }}
