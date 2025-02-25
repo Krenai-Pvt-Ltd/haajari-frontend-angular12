@@ -80,7 +80,8 @@ export class Key {
     '/faq',
     '/faq-detail',
     '/expense-management',
-    '/payroll/setup'
+    '/payroll/setup',
+    '/payroll/configuration'
   ];
 
   public static TOPBAR_ROUTES = [
@@ -132,7 +133,8 @@ export class Key {
     '/faq',
     '/faq-detail',
     '/expense-management',
-    '/payroll/setup'
+    '/payroll/setup',
+    '/payroll/configuration'
   ];
 
   public static ORGANIZATION_ONBOARDING_SIDEBAR_ROUTES = [

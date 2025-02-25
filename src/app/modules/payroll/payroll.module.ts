@@ -9,13 +9,17 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RouterModule } from '@angular/router';
 import { PayrollComponent } from './payroll.component';
 import { NzProgressModule } from 'ng-zorro-antd/progress';
+import { ConfigurationComponent } from './component/configuration/configuration.component';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 
 
 @NgModule({
   declarations: [
     PayrollComponent,
     PayrollSetupComponent,
-    ProfileComponent
+    ProfileComponent,
+    ConfigurationComponent
   ],
   imports: [
     CommonModule,
@@ -24,7 +28,9 @@ import { NzProgressModule } from 'ng-zorro-antd/progress';
     FormsModule,
     ReactiveFormsModule,
     NgbModule,
-    NzProgressModule
+    NzProgressModule,
+    NzSelectModule,
+    NzDatePickerModule
   ]
 })
 export class PayrollModule { }

@@ -1,0 +1,386 @@
+<div class="page-wrapper">
+    <div class="page-content-tab p-0">
+        <div class="container-fluid ">
+            <div class="row payroll-box">
+                <div class="col-md-3 p-0">
+                    <div class="payroll-sidebar-menu h-100 bg-transparent">
+                        <div class="nav flex-column nav-pills side-nav" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                            <button id="v-pills-profile-tab" data-bs-toggle="pill" href="#organization-profile" role="tab"
+                            aria-controls="v-pills-organization-profilet" aria-selected="true" class="nav-link active" (click)="closeStatutoryDiv()">
+                            Organization Profile </button>
+                            <button id="v-pills-Sstatutory-tab" data-bs-toggle="pill" href="#organization-profile" role="tab"
+                            aria-controls="v-pills-statutory" aria-selected="true" class="nav-link" (click)="toggleDiv()">
+                            Statutory Components </button>
+                            <div class="statutory-tab" *ngIf="isDivVisible">
+                                <div class="nav flex-column nav-pills side-nav" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                                    <ul class="pl-0">
+                                        <li><a class="nav-tab active text-black" href="#provident-fund" aria-selected="true">Employees Provident Fund (EPF)</a></li>
+                                        <li><a class="nav-tab text-black" href="#state-insurance" aria-selected="true">Employees State Insurance (ESI)</a></li>
+                                        <li><a class="nav-tab text-black" href="#professional-tax" aria-selected="true">Professional Tax</a></li>
+                                        <li><a class="nav-tab text-black" href="#welfare-fund" aria-selected="true">Labour Welfare Fund</a></li>
+                                    </ul>
+                                </div>
+                              
+                            </div>
+                            <button id="v-pills-salary-tab" data-bs-toggle="pill" href="#salary" role="tab"
+                            aria-controls="v-pills-salary" aria-selected="true" class="nav-link" (click)="closeStatutoryDiv()">
+                            Salary Components </button>
+                            <button id="v-pills-taxes-tab" data-bs-toggle="pill" href="#taxes" role="tab"
+                            aria-controls="v-pills-texes" aria-selected="true" class="nav-link" (click)="closeStatutoryDiv()">
+                            Taxes </button>
+                            <button id="v-pills-schedule-tab" data-bs-toggle="pill" href="#pay-schedule" role="tab"
+                            aria-controls="v-pills-pay-schedule" aria-selected="true" class="nav-link" (click)="closeStatutoryDiv()">
+                            Pay Schedule </button>
+                            <button id="v-pills-preferences-tab" data-bs-toggle="pill" href="#preferences" role="tab"
+                            aria-controls="v-pills-preferences" aria-selected="true" class="nav-link" (click)="closeStatutoryDiv()">
+                            Preferences </button>
+                            <button id="v-pills-payroll-tab" data-bs-toggle="pill" href="#prior-payroll" role="tab"
+                            aria-controls="v-pills-prior-payroll" aria-selected="true" class="nav-link" (click)="closeStatutoryDiv()">
+                            Prior Payroll </button>
+                            <button id="v-pills-form-tab" data-bs-toggle="pill" href="#form-16" role="tab"
+                            aria-controls="v-pills-form-16" aria-selected="true" class="nav-link" (click)="closeStatutoryDiv()">
+                            Form 16 </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="tab-content" id="v-pills-tabContent">
+                        <div class="tab-pane fade show active" id="organization-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                            <div class="p-4">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="payroll-details-box">
+                                            <h4 class="font-15 text-black fw-semibold lh-1">Organization Logo</h4>
+                                            <span class="text-muted font-12 fw-normal">Update your Company Logo and then choose <br> where you want it to display</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="organization-detail">
+                                            <div class="row">
+                                                <div class="col-md-5">
+                                                    <div class="origination-logo d-flex align-items-center justify-content-center position-relative p-0 border-rounded-2 h-100">
+                                                        <img src="assets/images/HAjiRi.svg" class="img-110">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <div class=" origination-logo p-3 d-flex align-items-center justify-content-center flex-column add-other-file border-rounded-2 text-center">
+                                                        <input id="fileInput" type="file" name="file" accept=".pdf" class="input">
+                                                        <span>
+                                                          <img src="assets/images/payrollstep-img/organization-logo.svg" class="img-60">
+                                                        </span>
+                                                        <p class="mb-0 font-13 fw-normal mt-3 "><span class="text-primary fw-semibold text-decoration-underline"> Click to upload </span> or drag and drop <span class="text-muted fw-semibold">(SVG, PNG, JPG or GIF)</span> </p>
+
+                                                     </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr class="mt-5 mb-5">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="payroll-details-box">
+                                            <h4 class="font-15 text-black fw-semibold lh-1">Organization Detail</h4>
+                                            <span class="text-muted font-12 fw-normal">Your registered business name, displayed on<br> all forms and payslips.</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="organization-detail">
+                                            <div class="row">
+                                                <div class="col-md-12 mb-3">
+                                                    <input type="text" placeholder="Address Line 1" required="" name="" class="form-control whatsapp-login-input" value="Amin trail sin cop .Pvt. limited ">
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <div class="border-rounded-2 attendance-border w-100 d-flex align-items-center justify-content-center">
+                                                        <div class="w-50 p-3 currency-types-border">
+                                                            <p class="mb-0 font-14 fw-light">Currency Types</p>
+                                                        </div>
+                                                        <div class="w-50">
+                                                            <div class="w-100">
+                                                                <nz-select class="form-control w-100 placeholder-line currency-types" nzSize="large" nzPlaceHolder="Select Currency" required>
+                                                                    <nz-option *ngFor="let state of stateCurrency" [nzValue]="state.name" [nzLabel]="state.name"></nz-option>
+                                                                </nz-select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <div class="border-rounded-2 attendance-border w-100 d-flex align-items-center justify-content-center">
+                                                        <div class="w-50 p-3 currency-types-border">
+                                                            <p class="mb-0 font-14 fw-light">Business Location</p>
+                                                        </div>
+                                                        <div class="w-50">
+                                                            <div class="w-100">
+                                                                <nz-select class="form-control w-100 placeholder-line currency-types" nzSize="large" nzPlaceHolder="Select Location" required>
+                                                                    <nz-option nzLabel="india" nzValue="india">india</nz-option>
+                                                                </nz-select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="border-rounded-2 attendance-border w-100 d-flex align-items-center justify-content-center">
+                                                        <div class="w-50 p-3 currency-types-border">
+                                                            <p class="mb-0 font-14 fw-light">Date Format</p>
+                                                        </div>
+                                                        <div class="w-50">
+                                                            <nz-date-picker nzBorderless nzFormat="dd/MM/yyyy"></nz-date-picker>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="border-rounded-2 attendance-border w-100 d-flex align-items-center justify-content-center">
+                                                        <div class="w-50 p-3 currency-types-border">
+                                                            <p class="mb-0 font-14 fw-light">Field Separation</p>
+                                                        </div>
+                                                        <div class="w-50">
+                                                            <div class="w-100">
+                                                                <nz-select class="form-control w-100 placeholder-line currency-types" nzSize="large" nzPlaceHolder="Select Separation" required>
+                                                                    <nz-option nzLabel="india" nzValue="india">india</nz-option>
+                                                                </nz-select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr class="mt-5 mb-5">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="payroll-details-box">
+                                            <h4 class="font-15 text-black fw-semibold lh-1">Filling Address</h4>
+                                            <span class="text-muted font-12 fw-normal">This will be considered as the address of your <br> primary work location</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="Address-box">
+                                           <div class="row">
+                                            <div class="col-md-12 mb-3">
+                                                <input type="text" placeholder="Address Line 1" required="" name="" class="form-control whatsapp-login-input">
+                                            </div>
+                                            <div class="col-md-12 mb-3">
+                                                <input type="text" placeholder="Address Line 1" required="" name="" class="form-control whatsapp-login-input">
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+                                                <div class="w-100">
+                                                <nz-select class="form-control w-100 placeholder-line" nzSize="large" nzPlaceHolder="Select State" required>
+                                                    <nz-option *ngFor="let state of stateList" [nzValue]="state.name" [nzLabel]="state.name"></nz-option>
+                                                  </nz-select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+                                                <input type="text" placeholder="City" required="" name="" class="form-control whatsapp-login-input">
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+                                                <input type="text" placeholder="PIN Code" required="" name="" class="form-control whatsapp-login-input">
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <input type="text" placeholder="Contact Information" required="" name="" class="form-control whatsapp-login-input">
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <input type="text" placeholder="Email Address" required="" name="" class="form-control whatsapp-login-input">
+                                            </div>
+
+                                            <div class="d-flex justify-content-end mt-3 mb-3">
+                                                <button class="btn p-0 font-14 fw-semibold text-primary">New Address
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
+                                                        <mask id="mask0_9159_3509" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
+                                                        <rect y="0.5" width="20" height="20" fill="#D9D9D9"/>
+                                                        </mask>
+                                                        <g mask="url(#mask0_9159_3509)">
+                                                        <path d="M9.37504 11.1257H4.58337V9.87565H9.37504V5.08398H10.625V9.87565H15.4167V11.1257H10.625V15.9173H9.37504V11.1257Z" fill="#6666F2"/>
+                                                        </g>
+                                                    </svg>
+                                                </button>
+                                            </div>
+
+                                            <div class="address-list">
+                                               <div class="mb-3 p-3 payroll-address border-rounded-2 d-flex align-items-center justify-content-between">
+                                                <div class="d-flex align-items-center gap-3">
+                                                    <span class="list-down-btn border-rounded-2 bg-white d-flex align-items-center justify-content-center">
+                                                        <i class="bi bi-chevron-down"></i>
+                                                    </span>
+                                                    <p class="mb-0 fw-semibold font-14">Delhi</p>
+                                                </div>
+                                                <div class="d-flex align-items-center gap-3">
+                                                    <span class="pointer">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="22" viewBox="0 0 24 22" fill="none">
+                                                            <mask id="mask0_9177_4748" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="22">
+                                                            <rect x="0.983887" width="22.3492" height="22" fill="#444444"/>
+                                                            </mask>
+                                                            <g mask="url(#mask0_9177_4748)">
+                                                            <path d="M5.64048 17.4173H6.81521L16.3476 8.03386L15.1729 6.87748L5.64048 16.2609V17.4173ZM4.24365 18.7923V15.6899L16.5269 3.60384C16.6676 3.47795 16.8231 3.38071 16.9932 3.31211C17.1634 3.24336 17.3419 3.20898 17.5286 3.20898C17.7153 3.20898 17.8961 3.2416 18.0711 3.30684C18.2461 3.37208 18.4011 3.47581 18.536 3.61805L19.6732 4.75151C19.8177 4.88427 19.9207 5.03705 19.9821 5.20984C20.0436 5.38263 20.0743 5.55542 20.0743 5.72821C20.0743 5.91262 20.0424 6.08854 19.9784 6.25598C19.9145 6.42358 19.8127 6.57666 19.6732 6.71523L7.39536 18.7923H4.24365ZM15.75 7.46575L15.1729 6.87748L16.3476 8.03386L15.75 7.46575Z" fill="#444444"/>
+                                                            </g>
+                                                        </svg>
+                                                    </span>
+                                                    <span class="pointer">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="22" viewBox="0 0 24 22" fill="none">
+                                                            <mask id="mask0_9177_4745" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="22">
+                                                            <rect x="0.713867" width="22.3492" height="22" fill="#D9D9D9"/>
+                                                            </mask>
+                                                            <g mask="url(#mask0_9177_4745)">
+                                                            <path d="M2.38818 17.6983V15.6603C2.38818 15.188 2.51204 14.7664 2.75974 14.3956C3.00744 14.0248 3.33826 13.7363 3.75218 13.5302C4.63715 13.1041 5.52701 12.7756 6.42175 12.5446C7.31665 12.3137 8.30009 12.1983 9.37208 12.1983C10.4442 12.1983 11.4277 12.3137 12.3224 12.5446C13.2173 12.7756 14.1072 13.1041 14.9922 13.5302C15.4061 13.7363 15.7369 14.0248 15.9847 14.3956C16.2324 14.7664 16.3562 15.188 16.3562 15.6603V17.6983H2.38818ZM18.2186 17.6983V15.5476C18.2186 14.946 18.069 14.3725 17.7698 13.8272C17.4704 13.2821 17.0458 12.8144 16.4959 12.4241C17.1203 12.5157 17.7131 12.6576 18.2743 12.8496C18.8353 13.0418 19.3708 13.2689 19.8806 13.5309C20.3618 13.7836 20.7333 14.0815 20.9953 14.4244C21.2573 14.7673 21.3883 15.1417 21.3883 15.5476V17.6983H18.2186ZM9.37208 10.7174C8.47578 10.7174 7.70854 10.4033 7.07034 9.77512C6.43215 9.14674 6.11305 8.39141 6.11305 7.50911C6.11305 6.62682 6.43215 5.87157 7.07034 5.24334C7.70854 4.61497 8.47578 4.30078 9.37208 4.30078C10.2684 4.30078 11.0357 4.61497 11.674 5.24334C12.3122 5.87157 12.6313 6.62682 12.6313 7.50911C12.6313 8.39141 12.3122 9.14674 11.674 9.77512C11.0357 10.4033 10.2684 10.7174 9.37208 10.7174ZM17.4127 7.50911C17.4127 8.39141 17.0936 9.14674 16.4554 9.77512C15.8172 10.4033 15.0499 10.7174 14.1536 10.7174C14.0486 10.7174 13.9149 10.7057 13.7525 10.6822C13.59 10.6586 13.4563 10.6328 13.3514 10.6047C13.7186 10.17 14.0008 9.68788 14.1981 9.1582C14.3952 8.62852 14.4938 8.07852 14.4938 7.5082C14.4938 6.93773 14.3932 6.38979 14.1921 5.86439C13.9909 5.33913 13.7107 4.85559 13.3514 4.41376C13.485 4.3667 13.6187 4.33615 13.7525 4.32209C13.8862 4.30789 14.0199 4.30078 14.1536 4.30078C15.0499 4.30078 15.8172 4.61497 16.4554 5.24334C17.0936 5.87157 17.4127 6.62682 17.4127 7.50911ZM3.78478 16.3233H14.9594V15.6603C14.9594 15.4689 14.9107 15.2986 14.8134 15.1493C14.7163 15 14.562 14.8696 14.3506 14.7579C13.5842 14.3689 12.7951 14.0742 11.9832 13.8738C11.1713 13.6735 10.301 13.5733 9.37208 13.5733C8.44334 13.5733 7.57304 13.6735 6.76118 13.8738C5.94931 14.0742 5.16018 14.3689 4.39379 14.7579C4.18241 14.8696 4.02806 15 3.93074 15.1493C3.83343 15.2986 3.78478 15.4689 3.78478 15.6603V16.3233ZM9.37208 9.34245C9.88425 9.34245 10.3227 9.16293 10.6874 8.80391C11.0521 8.44488 11.2345 8.01328 11.2345 7.50911C11.2345 7.00495 11.0521 6.57335 10.6874 6.21432C10.3227 5.8553 9.88425 5.67578 9.37208 5.67578C8.85991 5.67578 8.42146 5.8553 8.05673 6.21432C7.69201 6.57335 7.50964 7.00495 7.50964 7.50911C7.50964 8.01328 7.69201 8.44488 8.05673 8.80391C8.42146 9.16293 8.85991 9.34245 9.37208 9.34245Z" fill="#444444"/>
+                                                            </g>
+                                                        </svg>
+                                                    </span>
+                                                    <span class="pointer">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23" fill="none">
+                                                            <mask id="mask0_9177_4742" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="23" height="23">
+                                                            <rect x="0.444336" y="0.164062" width="22.3492" height="22" fill="#D9D9D9"/>
+                                                            </mask>
+                                                            <g mask="url(#mask0_9177_4742)">
+                                                            <path d="M7.24939 18.956C6.78502 18.956 6.38832 18.7941 6.05929 18.4704C5.73042 18.1465 5.56598 17.756 5.56598 17.2989V5.66431H4.63477V4.28931H8.82524V3.47852H14.4125V4.28931H18.603V5.66431H17.6718V17.2989C17.6718 17.7619 17.5088 18.1539 17.1829 18.4747C16.857 18.7956 16.4588 18.956 15.9884 18.956H7.24939ZM16.275 5.66431H6.96281V17.2989C6.96281 17.3812 6.98966 17.4488 7.04336 17.5017C7.09706 17.5545 7.16574 17.581 7.24939 17.581H15.9884C16.0601 17.581 16.1258 17.5516 16.1853 17.4927C16.2451 17.4341 16.275 17.3695 16.275 17.2989V5.66431ZM9.20145 15.7476H10.598V7.49764H9.20145V15.7476ZM12.6397 15.7476H14.0363V7.49764H12.6397V15.7476Z" fill="#FF0000"/>
+                                                            </g>
+                                                        </svg>
+                                                    </span>
+                                                </div>
+                                                
+                                               </div>
+                                               <div class="mb-3 p-3 payroll-address border-rounded-2 d-flex align-items-center justify-content-between">
+                                                <div class="d-flex align-items-center gap-3">
+                                                    <span class="list-down-btn border-rounded-2 bg-white d-flex align-items-center justify-content-center">
+                                                        <i class="bi bi-chevron-down"></i>
+                                                    </span>
+                                                    <p class="mb-0 fw-semibold font-14">Mumbai</p>
+                                                </div>
+                                                <div class="d-flex align-items-center gap-3">
+                                                    <span class="pointer">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="22" viewBox="0 0 24 22" fill="none">
+                                                            <mask id="mask0_9177_4748" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="22">
+                                                            <rect x="0.983887" width="22.3492" height="22" fill="#444444"/>
+                                                            </mask>
+                                                            <g mask="url(#mask0_9177_4748)">
+                                                            <path d="M5.64048 17.4173H6.81521L16.3476 8.03386L15.1729 6.87748L5.64048 16.2609V17.4173ZM4.24365 18.7923V15.6899L16.5269 3.60384C16.6676 3.47795 16.8231 3.38071 16.9932 3.31211C17.1634 3.24336 17.3419 3.20898 17.5286 3.20898C17.7153 3.20898 17.8961 3.2416 18.0711 3.30684C18.2461 3.37208 18.4011 3.47581 18.536 3.61805L19.6732 4.75151C19.8177 4.88427 19.9207 5.03705 19.9821 5.20984C20.0436 5.38263 20.0743 5.55542 20.0743 5.72821C20.0743 5.91262 20.0424 6.08854 19.9784 6.25598C19.9145 6.42358 19.8127 6.57666 19.6732 6.71523L7.39536 18.7923H4.24365ZM15.75 7.46575L15.1729 6.87748L16.3476 8.03386L15.75 7.46575Z" fill="#444444"/>
+                                                            </g>
+                                                        </svg>
+                                                    </span>
+                                                    <span class="pointer">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="22" viewBox="0 0 24 22" fill="none">
+                                                            <mask id="mask0_9177_4745" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="22">
+                                                            <rect x="0.713867" width="22.3492" height="22" fill="#D9D9D9"/>
+                                                            </mask>
+                                                            <g mask="url(#mask0_9177_4745)">
+                                                            <path d="M2.38818 17.6983V15.6603C2.38818 15.188 2.51204 14.7664 2.75974 14.3956C3.00744 14.0248 3.33826 13.7363 3.75218 13.5302C4.63715 13.1041 5.52701 12.7756 6.42175 12.5446C7.31665 12.3137 8.30009 12.1983 9.37208 12.1983C10.4442 12.1983 11.4277 12.3137 12.3224 12.5446C13.2173 12.7756 14.1072 13.1041 14.9922 13.5302C15.4061 13.7363 15.7369 14.0248 15.9847 14.3956C16.2324 14.7664 16.3562 15.188 16.3562 15.6603V17.6983H2.38818ZM18.2186 17.6983V15.5476C18.2186 14.946 18.069 14.3725 17.7698 13.8272C17.4704 13.2821 17.0458 12.8144 16.4959 12.4241C17.1203 12.5157 17.7131 12.6576 18.2743 12.8496C18.8353 13.0418 19.3708 13.2689 19.8806 13.5309C20.3618 13.7836 20.7333 14.0815 20.9953 14.4244C21.2573 14.7673 21.3883 15.1417 21.3883 15.5476V17.6983H18.2186ZM9.37208 10.7174C8.47578 10.7174 7.70854 10.4033 7.07034 9.77512C6.43215 9.14674 6.11305 8.39141 6.11305 7.50911C6.11305 6.62682 6.43215 5.87157 7.07034 5.24334C7.70854 4.61497 8.47578 4.30078 9.37208 4.30078C10.2684 4.30078 11.0357 4.61497 11.674 5.24334C12.3122 5.87157 12.6313 6.62682 12.6313 7.50911C12.6313 8.39141 12.3122 9.14674 11.674 9.77512C11.0357 10.4033 10.2684 10.7174 9.37208 10.7174ZM17.4127 7.50911C17.4127 8.39141 17.0936 9.14674 16.4554 9.77512C15.8172 10.4033 15.0499 10.7174 14.1536 10.7174C14.0486 10.7174 13.9149 10.7057 13.7525 10.6822C13.59 10.6586 13.4563 10.6328 13.3514 10.6047C13.7186 10.17 14.0008 9.68788 14.1981 9.1582C14.3952 8.62852 14.4938 8.07852 14.4938 7.5082C14.4938 6.93773 14.3932 6.38979 14.1921 5.86439C13.9909 5.33913 13.7107 4.85559 13.3514 4.41376C13.485 4.3667 13.6187 4.33615 13.7525 4.32209C13.8862 4.30789 14.0199 4.30078 14.1536 4.30078C15.0499 4.30078 15.8172 4.61497 16.4554 5.24334C17.0936 5.87157 17.4127 6.62682 17.4127 7.50911ZM3.78478 16.3233H14.9594V15.6603C14.9594 15.4689 14.9107 15.2986 14.8134 15.1493C14.7163 15 14.562 14.8696 14.3506 14.7579C13.5842 14.3689 12.7951 14.0742 11.9832 13.8738C11.1713 13.6735 10.301 13.5733 9.37208 13.5733C8.44334 13.5733 7.57304 13.6735 6.76118 13.8738C5.94931 14.0742 5.16018 14.3689 4.39379 14.7579C4.18241 14.8696 4.02806 15 3.93074 15.1493C3.83343 15.2986 3.78478 15.4689 3.78478 15.6603V16.3233ZM9.37208 9.34245C9.88425 9.34245 10.3227 9.16293 10.6874 8.80391C11.0521 8.44488 11.2345 8.01328 11.2345 7.50911C11.2345 7.00495 11.0521 6.57335 10.6874 6.21432C10.3227 5.8553 9.88425 5.67578 9.37208 5.67578C8.85991 5.67578 8.42146 5.8553 8.05673 6.21432C7.69201 6.57335 7.50964 7.00495 7.50964 7.50911C7.50964 8.01328 7.69201 8.44488 8.05673 8.80391C8.42146 9.16293 8.85991 9.34245 9.37208 9.34245Z" fill="#444444"/>
+                                                            </g>
+                                                        </svg>
+                                                    </span>
+                                                    <span class="pointer">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23" fill="none">
+                                                            <mask id="mask0_9177_4742" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="23" height="23">
+                                                            <rect x="0.444336" y="0.164062" width="22.3492" height="22" fill="#D9D9D9"/>
+                                                            </mask>
+                                                            <g mask="url(#mask0_9177_4742)">
+                                                            <path d="M7.24939 18.956C6.78502 18.956 6.38832 18.7941 6.05929 18.4704C5.73042 18.1465 5.56598 17.756 5.56598 17.2989V5.66431H4.63477V4.28931H8.82524V3.47852H14.4125V4.28931H18.603V5.66431H17.6718V17.2989C17.6718 17.7619 17.5088 18.1539 17.1829 18.4747C16.857 18.7956 16.4588 18.956 15.9884 18.956H7.24939ZM16.275 5.66431H6.96281V17.2989C6.96281 17.3812 6.98966 17.4488 7.04336 17.5017C7.09706 17.5545 7.16574 17.581 7.24939 17.581H15.9884C16.0601 17.581 16.1258 17.5516 16.1853 17.4927C16.2451 17.4341 16.275 17.3695 16.275 17.2989V5.66431ZM9.20145 15.7476H10.598V7.49764H9.20145V15.7476ZM12.6397 15.7476H14.0363V7.49764H12.6397V15.7476Z" fill="#FF0000"/>
+                                                            </g>
+                                                        </svg>
+                                                    </span>
+                                                </div>
+                                                
+                                               </div>
+                                            </div>
+
+                                           </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr class="mt-5 mb-5">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="payroll-details-box">
+                                            <h4 class="font-15 text-black fw-semibold lh-1">Company Registration & Compliance</h4>
+                                            <span class="text-muted font-12 fw-normal">Subheading: Official Business Identification <br> & Compliance Codes</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="compliance-list-box">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="mb-3 compliance-list bg-white border-rounded-2 attendance-border d-flex align-items-center justify-content-center">
+                                                        <div class="w-25 p-3 compliance-name">
+                                                            <p class="mb-0 font-14 fw-light">GST Number</p>
+                                                        </div>
+                                                        <div class="w-75 p-3 d-flex align-items-center justify-content-between">
+                                                            <p class="mb-0 font-14 fw-semibold">123NML1234IR</p>
+                                                            <button class="btn p-0 font-13 fw-semibold text-success">Verify <svg xmlns="http://www.w3.org/2000/svg" width="18" height="17" viewBox="0 0 18 17" fill="none">
+                                                                <path d="M7.72809 8.00564C7.44476 7.72231 7.01976 7.72231 6.73643 8.00564C6.45309 8.28897 6.45309 8.71397 6.73643 8.99731L8.86143 11.1223C9.00309 11.264 9.14476 11.3348 9.35726 11.3348C9.56976 11.3348 9.71143 11.264 9.85309 11.1223L14.8114 5.45564C15.0239 5.10147 15.0239 4.67647 14.6698 4.46397C14.3864 4.25147 13.9614 4.25147 13.7489 4.53481L9.35726 9.56397L7.72809 8.00564Z" fill="#22b783"/>
+                                                                <path d="M15.7323 7.79297C15.3073 7.79297 15.0239 8.0763 15.0239 8.5013C15.0239 11.618 12.4739 14.168 9.35726 14.168C6.24059 14.168 3.69059 11.618 3.69059 8.5013C3.69059 7.0138 4.25726 5.59714 5.31976 4.53464C6.38226 3.4013 7.79893 2.83464 9.35726 2.83464C9.78226 2.83464 10.2781 2.90547 10.7031 2.9763C11.0573 3.11797 11.4823 2.90547 11.6239 2.48047C11.7656 2.05547 11.4823 1.77214 11.1281 1.63047H11.0573C10.4906 1.4888 9.92393 1.41797 9.35726 1.41797C5.46143 1.41797 2.27393 4.60547 2.27393 8.57214C2.27393 10.4138 3.05309 12.2555 4.32809 13.5305C5.67393 14.8763 7.44476 15.5846 9.28643 15.5846C13.1823 15.5846 16.3698 12.3971 16.3698 8.5013C16.4406 8.0763 16.0864 7.79297 15.7323 7.79297Z" fill="#22b783"/>
+                                                                </svg></button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 compliance-list bg-white border-rounded-2 attendance-border d-flex align-items-center justify-content-center">
+                                                        <div class="w-25 p-3 compliance-name">
+                                                            <p class="mb-0 font-14 fw-light">CIN Number</p>
+                                                        </div>
+                                                        <div class="w-75 p-3 d-flex align-items-center justify-content-between">
+                                                            <p class="mb-0 font-14 fw-semibold">U12345MH2024PLC012345</p>
+                                                            <button class="btn p-0 font-13 fw-semibold text-black">View Detail 
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
+                                                                    <mask id="mask0_9159_3729" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="17" height="17">
+                                                                    <rect width="17" height="17" fill="#D9D9D9"/>
+                                                                    </mask>
+                                                                    <g mask="url(#mask0_9159_3729)">
+                                                                    <path d="M8.50004 11.334C9.38546 11.334 10.1381 11.0241 10.7579 10.4043C11.3776 9.7845 11.6875 9.0319 11.6875 8.14648C11.6875 7.26107 11.3776 6.50846 10.7579 5.88867C10.1381 5.26888 9.38546 4.95898 8.50004 4.95898C7.61462 4.95898 6.86202 5.26888 6.24223 5.88867C5.62244 6.50846 5.31254 7.26107 5.31254 8.14648C5.31254 9.0319 5.62244 9.7845 6.24223 10.4043C6.86202 11.0241 7.61462 11.334 8.50004 11.334ZM8.50004 10.059C7.96879 10.059 7.51723 9.87305 7.14535 9.50117C6.77348 9.1293 6.58754 8.67773 6.58754 8.14648C6.58754 7.61523 6.77348 7.16367 7.14535 6.7918C7.51723 6.41992 7.96879 6.23398 8.50004 6.23398C9.03129 6.23398 9.48285 6.41992 9.85473 6.7918C10.2266 7.16367 10.4125 7.61523 10.4125 8.14648C10.4125 8.67773 10.2266 9.1293 9.85473 9.50117C9.48285 9.87305 9.03129 10.059 8.50004 10.059ZM8.50004 13.459C6.77643 13.459 5.20629 12.9779 3.78962 12.0158C2.37296 11.0536 1.34587 9.76385 0.708374 8.14648C1.34587 6.52912 2.37296 5.23937 3.78962 4.27721C5.20629 3.31506 6.77643 2.83398 8.50004 2.83398C10.2237 2.83398 11.7938 3.31506 13.2105 4.27721C14.6271 5.23937 15.6542 6.52912 16.2917 8.14648C15.6542 9.76385 14.6271 11.0536 13.2105 12.0158C11.7938 12.9779 10.2237 13.459 8.50004 13.459ZM8.50004 12.0423C9.83407 12.0423 11.0589 11.6911 12.1745 10.9887C13.2901 10.2862 14.1431 9.33885 14.7334 8.14648C14.1431 6.95412 13.2901 6.00673 12.1745 5.3043C11.0589 4.60187 9.83407 4.25065 8.50004 4.25065C7.16601 4.25065 5.94119 4.60187 4.82556 5.3043C3.70994 6.00673 2.85699 6.95412 2.26671 8.14648C2.85699 9.33885 3.70994 10.2862 4.82556 10.9887C5.94119 11.6911 7.16601 12.0423 8.50004 12.0423Z" fill="#000"/>
+                                                                    </g>
+                                                                </svg>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 compliance-list bg-white border-rounded-2 attendance-border d-flex align-items-center justify-content-center">
+                                                        <div class="w-25 p-3 compliance-name">
+                                                            <p class="mb-0 font-14 fw-light">EPF Number</p>
+                                                        </div>
+                                                        <div class="w-75 p-3 d-flex align-items-center justify-content-between">
+                                                            <p class="mb-0 font-14 fw-semibold">MH/1234567</p>
+                                                            <button class="btn p-0 font-13 fw-semibold text-black">View Detail 
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
+                                                                    <mask id="mask0_9159_3729" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="17" height="17">
+                                                                    <rect width="17" height="17" fill="#D9D9D9"/>
+                                                                    </mask>
+                                                                    <g mask="url(#mask0_9159_3729)">
+                                                                    <path d="M8.50004 11.334C9.38546 11.334 10.1381 11.0241 10.7579 10.4043C11.3776 9.7845 11.6875 9.0319 11.6875 8.14648C11.6875 7.26107 11.3776 6.50846 10.7579 5.88867C10.1381 5.26888 9.38546 4.95898 8.50004 4.95898C7.61462 4.95898 6.86202 5.26888 6.24223 5.88867C5.62244 6.50846 5.31254 7.26107 5.31254 8.14648C5.31254 9.0319 5.62244 9.7845 6.24223 10.4043C6.86202 11.0241 7.61462 11.334 8.50004 11.334ZM8.50004 10.059C7.96879 10.059 7.51723 9.87305 7.14535 9.50117C6.77348 9.1293 6.58754 8.67773 6.58754 8.14648C6.58754 7.61523 6.77348 7.16367 7.14535 6.7918C7.51723 6.41992 7.96879 6.23398 8.50004 6.23398C9.03129 6.23398 9.48285 6.41992 9.85473 6.7918C10.2266 7.16367 10.4125 7.61523 10.4125 8.14648C10.4125 8.67773 10.2266 9.1293 9.85473 9.50117C9.48285 9.87305 9.03129 10.059 8.50004 10.059ZM8.50004 13.459C6.77643 13.459 5.20629 12.9779 3.78962 12.0158C2.37296 11.0536 1.34587 9.76385 0.708374 8.14648C1.34587 6.52912 2.37296 5.23937 3.78962 4.27721C5.20629 3.31506 6.77643 2.83398 8.50004 2.83398C10.2237 2.83398 11.7938 3.31506 13.2105 4.27721C14.6271 5.23937 15.6542 6.52912 16.2917 8.14648C15.6542 9.76385 14.6271 11.0536 13.2105 12.0158C11.7938 12.9779 10.2237 13.459 8.50004 13.459ZM8.50004 12.0423C9.83407 12.0423 11.0589 11.6911 12.1745 10.9887C13.2901 10.2862 14.1431 9.33885 14.7334 8.14648C14.1431 6.95412 13.2901 6.00673 12.1745 5.3043C11.0589 4.60187 9.83407 4.25065 8.50004 4.25065C7.16601 4.25065 5.94119 4.60187 4.82556 5.3043C3.70994 6.00673 2.85699 6.95412 2.26671 8.14648C2.85699 9.33885 3.70994 10.2862 4.82556 10.9887C5.94119 11.6911 7.16601 12.0423 8.50004 12.0423Z" fill="#000"/>
+                                                                    </g>
+                                                                </svg>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 compliance-list bg-white border-rounded-2 attendance-border d-flex align-items-center justify-content-center">
+                                                        <div class="w-25 p-3 compliance-name">
+                                                            <p class="mb-0 font-14 fw-light">ESI Number</p>
+                                                        </div>
+                                                        <div class="w-75 p-3 d-flex align-items-center justify-content-between">
+                                                            <p class="mb-0 font-14 fw-semibold">12001234560000789</p>
+                                                            <button class="btn p-0 font-13 fw-semibold text-black">View Detail 
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
+                                                                    <mask id="mask0_9159_3729" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="17" height="17">
+                                                                    <rect width="17" height="17" fill="#D9D9D9"/>
+                                                                    </mask>
+                                                                    <g mask="url(#mask0_9159_3729)">
+                                                                    <path d="M8.50004 11.334C9.38546 11.334 10.1381 11.0241 10.7579 10.4043C11.3776 9.7845 11.6875 9.0319 11.6875 8.14648C11.6875 7.26107 11.3776 6.50846 10.7579 5.88867C10.1381 5.26888 9.38546 4.95898 8.50004 4.95898C7.61462 4.95898 6.86202 5.26888 6.24223 5.88867C5.62244 6.50846 5.31254 7.26107 5.31254 8.14648C5.31254 9.0319 5.62244 9.7845 6.24223 10.4043C6.86202 11.0241 7.61462 11.334 8.50004 11.334ZM8.50004 10.059C7.96879 10.059 7.51723 9.87305 7.14535 9.50117C6.77348 9.1293 6.58754 8.67773 6.58754 8.14648C6.58754 7.61523 6.77348 7.16367 7.14535 6.7918C7.51723 6.41992 7.96879 6.23398 8.50004 6.23398C9.03129 6.23398 9.48285 6.41992 9.85473 6.7918C10.2266 7.16367 10.4125 7.61523 10.4125 8.14648C10.4125 8.67773 10.2266 9.1293 9.85473 9.50117C9.48285 9.87305 9.03129 10.059 8.50004 10.059ZM8.50004 13.459C6.77643 13.459 5.20629 12.9779 3.78962 12.0158C2.37296 11.0536 1.34587 9.76385 0.708374 8.14648C1.34587 6.52912 2.37296 5.23937 3.78962 4.27721C5.20629 3.31506 6.77643 2.83398 8.50004 2.83398C10.2237 2.83398 11.7938 3.31506 13.2105 4.27721C14.6271 5.23937 15.6542 6.52912 16.2917 8.14648C15.6542 9.76385 14.6271 11.0536 13.2105 12.0158C11.7938 12.9779 10.2237 13.459 8.50004 13.459ZM8.50004 12.0423C9.83407 12.0423 11.0589 11.6911 12.1745 10.9887C13.2901 10.2862 14.1431 9.33885 14.7334 8.14648C14.1431 6.95412 13.2901 6.00673 12.1745 5.3043C11.0589 4.60187 9.83407 4.25065 8.50004 4.25065C7.16601 4.25065 5.94119 4.60187 4.82556 5.3043C3.70994 6.00673 2.85699 6.95412 2.26671 8.14648C2.85699 9.33885 3.70994 10.2862 4.82556 10.9887C5.94119 11.6911 7.16601 12.0423 8.50004 12.0423Z" fill="#000"/>
+                                                                    </g>
+                                                                </svg>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="tab-pane fade" id="organization-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab"></div>
+                        <div class="tab-pane fade" id="salary" role="tabpanel" aria-labelledby="v-pills-profile-tab"></div>
+                        <div class="tab-pane fade" id="taxes" role="tabpanel" aria-labelledby="v-pills-profile-tab"></div>
+                        <div class="tab-pane fade" id="pay-schedule" role="tabpanel" aria-labelledby="v-pills-profile-tab"></div>
+                        <div class="tab-pane fade" id="prior-payroll" role="tabpanel" aria-labelledby="v-pills-profile-tab"></div>
+                        <div class="tab-pane fade" id="form-16" role="tabpanel" aria-labelledby="v-pills-profile-tab"></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+        
