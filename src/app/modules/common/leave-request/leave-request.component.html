@@ -1,7 +1,7 @@
 
   <div class="modal-header">
       <h5 class="modal-title" id="exampleModalLabel">Leave Request</h5>
-      <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closebutton>
+      <button *ngIf="isModal" type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closebutton>
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
               <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
                   width="24" height="24">
@@ -135,13 +135,23 @@
       ROLE == 'ADMIN' && leave?.status == PENDING
     ">
           <button type="button" class="btn reject-btn" *ngIf="rejectionReasonFlag" (click)="approveOrRejectLeave(leave?.id || 0, REJECTED)">
-              Save
+            <span *ngIf="!rejectLoading"> Save</span>
+            <div class="dot-opacity-loader" *ngIf="rejectLoading">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
           </button>
-          <button type="button" class="btn reject-btn" *ngIf="!rejectionReasonFlag" (click)="approveOrRejectLeaveCall(leave?.id || 0, REJECTED)">
+          <button [disabled]="isLoading" type="button" class="btn reject-btn" *ngIf="!rejectionReasonFlag" (click)="approveOrRejectLeaveCall(leave?.id || 0, REJECTED)">
               Reject
           </button>
-          <button type="submit" class="btn approved-btn" *ngIf="!rejectionReasonFlag" (click)="approveOrRejectLeaveCall(leave?.id || 0, APPROVED)">
-              Approved
+          <button [disabled]="isLoading" type="submit" class="btn approved-btn" *ngIf="!rejectionReasonFlag" (click)="approveOrRejectLeaveCall(leave?.id || 0, APPROVED)">
+             <span *ngIf="!isLoading">Approved</span>
+              <div class="dot-opacity-loader" *ngIf="isLoading">
+                <span></span>
+                <span></span>
+                <span></span>
+                </div>
           </button>
       </div>
   </div>
