@@ -49,31 +49,44 @@ export class ConfigurationComponent implements OnInit {
     { "id": 28, "name": "West Bengal" }
   ]
   
+  selectedLocation: string = 'india';
 
-  stateCurrency=[
-    { "code": "USD", "name": "United States Dollar", "symbol": "$" },
-    { "code": "EUR", "name": "Euro", "symbol": "€" },
-    { "code": "INR", "name": "Indian Rupee", "symbol": "₹" },
-    { "code": "GBP", "name": "British Pound Sterling", "symbol": "£" },
-    { "code": "AUD", "name": "Australian Dollar", "symbol": "A$" },
-    { "code": "CAD", "name": "Canadian Dollar", "symbol": "C$" },
-    { "code": "SGD", "name": "Singapore Dollar", "symbol": "S$" },
-    { "code": "JPY", "name": "Japanese Yen", "symbol": "¥" },
-    { "code": "CNY", "name": "Chinese Yuan", "symbol": "¥" },
-    { "code": "CHF", "name": "Swiss Franc", "symbol": "CHF" },
-    { "code": "HKD", "name": "Hong Kong Dollar", "symbol": "HK$" },
-    { "code": "NZD", "name": "New Zealand Dollar", "symbol": "NZ$" },
-    { "code": "SEK", "name": "Swedish Krona", "symbol": "kr" },
-    { "code": "KRW", "name": "South Korean Won", "symbol": "₩" },
-    { "code": "BRL", "name": "Brazilian Real", "symbol": "R$" },
-    { "code": "ZAR", "name": "South African Rand", "symbol": "R" },
-    { "code": "RUB", "name": "Russian Ruble", "symbol": "₽" },
-    { "code": "MXN", "name": "Mexican Peso", "symbol": "$" },
-    { "code": "IDR", "name": "Indonesian Rupiah", "symbol": "Rp" },
-    { "code": "TRY", "name": "Turkish Lira", "symbol": "₺" },
-    { "code": "SAR", "name": "Saudi Riyal", "symbol": "﷼" },
-    { "code": "AED", "name": "United Arab Emirates Dirham", "symbol": "د.إ" }
-  ]
+    selectedCurrency: string = 'INR'; // INR selected by default
   
+    stateCurrency = [
+      { "code": "USD", "name": "USD", "symbol": "$" },
+      { "code": "EUR", "name": "Euro", "symbol": "€" },
+      { "code": "INR", "name": "INR", "symbol": "₹" }, // Default selection
+      { "code": "GBP", "name": "British Pound Sterling", "symbol": "£" },
+      { "code": "AUD", "name": "Australian Dollar", "symbol": "A$" },
+      { "code": "CAD", "name": "Canadian Dollar", "symbol": "C$" },
+      { "code": "SGD", "name": "Singapore Dollar", "symbol": "S$" },
+      { "code": "JPY", "name": "Japanese Yen", "symbol": "¥" },
+      { "code": "CNY", "name": "Chinese Yuan", "symbol": "¥" },
+      { "code": "CHF", "name": "Swiss Franc", "symbol": "CHF" },
+      { "code": "HKD", "name": "Hong Kong Dollar", "symbol": "HK$" },
+      { "code": "NZD", "name": "New Zealand Dollar", "symbol": "NZ$" },
+      { "code": "SEK", "name": "Swedish Krona", "symbol": "kr" },
+      { "code": "KRW", "name": "South Korean Won", "symbol": "₩" },
+      { "code": "BRL", "name": "Brazilian Real", "symbol": "R$" },
+      { "code": "ZAR", "name": "South African Rand", "symbol": "R" },
+      { "code": "RUB", "name": "Russian Ruble", "symbol": "₽" },
+      { "code": "MXN", "name": "Mexican Peso", "symbol": "$" },
+      { "code": "IDR", "name": "Indonesian Rupiah", "symbol": "Rp" },
+      { "code": "TRY", "name": "Turkish Lira", "symbol": "₺" },
+      { "code": "SAR", "name": "Saudi Riyal", "symbol": "﷼" },
+      { "code": "AED", "name": "United Arab Emirates Dirham", "symbol": "د.إ" }
+    ];
 
-}
+    selectedPfWage = "12% of Actual PF Wage"; // Default selected value
+
+employer = [
+  { label: "12% of Actual PF Wage", value: "12% of Actual PF Wage" },
+  { label: "10% of Actual PF Wage", value: "10% of Actual PF Wage" }
+];
+employee = [
+  { label: "12% of Actual PF Wage", value: "12% of Actual PF Wage" },
+  { label: "10% of Actual PF Wage", value: "10% of Actual PF Wage" }
+];
+  }
+  
