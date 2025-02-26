@@ -146,7 +146,7 @@ export class LeaveService {
     );
   }
 
-  
+
 
   getTopAbsentDays(
     startDate: string,
@@ -161,9 +161,9 @@ export class LeaveService {
     );
   }
 
-  
-  
-  
+
+
+
   getLeaveById(id: number): Observable<any> {
     const params = new HttpParams().set('id', id.toString());
     return this.http.get<any>(`${API_URLS.base_url}/leave/by-id`, { params });
@@ -174,6 +174,31 @@ export class LeaveService {
     return this.http.get<any>(`${API_URLS.base_url}/leave/quota/by-id`, { params });
   }
 
+
+  // Get users with maximum leaves
+  getUsersWithMaximumLeaves(startDate?: string, endDate?: string): Observable<any> {
+    let params = new HttpParams();
+    if (startDate) params = params.set('startDate', startDate);
+    if (endDate) params = params.set('endDate', endDate);
+
+    return this.http.get(`${API_URLS.base_url}/leave/max-leaves`, { params });
+  }
+
+  // Get top 10 users with minimum leaves
+  getTop10UsersWithMinimumLeaves(startDate?: string, endDate?: string): Observable<any> {
+    let params = new HttpParams();
+    if (startDate) params = params.set('startDate', startDate);
+    if (endDate) params = params.set('endDate', endDate);
+
+    return this.http.get(`${API_URLS.base_url}/leave/min-leaves-top10`, { params });
+  }
+
+  // Get users on leave within a range
+  getUsersOnLeaveInRange(startDate: string, endDate: string): Observable<any> {
+    let params = new HttpParams().set('startDate', startDate).set('endDate', endDate);
+
+    return this.http.get(`${API_URLS.base_url}/leave/on-leave`, { params });
+  }
 
 
 
