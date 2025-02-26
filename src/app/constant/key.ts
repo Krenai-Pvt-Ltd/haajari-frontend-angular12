@@ -461,6 +461,8 @@ export class Key {
 	public static DEFAULTER_TAB = "DEFAULTER";
 	public static CONSISTENT_TAB = "CONSISTENT";
 	public static LEAVE_BY_DEPARTMENT_TAB = "LEAVE_BY_DEPARTMENT";
+
+  public static LEAVE_QUOTA_EXCEEDED="The requested leave exceeds your available quota.";
 }
 
 

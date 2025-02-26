@@ -350,7 +350,6 @@ export class InboxComponent implements OnInit {
 
 
 
-
   selectedDate: Date | null = null;
   onDateChange(date: Date | null): void {
     this.markAllFalse();
@@ -376,6 +375,15 @@ export class InboxComponent implements OnInit {
       this.mails = [];
       this.finished = false;
       this.fetchMails();
+    }
+  }
+
+  changeDate(days: number): void {
+    if (this.selectedDate) {
+      const newDate = new Date(this.selectedDate);
+      newDate.setDate(newDate.getDate() + days);
+      this.selectedDate = newDate;
+      this.onDateChange(this.selectedDate);
     }
   }
 

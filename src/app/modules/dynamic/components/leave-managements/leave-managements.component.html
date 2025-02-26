@@ -13,7 +13,9 @@
                   <a id="pills-notification-tab" data-bs-toggle="pill" href="#request" role="tab"
                      aria-controls="pills-request" aria-selected="false"
                     class="nav-link">Leave Request </a>
-                    <span class="request-count d-flex align-items-center justify-content-center">10</span>
+                    <!-- {{pendingLeaveCount}} -->
+                    <!-- {{pendingLeaveCount}} -- {{isPendingChange}} -- {{isFirstLoad}} -- {{this.filters.status}} -->
+                    <span class="request-count d-flex align-items-center justify-content-center" *ngIf="pendingLeaveCount > 0">{{ pendingLeaveCount }}</span>
                 </li>
               </ul>
               <div id="pills-tabContent" class="tab-content">
@@ -129,10 +131,15 @@
                                     </div>
                                     <div class="p-3">
                                         <div class="d-flex align-items-center justify-content-between mt-2 mb-4 border-bottom pb-4">
-                                            <div>
-                                            <h5 class="mb-1 font-16 fw-normal">Friday & Monday</h5>
-                                            <p class="mb-0 font-13">Which Days Employees Were Absent the Most</p>
+                                           
+                                            <div *ngIf = "topTwoLeaveDaysFormatted">
+                                            <h5 class="mb-1 font-16 fw-normal"> {{ topTwoLeaveDaysFormatted }}</h5>
+                                              <p class="mb-0 font-13">On these Days Employees Were Absent the Most</p>
                                             </div>
+                                            <div *ngIf = "!topTwoLeaveDaysFormatted">
+                                                <h5 class="mb-1 font-16 fw-normal"> {{ topTwoLeaveDaysFormatted }}</h5>
+                                                 
+                                                </div>
                                             <h5 class="font-13 mb-0 fw-semibold"> {{selectedDate | date:"MMMM, yyyy" }}</h5>
                                         </div>
                                         <!-- <img src="assets/images/months-report.png" class="w-100 text-center"> -->
@@ -150,9 +157,6 @@
                                         [grid]="chartOptions.grid!"
                                         [legend]="chartOptions.legend!">
                                         </apx-chart>
-
-
-
 
                                   </div>
                                 </div>
@@ -765,7 +769,7 @@
                                                          (keyup)="searchTermChanged($event)" />
                                                         <i class="bi bi-search search-icon d-flex align-items-center  h-100" *ngIf="searchTerm == ''"></i>
                                                         <i class="bi bi-x-lg search-icon d-flex align-items-center  h-100" *ngIf="searchTerm != ''"
-                                                        (click)="getLeaves(true)"></i>
+                                                        (click)="resetFiltersSearch()"></i>
 
                                                     </div>
                                                 </form>
@@ -946,7 +950,7 @@
                                             }">{{leave.status|  uppercase}} </span>
 
                                         </div>
-                                        <p class="mb-0 mt-1 fw-normal font-13">By: {{leave.managerName}} </p>
+                                        <p class="mb-0 mt-1 fw-normal font-13">By: {{leave.managerName || '-'}} </p>
                                     </td>
                                      <td class="text-end">
                                         <div class="d-flex align-items-center justify-content-end gap-2">
@@ -1070,15 +1074,15 @@
                                                     ">
                                                     <td class="text-center position-relative attendance-detail" [ngClass]="{
                                                         'text-success':
-                                                        dayWiseStatus.status?.includes('Leave') ||  dayWiseStatus.status == 'LWP'  ||
+                                                        dayWiseStatus.status?.includes('Leave') ||  dayWiseStatus.status == 'LWP' || 
                                                         dayWiseStatus.status == 'Half-D',
                                                         'text-danger':
                                                         dayWiseStatus.status == 'Reject',
                                                         'text-warning':
-                                                        dayWiseStatus.status == 'Apply'||
-                                                        dayWiseStatus.status == HOLIDAY,
+                                                        dayWiseStatus.status == 'Apply',
                                                         'text-primary':
-                                                        dayWiseStatus.status == 'W-off'
+                                                        dayWiseStatus.status == 'W-off' ||
+                                                        dayWiseStatus.status == HOLIDAY
                                                     }">
                                                     {{
                                                     dayWiseStatus.status[0] == "U"
@@ -1430,8 +1434,59 @@
       <div *ngIf="isModalOpen" class="modal-content">
       <app-leave-request
       [data]="leaveData"
-      (closeModal)="closeModalHandler()"
+      (closeModal)="closeModalHandler($event)"
     ></app-leave-request>
   </div>
     </div>
 </div>
+
+
+<!-- Leave Quota Modal -->
+<div *ngIf="showLeaveQuotaModal" class="modal-overlay">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h2>User Leave Quota Information</h2>
+        <button class="close-btn" (click)="closeLeaveQuotaModal()">&times;</button>
+      </div>
+  
+      <div class="info-message">
+        <p>
+            🚫 <strong>Notice:</strong> The leave quota for this category has been fully utilized by the user.
+            You can only <strong>reject</strong> this leave request.
+        </p>
+      </div>
+  
+      <div class="modal-body">
+        <div class="quota-details">
+          <div class="detail-item">
+            <span class="label">👤 User Name:</span>
+            <span>{{ userLeaveQuota?.userName }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="label">📅 Total Leaves:</span>
+            <span>{{ userLeaveQuota?.totalAllocatedLeaves }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="label">✅ Approved Leaves:</span>
+            <span>{{ userLeaveQuota?.approvedLeaves }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="label">❌ Rejected Leaves:</span>
+            <span>{{ userLeaveQuota?.rejectedLeaves }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="label">🕒 Remaining Leaves:</span>
+            <span>{{ userLeaveQuota?.remainingLeaves }}</span>
+          </div>
+        </div>
+      </div>
+  
+      <div class="modal-footer">
+        <button class="action-btn-modal" (click)="closeLeaveQuotaModal()">Close</button>
+      </div>
+    </div>
+  </div>
+  
+  
+
+  

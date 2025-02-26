@@ -126,10 +126,11 @@ organizationRegistrationDate: string = '';
   async ngOnInit() {
     this.logInUserUuid = await this.rbacService.getUUID();
     this.ROLE = await this.rbacService.getRole();
-    this.getLeaves(false,false);
+    this.filters.status = ['pending'];
+    this.applyFilters();
+    // this.getLeaves(false,false);
     this.selectedDate = new Date();
     
-
     this.getOrganizationRegistrationDateMethodCall();
     this.calculateDateRange();
     this.setDefaultWeekTab();
@@ -138,6 +139,7 @@ organizationRegistrationDate: string = '';
     this.getReportDetailsForLeaveTeamOverviewForHeatMap();
     this.getLeaveTopDefaulterUser();
     this.getLeaveCategoryDetailsForLeaveTeamOverview();
+   
   }
 
 
@@ -191,6 +193,8 @@ organizationRegistrationDate: string = '';
    */
  
 
+  pendingLeaveCount: number = 0;
+  isFirstLoad: boolean = true;
 
   getLeaves(resetSearch = false, applyDateRange = false) {
     if (resetSearch) {
@@ -222,6 +226,16 @@ organizationRegistrationDate: string = '';
           if (Array.isArray(response.object)) {
             this.leaves = response.object;
             this.totalItems = response.totalItems;
+            // console.log("execute" + this.filters.status.length);
+            if (this.filters.status.length == 1 && this.filters.status.includes('pending')) {
+              // console.log("execute" + this.filters.status);
+              this.pendingLeaveCount = response.totalItems;
+            }
+            
+            // this.isFirstLoad = false;   
+            // this.isPendingChange = false;
+            
+
           } else {
             this.leaves = [];
             this.totalItems = 0;
@@ -238,15 +252,31 @@ organizationRegistrationDate: string = '';
     leaveData: any =  {
       leave: {}
     };
+
     isModalOpen: boolean = false;
-    closeModalHandler(): void {
+    closeModalHandler(event:any): void {
+      console.log("event" + event);
       this.leaveData = null;
       this.isModalOpen = false;
-      this.getLeaves(true);
+      this.applyFilters();
+      if(event!=null) {
+        this.userLeaveQuota = event;
+        this.openLeaveQuotaModal(); 
+      }
+      // this.getLeaves(true);
     }
+
       viewLeave(leave:any){
+        console.log("leave" , leave);
+        if (!leave) {
+          console.log("Leave data is undefined or null.");
+          return;
+        }
         this.isModalOpen = false;
         this.leave = leave;
+        this.leaveData = {
+          leave: {}
+        };
         this.leaveData.leave = leave;
         setTimeout(() => {
         this.isModalOpen = true;
@@ -269,7 +299,20 @@ onPageChange(page: number) {
   this.searchTerm = '';
   // this.currentPage = 1;
   this.currentPage = page;
-  this.getLeaves();
+
+  
+  if(this.filters.fromDate && this.filters.toDate) {
+    this.getLeaves(false, true); // Fetch data with applied filters
+    } else {
+      this.getLeaves(false, false); 
+    }
+
+  // if(this.filters.fromDate && this.filters.toDate) {
+  //   this.getLeaves(false, true); // Fetch data with applied filters
+  //   } else {
+  //     this.getLeaves(false, false); 
+  //   }
+  // this.getLeaves();
 }
 
 resetSearch(){
@@ -285,12 +328,15 @@ searchTermChanged(event: any) {
   debugger
   this.currentPage = 1;
   this.searchTerm = event.target.value;
-  this.searchTerm.trim().length === 0 ? this.resetSearch() :this.getLeaves();
+  // this.searchTerm.trim().length === 0 ? this.resetSearch() :this.getLeaves();
+  this.searchTerm.trim().length === 0 ? this.resetSearch() :this.applyFilters();
+  
 }
 
 searchLeaves() {
   this.resetValues();
-  this.getLeaves();
+  // this.getLeaves();
+  this.applyFilters()
 }
 resetValues(){
   // this.searchTerm = '';
@@ -302,7 +348,7 @@ resetValues(){
 /**
  * HANDLING FILTERS
  */
-leaveTypes = ['Earned Leave', 'Sick Leave', 'Casual Leave']; // Example options
+leaveTypes = ['Earned Leave', 'Sick Leave', 'Casual Leave', 'Leave Without Pay']; // Example options
 
 badgesList:[]=[];
 filters:{
@@ -331,6 +377,16 @@ disabledDateTo = (current: Date): boolean => {
 disabledDateFrom = (current: Date): boolean => {
   return current && this.filters.toDate && current >= this.filters.toDate;
 };
+
+
+
+resetFiltersSearch() {
+  if(this.filters.fromDate && this.filters.toDate) {
+    this.getLeaves(true, true); // Fetch data with applied filters
+    } else {
+      this.getLeaves(true, false); 
+    }
+}
 
 
 appliedFilters: { key: string; value: string }[] = [];
@@ -382,7 +438,8 @@ resetFilters(): void {
   this.appliedFilters = [];
   this.changeShowFilter(false);
   this.currentPage = 1;
-  this.getLeaves();
+  this.applyFilters();
+  // this.getLeaves();
 }
 removeFilter(filter: { key: string; value: string }): void {
   // Remove the specific filter from the appliedFilters array
@@ -406,10 +463,17 @@ removeFilter(filter: { key: string; value: string }): void {
 
   this.changeShowFilter(false);
   this.currentPage = 1;
-  this.getLeaves(); // Refresh data after filter removal
+  this.applyFilters();
+  // this.getLeaves(); // Refresh data after filter removal
 }
 
 
+isPendingChange: boolean = false;
+LEAVE_QUOTA_EXCEEDED = Key.LEAVE_QUOTA_EXCEEDED;
+
+// Component properties
+showLeaveQuotaModal: boolean = false;
+userLeaveQuota: any = null;
 
 // -- new start
 approveOrRejectLeave(leaveId: number, operationString: string) {
@@ -421,17 +485,64 @@ approveOrRejectLeave(leaveId: number, operationString: string) {
       this.isLoading = false;
       this.rejectionReason = '';
       this.rejectionReasonFlag = false;
-      this.getLeaves(true);
-      this.closebutton.nativeElement.click();
-      this.helperService.showToast(`Leave ${operationString} successfully.`, Key.TOAST_STATUS_SUCCESS);
+      this.isPendingChange = true;
+      this.applyFilters();
+      // this.getLeaves(true);
+      if (this.closebutton) {
+        this.closebutton.nativeElement.click();
+      } else {
+        console.log('Close button reference not found.');
+      }
+
+      if (response.message === 'approved' || response.message === 'rejected') {
+        this.helperService.showToast(`Leave ${operationString} successfully.`, Key.TOAST_STATUS_SUCCESS);
+      } else if (response.message === this.LEAVE_QUOTA_EXCEEDED) {
+        this.helperService.showToast('Leave quota exceeded.', Key.TOAST_STATUS_ERROR);
+        this.fetchUserLeaveQuota(leaveId); // Fetch and open leave quota modal
+      } else {
+        this.helperService.showToast(response.message, Key.TOAST_STATUS_ERROR);
+      }
+      // if(response.status) {
+      // this.helperService.showToast(`Leave ${operationString} successfully.`, Key.TOAST_STATUS_SUCCESS);
+      // }else {
+      //   this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
+      // }
     },
     error: (error) => {
+      this.isPendingChange = false;
       this.helperService.showToast('Error.', Key.TOAST_STATUS_ERROR);
       console.error('Failed to fetch approve/reject leaves:', error);
       this.isLoading = false;
     },
   });
 }
+
+
+
+// Fetch user leave quota details
+fetchUserLeaveQuota(leaveId: number) {
+  this.leaveService.getUserLeaveQuota(leaveId).subscribe({
+    next: (quota: any) => {
+      this.userLeaveQuota = quota.object; // Assign quota details
+      this.openLeaveQuotaModal(); // Show the modal
+    },
+    error: (err) => {
+      console.error('Failed to fetch user leave quota:', err);
+      this.helperService.showToast('Failed to load leave quota.', Key.TOAST_STATUS_ERROR);
+    }
+  });
+}
+
+// Open modal
+openLeaveQuotaModal() {
+  this.showLeaveQuotaModal = true;
+}
+
+// Close modal
+closeLeaveQuotaModal() {
+  this.showLeaveQuotaModal = false;
+}
+
 
 approveOrRejectLeaveCall(leaveId: number, operationString: string) {
   debugger
@@ -637,6 +748,7 @@ onMonthChange(month: Date): void {
   this.getReportDetailsForLeaveTeamOverviewForHeatMap();
   this.getLeaveTopDefaulterUser();
   this.getLeaveCategoryDetailsForLeaveTeamOverview();
+  
 }
 
 
@@ -896,6 +1008,7 @@ onMonthChange(month: Date): void {
   @ViewChild('chartHeatMap') chartHeatMap!: ChartComponent;
   public chartOptions!: Partial<ChartOptions>;
   leaveReportResponseHeatMap: any;
+  // topTwoLeaveDays: { date: string; count: number }[] = [];
 
   getReportDetailsForLeaveTeamOverviewForHeatMap(): void {
     this.leaveService.getReportDetailsForLeaveTeamOverview(this.startDate, this.endDate).subscribe({
@@ -907,94 +1020,188 @@ onMonthChange(month: Date): void {
     });
   }
 
-  initChartDataHeatMap(approvedLeaveCounts: any[]): void {
-    const dateMap = new Map<string, number>();
-    approvedLeaveCounts.forEach(item => dateMap.set(item.date, item.totalCount));
 
-    const start = new Date(this.startDate);
-    const end = new Date(this.endDate);
+  topTwoLeaveDays: { date: string; count: number }[] = [];
+topTwoLeaveDaysFormatted: string = '';
 
-    const seriesData: any[] = [];
-    let currentDate = new Date(start);
-    let weekIndex = 1;
+initChartDataHeatMap(approvedLeaveCounts: any[]): void {
+  const dateMap = new Map<string, number>();
+  approvedLeaveCounts.forEach(item => dateMap.set(item.date, item.totalCount));
 
-    while (currentDate <= end) {
-      const weekStart = new Date(currentDate);
-      const potentialWeekEnd = new Date(currentDate);
-      potentialWeekEnd.setDate(weekStart.getDate() + 6);  // Each week covers 7 days
+  // Extract top two dates with most approved leaves
+  const sortedDates = approvedLeaveCounts
+    .filter(item => item.totalCount > 0)
+    .sort((a, b) => b.totalCount - a.totalCount)
+    .slice(0, 2);
 
-      const weekEnd = potentialWeekEnd > end ? end : potentialWeekEnd;  // Handle last week ending
+    this.topTwoLeaveDays = sortedDates;
 
-      const weekData: any[] = [];
-      for (let date = new Date(weekStart); date <= weekEnd; date.setDate(date.getDate() + 1)) {
-        const formattedDate = date.toISOString().split('T')[0];
-        const count = dateMap.get(formattedDate) ?? 0;
-        // weekData.push({ x: formattedDate, y: count });
-        weekData.push({ x: "Total Approved", y: count });
-      }
+    // Get the weekday names for the top two leave days
+    const dayNames = sortedDates.map(day =>
+      new Date(day.date).toLocaleDateString('en-US', { weekday: 'long' })
+    );
+    
+    // Check if both days are the same; if yes, display one, otherwise join them
+    this.topTwoLeaveDaysFormatted = dayNames.length === 1
+      ? dayNames[0]
+      : dayNames[0] === dayNames[1]
+        ? dayNames[0]
+        : dayNames.join(' & ');
+    
+
+  // Continue with heatmap chart setup...
+  const seriesData: any[] = [];
+  let currentDate = new Date(this.startDate);
+  let weekIndex = 1;
+  const end = new Date(this.endDate);
+
+  while (currentDate <= end) {
+    const weekStart = new Date(currentDate);
+    const potentialWeekEnd = new Date(currentDate);
+    potentialWeekEnd.setDate(weekStart.getDate() + 6);  
+
+    const weekEnd = potentialWeekEnd > end ? end : potentialWeekEnd;
+    const weekData: any[] = [];
+
+    for (let date = new Date(weekStart); date <= weekEnd; date.setDate(date.getDate() + 1)) {
+      const formattedDate = date.toISOString().split('T')[0];
+      const count = dateMap.get(formattedDate) ?? 0;
+      weekData.push({ x: "Total Approved", y: count });
+    }
+
+    seriesData.push({
+      name: `Week ${weekIndex}`,
+      data: weekData,
+    });
+
+    weekIndex++;
+    currentDate.setDate(weekEnd.getDate() + 1); 
+  }
+
+  this.chartOptions = {
+    series: seriesData,
+    chart: { height: 350, type: 'heatmap', toolbar: { show: false } },
+    stroke: { width: 1.5, colors: ['#ffffff'] },
+    plotOptions: {
+      heatmap: {
+        shadeIntensity: 0.8,
+        radius: 6,
+        enableShades: true,
+        colorScale: {
+          min: 0,
+          max: 365,
+          ranges: [
+            { from: 0, to: 5, color: "#D6EAF8", name: "Very Low" },
+            { from: 6, to: 20, color: "#AED6F1", name: "Low" },
+            { from: 21, to: 50, color: "#5DADE2", name: "Medium" },
+            { from: 51, to: 100, color: "#2E86C1", name: "High" }
+          ]
+        }
+      },
+    },
+    dataLabels: { enabled: false },
+    xaxis: { type: 'category', labels: { show: false } },
+    yaxis: { title: { text: 'Weeks of the Month' } },
+    grid: { padding: { left: 10, right: 10, top: 10, bottom: 10 } },
+    tooltip: {
+      y: { formatter: (val) => `${val} Leave(s)` },
+      x: { formatter: (val) => `${val}` },
+    },
+    theme: { mode: 'light' },
+    legend: { show: false },
+  };
+}
+
+
+  // initChartDataHeatMap(approvedLeaveCounts: any[]): void {
+  //   const dateMap = new Map<string, number>();
+  //   approvedLeaveCounts.forEach(item => dateMap.set(item.date, item.totalCount));
+
+  //   const start = new Date(this.startDate);
+  //   const end = new Date(this.endDate);
+
+  //   const seriesData: any[] = [];
+  //   let currentDate = new Date(start);
+  //   let weekIndex = 1;
+
+  //   while (currentDate <= end) {
+  //     const weekStart = new Date(currentDate);
+  //     const potentialWeekEnd = new Date(currentDate);
+  //     potentialWeekEnd.setDate(weekStart.getDate() + 6);  // Each week covers 7 days
+
+  //     const weekEnd = potentialWeekEnd > end ? end : potentialWeekEnd;  // Handle last week ending
+
+  //     const weekData: any[] = [];
+  //     for (let date = new Date(weekStart); date <= weekEnd; date.setDate(date.getDate() + 1)) {
+  //       const formattedDate = date.toISOString().split('T')[0];
+  //       const count = dateMap.get(formattedDate) ?? 0;
+  //       // weekData.push({ x: formattedDate, y: count });
+  //       weekData.push({ x: "Total Approved", y: count });
+  //     }
   
-      // seriesData.push({
-      //   name: `Week ${weekIndex} (${this.formatDateToDDMMM(weekStart)} - ${this.formatDateToDDMMM(weekEnd)})`,
-      //   data: weekData,
-      // });
-      seriesData.push({
-        name: `Week ${weekIndex}`,
-        data: weekData,
-      });
+  //     // seriesData.push({
+  //     //   name: `Week ${weekIndex} (${this.formatDateToDDMMM(weekStart)} - ${this.formatDateToDDMMM(weekEnd)})`,
+  //     //   data: weekData,
+  //     // });
+  //     seriesData.push({
+  //       name: `Week ${weekIndex}`,
+  //       data: weekData,
+  //     });
       
   
-      weekIndex++;
-      currentDate.setDate(weekEnd.getDate() + 1);  // Move to the next week's start
-    }
+  //     weekIndex++;
+  //     currentDate.setDate(weekEnd.getDate() + 1);  // Move to the next week's start
+  //   }
   
 
-    this.chartOptions = {
-      series: seriesData,
-      chart: { height: 350, 
-        type: 'heatmap',  
-        toolbar: {
-        show: false,
-        tools: { zoomin: false, zoomout: false, pan: false, reset: false },
-      }
-    },
-      stroke: {  
-            width: 1.5,
-            colors: ['#ffffff'], 
-      },
-      plotOptions: {
-        heatmap: {
-          shadeIntensity: 0.8,
-          radius: 6,
-          useFillColorAsStroke: false,
-          enableShades: true, // Enables automatic gradient
-          colorScale: {
-            min: 0,
-            max: 365,
-            ranges: [
-              { from: 0, to: 5, color: "#D6EAF8", name: "Very Low" },
-              { from: 6, to: 20, color: "#AED6F1", name: "Low" },
-              { from: 21, to: 50, color: "#5DADE2", name: "Medium" },
-              { from: 51, to: 100, color: "#2E86C1", name: "High" }
-            ]
-          }
-        },
-      },
-      dataLabels: { enabled: false },
-      xaxis: { type: 'category', labels: { show: false } },
-      yaxis: { title: { text: 'Weeks of the Month' } },
-      grid: { 
-            padding: { left: 10, right: 10, top: 10, bottom: 10 },
-      },
-      tooltip: {
-        y: { formatter: (val) => `${val} Leave(s)` },
-        x: { formatter: (val) => `${val}` },
-      },
-      theme: { mode: 'light' },
-      legend: { show: false },
+  //   this.chartOptions = {
+  //     series: seriesData,
+  //     chart: { height: 350, 
+  //       type: 'heatmap',  
+  //       toolbar: {
+  //       show: false,
+  //       tools: { zoomin: false, zoomout: false, pan: false, reset: false },
+  //     }
+  //   },
+  //     stroke: {  
+  //           width: 1.5,
+  //           colors: ['#ffffff'], 
+  //     },
+  //     plotOptions: {
+  //       heatmap: {
+  //         shadeIntensity: 0.8,
+  //         radius: 6,
+  //         useFillColorAsStroke: false,
+  //         enableShades: true, // Enables automatic gradient
+  //         colorScale: {
+  //           min: 0,
+  //           max: 365,
+  //           ranges: [
+  //             { from: 0, to: 5, color: "#D6EAF8", name: "Very Low" },
+  //             { from: 6, to: 20, color: "#AED6F1", name: "Low" },
+  //             { from: 21, to: 50, color: "#5DADE2", name: "Medium" },
+  //             { from: 51, to: 100, color: "#2E86C1", name: "High" }
+  //           ]
+  //         }
+  //       },
+  //     },
+  //     dataLabels: { enabled: false },
+  //     xaxis: { type: 'category', labels: { show: false } },
+  //     yaxis: { title: { text: 'Weeks of the Month' } },
+  //     grid: { 
+  //           padding: { left: 10, right: 10, top: 10, bottom: 10 },
+  //     },
+  //     tooltip: {
+  //       y: { formatter: (val) => `${val} Leave(s)` },
+  //       x: { formatter: (val) => `${val}` },
+  //     },
+  //     theme: { mode: 'light' },
+  //     legend: { show: false },
 
-    };
+  //   };
+    
         
-  }
+  // }
 
 
 
@@ -1147,6 +1354,10 @@ routeToUserProfile(uuid: string) {
   this.helperService.routeToUserProfile(uuid);
 }
   
+
+
+
+
   
   
 }
