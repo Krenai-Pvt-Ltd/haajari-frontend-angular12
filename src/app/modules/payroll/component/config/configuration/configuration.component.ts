@@ -17,6 +17,7 @@ export class ConfigurationComponent implements OnInit {
   }
   closeStatutoryDiv() {
     this.isDivVisible = false;
+    this.tab= '';
   }
   stateList=[
     { "id": 1, "name": "Andhra Pradesh" },
@@ -88,5 +89,10 @@ employee = [
   { label: "12% of Actual PF Wage", value: "12% of Actual PF Wage" },
   { label: "10% of Actual PF Wage", value: "10% of Actual PF Wage" }
 ];
+
+tab: string = '';
+switchTab(tab: string) {
+  this.tab = tab
+}
   }
   
