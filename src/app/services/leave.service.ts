@@ -176,21 +176,21 @@ export class LeaveService {
 
 
   // Get users with maximum leaves
-  getUsersWithMaximumLeaves(startDate?: string, endDate?: string): Observable<any> {
-    let params = new HttpParams();
-    if (startDate) params = params.set('startDate', startDate);
-    if (endDate) params = params.set('endDate', endDate);
+  getUsersWithMaximumLeaves(pageNumber: number, itemPerPage: number): Observable<any> {
+    let params = new HttpParams()
+      .set('pageNumber', pageNumber)
+      .set('itemPerPage', itemPerPage);
 
     return this.http.get(`${API_URLS.base_url}/leave/max-leaves`, { params });
   }
 
   // Get top 10 users with minimum leaves
-  getTop10UsersWithMinimumLeaves(startDate?: string, endDate?: string): Observable<any> {
-    let params = new HttpParams();
-    if (startDate) params = params.set('startDate', startDate);
-    if (endDate) params = params.set('endDate', endDate);
+  getUsersWithMinimumLeaves(pageNumber: number, itemPerPage: number): Observable<any> {
+    let params = new HttpParams()
+      .set('pageNumber', pageNumber)
+      .set('itemPerPage', itemPerPage);
 
-    return this.http.get(`${API_URLS.base_url}/leave/min-leaves-top10`, { params });
+    return this.http.get(`${API_URLS.base_url}/leave/min-leaves`, { params });
   }
 
   // Get users on leave within a range

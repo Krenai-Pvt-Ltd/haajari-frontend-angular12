@@ -10,6 +10,7 @@
   },
   "private": true,
   "dependencies": {
+    "ngx-infinite-scroll": "^10.0.0",
     "@agm/core": "1.1.0",
     "@angular-devkit/core": "^12.2.18",
     "@angular-devkit/schematics": "^12.2.18",

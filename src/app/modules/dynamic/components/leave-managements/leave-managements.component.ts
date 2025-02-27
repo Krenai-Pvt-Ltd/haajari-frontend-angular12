@@ -147,24 +147,66 @@ organizationRegistrationDate: string = '';
   }
 
 
+  pageNumberConsistent: number = 1;
+  pageNumberDefaulter: number = 1;
+  itemOnPage: number = 10;
+  totalMaxLeaves: number = 0;
+  totalMinLeaves: number = 0;
   maxLeavesUsers: any[] = [];
   minLeavesUsers: any[] = [];
   usersOnLeave: any[] = [];
+
+  throttle =100;
+  scrollDistance = 1;
+  scrollUpDistance = 1;
+
   fetchMaxLeavesUsers(): void {
-    this.leaveService.getUsersWithMaximumLeaves(this.startDate, this.endDate).subscribe(response => {
+    this.isLoaderLoading = true;
+    this.leaveService.getUsersWithMaximumLeaves(this.pageNumberDefaulter, this.itemOnPage).subscribe(response => {
+      this.isLoaderLoading = false;
       if (response.status) {
-        this.maxLeavesUsers = response.data;
+        this.maxLeavesUsers = response.object;
+        this.totalMaxLeaves = response.totalItems;
+        this.pageNumberDefaulter++; // Increase page only after success
       }
+    }, err => {
+      this.isLoaderLoading = false;
     });
   }
 
   fetchMinLeavesUsers(): void {
-    this.leaveService.getTop10UsersWithMinimumLeaves(this.startDate, this.endDate).subscribe(response => {
+
+    this.isLoaderLoading = true;
+    this.leaveService.getUsersWithMinimumLeaves(this.pageNumberConsistent, this.itemOnPage).subscribe(response => {
+      this.isLoaderLoading = false;
       if (response.status) {
-        this.minLeavesUsers = response.data;
+        this.minLeavesUsers = [...this.minLeavesUsers, ...response.object];
+        this.totalMinLeaves = response.totalItems;
+        this.pageNumberConsistent++; // Increase page only after success
       }
+    },
+    (error) => {
+      this.isLoaderLoading = false;
     });
   }
+
+  onScrollConsistent(): void {
+    console.log('onScrollConsistent triggered');
+
+    if (this.minLeavesUsers.length < this.totalMinLeaves && !this.isLoaderLoading) {
+      this.fetchMinLeavesUsers();
+    }
+  }
+
+  onScrollDefaulter(): void {
+    console.log('onScrollConsistent triggered');
+
+    if (this.maxLeavesUsers.length < this.totalMaxLeaves && !this.isLoaderLoading) {
+      this.fetchMinLeavesUsers();
+    }
+  }
+
+
 
   fetchUsersOnLeave(): void {
     this.leaveService.getUsersOnLeaveInRange(this.startDate, this.endDate).subscribe(response => {

@@ -80,7 +80,7 @@ import { ExpenseManagementComponent } from './components/expense-management/expe
 import { NzProgressModule } from 'ng-zorro-antd/progress';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
-
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
  @NgModule({
   declarations: [
@@ -127,6 +127,7 @@ import { NzRadioModule } from 'ng-zorro-antd/radio';
     CommonModule,
     RouterModule,
     FormsModule,
+    InfiniteScrollModule,
     DynamicRoutingModule,
     ReactiveFormsModule,
     WebcamModule,
