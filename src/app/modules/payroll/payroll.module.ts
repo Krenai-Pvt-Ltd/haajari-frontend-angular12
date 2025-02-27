@@ -9,13 +9,31 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RouterModule } from '@angular/router';
 import { PayrollComponent } from './payroll.component';
 import { NzProgressModule } from 'ng-zorro-antd/progress';
+import { ConfigurationComponent } from './component/config/configuration/configuration.component';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { StatutoryComponent } from './component/config/statutory/statutory.component';
+import { SalaryComponent } from './component/config/salary/salary.component';
+import { TaxesComponent } from './component/config/taxes/taxes.component';
+import { PayScheduleComponent } from './component/config/pay-schedule/pay-schedule.component';
+import { PriorPayrollComponent } from './component/config/prior-payroll/prior-payroll.component';
+import { FormComponent } from './component/config/form/form.component';
+import { PreferencesComponent } from './component/config/preferences/preferences.component';
 
 
 @NgModule({
   declarations: [
     PayrollComponent,
     PayrollSetupComponent,
-    ProfileComponent
+    ProfileComponent,
+    ConfigurationComponent,
+    StatutoryComponent,
+    SalaryComponent,
+    TaxesComponent,
+    PayScheduleComponent,
+    PriorPayrollComponent,
+    FormComponent,
+    PreferencesComponent
   ],
   imports: [
     CommonModule,
@@ -24,7 +42,9 @@ import { NzProgressModule } from 'ng-zorro-antd/progress';
     FormsModule,
     ReactiveFormsModule,
     NgbModule,
-    NzProgressModule
+    NzProgressModule,
+    NzSelectModule,
+    NzDatePickerModule
   ]
 })
 export class PayrollModule { }

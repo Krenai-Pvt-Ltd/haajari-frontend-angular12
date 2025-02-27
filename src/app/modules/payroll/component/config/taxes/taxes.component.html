@@ -1,0 +1,110 @@
+<div class="p-4 mb-10">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="payroll-details-box">
+                <h4 class="font-14 text-black fw-semibold lh-1">ESI Details</h4>
+                <p class="text-muted font-11 mb-0 lh-base fw-normal">this section contain EPF no, deduction cycle pattern <br> and employee contribution rate</p>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-6 mb-3 ">
+                    <div class="compliance-list bg-white border-rounded-2 attendance-border d-flex align-items-center justify-content-center">
+                        <div class="w-50 currency-types-border">
+                            <p class="mb-0 font-14 fw-light">PAN Number</p>
+                        </div>
+                        <div class="w-50 position-relative">
+                            <input type="text" placeholder="AAAAA0000A" required="" name="" class="form-control borderLess" >
+                            
+                        </div>
+                    </div>
+                    <p class="mb-0 mt-2 text-optional font-12 fw-light px-1">Format: AA/AAA/0000000/XXX</p>
+                </div>
+                <div class="col-md-6 mb-3 ">
+                    <div class="compliance-list bg-white border-rounded-2 attendance-border d-flex align-items-center justify-content-center">
+                        <div class="w-50 currency-types-border">
+                            <p class="mb-0 font-14 fw-light">TAN Number</p>
+                        </div>
+                        <div class="w-50 position-relative">
+                            <input type="text" placeholder="AAAAA0000A" required="" name="" class="form-control borderLess" >
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12 mb-3">
+                    <div class="border-rounded-2 attendance-border w-100 d-flex align-items-center justify-content-center background-light">
+                       <div class="w-25 currency-types-border">
+                          <p class="mb-0 font-13 fw-light">Payment Frequency</p>
+                       </div>
+                       <div class="w-75">
+                          <div class="w-100">
+                             <h5 class="mb-0 font-14 fw-semibold px-3">Monthly</h5>
+                          </div>
+                       </div>
+                    </div>
+                 </div>
+            </div>
+        </div>
+    </div>
+    <hr class="mt-5 mb-5">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="payroll-details-box">
+                <h4 class="font-14 text-black fw-semibold lh-1">Tax Deductor Details</h4>
+                <p class="text-muted font-11 fw-normal lh-base mb-0">this section contain EPF no, deduction cycle</p>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="row">
+
+                <p class="mb-3 mt-2 text-optional font-12 fw-light">Deductor's Type</p>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-check tax-employee d-flex align-items-center justify-content-start">
+                        <input type="radio" name="recommendDay" id="complete" value="Complete" class="form-check-input">
+                        <p for="exampleRadios3" required="" class="form-check-label mb-0"> Employee </p>
+                </label>
+            </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-check tax-employee d-flex align-items-center justify-content-start">
+                        <input type="radio" name="recommendDay" id="complete" value="Complete" class="form-check-input">
+                        <p for="exampleRadios3" required="" class="form-check-label mb-0"> Non-Employee </p>
+                </label>
+            </div>
+                <div class="col-md-6 mb-3">
+                    <div class="border-rounded-2 attendance-border w-100 d-flex align-items-center justify-content-center">
+                        <div class="w-50 currency-types-border">
+                            <p class="mb-0 font-14 fw-light">Currency Types</p>
+                        </div>
+                        <div class="w-50">
+                            <div class="w-100">
+                                <nz-select 
+                                class="form-control w-100 placeholder-line currency-types"
+                                nzSize="large"
+                                nzPlaceHolder="Select Currency"
+                                [(ngModel)]="selectedCurrency"
+                                required
+                              >
+                                <nz-option 
+                                  *ngFor="let currency of stateCurrency" 
+                                  [nzValue]="currency.name" 
+                                  [nzLabel]="currency.name" nzDisabled>
+                                </nz-option>
+                              </nz-select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <input type="text" placeholder="Deductor’s Father’s Name" required="" name="" class="form-control whatsapp-login-input">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+            
+
+<div class="footer position-fixed bg-white d-flex align-items-center  justify-content-end gap-2">
+    <button class="btn cancel-btn font-13 fw-semibold mt-0">Cancel</button>
+    <button class="btn submitActionBtn font-13 fw-semibold text-white">Submit</button>
+</div>

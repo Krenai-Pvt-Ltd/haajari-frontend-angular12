@@ -79,6 +79,7 @@ import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 import { ExpenseManagementComponent } from './components/expense-management/expense-management.component';
 import { NzProgressModule } from 'ng-zorro-antd/progress';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { NzRadioModule } from 'ng-zorro-antd/radio';
 
 
  @NgModule({
@@ -166,6 +167,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
     NzIconModule,
     NzButtonModule,
     NzPopoverModule,
+    NzRadioModule,
     NzEmptyModule,
     NzAutocompleteModule,
     NzDrawerModule,

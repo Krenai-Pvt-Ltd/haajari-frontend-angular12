@@ -3962,6 +3962,13 @@ getHolidayForOrganizationWhatsapp(userUuid: string, date: string): Observable<an
     return this.httpClient.post<any>(url, attendanceTimeUpdateRequestDto, {});
   }
 
+  getAttendanceRequestById(id: any): Observable<any> {
+    const params = new HttpParams()
+    .set('id', id);
+    const url = `${this.baseUrl}/attendance/by-id`;
+    return this.httpClient.get<any>(url,{params});
+  }
+
   sendAttendanceTimeUpdateRequestWhatsapp(attendanceTimeUpdateRequestDto: AttendanceTimeUpdateRequestDto, userUuid: string): Observable<any> {
     const params = new HttpParams()
     .set('userUuid', userUuid);
@@ -4826,6 +4833,10 @@ getHolidayForOrganizationWhatsapp(userUuid: string, date: string): Observable<an
     return this.httpClient.get<any>(`${this.baseUrl}/get/onboarding/edited-fields`, { params });
   }
 
+  isPendingRequest(resourceId: number): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/get/onboarding/is-pending-request`, { params: { resourceId } });
+  }
+
   getPendingRequestsCounter(): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/asset-requests/pending-requests-counter`);
   }
@@ -5156,6 +5167,13 @@ getHolidayForOrganizationWhatsapp(userUuid: string, date: string): Observable<an
 
     return this.httpClient.post<any>(`${this.baseUrl}/assets/assigned-requested-asset`, {}, { params });
   }
+
+
+    getUserLeaveQuota(userLeaveTemplateId: number): Observable<any> {
+      const params = new HttpParams().set('userLeaveTemplateId', userLeaveTemplateId);
+      return this.httpClient.get<any>(`${this.baseUrl}/leave/quota/by-user-leave-template-id`,{ params });
+    }
+  
 
 }
 

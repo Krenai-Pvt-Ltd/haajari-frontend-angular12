@@ -36,8 +36,8 @@
 
       <div class="row mt-4" *ngIf="isShowPendingVerificationTab && !isMainPlaceholder">
         <div class="col-md-7">
-          <div class="on-leave-section">
-            <h5>Latest Joining - Pending Verification</h5>
+          <div class="on-leave-section p-3 border-rounded-2 bg-white attendance-border">
+            <h5 class="mt-0">Latest Joining - Pending Verification</h5>
             <ng-container *ngIf="
                 isPendingShimmer &&
                   !networkConnectionErrorPlaceHolder &&
@@ -88,18 +88,17 @@
                   else errorInFetchinglast3PendingUserData
                 ">
                 <div class="d-flex align-items-center mt-4 gap-2">
-                  <div class="on-leave" *ngFor="let statusUsers of employeeStatus.last3PendingUsers">
+                  <div class="on-leave pr-3" *ngFor="let statusUsers of employeeStatus.last3PendingUsers">
                     <div class="d-flex align-items-center gap-2">
                       <div class="">
                         <span *ngIf="statusUsers?.image !== null">
-                          <img src="{{ statusUsers?.image }}" class="rounded-circle thumb-xl" />
+                          <img src="{{ statusUsers?.image }}" class="radius-50 thumb-xl object-fit-cover img-50" />
                         </span>
-                        <span class="members-name" *ngIf="statusUsers?.image == null">{{ statusUsers?.name[0] }}</span>
-                        <!-- <img src="assets/images/users/user-8.jpg" class="rounded-circle thumb-xl"> -->
+                        <span class="members-name d-flex align-items-center justify-content-center radius-50 text-white text-uppercase font-24" *ngIf="statusUsers?.image == null">{{ statusUsers?.name[0] }}</span>
                       </div>
                       <div class="">
-                        <h5 class="joining-name">{{ statusUsers?.name }}</h5>
-                        <p class="mb-0 joining-email">
+                        <h5 class="joining-name font-14 fw-600">{{ statusUsers?.name }}</h5>
+                        <p class="mb-0 joining-email font-12">
                           {{ statusUsers?.email }}
                         </p>
                       </div>
@@ -141,7 +140,7 @@
           </div>
         </div>
         <div class="col-md-5">
-          <div class="on-leave-section">
+          <div class="on-leave-section p-3 border-rounded-2 bg-white attendance-border">
             <div class="d-flex align-items-center justify-content-between">
               <div class="last-client">
                 <h5>Last Approved</h5>
@@ -180,19 +179,19 @@
                             ">
                             <img src="{{
                                 employeeStatus!.lastApprovedUser?.image
-                              }}" class="rounded-circle thumb-xl" />
+                              }}" class="radius-50 thumb-xl object-fit-cover img-50" />
                           </span>
-                          <span class="members-name" *ngIf="
+                          <span class="members-name d-flex align-items-center justify-content-center radius-50 text-white text-uppercase font-24" *ngIf="
                               employeeStatus!.lastApprovedUser?.image == null
                             ">
                             {{ employeeStatus!.lastApprovedUser?.name[0] }}
                           </span>
                         </div>
                         <div class="">
-                          <h5 class="joining-name">
+                          <h5 class="joining-name font-14 fw-600">
                             {{ employeeStatus!.lastApprovedUser?.name }}
                           </h5>
-                          <p class="mb-0 joining-email">
+                          <p class="mb-0 joining-email font-12">
                             {{ employeeStatus!.lastApprovedUser?.email }}
                           </p>
                         </div>
@@ -261,19 +260,19 @@
                             ">
                             <img src="{{
                                 employeeStatus!.lastRejectedUser?.image
-                              }}" class="rounded-circle thumb-xl" />
+                              }}" class="radius-50 thumb-xl object-fit-cover img-50" />
                           </span>
-                          <span class="members-name" *ngIf="
+                          <span class="members-name d-flex align-items-center justify-content-center radius-50 text-white text-uppercase font-24" *ngIf="
                               employeeStatus!.lastRejectedUser?.image == null
                             ">
                             {{ employeeStatus!.lastRejectedUser?.name[0] }}
                           </span>
                         </div>
                         <div class="">
-                          <h5 class="joining-name">
+                          <h5 class="joining-name font-14 fw-600">
                             {{ employeeStatus!.lastRejectedUser?.name }}
                           </h5>
-                          <p class="mb-0 joining-email">
+                          <p class="mb-0 joining-email font-12">
                             {{ employeeStatus!.lastRejectedUser?.email }}
                           </p>
                         </div>
@@ -343,73 +342,6 @@
           <div id="pills-tabContent" class="tab-content">
             <div class="tab-pane active show" id="employeeList" role="tabpanel" aria-labelledby="employee-tab">
               <div>
-                <!-- <div class="row mt-3" *ngIf="!isMainPlaceholder">
-                  <div class="col-md-3">
-                    <div class="employe-onbording" [ngClass]="{ empSelected: selectedStatus == 'APPROVED' }">
-                      <div class="orderpcardinfo d-flex justify-content-between" style="cursor: pointer"
-                        (click)="selectStatus('APPROVED')">
-                        <div class="orderpcardleft">
-                          <h6>Verified</h6>
-                          <h5>{{ verificationCount.approvedEmployees || 0 }}</h5>
-                        </div>
-                        <div class="orderpcardright">
-                          <div class="total-employ-icon">
-                            <img src="assets/images/shield.svg" style="width: 28px" />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-3">
-                    <div class="employe-onbording" [ngClass]="{ empSelected: selectedStatus == 'PENDING' }">
-                      <div class="orderpcardinfo d-flex justify-content-between" style="cursor: pointer"
-                        (click)="selectStatus('PENDING')">
-                        <div class="orderpcardleft">
-                          <h6>Pending Verification</h6>
-                          <h5>{{ verificationCount.pendingEmployees || 0 }}</h5>
-                        </div>
-                        <div class="orderpcardright">
-                          <div class="total-employ-icon">
-                            <img src="assets/images/lock.svg" style="width: 28px" />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-3">
-                    <div class="employe-onbording" [ngClass]="{ empSelected: selectedStatus == 'REJECTED' }">
-                      <div class="orderpcardinfo d-flex justify-content-between" style="cursor: pointer"
-                        (click)="selectStatus('REJECTED')">
-                        <div class="orderpcardleft">
-                          <h6>Rejected</h6>
-                          <h5>{{ verificationCount.rejectedEmployees || 0 }}</h5>
-                        </div>
-                        <div class="orderpcardright">
-                          <div class="total-employ-icon">
-                            <img src="assets/images/recycle.svg" style="width: 28px" />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-3">
-                    <div class="employe-onbording" [ngClass]="{ empSelected: selectedStatus == 'REQUESTED' }">
-                      <div class="orderpcardinfo d-flex justify-content-between" style="cursor: pointer"
-                        (click)="selectStatus('REQUESTED')">
-                        <div class="orderpcardleft">
-                          <h6>Requested</h6>
-                          <h5>{{ verificationCount.requestedCount || 0 }}</h5>
-                        </div>
-                        <div class="orderpcardright">
-                          <div class="total-employ-icon">
-                            <img src="assets/images/shield.svg" style="width: 28px" />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div> -->
-
                 <!-- new-design start -->
 
                 <div class="row mt-3" *ngIf="!isMainPlaceholder">
@@ -471,7 +403,7 @@
                         <!-- <span class="resignation-request font-13 fw-normal" *ngIf="empProfileEditRequestUsersImage==undefined || empProfileEditRequestUsersImage?.length == 0">No Request</span> -->
                         <div class="img-group d-flex" *ngIf="empProfileEditRequestUsersImage!=undefined && empProfileEditRequestUsersImage.length > 0">
                           <a class="user-avatar" *ngFor="let image of empProfileEditRequestUsersImage">
-                             <span class="ng-star-inserted"><img onerror="this.src='./assets/images/broken-image-icon.jpg';" alt="u" class="thumb-xs rounded-circle" src="{{image}}"></span>
+                             <span class="ng-star-inserted"><img onerror="this.src='./assets/images/broken-image-icon.jpg';" alt="u" class="thumb-xs radius-50 object-fit-cover img-50" src="{{image}}"></span>
                           </a>
                        </div>
                       </div>
@@ -488,7 +420,7 @@
                         <!-- <span class="resignation-request font-13 fw-normal" *ngIf="resignationUsersImage.length == 0">No Request</span> -->
                         <div class="img-group d-flex" *ngIf="resignationUsersImage.length > 0">
                           <a class="user-avatar" *ngFor="let image of resignationUsersImage">
-                             <span class="ng-star-inserted"><img onerror="this.src='./assets/images/broken-image-icon.jpg';" alt="u" class="thumb-xs rounded-circle" src="{{image}}"></span>
+                             <span class="ng-star-inserted"><img onerror="this.src='./assets/images/broken-image-icon.jpg';" alt="u" class="thumb-xs radius-50 object-fit-cover img-50" src="{{image}}"></span>
                           </a>
 
                        </div>
@@ -523,12 +455,12 @@
                           <div class="search-date d-flex align-items-center justify-content-between position-relative w-100">
                                   <div class="form-group w-100 position-relative">
                                     <input type="text" id="searchText"
-                                    placeholder="Search by name, email and phone number ..." class="form-control me-2"
+                                    placeholder="Search by name, email and phone number ..." class="form-control me-2  search-padding"
                                     (keyup)="searchUsers('any')" [(ngModel)]="search"
-                                    [ngModelOptions]="{ standalone: true }" style="padding: 10px 40px" />
-                                  <i class="bi bi-search search-icon"
+                                    [ngModelOptions]="{ standalone: true }" />
+                                  <i class="bi bi-search search-icon ms-3"
                                     *ngIf="search==''"></i>
-                                  <i class="bi bi-x-lg search-icon text-primary"
+                                  <i class="bi bi-x-lg search-icon ms-3 text-primary"
                                     *ngIf="search!=''" (click)="reloadPage()"></i>
                                   </div>
                           </div>
@@ -588,6 +520,7 @@
                             </span>
                         </div>
                         <div class="row p-3">
+                          <div class="col-md-12">
                           <h5 class="mb-0 font-14 fw-normal">Status Wise</h5>
                           <div class="mt-3">
                             <div class="categories-filter form-check d-flex align-items-center gap-2 mb-2" (click)="toggleStatus('ALL')">
@@ -613,6 +546,7 @@
                               <label class="form-check-label fw-normal">{{ accessibility }}</label>
                             </div>
                           </div>
+                        </div>
                         </div>
 
                         <div class="p-3 border-top d-flex gap-2 align-items-center justify-content-end">
@@ -734,7 +668,7 @@
                                 <button type="button" class="btn btn-primary"
                                   (click)="saveSlackUserIdViaEmailData(user.email)">
                                   <span *ngIf="!isSlackUserFlag">Sync</span>
-                                  <div class="dot-opacity-loader" *ngIf="isSlackUserFlag">
+                                  <div class="dot-opacity-loader d-flex align-items-center justify-content-ceter" *ngIf="isSlackUserFlag">
                                     <span></span>
                                     <span></span>
                                     <span></span>
@@ -746,7 +680,7 @@
                           <!-- <td> <span class="mb-0 weekly-pro-email">{{user.employeeCode || '0'}}</span> </td> -->
 
                           <td>
-                            <span class="mb-0 weekly-pro-email" *ngIf="!user.teamsNameList || user.teamsNameList.length == 0">
+                            <span class="mb-0 weekly-pro-email font-14 fw-normal" *ngIf="!user.teamsNameList || user.teamsNameList.length == 0">
                               {{ "N/A" }}</span>
 
 
@@ -757,34 +691,7 @@
                             <div class="team-name d-flex align-items-center justify-content-between" *ngIf="user?.teamsNameList?.length && user.teamsNameList.length > 2">
                               <span class="team-name-one fw-normal text-left font-13 fw-semibold"> {{ user.teamsNameList[0]?.teamName || 'N/A'}} </span>
 
-                              <!-- <span class="team-count d-flex align-items-center justify-content-center font-13 fw-normal"
-                              nz-popover [nzPopoverContent]="teamTemplate"  nzPopoverTitle="Team List" (mouseover)="getTeamNamesNew(user.teamNameList)"
-                              [nzPopoverOverlayStyle]="{'width':'250px'}" nzPopoverPlacement="rightTop" *ngIf="user.teamNameList.length > 1">+{{ user.teamNameList.length - 1 }}</span>
 
-
-                             <ng-template #teamTemplate>
-                               <div class="team-list p-0" *ngIf="onboardUserTeam?.length; else noDataTemplate">
-                                <div class="border-bottom pb-3 pt-3" *ngFor="let tm of onboardUserTeam; let i = index">
-                                  <p class="text-black font-12 fw-semibold">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
-                                      <mask id="mask0_8190_19422" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="14" height="14">
-                                      <rect width="14" height="14" fill="#D9D9D9"/>
-                                      </mask>
-                                      <g mask="url(#mask0_8190_19422)">
-                                      <path d="M0.583008 11.6663V10.033C0.583008 9.70245 0.668077 9.39863 0.838216 9.12155C1.00836 8.84447 1.2344 8.63301 1.51634 8.48717C2.11912 8.18579 2.73162 7.95974 3.35384 7.80905C3.97606 7.65835 4.60801 7.58301 5.24967 7.58301C5.89134 7.58301 6.52329 7.65835 7.14551 7.80905C7.76773 7.95974 8.38023 8.18579 8.98301 8.48717C9.26495 8.63301 9.49099 8.84447 9.66113 9.12155C9.83127 9.39863 9.91634 9.70245 9.91634 10.033V11.6663H0.583008ZM11.083 11.6663V9.91634C11.083 9.48856 10.9639 9.0778 10.7257 8.68405C10.4875 8.2903 10.1497 7.95245 9.71217 7.67051C10.208 7.72884 10.6747 7.82849 11.1122 7.96947C11.5497 8.11044 11.958 8.28301 12.3372 8.48717C12.6872 8.68162 12.9545 8.89794 13.1393 9.13613C13.324 9.37433 13.4163 9.6344 13.4163 9.91634V11.6663H11.083ZM5.24967 6.99967C4.60801 6.99967 4.0587 6.7712 3.60176 6.31426C3.14481 5.85731 2.91634 5.30801 2.91634 4.66634C2.91634 4.02467 3.14481 3.47537 3.60176 3.01842C4.0587 2.56148 4.60801 2.33301 5.24967 2.33301C5.89134 2.33301 6.44065 2.56148 6.89759 3.01842C7.35454 3.47537 7.58301 4.02467 7.58301 4.66634C7.58301 5.30801 7.35454 5.85731 6.89759 6.31426C6.44065 6.7712 5.89134 6.99967 5.24967 6.99967ZM11.083 4.66634C11.083 5.30801 10.8545 5.85731 10.3976 6.31426C9.94065 6.7712 9.39134 6.99967 8.74967 6.99967C8.64273 6.99967 8.50662 6.98752 8.34134 6.96322C8.17606 6.93891 8.03995 6.91217 7.93301 6.88301C8.19551 6.5719 8.39724 6.22676 8.53822 5.84759C8.67919 5.46842 8.74967 5.07467 8.74967 4.66634C8.74967 4.25801 8.67919 3.86426 8.53822 3.48509C8.39724 3.10592 8.19551 2.76079 7.93301 2.44967C8.06912 2.40106 8.20523 2.36947 8.34134 2.35488C8.47745 2.3403 8.61356 2.33301 8.74967 2.33301C9.39134 2.33301 9.94065 2.56148 10.3976 3.01842C10.8545 3.47537 11.083 4.02467 11.083 4.66634ZM1.74967 10.4997H8.74967V10.033C8.74967 9.92606 8.72294 9.82884 8.66947 9.74134C8.61599 9.65384 8.54551 9.58579 8.45801 9.53717C7.93301 9.27467 7.40315 9.0778 6.86842 8.94655C6.3337 8.8153 5.79412 8.74967 5.24967 8.74967C4.70523 8.74967 4.16565 8.8153 3.63092 8.94655C3.0962 9.0778 2.56634 9.27467 2.04134 9.53717C1.95384 9.58579 1.88336 9.65384 1.82988 9.74134C1.77641 9.82884 1.74967 9.92606 1.74967 10.033V10.4997ZM5.24967 5.83301C5.57051 5.83301 5.84516 5.71877 6.07363 5.4903C6.3021 5.26183 6.41634 4.98717 6.41634 4.66634C6.41634 4.34551 6.3021 4.07086 6.07363 3.84238C5.84516 3.61391 5.57051 3.49967 5.24967 3.49967C4.92884 3.49967 4.65419 3.61391 4.42572 3.84238C4.19724 4.07086 4.08301 4.34551 4.08301 4.66634C4.08301 4.98717 4.19724 5.26183 4.42572 5.4903C4.65419 5.71877 4.92884 5.83301 5.24967 5.83301Z" fill="#6666F2"/>
-                                      </g>
-                                    </svg>
-                                    Team {{i + 1}}</p>
-                                    <h5 class="mb-2 font-15 fw-bold">{{tm?.teamName}}</h5>
-                                    <p class="mb-0 font-14 fw-normal"> {{tm?.createdDate | date}}</p>
-                                </div>
-
-
-                               </div>
-                               <ng-template #noDataTemplate>
-                                <p>No team available.</p>
-                              </ng-template>
-                             </ng-template> -->
 
                              <span class="team-count d-flex align-items-center justify-content-center font-13 fw-normal"
                                   nz-popover [nzPopoverContent]="teamTemplate" nzPopoverTitle="Team List"
@@ -842,7 +749,7 @@
                             </button>
                           </td>
                           <td>
-                            <a (click)="routeToUserDetails(user.uuid)" class="mb-0 weekly-pro-email text-black fw-normal" *ngIf="user.userLeavePolicyName">
+                            <a (click)="routeToUserDetails(user.uuid)" class="mb-0 weekly-pro-email text-black fw-normal font-14" *ngIf="user.userLeavePolicyName">
                               {{ user.userLeavePolicyName ? user.userLeavePolicyName : "N/A" }}
                             </a>
                             <button type="button" (click)="routeToAddUserInLeavePolicy()" class="btn p-0 text-primary font-13 fw-semibold" *ngIf="!user.userLeavePolicyName">
@@ -861,12 +768,12 @@
                             </div>
                           </td>
                           <td *ngIf="constants.EMPTY_STRINGS.includes(user?.resignationStatus)">
-                            <span class="font-13"
+                            <span class="font-13 fw-semibold"
                               [ngClass]="{'text-success': user.onboardingStatus === 'APPROVED'||user.onboardingStatus === 'NEW_USER' , 'text-danger': user.onboardingStatus === 'REJECTED', 'text-warning': user.onboardingStatus === 'PENDING', 'text-secondary': user.onboardingStatus === 'REQUESTED' }">
                               {{ user.onboardingStatus }}</span>
                           </td>
                           <td *ngIf="!constants.EMPTY_STRINGS.includes(user?.resignationStatus)">
-                            <span class="font-13"
+                            <span class="font-13 fw-semibold"
                               [ngClass]="{'text-info': user.resignationStatus.id == 13 || user.resignationStatus.id == 47, 'text-warning': user.resignationStatus.id == 42, 'text-danger': user.resignationStatus.id == 43 }">{{
                               user.resignationStatus.response }}</span>
                           </td>
@@ -999,7 +906,7 @@
 
                             ">
                         <td>
-                          <a (click)="routeToUserDetails(user.uuid)" class="mb-0 weekly-pro-name">{{ user.name }}</a>
+                          <a (click)="routeToUserDetails(user.uuid)" class="mb-0 weekly-pro-name text-capitalize font-14 fw-normal">{{ user.name }}</a>
                           <button class="text-danger" nz-button nzType="text" nz-popover
                             [nzPopoverContent]="contentTemplate" *ngIf="
                                   onboardingVia === 'SLACK' &&
@@ -1018,7 +925,7 @@
                               <button type="button" class="btn btn-primary"
                                 (click)="saveSlackUserIdViaEmailData(user.email)">
                                 <span *ngIf="!isSlackUserFlag">Sync</span>
-                                <div class="dot-opacity-loader" *ngIf="isSlackUserFlag">
+                                <div class="dot-opacity-loader d-flex align-items-center justify-content-ceter" *ngIf="isSlackUserFlag">
                                   <span></span>
                                   <span></span>
                                   <span></span>
@@ -1029,17 +936,17 @@
                         </td>
 
                         <td>
-                          <a (click)="routeToUserDetails(user.uuid)" class="mb-0 weekly-pro-email">
+                          <a (click)="routeToUserDetails(user.uuid)" class="mb-0 weekly-pro-email font-14 fw-normal">
                             {{ user.email ? user.email : "N/A" }}
                           </a>
                         </td>
                         <td class="text-left">
-                          <a (click)="routeToUserDetails(user.uuid)" class="mb-0 weekly-pro-email">
+                          <a (click)="routeToUserDetails(user.uuid)" class="mb-0 weekly-pro-email font-14 fw-normal">
                             {{ user.phone ? user.phone : "N/A" }}
                           </a>
                         </td>
 
-                        <td><span class="weekly-pro-name">{{user.createdDate | date:'dd-MM-yyyy'}}</span></td>
+                        <td><span class="weekly-pro-name text-capitalize font-14 fw-normal">{{user.createdDate | date:'dd-MM-yyyy'}}</span></td>
 
 
                         <td>{{counTDataInString(user?.data)}}</td>
@@ -1095,7 +1002,7 @@
             </div>
             <div class="tab-pane fade pt-3" id="resignationRequest" role="tabpanel" aria-labelledby="resignation-tab">
               <!-- <div> -->
-              <div class="onboard-add row align-items-center mx-0">
+              <div class="onboard-add row align-items-center mx-0 attendance-border">
                 <!-- <div *ngIf="users.length!=0"> -->
                 <!-- || (searchUserPlaceholderFlag) -->
                 <div class="col-md-12">
@@ -1106,7 +1013,7 @@
                         <div class="onboarding-date d-flex align-items-center position-relative">
                           <div class="dropdown empFilerDropfilter">
                             <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
-                              aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown">
+                              aria-expanded="false" class="btn btn-secondary dropdown-toggle new-dropdown">
                               {{ statusLabel || "All" }}
                               <i class="bi bi-chevron-down"></i>
                             </button>
@@ -1116,15 +1023,15 @@
                               </li>
                             </ul>
                           </div>
-                          <form role="search" class="searching" style="width: 100%">
-                            <div class="form-group" style="width: 100%; position: relative">
+                          <form role="search" class="searching w-100 d-flex justify-content-start">
+                            <div class="form-group w-100 position-relative">
                               <input type="text" id="searchText"
-                                placeholder="Search by name..." class="form-control me-2"
+                                placeholder="Search by name..." class="form-control me-2 search-padding"
                                 (keyup)="onResignationSearch();" [(ngModel)]="resignationSearch"
-                                [ngModelOptions]="{ standalone: true }" style="padding: 10px 40px" />
-                              <i class="bi bi-search search-icon" style="margin: auto; margin-left: 15px"
+                                [ngModelOptions]="{ standalone: true }" />
+                              <i class="bi bi-search search-icon ms-3  m-auto"
                                 *ngIf="resignationSearch==''"></i>
-                              <i class="bi bi-x search-icon" style="margin: auto; margin-left: 15px" *ngIf="resignationSearch!=''"
+                              <i class="bi bi-x search-icon ms-3 m-auto font-20" *ngIf="resignationSearch!=''"
                                 (click)="this.resignationSearch=''; loadResignations()"></i>
                             </div>
                           </form>
@@ -1200,46 +1107,21 @@
                             ">
                         <!-- class="stickyColTd" -->
                         <td>
-                          <a (click)="routeToUserDetails(user.uuid)" class="mb-0 weekly-pro-name">{{ user.name }}</a>
-                          <!-- <button class="text-danger" nz-button nzType="text" nz-popover
-                            [nzPopoverContent]="contentTemplate" *ngIf="
-                                  onboardingVia === 'SLACK' &&
-                                  user.slackUserId === null
-                                ">
-                            <i class="bi bi-exclamation-triangle"></i>
-                          </button>
+                          <a (click)="routeToUserDetails(user.uuid)" class="mb-0 weekly-pro-name text-capitalize font-14 fw-normal">{{ user.name }}</a>
 
-                          <ng-template #contentTemplate>
-                            <p>
-                              Slack ID isn't synced with Hajiri for this user.
-                              Click 'Sync' <br />to enable Slack integration with
-                              Hajiri.
-                            </p>
-                            <div class="d-flex justify-content-end">
-                              <button type="button" class="btn btn-primary"
-                                (click)="saveSlackUserIdViaEmailData(user.email)">
-                                <span *ngIf="!isSlackUserFlag">Sync</span>
-                                <div class="dot-opacity-loader" *ngIf="isSlackUserFlag">
-                                  <span></span>
-                                  <span></span>
-                                  <span></span>
-                                </div>
-                              </button>
-                            </div>
-                          </ng-template> -->
                         </td>
                         <td>
-                          <a (click)="routeToUserDetails(user.uuid)" class="mb-0 weekly-pro-email">
+                          <a (click)="routeToUserDetails(user.uuid)" class="mb-0 weekly-pro-email font-14 fw-normal">
                             {{ user.email ? user.email : "N/A" }} <br> {{ user.phone ? user.phone : "N/A" }}
                           </a>
                         </td>
                         <td>
-                          <a (click)="routeToUserDetails(user.uuid)" class="mb-0 weekly-pro-email">
+                          <a (click)="routeToUserDetails(user.uuid)" class="mb-0 weekly-pro-email font-14 fw-normal">
                             {{ user.lastWorkingDay ? (user.lastWorkingDay | date:'dd-MM-yyyy') : "N/A" }}
                           </a>
                         </td>
 
-                        <td><span class="weekly-pro-name">{{user.requestedDate ? (user.requestedDate | date:'dd-MM-yyyy') : "N/A"}}</span></td>
+                        <td><span class="weekly-pro-name text-capitalize font-14 fw-normal">{{user.requestedDate ? (user.requestedDate | date:'dd-MM-yyyy') : "N/A"}}</span></td>
 
 
                         <td>
@@ -1365,13 +1247,28 @@
             <div class="row">
               <div class="col-md-6 mb-3">
                 <label for="name" class="pb-2">Name <span class="text-danger">*</span></label>
-                <input type="text" class="form-control input-zorro" id="name" name="name" placeholder="Name"
-                  [(ngModel)]="userPersonalInformationRequest.name" required #nameField="ngModel" />
+                <input
+                  type="text"
+                  class="form-control input-zorro"
+                  id="name"
+                  name="name"
+                  placeholder="Name"
+                  [(ngModel)]="userPersonalInformationRequest.name"
+                  required
+                  #nameField="ngModel"
+                  minlength="3"
+                  pattern="[a-zA-Z]+( [a-zA-Z]+)*"
+                />
 
                 <div *ngIf="nameField.invalid && nameField.touched">
-                  <p class="errortxt mt-2 mb-0" style="color: red">
-                    <i class="bi bi-exclamation-circle"></i> Name is
-                    required.
+                  <p class="errortxt mt-2 mb-0" style="color: red" *ngIf="nameField.errors?.required">
+                    <i class="bi bi-exclamation-circle"></i> Name is required.
+                  </p>
+                  <p class="errortxt mt-2 mb-0" style="color: red" *ngIf="nameField.errors?.minlength">
+                    <i class="bi bi-exclamation-circle"></i> Name must be at least 3 characters long.
+                  </p>
+                  <p class="errortxt mt-2 mb-0" style="color: red" *ngIf="nameField.errors?.pattern">
+                    <i class="bi bi-exclamation-circle"></i> Name can only contain letters and single spaces between words (e.g., John Doe).
                   </p>
                 </div>
               </div>
@@ -1416,7 +1313,7 @@
               </div>
               <div class="col-md-6 mb-3">
                 <label for="shiftNames" class="pb-2">Select Shift <span class="text-danger">* </span></label>
-                <nz-select id="shift" name="shift" class="form-control placeholder-line" nzPlaceHolder="Select a shift"
+                <nz-select id="shift" name="shift" class="form-control placeholder-line w-100" nzPlaceHolder="Select a shift"
                   nzAllowClear nzShowSearch nzServerSearch [(ngModel)]="selectedShift"
                   [ngModelOptions]="{ standalone: true }" required #shiftField="ngModel">
                   <ng-container *ngFor="let shift of shiftList">
@@ -1427,6 +1324,9 @@
                     Loading Shifts...
                   </nz-option>
                 </nz-select>
+                <button type="button" (click)="routeToAddUserInShift()" class="btn p-0 text-primary font-13 fw-semibold" *ngIf="shiftList.length === 0 && !isLoadingShifts">
+                  + Add Shift
+                </button>
                 <div *ngIf="shiftField.invalid && shiftField.touched" class="errortxt mt-2 mb-0" style="color: red">
                   <i class="bi bi-exclamation-circle"></i> Please select a
                   shift.
@@ -1440,7 +1340,7 @@
               <div class="col-md-6 mb-3">
                 <label for="gender" class="pb-2">Select Gender <span class="text-danger">*</span></label>
                 <nz-select id="gender" name="gender" [(ngModel)]="userPersonalInformationRequest.gender" required
-                  class="form-control placeholder-line" #genderField="ngModel" nzPlaceHolder="Select Gender">
+                  class="form-control placeholder-line w-100" #genderField="ngModel" nzPlaceHolder="Select Gender">
                   <nz-option *ngFor="let gender of genders" [nzValue]="gender" [nzLabel]="gender"></nz-option>
                 </nz-select>
                 <div *ngIf="genderField.invalid && genderField.touched" class="errortxt mt-2 mb-0" style="color: red">
@@ -1464,7 +1364,7 @@
               </div>
               <div class="col-md-6 mb-3">
                 <label for="isProbation" class="pb-2">Probation Status <span class="text-danger">*</span></label>
-                <nz-select id="isProbation" name="isProbation" class="form-control placeholder-line"
+                <nz-select id="isProbation" name="isProbation" class="form-control placeholder-line w-100"
                   [(ngModel)]="userPersonalInformationRequest.isProbation" required #isProbationField="ngModel"
                   nzPlaceHolder="Probation Status">
                   <nz-option [nzValue]="true" [nzLabel]="'Under Probation'"></nz-option>
@@ -1481,7 +1381,7 @@
               <div class="col-md-6 mb-3">
                 <label for="teamNames" class="pb-2">Select Team<span class="text-optional">
                     (Optional)</span></label>
-                <nz-select class="form-control placeholder-font" nzMode="multiple" nzPlaceHolder="Select teams"
+                <nz-select class="form-control placeholder-font w-100" nzMode="multiple" nzPlaceHolder="Select teams"
                   nzAllowClear nzShowSearch nzServerSearch [(ngModel)]="selectedTeams"
                   [ngModelOptions]="{ standalone: true }" (ngModelChange)="onTeamSelectionChange($event)"
                   (nzOnSearch)="onSearch($event)">
@@ -1497,7 +1397,7 @@
               <div class="col-md-6 mb-3">
                 <label for="teamNames" class="pb-2">Select Leave <span class="text-optional">
                     (Optional)</span></label>
-                <nz-select class="form-control placeholder-font" nzMode="multiple" nzPlaceHolder="Select leave"
+                <nz-select class="form-control placeholder-font w-100" nzMode="multiple" nzPlaceHolder="Select leave"
                   nzAllowClear nzShowSearch nzServerSearch [(ngModel)]="selectedLeaves"
                   [ngModelOptions]="{ standalone: true }" (ngModelChange)="onLeaveSelectionChange($event)"
                   (nzOnSearch)="onSearchLeave($event)">
@@ -1524,7 +1424,7 @@
                   isNumberExist ||
                   isEmailExist
                 " [ngClass]="{'btn-border':!personalInformationForm.invalid}" aria-label="Add Only">
-              <div *ngIf="toggle1" class="dot-opacity-loader1">
+              <div *ngIf="toggle1" class="dot-opacity-loader1 d-flex align-items-center justify-content-ceter">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -1538,7 +1438,7 @@
                   isNumberExist ||
                   isEmailExist
                 " [ngClass]="{'btn-border':!personalInformationForm.invalid}" aria-label="Add and Invite">
-              <div *ngIf="toggle2" class="dot-opacity-loader1">
+              <div *ngIf="toggle2" class="dot-opacity-loader1 d-flex align-items-center justify-content-ceter">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -1562,7 +1462,7 @@
       <div class="modal-body p-0 delete-text">
         <div class="delete-image d-flex align-items-center justify-content-center pt-4 pb-4">
           <div class="delete-close-btn">
-            <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" (click)="getUsersByFiltersFunction()"  #closeButtonDeleteLeave>
+            <button type="button" class="close-btn pointer" data-bs-dismiss="modal" aria-label="Close" (click)="getUsersByFiltersFunction()"  #closeButtonDeleteLeave>
               <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none" >
                 <mask id="mask0_2031_1331" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="30"
                   height="30">
@@ -1621,7 +1521,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Update Request</h5>
-        <button #closeReqDataModal  (click)="closeDataRequestModal()" type="button" class="close-btn"
+        <button #closeReqDataModal  (click)="closeDataRequestModal()" type="button" class="close-btn pointer"
           data-bs-dismiss="modal" aria-label="Close">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
             <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24"
@@ -1635,9 +1535,9 @@
           </svg>
         </button>
       </div>
-      
+
         <app-profile-update *ngIf="isProfileReqModalOpen" [data]="requestModalData" (closeEvent)="onProfileComponentClose()"> </app-profile-update>
-     
+
       <!-- <div *ngIf="remainingField!==0" class="modal-footer d-flex align-items-center justify-content-end gap-2">
         <button type="button" (click)="rejectData()" [disabled]="rejectLoading || fieldLoading || approveLoading || (isRejectModalOpen && (!rejectedReason || rejectedReason.length < 10))"
           class="btn btn-soft-danger">
@@ -1662,7 +1562,7 @@
             class="btn cancel-btn mt-0">
             <span>Back</span>
           </button>
-    
+
       </div>
     </div> -->
     <div *ngIf="remainingField==0" class="d-flex align-items-center justify-content-end gap-2">
@@ -1773,7 +1673,7 @@
                 <div class="d-flex align-items-center gap-3" >
                   <div style="width:200px;" *ngIf="isAnyRowSelected()">
                     <nz-select [(ngModel)]="bulkShift" (ngModelChange)="applyBulkChange('shift', $event)"
-                      nzPlaceHolder="Select Shift" [nzDropdownRender]="customDropdownShift" class="form-control w-100 placeholder-line">
+                      nzPlaceHolder="Select Shift" [nzDropdownRender]="customDropdownShift" class="form-control w-100 placeholder-line w-100">
                       <nz-option *ngFor="let shift of shiftList" [nzValue]="shift.label"
                         [nzLabel]="shift.label"></nz-option>
                     </nz-select>
@@ -1795,19 +1695,6 @@
                       </div>
                     </ng-template>
                   </div>
-                  <!-- <div style="width:200px;">
-                    <nz-select [(ngModel)]="bulkTeam" (ngModelChange)="applyBulkChange('team', $event)"
-                        nzPlaceHolder="Select Team" nzMode="multiple" [nzDropdownRender]="customDropdownTeam"
-                        class="whatapp-login-input">
-                        <nz-option *ngFor="let team of originalTeamNameList" [nzValue]="team.label"
-                          [nzLabel]="team.label"></nz-option>
-                      </nz-select>
-                      <ng-template #customDropdownTeam>
-                        <div class="custom-dropdown-footer">
-                          <button nz-button nzType="link" (click)="openAddTeamModal()">Add Team</button>
-                        </div>
-                      </ng-template>
-                  </div> -->
                 </div>
                 <div class="d-flex align-items-center justify-contant-end gap-3">
                     <label class="m-0 d-flex align-items-center gap-2 justify-content-center set-current font-14 fw-normal">
@@ -1845,9 +1732,9 @@
                         <ng-container *ngIf="fileColumnName[j] === 'shift*' ; else leaveColumns">
 
                           <nz-select [(ngModel)]="row[j]"
-                            [ngClass]="{'invalid-input': invalidCells[((currentPage - 1) * pageSize)+i][j]}"
+                            [ngClass]="{'invalid-input bg-white': invalidCells[((currentPage - 1) * pageSize)+i][j]}"
                             (ngModelChange)="onValueChange((currentPage - 1) * pageSize + i, j)"
-                            nzPlaceHolder="Select Shift" [nzDropdownRender]="customDropdownShift">
+                            nzPlaceHolder="Select Shift" [nzDropdownRender]="customDropdownShift" class="w-100">
 
                             <nz-option *ngFor="let shift of shiftList" [nzValue]="shift.label"
                               [nzLabel]="shift.label"></nz-option>
@@ -1863,12 +1750,12 @@
 
                         <ng-template #leaveColumns>
                           <ng-container *ngIf="this.fileColumnName[j] === 'leavenames' ; else otherColumns">
-                            <nz-select class="whatapp-login-input" nzMode="multiple" nzPlaceHolder="Select leave"
+                            <nz-select class="whatsapp-login-input w-100" nzMode="multiple" nzPlaceHolder="Select leave"
                               nzAllowClear nzShowSearch nzServerSearch [(ngModel)]="row[j]"
                               [ngModelOptions]="{ standalone: true }"
                               (ngModelChange)="onMultiSelectChange($event, (currentPage - 1) * pageSize + i, j)"
                               (nzOnSearch)="onSearchLeave($event)" [nzDropdownRender]="customDropdown"
-                              [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}">
+                              [ngClass]="{'invalid-input bg-white': invalidCells[(currentPage - 1) * pageSize + i][j]}">
                               <ng-container *ngFor="let o of originalLeaveNameList">
                                 <nz-option *ngIf="!isLoadingLeave" [nzValue]="o.label" [nzLabel]="o.label"></nz-option>
                               </ng-container>
@@ -1892,7 +1779,7 @@
                             <nz-date-picker id="joiningDate" name="joiningDate" #joiningDate="ngModel"
                               [(ngModel)]="row[j]" required
                               (ngModelChange)="onDateChange($event, (currentPage - 1) * pageSize + i , j)"
-                              [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}"
+                              [ngClass]="{'invalid-input bg-white': invalidCells[(currentPage - 1) * pageSize + i][j]}"
                               [nzAllowClear]="false" nzPlaceHolder="Select Joining Date">
                             </nz-date-picker>
                           </ng-container>
@@ -1903,8 +1790,8 @@
                             <nz-select nzAllowClear nzShowSearch nzServerSearch nzMode="multiple"
                               nzPlaceHolder="Select teams" [(ngModel)]="row[j]" [ngModelOptions]="{ standalone: true }"
                               (ngModelChange)="onTeamSelectionChanges($event, (currentPage - 1) * pageSize + i, j)"
-                              (nzOnSearch)="onSearch($event)"
-                              [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}"
+                              (nzOnSearch)="onSearch($event)" class="w-100"
+                              [ngClass]="{'invalid-input bg-white': invalidCells[(currentPage - 1) * pageSize + i][j]}"
                               [nzDropdownRender]="customDropdownTeam">
                               <ng-container *ngFor="let o of originalTeamNameList">
                                 <nz-option *ngIf="!isLoadingTeams" [nzValue]="o.label" [nzLabel]="o.label"></nz-option>
@@ -1925,9 +1812,9 @@
                         <ng-template #genderColumns>
                           <ng-container *ngIf="this.fileColumnName[j] === 'gender*' ; else defaultInput">
                             <nz-select id="gender" name="gender" [(ngModel)]="row[j]"
-                              [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}"
+                              [ngClass]="{'invalid-input bg-white': invalidCells[(currentPage - 1) * pageSize + i][j]}"
                               (ngModelChange)="onValueChange((currentPage - 1) * pageSize + i, j)"
-                              nzPlaceHolder="Select Gender">
+                              nzPlaceHolder="Select Gender" class="w-100">
                               <nz-option *ngFor="let gender of genders" [nzValue]="gender"
                                 [nzLabel]="gender"></nz-option>
                             </nz-select>
@@ -1937,7 +1824,7 @@
                         <!-- Default input for other columns -->
                         <ng-template #defaultInput>
                           <input [(ngModel)]="row[j]"
-                            [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}"
+                            [ngClass]="{'invalid-input bg-white': invalidCells[(currentPage - 1) * pageSize + i][j]}"
                             (ngModelChange)="onValueChange((currentPage - 1) * pageSize + i, j)" />
                         </ng-template>
 
@@ -1969,7 +1856,7 @@
           ">
           <div class="">
             <div class="text-end">
-              <ngx-shimmer-loading [width]="'30%'" [height]="'40px'" style="border-radius: 50%"></ngx-shimmer-loading>
+              <ngx-shimmer-loading [width]="'30%'" [height]="'40px'" class="radius-50" ></ngx-shimmer-loading>
             </div>
           </div>
           <div class="mt-3 mb-2" style="border: 1px solid #f5f5f5; padding: 5px; border-radius: 6px"
@@ -1977,32 +1864,27 @@
             <div class="row mt-3">
               <div class="col-md-2">
                 <div class="">
-                  <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
-                    style="border-radius: 50%"></ngx-shimmer-loading>
+                  <ngx-shimmer-loading [width]="'100%'" [height]="'30px'" class="radius-50"></ngx-shimmer-loading>
                 </div>
               </div>
               <div class="col-md-2">
                 <div class="">
-                  <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
-                    style="border-radius: 50%"></ngx-shimmer-loading>
+                  <ngx-shimmer-loading [width]="'100%'" [height]="'30px'" class="radius-50"></ngx-shimmer-loading>
                 </div>
               </div>
               <div class="col-md-3">
                 <div class="">
-                  <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
-                    style="border-radius: 50%"></ngx-shimmer-loading>
+                  <ngx-shimmer-loading [width]="'100%'" [height]="'30px'" class="radius-50"></ngx-shimmer-loading>
                 </div>
               </div>
               <div class="col-md-3">
                 <div class="">
-                  <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
-                    style="border-radius: 50%"></ngx-shimmer-loading>
+                  <ngx-shimmer-loading [width]="'100%'" [height]="'30px'" class="radius-50"></ngx-shimmer-loading>
                 </div>
               </div>
               <div class="col-md-2">
                 <div class="">
-                  <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
-                    style="border-radius: 50%"></ngx-shimmer-loading>
+                  <ngx-shimmer-loading [width]="'100%'" [height]="'30px'" class="radius-50"></ngx-shimmer-loading>
                 </div>
               </div>
             </div>
@@ -2017,16 +1899,7 @@
               else errorInOnboardUserListCondition
             ">
             <div class="mt-0">
-              <!-- <div class="d-flex align-items-center justify-content-end mb-3 p-0">
-                <input #fileInput id="fileSelect" type="file" name="img[]" accept=".xlsx" class="input"
-                  style="display: none" (change)="selectFile($event)" />
-                <button type="button" class="btn add-excel" (click)="fileInput.click()">
-                  <i *ngIf="!isProgressToggle" class="bi bi-file-earmark-excel"
-                    style="position: relative; top: -1px; padding-right: 6px"></i>
-                  <div *ngIf="isProgressToggle" class="spinner-border text-primary excel-spinner" role="status"></div>
-                  Excel Upload
-                </button>
-              </div> -->
+
               <div class="create-password-warning waring-box p-3 mt-3 mb-3 text-start" role="alert" *ngIf="
                   alreadyUsedPhoneNumberArray.length > 0 ||
                   alreadyUsedEmailArray.length > 0 ||
@@ -2129,7 +2002,7 @@
           <button *ngIf="enableEmailNotification || enableWhatsAppNotification" type="button" class="btn btn-border font-14 fw-semibold"
             (click)="sendNotifications()" [disabled]="loadingFlag">
             <span *ngIf="!loadingFlag">Send Notification</span>
-            <div class="dot-opacity-loader" *ngIf="loadingFlag">
+            <div class="dot-opacity-loader d-flex align-items-center justify-content-ceter" *ngIf="loadingFlag">
               <span></span>
               <span></span>
               <span></span>
@@ -2140,7 +2013,7 @@
           <button *ngIf="!enableEmailNotification && !enableWhatsAppNotification" type="button" class="btn p-0 font-14 fw-semibold text-primary"
             (click)="closeNotificationModal(); sendEmailToUsers(false);">
             <span *ngIf="!closeNotificationModalFlag">Skip Notification</span>
-            <div class="dot-opacity-loader" *ngIf="closeNotificationModalFlag">
+            <div class="dot-opacity-loader d-flex align-items-center justify-content-ceter" *ngIf="closeNotificationModalFlag">
               <span></span>
               <span></span>
               <span></span>
@@ -2187,7 +2060,7 @@ aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-content">
     <div class="modal-header">
       <h5 class="modal-title" id="exampleModalLabel">Initiate Exit</h5>
-      <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close"
+      <button type="button" class="close-btn pointer" data-bs-dismiss="modal" aria-label="Close"
         (click)="closeResignationModal(resignationForm)" #closeResignationButton>
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
           <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24"
@@ -2218,7 +2091,7 @@ aria-labelledby="exampleModalLabel" aria-hidden="true">
               <nz-form-control>
                 <nz-select style="width: 100%" nzSize="large" nzPlaceHolder="Select exit type"
                   [(ngModel)]="userExitTypeId" (ngModelChange)="selectUserExitType($event)" required id="seleType"
-                  name="seleExpType" #seleExpType="ngModel" class="form-control">
+                  name="seleExpType" #seleExpType="ngModel" class="form-control w-100">
                   <nz-option *ngFor=" let exitType of userExitTypeList" [nzValue]="exitType.id"
                     [nzLabel]="exitType.name">
                   </nz-option>
@@ -2278,7 +2151,7 @@ aria-labelledby="exampleModalLabel" aria-hidden="true">
             </div>
             <div class="col-md-12 mb-3"
               *ngIf="recommendDay == 'Other' && (userResignationReq.lastWorkingDay != null && userResignationReq.lastWorkingDay != '')">
-              <div class="notice-period-error p-3">
+              <div class="notice-period-error p-3 border-rounded-2">
                 <div class="d-flex align-items-center gap-3 mb-2">
                   <p class="mb-0">Notice period</p>
                   <span class="calendar-separator"></span>
@@ -2303,7 +2176,7 @@ aria-labelledby="exampleModalLabel" aria-hidden="true">
           <button *ngIf="!resignationToggle" type="submit"
             [disabled]="resignationForm.invalid || userExitTypeId == 0 || resignationToggle"
             class="btn submitActionBtn">Submit</button>
-          <div class="dot-opacity-loader" *ngIf="resignationToggle">
+          <div class="dot-opacity-loader d-flex align-items-center justify-content-ceter" *ngIf="resignationToggle">
             <span></span>
             <span></span>
             <span></span>
@@ -2322,7 +2195,7 @@ aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-content">
 
           <div class="modal-body p-0">
-              <button #viewExitRequestDismiss id="viewExitRequestDismiss" type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close">
+              <button #viewExitRequestDismiss id="viewExitRequestDismiss" type="button" class="close-btn pointer" data-bs-dismiss="modal" aria-label="Close">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="15" viewBox="0 0 16 15" fill="none">
                       <path d="M2.09533 14.3667L0.619141 12.9707L6.5239 7.38648L0.619141 1.8023L2.09533 0.40625L8.00009 5.99044L13.9049 0.40625L15.381 1.8023L9.47628 7.38648L15.381 12.9707L13.9049 14.3667L8.00009 8.78253L2.09533 14.3667Z" fill="black"/>
                   </svg>
@@ -2346,7 +2219,7 @@ aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-content">
 
           <div class="modal-body p-0">
-              <button #closeAddButton id="closeAddButton" type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close">
+              <button #closeAddButton id="closeAddButton" type="button" class="close-btn pointer" data-bs-dismiss="modal" aria-label="Close">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="15" viewBox="0 0 16 15" fill="none">
                       <path d="M2.09533 14.3667L0.619141 12.9707L6.5239 7.38648L0.619141 1.8023L2.09533 0.40625L8.00009 5.99044L13.9049 0.40625L15.381 1.8023L9.47628 7.38648L15.381 12.9707L13.9049 14.3667L8.00009 8.78253L2.09533 14.3667Z" fill="black"/>
                   </svg>

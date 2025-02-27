@@ -279,7 +279,7 @@ export class UploadTeamComponent implements OnInit {
 
         //@ts-ignore
         this.percentage = res!.percentage;
-        
+
         if(this.percentage == 100) {
           this.percentage = 0;
           localStorage.removeItem('uniqueUuid');
@@ -401,19 +401,40 @@ export class UploadTeamComponent implements OnInit {
       if(index === this.userList.length - 1){
         return true;
       }
-      
+
       return this.isValidUser(u);
     });
   }
   lastUsersValid(): boolean {
-    // debugger
     const lastUser = this.userList[this.userList.length - 1];
-    if(this.onboardingViaString === 'SLACK' && !lastUser?.email) {
-      return false;
-    }
-    if (!lastUser?.name && !lastUser?.phone) {
+
+    // If no last user exists, consider it valid (or adjust based on your logic)
+    if (!lastUser) {
       return true;
     }
+
+    // Trim the name to remove leading/trailing spaces
+    const trimmedName = lastUser.name?.trim();
+
+    // Check if onboarding via Slack and email is missing
+    if (this.onboardingViaString === 'SLACK' && !lastUser?.email) {
+      return false;
+    }
+
+    // If both name and phone are empty, return true (based on your original logic)
+    if (!trimmedName && !lastUser?.phone) {
+      return true;
+    }
+
+    // If name exists, validate it for special characters and proper format
+    if (trimmedName) {
+      const namePattern = /^[a-zA-Z]+(?: [a-zA-Z]+)*$/;
+      if (!namePattern.test(trimmedName) || trimmedName.length < 3) {
+        return false; // Invalid name (special chars, numbers, or too short)
+      }
+    }
+
+    // Call isValidUser for additional validation
     return this.isValidUser(lastUser);
   }
   currentUsersValid(): boolean {
@@ -538,7 +559,7 @@ export class UploadTeamComponent implements OnInit {
         } else {
             this.isSelectAll = false;
         }
-  
+
         } else {
           this.onboardUserList = [];
           this.dataNotFoundPlaceholder = true;
@@ -705,7 +726,7 @@ export class UploadTeamComponent implements OnInit {
 
   isNumberExist: boolean = false;
   isEmailExist: boolean = false;
-  
+
 
   checkNumberExistence(index: number, number: string, uuid: string) {
     debugger
@@ -736,12 +757,12 @@ export class UploadTeamComponent implements OnInit {
       this.isNumberExist = false;
       return;
     }
-  
+
     // Ensure last index entry does not check itself but checks all others
     const isDuplicate = this.userList.some((user, i) => {
       return (user.phone === phone && i !== this.userList.length - 1);
     });
-  
+
     if (isDuplicate) {
       this.userList[index].isPhoneExist = true;
       this.isNumberExist = true;
@@ -753,7 +774,7 @@ export class UploadTeamComponent implements OnInit {
       });
     }
   }
-  
+
 
   checkEmailExistence(index: number, email: string, uuid: string) {
     debugger;
@@ -778,13 +799,13 @@ export class UploadTeamComponent implements OnInit {
       this.isEmailExist = false;
       return;
     }
-  
+
 
     // Ensure last index entry does not check itself but checks all others
     const isDuplicate = this.userList.some((user, i) => {
       return (user.email === email && i !== this.userList.length - 1);
     });
-  
+
     if (isDuplicate) {
       this.userList[index].isEmailExist = true;
       this.isEmailExist = true;
@@ -797,7 +818,7 @@ export class UploadTeamComponent implements OnInit {
     }
 
 
-    
+
   }
 
   isNextloading: boolean = false;
@@ -1566,7 +1587,7 @@ export class UploadTeamComponent implements OnInit {
   preventPaste(event: ClipboardEvent): void {
     event.preventDefault();
   }
-  
+
 
 
 

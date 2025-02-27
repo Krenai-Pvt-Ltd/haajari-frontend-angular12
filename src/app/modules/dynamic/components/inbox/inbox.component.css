@@ -27,13 +27,12 @@
 }
 .inbox-list-box{
     border-right: 1px solid #f2f2f2;
-    padding-right: 15px;
-    height: 100%;
+    height: 90vh;
 }
 
 .notification-name{
-    width: 40px;
-    height: 40px;
+    width: 45px;
+    height: 45px;
     border-radius: 50%;
     color: #fff;
 }
@@ -85,15 +84,20 @@
 .inbox-list .active{
     background-color: #F9FAFC;
 }
+.actionMenuList{
+    min-width: 15rem !important;
+    border-radius: 2px !important;
+    left: -200px !important;
+}
 
 .actionMenuList svg {
-    width: 18px;
+    width: 16px;
     position: relative;
-    top: -1px;
+    top: -2px;
 }
 .actionMenuList .dropdown-item {
     font-size: 14px !important;
-    color: #333 !important;
+    color: #333 ;
     border-radius: 6px !important;
 }
 .actionMenuList li{
@@ -117,8 +121,8 @@
     background-color: #FAFAFA;
 }
 .user-detail img {
-    width: 50px;
-    height: 50px;
+    width: 45px;
+    height: 45px;
     border-radius: 50%;
 }
 .requested-to {
@@ -127,6 +131,9 @@
     padding: 15px;
     border-radius: 2px;
 
+  }
+  .empty-notification{
+    margin-top: 50%;
   }
   .requested-to span{
     color: #6666F2;
@@ -167,3 +174,35 @@
         flex-direction: column;
         gap: 8px;
       }
+
+      .active-color {
+        fill: #6666F2 !important;
+        border: 1px solid #6666F2;
+      }
+
+      .active-filter {
+        color: #6666F2 !important; 
+      }
+      .active-filter svg {
+        fill: #6666F2 !important;
+      }
+
+      .filter-icon svg path {
+        transition: fill 0.3s ease; 
+      }
+
+      .dropdown-item svg path {
+        transition: fill 0.3s ease; 
+      }
+.active-notification{
+    background-color: #FF3014;
+    border-radius: 50%;
+    width: 12px;
+    height: 12px;
+    position: absolute;
+    top: 30px;
+    left: 35px;
+}
+.list-not{
+    padding-right: 15px;
+}

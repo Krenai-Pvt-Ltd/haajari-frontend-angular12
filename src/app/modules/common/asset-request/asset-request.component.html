@@ -2,10 +2,10 @@
     <div *ngIf="selectedAsset?.status!='APPROVED'" >
        <div>
           <div *ngIf="!isModal">
-             <h5>
+             <h5 class="mb-3">
                 Asset Details
              </h5>
-             <!-- <button type="button" #assetRequestClose class="btn-close" (click)="close()" aria-label="Close" *ngIf="isModal"></button> -->
+            
           </div>
           <form #categoryForm="ngForm">
              <div [ngClass]="{'modal-body':isModal}">
@@ -77,21 +77,11 @@
     </div>
     <div *ngIf="selectedAsset?.status=='APPROVED'" >
        <div >
-          <div  *ngIf="!isModal">
-             <h5 > Assign Asset</h5>
-             <!-- <button type="button" #assetAssignClose class="btn-close" data-bs-dismiss="modal" aria-label="Close" *ngIf="isModal"></button> -->
+          <div *ngIf="!isModal">
+             <h5 class="mb-3"> Assign Asset</h5>
           </div>
           <div [ngClass]="{'modal-body':isModal}">
-             <div class="assets-list">
-                <!-- <div class="row">
-                    <div class="col-md-4" *ngFor="let item of [].constructor(9)">
-                        <div class="assets-list-card p-3 border-rounded-2 mb-3">
-                            <ngx-shimmer-loading [width]="'100%'" [height]="'20px'"> </ngx-shimmer-loading>
-                            <ngx-shimmer-loading [width]="'90%'" [height]="'10px'"> </ngx-shimmer-loading>
-                            <ngx-shimmer-loading [width]="'80%'" [height]="'10px'"> </ngx-shimmer-loading>
-                        </div>
-                    </div>
-                </div> -->
+             <div class="assets-list" >
                 <div class="row">
                    <div class="col-md-4" *ngFor="let item of assetsAvailable; let i = index">
                       <div
@@ -138,7 +128,7 @@
           </div>
        </div>
        <div class="d-flex gap-2 align-items-center" [ngClass]="{'modal-footer':isModal}">
-          <button type="button" class="btn cancel-btn" data-bs-dismiss="modal" (click)="selectedAsset.status='Approved'">Cancel</button>
+          <button type="button" class="btn cancel-btn mt-0" data-bs-dismiss="modal" (click)="selectedAsset.status='Approved'">Cancel</button>
           <button [ngClass]="{'btn-border': !(assetAssignedLoading || selectedAvailableAsset==null || selectedAvailableAsset== undefined)}" [disabled]="assetAssignedLoading || selectedAvailableAsset==null || selectedAvailableAsset== undefined" type="button" class="btn submitActionBtn" (click)="assignAsset()">
           <span *ngIf="!assetAssignedLoading">Assign</span>
           <div class="dot-opacity-loader" *ngIf="assetAssignedLoading">

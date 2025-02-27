@@ -1,0 +1,145 @@
+<div class="p-4 mb-10">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="payroll-details-box">
+                <h4 class="font-14 text-black fw-semibold lh-1">Salary Calculation</h4>
+                <p class="text-muted font-11 fw-normal lh-base mb-0">Your registered business name</p>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-12 mb-4">
+                <div class="form-check mb-2 d-flex align-items-center gap-2">
+                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
+                    <label class="form-check-label font-13 fw-normal" for="exampleRadios1">
+                        Actual days in a month
+                    </label>
+                  </div>
+                  <div class="form-check d-flex align-items-center gap-2">
+                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2" >
+                    <label class="form-check-label font-13 fw-normal" for="exampleRadios2">
+                        Organization working days
+                    </label>
+                  </div>
+                </div>
+
+                  <div class="col-md-6 mb-4">
+                    <nz-select 
+                    class="form-control w-100 placeholder-line" 
+                    nzSize="large" 
+                    [(ngModel)]="selectedPfWage" 
+                    required>
+                    <nz-option 
+                    *ngFor="let option of employer" 
+                    [nzLabel]="option.label" 
+                    [nzValue]="option.value">
+                    </nz-option>
+                    </nz-select>
+                 </div>
+                 <div class="col-md-6 mt-1">
+                    <p class="mb-0 font-13 fw-normal pt-2 px-3">days per month</p>
+                 </div>
+            </div>
+        </div>
+    </div>
+    <hr class="mt-5 mb-5">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="payroll-details-box">
+                <h4 class="font-14 text-black fw-semibold lh-1">Payment Date</h4>
+                <p class="text-muted font-11 mb-0 lh-base fw-normal">Your registered business name</p>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-12 mb-4">
+                <div class="form-check mb-2 d-flex align-items-center gap-2">
+                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="option3" checked>
+                    <label class="form-check-label font-13 fw-normal" for="exampleRadios3">
+                        the last working day of every month
+                    </label>
+                  </div>
+                  <div class="form-check d-flex align-items-center gap-2">
+                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios4" value="option4" >
+                    <label class="form-check-label font-13 fw-normal" for="exampleRadios4">
+                        Set the day of every month
+                    </label>
+                  </div>
+                </div>
+
+                  <div class="col-md-6 mb-4">
+                    <nz-select 
+                    class="form-control w-100 placeholder-line" 
+                    nzSize="large" 
+                    [(ngModel)]="selectedPfWage" 
+                    required>
+                    <nz-option 
+                    *ngFor="let option of employer" 
+                    [nzLabel]="option.label" 
+                    [nzValue]="option.value">
+                    </nz-option>
+                    </nz-select>
+                 </div>
+                 <div class="col-md-6 mt-1">
+                    <p class="mb-0 font-13 fw-normal pt-2 px-3">every month</p>
+                 </div>
+                 <div class="employee-calculation p-3 border-rounded-2 mb-4">
+                    <p class="mb-0 font-13 text-black fw-normal"><span class="fw-600 text-warning">Note: </span> When payday falls on a non-working day or a holiday, employees will get paid on the previous working day.</p>
+                 </div>
+            </div>
+        </div>
+    </div>
+    <hr class="mt-5 mb-5">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="payroll-details-box">
+                <h4 class="font-15 text-black fw-semibold lh-1">Payment Starts From</h4>
+                <span class="text-muted font-12 fw-normal">Your registered business name</span>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-6">
+                    <div>
+                        <nz-date-picker class="form-control w-100 placeholder-line" nzBorderless nzFormat="dd/MM/yyyy" nzPlaceHolder="Starting Date"></nz-date-picker>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div>
+                        <nz-date-picker class="form-control w-100 placeholder-line" nzBorderless nzFormat="dd/MM/yyyy" nzPlaceHolder="Ending Date"></nz-date-picker>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr class="mt-5 mb-5">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="payroll-details-box">
+                <h4 class="font-15 text-black fw-semibold lh-1">Start your first payroll from</h4>
+                <span class="text-muted font-12 fw-normal">Your registered business name</span>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-6">
+                    <div>
+                        <nz-date-picker class="form-control w-100 placeholder-line" nzBorderless nzFormat="dd/MM/yyyy" nzPlaceHolder="Starting Date"></nz-date-picker>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div>
+                        <nz-date-picker class="form-control w-100 placeholder-line" nzBorderless nzFormat="dd/MM/yyyy" nzPlaceHolder="Ending Date"></nz-date-picker>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+            
+
+
+<div class="footer position-fixed bg-white d-flex align-items-center  justify-content-end gap-2">
+    <button class="btn cancel-btn font-13 fw-semibold mt-0">Cancel</button>
+    <button class="btn submitActionBtn font-13 fw-semibold text-white">Submit</button>
+</div>
