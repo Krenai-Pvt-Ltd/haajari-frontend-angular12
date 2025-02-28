@@ -149,9 +149,11 @@ organizationRegistrationDate: string = '';
 
   pageNumberConsistent: number = 1;
   pageNumberDefaulter: number = 1;
+  pageNumberOnLeave: number = 1;
   itemOnPage: number = 10;
   totalMaxLeaves: number = 0;
   totalMinLeaves: number = 0;
+  totalUsersOnLeave: number = 0;
   maxLeavesUsers: any[] = [];
   minLeavesUsers: any[] = [];
   usersOnLeave: any[] = [];
@@ -198,6 +200,13 @@ organizationRegistrationDate: string = '';
     }
   }
 
+  onScrollUsersOnLeave(){
+
+    if (this.usersOnLeave.length < this.totalUsersOnLeave && !this.isLoaderLoading) {
+      this.fetchUsersOnLeave();
+    }
+  }
+
   onScrollDefaulter(): void {
     console.log('onScrollConsistent triggered');
 
@@ -209,10 +218,15 @@ organizationRegistrationDate: string = '';
 
 
   fetchUsersOnLeave(): void {
+    this.isLoaderLoading = true;
     this.leaveService.getUsersOnLeaveInRange(this.startDate, this.endDate).subscribe(response => {
+      this.isLoaderLoading = false;
       if (response.status) {
-        this.usersOnLeave = response.data;
+        this.usersOnLeave = [...this.usersOnLeave, ...response.object];
+        this.totalUsersOnLeave = response.totalItems;
       }
+    }, err => {
+      this.isLoaderLoading = false;
     });
   }
 

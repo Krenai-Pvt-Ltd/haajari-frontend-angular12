@@ -419,38 +419,45 @@
                                                         <div class="absent-data mt-3">
                                                             <div class="absent-logs " *ngIf="tabName === ON_LEAVE_TAB">
                                                                 <!-- {{isLoaderLoading}} -->
-                                                                <div class="pb-0 scrollable-container" *ngIf="leaveTeamOverviewResponse.length > 0" (scroll)="onScroll($event)">
-                                                                    <div class="d-flex align-items-center justify-content-between mb-4">
-                                                                        <h5 class="mb-0 font-20 fw-semibold"> {{leaveTeamOverviewResponseTotalCount || 0}} <span class="font-13 fw-normal">On leave this month.</span></h5>
-                                                                    </div>
-                                                                    <div class="d-flex align-items-center justify-content-between mb-3" *ngFor="let log of leaveTeamOverviewResponse">
+                                                                <div class="pb-0 scrollable-container" *ngIf="usersOnLeave.length > 0">
 
-                                                                        <div class="d-flex align-items-center gap-2 " *ngIf="log?.totalValidDays>0">
-                                                                            <img src="{{log?.image}}" class="thumb-md rounded-circle" *ngIf="log?.image">
-                                                                            <img src="assets/images/user.png" alt="" class="thumb-md rounded-circle" *ngIf="!log?.image">
-                                                                            <div>
-                                                                                <h5 class="mb-1 font-14 fw-semibold Regular-data" (click)="routeToUserProfile(log?.uuid)">{{log?.username}}</h5>
-                                                                                <p class="mb-0 fw-light">{{log?.startDate | date : 'd MMMM, y' || "N/A" }} - {{log?.endDate | date : 'd MMMM, y' || "N/A"}}  | <span class="text-danger fw-normal">{{log?.leaveType}}</span></p>
-                                                                            </div>
-                                                                        </div>
-                                                                        <span class="badge rounded-pill badge-soft-secondary" *ngIf="log?.totalValidDays>0"> {{log?.totalValidDays}} Days</span>
+                                                                  <!-- Header -->
+                                                                  <div class="d-flex align-items-center justify-content-between mb-4">
+                                                                    <h5 class="mb-0 font-20 fw-semibold">
+                                                                      {{ totalUsersOnLeave || 0 }} <span class="font-13 fw-normal">On leave this month.</span>
+                                                                    </h5>
+                                                                  </div>
 
+                                                                  <!-- Employee List -->
+                                                                  <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-3"
+                                                                    *ngFor="let log of usersOnLeave">
+                                                                    <div class="d-flex align-items-center gap-2">
+                                                                      <img [src]="log.image ? log.image : 'assets/images/user.png'" class="thumb-md rounded-circle" />
+                                                                      <div>
+                                                                        <h5 class="mb-1 font-14 fw-semibold Regular-data" (click)="routeToUserProfile(log?.uuid)">
+                                                                          {{ log?.name }}
+                                                                        </h5>
+                                                                        <p class="mb-0 fw-light">
+                                                                          {{ log?.position || 'N/A' }} | <span class="text-danger fw-normal">On Leave</span>
+                                                                        </p>
+                                                                      </div>
                                                                     </div>
+                                                                    <span class="badge rounded-pill badge-soft-secondary"> {{ log?.totalLeaveTaken }} Days</span>
+                                                                  </div>
 
-                                                                    <div class="empty-file" style="margin-top: 7%; margin-bottom: 7%"
-                                                                    *ngIf="isLoaderLoading">
-                                                                    <div class="text-center load-more-btn">
-                                                                    <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
-                                                                    <div>
-                                                                        <small>Loading...</small>
-                                                                    </div>
-                                                                    </div>
+                                                                  <!-- Loader (Visible when fetching new data) -->
+                                                                  <div class="text-center mt-3" *ngIf="isLoaderLoading">
+                                                                    <div class="spinner-border text-primary" role="status"></div>
+                                                                    <p>Loading...</p>
+                                                                  </div>
+
+                                                                  <!-- "Load More" Button (Only visible if more data exists and not scrolling) -->
+                                                                  <div class="text-center mt-3" *ngIf="!isLoaderLoading && usersOnLeave.length < totalUsersOnLeave">
+                                                                    <button class="btn btn-primary" (click)="onScrollUsersOnLeave()">Load More</button>
+                                                                  </div>
 
                                                                 </div>
-
-
-                                                                </div>
-                                                                <div class="empty-file" style="margin-top: 5%; margin-bottom: 5%" *ngIf="leaveTeamOverviewResponse.length == 0 && !isLoaderLoading">
+                                                                <div class="empty-file" style="margin-top: 5%; margin-bottom: 5%" *ngIf="usersOnLeave.length == 0 && !isLoaderLoading">
                                                                     <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
                                                                       [nzNotFoundContent]="contentTpl">
                                                                       <ng-template #contentTpl>
@@ -514,7 +521,7 @@
 
 
 
-                                                                <div class="empty-file" style="margin-top: 5%; margin-bottom: 5%" *ngIf="leaveTeamOverviewResponse.length == 0 && !isLoaderLoading">
+                                                                <div class="empty-file" style="margin-top: 5%; margin-bottom: 5%" *ngIf="maxLeavesUsers.length == 0 && !isLoaderLoading">
                                                                     <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
                                                                       [nzNotFoundContent]="contentTpl">
                                                                       <ng-template #contentTpl>
@@ -1468,7 +1475,7 @@
 
       <div class="info-message">
         <p>
-            🚫 <strong>Notice:</strong> The leave quota for this category has been fully utilized by the user.
+            🚫 <strong>Notice:</strong> The leave quota for <strong>{{userLeaveQuota.category}}</strong> has been fully utilized by the user.
             You can only <strong>reject</strong> this leave request.
         </p>
       </div>
