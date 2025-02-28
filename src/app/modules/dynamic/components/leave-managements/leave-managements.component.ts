@@ -130,7 +130,7 @@ organizationRegistrationDate: string = '';
     this.applyFilters();
     // this.getLeaves(false,false);
     this.selectedDate = new Date();
-    
+
     this.getOrganizationRegistrationDateMethodCall();
     this.calculateDateRange();
     this.setDefaultWeekTab();
@@ -139,9 +139,96 @@ organizationRegistrationDate: string = '';
     this.getReportDetailsForLeaveTeamOverviewForHeatMap();
     this.getLeaveTopDefaulterUser();
     this.getLeaveCategoryDetailsForLeaveTeamOverview();
-   
+
+
+    this.fetchMaxLeavesUsers();
+    this.fetchMinLeavesUsers();
+    this.fetchUsersOnLeave();
   }
 
+
+  pageNumberConsistent: number = 1;
+  pageNumberDefaulter: number = 1;
+  pageNumberOnLeave: number = 1;
+  itemOnPage: number = 10;
+  totalMaxLeaves: number = 0;
+  totalMinLeaves: number = 0;
+  totalUsersOnLeave: number = 0;
+  maxLeavesUsers: any[] = [];
+  minLeavesUsers: any[] = [];
+  usersOnLeave: any[] = [];
+
+  throttle =100;
+  scrollDistance = 1;
+  scrollUpDistance = 1;
+
+  fetchMaxLeavesUsers(): void {
+    this.isLoaderLoading = true;
+    this.leaveService.getUsersWithMaximumLeaves(this.pageNumberDefaulter, this.itemOnPage).subscribe(response => {
+      this.isLoaderLoading = false;
+      if (response.status) {
+        this.maxLeavesUsers = response.object;
+        this.totalMaxLeaves = response.totalItems;
+        this.pageNumberDefaulter++; // Increase page only after success
+      }
+    }, err => {
+      this.isLoaderLoading = false;
+    });
+  }
+
+  fetchMinLeavesUsers(): void {
+
+    this.isLoaderLoading = true;
+    this.leaveService.getUsersWithMinimumLeaves(this.pageNumberConsistent, this.itemOnPage).subscribe(response => {
+      this.isLoaderLoading = false;
+      if (response.status) {
+        this.minLeavesUsers = [...this.minLeavesUsers, ...response.object];
+        this.totalMinLeaves = response.totalItems;
+        this.pageNumberConsistent++; // Increase page only after success
+      }
+    },
+    (error) => {
+      this.isLoaderLoading = false;
+    });
+  }
+
+  onScrollConsistent(): void {
+    console.log('onScrollConsistent triggered');
+
+    if (this.minLeavesUsers.length < this.totalMinLeaves && !this.isLoaderLoading) {
+      this.fetchMinLeavesUsers();
+    }
+  }
+
+  onScrollUsersOnLeave(){
+
+    if (this.usersOnLeave.length < this.totalUsersOnLeave && !this.isLoaderLoading) {
+      this.fetchUsersOnLeave();
+    }
+  }
+
+  onScrollDefaulter(): void {
+    console.log('onScrollConsistent triggered');
+
+    if (this.maxLeavesUsers.length < this.totalMaxLeaves && !this.isLoaderLoading) {
+      this.fetchMinLeavesUsers();
+    }
+  }
+
+
+
+  fetchUsersOnLeave(): void {
+    this.isLoaderLoading = true;
+    this.leaveService.getUsersOnLeaveInRange(this.startDate, this.endDate).subscribe(response => {
+      this.isLoaderLoading = false;
+      if (response.status) {
+        this.usersOnLeave = [...this.usersOnLeave, ...response.object];
+        this.totalUsersOnLeave = response.totalItems;
+      }
+    }, err => {
+      this.isLoaderLoading = false;
+    });
+  }
 
   tab: string = 'absent';
   switchTab(tab: string) {
@@ -191,7 +278,7 @@ organizationRegistrationDate: string = '';
   /**
    * GET LEAVES START
    */
- 
+
 
   pendingLeaveCount: number = 0;
   isFirstLoad: boolean = true;
@@ -210,7 +297,7 @@ organizationRegistrationDate: string = '';
     };
 
     if (applyDateRange) {
-      
+
       params.startDate = moment(this.filters.fromDate).format(this.displayDateFormatNew);
       params.endDate = moment(this.filters.toDate).format(this.displayDateFormatNew);
       // params.startDate = moment(this.filters.fromDate).format(this.networkDateFormat);
@@ -231,10 +318,10 @@ organizationRegistrationDate: string = '';
               // console.log("execute" + this.filters.status);
               this.pendingLeaveCount = response.totalItems;
             }
-            
-            // this.isFirstLoad = false;   
+
+            // this.isFirstLoad = false;
             // this.isPendingChange = false;
-            
+
 
           } else {
             this.leaves = [];
@@ -261,7 +348,7 @@ organizationRegistrationDate: string = '';
       this.applyFilters();
       if(event!=null) {
         this.userLeaveQuota = event;
-        this.openLeaveQuotaModal(); 
+        this.openLeaveQuotaModal();
       }
       // this.getLeaves(true);
     }
@@ -300,17 +387,17 @@ onPageChange(page: number) {
   // this.currentPage = 1;
   this.currentPage = page;
 
-  
+
   if(this.filters.fromDate && this.filters.toDate) {
     this.getLeaves(false, true); // Fetch data with applied filters
     } else {
-      this.getLeaves(false, false); 
+      this.getLeaves(false, false);
     }
 
   // if(this.filters.fromDate && this.filters.toDate) {
   //   this.getLeaves(false, true); // Fetch data with applied filters
   //   } else {
-  //     this.getLeaves(false, false); 
+  //     this.getLeaves(false, false);
   //   }
   // this.getLeaves();
 }
@@ -330,7 +417,7 @@ searchTermChanged(event: any) {
   this.searchTerm = event.target.value;
   // this.searchTerm.trim().length === 0 ? this.resetSearch() :this.getLeaves();
   this.searchTerm.trim().length === 0 ? this.resetSearch() :this.applyFilters();
-  
+
 }
 
 searchLeaves() {
@@ -384,7 +471,7 @@ resetFiltersSearch() {
   if(this.filters.fromDate && this.filters.toDate) {
     this.getLeaves(true, true); // Fetch data with applied filters
     } else {
-      this.getLeaves(true, false); 
+      this.getLeaves(true, false);
     }
 }
 
@@ -423,7 +510,7 @@ applyFilters(): void {
   if(this.filters.fromDate && this.filters.toDate) {
   this.getLeaves(false, true); // Fetch data with applied filters
   } else {
-    this.getLeaves(false, false); 
+    this.getLeaves(false, false);
   }
 }
 
@@ -748,7 +835,7 @@ onMonthChange(month: Date): void {
   this.getReportDetailsForLeaveTeamOverviewForHeatMap();
   this.getLeaveTopDefaulterUser();
   this.getLeaveCategoryDetailsForLeaveTeamOverview();
-  
+
 }
 
 
@@ -898,7 +985,7 @@ onMonthChange(month: Date): void {
           ? currentDate // Use current date if within the selected week's range
           : lastDayOfMonth
       );
-    } 
+    }
      else {
       this.endDateWeek = this.formatDateToYYYYMMDD(weekEnd);
     }
@@ -1040,14 +1127,14 @@ initChartDataHeatMap(approvedLeaveCounts: any[]): void {
     const dayNames = sortedDates.map(day =>
       new Date(day.date).toLocaleDateString('en-US', { weekday: 'long' })
     );
-    
+
     // Check if both days are the same; if yes, display one, otherwise join them
     this.topTwoLeaveDaysFormatted = dayNames.length === 1
       ? dayNames[0]
       : dayNames[0] === dayNames[1]
         ? dayNames[0]
         : dayNames.join(' & ');
-    
+
 
   // Continue with heatmap chart setup...
   const seriesData: any[] = [];
@@ -1058,7 +1145,7 @@ initChartDataHeatMap(approvedLeaveCounts: any[]): void {
   while (currentDate <= end) {
     const weekStart = new Date(currentDate);
     const potentialWeekEnd = new Date(currentDate);
-    potentialWeekEnd.setDate(weekStart.getDate() + 6);  
+    potentialWeekEnd.setDate(weekStart.getDate() + 6);
 
     const weekEnd = potentialWeekEnd > end ? end : potentialWeekEnd;
     const weekData: any[] = [];
@@ -1075,7 +1162,7 @@ initChartDataHeatMap(approvedLeaveCounts: any[]): void {
     });
 
     weekIndex++;
-    currentDate.setDate(weekEnd.getDate() + 1); 
+    currentDate.setDate(weekEnd.getDate() + 1);
   }
 
   this.chartOptions = {
@@ -1138,7 +1225,7 @@ initChartDataHeatMap(approvedLeaveCounts: any[]): void {
   //       // weekData.push({ x: formattedDate, y: count });
   //       weekData.push({ x: "Total Approved", y: count });
   //     }
-  
+
   //     // seriesData.push({
   //     //   name: `Week ${weekIndex} (${this.formatDateToDDMMM(weekStart)} - ${this.formatDateToDDMMM(weekEnd)})`,
   //     //   data: weekData,
@@ -1147,25 +1234,25 @@ initChartDataHeatMap(approvedLeaveCounts: any[]): void {
   //       name: `Week ${weekIndex}`,
   //       data: weekData,
   //     });
-      
-  
+
+
   //     weekIndex++;
   //     currentDate.setDate(weekEnd.getDate() + 1);  // Move to the next week's start
   //   }
-  
+
 
   //   this.chartOptions = {
   //     series: seriesData,
-  //     chart: { height: 350, 
-  //       type: 'heatmap',  
+  //     chart: { height: 350,
+  //       type: 'heatmap',
   //       toolbar: {
   //       show: false,
   //       tools: { zoomin: false, zoomout: false, pan: false, reset: false },
   //     }
   //   },
-  //     stroke: {  
+  //     stroke: {
   //           width: 1.5,
-  //           colors: ['#ffffff'], 
+  //           colors: ['#ffffff'],
   //     },
   //     plotOptions: {
   //       heatmap: {
@@ -1188,7 +1275,7 @@ initChartDataHeatMap(approvedLeaveCounts: any[]): void {
   //     dataLabels: { enabled: false },
   //     xaxis: { type: 'category', labels: { show: false } },
   //     yaxis: { title: { text: 'Weeks of the Month' } },
-  //     grid: { 
+  //     grid: {
   //           padding: { left: 10, right: 10, top: 10, bottom: 10 },
   //     },
   //     tooltip: {
@@ -1199,8 +1286,8 @@ initChartDataHeatMap(approvedLeaveCounts: any[]): void {
   //     legend: { show: false },
 
   //   };
-    
-        
+
+
   // }
 
 
@@ -1248,7 +1335,7 @@ initChartDataHeatMap(approvedLeaveCounts: any[]): void {
     const maxCount = sortedData[0]?.totalApprovedLeaveCount || 1;
     const categories = sortedData.map((item) => item.teamName);
     const seriesData = sortedData.map((item) => Number(((item.totalApprovedLeaveCount / maxCount) * 100).toFixed(2)));
-   
+
     this.chartOptions1 = {
       series: [
         {
@@ -1309,7 +1396,7 @@ initChartDataHeatMap(approvedLeaveCounts: any[]): void {
         style: { fontSize: '16px', fontWeight: 'bold' },
       },
     };
-    
+
   }
 
 
@@ -1353,11 +1440,11 @@ getLeaveClass(leaveCategoryName: string): string {
 routeToUserProfile(uuid: string) {
   this.helperService.routeToUserProfile(uuid);
 }
-  
 
 
 
 
-  
-  
+
+
+
 }

@@ -12,6 +12,7 @@ import { HelperService } from 'src/app/services/helper.service';
 export class ProfileUpdateComponent implements OnInit {
   @Input() data: any;
   @Output() closeEvent: EventEmitter<void> = new EventEmitter<void>();
+  @Output() fieldAction: EventEmitter<void> = new EventEmitter<void>();
   constructor(
     private dataService: DataService,
     private helperService: HelperService,
@@ -23,7 +24,7 @@ export class ProfileUpdateComponent implements OnInit {
   ngOnInit(): void {
     this.fetchData();
   }
-  
+
   ngOnChanges(changes: SimpleChanges) {
       if (changes['data']) {
        this.fetchData();
@@ -171,6 +172,7 @@ export class ProfileUpdateComponent implements OnInit {
         if (response.success) {
           this.helperService.showToast('Data Rejected successfully', Key.TOAST_STATUS_SUCCESS);
           this.remainingField = response.message;
+          this.fieldAction.emit();
           if (this.remainingField === 0) {
             this.close();
             this.closeReqDataModal.nativeElement.click();
@@ -205,6 +207,7 @@ export class ProfileUpdateComponent implements OnInit {
           this.disabledStates[index] = true;
           this.approveStates[index] = 'Approved';
           this.remainingField = response.message;
+          this.fieldAction.emit();
           if (this.remainingField === 0) {
             this.close();
             this.closeReqDataModal.nativeElement.click();
