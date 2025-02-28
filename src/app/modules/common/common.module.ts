@@ -19,6 +19,8 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
 import { NzInputModule } from 'ng-zorro-antd/input';
+import { LeaveRequestComponent } from './leave-request/leave-request.component';
+import { AttendanceUpdateComponent } from './attendance-update/attendance-update.component';
 
 
 
@@ -35,11 +37,13 @@ import { NzInputModule } from 'ng-zorro-antd/input';
     HolidayDatePickerComponent,
     AssetRequestComponent,
     ProfileUpdateComponent,
-    ExpenseRequestComponent
+    ExpenseRequestComponent,
+    LeaveRequestComponent,
+    AttendanceUpdateComponent
 
 
   ],
-  imports: [CommonModule, CommonRoutingModule,
+  imports: [CommonModule, CommonRoutingModule, FormsModule, ReactiveFormsModule, NzFormModule, NzSelectModule, NzAutocompleteModule, NzInputModule, NgbModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyB6SQE_TmOLpGLohpMLl-6FzdwJJAU9MnA',
       libraries: ['places'],

@@ -21,6 +21,10 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
+import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { AttendanceUpdateComponent } from '../modules/common/attendance-update/attendance-update.component';
+import { LeaveRequestComponent } from '../modules/common/leave-request/leave-request.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +39,9 @@ import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
     ExitModalComponent,
     AssetRequestComponent,
     ProfileUpdateComponent,
-    ExpenseRequestComponent
+    ExpenseRequestComponent,
+    AttendanceUpdateComponent,
+    LeaveRequestComponent
   ],
 
   imports: [CommonModule,
@@ -52,7 +58,10 @@ import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
     NzFormModule,
     NzInputModule,
     NzSelectModule,
-    NzAutocompleteModule
+    NzAutocompleteModule,
+    NzTimePickerModule,
+    NzDatePickerModule,
+    FormsModule
   ],
   exports: [
     TopbarComponent,
@@ -66,7 +75,10 @@ import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
     ExitModalComponent,
     AssetRequestComponent,
     ProfileUpdateComponent,
-    ExpenseRequestComponent
+    ExpenseRequestComponent,
+    AttendanceUpdateComponent,
+    LeaveRequestComponent
+
   ],
 })
 export class SharedModule { }

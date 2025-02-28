@@ -908,8 +908,23 @@
 <div class="modal fade" id="approveModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel"
    data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
    <div class="modal-dialog modal-xl modal-dialog-centered" style="max-width: 1060px;" role="document">
-   <app-expense-request *ngIf="showExpenseComponent" [data]="expenseData" (closeEvent)="onExpenseComponentClose()">
-   </app-expense-request>
+
+
+    <div class="modal-content">
+      <div class="modal-header">
+         <h6 class="modal-title m-0" id="exampleModalDefaultLabel">
+            Bill Snapshot
+         </h6>
+         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="clearApproveModal();"
+         #closeApproveModal></button>
+      </div>
+      <div >
+        <app-expense-request *ngIf="showExpenseComponent" [data]="expenseData" (closeEvent)="onExpenseComponentClose()">
+        </app-expense-request>
+      </div>
+ </div>
+
+  
    </div>
 </div>
 

@@ -33,6 +33,7 @@ import {
   ApexPlotOptions,
   ApexGrid,
 } from "ng-apexcharts";
+import { AttendanceTimeUpdateRequestDto } from 'src/app/models/user-dto.model';
 
 export interface Team {
   label: string;
@@ -2130,6 +2131,9 @@ console.log(this.data);
   requestModalData: any = {};
   onProfileComponentClose() {
     this.isProfileReqModalOpen = false;
+    this.closeReqDataModal.nativeElement.click();
+    this.fetchPendingRequests();
+    this.getUsersCountByStatus();
   }
   onProfileUpdateModalOpen(uuid:any) {
     this.requestModalData = {
@@ -2243,9 +2247,8 @@ console.log(this.data);
         if (response.success) {
           this.helperService.showToast('Data Rejected successfully', Key.TOAST_STATUS_SUCCESS);
           this.remainingField=response.message;
-          if(this.remainingField==0){
-            this.fetchPendingRequests();
-          }
+          this.fetchPendingRequests();
+
           this.disabledStates[index] = true;
           this.approveStates[index] = 'Rejected';
           this.divElement.nativeElement.click();
@@ -2276,9 +2279,8 @@ console.log(this.data);
           this.disabledStates[index] = true;
           this.approveStates[index] = 'Approved';
           this.remainingField=response.message;
-          if(this.remainingField==0){
             this.fetchPendingRequests();
-          }
+
           const divToClick = document.getElementById('collapsibleDiv-' + index);
           if (divToClick) {
             divToClick.click();
@@ -2664,18 +2666,25 @@ console.log(this.data);
     this.getUserExitType()
     this.getNoticePeriodDuration();
   }
-
+  exitData: any;
+  showExitModal:boolean=false;
   onInitiateExitClick(uuid:string) {
-    this.modalService.openInitiateExitModal(uuid, 'ADMIN').then(
-      (result) => {
-        this.loadResignations();
-        this.getUsersCountByStatus();
-      },
-      (reason) => {
-        this.loadResignations();
-        this.getUsersCountByStatus();
-      }
-    );
+    console.log('Initiate Exit Clicked');
+    this.exitData = {};
+      this.exitData.uuid = uuid;
+      this.exitData.userType = 'ADMIN';
+      this.exitData.isModal = 0;
+      this.showExitModal=true;
+    // this.modalService.openInitiateExitModal(uuid, 'ADMIN').then(
+    //   (result) => {
+    //     this.loadResignations();
+    //     this.getUsersCountByStatus();
+    //   },
+    //   (reason) => {
+    //     this.loadResignations();
+    //     this.getUsersCountByStatus();
+    //   }
+    // );
   }
 
 
@@ -3009,7 +3018,12 @@ console.log(this.data);
       },
     });
   }
+  @ViewChild('viewExitRequestDismiss') viewExitRequestDismiss!: ElementRef
 
+  onExitComponentClose() {
+      this.viewExitRequestDismiss.nativeElement.click()
+
+  }
   closeNotificationModalFlag: boolean = false;
 
   closeNotificationModal() {

@@ -56,11 +56,19 @@ const routes: Routes = [
   },
   { path: 'employee', loadChildren: () => import('./modules/employee-profile/employee-profile.module').then(m => m.EmployeeProfileModule) },
   
+  {
+    path: 'payroll',
+    loadChildren: () =>
+      import('./modules/payroll/payroll.module').then((m) => m.PayrollModule),
+  },
+  
   {path:'subscription/expired', component: SubscriptionExpiredComponent},
 
 
 
   { path: '**', component: ErrorPageComponent },
+
+  
 ];
 
 @NgModule({

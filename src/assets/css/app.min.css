@@ -16,7 +16,36 @@
   --primary-background-color: #6666f3;
 }
 .border-rounded-2{
-  border-radius:2px;
+  border-radius:2px !important;
+}
+.radius-50 {
+  border-radius: 50%;
+}
+.text-muted{
+  color: #878A9A;
+}
+
+.mt-20p{
+  margin-top: 20%;
+}
+.mt-6p{
+  margin-top: 6%;
+}
+.mt-25p{
+  margin-top: 25%
+}
+.img-50{
+  width: 50px;
+}
+.img-100{
+  max-width: 100%;
+   height: 350px
+}
+.search-padding{
+  padding: 10px 40px !important;
+}
+.search-padding-40{
+  padding: 10px 45px;
 }
 .horizontal-menu {
   z-index: 999;
@@ -24,6 +53,56 @@
 }
 .color-basic{
   color: #444;
+}
+.fw-600{
+  font-weight: 600;
+}
+.attendance-border{
+  border: 1px solid #f1f1f1;
+}
+
+.img-32{
+  width: 32px;
+  height: 32px;
+}
+.img-50{
+  width: 40px;
+  height: 40px;
+}
+.img-50{
+  width: 50px;
+  height: 50px;
+}
+.img-60{
+  width: 60px;
+  height: 60px;
+}
+.img-70{
+  width: 70px;
+  height: 70px;
+}
+.img-80{
+  width: 80px;
+  height: 80px;
+}
+.img-110{
+  width: 110px;
+  height: 110px;
+}
+.img-130{
+  width: 130px;
+  object-fit: cover;
+}
+.w-25{
+  width: 25%;
+}
+
+.w-75{
+  width: 75%;
+}
+
+.mb-10{
+  margin-bottom: 100px;
 }
 .attendance-list{
   border: 1px solid #f1f1f1;
@@ -33,7 +112,9 @@
 [class*=" bi-"]::before {
   font-weight: BOLD !important;
 }
-
+.table tbody {
+  border: 1px solid #f1f1f1;
+}
 .navbar-custom {
   /* background: #fff; */
   min-height: 60px;
@@ -51,6 +132,52 @@
 .pr-0 {
   padding-right: 0px;
 }
+
+
+.material-switch>input[type="checkbox"] {
+  display: none;
+}
+.material-switch>label {
+  cursor: pointer;
+  height: 0px;
+  position: relative;
+  width: 40px;
+  margin-top: 0px;
+  top: -13px;
+}
+
+.material-switch>label::before {
+  background: #cecece;
+  border-radius: 20px;
+  content: "";
+  height: 18px;
+  position: absolute;
+  opacity: 1;
+  transition: all 0.4s ease-in-out;
+  width: 34px;
+  right: 0;
+}
+
+.material-switch>label::after {
+  background: rgb(255, 255, 255);
+  border-radius: 50%;
+  content: "";
+  height: 14px;
+  left: 8px;
+  position: absolute;
+  transition: all 0.3s ease-in-out;
+  width: 14px;
+  margin-top: 2px;
+}
+
+.material-switch>input[type="checkbox"]:checked+label::after {
+  left: 24px !important;
+}
+
+.material-switch>input[type="checkbox"]:checked+label::before {
+  background: #79af79;
+}
+
 
 .navbar-custom .nav-link {
   padding: 0;
@@ -3659,6 +3786,7 @@ a.badge:hover {
   font-style: normal;
   font-weight: 500;
   text-align: left;
+  line-height: 24px;
 }
 .nav-pills .nav-item.show .nav-link,
 .nav-pills .nav-link.active {

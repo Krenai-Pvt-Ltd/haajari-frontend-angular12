@@ -79,7 +79,9 @@ export class Key {
     '/assets-management',
     '/faq',
     '/faq-detail',
-    '/expense-management'
+    '/expense-management',
+    '/payroll/setup',
+    '/payroll/configuration'
   ];
 
   public static TOPBAR_ROUTES = [
@@ -130,7 +132,9 @@ export class Key {
     '/assets-management',
     '/faq',
     '/faq-detail',
-    '/expense-management'
+    '/expense-management',
+    '/payroll/setup',
+    '/payroll/configuration'
   ];
 
   public static ORGANIZATION_ONBOARDING_SIDEBAR_ROUTES = [
@@ -450,6 +454,15 @@ export class Key {
   public static EMPLOYEE_PROFILE_ROUTE = '/employee';
   public static ATTENDANCE_SETTING_ROUTE = '/setting/attendance-setting';
   public static LEAVE_SETTING_ROUTE = '/setting/leave-setting';
+
+
+  public static ABSENT_TAB = "ABSENT";
+	public static ON_LEAVE_TAB = "ON_LEAVE";
+	public static DEFAULTER_TAB = "DEFAULTER";
+	public static CONSISTENT_TAB = "CONSISTENT";
+	public static LEAVE_BY_DEPARTMENT_TAB = "LEAVE_BY_DEPARTMENT";
+
+  public static LEAVE_QUOTA_EXCEEDED="The requested leave exceeds your available quota.";
 }
 
 

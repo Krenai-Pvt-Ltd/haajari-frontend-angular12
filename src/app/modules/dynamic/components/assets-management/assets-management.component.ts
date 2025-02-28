@@ -108,6 +108,29 @@ export class AssetsManagementComponent implements OnInit {
     });
   }
 
+  @ViewChild('closeButtonDeleteCategory') closeButtonDeleteCategory!: ElementRef<HTMLButtonElement>;
+  deleteLoading: boolean = false;
+  deleteCategory(id: number) {
+    this.deleteLoading = true;
+      this.assetService.deleteAssetCategory(id).subscribe({
+        next: (response) => {
+          this.deleteLoading = false;
+          if (response.status) {
+            this.closeButtonDeleteCategory.nativeElement.click();
+            this.helperService.showToast('Category deleted successfully', Key.TOAST_STATUS_SUCCESS);
+            this.dashboard();
+          } else {
+            this.helperService.showToast('Failed to delete category', Key.TOAST_STATUS_ERROR);
+          }
+        },
+        error: (error) => {
+          this.deleteLoading = false;
+         this.helperService.showToast('Failed to delete category', Key.TOAST_STATUS_ERROR);
+        }
+      });
+
+  }
+
   getCountByStatusId(statusId: number): number {
     const status = this.statusSummary.find(s => s.statusId === statusId);
     return status ? status.assetCount : 0;
@@ -149,6 +172,7 @@ isFileUploaded: boolean = false;
 selectedFile: File | null = null;
 fileToUpload: string = '';
 categoryId: number = 0;
+selectedCategory: any = {};
 updateCategoryFlag: boolean = false;
 newCategory: any = {
   categoryName: '',
@@ -171,10 +195,11 @@ newCategory: any = {
     }
   }
 
-  assignCategoryId(categoryId: number) {
-    this.categoryId = categoryId;
-    if(categoryId!=0) {
-      this.getAssetCategoryDataById();
+  assignCategoryId(category: any) {
+    this.selectedCategory = category;
+    this.categoryId = category.categoryId;
+    if(this.categoryId!=0) {
+      this.newCategory = { categoryName: category.categoryName, categoryImage: '' };
     } else {
       this.newCategory = { categoryName: '', categoryImage: '' };
     }
@@ -746,11 +771,12 @@ onSearch(searchText: string): void {
     assetModalData:any = {};
     isAssetRequestModalOpen: boolean = false;
     onAssetRequestOpen(asset: any): void {
-      this.assetModalData.asset = asset;
+      this.assetModalData ={isModal:true, asset:asset};
       this.isAssetRequestModalOpen = true;
     }
 
     onAssetComponentClose(): void {
+      this.assetModalData={};
       this.assetRequestTab();
       this.isAssetRequestModalOpen = false;
       console.log('Asset request tab closed');

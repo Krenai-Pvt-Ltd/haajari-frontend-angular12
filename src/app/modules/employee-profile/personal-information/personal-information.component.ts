@@ -12,7 +12,7 @@ import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import { UserBankDetailRequest } from 'src/app/models/user-bank-detail-request';
-import { AbstractControl, FormArray, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { ReasonOfRejectionProfile } from 'src/app/models/reason-of-rejection-profile';
 import { constant } from 'src/app/constant/constant';
 
@@ -94,7 +94,7 @@ export class PersonalInformationComponent implements OnInit {
       }),
       userExperience: this.fb.array([]),
       userEmergencyContacts: this.fb.array([]),
-    });
+    }, { validators: [this.phoneNumberNotEqualToUserPhone(), this.emailNotEqualToUserEmail()] });
     // this.fetchEditedFields();
     this.getOnboardingFormPreviewMethodCall();
     this.loadRoutes();
@@ -139,7 +139,7 @@ export class PersonalInformationComponent implements OnInit {
       next: (response) => {
         this.requestedData = response;
         this.previousEditData = response;
-        console.log('Fetched Data:', response);
+        console.log('Fetched Data:', this.requestedData);
       },
       error: (error) => {
         console.error('Error:', error);
@@ -888,5 +888,92 @@ export class PersonalInformationComponent implements OnInit {
   };
 
 
+  phoneNumberNotEqualToUserPhone(): ValidatorFn {
+    return (formGroup: AbstractControl): ValidationErrors | null => {
+      const userPhoneNumber = formGroup.get('user.phoneNumber')?.value;
+      const references = formGroup.get('references') as AbstractControl;
+      const emergencyContacts = formGroup.get('userEmergencyContacts') as AbstractControl;
+
+      // Check if user phone number exists
+      if (!userPhoneNumber) {
+        return null; // No validation if user phone number is not provided yet
+      }
+
+      // Validate references phone numbers
+      if (references) {
+        const referenceControls = (references as any).controls;
+        for (let i = 0; i < referenceControls.length; i++) {
+          const refPhoneNumber = referenceControls[i].get('phoneNumber')?.value;
+          if (refPhoneNumber && refPhoneNumber === userPhoneNumber) {
+            referenceControls[i].get('phoneNumber')?.setErrors({ duplicateUserPhone: true });
+            return { duplicateUserPhone: true };
+          } else {
+            // Clear the error if previously set
+            const currentErrors = referenceControls[i].get('phoneNumber')?.errors;
+            if (currentErrors && currentErrors['duplicateUserPhone']) {
+              delete currentErrors['duplicateUserPhone'];
+              referenceControls[i].get('phoneNumber')?.setErrors(Object.keys(currentErrors).length ? currentErrors : null);
+            }
+          }
+        }
+      }
+
+      // Validate emergency contacts phone numbers
+      if (emergencyContacts) {
+        const emergencyContactControls = (emergencyContacts as any).controls;
+        for (let i = 0; i < emergencyContactControls.length; i++) {
+          const contactPhoneNumber = emergencyContactControls[i].get('contactNumber')?.value;
+          if (contactPhoneNumber && contactPhoneNumber === userPhoneNumber) {
+            emergencyContactControls[i].get('contactNumber')?.setErrors({ duplicateUserPhone: true });
+            return { duplicateUserPhone: true };
+          } else {
+            // Clear the error if previously set
+            const currentErrors = emergencyContactControls[i].get('contactNumber')?.errors;
+            if (currentErrors && currentErrors['duplicateUserPhone']) {
+              delete currentErrors['duplicateUserPhone'];
+              emergencyContactControls[i].get('contactNumber')?.setErrors(Object.keys(currentErrors).length ? currentErrors : null);
+            }
+          }
+        }
+      }
+
+      return null; // No errors
+    };
+  }
+
+  // Custom validator to ensure emails are not equal to the user's email
+ emailNotEqualToUserEmail(): ValidatorFn {
+  return (formGroup: AbstractControl): ValidationErrors | null => {
+    const userEmail = formGroup.get('user.email')?.value;
+    const references = formGroup.get('references') as AbstractControl;
+    const emergencyContacts = formGroup.get('userEmergencyContacts') as AbstractControl;
+
+    // Check if user email exists
+    if (!userEmail) {
+      return null; // No validation if user email is not provided yet
+    }
+
+    // Validate references emails
+    if (references) {
+      const referenceControls = (references as any).controls;
+      for (let i = 0; i < referenceControls.length; i++) {
+        const refEmail = referenceControls[i].get('emailId')?.value;
+        if (refEmail && refEmail === userEmail) {
+          referenceControls[i].get('emailId')?.setErrors({ duplicateUserEmail: true });
+          return { duplicateUserEmail: true };
+        } else {
+          // Clear the error if previously set
+          const currentErrors = referenceControls[i].get('emailId')?.errors;
+          if (currentErrors && currentErrors['duplicateUserEmail']) {
+            delete currentErrors['duplicateUserEmail'];
+            referenceControls[i].get('emailId')?.setErrors(Object.keys(currentErrors).length ? currentErrors : null);
+          }
+        }
+      }
+    }
+
+    return null; // No errors
+  };
+}
 
 }
