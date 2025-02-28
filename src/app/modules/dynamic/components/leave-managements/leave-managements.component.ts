@@ -140,7 +140,7 @@ organizationRegistrationDate: string = '';
     this.getLeaveTopDefaulterUser();
     this.getLeaveCategoryDetailsForLeaveTeamOverview();
 
-
+    this.resetTabData();
     this.fetchMaxLeavesUsers();
     this.fetchMinLeavesUsers();
     this.fetchUsersOnLeave();
@@ -162,35 +162,68 @@ organizationRegistrationDate: string = '';
   scrollDistance = 1;
   scrollUpDistance = 1;
 
+
   fetchMaxLeavesUsers(): void {
     this.isLoaderLoading = true;
-    this.leaveService.getUsersWithMaximumLeaves(this.pageNumberDefaulter, this.itemOnPage).subscribe(response => {
-      this.isLoaderLoading = false;
-      if (response.status) {
-        this.maxLeavesUsers = response.object;
-        this.totalMaxLeaves = response.totalItems;
-        this.pageNumberDefaulter++; // Increase page only after success
+    this.leaveService.getUsersWithMaximumLeaves(this.pageNumberDefaulter, this.itemOnPage).subscribe(
+      response => {
+        this.isLoaderLoading = false;
+        if (response.status) {
+          this.maxLeavesUsers = [...this.maxLeavesUsers, ...response.object];
+          this.totalMaxLeaves = response.totalItems;
+          this.pageNumberDefaulter++;
+          if (this.maxLeavesUsers.length >= this.totalMaxLeaves) {
+            this.isAllDataLoaded = true;
+          }
+        }
+      },
+      err => {
+        this.isLoaderLoading = false;
       }
-    }, err => {
-      this.isLoaderLoading = false;
-    });
+    );
   }
 
   fetchMinLeavesUsers(): void {
-
     this.isLoaderLoading = true;
-    this.leaveService.getUsersWithMinimumLeaves(this.pageNumberConsistent, this.itemOnPage).subscribe(response => {
-      this.isLoaderLoading = false;
-      if (response.status) {
-        this.minLeavesUsers = [...this.minLeavesUsers, ...response.object];
-        this.totalMinLeaves = response.totalItems;
-        this.pageNumberConsistent++; // Increase page only after success
+    this.leaveService.getUsersWithMinimumLeaves(this.pageNumberConsistent, this.itemOnPage).subscribe(
+      response => {
+        this.isLoaderLoading = false;
+        if (response.status) {
+          this.minLeavesUsers = [...this.minLeavesUsers, ...response.object];
+          this.totalMinLeaves = response.totalItems;
+          this.pageNumberConsistent++;
+          if (this.minLeavesUsers.length >= this.totalMinLeaves) {
+            this.isAllDataLoaded = true;
+          }
+        }
+      },
+      err => {
+        this.isLoaderLoading = false;
       }
-    },
-    (error) => {
-      this.isLoaderLoading = false;
-    });
+    );
   }
+
+  fetchUsersOnLeave(): void {
+    this.isLoaderLoading = true;
+    this.leaveService.getUsersOnLeaveInRange(this.startDate, this.endDate).subscribe(
+      response => {
+        this.isLoaderLoading = false;
+        if (response.status) {
+          this.usersOnLeave = [...this.usersOnLeave, ...response.object];
+          this.totalUsersOnLeave = response.totalItems;
+          this.pageNumberOnLeave++;
+          if (this.usersOnLeave.length >= this.totalUsersOnLeave) {
+            this.isAllDataLoaded = true;
+          }
+        }
+      },
+      err => {
+        this.isLoaderLoading = false;
+      }
+    );
+  }
+
+
 
   onScrollConsistent(): void {
     console.log('onScrollConsistent triggered');
@@ -217,51 +250,38 @@ organizationRegistrationDate: string = '';
 
 
 
-  fetchUsersOnLeave(): void {
-    this.isLoaderLoading = true;
-    this.leaveService.getUsersOnLeaveInRange(this.startDate, this.endDate).subscribe(response => {
-      this.isLoaderLoading = false;
-      if (response.status) {
-        this.usersOnLeave = [...this.usersOnLeave, ...response.object];
-        this.totalUsersOnLeave = response.totalItems;
-      }
-    }, err => {
-      this.isLoaderLoading = false;
-    });
-  }
+
 
   tab: string = 'absent';
   switchTab(tab: string) {
-    this.tab = tab
+    this.tab = tab;
+    this.resetTabData();
 
     switch (tab) {
       case 'absent':
-        this.selectTab(this.ABSENT_TAB)
+        this.selectTab(this.ABSENT_TAB);
         this.getDetailsForLeaveTeamOverview(this.tabName);
-        return;
+        break;
       case 'leave':
-        this.selectTab(this.ON_LEAVE_TAB)
-        this.getDetailsForLeaveTeamOverview(this.tabName);
-        return;
+        this.selectTab(this.ON_LEAVE_TAB);
+        this.fetchUsersOnLeave();
+        break;
       case 'defaulter':
-        this.selectTab(this.DEFAULTER_TAB)
-        this.getDetailsForLeaveTeamOverview(this.tabName);
-        return;
+        this.selectTab(this.DEFAULTER_TAB);
+        this.fetchMaxLeavesUsers();
+        break;
       case 'consistent':
-        this.selectTab(this.CONSISTENT_TAB)
-        this.getDetailsForLeaveTeamOverview(this.tabName);
-        return;
+        this.selectTab(this.CONSISTENT_TAB);
+        this.fetchMinLeavesUsers();
+        break;
       case 'department':
         this.selectTab(this.LEAVE_BY_DEPARTMENT_TAB);
         this.getDetailsForLeaveTeamOverview(this.tabName);
-        return;
-      default:
-        return '';
+        break;
     }
-
   }
 
-  selectTab(tabName:string){
+  selectTab(tabName: string) {
     this.currentPageTeamOverView = 1;
     this.itemPerPageTeamOverview = 10;
     this.isLoaderLoading = false;
@@ -270,6 +290,18 @@ organizationRegistrationDate: string = '';
     this.tabName = tabName;
   }
 
+  resetTabData(): void {
+    this.pageNumberOnLeave = 1;
+    this.pageNumberDefaulter = 1;
+    this.pageNumberConsistent = 1;
+    this.usersOnLeave = [];
+    this.maxLeavesUsers = [];
+    this.minLeavesUsers = [];
+    this.totalUsersOnLeave = 0;
+    this.totalMaxLeaves = 0;
+    this.totalMinLeaves = 0;
+    this.isAllDataLoaded = false;
+  }
   changeShowFilter(flag : boolean) {
     this.showFilter = flag;
   }
@@ -722,17 +754,33 @@ getDetailsForLeaveTeamOverview(tabName: string) {
     });
 }
 
-onScroll(event: any) {
-  const target = event.target;
 
-  // Check if the user scrolled to the bottom
+onScroll(event: any): void {
+  const target = event.target;
   if (target.scrollHeight - target.scrollTop <= target.clientHeight + 10 && !this.isLoaderLoading && !this.isAllDataLoaded) {
-    this.currentPageTeamOverView++; // Increase page number for next set of data
-    this.getDetailsForLeaveTeamOverview(this.tabName); // Load more data
+    switch (this.tab) {
+      case 'absent':
+        this.currentPageTeamOverView++;
+        this.getDetailsForLeaveTeamOverview(this.tabName);
+        break;
+      case 'leave':
+        if (this.usersOnLeave.length < this.totalUsersOnLeave) {
+          this.fetchUsersOnLeave();
+        }
+        break;
+      case 'defaulter':
+        if (this.maxLeavesUsers.length < this.totalMaxLeaves) {
+          this.fetchMaxLeavesUsers();
+        }
+        break;
+      case 'consistent':
+        if (this.minLeavesUsers.length < this.totalMinLeaves) {
+          this.fetchMinLeavesUsers();
+        }
+        break;
+    }
   }
 }
-
-
 //  new
 
 
@@ -1178,10 +1226,10 @@ initChartDataHeatMap(approvedLeaveCounts: any[]): void {
           min: 0,
           max: 365,
           ranges: [
-            { from: 0, to: 5, color: "#D6EAF8", name: "Very Low" },
-            { from: 6, to: 20, color: "#AED6F1", name: "Low" },
-            { from: 21, to: 50, color: "#5DADE2", name: "Medium" },
-            { from: 51, to: 100, color: "#2E86C1", name: "High" }
+            { from: 0, to: 0, color: "#f7fafa", name: "Very Low" },
+            { from: 1, to: 4, color: "#9ccabe", name: "Low" },
+            { from: 4, to: 8, color: "#478e7d", name: "Medium" },
+            { from: 8, to: 100, color: "#185143", name: "High" }
           ]
         }
       },
