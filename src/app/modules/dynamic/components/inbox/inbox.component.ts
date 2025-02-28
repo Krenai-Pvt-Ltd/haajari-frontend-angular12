@@ -193,7 +193,9 @@ export class InboxComponent implements OnInit {
   onLeaveComponentClose() {
     // this.showLeaveComponent = false;
   }
-
+  onNotFetchingLeave(){
+    this.showLeaveComponent = false;
+  }
 
   readNotification(mail: any){
     if(!mail.isRead ){
