@@ -173,7 +173,7 @@ organizationRegistrationDate: string = '';
           this.maxLeavesUsers = [...this.maxLeavesUsers, ...response.object];
           this.totalMaxLeaves = response.totalItems;
           if(this.maxLeavesUsers.length > 0 ) {
-            this.mostDefaulter = JSON.parse(JSON.stringify(this.maxLeavesUsers[0]));
+            this.mostDefaulter = { ...this.maxLeavesUsers[0] };
           }
           this.pageNumberDefaulter++;
           if (this.maxLeavesUsers.length >= this.totalMaxLeaves) {

@@ -602,7 +602,7 @@
                                 <div class="report-header p-3">
                                     <h5 class="mb-0 font-16 fw-semibold">Defaulter Employee </h5>
                                 </div>
-                                <div class="p-3 defaulter-employee" *ngIf="totalMaxLeaves>0">
+                                <div class="p-3 defaulter-employee" *ngIf="mostDefaulter!=undefined && mostDefaulter!={}">
                                     <div class="d-flex align-items-center justify-content-between mb-3">
                                         <div class="d-flex align-items-center gap-2">
                                             <img src="{{mostDefaulter.image}}" class="thumb-md rounded-circle" *ngIf="mostDefaulter.image!=null">
