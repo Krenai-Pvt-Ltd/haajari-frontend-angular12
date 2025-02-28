@@ -113,7 +113,7 @@ export class LeaveService {
       .set('startDate', startDate)
       .set('endDate', endDate);
     return this.http.get<any>(
-      `${API_URLS.base_url}/leave/team-overview/report`,
+      `${API_URLS.base_url}/leave/leave-summary`,
       { params }
     );
   }
