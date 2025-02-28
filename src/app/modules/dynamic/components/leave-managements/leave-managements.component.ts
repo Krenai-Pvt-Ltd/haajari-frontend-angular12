@@ -9,6 +9,7 @@ import moment from 'moment';  // Import Moment.js
 import { DatePipe } from '@angular/common';
 import { DataService } from 'src/app/services/data.service';
 import {ApexAxisChartSeries, ApexChart,ApexXAxis,ApexYAxis,ApexDataLabels,ApexTooltip,ApexGrid,ApexFill,ApexMarkers,ApexTitleSubtitle,ChartComponent,ApexPlotOptions,ApexTheme,ApexStroke, ApexLegend,} from 'ng-apexcharts';
+import { constant } from 'src/app/constant/constant';
 
 
 export type ChartOptions = {
@@ -69,6 +70,8 @@ export class LeaveManagementsComponent implements OnInit {
   HOLIDAY = Key.HOLIDAY;
   LEAVE = Key.LEAVE;
   HALFDAY = Key.HALFDAY;
+
+  readonly Constants=constant;
 
   ALL: string = 'all';
   isLoadingLeaves:boolean = false;
@@ -163,7 +166,7 @@ organizationRegistrationDate: string = '';
   scrollUpDistance = 1;
 
 
-  mostDefaulter: any={}
+  mostDefaulter!: any;
   fetchMaxLeavesUsers(): void {
     this.isLoaderLoading = true;
     this.leaveService.getUsersWithMaximumLeaves(this.pageNumberDefaulter, this.itemOnPage).subscribe(
@@ -173,7 +176,8 @@ organizationRegistrationDate: string = '';
           this.maxLeavesUsers = [...this.maxLeavesUsers, ...response.object];
           this.totalMaxLeaves = response.totalItems;
           if(this.maxLeavesUsers.length > 0 ) {
-            this.mostDefaulter = { ...this.maxLeavesUsers[0] };
+            this.mostDefaulter = JSON.parse(JSON.stringify(this.maxLeavesUsers[0]));
+
           }
           this.pageNumberDefaulter++;
           if (this.maxLeavesUsers.length >= this.totalMaxLeaves) {

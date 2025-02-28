@@ -602,7 +602,7 @@
                                 <div class="report-header p-3">
                                     <h5 class="mb-0 font-16 fw-semibold">Defaulter Employee </h5>
                                 </div>
-                                <div class="p-3 defaulter-employee" *ngIf="mostDefaulter!=undefined && mostDefaulter!={}">
+                                <div class="p-3 defaulter-employee" *ngIf="!Constants.EMPTY_STRINGS.includes(mostDefaulter) && mostDefaulter!={}">
                                     <div class="d-flex align-items-center justify-content-between mb-3">
                                         <div class="d-flex align-items-center gap-2">
                                             <img src="{{mostDefaulter.image}}" class="thumb-md rounded-circle" *ngIf="mostDefaulter.image!=null">
@@ -641,7 +641,7 @@
                                      </div>
 
                                 </div>
-                                <div class="empty-file" style="margin-top: 5%; margin-bottom: 5%" *ngIf="topDefaulterUser == null && !isDefaulterEmployeeLoading">
+                                <div class="empty-file" style="margin-top: 5%; margin-bottom: 5%" *ngIf="Constants.EMPTY_STRINGS.includes(mostDefaulter) && !isDefaulterEmployeeLoading">
                                     <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
                                       [nzNotFoundContent]="contentTpl">
                                       <ng-template #contentTpl>
