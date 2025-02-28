@@ -163,6 +163,7 @@ organizationRegistrationDate: string = '';
   scrollUpDistance = 1;
 
 
+  mostDefaulter: any={}
   fetchMaxLeavesUsers(): void {
     this.isLoaderLoading = true;
     this.leaveService.getUsersWithMaximumLeaves(this.pageNumberDefaulter, this.itemOnPage).subscribe(
@@ -171,6 +172,9 @@ organizationRegistrationDate: string = '';
         if (response.status) {
           this.maxLeavesUsers = [...this.maxLeavesUsers, ...response.object];
           this.totalMaxLeaves = response.totalItems;
+          if(this.maxLeavesUsers.length > 0 ) {
+            this.mostDefaulter = { ...this.maxLeavesUsers[0] };
+          }
           this.pageNumberDefaulter++;
           if (this.maxLeavesUsers.length >= this.totalMaxLeaves) {
             this.isAllDataLoaded = true;

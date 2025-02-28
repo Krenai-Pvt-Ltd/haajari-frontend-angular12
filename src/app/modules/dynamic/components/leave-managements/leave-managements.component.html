@@ -602,27 +602,28 @@
                                 <div class="report-header p-3">
                                     <h5 class="mb-0 font-16 fw-semibold">Defaulter Employee </h5>
                                 </div>
-                                <div class="p-3 defaulter-employee" *ngIf="topDefaulterUser!=null && !isDefaulterEmployeeLoading">
+                                <div class="p-3 defaulter-employee" *ngIf="mostDefaulter!=undefined && mostDefaulter!={}">
                                     <div class="d-flex align-items-center justify-content-between mb-3">
                                         <div class="d-flex align-items-center gap-2">
-                                            <img src="{{topDefaulterUser?.topDefaulterUser?.userImage}}" class="thumb-md rounded-circle" *ngIf="topDefaulterUser?.topDefaulterUser?.userImage">
-                                            <img src="assets/images/user.png" alt="" class="thumb-md rounded-circle" *ngIf="!topDefaulterUser?.topDefaulterUser?.userImage">
+                                            <img src="{{mostDefaulter.image}}" class="thumb-md rounded-circle" *ngIf="mostDefaulter.image!=null">
+                                            <img src="assets/images/user.png" alt="" class="thumb-md rounded-circle" *ngIf="mostDefaulter.image==null">
                                            <!-- <img src="{{topDefaulterUser?.topDefaulterUser?.userImage}}"> -->
                                            <div>
-                                              <h5 class="mb-1 font-14 fw-semibold Regular-data" (click)="routeToUserProfile(topDefaulterUser?.topDefaulterUser?.userUuid)">{{topDefaulterUser?.topDefaulterUser?.userName}}</h5>
-                                              <p class="mb-0 fw-light font-13">{{topDefaulterUser?.topDefaulterUser?.userEmail}} | <span class="text-black fw-normal">{{topDefaulterUser?.topDefaulterUser?.userPosition}}</span></p>
+                                              <h5 class="mb-1 font-14 fw-semibold Regular-data" (click)="routeToUserProfile(mostDefaulter.uuid)">{{mostDefaulter?.name}}</h5>
+                                              <p class="mb-0 fw-light font-13">{{mostDefaulter.position}} </p>
                                            </div>
                                         </div>
-                                        <p class="mb-0 text-black"> <span class="font-20 fw-semibold text-danger">{{topDefaulterUser?.topDefaulterUser?.userTotalLeaveCount}}</span> Leaves</p>
+                                        <p class="mb-0 text-black"> <span class="font-20 fw-semibold text-danger">{{mostDefaulter.totalLeaveTaken}}</span> Leaves</p>
                                      </div>
+                                     <!-- TODO: integrate in this section -->
                                      <div class="row mt-3">
-                                        <div class="col-md-4" *ngFor = "let list of topDefaulterUser?.categoryWiseLeaveData">
+                                        <!-- <div class="col-md-4" *ngFor = "let list of topDefaulterUser?.categoryWiseLeaveData">
                                             <div class="defaulter">
                                                 <h5 class="font-13 mb-3">{{list?.leaveCategoryName}}</h5>
                                                 <h5 class="font-22 mb-1 fw-semibold"> {{list?.totalApprovedLeave}} <span class="font-13 fw-semibold" style="color: #444;">Approved</span></h5>
-                                                <!-- <p class="mb-0 font-13 fw-light"><span class="font-14 text-danger fw-semibold">2 </span> in a month</p> -->
+                                                <p class="mb-0 font-13 fw-light"><span class="font-14 text-danger fw-semibold">2 </span> in a month</p>
                                              </div>
-                                        </div>
+                                        </div> -->
                                         <!-- <div class="col-md-4">
                                             <div class="defaulter">
                                                 <h5 class="font-13 mb-3">Earned Leave </h5>
