@@ -14,7 +14,6 @@ import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
 import { DataService } from 'src/app/services/data.service';
 import { environment } from 'src/environments/environment';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { LiveManagerComponent } from './components/live-manager/live-manager.component';
 import { OnboardingComponent } from './components/onboarding/onboarding.component';
 import { PrivacyComponent } from './components/privacy/privacy.component';
 import { ProjectComponent } from './components/project/project.component';
@@ -89,7 +88,6 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     TimetableComponent,
     ProjectComponent,
     TaskManagerComponent,
-    LiveManagerComponent,
     OnboardingComponent,
     UserlistComponent,
     DateFormatPipe,

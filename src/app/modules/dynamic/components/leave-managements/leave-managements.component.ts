@@ -355,9 +355,6 @@ organizationRegistrationDate: string = '';
               this.pendingLeaveCount = response.totalItems;
             }
 
-            // this.isFirstLoad = false;
-            // this.isPendingChange = false;
-
 
           } else {
             this.leaves = [];
@@ -386,7 +383,6 @@ organizationRegistrationDate: string = '';
         this.userLeaveQuota = event;
         this.openLeaveQuotaModal();
       }
-      // this.getLeaves(true);
     }
 
       viewLeave(leave:any){
@@ -420,7 +416,6 @@ openInNewTab(url: string) {
 
 onPageChange(page: number) {
   this.searchTerm = '';
-  // this.currentPage = 1;
   this.currentPage = page;
 
 
@@ -429,13 +424,6 @@ onPageChange(page: number) {
     } else {
       this.getLeaves(false, false);
     }
-
-  // if(this.filters.fromDate && this.filters.toDate) {
-  //   this.getLeaves(false, true); // Fetch data with applied filters
-  //   } else {
-  //     this.getLeaves(false, false);
-  //   }
-  // this.getLeaves();
 }
 
 resetSearch(){
@@ -443,7 +431,6 @@ resetSearch(){
   this.searchTerm = '';
   this.currentPage = 1;
   this.leaves= [];
-  // this.cdr.detectChanges();
 }
 
 
@@ -451,18 +438,15 @@ searchTermChanged(event: any) {
   debugger
   this.currentPage = 1;
   this.searchTerm = event.target.value;
-  // this.searchTerm.trim().length === 0 ? this.resetSearch() :this.getLeaves();
   this.searchTerm.trim().length === 0 ? this.resetSearch() :this.applyFilters();
 
 }
 
 searchLeaves() {
   this.resetValues();
-  // this.getLeaves();
   this.applyFilters()
 }
 resetValues(){
-  // this.searchTerm = '';
   this.leaves=[];
   this.totalItems = 0;
   this.currentPage= 1;
@@ -562,7 +546,6 @@ resetFilters(): void {
   this.changeShowFilter(false);
   this.currentPage = 1;
   this.applyFilters();
-  // this.getLeaves();
 }
 removeFilter(filter: { key: string; value: string }): void {
   // Remove the specific filter from the appliedFilters array
@@ -587,7 +570,6 @@ removeFilter(filter: { key: string; value: string }): void {
   this.changeShowFilter(false);
   this.currentPage = 1;
   this.applyFilters();
-  // this.getLeaves(); // Refresh data after filter removal
 }
 
 
@@ -625,11 +607,6 @@ approveOrRejectLeave(leaveId: number, operationString: string) {
       } else {
         this.helperService.showToast(response.message, Key.TOAST_STATUS_ERROR);
       }
-      // if(response.status) {
-      // this.helperService.showToast(`Leave ${operationString} successfully.`, Key.TOAST_STATUS_SUCCESS);
-      // }else {
-      //   this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
-      // }
     },
     error: (error) => {
       this.isPendingChange = false;
@@ -675,7 +652,6 @@ approveOrRejectLeaveCall(leaveId: number, operationString: string) {
     this.approveOrRejectLeave(leaveId, operationString);
    }else if (operationString === this.REJECTED) {
     this.rejectionReasonFlag = true;
-    // this.approveOrRejectLeave(leaveId, operationString);
    }
 }
 
@@ -793,7 +769,6 @@ getOrganizationRegistrationDateMethodCall() {
   this.dataService.getOrganizationRegistrationDate().subscribe(
     (response: string) => {
       this.organizationRegistrationDate = response;
-      console.log("fghjklkjhgf", this.organizationRegistrationDate);
       this.updateWeekLabels();
     },
     (error: any) => {
@@ -860,7 +835,6 @@ formatDateToYYYYMMDD(date: Date): string {
 
 onMonthChange(month: Date): void {
   this.selectedDate = month;
-  // this.updateThirtyDaysLabel();
   this.updateWeekLabels();
 
   // Select the first week containing or after the joining date
@@ -881,8 +855,6 @@ onMonthChange(month: Date): void {
 
   this.calculateDateRange();
   this.calculateDateRangeWeek();
-  // this.tab = 'absent';
-  // this.tabName = this.ABSENT_TAB;
   this.getDetailsForLeaveTeamOverview(this.tabName);
   this.getReportDetailsForLeaveTeamOverviewForHeatMap();
   this.getLeaveTopDefaulterUser();
@@ -951,7 +923,6 @@ onMonthChange(month: Date): void {
       // Set the selectedTab to the current week
       this.selectedTab = `Week ${currentWeek}`;
       this.presentWeek = true;
-      // this.selectedTab = `Current Week`;
     } else {
       // Default to Week 1 for other months
       this.selectedTab = 'Week 1';
@@ -964,7 +935,6 @@ onMonthChange(month: Date): void {
     debugger
     this.selectedTab = tab;
     this.presentWeek = false;
-    // this.resetData();
     this.isShimmer = true;
     this.calculateDateRangeWeek();
 
@@ -1128,7 +1098,6 @@ onMonthChange(month: Date): void {
     const maxDate = Math.max(...dates);
     const extendedMaxDate = new Date(maxDate);
     extendedMaxDate.setDate(extendedMaxDate.getDate() + 1);
-    // extendedMaxDate.setDate(extendedMaxDate.getDate()); // Extend by 2 days for better visualization
 
     this.xaxis = { ...this.xaxis, min: minDate, max: extendedMaxDate.getTime() };
 
@@ -1147,7 +1116,6 @@ onMonthChange(month: Date): void {
   @ViewChild('chartHeatMap') chartHeatMap!: ChartComponent;
   public chartOptions!: Partial<ChartOptions>;
   leaveReportResponseHeatMap: any;
-  // topTwoLeaveDays: { date: string; count: number }[] = [];
 
   getReportDetailsForLeaveTeamOverviewForHeatMap(): void {
     this.leaveService.getReportDetailsForLeaveTeamOverview(this.startDate, this.endDate).subscribe({
@@ -1250,97 +1218,6 @@ initChartDataHeatMap(approvedLeaveCounts: any[]): void {
     legend: { show: false },
   };
 }
-
-
-  // initChartDataHeatMap(approvedLeaveCounts: any[]): void {
-  //   const dateMap = new Map<string, number>();
-  //   approvedLeaveCounts.forEach(item => dateMap.set(item.date, item.totalCount));
-
-  //   const start = new Date(this.startDate);
-  //   const end = new Date(this.endDate);
-
-  //   const seriesData: any[] = [];
-  //   let currentDate = new Date(start);
-  //   let weekIndex = 1;
-
-  //   while (currentDate <= end) {
-  //     const weekStart = new Date(currentDate);
-  //     const potentialWeekEnd = new Date(currentDate);
-  //     potentialWeekEnd.setDate(weekStart.getDate() + 6);  // Each week covers 7 days
-
-  //     const weekEnd = potentialWeekEnd > end ? end : potentialWeekEnd;  // Handle last week ending
-
-  //     const weekData: any[] = [];
-  //     for (let date = new Date(weekStart); date <= weekEnd; date.setDate(date.getDate() + 1)) {
-  //       const formattedDate = date.toISOString().split('T')[0];
-  //       const count = dateMap.get(formattedDate) ?? 0;
-  //       // weekData.push({ x: formattedDate, y: count });
-  //       weekData.push({ x: "Total Approved", y: count });
-  //     }
-
-  //     // seriesData.push({
-  //     //   name: `Week ${weekIndex} (${this.formatDateToDDMMM(weekStart)} - ${this.formatDateToDDMMM(weekEnd)})`,
-  //     //   data: weekData,
-  //     // });
-  //     seriesData.push({
-  //       name: `Week ${weekIndex}`,
-  //       data: weekData,
-  //     });
-
-
-  //     weekIndex++;
-  //     currentDate.setDate(weekEnd.getDate() + 1);  // Move to the next week's start
-  //   }
-
-
-  //   this.chartOptions = {
-  //     series: seriesData,
-  //     chart: { height: 350,
-  //       type: 'heatmap',
-  //       toolbar: {
-  //       show: false,
-  //       tools: { zoomin: false, zoomout: false, pan: false, reset: false },
-  //     }
-  //   },
-  //     stroke: {
-  //           width: 1.5,
-  //           colors: ['#ffffff'],
-  //     },
-  //     plotOptions: {
-  //       heatmap: {
-  //         shadeIntensity: 0.8,
-  //         radius: 6,
-  //         useFillColorAsStroke: false,
-  //         enableShades: true, // Enables automatic gradient
-  //         colorScale: {
-  //           min: 0,
-  //           max: 365,
-  //           ranges: [
-  //             { from: 0, to: 5, color: "#D6EAF8", name: "Very Low" },
-  //             { from: 6, to: 20, color: "#AED6F1", name: "Low" },
-  //             { from: 21, to: 50, color: "#5DADE2", name: "Medium" },
-  //             { from: 51, to: 100, color: "#2E86C1", name: "High" }
-  //           ]
-  //         }
-  //       },
-  //     },
-  //     dataLabels: { enabled: false },
-  //     xaxis: { type: 'category', labels: { show: false } },
-  //     yaxis: { title: { text: 'Weeks of the Month' } },
-  //     grid: {
-  //           padding: { left: 10, right: 10, top: 10, bottom: 10 },
-  //     },
-  //     tooltip: {
-  //       y: { formatter: (val) => `${val} Leave(s)` },
-  //       x: { formatter: (val) => `${val}` },
-  //     },
-  //     theme: { mode: 'light' },
-  //     legend: { show: false },
-
-  //   };
-
-
-  // }
 
 
 
