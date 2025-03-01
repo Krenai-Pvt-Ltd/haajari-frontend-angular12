@@ -729,7 +729,7 @@ export class PersonalInformationComponent implements OnInit {
 
   // Set status to pending
   isLoading = false;
-  changeStatus(status: String) {
+  changeStatus(status: string) {
     this.isLoading = true;
     this.dataService.profileEditStatus(status, this.userId).subscribe(
       (response) => {

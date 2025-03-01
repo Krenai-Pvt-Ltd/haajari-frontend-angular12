@@ -1,9 +1,9 @@
 import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { HelperService } from 'src/app/services/helper.service';
 import { LeaveService } from 'src/app/services/leave.service';
-import { finalize, tap } from 'rxjs/operators';
+import { finalize } from 'rxjs/operators';
 import { Key } from 'src/app/constant/key';
-import { LeaveResponse, PendingLeaveResponse } from 'src/app/models/leave-responses.model';
+import { LeaveResponse } from 'src/app/models/leave-responses.model';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import moment from 'moment';  // Import Moment.js
 import { DatePipe } from '@angular/common';
@@ -340,8 +340,6 @@ organizationRegistrationDate: string = '';
 
       params.startDate = moment(this.filters.fromDate).format(this.displayDateFormatNew);
       params.endDate = moment(this.filters.toDate).format(this.displayDateFormatNew);
-      // params.startDate = moment(this.filters.fromDate).format(this.networkDateFormat);
-      // params.endDate = moment(this.filters.toDate).format(this.networkDateFormat);
     }
 
     this.isLoadingLeaves = true;
@@ -353,9 +351,7 @@ organizationRegistrationDate: string = '';
           if (Array.isArray(response.object)) {
             this.leaves = response.object;
             this.totalItems = response.totalItems;
-            // console.log("execute" + this.filters.status.length);
             if (this.filters.status.length == 1 && this.filters.status.includes('pending')) {
-              // console.log("execute" + this.filters.status);
               this.pendingLeaveCount = response.totalItems;
             }
 

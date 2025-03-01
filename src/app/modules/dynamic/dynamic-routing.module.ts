@@ -24,9 +24,7 @@ import { EmployeeOnboardingDataComponent } from './components/employee-onboardin
 import { UnauthorizedComponent } from '../sharable/unauthorized/unauthorized.component';
 import { LeaveManagementComponent } from './components/leave-management/leave-management.component';
 
-import { AssetsComponent } from './components/assets/assets.component';
 import { CoinsComponent } from './components/coins/coins.component';
-import { ToDoStepDashboardComponent } from './components/to-do-step-dashboard/to-do-step-dashboard.component';
 import { SubscriptionComponent } from './components/subscription/subscription.component';
 import { SubscriptionGuard } from 'src/app/guards/subscription.guard';
 import { PreviewFormComponent } from '../employee-onboarding/preview-form/preview-form.component';
@@ -39,7 +37,6 @@ import { AssetsManagementComponent } from './components/assets-management/assets
 import { FaqComponent } from '../common/faq/faq.component';
 import { FaqDetailComponent } from '../common/faq-detail/faq-detail.component';
 import { ExpenseManagementComponent } from './components/expense-management/expense-management.component';
-import { EmployeeProfileComponent } from '../employee-profile/employee-profile.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },

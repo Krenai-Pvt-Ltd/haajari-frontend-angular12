@@ -146,7 +146,7 @@
               Reject
           </button>
           <button [disabled]="isLoading" type="submit" class="btn approved-btn" *ngIf="!rejectionReasonFlag" (click)="approveOrRejectLeaveCall(leave?.id || 0, APPROVED)">
-             <span *ngIf="!isLoading">Approved</span>
+             <span *ngIf="!isLoading">Approve</span>
               <div class="dot-opacity-loader" *ngIf="isLoading">
                 <span></span>
                 <span></span>
