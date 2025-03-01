@@ -167,14 +167,7 @@
                                 <div class="report-chart" style="height: 540px;">
                                     <div class="report-header p-3 d-flex align-items-center justify-content-between">
                                         <h5 class="mb-0 font-15 fw-semibold">Categories</h5>
-                                        <!-- <div>
-                                            <nz-select class="week-filter" ngModel="Week 1" style="width: 120px;">
-                                                <nz-option nzValue="Week 1" nzLabel="Week 1"></nz-option>
-                                                <nz-option nzValue="Week 2" nzLabel="Week 2"></nz-option>
-                                                <nz-option nzValue="Week 3" nzLabel="Week 3"></nz-option>
-                                                <nz-option nzValue="Week 4" nzLabel="Week 4"></nz-option>
-                                              </nz-select>
-                                        </div> -->
+                              
                                     </div>
                                     <div class="p-3">
                                         <div class="d-flex align-items-center justify-content-between mt-2 mb-2">
@@ -182,9 +175,7 @@
                                                 <h5 class="font-22 mb-1 fw-semibold">{{leaveCategoryDetails?.length || 0}} <span class="font-13 fw-semibold" style="color: #444;">Leave Types</span></h5>
                                             <p class="mb-0 font-13">Defined By Your organisation</p>
                                             </div>
-                                            <!-- <div style="width: 130px;">
-                                               <img src="assets/images/categories-chart.png" class="w-100">
-                                            </div> -->
+                                           
                                         </div>
                                         <div class="leave-count" *ngIf="leaveCategoryDetails?.length > 0 && !leaveCategoryDetailsLoader">
                                             <div class="d-flex align-items-center justify-content-between leave-count-list p-2 mb-3" *ngFor ="let deets of leaveCategoryDetails">
@@ -194,89 +185,11 @@
                                                 </div>
                                                 <div class="d-flex align-items-center gap-2">
                                                     <p class="mb-0 text-black"><span class="fw-semibold">{{deets?.totalApprovedleaves}}</span> Approved Leaves</p>
-                                                    <!-- <span>
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="38" height="19" viewBox="0 0 38 19" fill="none">
-                                                            <path d="M1 16.8481C2.03417 15.7672 3.91547 13.4646 5.33808 10.8394C6.02421 9.57318 8.0587 9.39507 8.76106 10.6523L10.3152 13.4344C10.6853 14.0968 11.4673 14.4114 12.1929 14.1896L14.8382 13.3814C15.2645 13.2511 15.7256 13.3032 16.1121 13.5253L18.5785 14.9428C19.3246 15.3716 20.2759 15.1386 20.7393 14.4135L22.5285 11.6141C23.0908 10.7342 24.3287 10.6134 25.0506 11.3679L26.2434 12.6146C27.0876 13.4969 28.5682 13.1562 28.9419 11.9937L30.9474 5.75418C31.4432 4.21185 33.6493 4.28318 34.0444 5.8543L37 17.6076" stroke="#388E3C" stroke-width="1.61144" stroke-linecap="round"/>
-                                                        </svg>
-                                                    </span>
-                                                    <p class="mb-0 text-black font-13"><span class="fw-semibold">{{
-                                                        ((deets?.totalMappedUsers / deets?.totalUsers) * 100) | number : '1.0-0'
-                                                      }}%</span></p> -->
+                                               
                                                 </div>
 
                                             </div>
-                                            <!-- <div class="d-flex align-items-center justify-content-between leave-count-list p-2 mb-3">
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <span class="casual-leave"></span>
-                                                   <p class="mb-0 text-black fw-semibold font-13">Casual Leave </p>
-                                                </div>
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <p class="mb-0 text-black"><span class="fw-semibold">4 </span>People</p>
-                                                    <span>
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="42" height="11" viewBox="0 0 42 11" fill="none">
-                                                            <path opacity="0.8" d="M0 7.75369H42" stroke="#AFAFAF" stroke-width="0.772937" stroke-dasharray="2.32 2.32"/>
-                                                            <path d="M4.2793 9.82812L6.67983 3.32249C7.01395 2.417 8.24353 2.29234 8.75258 3.11235L9.68772 4.61874C10.1125 5.30294 11.0882 5.35638 11.5851 4.72266L12.0058 4.18613C12.4637 3.60228 13.3445 3.59272 13.8148 4.16651L17.2448 8.35055C17.7965 9.02348 18.8652 8.8715 19.2074 8.07144L20.9058 4.10062C21.1553 3.51723 21.8274 3.24279 22.414 3.48479L23.2607 3.83413C23.7511 4.0365 24.3164 3.88009 24.6331 3.45438L25.8481 1.82111C26.387 1.09669 27.5106 1.23905 27.8518 2.07498L29.434 5.95129C29.758 6.74508 30.8017 6.92478 31.3725 6.28505L31.9654 5.62057C32.4133 5.11867 33.1928 5.10197 33.6618 5.58424L37.7882 9.82812" stroke="#FF3014" stroke-linecap="round"/>
-                                                            </svg>
-                                                    </span>
-                                                    <p class="mb-0 text-black font-13"><span class="fw-semibold">4%</span></p>
-                                                </div>
-
-                                            </div> -->
-                                            <!-- <div class="d-flex align-items-center justify-content-between leave-count-list p-2 mb-3">
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <span class="sick-leave"></span>
-                                                   <p class="mb-0 text-black fw-semibold font-13">Sick Leave </p>
-                                                </div>
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <p class="mb-0 text-black"><span class="fw-semibold">43</span>People</p>
-                                                    <span>
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="38" height="19" viewBox="0 0 38 19" fill="none">
-                                                            <path d="M1 16.8481C2.03417 15.7672 3.91547 13.4646 5.33808 10.8394C6.02421 9.57318 8.0587 9.39507 8.76106 10.6523L10.3152 13.4344C10.6853 14.0968 11.4673 14.4114 12.1929 14.1896L14.8382 13.3814C15.2645 13.2511 15.7256 13.3032 16.1121 13.5253L18.5785 14.9428C19.3246 15.3716 20.2759 15.1386 20.7393 14.4135L22.5285 11.6141C23.0908 10.7342 24.3287 10.6134 25.0506 11.3679L26.2434 12.6146C27.0876 13.4969 28.5682 13.1562 28.9419 11.9937L30.9474 5.75418C31.4432 4.21185 33.6493 4.28318 34.0444 5.8543L37 17.6076" stroke="#388E3C" stroke-width="1.61144" stroke-linecap="round"/>
-                                                        </svg>
-                                                    </span>
-                                                    <p class="mb-0 text-black font-13"><span class="fw-semibold">55%</span></p>
-                                                </div>
-
-                                            </div> -->
-                                            <!-- <div class="d-flex align-items-center justify-content-between leave-count-list p-2 mb-3">
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <span class="lop"></span>
-                                                   <p class="mb-0 text-black fw-semibold font-13">Leave Without Pay </p>
-                                                </div>
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <p class="mb-0 text-black"><span class="fw-semibold">4</span>People</p>
-                                                    <span>
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="42" height="11" viewBox="0 0 42 11" fill="none">
-                                                            <path opacity="0.8" d="M0 7.75369H42" stroke="#AFAFAF" stroke-width="0.772937" stroke-dasharray="2.32 2.32"/>
-                                                            <path d="M4.2793 9.82812L6.67983 3.32249C7.01395 2.417 8.24353 2.29234 8.75258 3.11235L9.68772 4.61874C10.1125 5.30294 11.0882 5.35638 11.5851 4.72266L12.0058 4.18613C12.4637 3.60228 13.3445 3.59272 13.8148 4.16651L17.2448 8.35055C17.7965 9.02348 18.8652 8.8715 19.2074 8.07144L20.9058 4.10062C21.1553 3.51723 21.8274 3.24279 22.414 3.48479L23.2607 3.83413C23.7511 4.0365 24.3164 3.88009 24.6331 3.45438L25.8481 1.82111C26.387 1.09669 27.5106 1.23905 27.8518 2.07498L29.434 5.95129C29.758 6.74508 30.8017 6.92478 31.3725 6.28505L31.9654 5.62057C32.4133 5.11867 33.1928 5.10197 33.6618 5.58424L37.7882 9.82812" stroke="#FF3014" stroke-linecap="round"/>
-                                                            </svg>
-                                                    </span>
-                                                    <p class="mb-0 text-black font-13"><span class="fw-semibold">4% </span></p>
-                                                </div>
-
-                                            </div> -->
-                                            <!-- <div class="d-flex align-items-center justify-content-between leave-count-list p-2 mb-3">
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <span class="maternity-leave"></span>
-                                                   <p class="mb-0 text-black fw-semibold font-13">Maternity Leave </p>
-                                                </div>
-                                                <div class="d-flex align-items-center gap-2">
-
-                                                    <button class="btn text-primary font-13 fw-semibold  p-0">Add</button>
-                                                </div>
-
-                                            </div> -->
-                                            <!-- <div class="d-flex align-items-center justify-content-between leave-count-list p-2">
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <span class="paternity-leave"></span>
-                                                   <p class="mb-0 text-black fw-semibold font-13">Paternity Leave</p>
-                                                </div>
-                                                <div class="d-flex align-items-center gap-2">
-
-                                                    <button class="btn text-primary font-13 fw-semibold p-0">Add</button>
-                                                </div>
-
-                                            </div> -->
+                                            
                                         </div>
                                         <div class="empty-file" style="margin-top: 5%; margin-bottom: 5%" *ngIf="leaveCategoryDetails?.length == 0 && !leaveCategoryDetailsLoader">
                                             <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
@@ -308,14 +221,6 @@
                                 <div class="report-chart">
                                     <div class="report-header p-3 d-flex align-items-center justify-content-between">
                                         <h5 class="mb-0 font-16 fw-semibold">Team Overview</h5>
-                                        <!-- <div>
-                                            <nz-select class="week-filter" ngModel="Week 1" style="width: 120px;">
-                                                <nz-option nzValue="Week 1" nzLabel="Week 1"></nz-option>
-                                                <nz-option nzValue="Week 2" nzLabel="Week 2"></nz-option>
-                                                <nz-option nzValue="Week 3" nzLabel="Week 3"></nz-option>
-                                                <nz-option nzValue="Week 4" nzLabel="Week 4"></nz-option>
-                                              </nz-select>
-                                        </div> -->
                                     </div>
                                     <div class="row">
                                         <div class="col-md-3">
@@ -579,25 +484,7 @@
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <!-- <div class="report-chart mb-3">
-                                <div class="report-header p-3">
-                                    <h5 class="mb-0 font-16 fw-semibold">Earned Leave Funds</h5>
-                                </div>
-                                <div class="d-flex align-items-center justify-content-between gap-3 p-3 pt-4 pb-4 earned-funds">
-                                    <div class="">
-                                        <p class="mb-1 font-13">Used Funds  </p>
-                                        <h5 class="mb-0 font-20 fw-normal">₹1,24,420.50 <span class="font-13 fw-semibold">₹12,344
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="7" height="11" viewBox="0 0 7 11" fill="none">
-                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M4.52807 10.0159H2.54674V5.8172H0.111328L3.53725 0.984065L6.96318 5.8172H4.52807V10.0159Z" fill="#388E3C"/>
-                                            </svg>
-                                        </span></h5>
-                                    </div>
-                                    <div class="">
-                                        <p class="mb-1 font-13">Funds Left </p>
-                                        <h5 class="mb-0 font-20 fw-normal">₹3,24,420</h5>
-                                    </div>
-                                </div>
-                            </div> -->
+                           
                             <div class="report-chart">
                                 <div class="report-header p-3">
                                     <h5 class="mb-0 font-16 fw-semibold">Defaulter Employee </h5>
@@ -607,7 +494,6 @@
                                         <div class="d-flex align-items-center gap-2">
                                             <img src="{{mostDefaulter.image}}" class="thumb-md rounded-circle" *ngIf="mostDefaulter.image!=null">
                                             <img src="assets/images/user.png" alt="" class="thumb-md rounded-circle" *ngIf="mostDefaulter.image==null">
-                                           <!-- <img src="{{topDefaulterUser?.topDefaulterUser?.userImage}}"> -->
                                            <div>
                                               <h5 class="mb-1 font-14 fw-semibold Regular-data" (click)="routeToUserProfile(mostDefaulter.uuid)">{{mostDefaulter?.name}}</h5>
                                               <p class="mb-0 fw-light font-13">{{mostDefaulter.position}} </p>
@@ -702,18 +588,7 @@
                                                     </div>
                                                 </form>
                                             </div>
-                                            <!-- <div>
-                                                <button type="button" class="btn primaryBtnLink leave-request d-block text-end">Download
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
-                                                        <mask id="mask0_7808_52" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
-                                                        <rect y="0.5" width="20" height="20" fill="#D9D9D9"/>
-                                                        </mask>
-                                                        <g mask="url(#mask0_7808_52)">
-                                                        <path d="M10 13.6571L6.44229 10.0994L7.32063 9.19563L9.375 11.25V4.25H10.625V11.25L12.6794 9.19563L13.5577 10.0994L10 13.6571ZM5.25646 16.75C4.83549 16.75 4.47917 16.6042 4.1875 16.3125C3.89583 16.0208 3.75 15.6645 3.75 15.2435V12.984H5V15.2435C5 15.3077 5.02674 15.3665 5.08021 15.4198C5.13354 15.4733 5.19229 15.5 5.25646 15.5H14.7435C14.8077 15.5 14.8665 15.4733 14.9198 15.4198C14.9733 15.3665 15 15.3077 15 15.2435V12.984H16.25V15.2435C16.25 15.6645 16.1042 16.0208 15.8125 16.3125C15.5208 16.6042 15.1645 16.75 14.7435 16.75H5.25646Z" fill="#6666F2"/>
-                                                        </g>
-                                                        </svg>
-                                                </button>
-                                            </div> -->
+                                          
                                         </div>
 
                                         <div class="actionMenuList filter-box p-0 position-absolute bg-white border" [ngClass]="{'d-none': !showFilter}">
