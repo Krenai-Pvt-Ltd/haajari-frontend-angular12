@@ -820,7 +820,7 @@ calculateDateRange(): void {
       new Date(this.selectedDate.getFullYear(), this.selectedDate.getMonth(), 1)
     );
     this.endDate = this.formatDateToYYYYMMDD(
-      isCurrentMonth ? currentDate : new Date(this.selectedDate.getFullYear(), this.selectedDate.getMonth() + 1, 0)
+       new Date(this.selectedDate.getFullYear(), this.selectedDate.getMonth() + 1, 0)
     );
 }
 
