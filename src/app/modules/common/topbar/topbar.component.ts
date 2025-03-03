@@ -42,6 +42,7 @@ export class TopbarComponent implements OnInit {
   topbarValue: string | undefined;
 
   ROLE: any;
+  userInfo: any;
   // UUUI!:String;
   async ngOnInit() {
     // this.UUID = await this.rbacService.getUUID();
@@ -52,6 +53,8 @@ export class TopbarComponent implements OnInit {
       this.updateTopbarValue();
     });
     this.getUuids();
+    this.getMailNotification(this.UUID, 'mail');
+    this.userInfo =this.rbacService.userInfo;
   }
   routeDesc:any="Here's what's going on today.";
   private updateTopbarValue() {
