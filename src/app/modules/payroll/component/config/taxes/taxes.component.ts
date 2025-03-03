@@ -83,7 +83,6 @@ export class TaxesComponent implements OnInit {
 
   selectedEmployee(uuid:any){
 
-    console.log("===========",uuid)
     const selectedEmp = this.employees.find(emp => emp.uuid === uuid);
     if(selectedEmp){
       this.taxDetail.fatherName = selectedEmp.fatherName?selectedEmp.fatherName:'';

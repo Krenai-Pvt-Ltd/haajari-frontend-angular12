@@ -45,8 +45,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     NgbModule,
     NzProgressModule,
     NzSelectModule,
-    NzDatePickerModule,
-    SharedModule,
+    NzDatePickerModule
   ]
 })
 export class PayrollModule { }

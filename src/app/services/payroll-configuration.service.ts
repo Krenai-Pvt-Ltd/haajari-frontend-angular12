@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Key } from '../constant/key';
 import { Observable } from 'rxjs';
 import { TaxDetail } from '../payroll-models/TaxDetail';
+import { EmployeeProvidentFund } from '../payroll-models/EmployeeProvidentFund';
 
 @Injectable({
   providedIn: 'root'
@@ -27,5 +28,17 @@ export class PayrollConfigurationService {
 
     getEmployee(): Observable<any>{
       return this._http.get<any>(`${this._key.base_url}/payroll-config/employees`);
+    }
+
+    getEpfDetail(): Observable<any>{
+      return this._http.get<any>(`${this._key.base_url}/payroll-config/epf`);
+    }
+
+    getPfContribution(): Observable<any>{
+      return this._http.get<any>(`${this._key.base_url}/payroll-config/pf-contribution`);
+    }
+
+    saveEpfDetail(data:EmployeeProvidentFund): Observable<any>{
+      return this._http.put<any>(`${this._key.base_url}/payroll-config/epf`,data);
     }
 }

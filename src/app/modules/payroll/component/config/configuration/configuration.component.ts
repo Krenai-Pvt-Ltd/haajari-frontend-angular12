@@ -79,6 +79,24 @@ export class ConfigurationComponent implements OnInit {
       { "code": "AED", "name": "United Arab Emirates Dirham", "symbol": "د.إ" }
     ];
 
+
+    isLopChecked:boolean = true;
+    toggleLOPVisibility(): void {
+      console.log("toggled",this.isLopChecked)
+    }
+
+    calculateValue(type: string, value: number): string {
+      if (this.isLopChecked) {
+        if (type === 'basic') {
+          return ` ${(value * 0.85).toFixed(2)}`; 
+        }
+        if (type === 'transport') {
+          return ` ${(value * 0.90).toFixed(2)}`; 
+        }
+      }
+      return ` ${value.toFixed(2)}`;
+    }
+
     selectedPfWage = "12% of Actual PF Wage"; // Default selected value
 
 employer = [
