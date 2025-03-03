@@ -360,6 +360,10 @@ export class DataService {
     );
   }
 
+  getShiftTimingById(id: number): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/organization-shift-timing/by-id?id=${id}`);
+  }
+
   deleteOrganizationShiftTiming(
     organizationShiftTimingId: number
   ): Observable<any> {
@@ -802,7 +806,7 @@ export class DataService {
     );
   }
 
-  
+
   saveLeaveRequestFromWhatsapp(
     userUuid: string,
     request: any,
@@ -2938,7 +2942,7 @@ export class DataService {
     );
   }
 
-  
+
 
   getPayActionTypeList(): Observable<any> {
     return this.httpClient.get<any>(
@@ -4493,7 +4497,7 @@ export class DataService {
     return this.httpClient.get<any>(`${this.baseUrl}/company-expense/export`);
   }
 
- 
+
   importExpense(file: any, fileName: string) {
     debugger;
     const formdata: FormData = new FormData();
