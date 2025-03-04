@@ -1,5 +1,5 @@
 
-  <div class="modal-header">
+  <div *ngIf="!isLeaveLoading" class="modal-header">
       <h5 class="modal-title" id="exampleModalLabel">Leave Request</h5>
       <button *ngIf="isModal" type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closebutton>
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -15,7 +15,7 @@
           </svg>
       </button>
   </div>
-  <div class="modal-body p-0">
+  <div *ngIf="!isLeaveLoading" class="modal-body p-0">
        <div class="row">
           <div class="col-md-5" *ngIf="leave?.attachment">
               <div >
@@ -48,7 +48,7 @@
                           }}
 
                        </p>
-                       <p> Total Days: {{leave?.totalValidDays}}</p>
+                       <p> Total Days: {{leave?.totalDays}}</p>
                   </div>
                   <div class="leave-form-data">
                       <div class="row p-3">
@@ -146,7 +146,7 @@
               Reject
           </button>
           <button [disabled]="isLoading" type="submit" class="btn approved-btn" *ngIf="!rejectionReasonFlag" (click)="approveOrRejectLeaveCall(leave?.id || 0, APPROVED)">
-             <span *ngIf="!isLoading">Approved</span>
+             <span *ngIf="!isLoading">Approve</span>
               <div class="dot-opacity-loader" *ngIf="isLoading">
                 <span></span>
                 <span></span>
@@ -156,6 +156,11 @@
       </div>
   </div>
 
+  <div *ngIf="isLeaveLoading" class="modal-body p-0">
+    <div class="d-flex align-items-center justify-content-center">
+      <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
+    </div>
+  </div>
 
-  
+
 
