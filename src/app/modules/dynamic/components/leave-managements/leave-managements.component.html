@@ -734,7 +734,7 @@
                                     </td>
                                     <td class="text-left">
                                         <div class="d-flex align-items-center gap-2">
-                                           <span class="font-14 fw-600" [ngClass]="{
+                                           <span class="font-14 fw-semibold" [ngClass]="{
                                                 'text-danger': leave.status == REJECTED,
                                                 'text-primary': leave.status == PENDING || leave.status == REQUESTED,
                                                 'text-success': leave.status == APPROVED
@@ -830,18 +830,15 @@
                                   <tr class="collapse" [id]="'collapseExamplesheet' + i" [ngClass]="{'show': isExpanded(i)}">
                                     <td colspan="9" class="p-1">
                                        <div class="month-deta">
-                                          <table class="table table-bordesick-leaves day-data mb-0" *ngIf="dayWiseLeaveStatusLoader">
+                                        <!-- *ngIf="dayWiseLeaveStatusLoader" -->
+                                          <table class="table table-bordesick-leaves day-data mb-0" >
                                             <tr class="position-relative">
                                                 <th>
-                                                    <!-- <div class="spinner-border" role="status">
-                                                        <span class="sr-only">Loading...</span>
-                                                      </div> -->
-
-                                                      <div class="p-0">
-                                                        <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"></ngx-shimmer-loading>
-                                                        <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"></ngx-shimmer-loading>
-                                                      </div>
-
+                                                    <div class="p-0">
+                                                      <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"></ngx-shimmer-loading>
+                                                      <br>
+                                                      <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"></ngx-shimmer-loading>
+                                                    </div>
                                                 </th>
                                             </tr>
 
