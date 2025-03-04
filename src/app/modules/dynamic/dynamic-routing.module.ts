@@ -11,7 +11,6 @@ import { WaitingPageComponent } from './components/waiting-page/waiting-page.com
 import { TeamComponent } from './components/team/team.component';
 import { TeamDetailComponent } from './components/team-detail/team-detail.component';
 import { AuthGuard } from 'src/app/guards/auth-guard';
-import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { DatePipe } from '@angular/common';
 import { RoleComponent } from './components/role/role.component';
 import { ReportsComponent } from './components/reports/reports.component';
@@ -22,14 +21,13 @@ import { RoleAddComponent } from './components/role-add/role-add.component';
 import { EmployeeOnboardingSidebarComponent } from '../employee-onboarding/employee-onboarding-sidebar/employee-onboarding-sidebar.component';
 import { EmployeeOnboardingDataComponent } from './components/employee-onboarding-data/employee-onboarding-data.component';
 import { UnauthorizedComponent } from '../sharable/unauthorized/unauthorized.component';
-// import { LeaveManagementComponent } from './components/leave-management/leave-management.component';
+import { LeaveManagementComponent } from './components/leave-management/leave-management.component';
 
 import { CoinsComponent } from './components/coins/coins.component';
 import { SubscriptionComponent } from './components/subscription/subscription.component';
 import { SubscriptionGuard } from 'src/app/guards/subscription.guard';
 import { PreviewFormComponent } from '../employee-onboarding/preview-form/preview-form.component';
 import { ReferFriendComponent } from './components/refer-friend/refer-friend.component';
-import { NewEmployeeProfileComponent } from './components/new-employee-profile/new-employee-profile.component';
 import { CreateExpenseComponent } from './components/create-expense/create-expense.component';
 import { LeaveManagementsComponent } from './components/leave-managements/leave-managements.component';
 import { InboxComponent } from './components/inbox/inbox.component';
@@ -85,11 +83,6 @@ const routes: Routes = [
         path: 'team-detail',
         component: TeamDetailComponent,
         canActivate: [AuthGuard,SubscriptionGuard]
-      },
-      {
-        path: 'user-profile',
-        component: UserProfileComponent,
-        canActivate: [AuthGuard,SubscriptionGuard],
       },
       {
         path: 'employee-onboarding-data',
@@ -158,7 +151,7 @@ const routes: Routes = [
         component: UnauthorizedComponent 
       },
       { path: 'leave-management', 
-        component: LeaveManagementsComponent, 
+        component: LeaveManagementComponent, 
         canActivate: [AuthGuard, SubscriptionGuard]
       },
       {
@@ -172,18 +165,14 @@ const routes: Routes = [
         canActivate: [AuthGuard, SubscriptionGuard]
       },
       {
-        path: 'new-employee-profile',
-        component: NewEmployeeProfileComponent,
-      },
-      {
         path: 'expense',
         component: CreateExpenseComponent,
         canActivate: [AuthGuard, SubscriptionGuard]
       },
-      // {
-      //   path: 'leave-managements',
-      //   component: LeaveManagementsComponent,
-      // },
+      {
+        path: 'leave-managements',
+        component: LeaveManagementsComponent,
+      },
       {
         path: 'inbox',
         component: InboxComponent,
