@@ -375,7 +375,8 @@
     background-color: #f1f1fd;
 }
 .staff-month-sheet{
-    background-color: #6666F2;
+    background-color: #557ef826;
+    border: 1px solid #6666f2 !important;
 }
 
 .user-detail{
@@ -487,12 +488,7 @@
   padding-right: 10px;
 }
 
-
-.Regular-data {
-  cursor: pointer;
-}
-
-.Regular-data:hover {
+.regular-data:hover {
   color: #6666f3 !important;
   text-decoration: underline;
 }
@@ -619,3 +615,18 @@
 
 
 
+.form-multiselect{
+  border: 1px solid #e8ebf3 !important;
+}
+::ng-deep .form-multiselect .ant-select-selection-placeholder {
+  font-size: 0.875rem !important;
+  font-weight: 400 !important;
+}
+
+::ng-deep .form-multiselect .ant-select-selection-item {
+  font-size: 0.875rem !important;
+  font-weight: 400 !important;
+}
+::ng-deep  .form-multiselect .ant-select-selector{
+  background-color: rgba(236, 236, 236, 0.21);
+}
