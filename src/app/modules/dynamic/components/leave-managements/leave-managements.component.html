@@ -830,8 +830,7 @@
                                   <tr class="collapse" [id]="'collapseExamplesheet' + i" [ngClass]="{'show': isExpanded(i)}">
                                     <td colspan="9" class="p-1">
                                        <div class="month-deta">
-                                        <!-- *ngIf="dayWiseLeaveStatusLoader" -->
-                                          <table class="table table-bordesick-leaves day-data mb-0" >
+                                          <table class="table table-bordesick-leaves day-data mb-0" *ngIf="dayWiseLeaveStatusLoader">
                                             <tr class="position-relative">
                                                 <th>
                                                     <div class="p-0">
