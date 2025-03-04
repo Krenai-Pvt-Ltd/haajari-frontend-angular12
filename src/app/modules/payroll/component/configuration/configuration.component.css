@@ -26,6 +26,9 @@
     text-align: left;
     padding-left: 25px;
 }
+.payroll-sidebar-menu .nav-pills .nav-link:hover{
+  background-color: #f2f3ff;
+}
 
 .nav-pills .nav-item.show .nav-link, .nav-pills .nav-link.active {
     background: #f2f3ff !important;
