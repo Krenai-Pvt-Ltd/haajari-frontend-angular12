@@ -11,7 +11,6 @@ import { WaitingPageComponent } from './components/waiting-page/waiting-page.com
 import { TeamComponent } from './components/team/team.component';
 import { TeamDetailComponent } from './components/team-detail/team-detail.component';
 import { AuthGuard } from 'src/app/guards/auth-guard';
-import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { DatePipe } from '@angular/common';
 import { RoleComponent } from './components/role/role.component';
 import { ReportsComponent } from './components/reports/reports.component';
@@ -29,7 +28,6 @@ import { SubscriptionComponent } from './components/subscription/subscription.co
 import { SubscriptionGuard } from 'src/app/guards/subscription.guard';
 import { PreviewFormComponent } from '../employee-onboarding/preview-form/preview-form.component';
 import { ReferFriendComponent } from './components/refer-friend/refer-friend.component';
-import { NewEmployeeProfileComponent } from './components/new-employee-profile/new-employee-profile.component';
 import { CreateExpenseComponent } from './components/create-expense/create-expense.component';
 import { LeaveManagementsComponent } from './components/leave-managements/leave-managements.component';
 import { InboxComponent } from './components/inbox/inbox.component';
@@ -85,11 +83,6 @@ const routes: Routes = [
         path: 'team-detail',
         component: TeamDetailComponent,
         canActivate: [AuthGuard,SubscriptionGuard]
-      },
-      {
-        path: 'user-profile',
-        component: UserProfileComponent,
-        canActivate: [AuthGuard,SubscriptionGuard],
       },
       {
         path: 'employee-onboarding-data',
@@ -170,10 +163,6 @@ const routes: Routes = [
         path: 'refer-friend',
         component: ReferFriendComponent,
         canActivate: [AuthGuard, SubscriptionGuard]
-      },
-      {
-        path: 'new-employee-profile',
-        component: NewEmployeeProfileComponent,
       },
       {
         path: 'expense',
