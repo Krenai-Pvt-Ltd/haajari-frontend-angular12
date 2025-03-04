@@ -9,7 +9,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RouterModule } from '@angular/router';
 import { PayrollComponent } from './payroll.component';
 import { NzProgressModule } from 'ng-zorro-antd/progress';
-import { ConfigurationComponent } from './component/config/configuration/configuration.component';
+import { ConfigurationComponent } from './component/configuration/configuration.component';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { StatutoryComponent } from './component/config/statutory/statutory.component';
@@ -20,6 +20,7 @@ import { PriorPayrollComponent } from './component/config/prior-payroll/prior-pa
 import { FormComponent } from './component/config/form/form.component';
 import { PreferencesComponent } from './component/config/preferences/preferences.component';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
+import { NzEmptyModule } from 'ng-zorro-antd/empty';
 
 
 @NgModule({
@@ -46,7 +47,8 @@ import { NzSwitchModule } from 'ng-zorro-antd/switch';
     NzProgressModule,
     NzSelectModule,
     NzDatePickerModule,
-    NzSwitchModule
+    NzSwitchModule,
+    NzEmptyModule
   ]
 })
 export class PayrollModule { }
