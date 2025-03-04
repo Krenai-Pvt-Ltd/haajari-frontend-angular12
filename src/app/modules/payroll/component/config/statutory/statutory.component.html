@@ -45,7 +45,10 @@
                         <div class="row">
                            <div class="col-md-12 mb-3">
                               <input type="text" placeholder="Enter EPF Number" required name="epfNumber" class="form-control whatsapp-login-input" 
-                              
+                              maxlength="18"
+                              minlength="17"
+                              pattern="^[A-Z]{2}/[A-Z]{3}/[0-9]{7}/[A-Z0-9]{3}$"
+                              oninput="this.value = this.value.toUpperCase()" 
                               [(ngModel)]="epfDetail.epfNumber"
                               (input)="epfDetail.epfNumber = epfDetail.epfNumber.toUpperCase()">
                               

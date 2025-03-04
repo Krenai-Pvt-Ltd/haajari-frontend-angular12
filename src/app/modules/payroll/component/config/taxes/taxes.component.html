@@ -117,11 +117,11 @@
                     <input type="text" placeholder="Deductor Name" name="deductorName" class="form-control whatsapp-login-input" pattern="^[A-Za-z\s]+$" maxlength="50" [(ngModel)] = "taxDetail.deductorName" >
                 </div>
                 <div class="col-md-6 mb-3">
-                    <input type="text" placeholder="Deductor’s Father’s Name"  name="fatherName" class="form-control whatsapp-login-input" pattern="^[A-Za-z\s]+$" maxlength="50" [(ngModel)] = "taxDetail.fatherName" >
+                    <input type="text" placeholder="Deductor’s Father’s Name"  name="fatherName" class="form-control whatsapp-login-input" pattern="^[A-Za-z\s]+$" maxlength="50"[(ngModel)] = "taxDetail.fatherName" >
                 </div>
 
                 <div class="col-md-6 mb-3">
-                    <input type="text" placeholder="Deductor Designation"  name="designation" class="form-control whatsapp-login-input" pattern="^[A-Za-z\s]+$" maxlength="50" [(ngModel)] = "taxDetail.designation">
+                    <input type="text" placeholder="Deductor Designation"  name="designation" class="form-control whatsapp-login-input" [(ngModel)] = "taxDetail.designation">
                 </div>
             </ng-container>
             </div>
