@@ -129,11 +129,22 @@ organizationRegistrationDate: string = '';
   async ngOnInit() {
     this.logInUserUuid = await this.rbacService.getUUID();
     this.ROLE = await this.rbacService.getRole();
-    this.filters.status = ['pending'];
-    this.applyFilters();
+
     // this.getLeaves(false,false);
     this.selectedDate = new Date();
 
+    this.dashboard();
+    this.requests();
+
+  }
+
+  requests(){
+    this.filters.status = ['pending'];
+    this.applyFilters();
+  }
+
+  dashboard() {
+    this.resetTabData();
     this.getOrganizationRegistrationDateMethodCall();
     this.calculateDateRange();
     this.setDefaultWeekTab();
@@ -143,10 +154,6 @@ organizationRegistrationDate: string = '';
     this.getLeaveTopDefaulterUser();
     this.getLeaveCategoryDetailsForLeaveTeamOverview();
 
-    this.resetTabData();
-    this.fetchMaxLeavesUsers();
-    this.fetchMinLeavesUsers();
-    this.fetchUsersOnLeave();
   }
 
 
