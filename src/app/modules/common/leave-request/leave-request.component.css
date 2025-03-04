@@ -37,19 +37,14 @@
   font-weight: 600;
 }
 
-/* Leave Form Data */
-.leave-form-data {
-  padding: 15px; /* Matches p-3 */
-}
+
 .requested-to {
   background-color: #fbfbfb;
   border: 1px solid #e9e9e9;
   padding: 15px;
   border-radius: 2px;
 }
-.requested-to p {
-  margin-bottom: 0; /* Matches mb-0 */
-}
+
 .requested-to span {
   color: #6666F2;
 }
