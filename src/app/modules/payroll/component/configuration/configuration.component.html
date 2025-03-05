@@ -165,11 +165,17 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                
                                                 <div class="col-md-6">
-                                                    <input type="text" placeholder="Business Contact"  name="contactNumber" class="form-control whatsapp-login-input" [(ngModel)]="profile.businessPhone">
+                                                    <input type="text" placeholder="Business Contact"  name="contactNumber" class="form-control whatsapp-login-input" 
+                                                     minlength="10"
+                                                     maxlength="10"
+                                                     pattern="[0-9]*"
+                                                     inputmode="numeric"
+                                                     [(ngModel)]="profile.businessPhone">
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <input type="text" placeholder="Email Address"  name="businessEmail" class="form-control whatsapp-login-input" [(ngModel)]="profile.businessEmail">
+                                                    <input type="email" placeholder="Email Address"  name="businessEmail" class="form-control whatsapp-login-input" [(ngModel)]="profile.businessEmail">
                                                 </div> 
                                         </div>
                                     </div>
@@ -329,7 +335,11 @@
                                                             <p class="mb-0 font-12 fw-light">GST Number</p>
                                                         </div>
                                                         <div class="w-75 position-relative">
-                                                            <input type="text" placeholder="Enter GST Number"  name="gstn" class="form-control borderLess" [(ngModel)]="profile.gstn">
+                                                            <input type="text" placeholder="Enter GST Number"  name="gstn" class="form-control borderLess" 
+                                                            minlength="15"
+                                                            maxlength="15"
+                                                            pattern="^[0-3][0-9][A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$"
+                                                            [(ngModel)]="profile.gstn">
                                                             <!-- <button class="btn p-0 font-13 fw-semibold text-success editBtn">Verify <svg xmlns="http://www.w3.org/2000/svg" width="18" height="17" viewBox="0 0 18 17" fill="none">
                                                                 <path d="M7.72809 8.00564C7.44476 7.72231 7.01976 7.72231 6.73643 8.00564C6.45309 8.28897 6.45309 8.71397 6.73643 8.99731L8.86143 11.1223C9.00309 11.264 9.14476 11.3348 9.35726 11.3348C9.56976 11.3348 9.71143 11.264 9.85309 11.1223L14.8114 5.45564C15.0239 5.10147 15.0239 4.67647 14.6698 4.46397C14.3864 4.25147 13.9614 4.25147 13.7489 4.53481L9.35726 9.56397L7.72809 8.00564Z" fill="#22b783"/>
                                                                 <path d="M15.7323 7.79297C15.3073 7.79297 15.0239 8.0763 15.0239 8.5013C15.0239 11.618 12.4739 14.168 9.35726 14.168C6.24059 14.168 3.69059 11.618 3.69059 8.5013C3.69059 7.0138 4.25726 5.59714 5.31976 4.53464C6.38226 3.4013 7.79893 2.83464 9.35726 2.83464C9.78226 2.83464 10.2781 2.90547 10.7031 2.9763C11.0573 3.11797 11.4823 2.90547 11.6239 2.48047C11.7656 2.05547 11.4823 1.77214 11.1281 1.63047H11.0573C10.4906 1.4888 9.92393 1.41797 9.35726 1.41797C5.46143 1.41797 2.27393 4.60547 2.27393 8.57214C2.27393 10.4138 3.05309 12.2555 4.32809 13.5305C5.67393 14.8763 7.44476 15.5846 9.28643 15.5846C13.1823 15.5846 16.3698 12.3971 16.3698 8.5013C16.4406 8.0763 16.0864 7.79297 15.7323 7.79297Z" fill="#22b783"/>
@@ -341,7 +351,10 @@
                                                             <p class="mb-0 font-12 fw-light">CIN Number</p>
                                                         </div>
                                                         <div class="w-75 position-relative">
-                                                            <input type="text" placeholder="Enter CIN Number" name="cin" class="form-control borderLess" [(ngModel)]="profile.cin">
+                                                            <input type="text" placeholder="Enter CIN Number" name="cin" class="form-control borderLess" 
+                                                            minlength="21"
+                                                            pattern="^[LU][0-9]{5}[A-Z]{2}[0-9]{4}[A-Z]{3}[0-9]{6}$"
+                                                            [(ngModel)]="profile.cin">
                                                             <!-- <button class="btn p-0 font-13 fw-semibold text-black editBtn">View Detail 
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
                                                                     <mask id="mask0_9159_3729" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="17" height="17">

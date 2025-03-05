@@ -6,6 +6,7 @@ import { TaxDetail } from '../payroll-models/TaxDetail';
 import { EmployeeProvidentFund } from '../payroll-models/EmployeeProvidentFund';
 import { EmployeeStateInsurance } from '../payroll-models/EmployeeStateInsurance';
 import { Profile } from '../payroll-models/Profile';
+import { add } from 'lodash';
 
 @Injectable({
   providedIn: 'root'
@@ -69,6 +70,18 @@ export class PayrollConfigurationService {
       .set('organization_professional_tax_id', organizationProfessionalTaxId)
       return this._http.put<any>(`${this._key.base_url}/payroll-config/professional-tax`,{},{params});
     }
+
+    getLabourWelfareFund(): Observable<any>{
+      return this._http.get<any>(`${this._key.base_url}/payroll-config/lwf`);
+    }
+
+
+    changeLwfStatus(addressId:number): Observable<any>{
+      const params = new HttpParams()
+      .set('address_id', addressId)
+      return this._http.put<any>(`${this._key.base_url}/payroll-config/lwf-status`,{},{params});
+    }
+
 
     getOrganizationProfile(): Observable<any>{
       return this._http.get<any>(`${this._key.base_url}/payroll-config/profile-configuration`);
