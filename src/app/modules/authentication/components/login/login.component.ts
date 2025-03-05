@@ -82,6 +82,7 @@ export class LoginComponent implements OnInit {
   UUID: any;
 
   signIn() {
+
     debugger
     this.loginButtonLoader = true;
     this.dataService.loginUser(this.email, this.password).pipe(
@@ -140,6 +141,10 @@ export class LoginComponent implements OnInit {
         catchError((error) => {
           console.log(error);
           this.loginButtonLoader = false;
+          this.loginErrorMessage = error.error.message;
+          setTimeout(() => {
+            this.loginErrorMessage = '';
+          }, 5000);
           return of(null); // handle error appropriately
         })
       )
@@ -266,10 +271,10 @@ export class LoginComponent implements OnInit {
     );
   }
 
+  loginErrorMessage: string = '';
   showMessageFlag: boolean = false;
   checkUserPresence() {
     this.checkFormValidation();
-
     if (this.isFormInvalid == true) {
       return;
     } else {
