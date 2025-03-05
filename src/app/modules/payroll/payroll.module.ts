@@ -23,6 +23,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { EarningDetailsComponent } from './component/config/earning-details/earning-details.component';
+import { BenefitDetailsComponent } from './component/config/benefit-details/benefit-details.component';
+import { DeductionsDetailsComponent } from './component/config/deductions-details/deductions-details.component';
 
 
 @NgModule({
@@ -38,7 +40,9 @@ import { EarningDetailsComponent } from './component/config/earning-details/earn
     PriorPayrollComponent,
     FormComponent,
     PreferencesComponent,
-    EarningDetailsComponent
+    EarningDetailsComponent,
+    BenefitDetailsComponent,
+    DeductionsDetailsComponent
   ],
   imports: [
     CommonModule,
