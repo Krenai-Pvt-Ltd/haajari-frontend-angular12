@@ -143,7 +143,7 @@
                        <p class="text-danger" *ngIf="userExpense?.status?.id != 13 && userExpense?.approvedAmount < userExpense?.amount" >Appoved amount {{userExpense.approvedAmount}} by Manager/HR</p>
                        <p *ngIf="fullPartialAmount > 0">Remaining amount is: {{userExpense.approvedAmount - userExpense.partiallyPaidAmount}}</p>
                     </div>
-                 
+
                  <div class="col-md-12 mb-3">
                     <label for="templateName" class="pb-2">
                     Note
@@ -158,18 +158,18 @@
                     <textarea class="form-control nots-section" id="reject" placeholder="Write the reason" rows="3"
                     [(ngModel)]="approveReq.rejectionReason" name="rejectInput"></textarea>
                  </div>
-                 <div *ngIf="isTagsEditEnabled" class="col-md-12 mb-3 position-relative">
+                 <!-- <div *ngIf="isTagsEditEnabled" class="col-md-12 mb-3 position-relative">
                     <input type="text" id="tags" name="tags" (keyup.enter)="addTag()"
                     class="form-control input-zorro" placeholder="Search Your Tags (Ex: Testing)" style="padding: 10px 70px 10px 40px;"
                     [(ngModel)]="searchTag" (ngModelChange)="onTagsChange($event)"
                     (keydown)="preventLeadingWhitespace($event)" [nzAutocomplete]="tagsAuto" />
                     <i class="bi bi-search search-icon ml-3 pl-3 h-100 font-14 position-absolute"></i>
                     <nz-autocomplete [nzDataSource]="tagsFilteredOptions" #tagsAuto></nz-autocomplete>
-               </div>
-               
+               </div> -->
+
             </div>
                  <!-- TODO: remove this d-none -->
-                 <button (click)="isTagsEditEnabled=!isTagsEditEnabled;" class="btn p-0 text-primary d-flex align-items-center justify-content-end w-100 font-14 fw-semibold">
+                 <!-- <button (click)="isTagsEditEnabled=!isTagsEditEnabled;" class="btn p-0 text-primary d-flex align-items-center justify-content-end w-100 font-14 fw-semibold">
                  <span class="d-flex align-items-center" *ngIf="!isTagsEditEnabled" ><i class="bi bi-plus font-20 position-relative" style="top:-2px"></i> Add Tags</span>
                  <span class="d-flex align-items-center" *ngIf="isTagsEditEnabled"> <i class="bi bi-x font-20 position-relative" style="top:-2px"></i> Cancel</span>
                  </button>
@@ -181,7 +181,7 @@
                           </li>
                        </ul>
                     </div>
-                 </div>
+                 </div> -->
 
                  <div class="col-md-12" *ngIf="!isModal">
                   <div class="">
@@ -349,7 +349,7 @@
       </div>
       </ng-container>
        </div>
-       
+
      </div>
    </div>
  </div>

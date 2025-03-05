@@ -662,11 +662,13 @@ approveOrRejectLeaveCall(leaveId: number, operationString: string) {
 }
 
 
-getDayWiseLeaveStatus(leaveId: number) {
+selectedLeave: any = '';
+getDayWiseLeaveStatus(leave: any) {
   debugger
+  this.selectedLeave = leave;
   this.dayWiseLeaveStatusLoader = true;
   this.dayWiseLeaveStatus = [];
-  this.leaveService.getDayWiseLeaveStatus(leaveId).subscribe({
+  this.leaveService.getDayWiseLeaveStatus(leave.id).subscribe({
     next: (response: any) => {
      this.dayWiseLeaveStatus = response.object;
      console.log(response);
@@ -677,6 +679,19 @@ getDayWiseLeaveStatus(leaveId: number) {
       console.error('Failed to fetch approve/reject leaves:', error);
     },
   });
+}
+
+isBetweenStartAndEndDate(date: string): boolean {
+  const currentDate = new Date(date);
+  const startDate = new Date(this.selectedLeave.startDate);
+  const endDate = new Date(this.selectedLeave.endDate);
+
+  // Ensure dates are normalized to avoid time zone issues
+  currentDate.setHours(0, 0, 0, 0);
+  startDate.setHours(0, 0, 0, 0);
+  endDate.setHours(0, 0, 0, 0);
+
+  return currentDate >= startDate && currentDate <= endDate;
 }
 
 

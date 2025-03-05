@@ -185,6 +185,11 @@
                                </ng-template>
                             </nz-empty>
                          </div>
+                         <div *ngIf="isLoadingData" class="modal-body p-0">
+                          <div class="d-flex align-items-center justify-content-center">
+                            <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
+                          </div>
+                        </div>
                         </div>
 
                     </div>
