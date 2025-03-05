@@ -129,11 +129,22 @@ organizationRegistrationDate: string = '';
   async ngOnInit() {
     this.logInUserUuid = await this.rbacService.getUUID();
     this.ROLE = await this.rbacService.getRole();
-    this.filters.status = ['pending'];
-    this.applyFilters();
+
     // this.getLeaves(false,false);
     this.selectedDate = new Date();
 
+    this.dashboard();
+    this.requests();
+
+  }
+
+  requests(){
+    this.filters.status = ['pending'];
+    this.applyFilters();
+  }
+
+  dashboard() {
+    this.resetTabData();
     this.getOrganizationRegistrationDateMethodCall();
     this.calculateDateRange();
     this.setDefaultWeekTab();
@@ -142,10 +153,6 @@ organizationRegistrationDate: string = '';
     this.getReportDetailsForLeaveTeamOverviewForHeatMap();
     this.getLeaveCategoryDetailsForLeaveTeamOverview();
 
-    this.resetTabData();
-    this.fetchMaxLeavesUsers();
-    this.fetchMinLeavesUsers();
-    this.fetchUsersOnLeave();
   }
 
 
@@ -1196,10 +1203,10 @@ initChartDataHeatMap(approvedLeaveCounts: any[]): void {
           min: 0,
           max: 365,
           ranges: [
-            { from: 0, to: 0, color: "#f7fafa", name: "Very Low" },
-            { from: 1, to: 4, color: "#9ccabe", name: "Low" },
-            { from: 4, to: 8, color: "#478e7d", name: "Medium" },
-            { from: 8, to: 100, color: "#185143", name: "High" }
+            { from: 0, to: 0.5, color: "#e7e7fd", name: "Very Low" },
+            { from: 1, to: 4, color: "#b8b8f9", name: "Low" },
+            { from: 4, to: 8, color: "#8989f5", name: "Medium" },
+            { from: 8, to: 100, color: "#5a5af1", name: "High" }
           ]
         }
       },
