@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { finalize } from 'rxjs/operators';
 import { Key } from 'src/app/constant/key';
 import { ProfessionalTax } from 'src/app/payroll-models/ProfeessionalTax';
 import { Profile } from 'src/app/payroll-models/Profile';
@@ -18,7 +20,8 @@ export class ConfigurationComponent implements OnInit {
   isDivVisible: boolean = false;
   constructor(private taxSlabService: TaxSlabService,
     private _payrollConfigurationService :PayrollConfigurationService,
-    private _helperService : HelperService
+    private _helperService : HelperService,
+    private afStorage: AngularFireStorage
   ) {}
 
   ngOnInit(): void {
@@ -30,6 +33,8 @@ export class ConfigurationComponent implements OnInit {
       }
     });
   }
+
+  selectedFile: File | null = null;
 
   toggleDiv() {
     this.isDivVisible = !this.isDivVisible;
@@ -184,6 +189,50 @@ profile:Profile = new Profile();
               }
             );
           }
+
+
+
+          isFileSelected = false;
+  onFileSelected(event: Event): void {
+    const element = event.currentTarget as HTMLInputElement;
+    let fileList: FileList | null = element.files;
+    if (fileList && fileList.length > 0) {
+      const file = fileList[0];
+      this.selectedFile = file;
+
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        const imagePreview: HTMLImageElement = document.getElementById(
+          'imagePreview'
+        ) as HTMLImageElement;
+        imagePreview.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+
+      this.uploadFile(file);
+    } else {
+      this.isFileSelected = false;
+    }
+  }
+
+  uploadFile(file: File): void {
+      debugger;
+      const filePath = `uploads/${new Date().getTime()}_${file.name}`;
+      const fileRef = this.afStorage.ref(filePath);
+      const task = this.afStorage.upload(filePath, file);
+  
+      task
+        .snapshotChanges()
+        .pipe(
+          finalize(() => {
+            fileRef.getDownloadURL().subscribe((url) => {
+              // console.log('File URL:', url);
+              this.profile.logo = url;
+            });
+          })
+        )
+        .subscribe();
+    }
     
 
   }
