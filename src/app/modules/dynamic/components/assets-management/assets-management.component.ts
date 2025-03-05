@@ -1028,7 +1028,7 @@ onSearch(searchText: string): void {
     type: "area",
     stacked: false,
     height: 200,
-    background: "#FFFFFF",
+    background: "transparent",
     zoom: {
       enabled: false // 🔹 Disables zooming
     },
@@ -1048,7 +1048,7 @@ onSearch(searchText: string): void {
 
   public dataLabels: ApexDataLabels = { enabled: false };
   public markers: ApexMarkers = { size: 5 };
-  public title: ApexTitleSubtitle = { text: "Monthly Asset Assignments", align: "left" };
+  public title: ApexTitleSubtitle = { text: "Monthly Asset Assignments" };
   public fill: ApexFill = { type: "gradient", gradient: { shadeIntensity: 10, inverseColors: false, opacityFrom: 0.5, opacityTo: 0, stops: [0, 90, 100] } };
   public yaxis: ApexYAxis = {  labels: { show: false } };
   public xaxis: ApexXAxis = {

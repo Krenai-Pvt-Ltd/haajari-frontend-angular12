@@ -8,6 +8,7 @@ import { PayrollConfigurationService } from 'src/app/services/payroll-configurat
 import { ProfessionalTax } from 'src/app/payroll-models/ProfeessionalTax';
 import { AddressDetail } from 'src/app/payroll-models/AddressDetail';
 import { TaxSlabService } from 'src/app/services/tax-slab.service';
+import { LabourWelfareFund } from 'src/app/payroll-models/LabourWelfareFund';
 
 
 @Component({
@@ -16,6 +17,7 @@ import { TaxSlabService } from 'src/app/services/tax-slab.service';
   styleUrls: ['./statutory.component.css']
 })
 export class StatutoryComponent implements OnInit {
+
 
 
   constructor(private _payrollConfigurationService : PayrollConfigurationService, 
@@ -28,7 +30,11 @@ export class StatutoryComponent implements OnInit {
     this.getEsiDetail();
     this.getAddressDetail();
     this.getPtDetail();
+    this.getLwfDetail();
   }
+
+  loadingFlags: { [key: string]: boolean } = {}; 
+
 
   epfDetail:EmployeeProvidentFund = new EmployeeProvidentFund();
   getEpfDetail(){
@@ -203,7 +209,6 @@ export class StatutoryComponent implements OnInit {
         return pt ? pt.professionalTaxNumber : '';
       }
     
-      // Method to update the PT number for a specific state
       updatePtNumber(state: string, ptNumber: string): void {
         const pt = this.ptDetail.find(pt => pt.state === state);
         if (pt) {
@@ -211,13 +216,11 @@ export class StatutoryComponent implements OnInit {
         }
       }
 
-      // Track the edit state for each individual state
-editingStates: { [key: string]: boolean } = {};
+      editingStates: { [key: string]: boolean } = {};
 
-toggleEdit(state: string): void {
-  // Toggle the specific state, defaulting to false if it's not defined yet
-  this.editingStates[state] = !this.editingStates[state];
-}
+      toggleEdit(state: string): void {
+        this.editingStates[state] = !this.editingStates[state];
+      }
 
 
       savePtNumber(state:string){
@@ -241,9 +244,69 @@ toggleEdit(state: string): void {
         }
           
       }
-      
+
+
+
+
+      // ########################## Labour Welfare Fund #######################
+
+
+      lwfDetail:LabourWelfareFund[] = new Array();
+      loadingStates: { [key: string]: boolean } = {}; 
+      getLwfDetail(){
+        this._payrollConfigurationService.getLabourWelfareFund().subscribe(
+          (response) => {
+            if(response.status){
+              this.lwfDetail= response.object;
+              console.log(response);
+            }
+          },
+          (error) => {
     
+          }
+        );
+      }
+      isFundApplicale(state: string): boolean {
+        return this.lwfDetail.some(pt => pt.state === state);
+      }
+
     
+
+      changeLwfStatus(isChecked:boolean,state:string){
+        const lwf = this.lwfDetail.find(pt => pt.state === state);
+        const address = this.addressDetail.find(address => address.state === state)
+        if(lwf && address){
+          const newStatus = isChecked ? 11 : 12;
+          this.loadingStates[state] = true;
+          lwf.status = newStatus; 
+          this._payrollConfigurationService.changeLwfStatus(address.id).subscribe(
+            (response) => {
+              this.loadingStates[state] = false;
+            },
+            (error) => {
+              this.loadingStates[state] = false;
+
+            }
+          );
+
+        }
+          
+      }
+      checkStatus(state:string): boolean {
+        const lwf = this.lwfDetail.find(pt => pt.state === state);
+        return lwf ? lwf.status === 11 : false; 
+
+      }
+    
+      openDropdownIndex: number | null = null;
+
+      toggleDropdown(index: number) {
+        this.openDropdownIndex = this.openDropdownIndex === index ? null : index;
+      }
+    
+      isDropdownOpen(index: number): boolean {
+        return this.openDropdownIndex === index;
+      }
       
 
 }

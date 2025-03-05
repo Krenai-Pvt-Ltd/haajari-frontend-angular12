@@ -35,6 +35,8 @@
                 <div class="col-md-9">
                     <div class="tab-content" id="tabContent">
                         <div class="tab-pane fade show active" id="organization-profile" role="tabpanel" aria-labelledby="profile-tab">
+                            <form #esiForm="ngForm" ngNativeValidate (ngSubmit)="saveOrganizationProfile()">
+
                             <div class="p-4 mb-10">
                                 <div class="row">
                                     <div class="col-md-4">
@@ -48,12 +50,17 @@
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="origination-logo d-flex align-items-center justify-content-center position-relative p-0 border-rounded-2 h-100">
-                                                        <img src="assets/images/HAjiRi.svg" class="img-130">
+                                                        <img [src]="profile.logo" class="img-130">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
+                                                    <label for="exampleFormControlSelect3 pb-2" style="padding-bottom: 6px;"> Company Logo</label>
+
+                                                             
                                                     <div class=" origination-logo p-2 d-flex align-items-center justify-content-center flex-column add-other-file border-rounded-2 ">
-                                                        <input id="fileInput" type="file" name="file" accept=".pdf" class="input">
+                                                        <input id="fileInput" type="file" name="logo" accept=".png, .jpeg, .jpg, .svg, .gif, .webp, .ico" class="input" 
+                                                        (change)="onFileSelected($event)"
+                                                        >
                                                         <span>
                                                           <img src="assets/images/payrollstep-img/organization-logo.svg" class="img-40">
                                                         </span>
@@ -88,8 +95,9 @@
                                                                 <nz-select 
                                                                 class="form-control w-100 placeholder-line currency-types"
                                                                 nzSize="large"
+                                                                name="currency"
                                                                 nzPlaceHolder="Select Currency"
-                                                                [(ngModel)]="selectedCurrency"
+                                                                [(ngModel)]="profile.currency"
                                                                 required
                                                               >
                                                                 <nz-option 
@@ -109,7 +117,7 @@
                                                         </div>
                                                         <div class="w-50">
                                                             <div class="w-100">
-                                                                <nz-select 
+                                                                <nz-select name="location"
                                                                     class="form-control w-100 placeholder-line currency-types"
                                                                     nzSize="large"
                                                                     nzPlaceHolder="Select Location"
@@ -122,30 +130,53 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6">
+                                                <div class="col-md-6 mb-3">
                                                     <div class="border-rounded-2 attendance-border w-100 d-flex align-items-center justify-content-center">
                                                         <div class="w-50 currency-types-border">
                                                             <p class="mb-0 font-12 fw-light">Date Format</p>
                                                         </div>
                                                         <div class="w-50">
-                                                            <nz-date-picker nzBorderless nzFormat="dd/MM/yyyy"></nz-date-picker>
+                                                            <nz-select name="dateFormat"
+                                                                class="form-control w-100 placeholder-line currency-types"
+                                                                nzSize="large"
+                                                                nzPlaceHolder="Select date format"
+                                                                [(ngModel)]="profile.dateFormat"
+                                                                (ngModelChange)="onDateFormatChange($event)"
+                                                            >
+                                                                <nz-option 
+                                                                *ngFor="let format of dateFormats" [nzValue]="format.value" [nzLabel]="format.label">
+                                                                </nz-option>
+                                                            </nz-select>
+                                                            
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6">
+                                                <div class="col-md-6 mb-3">
                                                     <div class="border-rounded-2 attendance-border w-100 d-flex align-items-center justify-content-center">
                                                         <div class="w-50 p-3 currency-types-border">
                                                             <p class="mb-0 font-12 fw-light">Field Separation</p>
                                                         </div>
                                                         <div class="w-50">
                                                             <div class="w-100">
-                                                                <nz-select class="form-control w-100 placeholder-line currency-types" nzSize="large" nzPlaceHolder="Select Separation" required>
-                                                                    <nz-option nzLabel="india" nzValue="india">india</nz-option>
+                                                                <nz-select class="form-control w-100 placeholder-line currency-types" nzSize="large" nzPlaceHolder="Select Separation" value="India">
+                                                                    <nz-option nzLabel="india" nzValue="india">India</nz-option>
                                                                 </nz-select>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
+                                                
+                                                <div class="col-md-6">
+                                                    <input type="text" placeholder="Business Contact"  name="contactNumber" class="form-control whatsapp-login-input" 
+                                                     minlength="10"
+                                                     maxlength="10"
+                                                     pattern="[0-9]*"
+                                                     inputmode="numeric"
+                                                     [(ngModel)]="profile.businessPhone">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <input type="email" placeholder="Email Address"  name="businessEmail" class="form-control whatsapp-login-input" [(ngModel)]="profile.businessEmail">
+                                                </div> 
                                         </div>
                                     </div>
                                 </div>
@@ -304,11 +335,15 @@
                                                             <p class="mb-0 font-12 fw-light">GST Number</p>
                                                         </div>
                                                         <div class="w-75 position-relative">
-                                                            <input type="text" placeholder="Enter GST Number" required="" name="" class="form-control borderLess" value="2345678908123">
-                                                            <button class="btn p-0 font-13 fw-semibold text-success editBtn">Verify <svg xmlns="http://www.w3.org/2000/svg" width="18" height="17" viewBox="0 0 18 17" fill="none">
+                                                            <input type="text" placeholder="Enter GST Number"  name="gstn" class="form-control borderLess" 
+                                                            minlength="15"
+                                                            maxlength="15"
+                                                            pattern="^[0-3][0-9][A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$"
+                                                            [(ngModel)]="profile.gstn">
+                                                            <!-- <button class="btn p-0 font-13 fw-semibold text-success editBtn">Verify <svg xmlns="http://www.w3.org/2000/svg" width="18" height="17" viewBox="0 0 18 17" fill="none">
                                                                 <path d="M7.72809 8.00564C7.44476 7.72231 7.01976 7.72231 6.73643 8.00564C6.45309 8.28897 6.45309 8.71397 6.73643 8.99731L8.86143 11.1223C9.00309 11.264 9.14476 11.3348 9.35726 11.3348C9.56976 11.3348 9.71143 11.264 9.85309 11.1223L14.8114 5.45564C15.0239 5.10147 15.0239 4.67647 14.6698 4.46397C14.3864 4.25147 13.9614 4.25147 13.7489 4.53481L9.35726 9.56397L7.72809 8.00564Z" fill="#22b783"/>
                                                                 <path d="M15.7323 7.79297C15.3073 7.79297 15.0239 8.0763 15.0239 8.5013C15.0239 11.618 12.4739 14.168 9.35726 14.168C6.24059 14.168 3.69059 11.618 3.69059 8.5013C3.69059 7.0138 4.25726 5.59714 5.31976 4.53464C6.38226 3.4013 7.79893 2.83464 9.35726 2.83464C9.78226 2.83464 10.2781 2.90547 10.7031 2.9763C11.0573 3.11797 11.4823 2.90547 11.6239 2.48047C11.7656 2.05547 11.4823 1.77214 11.1281 1.63047H11.0573C10.4906 1.4888 9.92393 1.41797 9.35726 1.41797C5.46143 1.41797 2.27393 4.60547 2.27393 8.57214C2.27393 10.4138 3.05309 12.2555 4.32809 13.5305C5.67393 14.8763 7.44476 15.5846 9.28643 15.5846C13.1823 15.5846 16.3698 12.3971 16.3698 8.5013C16.4406 8.0763 16.0864 7.79297 15.7323 7.79297Z" fill="#22b783"/>
-                                                                </svg></button>
+                                                                </svg></button> -->
                                                         </div>
                                                     </div>
                                                     <div class="mb-3 compliance-list bg-white border-rounded-2 attendance-border d-flex align-items-center justify-content-center">
@@ -316,8 +351,11 @@
                                                             <p class="mb-0 font-12 fw-light">CIN Number</p>
                                                         </div>
                                                         <div class="w-75 position-relative">
-                                                            <input type="text" placeholder="Enter CIN Number" required="" name="" class="form-control borderLess" value="2345678908123">
-                                                            <button class="btn p-0 font-13 fw-semibold text-black editBtn">View Detail 
+                                                            <input type="text" placeholder="Enter CIN Number" name="cin" class="form-control borderLess" 
+                                                            minlength="21"
+                                                            pattern="^[LU][0-9]{5}[A-Z]{2}[0-9]{4}[A-Z]{3}[0-9]{6}$"
+                                                            [(ngModel)]="profile.cin">
+                                                            <!-- <button class="btn p-0 font-13 fw-semibold text-black editBtn">View Detail 
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
                                                                     <mask id="mask0_9159_3729" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="17" height="17">
                                                                     <rect width="17" height="17" fill="#D9D9D9"/>
@@ -326,7 +364,7 @@
                                                                     <path d="M8.50004 11.334C9.38546 11.334 10.1381 11.0241 10.7579 10.4043C11.3776 9.7845 11.6875 9.0319 11.6875 8.14648C11.6875 7.26107 11.3776 6.50846 10.7579 5.88867C10.1381 5.26888 9.38546 4.95898 8.50004 4.95898C7.61462 4.95898 6.86202 5.26888 6.24223 5.88867C5.62244 6.50846 5.31254 7.26107 5.31254 8.14648C5.31254 9.0319 5.62244 9.7845 6.24223 10.4043C6.86202 11.0241 7.61462 11.334 8.50004 11.334ZM8.50004 10.059C7.96879 10.059 7.51723 9.87305 7.14535 9.50117C6.77348 9.1293 6.58754 8.67773 6.58754 8.14648C6.58754 7.61523 6.77348 7.16367 7.14535 6.7918C7.51723 6.41992 7.96879 6.23398 8.50004 6.23398C9.03129 6.23398 9.48285 6.41992 9.85473 6.7918C10.2266 7.16367 10.4125 7.61523 10.4125 8.14648C10.4125 8.67773 10.2266 9.1293 9.85473 9.50117C9.48285 9.87305 9.03129 10.059 8.50004 10.059ZM8.50004 13.459C6.77643 13.459 5.20629 12.9779 3.78962 12.0158C2.37296 11.0536 1.34587 9.76385 0.708374 8.14648C1.34587 6.52912 2.37296 5.23937 3.78962 4.27721C5.20629 3.31506 6.77643 2.83398 8.50004 2.83398C10.2237 2.83398 11.7938 3.31506 13.2105 4.27721C14.6271 5.23937 15.6542 6.52912 16.2917 8.14648C15.6542 9.76385 14.6271 11.0536 13.2105 12.0158C11.7938 12.9779 10.2237 13.459 8.50004 13.459ZM8.50004 12.0423C9.83407 12.0423 11.0589 11.6911 12.1745 10.9887C13.2901 10.2862 14.1431 9.33885 14.7334 8.14648C14.1431 6.95412 13.2901 6.00673 12.1745 5.3043C11.0589 4.60187 9.83407 4.25065 8.50004 4.25065C7.16601 4.25065 5.94119 4.60187 4.82556 5.3043C3.70994 6.00673 2.85699 6.95412 2.26671 8.14648C2.85699 9.33885 3.70994 10.2862 4.82556 10.9887C5.94119 11.6911 7.16601 12.0423 8.50004 12.0423Z" fill="#000"/>
                                                                     </g>
                                                                 </svg>
-                                                            </button>
+                                                            </button> -->
                                                         </div>
                                                     </div>
                                                     <div class="mb-3 compliance-list bg-white border-rounded-2 attendance-border d-flex align-items-center justify-content-center">
@@ -334,7 +372,7 @@
                                                             <p class="mb-0 font-12 fw-light">EPF Number</p>
                                                         </div>
                                                         <div class="w-75 position-relative">
-                                                            <input type="text" placeholder="Enter CIN Number" required="" name="" class="form-control borderLess" value="2345678908123">
+                                                            <input type="text" placeholder="Enter CIN Number" name="epf" class="form-control borderLess" [value]="profile.epf" disabled>
                                                             <button class="btn p-0 font-13 fw-semibold text-black editBtn">View Detail 
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
                                                                     <mask id="mask0_9159_3729" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="17" height="17">
@@ -352,7 +390,7 @@
                                                             <p class="mb-0 font-12 fw-light">ESI Number</p>
                                                         </div>
                                                         <div class="w-75 position-relative ">
-                                                            <input type="text" placeholder="Enter ESI Number" required="" name="" class="form-control borderLess" value="2345678908123">
+                                                            <input type="text" placeholder="Enter ESI Number"  name="esi" class="form-control borderLess" [value]="profile.esi" disabled>
                                                             <button class="btn p-0 font-13 fw-semibold text-black editBtn">View Detail 
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
                                                                     <mask id="mask0_9159_3729" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="17" height="17">
@@ -374,8 +412,17 @@
                         </div>
                         <div class="footer position-fixed bg-white d-flex align-items-center  justify-content-end gap-2">
                             <button class="btn cancel-btn font-13 fw-semibold mt-0">Cancel</button>
-                            <button class="btn submitActionBtn font-13 fw-semibold text-white">Submit</button>
+                            <button type="submit" class="btn submitActionBtn font-13 fw-semibold text-white"
+                                [disabled]="saveLoader">
+                                <div *ngIf="saveLoader" class="dot-opacity-loader">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                                <span *ngIf="!saveLoader"> Submit</span>      
+                            </button>
                         </div>
+                            </form>
                         </div>
                         <div class="tab-pane fade" id="statutory" role="tabpanel" aria-labelledby="profile-tab">
                         <app-statutory></app-statutory>
@@ -411,8 +458,8 @@
 
 
   
-  <!-- Modal EPF Sample Calculation start -->
-    <div class="modal fade" id="EPF-calculation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- Modal EPF Sample Calculation start -->
+      <div class="modal fade" id="EPF-calculation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" style="max-width: 900px;">
         <div class="modal-content ">
             <div class="modal-header">
@@ -511,14 +558,11 @@
         </div>
         </div>
     </div>
-    </div>
+      </div>
+    <!-- Modal EPF Sample Calculation end -->
 
-   <!-- Modal EPF Sample Calculation end -->
-
-
-
-  <!-- ModalTax Slabs for Assam start -->
-  <div  class="modal fade" id="taxSlabs" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- ModalTax Slabs for Assam start -->
+       <div  class="modal fade" id="taxSlabs" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
@@ -557,6 +601,11 @@
         </div>
         </div>
     </div>
+        </div>
+  
+  </div>
+    </div>
+</div>
     <!-- ModalTax Slabs for Assam end -->
 
     <!-- Add location modal start -->
@@ -702,11 +751,11 @@
                                         
                                      </div>
                                      <div class=" config-location-footer">
-                                     <div class="d-flex align-items-center justify-content-between w-100 p-3 ">
+                                     <div class="d-flex align-items-center justify-content-between w-100 p-3 bg-white">
                                         <p class="mb-0"> Showing items 10 - 2 of 12 records</p>
                                         <ngb-pagination class="pagition-box"> </ngb-pagination>
                                     </div>
-                                     <div class="modal-footer d-flex align-items-center justify-content-end bg-white ">
+                                     <div class="modal-footer d-flex align-items-center justify-content-end bg-white">
                                         
                                         <button type="submit" class="btn p-0 next-btn nextBtn" >
                                             <span>

@@ -22,6 +22,7 @@ import { PreferencesComponent } from './component/config/preferences/preferences
 import { SharedModule } from 'src/app/shared/shared.module';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
+import { EarningDetailsComponent } from './component/config/earning-details/earning-details.component';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { NzEmptyModule } from 'ng-zorro-antd/empty';
     PayScheduleComponent,
     PriorPayrollComponent,
     FormComponent,
-    PreferencesComponent
+    PreferencesComponent,
+    EarningDetailsComponent
   ],
   imports: [
     CommonModule,

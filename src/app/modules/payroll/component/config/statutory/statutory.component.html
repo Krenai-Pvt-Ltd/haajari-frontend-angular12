@@ -34,7 +34,7 @@
                   <div class="col-md-4">
                     
                      <div class="payroll-details-box">
-                        <h4 class="font-14 text-black fw-semibold lh-1">EPF Details</h4>
+                        <h4 class="font-13 text-black fw-semibold lh-1">EPF Details</h4>
                         <p class="text-muted font-11 lh-base fw-normal mb-0">this section contain EPF no, deduction cycle <br> pattern and employ contribution rate</p>
                      </div>
                   </div>
@@ -98,7 +98,7 @@
                <div class="row">
                   <div class="col-md-4">
                      <div class="payroll-details-box">
-                        <h4 class="font-14 text-black fw-semibold lh-1">Employer Contribution Rate </h4>
+                        <h4 class="font-13 text-black fw-semibold lh-1">Employer Contribution Rate </h4>
                         <p class="text-muted font-11 fw-normal lh-base mb-0">this section contain EPF no,<br> deduction cycle</p>
                      </div>
                   </div>
@@ -155,7 +155,7 @@
                <div class="row">
                   <div class="col-md-4">
                      <div class="payroll-details-box">
-                        <h4 class="font-14 text-black fw-semibold lh-1">Sample EPF Calculation</h4>
+                        <h4 class="font-13 text-black fw-semibold lh-1">Sample EPF Calculation</h4>
                         <p class="text-muted font-11 fw-normal lh-base mb-0">this section contain EPF no,<br> deduction cycle</p>
                      </div>
                   </div>
@@ -185,8 +185,8 @@
                            </div>
                         </div>
                         <div>
-                           <h5 class="mb-3 font-14 fw-semibold lh-base">Do you want to preview EPF calculation for multiple cases, based on the preferences <br> you have configured ?</h5>
-                           <button class="btn p-0 text-primary text-decoration-underline font-14  fw-semibold" data-bs-toggle="modal" data-bs-target="#EPF-calculation">
+                           <h5 class="mb-3 font-13 fw-semibold lh-base">Do you want to preview EPF calculation for multiple cases, based on the preferences <br> you have configured ?</h5>
+                           <button class="btn p-0 text-primary text-decoration-underline font-13  fw-semibold" data-bs-toggle="modal" data-bs-target="#EPF-calculation">
                               Preview EPF Calculation
                               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="18" viewBox="0 0 20 21" fill="none">
                                  <mask id="mask0_9246_6926" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
@@ -226,8 +226,8 @@
                <div class="row">
                 <div class="col-md-4">
                    <div class="payroll-details-box">
-                      <h4 class="font-14 text-black fw-semibold lh-1">ESI Details</h4>
-                      <p class="text-muted font-12 fw-normal lh-base mb-0">this section contain EPF no, deduction cycle <br> pattern and employ contribution rate</p>
+                      <h4 class="font-13 text-black fw-semibold lh-1">ESI Details</h4>
+                      <p class="text-muted font-11 fw-normal lh-base mb-0">this section contain EPF no, deduction cycle <br> pattern and employ contribution rate</p>
                    </div>
                 </div>
                 <div class="col-md-8">
@@ -318,7 +318,7 @@
                 <div class="row">
                     <div class="col-md-4">
                        <div class="payroll-details-box">
-                          <h4 class="font-14 text-black fw-semibold lh-1">Professional Tax</h4>
+                          <h4 class="font-13 text-black fw-semibold lh-1">Professional Tax</h4>
                           <p class="text-muted font-11 fw-normal lh-base mb-0">This tax is levied on an employee’s income by the State <br> Government. Tax slabs differ in each state.</p>
                        </div>
                     </div>
@@ -342,7 +342,8 @@
                                 <div class="d-flex align-items-center gap-3">
                                     <button class="btn p-0 font-13 fw-normal text-primary" data-bs-toggle="modal" data-bs-target="#taxSlabs" (click)="sendTaxSlab(address.state)">View Tax Slabs</button>
                                     <span class="location-detail d-flex align-items-center justify-content-center"
-                                          data-bs-toggle="collapse" [attr.href]="'#tax-detail-' + i" role="button" aria-expanded="false" [attr.aria-controls]="'tax-detail-' + i">
+                                    [attr.aria-expanded]="isDropdownOpen(i)" 
+                                    (click)="toggleDropdown(i)" role="button" >
                                         <svg xmlns="http://www.w3.org/2000/svg" width="13" height="8" viewBox="0 0 13 8" fill="none"
                                              class="transition">
                                             <path d="M6.74661 7.87461L0.651367 1.87461L2.07359 0.474609L6.74661 5.07461L11.4196 0.474609L12.8418 1.87461L6.74661 7.87461Z" fill="#444444"/>
@@ -357,7 +358,7 @@
                                 </ng-template>
                             </div>
                             <div class="p-3 location-detail-dropdown border-radius-2 collapse border-bottom"
-                            [attr.id]="'tax-detail-' + i" >
+                            [class.show]="isDropdownOpen(i)" >
                             <form #epfForm="ngForm" ngNativeValidate (ngSubmit)="savePtNumber(address.state)">
 
                                 <div class="row" *ngFor="let pt of ptDetail">
@@ -370,7 +371,9 @@
                                                 <p class="mb-0 font-14 fw-light">PT Number</p>
                                             </div>
                                             <div class="w-75 position-relative" >
-                                                <input type="text" placeholder="Professional Tax no." required name="ptNumber" class="form-control borderLess" [(ngModel)]="pt.professionalTaxNumber" [ngModelOptions]="{standalone: true}" >
+                                                <input type="text" placeholder="Professional Tax no." required name="ptNumber" class="form-control borderLess" 
+                                                pattern="^[A-Z]{2}[PT]{1,2}[0-9]{5,12}$"
+                                                [(ngModel)]="pt.professionalTaxNumber" [ngModelOptions]="{standalone: true}" >
                                                 <button class="btn p-0 editBtn" (click)="toggleEdit(pt.state)" *ngIf="!editingStates[pt.state]">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
                                                         <mask id="mask0_9271_10147" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="24">
@@ -435,13 +438,13 @@
                 <div class="row">
                     <div class="col-md-4">
                        <div class="payroll-details-box">
-                          <h4 class="font-14 text-black fw-semibold lh-1">Labour Welfare Fund</h4>
+                          <h4 class="font-13 text-black fw-semibold lh-1">Labour Welfare Fund</h4>
                           <p class="text-muted font-11 mb-0 lh-base fw-normal">Labour Welfare Fund act ensures social security <br> and improves working conditions for employees.
                           </p>
                        </div>
                     </div>
                     <div class="col-md-8">
-                       <div class="tax-location-list">
+                       <div class="tax-location-list" *ngFor="let address of addressDetail; let i= index;">
                             <div class="d-flex align-items-center justify-content-between border-bottom pb-3">
                                 <div class="d-flex align-items-center gap-3">
                                     <span class="location-icon radius-50 d-flex align-items-center justify-content-center">
@@ -454,161 +457,57 @@
                                             </g>
                                         </svg>
                                     </span>
-                                    <h5 class="mb-0 font-14 fww-semibold">New Delhi</h5>
+                                    <h5 class="mb-0 font-13 fww-semibold">{{address.state}}</h5>
                                 </div>
-                                <div class="d-flex align-itemms-center gap-3">
-                                    <p class="mb-0 font-13 fw-normal text-danger">Tax Not Applicable</p>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-between border-bottom pb-3 pt-3">
-                                <div class="d-flex align-items-center gap-3">
-                                    <span class="location-icon radius-50 d-flex align-items-center justify-content-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
-                                            <mask id="mask0_9267_9258" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
-                                                <rect x="0.921875" y="0.921875" width="23.1562" height="23.1562" fill="#D9D9D9"/>
-                                            </mask>
-                                            <g mask="url(#mask0_9267_9258)">
-                                                <path d="M12.5011 12.37C12.9811 12.37 13.3915 12.199 13.7323 11.8572C14.0732 11.5153 14.2436 11.1044 14.2436 10.6243C14.2436 10.1443 14.0727 9.73387 13.7308 9.39296C13.3889 9.05221 12.9779 8.88184 12.4977 8.88184C12.0177 8.88184 11.6074 9.05277 11.2666 9.39465C10.9257 9.73653 10.7552 10.1476 10.7552 10.6277C10.7552 11.1077 10.9262 11.5181 11.2681 11.8589C11.6099 12.1996 12.021 12.37 12.5011 12.37ZM12.4994 19.7494C14.387 18.0596 15.8314 16.4388 16.8328 14.887C17.8341 13.3352 18.3348 11.9761 18.3348 10.8096C18.3348 9.05068 17.776 7.6047 16.6584 6.47166C15.5408 5.33861 14.1545 4.77208 12.4994 4.77208C10.8444 4.77208 9.45809 5.33861 8.34048 6.47166C7.22287 7.6047 6.66406 9.05068 6.66406 10.8096C6.66406 11.9761 7.16474 13.3352 8.16608 14.887C9.16743 16.4388 10.6119 18.0596 12.4994 19.7494ZM12.4994 21.6752C10.0712 19.5712 8.25043 17.6131 7.03697 15.801C5.82352 13.9887 5.2168 12.3249 5.2168 10.8096C5.2168 8.58306 5.93697 6.78049 7.37732 5.40189C8.81784 4.02328 10.5252 3.33398 12.4994 3.33398C14.4737 3.33398 16.181 4.02328 17.6216 5.40189C19.0619 6.78049 19.7821 8.58306 19.7821 10.8096C19.7821 12.3249 19.1754 13.9887 17.9619 15.801C16.7485 17.6131 14.9276 19.5712 12.4994 21.6752Z" fill="#444444"/>
-                                            </g>
-                                        </svg>
-                                    </span>
-                                    <h5 class="mb-0 font-14 fww-semibold">Maharashtra Location</h5>
-                                </div>
-                                <div class="d-flex align-items-center gap-3">
-                                    <button class="btn p-0 font-13 fw-normal text-primary" data-bs-toggle="modal" data-bs-target="#taxSlabs">View Tax Slabs</button>
+                                <ng-container *ngIf="isFundApplicale(address.state); else noTax">
+                                 <div class="d-flex align-items-center gap-3" >
+                                    <!-- <button class="btn p-0 font-13 fw-normal text-primary" data-bs-toggle="modal" data-bs-target="#taxSlabs">View Tax Slabs</button> -->
+                                   
+                                    <div class="d-flex align-items-center gap-2">
+                                       <p class="mb-0 font-13 fw-normal text-optional">Disabled</p>
+                                       <nz-switch [ngModel]="checkStatus(address.state)" (ngModelChange)="changeLwfStatus($event, address.state)" 
+                                       [nzLoading]="loadingStates[address.state]" ></nz-switch>
+
+
+                                       <p   class="mb-0 font-13 fw-semibold">Enable</p>
+                                    </div>
                                     <span class="location-detail d-flex align-items-center justify-content-center"
-                                          data-bs-toggle="collapse" href="#tax-detail" role="button" aria-expanded="false" aria-controls="tax-detail">
+                                    [attr.aria-expanded]="isDropdownOpen(i)" 
+                                    (click)="toggleDropdown(i)"
+                                           role="button">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="13" height="8" viewBox="0 0 13 8" fill="none"
                                              class="transition">
                                             <path d="M6.74661 7.87461L0.651367 1.87461L2.07359 0.474609L6.74661 5.07461L11.4196 0.474609L12.8418 1.87461L6.74661 7.87461Z" fill="#444444"/>
                                         </svg>
                                     </span>
                                 </div>
+                                </ng-container>
+                                <ng-template #noTax>
+                                <div class="d-flex align-itemms-center gap-3">
+                                    <p class="mb-0 font-13 fw-normal text-danger" noTax>Tax Not Applicable</p>
+                                </div>
+                              </ng-template> 
+                            </div>
+  
+                            <div class="p-3 location-detail-dropdown border-radius-2 collapse border-bottom"  [class.show]="isDropdownOpen(i)">
+                            <div class="row" *ngFor="let lwf of lwfDetail">
+                              <div class="d-flex align-items-center justify-content-between" *ngIf="lwf.state === address.state">
+                                 <p class="font-13 fw-normal text-optional">Employees' Contribution</p>
+                                 <h5 class="font-13 fw-600 text-black">₹ {{lwf.employeeContribution}}</h5>
+                              </div>
+                              <div class="d-flex align-items-center justify-content-between" *ngIf="lwf.state === address.state">
+                                 <p class="font-13 fw-normal text-optional">Employer's Contribution</p>
+                                 <h5 class="font-13 fw-600 text-black">₹ {{lwf.employerContribution}}</h5>
+                              </div>
+                              <div class="d-flex align-items-center justify-content-between" *ngIf="lwf.state === address.state">
+                                 <p class="mb-0 font-13 fw-normal text-optional">Deduction Cycle</p>
+                                 <h5 class="mb-0 font-13 fw-600 text-black">{{lwf.deductionFrequency}}</h5>
+                              </div>
+                           </div>
                             </div>
 
-                            <div class="p-3 location-detail-dropdown border-radius-2 collapse border-bottom" id="tax-detail">
-                                <div class="row">
-                                    <div class="col-md-12 mb-3 ">
-                                        <div class="compliance-list bg-white border-rounded-2 attendance-border d-flex align-items-center justify-content-center">
-                                            <div class="w-25 currency-types-border">
-                                                <p class="mb-0 font-14 fw-light">PT Number</p>
-                                            </div>
-                                            <div class="w-75 position-relative">
-                                                <input type="text" placeholder="Professional Tax no." required="" name="" class="form-control borderLess" value="2345678908123">
-                                                <button class="btn p-0 editBtn">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
-                                                        <mask id="mask0_9271_10147" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="24">
-                                                        <rect x="0.211914" y="0.03125" width="23.9346" height="23.9346" fill="#D9D9D9"/>
-                                                        </mask>
-                                                        <g mask="url(#mask0_9271_10147)">
-                                                        <path d="M5.19865 18.9798H6.61977L16.3681 9.23148L14.947 7.81036L5.19865 17.5587V18.9798ZM3.2041 20.9744V16.736L16.3681 3.59687C16.5676 3.41404 16.7878 3.27276 17.0288 3.17303C17.2698 3.0733 17.5233 3.02344 17.7893 3.02344C18.0552 3.02344 18.3128 3.0733 18.5621 3.17303C18.8115 3.27276 19.0275 3.42235 19.2104 3.6218L20.5816 5.01799C20.7811 5.20082 20.9265 5.4169 21.0179 5.66622C21.1093 5.91554 21.1551 6.16485 21.1551 6.41417C21.1551 6.68011 21.1093 6.93359 21.0179 7.1746C20.9265 7.4156 20.7811 7.63584 20.5816 7.83529L7.44252 20.9744H3.2041ZM15.6451 8.53338L14.947 7.81036L16.3681 9.23148L15.6451 8.53338Z" fill="#1C1B1F"/>
-                                                        </g>
-                                                    </svg>
-                                                </button>
-                                                <!-- <button class="btn p-0 font-14 fw-semibold text-primary saveBtn">Save</button> -->
-                                               
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="border-rounded-2 attendance-border w-100 d-flex align-items-center justify-content-center bg-white">
-                                           <div class="w-50 p-3 currency-types-border">
-                                              <p class="mb-0 font-13 fw-light">State </p>
-                                           </div>
-                                           <div class="w-50">
-                                              <div class="w-100">
-                                                 <h5 class="mb-0 font-14 fw-semibold px-3">Maharashtra</h5>
-                                              </div>
-                                           </div>
-                                        </div>
-                                     </div>
-                                     <div class="col-md-6">
-                                        <div class="border-rounded-2 attendance-border w-100 d-flex align-items-center justify-content-center bg-white">
-                                           <div class="w-50 p-3 currency-types-border">
-                                              <p class="mb-0 font-13 fw-light">Deduction </p>
-                                           </div>
-                                           <div class="w-50">
-                                              <div class="w-100">
-                                                 <h5 class="mb-0 font-14 fw-semibold px-3">Yearly</h5>
-                                              </div>
-                                           </div>
-                                        </div>
-                                     </div>
-                                </div>
-
-                            </div>
-
-                           
-
-                            <div class="d-flex align-items-center justify-content-between border-bottom pb-3 pt-3">
-                                <div class="d-flex align-items-center gap-3">
-                                    <span class="location-icon radius-50 d-flex align-items-center justify-content-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
-                                            <mask id="mask0_9267_9258" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
-                                            <rect x="0.921875" y="0.921875" width="23.1562" height="23.1562" fill="#D9D9D9"/>
-                                            </mask>
-                                            <g mask="url(#mask0_9267_9258)">
-                                            <path d="M12.5011 12.37C12.9811 12.37 13.3915 12.199 13.7323 11.8572C14.0732 11.5153 14.2436 11.1044 14.2436 10.6243C14.2436 10.1443 14.0727 9.73387 13.7308 9.39296C13.3889 9.05221 12.9779 8.88184 12.4977 8.88184C12.0177 8.88184 11.6074 9.05277 11.2666 9.39465C10.9257 9.73653 10.7552 10.1476 10.7552 10.6277C10.7552 11.1077 10.9262 11.5181 11.2681 11.8589C11.6099 12.1996 12.021 12.37 12.5011 12.37ZM12.4994 19.7494C14.387 18.0596 15.8314 16.4388 16.8328 14.887C17.8341 13.3352 18.3348 11.9761 18.3348 10.8096C18.3348 9.05068 17.776 7.6047 16.6584 6.47166C15.5408 5.33861 14.1545 4.77208 12.4994 4.77208C10.8444 4.77208 9.45809 5.33861 8.34048 6.47166C7.22287 7.6047 6.66406 9.05068 6.66406 10.8096C6.66406 11.9761 7.16474 13.3352 8.16608 14.887C9.16743 16.4388 10.6119 18.0596 12.4994 19.7494ZM12.4994 21.6752C10.0712 19.5712 8.25043 17.6131 7.03697 15.801C5.82352 13.9887 5.2168 12.3249 5.2168 10.8096C5.2168 8.58306 5.93697 6.78049 7.37732 5.40189C8.81784 4.02328 10.5252 3.33398 12.4994 3.33398C14.4737 3.33398 16.181 4.02328 17.6216 5.40189C19.0619 6.78049 19.7821 8.58306 19.7821 10.8096C19.7821 12.3249 19.1754 13.9887 17.9619 15.801C16.7485 17.6131 14.9276 19.5712 12.4994 21.6752Z" fill="#444444"/>
-                                            </g>
-                                        </svg>
-                                    </span>
-                                    <h5 class="mb-0 font-14 fww-semibold">Assam</h5>
-                                </div>
-                                <div class="d-flex align-items-center gap-3">
-                                    <button class="btn p-0 font-13 fw-normal text-primary">View Tax Slabs</button>
-                                    <span class="location-detail d-flex align-items-center justify-content-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="8" viewBox="0 0 13 8" fill="none">
-                                            <path d="M6.74661 7.87461L0.651367 1.87461L2.07359 0.474609L6.74661 5.07461L11.4196 0.474609L12.8418 1.87461L6.74661 7.87461Z" fill="#444444"/>
-                                        </svg>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-between border-bottom pb-3 pt-3">
-                                <div class="d-flex align-items-center gap-3">
-                                    <span class="location-icon radius-50 d-flex align-items-center justify-content-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
-                                            <mask id="mask0_9267_9258" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
-                                            <rect x="0.921875" y="0.921875" width="23.1562" height="23.1562" fill="#D9D9D9"/>
-                                            </mask>
-                                            <g mask="url(#mask0_9267_9258)">
-                                            <path d="M12.5011 12.37C12.9811 12.37 13.3915 12.199 13.7323 11.8572C14.0732 11.5153 14.2436 11.1044 14.2436 10.6243C14.2436 10.1443 14.0727 9.73387 13.7308 9.39296C13.3889 9.05221 12.9779 8.88184 12.4977 8.88184C12.0177 8.88184 11.6074 9.05277 11.2666 9.39465C10.9257 9.73653 10.7552 10.1476 10.7552 10.6277C10.7552 11.1077 10.9262 11.5181 11.2681 11.8589C11.6099 12.1996 12.021 12.37 12.5011 12.37ZM12.4994 19.7494C14.387 18.0596 15.8314 16.4388 16.8328 14.887C17.8341 13.3352 18.3348 11.9761 18.3348 10.8096C18.3348 9.05068 17.776 7.6047 16.6584 6.47166C15.5408 5.33861 14.1545 4.77208 12.4994 4.77208C10.8444 4.77208 9.45809 5.33861 8.34048 6.47166C7.22287 7.6047 6.66406 9.05068 6.66406 10.8096C6.66406 11.9761 7.16474 13.3352 8.16608 14.887C9.16743 16.4388 10.6119 18.0596 12.4994 19.7494ZM12.4994 21.6752C10.0712 19.5712 8.25043 17.6131 7.03697 15.801C5.82352 13.9887 5.2168 12.3249 5.2168 10.8096C5.2168 8.58306 5.93697 6.78049 7.37732 5.40189C8.81784 4.02328 10.5252 3.33398 12.4994 3.33398C14.4737 3.33398 16.181 4.02328 17.6216 5.40189C19.0619 6.78049 19.7821 8.58306 19.7821 10.8096C19.7821 12.3249 19.1754 13.9887 17.9619 15.801C16.7485 17.6131 14.9276 19.5712 12.4994 21.6752Z" fill="#444444"/>
-                                            </g>
-                                        </svg>
-                                    </span>
-                                    <h5 class="mb-0 font-14 fww-semibold">Bihar</h5>
-                                </div>
-                                <div class="d-flex align-items-center gap-3">
-                                    <button class="btn p-0 font-13 fw-normal text-primary" >View Tax Slabs</button>
-                                    <span class="location-detail d-flex align-items-center justify-content-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="8" viewBox="0 0 13 8" fill="none">
-                                            <path d="M6.74661 7.87461L0.651367 1.87461L2.07359 0.474609L6.74661 5.07461L11.4196 0.474609L12.8418 1.87461L6.74661 7.87461Z" fill="#444444"/>
-                                        </svg>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-between border-bottom pb-3 pt-3">
-                                <div class="d-flex align-items-center gap-3">
-                                    <span class="location-icon radius-50 d-flex align-items-center justify-content-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
-                                            <mask id="mask0_9267_9258" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
-                                            <rect x="0.921875" y="0.921875" width="23.1562" height="23.1562" fill="#D9D9D9"/>
-                                            </mask>
-                                            <g mask="url(#mask0_9267_9258)">
-                                            <path d="M12.5011 12.37C12.9811 12.37 13.3915 12.199 13.7323 11.8572C14.0732 11.5153 14.2436 11.1044 14.2436 10.6243C14.2436 10.1443 14.0727 9.73387 13.7308 9.39296C13.3889 9.05221 12.9779 8.88184 12.4977 8.88184C12.0177 8.88184 11.6074 9.05277 11.2666 9.39465C10.9257 9.73653 10.7552 10.1476 10.7552 10.6277C10.7552 11.1077 10.9262 11.5181 11.2681 11.8589C11.6099 12.1996 12.021 12.37 12.5011 12.37ZM12.4994 19.7494C14.387 18.0596 15.8314 16.4388 16.8328 14.887C17.8341 13.3352 18.3348 11.9761 18.3348 10.8096C18.3348 9.05068 17.776 7.6047 16.6584 6.47166C15.5408 5.33861 14.1545 4.77208 12.4994 4.77208C10.8444 4.77208 9.45809 5.33861 8.34048 6.47166C7.22287 7.6047 6.66406 9.05068 6.66406 10.8096C6.66406 11.9761 7.16474 13.3352 8.16608 14.887C9.16743 16.4388 10.6119 18.0596 12.4994 19.7494ZM12.4994 21.6752C10.0712 19.5712 8.25043 17.6131 7.03697 15.801C5.82352 13.9887 5.2168 12.3249 5.2168 10.8096C5.2168 8.58306 5.93697 6.78049 7.37732 5.40189C8.81784 4.02328 10.5252 3.33398 12.4994 3.33398C14.4737 3.33398 16.181 4.02328 17.6216 5.40189C19.0619 6.78049 19.7821 8.58306 19.7821 10.8096C19.7821 12.3249 19.1754 13.9887 17.9619 15.801C16.7485 17.6131 14.9276 19.5712 12.4994 21.6752Z" fill="#444444"/>
-                                            </g>
-                                        </svg>
-                                    </span>
-                                    <h5 class="mb-0 font-14 fww-semibold">Chhattisgarh</h5>
-                                </div>
-                                <div class="d-flex align-items-center gap-3">
-                                    <button class="btn p-0 font-13 fw-normal text-primary">View Tax Slabs</button>
-                                    <span class="location-detail d-flex align-items-center justify-content-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="8" viewBox="0 0 13 8" fill="none">
-                                            <path d="M6.74661 7.87461L0.651367 1.87461L2.07359 0.474609L6.74661 5.07461L11.4196 0.474609L12.8418 1.87461L6.74661 7.87461Z" fill="#444444"/>
-                                        </svg>
-                                    </span>
-                                </div>
-                            </div>
+                            
+                        
                         </div>
                     </div>
                 </div>
@@ -617,5 +516,4 @@
 
     </div>
 
-    
    

@@ -52,6 +52,7 @@ export class Routes {
     public static EXPENSEMANAGEMENT = "/expense-management"
     public static PAYROLL = "/payroll/setup"
     public static CONFIGURATION = "/payroll/configuration"
+     public static EARNINGDETAILS = "/payroll/earning-details"
     
  /**
     * DYNAMIC ROUTES END
