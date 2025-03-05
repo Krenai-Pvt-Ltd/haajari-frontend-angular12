@@ -1064,9 +1064,17 @@ onMonthChange(month: Date): void {
   public grid: ApexGrid = { show: false, padding: { top: 0, right: 0, bottom: 0, left: 0 } };
   public fill: ApexFill = {
     type: 'gradient',
-    gradient: { shadeIntensity: 1, opacityFrom: 0.5, opacityTo: 0, stops: [0, 90, 100] },
+    gradient: {
+      shade: 'light',
+      type: 'vertical', // Options: 'horizontal', 'diagonal', 'vertical'
+      shadeIntensity: 0.5,
+      opacityFrom: 0.9,
+      opacityTo: 0.3,
+      stops: [0, 50, 100]
+    }
   };
-
+  public colors: string[] = this.Constants.COLORS;
+  // ['#8989F5','#B8B8F9','#E7E7FD']; // You can add more colors
   public markers: ApexMarkers = { size: 5 };
   public title: ApexTitleSubtitle = {
     text: 'Daily Approved Leaves',
