@@ -19,6 +19,7 @@ import { PayScheduleComponent } from './component/config/pay-schedule/pay-schedu
 import { PriorPayrollComponent } from './component/config/prior-payroll/prior-payroll.component';
 import { FormComponent } from './component/config/form/form.component';
 import { PreferencesComponent } from './component/config/preferences/preferences.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 

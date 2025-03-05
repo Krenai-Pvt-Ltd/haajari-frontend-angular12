@@ -140,7 +140,6 @@ organizationRegistrationDate: string = '';
     this.calculateDateRangeWeek();
     this.getDetailsForLeaveTeamOverview(this.tabName);
     this.getReportDetailsForLeaveTeamOverviewForHeatMap();
-    this.getLeaveTopDefaulterUser();
     this.getLeaveCategoryDetailsForLeaveTeamOverview();
 
     this.resetTabData();
@@ -857,7 +856,6 @@ onMonthChange(month: Date): void {
   this.calculateDateRangeWeek();
   this.getDetailsForLeaveTeamOverview(this.tabName);
   this.getReportDetailsForLeaveTeamOverviewForHeatMap();
-  this.getLeaveTopDefaulterUser();
   this.getLeaveCategoryDetailsForLeaveTeamOverview();
 
 }
@@ -1332,23 +1330,6 @@ initChartDataHeatMap(approvedLeaveCounts: any[]): void {
 
 
 //  leave category details code
-topDefaulterUser: any;
-isDefaulterEmployeeLoading: boolean = false;
-getLeaveTopDefaulterUser(): void {
-  this.isDefaulterEmployeeLoading = true;
-  this.leaveService.getLeaveTopDefaulterUser(this.startDate, this.endDate).subscribe({
-    next: (response: any) => {
-     this.topDefaulterUser = response.object;
-     this.isDefaulterEmployeeLoading = false
-
-    },
-    error: (err) => {
-      this.topDefaulterUser = null;
-      this.isDefaulterEmployeeLoading = false;
-      console.error('Error fetching leave data', err)},
-  });
-}
-
 
 getLeaveClass(leaveCategoryName: string): string {
   const leaveClassMap: { [key: string]: string } = {

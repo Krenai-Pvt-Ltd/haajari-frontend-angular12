@@ -151,7 +151,7 @@ const routes: Routes = [
         component: UnauthorizedComponent 
       },
       { path: 'leave-management', 
-        component: LeaveManagementComponent, 
+        component: LeaveManagementsComponent, 
         canActivate: [AuthGuard, SubscriptionGuard]
       },
       {

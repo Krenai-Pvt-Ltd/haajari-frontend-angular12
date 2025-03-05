@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ProfessionalTax } from 'src/app/payroll-models/ProfeessionalTax';
+import { TaxSlabService } from 'src/app/services/tax-slab.service';
 
 @Component({
   selector: 'app-configuration',
@@ -7,9 +9,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ConfigurationComponent implements OnInit {
 
-  constructor() { }
+
+
   isDivVisible: boolean = false;
+  constructor(private taxSlabService: TaxSlabService) {}
+
   ngOnInit(): void {
+    this.taxSlabService.taxSlab$.subscribe(taxData => {
+      if (taxData) {
+        console.log("opening modal")
+        this.selectedTaxSlab = taxData;
+      }
+    });
   }
 
   toggleDiv() {
@@ -79,6 +90,24 @@ export class ConfigurationComponent implements OnInit {
       { "code": "AED", "name": "United Arab Emirates Dirham", "symbol": "د.إ" }
     ];
 
+
+    isLopChecked:boolean = true;
+    toggleLOPVisibility(): void {
+      console.log("toggled",this.isLopChecked)
+    }
+
+    calculateValue(type: string, value: number): string {
+      if (this.isLopChecked) {
+        if (type === 'basic') {
+          return ` ${(value * 0.85).toFixed(2)}`; 
+        }
+        if (type === 'transport') {
+          return ` ${(value * 0.90).toFixed(2)}`; 
+        }
+      }
+      return ` ${value.toFixed(2)}`;
+    }
+
     selectedPfWage = "12% of Actual PF Wage"; // Default selected value
 
 employer = [
@@ -94,5 +123,15 @@ tab: string = '';
 switchTab(tab: string) {
   this.tab = tab
 }
+
+
+selectedTaxSlab!: ProfessionalTax; 
+
+
+
   }
+
+
+
   
+
