@@ -1,14 +1,15 @@
 import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { HelperService } from 'src/app/services/helper.service';
 import { LeaveService } from 'src/app/services/leave.service';
-import { finalize, tap } from 'rxjs/operators';
+import { finalize } from 'rxjs/operators';
 import { Key } from 'src/app/constant/key';
-import { LeaveResponse, PendingLeaveResponse } from 'src/app/models/leave-responses.model';
+import { LeaveResponse } from 'src/app/models/leave-responses.model';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import moment from 'moment';  // Import Moment.js
 import { DatePipe } from '@angular/common';
 import { DataService } from 'src/app/services/data.service';
 import {ApexAxisChartSeries, ApexChart,ApexXAxis,ApexYAxis,ApexDataLabels,ApexTooltip,ApexGrid,ApexFill,ApexMarkers,ApexTitleSubtitle,ChartComponent,ApexPlotOptions,ApexTheme,ApexStroke, ApexLegend,} from 'ng-apexcharts';
+import { constant } from 'src/app/constant/constant';
 
 
 export type ChartOptions = {
@@ -70,6 +71,8 @@ export class LeaveManagementsComponent implements OnInit {
   LEAVE = Key.LEAVE;
   HALFDAY = Key.HALFDAY;
 
+  readonly Constants=constant;
+
   ALL: string = 'all';
   isLoadingLeaves:boolean = false;
   itemPerPage: number = 10;
@@ -130,51 +133,162 @@ organizationRegistrationDate: string = '';
     this.applyFilters();
     // this.getLeaves(false,false);
     this.selectedDate = new Date();
-    
+
     this.getOrganizationRegistrationDateMethodCall();
     this.calculateDateRange();
     this.setDefaultWeekTab();
     this.calculateDateRangeWeek();
     this.getDetailsForLeaveTeamOverview(this.tabName);
     this.getReportDetailsForLeaveTeamOverviewForHeatMap();
-    this.getLeaveTopDefaulterUser();
     this.getLeaveCategoryDetailsForLeaveTeamOverview();
-   
+
+    this.resetTabData();
+    this.fetchMaxLeavesUsers();
+    this.fetchMinLeavesUsers();
+    this.fetchUsersOnLeave();
   }
+
+
+  pageNumberConsistent: number = 1;
+  pageNumberDefaulter: number = 1;
+  pageNumberOnLeave: number = 1;
+  itemOnPage: number = 10;
+  totalMaxLeaves: number = 0;
+  totalMinLeaves: number = 0;
+  totalUsersOnLeave: number = 0;
+  maxLeavesUsers: any[] = [];
+  minLeavesUsers: any[] = [];
+  usersOnLeave: any[] = [];
+
+  throttle =100;
+  scrollDistance = 1;
+  scrollUpDistance = 1;
+
+
+  mostDefaulter!: any;
+  fetchMaxLeavesUsers(): void {
+    this.isLoaderLoading = true;
+    this.leaveService.getUsersWithMaximumLeaves(this.pageNumberDefaulter, this.itemOnPage).subscribe(
+      response => {
+        this.isLoaderLoading = false;
+        if (response.status) {
+          this.maxLeavesUsers = [...this.maxLeavesUsers, ...response.object];
+          this.totalMaxLeaves = response.totalItems;
+          if(this.maxLeavesUsers.length > 0 ) {
+            this.mostDefaulter = JSON.parse(JSON.stringify(this.maxLeavesUsers[0]));
+
+          }
+          this.pageNumberDefaulter++;
+          if (this.maxLeavesUsers.length >= this.totalMaxLeaves) {
+            this.isAllDataLoaded = true;
+          }
+        }
+      },
+      err => {
+        this.isLoaderLoading = false;
+      }
+    );
+  }
+
+  fetchMinLeavesUsers(): void {
+    this.isLoaderLoading = true;
+    this.leaveService.getUsersWithMinimumLeaves(this.pageNumberConsistent, this.itemOnPage).subscribe(
+      response => {
+        this.isLoaderLoading = false;
+        if (response.status) {
+          this.minLeavesUsers = [...this.minLeavesUsers, ...response.object];
+          this.totalMinLeaves = response.totalItems;
+          this.pageNumberConsistent++;
+          if (this.minLeavesUsers.length >= this.totalMinLeaves) {
+            this.isAllDataLoaded = true;
+          }
+        }
+      },
+      err => {
+        this.isLoaderLoading = false;
+      }
+    );
+  }
+
+  fetchUsersOnLeave(): void {
+    this.isLoaderLoading = true;
+    this.leaveService.getUsersOnLeaveInRange(this.startDate, this.endDate).subscribe(
+      response => {
+        this.isLoaderLoading = false;
+        if (response.status) {
+          this.usersOnLeave = [...this.usersOnLeave, ...response.object];
+          this.totalUsersOnLeave = response.totalItems;
+          this.pageNumberOnLeave++;
+          if (this.usersOnLeave.length >= this.totalUsersOnLeave) {
+            this.isAllDataLoaded = true;
+          }
+        }
+      },
+      err => {
+        this.isLoaderLoading = false;
+      }
+    );
+  }
+
+
+
+  onScrollConsistent(): void {
+    console.log('onScrollConsistent triggered');
+
+    if (this.minLeavesUsers.length < this.totalMinLeaves && !this.isLoaderLoading) {
+      this.fetchMinLeavesUsers();
+    }
+  }
+
+  onScrollUsersOnLeave(){
+
+    if (this.usersOnLeave.length < this.totalUsersOnLeave && !this.isLoaderLoading) {
+      this.fetchUsersOnLeave();
+    }
+  }
+
+  onScrollDefaulter(): void {
+    console.log('onScrollConsistent triggered');
+
+    if (this.maxLeavesUsers.length < this.totalMaxLeaves && !this.isLoaderLoading) {
+      this.fetchMinLeavesUsers();
+    }
+  }
+
+
+
 
 
   tab: string = 'absent';
   switchTab(tab: string) {
-    this.tab = tab
+    this.tab = tab;
+    this.resetTabData();
 
     switch (tab) {
       case 'absent':
-        this.selectTab(this.ABSENT_TAB)
+        this.selectTab(this.ABSENT_TAB);
         this.getDetailsForLeaveTeamOverview(this.tabName);
-        return;
+        break;
       case 'leave':
-        this.selectTab(this.ON_LEAVE_TAB)
-        this.getDetailsForLeaveTeamOverview(this.tabName);
-        return;
+        this.selectTab(this.ON_LEAVE_TAB);
+        this.fetchUsersOnLeave();
+        break;
       case 'defaulter':
-        this.selectTab(this.DEFAULTER_TAB)
-        this.getDetailsForLeaveTeamOverview(this.tabName);
-        return;
+        this.selectTab(this.DEFAULTER_TAB);
+        this.fetchMaxLeavesUsers();
+        break;
       case 'consistent':
-        this.selectTab(this.CONSISTENT_TAB)
-        this.getDetailsForLeaveTeamOverview(this.tabName);
-        return;
+        this.selectTab(this.CONSISTENT_TAB);
+        this.fetchMinLeavesUsers();
+        break;
       case 'department':
         this.selectTab(this.LEAVE_BY_DEPARTMENT_TAB);
         this.getDetailsForLeaveTeamOverview(this.tabName);
-        return;
-      default:
-        return '';
+        break;
     }
-
   }
 
-  selectTab(tabName:string){
+  selectTab(tabName: string) {
     this.currentPageTeamOverView = 1;
     this.itemPerPageTeamOverview = 10;
     this.isLoaderLoading = false;
@@ -183,6 +297,18 @@ organizationRegistrationDate: string = '';
     this.tabName = tabName;
   }
 
+  resetTabData(): void {
+    this.pageNumberOnLeave = 1;
+    this.pageNumberDefaulter = 1;
+    this.pageNumberConsistent = 1;
+    this.usersOnLeave = [];
+    this.maxLeavesUsers = [];
+    this.minLeavesUsers = [];
+    this.totalUsersOnLeave = 0;
+    this.totalMaxLeaves = 0;
+    this.totalMinLeaves = 0;
+    this.isAllDataLoaded = false;
+  }
   changeShowFilter(flag : boolean) {
     this.showFilter = flag;
   }
@@ -191,7 +317,7 @@ organizationRegistrationDate: string = '';
   /**
    * GET LEAVES START
    */
- 
+
 
   pendingLeaveCount: number = 0;
   isFirstLoad: boolean = true;
@@ -210,11 +336,9 @@ organizationRegistrationDate: string = '';
     };
 
     if (applyDateRange) {
-      
+
       params.startDate = moment(this.filters.fromDate).format(this.displayDateFormatNew);
       params.endDate = moment(this.filters.toDate).format(this.displayDateFormatNew);
-      // params.startDate = moment(this.filters.fromDate).format(this.networkDateFormat);
-      // params.endDate = moment(this.filters.toDate).format(this.networkDateFormat);
     }
 
     this.isLoadingLeaves = true;
@@ -226,15 +350,10 @@ organizationRegistrationDate: string = '';
           if (Array.isArray(response.object)) {
             this.leaves = response.object;
             this.totalItems = response.totalItems;
-            // console.log("execute" + this.filters.status.length);
             if (this.filters.status.length == 1 && this.filters.status.includes('pending')) {
-              // console.log("execute" + this.filters.status);
               this.pendingLeaveCount = response.totalItems;
             }
-            
-            // this.isFirstLoad = false;   
-            // this.isPendingChange = false;
-            
+
 
           } else {
             this.leaves = [];
@@ -261,9 +380,8 @@ organizationRegistrationDate: string = '';
       this.applyFilters();
       if(event!=null) {
         this.userLeaveQuota = event;
-        this.openLeaveQuotaModal(); 
+        this.openLeaveQuotaModal();
       }
-      // this.getLeaves(true);
     }
 
       viewLeave(leave:any){
@@ -297,22 +415,14 @@ openInNewTab(url: string) {
 
 onPageChange(page: number) {
   this.searchTerm = '';
-  // this.currentPage = 1;
   this.currentPage = page;
 
-  
+
   if(this.filters.fromDate && this.filters.toDate) {
     this.getLeaves(false, true); // Fetch data with applied filters
     } else {
-      this.getLeaves(false, false); 
+      this.getLeaves(false, false);
     }
-
-  // if(this.filters.fromDate && this.filters.toDate) {
-  //   this.getLeaves(false, true); // Fetch data with applied filters
-  //   } else {
-  //     this.getLeaves(false, false); 
-  //   }
-  // this.getLeaves();
 }
 
 resetSearch(){
@@ -320,7 +430,6 @@ resetSearch(){
   this.searchTerm = '';
   this.currentPage = 1;
   this.leaves= [];
-  // this.cdr.detectChanges();
 }
 
 
@@ -328,18 +437,15 @@ searchTermChanged(event: any) {
   debugger
   this.currentPage = 1;
   this.searchTerm = event.target.value;
-  // this.searchTerm.trim().length === 0 ? this.resetSearch() :this.getLeaves();
   this.searchTerm.trim().length === 0 ? this.resetSearch() :this.applyFilters();
-  
+
 }
 
 searchLeaves() {
   this.resetValues();
-  // this.getLeaves();
   this.applyFilters()
 }
 resetValues(){
-  // this.searchTerm = '';
   this.leaves=[];
   this.totalItems = 0;
   this.currentPage= 1;
@@ -384,7 +490,7 @@ resetFiltersSearch() {
   if(this.filters.fromDate && this.filters.toDate) {
     this.getLeaves(true, true); // Fetch data with applied filters
     } else {
-      this.getLeaves(true, false); 
+      this.getLeaves(true, false);
     }
 }
 
@@ -423,7 +529,7 @@ applyFilters(): void {
   if(this.filters.fromDate && this.filters.toDate) {
   this.getLeaves(false, true); // Fetch data with applied filters
   } else {
-    this.getLeaves(false, false); 
+    this.getLeaves(false, false);
   }
 }
 
@@ -439,7 +545,6 @@ resetFilters(): void {
   this.changeShowFilter(false);
   this.currentPage = 1;
   this.applyFilters();
-  // this.getLeaves();
 }
 removeFilter(filter: { key: string; value: string }): void {
   // Remove the specific filter from the appliedFilters array
@@ -464,7 +569,6 @@ removeFilter(filter: { key: string; value: string }): void {
   this.changeShowFilter(false);
   this.currentPage = 1;
   this.applyFilters();
-  // this.getLeaves(); // Refresh data after filter removal
 }
 
 
@@ -502,11 +606,6 @@ approveOrRejectLeave(leaveId: number, operationString: string) {
       } else {
         this.helperService.showToast(response.message, Key.TOAST_STATUS_ERROR);
       }
-      // if(response.status) {
-      // this.helperService.showToast(`Leave ${operationString} successfully.`, Key.TOAST_STATUS_SUCCESS);
-      // }else {
-      //   this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
-      // }
     },
     error: (error) => {
       this.isPendingChange = false;
@@ -552,7 +651,6 @@ approveOrRejectLeaveCall(leaveId: number, operationString: string) {
     this.approveOrRejectLeave(leaveId, operationString);
    }else if (operationString === this.REJECTED) {
     this.rejectionReasonFlag = true;
-    // this.approveOrRejectLeave(leaveId, operationString);
    }
 }
 
@@ -635,17 +733,33 @@ getDetailsForLeaveTeamOverview(tabName: string) {
     });
 }
 
-onScroll(event: any) {
-  const target = event.target;
 
-  // Check if the user scrolled to the bottom
+onScroll(event: any): void {
+  const target = event.target;
   if (target.scrollHeight - target.scrollTop <= target.clientHeight + 10 && !this.isLoaderLoading && !this.isAllDataLoaded) {
-    this.currentPageTeamOverView++; // Increase page number for next set of data
-    this.getDetailsForLeaveTeamOverview(this.tabName); // Load more data
+    switch (this.tab) {
+      case 'absent':
+        this.currentPageTeamOverView++;
+        this.getDetailsForLeaveTeamOverview(this.tabName);
+        break;
+      case 'leave':
+        if (this.usersOnLeave.length < this.totalUsersOnLeave) {
+          this.fetchUsersOnLeave();
+        }
+        break;
+      case 'defaulter':
+        if (this.maxLeavesUsers.length < this.totalMaxLeaves) {
+          this.fetchMaxLeavesUsers();
+        }
+        break;
+      case 'consistent':
+        if (this.minLeavesUsers.length < this.totalMinLeaves) {
+          this.fetchMinLeavesUsers();
+        }
+        break;
+    }
   }
 }
-
-
 //  new
 
 
@@ -654,7 +768,6 @@ getOrganizationRegistrationDateMethodCall() {
   this.dataService.getOrganizationRegistrationDate().subscribe(
     (response: string) => {
       this.organizationRegistrationDate = response;
-      console.log("fghjklkjhgf", this.organizationRegistrationDate);
       this.updateWeekLabels();
     },
     (error: any) => {
@@ -706,7 +819,7 @@ calculateDateRange(): void {
       new Date(this.selectedDate.getFullYear(), this.selectedDate.getMonth(), 1)
     );
     this.endDate = this.formatDateToYYYYMMDD(
-      isCurrentMonth ? currentDate : new Date(this.selectedDate.getFullYear(), this.selectedDate.getMonth() + 1, 0)
+       new Date(this.selectedDate.getFullYear(), this.selectedDate.getMonth() + 1, 0)
     );
 }
 
@@ -721,7 +834,6 @@ formatDateToYYYYMMDD(date: Date): string {
 
 onMonthChange(month: Date): void {
   this.selectedDate = month;
-  // this.updateThirtyDaysLabel();
   this.updateWeekLabels();
 
   // Select the first week containing or after the joining date
@@ -742,13 +854,10 @@ onMonthChange(month: Date): void {
 
   this.calculateDateRange();
   this.calculateDateRangeWeek();
-  // this.tab = 'absent';
-  // this.tabName = this.ABSENT_TAB;
   this.getDetailsForLeaveTeamOverview(this.tabName);
   this.getReportDetailsForLeaveTeamOverviewForHeatMap();
-  this.getLeaveTopDefaulterUser();
   this.getLeaveCategoryDetailsForLeaveTeamOverview();
-  
+
 }
 
 
@@ -812,7 +921,6 @@ onMonthChange(month: Date): void {
       // Set the selectedTab to the current week
       this.selectedTab = `Week ${currentWeek}`;
       this.presentWeek = true;
-      // this.selectedTab = `Current Week`;
     } else {
       // Default to Week 1 for other months
       this.selectedTab = 'Week 1';
@@ -825,7 +933,6 @@ onMonthChange(month: Date): void {
     debugger
     this.selectedTab = tab;
     this.presentWeek = false;
-    // this.resetData();
     this.isShimmer = true;
     this.calculateDateRangeWeek();
 
@@ -898,7 +1005,7 @@ onMonthChange(month: Date): void {
           ? currentDate // Use current date if within the selected week's range
           : lastDayOfMonth
       );
-    } 
+    }
      else {
       this.endDateWeek = this.formatDateToYYYYMMDD(weekEnd);
     }
@@ -989,7 +1096,6 @@ onMonthChange(month: Date): void {
     const maxDate = Math.max(...dates);
     const extendedMaxDate = new Date(maxDate);
     extendedMaxDate.setDate(extendedMaxDate.getDate() + 1);
-    // extendedMaxDate.setDate(extendedMaxDate.getDate()); // Extend by 2 days for better visualization
 
     this.xaxis = { ...this.xaxis, min: minDate, max: extendedMaxDate.getTime() };
 
@@ -1008,7 +1114,6 @@ onMonthChange(month: Date): void {
   @ViewChild('chartHeatMap') chartHeatMap!: ChartComponent;
   public chartOptions!: Partial<ChartOptions>;
   leaveReportResponseHeatMap: any;
-  // topTwoLeaveDays: { date: string; count: number }[] = [];
 
   getReportDetailsForLeaveTeamOverviewForHeatMap(): void {
     this.leaveService.getReportDetailsForLeaveTeamOverview(this.startDate, this.endDate).subscribe({
@@ -1040,14 +1145,14 @@ initChartDataHeatMap(approvedLeaveCounts: any[]): void {
     const dayNames = sortedDates.map(day =>
       new Date(day.date).toLocaleDateString('en-US', { weekday: 'long' })
     );
-    
+
     // Check if both days are the same; if yes, display one, otherwise join them
     this.topTwoLeaveDaysFormatted = dayNames.length === 1
       ? dayNames[0]
       : dayNames[0] === dayNames[1]
         ? dayNames[0]
         : dayNames.join(' & ');
-    
+
 
   // Continue with heatmap chart setup...
   const seriesData: any[] = [];
@@ -1058,7 +1163,7 @@ initChartDataHeatMap(approvedLeaveCounts: any[]): void {
   while (currentDate <= end) {
     const weekStart = new Date(currentDate);
     const potentialWeekEnd = new Date(currentDate);
-    potentialWeekEnd.setDate(weekStart.getDate() + 6);  
+    potentialWeekEnd.setDate(weekStart.getDate() + 6);
 
     const weekEnd = potentialWeekEnd > end ? end : potentialWeekEnd;
     const weekData: any[] = [];
@@ -1075,7 +1180,7 @@ initChartDataHeatMap(approvedLeaveCounts: any[]): void {
     });
 
     weekIndex++;
-    currentDate.setDate(weekEnd.getDate() + 1); 
+    currentDate.setDate(weekEnd.getDate() + 1);
   }
 
   this.chartOptions = {
@@ -1091,10 +1196,10 @@ initChartDataHeatMap(approvedLeaveCounts: any[]): void {
           min: 0,
           max: 365,
           ranges: [
-            { from: 0, to: 5, color: "#D6EAF8", name: "Very Low" },
-            { from: 6, to: 20, color: "#AED6F1", name: "Low" },
-            { from: 21, to: 50, color: "#5DADE2", name: "Medium" },
-            { from: 51, to: 100, color: "#2E86C1", name: "High" }
+            { from: 0, to: 0, color: "#f7fafa", name: "Very Low" },
+            { from: 1, to: 4, color: "#9ccabe", name: "Low" },
+            { from: 4, to: 8, color: "#478e7d", name: "Medium" },
+            { from: 8, to: 100, color: "#185143", name: "High" }
           ]
         }
       },
@@ -1111,97 +1216,6 @@ initChartDataHeatMap(approvedLeaveCounts: any[]): void {
     legend: { show: false },
   };
 }
-
-
-  // initChartDataHeatMap(approvedLeaveCounts: any[]): void {
-  //   const dateMap = new Map<string, number>();
-  //   approvedLeaveCounts.forEach(item => dateMap.set(item.date, item.totalCount));
-
-  //   const start = new Date(this.startDate);
-  //   const end = new Date(this.endDate);
-
-  //   const seriesData: any[] = [];
-  //   let currentDate = new Date(start);
-  //   let weekIndex = 1;
-
-  //   while (currentDate <= end) {
-  //     const weekStart = new Date(currentDate);
-  //     const potentialWeekEnd = new Date(currentDate);
-  //     potentialWeekEnd.setDate(weekStart.getDate() + 6);  // Each week covers 7 days
-
-  //     const weekEnd = potentialWeekEnd > end ? end : potentialWeekEnd;  // Handle last week ending
-
-  //     const weekData: any[] = [];
-  //     for (let date = new Date(weekStart); date <= weekEnd; date.setDate(date.getDate() + 1)) {
-  //       const formattedDate = date.toISOString().split('T')[0];
-  //       const count = dateMap.get(formattedDate) ?? 0;
-  //       // weekData.push({ x: formattedDate, y: count });
-  //       weekData.push({ x: "Total Approved", y: count });
-  //     }
-  
-  //     // seriesData.push({
-  //     //   name: `Week ${weekIndex} (${this.formatDateToDDMMM(weekStart)} - ${this.formatDateToDDMMM(weekEnd)})`,
-  //     //   data: weekData,
-  //     // });
-  //     seriesData.push({
-  //       name: `Week ${weekIndex}`,
-  //       data: weekData,
-  //     });
-      
-  
-  //     weekIndex++;
-  //     currentDate.setDate(weekEnd.getDate() + 1);  // Move to the next week's start
-  //   }
-  
-
-  //   this.chartOptions = {
-  //     series: seriesData,
-  //     chart: { height: 350, 
-  //       type: 'heatmap',  
-  //       toolbar: {
-  //       show: false,
-  //       tools: { zoomin: false, zoomout: false, pan: false, reset: false },
-  //     }
-  //   },
-  //     stroke: {  
-  //           width: 1.5,
-  //           colors: ['#ffffff'], 
-  //     },
-  //     plotOptions: {
-  //       heatmap: {
-  //         shadeIntensity: 0.8,
-  //         radius: 6,
-  //         useFillColorAsStroke: false,
-  //         enableShades: true, // Enables automatic gradient
-  //         colorScale: {
-  //           min: 0,
-  //           max: 365,
-  //           ranges: [
-  //             { from: 0, to: 5, color: "#D6EAF8", name: "Very Low" },
-  //             { from: 6, to: 20, color: "#AED6F1", name: "Low" },
-  //             { from: 21, to: 50, color: "#5DADE2", name: "Medium" },
-  //             { from: 51, to: 100, color: "#2E86C1", name: "High" }
-  //           ]
-  //         }
-  //       },
-  //     },
-  //     dataLabels: { enabled: false },
-  //     xaxis: { type: 'category', labels: { show: false } },
-  //     yaxis: { title: { text: 'Weeks of the Month' } },
-  //     grid: { 
-  //           padding: { left: 10, right: 10, top: 10, bottom: 10 },
-  //     },
-  //     tooltip: {
-  //       y: { formatter: (val) => `${val} Leave(s)` },
-  //       x: { formatter: (val) => `${val}` },
-  //     },
-  //     theme: { mode: 'light' },
-  //     legend: { show: false },
-
-  //   };
-    
-        
-  // }
 
 
 
@@ -1248,7 +1262,7 @@ initChartDataHeatMap(approvedLeaveCounts: any[]): void {
     const maxCount = sortedData[0]?.totalApprovedLeaveCount || 1;
     const categories = sortedData.map((item) => item.teamName);
     const seriesData = sortedData.map((item) => Number(((item.totalApprovedLeaveCount / maxCount) * 100).toFixed(2)));
-   
+
     this.chartOptions1 = {
       series: [
         {
@@ -1309,30 +1323,13 @@ initChartDataHeatMap(approvedLeaveCounts: any[]): void {
         style: { fontSize: '16px', fontWeight: 'bold' },
       },
     };
-    
+
   }
 
 
 
 
 //  leave category details code
-topDefaulterUser: any;
-isDefaulterEmployeeLoading: boolean = false;
-getLeaveTopDefaulterUser(): void {
-  this.isDefaulterEmployeeLoading = true;
-  this.leaveService.getLeaveTopDefaulterUser(this.startDate, this.endDate).subscribe({
-    next: (response: any) => {
-     this.topDefaulterUser = response.object;
-     this.isDefaulterEmployeeLoading = false
-
-    },
-    error: (err) => {
-      this.topDefaulterUser = null;
-      this.isDefaulterEmployeeLoading = false;
-      console.error('Error fetching leave data', err)},
-  });
-}
-
 
 getLeaveClass(leaveCategoryName: string): string {
   const leaveClassMap: { [key: string]: string } = {
@@ -1353,11 +1350,11 @@ getLeaveClass(leaveCategoryName: string): string {
 routeToUserProfile(uuid: string) {
   this.helperService.routeToUserProfile(uuid);
 }
-  
 
 
 
 
-  
-  
+
+
+
 }

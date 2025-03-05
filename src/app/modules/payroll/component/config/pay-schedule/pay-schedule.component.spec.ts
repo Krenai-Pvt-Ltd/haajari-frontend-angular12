@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LiveManagerComponent } from './live-manager.component';
+import { PayScheduleComponent } from './pay-schedule.component';
 
-describe('LiveManagerComponent', () => {
-  let component: LiveManagerComponent;
-  let fixture: ComponentFixture<LiveManagerComponent>;
+describe('PayScheduleComponent', () => {
+  let component: PayScheduleComponent;
+  let fixture: ComponentFixture<PayScheduleComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LiveManagerComponent ]
+      declarations: [ PayScheduleComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LiveManagerComponent);
+    fixture = TestBed.createComponent(PayScheduleComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

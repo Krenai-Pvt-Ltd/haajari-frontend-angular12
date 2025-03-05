@@ -116,6 +116,7 @@
                                      [tooltip]="tooltip"
                                      [grid]="grid"
                                      [fill]="fill"
+                                     [stroke]="{width:1.5}"
                                      >
                                      </apx-chart>
                                      <p class="mb-0 font-13 pt-3">This report provides an overview of the total assigned expenditure.</p>
@@ -327,7 +328,7 @@
                                <div class="mt-3 assets-categories">
                                   <div class="categories-header p-3 d-flex align-items-center justify-content-between">
                                      <h5 class="mb-0 font-15 fw-semibold">Categories</h5>
-                                     
+
                                      <div class="dropdown">
                                        <button class="btn p-0 font-14 text-primary fw-semibold" data-bs-toggle="dropdown" aria-expanded="true"> Categories</button>
                                        <div class="dropdown-menu actionMenuList category-list">
@@ -335,11 +336,11 @@
                                                <a class="dropdown-item font-14" *ngFor="let category of categorySummary; let i = index">
                                                 <div class="d-flex align-items-center justify-content-between">
                                                       <div>{{ category.categoryName }}</div>
-                                                
+
                                                 <div class="d-flex align-items-center gap-3">
                                                    <i *ngIf="category.categoryId>0" class="bi bi-pencil text-primary font-14" data-bs-toggle="modal" data-bs-target="#createCategoryModal"
-                                                      (click)="assignCategoryId(category.categoryId)"></i>
-                                                   <i class="bi bi-trash3 text-danger font-14"></i>
+                                                      (click)="assignCategoryId(category)"></i>
+                                                   <i  *ngIf="category.categoryId>0" class="bi bi-trash3 text-danger font-14" data-bs-toggle="modal" data-bs-target="#delete-automation" (click)="assignCategoryId(category)"></i>
                                                 </div>
                                              </div>
                                                </a>
@@ -732,14 +733,14 @@
                                <!-- empty notification end -->
                                <tbody *ngIf="!isAssetLoading">
                                   <tr *ngFor="let asset of assets">
-                                     <td class="fw-normal">{{ asset.assetName }}</td>
-                                     <td class="fw-normal">{{ asset.serialNumber }}</td>
-                                     <td class="fw-normal">{{ asset.assignedToName || 'N/A' }}</td>
+                                     <td class="fw-normal"><span class="font-13"> {{ asset.assetName }}</span></td>
+                                     <td class="fw-normal"><span class="font-13"> {{ asset.serialNumber }}</span></td>
+                                     <td class="fw-normal"><span class="font-13">{{ asset.assignedToName || 'N/A' }}</span></td>
                                      <!-- Purchased Date -->
                                      <td>
                                         <span>
                                            <h5 class="mb-1 font-13">{{ asset.purchasedDate | date:'dd-MMM-yy' }}</h5>
-                                           <p class="mb-0 font-12">{{ asset.purchasedDate | date:'EEEE' }}</p>
+                                           <p class="mb-0 font-12 text-optional">{{ asset.purchasedDate | date:'EEEE' }}</p>
                                         </span>
                                      </td>
                                      <!-- Expiry Date -->
@@ -748,19 +749,19 @@
                                            <h5 class="mb-1 font-13" *ngIf="asset.expiryDate; else naDate">
                                               {{ asset.expiryDate | date:'dd-MMM-yy' }}
                                            </h5>
-                                           <p class="mb-0 font-12">{{ asset.expiryDate | date:'EEEE' }}</p>
+                                           <p class="mb-0 font-12 text-optional">{{ asset.expiryDate | date:'EEEE' }}</p>
                                            <ng-template #naDate>
                                               <h5 class="mb-1 font-13">N/A</h5>
                                            </ng-template>
                                         </span>
                                      </td>
-                                     <td class="fw-normal">{{ asset.assetCategoryName }}</td>
-                                     <td class="fw-normal">₹{{ asset.price | number:'1.0-0' }}</td>
-                                     <td class="fw-normal">{{ asset.location }}</td>
-                                     <td class="fw-normal">{{ asset.vendorName }}</td>
+                                     <td class="fw-normal"> <span class="font-13"> {{ asset.assetCategoryName }}</span></td>
+                                     <td class="fw-normal"> <span class="font-13"> ₹{{ asset.price | number:'1.0-0' }}</span></td>
+                                     <td class="fw-normal"> <span class="font-13"> {{ asset.location }}</span></td>
+                                     <td class="fw-normal"> <span class="font-13">{{ asset.vendorName }} </span></td>
                                      <!-- Status -->
                                      <td>
-                                        <span [ngClass]="statusClassMapping[(asset.statusId)]" class="fw-semibold">
+                                        <span [ngClass]="statusClassMapping[(asset.statusId)]" class="fw-semibold font-13">
                                         {{ asset.statusName }}
                                         </span>
                                      </td>
@@ -1251,6 +1252,7 @@
  <!-- Modal Create Assets Start -->
  <!-- Modal Create Assets Start -->
  <!-- <ng-template #statusChangeModal let-modal> -->
+
  <div class="modal fade" id="AssetsDetailModal" tabindex="10000" aria-labelledby="AssetsDetailModalLabel" data-bs-backdrop="static" data-bs-keyboard="false"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -1272,7 +1274,7 @@
     </div>
  </div>
  </div>
-
+</div>
 
 
 
@@ -1370,37 +1372,89 @@
     </div>
  </div>
  <div class="modal fade" id="createCategoryModal" tabindex="-1" aria-labelledby="createCategoryModalLabel" data-bs-backdrop="static" data-bs-keyboard="false"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-       <div class="modal-content">
-          <div class="modal-header">
-             <h5 class="modal-title" id="createCategoryModalLabel">
-                Update Category
-             </h5>
-             <button type="button" #closeUpdateCategory class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="createCategoryModalLabel">
+          Update Category
+        </h5>
+        <button type="button" #closeUpdateCategory class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form (ngSubmit)="saveOrUpdateCategory()" #categoryForm1="ngForm">
+        <div class="modal-body assets-label">
+          <div class="row">
+            <div class="col-md-12 mb-3">
+              <label for="categoryName" class="form-label pb-2">Category Name <span
+                  class="text-optional">*</span></label>
+              <input type="text" class="form-control input-zorro" id="categoryName" name="categoryName"
+                placeholder="Type category name here..." [(ngModel)]="newCategory.categoryName" required
+                #categoryName="ngModel" />
+              <div *ngIf="
+                  categoryName.invalid &&
+                  (categoryName.dirty || categoryName.touched)
+                " class="text-danger">
+                Category Name is required.
+              </div>
+            </div>
+
           </div>
-          <form (ngSubmit)="saveOrUpdateCategory()" #categoryForm1="ngForm">
-          <div class="modal-body assets-label">
-             <div class="row">
-                <div class="col-md-12 mb-3">
-                   <label for="categoryName" class="pb-2">Category Name <span class="text-danger">*</span></label>
-                   <input type="text" class="form-control input-zorro" id="categoryName" name="categoryName"
-                   placeholder="Type category name here..." [(ngModel)]="newCategory.categoryName" required
-                   #categoryName="ngModel" />
-                   <div *ngIf="
-                      categoryName.invalid &&
-                      (categoryName.dirty || categoryName.touched)
-                      " class="text-danger">
-                      Category Name is required.
-                   </div>
-                </div>
-             </div>
-          </div>
-          <div class="modal-footer ">
-             <button type="submit" class="btn submitActionBtn" [disabled]="categoryForm1.invalid || isCategoryUpdateLoading"> Save</button>
-          </div>
-          </form>
-       </div>
+        </div>
+        <div class="modal-footer ">
+          <button type="submit" class="btn submitActionBtn" [disabled]="categoryForm1.invalid || isCategoryUpdateLoading"> Add</button>
+        </div>
+      </form>
     </div>
- </div>
+  </div>
+</div>
  <!-- Modal Create Assets Start -->
+
+
+
+ <div class="modal fade" id="delete-automation" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" style="max-width: 500px" role="document">
+    <div class="modal-content">
+      <div class="modal-body p-0 delete-text">
+        <div class="delete-image d-flex align-items-center justify-content-center pt-4 pb-4">
+          <div class="delete-close-btn">
+            <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButtonDeleteCategory>
+              <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+                <mask id="mask0_2031_1331" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="30"
+                  height="30">
+                  <rect width="30" height="30" fill="#D9D9D9" />
+                </mask>
+                <g mask="url(#mask0_2031_1331)">
+                  <path
+                    d="M8 23.75L6.25 22L13.25 15L6.25 8L8 6.25L15 13.25L22 6.25L23.75 8L16.75 15L23.75 22L22 23.75L15 16.75L8 23.75Z"
+                    fill="black" />
+                </g>
+              </svg>
+            </button>
+          </div>
+          <img src="/assets/images/delete-img.svg" style="width: 70px" />
+        </div>
+        <div class="bg-white p-4 text-center">
+
+          <div>
+            <h5 class="alert-heading font-18 mb-2">
+              Are you sure you want to delete <br />
+                {{selectedAsset?.cat }} category?
+            </h5>
+            <p class="font-11">You will not be able to recover this</p>
+          </div>
+
+          <div class="mt-4 d-flex align-items-center flex-column">
+            <button [disabled]="deleteLoading" class="btn continue-btn" *ngIf="this.selectedCategory.categoryId != 0"
+              (click)="deleteCategory(this.selectedCategory.categoryId)">Continue
+
+              <i class="fa fa-spinner fa-spin" *ngIf="deleteLoading"></i>
+            </button>
+            <button class="btn cancel-btn pt-2" type="button" data-bs-dismiss="modal" aria-label="Close">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -16,10 +16,13 @@
   --primary-background-color: #6666f3;
 }
 .border-rounded-2{
-  border-radius:2px;
+  border-radius:2px !important;
 }
 .radius-50 {
   border-radius: 50%;
+}
+.text-muted{
+  color: #878A9A;
 }
 
 .mt-20p{
@@ -63,10 +66,44 @@
   height: 32px;
 }
 .img-50{
+  width: 40px;
+  height: 40px;
+}
+.img-50{
   width: 50px;
   height: 50px;
 }
+.img-60{
+  width: 60px;
+  height: 60px;
+}
+.img-70{
+  width: 70px;
+  height: 70px;
+}
+.img-80{
+  width: 80px;
+  height: 80px;
+}
+.img-110{
+  width: 110px;
+  height: 110px;
+}
+.img-130{
+  width: 130px;
+  object-fit: cover;
+}
+.w-25{
+  width: 25%;
+}
 
+.w-75{
+  width: 75%;
+}
+
+.mb-10{
+  margin-bottom: 100px;
+}
 .attendance-list{
   border: 1px solid #f1f1f1;
   box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, 0.05);
@@ -3749,6 +3786,7 @@ a.badge:hover {
   font-style: normal;
   font-weight: 500;
   text-align: left;
+  line-height: 24px;
 }
 .nav-pills .nav-item.show .nav-link,
 .nav-pills .nav-link.active {

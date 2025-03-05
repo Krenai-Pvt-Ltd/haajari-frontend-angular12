@@ -23,12 +23,12 @@ export class LeaveRequestComponent implements OnInit {
   ROLE: any = '';
     @Input() data: any; // Existing input for passing data
     @Output() closeModal: EventEmitter<any> = new EventEmitter<any>();
-
+    @Output() notFetching: EventEmitter<void> = new EventEmitter<void>();
     sendBulkDataToComponent() {
       this.closeModal.emit(this.userLeaveQuota);
     }
 
-    
+
     isModal: boolean = true;
   ngOnInit(): void {
     this.ROLE = this.rbacService.userInfo.role;
@@ -43,16 +43,23 @@ export class LeaveRequestComponent implements OnInit {
     }
   }
 
+  isLeaveLoading: boolean = false;
   fetchLeaveById(id: number) {
+    this.isLeaveLoading = true;
     this.leaveService.getLeaveById(id).subscribe(
       (response) => {
         if(response.status) {
+          this.isLeaveLoading = false;
           this.leave = response.object;
           this.cdr.detectChanges();
           this.cdr.markForCheck();
+        }else{
+          this.notFetching.emit();
+          this.isLeaveLoading = false;
         }
       },
       (error) => {
+        this.notFetching.emit();
         console.error('Error fetching leave:', error);
       }
     );
@@ -105,7 +112,7 @@ export class LeaveRequestComponent implements OnInit {
               this.rejectionReason = '';
               this.rejectionReasonFlag = false;
              // this.getLeaves(true);
-             
+
               if(this.closebutton){
                 this.closebutton.nativeElement.click();
               }
@@ -123,7 +130,7 @@ export class LeaveRequestComponent implements OnInit {
                 this.helperService.showToast(response.message, Key.TOAST_STATUS_ERROR);
                 this.sendBulkDataToComponent();
               }
-             
+
             },
             error: (error) => {
               this.helperService.showToast('Error.', Key.TOAST_STATUS_ERROR);
