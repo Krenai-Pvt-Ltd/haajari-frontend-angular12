@@ -116,11 +116,12 @@ export class LeaveRequestComponent implements OnInit {
               if(this.closebutton){
                 this.closebutton.nativeElement.click();
               }
-              this.leave.status = operationString;
+
               this.cdr.detectChanges();
               this.cdr.markForCheck();
               // this.helperService.showToast(`Leave ${operationString} successfully.`, Key.TOAST_STATUS_SUCCESS);
               if (response.message === 'approved' || response.message === 'rejected') {
+                this.leave.status = operationString;
                 this.helperService.showToast(`Leave ${operationString} successfully.`, Key.TOAST_STATUS_SUCCESS);
                 this.sendBulkDataToComponent();
               } else if (response.message === this.LEAVE_QUOTA_EXCEEDED) {

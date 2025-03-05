@@ -34,7 +34,7 @@ export class ExitModalComponent {
 
   ngOnInit(): void {
     this.fetchData();
-    
+
 
   }
 
@@ -117,7 +117,7 @@ ngOnChanges(changes: SimpleChanges) {
     this.userResignationInfo = []
     this.dataService.getUserResignationInfoById(this.id).subscribe((res: any) => {
       if (res.status) {
-        this.userResignationInfo = res.object[0]
+        this.userResignationInfo = res.object[0];
         this.userId= this.userResignationInfo.uuid;
         this.getNoticePeriodDuration();
         if (this.userResignationInfo.isManagerDiscussion == 0) {

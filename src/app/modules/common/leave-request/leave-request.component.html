@@ -14,6 +14,13 @@
               </g>
           </svg>
       </button>
+      <span *ngIf="!isModal" class="badge rounded-pill font-11" [ngClass]="{
+          'badge-soft-success': leave?.status === 'approved',
+          'badge-soft-danger': leave?.status === 'rejected',
+          'badge-soft-secondary': leave?.status === 'pending'
+        }">
+        {{ leave?.status | uppercase }}
+      </span>
   </div>
   <div *ngIf="!isLeaveLoading" class="modal-body p-0">
        <div class="row">
