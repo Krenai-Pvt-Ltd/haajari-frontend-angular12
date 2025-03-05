@@ -1,5 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Validator } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
 import { Key } from 'src/app/constant/key';
 import { Employee } from 'src/app/payroll-models/Employee';
 import { TaxDetail } from 'src/app/payroll-models/TaxDetail';

@@ -1,11 +1,11 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Key } from 'src/app/constant/key';
 import { EmployeeStateInsurance } from 'src/app/payroll-models/EmployeeStateInsurance';
 import { EmployeeProvidentFund } from 'src/app/payroll-models/EmployeeProvidentFund';
 import { PfContributionRate } from 'src/app/payroll-models/PfContributioRate';
 import { HelperService } from 'src/app/services/helper.service';
 import { PayrollConfigurationService } from 'src/app/services/payroll-configuration.service';
-import { ProfessionalTax, ProfessionalTaxSlab } from 'src/app/payroll-models/ProfeessionalTax';
+import { ProfessionalTax } from 'src/app/payroll-models/ProfeessionalTax';
 import { AddressDetail } from 'src/app/payroll-models/AddressDetail';
 import { TaxSlabService } from 'src/app/services/tax-slab.service';
 
@@ -100,6 +100,7 @@ export class StatutoryComponent implements OnInit {
         );
       }
 
+//TODO : add this method to a common service -> cmplexity of this method is high  (6) try belo commentred code with complexity 1
       private transformBooleansToNumbers(obj: any): any {
         let transformedObj = { ...obj };
         Object.keys(transformedObj).forEach(key => {
@@ -110,6 +111,11 @@ export class StatutoryComponent implements OnInit {
         return transformedObj;
       }
 
+    //   private transformBooleansToNumbers(obj: any): any {
+    //     return Object.fromEntries(
+    //         Object.entries(obj).map(([key, value]) => [key, value === true ? 1 : value === false ? 0 : value])
+    //     );
+    // }
 
       //************************           ESI        ******************************** */
 
