@@ -34,7 +34,7 @@
                   <div class="col-md-4">
                     
                      <div class="payroll-details-box">
-                        <h4 class="font-14 text-black fw-semibold lh-1">EPF Details</h4>
+                        <h4 class="font-13 text-black fw-semibold lh-1">EPF Details</h4>
                         <p class="text-muted font-11 lh-base fw-normal mb-0">this section contain EPF no, deduction cycle <br> pattern and employ contribution rate</p>
                      </div>
                   </div>
@@ -98,7 +98,7 @@
                <div class="row">
                   <div class="col-md-4">
                      <div class="payroll-details-box">
-                        <h4 class="font-14 text-black fw-semibold lh-1">Employer Contribution Rate </h4>
+                        <h4 class="font-13 text-black fw-semibold lh-1">Employer Contribution Rate </h4>
                         <p class="text-muted font-11 fw-normal lh-base mb-0">this section contain EPF no,<br> deduction cycle</p>
                      </div>
                   </div>
@@ -155,7 +155,7 @@
                <div class="row">
                   <div class="col-md-4">
                      <div class="payroll-details-box">
-                        <h4 class="font-14 text-black fw-semibold lh-1">Sample EPF Calculation</h4>
+                        <h4 class="font-13 text-black fw-semibold lh-1">Sample EPF Calculation</h4>
                         <p class="text-muted font-11 fw-normal lh-base mb-0">this section contain EPF no,<br> deduction cycle</p>
                      </div>
                   </div>
@@ -185,8 +185,8 @@
                            </div>
                         </div>
                         <div>
-                           <h5 class="mb-3 font-14 fw-semibold lh-base">Do you want to preview EPF calculation for multiple cases, based on the preferences <br> you have configured ?</h5>
-                           <button class="btn p-0 text-primary text-decoration-underline font-14  fw-semibold" data-bs-toggle="modal" data-bs-target="#EPF-calculation">
+                           <h5 class="mb-3 font-13 fw-semibold lh-base">Do you want to preview EPF calculation for multiple cases, based on the preferences <br> you have configured ?</h5>
+                           <button class="btn p-0 text-primary text-decoration-underline font-13  fw-semibold" data-bs-toggle="modal" data-bs-target="#EPF-calculation">
                               Preview EPF Calculation
                               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="18" viewBox="0 0 20 21" fill="none">
                                  <mask id="mask0_9246_6926" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
@@ -226,8 +226,8 @@
                <div class="row">
                 <div class="col-md-4">
                    <div class="payroll-details-box">
-                      <h4 class="font-14 text-black fw-semibold lh-1">ESI Details</h4>
-                      <p class="text-muted font-12 fw-normal lh-base mb-0">this section contain EPF no, deduction cycle <br> pattern and employ contribution rate</p>
+                      <h4 class="font-13 text-black fw-semibold lh-1">ESI Details</h4>
+                      <p class="text-muted font-11 fw-normal lh-base mb-0">this section contain EPF no, deduction cycle <br> pattern and employ contribution rate</p>
                    </div>
                 </div>
                 <div class="col-md-8">
@@ -318,7 +318,7 @@
                 <div class="row">
                     <div class="col-md-4">
                        <div class="payroll-details-box">
-                          <h4 class="font-14 text-black fw-semibold lh-1">Professional Tax</h4>
+                          <h4 class="font-13 text-black fw-semibold lh-1">Professional Tax</h4>
                           <p class="text-muted font-11 fw-normal lh-base mb-0">This tax is levied on an employee’s income by the State <br> Government. Tax slabs differ in each state.</p>
                        </div>
                     </div>
@@ -435,7 +435,7 @@
                 <div class="row">
                     <div class="col-md-4">
                        <div class="payroll-details-box">
-                          <h4 class="font-14 text-black fw-semibold lh-1">Labour Welfare Fund</h4>
+                          <h4 class="font-13 text-black fw-semibold lh-1">Labour Welfare Fund</h4>
                           <p class="text-muted font-11 mb-0 lh-base fw-normal">Labour Welfare Fund act ensures social security <br> and improves working conditions for employees.
                           </p>
                        </div>
@@ -454,7 +454,7 @@
                                             </g>
                                         </svg>
                                     </span>
-                                    <h5 class="mb-0 font-14 fww-semibold">New Delhi</h5>
+                                    <h5 class="mb-0 font-13 fww-semibold">New Delhi</h5>
                                 </div>
                                 <div class="d-flex align-itemms-center gap-3">
                                     <p class="mb-0 font-13 fw-normal text-danger">Tax Not Applicable</p>
@@ -472,10 +472,16 @@
                                             </g>
                                         </svg>
                                     </span>
-                                    <h5 class="mb-0 font-14 fww-semibold">Maharashtra Location</h5>
+                                    <h5 class="mb-0 font-13 fww-semibold">Maharashtra Location</h5>
                                 </div>
                                 <div class="d-flex align-items-center gap-3">
-                                    <button class="btn p-0 font-13 fw-normal text-primary" data-bs-toggle="modal" data-bs-target="#taxSlabs">View Tax Slabs</button>
+                                    <!-- <button class="btn p-0 font-13 fw-normal text-primary" data-bs-toggle="modal" data-bs-target="#taxSlabs">View Tax Slabs</button> -->
+                                   
+                                    <div class="d-flex align-items-center gap-2">
+                                       <p class="mb-0 font-13 fw-normal text-optional">Disabled</p>
+                                       <nz-switch ngModel="switchValue" ></nz-switch>
+                                       <p   class="mb-0 font-13 fw-semibold">Enable</p>
+                                    </div>
                                     <span class="location-detail d-flex align-items-center justify-content-center"
                                           data-bs-toggle="collapse" href="#tax-detail" role="button" aria-expanded="false" aria-controls="tax-detail">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="13" height="8" viewBox="0 0 13 8" fill="none"
@@ -487,55 +493,18 @@
                             </div>
 
                             <div class="p-3 location-detail-dropdown border-radius-2 collapse border-bottom" id="tax-detail">
-                                <div class="row">
-                                    <div class="col-md-12 mb-3 ">
-                                        <div class="compliance-list bg-white border-rounded-2 attendance-border d-flex align-items-center justify-content-center">
-                                            <div class="w-25 currency-types-border">
-                                                <p class="mb-0 font-14 fw-light">PT Number</p>
-                                            </div>
-                                            <div class="w-75 position-relative">
-                                                <input type="text" placeholder="Professional Tax no." required="" name="" class="form-control borderLess" value="2345678908123">
-                                                <button class="btn p-0 editBtn">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
-                                                        <mask id="mask0_9271_10147" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="24">
-                                                        <rect x="0.211914" y="0.03125" width="23.9346" height="23.9346" fill="#D9D9D9"/>
-                                                        </mask>
-                                                        <g mask="url(#mask0_9271_10147)">
-                                                        <path d="M5.19865 18.9798H6.61977L16.3681 9.23148L14.947 7.81036L5.19865 17.5587V18.9798ZM3.2041 20.9744V16.736L16.3681 3.59687C16.5676 3.41404 16.7878 3.27276 17.0288 3.17303C17.2698 3.0733 17.5233 3.02344 17.7893 3.02344C18.0552 3.02344 18.3128 3.0733 18.5621 3.17303C18.8115 3.27276 19.0275 3.42235 19.2104 3.6218L20.5816 5.01799C20.7811 5.20082 20.9265 5.4169 21.0179 5.66622C21.1093 5.91554 21.1551 6.16485 21.1551 6.41417C21.1551 6.68011 21.1093 6.93359 21.0179 7.1746C20.9265 7.4156 20.7811 7.63584 20.5816 7.83529L7.44252 20.9744H3.2041ZM15.6451 8.53338L14.947 7.81036L16.3681 9.23148L15.6451 8.53338Z" fill="#1C1B1F"/>
-                                                        </g>
-                                                    </svg>
-                                                </button>
-                                                <!-- <button class="btn p-0 font-14 fw-semibold text-primary saveBtn">Save</button> -->
-                                               
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="border-rounded-2 attendance-border w-100 d-flex align-items-center justify-content-center bg-white">
-                                           <div class="w-50 p-3 currency-types-border">
-                                              <p class="mb-0 font-13 fw-light">State </p>
-                                           </div>
-                                           <div class="w-50">
-                                              <div class="w-100">
-                                                 <h5 class="mb-0 font-14 fw-semibold px-3">Maharashtra</h5>
-                                              </div>
-                                           </div>
-                                        </div>
-                                     </div>
-                                     <div class="col-md-6">
-                                        <div class="border-rounded-2 attendance-border w-100 d-flex align-items-center justify-content-center bg-white">
-                                           <div class="w-50 p-3 currency-types-border">
-                                              <p class="mb-0 font-13 fw-light">Deduction </p>
-                                           </div>
-                                           <div class="w-50">
-                                              <div class="w-100">
-                                                 <h5 class="mb-0 font-14 fw-semibold px-3">Yearly</h5>
-                                              </div>
-                                           </div>
-                                        </div>
-                                     </div>
-                                </div>
-
+                              <div class="d-flex align-items-center justify-content-between">
+                                 <p class="font-13 fw-normal text-optional">Employees' Contribution</p>
+                                 <h5 class="font-13 fw-600 text-black">₹ 1.00</h5>
+                              </div>
+                              <div class="d-flex align-items-center justify-content-between">
+                                 <p class="font-13 fw-normal text-optional">Employer's Contribution</p>
+                                 <h5 class="font-13 fw-600 text-black">₹ 2.00</h5>
+                              </div>
+                              <div class="d-flex align-items-center justify-content-between">
+                                 <p class="mb-0 font-13 fw-normal text-optional">Deduction Cycle</p>
+                                 <h5 class="mb-0 font-13 fw-600 text-black">Half Yearly</h5>
+                              </div>
                             </div>
 
                            
@@ -552,10 +521,14 @@
                                             </g>
                                         </svg>
                                     </span>
-                                    <h5 class="mb-0 font-14 fww-semibold">Assam</h5>
+                                    <h5 class="mb-0 font-13 fww-semibold">Assam</h5>
                                 </div>
                                 <div class="d-flex align-items-center gap-3">
-                                    <button class="btn p-0 font-13 fw-normal text-primary">View Tax Slabs</button>
+                                 <div class="d-flex align-items-center gap-2">
+                                    <p class="mb-0 font-13 fw-normal  text-optional">Disabled</p>
+                                    <nz-switch ngModel="switchValue" ></nz-switch>
+                                    <p   class="mb-0 font-13 fw-semibold">Enable</p>
+                                 </div>
                                     <span class="location-detail d-flex align-items-center justify-content-center">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="13" height="8" viewBox="0 0 13 8" fill="none">
                                             <path d="M6.74661 7.87461L0.651367 1.87461L2.07359 0.474609L6.74661 5.07461L11.4196 0.474609L12.8418 1.87461L6.74661 7.87461Z" fill="#444444"/>
@@ -578,7 +551,11 @@
                                     <h5 class="mb-0 font-14 fww-semibold">Bihar</h5>
                                 </div>
                                 <div class="d-flex align-items-center gap-3">
-                                    <button class="btn p-0 font-13 fw-normal text-primary" >View Tax Slabs</button>
+                                 <div class="d-flex align-items-center gap-2">
+                                    <p class="mb-0 font-13 fw-normal  text-optional">Disabled</p>
+                                    <nz-switch ngModel="switchValue" ></nz-switch>
+                                    <p   class="mb-0 font-13 fw-semibold">Enable</p>
+                                 </div>
                                     <span class="location-detail d-flex align-items-center justify-content-center">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="13" height="8" viewBox="0 0 13 8" fill="none">
                                             <path d="M6.74661 7.87461L0.651367 1.87461L2.07359 0.474609L6.74661 5.07461L11.4196 0.474609L12.8418 1.87461L6.74661 7.87461Z" fill="#444444"/>
@@ -601,7 +578,11 @@
                                     <h5 class="mb-0 font-14 fww-semibold">Chhattisgarh</h5>
                                 </div>
                                 <div class="d-flex align-items-center gap-3">
-                                    <button class="btn p-0 font-13 fw-normal text-primary">View Tax Slabs</button>
+                                 <div class="d-flex align-items-center gap-2">
+                                    <p class="mb-0 font-13 fw-normal  text-optional">Disabled</p>
+                                    <nz-switch ngModel="switchValue" ></nz-switch>
+                                    <p   class="mb-0 font-13 fw-semibold">Enable</p>
+                                 </div>
                                     <span class="location-detail d-flex align-items-center justify-content-center">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="13" height="8" viewBox="0 0 13 8" fill="none">
                                             <path d="M6.74661 7.87461L0.651367 1.87461L2.07359 0.474609L6.74661 5.07461L11.4196 0.474609L12.8418 1.87461L6.74661 7.87461Z" fill="#444444"/>
