@@ -419,21 +419,6 @@
             <h5 class="modal-title" id="exampleModalLabel">EPF Sample Calculation</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-<<<<<<< HEAD:src/app/modules/payroll/component/config/configuration/configuration.component.html
-            <div class="sample-calculation p-3 border-rounded-2 pt-0">
-                <h5 class="mb-2 font-14 text-primary fw-semibold">Lop Contribution </h5>
-                <p class="mb-1 font-13 fw-light">Pro-rate Restricted PF Wage:	<span class="fw-semibold">Disabled</span></p>
-                <p class="font-13 fw-light">Consider all components when PF wage < ₹15,000 after LOP: <span class="fw-semibold">Disabled</span></p>
-            </div>
-          </div>
-          <div class="sample-calculation-list mt-3">
-            <div class="d-flex alig-items-center justify-content-between">
-                <h5 class="mb-0 font-14 fw-semibold">Salary and EPF Calculation</h5>
-                <div class="form-check d-flex align-items-center gap-2">
-                    <input type="checkbox" class="form-check-input position-relative" id="exampleCheck6" [(ngModel)]="isLopChecked"  (change)="toggleLOPVisibility()">
-                    <label class="form-check-label font-13" for="exampleCheck6">With 15 days LOP</label>
-                 </div>
-=======
             <div class="modal-body">
                 <p class="font-14 fw-light">Let's assume the salary packages considered for EPF is as shown as below, the calculation is based on the settings we’ve configured</p>
             <div class="sample-calculation-data">
@@ -443,22 +428,20 @@
                     <p class="font-13 fw-light">Employee Contribution:	<span class="fw-semibold">12% of Actual PF Wage</span></p>
                 </div>
                 <div class="sample-calculation p-3 border-rounded-2 pt-0">
-                    <h5 class="mb-2 font-14 text-primary fw-semibold">Lpop Contribution </h5>
+                    <h5 class="mb-2 font-14 text-primary fw-semibold">Lop Contribution </h5>
                     <p class="mb-1 font-13 fw-light">Pro-rate Restricted PF Wage:	<span class="fw-semibold">Disabled</span></p>
                     <p class="font-13 fw-light">Consider all components when PF wage < ₹15,000 after LOP: <span class="fw-semibold">Disabled</span></p>
                 </div>
->>>>>>> 3072cd239d0c69ca86a92302ec8cfca80d3bb76c:src/app/modules/payroll/component/configuration/configuration.component.html
-            </div>
-            <div class="sample-calculation-list mt-3">
+              </div>
+              <div class="sample-calculation-list mt-3">
                 <div class="d-flex alig-items-center justify-content-between">
                     <h5 class="mb-0 font-14 fw-semibold">Salary and EPF Calculation</h5>
                     <div class="form-check d-flex align-items-center gap-2">
-                        <input type="checkbox" class="form-check-input position-relative" id="exampleCheck6">
+                        <input type="checkbox" class="form-check-input position-relative" id="exampleCheck6" [(ngModel)]="isLopChecked"  (change)="toggleLOPVisibility()">
                         <label class="form-check-label font-13" for="exampleCheck6">With 15 days LOP</label>
-                    </div>
+                     </div>
                 </div>
-
-<<<<<<< HEAD:src/app/modules/payroll/component/config/configuration/configuration.component.html
+            </div>
             <div class="table-responisve mt-3">
                 <table class="table">
                     <tbody>
@@ -524,85 +507,17 @@
                         </tr>
                     </tbody>
                 </table>
-=======
-                <div class="table-responisve mt-3">
-                    <table class="table">
-                        <tbody>
-                            <tr>
-                                <th class="font-14" style="width:40%;">Salary Components &nbsp;&nbsp; <span class="badge rounded-pill badge-soft-warning font-12"> With 15 Days Lop</span></th>
-                                <th class="text-center font-14" style="width:20%;">Package 1</th>
-                                <th class="text-center font-14" style="width:20%;">Package 2</th>
-                                <th class="text-center font-14" style="width:20%;">Package 3</th>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span>
-                                        <h5 class="font-13 fw-600 mb-1 ">Basic</h5>
-                                        <p class="mb-0 font-12 fw-normal text-optional">Always considered for EPF</p>
-                                    </span>
-                                </td>
-                                <td class="text-center font-13">₹ 12500</td>
-                                <td class="text-center font-13">₹ 900</td>
-                                <td class="text-center font-13">₹ 6000</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span>
-                                        <h5 class="font-13 fw-600 mb-1 ">Transport Allowance</h5>
-                                        <p class="mb-0 font-12 fw-normal text-optional">Considered for EPF only when PF wage < ₹ 15,000</p>
-                                    </span>
-                                </td>
-                                <td class="text-center font-13">₹ 2500</td>
-                                <td class="text-center font-13">₹ 1900</td>
-                                <td class="text-center font-13">₹ 700</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span>
-                                        <h5 class="font-13 fw-600 mb-1 ">Transport Allowance</h5>
-                                        <p class="mb-0 font-12 fw-normal text-optional">Considered for EPF only when PF wage < ₹ 15,000</p>
-                                    </span>
-                                </td>
-                                <td class="text-center font-13">₹ 1500</td>
-                                <td class="text-center font-13">₹ 1750</td>
-                                <td class="text-center font-13">₹ 6000</td>
-                            </tr>
-                            <tr class="bg-color">
-                                <th class="font-14" style="width:40%;">EPF Contribution &nbsp;&nbsp; <span class="badge rounded-pill badge-soft-warning font-12"> With 15 Days Lop</span></th>
-                                <th class="text-center">
-                                    <span>
-                                        <h5 class="font-13 fw-600 mb-1 ">₹ 1800</h5>
-                                        <p class="mb-0 font-12 fw-normal text-optional">12% of 15000</p>
-                                    </span>
-                                </th>
-                                <th class="text-center">
-                                    <span>
-                                        <h5 class="font-13 fw-600 mb-1 ">₹ 2000</h5>
-                                        <p class="mb-0 font-12 fw-normal text-optional">12% of 15000</p>
-                                    </span>
-                                </th>
-                                <th class="text-center">
-                                    <span>
-                                        <h5 class="font-13 fw-600 mb-1 ">₹ 870</h5>
-                                        <p class="mb-0 font-12 fw-normal text-optional">12% of 15000</p>
-                                    </span>
-                                </th>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
->>>>>>> 3072cd239d0c69ca86a92302ec8cfca80d3bb76c:src/app/modules/payroll/component/configuration/configuration.component.html
             </div>
         </div>
         </div>
     </div>
+    </div>
+
    <!-- Modal EPF Sample Calculation end -->
 
 
 
   <!-- ModalTax Slabs for Assam start -->
-<<<<<<< HEAD:src/app/modules/payroll/component/config/configuration/configuration.component.html
   <div  class="modal fade" id="taxSlabs" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
     <div class="modal-dialog modal-dialog-centered">
@@ -616,14 +531,6 @@
             <div class="d-flex align-items-center justify-content-between">
                 <p class="mb-1 font-13 fw-light">Deduction Cycle: <span class="fw-semibold"></span>{{selectedTaxSlab?.deductionFrequency}}</p>
                 <!-- <p class="mb-1 font-13 fw-light">Effective Form: <span class="fw-semibold">01/01/2025</span></p> -->
-=======
-    <div class="modal fade" id="taxSlabs" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Tax Slabs for Assam</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
->>>>>>> 3072cd239d0c69ca86a92302ec8cfca80d3bb76c:src/app/modules/payroll/component/configuration/configuration.component.html
             </div>
             <div class="modal-body">
             <div class="tax-slabs">
@@ -632,7 +539,6 @@
                     <p class="mb-1 font-13 fw-light">Effective Form: <span class="fw-semibold">01/01/2025</span></p>
                 </div>
 
-<<<<<<< HEAD:src/app/modules/payroll/component/config/configuration/configuration.component.html
             <div class="table-responisve sample-tax-slabs-list mt-3">
                 <table class="table">
                     <tbody>
@@ -647,31 +553,6 @@
                         
                     </tbody>
                 </table>
-=======
-                <div class="table-responisve sample-tax-slabs-list mt-3">
-                    <table class="table">
-                        <tbody>
-                            <tr>
-                                <th class="font-13" style="width:50%;">Monthly Gross Salary ( ₹ )</th>
-                                <th class="font-13" style="width:50%;">Monthly Tax Amount ( ₹ )</th>
-                            </tr>
-                            <tr>
-                                <td class="font-13">₹ 900</td>
-                                <td class="font-13">₹ 6000</td>
-                            </tr>
-                            <tr>
-                                <td class="font-13">₹ 1900</td>
-                                <td class="font-13">₹ 700</td>
-                            </tr>
-                            <tr>
-                                <td class=" font-13">₹ 1750</td>
-                                <td class=" font-13">₹ 6000</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
->>>>>>> 3072cd239d0c69ca86a92302ec8cfca80d3bb76c:src/app/modules/payroll/component/configuration/configuration.component.html
             </div>
         </div>
         </div>
@@ -798,7 +679,7 @@
                                                         Yogesh Kumar
                                                     </td>
                                                     <td>
-                                                        <span class="font-13">yogesh@krenai.com</span>
+                                                        <span class="font-13">yogeshkrenai.com</span>
                                                     </td>
                                                     <td >
                                                         <span class="font-13">95499011868</span>

@@ -17,6 +17,7 @@ export class ConfigurationComponent implements OnInit {
   ngOnInit(): void {
     this.taxSlabService.taxSlab$.subscribe(taxData => {
       if (taxData) {
+        console.log("opening modal")
         this.selectedTaxSlab = taxData;
       }
     });

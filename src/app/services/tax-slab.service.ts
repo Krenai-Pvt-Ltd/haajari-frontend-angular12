@@ -11,10 +11,9 @@ export class TaxSlabService {
 
 
   private taxSlabSubject = new BehaviorSubject<ProfessionalTax | null>(null);
-  taxSlab$ = this.taxSlabSubject.asObservable(); // Observable for subscribing in other components
+  taxSlab$ = this.taxSlabSubject.asObservable();
 
   updateTaxSlab(taxSlab: ProfessionalTax) {
-    console.log('✅ Tax Slab Updated in Service:', taxSlab);
-    this.taxSlabSubject.next(taxSlab); // Update the data
+    this.taxSlabSubject.next(taxSlab); 
   }
 }

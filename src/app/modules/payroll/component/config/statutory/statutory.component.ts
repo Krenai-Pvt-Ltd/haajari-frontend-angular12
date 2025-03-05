@@ -150,7 +150,6 @@ export class StatutoryComponent implements OnInit {
 
       //************************           Professional Tax       ******************************** */
 
-      @Output() taxSlab = new EventEmitter<ProfessionalTax>();
 
       ptDetail:ProfessionalTax[] = new Array();
       getPtDetail(){
@@ -158,7 +157,6 @@ export class StatutoryComponent implements OnInit {
           (response) => {
             if(response.status){
               this.ptDetail= response.object;
-              console.log("response",this.ptDetail);
             }
           },
           (error) => {
@@ -222,7 +220,6 @@ toggleEdit(state: string): void {
         if(pt){
           this._payrollConfigurationService.savePtNumber(pt.professionalTaxNumber,Number(pt.id)).subscribe(
             (response) => {
-              console.log("response",response);
               if(response.status){
                 this._helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
               }else{
