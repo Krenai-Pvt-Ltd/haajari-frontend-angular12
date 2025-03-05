@@ -173,7 +173,7 @@
                           </app-expense-request>
                           <app-attendance-update *ngIf="showAttendanceUpdate" [isCreate]="false" [data]="attendanceUpdateData" (closeModal)="onAttendanceUpdateClose()"></app-attendance-update>
 
-                          <app-leave-request *ngIf="showLeaveComponent" [data]="leaveData" (closeModal)="onLeaveComponentClose()"></app-leave-request>
+                          <app-leave-request *ngIf="showLeaveComponent" [data]="leaveData"  (notFetching)="onNotFetchingLeave()" (closeModal)="onLeaveComponentClose()"></app-leave-request>
 
                           <div *ngIf="!isAnyModalOpen() &&  !isLoadingData" class=" d-flex align-items-centar justify-content-center w-100" style="margin-top: 12%; margin-bottom: 12%;">
                             <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"

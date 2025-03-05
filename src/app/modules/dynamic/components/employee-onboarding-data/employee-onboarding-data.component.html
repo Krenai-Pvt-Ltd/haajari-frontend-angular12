@@ -1536,7 +1536,7 @@
         </button>
       </div>
 
-        <app-profile-update *ngIf="isProfileReqModalOpen" [data]="requestModalData" (closeEvent)="onProfileComponentClose()"> </app-profile-update>
+        <app-profile-update *ngIf="isProfileReqModalOpen" [data]="requestModalData" (closeEvent)="onProfileComponentClose()" (fieldAction)="fetchPendingRequests()"> </app-profile-update>
 
       <!-- <div *ngIf="remainingField!==0" class="modal-footer d-flex align-items-center justify-content-end gap-2">
         <button type="button" (click)="rejectData()" [disabled]="rejectLoading || fieldLoading || approveLoading || (isRejectModalOpen && (!rejectedReason || rejectedReason.length < 10))"
