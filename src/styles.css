@@ -548,7 +548,7 @@ label {
 }
 
 .table td {
-  padding: 15px 15px !important;
+  padding: 15px 15px ;
 }
 
 .btnAction {
