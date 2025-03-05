@@ -1205,10 +1205,10 @@ initChartDataHeatMap(approvedLeaveCounts: any[]): void {
           min: 0,
           max: 365,
           ranges: [
-            { from: 0, to: 0, color: "#f7fafa", name: "Very Low" },
-            { from: 1, to: 4, color: "#9ccabe", name: "Low" },
-            { from: 4, to: 8, color: "#478e7d", name: "Medium" },
-            { from: 8, to: 100, color: "#185143", name: "High" }
+            { from: 0, to: 0.5, color: "#e7e7fd", name: "Very Low" },
+            { from: 1, to: 4, color: "#b8b8f9", name: "Low" },
+            { from: 4, to: 8, color: "#8989f5", name: "Medium" },
+            { from: 8, to: 100, color: "#5a5af1", name: "High" }
           ]
         }
       },
