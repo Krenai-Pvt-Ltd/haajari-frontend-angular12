@@ -526,7 +526,7 @@
                                     </nz-empty>
                                 </div>
                                 <div class="empty-file" style="margin-top: 7%; margin-bottom: 7%"
-                                *ngIf="isLoaderLoading">
+                                *ngIf="isDefaulterLoading && Constants.EMPTY_STRINGS.includes(mostDefaulter) ">
                                 <div class="text-center load-more-btn">
                                 <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
                                 <div>

@@ -82,7 +82,7 @@
                       <div
                         *ngFor="let mail of mails"
                         class="d-flex align-items-center justify-content-between pointer border-bottom p-3"
-                        [ngClass]="{ 'active': mail.isRead === 0 }"
+                        [ngClass]="{ 'active': mail.isRead === 0 || mail == currentMail}"
                       >
                         <div class="d-flex align-items-start gap-3 position-relative" (click)="openMail(mail)">
                           <span
