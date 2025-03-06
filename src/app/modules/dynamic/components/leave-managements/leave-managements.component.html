@@ -115,8 +115,8 @@
                             <div class="dashboard-report">
                                 <div class="report-chart" style="    height: 540px;">
                                     <div class="report-header p-3 d-flex align-items-center justify-content-between">
-                                        <h5 class="mb-0 font-14 fw-semibold">Months Pattern</h5>
-                                        <button class="btn p-0 font-12 text-black fw-semibold">Summary</button>
+                                        <h5 class="mb-0 font-13 fw-semibold">Months Pattern</h5>
+                                        <button class="btn p-0 font-11 text-black fw-semibold">Summary</button>
                                     </div>
                                     <div class="p-3">
                                         <div class="d-flex align-items-center justify-content-between mt-2 mb-4 border-bottom pb-4">
@@ -128,7 +128,7 @@
                                             <div *ngIf = "!topTwoLeaveDaysFormatted">
                                                 <h5 class="mb-1 font-14 fw-normal"> {{ topTwoLeaveDaysFormatted }}</h5>
                                               </div>
-                                            <h5 class="font-12 mb-0 fw-semibold"> {{selectedDate | date:"MMMM, yyyy" }}</h5>
+                                            <h5 class="font-11 mb-0 fw-semibold"> {{selectedDate | date:"MMMM, yyyy" }}</h5>
                                         </div>
                                         <!-- <img src="assets/images/months-report.png" class="w-100 text-center"> -->
                                         <apx-chart
@@ -161,15 +161,15 @@
                                         <div class="d-flex align-items-center justify-content-between mt-2 mb-2">
                                             <div>
                                                 <h5 class="font-18 mb-1 fw-semibold">{{leaveCategoryDetails?.length || 0}} <span class="font-13 fw-semibold" style="color: #444;">Leave Types</span></h5>
-                                            <p class="mb-0 font-12">Defined By Your organization</p>
+                                            <p class="mb-0 font-11">Defined By Your organization</p>
                                             </div>
 
                                         </div>
-                                        <div class="leave-count" *ngIf="leaveCategoryDetails?.length > 0 && !leaveCategoryDetailsLoader">
+                                        <div class="leave-count mt-3" *ngIf="leaveCategoryDetails?.length > 0 && !leaveCategoryDetailsLoader">
                                             <div class="d-flex align-items-center justify-content-between leave-count-list p-2 mb-3" *ngFor ="let deets of leaveCategoryDetails">
                                                 <div class="d-flex align-items-center gap-2">
                                                     <span [ngClass]="getLeaveClass(deets.leaveCategoryName)"></span>
-                                                   <p class="mb-0 text-black fw-semibold font-13">{{deets?.leaveCategoryName}} </p>
+                                                   <p class="mb-0 text-black fw-semibold font-12">{{deets?.leaveCategoryName}} </p>
                                                 </div>
                                                 <div class="d-flex align-items-center gap-2">
                                                     <p class="mb-0 text-optional font-12"><span class="fw-semibold text-black">{{deets?.totalApprovedleaves}}</span> Approved Leaves</p>
