@@ -23,6 +23,7 @@ import {
   ApexResponsive,
   ApexLegend
 } from "ng-apexcharts";
+import { constant } from 'src/app/constant/constant';
 
 export type ChartOptions = {
   series: ApexNonAxisChartSeries;
@@ -44,6 +45,8 @@ interface Filter {
   templateUrl: './assets-management.component.html',
   styleUrls: ['./assets-management.component.css']
 })
+
+
 export class AssetsManagementComponent implements OnInit {
 
   constructor( private dataService : DataService,
@@ -71,6 +74,8 @@ export class AssetsManagementComponent implements OnInit {
     });
   }
 
+    readonly Constants=constant;
+  
   searchControl = new FormControl('');
   assetStatuses = [
     { id: 62, name: 'ASSIGNED' },

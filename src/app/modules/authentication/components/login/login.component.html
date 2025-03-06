@@ -166,29 +166,42 @@
 
           <div class="d-flex align-items-center justify-content-center gap-3 otpInput">
             <div class="d-flex align-items-center otpInputBox">
-              <input type="text" maxlength="1" [(ngModel)]="otp1" (input)="moveToNext($event, otp2Input, 2)"
-                (keydown)="moveToPrevious($event, otp1Input, 1)" (paste)="handleOtpPaste($event)"
-                class="form-control whatapp-login-input" [ngClass]="{ 'active-input': activeInputIndex === 1 }"
-                #otp1Input autofocus />
-              <input type="text" maxlength="1" [(ngModel)]="otp2" (input)="moveToNext($event, otp3Input, 3)"
-                (keydown)="moveToPrevious($event, otp1Input, 1)" class="form-control whatapp-login-input"
-                [ngClass]="{ 'active-input': activeInputIndex === 2 }" #otp2Input />
-              <input type="text" maxlength="1" [(ngModel)]="otp3" (input)="moveToNext($event, otp4Input, 4)"
-                (keydown)="moveToPrevious($event, otp2Input, 2)" class="form-control whatapp-login-input"
-                [ngClass]="{ 'active-input': activeInputIndex === 3 }" #otp3Input />
-            </div>
-            <i class="bi bi-dash-lg otpSection"></i>
-            <div class="d-flex align-items-center otpInputBox">
-              <input type="text" maxlength="1" [(ngModel)]="otp4" (input)="moveToNext($event, otp5Input, 5)"
-                (keydown)="moveToPrevious($event, otp3Input, 3)" class="form-control whatapp-login-input"
-                [ngClass]="{ 'active-input': activeInputIndex === 4 }" #otp4Input />
-              <input type="text" maxlength="1" [(ngModel)]="otp5" (input)="moveToNext($event, otp6Input, 6)"
-                (keydown)="moveToPrevious($event, otp4Input, 4)" class="form-control whatapp-login-input"
-                [ngClass]="{ 'active-input': activeInputIndex === 5 }" #otp5Input />
-              <input type="text" maxlength="1" [(ngModel)]="otp6" (input)="
-                    onOtpChange(otp1 + otp2 + otp3 + otp4 + otp5 + otp6)
-                    " (keydown)="moveToPrevious($event, otp5Input, 5)" class="form-control whatapp-login-input"
-                [ngClass]="{ 'active-input': activeInputIndex === 6 }" #otp6Input />
+              <div class="d-flex align-items-center otpInputBox">
+                <input type="tel" maxlength="1" [(ngModel)]="otp1" (input)="moveToNext($event, otp2Input, 2)"
+                  (keydown)="moveToPrevious($event, otp1Input, 1); blockArrowKeys($event)" (keypress)="restrictNonNumeric($event)"
+                  (paste)="handleOtpPaste($event)" class="form-control whatapp-login-input"
+                  [ngClass]="{ 'active-input': activeInputIndex === 1 }" #otp1Input autofocus inputmode="numeric" pattern="[0-9]*" />
+                
+                <input type="tel" maxlength="1" [(ngModel)]="otp2" (input)="moveToNext($event, otp3Input, 3)"
+                  (keydown)="moveToPrevious($event, otp1Input, 1); blockArrowKeys($event)" (keypress)="restrictNonNumeric($event)"
+                  class="form-control whatapp-login-input" [ngClass]="{ 'active-input': activeInputIndex === 2 }"
+                  #otp2Input inputmode="numeric" pattern="[0-9]*" />
+                
+                <input type="tel" maxlength="1" [(ngModel)]="otp3" (input)="moveToNext($event, otp4Input, 4)"
+                  (keydown)="moveToPrevious($event, otp2Input, 2); blockArrowKeys($event)" (keypress)="restrictNonNumeric($event)"
+                  class="form-control whatapp-login-input" [ngClass]="{ 'active-input': activeInputIndex === 3 }"
+                  #otp3Input inputmode="numeric" pattern="[0-9]*" />
+              </div>
+              
+              <i class="bi bi-dash-lg otpSection"></i>
+              
+              <div class="d-flex align-items-center otpInputBox">
+                <input type="tel" maxlength="1" [(ngModel)]="otp4" (input)="moveToNext($event, otp5Input, 5)"
+                  (keydown)="moveToPrevious($event, otp3Input, 3); blockArrowKeys($event)" (keypress)="restrictNonNumeric($event)"
+                  class="form-control whatapp-login-input" [ngClass]="{ 'active-input': activeInputIndex === 4 }"
+                  #otp4Input inputmode="numeric" pattern="[0-9]*" />
+                
+                <input type="tel" maxlength="1" [(ngModel)]="otp5" (input)="moveToNext($event, otp6Input, 6)"
+                  (keydown)="moveToPrevious($event, otp4Input, 4); blockArrowKeys($event)" (keypress)="restrictNonNumeric($event)"
+                  class="form-control whatapp-login-input" [ngClass]="{ 'active-input': activeInputIndex === 5 }"
+                  #otp5Input inputmode="numeric" pattern="[0-9]*" />
+                
+                <input type="tel" maxlength="1" [(ngModel)]="otp6" (input)="onOtpChange(otp1 + otp2 + otp3 + otp4 + otp5 + otp6)"
+                  (keydown)="moveToPrevious($event, otp5Input, 5); blockArrowKeys($event)" (keypress)="restrictNonNumeric($event)"
+                  class="form-control whatapp-login-input" [ngClass]="{ 'active-input': activeInputIndex === 6 }"
+                  #otp6Input inputmode="numeric" pattern="[0-9]*" />
+              </div>
+              
             </div>
           </div>
 
@@ -219,7 +232,7 @@
         </div>
         <form #loginForm="ngForm" id="signin-with-email-2 w-100" *ngIf="enableBack">
           <div class="gmail-login-box mt-5" *ngIf="isEmailLogin && !showOtpInput">
-            <a href="" class="gmail-login-btn w-100">
+            <!-- <a href="" class="gmail-login-btn w-100">
               <img src="assets/images/google.png" class="google-logo" /> Use
               Google Account</a>
             <div class="mt-5 or-option">
@@ -227,6 +240,12 @@
               <div class="text-center mt-n5">
                 <h6 class="card-bg px-3 my-4 d-inline-block">Or</h6>
               </div>
+            </div> -->
+
+            <div *ngIf="loginErrorMessage">
+              <p class="errortxt mt-3 mb-0 text-danger text-left">
+                <i class="bi bi-exclamation-circle"></i> {{ loginErrorMessage }}
+              </p>
             </div>
             <div class="mt-3">
               <div class="mb-3">
@@ -401,7 +420,7 @@
 
           <p>
             By signing up, you agree to accept the
-            <a href="#!" class="text-primary"> terms and conditions</a>
+            <a href="https://www.hajiri.in/terms-condition.html" class="text-primary" target="_blank"> terms and conditions</a>
             outlined below. <br />
             Please review them carefully before proceeding with registration.
           </p>
@@ -417,14 +436,14 @@
           class="video-footer-link position-absolute d-flex justify-content-end align-items-end flex-row flex-nowrap w-100">
           <ul class="mb-1">
             <li>
-              <a href="https://www.hajiri.in/about.html">About </a>
+              <a href="https://www.hajiri.in/about.html" target="_blank">About </a>
             </li>
             <li>
-              <a href="https://www.hajiri.in/terms-condition.html">Terms Of Service
+              <a href="https://www.hajiri.in/terms-condition.html" target="_blank">Terms Of Service
               </a>
             </li>
             <li>
-              <a href="https://www.hajiri.in/privacy-policy.html">Privacy Policy
+              <a href="https://www.hajiri.in/privacy-policy.html" target="_blank">Privacy Policy
               </a>
             </li>
             <li>

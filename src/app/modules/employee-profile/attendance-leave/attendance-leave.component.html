@@ -44,7 +44,7 @@
 
                                 <!-- <nz-date-picker nzMode="month" nzFormat="MMM, yyyy"></nz-date-picker> -->
                             </div>
-                            
+
                             <span class="calendar-separator"></span>
                             <span class=" d-flex align-items-center justify-content-center pointer calendar-back-btn"
                                 [class.disabled]="isNextDisabled()" (click)="goToNextMonth()">
@@ -2263,8 +2263,8 @@
 
     <div class="info-message" *ngIf="userLeaveQuota?.remainingLeaves === 0">
       <p>
-        🚫 <strong>Notice:</strong> The leave quota for this category has been fully utilized.
-        You can apply for <strong>Leave Without Pay</strong>.
+        🚫 <strong>Note:</strong> The leave quota for <strong>{{userLeaveQuota.category}}</strong> has been fully utilized.
+        Please apply in another category or apply for leave without pay.
       </p>
     </div>
 
