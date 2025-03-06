@@ -1,0 +1,88 @@
+<div class="page-wrapper">
+    <div class="container-fluid">
+        <div class="earning-detail mt-4 mb-100">
+            <div class="d-flex align-items-center gap-2">
+                <span class="backBtn radius-50 d-flex align-items-center justify-content-center">
+                    <i class="bi bi-chevron-left text-primary font-18"></i>
+                </span>
+                <h5 class="mb-0 font-15 fw-semibold">Edit Benefit</h5>
+            </div>
+
+
+            <div class="mt-5 earninng-edit-box pl-5">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="payroll-details-box">
+                            <h4 class="font-13 text-black fw-semibold lh-1">Benefit Plan Association</h4>
+                            <p class="text-muted font-11 lh-base fw-normal">This section contain EPF no, deduction cycle pattern and <br> employee contribution rate</p>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                                <div class="col-md-6">
+                                    <nz-select 
+                                    class="form-control w-100 placeholder-line" 
+                                    nzSize="large" 
+                                    [(ngModel)]="selectedPfWage" 
+                                    required
+                                    nzPlaceHolder="Benefit Plan">
+                                    <nz-option 
+                                    *ngFor="let option of employer" 
+                                    [nzLabel]="option.label" 
+                                    [nzValue]="option.value">
+                                    </nz-option>
+                                    </nz-select>
+                                 </div>
+                            <div class="col-md-6">
+                                <input type="text" placeholder="Associate this benefit with" required class="form-control"> 
+                            </div>
+                            <!-- <div class="col-md-12 mb-3">
+                                <input type="text" placeholder="Associate this benefit with" required class="form-control"> 
+                            </div> -->
+
+                        </div>
+                    </div>
+                </div>
+                <hr class="mt-5 mb-5">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="payroll-details-box">
+                            <h4 class="font-13 text-black fw-semibold lh-1">Name in Payslip*</h4>
+                            <p class="text-muted font-11 lh-base fw-normal">This section contain EPF no,<br> deduction cycle</p>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-12 mb-4">
+                                <input type="text" placeholder="Voluntary Provident Fund" required class="form-control" value="Voluntary Provident Fund"> 
+                            </div>
+                            <div class="col-md-12 mt-2">
+                                <div class="form-check d-flex align-items-start gap-2 mb-3">
+                                    <input type="checkbox" id="exampleCheckbox1" name="exampleRadios" class="form-check-input" checked>
+                                    <div>
+                                        <label for="exampleCheckbox1" class="form-check-label font-13">Calculate on pro-rata basis</label>
+                                        <p class="mb-0 font-12 fw-light text-optional">Pay will be adjusted based on employee working days.</p>
+                                    </div>
+                                </div>
+                                <div class="form-check d-flex align-items-start gap-2 mb-3">
+                                    <input type="checkbox" id="exampleCheckbox2" name="exampleRadios" class="form-check-input">
+                                    <div>
+                                        <label for="exampleCheckbox2" class="form-check-label font-13">Mark this as Active</label>
+                                </div>
+                                </div>
+
+                            </div>
+                            <div class="employee-calculation p-3 border-rounded-2 mb-4 mt-4">
+                                <p class="mb-0 font-13 text-black fw-normal lh-base">
+                                    <span class="fw-600 text-warning">Note: </span> Once you associate this component with an employee, you will only be able to edit the Name and <br> Amount/Percentage. The changes you make to Amount/Percentage will apply only to new employees.
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+        

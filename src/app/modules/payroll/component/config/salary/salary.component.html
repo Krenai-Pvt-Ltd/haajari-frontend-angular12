@@ -285,7 +285,7 @@
                                         </tr>
                                         <tr>
                                             <td>
-                                                <a class="font-13 fw-normal text-primary">Voluntary Provident Fund</a>
+                                                <a class="font-13 fw-normal text-primary" (click)="showSubComponent=!showSubComponent">Voluntary Provident Fund</a>
                                             </td>
                                             <td>
                                                 <p class="mb-0 font-13 fw-normal">Voluntary Provident Fund</p>
@@ -313,11 +313,11 @@
                                 <table class="border-0 table w-100">
                                     <tbody class="border-0">
                                         <tr>
-                                            <td colspan="5" class="border-0 pb-0">Deductions</td>
+                                            <td colspan="5" class="border-0 pb-0" >Deductions</td>
                                         </tr >
                                         <tr>
                                             <td class="border-0 pb-0">
-                                                <a class="font-13 fw-normal text-primary">Notice Pay Deduction</a>
+                                                <a class="font-13 fw-normal text-primary" (click)="showSubComponent=!showSubComponent">Notice Pay Deduction</a>
                                             </td>
                                             <td class="border-0 pb-0">
                                                 <p class="mb-0 font-13 fw-normal">Notice Pay Deduction</p>
@@ -373,14 +373,16 @@
         </div>
     </div>
 </div>
-
-
-
-
-
-
 </ng-container>
 
-<ng-container *ngIf="showSubComponent">
+<!-- <ng-container *ngIf="showSubComponent">
 <app-earning-details></app-earning-details>
+</ng-container> -->
+
+<!-- <ng-container *ngIf="showSubComponent">
+    <app-benefit-details></app-benefit-details>
+</ng-container> -->
+
+<ng-container *ngIf="showSubComponent">
+    <app-deductions-details></app-deductions-details>
 </ng-container>
