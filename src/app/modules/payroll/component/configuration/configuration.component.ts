@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
 import { finalize, take } from 'rxjs/operators';
 import { Key } from 'src/app/constant/key';
+import { FinalSettlementResponse } from 'src/app/models/final-settlement-response';
 import { ProfessionalTax } from 'src/app/payroll-models/ProfeessionalTax';
 import { Profile } from 'src/app/payroll-models/Profile';
 import { HelperService } from 'src/app/services/helper.service';
@@ -16,16 +18,21 @@ import { TaxSlabService } from 'src/app/services/tax-slab.service';
 })
 export class ConfigurationComponent implements OnInit {
 
-  croppedImage: any = '';
-
+  isUploading:boolean = false;
 
 
   isDivVisible: boolean = false;
   constructor(private taxSlabService: TaxSlabService,
     private _payrollConfigurationService :PayrollConfigurationService,
     private _helperService : HelperService,
-    private afStorage: AngularFireStorage
+    private afStorage: AngularFireStorage,
+    private activateRoute: ActivatedRoute,
+    private router: Router
   ) {
+
+    if (this.activateRoute.snapshot.queryParamMap.has('tab')) {
+      this.currentTab = this.activateRoute.snapshot.queryParamMap.get('tab');
+    }
   }
 
   ngOnInit(): void {
@@ -83,28 +90,7 @@ export class ConfigurationComponent implements OnInit {
     selectedCurrency: string = 'INR'; // INR selected by default
   
     stateCurrency = [
-      { "code": "USD", "name": "USD", "symbol": "$" },
-      { "code": "EUR", "name": "Euro", "symbol": "€" },
       { "code": "INR", "name": "INR", "symbol": "₹" }, // Default selection
-      { "code": "GBP", "name": "British Pound Sterling", "symbol": "£" },
-      { "code": "AUD", "name": "Australian Dollar", "symbol": "A$" },
-      { "code": "CAD", "name": "Canadian Dollar", "symbol": "C$" },
-      { "code": "SGD", "name": "Singapore Dollar", "symbol": "S$" },
-      { "code": "JPY", "name": "Japanese Yen", "symbol": "¥" },
-      { "code": "CNY", "name": "Chinese Yuan", "symbol": "¥" },
-      { "code": "CHF", "name": "Swiss Franc", "symbol": "CHF" },
-      { "code": "HKD", "name": "Hong Kong Dollar", "symbol": "HK$" },
-      { "code": "NZD", "name": "New Zealand Dollar", "symbol": "NZ$" },
-      { "code": "SEK", "name": "Swedish Krona", "symbol": "kr" },
-      { "code": "KRW", "name": "South Korean Won", "symbol": "₩" },
-      { "code": "BRL", "name": "Brazilian Real", "symbol": "R$" },
-      { "code": "ZAR", "name": "South African Rand", "symbol": "R" },
-      { "code": "RUB", "name": "Russian Ruble", "symbol": "₽" },
-      { "code": "MXN", "name": "Mexican Peso", "symbol": "$" },
-      { "code": "IDR", "name": "Indonesian Rupiah", "symbol": "Rp" },
-      { "code": "TRY", "name": "Turkish Lira", "symbol": "₺" },
-      { "code": "SAR", "name": "Saudi Riyal", "symbol": "﷼" },
-      { "code": "AED", "name": "United Arab Emirates Dirham", "symbol": "د.إ" }
     ];
 
 
@@ -166,6 +152,7 @@ profile:Profile = new Profile();
             this.profile= response.object;
             if(this.profile==null){
               this.profile = new Profile();
+              console.log(this.profile);
             }
           }
         },
@@ -198,6 +185,7 @@ profile:Profile = new Profile();
 
           isFileSelected = false;
   onFileSelected(event: Event): void {
+    this.isUploading=true;
     const element = event.currentTarget as HTMLInputElement;
     let fileList: FileList | null = element.files;
     if (fileList && fileList.length > 0) {
@@ -215,6 +203,7 @@ profile:Profile = new Profile();
 
       this.uploadFile(file);
     } else {
+      this.isUploading=false;
       this.isFileSelected = false;
     }
   }
@@ -232,12 +221,25 @@ profile:Profile = new Profile();
             fileRef.getDownloadURL().subscribe((url) => {
               // console.log('File URL:', url);
               this.profile.logo = url;
+              this.isUploading=false;
             });
           })
         )
         .subscribe();
     }
 
+  
+
+    currentTab: any= 'profile';
+    route(tabName: string) {
+      this.router.navigate(['/payroll/configuration'], {
+        queryParams: { tab: tabName },
+      });
+      this.currentTab=tabName;
+    }
+
+
+  
 
         }
 

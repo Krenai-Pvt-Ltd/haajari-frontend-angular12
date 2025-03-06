@@ -8,4 +8,5 @@ export class Profile{
         esi:string='';
         epf:string='';
         gstn:string='';
+        companyName:string='';
 }

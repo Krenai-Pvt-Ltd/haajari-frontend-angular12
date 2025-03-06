@@ -57,7 +57,7 @@ export class InboxComponent implements OnInit {
           }
           if(this.pageNumber == 0){
             if(this.mails && this.mails.length>0){
-              this.currentMail = this.mails[0];
+              // this.currentMail = this.mails[0];
             }
 
           }

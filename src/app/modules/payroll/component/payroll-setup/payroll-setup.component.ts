@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { PayrollTodoStep } from 'src/app/payroll-models/PayrollTodoStep';
 import { PayrollConfigurationService } from 'src/app/services/payroll-configuration.service';
 
@@ -9,7 +10,10 @@ import { PayrollConfigurationService } from 'src/app/services/payroll-configurat
 })
 export class PayrollSetupComponent implements OnInit {
 
-  constructor(private _payrollConfigurationService  : PayrollConfigurationService) { }
+  constructor(private _payrollConfigurationService  : PayrollConfigurationService,
+        private router: Router
+    
+  ) { }
 
   ngOnInit(): void {
     this.getTodoList();
@@ -104,6 +108,14 @@ export class PayrollSetupComponent implements OnInit {
   
         }
       );
+    }
+
+    currentTab: any= 'profile';
+    route(tabName: string) {
+      this.router.navigate(['/payroll/configuration'], {
+        queryParams: { tab: tabName },
+      });
+      this.currentTab=tabName;
     }
 
 }

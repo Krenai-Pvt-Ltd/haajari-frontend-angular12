@@ -5,36 +5,48 @@
                 <div class="col-md-3 p-0">
                     <div class="payroll-sidebar-menu h-100 bg-white">
                         <div class="nav flex-column nav-pills side-nav" id="tab" role="tablist" aria-orientation="vertical">
-                            <button id="profile-tab" data-bs-toggle="pill" href="#organization-profile" role="tab"
-                            aria-controls="organization-profilet" aria-selected="true" class="nav-link active" >
+                            <button id="profile-tab" data-bs-toggle="pill" (click)="route('profile')"  role="tab"
+                            [ngClass]="{'active' : currentTab == 'profile'}"
+                            aria-controls="organization-profile" aria-selected="true" class="nav-link" data-bs-target="organization-profile">
                             Organization Profile </button>
-                            <button id="statutory-tab" data-bs-toggle="pill" href="#statutory" role="tab"
-                            aria-controls="statutory" aria-selected="true" class="nav-link" >
+                            <button id="statutory-tab" data-bs-toggle="pill" (click)="route('statutory')" role="tab"
+                            [ngClass]="{'active' : currentTab == 'statutory'}"
+                            aria-controls="statutory" aria-selected="true" class="nav-link" data-bs-target="statutory">
                             Statutory Components</button>
-                            <button id="salary-tab" data-bs-toggle="pill" href="#salary" role="tab"
+                            <button id="salary-tab" data-bs-toggle="pill" role="tab" (click)="route('salary')"
+                            [ngClass]="{'active' : currentTab == 'salary'}"
                             aria-controls="salary" aria-selected="true" class="nav-link" >
                             Salary Components </button>
-                            <button id="taxes-tab" data-bs-toggle="pill" href="#taxes" role="tab"
-                            aria-controls="texes" aria-selected="true" class="nav-link">
+                            <button id="taxes-tab" data-bs-toggle="pill" (click)="route('taxes')" role="tab"
+                            [ngClass]="{'active' : currentTab == 'taxes'}"
+                            aria-controls="taxes" aria-selected="true" class="nav-link" >
                             Taxes </button>
-                            <button id="schedule-tab" data-bs-toggle="pill" href="#pay-schedule" role="tab"
+                            <button id="schedule-tab" data-bs-toggle="pill" (click)="route('pay-schedule')" role="tab"
+                            [ngClass]="{'active' : currentTab == 'pay-schedule'}"
                             aria-controls="pay-schedule" aria-selected="true" class="nav-link">
                             Pay Schedule </button>
-                            <button id="preferences-tab" data-bs-toggle="pill" href="#preferences" role="tab"
+                            <button id="preferences-tab" data-bs-toggle="pill" (click)="route('preferences')"  role="tab"
+                            [ngClass]="{'active' : currentTab == 'preferences'}"
                             aria-controls="preferences" aria-selected="true" class="nav-link">
                             Preferences </button>
-                            <button id="payroll-tab" data-bs-toggle="pill" href="#prior-payroll" role="tab"
+                            <button id="payroll-tab" data-bs-toggle="pill" (click)="route('prior-payroll')" role="tab"
+                            [ngClass]="{'active' : currentTab == 'prior-payroll'}"
                             aria-controls="prior-payroll" aria-selected="true" class="nav-link">
                             Prior Payroll </button>
-                            <button id="form-tab" data-bs-toggle="pill" href="#form-16" role="tab"
+                            <button id="form-tab" data-bs-toggle="pill" (click)="route('form-16')" role="tab"
+                            [ngClass]="{'active' : currentTab == 'form-16'}"
                             aria-controls="form-16" aria-selected="true" class="nav-link">
                             Form 16 </button>
                         </div>
-                    </div>
+                        </div>
+
                 </div>
+               
                 <div class="col-md-9">
+                    
                     <div class="tab-content" id="tabContent">
-                        <div class="tab-pane fade show active" id="organization-profile" role="tabpanel" aria-labelledby="profile-tab">
+                        <div *ngIf="currentTab == 'profile'" class="tab-pane fade show active" 
+                        id="organization-profile" role="tabpanel" aria-labelledby="profile-tab">
                             <form #esiForm="ngForm" ngNativeValidate (ngSubmit)="saveOrganizationProfile()">
 
                             <div class="p-4 mb-10">
@@ -48,19 +60,21 @@
                                     <div class="col-md-8">
                                         <div class="organization-detail">
                                             <div class="row">
-                                                <div class="col-md-6">
+                                                <div class="col-md-6" *ngIf="profile.logo;">
                                                     <div class="origination-logo d-flex align-items-center justify-content-center position-relative p-0 border-rounded-2 h-100">
                                                         <img [src]="profile.logo" class="img-130">
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6">
+                                              
+                                                <div [class.col-md-6]="profile.logo" [class.col-md-12]="!profile.logo">
                                                     <label for="exampleFormControlSelect3 pb-2" style="padding-bottom: 6px;"> Company Logo</label>          
                                                     <div class=" origination-logo p-2 d-flex align-items-center justify-content-center flex-column add-other-file border-rounded-2 ">
                                                         <input id="fileInput" type="file" name="logo" accept=".png, .jpeg, .jpg, .svg, .gif, .webp, .ico" class="input" 
                                                         (change)="onFileSelected($event)"
                                                         >
                                                         <span>
-                                                          <img src="assets/images/payrollstep-img/organization-logo.svg" class="img-40">
+                                                          <img *ngIf="!isUploading" src="assets/images/payrollstep-img/organization-logo.svg" class="img-40">
+                                                          <img *ngIf="isUploading" src="assets/images/payrollstep-img/tube-spinner.svg" class="img-40 animate-spin" width="40" height="40">
                                                         </span>
                                                         <p class="mb-0 font-11 fw-normal mt-11 "><span class="text-primary fw-semibold text-decoration-underline"> Click to upload </span> or drag and drop <span class="text-muted fw-semibold">(SVG, PNG, JPG or GIF)</span> </p>
                                                      </div>
@@ -81,7 +95,7 @@
                                         <div class="organization-detail">
                                             <div class="row">
                                                 <div class="col-md-12 mb-3">
-                                                    <input type="text" placeholder="Address Line 1" required="" name="" class="form-control whatsapp-login-input" value="Amin trail sin cop .Pvt. limited ">
+                                                    <input type="text" placeholder="Address Line 1" required name="companyName" class="form-control whatsapp-login-input" [value]="profile.companyName" disabled>
                                                 </div>
                                                 <div class="col-md-6 mb-3">
                                                     <div class="border-rounded-2 attendance-border w-100 d-flex align-items-center justify-content-center">
@@ -101,7 +115,7 @@
                                                                 <nz-option 
                                                                   *ngFor="let currency of stateCurrency" 
                                                                   [nzValue]="currency.name" 
-                                                                  [nzLabel]="currency.name" nzDisabled>
+                                                                  [nzLabel]="currency.name">
                                                                 </nz-option>
                                                               </nz-select>
                                                             </div>
@@ -157,7 +171,7 @@
                                                         <div class="w-50">
                                                             <div class="w-100">
                                                                 <nz-select class="form-control w-100 placeholder-line currency-types" nzSize="large" nzPlaceHolder="Select Separation" value="India">
-                                                                    <nz-option nzLabel="india" nzValue="india">India</nz-option>
+                                                                    <nz-option nzLabel="india" nzValue="india">/</nz-option>
                                                                 </nz-select>
                                                             </div>
                                                         </div>
@@ -370,8 +384,10 @@
                                                             <p class="mb-0 font-12 fw-light">EPF Number</p>
                                                         </div>
                                                         <div class="w-75 position-relative">
-                                                            <input type="text" placeholder="Enter CIN Number" name="epf" class="form-control borderLess" [value]="profile.epf" disabled>
-                                                            <button class="btn p-0 font-13 fw-semibold text-black editBtn">View Detail 
+                                                            <input type="text" placeholder="EPF Number" name="epf" class="form-control borderLess" [value]="profile.epf" disabled>
+                                                            <button class="btn p-0 font-13 fw-semibold text-black editBtn" type="button" (click)="route('statutory')">
+                                                                <span *ngIf="profile.epf; else configureEPF">View Detail</span>
+                                                                <ng-template #configureEPF>Configure EPF</ng-template>
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
                                                                     <mask id="mask0_9159_3729" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="17" height="17">
                                                                     <rect width="17" height="17" fill="#D9D9D9"/>
@@ -388,8 +404,10 @@
                                                             <p class="mb-0 font-12 fw-light">ESI Number</p>
                                                         </div>
                                                         <div class="w-75 position-relative ">
-                                                            <input type="text" placeholder="Enter ESI Number"  name="esi" class="form-control borderLess" [value]="profile.esi" disabled>
-                                                            <button class="btn p-0 font-13 fw-semibold text-black editBtn">View Detail 
+                                                            <input type="text" placeholder="ESI number"  name="esi" class="form-control borderLess" [value]="profile.esi" disabled>
+                                                            <button class="btn p-0 font-13 fw-semibold text-black editBtn" (click)="route('statutory')">
+                                                                <span *ngIf="profile.epf; else configureESI">View Detail</span>
+                                                                <ng-template #configureESI>Configure ESI</ng-template>
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
                                                                     <mask id="mask0_9159_3729" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="17" height="17">
                                                                     <rect width="17" height="17" fill="#D9D9D9"/>
@@ -422,25 +440,25 @@
                         </div>
                             </form>
                         </div>
-                        <div class="tab-pane fade" id="statutory" role="tabpanel" aria-labelledby="profile-tab">
+                        <div *ngIf="currentTab == 'statutory'" class="tab-pane fade show active"  id="statutory" role="tabpanel" aria-labelledby="profile-tab">
                         <app-statutory></app-statutory>
                         </div>
-                        <div class="tab-pane fade" id="salary" role="tabpanel" aria-labelledby="profile-tab">
+                        <div *ngIf="currentTab == 'salary'" class="tab-pane fade show active" id="salary" role="tabpanel" aria-labelledby="profile-tab">
                             <app-salary></app-salary>
                         </div>
-                        <div class="tab-pane fade" id="taxes" role="tabpanel" aria-labelledby="profile-tab">
+                        <div *ngIf="currentTab == 'taxes'" class="tab-pane fade show active"  id="taxes" role="tabpanel" aria-labelledby="profile-tab">
                             <app-taxes></app-taxes>
                         </div>
-                        <div class="tab-pane fade" id="pay-schedule" role="tabpanel" aria-labelledby="profile-tab">
+                        <div *ngIf="currentTab == 'pay-schedule'" class="tab-pane fade show active"  id="pay-schedule" role="tabpanel" aria-labelledby="profile-tab">
                             <app-pay-schedule></app-pay-schedule>
                         </div>
-                        <div class="tab-pane fade" id="preferences" role="tabpanel" aria-labelledby="profile-tab">
+                        <div *ngIf="currentTab == 'preferences'" class="tab-pane fade show active"  id="preferences" role="tabpanel" aria-labelledby="profile-tab">
                             <app-preferences></app-preferences>
                         </div>
-                        <div class="tab-pane fade" id="prior-payroll" role="tabpanel" aria-labelledby="profile-tab">
+                        <div *ngIf="currentTab == 'prior-payroll'" class="tab-pane fade show active"  id="prior-payroll" role="tabpanel" aria-labelledby="profile-tab">
                             <app-prior-payroll></app-prior-payroll>
                         </div>
-                        <div class="tab-pane fade" id="form-16" role="tabpanel" aria-labelledby="profile-tab">
+                        <div *ngIf="currentTab == 'form-16'" class="tab-pane fade show active"  id="form-16" role="tabpanel" aria-labelledby="profile-tab">
                             <app-form></app-form>
                         </div>
                     </div>
@@ -448,6 +466,7 @@
                     
 
                 </div>
+
             </div>
         </div>
     </div>
@@ -570,15 +589,11 @@
         </div>
         <div class="modal-body">
           <div class="tax-slabs">
-            <div class="d-flex align-items-center justify-content-between">
-                <p class="mb-1 font-13 fw-light">Deduction Cycle: <span class="fw-semibold"></span>{{selectedTaxSlab?.deductionFrequency}}</p>
-                <!-- <p class="mb-1 font-13 fw-light">Effective Form: <span class="fw-semibold">01/01/2025</span></p> -->
-            </div>
+            
             <div class="modal-body">
             <div class="tax-slabs">
                 <div class="d-flex align-items-center justify-content-between">
-                    <p class="mb-1 font-13 fw-light">Deduction Cycle: <span class="fw-semibold">Monthly</span></p>
-                    <p class="mb-1 font-13 fw-light">Effective Form: <span class="fw-semibold">01/01/2025</span></p>
+                    <p class="mb-1 font-13 fw-light">Deduction Cycle: <span class="fw-semibold">{{selectedTaxSlab?.deductionFrequency}}</span></p>
                 </div>
 
             <div class="table-responisve sample-tax-slabs-list mt-3">

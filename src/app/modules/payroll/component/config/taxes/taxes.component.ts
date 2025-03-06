@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Key } from 'src/app/constant/key';
 import { Employee } from 'src/app/payroll-models/Employee';
 import { TaxDetail } from 'src/app/payroll-models/TaxDetail';
@@ -12,9 +13,16 @@ import { PayrollConfigurationService } from 'src/app/services/payroll-configurat
 })
 export class TaxesComponent implements OnInit {
 
+  activeTab:string=''
+
   constructor(private _payrollConfigurationService : PayrollConfigurationService,
-    private _helperService:HelperService
-  ) { }
+    private _helperService:HelperService,
+    private _route:ActivatedRoute
+  ) { 
+    this._route.queryParams.subscribe(params => {
+      this.activeTab = params['tab'] ; 
+    });
+  }
 
   ngOnInit(): void {
     this.getTaxDetail();

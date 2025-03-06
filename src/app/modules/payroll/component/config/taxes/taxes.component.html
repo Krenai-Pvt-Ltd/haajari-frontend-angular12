@@ -1,5 +1,5 @@
 <form #taxForm="ngForm" ngNativeValidate (ngSubmit)="saveTaxDetail()">
-<div class="p-4 mb-10">
+<div class="p-4 mb-10" *ngIf="activeTab === 'taxes'">
     <div class="row">
         <div class="col-md-4">
             <div class="payroll-details-box">

@@ -9,6 +9,7 @@ import { ProfessionalTax } from 'src/app/payroll-models/ProfeessionalTax';
 import { AddressDetail } from 'src/app/payroll-models/AddressDetail';
 import { TaxSlabService } from 'src/app/services/tax-slab.service';
 import { LabourWelfareFund } from 'src/app/payroll-models/LabourWelfareFund';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -18,11 +19,23 @@ import { LabourWelfareFund } from 'src/app/payroll-models/LabourWelfareFund';
 })
 export class StatutoryComponent implements OnInit {
 
+  activeTab:any;
 
 
   constructor(private _payrollConfigurationService : PayrollConfigurationService, 
     private _helperService : HelperService,
-  private taxSlabService: TaxSlabService) {}
+  private taxSlabService: TaxSlabService,
+    private activateRoute: ActivatedRoute
+) {
+   if (this.activateRoute.snapshot.queryParamMap.has('tab')) {
+      this.activeTab = this.activateRoute.snapshot.queryParamMap.get('tab');
+    }
+  // this._route.queryParams.subscribe(params => {
+  //   this.activeTab = params['tab'];
+  //   console.log('Statutory Component - Active Tab:', this.activeTab);
+
+  // });
+}
 
   ngOnInit(): void {
     this.getEpfDetail();
@@ -31,7 +44,12 @@ export class StatutoryComponent implements OnInit {
     this.getAddressDetail();
     this.getPtDetail();
     this.getLwfDetail();
+    if (this.filteredEmployeeContributions?.length) {
+      this.epfDetail.employeeContribution = this.filteredEmployeeContributions[3].id;
+    }
   }
+
+
 
   loadingFlags: { [key: string]: boolean } = {}; 
 

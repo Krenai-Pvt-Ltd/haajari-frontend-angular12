@@ -1,5 +1,8 @@
 
 <div class="statutory-tab mt-3">
+   <ng-template #notVisible>
+      <p>Statutory Component is hidden</p>
+    </ng-template>
         <ul id="pills-tab" role="tablist" class="nav nav-pills ">
             <li class="nav-item">
             <a id="pills-announcement-tab" data-bs-toggle="pill" href="#epf" role="tab" 
@@ -24,7 +27,7 @@
         </ul>
     </div>
 
-    <div class="tab-content mt-3" id="tabContent">
+    <div class="tab-content mt-3" id="tabContent" >
   
         <div class="tab-pane fade show active" id="epf" role="tabpanel" aria-labelledby="epf-tab">
          <form #epfForm="ngForm" ngNativeValidate (ngSubmit)="saveEpfDetail()">

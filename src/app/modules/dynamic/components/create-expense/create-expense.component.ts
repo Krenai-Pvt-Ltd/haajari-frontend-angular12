@@ -253,6 +253,7 @@ export class CreateExpenseComponent implements OnInit {
   };
   onExpenseComponentClose() {
     this.getExpenses();
+    this.closeApproveModal.nativeElement.click();
     this.showExpenseComponent = false;
   }
 
