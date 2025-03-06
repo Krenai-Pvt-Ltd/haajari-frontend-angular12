@@ -9597,7 +9597,7 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
   bottom: 0px;
   left: 0px;
   width: 100%;
-  z-index: 999;
+  z-index: 30;
   display: flex;
   justify-content: end;
   animation-duration: 1s;
@@ -9736,7 +9736,7 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
 .persnol-details {
   padding: 32px 25px;
   border-radius: 10px;
-  z-index: 999;
+  z-index: 10;
   position: relative;
   /* padding-top: 30px; */
 }
@@ -9855,7 +9855,7 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
 
 .shiftManagement {
   position: fixed;
-  bottom: 53px;
+  bottom: 68px;
   left: 0px;
   width: 100%;
   z-index: 999;
