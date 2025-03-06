@@ -58,12 +58,12 @@ export class ExpenseManagementComponent implements OnInit {
      if (this.expenseSelectedDate == null) {
       // If expenseSelectedDate is null, set startDate and endDate to first and last date of the current month
       const currentDate = new Date();
-      this.startDate = (new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).toISOString().split('T')[0])+ " 00:00:00";
-      this.endDate = (new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).toISOString().split('T')[0])+ " 23:59:59";
+      // this.startDate = (new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).toISOString().split('T')[0])+ " 00:00:00";
+      // this.endDate = (new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).toISOString().split('T')[0])+ " 23:59:59";
     } else {
       // If expenseSelectedDate is not null, set startDate and endDate to first and last date of expenseSelectedDate's month
-      this.startDate =( new Date(this.expenseSelectedDate.getFullYear(), this.expenseSelectedDate.getMonth(), 1).toISOString().split('T')[0])+ " 00:00:00";
-      this.endDate = (new Date(this.expenseSelectedDate.getFullYear(), this.expenseSelectedDate.getMonth() + 1, 0).toISOString().split('T')[0])+ " 23:59:59";
+      // this.startDate =( new Date(this.expenseSelectedDate.getFullYear(), this.expenseSelectedDate.getMonth(), 1).toISOString().split('T')[0])+ " 00:00:00";
+      // this.endDate = (new Date(this.expenseSelectedDate.getFullYear(), this.expenseSelectedDate.getMonth() + 1, 0).toISOString().split('T')[0])+ " 23:59:59";
     }
      this.expenseList = []
      this.dataService.getAllExpense(this.ROLE, this.databaseHelper.currentPage, this.databaseHelper.itemPerPage, this.startDate, this.endDate, this.statusIds, this.userId,'','').subscribe((res: any) => {
@@ -112,6 +112,66 @@ export class ExpenseManagementComponent implements OnInit {
     })
   }
 
+  updateStatusIds(event: any, statusId: number) {
+    const allCheckbox = document.getElementById("all") as HTMLInputElement;
+    
+    if (event.target.checked) {
+      if (!this.statusIds.includes(statusId)) {
+        this.statusIds.push(statusId);
+      }
+    } else {
+      this.statusIds = this.statusIds.filter(id => id !== statusId);
+    }
+  
+    if (!event.target.checked) {
+      allCheckbox.checked = false;
+    }
+  
+    console.log('Updated statusIds:', this.statusIds);
+  }
+  
+  updateAllStatus(event: any) {
+    const approvedCheckbox = document.getElementById("approved") as HTMLInputElement;
+    const rejectedCheckbox = document.getElementById("rejected") as HTMLInputElement;
+    const pendingCheckbox = document.getElementById("pending") as HTMLInputElement;
+  
+    if (event.target.checked) {
+      this.statusIds = [13, 14, 15]; 
+  
+      approvedCheckbox.checked = true;
+      rejectedCheckbox.checked = true;
+      pendingCheckbox.checked = true;
+    } else {
+      this.statusIds = []; 
+  
+      approvedCheckbox.checked = false;
+      rejectedCheckbox.checked = false;
+      pendingCheckbox.checked = false;
+    }
+  
+    console.log('Updated statusIds after selecting all:', this.statusIds);
+  }
+  
+  applyFilters() {
+    console.log("Selected Status IDs:", this.statusIds);
+    this.getExpenses();
+    this.showFilter = false;
+  }
+
+  resetFilters() {
+    this.statusIds = [];
+  
+    (document.getElementById("all") as HTMLInputElement).checked = false;
+    (document.getElementById("approved") as HTMLInputElement).checked = false;
+    (document.getElementById("rejected") as HTMLInputElement).checked = false;
+    (document.getElementById("pending") as HTMLInputElement).checked = false;
+  
+    console.log("Filters reset. Fetching all expenses...");
+  
+    this.getExpenses();
+    this.showFilter = false;
+  }
+  
   
 
 
