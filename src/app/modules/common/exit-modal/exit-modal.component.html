@@ -19,6 +19,13 @@
                         </g>
                     </svg>
                 </button>
+                <span *ngIf="!isModal" class="badge rounded-pill font-11" [ngClass]="{
+                  'badge-soft-success': userResignationInfo.status.response === 'APPROVED',
+                  'badge-soft-danger':  userResignationInfo.status.response === 'REJECTED' || userResignationInfo.status.response === 'REVOKED',
+                  'badge-soft-secondary':  userResignationInfo.status.response === 'PENDING' || userResignationInfo.status.response === 'NOTICE PERIOD'
+                }">
+                {{ userResignationInfo.status.response | uppercase }}
+              </span>
             </div>
 
             <div class="modal-body p-0">
@@ -232,7 +239,7 @@
                             data-bs-dismiss="modal" (click)="clearForm(); close();" aria-label="Close"
                             #closeApproveModal>Cancel</button>
 
-                        <button *ngIf="ROLE == 'ADMIN'" type="button" class="btn submitActionBtn"
+                        <button *ngIf="ROLE == 'ADMIN' && this.userResignationInfo.status.id == 13" type="button" class="btn submitActionBtn"
                             [disabled]="approveToggle" (click)="approveOrDenyResignation(userResignationInfo.id)">
                             <span *ngIf="!approveToggle">Approve</span>
                             <div class="dot-opacity-loader" *ngIf="approveToggle">
@@ -290,6 +297,9 @@
 <!-- </div> -->
 </div>
 
-<div *ngIf="isLoading" class="loader-container">
-    <div class="loader"> Loading....</div>
+
+<div *ngIf="isLoading" class="modal-body p-0">
+  <div class="d-flex align-items-center justify-content-center">
+    <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
+  </div>
 </div>
