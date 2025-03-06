@@ -26,6 +26,9 @@
     text-align: left;
     padding-left: 25px;
 }
+.payroll-sidebar-menu .nav-pills .nav-link:hover{
+  background-color: #f2f3ff;
+}
 
 .nav-pills .nav-item.show .nav-link, .nav-pills .nav-link.active {
     background: #f2f3ff !important;
@@ -98,8 +101,8 @@
     background-color: #F5F8FA;
   }
   .list-down-btn{
-    width: 30px;
-    height: 30px;
+    width: 25px;
+    height: 25px;
   }
   .address-list svg{
      width: 20px;
@@ -231,3 +234,78 @@
    .sample-tax-slabs-list{
     background-color: #F9FAFC;
    }
+   .empty-detail {
+    color: #6b7280;
+    line-height: 20px;
+  }
+  .ant-empty-image img {
+    width: 90px !important;
+  }
+  .add-location-modal {
+    height: 80vh;
+}
+.add-location-menu {
+  background-color: #fbfbfb;
+  height: 100%;
+}
+
+.add-location-modal .nav-pills .nav-link {
+  background: transparent;
+  padding: 15px 10px;
+  color: #6b7280;
+  border-left: 5px solid transparent;
+  font-size: 14px;
+  font-weight: 400;
+  text-align: left;
+  padding-left: 35px;
+}
+
+.add-location-modal .nav-link.active {
+  background: #f2f3ff !important;
+  color: #000 !important;
+  border-left: 5px solid var(--primary-background-color) !important;
+  border-bottom: none !important;
+}
+.config-location-footer {
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  left: 0px;
+  border-radius: 0px;
+}
+.search-input {
+  display: block;
+  width: 100%;
+  padding: 0.4rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 400;
+  height: 45px !important;
+  border: none;
+  background-color: transparent;
+}
+.search-icon {
+  top: 25px;
+  transform: translateY(-50%);
+  left: 10px;
+  padding-left: 5px;
+}
+.separator {
+  border-right: 1px solid #d1d1d1;
+  height: 15px;
+}
+.configuration-location svg{
+  position: relative;
+  top: -1px;
+}
+
+.location-user-table{
+  height: 55vh;
+  overflow: scroll;
+}
+.location-user-table::-webkit-scrollbar{
+  display: none;
+}
+.employee-add-btn{
+  background-color: #E4E7FF;
+  padding: 5px 15px;
+}

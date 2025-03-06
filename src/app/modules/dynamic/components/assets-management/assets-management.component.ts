@@ -23,6 +23,7 @@ import {
   ApexResponsive,
   ApexLegend
 } from "ng-apexcharts";
+import { constant } from 'src/app/constant/constant';
 
 export type ChartOptions = {
   series: ApexNonAxisChartSeries;
@@ -44,6 +45,8 @@ interface Filter {
   templateUrl: './assets-management.component.html',
   styleUrls: ['./assets-management.component.css']
 })
+
+
 export class AssetsManagementComponent implements OnInit {
 
   constructor( private dataService : DataService,
@@ -71,6 +74,8 @@ export class AssetsManagementComponent implements OnInit {
     });
   }
 
+    readonly Constants=constant;
+  
   searchControl = new FormControl('');
   assetStatuses = [
     { id: 62, name: 'ASSIGNED' },
@@ -1028,7 +1033,7 @@ onSearch(searchText: string): void {
     type: "area",
     stacked: false,
     height: 200,
-    background: "#FFFFFF",
+    background: "transparent",
     zoom: {
       enabled: false // 🔹 Disables zooming
     },
@@ -1048,7 +1053,7 @@ onSearch(searchText: string): void {
 
   public dataLabels: ApexDataLabels = { enabled: false };
   public markers: ApexMarkers = { size: 5 };
-  public title: ApexTitleSubtitle = { text: "Monthly Asset Assignments", align: "left" };
+  public title: ApexTitleSubtitle = { text: "Monthly Asset Assignments" };
   public fill: ApexFill = { type: "gradient", gradient: { shadeIntensity: 10, inverseColors: false, opacityFrom: 0.5, opacityTo: 0, stops: [0, 90, 100] } };
   public yaxis: ApexYAxis = {  labels: { show: false } };
   public xaxis: ApexXAxis = {

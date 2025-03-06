@@ -223,5 +223,10 @@ export class constant {
         'Workplace Safety Officer',
       ];
 
+
+      /**
+       * CHART COLORS
+       */
+      public static COLORS: string[] = ['#8989F5','#B8B8F9','#E7E7FD'];
 }
 

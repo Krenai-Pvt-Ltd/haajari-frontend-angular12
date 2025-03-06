@@ -9,7 +9,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RouterModule } from '@angular/router';
 import { PayrollComponent } from './payroll.component';
 import { NzProgressModule } from 'ng-zorro-antd/progress';
-import { ConfigurationComponent } from './component/config/configuration/configuration.component';
+import { ConfigurationComponent } from './component/configuration/configuration.component';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { StatutoryComponent } from './component/config/statutory/statutory.component';
@@ -19,6 +19,12 @@ import { PayScheduleComponent } from './component/config/pay-schedule/pay-schedu
 import { PriorPayrollComponent } from './component/config/prior-payroll/prior-payroll.component';
 import { FormComponent } from './component/config/form/form.component';
 import { PreferencesComponent } from './component/config/preferences/preferences.component';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { NzSwitchModule } from 'ng-zorro-antd/switch';
+import { NzEmptyModule } from 'ng-zorro-antd/empty';
+import { EarningDetailsComponent } from './component/config/earning-details/earning-details.component';
+import { BenefitDetailsComponent } from './component/config/benefit-details/benefit-details.component';
+import { DeductionsDetailsComponent } from './component/config/deductions-details/deductions-details.component';
 
 
 @NgModule({
@@ -33,7 +39,10 @@ import { PreferencesComponent } from './component/config/preferences/preferences
     PayScheduleComponent,
     PriorPayrollComponent,
     FormComponent,
-    PreferencesComponent
+    PreferencesComponent,
+    EarningDetailsComponent,
+    BenefitDetailsComponent,
+    DeductionsDetailsComponent
   ],
   imports: [
     CommonModule,
@@ -44,7 +53,9 @@ import { PreferencesComponent } from './component/config/preferences/preferences
     NgbModule,
     NzProgressModule,
     NzSelectModule,
-    NzDatePickerModule
+    NzDatePickerModule,
+    NzSwitchModule,
+    NzEmptyModule
   ]
 })
 export class PayrollModule { }
