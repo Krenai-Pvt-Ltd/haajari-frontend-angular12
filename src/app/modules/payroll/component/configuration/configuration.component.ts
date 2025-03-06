@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { finalize } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
+import { finalize, take } from 'rxjs/operators';
 import { Key } from 'src/app/constant/key';
 import { ProfessionalTax } from 'src/app/payroll-models/ProfeessionalTax';
 import { Profile } from 'src/app/payroll-models/Profile';
@@ -15,6 +16,8 @@ import { TaxSlabService } from 'src/app/services/tax-slab.service';
 })
 export class ConfigurationComponent implements OnInit {
 
+  croppedImage: any = '';
+
 
 
   isDivVisible: boolean = false;
@@ -22,7 +25,8 @@ export class ConfigurationComponent implements OnInit {
     private _payrollConfigurationService :PayrollConfigurationService,
     private _helperService : HelperService,
     private afStorage: AngularFireStorage
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.getProfile();
@@ -40,7 +44,7 @@ export class ConfigurationComponent implements OnInit {
     this.isDivVisible = !this.isDivVisible;
   }
   closeStatutoryDiv() {
-    this.isDivVisible = false;
+   this.isDivVisible = false;
     this.tab= '';
   }
   stateList=[
@@ -233,10 +237,9 @@ profile:Profile = new Profile();
         )
         .subscribe();
     }
-    
 
-  }
 
+        }
 
 
   
