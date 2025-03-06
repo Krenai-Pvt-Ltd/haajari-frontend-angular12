@@ -9901,6 +9901,7 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
   color: var(--primary-color) !important;
   font-size: 16px;
   font-weight: 500;
+  height: 39px;
 }
 
 .nextBtn svg {
