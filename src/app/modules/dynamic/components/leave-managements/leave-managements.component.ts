@@ -152,7 +152,7 @@ organizationRegistrationDate: string = '';
     this.getDetailsForLeaveTeamOverview(this.tabName);
     this.getReportDetailsForLeaveTeamOverviewForHeatMap();
     this.getLeaveCategoryDetailsForLeaveTeamOverview();
-
+    this.fetchMaxLeavesUsers();
   }
 
 
@@ -173,11 +173,14 @@ organizationRegistrationDate: string = '';
 
 
   mostDefaulter!: any;
+  isDefaulterLoading: boolean = false;
   fetchMaxLeavesUsers(): void {
     this.isLoaderLoading = true;
+    this.isDefaulterLoading = true;
     this.leaveService.getUsersWithMaximumLeaves(this.pageNumberDefaulter, this.itemOnPage).subscribe(
       response => {
         this.isLoaderLoading = false;
+        this.isDefaulterLoading = false;
         if (response.status) {
           this.maxLeavesUsers = [...this.maxLeavesUsers, ...response.object];
           this.totalMaxLeaves = response.totalItems;
@@ -193,6 +196,7 @@ organizationRegistrationDate: string = '';
       },
       err => {
         this.isLoaderLoading = false;
+        this.isDefaulterLoading = false;
       }
     );
   }
