@@ -129,11 +129,22 @@ organizationRegistrationDate: string = '';
   async ngOnInit() {
     this.logInUserUuid = await this.rbacService.getUUID();
     this.ROLE = await this.rbacService.getRole();
-    this.filters.status = ['pending'];
-    this.applyFilters();
+
     // this.getLeaves(false,false);
     this.selectedDate = new Date();
 
+    this.dashboard();
+    this.requests();
+
+  }
+
+  requests(){
+    this.filters.status = ['pending'];
+    this.applyFilters();
+  }
+
+  dashboard() {
+    this.resetTabData();
     this.getOrganizationRegistrationDateMethodCall();
     this.calculateDateRange();
     this.setDefaultWeekTab();
@@ -142,10 +153,6 @@ organizationRegistrationDate: string = '';
     this.getReportDetailsForLeaveTeamOverviewForHeatMap();
     this.getLeaveCategoryDetailsForLeaveTeamOverview();
 
-    this.resetTabData();
-    this.fetchMaxLeavesUsers();
-    this.fetchMinLeavesUsers();
-    this.fetchUsersOnLeave();
   }
 
 
@@ -1057,9 +1064,17 @@ onMonthChange(month: Date): void {
   public grid: ApexGrid = { show: false, padding: { top: 0, right: 0, bottom: 0, left: 0 } };
   public fill: ApexFill = {
     type: 'gradient',
-    gradient: { shadeIntensity: 1, opacityFrom: 0.5, opacityTo: 0, stops: [0, 90, 100] },
+    gradient: {
+      shade: 'light',
+      type: 'vertical', // Options: 'horizontal', 'diagonal', 'vertical'
+      shadeIntensity: 0.5,
+      opacityFrom: 0.9,
+      opacityTo: 0.3,
+      stops: [0, 50, 100]
+    }
   };
-
+  public colors: string[] = this.Constants.COLORS;
+  // ['#8989F5','#B8B8F9','#E7E7FD']; // You can add more colors
   public markers: ApexMarkers = { size: 5 };
   public title: ApexTitleSubtitle = {
     text: 'Daily Approved Leaves',
@@ -1196,10 +1211,10 @@ initChartDataHeatMap(approvedLeaveCounts: any[]): void {
           min: 0,
           max: 365,
           ranges: [
-            { from: 0, to: 0, color: "#f7fafa", name: "Very Low" },
-            { from: 1, to: 4, color: "#9ccabe", name: "Low" },
-            { from: 4, to: 8, color: "#478e7d", name: "Medium" },
-            { from: 8, to: 100, color: "#185143", name: "High" }
+            { from: 0, to: 0.5, color: "#e7e7fd", name: "Very Low" },
+            { from: 1, to: 4, color: "#b8b8f9", name: "Low" },
+            { from: 4, to: 8, color: "#8989f5", name: "Medium" },
+            { from: 8, to: 100, color: "#5a5af1", name: "High" }
           ]
         }
       },

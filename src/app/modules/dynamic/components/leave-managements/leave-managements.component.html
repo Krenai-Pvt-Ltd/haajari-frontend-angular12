@@ -5,12 +5,12 @@
            <div class="col-md-12 mt-3">
             <ul id="pills-tab" role="tablist" class="nav nav-pills ">
                 <li class="nav-item">
-                  <a id="pills-announcement-tab" data-bs-toggle="pill" href="#dashboard" role="tab"
+                  <a id="pills-announcement-tab" data-bs-toggle="pill" href="#dashboard" role="tab" (click)="dashboard()"
                     aria-controls="pills-dashboard" aria-selected="false"
                     class="nav-link active">Dashboard</a>
                 </li>
                 <li class="nav-item d-flex align-items-center">
-                  <a id="pills-notification-tab" data-bs-toggle="pill" href="#request" role="tab"
+                  <a id="pills-notification-tab" data-bs-toggle="pill" href="#request" role="tab" (click)="requests()"
                      aria-controls="pills-request" aria-selected="false"
                     class="nav-link">Leave Request </a>
                     <!-- {{pendingLeaveCount}} -->
@@ -81,7 +81,7 @@
                                               [grid]="grid"
                                               [fill]="fill"
                                               [stroke]="{width:1.5}"
-
+                                              [colors]="colors" 
                                             ></apx-chart>
                                           </div>
 

@@ -24,3 +24,7 @@
 .payroll-fix-footer{
   padding-left: 35%;
 }
+
+.benefits-list-td{
+  padding: 0px !important;
+}
