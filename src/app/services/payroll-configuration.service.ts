@@ -90,4 +90,9 @@ export class PayrollConfigurationService {
     saveOrganizationProfile(data:Profile): Observable<any>{
       return this._http.put<any>(`${this._key.base_url}/payroll-config/profile-configuration`,data);
     }
+
+
+    getEarningComponents(): Observable<any>{
+      return this._http.get<any>(`${this._key.base_url}/salary-component/earning`);
+    }
 }

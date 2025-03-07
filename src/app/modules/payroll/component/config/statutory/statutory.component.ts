@@ -44,9 +44,7 @@ export class StatutoryComponent implements OnInit {
     this.getAddressDetail();
     this.getPtDetail();
     this.getLwfDetail();
-    if (this.filteredEmployeeContributions?.length) {
-      this.epfDetail.employeeContribution = this.filteredEmployeeContributions[3].id;
-    }
+   
   }
 
 
@@ -252,9 +250,11 @@ export class StatutoryComponent implements OnInit {
               }else{
                 this._helperService.showToast(response.message, Key.TOAST_STATUS_ERROR);
               }
+              this.editingStates[state] = false;
               this.saveLoader = false;
             },
             (error) => {
+              this.editingStates[state] = false;
               this.saveLoader = false;
             }
           );
@@ -313,7 +313,6 @@ export class StatutoryComponent implements OnInit {
       checkStatus(state:string): boolean {
         const lwf = this.lwfDetail.find(pt => pt.state === state);
         return lwf ? lwf.status === 11 : false; 
-
       }
     
       openDropdownIndex: number | null = null;

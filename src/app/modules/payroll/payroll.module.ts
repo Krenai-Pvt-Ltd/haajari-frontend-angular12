@@ -25,6 +25,8 @@ import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { EarningDetailsComponent } from './component/config/earning-details/earning-details.component';
 import { BenefitDetailsComponent } from './component/config/benefit-details/benefit-details.component';
 import { DeductionsDetailsComponent } from './component/config/deductions-details/deductions-details.component';
+import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
+
 
 
 @NgModule({
@@ -55,7 +57,8 @@ import { DeductionsDetailsComponent } from './component/config/deductions-detail
     NzSelectModule,
     NzDatePickerModule,
     NzSwitchModule,
-    NzEmptyModule
+    NzEmptyModule,
+    NgxShimmerLoadingModule
   ]
 })
 export class PayrollModule { }

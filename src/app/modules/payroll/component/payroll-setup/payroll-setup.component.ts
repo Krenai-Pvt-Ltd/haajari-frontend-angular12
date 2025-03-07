@@ -118,4 +118,18 @@ export class PayrollSetupComponent implements OnInit {
       this.currentTab=tabName;
     }
 
+
+    getStepRoute(stepId: number): string {
+      switch (stepId) {
+          case 1: return 'profile';
+          case 2: return 'pay-schedule';
+          case 3: return 'statutory';
+          case 4: return 'salary';
+          case 5: return 'taxes';
+          case 6: return 'profile';
+          case 7: return 'prior-payroll';
+          default: return 'profile';
+      }
+  }
+
 }
