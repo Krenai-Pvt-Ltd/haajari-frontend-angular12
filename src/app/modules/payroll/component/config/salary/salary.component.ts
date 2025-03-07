@@ -12,4 +12,5 @@ export class SalaryComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  showSubComponent:boolean =false;
 }

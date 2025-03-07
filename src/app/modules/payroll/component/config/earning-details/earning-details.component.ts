@@ -12,4 +12,6 @@ export class EarningDetailsComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  
+
 }
